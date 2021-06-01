@@ -46,6 +46,20 @@ export default class TenantCacheAdapter<T> {
     }
   };
 
+  /**
+   * delete the cached instance (if cached) for this Tenant. This does not call
+   * the optional deconstruction function.
+   *
+   * @param tenantID the tenantID for the cached item
+   */
+  public delete(tenantID: string) {
+    if (this.tenantCache.cachingEnabled) {
+      this.cache.delete(tenantID);
+    }
+
+    return;
+  }
+
   public subscribe() {
     if (this.tenantCache.cachingEnabled && !this.unsubscribeFn) {
       this.unsubscribeFn = this.tenantCache.subscribe(

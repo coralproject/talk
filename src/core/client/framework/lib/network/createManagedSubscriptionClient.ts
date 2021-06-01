@@ -24,6 +24,12 @@ const STALE_CLIENT_TIMEOUT = 10 * 1000;
 
 const BATCH_PERIOD = 1000;
 
+export const enum CONNECTION_STATUS {
+  CONNECTED = "CONNECTED",
+  CONNECTING = "CONNECTING",
+  DISCONNECTED = "DISCONNECTED",
+}
+
 /**
  * SubscriptionRequest contains the subscription
  * request data that comes from Relay.
@@ -38,6 +44,11 @@ export interface SubscriptionRequest {
   subscribe: () => void;
   unsubscribe: (() => void) | null;
 }
+
+export type ConnectionStatusListenerCallback = (
+  status: CONNECTION_STATUS
+) => void;
+type Unlisten = () => void;
 
 /**
  * ManagedSubscriptionClient builds on top of `SubscriptionClient`
@@ -65,6 +76,15 @@ export interface ManagedSubscriptionClient {
 
   /** Sets access token, you should call pause() before this and resume() afterwards. */
   setAccessToken(accessToken?: string): void;
+
+  /** Returns current connection status */
+  getConnectionStatus(): CONNECTION_STATUS;
+
+  /** Allows reacting to connection status changes */
+  on(
+    status: CONNECTION_STATUS | CONNECTION_STATUS[],
+    callback: ConnectionStatusListenerCallback
+  ): Unlisten;
 }
 
 /**
@@ -113,6 +133,15 @@ export default function createManagedSubscriptionClient(
   bundleConfig: Record<string, string>
 ): ManagedSubscriptionClient {
   const requests: SubscriptionRequest[] = [];
+  const connectionStatusListeners: Record<
+    CONNECTION_STATUS,
+    ConnectionStatusListenerCallback[]
+  > = {
+    [CONNECTION_STATUS.CONNECTED]: [],
+    [CONNECTION_STATUS.CONNECTING]: [],
+    [CONNECTION_STATUS.DISCONNECTED]: [],
+  };
+  let connectionStatus: CONNECTION_STATUS = CONNECTION_STATUS.DISCONNECTED;
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
   let accessToken: string | undefined;
@@ -121,8 +150,82 @@ export default function createManagedSubscriptionClient(
   // Start batching loop that runs every second.
   batchLoop(requests, BATCH_PERIOD);
 
+  // Closes client after a period of no active subscriptions or listeners.
+  const startCloseStaleClientTimeout = () => {
+    // Start timeout routine for stale client if there is no active subscription or listeners.
+    if (subscriptionClient && !needWebsocketConnection()) {
+      startCloseStaleClientTimeout();
+      // Close client if after timeout there are still no active subscriptions or listeners.
+      closeStaleClientTimeout = setTimeout(() => {
+        if (subscriptionClient && !needWebsocketConnection()) {
+          closeClient();
+          if (process.env.NODE_ENV !== "production") {
+            window.console.debug(
+              "subscription client disconnecting, no more subscriptions being tracked"
+            );
+          }
+        }
+      }, STALE_CLIENT_TIMEOUT);
+    }
+  };
+
+  const clearStaleClientTimeout = () => {
+    if (closeStaleClientTimeout) {
+      clearTimeout(closeStaleClientTimeout);
+      closeStaleClientTimeout = null;
+    }
+  };
+
+  const setConnectionStatus = (status: CONNECTION_STATUS) => {
+    connectionStatus = status;
+    connectionStatusListeners[status].forEach((callback) => callback(status));
+  };
+
+  const onConnectionStatus = (
+    status: CONNECTION_STATUS,
+    callback: ConnectionStatusListenerCallback
+  ): Unlisten => {
+    connectionStatusListeners[status].push(callback);
+    return () => {
+      const index = connectionStatusListeners[status].indexOf(callback);
+      if (index >= 0) {
+        connectionStatusListeners[status].splice(index);
+      }
+    };
+  };
+
+  // Allow listening to connection status.
+  const on = (
+    status: CONNECTION_STATUS | CONNECTION_STATUS[],
+    callback: ConnectionStatusListenerCallback
+  ): Unlisten => {
+    const statusArray = !Array.isArray(status) ? [status] : status;
+    const unlistenArray = statusArray.map((s) =>
+      onConnectionStatus(s, callback)
+    );
+    // Clear pending timeout that wants to close the stale client.
+    // It's no longer stale because some listeners require the connection.
+    if (needWebsocketConnection()) {
+      clearStaleClientTimeout();
+      ensureClientIsCreated();
+    } else {
+      startCloseStaleClientTimeout();
+    }
+    return () => unlistenArray.forEach((unlisten) => unlisten());
+  };
+
   const hasActiveSubscriptions = () =>
     requests.length > 0 && requests.some((r) => r.unsubscribe);
+
+  const hasConnectionStatusListeners = (status: CONNECTION_STATUS) =>
+    connectionStatusListeners[status].length > 0;
+
+  const needWebsocketConnection = () =>
+    hasActiveSubscriptions() ||
+    hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTED) ||
+    hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTING) ||
+    hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTED) ||
+    hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTING);
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -135,16 +238,57 @@ export default function createManagedSubscriptionClient(
     }
   };
 
+  const ensureClientIsCreated = () => {
+    if (subscriptionClient) {
+      return;
+    }
+    subscriptionClient = new SubscriptionClient(url, {
+      reconnect: true,
+      timeout: 60000,
+      connectionCallback: (err) => {
+        if (err) {
+          // If an error is thrown as a result of live updates being
+          // disabled, then just close the subscription client.
+          if (
+            ((err as unknown) as Error).message ===
+              ERROR_CODES.LIVE_UPDATES_DISABLED &&
+            subscriptionClient
+          ) {
+            subscriptionClient.close();
+          }
+        }
+      },
+      connectionParams: {
+        [ACCESS_TOKEN_PARAM]: accessToken,
+        [CLIENT_ID_PARAM]: clientID,
+        [BUNDLE_ID_PARAM]: bundle,
+        [BUNDLE_CONFIG_PARAM]: bundleConfig,
+      },
+    });
+    subscriptionClient.onConnected((payload) => {
+      setConnectionStatus(CONNECTION_STATUS.CONNECTED);
+    });
+    subscriptionClient.onConnecting((payload) => {
+      setConnectionStatus(CONNECTION_STATUS.CONNECTING);
+    });
+    subscriptionClient.onReconnecting((payload) => {
+      setConnectionStatus(CONNECTION_STATUS.CONNECTING);
+    });
+    subscriptionClient.onReconnected((payload) => {
+      setConnectionStatus(CONNECTION_STATUS.CONNECTED);
+    });
+    subscriptionClient.onDisconnected((payload) => {
+      setConnectionStatus(CONNECTION_STATUS.DISCONNECTED);
+    });
+  };
+
   const subscribe = (
     operation: ConcreteBatch,
     variables: Variables,
     cacheConfig: CacheConfig,
     observer: any
   ) => {
-    if (closeStaleClientTimeout) {
-      clearTimeout(closeStaleClientTimeout);
-      closeStaleClientTimeout = null;
-    }
+    clearStaleClientTimeout();
 
     // Capture request into an `SubscriptionRequest` object.
     const request: SubscriptionRequest = {
@@ -159,31 +303,8 @@ export default function createManagedSubscriptionClient(
     };
 
     request.subscribe = () => {
-      if (!subscriptionClient) {
-        subscriptionClient = new SubscriptionClient(url, {
-          reconnect: true,
-          timeout: 60000,
-          connectionCallback: (err) => {
-            if (err) {
-              // If an error is thrown as a result of live updates being
-              // disabled, then just close the subscription client.
-              if (
-                ((err as unknown) as Error).message ===
-                  ERROR_CODES.LIVE_UPDATES_DISABLED &&
-                subscriptionClient
-              ) {
-                subscriptionClient.close();
-              }
-            }
-          },
-          connectionParams: {
-            [ACCESS_TOKEN_PARAM]: accessToken,
-            [CLIENT_ID_PARAM]: clientID,
-            [BUNDLE_ID_PARAM]: bundle,
-            [BUNDLE_CONFIG_PARAM]: bundleConfig,
-          },
-        });
-      }
+      ensureClientIsCreated();
+
       if (!operation.text && !operation.id) {
         throw Error("Neither subscription query nor id was provided.");
       }
@@ -202,7 +323,7 @@ export default function createManagedSubscriptionClient(
         opts.id = operation.id;
       }
 
-      const subscription = subscriptionClient.request(opts).subscribe({
+      const subscription = subscriptionClient!.request(opts).subscribe({
         next({ data }) {
           // Push data to batch and let the batch loop handle it.
           request.batch.push(data);
@@ -260,20 +381,8 @@ export default function createManagedSubscriptionClient(
           // Remove from requests list.
           requests.splice(i, 1);
 
-          // Start timeout routine for stale client if there is no active subscription.
-          if (subscriptionClient && !hasActiveSubscriptions()) {
-            // Close client if after timeout there are still no active subscriptions.
-            closeStaleClientTimeout = setTimeout(() => {
-              if (subscriptionClient && !hasActiveSubscriptions()) {
-                closeClient();
-                if (process.env.NODE_ENV !== "production") {
-                  window.console.debug(
-                    "subscription client disconnecting, no more subscriptions being tracked"
-                  );
-                }
-              }
-            }, STALE_CLIENT_TIMEOUT);
-          }
+          // Start timeout routine to detect and close stale client.
+          startCloseStaleClientTimeout();
         }
 
         // Debug subscriptions being logged. These should be kept here to help
@@ -319,10 +428,14 @@ export default function createManagedSubscriptionClient(
     accessToken = nextAccessToken;
   };
 
+  const getConnectionStatus = () => connectionStatus;
+
   return Object.freeze({
     subscribe,
     pause,
     resume,
     setAccessToken,
+    getConnectionStatus,
+    on,
   });
 }

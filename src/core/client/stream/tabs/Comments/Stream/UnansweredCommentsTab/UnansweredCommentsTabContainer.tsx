@@ -15,6 +15,7 @@ import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
+import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -24,7 +25,6 @@ import { UnansweredCommentsTabContainer_viewer } from "coral-stream/__generated_
 import { UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/UnansweredCommentsTabContainerLocal.graphql";
 import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
 
-import CommentEnteredSubscription from "../AllCommentsTab/CommentEnteredSubscription";
 import NoComments from "../NoComments";
 import UnansweredCommentsTabCommentContainer from "./UnansweredCommentsTabCommentContainer";
 import UnansweredCommentsTabViewNewMutation from "./UnansweredCommentsTabViewNewMutation";
