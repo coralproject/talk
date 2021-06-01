@@ -17,27 +17,38 @@ const ReviewButton: FunctionComponent<Props> = ({
   readOnly,
   className,
   ...rest
-}) => (
-  <Localized
-    id="moderate-forReview-reviewButton"
-    attrs={{ "aria-label": true }}
-  >
-    <BaseButton
-      {...rest}
-      className={cn(className, styles.root, {
-        [styles.checked]: checked,
-        [styles.readOnly]: readOnly,
-      })}
-      aria-label="Mark as reviewed"
-      disabled={readOnly}
+}) => {
+  const props: PropTypesOf<typeof BaseButton> = {
+    ...rest,
+    className: cn(className, styles.root, {
+      [styles.checked]: checked,
+      [styles.readOnly]: readOnly,
+    }),
+    disabled: readOnly,
+  };
+
+  if (checked) {
+    return (
+      <Localized
+        id="moderate-forReview-reviewedButton"
+        attrs={{ "aria-label": true }}
+      >
+        <BaseButton {...props} aria-label="Reviewed">
+          <Icon size="xs" className={styles.icon}>
+            done
+          </Icon>
+        </BaseButton>
+      </Localized>
+    );
+  }
+  return (
+    <Localized
+      id="moderate-forReview-markAsReviewedButton"
+      attrs={{ "aria-label": true }}
     >
-      {checked && (
-        <Icon size="xs" className={styles.icon}>
-          done
-        </Icon>
-      )}
-    </BaseButton>
-  </Localized>
-);
+      <BaseButton {...props} aria-label="Mark as reviewed" />
+    </Localized>
+  );
+};
 
 export default ReviewButton;

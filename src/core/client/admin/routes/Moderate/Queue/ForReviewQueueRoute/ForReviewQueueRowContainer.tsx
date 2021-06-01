@@ -38,48 +38,72 @@ const ReasonText: FunctionComponent<ReasonTextProps> = ({ reason }) => {
   switch (reason) {
     case "COMMENT_DETECTED_BANNED_WORD":
       return (
-        <Localized id="forReview-detectedBannedWord">Banned word</Localized>
+        <Localized id="moderate-forReview-detectedBannedWord">
+          Banned word
+        </Localized>
       );
     case "COMMENT_DETECTED_LINKS":
-      return <Localized id="forReview-detectedLinks">Detected links</Localized>;
+      return (
+        <Localized id="moderate-forReview-detectedLinks">
+          Detected links
+        </Localized>
+      );
     case "COMMENT_DETECTED_NEW_COMMENTER":
       return (
-        <Localized id="forReview-detectedNewCommenter">New commenter</Localized>
+        <Localized id="moderate-forReview-detectedNewCommenter">
+          New commenter
+        </Localized>
       );
     case "COMMENT_DETECTED_PREMOD_USER":
       return (
-        <Localized id="forReview-detectedPremodUser">
+        <Localized id="moderate-forReview-detectedPremodUser">
           Pre-moderated username
         </Localized>
       );
     case "COMMENT_DETECTED_RECENT_HISTORY":
       return (
-        <Localized id="forReview-detectedRecentHistory">
+        <Localized id="moderate-forReview-detectedRecentHistory">
           Recent history
         </Localized>
       );
     case "COMMENT_DETECTED_REPEAT_POST":
       return (
-        <Localized id="forReview-detectedRepeatPost">Repeat post</Localized>
+        <Localized id="moderate-forReview-detectedRepeatPost">
+          Repeat post
+        </Localized>
       );
     case "COMMENT_DETECTED_SPAM":
-      return <Localized id="forReview-detectedSpam">Detected spam</Localized>;
+      return (
+        <Localized id="moderate-forReview-detectedSpam">
+          Detected spam
+        </Localized>
+      );
     case "COMMENT_DETECTED_SUSPECT_WORD":
       return (
-        <Localized id="forReview-detectedSuspectWord">Suspect word</Localized>
+        <Localized id="moderate-forReview-detectedSuspectWord">
+          Suspect word
+        </Localized>
       );
     case "COMMENT_DETECTED_TOXIC":
-      return <Localized id="forReview-detectedToxic">Toxic</Localized>;
+      return <Localized id="moderate-forReview-detectedToxic">Toxic</Localized>;
     case "COMMENT_REPORTED_ABUSIVE":
-      return <Localized id="forReview-reportedAbusive">Abusive</Localized>;
+      return (
+        <Localized id="moderate-forReview-reportedAbusive">Abusive</Localized>
+      );
     case "COMMENT_REPORTED_BIO":
-      return <Localized id="forReview-reportedBio">User bio</Localized>;
+      return (
+        <Localized id="moderate-forReview-reportedBio">User bio</Localized>
+      );
     case "COMMENT_REPORTED_OFFENSIVE":
-      return <Localized id="forReview-reportedOffensive">Offensive</Localized>;
+      return (
+        <Localized id="moderate-forReview-reportedOffensive">
+          Offensive
+        </Localized>
+      );
     case "COMMENT_REPORTED_OTHER":
-      return <Localized id="forReview-reportedOther">Other</Localized>;
+      return <Localized id="moderate-forReview-reportedOther">Other</Localized>;
     case "COMMENT_REPORTED_SPAM":
-      return <Localized id="forReview-reportedSpam">Spam</Localized>;
+      return <Localized id="moderate-forReview-reportedSpam">Spam</Localized>;
     default:
       return null;
   }
@@ -100,7 +124,7 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
   });
 
   return (
-    <TableRow>
+    <TableRow data-testid={`moderate-flag-${flag.id}`}>
       <TableCell className={styles.timeColumn}>
         {formatter(flag.createdAt)}
       </TableCell>
@@ -117,7 +141,10 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
         </div>
       </TableCell>
       <TableCell className={styles.column}>
-        <div className={styles.reportedByContainer}>
+        <div
+          className={styles.reportedByContainer}
+          title={flag.flagger?.username || undefined}
+        >
           {flag.flagger?.username || <NotAvailable />}
         </div>
       </TableCell>

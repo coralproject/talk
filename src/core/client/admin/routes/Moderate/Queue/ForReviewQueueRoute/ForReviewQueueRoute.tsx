@@ -100,22 +100,26 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
           <TableHead>
             <TableRow>
               <TableCell className={styles.column}>
-                <Localized id="forReview-time">Time</Localized>
+                <Localized id="moderate-forReview-time">Time</Localized>
               </TableCell>
               <TableCell className={styles.column}>
-                <Localized id="forReview-comment">Comment</Localized>
+                <Localized id="moderate-forReview-comment">Comment</Localized>
               </TableCell>
               <TableCell className={styles.column}>
-                <Localized id="forReview-reportedBy">Reported by</Localized>
+                <Localized id="moderate-forReview-reportedBy">
+                  Reported by
+                </Localized>
               </TableCell>
               <TableCell className={styles.column}>
-                <Localized id="forReview-reason">Reason</Localized>
+                <Localized id="moderate-forReview-reason">Reason</Localized>
               </TableCell>
               <TableCell className={styles.column}>
-                <Localized id="forReview-description">Description</Localized>
+                <Localized id="moderate-forReview-description">
+                  Description
+                </Localized>
               </TableCell>
-              <TableCell className={styles.column}>
-                <Localized id="forReview-reviewed">Reviewed</Localized>
+              <TableCell className={styles.column} align="center">
+                <Localized id="moderate-forReview-reviewed">Reviewed</Localized>
               </TableCell>
             </TableRow>
           </TableHead>
