@@ -32,8 +32,9 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
     ModerateCountsCommentLeftSubscription
   );
 
+  const shouldSubscribe = props.moderationQueues && !props.section;
   useEffect(() => {
-    if (!props.moderationQueues || props.section) {
+    if (!shouldSubscribe) {
       return;
     }
     const vars = {
@@ -50,8 +51,7 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
   }, [
     props.story,
     props.siteID,
-    props.section,
-    props.moderationQueues,
+    shouldSubscribe,
     subscribeToCommentEntered,
     subscribeToCommentLeft,
   ]);

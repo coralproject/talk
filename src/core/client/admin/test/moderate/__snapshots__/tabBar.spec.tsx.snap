@@ -2,7 +2,7 @@
 
 exports[`tab bar renders tab bar (empty queues) 1`] = `
 <div
-  className="SubBar-root"
+  className="SubBar-root Moderate-subBar"
   data-testid="moderate-tabBar-container"
 >
   <div
