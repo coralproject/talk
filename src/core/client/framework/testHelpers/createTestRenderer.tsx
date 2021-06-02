@@ -11,6 +11,10 @@ import {
   CoralContext,
   CoralContextProvider,
 } from "coral-framework/lib/bootstrap";
+import {
+  CONNECTION_STATUS,
+  ConnectionStatusListenerCallback,
+} from "coral-framework/lib/network";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
@@ -99,6 +103,13 @@ export default function createTestRenderer<
       pause: () => {},
       resume: () => {},
       setAccessToken: () => {},
+      getConnectionStatus: () => CONNECTION_STATUS.CONNECTED,
+      on: (
+        status: CONNECTION_STATUS.CONNECTED,
+        callback: ConnectionStatusListenerCallback
+      ) => {
+        return () => {};
+      },
     },
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),

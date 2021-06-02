@@ -11,6 +11,7 @@ import { graphql } from "react-relay";
 import { usePrevious } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { Flex } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
 import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
@@ -23,6 +24,7 @@ interface Props {
   comment: CommentData;
   children: ReactNode;
   allowTombstoneReveal?: boolean;
+  disableHide?: boolean;
 }
 
 const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
@@ -30,52 +32,31 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   comment,
   children,
   allowTombstoneReveal,
+  disableHide,
 }) => {
-  const deleted = Boolean(!comment.author);
-
   const ignored = Boolean(
     comment.author &&
       viewer &&
       viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
   );
-  const [tombstone, setTombstone] = useState<boolean>(false);
+  const [tombstone, setTombstone] = useState<boolean>(Boolean(disableHide));
   const [forceVisible, setForceVisible] = useState<boolean>(false);
   const previouslyIgnored = usePrevious(ignored);
 
   useEffect(() => {
-    if (allowTombstoneReveal && ignored) {
-      setTombstone(true);
-    }
-
     // When we first rendered this comment but then hide it,
     // show a tombstone instead.
-    if (!tombstone && ignored === true && previouslyIgnored === false) {
+    if (
+      disableHide ||
+      (!tombstone && ignored === true && previouslyIgnored === false)
+    ) {
       setTombstone(true);
     }
-  }, [
-    ignored,
-    previouslyIgnored,
-    tombstone,
-    setTombstone,
-    allowTombstoneReveal,
-  ]);
+  }, [ignored, previouslyIgnored, tombstone, setTombstone, disableHide]);
 
   const onShowComment = useCallback(() => {
     setForceVisible(true);
   }, [setForceVisible]);
-  if (deleted) {
-    return (
-      <>
-        <Tombstone className={CLASSES.deletedTombstone} fullWidth>
-          <Localized id="comments-tombstone-deleted">
-            This comment is no longer available. The commenter has deleted their
-            account.
-          </Localized>
-        </Tombstone>
-        {children}
-      </>
-    );
-  }
 
   if (!ignored || forceVisible) {
     return <>{children}</>;
@@ -84,37 +65,38 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   if (tombstone) {
     return (
       <Tombstone className={CLASSES.ignoredTombstone} fullWidth>
-        <Localized
-          id="comments-tombstone-ignore"
-          $username={comment.author!.username}
-        >
-          <span>
-            This comment is hidden because you ignored{" "}
-            {comment.author!.username}
-          </span>
-        </Localized>
-        {allowTombstoneReveal && (
-          <Button
-            variant="outlined"
-            fontSize="small"
-            paddingSize="small"
-            color="secondary"
-            onClick={onShowComment}
-            upperCase
-            className={styles.showCommentButton}
-            classes={{
-              outlined: styles.outlined,
-              active: styles.active,
-              disabled: styles.disabled,
-              mouseHover: styles.mouseHover,
-              colorSecondary: styles.colorSecondary,
-            }}
+        <Flex alignItems="center" justifyContent="center" itemGutter>
+          <Localized
+            id="comments-tombstone-ignore"
+            $username={comment.author!.username}
           >
+            <div>
+              This comment is hidden because you ignored{" "}
+              {comment.author!.username}
+            </div>
+          </Localized>
+          {allowTombstoneReveal && (
             <Localized id="comments-tombstone-showComment">
-              Show Comment
+              <Button
+                variant="outlined"
+                fontSize="small"
+                paddingSize="small"
+                color="secondary"
+                onClick={onShowComment}
+                upperCase
+                classes={{
+                  outlined: styles.outlined,
+                  active: styles.active,
+                  disabled: styles.disabled,
+                  mouseHover: styles.mouseHover,
+                  colorSecondary: styles.colorSecondary,
+                }}
+              >
+                Show Comment
+              </Button>
             </Localized>
-          </Button>
-        )}
+          )}
+        </Flex>
       </Tombstone>
     );
   }

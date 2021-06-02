@@ -13,6 +13,7 @@ import { ReplyListCommentContainer_viewer } from "coral-stream/__generated__/Rep
 
 import CollapsableComment from "../Comment/CollapsableComment";
 import CommentContainer from "../Comment/CommentContainer";
+import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 
 import styles from "./ReplyListCommentContainer.css";
@@ -22,7 +23,8 @@ interface Props {
   comment: ReplyListCommentContainer_comment;
   settings: ReplyListCommentContainer_settings;
   story: ReplyListCommentContainer_story;
-  allowTombstoneReveal?: boolean;
+  allowIgnoredTombstoneReveal?: boolean;
+  disableHideIgnoredTombstone?: boolean;
   localReply?: boolean;
   indentLevel?: number;
   disableReplies?: boolean;
@@ -36,7 +38,8 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
   comment,
   settings,
   story,
-  allowTombstoneReveal,
+  allowIgnoredTombstoneReveal,
+  disableHideIgnoredTombstone,
   localReply,
   indentLevel,
   disableReplies,
@@ -49,25 +52,28 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
       <IgnoredTombstoneOrHideContainer
         viewer={viewer}
         comment={comment}
-        allowTombstoneReveal={allowTombstoneReveal}
+        allowTombstoneReveal={allowIgnoredTombstoneReveal}
+        disableHide={disableHideIgnoredTombstone}
       >
         <HorizontalGutter>
           <CollapsableComment>
             {({ collapsed, toggleCollapsed }) => (
               <>
-                <CommentContainer
-                  viewer={viewer}
-                  comment={comment}
-                  story={story}
-                  collapsed={collapsed}
-                  settings={settings}
-                  indentLevel={indentLevel}
-                  localReply={localReply}
-                  disableReplies={disableReplies}
-                  showConversationLink={!!showConversationLink}
-                  toggleCollapsed={toggleCollapsed}
-                  showRemoveAnswered={showRemoveAnswered}
-                />
+                <DeletedTombstoneContainer comment={comment}>
+                  <CommentContainer
+                    viewer={viewer}
+                    comment={comment}
+                    story={story}
+                    collapsed={collapsed}
+                    settings={settings}
+                    indentLevel={indentLevel}
+                    localReply={localReply}
+                    disableReplies={disableReplies}
+                    showConversationLink={!!showConversationLink}
+                    toggleCollapsed={toggleCollapsed}
+                    showRemoveAnswered={showRemoveAnswered}
+                  />
+                </DeletedTombstoneContainer>
                 <div
                   className={cn({
                     [styles.hiddenReplies]: collapsed,
@@ -106,6 +112,7 @@ const enhanced = withFragmentContainer<Props>({
       enteredLive
       ...CommentContainer_comment
       ...IgnoredTombstoneOrHideContainer_comment
+      ...DeletedTombstoneContainer_comment
     }
   `,
 })(ReplyListCommentContainer);

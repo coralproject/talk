@@ -21,22 +21,6 @@ general-tabBar-myProfileTab = Omat tiedot
 general-tabBar-discussionsTab = Keskustelut
 general-tabBar-configure = Asetukset
 
-general-tabBar-aria-comments =
-  .aria-label = Kommentit
-  .title = Kommentit
-general-tabBar-aria-qa =
-  .aria-label = K&V
-  .title = K&V
-general-tabBar-aria-myProfile =
-  .aria-label = Omat tiedot
-  .title = Omat tiedot
-general-tabBar-aria-configure =
-  .aria-label = Asetukset
-  .title = Asetukset
-general-tabBar-aria-discussions =
-  .aria-label = Keskustelut
-  .title = Keskustelut
-
 ## Comment Count
 
 comment-count-text =
@@ -247,8 +231,8 @@ comments-moderationDropdown-moderateStory = Moderoi juttu
 comments-moderationDropdown-caretButton =
   .aria-label = Moderoi
 
-comments-rejectedTombstone-title = Olet hylännyt tämän kommentin.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Olet hylännyt tämän kommentin.
+comments-moderationRejectedTombstone-moderateLink =
   Voit muuttaa päätöksen moderoinnin kautta.
 
 comments-featuredTag = Valitut-listalla
@@ -336,7 +320,7 @@ comments-stream-deleteAccount-callOut-cancel =
   Peruuta kirjoittajatilin poistopyyntö
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Peruuta kirjoittajatilin poisto
-  
+
 comments-permalink-copyLink = Kopioi linkki
 comments-permalink-linkCopied = Linkki kopioitu
 

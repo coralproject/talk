@@ -7,30 +7,32 @@ import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
-import { RejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/RejectedTombstoneContainer_comment.graphql";
+import { ModerationRejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_comment.graphql";
 
-import styles from "./RejectedTombstoneContainer.css";
+import styles from "./ModerationRejectedTombstoneContainer.css";
 
 interface Props {
   comment: CommentData;
 }
 
-const RejectedTombstoneContainer: FunctionComponent<Props> = ({ comment }) => {
+const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
+  comment,
+}) => {
   return (
-    <Tombstone className={CLASSES.rejectedTombstone.$root} fullWidth>
-      <Localized id="comments-rejectedTombstone-title">
+    <Tombstone className={CLASSES.moderationRejectedTombstone.$root} fullWidth>
+      <Localized id="comments-moderationRejectedTombstone-title">
         <div>You have rejected this comment.</div>
       </Localized>
       <Button
         variant="flat"
         color="primary"
         underline
-        className={CLASSES.rejectedTombstone.goToModerateButton}
+        className={CLASSES.moderationRejectedTombstone.goToModerateButton}
         href={`/admin/moderate/comment/${comment.id}`}
         target="_blank"
       >
         <Flex alignItems="center">
-          <Localized id="comments-rejectedTombstone-moderateLink">
+          <Localized id="comments-moderationRejectedTombstone-moderateLink">
             <span>Go to moderate to review this decision</span>
           </Localized>
           <Icon size="sm" className={styles.icon}>
@@ -44,10 +46,10 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({ comment }) => {
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
-    fragment RejectedTombstoneContainer_comment on Comment {
+    fragment ModerationRejectedTombstoneContainer_comment on Comment {
       id
     }
   `,
-})(RejectedTombstoneContainer);
+})(ModerationRejectedTombstoneContainer);
 
 export default enhanced;

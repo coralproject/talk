@@ -136,4 +136,4 @@ configure-general-reactions-sort-input =
   .placeholder = Bv. Meeste respek
 
 configure-general-reaction-sortMenu-sortBy = Lys volgens
-conversation-modal-header-moderate-link = Modereer storie
+conversation-modal-moderateStory = Modereer storie

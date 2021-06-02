@@ -1,4 +1,3 @@
-import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
@@ -40,8 +39,8 @@ export interface TabProps {
 
   uppercase?: boolean;
 
-  ariaLabel?: string;
-  localizationId?: string;
+  "aria-label"?: string;
+  title?: string;
 }
 
 class Tab extends React.Component<TabProps> {
@@ -60,8 +59,8 @@ class Tab extends React.Component<TabProps> {
       active,
       variant,
       uppercase,
-      ariaLabel,
-      localizationId,
+      "aria-label": ariaLabel,
+      title,
     } = this.props;
 
     const buttonClassName = cn(
@@ -85,33 +84,17 @@ class Tab extends React.Component<TabProps> {
         id={`tab-${tabID}`}
         role="presentation"
       >
-        {localizationId ? (
-          <Localized
-            id={localizationId}
-            attrs={{ "aria-label": true, title: true }}
-          >
-            <BaseButton
-              className={buttonClassName}
-              aria-controls={`tabPane-${tabID}`}
-              role="tab"
-              aria-selected={active}
-              onClick={this.handleTabClick}
-            >
-              {children}
-            </BaseButton>
-          </Localized>
-        ) : (
-          <BaseButton
-            className={buttonClassName}
-            aria-controls={`tabPane-${tabID}`}
-            role="tab"
-            aria-selected={active}
-            aria-label={ariaLabel}
-            onClick={this.handleTabClick}
-          >
-            {children}
-          </BaseButton>
-        )}
+        <BaseButton
+          className={buttonClassName}
+          aria-controls={`tabPane-${tabID}`}
+          role="tab"
+          aria-selected={active}
+          aria-label={ariaLabel}
+          title={title}
+          onClick={this.handleTabClick}
+        >
+          {children}
+        </BaseButton>
       </li>
     );
   }

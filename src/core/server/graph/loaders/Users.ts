@@ -129,6 +129,9 @@ export default (ctx: Context) => {
 
           // Merge the status filters into the query.
           ...statusFilter(ctx.now, status),
+
+          // Exclude deleted users.
+          deletedAt: null,
         },
       }).then(primeUsersFromConnection(ctx)),
   };

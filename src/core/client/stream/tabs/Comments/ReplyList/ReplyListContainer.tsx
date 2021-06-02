@@ -92,7 +92,8 @@ interface BaseProps {
 
   /* The following props are passed through nested ReplyLists */
   /* (don't forget to pass it down below in ReplyListContainer) */
-  allowTombstoneReveal?: boolean | undefined;
+  allowIgnoredTombstoneReveal?: boolean | undefined;
+  disableHideIgnoredTombstone?: boolean | undefined;
 
   /* The following props are *NOT* passed through nested ReplyLists */
   /**
@@ -258,7 +259,12 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                     settings={props.settings}
                     indentLevel={indentLevel + 1}
                     // Pass through props as commented in `BaseProps`.
-                    allowTombstoneReveal={props.allowTombstoneReveal}
+                    allowIgnoredTombstoneReveal={
+                      props.allowIgnoredTombstoneReveal
+                    }
+                    disableHideIgnoredTombstone={
+                      props.disableHideIgnoredTombstone
+                    }
                   />
                 ),
                 showConversationLink:
@@ -270,7 +276,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                 props.story,
                 props.settings,
                 indentLevel,
-                props.allowTombstoneReveal,
+                props.allowIgnoredTombstoneReveal,
+                props.disableHideIgnoredTombstone,
                 atLastLevelLocalReply,
                 props.NextReplyListComponent,
               ]
@@ -290,7 +297,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       localReply={atLastLevelLocalReply}
       viewNewCount={viewNewCount}
       onViewNew={onViewNew}
-      allowTombstoneReveal={props.allowTombstoneReveal}
+      allowIgnoredTombstoneReveal={props.allowIgnoredTombstoneReveal}
+      disableHideIgnoredTombstone={props.disableHideIgnoredTombstone}
       showRemoveAnswered={props.showRemoveAnswered}
     />
   );
