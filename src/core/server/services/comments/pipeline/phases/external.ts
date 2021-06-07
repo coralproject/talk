@@ -297,6 +297,24 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         continue;
       }
 
+      // Ensure we have metadata and external moderation
+      // details for metadata
+      if (!result.metadata) {
+        result.metadata = {};
+      }
+      if (!result.metadata?.externalModeration) {
+        result.metadata.externalModeration = [];
+      }
+
+      // Persist a record of this external moderation phase happening
+      result.metadata.externalModeration.push({
+        name: phase.name,
+        analyzedAt: ctx.now,
+        actions: response.actions,
+        status: response.status,
+        tags: response.tags,
+      });
+
       // Merge the results in. If we're finished, return now!
       const finished = mergePhaseResult(response, result);
       if (finished) {

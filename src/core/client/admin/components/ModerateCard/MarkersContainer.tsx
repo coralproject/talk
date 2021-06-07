@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
 import { Marker, MarkerCount } from "coral-ui/components/v2";
 
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
@@ -187,18 +188,77 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
     [props.comment]
   );
 
-  return (
-    <Markers
-      details={
-        <ModerateCardDetailsContainer
-          onUsernameClick={props.onUsernameClick}
-          comment={props.comment}
-          settings={props.settings}
-        />
+  const externalPhases = useMemo(() => {
+    if (!props.comment.revision?.metadata?.externalModeration) {
+      return [];
+    }
+
+    const items = props.comment.revision.metadata.externalModeration.filter(
+      (m) => {
+        // Check if our actions match the external moderation phase data
+        const toxic = m.actions?.filter(
+          (a) => a.reason === GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC
+        );
+        const spam = m.actions?.filter(
+          (a) => a.reason === GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM
+        );
+        if (
+          toxic &&
+          props.comment.revision &&
+          props.comment.revision.actionCounts.flag.reasons
+            .COMMENT_DETECTED_TOXIC >= toxic.length
+        ) {
+          return true;
+        }
+        if (
+          spam &&
+          props.comment.revision &&
+          props.comment.revision.actionCounts.flag.reasons
+            .COMMENT_DETECTED_SPAM >= spam.length
+        ) {
+          return true;
+        }
+
+        // Check if the status matches the external moderation phase status
+        if (props.comment.status === m.status) {
+          return true;
+        }
+
+        // Check if the tags match the external moderation phase tags
+        if (
+          m.tags?.every((t) =>
+            props.comment.tags.map((ct) => ct.code).includes(t)
+          )
+        ) {
+          return true;
+        }
+
+        return false;
       }
-    >
-      {elements}
-    </Markers>
+    );
+
+    return items;
+  }, [props.comment]);
+
+  return (
+    <>
+      <Markers
+        details={
+          <ModerateCardDetailsContainer
+            onUsernameClick={props.onUsernameClick}
+            comment={props.comment}
+            settings={props.settings}
+          />
+        }
+      >
+        {elements}
+      </Markers>
+      <div>
+        {externalPhases.map((p) => (
+          <Marker key={p.name}>{p.name}</Marker>
+        ))}
+      </div>
+    </>
   );
 };
 
@@ -207,6 +267,9 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
     fragment MarkersContainer_comment on Comment {
       ...ModerateCardDetailsContainer_comment
       status
+      tags {
+        code
+      }
       revision {
         actionCounts {
           flag {
@@ -230,6 +293,15 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
         metadata {
           wordList {
             timedOut
+          }
+          externalModeration {
+            name
+            analyzedAt
+            status
+            tags
+            actions {
+              reason
+            }
           }
         }
       }

@@ -13,6 +13,7 @@ it("renders all markers", () => {
   const props: PropTypesOf<typeof MarkersContainerN> = {
     comment: {
       status: "PREMOD",
+      tags: [],
       revision: {
         actionCounts: {
           flag: {
@@ -37,6 +38,7 @@ it("renders all markers", () => {
           wordList: {
             timedOut: false,
           },
+          externalModeration: [],
         },
       },
     },
@@ -58,6 +60,7 @@ it("renders some markers", () => {
   const props: PropTypesOf<typeof MarkersContainerN> = {
     comment: {
       status: "PREMOD",
+      tags: [],
       revision: {
         actionCounts: {
           flag: {
@@ -82,6 +85,7 @@ it("renders some markers", () => {
           wordList: {
             timedOut: false,
           },
+          externalModeration: [],
         },
       },
     },
