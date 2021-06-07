@@ -45,6 +45,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
+import { useCommentSeen } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
@@ -118,6 +119,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showAuthPopup,
   showRemoveAnswered,
 }) => {
+  const seen = useCommentSeen(comment.id);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -362,6 +364,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
     >
       <HorizontalGutter>
         <IndentedComment
+          className={cn({
+            [styles.notSeen]:
+              !seen &&
+              comment.lastViewerAction !== "CREATE" &&
+              comment.lastViewerAction !== "EDIT",
+          })}
           indentLevel={indentLevel}
           collapsed={collapsed}
           body={comment.body}

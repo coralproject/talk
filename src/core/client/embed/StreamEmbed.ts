@@ -11,6 +11,7 @@ import {
   withClickEvent,
   withConfig,
   withEventEmitter,
+  withIndexedDBStorage,
   withIOSSafariWidthWorkaround,
   withKeypressEvent,
   withLiveCommentCount,
@@ -89,6 +90,7 @@ export class StreamEmbed {
       withLiveCommentCount(config.eventEmitter),
       withPymStorage(coerceStorage("localStorage"), "localStorage"),
       withPymStorage(coerceStorage("sessionStorage"), "sessionStorage"),
+      withIndexedDBStorage(),
       withConfig({
         accessToken: config.accessToken,
         bodyClassName: config.bodyClassName,

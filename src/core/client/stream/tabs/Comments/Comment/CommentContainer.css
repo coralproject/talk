@@ -67,3 +67,7 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   text-align: left;
   max-width: 100%;
 }
+
+.notSeen {
+  background-color: #FFFFCC;
+}

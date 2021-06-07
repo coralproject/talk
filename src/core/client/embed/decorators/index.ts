@@ -7,4 +7,5 @@ export { default as withIOSSafariWidthWorkaround } from "./withIOSSafariWidthWor
 export { default as withKeypressEvent } from "./withKeypressEvent";
 export { default as withLiveCommentCount } from "./withLiveCommentCount";
 export { default as withPymStorage } from "./withPymStorage";
+export { default as withIndexedDBStorage } from "./withIndexedDBStorage";
 export { default as withSetCommentID } from "./withSetCommentID";
