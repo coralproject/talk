@@ -16,8 +16,10 @@ import {
 } from "coral-framework/lib/storage";
 import createIndexedDBStorage from "coral-framework/lib/storage/IndexedDBStorage";
 
-const KEEP_DURATION = 60 * 60 * 24 * 7 * 1000;
-const KEEP_ITEM_COUNT = 50000;
+const KEEP_ITEM_COUNT = 200000; // 10.000 are roughly 500kb
+const KEEP_DURATION_DAYS = 30;
+
+const KEEP_DURATION = 1000 * 60 * 60 * 24 * KEEP_DURATION_DAYS;
 
 type CommentID = string;
 type StoryID = string;
