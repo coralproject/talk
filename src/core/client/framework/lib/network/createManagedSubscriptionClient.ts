@@ -154,7 +154,6 @@ export default function createManagedSubscriptionClient(
   const startCloseStaleClientTimeout = () => {
     // Start timeout routine for stale client if there is no active subscription or listeners.
     if (subscriptionClient && !needWebsocketConnection()) {
-      startCloseStaleClientTimeout();
       // Close client if after timeout there are still no active subscriptions or listeners.
       closeStaleClientTimeout = setTimeout(() => {
         if (subscriptionClient && !needWebsocketConnection()) {
