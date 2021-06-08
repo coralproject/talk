@@ -537,6 +537,11 @@ enum FEATURE_FLAG {
   `X-Coral-Template` header.
   """
   EMAIL_META
+
+  """
+  COMMENT_SEEN will mark comment that has been seen/unseen.
+  """
+  COMMENT_SEEN
 }
 
 # The moderation mode of the site.

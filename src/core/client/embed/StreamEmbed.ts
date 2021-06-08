@@ -15,7 +15,7 @@ import {
   withIOSSafariWidthWorkaround,
   withKeypressEvent,
   withLiveCommentCount,
-  withPymStorage,
+  withPostMessageStorage,
   withSetCommentID,
 } from "./decorators";
 import withRefreshAccessToken from "./decorators/withRefreshAccessToken";
@@ -88,8 +88,8 @@ export class StreamEmbed {
       withSetCommentID,
       withEventEmitter(config.eventEmitter, config.enableDeprecatedEvents),
       withLiveCommentCount(config.eventEmitter),
-      withPymStorage(coerceStorage("localStorage"), "localStorage"),
-      withPymStorage(coerceStorage("sessionStorage"), "sessionStorage"),
+      withPostMessageStorage(coerceStorage("localStorage"), "localStorage"),
+      withPostMessageStorage(coerceStorage("sessionStorage"), "sessionStorage"),
       withIndexedDBStorage(),
       withConfig({
         accessToken: config.accessToken,

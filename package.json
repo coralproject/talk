@@ -296,6 +296,7 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eventemitter2": "^6.4.3",
+    "fake-indexeddb": "^3.1.2",
     "farce": "^0.4.5",
     "final-form": "^4.20.1",
     "final-form-arrays": "^3.0.2",

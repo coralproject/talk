@@ -8,7 +8,10 @@ it("should send click events", () => {
   const pymMock = {
     sendMessage: sinon.mock().once().withArgs("click", ""),
   };
-  const cleanup = withClickEvent(pymMock as any) as CleanupCallback;
+  const cleanup = withClickEvent(
+    pymMock as any,
+    null as any
+  ) as CleanupCallback;
   simulant.fire(document.body, "click");
   cleanup();
   simulant.fire(document.body, "click");

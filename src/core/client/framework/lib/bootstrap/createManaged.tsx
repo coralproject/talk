@@ -9,6 +9,7 @@ import { v1 as uuid } from "uuid";
 
 import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n";
+import getOrigin from "coral-common/utils/getOrigin";
 import {
   injectConditionalPolyfills,
   onPymMessage,
@@ -23,8 +24,8 @@ import {
 import { RestClient } from "coral-framework/lib/rest";
 import {
   createLocalStorage,
+  createPostMessageStorage,
   createPromisifiedStorage,
-  createPymStorage,
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
@@ -48,6 +49,7 @@ import {
 import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
 import { PostMessageService } from "../postMessage";
 import { LOCAL_ID } from "../relay";
+import createIndexedDBStorage from "../storage/IndexedDBStorage";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
 import SendPymReady from "./SendPymReady";
 
@@ -290,10 +292,13 @@ function createManagedCoralContextProvider(
 /**
  * resolveLocalStorage decides which local storage to use in the context
  */
-function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
-  if (pym && areWeInIframe()) {
-    // Use local storage over pym when we have pym and are in an iframe.
-    return createPymStorage(pym, "localStorage");
+function resolveLocalStorage(
+  postMessage?: PostMessageService,
+  pym?: PymChild
+): PromisifiedStorage {
+  if (pym && postMessage && areWeInIframe()) {
+    // Use local storage over postMessage when we have postMessage and are in an iframe.
+    return createPostMessageStorage(postMessage, "localStorage");
   }
   // Use promisified, prefixed local storage.
   return createPromisifiedStorage(createLocalStorage());
@@ -302,13 +307,30 @@ function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
 /**
  * resolveSessionStorage decides which session storage to use in the context
  */
-function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
-  if (pym && areWeInIframe()) {
-    // Use session storage over pym when we have pym and are in an iframe.
-    return createPymStorage(pym, "sessionStorage");
+function resolveSessionStorage(
+  postMessage?: PostMessageService,
+  pym?: PymChild
+): PromisifiedStorage {
+  if (pym && postMessage && areWeInIframe()) {
+    // Use session storage over postMessage when we have pym and are in an iframe.
+    return createPostMessageStorage(postMessage, "sessionStorage");
   }
   // Use promisified, prefixed session storage.
   return createPromisifiedStorage(createSessionStorage());
+}
+/**
+ * resolveIndexedDBStorage decides which indexeddb storage to use in the context
+ */
+function resolveIndexedDBStorage(
+  postMessage?: PostMessageService,
+  pym?: PymChild
+): PromisifiedStorage<any> {
+  if (pym && postMessage && areWeInIframe()) {
+    // Use session storage over postMessage when we have pym and are in an iframe.
+    return createPostMessageStorage(postMessage, "indexedDB");
+  }
+  // Use promisified, prefixed session storage.
+  return createIndexedDBStorage("keyvalue");
 }
 
 function resolveGraphQLSubscriptionURI(
@@ -358,6 +380,12 @@ export default async function createManaged({
     };
   }
 
+  const postMessage = new PostMessageService(
+    "coral",
+    window.parent,
+    pym ? getOrigin(pym.parentUrl) : "*"
+  );
+
   // Initialize i18n.
   const locales = [localesData.fallbackLocale];
   if (
@@ -382,7 +410,7 @@ export default async function createManaged({
   const localeBundles = await generateBundles(locales, localesData);
   await polyfillIntlLocale(locales);
 
-  const localStorage = resolveLocalStorage(pym);
+  const localStorage = resolveLocalStorage(postMessage, pym);
 
   // Get the access token from storage.
   const auth = await retrieveAccessToken(localStorage);
@@ -419,9 +447,10 @@ export default async function createManaged({
     eventEmitter,
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
-    postMessage: new PostMessageService(),
+    postMessage,
     localStorage,
-    sessionStorage: resolveSessionStorage(pym),
+    sessionStorage: resolveSessionStorage(postMessage, pym),
+    indexedDBStorage: resolveIndexedDBStorage(postMessage, pym),
     browserInfo: getBrowserInfo(),
     uuidGenerator: uuid,
     // Noop, this is later replaced by the

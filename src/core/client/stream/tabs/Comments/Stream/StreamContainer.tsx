@@ -46,7 +46,6 @@ import {
 
 import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
 import { CommentSeenProvider } from "../commentSeen";
-import CommentSeenDebug from "../commentSeen/CommentSeenDebug";
 import AddACommentButton from "./AddACommentButton";
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
@@ -220,7 +219,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
 
   return (
     <CommentSeenProvider storyID={props.story.id}>
-      <CommentSeenDebug />
       <StoryClosedTimeoutContainer story={props.story} />
       <PreviousCountSpyContainer
         story={props.story}
