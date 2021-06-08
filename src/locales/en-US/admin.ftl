@@ -984,6 +984,12 @@ moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
+moderateCardDetails-tab-externalModeration = External Mod
+
+moderateCardDetails-tab-externalMod-status = Status
+moderateCardDetails-tab-externalMod-actions = Actions
+moderateCardDetails-tab-externalMod-tags = Tags
+
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =

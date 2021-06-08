@@ -20,6 +20,7 @@ import { ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/
 import { ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
+import ExternalModerationSummaryContainer from "./ExternalModerationSummaryContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
 
@@ -31,7 +32,7 @@ interface Props {
   onUsernameClick: (id?: string) => void;
 }
 
-type DetailsTabs = "INFO" | "HISTORY";
+type DetailsTabs = "INFO" | "HISTORY" | "EXTERNAL_MOD";
 
 function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
   return c.revision
@@ -78,6 +79,14 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             </Flex>
           </Tab>
         )}
+        <Tab tabID="EXTERNAL_MOD" classes={styles}>
+          <Flex alignItems="center" itemGutter>
+            <Icon size="md">list</Icon>
+            <Localized id="moderateCardDetails-tab-externalModeration">
+              <span>External Mod</span>
+            </Localized>
+          </Flex>
+        </Tab>
       </TabBar>
       {activeTab === "INFO" && (
         <>
@@ -93,6 +102,9 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       )}
       {activeTab === "HISTORY" && (
         <CommentRevisionContainer comment={comment} />
+      )}
+      {activeTab === "EXTERNAL_MOD" && (
+        <ExternalModerationSummaryContainer comment={comment} />
       )}
     </HorizontalGutter>
   );
@@ -124,6 +136,7 @@ const enhanced = withFragmentContainer<Props>({
       ...FlagDetailsContainer_comment
       ...CommentRevisionContainer_comment
       ...LinkDetailsContainer_comment
+      ...ExternalModerationSummaryContainer_comment
     }
   `,
   settings: graphql`

@@ -3,8 +3,11 @@ import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
-import { Marker, MarkerCount } from "coral-ui/components/v2";
+import {
+  GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_STATUS,
+} from "coral-framework/schema";
+import { HorizontalGutter, Marker, MarkerCount } from "coral-ui/components/v2";
 
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
@@ -220,7 +223,10 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
         }
 
         // Check if the status matches the external moderation phase status
-        if (props.comment.status === m.status) {
+        if (
+          props.comment.status === m.status &&
+          m.status !== GQLCOMMENT_STATUS.NONE
+        ) {
           return true;
         }
 
@@ -242,6 +248,11 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
 
   return (
     <>
+      <HorizontalGutter>
+        {externalPhases.map((p) => (
+          <Marker key={p.name}>{p.name}</Marker>
+        ))}
+      </HorizontalGutter>
       <Markers
         details={
           <ModerateCardDetailsContainer
@@ -253,11 +264,6 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
       >
         {elements}
       </Markers>
-      <div>
-        {externalPhases.map((p) => (
-          <Marker key={p.name}>{p.name}</Marker>
-        ))}
-      </div>
     </>
   );
 };
