@@ -26,11 +26,17 @@ export const statusPreModerateNewCommenter = async ({
     return;
   }
 
+  // If the user is imported and the number of published comments on the user
+  // is greater than or equal to the threshold, OR
   // If the number of approved comments on the user is greater than or equal to
   // the threshold, then there's nothing to do!
+
   if (
+    (author.importedAt &&
+      author.commentCounts.status.NONE >=
+        tenant.newCommenters.approvedCommentsThreshold) ||
     author.commentCounts.status.APPROVED >=
-    tenant.newCommenters.approvedCommentsThreshold
+      tenant.newCommenters.approvedCommentsThreshold
   ) {
     return;
   }
