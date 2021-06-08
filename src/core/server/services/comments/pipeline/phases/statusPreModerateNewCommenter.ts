@@ -30,7 +30,7 @@ export const statusPreModerateNewCommenter = async ({
   // is greater than or equal to the threshold, then there's nothing to do!
   if (
     author.importedAt &&
-    author.commentCounts.status.NONE >=
+    author.commentCounts.status.NONE + author.commentCounts.status.APPROVED >=
       tenant.newCommenters.approvedCommentsThreshold
   ) {
     return;
