@@ -20,6 +20,7 @@ import { ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/
 import { ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
+import filterValidExternalModItems from "./externalModeration";
 import ExternalModerationSummaryContainer from "./ExternalModerationSummaryContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
@@ -57,6 +58,10 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 
   const doesHaveFlagDetails = useMemo(() => hasFlagDetails(comment), [comment]);
   const hasRevisions = comment.editing.edited;
+  const hasExternalModDetails = useMemo(
+    () => filterValidExternalModItems(comment).length > 0,
+    [comment]
+  );
 
   return (
     <HorizontalGutter>
@@ -79,14 +84,16 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             </Flex>
           </Tab>
         )}
-        <Tab tabID="EXTERNAL_MOD" classes={styles}>
-          <Flex alignItems="center" itemGutter>
-            <Icon size="md">list</Icon>
-            <Localized id="moderateCardDetails-tab-externalModeration">
-              <span>External Mod</span>
-            </Localized>
-          </Flex>
-        </Tab>
+        {hasExternalModDetails && (
+          <Tab tabID="EXTERNAL_MOD" classes={styles}>
+            <Flex alignItems="center" itemGutter>
+              <Icon size="md">list</Icon>
+              <Localized id="moderateCardDetails-tab-externalModeration">
+                <span>External Mod</span>
+              </Localized>
+            </Flex>
+          </Tab>
+        )}
       </TabBar>
       {activeTab === "INFO" && (
         <>
@@ -113,6 +120,10 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardDetailsContainer_comment on Comment {
+      status
+      tags {
+        code
+      }
       editing {
         edited
       }
@@ -124,12 +135,22 @@ const enhanced = withFragmentContainer<Props>({
               COMMENT_REPORTED_ABUSIVE
               COMMENT_REPORTED_SPAM
               COMMENT_REPORTED_OTHER
+              COMMENT_DETECTED_TOXIC
+              COMMENT_DETECTED_SPAM
             }
           }
         }
         metadata {
           perspective {
             score
+          }
+          externalModeration {
+            name
+            status
+            tags
+            actions {
+              reason
+            }
           }
         }
       }

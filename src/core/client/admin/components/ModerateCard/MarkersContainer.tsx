@@ -3,15 +3,12 @@ import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  GQLCOMMENT_FLAG_REASON,
-  GQLCOMMENT_STATUS,
-} from "coral-framework/schema";
 import { HorizontalGutter, Marker, MarkerCount } from "coral-ui/components/v2";
 
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
 
+import filterValidExternalModItems from "./externalModeration";
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
 
@@ -192,58 +189,7 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
   );
 
   const externalPhases = useMemo(() => {
-    if (!props.comment.revision?.metadata?.externalModeration) {
-      return [];
-    }
-
-    const items = props.comment.revision.metadata.externalModeration.filter(
-      (m) => {
-        // Check if our actions match the external moderation phase data
-        const toxic = m.actions?.filter(
-          (a) => a.reason === GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC
-        );
-        const spam = m.actions?.filter(
-          (a) => a.reason === GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM
-        );
-        if (
-          toxic &&
-          props.comment.revision &&
-          props.comment.revision.actionCounts.flag.reasons
-            .COMMENT_DETECTED_TOXIC >= toxic.length
-        ) {
-          return true;
-        }
-        if (
-          spam &&
-          props.comment.revision &&
-          props.comment.revision.actionCounts.flag.reasons
-            .COMMENT_DETECTED_SPAM >= spam.length
-        ) {
-          return true;
-        }
-
-        // Check if the status matches the external moderation phase status
-        if (
-          props.comment.status === m.status &&
-          m.status !== GQLCOMMENT_STATUS.NONE
-        ) {
-          return true;
-        }
-
-        // Check if the tags match the external moderation phase tags
-        if (
-          m.tags?.every((t) =>
-            props.comment.tags.map((ct) => ct.code).includes(t)
-          )
-        ) {
-          return true;
-        }
-
-        return false;
-      }
-    );
-
-    return items;
+    return filterValidExternalModItems(props.comment);
   }, [props.comment]);
 
   return (
