@@ -3,10 +3,12 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Marker } from "coral-ui/components/v2";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
+import { Marker, Tag } from "coral-ui/components/v2";
 
 import {
   COMMENT_FLAG_REASON,
+  COMMENT_STATUS,
   ExternalModerationSummaryContainer_comment,
 } from "coral-admin/__generated__/ExternalModerationSummaryContainer_comment.graphql";
 
@@ -17,6 +19,48 @@ interface Props {
 }
 
 let keyCounter = 0;
+
+interface StatusProps {
+  status: COMMENT_STATUS | null;
+}
+
+const StatusBadge: FunctionComponent<StatusProps> = ({ status }) => {
+  switch (status) {
+    case GQLCOMMENT_STATUS.NONE:
+      return (
+        <Localized id="moderateCardDetails-tab-externalMod-none">
+          <Tag color="grey">None</Tag>
+        </Localized>
+      );
+    case GQLCOMMENT_STATUS.APPROVED:
+      return (
+        <Localized id="moderateCardDetails-tab-externalMod-approved">
+          <Tag color="primary">Approved</Tag>
+        </Localized>
+      );
+    case GQLCOMMENT_STATUS.REJECTED:
+      return (
+        <Localized id="moderateCardDetails-tab-externalMod-rejected">
+          <Tag color="error">Rejected</Tag>
+        </Localized>
+      );
+    case GQLCOMMENT_STATUS.PREMOD:
+      return (
+        <Localized id="moderateCardDetails-tab-externalMod-premod">
+          <Tag color="grey">Pre-moderated</Tag>
+        </Localized>
+      );
+    case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
+      return (
+        <Localized id="moderateCardDetails-tab-externalMod-systemWithheld">
+          <Tag color="grey">System withheld</Tag>
+        </Localized>
+      );
+    default:
+      return null;
+  }
+};
+
 const getReasonMarker = (reason: COMMENT_FLAG_REASON | null) => {
   switch (reason) {
     case "COMMENT_DETECTED_SPAM":
@@ -51,9 +95,11 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
     return null;
   }
 
+  const externalModerations = comment.revision.metadata.externalModeration;
+
   return (
     <>
-      {comment.revision.metadata.externalModeration.map((em) => {
+      {externalModerations.map((em) => {
         return (
           <>
             <div className={styles.name}>{em.name}</div>
@@ -64,14 +110,14 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                     <div className={styles.title}>Status</div>
                   </Localized>
                   <div className={styles.section}>
-                    <Marker>{em.status}</Marker>
+                    <StatusBadge status={em.status} />
                   </div>
                 </>
               )}
               {em.actions && em.actions.length > 0 && (
                 <>
-                  <Localized id="moderateCardDetails-tab-externalMod-actions">
-                    <div className={styles.title}>Actions</div>
+                  <Localized id="moderateCardDetails-tab-externalMod-flags">
+                    <div className={styles.title}>Flags</div>
                   </Localized>
                   <div className={styles.section}>
                     {em.actions?.map((a) => getReasonMarker(a.reason))}

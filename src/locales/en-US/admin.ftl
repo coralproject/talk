@@ -987,8 +987,14 @@ moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-externalModeration = External Mod
 
 moderateCardDetails-tab-externalMod-status = Status
-moderateCardDetails-tab-externalMod-actions = Actions
+moderateCardDetails-tab-externalMod-flags = Flags
 moderateCardDetails-tab-externalMod-tags = Tags
+
+moderateCardDetails-tab-externalMod-none = None
+moderateCardDetails-tab-externalMod-approved = Approved
+moderateCardDetails-tab-externalMod-rejected = Rejected
+moderateCardDetails-tab-externalMod-premod = Pre-moderated
+moderateCardDetails-tab-externalMod-systemWithheld = System withheld
 
 ### Moderate User History Drawer
 
