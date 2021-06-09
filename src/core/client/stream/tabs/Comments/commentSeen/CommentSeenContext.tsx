@@ -21,25 +21,38 @@ export const KEEP_DURATION_DAYS = 30;
 const KEEP_DURATION = 1000 * 60 * 60 * 24 * KEEP_DURATION_DAYS;
 
 type CommentID = string;
-type StoryID = string;
 type SeenMap = Record<CommentID, 1>;
-interface State {
+
+/**
+ * ContextState is passed to the context.
+ */
+interface ContextState {
+  /** Whether or not CommentSeen has been enabled */
   enabled: boolean;
+  /** Map of all seen comments in this story */
   seen: SeenMap | null;
+  /** Mark comment as seen */
   markSeen: (id: CommentID) => void;
 }
 
+/**
+ * The meta data keeps track of amount of data saved for a particular
+ * story-user combination and the timestamp of last access.
+ */
 type Meta = Record<
-  StoryID,
+  string,
   {
     timestamp: number;
     count: number;
   }
 >;
 
+/**
+ * CommentSeenDB is responsible for handling the comment seen data.
+ */
 export class CommentSeenDB {
   private storage: PromisifiedStorage<any>;
-  private markSeenQueues: Record<StoryID, CommentID[]> = {};
+  private markSeenQueues: Record<string, CommentID[]> = {};
   private processingMarkSeenQueues = false;
 
   constructor(storage: PromisifiedStorage<any>) {
@@ -69,25 +82,37 @@ export class CommentSeenDB {
     }
   }
 
+  /**
+   * Performs cleanups to keep the storage cap.
+   */
   private async _garbageCollect() {
     let changed = false;
     const meta = await this._getMeta();
     let keys = Object.keys(meta);
+
+    // Find data that is too old.
     for (const key of keys) {
       if (Date.now() - meta[key].timestamp > KEEP_DURATION) {
-        // Remove old data.
+        // Data is older than `KEEP_DURATION` -> delete!
         await this.storage.removeItem(key);
         delete meta[key];
         changed = true;
       }
     }
 
+    // Figure out current total items.
     keys = Object.keys(meta);
     const totalItems = keys.reduce((val, key) => val + meta[key].count, 0);
+
+    // Determine if we have an excess of data.
     let excess = Math.max(totalItems - KEEP_ITEM_COUNT, 0);
+
+    // Keep deleting until the excess is gone.
     while (excess > 0) {
       let oldest = "";
       let oldestTimestamp = Number.MAX_VALUE;
+
+      // Find oldest record.
       for (const key of keys) {
         if (meta[key].timestamp < oldestTimestamp) {
           oldest = key;
@@ -98,7 +123,7 @@ export class CommentSeenDB {
         break;
       }
 
-      // Remove oldest story.
+      // Remove oldest record.
       excess -= meta[oldest].count;
       await this.storage.removeItem(oldest);
       delete meta[oldest];
@@ -117,10 +142,15 @@ export class CommentSeenDB {
 
   public async getAllSeenComments(storyID: string, viewerID: string) {
     const key = this._getKey(storyID, viewerID);
+    // Upon accessing the seen map, we update the meta timestamp.
     await this._updateMetaTimestamp(key);
     return this._getAllSeenComments(key);
   }
 
+  /**
+   * A debounced batch processor for handling the
+   * `markSeen` calls.
+   */
   private _processMarkSeenQueuesDebounced = debounce(
     async () => {
       if (this.processingMarkSeenQueues) {
@@ -141,7 +171,7 @@ export class CommentSeenDB {
       }
       this.processingMarkSeenQueues = false;
 
-      // Meanwhile, new comments could have been added to a queue -> repeat.
+      // Meanwhile, new comment ids could have been added to a queue -> repeat.
       if (Object.keys(this.markSeenQueues).length > 0) {
         void this._processMarkSeenQueuesDebounced();
       }
@@ -150,6 +180,9 @@ export class CommentSeenDB {
     { trailing: true }
   );
 
+  /**
+   * Mark commentID as seen. This is handled asynchronously.
+   */
   public markSeen(storyID: string, viewerID: string, commentID: string) {
     const key = this._getKey(storyID, viewerID);
     if (this.markSeenQueues[key]) {
@@ -161,12 +194,15 @@ export class CommentSeenDB {
   }
 }
 
-const CommentSeenContext = createContext<State>({
+const CommentSeenContext = createContext<ContextState>({
   enabled: false,
   seen: {},
   markSeen: () => {},
 });
 
+/**
+ * This provides the necessary Context for the `useCommentSeen` hook.
+ */
 function CommentSeenProvider(props: {
   storyID: string;
   viewerID?: string;
