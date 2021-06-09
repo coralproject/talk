@@ -26,7 +26,6 @@ resetPassword-missingResetToken = Tilbakestillingskoden ser ut til å mangle.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation =
 confirmEmail-confirmYourEmailAddress =
   Bekreft din e-postadresse
 confirmEmail-confirmEmail = Bekreft e-posten
@@ -60,9 +59,6 @@ download-landingPage-download = Last ned
 download-landingPage-sorry = Nedlastingslenken din er ugyldig.
 
 ## Unsubscribe
-
-unsubscribe-confirm =
-unsubscribe-successfullyUnsubscribed =
 
 unsubscribe-unsubscribeFromEmails = Meld deg av e-postvarsling
 unsubscribe-oopsSorry = Oi, beklager!

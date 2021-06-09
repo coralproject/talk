@@ -9,6 +9,7 @@ general-userBoxUnauthenticated-signIn = Logg inn
 general-userBoxUnauthenticated-register = Registrer deg
 
 general-userBoxAuthenticated-signedInAs =
+  Innlogget som
 general-userBoxAuthenticated-signedIn =
   Innlogget som
 general-userBoxAuthenticated-notYou =
@@ -182,8 +183,6 @@ comments-showConversationLink-readMore = Les mer av denne samtalen >
 comments-conversationThread-showMoreOfThisConversation =
   Vis mer av denne samtalen
 
-comments-permalinkView-currentViewing =
-comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   Du ser akkurat nå på en enkeltsamtale
 comments-inReplyTo = Som svar til <Username></Username>

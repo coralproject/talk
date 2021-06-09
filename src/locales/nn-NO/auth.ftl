@@ -96,7 +96,6 @@ resetPassword-resetPasswordButton = Tilbakestill passord
 
 ## Create Username
 
-createUsername-createUsernameHeader =
 createUsername-createAUsername = Opprett et brukernavn
 createUsername-whatItIs =
   Brukernavnet ditt vil vises på alle kommentarer du publiserer.
@@ -123,7 +122,6 @@ addEmailAddress-addEmailAddressButton =
   Legg til e-postadresse
 
 ## Create Password
-createPassword-createPasswordHeader =
 createPassword-createAPassword = Opprett passord
 createPassword-whatItIs =
   For å beskytte mot uautoriserte endringer på kontoen din,
