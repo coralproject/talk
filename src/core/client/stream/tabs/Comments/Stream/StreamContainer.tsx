@@ -218,7 +218,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   ]);
 
   return (
-    <CommentSeenProvider storyID={props.story.id}>
+    <CommentSeenProvider storyID={props.story.id} viewerID={props.viewer?.id}>
       <StoryClosedTimeoutContainer story={props.story} />
       <PreviousCountSpyContainer
         story={props.story}
@@ -564,6 +564,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment StreamContainer_viewer on User {
+      id
       status {
         current
       }

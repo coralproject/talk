@@ -91,7 +91,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const commentVisible = comment && isPublished(comment.status);
 
   return (
-    <CommentSeenProvider storyID={props.story.id}>
+    <CommentSeenProvider storyID={props.story.id} viewerID={props.viewer?.id}>
       <HorizontalGutter
         className={cn(styles.root, CLASSES.permalinkView.$root, {
           [CLASSES.permalinkView.authenticated]: Boolean(viewer),
@@ -183,6 +183,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment PermalinkViewContainer_viewer on User {
+      id
       ...ConversationThreadContainer_viewer
       ...ReplyListContainer1_viewer
       ...UserBoxContainer_viewer

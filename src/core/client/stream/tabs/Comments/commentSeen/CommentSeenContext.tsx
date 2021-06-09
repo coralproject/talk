@@ -46,22 +46,25 @@ class CommentSeenDB {
     this.storage = storage;
     void this._garbageCollect();
   }
+  private _getKey(storyID: string, viewerID: string) {
+    return viewerID + ":" + storyID;
+  }
 
   private async _getMeta(): Promise<Meta> {
     return ((await this.storage.getItem("meta")) as Meta) || {};
   }
 
-  private async _increaseMetaCount(storyID: string, by: number) {
+  private async _increaseMetaCount(key: string, by: number) {
     const meta = await this._getMeta();
-    const count = (meta[storyID]?.count || 0) + by;
-    meta[storyID] = { count, timestamp: Date.now() };
+    const count = (meta[key]?.count || 0) + by;
+    meta[key] = { count, timestamp: Date.now() };
     await this.storage.setItem("meta", meta);
   }
 
-  private async _updateMetaTimestamp(storyID: string) {
+  private async _updateMetaTimestamp(key: string) {
     const meta = await this._getMeta();
-    if (storyID in meta) {
-      meta[storyID].timestamp = Date.now();
+    if (key in meta) {
+      meta[key].timestamp = Date.now();
       await this.storage.setItem("meta", meta);
     }
   }
@@ -69,29 +72,26 @@ class CommentSeenDB {
   private async _garbageCollect() {
     let changed = false;
     const meta = await this._getMeta();
-    let storyIDs = Object.keys(meta);
-    for (const storyID of storyIDs) {
-      if (Date.now() - meta[storyID].timestamp > KEEP_DURATION) {
+    let keys = Object.keys(meta);
+    for (const key of keys) {
+      if (Date.now() - meta[key].timestamp > KEEP_DURATION) {
         // Remove old data.
-        await this.storage.removeItem(storyID);
-        delete meta[storyID];
+        await this.storage.removeItem(key);
+        delete meta[key];
         changed = true;
       }
     }
 
-    storyIDs = Object.keys(meta);
-    const totalItems = storyIDs.reduce(
-      (val, storyID) => val + meta[storyID].count,
-      0
-    );
+    keys = Object.keys(meta);
+    const totalItems = keys.reduce((val, key) => val + meta[key].count, 0);
     let excess = Math.max(totalItems - KEEP_ITEM_COUNT, 0);
     while (excess > 0) {
       let oldest = "";
       let oldestTimestamp = Number.MAX_VALUE;
-      for (const storyID of storyIDs) {
-        if (meta[storyID].timestamp < oldestTimestamp) {
-          oldest = storyID;
-          oldestTimestamp = meta[storyID].timestamp;
+      for (const key of keys) {
+        if (meta[key].timestamp < oldestTimestamp) {
+          oldest = key;
+          oldestTimestamp = meta[key].timestamp;
         }
       }
       if (!oldest) {
@@ -102,7 +102,7 @@ class CommentSeenDB {
       excess -= meta[oldest].count;
       await this.storage.removeItem(oldest);
       delete meta[oldest];
-      storyIDs.splice(storyIDs.indexOf(oldest));
+      keys.splice(keys.indexOf(oldest));
       changed = true;
     }
     if (!changed) {
@@ -111,13 +111,14 @@ class CommentSeenDB {
     await this.storage.setItem("meta", meta);
   }
 
-  private async _getAllSeenComments(storyID: string) {
-    return ((await this.storage.getItem(storyID)) as SeenMap) || {};
+  private async _getAllSeenComments(key: string) {
+    return ((await this.storage.getItem(key)) as SeenMap) || {};
   }
 
-  public async getAllSeenComments(storyID: string) {
-    await this._updateMetaTimestamp(storyID);
-    return this._getAllSeenComments(storyID);
+  public async getAllSeenComments(storyID: string, viewerID: string) {
+    const key = this._getKey(storyID, viewerID);
+    await this._updateMetaTimestamp(key);
+    return this._getAllSeenComments(key);
   }
 
   private _processMarkSeenQueuesDebounced = debounce(
@@ -129,14 +130,14 @@ class CommentSeenDB {
       this.processingMarkSeenQueues = true;
       const queues = { ...this.markSeenQueues };
       this.markSeenQueues = {};
-      const storyIDs = Object.keys(queues);
-      for (const storyID of storyIDs) {
-        const seenMap = await this._getAllSeenComments(storyID);
-        queues[storyID].forEach((commentID) => {
+      const keys = Object.keys(queues);
+      for (const key of keys) {
+        const seenMap = await this._getAllSeenComments(key);
+        queues[key].forEach((commentID) => {
           seenMap[commentID] = 1;
         });
-        await this._increaseMetaCount(storyID, queues[storyID].length);
-        await this.storage.setItem(storyID, seenMap);
+        await this._increaseMetaCount(key, queues[key].length);
+        await this.storage.setItem(key, seenMap);
       }
       this.processingMarkSeenQueues = false;
 
@@ -149,11 +150,12 @@ class CommentSeenDB {
     { trailing: true }
   );
 
-  public markSeen(storyID: string, commentID: string) {
-    if (this.markSeenQueues[storyID]) {
-      this.markSeenQueues[storyID].push(commentID);
+  public markSeen(storyID: string, viewerID: string, commentID: string) {
+    const key = this._getKey(storyID, viewerID);
+    if (this.markSeenQueues[key]) {
+      this.markSeenQueues[key].push(commentID);
     } else {
-      this.markSeenQueues[storyID] = [commentID];
+      this.markSeenQueues[key] = [commentID];
     }
     void this._processMarkSeenQueuesDebounced();
   }
@@ -167,6 +169,7 @@ const CommentSeenContext = createContext<State>({
 
 function CommentSeenProvider(props: {
   storyID: string;
+  viewerID?: string;
   children: React.ReactNode;
 }) {
   const { indexedDBStorage } = useCoralContext();
@@ -185,12 +188,15 @@ function CommentSeenProvider(props: {
   ]);
 
   useEffect(() => {
-    if (!local.enableCommentSeen) {
+    if (!local.enableCommentSeen || !props.viewerID) {
       return;
     }
     let stopped = false;
     async function callback() {
-      const result = await db.getAllSeenComments(props.storyID);
+      const result = await db.getAllSeenComments(
+        props.storyID,
+        props.viewerID!
+      );
       if (stopped) {
         return;
       }
@@ -201,17 +207,17 @@ function CommentSeenProvider(props: {
     return () => {
       stopped = true;
     };
-  }, [db, props.storyID, local.enableCommentSeen]);
+  }, [db, props.storyID, props.viewerID, local.enableCommentSeen]);
 
   const markSeen = useCallback(
     (id: string) => {
-      if (!seenRef.current || seenRef.current[id]) {
+      if (!props.viewerID || !seenRef.current || seenRef.current[id]) {
         return;
       }
       seenRef.current[id] = 1;
-      void db.markSeen(props.storyID, id);
+      void db.markSeen(props.storyID, props.viewerID, id);
     },
-    [db, props.storyID]
+    [db, props.storyID, props.viewerID]
   );
   const value = useMemo(
     () => ({ enabled: local.enableCommentSeen, seen: initialSeen, markSeen }),
