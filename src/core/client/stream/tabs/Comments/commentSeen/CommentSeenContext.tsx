@@ -15,8 +15,8 @@ import { PromisifiedStorage } from "coral-framework/lib/storage";
 
 import { CommentSeenContextLocal } from "coral-stream/__generated__/CommentSeenContextLocal.graphql";
 
-const KEEP_ITEM_COUNT = 200000; // 10.000 are roughly 500kb
-const KEEP_DURATION_DAYS = 30;
+export const KEEP_ITEM_COUNT = 200000; // 10.000 are roughly 500kb
+export const KEEP_DURATION_DAYS = 30;
 
 const KEEP_DURATION = 1000 * 60 * 60 * 24 * KEEP_DURATION_DAYS;
 
@@ -37,7 +37,7 @@ type Meta = Record<
   }
 >;
 
-class CommentSeenDB {
+export class CommentSeenDB {
   private storage: PromisifiedStorage<any>;
   private markSeenQueues: Record<StoryID, CommentID[]> = {};
   private processingMarkSeenQueues = false;
