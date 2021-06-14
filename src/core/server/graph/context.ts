@@ -54,6 +54,7 @@ export interface GraphContextOptions {
   site?: Site;
   tenantCache: TenantCache;
   broker: CoralEventListenerBroker;
+  traceID?: string;
 }
 
 export default class GraphContext {
@@ -85,6 +86,7 @@ export default class GraphContext {
   public readonly req?: Request;
   public readonly signingConfig?: JWTSigningConfig;
   public readonly user?: User;
+  public readonly traceID: string;
 
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
@@ -116,6 +118,7 @@ export default class GraphContext {
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
     this.reporter = options.reporter;
+    this.traceID = options.traceID || "";
 
     this.broker = options.broker.instance(this);
     this.loaders = loaders(this);
