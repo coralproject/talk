@@ -108,7 +108,13 @@ function hoistCoralErrorExtensions(
 
   // Hoist the message from the original error into the message of the base
   // error.
-  (err as any).message = extensions.message;
+  const rawError = err as any;
+  rawError.message = extensions.message;
+  rawError.traceID = ctx.traceID;
+
+  if (err.extensions) {
+    err.extensions.traceID = ctx.traceID;
+  }
 
   // Re-hoist the extensions.
   merge(err.extensions, extensions);

@@ -11,3 +11,9 @@ common-networkError = Network error. Please refresh your page and try again.
 
 common-experimentalTag = Experimental
 common-experimentalTag-tooltip-title = Experimental feature
+
+# Error handling
+
+common-error-title = An error has occurred
+common-error-message = Message
+common-error-traceID = Trace ID

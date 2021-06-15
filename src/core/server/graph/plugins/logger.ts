@@ -45,7 +45,10 @@ export function logAndReportError(
   const report = ctx.reporter.report(getOriginalError(err) || err, scope);
 
   // Log that we reported an error.
-  ctx.logger.error({ err, report }, "graphql query error");
+  ctx.logger.error(
+    { err, report, traceID: ctx.traceID },
+    "graphql query error"
+  );
 }
 
 export function logQuery(
