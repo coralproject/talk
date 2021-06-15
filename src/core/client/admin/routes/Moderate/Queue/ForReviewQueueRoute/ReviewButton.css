@@ -1,0 +1,47 @@
+$activeColor: var(--palette-primary-600);
+$inactiveColor: var(--palette-grey-400);
+$disabledColor: var(--palette-grey-400);
+
+.root {
+  border: 2px solid $inactiveColor;
+  box-sizing: border-box;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+    color: var(--palette-text-000);
+  &:not(:disabled):active {
+    background-color: $activeColor;
+  }
+}
+
+.readOnly {
+  background-color: transparent;
+  border-color: $disabledColor;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+.readOnly {
+  background-color: transparent;
+  border-color: $colors-grey-300;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+.checked {
+  background-color: $activeColor;
+  border-color: $activeColor;
+  color: var(--palette-text-000);
+}
+
+.icon {
+  font-weight: var(--font-weight-primary-semi-bold);
+  color: inherit;
+}

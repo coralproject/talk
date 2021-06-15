@@ -13,7 +13,7 @@ import styles from "./SectionSelector.css";
 interface Props {
   sections: ReadonlyArray<string>;
   section?: SectionFilter | null;
-  queueName: QUEUE_NAME;
+  queueName: QUEUE_NAME | undefined;
 }
 
 const SelectedSection: FunctionComponent<{

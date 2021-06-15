@@ -10,6 +10,8 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentModerationAction,
   GQLCommentsConnection,
+  GQLFlag,
+  GQLFlagsConnection,
   GQLMODERATION_MODE,
   GQLModerationQueues,
   GQLSettings,
@@ -750,6 +752,8 @@ export const reportedComments = createFixtures<GQLComment>(
             score: 0.1,
           },
         },
+        body:
+          "This is the last random sentence I will be writing and I am going to stop mid-sent",
       },
       permalink: "http://localhost/comment/0",
       body:
@@ -757,11 +761,13 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-0-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[0],
             additionalDetails: "This looks like an ad",
           },
           {
+            id: "comment-0-flag-1",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[1],
             additionalDetails: "",
@@ -785,6 +791,7 @@ export const reportedComments = createFixtures<GQLComment>(
             score: 0.1,
           },
         },
+        body: "Don't fool with me",
       },
       permalink: "http://localhost/comment/1",
       author: users.commenters[1],
@@ -792,16 +799,19 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-1-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[0],
             additionalDetails: "I find this offensive",
           },
           {
+            id: "comment-1-flag-1",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[1],
             additionalDetails: "Not like that",
           },
           {
+            id: "comment-1-flag-2",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[2],
             additionalDetails: "",
@@ -826,6 +836,7 @@ export const reportedComments = createFixtures<GQLComment>(
             score: 0.1,
           },
         },
+        body: "I think I deserve better",
       },
       permalink: "http://localhost/comment/2",
       status: GQLCOMMENT_STATUS.PREMOD,
@@ -834,11 +845,13 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-2-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
             flagger: users.commenters[0],
             additionalDetails: "I find this offensive",
           },
           {
+            id: "comment-2-flag-1",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[2],
             additionalDetails: "",
@@ -862,6 +875,7 @@ export const reportedComments = createFixtures<GQLComment>(
             score: 0.1,
           },
         },
+        body: "World peace at last",
       },
       permalink: "http://localhost/comment/3",
       status: GQLCOMMENT_STATUS.PREMOD,
@@ -870,6 +884,7 @@ export const reportedComments = createFixtures<GQLComment>(
       flags: {
         nodes: [
           {
+            id: "comment-3-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[2],
             additionalDetails: "",
@@ -908,6 +923,83 @@ export const emptyRejectedComments = createFixture<GQLCommentsConnection>({
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
 });
+
+export const emptyFlags = createFixture<GQLFlagsConnection>({
+  edges: [],
+  pageInfo: { endCursor: null, hasNextPage: false },
+});
+
+export const commentFlags = createFixtures<GQLFlag>([
+  {
+    id: "comment-flag-1",
+    createdAt: "2021-06-01T14:21:21.890Z",
+    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_ABUSIVE,
+    additionalDetails: "this is why",
+    flagger: users.commenters[0],
+    comment: reportedComments[0],
+    revision: reportedComments[0].revision,
+    reviewed: false,
+  },
+  {
+    id: "comment-flag-2",
+    createdAt: "2021-06-01T13:21:21.890Z",
+    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+    additionalDetails: "I felt bad after reading this",
+    flagger: users.commenters[1],
+    comment: reportedComments[1],
+    revision: reportedComments[1].revision,
+    reviewed: false,
+  },
+  {
+    id: "comment-flag-3",
+    createdAt: "2021-06-01T11:21:21.890Z",
+    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+    additionalDetails: "Looks like ads",
+    flagger: users.commenters[2],
+    comment: reportedComments[2],
+    revision: reportedComments[2].revision,
+    reviewed: false,
+  },
+]);
+
+export const commentFlagsDeleted = createFixtures<GQLFlag>([
+  {
+    id: "comment-flag-deleted-1",
+    createdAt: "2021-06-01T14:21:21.890Z",
+    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_ABUSIVE,
+    additionalDetails: "Looks abusive",
+    flagger: users.commenters[0],
+    comment: reportedComments[0],
+    revision: undefined,
+    reviewed: false,
+  },
+]);
+
+export const commentFlagsReviewed = createFixtures<GQLFlag>([
+  {
+    id: "comment-flag-reviewed-1",
+    createdAt: "2021-06-01T14:21:21.890Z",
+    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_ABUSIVE,
+    additionalDetails: "Looks abusive",
+    flagger: users.commenters[0],
+    comment: reportedComments[0],
+    revision: reportedComments[1].revision,
+    reviewed: true,
+  },
+]);
+
+export const commentFlagsNoDetails = createFixtures<GQLFlag>([
+  {
+    id: "comment-flag-no-details-1",
+    createdAt: "2021-06-01T14:21:21.890Z",
+    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_ABUSIVE,
+    additionalDetails: undefined,
+    flagger: users.commenters[0],
+    comment: reportedComments[0],
+    revision: reportedComments[1].revision,
+    reviewed: false,
+  },
+]);
 
 export const communityUsers = createFixture<GQLUsersConnection>({
   edges: [

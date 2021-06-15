@@ -1,7 +1,14 @@
+import { defaultTo } from "lodash";
+
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getExternalModerationPhase } from "coral-server/models/settings";
 import { getWebhookEndpoint } from "coral-server/models/tenant";
 
-import { GQLQueryTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_FLAG_REPORTED_REASON,
+  GQLCOMMENT_SORT,
+  GQLQueryTypeResolver,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { moderationQueuesResolver } from "./ModerationQueues";
 import { setCacheHintWhenTruthy } from "./util";
@@ -36,4 +43,25 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     ctx.tenant.integrations.external
       ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
       : null,
+  flags: (source, { first, after, orderBy, storyID, siteID, section }, ctx) =>
+    ctx.loaders.CommentActions.forFilter({
+      first: defaultTo(first, 10),
+      after,
+      storyID,
+      siteID,
+      section,
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+      filter: {
+        actionType: ACTION_TYPE.FLAG,
+        reason: {
+          $in: [
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_ABUSIVE,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_BIO,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_OFFENSIVE,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_OTHER,
+            GQLCOMMENT_FLAG_REPORTED_REASON.COMMENT_REPORTED_SPAM,
+          ],
+        },
+      },
+    }),
 };
