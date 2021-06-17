@@ -105,37 +105,38 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
             <div className={styles.name}>{em.name}</div>
             <div className={styles.body}>
               {em.status && (
-                <>
+                <div className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-status">
-                    <div className={styles.title}>Status</div>
+                    <span className={styles.title}>Status</span>
                   </Localized>
-                  <div className={styles.section}>
-                    <StatusBadge status={em.status} />
-                  </div>
-                </>
+                  <StatusBadge status={em.status} />
+                </div>
               )}
               {em.actions && em.actions.length > 0 && (
-                <>
+                <div className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-flags">
-                    <div className={styles.title}>Flags</div>
+                    <span className={styles.title}>Flags</span>
                   </Localized>
-                  <div className={styles.section}>
-                    {em.actions?.map((a) => getReasonMarker(a.reason))}
-                  </div>
-                </>
+                  {em.actions?.map((a) => getReasonMarker(a.reason))}
+                </div>
               )}
               {em.tags && em.tags.length > 0 && (
-                <>
+                <div className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-tags">
-                    <div className={styles.title}>Tags</div>
+                    <span className={styles.title}>Tags</span>
                   </Localized>
-                  <div className={styles.section}>
-                    {em.tags?.map((t) => (
-                      <Marker key={keyCounter++}>{t}</Marker>
-                    ))}
-                  </div>
-                </>
+                  {em.tags?.map((t) => (
+                    <Marker key={keyCounter++}>{t}</Marker>
+                  ))}
+                </div>
               )}
+              {!em.status &&
+                (!em.tags || em.tags.length === 0) &&
+                (!em.actions || em.actions.length === 0) && (
+                  <Localized id="moderateCardDetails-tab-noIssuesFound">
+                    <span className={styles.title}>No issues found</span>
+                  </Localized>
+                )}
             </div>
           </>
         );

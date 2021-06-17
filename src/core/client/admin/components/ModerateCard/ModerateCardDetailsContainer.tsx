@@ -87,9 +87,9 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasExternalModDetails && (
           <Tab tabID="EXTERNAL_MOD" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <Icon size="md">list</Icon>
-              <Localized id="moderateCardDetails-tab-externalModeration">
-                <span>External Mod</span>
+              <Icon size="md">done_all</Icon>
+              <Localized id="moderateCardDetails-tab-automatedActions">
+                <span>Automated actions</span>
               </Localized>
             </Flex>
           </Tab>

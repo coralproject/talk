@@ -984,7 +984,8 @@ moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
-moderateCardDetails-tab-externalModeration = External Mod
+moderateCardDetails-tab-automatedActions = Automated actions
+moderateCardDetails-tab-noIssuesFound = No issues found
 
 moderateCardDetails-tab-externalMod-status = Status
 moderateCardDetails-tab-externalMod-flags = Flags
