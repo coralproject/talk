@@ -111,7 +111,10 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         <CommentRevisionContainer comment={comment} />
       )}
       {activeTab === "EXTERNAL_MOD" && (
-        <ExternalModerationSummaryContainer comment={comment} />
+        <ExternalModerationSummaryContainer
+          comment={comment}
+          settings={settings}
+        />
       )}
     </HorizontalGutter>
   );
@@ -164,6 +167,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerateCardDetailsContainer_settings on Settings {
       ...FlagDetailsContainer_settings
       ...LinkDetailsContainer_settings
+      ...ExternalModerationSummaryContainer_settings
     }
   `,
 })(ModerateCardDetailsContainer);

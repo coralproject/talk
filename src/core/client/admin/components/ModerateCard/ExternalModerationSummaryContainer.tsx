@@ -11,11 +11,13 @@ import {
   COMMENT_STATUS,
   ExternalModerationSummaryContainer_comment,
 } from "coral-admin/__generated__/ExternalModerationSummaryContainer_comment.graphql";
+import { ExternalModerationSummaryContainer_settings } from "coral-admin/__generated__/ExternalModerationSummaryContainer_settings.graphql";
 
 import styles from "./ExternalModerationSummaryContainer.css";
 
 interface Props {
   comment: ExternalModerationSummaryContainer_comment;
+  settings: ExternalModerationSummaryContainer_settings;
 }
 
 let keyCounter = 0;
@@ -86,6 +88,7 @@ const getReasonMarker = (reason: COMMENT_FLAG_REASON | null) => {
 
 const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
   comment,
+  settings,
 }) => {
   if (
     !comment.revision ||
@@ -95,11 +98,31 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
     return null;
   }
 
-  const externalModerations = comment.revision.metadata.externalModeration;
+  const externalModerations = comment.revision.metadata.externalModeration.map(
+    (em) => {
+      return { ...em, missing: false };
+    }
+  );
+
+  const missingPhases = (
+    settings.integrations?.external?.phases?.filter((p) => {
+      return !externalModerations.find((em) => em.name === p.name);
+    }) || []
+  ).map((p) => {
+    return {
+      name: p.name,
+      status: null,
+      actions: [],
+      tags: [],
+      missing: true,
+    };
+  });
+
+  const phases = [...externalModerations, ...missingPhases];
 
   return (
     <>
-      {externalModerations.map((em) => {
+      {phases.map((em) => {
         return (
           <>
             <div className={styles.name}>{em.name}</div>
@@ -130,7 +153,13 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                   ))}
                 </Flex>
               )}
-              {!em.status &&
+              {em.missing && (
+                <Localized id="moderateCardDetails-tab-missingPhase">
+                  <span className={styles.title}>Was not run</span>
+                </Localized>
+              )}
+              {!em.missing &&
+                !em.status &&
                 (!em.tags || em.tags.length === 0) &&
                 (!em.actions || em.actions.length === 0) && (
                   <Localized id="moderateCardDetails-tab-noIssuesFound">
@@ -158,6 +187,17 @@ const enhanced = withFragmentContainer<Props>({
             actions {
               reason
             }
+          }
+        }
+      }
+    }
+  `,
+  settings: graphql`
+    fragment ExternalModerationSummaryContainer_settings on Settings {
+      integrations {
+        external {
+          phases {
+            name
           }
         }
       }
