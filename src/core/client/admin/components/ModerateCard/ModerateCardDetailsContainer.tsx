@@ -101,7 +101,6 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
           {doesHaveFlagDetails && (
             <FlagDetailsContainer
               comment={comment}
-              settings={settings}
               onUsernameClick={onUsernameClick}
             />
           )}
@@ -165,7 +164,6 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment ModerateCardDetailsContainer_settings on Settings {
-      ...FlagDetailsContainer_settings
       ...LinkDetailsContainer_settings
       ...ExternalModerationSummaryContainer_settings
     }

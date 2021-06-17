@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import { Flex, Marker, Tag } from "coral-ui/components/v2";
@@ -12,6 +13,9 @@ import {
   ExternalModerationSummaryContainer_comment,
 } from "coral-admin/__generated__/ExternalModerationSummaryContainer_comment.graphql";
 import { ExternalModerationSummaryContainer_settings } from "coral-admin/__generated__/ExternalModerationSummaryContainer_settings.graphql";
+
+import FlagDetailsCategory from "./FlagDetailsCategory";
+import ToxicityLabel from "./ToxicityLabel";
 
 import styles from "./ExternalModerationSummaryContainer.css";
 
@@ -122,6 +126,23 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
 
   return (
     <>
+      {comment.revision.metadata && comment.revision.metadata.perspective && (
+        <FlagDetailsCategory
+          category={
+            <Localized id="moderate-flagDetails-toxicityScore">
+              <span>Toxicity Score</span>
+            </Localized>
+          }
+        >
+          <ToxicityLabel
+            score={comment.revision.metadata.perspective.score}
+            threshold={
+              settings.integrations.perspective.threshold ||
+              TOXICITY_THRESHOLD_DEFAULT / 100
+            }
+          />
+        </FlagDetailsCategory>
+      )}
       {phases.map((em) => {
         return (
           <>
@@ -179,6 +200,9 @@ const enhanced = withFragmentContainer<Props>({
     fragment ExternalModerationSummaryContainer_comment on Comment {
       revision {
         metadata {
+          perspective {
+            score
+          }
           externalModeration {
             name
             analyzedAt
@@ -195,6 +219,9 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ExternalModerationSummaryContainer_settings on Settings {
       integrations {
+        perspective {
+          threshold
+        }
         external {
           phases {
             name
