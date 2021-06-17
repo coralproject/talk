@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
-import { Marker, Tag } from "coral-ui/components/v2";
+import { Flex, Marker, Tag } from "coral-ui/components/v2";
 
 import {
   COMMENT_FLAG_REASON,
@@ -113,22 +113,22 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                 </div>
               )}
               {em.actions && em.actions.length > 0 && (
-                <div className={styles.section}>
+                <Flex spacing={2} className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-flags">
                     <span className={styles.title}>Flags</span>
                   </Localized>
                   {em.actions?.map((a) => getReasonMarker(a.reason))}
-                </div>
+                </Flex>
               )}
               {em.tags && em.tags.length > 0 && (
-                <div className={styles.section}>
+                <Flex spacing={2} className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-tags">
                     <span className={styles.title}>Tags</span>
                   </Localized>
                   {em.tags?.map((t) => (
                     <Marker key={keyCounter++}>{t}</Marker>
                   ))}
-                </div>
+                </Flex>
               )}
               {!em.status &&
                 (!em.tags || em.tags.length === 0) &&
