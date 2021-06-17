@@ -168,6 +168,13 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+            />
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
@@ -428,6 +435,13 @@ exports[`renders rejected queue with comments 1`] = `
                       Moderate Story
                     </a>
                   </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+                  />
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -701,6 +715,13 @@ exports[`renders rejected queue with comments 1`] = `
                       Moderate Story
                     </a>
                   </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+                  />
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -980,6 +1001,13 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 Moderate Story
               </a>
             </div>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+            />
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
