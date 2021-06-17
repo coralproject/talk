@@ -67,23 +67,47 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
     onUsernameClicked(moderatedBy.id);
   }, [onUsernameClicked, moderatedBy]);
 
-  if (!moderatedBy) {
+  const externallyModeratedBy = comment.revision?.metadata?.externalModeration?.filter(
+    (m) => m.status === comment.status
+  );
+
+  if (
+    !moderatedBy &&
+    (!externallyModeratedBy || externallyModeratedBy.length === 0)
+  ) {
     return null;
   }
 
   return (
-    <BaseButton onClick={onClick}>
-      <Localized id="moderate-comment-moderatedBy">
-        <div className={styles.moderatedBy}>Moderated By</div>
-      </Localized>
-      <div className={styles.moderatedByUsername}>
-        {moderatedBy.system ? (
-          <Localized id="moderate-comment-moderatedBySystem">System</Localized>
-        ) : (
-          moderatedBy.username
+    <>
+      {externallyModeratedBy && externallyModeratedBy.length > 0 && (
+        <>
+          <Localized id="moderate-comment-moderatedBy">
+            <div className={styles.moderatedBy}>Moderated By</div>
+          </Localized>
+          <div className={styles.moderatedByUsername}>
+            {externallyModeratedBy.map((m) => m.name).join(", ")}
+          </div>
+        </>
+      )}
+      {moderatedBy &&
+        (!externallyModeratedBy || externallyModeratedBy.length === 0) && (
+          <BaseButton onClick={onClick}>
+            <Localized id="moderate-comment-moderatedBy">
+              <div className={styles.moderatedBy}>Moderated By</div>
+            </Localized>
+            <div className={styles.moderatedByUsername}>
+              {moderatedBy.system ? (
+                <Localized id="moderate-comment-moderatedBySystem">
+                  System
+                </Localized>
+              ) : (
+                moderatedBy.username
+              )}
+            </div>
+          </BaseButton>
         )}
-      </div>
-    </BaseButton>
+    </>
   );
 };
 
@@ -101,6 +125,14 @@ const enhanced = withFragmentContainer<Props>({
               id
               username
             }
+          }
+        }
+      }
+      revision {
+        metadata {
+          externalModeration {
+            name
+            status
           }
         }
       }
