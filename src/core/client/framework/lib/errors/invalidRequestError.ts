@@ -24,6 +24,7 @@ export default class InvalidRequestError extends Error
   public readonly extension: InvalidRequestExtension;
   public readonly code: ERROR_CODES;
   public readonly id?: string;
+  public readonly traceID?: string;
   public readonly param?: string;
   public readonly message: string;
   public readonly extensions: string;
@@ -35,9 +36,11 @@ export default class InvalidRequestError extends Error
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, InvalidRequestError);
     }
+
     this.extension = extension;
     this.code = extension.code;
     this.id = extension.id;
+    this.traceID = (extension as any).traceID;
     this.param = extension.param;
     this.message = extension.message || extension.code;
   }

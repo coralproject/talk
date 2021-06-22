@@ -12,6 +12,7 @@ interface UnknownErrorExtension {
 export default class UnknownServerError extends Error {
   // Keep origin of original server response.
   public origin: UnknownErrorExtension;
+  public traceID?: string;
 
   constructor(msg: string, error: UnknownErrorExtension) {
     super(msg);
@@ -19,6 +20,17 @@ export default class UnknownServerError extends Error {
     // Maintains proper stack trace for where our error was thrown.
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, UnknownServerError);
+    }
+
+    const traceID: string | null | undefined = (error as any).traceID as string;
+    const traceIDs: string[] | null | undefined = (error as any)
+      .traceIDs as string[];
+
+    if (traceID) {
+      this.traceID = traceID;
+    }
+    if (traceIDs) {
+      this.traceID = traceIDs.join(", ");
     }
 
     this.origin = error;
