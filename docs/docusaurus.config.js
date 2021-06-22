@@ -27,7 +27,13 @@ module.exports = {
           type: "doc",
           docId: "installation",
           position: "left",
-          label: "Getting Started",
+          label: "Docs",
+        },
+        {
+          type: "doc",
+          docId: "api/schema",
+          position: "left",
+          label: "API",
         },
         {
           href: "https://github.com/coralproject/talk",
@@ -49,7 +55,7 @@ module.exports = {
           items: [
             {
               label: "Getting Started",
-              to: "/docs/installation",
+              to: "/installation",
             },
           ],
         },
@@ -99,6 +105,16 @@ module.exports = {
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      "@edno/docusaurus2-graphql-doc-generator",
+      {
+        schema: "../src/core/server/graph/schema/schema.graphql",
+        rootPath: "./docs",
+        baseURL: "api",
       },
     ],
   ],

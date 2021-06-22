@@ -33,4 +33,5 @@ module.exports = {
       items: ["faq", "troubleshooting", "ie11"],
     },
   ],
+  ...require("./docs/api/sidebar-schema"),
 };
