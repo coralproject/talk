@@ -20,10 +20,7 @@ Coral is open source, so you're free to develop additional functionality and [su
 
 ## Do you have GDPR features?
 
-Yes! Please read our GDPR documentation for your version for more information and instructions to get started.
-
-- [version 4.x.x](/talk/integrating/gdpr/)
-- [version 5.x.x](/gdpr/)
+Yes! Please read our [GDPR documentation](/gdpr) for your version for more information and instructions to get started.
 
 ## Can I import my existing comments?
 
@@ -56,15 +53,12 @@ If you are using our Hosted SaaS version of Coral:
 
 As well as basic word/phrase filtering and user recent history scores, Coral offers optional advanced features via third-party services:
 
-- The [Toxic Comments filter](/administration/#toxic-comment-filter) integrates with the [Perspective API from Google](https://www.perspectiveapi.com/) to detect the likelihood of toxicity of comments in real-time
-- The [Akismet Spam filter](/administration/#spam-detection-filter) detects and blocks spam comments
+- The [Toxic Comments filter](/administration#toxic-comment-filter) integrates with the [Perspective API from Google](https://www.perspectiveapi.com/) to detect the likelihood of toxicity of comments in real-time
+- The [Akismet Spam filter](/administration#spam-detection-filter) detects and blocks spam comments
 
 ## How much can I customize Coral?
 
-The CSS of the embedded comment stream can be customized by adding your own CSS via an external stylesheet. See the doc's for your version:
-
-- [version 4.x.x](/talk/integrating/styling-css/)
-- [version 5.x.x](/css/)
+The CSS of the embedded comment stream can be customized by adding your own CSS via an external stylesheet. See [CSS](/css) for instructions.
 
 ## How much does Coral cost?
 

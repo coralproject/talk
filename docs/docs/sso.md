@@ -106,7 +106,7 @@ as follows:
   `requestAccountDeletion` does.
 - `requestUserCommentsDownload` lets you retrieve a given account's comments download. This mutation will provide you with a `archiveURL` that can be used to download a ZIP file containing the user's comment export.
 
-If you're unsure on how to call GraphQL API's, refer to the section here on [Making your first GraphQL request](/talk/v5/api/overview/#making-your-first-request).
+If you're unsure on how to call GraphQL API's, refer to the section here on [Making your first GraphQL request](/api/schema#making-your-first-request).
 
 ## Login Prompts
 

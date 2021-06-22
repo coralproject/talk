@@ -26,11 +26,9 @@ If you visit one of the following endpionts, Coral will return the version you'r
 
 This depends greatly on what version of Coral you are using and which authentication strategies you've enabled. Some things to check are:
 
-- If using 4.x.x, review your `plugins.json` and server logs to ensure your auth plugins are enabled and working correctly. Check [our auth docs](/talk/integrating/authentication/) for more tips.
 - If using SSO, ensure that your JWT token settings, especially expiry, is being set correctly. You can troubleshoot JWT related issues with the [JWT Debugger](https://jwt.io/).
 - See if you can isolate if it's a particular group of users that are experiencing this issue, e.g. mods, admins, subscribers? Confirm they have the appropriate permissions to comment.
 - Note if this is a new issue that happened after an upgrade - did you read the [release notes](https://github.com/coralproject/talk/releases) and confirm that any required manual or automatic database migrations run?
-- Confirm that users who are affected have the correct `username.status`. If users have status `UNSET`, this is related to a bug with upgrading from 3.x to 4.x that has affected some organizations. Read more here about [upgrading from 3.x to 4.x](/talk/migration/3/).
 - If you're still experiencing issues, log a [support ticket](mailto:support@coralproject.net) so we can help diagnose the issue
 
 If a user has been locked out due to too many failed login attempts:

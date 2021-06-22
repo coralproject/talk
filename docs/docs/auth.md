@@ -26,7 +26,7 @@ With OpenID Connect authentication is handled by passing an access token paramet
 
 When you want users to authenticate via your existing identity system, and be automatically registered/logged into Coral. Users register, login, and manage their user details on your existing site, your user database maintains the source of truth for all user information. Users are created and updated in Coral via jwt tokens passed from your auth service to Coral.
 
-Requires advanced configuration, please see: [Single Sign On](/talk/v5/integrating/sso/)
+Requires advanced configuration, please see: [Single Sign On](/sso)
 
 ## Login with Google & Facebook
 

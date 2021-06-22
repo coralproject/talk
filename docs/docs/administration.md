@@ -93,7 +93,7 @@ Badges differentiate users on the comment stream. By default, the `Staff` user b
 
 You can customize the badge label used for Staff roles by providing your own custom badge text. _i.e.: "NewsSite Team"_
 
-Custom user badges are also available with SSO integrations. See [Single Sign On](/talk/v5/integrating/sso/)
+Custom user badges are also available with SSO integrations. See [Single Sign On](/sso)
 
 ## Moderation
 
@@ -154,7 +154,7 @@ Located in **Admin** > **Configure** > **Advanced**.
 
 ### Embed Code
 
-This is the unique script that is used to embed Coral comment streams on your website. For more information about using your Embed code see [CMS Integration](/talk/v5/integrating/cms/).
+This is the unique script that is used to embed Coral comment streams on your website. For more information about using your Embed code see [CMS Integration](/cms/).
 
 ### Custom CSS
 
@@ -174,7 +174,7 @@ as possible, so that the feed of comments doesn’t change as you’re reading j
 because new comments are coming in. This could be especially disruptive on
 breaking news and/or controversial stories with very active discussions.
 
-This option can be disabled by setting the environment variable: [DISABLE_LIVE_UPDATES](/talk/v5/configuration/#disable-live-updates)
+This option can be disabled by setting the environment variable: [DISABLE_LIVE_UPDATES](/environment-variables#disable-live-updates)
 
 ### Permitted Domains
 
@@ -184,4 +184,4 @@ List of domains where your Coral instance is allowed to be embedded. List each d
 
 Advanced settings for how stories are created within Coral; such as if stories are to be automatically created when they are published from your CMS.
 
-See CMS Integration secions [Story Creation](/talk/v5/integrating/cms/#story-creation) and [Story Scraping](/talk/v5/integrating/cms/#story-scraping) for more details.
+See CMS Integration secions [Story Creation](/cms/#story-creation) and [Story Scraping](/cms/#story-scraping) for more details.

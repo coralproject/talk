@@ -1,4 +1,5 @@
 ---
+id: schema
 title: Getting Started with the Coral API
 description: Coral exposes a GraphQL API for performing administrative tasks.
 ---
@@ -7,9 +8,6 @@ The Coral API is a [GraphQL API](https://graphql.org/). A GraphQL API exposes
 it's data as [structured object types](https://graphql.org/learn/schema/) and
 enables developers to [write queries](https://graphql.org/learn/queries/) that
 fetch only the specific data that they need for their application.
-
-See [the API reference](/api/object/Query) for type-by-type and
-field-by-field documentation.
 
 You can also explore the Coral API using the integrated [GraphiQL IDE](#graphiql-ide) on a
 running instance of Coral.

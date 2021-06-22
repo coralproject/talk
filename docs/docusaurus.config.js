@@ -55,7 +55,7 @@ module.exports = {
           items: [
             {
               label: "Getting Started",
-              to: "/installation",
+              to: "/",
             },
           ],
         },
@@ -115,6 +115,7 @@ module.exports = {
         schema: "../src/core/server/graph/schema/schema.graphql",
         rootPath: "./docs",
         baseURL: "api",
+        homepage: "./docs/graphql.md",
       },
     ],
   ],

@@ -79,7 +79,7 @@ To more tightly couple Coral with your CMS you can provide your CMS's unique ide
 
 Story creation can also be controlled by direct calls to Coral's API. When Lazy Story Creation is disabled embed streams can only be created by data migration or API POST request.
 
-See [GraphQL API Overview](/talk/v5/api/overview/) for help with the API.
+See [GraphQL API Overview](/api/schema) for help with the API.
 
 ## Story Scraping
 

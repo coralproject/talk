@@ -23,7 +23,7 @@ Integrating our GDPR tools will give your users and organizations the following 
 
 ## GDPR with SSO
 
-As many newsrooms often implement their own [SSO solutions](/talk/v5/integrating/sso/),
+As many newsrooms often implement their own [SSO solutions](/sso),
 we also provide API support to manage GDPR features directly from your own Account or My Profile page.
 
 We provide the following GraphQL mutations designed to allow you to integrate it into your existing user

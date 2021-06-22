@@ -9,7 +9,7 @@ _NOTE: Notifications are only supported for users that have a valid email addres
 ### Configuring SMTP
 
 You must setup SMTP to send email notifications.
-See our documentation on [Email SMTP Settings](/talk/v5/administration/#email-smtp-settings) for reference.
+See our documentation on [Email SMTP Settings](/administration#email-smtp-settings) for reference.
 
 When running in production we recommend using a 3rd party mail service provider like SendGrid or MailGun.
 
