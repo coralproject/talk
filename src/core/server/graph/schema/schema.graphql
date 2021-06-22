@@ -3335,29 +3335,29 @@ type CommentTagCounts {
 }
 
 """
-Comment is a comment left by a [User](/reference/object/User) on an
-[Story](/reference/object/Story) or another [Comment](/reference/object/Comment)
+Comment is a comment left by a [User](/api/object/User) on an
+[Story](/api/object/Story) or another [Comment](/api/object/Comment)
 as a reply.
 """
 type Comment @cacheControl(maxAge: 5) {
   """
-  id is the identifier of the [Comment](/reference/object/Comment).
+  id is the identifier of the [Comment](/api/object/Comment).
   """
   id: ID!
 
   """
-  body is the content of the [Comment](/reference/object/Comment), and is an alias to the body of the
+  body is the content of the [Comment](/api/object/Comment), and is an alias to the body of the
   `revision.body`.
   """
   body: String
 
   """
-  revision is the current revision of the [Comment](/reference/object/Comment)'s body.
+  revision is the current revision of the [Comment](/api/object/Comment)'s body.
   """
   revision: CommentRevision
 
   """
-  revisionHistory stores the previous [CommentRevision](/reference/object/CommentRevision)'s, with the most recent
+  revisionHistory stores the previous [CommentRevision](/api/object/CommentRevision)'s, with the most recent
   edit last.
   """
   revisionHistory: [CommentRevision!]!
