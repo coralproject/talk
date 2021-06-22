@@ -9,7 +9,6 @@ exports[`renders correctly 1`] = `
     sectionSelector={
       <Relay(SectionSelectorContainer)
         query=""
-        queueName=""
       />
     }
     settings={
@@ -21,7 +20,6 @@ exports[`renders correctly 1`] = `
     siteSelector={
       <Relay(SiteSelectorContainer)
         query=""
-        queueName=""
         settings={
           Object {
             "multisite": false,
@@ -34,6 +32,7 @@ exports[`renders correctly 1`] = `
     story={Object {}}
   />
   <withPropsOnChange(SubBar)
+    className="Moderate-subBar"
     data-testid="moderate-tabBar-container"
   >
     <Relay(ModerateNavigationContainer)

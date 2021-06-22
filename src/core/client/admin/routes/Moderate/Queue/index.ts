@@ -10,3 +10,4 @@ export { routeConfig as ApprovedQueueRouteConfig } from "./ApprovedQueueRoute";
 export { default as LoadingQueue } from "./LoadingQueue";
 export { default as ModerationQueue } from "./ModerationQueueQuery";
 export { default as Queue } from "./Queue";
+export { routeConfig as ForReviewQueueRouteConfig } from "./ForReviewQueueRoute/ForReviewQueueRoute";

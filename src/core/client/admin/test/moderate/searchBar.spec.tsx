@@ -170,7 +170,7 @@ describe("all stories", () => {
 
       // Expect a routing request was made to the right url. history[1] because a redirect happens through /admin/moderate
       expect(transitionControl.history[1].pathname).toBe(
-        `/admin/moderate/stories/${story.id}`
+        `/admin/moderate/reported/stories/${story.id}`
       );
     });
     it("search with too many results", async () => {
@@ -270,7 +270,7 @@ describe("specified story", () => {
 
     // Expect a routing request was made to the right url. history[1] because a redirect happens through /admin/moderate
     expect(transitionControl.history[1].pathname).toBe(
-      "/admin/moderate/sites/site-1"
+      "/admin/moderate/reported/sites/site-1"
     );
   });
 });

@@ -17,7 +17,7 @@ it("renders correctly", () => {
     siteID: null,
     query: "",
     routeParams: {},
-    queueName: "",
+    queueName: undefined,
     settings: {
       multisite: false,
     },

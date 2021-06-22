@@ -9,6 +9,7 @@ import React, {
 import MainLayout from "coral-admin/components/MainLayout";
 import { HOTKEYS } from "coral-admin/constants";
 import { SectionFilter } from "coral-common/section";
+import { QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import { SubBar } from "coral-ui/components/v2/SubBar";
 
@@ -44,7 +45,7 @@ interface Props {
         PropTypesOf<typeof ModerateNavigationContainer>["settings"])
     | null;
   children?: React.ReactNode;
-  queueName: string;
+  queueName: QUEUE_NAME | undefined;
   routeParams: RouteParams;
 }
 
@@ -86,6 +87,7 @@ const Moderate: FunctionComponent<Props> = ({
         settings={settings}
         allStories={allStories}
         siteID={routeParams.siteID || null}
+        queueName={queueName}
         siteSelector={
           <SiteSelectorContainer
             queueName={queueName}
@@ -103,7 +105,7 @@ const Moderate: FunctionComponent<Props> = ({
           />
         }
       />
-      <SubBar data-testid="moderate-tabBar-container">
+      <SubBar data-testid="moderate-tabBar-container" className={styles.subBar}>
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}
           story={story}

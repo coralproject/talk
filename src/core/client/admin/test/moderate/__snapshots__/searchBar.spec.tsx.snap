@@ -122,7 +122,7 @@ exports[`all stories active search with no results 1`] = `
                 >
                   <a
                     className="Option-link"
-                    href="/admin/moderate"
+                    href="/admin/moderate/reported"
                     tabIndex={-1}
                   >
                     <div
