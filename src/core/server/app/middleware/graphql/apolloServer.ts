@@ -1,7 +1,6 @@
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPlugin } from "apollo-server-plugin-base";
 import ResponseCachePlugin from "apollo-server-plugin-response-cache";
-import { v4 as uuidv4 } from "uuid";
 
 import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { AppOptions } from "coral-server/app";
@@ -32,7 +31,6 @@ function contextProvider(options: ContextProviderOptions) {
       tenant,
       logger,
       site,
-      traceID: uuidv4(),
     };
 
     // Add the user if there is one.
@@ -46,9 +44,6 @@ function contextProvider(options: ContextProviderOptions) {
       // Limit the clientID to 36 characters (the length of a UUID).
       opts.clientID = clientID.slice(0, 36);
     }
-
-    // Set trace ID for debug events if we error
-    req.traceID = opts.traceID;
 
     // Return the compiled context.
     return new GraphContext(opts);

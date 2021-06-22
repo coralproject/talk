@@ -18,7 +18,6 @@ export interface CoralRequest {
   site?: Site;
   persisted?: PersistedQuery;
   logger: Logger;
-  traceID?: string;
 }
 
 export type TenantCoralRequest = RequireProperty<CoralRequest, "tenant">;
@@ -26,7 +25,6 @@ export type TenantCoralRequest = RequireProperty<CoralRequest, "tenant">;
 export interface Request<T = CoralRequest> extends ExpressRequest {
   coral: T;
   user?: User;
-  traceID?: string;
 }
 
 export type RequestHandler<T = CoralRequest, V = void> = (

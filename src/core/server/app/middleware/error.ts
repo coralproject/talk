@@ -54,7 +54,6 @@ interface ErrorHandlerResponse {
   context: {
     error: CoralErrorExtensions;
     report: ErrorReport | null;
-    traceID?: string;
   };
 }
 
@@ -81,7 +80,6 @@ function wrapAndReport(
         ...extractLoggerMetadata(req, res),
         err,
         statusCode: e.status,
-        traceID: req.traceID,
       },
       "http error"
     );
@@ -91,7 +89,6 @@ function wrapAndReport(
       context: {
         error,
         report: null,
-        traceID: req.traceID,
       },
     };
   }
@@ -124,7 +121,6 @@ function wrapAndReport(
       err,
       statusCode: e.status,
       report,
-      traceID: req.traceID,
     },
     "http error"
   );
@@ -134,7 +130,6 @@ function wrapAndReport(
     context: {
       error,
       report,
-      traceID: req.traceID,
     },
   };
 }

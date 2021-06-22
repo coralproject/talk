@@ -110,10 +110,10 @@ function hoistCoralErrorExtensions(
   // error.
   const rawError = err as any;
   rawError.message = extensions.message;
-  rawError.traceID = ctx.traceID;
+  rawError.traceID = ctx.id;
 
   if (err.extensions) {
-    err.extensions.traceID = ctx.traceID;
+    err.extensions.traceID = ctx.id;
   }
 
   // Re-hoist the extensions.
