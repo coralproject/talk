@@ -68,6 +68,11 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   max-width: 100%;
 }
 
+.commentSeenEnabled {
+  padding-top: 8px;
+  padding-bottom: 6px;
+}
+
 .notSeen {
-  background-color: #FFFFCC;
+  background-color: $colors-yellow-100;
 }

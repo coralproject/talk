@@ -38,6 +38,7 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
+import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
@@ -132,6 +133,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     setLocal({ ratingFilter: rating });
   }, []);
 
+  const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
@@ -220,6 +222,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         role="log"
         aria-live="polite"
         size="oneAndAHalf"
+        spacing={commentSeenEnabled ? 0 : undefined}
       >
         {story.comments.edges.length <= 0 && (
           <NoComments
