@@ -21,6 +21,7 @@ interface Props {
   router: Router;
   match: Match;
   mode?: "PRE" | "POST" | "%future added value" | null;
+  enableForReview?: boolean;
 }
 
 const Navigation: FunctionComponent<Props> = ({
@@ -33,6 +34,7 @@ const Navigation: FunctionComponent<Props> = ({
   router,
   match,
   mode,
+  enableForReview,
 }) => {
   const moderationLinks = useMemo(() => {
     return [
@@ -41,8 +43,9 @@ const Navigation: FunctionComponent<Props> = ({
       getModerationLink({ queue: "unmoderated", storyID, siteID, section }),
       getModerationLink({ queue: "approved", storyID, siteID, section }),
       getModerationLink({ queue: "rejected", storyID, siteID, section }),
+      getModerationLink({ queue: "review", storyID, siteID, section }),
     ];
-  }, [storyID, siteID]);
+  }, [storyID, siteID, section]);
 
   useEffect(() => {
     key(HOTKEYS.SWITCH_QUEUE, () => {
@@ -67,7 +70,7 @@ const Navigation: FunctionComponent<Props> = ({
         key.unbind(`${i + 1}`);
       }
     };
-  }, [match, moderationLinks]);
+  }, [match, moderationLinks, router]);
 
   return (
     <SubBarNavigation>
@@ -133,6 +136,14 @@ const Navigation: FunctionComponent<Props> = ({
           <span>Rejected</span>
         </Localized>
       </NavigationLink>
+      {enableForReview && (
+        <NavigationLink to={moderationLinks[5]}>
+          <Icon>done_all</Icon>
+          <Localized id="moderate-navigation-forReview">
+            <span>For Review</span>
+          </Localized>
+        </NavigationLink>
+      )}
     </SubBarNavigation>
   );
 };

@@ -1,0 +1,34 @@
+.timeColumn {
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.commentContainer {
+  width: 170px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.reportedByContainer {
+  width: 125px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.descriptionColumn {
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.column {
+  vertical-align: top;
+}
+
+.reviewedColumn {
+  vertical-align: top;
+  padding-top: 8px;
+}

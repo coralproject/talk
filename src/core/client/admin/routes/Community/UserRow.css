@@ -12,6 +12,7 @@
 }
 .memberSinceColumn {
   vertical-align: top;
+  white-space: nowrap;
   padding-top: 15px;
   padding-bottom: 15px;
 }
