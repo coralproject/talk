@@ -1,5 +1,10 @@
 import { Decorator } from "./types";
 
+// Workaround. See https://twitter.com/feross/status/1404569098294501380.
+const idbWorkaround = window.indexedDB;
+// eslint-disable-next-line no-unused-expressions
+typeof idbWorkaround;
+
 const withIndexedDBStorage = (dbName = "coral:keyvalue"): Decorator => (
   pym,
   postMessage,
