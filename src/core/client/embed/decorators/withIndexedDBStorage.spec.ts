@@ -79,10 +79,14 @@ describe("withIndexedDBStorage", () => {
     );
     expect(postMessage.messages).toMatchSnapshot();
   });
-  it("should handle unknown method", () => {
+  it("should handle unknown method", async () => {
     mockConsole();
     const postMessage = new PostMessageStub("localStorage");
     (withIndexedDBStorage("coral") as any)(null, postMessage, new FDBFactory());
+
+    // Wait for db to be initialized.
+    await waitFor(10);
+
     postMessage.listeners["postMessageStorage.indexedDB.request"]({
       id: "0",
       method: "unknown",

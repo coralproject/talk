@@ -5,13 +5,6 @@ Array [
   Object {
     "key": "postMessageStorage.indexedDB.error",
     "value": Object {
-      "error": "IndexedDB not yet initialized.",
-      "id": "0",
-    },
-  },
-  Object {
-    "key": "postMessageStorage.indexedDB.error",
-    "value": Object {
       "error": "Unknown method unknown",
       "id": "0",
     },
