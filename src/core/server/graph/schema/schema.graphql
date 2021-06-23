@@ -3077,12 +3077,16 @@ type ExternalModerationPhaseAction {
   reason: COMMENT_FLAG_REASON
 }
 
-type CommentRevisionExternalModerationPhaseMetadata {
-  name: String!
-  analyzedAt: Time!
+type ExternalModerationPhaseResult {
   status: COMMENT_STATUS
   tags: [TAG!]
   actions: [ExternalModerationPhaseAction!]
+}
+
+type CommentRevisionExternalModerationPhaseMetadata {
+  name: String!
+  analyzedAt: Time!
+  result: ExternalModerationPhaseResult!
 }
 
 type CommentRevisionMetadata {

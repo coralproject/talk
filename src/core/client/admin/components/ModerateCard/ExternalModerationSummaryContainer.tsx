@@ -115,9 +115,11 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
   ).map((p) => {
     return {
       name: p.name,
-      status: null,
-      actions: [],
-      tags: [],
+      result: {
+        status: null,
+        actions: null,
+        tags: null,
+      },
       missing: true,
     };
   });
@@ -148,30 +150,40 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
           <>
             <div className={styles.name}>{em.name}</div>
             <div className={styles.body}>
-              {em.status && (
+              {em.result.status && (
                 <div className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-status">
                     <span className={styles.title}>Status</span>
                   </Localized>
-                  <StatusBadge status={em.status} />
+                  <StatusBadge status={em.result.status} />
                 </div>
               )}
-              {em.actions && em.actions.length > 0 && (
+              {em.result.actions && em.result.actions.length > 0 && (
                 <Flex spacing={2} className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-flags">
                     <span className={styles.title}>Flags</span>
                   </Localized>
-                  {em.actions?.map((a) => getReasonMarker(a.reason))}
+                  {em.result.actions?.map((a) => getReasonMarker(a.reason))}
                 </Flex>
               )}
-              {em.tags && em.tags.length > 0 && (
+              {em.result.tags && em.result.tags.length > 0 && (
                 <Flex spacing={2} className={styles.section}>
                   <Localized id="moderateCardDetails-tab-externalMod-tags">
                     <span className={styles.title}>Tags</span>
                   </Localized>
-                  {em.tags?.map((t) => (
-                    <Marker key={keyCounter++}>{t}</Marker>
-                  ))}
+                  {em.result.tags?.map(
+                    (
+                      t:
+                        | boolean
+                        | React.ReactChild
+                        | React.ReactFragment
+                        | React.ReactPortal
+                        | null
+                        | undefined
+                    ) => (
+                      <Marker key={keyCounter++}>{t}</Marker>
+                    )
+                  )}
                 </Flex>
               )}
               {em.missing && (
@@ -180,9 +192,9 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                 </Localized>
               )}
               {!em.missing &&
-                !em.status &&
-                (!em.tags || em.tags.length === 0) &&
-                (!em.actions || em.actions.length === 0) && (
+                !em.result.status &&
+                (!em.result.tags || em.result.tags.length === 0) &&
+                (!em.result.actions || em.result.actions.length === 0) && (
                   <Localized id="moderateCardDetails-tab-noIssuesFound">
                     <span className={styles.title}>No issues found</span>
                   </Localized>
@@ -206,10 +218,12 @@ const enhanced = withFragmentContainer<Props>({
           externalModeration {
             name
             analyzedAt
-            status
-            tags
-            actions {
-              reason
+            result {
+              status
+              tags
+              actions {
+                reason
+              }
             }
           }
         }

@@ -27,11 +27,13 @@ interface Comment {
     readonly metadata?: {
       readonly externalModeration: ReadonlyArray<{
         readonly name: string;
-        readonly status: GQLCOMMENT_STATUS_RL | null;
-        readonly tags: ReadonlyArray<GQLTAG_RL> | null;
-        readonly actions: ReadonlyArray<{
-          readonly reason: GQLCOMMENT_FLAG_REASON_RL | null;
-        }> | null;
+        readonly result: {
+          readonly status: GQLCOMMENT_STATUS_RL | null;
+          readonly tags: ReadonlyArray<GQLTAG_RL> | null;
+          readonly actions: ReadonlyArray<{
+            readonly reason: GQLCOMMENT_FLAG_REASON_RL | null;
+          }> | null;
+        };
       }> | null;
     };
   } | null;
@@ -53,17 +55,19 @@ const filterValidExternalModItems = (comment?: Comment | null) => {
   return revision.metadata?.externalModeration.filter(
     (m: {
       name: string;
-      actions: ReadonlyArray<{
-        readonly reason: GQLCOMMENT_FLAG_REASON_RL | null;
-      }> | null;
-      status: GQLCOMMENT_STATUS_RL | null;
-      tags: GQLTAG_RL[];
+      result: {
+        actions: ReadonlyArray<{
+          readonly reason: GQLCOMMENT_FLAG_REASON_RL | null;
+        }> | null;
+        status: GQLCOMMENT_STATUS_RL | null;
+        tags: GQLTAG_RL[];
+      };
     }) => {
       // Check if our actions match the external moderation phase data
-      const toxic = m.actions?.filter(
+      const toxic = m.result.actions?.filter(
         (a) => a.reason === GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC
       );
-      const spam = m.actions?.filter(
+      const spam = m.result.actions?.filter(
         (a) => a.reason === GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM
       );
       if (
@@ -81,14 +85,17 @@ const filterValidExternalModItems = (comment?: Comment | null) => {
       }
 
       // Check if the status matches the external moderation phase status
-      if (status === m.status && m.status !== GQLCOMMENT_STATUS.NONE) {
+      if (
+        status === m.result.status &&
+        m.result.status !== GQLCOMMENT_STATUS.NONE
+      ) {
         return true;
       }
 
       // Check if the tags match the external moderation phase tags
       if (
         tags &&
-        m.tags?.every((t: GQLTAG_RL) =>
+        m.result.tags?.every((t: GQLTAG_RL) =>
           tags.map((ct: { code: GQLTAG_RL }) => ct.code).includes(t)
         )
       ) {

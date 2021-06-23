@@ -62,12 +62,14 @@ export interface RevisionMetadata {
   externalModeration?: {
     name: string;
     analyzedAt: Date;
-    status?: GQLCOMMENT_STATUS;
-    tags?: GQLTAG[];
-    actions?: {
-      type?: ACTION_TYPE;
-      reason?: FLAG_REASON;
-    }[];
+    result: {
+      status?: GQLCOMMENT_STATUS;
+      tags?: GQLTAG[];
+      actions?: {
+        type?: ACTION_TYPE;
+        reason?: FLAG_REASON;
+      }[];
+    };
   }[];
 }
 

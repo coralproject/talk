@@ -258,10 +258,12 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
           externalModeration {
             name
             analyzedAt
-            status
-            tags
-            actions {
-              reason
+            result {
+              status
+              tags
+              actions {
+                reason
+              }
             }
           }
         }

@@ -310,9 +310,11 @@ export const external: IntermediateModerationPhase = async (ctx) => {
       result.metadata.externalModeration.push({
         name: phase.name,
         analyzedAt: ctx.now,
-        actions: response.actions,
-        status: response.status,
-        tags: response.tags,
+        result: {
+          actions: response.actions,
+          status: response.status,
+          tags: response.tags,
+        },
       });
 
       // Merge the results in. If we're finished, return now!

@@ -68,7 +68,7 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
   }, [onUsernameClicked, moderatedBy]);
 
   const externallyModeratedBy = comment.revision?.metadata?.externalModeration?.filter(
-    (m) => m.status === comment.status
+    (m) => m.result.status === comment.status
   );
 
   if (
@@ -86,7 +86,9 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
             <div className={styles.moderatedBy}>Moderated By</div>
           </Localized>
           <div className={styles.moderatedByUsername}>
-            {externallyModeratedBy.map((m) => m.name).join(", ")}
+            {externallyModeratedBy
+              .map((m: { name: string }) => m.name)
+              .join(", ")}
           </div>
         </>
       )}
@@ -132,7 +134,9 @@ const enhanced = withFragmentContainer<Props>({
         metadata {
           externalModeration {
             name
-            status
+            result {
+              status
+            }
           }
         }
       }

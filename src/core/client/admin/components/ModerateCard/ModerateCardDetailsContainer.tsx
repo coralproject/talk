@@ -148,10 +148,12 @@ const enhanced = withFragmentContainer<Props>({
           }
           externalModeration {
             name
-            status
-            tags
-            actions {
-              reason
+            result {
+              status
+              tags
+              actions {
+                reason
+              }
             }
           }
         }
