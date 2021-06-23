@@ -91,8 +91,9 @@ beforeEach(() => {
 
 /* TODO (cvle) - flaky */
 it("renders permalink view", async () => {
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
+  const tabPane = await waitForElement(
+    () => within(testRenderer.root).getByTestID("current-tab-pane"),
+    { timeout: 30000 }
   );
   expect(within(tabPane).toJSON()).toMatchSnapshot();
   expect(await within(testRenderer.root).axe()).toHaveNoViolations();
