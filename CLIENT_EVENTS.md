@@ -100,6 +100,7 @@ createComment.error
 - <a href="#loginPrompt">loginPrompt</a>
 - <a href="#openSortMenu">openSortMenu</a>
 - <a href="#openStory">openStory</a>
+- <a href="#queueSortChanged">queueSortChanged</a>
 - <a href="#rejectComment">rejectComment</a>
 - <a href="#removeCommentReaction">removeCommentReaction</a>
 - <a href="#removeUserIgnore">removeUserIgnore</a>
@@ -346,6 +347,18 @@ createComment.error
   {
       storyID: string;
       success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
+  }
+  ```
+- <a id="queueSortChanged">**queueSortChanged.success**, **queueSortChanged.error**</a>: This event is emitted when the viewer changes the moderation queue sort.
+  ```ts
+  {
+      success: {
+          sortOrder: string;
+      };
       error: {
           message: string;
           code?: string | undefined;

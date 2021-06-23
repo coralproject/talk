@@ -622,3 +622,17 @@ export const CancelAccountDeletionEvent = createViewerNetworkEvent<{
     code?: string;
   };
 }>("cancelAccountDeletionEvent");
+
+/**
+ * This event is emitted when the viewer changes the moderation
+ * queue sort.
+ */
+export const QueueSortChangedEvent = createViewerNetworkEvent<{
+  success: {
+    sortOrder: string;
+  };
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("queueSortChangedEvent");
