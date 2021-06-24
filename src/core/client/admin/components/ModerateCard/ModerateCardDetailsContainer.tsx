@@ -122,6 +122,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardDetailsContainer_comment on Comment {
+      ...externalModeration_comment @relay(mask: false)
       status
       tags {
         code

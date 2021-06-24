@@ -227,6 +227,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`
     fragment MarkersContainer_comment on Comment {
       ...ModerateCardDetailsContainer_comment
+      ...externalModeration_comment @relay(mask: false)
       status
       tags {
         code
