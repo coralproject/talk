@@ -15,3 +15,7 @@ $moderate-background: var(--palette-grey-100);
   display: flex;
   justify-content: center;
 }
+
+.subBar {
+  background-color: $moderate-background;
+}

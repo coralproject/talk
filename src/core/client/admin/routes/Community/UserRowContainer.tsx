@@ -23,8 +23,8 @@ const UserRowContainer: FunctionComponent<Props> = (props) => {
   const formatter = useDateTimeFormatter({
     day: "2-digit",
     month: "2-digit",
-    year: "numeric",
-    hour: "numeric",
+    year: "2-digit",
+    hour: "2-digit",
     minute: "2-digit",
   });
 

@@ -7,7 +7,8 @@ export type QUEUE_NAME =
   | "pending"
   | "unmoderated"
   | "rejected"
-  | "approved";
+  | "approved"
+  | "review";
 
 export interface Options {
   queue?: QUEUE_NAME;

@@ -288,7 +288,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018, 6:24 PM
+              07/06/18, 06:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
@@ -352,7 +352,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018, 6:24 PM
+              07/06/18, 06:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
@@ -448,7 +448,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018, 6:24 PM
+              07/06/18, 06:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
@@ -544,7 +544,7 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
-              07/06/2018, 6:24 PM
+              07/06/18, 06:24 PM
             </td>
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"

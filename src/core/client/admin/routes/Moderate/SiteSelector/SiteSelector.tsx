@@ -15,7 +15,7 @@ interface Props {
   sites: ReadonlyArray<
     { id: string } & PropTypesOf<typeof SiteSelectorSite>["site"]
   >;
-  queueName: string;
+  queueName: QUEUE_NAME | undefined;
   onLoadMore: () => void;
   hasMore: boolean;
   disableLoadMore: boolean;
@@ -55,7 +55,7 @@ const SiteSelector: FunctionComponent<Props> = ({
       <>
         {!scoped && (
           <SiteSelectorSite
-            link={getModerationLink({ queue: queueName as QUEUE_NAME })}
+            link={getModerationLink({ queue: queueName })}
             site={null}
             active={!siteID}
           />
@@ -63,7 +63,7 @@ const SiteSelector: FunctionComponent<Props> = ({
         {sites.map((s) => (
           <SiteSelectorSite
             link={getModerationLink({
-              queue: queueName as QUEUE_NAME,
+              queue: queueName,
               siteID: s.id,
             })}
             key={s.id}

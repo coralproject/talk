@@ -7,8 +7,8 @@ import { Sub } from "coral-common/types";
 import logger from "coral-server/logger";
 import {
   Connection,
-  ConnectionInput,
   FilterQuery,
+  OrderedConnectionInput,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
@@ -20,6 +20,7 @@ import {
   GQLCOMMENT_FLAG_DETECTED_REASON,
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_FLAG_REPORTED_REASON,
+  GQLCOMMENT_SORT,
   GQLDontAgreeActionCounts,
   GQLFlagActionCounts,
   GQLReactionActionCounts,
@@ -134,6 +135,18 @@ export interface CommentAction extends TenantResource {
    * metadata is arbitrary information stored for this Action.
    */
   metadata?: Record<string, any>;
+
+  /**
+   * reviewed is whether this comment action has been reviewed by a moderator.
+   */
+  reviewed?: boolean;
+
+  /**
+   * section is the section of the story of the comment that this action was
+   * performed on. If the section was not available when the action was authored,
+   * the section will be null here.
+   */
+  section?: string;
 }
 
 const ActionSchema = Joi.compile([
@@ -278,20 +291,35 @@ export async function createActions(
   );
 }
 
-export type CommentActionConnectionInput = ConnectionInput<CommentAction>;
+export type CommentActionConnectionInput = OrderedConnectionInput<
+  CommentAction,
+  GQLCOMMENT_SORT
+>;
 
-async function retrieveConnection(
-  input: CommentActionConnectionInput,
-  query: Query<CommentAction>
-): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
-  // Apply the pagination arguments to the query.
-  query.orderBy({ createdAt: -1 });
-  if (input.after) {
-    query.where({ createdAt: { $lt: input.after as Date } });
+function applyInputToQuery(
+  query: Query<CommentAction>,
+  input: CommentActionConnectionInput
+) {
+  switch (input.orderBy) {
+    case GQLCOMMENT_SORT.CREATED_AT_DESC:
+      query.orderBy({ createdAt: -1 });
+      if (input.after) {
+        query.where({ createdAt: { $lt: input.after as Date } });
+      }
+      break;
+    case GQLCOMMENT_SORT.CREATED_AT_ASC:
+      query.orderBy({ createdAt: 1 });
+      if (input.after) {
+        query.where({ createdAt: { $gt: input.after as Date } });
+      }
+      break;
   }
 
-  // Return a connection.
-  return resolveConnection(query, input, (action) => action.createdAt);
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return query;
 }
 
 export async function retrieveCommentActionConnection(
@@ -299,15 +327,10 @@ export async function retrieveCommentActionConnection(
   tenantID: string,
   input: CommentActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
-  // Create the query.
   const query = new Query(collection(mongo)).where({ tenantID });
+  applyInputToQuery(query, input);
 
-  // If a filter is being applied, filter it as well.
-  if (input.filter) {
-    query.where(input.filter);
-  }
-
-  return retrieveConnection(input, query);
+  return resolveConnection(query, input, (action) => action.createdAt);
 }
 
 export async function retrieveUserAction(
