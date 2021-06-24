@@ -61,9 +61,9 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   detectLinks,
 
   // Apply any pre-existing conditions to these comments.
+  statusPreModerateNewCommenter,
   statusPreModerate,
   statusPreModerateUser,
-  statusPreModerateNewCommenter,
 
   // Run any external moderation phase that missed other filters.
   external,
