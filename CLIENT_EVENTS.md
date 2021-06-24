@@ -353,7 +353,7 @@ createComment.error
       };
   }
   ```
-- <a id="queueSortChanged">**queueSortChanged.success**, **queueSortChanged.error**</a>: This event is emitted when the viewer changes the moderation queue sort.
+- <a id="queueSortChanged">**queueSortChanged**</a>: This event is emitted when the viewer changes the moderation queue sort.
   ```ts
   {
       success: {
