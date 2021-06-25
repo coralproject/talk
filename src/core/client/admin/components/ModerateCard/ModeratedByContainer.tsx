@@ -80,18 +80,20 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      {externallyModeratedBy && externallyModeratedBy.length > 0 && (
-        <>
-          <Localized id="moderate-comment-moderatedBy">
-            <div className={styles.moderatedBy}>Moderated By</div>
-          </Localized>
-          <div className={styles.moderatedByUsername}>
-            {externallyModeratedBy
-              .map((m: { name: string }) => m.name)
-              .join(", ")}
-          </div>
-        </>
-      )}
+      {externallyModeratedBy &&
+        externallyModeratedBy.length > 0 &&
+        comment.statusHistory.edges.length === 0 && (
+          <>
+            <Localized id="moderate-comment-moderatedBy">
+              <div className={styles.moderatedBy}>Moderated By</div>
+            </Localized>
+            <div className={styles.moderatedByUsername}>
+              {externallyModeratedBy
+                .map((m: { name: string }) => m.name)
+                .join(", ")}
+            </div>
+          </>
+        )}
       {moderatedBy &&
         (!externallyModeratedBy || externallyModeratedBy.length === 0) && (
           <BaseButton onClick={onClick}>
