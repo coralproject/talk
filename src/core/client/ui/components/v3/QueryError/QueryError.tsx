@@ -1,6 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import TraceableError from "coral-framework/lib/errors/traceableError";
+
 import CallOut from "../CallOut";
 
 import styles from "./QueryError.css";
@@ -39,13 +41,9 @@ const QueryError: FunctionComponent<Props> = ({ error }) => {
   }
 
   try {
-    const rawError = error as any;
-    const traceIDs = rawError.traceIDs as string[];
-    const traceID = rawError.traceID as string;
+    const traceID = error instanceof TraceableError ? error.traceID : "";
 
-    if (traceIDs && traceIDs.length > 0) {
-      return render(traceIDs.join(", "), error.message);
-    } else if (traceID) {
+    if (traceID) {
       return render(traceID, error.message);
     } else {
       return <div>{error.message}</div>;

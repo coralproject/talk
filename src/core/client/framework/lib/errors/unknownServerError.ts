@@ -6,7 +6,6 @@ import TraceableError from "./traceableError";
 interface UnknownErrorExtension {
   code: string;
   traceID?: string;
-  traceIDs?: string[];
 }
 
 /**
@@ -27,13 +26,9 @@ export default class UnknownServerError extends TraceableError {
     }
 
     const traceID: string | null | undefined = error.traceID as string;
-    const traceIDs: string[] | null | undefined = error.traceIDs as string[];
 
     if (traceID) {
       this.traceID = traceID;
-    }
-    if (traceIDs) {
-      this.traceID = traceIDs.join(", ");
     }
 
     this.origin = error;
