@@ -1,8 +1,10 @@
+import TraceableError from "./traceableError";
+
 /**
  * NetworkOfflineError thrown when an action that required internet connection
  * but network was offline.
  */
-export default class NetworkOfflineError extends Error {
+export default class NetworkOfflineError extends TraceableError {
   // Keep origin of original server response.
   public origin: Error;
 

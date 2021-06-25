@@ -2,6 +2,8 @@ import { FORM_ERROR } from "final-form";
 
 import { ERROR_CODES } from "coral-common/errors";
 
+import TraceableError from "./traceableError";
+
 /**
  * Shape of the `InvalidRequest` extension as
  * the client requires. Note: the only crucial
@@ -18,7 +20,7 @@ interface InvalidRequestExtension {
  * InvalidRequestError wraps the `INVALID_REQUEST_ERROR` error returned from the
  * server.
  */
-export default class InvalidRequestError extends Error
+export default class InvalidRequestError extends TraceableError
   implements InvalidRequestExtension {
   // Keep extension of original server response.
   public readonly extension: InvalidRequestExtension;

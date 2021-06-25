@@ -1,3 +1,5 @@
+import TraceableError from "./traceableError";
+
 /**
  * Shape of the `UnknownError` extension.
  */
@@ -9,7 +11,7 @@ interface UnknownErrorExtension {
  * UnknownServerError wraps any error returned from the
  * server that we don't know of.
  */
-export default class UnknownServerError extends Error {
+export default class UnknownServerError extends TraceableError {
   // Keep origin of original server response.
   public origin: UnknownErrorExtension;
   public traceID?: string;

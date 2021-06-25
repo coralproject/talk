@@ -1,5 +1,7 @@
 import { ERROR_CODES } from "coral-common/errors";
 
+import TraceableError from "./traceableError";
+
 /**
  * Shape of the `ModerationNudge` extension as
  * the client requires. Note: the only crucial
@@ -15,7 +17,7 @@ interface ModerationNudgeExtension {
  * ModeratioNudgeError wraps the `MODERATION_NUDGE_ERROR` error returned from the
  * server.
  */
-export default class ModeratioNudgeError extends Error
+export default class ModeratioNudgeError extends TraceableError
   implements ModerationNudgeExtension {
   // Keep extension of original server response.
   public readonly extension: ModerationNudgeExtension;
