@@ -14,6 +14,7 @@ interface InvalidRequestExtension {
   message?: string;
   id?: string;
   param?: string;
+  traceID?: string;
 }
 
 /**
@@ -42,7 +43,7 @@ export default class InvalidRequestError extends TraceableError
     this.extension = extension;
     this.code = extension.code;
     this.id = extension.id;
-    this.traceID = (extension as any).traceID;
+    this.traceID = extension.traceID;
     this.param = extension.param;
     this.message = extension.message || extension.code;
   }
