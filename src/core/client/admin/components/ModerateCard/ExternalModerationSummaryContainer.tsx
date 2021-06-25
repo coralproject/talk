@@ -24,8 +24,6 @@ interface Props {
   settings: ExternalModerationSummaryContainer_settings;
 }
 
-let keyCounter = 0;
-
 interface StatusProps {
   status: COMMENT_STATUS | null;
 }
@@ -67,22 +65,22 @@ const StatusBadge: FunctionComponent<StatusProps> = ({ status }) => {
   }
 };
 
-const getReasonMarker = (reason: COMMENT_FLAG_REASON | null) => {
+interface ReasonMarkerProps {
+  reason: COMMENT_FLAG_REASON | null;
+}
+
+const ReasonMarker: FunctionComponent<ReasonMarkerProps> = ({ reason }) => {
   switch (reason) {
     case "COMMENT_DETECTED_SPAM":
       return (
         <Localized id="moderate-marker-spamDetected">
-          <Marker color="reported" key={keyCounter++}>
-            Spam Detected
-          </Marker>
+          <Marker color="reported">Spam Detected</Marker>
         </Localized>
       );
     case "COMMENT_DETECTED_TOXIC":
       return (
         <Localized id="moderate-marker-toxic">
-          <Marker color="reported" key={keyCounter++}>
-            Toxic
-          </Marker>
+          <Marker color="reported">Toxic</Marker>
         </Localized>
       );
     default:
@@ -163,7 +161,9 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                   <Localized id="moderateCardDetails-tab-externalMod-flags">
                     <span className={styles.title}>Flags</span>
                   </Localized>
-                  {em.result.actions?.map((a) => getReasonMarker(a.reason))}
+                  {em.result.actions?.map((a, i) => (
+                    <ReasonMarker key={`action-${i}`} reason={a.reason} />
+                  ))}
                 </Flex>
               )}
               {em.result.tags && em.result.tags.length > 0 && (
@@ -171,19 +171,9 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                   <Localized id="moderateCardDetails-tab-externalMod-tags">
                     <span className={styles.title}>Tags</span>
                   </Localized>
-                  {em.result.tags?.map(
-                    (
-                      t:
-                        | boolean
-                        | React.ReactChild
-                        | React.ReactFragment
-                        | React.ReactPortal
-                        | null
-                        | undefined
-                    ) => (
-                      <Marker key={keyCounter++}>{t}</Marker>
-                    )
-                  )}
+                  {em.result.tags?.map((t, i) => (
+                    <Marker key={`tag-${i}`}>{t}</Marker>
+                  ))}
                 </Flex>
               )}
               {em.missing && (
