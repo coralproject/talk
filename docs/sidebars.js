@@ -32,6 +32,16 @@ module.exports = {
       label: "FAQ & Troubleshooting",
       items: ["faq", "troubleshooting", "ie11"],
     },
+    {
+      type: "category",
+      label: "Migrating versions",
+      items: ["migrating-from-4", "migrating-5-to-6"],
+    },
+    {
+      type: "doc",
+      label: "Contact",
+      id: "contact",
+    },
   ],
   ...require("./docs/api/sidebar-schema"),
 };
