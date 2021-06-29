@@ -70,7 +70,7 @@ const wrapCheck = (
  * @param {Array<String>} permissions permissions that the user must have
  */
 const checkPermissions = (ctx, permissions) =>
-  ctx.user && ctx.user.can(...permissions);
+  !!(ctx.user && ctx.user.can(...permissions));
 
 /**
  * wrapCheckPermissions will wrap a specific field with a permission check.
