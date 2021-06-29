@@ -7,16 +7,14 @@ import { roleIsStaff } from "coral-server/models/user/helpers";
 
 import {
   GQLFEATURE_FLAG,
-  GQLUser,
   GQLUSER_ROLE,
   GQLUserTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { RecentCommentHistoryInput } from "./RecentCommentHistory";
 import { UserStatusInput } from "./UserStatus";
-import { getRequestedFields } from "./util";
 
-const maybeLoadOnlyIgnoredUserID = (
+const maybeLoadOnlyIgnoredUserID = async (
   ctx: GraphContext,
   info: GraphQLResolveInfo,
   users?: user.IgnoredUser[]
@@ -26,15 +24,15 @@ const maybeLoadOnlyIgnoredUserID = (
     return [];
   }
 
-  // Get the field names of the fields being requested, if it's only the ID,
-  // we have that, so no need to make a database request.
-  const fields = getRequestedFields<GQLUser>(info);
-  if (fields.length === 1 && fields[0] === "id") {
-    return users.map(({ id }) => ({ id }));
-  }
+  const ignoredUserResults = await ctx.loaders.Users.user.loadMany(
+    users.map((u) => u.id)
+  );
 
+  const existingIgnoredUsers = ignoredUserResults.filter(
+    (res): res is user.User => res !== null && !(res instanceof Error)
+  );
   // We want more than the ID! Get the user!
-  return Promise.all(users.map(({ id }) => ctx.loaders.Users.user.load(id)));
+  return existingIgnoredUsers;
 };
 
 export const User: GQLUserTypeResolver<user.User> = {
