@@ -18,6 +18,7 @@ In this example, we’re logging all events to the console as well as sending th
         console.log(eventName, data);
         if (eventName === 'createComment.success') {
           my_event_tracker.send('createComment', data);
+        }
       });
     },
   });

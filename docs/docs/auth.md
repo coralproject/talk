@@ -54,4 +54,4 @@ Coral usernames are subject to the following validations:
 - USERNAME_MAX_LENGTH = `30`
 - USERNAME_MIN_LENGTH = `3`
 
-_NOTE: SSO users are not subject to username restricitons_
+_NOTE: SSO users are not subject to username restrictions_
