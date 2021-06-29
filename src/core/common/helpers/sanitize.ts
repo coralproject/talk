@@ -72,6 +72,11 @@ const sanitizeAnchor = (node: Element) => {
         }
       }
       node.textContent = href;
+    } else {
+      const span = node.ownerDocument.createElement("SPAN");
+      span.innerHTML = node.innerHTML;
+      node.insertAdjacentElement("beforebegin", span);
+      node.parentNode!.removeChild(node);
     }
   }
 };
