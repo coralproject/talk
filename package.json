@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "4.12.0",
+  "version": "4.12.1",
   "description": "A better commenting experience from Vox Media.",
   "main": "app.js",
   "private": true,
