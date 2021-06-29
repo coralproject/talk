@@ -73,6 +73,7 @@ const sanitizeAnchor = (node: Element) => {
       }
       node.textContent = href;
     } else {
+      // Turn anchor with no href into `SPAN`.
       const span = node.ownerDocument.createElement("SPAN");
       span.innerHTML = node.innerHTML;
       node.insertAdjacentElement("beforebegin", span);
