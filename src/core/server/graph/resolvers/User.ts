@@ -33,6 +33,7 @@ const maybeLoadOnlyExistingIgnoredUsers = async (
     return users.map(({ id }) => ({ id }));
   }
 
+  // We want more than the ID! Get the user!
   const ignoredUserResults = await ctx.loaders.Users.user.loadMany(
     users.map((u) => u.id)
   );
@@ -40,7 +41,7 @@ const maybeLoadOnlyExistingIgnoredUsers = async (
   const existingIgnoredUsers = ignoredUserResults.filter(
     (res): res is user.User => res !== null && !(res instanceof Error)
   );
-  // We want more than the ID! Get the user!
+
   return existingIgnoredUsers;
 };
 
