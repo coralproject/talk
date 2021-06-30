@@ -59,10 +59,12 @@ services:
       - SIGNING_SECRET=<replace me with something secret>
   mongo:
     image: mongo:4.2
+    restart: always
     volumes:
       - ./data/mongo:/data/db
   redis:
     image: redis:3.2
+    restart: always
     volumes:
       - ./data/redis:/data
 EOF
