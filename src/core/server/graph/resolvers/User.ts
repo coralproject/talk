@@ -16,7 +16,7 @@ import { RecentCommentHistoryInput } from "./RecentCommentHistory";
 import { UserStatusInput } from "./UserStatus";
 import { getRequestedFields } from "./util";
 
-const maybeLoadExistingIgnoredUsers = async (
+const maybeLoadOnlyExistingIgnoredUsers = async (
   ctx: GraphContext,
   info: GraphQLResolveInfo,
   users?: user.IgnoredUser[]
@@ -72,7 +72,7 @@ export const User: GQLUserTypeResolver<user.User> = {
     return moderationScopes;
   },
   ignoredUsers: ({ ignoredUsers }, input, ctx, info) =>
-    maybeLoadExistingIgnoredUsers(ctx, info, ignoredUsers),
+    maybeLoadOnlyExistingIgnoredUsers(ctx, info, ignoredUsers),
   ignoreable: ({ role }) => !roleIsStaff(role),
   recentCommentHistory: ({ id }): RecentCommentHistoryInput => ({ userID: id }),
   profiles: ({ profiles = [] }) => profiles,
