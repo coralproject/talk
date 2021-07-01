@@ -76,6 +76,7 @@
     "@sentry/integrations": "^5.29.2",
     "@sentry/node": "^5.29.2",
     "@sentry/types": "^6.2.0",
+    "@types/url-regex-safe": "^1.0.0",
     "abort-controller": "^3.0.0",
     "akismet-api": "^5.0.0",
     "apollo-server-express": "^2.18.1",
@@ -148,7 +149,7 @@
     "stack-utils": "^2.0.1",
     "striptags": "^3.1.1",
     "tsscmp": "^1.0.6",
-    "url-regex": "^5.0.0",
+    "url-regex-safe": "^2.0.2",
     "uuid": "^7.0.3",
     "verror": "^1.10.0",
     "xregexp": "^4.3.0"
