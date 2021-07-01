@@ -2,9 +2,13 @@ import { AppOptions } from "coral-server/app";
 import Joi from "joi";
 
 import { validate } from "coral-server/app/request/body";
+import { NotFoundError, ValidationError } from "coral-server/errors";
 import { supportsMediaType } from "coral-server/models/tenant";
 import { translate } from "coral-server/services/i18n";
-import { fetchOEmbedResponse } from "coral-server/services/oembed";
+import {
+  fetchOEmbedResponse,
+  OEmbedResponse,
+} from "coral-server/services/oembed";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedQuerySchema = Joi.object().keys({
@@ -42,17 +46,37 @@ export const oembedHandler = ({
       // Get the oEmbed response.
 
       // TODO: look at caching this response
-      const response = await fetchOEmbedResponse(type, url, maxWidth);
-      if (!response?.html) {
-        // There was no response! Return a translated error message.
+      let response: OEmbedResponse | null = null;
+      try {
+        response = await fetchOEmbedResponse(type, url, maxWidth);
+      } catch (e) {
         const bundle = i18n.getBundle(tenant.locale);
-        const message = translate(
-          bundle,
-          "Requested media could not be found",
-          "common-embedNotFound"
-        );
+        let message: string;
+        let status: number;
+        if (e instanceof ValidationError) {
+          status = 400;
+          message = translate(
+            bundle,
+            "TODO: Invalid external media URL",
+            "common-embedInvalid" // TODO: register this
+          );
+        } else if (e instanceof NotFoundError) {
+          status = 404;
+          message = translate(
+            bundle,
+            "Requested media could not be found",
+            "common-embedNotFound"
+          );
+        } else {
+          status = 500;
+          message = translate(
+            bundle,
+            "TODO: We encountered an internal error fetching this media",
+            "common-embedInternalError"
+          );
+        }
 
-        return res.status(404).render("oembed", { message });
+        return res.status(status).render("oembed", { message });
       }
 
       // Pull out some params from the response.
