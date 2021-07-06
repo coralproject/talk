@@ -20,7 +20,6 @@ import { ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/
 import { ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
-import filterValidExternalModItems from "./externalModeration";
 import ExternalModerationSummaryContainer from "./ExternalModerationSummaryContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
@@ -58,9 +57,8 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 
   const doesHaveFlagDetails = useMemo(() => hasFlagDetails(comment), [comment]);
   const hasRevisions = comment.editing.edited;
-  const hasExternalModDetails = useMemo(
-    () => filterValidExternalModItems(comment).length > 0,
-    [comment]
+  const hasExternalModDetails = !!(
+    comment && comment?.revision?.metadata?.externalModeration?.length > 0
   );
 
   return (
@@ -122,7 +120,6 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardDetailsContainer_comment on Comment {
-      ...externalModeration_comment @relay(mask: false)
       status
       tags {
         code

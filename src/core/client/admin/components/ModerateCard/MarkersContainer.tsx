@@ -13,7 +13,6 @@ import {
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
 
-import filterValidExternalModItems from "./externalModeration";
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
 
@@ -194,11 +193,10 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
   );
 
   const phases = useMemo(() => {
-    const validPhases: Array<React.ReactElement<
-      any
-    >> = filterValidExternalModItems(props.comment)
-      .map((p) => <Marker key={p.name}>{p.name}</Marker>)
-      .filter((p) => p);
+    const validPhases: Array<React.ReactElement<any>> =
+      props.comment?.revision?.metadata?.externalModeration?.map((p) => (
+        <Marker key={p.name}>{p.name}</Marker>
+      )) || [];
 
     return validPhases;
   }, [props.comment]);
@@ -227,7 +225,6 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`
     fragment MarkersContainer_comment on Comment {
       ...ModerateCardDetailsContainer_comment
-      ...externalModeration_comment @relay(mask: false)
       status
       tags {
         code
