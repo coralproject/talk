@@ -4,9 +4,12 @@ import { onPymMessage } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 
-interface KeyboardEventData {
+export interface KeyboardEventData {
   key: string;
   shiftKey: boolean;
+  altKey: boolean;
+  ctrlKey: boolean;
+  metaKey: boolean;
 }
 
 interface KeyStop {
@@ -117,6 +120,10 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
         }
       } catch (err) {
         globalErrorReporter.report(err);
+        return;
+      }
+
+      if (data.ctrlKey || data.metaKey || data.altKey) {
         return;
       }
 
