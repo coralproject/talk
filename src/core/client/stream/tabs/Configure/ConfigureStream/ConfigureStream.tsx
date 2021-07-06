@@ -76,6 +76,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
                     This stream has been updated
                   </Localized>
                 }
+                aria-live="polite"
               />
             )}
             {submitError && (
@@ -84,6 +85,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
                 color="error"
                 icon={<Icon size="sm">error</Icon>}
                 title={submitError}
+                role="alert"
               />
             )}
           </div>

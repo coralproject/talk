@@ -231,6 +231,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                       icon={<Icon size="sm">warning</Icon>}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
+                      role="alert"
                     />
                   )}
                   {submitSucceeded && showSuccess && (
@@ -246,6 +247,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                           </span>
                         </Localized>
                       }
+                      aria-live="polite"
                     />
                   )}
                 </div>

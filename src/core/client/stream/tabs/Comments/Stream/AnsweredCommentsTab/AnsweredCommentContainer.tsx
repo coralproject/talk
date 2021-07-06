@@ -13,7 +13,13 @@ import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { Flex, Icon, TextLink } from "coral-ui/components/v2";
+import {
+  Flex,
+  Hidden,
+  Icon,
+  RelativeTime,
+  TextLink,
+} from "coral-ui/components/v2";
 
 import { AnsweredCommentContainer_comment as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
 import { AnsweredCommentContainer_settings as SettingsData } from "coral-stream/__generated__/AnsweredCommentContainer_settings.graphql";
@@ -50,7 +56,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
       void setCommentID({ id: comment.id });
       return false;
     },
-    [setCommentID, comment]
+    [emitViewConversationEvent, comment.id, setCommentID]
   );
 
   return (
@@ -68,10 +74,16 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
           highlight
         />
       )}
-      <div
+      <article
         className={cn(CLASSES.featuredComment.$root, styles.root)}
-        data-testid={`featuredComment-${comment.id}`}
+        data-testid={`commentAnswer-${comment.id}`}
+        aria-labelledby={`commentAnswerLabel-${comment.id}`}
+        id={`commentAnswer-${comment.id}`}
       >
+        <Hidden id={`commentAnswerLabel-${comment.id}`}>
+          Answer from {comment.author?.username || "Deleted User"} {` `}
+          <RelativeTime date={comment.createdAt} />
+        </Hidden>
         <Flex
           direction="row"
           alignItems="center"
@@ -161,7 +173,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
             </div>
           </Flex>
         </Flex>
-      </div>
+      </article>
     </IgnoredTombstoneOrHideContainer>
   );
 };

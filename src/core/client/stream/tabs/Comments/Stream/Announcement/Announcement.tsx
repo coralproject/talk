@@ -14,7 +14,10 @@ interface Props {
 
 const Announcement: FunctionComponent<Props> = (props) => {
   return (
-    <div className={cn(styles.root, CLASSES.announcement)}>
+    <section
+      className={cn(styles.root, CLASSES.announcement)}
+      aria-label="Announcement"
+    >
       <Flex justifyContent="space-between" alignItems="center">
         <Flex itemGutter="double" alignItems="center">
           <div>
@@ -28,12 +31,13 @@ const Announcement: FunctionComponent<Props> = (props) => {
             color="none"
             onClick={props.onClose}
             className={styles.closeButton}
+            aria-label="Close announcement"
           >
             <Icon>close</Icon>
           </Button>
         </div>
       </Flex>
-    </div>
+    </section>
   );
 };
 

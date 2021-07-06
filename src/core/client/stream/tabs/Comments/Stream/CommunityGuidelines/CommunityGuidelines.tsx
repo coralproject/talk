@@ -12,11 +12,14 @@ interface Props {
 
 const CommunityGuidelines: FunctionComponent<Props> = (props) => {
   return (
-    <div className={cn(styles.root, CLASSES.guidelines.container)}>
+    <section
+      className={cn(styles.root, CLASSES.guidelines.container)}
+      aria-label="Community Guidelines"
+    >
       <Markdown className={CLASSES.guidelines.content}>
         {props.children}
       </Markdown>
-    </div>
+    </section>
   );
 };
 

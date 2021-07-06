@@ -78,7 +78,10 @@ const CommentsLinks: FunctionComponent<Props> = ({
   };
 
   return (
-    <div className={cn(styles.container, CLASSES.streamFooter.$root)}>
+    <nav
+      className={cn(styles.container, CLASSES.streamFooter.$root)}
+      aria-label="Footer"
+    >
       {showGoToProfile && (
         <Localized id="stream-footer-links-profile" attrs={{ title: true }}>
           <FooterButton
@@ -133,7 +136,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
           Top of article
         </FooterButton>
       </Localized>
-    </div>
+    </nav>
   );
 };
 

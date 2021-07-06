@@ -302,11 +302,16 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                 Your email has been successfully updated
               </Localized>
             }
+            aria-live="polite"
           />
         </div>
       )}
       {confirmationResent && (
-        <CallOut className={CLASSES.verifyEmail.resentMessage} color="mono">
+        <CallOut
+          className={CLASSES.verifyEmail.resentMessage}
+          color="mono"
+          aria-live="polite"
+        >
           <Localized id="profile-changeEmail-resent">
             <span>Your confirmation email has been re-sent.</span>
           </Localized>
@@ -412,6 +417,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                       icon={<Icon size="sm">error</Icon>}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
+                      role="alert"
                     />
                   )}
                 </HorizontalGutter>

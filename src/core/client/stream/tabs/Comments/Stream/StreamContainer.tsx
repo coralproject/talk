@@ -33,6 +33,7 @@ import {
   TabBar,
   TabContent,
   TabPane,
+  AriaInfo,
 } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -108,6 +109,16 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
       )}
     />
   </div>
+);
+
+const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
+  props
+) => (
+  <>
+    <AriaInfo>(</AriaInfo>
+    <Counter {...props} />
+    <AriaInfo>)</AriaInfo>
+  </>
 );
 
 export const StreamContainer: FunctionComponent<Props> = (props) => {
@@ -268,7 +279,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             </>
           ))}
         {(banned || warned || suspended) && (
-          <div id={VIEWER_STATUS_CONTAINER_ID}>
+          <section id={VIEWER_STATUS_CONTAINER_ID} aria-label="Account Status">
             {banned && <BannedInfo />}
             {suspended && (
               <SuspendedInfoContainer
@@ -277,7 +288,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
               />
             )}
             {warned && <WarningContainer viewer={props.viewer} />}
-          </div>
+          </section>
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <Flex
@@ -285,6 +296,8 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             alignItems="flex-end"
             justifyContent="space-between"
             className={styles.tabBarRow}
+            container="nav"
+            aria-label="Secondary Tablist"
           >
             <TabBar
               variant="streamSecondary"
@@ -304,7 +317,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                         <span>Featured</span>
                       </Localized>
                     )}
-                    <Counter
+                    <AccessibleCounter
                       data-testid="comments-featuredCount"
                       size="sm"
                       className={CLASSES.counter}
@@ -320,7 +333,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         {featuredCommentsCount}
                       </Localized>
-                    </Counter>
+                    </AccessibleCounter>
                   </Flex>
                 </TabWithFeaturedTooltip>
               )}
@@ -339,7 +352,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     <Localized id="qa-unansweredTab">
                       <span>Unanswered</span>
                     </Localized>
-                    <Counter
+                    <AccessibleCounter
                       size="sm"
                       className={CLASSES.counter}
                       color={
@@ -349,7 +362,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       }
                     >
                       {unansweredCommentsCount}
-                    </Counter>
+                    </AccessibleCounter>
                   </Flex>
                 </Tab>
               )}
@@ -377,7 +390,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       </Localized>
                     )}
 
-                    <Counter
+                    <AccessibleCounter
                       size="sm"
                       className={CLASSES.counter}
                       color={
@@ -392,7 +405,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         {allCommentsCount}
                       </Localized>
-                    </Counter>
+                    </AccessibleCounter>
                   </Flex>
                 </Tab>
               )}
@@ -410,7 +423,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     <Localized id="ratingsAndReviews-reviewsTab">
                       <span>Reviews</span>
                     </Localized>
-                    <Counter
+                    <AccessibleCounter
                       size="sm"
                       className={CLASSES.counter}
                       color={
@@ -423,7 +436,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         {props.story.commentCounts.tags.REVIEW}
                       </Localized>
-                    </Counter>
+                    </AccessibleCounter>
                   </Flex>
                 </Tab>
               )}
@@ -441,7 +454,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     <Localized id="ratingsAndReviews-questionsTab">
                       <span>Questions</span>
                     </Localized>
-                    <Counter
+                    <AccessibleCounter
                       size="sm"
                       className={CLASSES.counter}
                       color={
@@ -454,7 +467,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         {props.story.commentCounts.tags.QUESTION}
                       </Localized>
-                    </Counter>
+                    </AccessibleCounter>
                   </Flex>
                 </Tab>
               )}

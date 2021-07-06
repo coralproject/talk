@@ -18,7 +18,13 @@ const UserBoxUnauthenticated: FunctionComponent<UserBoxUnauthenticatedProps> = (
   props
 ) => {
   return (
-    <Flex alignItems="center" className={CLASSES.viewerBox.$root} wrap>
+    <Flex
+      alignItems="center"
+      className={CLASSES.viewerBox.$root}
+      wrap
+      container="section"
+      aria-label="Authentication"
+    >
       <Localized id="general-userBoxUnauthenticated-joinTheConversation">
         <span className={styles.joinText}>Join the conversation</span>
       </Localized>

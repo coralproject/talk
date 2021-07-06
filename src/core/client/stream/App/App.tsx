@@ -2,12 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import {
-  AriaInfo,
-  HorizontalGutter,
-  TabContent,
-  TabPane,
-} from "coral-ui/components/v2";
+import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components/v2";
 
 import Comments from "../tabs/Comments";
 import Configure from "../tabs/Configure";
@@ -25,12 +20,15 @@ export interface AppProps {
 
 const App: FunctionComponent<AppProps> = (props) => {
   return (
-    <HorizontalGutter className={cn(CLASSES.app, styles.root)}>
-      <nav>
-        <AriaInfo component="h2">Navigation</AriaInfo>
+    <HorizontalGutter
+      className={cn(CLASSES.app, styles.root)}
+      container="main"
+      aria-label="Comments"
+    >
+      <nav aria-label="Main Tablist">
         <TabBarQuery />
       </nav>
-      <main>
+      <div>
         <TabContent activeTab={props.activeTab} className={styles.tabContent}>
           <TabPane
             className={CLASSES.commentsTabPane.$root}
@@ -61,7 +59,7 @@ const App: FunctionComponent<AppProps> = (props) => {
             <Configure />
           </TabPane>
         </TabContent>
-      </main>
+      </div>
     </HorizontalGutter>
   );
 };

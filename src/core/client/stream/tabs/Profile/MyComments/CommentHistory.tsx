@@ -26,6 +26,8 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
       size="double"
       id="coral-profile-commentHistory-log"
       data-testid="profile-commentHistory"
+      role="log"
+      aria-live="off"
     >
       {props.comments.length < 1 && (
         <Flex

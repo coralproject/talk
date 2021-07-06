@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, {
+  FC,
   FunctionComponent,
   useCallback,
   useEffect,
@@ -114,6 +115,23 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const isRatingsAndReviews =
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+
+  const PostCommentSection: FC = useMemo(
+    () => (props) => (
+      <section
+        aria-label={
+          isRatingsAndReviews
+            ? "Submit a Review or Ask a Question"
+            : isQA
+            ? "Post a Question"
+            : "Post a Comment"
+        }
+      >
+        {props.children}
+      </section>
+    ),
+    [isRatingsAndReviews, isQA]
+  );
 
   const handleOnSubmit: OnSubmitHandler = async (input, form) => {
     try {
@@ -243,39 +261,49 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   if (!keepFormWhenClosed) {
     if (settings.disableCommenting.enabled) {
       return (
-        <PostCommentFormClosedSitewide
-          story={story}
-          message={settings.disableCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
-        />
+        <PostCommentSection>
+          <PostCommentFormClosedSitewide
+            story={story}
+            message={settings.disableCommenting.message}
+            showMessageBox={story.settings.messageBox.enabled}
+          />
+        </PostCommentSection>
       );
     }
 
     if (story.isClosed) {
       return (
-        <PostCommentFormClosed
-          story={story}
-          message={settings.closeCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
-        />
+        <PostCommentSection>
+          <PostCommentFormClosed
+            story={story}
+            message={settings.closeCommenting.message}
+            showMessageBox={story.settings.messageBox.enabled}
+          />
+        </PostCommentSection>
       );
     }
   }
 
   if (!viewer) {
     if (isRatingsAndReviews) {
-      return <PostReviewOrQuestion toggle={toggle} onToggle={onToggle} />;
+      return (
+        <PostCommentSection>
+          <PostReviewOrQuestion toggle={toggle} onToggle={onToggle} />
+        </PostCommentSection>
+      );
     }
 
     return (
-      <PostCommentFormFake
-        rteConfig={settings.rte}
-        draft={draft}
-        onDraftChange={setDraft}
-        story={story}
-        showMessageBox={story.settings.messageBox.enabled}
-        onSignIn={handleSignIn}
-      />
+      <PostCommentSection>
+        <PostCommentFormFake
+          rteConfig={settings.rte}
+          draft={draft}
+          onDraftChange={setDraft}
+          story={story}
+          showMessageBox={story.settings.messageBox.enabled}
+          onSignIn={handleSignIn}
+        />
+      </PostCommentSection>
     );
   }
 
@@ -306,7 +334,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   if (isRatingsAndReviews && !toggle) {
     return (
-      <>
+      <PostCommentSection>
         <PostReviewOrQuestion
           toggle={toggle}
           rating={rating}
@@ -314,12 +342,12 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
           onToggle={onToggle}
         />
         <PostCommentSubmitStatusContainer status={submitStatus} />
-      </>
+      </PostCommentSection>
     );
   }
 
   return (
-    <>
+    <PostCommentSection>
       {isRatingsAndReviews && (
         <PostReviewOrQuestion
           toggle={toggle}
@@ -344,7 +372,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         submitStatus={submitStatus}
         showMessageBox={story.settings.messageBox.enabled}
       />
-    </>
+    </PostCommentSection>
   );
 };
 

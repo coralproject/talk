@@ -211,6 +211,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                 <span>Your username has been successfully updated</span>
               </Localized>
             }
+            aria-live="polite"
           />
         </div>
       )}
@@ -333,6 +334,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                         icon={<Icon size="sm">error</Icon>}
                         titleWeight="semiBold"
                         title={submitError}
+                        role="alert"
                       />
                     )}
                   </HorizontalGutter>

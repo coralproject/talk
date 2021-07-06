@@ -138,6 +138,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
                       icon={<Icon size="sm">warning</Icon>}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
+                      role="alert"
                     />
                   )}
                   {submitSucceeded && showSuccess && (
@@ -151,6 +152,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
                           <span>Your media preferences have been updated</span>
                         </Localized>
                       }
+                      aria-live="polite"
                     />
                   )}
                 </div>

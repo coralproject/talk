@@ -125,6 +125,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                 <span>Your password has been updated</span>
               </Localized>
             }
+            aria-live="polite"
           />
         </div>
       )}
@@ -212,6 +213,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         icon={<Icon size="sm">error</Icon>}
                         titleWeight="semiBold"
                         title={submitError}
+                        role="alert"
                       />
                     )}
                     <div

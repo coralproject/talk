@@ -32,7 +32,6 @@ export interface CommentProps {
 const Comment: FunctionComponent<CommentProps> = (props) => {
   return (
     <HorizontalGutter
-      role="article"
       size="half"
       className={cn(styles.root, {
         [styles.highlight]: props.highlight,

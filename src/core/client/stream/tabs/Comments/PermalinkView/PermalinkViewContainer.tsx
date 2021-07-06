@@ -103,6 +103,8 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
         justifyContent="center"
         direction="column"
         className={styles.header}
+        container="section"
+        aria-label="Single Conversation Control"
       >
         <Localized id="comments-permalinkView-youAreCurrentlyViewing">
           <div className={styles.title}>
@@ -129,14 +131,14 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
         )}
       </Flex>
       {!commentVisible && (
-        <CallOut>
+        <CallOut aria-live="polite">
           <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
             This comment has been removed or does not exist.
           </Localized>
         </CallOut>
       )}
       {comment && commentVisible && (
-        <HorizontalGutter>
+        <HorizontalGutter container="section" aria-label="Single Conversation">
           <ConversationThreadContainer
             viewer={viewer}
             comment={comment}

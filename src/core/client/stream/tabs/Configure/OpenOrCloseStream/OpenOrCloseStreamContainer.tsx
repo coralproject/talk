@@ -65,6 +65,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
             }
             onClose={onCloseSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>
@@ -86,6 +87,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
             }
             onClose={onCloseSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>

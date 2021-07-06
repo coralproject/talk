@@ -57,6 +57,7 @@ const renderMessages = (
           title={renderSuccess(enabled)}
           onClose={onCloseSuccess}
           visible={showSuccess}
+          aria-live="polite"
         />
       )}
       {showError && (
@@ -66,6 +67,7 @@ const renderMessages = (
           title={error}
           onClose={onCloseError}
           visible={showError}
+          role="alert"
         />
       )}
     </div>

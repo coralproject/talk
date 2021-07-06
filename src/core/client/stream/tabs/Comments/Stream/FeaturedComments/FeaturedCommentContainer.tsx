@@ -13,7 +13,14 @@ import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { Box, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import {
+  Box,
+  Flex,
+  HorizontalGutter,
+  Icon,
+  RelativeTime,
+  Hidden,
+} from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
 
 import { FeaturedCommentContainer_comment as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
@@ -59,10 +66,16 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
 
   return (
     <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
-      <div
+      <article
         className={cn(CLASSES.featuredComment.$root, styles.root)}
         data-testid={`featuredComment-${comment.id}`}
+        aria-labelledby={`featuredComment-${comment.id}-label`}
       >
+        <Hidden id={`featuredComment-${comment.id}-label`}>
+          Featured Comment from {comment.author?.username || "Deleted User"}{" "}
+          {` `}
+          <RelativeTime date={comment.createdAt} />
+        </Hidden>
         <HorizontalGutter>
           {isRatingsAndReviews && comment.rating && (
             <StarRating rating={comment.rating} />
@@ -159,7 +172,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
             </Flex>
           </Flex>
         </Flex>
-      </div>
+      </article>
     </IgnoredTombstoneOrHideContainer>
   );
 };

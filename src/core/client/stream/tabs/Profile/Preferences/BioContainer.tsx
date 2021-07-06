@@ -122,6 +122,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
                       Your bio has been removed
                     </Localized>
                   }
+                  aria-live="polite"
                 />
               )}
               {submitSucceeded && (
@@ -133,9 +134,14 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
                       Your bio has been updated
                     </Localized>
                   }
+                  aria-live="polite"
                 />
               )}
-              {submitError && <CallOut color="error">{submitError}</CallOut>}
+              {submitError && (
+                <CallOut color="error" role="alert">
+                  {submitError}
+                </CallOut>
+              )}
               <Flex itemGutter className={styles.buttons}>
                 <Localized id="profile-bio-remove">
                   <Button

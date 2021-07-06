@@ -137,6 +137,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
               </span>
             </Localized>
           }
+          aria-live="polite"
         />
       )}
       {showErrorMessage && (
@@ -159,6 +160,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
               <span>We were unable to complete your download request.</span>
             </Localized>
           }
+          role="alert"
         />
       )}
     </div>

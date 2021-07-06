@@ -37,7 +37,14 @@ import {
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import {
+  Button,
+  Flex,
+  Hidden,
+  HorizontalGutter,
+  Icon,
+  RelativeTime,
+} from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
@@ -49,7 +56,7 @@ import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";
-import commentElementID from "./commentElementID";
+import computeCommentElementID from "./computeCommentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
@@ -95,6 +102,18 @@ interface Props {
   collapsed?: boolean;
   toggleCollapsed?: () => void;
 
+  /**
+   * Set true, if this is semantically an ancestor to another comment.
+   * Will add appropiate aria label.
+   */
+  ariaIsAncestor?: boolean;
+
+  /**
+   * Set true, if this is semantically a highlighted comment.
+   * Will add appropiate aria label.
+   */
+  ariaIsHighlighted?: boolean;
+
   showRemoveAnswered?: boolean;
 }
 
@@ -106,6 +125,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   hideAnsweredTag,
   hideModerationCarat,
   highlight,
+  ariaIsAncestor,
+  ariaIsHighlighted,
   indentLevel,
   localReply,
   settings,
@@ -347,6 +368,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
     return null;
   }
 
+  const commentElementID = computeCommentElementID(comment.id);
+
   return (
     <div
       className={cn(
@@ -355,11 +378,21 @@ export const CommentContainer: FunctionComponent<Props> = ({
         badgesClassName,
         className
       )}
-      id={commentElementID(comment.id)}
-      data-testid={commentElementID(comment.id)}
+      id={commentElementID}
+      role="article"
+      aria-labelledby={`${commentElementID}-label`}
+      data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
     >
+      <Hidden id={`${commentElementID}-label`}>
+        {indentLevel && `Thread Level ${indentLevel}: `}
+        {ariaIsHighlighted && "Highlighted "}
+        {ariaIsAncestor && "Ancestor "}
+        {comment.parent ? "Reply" : isQA ? "Question" : "Comment"} from{" "}
+        {comment.author?.username || "Deleted User"} {` `}
+        <RelativeTime date={comment.createdAt} />
+      </Hidden>
       <HorizontalGutter>
         <IndentedComment
           indentLevel={indentLevel}

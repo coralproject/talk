@@ -75,6 +75,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
             }
             onClose={closeSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>
@@ -98,6 +99,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
             }
             onClose={closeSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>

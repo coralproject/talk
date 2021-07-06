@@ -64,6 +64,7 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
               }
               visible={removed}
               onClose={onCloseCallout}
+              aria-live="polite"
             />
           )}
         </div>

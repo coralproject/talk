@@ -24,7 +24,7 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
   );
 
   return (
-    <div className={CLASSES.viewerBox.$root}>
+    <section className={CLASSES.viewerBox.$root} aria-label="Authentication">
       <Localized id="general-userBoxAuthenticated-signedIn">
         <div className={styles.text}>Signed in as</div>
       </Localized>
@@ -55,7 +55,7 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
           </Localized>
         )}
       </Flex>
-    </div>
+    </section>
   );
 };
 

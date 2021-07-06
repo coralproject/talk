@@ -235,16 +235,19 @@ comments-moderationRejectedTombstone-moderateLink =
 
 comments-featuredTag = Featured
 
+# $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
   .aria-label = {$count ->
     [0] {$reaction} comment by {$username}
-    *[other] {$reaction} ({$count}) comment by {$username}
+    *[other] {$reaction} comment by {$username} (Total: {$count})
   }
+
+# $reaction could be "Respected" as an example. Be careful when translating to other languages with different grammar cases.
 comments-reacted =
   .aria-label = {$count ->
     [0] {$reaction} comment by {$username}
     [one] {$reaction} comment by {$username}
-    *[other] {$reaction} ({$count}) comment by {$username}
+    *[other] {$reaction} comment by {$username} (Total: {$count})
   }
 
 comments-jumpToComment-title = Your reply has posted below

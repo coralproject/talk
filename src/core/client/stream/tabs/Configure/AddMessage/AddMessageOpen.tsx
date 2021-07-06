@@ -89,6 +89,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
             }
             visible={showSuccess}
             onClose={onCloseSuccess}
+            aria-live="polite"
           />
         )}
       </div>

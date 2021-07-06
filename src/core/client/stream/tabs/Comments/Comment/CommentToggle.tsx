@@ -28,6 +28,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
     <BaseButton
       onClick={props.toggleCollapsed}
       className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
+      aria-label="Expand comment"
     >
       <Flex alignItems="flex-start" spacing={1}>
         <Icon className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}>

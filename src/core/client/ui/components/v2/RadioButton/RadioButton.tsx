@@ -70,14 +70,20 @@ class RadioButton extends Component<RadioButtonProps> {
 
     return (
       <Flex alignItems="center" className={rootClassName}>
-        <input className={classes.input} type="radio" id={finalID} {...rest} />
+        <input
+          className={classes.input}
+          type="radio"
+          id={finalID}
+          aria-labelledby={finalID + "-label"}
+          {...rest}
+        />
         <label
+          id={finalID + "-label"}
           className={cn(classes.label, {
             [classes.labelLight]: light,
             [classes.focus]: keyboardFocus,
             [classes.labelChecked]: this.props.checked,
           })}
-          htmlFor={finalID}
         >
           {children}
         </label>
