@@ -20,6 +20,7 @@ interface ModeratedBy {
   id?: string;
   username?: string | null;
   system?: boolean;
+  externalModPhases?: string[];
 }
 
 const system: ModeratedBy = { system: true };
@@ -41,6 +42,14 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
     }
 
     if (comment.statusHistory.edges.length === 0) {
+      const externalModPhases = comment.revision?.metadata?.externalModeration
+        ?.filter((m) => m.result.status === comment.status)
+        .map((m: { name: string }) => m.name);
+      if (externalModPhases.length > 0) {
+        return {
+          externalModPhases,
+        };
+      }
       return system;
     }
 
@@ -63,56 +72,35 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
     if (!moderatedBy || !moderatedBy.id) {
       return;
     }
-
     onUsernameClicked(moderatedBy.id);
   }, [onUsernameClicked, moderatedBy]);
 
-  const externallyModeratedBy = comment.revision?.metadata?.externalModeration?.filter(
-    (m) => m.result.status === comment.status
-  );
-
-  if (
-    !moderatedBy &&
-    (!externallyModeratedBy || externallyModeratedBy.length === 0)
-  ) {
+  if (!moderatedBy) {
     return null;
   }
 
-  return (
+  const ModeratedByNode = (
     <>
-      {externallyModeratedBy &&
-        externallyModeratedBy.length > 0 &&
-        comment.statusHistory.edges.length === 0 && (
-          <>
-            <Localized id="moderate-comment-moderatedBy">
-              <div className={styles.moderatedBy}>Moderated By</div>
-            </Localized>
-            <div className={styles.moderatedByUsername}>
-              {externallyModeratedBy
-                .map((m: { name: string }) => m.name)
-                .join(", ")}
-            </div>
-          </>
+      <Localized id="moderate-comment-moderatedBy">
+        <div className={styles.moderatedBy}>Moderated By</div>
+      </Localized>
+      <div className={styles.moderatedByUsername}>
+        {moderatedBy.externalModPhases &&
+          moderatedBy.externalModPhases.length > 0 &&
+          moderatedBy.externalModPhases.join(", ")}
+        {moderatedBy.system && (
+          <Localized id="moderate-comment-moderatedBySystem">System</Localized>
         )}
-      {moderatedBy &&
-        (!externallyModeratedBy || externallyModeratedBy.length === 0) && (
-          <BaseButton onClick={onClick}>
-            <Localized id="moderate-comment-moderatedBy">
-              <div className={styles.moderatedBy}>Moderated By</div>
-            </Localized>
-            <div className={styles.moderatedByUsername}>
-              {moderatedBy.system ? (
-                <Localized id="moderate-comment-moderatedBySystem">
-                  System
-                </Localized>
-              ) : (
-                moderatedBy.username
-              )}
-            </div>
-          </BaseButton>
-        )}
+        {moderatedBy.username}
+      </div>
     </>
   );
+
+  if (!moderatedBy || !moderatedBy.id) {
+    return ModeratedByNode;
+  }
+
+  return <BaseButton onClick={onClick}>{ModeratedByNode}</BaseButton>;
 };
 
 const enhanced = withFragmentContainer<Props>({
