@@ -6,6 +6,8 @@ import {
 } from "coral-framework/schema";
 
 import { externalModeration_comment } from "coral-admin/__generated__/externalModeration_comment.graphql";
+import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
+import { ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -44,7 +46,14 @@ graphql`
 `;
 
 const filterValidExternalModItems = (
-  comment?: externalModeration_comment | null
+  comment?:
+    | externalModeration_comment
+    // Adding in the Markers and Moderate Card
+    // comment fragment types because this will complain
+    // no matter whether or not I use @relay(mask: false)
+    | MarkersContainer_comment
+    | ModerateCardDetailsContainer_comment
+    | null
 ) => {
   if (!comment) {
     return [];
