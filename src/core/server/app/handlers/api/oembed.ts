@@ -39,12 +39,17 @@ export const oembedHandler = ({
       );
 
       if (!supportsMediaType(tenant, type)) {
-        res.sendStatus(400);
+        const bundle = i18n.getBundle(tenant.locale);
+        const message = translate(
+          bundle,
+          "This media is not supported.",
+          "common-embedTypeNotSupported"
+        );
+        res.status(400).render("oembed", { message });
         return;
       }
 
       // Get the oEmbed response.
-
       // TODO: look at caching this response
       let response: OEmbedResponse | null = null;
       try {
@@ -57,21 +62,21 @@ export const oembedHandler = ({
           status = 400;
           message = translate(
             bundle,
-            "TODO: Invalid external media URL",
-            "common-embedInvalid" // TODO: register this
+            "The URL for this external media is invalid.",
+            "common-embedInvalid"
           );
         } else if (e instanceof NotFoundError) {
           status = 404;
           message = translate(
             bundle,
-            "Requested media could not be found",
+            "Requested media could not be found.",
             "common-embedNotFound"
           );
         } else {
           status = 500;
           message = translate(
             bundle,
-            "TODO: We encountered an internal error fetching this media",
+            "We encountered an internal error fetching this media.",
             "common-embedInternalError"
           );
         }
