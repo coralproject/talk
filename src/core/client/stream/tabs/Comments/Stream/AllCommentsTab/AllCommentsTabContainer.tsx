@@ -87,13 +87,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     // Check the sort ordering to apply extra logic.
     switch (commentsOrderBy) {
       case GQLCOMMENT_SORT.CREATED_AT_ASC:
-        if (hasMore) {
-          // Oldest first when there is more than one page of content can't
-          // possibly have new comments to show in view!
-          return;
-        }
-
-        // We have all the comments for this story in view! Comments could load!
+        // Oldest first can always get more comments in view like when so replies to an old comment.
         break;
       case GQLCOMMENT_SORT.CREATED_AT_DESC:
         // Newest first can always get more comments in view.
