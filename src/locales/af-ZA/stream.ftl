@@ -4,7 +4,7 @@
 general-userBoxUnauthenticated-joinTheConversation = Neem deel aan die gesprek
 general-userBoxUnauthenticated-signIn = Meld aan
 general-userBoxUnauthenticated-register = Registreer
-
+general-tabBar-commentsTab = Kommentaar
 general-userBoxAuthenticated-signedIn =
   Aangemeld as
 general-userBoxAuthenticated-notYou =
@@ -21,12 +21,12 @@ general-tabBar-aria-configure =
 ## Comment Count
 
 ## Comments Tab
-comments-allCommentsTab = Alle kommentare
+comments-allCommentsTab = Alle kommentaar
 comments-featuredTab = In fokus
 comments-featuredCommentTooltip-how = Hoe word 'n kommentaar uitgelig?
 comments-featuredCommentTooltip-handSelectedComments =
   Kommentare word deur ons span gekies as die moeite werd om te lees.
-
+comments-noCommentsYet = Daar is nog geen kommentaar nie. Hoekom skryf jy nie een nie?
 comments-streamQuery-storyNotFound = Storie nie gevind
 comments-commentForm-cancel = Kanselleer
 comments-commentForm-submit = Stuur
@@ -36,6 +36,10 @@ comments-permalinkButton-share = Deel
 comments-permalinkView-viewFullDiscussion = Sien volle gesprek
 comments-postCommentFormFake-signInAndJoin = Meld aan en neem deel aan die gesprek
 comments-postCommentForm-rteLabel = Stuur 'n kommentaar
+comments-postCommentForm-rte =
+  .placeholder = { comments-postCommentForm-rteLabel }
+comments-postCommentFormFake-rte =
+  .placeholder = { comments-postCommentForm-rteLabel }
 comments-replyButton-reply = Antwoord
 comments-replyCommentForm-submit = Stuur
 comments-replyCommentForm-cancel = Kanselleer
@@ -66,6 +70,10 @@ comments-moderationDropdown-ban = Blok gebruiker
 comments-moderationDropdown-moderationView = Modereringskerm
 comments-moderationDropdown-moderateStory = Modereer storie
 comments-featuredTag = In fokus
+stream-footer-links-top-of-comments = Bo-aan kommentaar
+  .title = Go to top of comments
+stream-footer-links-top-of-article = Bo-aan artikel
+  .title = Go to top of article
 
 ### Q&A
 
