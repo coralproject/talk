@@ -45,7 +45,7 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
       const externalModPhases = comment.revision?.metadata?.externalModeration
         ?.filter((m) => m.result.status === comment.status)
         .map((m: { name: string }) => m.name);
-      if (externalModPhases.length > 0) {
+      if (externalModPhases && externalModPhases.length > 0) {
         return {
           externalModPhases,
         };

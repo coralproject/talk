@@ -58,7 +58,11 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   const doesHaveFlagDetails = useMemo(() => hasFlagDetails(comment), [comment]);
   const hasRevisions = comment.editing.edited;
   const hasExternalModDetails = !!(
-    comment && comment?.revision?.metadata?.externalModeration?.length > 0
+    comment &&
+    comment.revision &&
+    comment.revision.metadata &&
+    comment.revision.metadata.externalModeration &&
+    comment.revision.metadata.externalModeration.length > 0
   );
 
   return (
