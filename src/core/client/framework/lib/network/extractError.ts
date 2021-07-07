@@ -10,6 +10,7 @@ interface CoralError {
   type: string;
   code: string;
   message: string;
+  traceID: string;
 }
 
 function isCoralError(err: any): err is CoralError {
