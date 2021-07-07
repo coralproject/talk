@@ -356,6 +356,7 @@ export default (ctx: GraphContext) => ({
   authorStatusCounts: new DataLoader((authorIDs: string[]) =>
     retrieveManyRecentStatusCounts(
       ctx.mongo,
+      ctx.config,
       ctx.tenant.id,
       DateTime.fromJSDate(ctx.now)
         .plus({ seconds: -ctx.tenant.recentCommentHistory.timeFrame })

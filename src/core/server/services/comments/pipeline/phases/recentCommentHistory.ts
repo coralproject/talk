@@ -19,10 +19,11 @@ export const recentCommentHistory = async ({
   tenant,
   author,
   mongo,
+  config,
   now,
 }: Pick<
   ModerationPhaseContext,
-  "author" | "tenant" | "now" | "mongo"
+  "author" | "tenant" | "now" | "mongo" | "config"
 >): Promise<IntermediatePhaseResult | void> => {
   // Ensure this mode is enabled.
   if (!tenant.recentCommentHistory.enabled) {
@@ -37,6 +38,7 @@ export const recentCommentHistory = async ({
   // Get the comment rates for this User.
   const counts = await retrieveRecentStatusCounts(
     mongo,
+    config,
     tenant.id,
     since,
     author.id

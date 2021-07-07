@@ -1028,6 +1028,7 @@ export async function retrieveStoryCommentTagCounts(
 
 export async function retrieveManyRecentStatusCounts(
   mongo: Db,
+  config: Config,
   tenantID: string,
   since: Date,
   authorIDs: ReadonlyArray<string>
@@ -1063,7 +1064,9 @@ export async function retrieveManyRecentStatusCounts(
   ]);
 
   // Get all of the statuses.
-  const docs = await cursor.toArray();
+  const docs = await cursor
+    .maxTimeMS(config.get("mongo_query_timeout"))
+    .toArray();
 
   // Iterate over the documents and join up any of the results that are
   // associated with each user.
@@ -1083,13 +1086,18 @@ export async function retrieveManyRecentStatusCounts(
 
 export async function retrieveRecentStatusCounts(
   mongo: Db,
+  config: Config,
   tenantID: string,
   since: Date,
   authorID: string
 ): Promise<CommentStatusCounts> {
-  const counts = await retrieveManyRecentStatusCounts(mongo, tenantID, since, [
-    authorID,
-  ]);
+  const counts = await retrieveManyRecentStatusCounts(
+    mongo,
+    config,
+    tenantID,
+    since,
+    [authorID]
+  );
   return counts[0];
 }
 
