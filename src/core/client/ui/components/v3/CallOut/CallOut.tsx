@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes, useCallback } from "react";
 
@@ -115,13 +116,15 @@ const CallOut: FunctionComponent<Props> = ({
       </div>
       {onClose && (
         <div className={classes.actions}>
-          <BaseButton
-            onClick={onCloseClicked}
-            data-testid="callout-close-button"
-            aria-label="Close"
-          >
-            <Icon size="sm">close</Icon>
-          </BaseButton>
+          <Localized id="ui-callout-closeButton" attrs={{ "aria-label": true }}>
+            <BaseButton
+              onClick={onCloseClicked}
+              data-testid="callout-close-button"
+              aria-label="Close"
+            >
+              <Icon size="sm">close</Icon>
+            </BaseButton>
+          </Localized>
         </div>
       )}
     </div>

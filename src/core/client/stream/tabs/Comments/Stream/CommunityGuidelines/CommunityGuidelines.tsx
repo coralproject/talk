@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
@@ -12,14 +13,19 @@ interface Props {
 
 const CommunityGuidelines: FunctionComponent<Props> = (props) => {
   return (
-    <section
-      className={cn(styles.root, CLASSES.guidelines.container)}
-      aria-label="Community Guidelines"
+    <Localized
+      id="comments-communityGuidelines-section"
+      attrs={{ "aria-label": true }}
     >
-      <Markdown className={CLASSES.guidelines.content}>
-        {props.children}
-      </Markdown>
-    </section>
+      <section
+        className={cn(styles.root, CLASSES.guidelines.container)}
+        aria-label="Community Guidelines"
+      >
+        <Markdown className={CLASSES.guidelines.content}>
+          {props.children}
+        </Markdown>
+      </section>
+    </Localized>
   );
 };
 

@@ -118,19 +118,29 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
   const PostCommentSection: FC = useMemo(
-    () => (props) => (
-      <section
-        aria-label={
-          isRatingsAndReviews
-            ? "Submit a Review or Ask a Question"
-            : isQA
-            ? "Post a Question"
-            : "Post a Comment"
-        }
-      >
-        {props.children}
-      </section>
-    ),
+    () => (props) => {
+      if (isRatingsAndReviews) {
+        return (
+          <Localized id="ratingsAndReviews-postCommentForm-section">
+            <section aria-label="Submit a Review or Ask a Question">
+              {props.children}
+            </section>
+          </Localized>
+        );
+      }
+      if (isQA) {
+        return (
+          <Localized id="qa-postCommentForm-section">
+            <section aria-label="Post a Question">{props.children}</section>
+          </Localized>
+        );
+      }
+      return (
+        <Localized id="comments-postCommentForm-section">
+          <section aria-label="Post a Comment">{props.children}</section>
+        </Localized>
+      );
+    },
     [isRatingsAndReviews, isQA]
   );
 

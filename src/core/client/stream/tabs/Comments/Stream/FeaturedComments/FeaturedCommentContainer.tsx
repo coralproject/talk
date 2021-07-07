@@ -16,10 +16,10 @@ import { SetCommentIDMutation } from "coral-stream/mutations";
 import {
   Box,
   Flex,
+  Hidden,
   HorizontalGutter,
   Icon,
   RelativeTime,
-  Hidden,
 } from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
 
@@ -71,11 +71,16 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
         data-testid={`featuredComment-${comment.id}`}
         aria-labelledby={`featuredComment-${comment.id}-label`}
       >
-        <Hidden id={`featuredComment-${comment.id}-label`}>
-          Featured Comment from {comment.author?.username || "Deleted User"}{" "}
-          {` `}
-          <RelativeTime date={comment.createdAt} />
-        </Hidden>
+        <Localized
+          id="comments-featured-label"
+          RelativeTime={<RelativeTime date={comment.createdAt} />}
+          $username={comment.author?.username || ""}
+        >
+          <Hidden id={`featuredComment-${comment.id}-label`}>
+            Featured Comment from {comment.author?.username} {` `}
+            <RelativeTime date={comment.createdAt} />
+          </Hidden>
+        </Localized>
         <HorizontalGutter>
           {isRatingsAndReviews && comment.rating && (
             <StarRating rating={comment.rating} />

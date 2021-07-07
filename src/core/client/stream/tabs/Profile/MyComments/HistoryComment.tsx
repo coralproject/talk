@@ -31,6 +31,7 @@ export interface HistoryCommentProps {
 }
 
 const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
+  const storyTitle = props.story.metadata ? props.story.metadata.title : "N/A";
   return (
     <HorizontalGutter
       className={cn(styles.root, CLASSES.myComment.$root)}
@@ -39,17 +40,22 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
       aria-labelledby={`historyComment-${props.id}-label`}
     >
       <div>
-        <Hidden id={`historyComment-${props.id}-label`}>
-          Comment <RelativeTime date={props.createdAt} />{" "}
-          {props.story.metadata && `on ${props.story.metadata.title}`}
-        </Hidden>
+        <Localized
+          id="profile-historyComment-commentLabel"
+          RelativeTime={<RelativeTime date={props.createdAt} />}
+          $storyTitle={storyTitle}
+        >
+          <Hidden id={`historyComment-${props.id}-label`}>
+            Comment <RelativeTime date={props.createdAt} /> on {storyTitle}
+          </Hidden>
+        </Localized>
         <Localized id="profile-historyComment-comment-on">
           <span className={cn(CLASSES.myComment.commentOn, styles.commentOn)}>
             Comment on:
           </span>
         </Localized>
         <div className={cn(styles.storyTitle, CLASSES.myComment.story)}>
-          {props.story.metadata ? props.story.metadata.title : "N/A"}
+          {storyTitle}
         </div>
       </div>
       <div>

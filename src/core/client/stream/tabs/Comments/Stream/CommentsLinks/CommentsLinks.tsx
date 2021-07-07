@@ -78,65 +78,70 @@ const CommentsLinks: FunctionComponent<Props> = ({
   };
 
   return (
-    <nav
-      className={cn(styles.container, CLASSES.streamFooter.$root)}
-      aria-label="Footer"
-    >
-      {showGoToProfile && (
-        <Localized id="stream-footer-links-profile" attrs={{ title: true }}>
-          <FooterButton
-            className={CLASSES.streamFooter.profileLink}
-            title="Go to profile and replies"
-            onClick={onGoToProfile}
-            classes={classes}
-            icon="account_box"
+    <Localized id="stream-footer-navigation" attrs={{ "aria-label": true }}>
+      <nav
+        className={cn(styles.container, CLASSES.streamFooter.$root)}
+        aria-label="Comments Footer"
+      >
+        {showGoToProfile && (
+          <Localized id="stream-footer-links-profile" attrs={{ title: true }}>
+            <FooterButton
+              className={CLASSES.streamFooter.profileLink}
+              title="Go to profile and replies"
+              onClick={onGoToProfile}
+              classes={classes}
+              icon="account_box"
+            >
+              Profile and replies
+            </FooterButton>
+          </Localized>
+        )}
+        {showGoToDiscussions && (
+          <Localized
+            id="stream-footer-links-discussions"
+            attrs={{ title: true }}
           >
-            Profile and replies
+            <FooterButton
+              className={CLASSES.streamFooter.discussionsLink}
+              title="Go to more discussions"
+              onClick={onGoToDiscussions}
+              classes={classes}
+              icon="list_alt"
+            >
+              More discussions
+            </FooterButton>
+          </Localized>
+        )}
+        <Localized
+          id="stream-footer-links-top-of-comments"
+          attrs={{ title: true }}
+        >
+          <FooterButton
+            className={CLASSES.streamFooter.commentsTopLink}
+            title="Go to top of comments"
+            onClick={onGoToCommentsTop}
+            classes={classes}
+            icon="forum"
+          >
+            Top of comments
           </FooterButton>
         </Localized>
-      )}
-      {showGoToDiscussions && (
-        <Localized id="stream-footer-links-discussions" attrs={{ title: true }}>
+        <Localized
+          id="stream-footer-links-top-of-article"
+          attrs={{ title: true }}
+        >
           <FooterButton
-            className={CLASSES.streamFooter.discussionsLink}
-            title="Go to more discussions"
-            onClick={onGoToDiscussions}
+            className={CLASSES.streamFooter.articleTopLink}
+            title="Go to top of article"
+            onClick={onGoToArticleTop}
             classes={classes}
-            icon="list_alt"
+            icon="description"
           >
-            More discussions
+            Top of article
           </FooterButton>
         </Localized>
-      )}
-      <Localized
-        id="stream-footer-links-top-of-comments"
-        attrs={{ title: true }}
-      >
-        <FooterButton
-          className={CLASSES.streamFooter.commentsTopLink}
-          title="Go to top of comments"
-          onClick={onGoToCommentsTop}
-          classes={classes}
-          icon="forum"
-        >
-          Top of comments
-        </FooterButton>
-      </Localized>
-      <Localized
-        id="stream-footer-links-top-of-article"
-        attrs={{ title: true }}
-      >
-        <FooterButton
-          className={CLASSES.streamFooter.articleTopLink}
-          title="Go to top of article"
-          onClick={onGoToArticleTop}
-          classes={classes}
-          icon="description"
-        >
-          Top of article
-        </FooterButton>
-      </Localized>
-    </nav>
+      </nav>
+    </Localized>
   );
 };
 

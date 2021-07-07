@@ -80,10 +80,16 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
         aria-labelledby={`commentAnswerLabel-${comment.id}`}
         id={`commentAnswer-${comment.id}`}
       >
-        <Hidden id={`commentAnswerLabel-${comment.id}`}>
-          Answer from {comment.author?.username || "Deleted User"} {` `}
-          <RelativeTime date={comment.createdAt} />
-        </Hidden>
+        <Localized
+          id="qa-answered-answerLabel"
+          RelativeTime={<RelativeTime date={comment.createdAt} />}
+          $username={comment.author?.username || ""}
+        >
+          <Hidden id={`commentAnswerLabel-${comment.id}`}>
+            Answer from {comment.author?.username} {` `}
+            <RelativeTime date={comment.createdAt} />
+          </Hidden>
+        </Localized>
         <Flex
           direction="row"
           alignItems="center"
@@ -148,7 +154,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
                   className={CLASSES.featuredComment.actionBar.replies}
                 >
                   <Icon size="md">reply</Icon>
-                  <Localized id="comments-featured-replies">
+                  <Localized id="qa-answered-replies">
                     <span className={styles.repliesText}>Replies</span>
                   </Localized>
                   <span>{comment.replyCount}</span>
@@ -165,7 +171,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
                 onClick={onGotoConversation}
                 href={getURLWithCommentID(story.url, comment.id)}
               >
-                <Localized id="comments-featured-gotoConversation">
+                <Localized id="qa-answered-gotoConversation">
                   <span>Go to Conversation</span>
                 </Localized>
                 <span className={styles.gotoArrow}>&gt;</span>

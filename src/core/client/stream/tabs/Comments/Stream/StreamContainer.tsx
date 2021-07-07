@@ -25,6 +25,7 @@ import {
   SetCommentsTabEvent,
 } from "coral-stream/events";
 import {
+  AriaInfo,
   Counter,
   Flex,
   HorizontalGutter,
@@ -33,7 +34,6 @@ import {
   TabBar,
   TabContent,
   TabPane,
-  AriaInfo,
 } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -279,214 +279,227 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             </>
           ))}
         {(banned || warned || suspended) && (
-          <section id={VIEWER_STATUS_CONTAINER_ID} aria-label="Account Status">
-            {banned && <BannedInfo />}
-            {suspended && (
-              <SuspendedInfoContainer
-                viewer={props.viewer}
-                settings={props.settings}
-              />
-            )}
-            {warned && <WarningContainer viewer={props.viewer} />}
-          </section>
+          <Localized
+            id="comments-accountStatus-section"
+            attrs={{ "aria-label": true }}
+          >
+            <section
+              id={VIEWER_STATUS_CONTAINER_ID}
+              aria-label="Account Status"
+            >
+              {banned && <BannedInfo />}
+              {suspended && (
+                <SuspendedInfoContainer
+                  viewer={props.viewer}
+                  settings={props.settings}
+                />
+              )}
+              {warned && <WarningContainer viewer={props.viewer} />}
+            </section>
+          </Localized>
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
-          <Flex
-            direction="row"
-            alignItems="flex-end"
-            justifyContent="space-between"
-            className={styles.tabBarRow}
-            container="nav"
-            aria-label="Secondary Tablist"
+          <Localized
+            id="general-secondaryTablist"
+            attrs={{ "aria-label": true }}
           >
-            <TabBar
-              variant="streamSecondary"
-              activeTab={local.commentsTab}
-              onTabClick={onChangeTab}
-              className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
+            <Flex
+              direction="row"
+              alignItems="flex-end"
+              justifyContent="space-between"
+              className={styles.tabBarRow}
+              container="nav"
+              aria-label="Secondary Tablist"
             >
-              {featuredCommentsCount > 0 && (
-                <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS" isQA={isQA}>
-                  <Flex spacing={1} alignItems="center">
-                    {isQA ? (
-                      <Localized id="qa-answeredTab">
-                        <span>Answered</span>
-                      </Localized>
-                    ) : (
-                      <Localized id="comments-featuredTab">
-                        <span>Featured</span>
-                      </Localized>
-                    )}
-                    <AccessibleCounter
-                      data-testid="comments-featuredCount"
-                      size="sm"
-                      className={CLASSES.counter}
-                      color={
-                        local.commentsTab === "FEATURED_COMMENTS"
-                          ? "inherit"
-                          : "grey"
-                      }
-                    >
-                      <Localized
-                        id="comments-counter-shortNum"
-                        $count={featuredCommentsCount}
+              <TabBar
+                variant="streamSecondary"
+                activeTab={local.commentsTab}
+                onTabClick={onChangeTab}
+                className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
+              >
+                {featuredCommentsCount > 0 && (
+                  <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS" isQA={isQA}>
+                    <Flex spacing={1} alignItems="center">
+                      {isQA ? (
+                        <Localized id="qa-answeredTab">
+                          <span>Answered</span>
+                        </Localized>
+                      ) : (
+                        <Localized id="comments-featuredTab">
+                          <span>Featured</span>
+                        </Localized>
+                      )}
+                      <AccessibleCounter
+                        data-testid="comments-featuredCount"
+                        size="sm"
+                        className={CLASSES.counter}
+                        color={
+                          local.commentsTab === "FEATURED_COMMENTS"
+                            ? "inherit"
+                            : "grey"
+                        }
                       >
-                        {featuredCommentsCount}
+                        <Localized
+                          id="comments-counter-shortNum"
+                          $count={featuredCommentsCount}
+                        >
+                          {featuredCommentsCount}
+                        </Localized>
+                      </AccessibleCounter>
+                    </Flex>
+                  </TabWithFeaturedTooltip>
+                )}
+                {isQA && (
+                  <Tab
+                    tabID="UNANSWERED_COMMENTS"
+                    className={cn(
+                      {
+                        [styles.fixedTab]: featuredCommentsCount > 0,
+                      },
+                      CLASSES.tabBarComments.allComments
+                    )}
+                    variant="streamSecondary"
+                  >
+                    <Flex alignItems="center" spacing={1}>
+                      <Localized id="qa-unansweredTab">
+                        <span>Unanswered</span>
                       </Localized>
-                    </AccessibleCounter>
-                  </Flex>
-                </TabWithFeaturedTooltip>
-              )}
-              {isQA && (
-                <Tab
-                  tabID="UNANSWERED_COMMENTS"
-                  className={cn(
-                    {
-                      [styles.fixedTab]: featuredCommentsCount > 0,
-                    },
-                    CLASSES.tabBarComments.allComments
-                  )}
-                  variant="streamSecondary"
-                >
-                  <Flex alignItems="center" spacing={1}>
-                    <Localized id="qa-unansweredTab">
-                      <span>Unanswered</span>
-                    </Localized>
-                    <AccessibleCounter
-                      size="sm"
-                      className={CLASSES.counter}
-                      color={
-                        local.commentsTab === "UNANSWERED_COMMENTS"
-                          ? "inherit"
-                          : "grey"
-                      }
-                    >
-                      {unansweredCommentsCount}
-                    </AccessibleCounter>
-                  </Flex>
-                </Tab>
-              )}
-              {!isRatingsAndReviews && (
-                <Tab
-                  tabID="ALL_COMMENTS"
-                  className={cn(
-                    {
+                      <AccessibleCounter
+                        size="sm"
+                        className={CLASSES.counter}
+                        color={
+                          local.commentsTab === "UNANSWERED_COMMENTS"
+                            ? "inherit"
+                            : "grey"
+                        }
+                      >
+                        {unansweredCommentsCount}
+                      </AccessibleCounter>
+                    </Flex>
+                  </Tab>
+                )}
+                {!isRatingsAndReviews && (
+                  <Tab
+                    tabID="ALL_COMMENTS"
+                    className={cn(
+                      {
+                        [styles.fixedTab]: featuredCommentsCount > 0,
+                        [CLASSES.tabBarComments.activeTab]:
+                          local.commentsTab === "ALL_COMMENTS",
+                      },
+                      CLASSES.tabBarComments.allComments
+                    )}
+                    variant="streamSecondary"
+                  >
+                    <Flex alignItems="center" spacing={1}>
+                      {isQA ? (
+                        <Localized id="qa-allCommentsTab">
+                          <span>All</span>
+                        </Localized>
+                      ) : (
+                        <Localized id="comments-allCommentsTab">
+                          <span>All Comments</span>
+                        </Localized>
+                      )}
+
+                      <AccessibleCounter
+                        size="sm"
+                        className={CLASSES.counter}
+                        color={
+                          local.commentsTab === "ALL_COMMENTS"
+                            ? "inherit"
+                            : "grey"
+                        }
+                      >
+                        <Localized
+                          id="comments-counter-shortNum"
+                          $count={allCommentsCount}
+                        >
+                          {allCommentsCount}
+                        </Localized>
+                      </AccessibleCounter>
+                    </Flex>
+                  </Tab>
+                )}
+                {isRatingsAndReviews && (
+                  <Tab
+                    tabID="REVIEWS"
+                    className={cn({
                       [styles.fixedTab]: featuredCommentsCount > 0,
                       [CLASSES.tabBarComments.activeTab]:
-                        local.commentsTab === "ALL_COMMENTS",
-                    },
-                    CLASSES.tabBarComments.allComments
-                  )}
-                  variant="streamSecondary"
-                >
-                  <Flex alignItems="center" spacing={1}>
-                    {isQA ? (
-                      <Localized id="qa-allCommentsTab">
-                        <span>All</span>
+                        local.commentsTab === "REVIEWS",
+                    })}
+                    variant="streamSecondary"
+                  >
+                    <Flex alignItems="center" spacing={1}>
+                      <Localized id="ratingsAndReviews-reviewsTab">
+                        <span>Reviews</span>
                       </Localized>
-                    ) : (
-                      <Localized id="comments-allCommentsTab">
-                        <span>All Comments</span>
-                      </Localized>
-                    )}
-
-                    <AccessibleCounter
-                      size="sm"
-                      className={CLASSES.counter}
-                      color={
-                        local.commentsTab === "ALL_COMMENTS"
-                          ? "inherit"
-                          : "grey"
-                      }
-                    >
-                      <Localized
-                        id="comments-counter-shortNum"
-                        $count={allCommentsCount}
+                      <AccessibleCounter
+                        size="sm"
+                        className={CLASSES.counter}
+                        color={
+                          local.commentsTab === "REVIEWS" ? "inherit" : "grey"
+                        }
                       >
-                        {allCommentsCount}
+                        <Localized
+                          id="comments-counter-shortNum"
+                          $count={props.story.commentCounts.tags.REVIEW}
+                        >
+                          {props.story.commentCounts.tags.REVIEW}
+                        </Localized>
+                      </AccessibleCounter>
+                    </Flex>
+                  </Tab>
+                )}
+                {isRatingsAndReviews && (
+                  <Tab
+                    tabID="QUESTIONS"
+                    className={cn({
+                      [styles.fixedTab]: featuredCommentsCount > 0,
+                      [CLASSES.tabBarComments.activeTab]:
+                        local.commentsTab === "QUESTIONS",
+                    })}
+                    variant="streamSecondary"
+                  >
+                    <Flex alignItems="center" spacing={1}>
+                      <Localized id="ratingsAndReviews-questionsTab">
+                        <span>Questions</span>
                       </Localized>
-                    </AccessibleCounter>
-                  </Flex>
-                </Tab>
-              )}
-              {isRatingsAndReviews && (
-                <Tab
-                  tabID="REVIEWS"
-                  className={cn({
-                    [styles.fixedTab]: featuredCommentsCount > 0,
-                    [CLASSES.tabBarComments.activeTab]:
-                      local.commentsTab === "REVIEWS",
-                  })}
-                  variant="streamSecondary"
-                >
-                  <Flex alignItems="center" spacing={1}>
-                    <Localized id="ratingsAndReviews-reviewsTab">
-                      <span>Reviews</span>
-                    </Localized>
-                    <AccessibleCounter
-                      size="sm"
-                      className={CLASSES.counter}
-                      color={
-                        local.commentsTab === "REVIEWS" ? "inherit" : "grey"
-                      }
-                    >
-                      <Localized
-                        id="comments-counter-shortNum"
-                        $count={props.story.commentCounts.tags.REVIEW}
+                      <AccessibleCounter
+                        size="sm"
+                        className={CLASSES.counter}
+                        color={
+                          local.commentsTab === "QUESTIONS" ? "inherit" : "grey"
+                        }
                       >
-                        {props.story.commentCounts.tags.REVIEW}
-                      </Localized>
-                    </AccessibleCounter>
-                  </Flex>
-                </Tab>
-              )}
-              {isRatingsAndReviews && (
-                <Tab
-                  tabID="QUESTIONS"
-                  className={cn({
-                    [styles.fixedTab]: featuredCommentsCount > 0,
-                    [CLASSES.tabBarComments.activeTab]:
-                      local.commentsTab === "QUESTIONS",
-                  })}
-                  variant="streamSecondary"
-                >
-                  <Flex alignItems="center" spacing={1}>
-                    <Localized id="ratingsAndReviews-questionsTab">
-                      <span>Questions</span>
-                    </Localized>
-                    <AccessibleCounter
-                      size="sm"
-                      className={CLASSES.counter}
-                      color={
-                        local.commentsTab === "QUESTIONS" ? "inherit" : "grey"
-                      }
-                    >
-                      <Localized
-                        id="comments-counter-shortNum"
-                        $count={props.story.commentCounts.tags.QUESTION}
-                      >
-                        {props.story.commentCounts.tags.QUESTION}
-                      </Localized>
-                    </AccessibleCounter>
-                  </Flex>
-                </Tab>
-              )}
-            </TabBar>
-            <MatchMedia ltWidth="sm">
-              {(matches) => {
-                return !matches ? (
-                  <SortMenu
-                    className={styles.sortMenu}
-                    orderBy={local.commentsOrderBy}
-                    onChange={onChangeOrder}
-                    reactionSortLabel={props.settings.reaction.sortLabel}
-                    showLabel
-                    isQA={isQA}
-                  />
-                ) : null;
-              }}
-            </MatchMedia>
-          </Flex>
+                        <Localized
+                          id="comments-counter-shortNum"
+                          $count={props.story.commentCounts.tags.QUESTION}
+                        >
+                          {props.story.commentCounts.tags.QUESTION}
+                        </Localized>
+                      </AccessibleCounter>
+                    </Flex>
+                  </Tab>
+                )}
+              </TabBar>
+              <MatchMedia ltWidth="sm">
+                {(matches) => {
+                  return !matches ? (
+                    <SortMenu
+                      className={styles.sortMenu}
+                      orderBy={local.commentsOrderBy}
+                      onChange={onChangeOrder}
+                      reactionSortLabel={props.settings.reaction.sortLabel}
+                      showLabel
+                      isQA={isQA}
+                    />
+                  ) : null;
+                }}
+              </MatchMedia>
+            </Flex>
+          </Localized>
           <MatchMedia ltWidth="sm">
             {(matches) => {
               return matches ? (
