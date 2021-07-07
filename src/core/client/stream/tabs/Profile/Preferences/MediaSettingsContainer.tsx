@@ -75,7 +75,10 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <HorizontalGutter>
+      <HorizontalGutter
+        container="section"
+        aria-labelledby="profile-preferences-mediaPreferences-title"
+      >
         <Form initialValues={viewer.mediaSettings} onSubmit={onSubmit}>
           {({
             handleSubmit,
@@ -86,7 +89,12 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
           }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
               <Localized id="profile-preferences-mediaPreferences">
-                <div className={styles.title}>Media Preferences</div>
+                <div
+                  className={styles.title}
+                  id="profile-preferences-mediaPreferences-title"
+                >
+                  Media Preferences
+                </div>
               </Localized>
               <div className={styles.options}>
                 <FieldSet>

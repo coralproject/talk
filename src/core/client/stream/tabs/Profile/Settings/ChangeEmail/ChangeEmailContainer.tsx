@@ -172,10 +172,15 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
     <HorizontalGutter
       className={CLASSES.myEmail.email}
       data-testid="profile-changeEmail"
+      container="section"
+      aria-labelledby="profile-changeEmail-title"
     >
       <div className={cn(styles.footer, CLASSES.myEmail.form.footer)}>
         <Localized id="profile-changeEmail-title">
-          <div className={cn(styles.title, CLASSES.myEmail.title)}>
+          <div
+            className={cn(styles.title, CLASSES.myEmail.title)}
+            id="profile-changeEmail-title"
+          >
             Email address
           </div>
         </Localized>
@@ -218,7 +223,11 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
         <div
           className={cn(styles.verifyContainer, CLASSES.verifyEmail.container)}
         >
-          <CallOut className={CLASSES.verifyEmail.$root}>
+          <CallOut
+            className={CLASSES.verifyEmail.$root}
+            container="section"
+            aria-labelledby="profile-changeEmail-pleaseVerify-title"
+          >
             <Flex itemGutter>
               <div>
                 <Icon size="lg">email</Icon>
@@ -237,7 +246,9 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                     )}
                   >
                     <Localized id="profile-changeEmail-please-verify">
-                      <div>Verify your email address</div>
+                      <div id="profile-changeEmail-pleaseVerify-title">
+                        Verify your email address
+                      </div>
                     </Localized>
                   </div>
                   <Localized

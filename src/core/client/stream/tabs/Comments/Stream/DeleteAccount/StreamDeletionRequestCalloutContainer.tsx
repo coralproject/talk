@@ -77,10 +77,12 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
           iconPosition="left"
           title={
             <Localized id="comments-stream-deleteAccount-callOut-title">
-              Account deletion requested
+              <div id="comments-stream-deleteAccount-callOut-title">
+                Account deletion requested
+              </div>
             </Localized>
           }
-          aria-label="Account Deletion"
+          aria-labelledby="comments-stream-deleteAccount-callOut-title"
         >
           <HorizontalGutter className={styles.gutter}>
             <Localized

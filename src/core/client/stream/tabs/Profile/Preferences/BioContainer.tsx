@@ -61,10 +61,12 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
     return null;
   }
   return (
-    <HorizontalGutter>
+    <HorizontalGutter container="section" aria-labelledby="profile-bio-title">
       <HorizontalGutter spacing={1}>
         <Localized id="profile-bio-title">
-          <h2 className={styles.title}>Bio</h2>
+          <h2 className={styles.title} id="profile-bio-title">
+            Bio
+          </h2>
         </Localized>
         <Localized id="profile-bio-description">
           <p className={styles.description}>

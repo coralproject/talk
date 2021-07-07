@@ -77,50 +77,53 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
     <HorizontalGutter size="double">
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <DeletionRequestCalloutContainer viewer={props.viewer} />
-      <TabBar
-        variant="streamSecondary"
-        activeTab={local.profileTab}
-        onTabClick={onTabClick}
-        className={CLASSES.tabBarMyProfile.$root}
-      >
-        <Tab
-          tabID="MY_COMMENTS"
+      <nav aria-label="Secondary Tablist">
+        <TabBar
           variant="streamSecondary"
-          className={cn(CLASSES.tabBarMyProfile.myComments, {
-            [CLASSES.tabBarMyProfile.active]:
-              local.profileTab === "MY_COMMENTS",
-          })}
+          activeTab={local.profileTab}
+          onTabClick={onTabClick}
+          className={CLASSES.tabBarMyProfile.$root}
         >
-          <Localized id="profile-myCommentsTab-comments">
-            <span>My comments</span>
-          </Localized>
-        </Tab>
-        <Tab
-          tabID="PREFERENCES"
-          variant="streamSecondary"
-          className={cn(CLASSES.tabBarMyProfile.preferences, {
-            [CLASSES.tabBarMyProfile.active]:
-              local.profileTab === "PREFERENCES",
-          })}
-        >
-          <Localized id="profile-preferencesTab">
-            <span>Preferences</span>
-          </Localized>
-        </Tab>
-        {showAccountTab && (
           <Tab
-            tabID="ACCOUNT"
+            tabID="MY_COMMENTS"
             variant="streamSecondary"
-            className={cn(CLASSES.tabBarMyProfile.settings, {
-              [CLASSES.tabBarMyProfile.active]: local.profileTab === "ACCOUNT",
+            className={cn(CLASSES.tabBarMyProfile.myComments, {
+              [CLASSES.tabBarMyProfile.active]:
+                local.profileTab === "MY_COMMENTS",
             })}
           >
-            <Localized id="profile-accountTab">
-              <span>Account</span>
+            <Localized id="profile-myCommentsTab-comments">
+              <span>My comments</span>
             </Localized>
           </Tab>
-        )}
-      </TabBar>
+          <Tab
+            tabID="PREFERENCES"
+            variant="streamSecondary"
+            className={cn(CLASSES.tabBarMyProfile.preferences, {
+              [CLASSES.tabBarMyProfile.active]:
+                local.profileTab === "PREFERENCES",
+            })}
+          >
+            <Localized id="profile-preferencesTab">
+              <span>Preferences</span>
+            </Localized>
+          </Tab>
+          {showAccountTab && (
+            <Tab
+              tabID="ACCOUNT"
+              variant="streamSecondary"
+              className={cn(CLASSES.tabBarMyProfile.settings, {
+                [CLASSES.tabBarMyProfile.active]:
+                  local.profileTab === "ACCOUNT",
+              })}
+            >
+              <Localized id="profile-accountTab">
+                <span>Account</span>
+              </Localized>
+            </Tab>
+          )}
+        </TabBar>
+      </nav>
       <TabContent activeTab={local.profileTab}>
         <TabPane
           className={CLASSES.myCommentsTabPane.$root}

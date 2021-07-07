@@ -37,18 +37,18 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
 
   if (open) {
     return (
-      <div>
+      <section aria-labelledby="configure-addMessage-title">
         <AddMessageOpen
           storyID={story.id}
           storySettings={story.settings}
           onCancel={onClose}
           onRemove={onRemove}
         />
-      </div>
+      </section>
     );
   } else {
     return (
-      <div>
+      <section aria-labelledby="configure-addMessage-title">
         <AddMessageClosed onClick={onOpen} />
         <div
           className={removed ? styles.messagesVisible : styles.messagesHidden}
@@ -68,7 +68,7 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
             />
           )}
         </div>
-      </div>
+      </section>
     );
   }
 };

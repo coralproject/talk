@@ -115,7 +115,7 @@ const LiveUpdatesConfigContainer: FunctionComponent<Props> = ({ story }) => {
 
   if (enabled) {
     return (
-      <>
+      <section aria-labelledby="configure-disableLiveUpdates-title">
         <DisableLiveUpdates onClick={onClick} />
         {renderMessages(
           showSuccess,
@@ -125,11 +125,11 @@ const LiveUpdatesConfigContainer: FunctionComponent<Props> = ({ story }) => {
           error,
           enabled
         )}
-      </>
+      </section>
     );
   } else {
     return (
-      <>
+      <section aria-labelledby="configure-enableLiveUpdates-title">
         <EnableLiveUpdates onClick={onClick} />
         {renderMessages(
           showSuccess,
@@ -139,7 +139,7 @@ const LiveUpdatesConfigContainer: FunctionComponent<Props> = ({ story }) => {
           error,
           enabled
         )}
-      </>
+      </section>
     );
   }
 };
