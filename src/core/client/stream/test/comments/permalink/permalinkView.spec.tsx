@@ -94,7 +94,11 @@ it("renders permalink view", async () => {
     within(testRenderer.root).getByTestID("current-tab-pane")
   );
   expect(within(tabPane).toJSON()).toMatchSnapshot();
-  /* TODO (cvle) - flaky */
+  // TODO (Nick): this is failing due to axe. Tried upgrading react-axe,
+  //   jest-axe, and their types. That didn't work, and also noticed that
+  //   these libs have been deprecated and replaced with new libs on npm.
+  //   When I have more time, will look into replacing axe with these
+  //   new libs.
   // expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });
 
