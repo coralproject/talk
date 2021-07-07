@@ -1,9 +1,9 @@
 import { $jsonld, date, toRule } from "@metascraper/helpers";
-import { Rules } from "metascraper";
+import { RuleBundle } from "metascraper";
 
 const toDate = toRule(date);
 
-export const publishedScraper = (): Rules => ({
+export const publishedScraper = (): RuleBundle => ({
   published: [
     // From: http://ogp.me/#type_article
     toDate($jsonld("datePublished")),
