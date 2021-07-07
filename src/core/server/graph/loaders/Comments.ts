@@ -191,7 +191,7 @@ export default (ctx: GraphContext) => ({
     query,
     orderBy,
   }: QueryToCommentsArgs) =>
-    retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
+    retrieveCommentConnection(ctx.mongo, ctx.config, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
@@ -223,40 +223,64 @@ export default (ctx: GraphContext) => ({
     }
   ),
   forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
-    retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentUserConnection(
+      ctx.mongo,
+      ctx.config,
+      ctx.tenant.id,
+      userID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   forUserAll: (userID: string, { first, after }: UserToAllCommentsArgs) =>
-    retrieveAllCommentsUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first: defaultTo(first, 10),
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveAllCommentsUserConnection(
+      ctx.mongo,
+      ctx.config,
+      ctx.tenant.id,
+      userID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+        after,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   forUserRejected: (
     userID: string,
     { first, after }: UserToRejectedCommentsArgs
   ) =>
-    retrieveRejectedCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first: defaultTo(first, 10),
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveRejectedCommentUserConnection(
+      ctx.mongo,
+      ctx.config,
+      ctx.tenant.id,
+      userID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+        after,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   taggedForStory: (
     storyID: string,
     tag: GQLTAG,
     { first, orderBy, after }: StoryToCommentsArgs
   ) =>
-    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-      filter: {
-        // Filter optionally for comments with a specific tag.
-        "tags.type": tag,
-      },
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentStoryConnection(
+      ctx.mongo,
+      ctx.config,
+      ctx.tenant.id,
+      storyID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+        filter: {
+          // Filter optionally for comments with a specific tag.
+          "tags.type": tag,
+        },
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   forStory: async (
     storyID: string,
     { first, orderBy, after, tag, rating }: StoryToCommentsArgs
@@ -266,18 +290,24 @@ export default (ctx: GraphContext) => ({
       throw new Error("cannot get comments for a story that doesn't exist");
     }
 
-    return retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-      filter: {
-        ...tagFilter(tag),
-        ...ratingFilter(ctx.tenant, story, rating),
-        // Only get Comments that are top level. If the client wants to load
-        // another layer, they can request another nested connection.
-        parentID: null,
-      },
-    }).then(primeCommentsFromConnection(ctx));
+    return retrieveCommentStoryConnection(
+      ctx.mongo,
+      ctx.config,
+      ctx.tenant.id,
+      storyID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+        filter: {
+          ...tagFilter(tag),
+          ...ratingFilter(ctx.tenant, story, rating),
+          // Only get Comments that are top level. If the client wants to load
+          // another layer, they can request another nested connection.
+          parentID: null,
+        },
+      }
+    ).then(primeCommentsFromConnection(ctx));
   },
   forParent: (
     storyID: string,
@@ -286,6 +316,7 @@ export default (ctx: GraphContext) => ({
   ) =>
     retrieveCommentRepliesConnection(
       ctx.mongo,
+      ctx.config,
       ctx.tenant.id,
       storyID,
       parentID,

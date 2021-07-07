@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
+import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -325,12 +326,18 @@ function applyInputToQuery(
 export async function retrieveCommentActionConnection(
   mongo: Db,
   tenantID: string,
+  config: Config,
   input: CommentActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
   const query = new Query(collection(mongo)).where({ tenantID });
   applyInputToQuery(query, input);
 
-  return resolveConnection(query, input, (action) => action.createdAt);
+  return resolveConnection(
+    query,
+    input,
+    (action) => action.createdAt,
+    config.get("mongo_query_timeout")
+  );
 }
 
 export async function retrieveUserAction(

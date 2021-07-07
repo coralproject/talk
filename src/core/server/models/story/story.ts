@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { Config } from "coral-server/config";
 import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
@@ -517,6 +518,7 @@ export type StoryConnectionInput = OrderedConnectionInput<Story, STORY_SORT>;
 
 export async function retrieveStoryConnection(
   mongo: Db,
+  config: Config,
   tenantID: string,
   input: StoryConnectionInput
 ): Promise<Readonly<Connection<Readonly<Story>>>> {
@@ -528,17 +530,19 @@ export async function retrieveStoryConnection(
     query.where(input.filter);
   }
 
-  return retrieveConnection(input, query);
+  return retrieveConnection(config, input, query);
 }
 
 const retrieveConnection = async (
+  config: Config,
   input: StoryConnectionInput,
   query: Query<Story>
 ): Promise<Readonly<Connection<Readonly<Story>>>> =>
   resolveConnection(
     applyInputToQuery(input, query),
     input,
-    cursorGetterFactory(input)
+    cursorGetterFactory(input),
+    config.get("mongo_query_timeout")
   );
 
 function cursorGetterFactory(

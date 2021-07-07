@@ -137,7 +137,8 @@ export function doesNotContainNull<T>(items: Array<T | null>): items is T[] {
 export async function resolveConnection<T>(
   query: Query<T>,
   input: PaginationArgs,
-  transformer: NodeToCursorTransformer<T>
+  transformer: NodeToCursorTransformer<T>,
+  timeoutMs: number
 ) {
   // We load one more than the limit so we can determine if there is another
   // page of entries. This gets trimmed off below after we've checked to see if
@@ -145,7 +146,9 @@ export async function resolveConnection<T>(
   query.first(input.first + 1);
 
   // Get the nodes.
-  const nodes = await query.exec().then((cursor) => cursor.toArray());
+  const nodes = await query
+    .exec()
+    .then((cursor) => cursor.maxTimeMS(timeoutMs).toArray());
 
   // Convert the nodes to edges (which will include the extra edge we don't need
   // if there is more results).

@@ -18,7 +18,7 @@ export default (ctx: TenantContext) => ({
     }
   ),
   connection: ({ first, after }: QueryToSitesArgs) =>
-    retrieveSiteConnection(ctx.mongo, ctx.tenant.id, {
+    retrieveSiteConnection(ctx.mongo, ctx.config, ctx.tenant.id, {
       first: defaultTo(first, 20),
       after,
     }),

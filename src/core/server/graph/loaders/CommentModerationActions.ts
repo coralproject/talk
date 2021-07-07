@@ -13,22 +13,32 @@ export default (ctx: GraphContext) => ({
     { first, after }: UserToCommentModerationActionHistoryArgs,
     moderatorID: string
   ) =>
-    retrieveCommentModerationActionConnection(ctx.mongo, ctx.tenant.id, {
-      first: defaultTo(first, 10),
-      after,
-      filter: {
-        moderatorID,
-      },
-    }),
+    retrieveCommentModerationActionConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      ctx.config,
+      {
+        first: defaultTo(first, 10),
+        after,
+        filter: {
+          moderatorID,
+        },
+      }
+    ),
   forComment: (
     { first, after }: CommentToStatusHistoryArgs,
     commentID: string
   ) =>
-    retrieveCommentModerationActionConnection(ctx.mongo, ctx.tenant.id, {
-      first: defaultTo(first, 10),
-      after,
-      filter: {
-        commentID,
-      },
-    }),
+    retrieveCommentModerationActionConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      ctx.config,
+      {
+        first: defaultTo(first, 10),
+        after,
+        filter: {
+          commentID,
+        },
+      }
+    ),
 });

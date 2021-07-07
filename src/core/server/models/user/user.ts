@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 
 import { DeepPartial, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { Config } from "coral-server/config";
 import {
   ConfirmEmailTokenExpired,
   DuplicateEmailError,
@@ -1578,6 +1579,7 @@ export type UserConnectionInput = ConnectionInput<User>;
 
 export async function retrieveUserConnection(
   mongo: Db,
+  config: Config,
   tenantID: string,
   input: UserConnectionInput
 ): Promise<Readonly<Connection<Readonly<User>>>> {
@@ -1589,10 +1591,11 @@ export async function retrieveUserConnection(
     query.where(input.filter);
   }
 
-  return retrieveConnection(input, query);
+  return retrieveConnection(config, input, query);
 }
 
 async function retrieveConnection(
+  config: Config,
   input: UserConnectionInput,
   query: Query<User>
 ): Promise<Readonly<Connection<Readonly<User>>>> {
@@ -1603,7 +1606,12 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, (user) => user.createdAt);
+  return resolveConnection(
+    query,
+    input,
+    (user) => user.createdAt,
+    config.get("mongo_query_timeout")
+  );
 }
 
 /**

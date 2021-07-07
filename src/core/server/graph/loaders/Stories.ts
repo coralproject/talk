@@ -214,7 +214,7 @@ export default (ctx: GraphContext) => ({
     }
   ),
   connection: ({ first, after, status, query, siteID }: QueryToStoriesArgs) =>
-    retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
+    retrieveStoryConnection(ctx.mongo, ctx.config, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       orderBy: query ? STORY_SORT.TEXT_SCORE : STORY_SORT.CREATED_AT_DESC,

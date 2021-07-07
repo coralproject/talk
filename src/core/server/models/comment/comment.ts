@@ -4,6 +4,7 @@ import * as uuid from "uuid";
 
 import { RequireProperty, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { Config } from "coral-server/config";
 import {
   CommentEditWindowExpiredError,
   CommentNotFoundError,
@@ -440,6 +441,7 @@ function cursorGetterFactory(
  */
 export const retrieveCommentRepliesConnection = (
   mongo: Db,
+  config: Config,
   tenantID: string,
   storyID: string,
   parentID: string,
@@ -451,7 +453,7 @@ export const retrieveCommentRepliesConnection = (
     storyID,
   };
 
-  return retrievePublishedCommentConnection(mongo, tenantID, {
+  return retrievePublishedCommentConnection(mongo, config, tenantID, {
     ...input,
     filter,
   });
@@ -539,11 +541,12 @@ export async function retrieveCommentParentsConnection(
  */
 export const retrieveCommentStoryConnection = (
   mongo: Db,
+  config: Config,
   tenantID: string,
   storyID: string,
   input: CommentConnectionInput
 ) =>
-  retrievePublishedCommentConnection(mongo, tenantID, {
+  retrievePublishedCommentConnection(mongo, config, tenantID, {
     ...input,
     filter: {
       ...input.filter,
@@ -562,11 +565,12 @@ export const retrieveCommentStoryConnection = (
  */
 export const retrieveCommentUserConnection = (
   mongo: Db,
+  config: Config,
   tenantID: string,
   userID: string,
   input: CommentConnectionInput
 ) =>
-  retrievePublishedCommentConnection(mongo, tenantID, {
+  retrievePublishedCommentConnection(mongo, config, tenantID, {
     ...input,
     filter: {
       ...input.filter,
@@ -585,11 +589,12 @@ export const retrieveCommentUserConnection = (
  */
 export const retrieveAllCommentsUserConnection = (
   mongo: Db,
+  config: Config,
   tenantID: string,
   userID: string,
   input: CommentConnectionInput
 ) =>
-  retrieveCommentConnection(mongo, tenantID, {
+  retrieveCommentConnection(mongo, config, tenantID, {
     ...input,
     filter: {
       ...input.filter,
@@ -608,12 +613,14 @@ export const retrieveAllCommentsUserConnection = (
  */
 export const retrieveRejectedCommentUserConnection = (
   mongo: Db,
+  config: Config,
   tenantID: string,
   userID: string,
   input: CommentConnectionInput
 ) =>
   retrieveStatusCommentConnection(
     mongo,
+    config,
     tenantID,
     [GQLCOMMENT_STATUS.REJECTED],
     {
@@ -635,10 +642,17 @@ export const retrieveRejectedCommentUserConnection = (
  */
 export const retrievePublishedCommentConnection = (
   mongo: Db,
+  config: Config,
   tenantID: string,
   input: CommentConnectionInput
 ) =>
-  retrieveStatusCommentConnection(mongo, tenantID, PUBLISHED_STATUSES, input);
+  retrieveStatusCommentConnection(
+    mongo,
+    config,
+    tenantID,
+    PUBLISHED_STATUSES,
+    input
+  );
 
 /**
  * retrieveStatusCommentConnection will retrieve a connection that contains
@@ -651,11 +665,12 @@ export const retrievePublishedCommentConnection = (
  */
 export const retrieveStatusCommentConnection = (
   mongo: Db,
+  config: Config,
   tenantID: string,
   statuses: GQLCOMMENT_STATUS[],
   input: CommentConnectionInput
 ) =>
-  retrieveCommentConnection(mongo, tenantID, {
+  retrieveCommentConnection(mongo, config, tenantID, {
     ...input,
     filter: {
       ...input.filter,
@@ -665,6 +680,7 @@ export const retrieveStatusCommentConnection = (
 
 export async function retrieveCommentConnection(
   mongo: Db,
+  config: Config,
   tenantID: string,
   input: CommentConnectionInput
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
@@ -676,7 +692,7 @@ export async function retrieveCommentConnection(
     query.where(input.filter);
   }
 
-  return retrieveConnection(input, query);
+  return retrieveConnection(config.get("mongo_query_timeout"), input, query);
 }
 
 /**
@@ -688,13 +704,15 @@ export async function retrieveCommentConnection(
  *              configuration applied
  */
 const retrieveConnection = async (
+  timeoutMs: number,
   input: CommentConnectionInput,
   query: Query<Comment>
 ): Promise<Readonly<Connection<Readonly<Comment>>>> =>
   resolveConnection(
     applyInputToQuery(input, query),
     input,
-    cursorGetterFactory(input)
+    cursorGetterFactory(input),
+    timeoutMs
   );
 
 function applyInputToQuery(

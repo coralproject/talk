@@ -2,6 +2,7 @@ import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
+import { Config } from "coral-server/config";
 import {
   Connection,
   ConnectionInput,
@@ -110,6 +111,7 @@ export type CommentModerationActionConnectionInput = ConnectionInput<
 export async function retrieveCommentModerationActionConnection(
   mongo: Db,
   tenantID: string,
+  config: Config,
   input: CommentModerationActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentModerationAction>>>> {
   // Create the query.
@@ -120,10 +122,11 @@ export async function retrieveCommentModerationActionConnection(
     query.where(input.filter);
   }
 
-  return retrieveConnection(input, query);
+  return retrieveConnection(config.get("mongo_query_timeout"), input, query);
 }
 
 async function retrieveConnection(
+  timeoutMs: number,
   input: CommentModerationActionConnectionInput,
   query: Query<CommentModerationAction>
 ): Promise<Readonly<Connection<Readonly<CommentModerationAction>>>> {
@@ -135,5 +138,5 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, (a) => a.createdAt);
+  return resolveConnection(query, input, (a) => a.createdAt, timeoutMs);
 }

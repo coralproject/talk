@@ -117,7 +117,7 @@ export default (ctx: Context) => {
   return {
     user,
     connection: ({ first, after, role, query, status }: QueryToUsersArgs) =>
-      retrieveUserConnection(ctx.mongo, ctx.tenant.id, {
+      retrieveUserConnection(ctx.mongo, ctx.config, ctx.tenant.id, {
         first: defaultTo(first, 10),
         after,
         filter: {

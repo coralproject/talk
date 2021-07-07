@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { FirstDeepPartial } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import { DuplicateSiteAllowedOriginError } from "coral-server/errors";
 import {
   Connection,
@@ -107,6 +108,7 @@ export async function retrieveSiteByOrigin(
 }
 
 async function retrieveConnection(
+  config: Config,
   input: SiteConnectionInput,
   query: Query<Site>
 ): Promise<Readonly<Connection<Readonly<Site>>>> {
@@ -118,7 +120,12 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, (_, index) => index + skip + 1);
+  return resolveConnection(
+    query,
+    input,
+    (_, index) => index + skip + 1,
+    config.get("mongo_query_timeout")
+  );
 }
 
 export async function countTenantSites(mongo: Db, tenantID: string) {
@@ -127,13 +134,14 @@ export async function countTenantSites(mongo: Db, tenantID: string) {
 
 export async function retrieveSiteConnection(
   mongo: Db,
+  config: Config,
   tenantID: string,
   input: SiteConnectionInput
 ): Promise<Readonly<Connection<Readonly<Site>>>> {
   // Create the query.
   const query = new Query(collection(mongo)).where({ tenantID });
 
-  return retrieveConnection(input, query);
+  return retrieveConnection(config, input, query);
 }
 
 export type UpdateSiteInput = Partial<Omit<CreateSiteInput, "tenantID">>;

@@ -448,6 +448,12 @@ const config = convict({
     default: ms("30s"),
     env: "MAILER_JOB_TIMEOUT",
   },
+  mongo_query_timeout: {
+    doc: "Maximum time any query can take before time out in Mongo.",
+    format: "ms",
+    default: ms("3m"),
+    env: "MONGO_QUERY_TIMEOUT",
+  },
 });
 
 export type Config = typeof config;

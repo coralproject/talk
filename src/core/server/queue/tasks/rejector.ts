@@ -1,6 +1,7 @@
 import Queue from "bull";
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
@@ -20,6 +21,7 @@ const JOB_NAME = "rejector";
 
 export interface RejectorProcessorOptions {
   mongo: Db;
+  config: Config;
   redis: AugmentedRedis;
   tenantCache: TenantCache;
 }
@@ -32,11 +34,12 @@ export interface RejectorData {
 
 function getBatch(
   mongo: Db,
+  config: Config,
   tenantID: string,
   authorID: string,
   connection?: Readonly<Connection<Readonly<Comment>>>
 ) {
-  return retrieveAllCommentsUserConnection(mongo, tenantID, authorID, {
+  return retrieveAllCommentsUserConnection(mongo, config, tenantID, authorID, {
     orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
     first: 100,
     after: connection ? connection.pageInfo.endCursor : undefined,
@@ -45,6 +48,7 @@ function getBatch(
 
 const createJobProcessor = ({
   mongo,
+  config,
   redis,
   tenantCache,
 }: RejectorProcessorOptions): JobProcessor<RejectorData> => async (job) => {
@@ -76,7 +80,7 @@ const createJobProcessor = ({
   const currentTime = new Date();
 
   // Find all comments written by the author that should be rejected.
-  let connection = await getBatch(mongo, tenantID, authorID);
+  let connection = await getBatch(mongo, config, tenantID, authorID);
   while (connection.nodes.length > 0) {
     for (const comment of connection.nodes) {
       // Get the latest revision of the comment.
@@ -99,7 +103,7 @@ const createJobProcessor = ({
       break;
     }
     // Load the next page.
-    connection = await getBatch(mongo, tenantID, authorID, connection);
+    connection = await getBatch(mongo, config, tenantID, authorID, connection);
   }
 
   // Compute the end time.
