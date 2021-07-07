@@ -1,4 +1,5 @@
 import cheerio from "cheerio";
+import { RuleBundle } from "metascraper";
 import authorScraper from "metascraper-author";
 import descriptionScraper from "metascraper-description";
 import imageScraper from "metascraper-image";
@@ -19,13 +20,6 @@ import { modifiedScraper } from "./rules/modified";
 import { publishedScraper } from "./rules/published";
 import { sectionScraper } from "./rules/section";
 
-export type Rule = Record<
-  string,
-  Array<
-    (options: { htmlDom: CheerioSelector; url: string }) => string | undefined
-  >
->;
-
 interface ScrapeOptions {
   url: string;
   timeout: number;
@@ -36,15 +30,15 @@ interface ScrapeOptions {
 }
 
 class Scraper {
-  private readonly rules: Rule[];
+  private readonly rules: RuleBundle[];
   private readonly log = logger.child({ taskName: "scraper" }, true);
   private readonly fetch = createFetch({ name: "Scraper" });
 
-  constructor(rules: Rule[]) {
+  constructor(rules: RuleBundle[]) {
     this.rules = rules;
   }
 
-  public parse(url: string, html: string): GQLStoryMetadata {
+  public async parse(url: string, html: string): Promise<GQLStoryMetadata> {
     const log = this.log.child({ storyURL: url }, true);
 
     // Load the DOM.
@@ -64,7 +58,7 @@ class Scraper {
         // Proceed through each of the properties and try to find the mapped
         // properties.
         for (const getter of rule[property]) {
-          const value = getter({ htmlDom, url });
+          const value = await getter({ htmlDom, url });
           if (value && value.length > 0) {
             metadata[property] = value;
 
@@ -152,7 +146,7 @@ class Scraper {
       return null;
     }
 
-    return this.parse(options.url, html);
+    return await this.parse(options.url, html);
   }
 }
 
