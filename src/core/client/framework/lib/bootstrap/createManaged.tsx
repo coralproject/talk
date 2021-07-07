@@ -323,7 +323,7 @@ function resolveIndexedDBStorage(
   postMessage?: PostMessageService
 ): PromisifiedStorage<any> {
   if (postMessage && areWeInIframe()) {
-    // Use session storage over postMessage when we are in an iframe.
+    // Use indexeddb storage over postMessage when we are in an iframe.
     return createPostMessageStorage(postMessage, "indexedDB");
   }
   // Use promisified, prefixed session storage.
