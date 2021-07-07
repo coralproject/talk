@@ -293,6 +293,8 @@ const CLASSES = {
      */
     highlight: "coral coral-comment-highlight",
 
+    notSeen: "coral-comment-notSeen",
+
     /**
      * reacted signifies the number of reactions of the comment.
      * The no of reactions is appended: e.g. `coral-reacted-1`.

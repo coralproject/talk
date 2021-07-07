@@ -293,11 +293,10 @@ function createManagedCoralContextProvider(
  * resolveLocalStorage decides which local storage to use in the context
  */
 function resolveLocalStorage(
-  postMessage?: PostMessageService,
-  pym?: PymChild
+  postMessage?: PostMessageService
 ): PromisifiedStorage {
-  if (pym && postMessage && areWeInIframe()) {
-    // Use local storage over postMessage when we have postMessage and are in an iframe.
+  if (postMessage && areWeInIframe()) {
+    // Use local storage over postMessage when we are in an iframe.
     return createPostMessageStorage(postMessage, "localStorage");
   }
   // Use promisified, prefixed local storage.
@@ -308,11 +307,10 @@ function resolveLocalStorage(
  * resolveSessionStorage decides which session storage to use in the context
  */
 function resolveSessionStorage(
-  postMessage?: PostMessageService,
-  pym?: PymChild
+  postMessage?: PostMessageService
 ): PromisifiedStorage {
-  if (pym && postMessage && areWeInIframe()) {
-    // Use session storage over postMessage when we have pym and are in an iframe.
+  if (postMessage && areWeInIframe()) {
+    // Use session storage over postMessage when we are in an iframe.
     return createPostMessageStorage(postMessage, "sessionStorage");
   }
   // Use promisified, prefixed session storage.
@@ -322,11 +320,10 @@ function resolveSessionStorage(
  * resolveIndexedDBStorage decides which indexeddb storage to use in the context
  */
 function resolveIndexedDBStorage(
-  postMessage?: PostMessageService,
-  pym?: PymChild
+  postMessage?: PostMessageService
 ): PromisifiedStorage<any> {
-  if (pym && postMessage && areWeInIframe()) {
-    // Use session storage over postMessage when we have pym and are in an iframe.
+  if (postMessage && areWeInIframe()) {
+    // Use session storage over postMessage when we are in an iframe.
     return createPostMessageStorage(postMessage, "indexedDB");
   }
   // Use promisified, prefixed session storage.
@@ -410,7 +407,7 @@ export default async function createManaged({
   const localeBundles = await generateBundles(locales, localesData);
   await polyfillIntlLocale(locales);
 
-  const localStorage = resolveLocalStorage(postMessage, pym);
+  const localStorage = resolveLocalStorage(postMessage);
 
   // Get the access token from storage.
   const auth = await retrieveAccessToken(localStorage);
@@ -449,8 +446,8 @@ export default async function createManaged({
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage,
     localStorage,
-    sessionStorage: resolveSessionStorage(postMessage, pym),
-    indexedDBStorage: resolveIndexedDBStorage(postMessage, pym),
+    sessionStorage: resolveSessionStorage(postMessage),
+    indexedDBStorage: resolveIndexedDBStorage(postMessage),
     browserInfo: getBrowserInfo(),
     uuidGenerator: uuid,
     // Noop, this is later replaced by the

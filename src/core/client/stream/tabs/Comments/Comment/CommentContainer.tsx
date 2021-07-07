@@ -375,7 +375,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           classNameIndented={cn({
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
-            "coral-comment-notSeen": shouldApplyNotSeenClass,
+            [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
           })}
           indentLevel={indentLevel}
           collapsed={collapsed}
