@@ -57,6 +57,7 @@ import PostCommentFormClosedSitewide from "./PostCommentFormClosedSitewide";
 import PostCommentFormFake from "./PostCommentFormFake";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 import PostReviewOrQuestion, { Toggle } from "./PostReviewOrQuestion";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 interface Props {
   settings: PostCommentFormContainer_settings;
@@ -348,30 +349,32 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   return (
     <PostCommentSection>
-      {isRatingsAndReviews && (
-        <PostReviewOrQuestion
-          toggle={toggle}
-          rating={rating}
-          onShowReview={showReview ? onClickReview : undefined}
-          onToggle={onToggle}
+      <HorizontalGutter size="double">
+        {isRatingsAndReviews && (
+          <PostReviewOrQuestion
+            toggle={toggle}
+            rating={rating}
+            onShowReview={showReview ? onClickReview : undefined}
+            onToggle={onToggle}
+          />
+        )}
+        <PostCommentForm
+          mode={mode}
+          siteID={story.site.id}
+          story={story}
+          onSubmit={handleOnSubmit}
+          onChange={handleOnChange}
+          initialValues={initialValues}
+          mediaConfig={settings.media}
+          rteConfig={settings.rte}
+          min={settings.charCount.enabled ? settings.charCount.min : null}
+          max={settings.charCount.enabled ? settings.charCount.max : null}
+          disabled={disabled}
+          disabledMessage={disabledMessage}
+          submitStatus={submitStatus}
+          showMessageBox={story.settings.messageBox.enabled}
         />
-      )}
-      <PostCommentForm
-        mode={mode}
-        siteID={story.site.id}
-        story={story}
-        onSubmit={handleOnSubmit}
-        onChange={handleOnChange}
-        initialValues={initialValues}
-        mediaConfig={settings.media}
-        rteConfig={settings.rte}
-        min={settings.charCount.enabled ? settings.charCount.min : null}
-        max={settings.charCount.enabled ? settings.charCount.max : null}
-        disabled={disabled}
-        disabledMessage={disabledMessage}
-        submitStatus={submitStatus}
-        showMessageBox={story.settings.messageBox.enabled}
-      />
+      </HorizontalGutter>
     </PostCommentSection>
   );
 };
