@@ -1,4 +1,13 @@
-import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
+import {
+  ACTION_TYPE,
+  EncodedCommentActionCounts,
+  FLAG_REASON,
+} from "coral-server/models/action/comment";
+
+import {
+  GQLCOMMENT_STATUS,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 export interface RevisionMetadata {
   /**
@@ -45,6 +54,23 @@ export interface RevisionMetadata {
    * without a warning.
    */
   nudge?: boolean;
+
+  /**
+   * externalModeration is any details about if and when this comment revision
+   * was analyzed by an external moderation phase.
+   */
+  externalModeration?: {
+    name: string;
+    analyzedAt: Date;
+    result: {
+      status?: GQLCOMMENT_STATUS;
+      tags?: GQLTAG[];
+      actions?: {
+        type?: ACTION_TYPE;
+        reason?: FLAG_REASON;
+      }[];
+    };
+  }[];
 }
 
 export interface GiphyMedia {

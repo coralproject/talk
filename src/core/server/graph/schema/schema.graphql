@@ -3073,6 +3073,22 @@ type CommentRevisionWordListMetadata {
   timedOut: Boolean
 }
 
+type ExternalModerationPhaseAction {
+  reason: COMMENT_FLAG_REASON
+}
+
+type ExternalModerationPhaseResult {
+  status: COMMENT_STATUS
+  tags: [TAG!]
+  actions: [ExternalModerationPhaseAction!]
+}
+
+type CommentRevisionExternalModerationPhaseMetadata {
+  name: String!
+  analyzedAt: Time!
+  result: ExternalModerationPhaseResult!
+}
+
 type CommentRevisionMetadata {
   """
   perspective stores metadata associated with the pipeline analysis of this
@@ -3085,6 +3101,12 @@ type CommentRevisionMetadata {
   word list analysis of this comment revision.
   """
   wordList: CommentRevisionWordListMetadata
+
+  """
+  externalModeration are the phases and their actions that were used to
+  analyze this comment revision.
+  """
+  externalModeration: [CommentRevisionExternalModerationPhaseMetadata!]
 }
 
 """
