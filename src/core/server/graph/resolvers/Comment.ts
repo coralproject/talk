@@ -54,10 +54,7 @@ export const maybeLoadOnlyID = (
 };
 
 export const Comment: GQLCommentTypeResolver<comment.Comment> = {
-  body: (c) => {
-    // (c.revisions.length > 0 ? getLatestRevision(c).body : null)
-    throw Error("BODY ERROR");
-  },
+  body: (c) => (c.revisions.length > 0 ? getLatestRevision(c).body : null),
   // Send the whole comment back when you request revisions. This way, we get to
   // know the comment ID. The field mapping is handled by the CommentRevision
   // resolver.
