@@ -1,5 +1,5 @@
 class TraceableError extends Error {
-  public readonly traceID?: string;
+  public readonly traceID: string;
 }
 
 export default TraceableError;

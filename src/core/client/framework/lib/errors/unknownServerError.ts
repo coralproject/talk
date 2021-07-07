@@ -5,7 +5,7 @@ import TraceableError from "./traceableError";
  */
 interface UnknownErrorExtension {
   code: string;
-  traceID?: string;
+  traceID: string;
 }
 
 /**
@@ -15,7 +15,7 @@ interface UnknownErrorExtension {
 export default class UnknownServerError extends TraceableError {
   // Keep origin of original server response.
   public origin: UnknownErrorExtension;
-  public traceID?: string;
+  public traceID: string;
 
   constructor(msg: string, error: UnknownErrorExtension) {
     super(msg);
@@ -25,12 +25,7 @@ export default class UnknownServerError extends TraceableError {
       Error.captureStackTrace(this, UnknownServerError);
     }
 
-    const traceID: string | null | undefined = error.traceID as string;
-
-    if (traceID) {
-      this.traceID = traceID;
-    }
-
+    this.traceID = error.traceID;
     this.origin = error;
   }
 }

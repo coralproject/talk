@@ -104,17 +104,11 @@ function hoistCoralErrorExtensions(
   const bundle = ctx.i18n.getBundle(ctx.lang);
 
   // Translate the extensions.
-  const extensions = originalError.serializeExtensions(bundle);
+  const extensions = originalError.serializeExtensions(bundle, ctx.id);
 
   // Hoist the message from the original error into the message of the base
   // error.
-  const rawError = err as any;
-  rawError.message = extensions.message;
-  rawError.traceID = ctx.id;
-
-  if (err.extensions) {
-    err.extensions.traceID = ctx.id;
-  }
+  (err as any).message = extensions.message;
 
   // Re-hoist the extensions.
   merge(err.extensions, extensions);

@@ -14,7 +14,7 @@ interface InvalidRequestExtension {
   message?: string;
   id?: string;
   param?: string;
-  traceID?: string;
+  traceID: string;
 }
 
 /**
@@ -27,7 +27,7 @@ export default class InvalidRequestError extends TraceableError
   public readonly extension: InvalidRequestExtension;
   public readonly code: ERROR_CODES;
   public readonly id?: string;
-  public readonly traceID?: string;
+  public readonly traceID: string;
   public readonly param?: string;
   public readonly message: string;
   public readonly extensions: string;

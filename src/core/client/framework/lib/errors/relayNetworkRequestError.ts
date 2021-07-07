@@ -1,11 +1,9 @@
 import { RRNLRequestError } from "react-relay-network-modern/es";
 
-import TraceableError from "./traceableError";
-
 /**
  * RelayNetworkRequestError wraps Request errors thrown by Relay Network Layer.
  */
-export default class RelayNetworkRequestError extends TraceableError {
+export default class RelayNetworkRequestError extends Error {
   // Keep origin of original server response.
   public origin: RRNLRequestError;
 
