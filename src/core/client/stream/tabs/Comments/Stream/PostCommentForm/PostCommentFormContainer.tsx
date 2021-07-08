@@ -26,6 +26,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
@@ -57,7 +58,6 @@ import PostCommentFormClosedSitewide from "./PostCommentFormClosedSitewide";
 import PostCommentFormFake from "./PostCommentFormFake";
 import PostCommentSubmitStatusContainer from "./PostCommentSubmitStatusContainer";
 import PostReviewOrQuestion, { Toggle } from "./PostReviewOrQuestion";
-import { HorizontalGutter } from "coral-ui/components/v2";
 
 interface Props {
   settings: PostCommentFormContainer_settings;

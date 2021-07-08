@@ -385,13 +385,68 @@ export const CommentContainer: FunctionComponent<Props> = ({
       // Added for keyboard shortcut support.
       data-key-stop
     >
+      {/* TODO: (cvle) Refactor at some point */}
       <Hidden id={`${commentElementID}-label`}>
-        {indentLevel && `Thread Level ${indentLevel}: `}
-        {ariaIsHighlighted && "Highlighted "}
-        {ariaIsAncestor && "Ancestor "}
-        {comment.parent ? "Reply" : isQA ? "Question" : "Comment"} from{" "}
-        {comment.author?.username || "Deleted User"} {` `}
-        <RelativeTime date={comment.createdAt} />
+        {indentLevel && (
+          <>
+            <Localized
+              id="comments-commentContainer-threadLevelLabel"
+              $level={indentLevel}
+            >
+              <span>Thread Level {indentLevel}:</span>
+            </Localized>{" "}
+          </>
+        )}
+        {ariaIsHighlighted && (
+          <>
+            <Localized id="comments-commentContainer-highlightedLabel">
+              <span>Highlighted:</span>
+            </Localized>{" "}
+          </>
+        )}
+        {ariaIsAncestor && (
+          <>
+            <Localized id="comments-commentContainer-ancestorLabel">
+              <span>Ancestor:</span>
+            </Localized>{" "}
+          </>
+        )}
+        {comment.parent && (
+          <Localized
+            id="comments-commentContainer-replyLabel"
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
+          >
+            <span>
+              Reply from {comment.author?.username}{" "}
+              <RelativeTime date={comment.createdAt} />
+            </span>
+          </Localized>
+        )}
+        {!comment.parent && isQA && (
+          <Localized
+            id="comments-commentContainer-questionLabel"
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
+          >
+            <span>
+              Question from {comment.author?.username}{" "}
+              <RelativeTime date={comment.createdAt} />
+            </span>
+          </Localized>
+        )}
+        {!comment.parent && !isQA && (
+          <Localized
+            id="comments-commentContainer-commentLabel"
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
+          >
+            <span>
+              Comment from {comment.author?.username}{" "}
+              <RelativeTime date={comment.createdAt} />
+            </span>
+          </Localized>
+        )}
       </Hidden>
       <HorizontalGutter>
         <IndentedComment

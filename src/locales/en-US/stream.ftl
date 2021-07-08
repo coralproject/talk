@@ -180,6 +180,15 @@ comments-replyCommentForm-rteLabel = Write a reply
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
+comments-commentContainer-threadLevelLabel = Thread Level { $level }:
+comments-commentContainer-highlightedLabel = Highlighted:
+comments-commentContainer-ancestorLabel = Ancestor:
+comments-commentContainer-replyLabel =
+  Reply from { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-questionLabel =
+  Question from { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-commentLabel =
+  Comment from { $username } <RelativeTime></RelativeTime>
 comments-commentContainer-editButton = Edit
 
 comments-commentContainer-avatar =
