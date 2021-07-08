@@ -2,6 +2,8 @@
 
 ## General
 general-notAvailable = Not available
+general-none = None
+general-noTextContent = No text content
 
 ## Story Status
 storyStatus-open = Open
@@ -884,6 +886,7 @@ moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
 moderate-navigation-approved = approved
 moderate-navigation-comment-count = { SHORT_NUMBER($count) }
+moderate-navigation-forReview = for review
 
 moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
@@ -981,6 +984,20 @@ moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
+moderateCardDetails-tab-automatedActions = Automated actions
+moderateCardDetails-tab-noIssuesFound = No issues found
+moderateCardDetails-tab-missingPhase = Was not run
+
+moderateCardDetails-tab-externalMod-status = Status
+moderateCardDetails-tab-externalMod-flags = Flags
+moderateCardDetails-tab-externalMod-tags = Tags
+
+moderateCardDetails-tab-externalMod-none = None
+moderateCardDetails-tab-externalMod-approved = Approved
+moderateCardDetails-tab-externalMod-rejected = Rejected
+moderateCardDetails-tab-externalMod-premod = Pre-moderated
+moderateCardDetails-tab-externalMod-systemWithheld = System withheld
+
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =
@@ -1069,6 +1086,35 @@ moderate-user-drawer-notes-field =
 moderate-user-drawer-notes-button = Add note
 moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
+
+# For Review Queue
+
+moderate-forReview-reviewedButton =
+  .aria-label = Reviewed
+moderate-forReview-markAsReviewedButton =
+  .aria-label = Mark as reviewed
+moderate-forReview-time = Time
+moderate-forReview-comment = Comment
+moderate-forReview-reportedBy = Reported by
+moderate-forReview-reason = Reason
+moderate-forReview-description = Description
+moderate-forReview-reviewed = Reviewed
+
+moderate-forReview-detectedBannedWord = Banned word
+moderate-forReview-detectedLinks = Links
+moderate-forReview-detectedNewCommenter = New commenter
+moderate-forReview-detectedPreModUser = Pre-moderated user
+moderate-forReview-detectedRecentHistory = Recent history
+moderate-forReview-detectedRepeatPost = Repeat post
+moderate-forReview-detectedSpam = Spam
+moderate-forReview-detectedSuspectWord = Suspect word
+moderate-forReview-detectedToxic = Toxic language
+moderate-forReview-reportedAbusive = Abusive
+moderate-forReview-reportedBio = User bio
+moderate-forReview-reportedOffensive = Offensive
+moderate-forReview-reportedOther = Other
+moderate-forReview-reportedSpam = Spam
+
 
 ## Community
 community-emptyMessage = We could not find anyone in your community matching your criteria.
@@ -1435,3 +1481,5 @@ conversation-modal-showMoreParents = Show more of this conversation
 conversation-modal-showReplies = Show replies
 conversation-modal-commentNotFound = Comment not found.
 conversation-modal-showMoreReplies = Show more replies
+conversation-modal-header-title = Conversation on:
+conversation-modal-header-moderate-link = Moderate story

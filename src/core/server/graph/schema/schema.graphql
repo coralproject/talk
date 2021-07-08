@@ -316,10 +316,25 @@ type FlagReasonActionCounts {
 
 type Flag {
   """
+  id is the identifier for this flag action.
+  """
+  id: ID!
+
+  """
   flagger is the User that created the Flag. If this is null, then the system
   created the Flag.
   """
   flagger: User
+
+  """
+  comment is the comment this flag was created on.
+  """
+  comment: Comment!
+
+  """
+  revision is the comment revision this flag was generated upon.
+  """
+  revision: CommentRevision
 
   """
   reason is the selected reason why the Flag is being created. If the reason is
@@ -333,6 +348,17 @@ type Flag {
   created or is relevant.
   """
   additionalDetails: String
+
+  """
+  reviewed is whether this flag reason and details have been reviewed by a
+  moderator.
+  """
+  reviewed: Boolean!
+
+  """
+  createdAt is when this flag was created.
+  """
+  createdAt: Time!
 }
 
 type FlagEdge {
@@ -537,6 +563,13 @@ enum FEATURE_FLAG {
   `X-Coral-Template` header.
   """
   EMAIL_META
+
+  """
+  FOR_REVIEW will add a "For Review" Queue that allows moderators to review every flag
+  that has been put on a comment by a user. This feature shall help complying with European Law
+  (European Directive 2000/31/CE).
+  """
+  FOR_REVIEW
 }
 
 # The moderation mode of the site.
@@ -3040,6 +3073,22 @@ type CommentRevisionWordListMetadata {
   timedOut: Boolean
 }
 
+type ExternalModerationPhaseAction {
+  reason: COMMENT_FLAG_REASON
+}
+
+type ExternalModerationPhaseResult {
+  status: COMMENT_STATUS
+  tags: [TAG!]
+  actions: [ExternalModerationPhaseAction!]
+}
+
+type CommentRevisionExternalModerationPhaseMetadata {
+  name: String!
+  analyzedAt: Time!
+  result: ExternalModerationPhaseResult!
+}
+
 type CommentRevisionMetadata {
   """
   perspective stores metadata associated with the pipeline analysis of this
@@ -3052,6 +3101,12 @@ type CommentRevisionMetadata {
   word list analysis of this comment revision.
   """
   wordList: CommentRevisionWordListMetadata
+
+  """
+  externalModeration are the phases and their actions that were used to
+  analyze this comment revision.
+  """
+  externalModeration: [CommentRevisionExternalModerationPhaseMetadata!]
 }
 
 """
@@ -3302,29 +3357,29 @@ type CommentTagCounts {
 }
 
 """
-Comment is a comment left by a [User](/reference/object/User) on an
-[Story](/reference/object/Story) or another [Comment](/reference/object/Comment)
+Comment is a comment left by a [User](/api/objects/User) on an
+[Story](/api/objects/Story) or another [Comment](/api/objects/Comment)
 as a reply.
 """
 type Comment @cacheControl(maxAge: 5) {
   """
-  id is the identifier of the [Comment](/reference/object/Comment).
+  id is the identifier of the [Comment](/api/objects/Comment).
   """
   id: ID!
 
   """
-  body is the content of the [Comment](/reference/object/Comment), and is an alias to the body of the
+  body is the content of the [Comment](/api/objects/Comment), and is an alias to the body of the
   `revision.body`.
   """
   body: String
 
   """
-  revision is the current revision of the [Comment](/reference/object/Comment)'s body.
+  revision is the current revision of the [Comment](/api/objects/Comment)'s body.
   """
   revision: CommentRevision
 
   """
-  revisionHistory stores the previous [CommentRevision](/reference/object/CommentRevision)'s, with the most recent
+  revisionHistory stores the previous [CommentRevision](/api/objects/comment-revision)'s, with the most recent
   edit last.
   """
   revisionHistory: [CommentRevision!]!
@@ -4088,6 +4143,18 @@ type Query {
   """
   externalModerationPhase(id: ID!): ExternalModerationPhase
     @auth(roles: [ADMIN])
+
+  """
+  flags are the list of flags from user reported comments.
+  """
+  flags(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+    orderBy: COMMENT_SORT
+    storyID: ID
+    siteID: ID
+    section: SectionFilter
+  ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -7812,6 +7879,30 @@ type TestSMTPPayload {
   clientMutationId: String!
 }
 
+input ReviewCommentFlagInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the id of the Flag being reviewed.
+  """
+  id: ID!
+}
+
+type ReviewCommentFlagPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  flag is the flag that was reviewed by the review action.
+  """
+  flag: Flag!
+}
+
 ##################
 ## Mutation
 ##################
@@ -8403,6 +8494,12 @@ type Mutation {
   testSMTP sends a test email.
   """
   testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN])
+
+  """
+  reviewCommentFlag marks comment flag as reviewed
+  """
+  reviewCommentFlag(input: ReviewCommentFlagInput!): ReviewCommentFlagPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################
@@ -8415,7 +8512,7 @@ after it was created.
 """
 type CommentStatusUpdatedPayload {
   """
-  newStatus  is the new status assigned to the Comment. This status may not
+  newStatus is the new status assigned to the Comment. This status may not
   match the status provided by `comment.status` due to race conditions in the
   data loaders.
   """

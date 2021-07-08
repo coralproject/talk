@@ -1,8 +1,7 @@
 import DataLoader from "dataloader";
-import { defaultTo, isNil, isNumber, omitBy } from "lodash";
+import { defaultTo, isNumber } from "lodash";
 import { DateTime } from "luxon";
 
-import { SectionFilter } from "coral-common/section";
 import GraphContext from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
@@ -42,19 +41,8 @@ import {
   UserToRejectedCommentsArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { requiredPropertyFilter, sectionFilter } from "./helpers";
 import { SingletonResolver } from "./util";
-
-/**
- * requiredPropertyFilter will remove those properties that are nil from the
- * object as they are not nilable on the database model. If we didn't do this,
- * then any time that the property is nil, we'd be querying for comments that
- * can't possibly exist!
- *
- * @param props properties that if nil should be removed from the return object
- */
-const requiredPropertyFilter = (
-  props: CommentConnectionInput["filter"]
-): CommentConnectionInput["filter"] => omitBy(props, isNil);
 
 const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   if (tag) {
@@ -110,22 +98,6 @@ const flattenFilter = (
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: JSON.stringify(query) } };
-  }
-
-  return {};
-};
-
-const sectionFilter = (
-  tenant: Pick<Tenant, "featureFlags">,
-  section?: SectionFilter
-): CommentConnectionInput["filter"] => {
-  // Don't filter by section if the feature flag is disabled.
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
-    return {};
-  }
-
-  if (section) {
-    return { section: section.name || null };
   }
 
   return {};

@@ -232,6 +232,7 @@ export default async function edit(
           commentRevisionID: result.revision.id,
           storyID: story.id,
           siteID: story.siteID,
+          section: story.metadata?.section,
 
           // All these actions are created by the system.
           userID: null,

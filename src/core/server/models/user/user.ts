@@ -534,6 +534,10 @@ export interface User extends TenantResource {
   createdAt: Date;
 
   /**
+   * importedAt is the time that the User was imported using an import script
+   */
+  importedAt?: Date;
+  /**
    * scheduledDeletionDate is the time that a user is scheduled to be deleted.
    * If this is null, the user has not requested for their account to be deleted.
    */

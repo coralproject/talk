@@ -116,7 +116,7 @@ it("live update count", async () => {
     verifyCount(GQLMODERATION_QUEUE.UNMODERATED, 0);
 
     commentEntered(GQLMODERATION_QUEUE.PENDING, reportedComments[2]);
-    commentEntered(GQLMODERATION_QUEUE.PENDING, reportedComments[2]);
+    commentEntered(GQLMODERATION_QUEUE.PENDING, reportedComments[3]);
     commentLeft(GQLMODERATION_QUEUE.REPORTED, reportedComments[1]);
 
     verifyCount(GQLMODERATION_QUEUE.REPORTED, 1);

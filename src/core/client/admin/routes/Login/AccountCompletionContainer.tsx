@@ -106,7 +106,15 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
         if (redirectPath && !redirectPath.startsWith("/admin")) {
           window.location.href = redirectPath;
         } else {
-          router.replace({ pathname: redirectPath || "/admin" });
+          const pathname = redirectPath || "/admin";
+          // TODO: (cvle) for some reason having a GET Parameter at the end will lead to 404.
+          // This seems to be an issue in found. Needs more investigation.
+          if (pathname.includes("?")) {
+            // Workaround for now.
+            location.href = pathname;
+          } else {
+            router.replace({ pathname });
+          }
         }
       } catch (err) {
         window.console.error(err);
