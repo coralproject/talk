@@ -135,6 +135,12 @@ async function retrieveConnection(
   query.orderBy({ createdAt: -1 });
   if (input.after) {
     query.where({ createdAt: { $lt: input.after as Date } });
+  } else {
+    // We need to force the query planner to know to bail out
+    // early in the index search based on date rather than
+    // retrieving all comments and then trying to sort them all.
+    // This tells it we care about date order in index traversal.
+    query.where({ createdAt: { $gt: new Date(0) } });
   }
 
   // Return a connection.

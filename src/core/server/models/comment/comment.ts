@@ -725,24 +725,32 @@ function applyInputToQuery(
       query.orderBy({ createdAt: -1 });
       if (input.after) {
         query.where({ createdAt: { $lt: input.after as Date } });
+      } else {
+        query.where({ createdAt: { $gt: new Date(0) } });
       }
       return query;
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ createdAt: 1 });
       if (input.after) {
         query.where({ createdAt: { $gt: input.after as Date } });
+      } else {
+        query.where({ createdAt: { $gt: new Date(0) } });
       }
       return query;
     case GQLCOMMENT_SORT.REPLIES_DESC:
       query.orderBy({ childCount: -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
+      } else {
+        query.where({ createdAt: { $gt: new Date(0) } });
       }
       return query;
     case GQLCOMMENT_SORT.REACTION_DESC:
       query.orderBy({ "actionCounts.REACTION": -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
+      } else {
+        query.where({ createdAt: { $gt: new Date(0) } });
       }
       return query;
   }
