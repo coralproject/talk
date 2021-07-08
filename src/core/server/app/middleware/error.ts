@@ -32,12 +32,7 @@ const wrapError = (err: Error) =>
  * @param req the request
  * @param bundles the translation bundles
  */
-const serializeError = (
-  err: CoralError,
-  req: Request,
-  traceID: string,
-  bundles?: I18n
-) => {
+const serializeError = (err: CoralError, req: Request, bundles?: I18n) => {
   // Get the translation bundle.
   let bundle: FluentBundle | null = null;
   if (bundles) {
@@ -46,6 +41,8 @@ const serializeError = (
       bundle = bundles.getBundle(req.coral.tenant.locale);
     }
   }
+
+  const traceID = req.coral ? req.coral.id : "";
 
   return {
     error: err.serializeExtensions(bundle, traceID),
@@ -74,9 +71,8 @@ function wrapAndReport(
   // Wrap the error if it needs to be wrapped.
   const e = wrapError(err);
 
-  const traceID = res.get("X-Trace-ID");
   // Serialize the error.
-  const { error } = serializeError(e, req, traceID, i18n);
+  const { error } = serializeError(e, req, i18n);
 
   // If there's no reporter active, then return now.
   if (!reporter || !reporter.shouldReport(err)) {
