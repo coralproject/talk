@@ -5,6 +5,7 @@ import {
   ModerationNudgeError,
   UnknownServerError,
 } from "../errors";
+import TraceableError from "../errors/traceableError";
 
 interface CoralError {
   type: string;
@@ -20,7 +21,7 @@ function isCoralError(err: any): err is CoralError {
 export default function extractError(
   err: CoralError,
   unknownErrorMessage = "Unknown error"
-): Error {
+): TraceableError {
   if (!isCoralError(err)) {
     return new UnknownServerError(unknownErrorMessage, err);
   }
