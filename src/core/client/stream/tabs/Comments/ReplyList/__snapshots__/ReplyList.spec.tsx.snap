@@ -5,7 +5,6 @@ exports[`renders correctly 1`] = `
   className="ReplyList-root"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
-  role="log"
 >
   <Relay(ReplyListCommentContainer)
     comment={
@@ -67,7 +66,6 @@ exports[`when there is more disables load more button 1`] = `
   className="ReplyList-root"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
-  role="log"
 >
   <Relay(ReplyListCommentContainer)
     comment={
@@ -146,7 +144,6 @@ exports[`when there is more renders a load more button 1`] = `
   className="ReplyList-root"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
-  role="log"
 >
   <Relay(ReplyListCommentContainer)
     comment={

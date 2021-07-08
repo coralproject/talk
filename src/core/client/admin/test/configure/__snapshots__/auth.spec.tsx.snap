@@ -1459,17 +1459,10 @@ more about creating a JWT Token with
                           </button>
                           <div
                             aria-hidden={true}
-                            aria-labelledby="sso-key-rotate-ariainfo"
+                            aria-label="A dropdown to rotate the SSO key"
                             id="sso-key-rotate"
                             role="dialog"
-                          >
-                            <div
-                              className="AriaInfo-root"
-                              id="sso-key-rotate-ariainfo"
-                            >
-                              A dropdown to rotate the SSO key
-                            </div>
-                          </div>
+                          />
                         </div>
                       </div>
                     </div>

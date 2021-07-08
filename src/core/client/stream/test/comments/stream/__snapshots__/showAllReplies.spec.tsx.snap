@@ -5,17 +5,37 @@ exports[`renders comment stream 1`] = `
   className="Box-root HorizontalGutter-root ReplyList-root HorizontalGutter-full"
   data-testid="commentReplyList-comment-0"
   id="coral-comments-replyList-log--comment-0"
-  role="log"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      aria-labelledby="comment-comment-1-label"
       className="coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
       data-testid="comment-comment-1"
       id="comment-comment-1"
+      role="article"
     >
+      <div
+        className="Hidden-root"
+        id="comment-comment-1-label"
+      >
+        <span>
+          Thread Level 1:
+        </span>
+         
+        <span>
+          Comment from Lukas 
+          <time
+            className="RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </span>
+      </div>
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
@@ -48,7 +68,6 @@ exports[`renders comment stream 1`] = `
               </button>
               <div
                 className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                role="article"
               >
                 <div
                   className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -81,17 +100,10 @@ exports[`renders comment stream 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="username-popover-comment-1-ariainfo"
+                          aria-label="A popover with more user information"
                           id="username-popover-comment-1"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="username-popover-comment-1-ariainfo"
-                          >
-                            A popover with more user information
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -226,17 +238,10 @@ exports[`renders comment stream 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="permalink-popover-comment-1-ariainfo"
+                          aria-label="A dialog showing a permalink to the comment"
                           id="permalink-popover-comment-1"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="permalink-popover-comment-1-ariainfo"
-                          >
-                            A dialog showing a permalink to the comment
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div

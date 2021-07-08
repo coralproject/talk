@@ -6,12 +6,12 @@ exports[`renders permalink view with unknown comment 1`] = `
   className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
-  role="tabpanel"
 >
   <div
     className="Box-root HorizontalGutter-root PermalinkViewContainer-root coral coral-permalink coral-unauthenticated HorizontalGutter-double"
   >
-    <div
+    <section
+      aria-label="Authentication"
       className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
     >
       <span
@@ -51,48 +51,54 @@ exports[`renders permalink view with unknown comment 1`] = `
           Sign in
         </button>
       </div>
-    </div>
-    <div
-      className="Box-root Flex-root PermalinkViewContainer-header Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
+    </section>
+    <section
+      aria-label="Single Conversation"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <div
-        className="PermalinkViewContainer-title"
-      >
-        You are currently viewing a single conversation
-      </div>
-      <a
-        className="BaseButton-root Button-base Button-flat Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeSmall Button-colorPrimary Button-underline coral coral-permalink-viewFullDiscussionButton"
-        data-variant="flat"
-        disabled={false}
-        href="http://localhost/"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        target="_parent"
-      >
-        View full discussion
-      </a>
-    </div>
-    <div
-      className="CallOut-root CallOut-mono CallOut-leftBorder"
-    >
-      <div
-        className="CallOut-container"
+        className="Box-root Flex-root PermalinkViewContainer-header Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
       >
         <div
-          className="CallOut-content"
+          className="PermalinkViewContainer-title"
+        >
+          You are currently viewing a single conversation
+        </div>
+        <a
+          className="BaseButton-root Button-base Button-flat Button-fontSizeMedium Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeSmall Button-colorPrimary Button-underline coral coral-permalink-viewFullDiscussionButton"
+          data-variant="flat"
+          disabled={false}
+          href="http://localhost/"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          target="_parent"
+        >
+          View full discussion
+        </a>
+      </div>
+      <div
+        className="CallOut-root CallOut-mono CallOut-leftBorder"
+      >
+        <div
+          className="CallOut-container"
         >
           <div
-            className="CallOut-body"
+            aria-live="polite"
+            className="CallOut-content"
           >
-            This comment has been removed or does not exist.
+            <div
+              className="CallOut-body"
+            >
+              This comment has been removed or does not exist.
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </section>
 `;

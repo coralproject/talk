@@ -2,15 +2,32 @@
 
 exports[`renders profile 1`] = `
 <div
+  aria-live="off"
   className="Box-root HorizontalGutter-root HorizontalGutter-double"
   data-testid="profile-commentHistory"
   id="coral-profile-commentHistory-log"
+  role="log"
 >
-  <div
+  <article
+    aria-labelledby="historyComment-comment-0-label"
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-0"
   >
     <div>
+      <div
+        className="Hidden-root"
+        id="historyComment-comment-0-label"
+      >
+        Comment 
+        <time
+          className="RelativeTime-root"
+          dateTime="2018-07-06T18:24:00.000Z"
+          title="2018-07-06T18:24:00.000Z"
+        >
+          2018-07-06T18:24:00.000Z
+        </time>
+         on title
+      </div>
       <span
         className="coral coral-myComment-commentOn HistoryComment-commentOn"
       >
@@ -85,12 +102,27 @@ exports[`renders profile 1`] = `
         </span>
       </a>
     </div>
-  </div>
-  <div
+  </article>
+  <article
+    aria-labelledby="historyComment-comment-1-label"
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-1"
   >
     <div>
+      <div
+        className="Hidden-root"
+        id="historyComment-comment-1-label"
+      >
+        Comment 
+        <time
+          className="RelativeTime-root"
+          dateTime="2018-07-06T18:24:00.000Z"
+          title="2018-07-06T18:24:00.000Z"
+        >
+          2018-07-06T18:24:00.000Z
+        </time>
+         on title
+      </div>
       <span
         className="coral coral-myComment-commentOn HistoryComment-commentOn"
       >
@@ -165,7 +197,7 @@ exports[`renders profile 1`] = `
         </span>
       </a>
     </div>
-  </div>
+  </article>
   <button
     aria-controls="coral-profile-commentHistory-log"
     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular CommentHistory-colorRegular Button-variantOutline CommentHistory-loadMore Button-uppercase Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
