@@ -127,7 +127,7 @@ class PymStorage implements PromisifiedStorage {
  */
 export default function createPymStorage(
   pym: Pym,
-  type: "localStorage" | "sessionStorage"
+  type: "localStorage" | "sessionStorage" | "indexedDB"
 ): PymStorage {
   return new PymStorage(pym, type);
 }

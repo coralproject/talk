@@ -38,6 +38,7 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
+import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
@@ -87,13 +88,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     // Check the sort ordering to apply extra logic.
     switch (commentsOrderBy) {
       case GQLCOMMENT_SORT.CREATED_AT_ASC:
-        if (hasMore) {
-          // Oldest first when there is more than one page of content can't
-          // possibly have new comments to show in view!
-          return;
-        }
-
-        // We have all the comments for this story in view! Comments could load!
+        // Oldest first can always get more comments in view like when so replies to an old comment.
         break;
       case GQLCOMMENT_SORT.CREATED_AT_DESC:
         // Newest first can always get more comments in view.
@@ -132,6 +127,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     setLocal({ ratingFilter: rating });
   }, []);
 
+  const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
@@ -220,6 +216,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         role="log"
         aria-live="polite"
         size="oneAndAHalf"
+        spacing={commentSeenEnabled ? 0 : undefined}
       >
         {story.comments.edges.length <= 0 && (
           <NoComments

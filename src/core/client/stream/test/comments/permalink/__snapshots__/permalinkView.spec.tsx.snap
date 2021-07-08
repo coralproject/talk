@@ -127,13 +127,13 @@ exports[`renders permalink view 1`] = `
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
                   >
                     <div
-                      className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                      className="coral coral-comment-collapse-toggle-indent Indent-root"
                     >
                       <div
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                         >
                           <div
                             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -403,13 +403,13 @@ exports[`renders permalink view 1`] = `
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
                   >
                     <div
-                      className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                      className="coral coral-comment-collapse-toggle-indent Indent-root"
                     >
                       <div
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                         >
                           <div
                             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -667,7 +667,7 @@ exports[`renders permalink view 1`] = `
                 </svg>
               </div>
               <div
-                className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+                className="coral coral-comment coral coral-reacted-0"
                 data-key-stop={true}
                 data-testid="comment-comment-with-replies"
                 id="comment-comment-with-replies"
@@ -676,13 +676,13 @@ exports[`renders permalink view 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
                   <div
-                    className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                    className="coral coral-comment-collapse-toggle-indent Indent-root"
                   >
                     <div
                       className="coral coral-indent coral-indent-0 Indent-open"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                        className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                       >
                         <div
                           className="Box-root HorizontalGutter-root Comment-root Comment-highlight coral coral-comment-highlight HorizontalGutter-half"
@@ -923,7 +923,7 @@ exports[`renders permalink view 1`] = `
         className="PermalinkViewContainer-replyList"
       >
         <div
-          className="Box-root HorizontalGutter-root ReplyList-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root ReplyList-withPadding HorizontalGutter-full"
           data-testid="commentReplyList-comment-with-replies"
           id="coral-comments-replyList-log--comment-with-replies"
           role="log"
@@ -941,13 +941,13 @@ exports[`renders permalink view 1`] = `
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
-                  className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                  className="coral coral-comment-collapse-toggle-indent Indent-root"
                 >
                   <div
                     className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                      className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                     >
                       <button
                         aria-label="Collapse comment thread"
@@ -1242,13 +1242,13 @@ exports[`renders permalink view 1`] = `
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
-                  className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                  className="coral coral-comment-collapse-toggle-indent Indent-root"
                 >
                   <div
                     className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                      className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                     >
                       <button
                         aria-label="Collapse comment thread"
