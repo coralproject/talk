@@ -1,6 +1,6 @@
 import { GraphQLResponseErrors } from "react-relay-network-modern/es";
 
-import { extractError } from "../network";
+import extractTraceableError from "../network/extractTraceableError";
 import TraceableError from "./traceableError";
 
 class MultiError extends TraceableError {
@@ -11,9 +11,7 @@ class MultiError extends TraceableError {
       throw new Error("MultiError must have at least 2 errors");
     }
 
-    const errHold = errors.map((e) =>
-      extractError((e as any).extensions, e.message)
-    );
+    const errHold = errors.map((e) => extractTraceableError(e as Error));
 
     const messages = errHold.map((e) => e.message).join(", ");
     const traceID = errHold[0].traceID;

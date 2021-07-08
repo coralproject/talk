@@ -9,7 +9,7 @@ import TraceableError from "./traceableError";
  * the client requires. Note: the only crucial
  * field is the `code` field.
  */
-interface InvalidRequestExtension {
+interface InvalidRequestExtensions {
   code: ERROR_CODES;
   message?: string;
   id?: string;
@@ -22,28 +22,27 @@ interface InvalidRequestExtension {
  * server.
  */
 export default class InvalidRequestError extends TraceableError
-  implements InvalidRequestExtension {
+  implements InvalidRequestExtensions {
   // Keep extension of original server response.
-  public readonly extension: InvalidRequestExtension;
+  public readonly extensions: InvalidRequestExtensions;
   public readonly code: ERROR_CODES;
   public readonly id?: string;
   public readonly param?: string;
   public readonly message: string;
-  public readonly extensions: string;
 
-  constructor(extension: InvalidRequestExtension) {
-    super("InvalidRequestError", extension.traceID);
+  constructor(extensions: InvalidRequestExtensions) {
+    super("InvalidRequestError", extensions.traceID);
 
     // Maintains proper stack trace for where our error was thrown.
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, InvalidRequestError);
     }
 
-    this.extension = extension;
-    this.code = extension.code;
-    this.id = extension.id;
-    this.param = extension.param;
-    this.message = extension.message || extension.code;
+    this.extensions = extensions;
+    this.code = extensions.code;
+    this.id = extensions.id;
+    this.param = extensions.param;
+    this.message = extensions.message || extensions.code;
   }
 
   public get invalidArgs() {

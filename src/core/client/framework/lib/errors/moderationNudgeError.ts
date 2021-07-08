@@ -7,7 +7,7 @@ import TraceableError from "./traceableError";
  * the client requires. Note: the only crucial
  * field is the `code` field.
  */
-interface ModerationNudgeExtension {
+interface ModerationNudgeExtensions {
   code: ERROR_CODES;
   message?: string;
   id?: string;
@@ -19,24 +19,23 @@ interface ModerationNudgeExtension {
  * server.
  */
 export default class ModeratioNudgeError extends TraceableError
-  implements ModerationNudgeExtension {
+  implements ModerationNudgeExtensions {
   // Keep extension of original server response.
-  public readonly extension: ModerationNudgeExtension;
+  public readonly extensions: ModerationNudgeExtensions;
   public readonly code: ERROR_CODES;
   public readonly id?: string;
   public readonly message: string;
-  public readonly extensions: string;
 
-  constructor(extension: ModerationNudgeExtension) {
-    super("ModeratioNudgeError", extension.traceID);
+  constructor(extensions: ModerationNudgeExtensions) {
+    super("ModeratioNudgeError", extensions.traceID);
 
     // Maintains proper stack trace for where our error was thrown.
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, ModeratioNudgeError);
     }
-    this.extension = extension;
-    this.code = extension.code;
-    this.id = extension.id;
-    this.message = extension.message || extension.code;
+    this.extensions = extensions;
+    this.code = extensions.code;
+    this.id = extensions.id;
+    this.message = extensions.message || extensions.code;
   }
 }
