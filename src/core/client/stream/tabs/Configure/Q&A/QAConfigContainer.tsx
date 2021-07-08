@@ -53,7 +53,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
   }
 
   return isQA ? (
-    <>
+    <section aria-labelledby="configure-disableQA-title">
       <HorizontalRule />
       <DisableQA
         storyID={story.id}
@@ -75,12 +75,13 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
             }
             onClose={closeSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>
-    </>
+    </section>
   ) : (
-    <>
+    <section aria-labelledby="configure-enableQA-title">
       <HorizontalRule />
       <EnableQA onClick={handleOnClick} disableButton={waiting} />
       <div
@@ -98,10 +99,11 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
             }
             onClose={closeSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>
-    </>
+    </section>
   );
 };
 

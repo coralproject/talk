@@ -24,6 +24,7 @@ const PostCommentRejected: FunctionComponent<PostCommentRejectedProps> = (
         </Localized>
       }
       onClose={props.onDismiss}
+      role="alert"
     />
   );
 };

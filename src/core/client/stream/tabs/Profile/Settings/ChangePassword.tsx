@@ -79,12 +79,16 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
   }, [setShowSuccess]);
 
   return (
-    <div
+    <section
       data-testid="profile-account-changePassword"
       className={CLASSES.myPassword.$root}
+      aria-labelledby="profile-account-changePassword-title"
     >
       <Localized id="profile-account-changePassword-password">
-        <div className={cn(styles.title, CLASSES.myPassword.title)}>
+        <div
+          className={cn(styles.title, CLASSES.myPassword.title)}
+          id="profile-account-changePassword-title"
+        >
           Password
         </div>
       </Localized>
@@ -125,6 +129,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                 <span>Your password has been updated</span>
               </Localized>
             }
+            aria-live="polite"
           />
         </div>
       )}
@@ -212,6 +217,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         icon={<Icon size="sm">error</Icon>}
                         titleWeight="semiBold"
                         title={submitError}
+                        role="alert"
                       />
                     )}
                     <div
@@ -256,7 +262,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
           </Form>
         </HorizontalGutter>
       )}
-    </div>
+    </section>
   );
 };
 

@@ -33,7 +33,7 @@ interface Props {
 export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return (
-      <CallOut color="error" fullWidth>
+      <CallOut color="error" fullWidth aria-live="polite">
         {error.message}
       </CallOut>
     );
@@ -46,7 +46,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
     if (!props.viewer) {
       return (
         <Localized id="profile-profileQuery-errorLoadingProfile">
-          <CallOut color="error" fullWidth>
+          <CallOut color="error" fullWidth aria-live="polite">
             Error loading profile
           </CallOut>
         </Localized>
@@ -55,7 +55,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
     if (!props.story) {
       return (
         <Localized id="profile-profileQuery-storyNotFound">
-          <CallOut>Story not found</CallOut>
+          <CallOut aria-live="polite">Story not found</CallOut>
         </Localized>
       );
     }

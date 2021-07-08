@@ -4,7 +4,6 @@ exports[`renders correctly 1`] = `
 <section
   aria-labelledby="tab-three"
   id="tabPane-three"
-  role="tabpanel"
 >
   Three
 </section>

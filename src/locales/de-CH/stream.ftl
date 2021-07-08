@@ -237,14 +237,14 @@ comments-featuredTag = Hervorgehoben
 
 comments-react =
   .aria-label = {$count ->
-    [0] {$reaction} Kommentar von {$username}
-    *[other] {$reaction} ({$count}) Kommentare von {$username}
+    [0] {$reaction} (Kommentar von {$username})
+    *[other] {$reaction} (Insgesamt: {$count}, Kommentar von {$username})
   }
 comments-reacted =
   .aria-label = {$count ->
-    [0] {$reaction} Kommentar von {$username}
-    [one] {$reaction} Kommentar von {$username}
-    *[other] {$reaction} ({$count}) Kommentare von {$username}
+    [0] {$reaction} (Kommentar von {$username})
+    [one] {$reaction} (Kommentar von {$username})
+    *[other] {$reaction} (Insgesamt: {$count}, Kommentar von {$username})
   }
 
 comments-jumpToComment-title = Deine Antwort wird unten angezeigt

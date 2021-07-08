@@ -269,17 +269,10 @@ exports[`renders empty stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="stories-Actions-ariainfo"
+                  aria-label="A dropdown to select story actions"
                   id="stories-Actions"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-Actions-ariainfo"
-                  >
-                    A dropdown to select story actions
-                  </div>
-                </div>
+                />
               </div>
             </td>
           </tr>
@@ -369,17 +362,10 @@ exports[`renders empty stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="stories-Actions-ariainfo"
+                  aria-label="A dropdown to select story actions"
                   id="stories-Actions"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-Actions-ariainfo"
-                  >
-                    A dropdown to select story actions
-                  </div>
-                </div>
+                />
               </div>
             </td>
           </tr>
@@ -659,17 +645,10 @@ exports[`renders stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="stories-Actions-ariainfo"
+                  aria-label="A dropdown to select story actions"
                   id="stories-Actions"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-Actions-ariainfo"
-                  >
-                    A dropdown to select story actions
-                  </div>
-                </div>
+                />
               </div>
             </td>
           </tr>
@@ -759,17 +738,10 @@ exports[`renders stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="stories-Actions-ariainfo"
+                  aria-label="A dropdown to select story actions"
                   id="stories-Actions"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="stories-Actions-ariainfo"
-                  >
-                    A dropdown to select story actions
-                  </div>
-                </div>
+                />
               </div>
             </td>
           </tr>

@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import { getAriaPoliteMacOSWorkaround } from "coral-framework/helpers";
 import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -32,11 +33,17 @@ const IgnoreUserListItem: FunctionComponent<Props> = ({
   const onClickRemove = useCallback(() => {
     onRemove(id);
     setRemoved(true);
+    // TODO: (cvle) Bug - Adding and removing ignored user mutations should
+    // add or remove user from ths list, or this part should be split into a separate Query.
   }, [id, setRemoved, onRemove]);
 
   if (removed) {
     return (
-      <div className={styles.removed} key={id}>
+      <div
+        className={styles.removed}
+        key={id}
+        aria-live={getAriaPoliteMacOSWorkaround()}
+      >
         <Localized id="profile-account-ignoredCommenters-youAreNoLonger">
           <span>{"You are no longer ignoring "}</span>
         </Localized>
@@ -56,6 +63,7 @@ const IgnoreUserListItem: FunctionComponent<Props> = ({
           styles.stopIgnoringButton,
           CLASSES.ignoredCommenters.stopIgnoreButton
         )}
+        aria-controls="profile-account-ignoredCommenters-log"
       >
         <Flex justifyContent="center" alignItems="center">
           <Icon size="sm" className={styles.icon}>

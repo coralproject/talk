@@ -43,7 +43,6 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
     <HorizontalGutter
       id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
-      role="log"
       className={styles.root}
     >
       {props.comments.map((comment) => (

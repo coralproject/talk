@@ -2,7 +2,7 @@
 
 exports[`renders app with comment stream 1`] = `
 <div
-  aria-live="polite"
+  aria-live="off"
   className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   data-testid="comments-allComments-log"
   id="comments-allComments-log"
@@ -12,11 +12,28 @@ exports[`renders app with comment stream 1`] = `
     className="Box-root HorizontalGutter-root AllCommentsTabCommentContainer-borderedComment HorizontalGutter-full"
   >
     <div
+      aria-labelledby="comment-comment-2-label"
       className="coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
       data-testid="comment-comment-2"
       id="comment-comment-2"
+      role="article"
     >
+      <div
+        className="Hidden-root"
+        id="comment-comment-2-label"
+      >
+        <span>
+          Comment from Isabelle 
+          <time
+            className="RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </span>
+      </div>
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
@@ -49,7 +66,6 @@ exports[`renders app with comment stream 1`] = `
               </button>
               <div
                 className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                role="article"
               >
                 <div
                   className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -82,17 +98,10 @@ exports[`renders app with comment stream 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="username-popover-comment-2-ariainfo"
+                          aria-label="A popover with more user information"
                           id="username-popover-comment-2"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="username-popover-comment-2-ariainfo"
-                          >
-                            A popover with more user information
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -227,17 +236,10 @@ exports[`renders app with comment stream 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="permalink-popover-comment-2-ariainfo"
+                          aria-label="A dialog showing a permalink to the comment"
                           id="permalink-popover-comment-2"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="permalink-popover-comment-2-ariainfo"
-                          >
-                            A dialog showing a permalink to the comment
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -286,11 +288,28 @@ exports[`renders app with comment stream 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      aria-labelledby="comment-comment-3-label"
       className="coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
       data-testid="comment-comment-3"
       id="comment-comment-3"
+      role="article"
     >
+      <div
+        className="Hidden-root"
+        id="comment-comment-3-label"
+      >
+        <span>
+          Comment from Isabelle 
+          <time
+            className="RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </span>
+      </div>
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
@@ -323,7 +342,6 @@ exports[`renders app with comment stream 1`] = `
               </button>
               <div
                 className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                role="article"
               >
                 <div
                   className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -356,17 +374,10 @@ exports[`renders app with comment stream 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="username-popover-comment-3-ariainfo"
+                          aria-label="A popover with more user information"
                           id="username-popover-comment-3"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="username-popover-comment-3-ariainfo"
-                          >
-                            A popover with more user information
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -501,17 +512,10 @@ exports[`renders app with comment stream 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="permalink-popover-comment-3-ariainfo"
+                          aria-label="A dialog showing a permalink to the comment"
                           id="permalink-popover-comment-3"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="permalink-popover-comment-3-ariainfo"
-                          >
-                            A dialog showing a permalink to the comment
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -556,7 +560,8 @@ exports[`renders app with comment stream 1`] = `
       className=""
     />
   </div>
-  <div
+  <nav
+    aria-label="Comments Footer"
     className="CommentsLinks-container coral coral-streamFooter"
   >
     <button
@@ -603,6 +608,6 @@ exports[`renders app with comment stream 1`] = `
         Top of article
       </span>
     </button>
-  </div>
+  </nav>
 </div>
 `;

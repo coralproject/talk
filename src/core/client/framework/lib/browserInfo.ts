@@ -13,6 +13,7 @@ export interface BrowserInfo {
     intlPluralRules: boolean;
     intersectionObserver: boolean;
   };
+  macos: boolean;
 }
 
 let browserInfo: BrowserInfo | null = null;
@@ -21,6 +22,7 @@ export function getBrowserInfo(): BrowserInfo {
   if (!browserInfo) {
     const browser = Bowser.getParser(window.navigator.userAgent);
     const ios = browser.is(Bowser.OS_MAP.iOS);
+    const macos = browser.is(Bowser.OS_MAP.MacOS);
     const msie = browser.is(Bowser.BROWSER_MAP.ie);
     const mobile = browser.is(Bowser.PLATFORMS_MAP.mobile);
     const version = Number.parseFloat(browser.getBrowserVersion());
@@ -42,6 +44,7 @@ export function getBrowserInfo(): BrowserInfo {
       ios,
       msie,
       mobile,
+      macos,
     };
   }
   return browserInfo;

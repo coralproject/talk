@@ -2,11 +2,28 @@
 
 exports[`cancel edit 1`] = `
 <div
+  aria-labelledby="comment-comment-with-replies-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  role="article"
 >
+  <div
+    className="Hidden-root"
+    id="comment-comment-with-replies-label"
+  >
+    <span>
+      Comment from Markus 
+      <time
+        className="RelativeTime-root"
+        dateTime="2018-07-06T18:24:00.000Z"
+        title="2018-07-06T18:24:00.000Z"
+      >
+        2018-07-06T18:24:00.000Z
+      </time>
+    </span>
+  </div>
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
@@ -39,7 +56,6 @@ exports[`cancel edit 1`] = `
           </button>
           <div
             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-            role="article"
           >
             <div
               className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -72,17 +88,10 @@ exports[`cancel edit 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                      aria-label="A popover with more user information"
                       id="username-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="username-popover-comment-with-replies-ariainfo"
-                      >
-                        A popover with more user information
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -242,17 +251,10 @@ exports[`cancel edit 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                      aria-label="A dialog showing a permalink to the comment"
                       id="permalink-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="permalink-popover-comment-with-replies-ariainfo"
-                      >
-                        A dialog showing a permalink to the comment
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -960,11 +962,28 @@ exports[`edit a comment: optimistic response 1`] = `
 
 exports[`edit a comment: render comment with edit button 1`] = `
 <div
+  aria-labelledby="comment-comment-with-replies-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  role="article"
 >
+  <div
+    className="Hidden-root"
+    id="comment-comment-with-replies-label"
+  >
+    <span>
+      Comment from Markus 
+      <time
+        className="RelativeTime-root"
+        dateTime="2018-07-06T18:24:00.000Z"
+        title="2018-07-06T18:24:00.000Z"
+      >
+        2018-07-06T18:24:00.000Z
+      </time>
+    </span>
+  </div>
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
@@ -997,7 +1016,6 @@ exports[`edit a comment: render comment with edit button 1`] = `
           </button>
           <div
             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-            role="article"
           >
             <div
               className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -1030,17 +1048,10 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                      aria-label="A popover with more user information"
                       id="username-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="username-popover-comment-with-replies-ariainfo"
-                      >
-                        A popover with more user information
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -1200,17 +1211,10 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                      aria-label="A dialog showing a permalink to the comment"
                       id="permalink-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="permalink-popover-comment-with-replies-ariainfo"
-                      >
-                        A dialog showing a permalink to the comment
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -1255,11 +1259,28 @@ exports[`edit a comment: render comment with edit button 1`] = `
 
 exports[`edit a comment: server response 1`] = `
 <div
+  aria-labelledby="comment-comment-with-replies-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  role="article"
 >
+  <div
+    className="Hidden-root"
+    id="comment-comment-with-replies-label"
+  >
+    <span>
+      Comment from Markus 
+      <time
+        className="RelativeTime-root"
+        dateTime="2018-07-06T18:24:00.000Z"
+        title="2018-07-06T18:24:00.000Z"
+      >
+        2018-07-06T18:24:00.000Z
+      </time>
+    </span>
+  </div>
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
@@ -1292,7 +1313,6 @@ exports[`edit a comment: server response 1`] = `
           </button>
           <div
             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-            role="article"
           >
             <div
               className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -1325,17 +1345,10 @@ exports[`edit a comment: server response 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                      aria-label="A popover with more user information"
                       id="username-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="username-popover-comment-with-replies-ariainfo"
-                      >
-                        A popover with more user information
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -1504,17 +1517,10 @@ exports[`edit a comment: server response 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                      aria-label="A dialog showing a permalink to the comment"
                       id="permalink-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="permalink-popover-comment-with-replies-ariainfo"
-                      >
-                        A dialog showing a permalink to the comment
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -1559,11 +1565,28 @@ exports[`edit a comment: server response 1`] = `
 
 exports[`shows expiry message: edit form closed 1`] = `
 <div
+  aria-labelledby="comment-comment-with-replies-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  role="article"
 >
+  <div
+    className="Hidden-root"
+    id="comment-comment-with-replies-label"
+  >
+    <span>
+      Comment from Markus 
+      <time
+        className="RelativeTime-root"
+        dateTime="2018-07-06T18:24:00.000Z"
+        title="2018-07-06T18:24:00.000Z"
+      >
+        2018-07-06T18:24:00.000Z
+      </time>
+    </span>
+  </div>
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
@@ -1596,7 +1619,6 @@ exports[`shows expiry message: edit form closed 1`] = `
           </button>
           <div
             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-            role="article"
           >
             <div
               className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -1629,17 +1651,10 @@ exports[`shows expiry message: edit form closed 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                      aria-label="A popover with more user information"
                       id="username-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="username-popover-comment-with-replies-ariainfo"
-                      >
-                        A popover with more user information
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -1799,17 +1814,10 @@ exports[`shows expiry message: edit form closed 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                      aria-label="A dialog showing a permalink to the comment"
                       id="permalink-popover-comment-with-replies"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="permalink-popover-comment-with-replies-ariainfo"
-                      >
-                        A dialog showing a permalink to the comment
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -2032,6 +2040,7 @@ exports[`shows expiry message: edit time expired 1`] = `
               </div>
               <div
                 className="CallOut-content"
+                role="alert"
               >
                 <div
                   className="CallOut-title CallOut-titleSemiBold"

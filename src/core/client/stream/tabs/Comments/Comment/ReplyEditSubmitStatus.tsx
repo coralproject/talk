@@ -37,6 +37,7 @@ function getMessage(
               </span>
             </Localized>
           }
+          role="alert"
         />
       );
     case "IN_REVIEW":
@@ -55,6 +56,7 @@ function getMessage(
               </span>
             </Localized>
           }
+          aria-live="polite"
         />
       );
     case "APPROVED":

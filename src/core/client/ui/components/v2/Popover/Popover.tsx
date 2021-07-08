@@ -3,7 +3,6 @@ import React from "react";
 import { Manager, Popper, Reference } from "react-popper";
 
 import { oncePerFrame } from "coral-common/utils";
-import { AriaInfo } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -163,12 +162,9 @@ class Popover extends React.Component<PopoverProps> {
               <div
                 id={id}
                 role="dialog"
-                aria-labelledby={`${id}-ariainfo`}
+                aria-label={description}
                 aria-hidden={!visible}
               >
-                {description && (
-                  <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
-                )}
                 {visible && (
                   <div
                     style={props.style}

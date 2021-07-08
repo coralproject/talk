@@ -2,11 +2,32 @@
 
 exports[`renders deepest comment with link 1`] = `
 <div
+  aria-labelledby="comment-comment-with-deepest-replies-3-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-deepest-replies-3"
   id="comment-comment-with-deepest-replies-3"
+  role="article"
 >
+  <div
+    className="Hidden-root"
+    id="comment-comment-with-deepest-replies-3-label"
+  >
+    <span>
+      Thread Level 3:
+    </span>
+     
+    <span>
+      Reply from Markus 
+      <time
+        className="RelativeTime-root"
+        dateTime="2018-07-06T18:24:00.000Z"
+        title="2018-07-06T18:24:00.000Z"
+      >
+        2018-07-06T18:24:00.000Z
+      </time>
+    </span>
+  </div>
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
@@ -39,7 +60,6 @@ exports[`renders deepest comment with link 1`] = `
           </button>
           <div
             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-            role="article"
           >
             <div
               className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -72,17 +92,10 @@ exports[`renders deepest comment with link 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="username-popover-comment-with-deepest-replies-3-ariainfo"
+                      aria-label="A popover with more user information"
                       id="username-popover-comment-with-deepest-replies-3"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="username-popover-comment-with-deepest-replies-3-ariainfo"
-                      >
-                        A popover with more user information
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div
@@ -244,17 +257,10 @@ exports[`renders deepest comment with link 1`] = `
                     </button>
                     <div
                       aria-hidden={true}
-                      aria-labelledby="permalink-popover-comment-with-deepest-replies-3-ariainfo"
+                      aria-label="A dialog showing a permalink to the comment"
                       id="permalink-popover-comment-with-deepest-replies-3"
                       role="dialog"
-                    >
-                      <div
-                        className="AriaInfo-root"
-                        id="permalink-popover-comment-with-deepest-replies-3-ariainfo"
-                      >
-                        A dialog showing a permalink to the comment
-                      </div>
-                    </div>
+                    />
                   </div>
                 </div>
                 <div

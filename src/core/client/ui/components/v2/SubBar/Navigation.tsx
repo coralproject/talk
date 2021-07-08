@@ -1,11 +1,11 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, HTMLAttributes } from "react";
 
 import { withStyles } from "coral-ui/hocs";
 
 import styles from "./Navigation.css";
 
-interface Props {
+interface Props extends HTMLAttributes<any> {
   className?: string;
   classes: typeof styles;
   children?: React.ReactNode;
@@ -15,8 +15,9 @@ const Navigation: FunctionComponent<Props> = ({
   children,
   className,
   classes,
+  ...rest
 }) => (
-  <nav className={cn(classes.root, className)}>
+  <nav {...rest} className={cn(classes.root, className)}>
     <ul className={classes.ul}>{children}</ul>
   </nav>
 );

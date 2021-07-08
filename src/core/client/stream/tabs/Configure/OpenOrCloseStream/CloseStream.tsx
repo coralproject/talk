@@ -14,7 +14,9 @@ interface Props {
 const CloseStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
   <div className={CLASSES.closeCommentStream.$root}>
     <Localized id="configure-closeStream-closeCommentStream">
-      <div className={styles.heading}>Close comment stream</div>
+      <div className={styles.heading} id="configure-closeStream-title">
+        Close comment stream
+      </div>
     </Localized>
     <Localized id="configure-closeStream-description">
       <div className={styles.description}>

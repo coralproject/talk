@@ -229,6 +229,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     icon={<Icon size="sm">error</Icon>}
                     titleWeight="semiBold"
                     title={submitError}
+                    role="alert"
                   />
                 )}
               </HorizontalGutter>

@@ -9,18 +9,25 @@ export interface TabBarProps {
    * Name of the tab
    */
   tabID: string;
+
+  "aria-labelledBy"?: string;
 }
 
 const TabPane: FunctionComponent<TabBarProps> = (props) => {
-  const { className, children, tabID, ...rest } = props;
+  const {
+    className,
+    children,
+    tabID,
+    "aria-labelledBy": ariaLabelledBy,
+    ...rest
+  } = props;
   return (
     <section
       {...rest}
       className={className}
       key={tabID}
       id={`tabPane-${tabID}`}
-      role="tabpanel"
-      aria-labelledby={`tab-${tabID}`}
+      aria-labelledby={ariaLabelledBy || `tab-${tabID}`}
     >
       {children}
     </section>

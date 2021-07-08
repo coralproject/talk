@@ -391,6 +391,7 @@ const CommentForm: FunctionComponent<Props> = ({
                       title={disabledMessage}
                       titleWeight="semiBold"
                       icon={<Icon>error</Icon>}
+                      role="alert"
                     />
                   )}
                 </>
@@ -423,6 +424,7 @@ const CommentForm: FunctionComponent<Props> = ({
                             title={error || localSubmitError}
                             titleWeight="semiBold"
                             icon={<Icon>error</Icon>}
+                            role="alert"
                           />
                         )}
                       {max && (
@@ -439,6 +441,7 @@ const CommentForm: FunctionComponent<Props> = ({
                   title={submitError}
                   titleWeight="semiBold"
                   icon={<Icon>error</Icon>}
+                  role="alert"
                 />
               )}
               <Flex justifyContent="flex-end" spacing={1}>

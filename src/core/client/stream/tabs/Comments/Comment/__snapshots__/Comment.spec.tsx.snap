@@ -3,7 +3,6 @@
 exports[`renders username and body 1`] = `
 <ForwardRef(forwardRef)
   className="Comment-root"
-  role="article"
   size="half"
 >
   <ForwardRef(forwardRef)

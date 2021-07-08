@@ -24,38 +24,43 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
   );
 
   return (
-    <div className={CLASSES.viewerBox.$root}>
-      <Localized id="general-userBoxAuthenticated-signedIn">
-        <div className={styles.text}>Signed in as</div>
-      </Localized>
-      <Flex alignItems="flex-end" wrap>
-        <Username />
-        {props.showLogoutButton && (
-          <Localized
-            id="general-userBoxAuthenticated-notYou"
-            button={
-              <Button
-                color="primary"
-                fontSize="small"
-                fontWeight="semiBold"
-                paddingSize="none"
-                onClick={props.onSignOut}
-                variant="flat"
-                underline
-                className={cn(
-                  styles.userBoxButton,
-                  CLASSES.viewerBox.logoutButton
-                )}
-              />
-            }
-          >
-            <span className={cn(styles.text, styles.signOut)}>
-              {"Not you? <button>Sign Out</button>"}
-            </span>
-          </Localized>
-        )}
-      </Flex>
-    </div>
+    <Localized
+      id="general-authenticationSection"
+      attrs={{ "aria-label": true }}
+    >
+      <section className={CLASSES.viewerBox.$root} aria-label="Authentication">
+        <Localized id="general-userBoxAuthenticated-signedIn">
+          <div className={styles.text}>Signed in as</div>
+        </Localized>
+        <Flex alignItems="flex-end" wrap>
+          <Username />
+          {props.showLogoutButton && (
+            <Localized
+              id="general-userBoxAuthenticated-notYou"
+              button={
+                <Button
+                  color="primary"
+                  fontSize="small"
+                  fontWeight="semiBold"
+                  paddingSize="none"
+                  onClick={props.onSignOut}
+                  variant="flat"
+                  underline
+                  className={cn(
+                    styles.userBoxButton,
+                    CLASSES.viewerBox.logoutButton
+                  )}
+                />
+              }
+            >
+              <span className={cn(styles.text, styles.signOut)}>
+                {"Not you? <button>Sign Out</button>"}
+              </span>
+            </Localized>
+          )}
+        </Flex>
+      </section>
+    </Localized>
   );
 };
 

@@ -6,7 +6,6 @@ exports[`renders message box when commenting disabled 1`] = `
   className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
-  role="tabpanel"
 >
   <div
     className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
@@ -14,7 +13,8 @@ exports[`renders message box when commenting disabled 1`] = `
     <div
       className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifySpaceBetween Flex-alignFlexStart"
     >
-      <div
+      <section
+        aria-label="Authentication"
         className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
       >
         <span
@@ -54,80 +54,85 @@ exports[`renders message box when commenting disabled 1`] = `
             Sign in
           </button>
         </div>
-      </div>
+      </section>
       <div
         className="StreamContainer-moderateStream"
       />
     </div>
-    <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+    <section
+      aria-label="Post a Comment"
     >
       <div
-        className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
+        className="Box-root HorizontalGutter-root HorizontalGutter-double"
       >
         <div
-          className="CallOut-container"
+          className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
         >
           <div
-            className="CallOut-icon CallOut-mono CallOut-leftIcon"
+            className="CallOut-container"
+          >
+            <div
+              className="CallOut-icon CallOut-mono CallOut-leftIcon"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                feedback
+              </i>
+            </div>
+            <div
+              className="CallOut-content"
+            >
+              <div
+                className="CallOut-title CallOut-titleBold"
+              >
+                <div
+                  className="Markdown-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "<p>Commenting disabled</p>
+",
+                    }
+                  }
+                />
+              </div>
+              <div
+                className="CallOut-body"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="coral coral-createComment"
+        >
+          <div
+            className="MessageBox-root coral coral-createComment-message"
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm"
+              className="Icon-root Icon-md MessageBoxIcon-root"
             >
-              feedback
+              chat
             </i>
-          </div>
-          <div
-            className="CallOut-content"
-          >
             <div
-              className="CallOut-title CallOut-titleBold"
-            >
-              <div
-                className="Markdown-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<p>Commenting disabled</p>
+              className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<p><strong>What do you think</strong>?</p>
 ",
-                  }
                 }
-              />
-            </div>
-            <div
-              className="CallOut-body"
+              }
             />
           </div>
         </div>
       </div>
-      <div
-        className="coral coral-createComment"
-      >
-        <div
-          className="MessageBox-root coral coral-createComment-message"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-md MessageBoxIcon-root"
-          >
-            chat
-          </i>
-          <div
-            className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<p><strong>What do you think</strong>?</p>
-",
-              }
-            }
-          />
-        </div>
-      </div>
-    </div>
+    </section>
     <div
       className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
-      <div
+      <nav
+        aria-label="Secondary Tablist"
         className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
@@ -158,6 +163,11 @@ exports[`renders message box when commenting disabled 1`] = `
                 <span>
                   All Comments
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  (
+                </div>
                 <span
                   className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
@@ -167,6 +177,11 @@ exports[`renders message box when commenting disabled 1`] = `
                     0
                   </span>
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  )
+                </div>
               </div>
             </button>
           </li>
@@ -226,15 +241,14 @@ exports[`renders message box when commenting disabled 1`] = `
             </span>
           </span>
         </div>
-      </div>
+      </nav>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
-        role="tabpanel"
       >
         <div
-          aria-live="polite"
+          aria-live="off"
           className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
@@ -249,7 +263,8 @@ exports[`renders message box when commenting disabled 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
-          <div
+          <nav
+            aria-label="Comments Footer"
             className="CommentsLinks-container coral coral-streamFooter"
           >
             <button
@@ -296,7 +311,7 @@ exports[`renders message box when commenting disabled 1`] = `
                 Top of article
               </span>
             </button>
-          </div>
+          </nav>
         </div>
       </section>
     </div>
@@ -310,7 +325,6 @@ exports[`renders message box when logged in 1`] = `
   className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
-  role="tabpanel"
 >
   <div
     className="Box-root HorizontalGutter-root StreamContainer-root coral coral-authenticated HorizontalGutter-double"
@@ -318,7 +332,8 @@ exports[`renders message box when logged in 1`] = `
     <div
       className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifySpaceBetween Flex-alignFlexStart"
     >
-      <div
+      <section
+        aria-label="Authentication"
         className="coral coral-viewerBox"
       >
         <div
@@ -354,191 +369,200 @@ exports[`renders message box when logged in 1`] = `
             </button>
           </span>
         </div>
-      </div>
+      </section>
       <div
         className="StreamContainer-moderateStream"
       />
     </div>
-    <div
-      className="coral coral-createComment"
-      id="post-comment-form"
+    <section
+      aria-label="Post a Comment"
     >
       <div
-        className="MessageBox-root coral coral-createComment-message PostCommentForm-messageBox"
+        className="Box-root HorizontalGutter-root HorizontalGutter-double"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-md MessageBoxIcon-root"
-        >
-          chat
-        </i>
         <div
-          className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<p><strong>What do you think</strong>?</p>
-",
-            }
-          }
-        />
-      </div>
-      <div
-        className="coral coral-createComment"
-      >
-        <form
-          autoComplete="off"
-          id="comments-postCommentForm-form"
-          onSubmit={[Function]}
+          className="coral coral-createComment"
+          id="post-comment-form"
         >
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            className="MessageBox-root coral coral-createComment-message PostCommentForm-messageBox"
           >
-            <div>
-              <label
-                className="AriaInfo-root"
-                htmlFor="comments-postCommentForm-field"
-              >
-                Post a comment
-              </label>
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-md MessageBoxIcon-root"
+            >
+              chat
+            </i>
+            <div
+              className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<p><strong>What do you think</strong>?</p>
+",
+                }
+              }
+            />
+          </div>
+          <div
+            className="coral coral-createComment"
+          >
+            <form
+              autoComplete="off"
+              id="comments-postCommentForm-form"
+              onSubmit={[Function]}
+            >
               <div
-                className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div
-                  role="none"
-                >
+                <div>
+                  <label
+                    className="AriaInfo-root"
+                    htmlFor="comments-postCommentForm-field"
+                  >
+                    Post a comment
+                  </label>
                   <div
-                    className="coral coral-rte"
-                    onBlur={[Function]}
-                    onFocus={[Function]}
+                    className="CommentForm-commentFormBox CommentForm-noTopBorder coral coral-commentForm"
                   >
                     <div
-                      className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                      role="none"
                     >
                       <div
-                        aria-placeholder="Post a comment"
-                        className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                        id="comments-postCommentForm-field"
-                      />
-                      <div
-                        aria-hidden="true"
-                        className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
+                        className="coral coral-rte"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
                       >
-                        Post a comment
+                        <div
+                          className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                        >
+                          <div
+                            aria-placeholder="Post a comment"
+                            className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                            id="comments-postCommentForm-field"
+                          />
+                          <div
+                            aria-hidden="true"
+                            className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
+                          >
+                            Post a comment
+                          </div>
+                        </div>
+                        <div
+                          className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
+                        >
+                          <button
+                            aria-pressed={false}
+                            className="BaseButton-root RTEButton-button"
+                            disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            title="Bold"
+                            type="button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-md"
+                            >
+                              format_bold
+                            </i>
+                          </button>
+                          <button
+                            aria-pressed={false}
+                            className="BaseButton-root RTEButton-button"
+                            disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            title="Italic"
+                            type="button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-md"
+                            >
+                              format_italic
+                            </i>
+                          </button>
+                          <button
+                            aria-pressed={false}
+                            className="BaseButton-root RTEButton-button"
+                            disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            title="Blockquote"
+                            type="button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-md"
+                            >
+                              format_quote
+                            </i>
+                          </button>
+                          <button
+                            aria-pressed={false}
+                            className="BaseButton-root RTEButton-button"
+                            disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            title="Bulleted List"
+                            type="button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-md"
+                            >
+                              format_list_bulleted
+                            </i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
-                    >
-                      <button
-                        aria-pressed={false}
-                        className="BaseButton-root RTEButton-button"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        title="Bold"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_bold
-                        </i>
-                      </button>
-                      <button
-                        aria-pressed={false}
-                        className="BaseButton-root RTEButton-button"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        title="Italic"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_italic
-                        </i>
-                      </button>
-                      <button
-                        aria-pressed={false}
-                        className="BaseButton-root RTEButton-button"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        title="Blockquote"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_quote
-                        </i>
-                      </button>
-                      <button
-                        aria-pressed={false}
-                        className="BaseButton-root RTEButton-button"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        title="Bulleted List"
-                        type="button"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md"
-                        >
-                          format_list_bulleted
-                        </i>
-                      </button>
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
+                >
+                  <button
+                    className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-createComment-submit"
+                    data-variant="filled"
+                    disabled={true}
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
-            </div>
-            <div
-              className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
-            >
-              <button
-                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-createComment-submit"
-                data-variant="filled"
-                disabled={true}
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </section>
     <div
       className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
-      <div
+      <nav
+        aria-label="Secondary Tablist"
         className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
@@ -569,6 +593,11 @@ exports[`renders message box when logged in 1`] = `
                 <span>
                   All Comments
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  (
+                </div>
                 <span
                   className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
@@ -578,6 +607,11 @@ exports[`renders message box when logged in 1`] = `
                     0
                   </span>
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  )
+                </div>
               </div>
             </button>
           </li>
@@ -637,15 +671,14 @@ exports[`renders message box when logged in 1`] = `
             </span>
           </span>
         </div>
-      </div>
+      </nav>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
-        role="tabpanel"
       >
         <div
-          aria-live="polite"
+          aria-live="off"
           className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
@@ -660,7 +693,8 @@ exports[`renders message box when logged in 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
-          <div
+          <nav
+            aria-label="Comments Footer"
             className="CommentsLinks-container coral coral-streamFooter"
           >
             <button
@@ -729,7 +763,7 @@ exports[`renders message box when logged in 1`] = `
                 Top of article
               </span>
             </button>
-          </div>
+          </nav>
         </div>
       </section>
     </div>
@@ -743,7 +777,6 @@ exports[`renders message box when not logged in 1`] = `
   className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
-  role="tabpanel"
 >
   <div
     className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
@@ -751,7 +784,8 @@ exports[`renders message box when not logged in 1`] = `
     <div
       className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifySpaceBetween Flex-alignFlexStart"
     >
-      <div
+      <section
+        aria-label="Authentication"
         className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
       >
         <span
@@ -791,169 +825,174 @@ exports[`renders message box when not logged in 1`] = `
             Sign in
           </button>
         </div>
-      </div>
+      </section>
       <div
         className="StreamContainer-moderateStream"
       />
     </div>
-    <div
-      className="coral coral-createComment"
-      id="post-comment-form"
+    <section
+      aria-label="Post a Comment"
     >
       <div
-        className="MessageBox-root coral coral-createComment-message PostCommentFormFake-messageBox"
+        className="coral coral-createComment"
+        id="post-comment-form"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-md MessageBoxIcon-root"
+        <div
+          className="MessageBox-root coral coral-createComment-message PostCommentFormFake-messageBox"
         >
-          chat
-        </i>
-        <div
-          className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<p><strong>What do you think</strong>?</p>
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-md MessageBoxIcon-root"
+          >
+            chat
+          </i>
+          <div
+            className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<p><strong>What do you think</strong>?</p>
 ",
+              }
             }
-          }
-        />
-      </div>
-      <div
-        className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
-      >
+          />
+        </div>
         <div
-          className="PostCommentFormFake-rteContainer"
+          className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
         >
           <div
-            role="none"
+            className="PostCommentFormFake-rteContainer"
           >
             <div
-              className="coral coral-rte"
-              onBlur={[Function]}
-              onFocus={[Function]}
+              role="none"
             >
               <div
-                className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
+                className="coral coral-rte"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
-                  aria-placeholder="Post a comment"
-                  className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                />
-                <div
-                  aria-hidden="true"
-                  className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
+                  className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
                 >
-                  Post a comment
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE.module-contentEditable coral coral-rte-content RTE-content"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="RTE.module-placeholder coral coral-rte-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
                 </div>
-              </div>
-              <div
-                className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
-              >
-                <button
-                  aria-pressed={false}
-                  className="BaseButton-root RTEButton-button"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  title="Bold"
-                  type="button"
+                <div
+                  className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                  <button
+                    aria-pressed={false}
+                    className="BaseButton-root RTEButton-button"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    title="Bold"
+                    type="button"
                   >
-                    format_bold
-                  </i>
-                </button>
-                <button
-                  aria-pressed={false}
-                  className="BaseButton-root RTEButton-button"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  title="Italic"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_bold
+                    </i>
+                  </button>
+                  <button
+                    aria-pressed={false}
+                    className="BaseButton-root RTEButton-button"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    title="Italic"
+                    type="button"
                   >
-                    format_italic
-                  </i>
-                </button>
-                <button
-                  aria-pressed={false}
-                  className="BaseButton-root RTEButton-button"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  title="Blockquote"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_italic
+                    </i>
+                  </button>
+                  <button
+                    aria-pressed={false}
+                    className="BaseButton-root RTEButton-button"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    title="Blockquote"
+                    type="button"
                   >
-                    format_quote
-                  </i>
-                </button>
-                <button
-                  aria-pressed={false}
-                  className="BaseButton-root RTEButton-button"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  title="Bulleted List"
-                  type="button"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_quote
+                    </i>
+                  </button>
+                  <button
+                    aria-pressed={false}
+                    className="BaseButton-root RTEButton-button"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    title="Bulleted List"
+                    type="button"
                   >
-                    format_list_bulleted
-                  </i>
-                </button>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_list_bulleted
+                    </i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+          <button
+            className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-fullWidth coral coral-createComment-signIn"
+            data-variant="filled"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Sign in and Join the Conversation
+          </button>
         </div>
-        <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-fullWidth coral coral-createComment-signIn"
-          data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
-        >
-          Sign in and Join the Conversation
-        </button>
       </div>
-    </div>
+    </section>
     <div
       className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
-      <div
+      <nav
+        aria-label="Secondary Tablist"
         className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
@@ -984,6 +1023,11 @@ exports[`renders message box when not logged in 1`] = `
                 <span>
                   All Comments
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  (
+                </div>
                 <span
                   className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
@@ -993,6 +1037,11 @@ exports[`renders message box when not logged in 1`] = `
                     0
                   </span>
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  )
+                </div>
               </div>
             </button>
           </li>
@@ -1052,15 +1101,14 @@ exports[`renders message box when not logged in 1`] = `
             </span>
           </span>
         </div>
-      </div>
+      </nav>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
-        role="tabpanel"
       >
         <div
-          aria-live="polite"
+          aria-live="off"
           className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
@@ -1075,7 +1123,8 @@ exports[`renders message box when not logged in 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
-          <div
+          <nav
+            aria-label="Comments Footer"
             className="CommentsLinks-container coral coral-streamFooter"
           >
             <button
@@ -1122,7 +1171,7 @@ exports[`renders message box when not logged in 1`] = `
                 Top of article
               </span>
             </button>
-          </div>
+          </nav>
         </div>
       </section>
     </div>
@@ -1136,7 +1185,6 @@ exports[`renders message box when story isClosed 1`] = `
   className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
-  role="tabpanel"
 >
   <div
     className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
@@ -1144,7 +1192,8 @@ exports[`renders message box when story isClosed 1`] = `
     <div
       className="Box-root Flex-root Flex-flex Flex-wrap Flex-justifySpaceBetween Flex-alignFlexStart"
     >
-      <div
+      <section
+        aria-label="Authentication"
         className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
       >
         <span
@@ -1184,70 +1233,75 @@ exports[`renders message box when story isClosed 1`] = `
             Sign in
           </button>
         </div>
-      </div>
+      </section>
       <div
         className="StreamContainer-moderateStream"
       />
     </div>
-    <div
-      className="coral coral-createComment"
+    <section
+      aria-label="Post a Comment"
     >
       <div
-        className="MessageBox-root coral coral-createComment-message PostCommentFormClosed-messageBox"
+        className="coral coral-createComment"
       >
         <div
-          className="Markdown-root MessageBoxContent-root MessageBoxContainer-withoutIcon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<p><strong>What do you think</strong>?</p>
-",
-            }
-          }
-        />
-      </div>
-      <div
-        className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
-      >
-        <div
-          className="CallOut-container"
+          className="MessageBox-root coral coral-createComment-message PostCommentFormClosed-messageBox"
         >
           <div
-            className="CallOut-icon CallOut-mono CallOut-leftIcon"
-          >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              feedback
-            </i>
-          </div>
+            className="Markdown-root MessageBoxContent-root MessageBoxContainer-withoutIcon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<p><strong>What do you think</strong>?</p>
+",
+              }
+            }
+          />
+        </div>
+        <div
+          className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-createComment-closed"
+        >
           <div
-            className="CallOut-content"
+            className="CallOut-container"
           >
             <div
-              className="CallOut-title CallOut-titleSemiBold"
+              className="CallOut-icon CallOut-mono CallOut-leftIcon"
             >
-              <div
-                className="Markdown-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<p>Story is closed</p>
-",
-                  }
-                }
-              />
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                feedback
+              </i>
             </div>
             <div
-              className="CallOut-body"
-            />
+              className="CallOut-content"
+            >
+              <div
+                className="CallOut-title CallOut-titleSemiBold"
+              >
+                <div
+                  className="Markdown-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "<p>Story is closed</p>
+",
+                    }
+                  }
+                />
+              </div>
+              <div
+                className="CallOut-body"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
     <div
       className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
-      <div
+      <nav
+        aria-label="Secondary Tablist"
         className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
@@ -1278,6 +1332,11 @@ exports[`renders message box when story isClosed 1`] = `
                 <span>
                   All Comments
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  (
+                </div>
                 <span
                   className="Counter-root Counter-colorInherit Counter-sizeSmall coral coral-counter"
                 >
@@ -1287,6 +1346,11 @@ exports[`renders message box when story isClosed 1`] = `
                     0
                   </span>
                 </span>
+                <div
+                  className="AriaInfo-root"
+                >
+                  )
+                </div>
               </div>
             </button>
           </li>
@@ -1346,15 +1410,14 @@ exports[`renders message box when story isClosed 1`] = `
             </span>
           </span>
         </div>
-      </div>
+      </nav>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
-        role="tabpanel"
       >
         <div
-          aria-live="polite"
+          aria-live="off"
           className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
@@ -1369,7 +1432,8 @@ exports[`renders message box when story isClosed 1`] = `
               There are no comments on this story.
             </div>
           </div>
-          <div
+          <nav
+            aria-label="Comments Footer"
             className="CommentsLinks-container coral coral-streamFooter"
           >
             <button
@@ -1416,7 +1480,7 @@ exports[`renders message box when story isClosed 1`] = `
                 Top of article
               </span>
             </button>
-          </div>
+          </nav>
         </div>
       </section>
     </div>

@@ -6,10 +6,10 @@ exports[`renders configure 1`] = `
   className="App-tabContent coral coral-configure"
   data-testid="current-tab-pane"
   id="tabPane-CONFIGURE"
-  role="tabpanel"
 >
   <div>
-    <div
+    <section
+      aria-label="Authentication"
       className="coral coral-viewerBox"
     >
       <div
@@ -45,135 +45,143 @@ exports[`renders configure 1`] = `
           </button>
         </span>
       </div>
-    </div>
-    <form
-      autoComplete="off"
-      className="coral coral-configureCommentStream"
-      id="configure-form"
-      onSubmit={[Function]}
+    </section>
+    <section
+      aria-labelledby="configure-stream-configureThisStream-title"
     >
-      <div
-        className="ConfigureStream-heading"
+      <form
+        autoComplete="off"
+        className="coral coral-configureCommentStream"
+        id="configure-form"
+        onSubmit={[Function]}
       >
-        Configure this stream
-      </div>
-      <div
-        className="ConfigureStream-configureItems"
-      >
-        <div>
-          <div
-            className="CheckBox-root CheckBox-streamBlue"
-          >
-            <input
-              checked={false}
-              className="CheckBox-input CheckBox-streamBlue"
-              disabled={false}
-              id="moderation"
-              name="moderation"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              type="checkbox"
-              value={false}
-            />
-            <label
-              className="CheckBox-label CheckBox-streamBlue"
-              htmlFor="moderation"
-            >
-              <span
-                className="CheckBox-labelSpan coral coral-checkbox-label"
-              >
-                <div
-                  className="ToggleConfig-title"
-                >
-                  <span>
-                    Pre-moderate all comments
-                  </span>
-                </div>
-              </span>
-            </label>
-          </div>
-          <div
-            className="ToggleConfig-details"
-          >
+        <div
+          className="ConfigureStream-heading"
+          id="configure-stream-configureThisStream-title"
+        >
+          Configure this stream
+        </div>
+        <div
+          className="ConfigureStream-configureItems"
+        >
+          <div>
             <div
-              className="WidthLimitedDescription-root"
+              className="CheckBox-root CheckBox-streamBlue"
             >
-              Moderators must approve any comment before it is published to this story.
+              <input
+                checked={false}
+                className="CheckBox-input CheckBox-streamBlue"
+                disabled={false}
+                id="moderation"
+                name="moderation"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                type="checkbox"
+                value={false}
+              />
+              <label
+                className="CheckBox-label CheckBox-streamBlue"
+                htmlFor="moderation"
+              >
+                <span
+                  className="CheckBox-labelSpan coral coral-checkbox-label"
+                >
+                  <div
+                    className="ToggleConfig-title"
+                  >
+                    <span>
+                      Pre-moderate all comments
+                    </span>
+                  </div>
+                </span>
+              </label>
+            </div>
+            <div
+              className="ToggleConfig-details"
+            >
+              <div
+                className="WidthLimitedDescription-root"
+              >
+                Moderators must approve any comment before it is published to this story.
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              className="CheckBox-root CheckBox-streamBlue"
+            >
+              <input
+                checked={false}
+                className="CheckBox-input CheckBox-streamBlue"
+                disabled={false}
+                id="premodLinksEnable"
+                name="premodLinksEnable"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                type="checkbox"
+                value={false}
+              />
+              <label
+                className="CheckBox-label CheckBox-streamBlue"
+                htmlFor="premodLinksEnable"
+              >
+                <span
+                  className="CheckBox-labelSpan coral coral-checkbox-label"
+                >
+                  <div
+                    className="ToggleConfig-title"
+                  >
+                    <span>
+                      Pre-moderate comments containing links
+                    </span>
+                  </div>
+                </span>
+              </label>
+            </div>
+            <div
+              className="ToggleConfig-details"
+            >
+              <div
+                className="WidthLimitedDescription-root"
+              >
+                Moderators must approve any comment that contains a link before it is published to this story.
+              </div>
             </div>
           </div>
         </div>
-        <div>
-          <div
-            className="CheckBox-root CheckBox-streamBlue"
-          >
-            <input
-              checked={false}
-              className="CheckBox-input CheckBox-streamBlue"
-              disabled={false}
-              id="premodLinksEnable"
-              name="premodLinksEnable"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              type="checkbox"
-              value={false}
-            />
-            <label
-              className="CheckBox-label CheckBox-streamBlue"
-              htmlFor="premodLinksEnable"
-            >
-              <span
-                className="CheckBox-labelSpan coral coral-checkbox-label"
-              >
-                <div
-                  className="ToggleConfig-title"
-                >
-                  <span>
-                    Pre-moderate comments containing links
-                  </span>
-                </div>
-              </span>
-            </label>
-          </div>
-          <div
-            className="ToggleConfig-details"
-          >
-            <div
-              className="WidthLimitedDescription-root"
-            >
-              Moderators must approve any comment that contains a link before it is published to this story.
-            </div>
-          </div>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
-        data-testid="configure-stream-apply"
-        data-variant="filled"
-        disabled={true}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Update
-      </button>
-      <div
-        className="ConfigureStream-footer"
-      />
-    </form>
+        <button
+          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
+          data-testid="configure-stream-apply"
+          data-variant="filled"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Update
+        </button>
+        <div
+          className="ConfigureStream-footer"
+        />
+      </form>
+    </section>
     <hr
       className="HorizontalRule-root"
     />
-    <div>
+    <section
+      aria-labelledby="configure-addMessage-title"
+    >
       <div
         className="coral coral-openCommentStream"
       >
         <div
           className="shared-heading"
+          id="configure-addMessage-title"
         >
           Add a message or question
         </div>
@@ -203,80 +211,90 @@ story.
       <div
         className="AddMessageContainer-messagesHidden"
       />
-    </div>
+    </section>
     <hr
       className="HorizontalRule-root"
     />
-    <div
-      className="coral coral-openCommentStream"
+    <section
+      aria-labelledby="configure-disableLiveUpdates-title"
     >
       <div
-        className="DisableLiveUpdates-heading"
+        className="coral coral-openCommentStream"
       >
-        Disable live updates
-      </div>
-      <div
-        className="DisableLiveUpdates-description"
-      >
-        When disabled, new comments and replies will no longer instantly update
+        <div
+          className="DisableLiveUpdates-heading"
+          id="configure-disableLiveUpdates-title"
+        >
+          Disable live updates
+        </div>
+        <div
+          className="DisableLiveUpdates-description"
+        >
+          When disabled, new comments and replies will no longer instantly update
 as they are submitted. Commenters will need to refresh the page to see
 new comments. We recommend this in the unusual situation of a story
 getting so much traffic that the comments are loading slowly.
+        </div>
+        <button
+          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
+          data-variant="filled"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Disable
+        </button>
       </div>
-      <button
-        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
-        data-variant="filled"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
-      >
-        Disable
-      </button>
-    </div>
-    <div
-      className="LiveUpdatesConfigContainer-messagesHidden"
-    />
+      <div
+        className="LiveUpdatesConfigContainer-messagesHidden"
+      />
+    </section>
     <hr
       className="HorizontalRule-root"
     />
-    <div
-      className="coral coral-closeCommentStream"
+    <section
+      aria-labelledby="configure-closeStream-title"
     >
       <div
-        className="CloseStream-heading"
+        className="coral coral-closeCommentStream"
       >
-        Close comment stream
-      </div>
-      <div
-        className="CloseStream-description"
-      >
-        This comment stream is currently open. By closing this comment stream,
+        <div
+          className="CloseStream-heading"
+          id="configure-closeStream-title"
+        >
+          Close comment stream
+        </div>
+        <div
+          className="CloseStream-description"
+        >
+          This comment stream is currently open. By closing this comment stream,
 no new comments may be submitted and all previously submitted comments
 will still be displayed.
+        </div>
+        <button
+          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase coral coral-closeCommentStream-closeButton"
+          data-variant="filled"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Close Stream
+        </button>
       </div>
-      <button
-        className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase coral coral-closeCommentStream-closeButton"
-        data-variant="filled"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
-      >
-        Close Stream
-      </button>
-    </div>
-    <div
-      className="OpenOrCloseStreamContainer-calloutHidden"
-    />
+      <div
+        className="OpenOrCloseStreamContainer-calloutHidden"
+      />
+    </section>
   </div>
 </section>
 `;

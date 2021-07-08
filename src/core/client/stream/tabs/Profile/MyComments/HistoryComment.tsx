@@ -7,7 +7,7 @@ import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import InReplyTo from "coral-stream/tabs/Comments/Comment/InReplyTo";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { Hidden, HorizontalGutter, RelativeTime } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
 import styles from "./HistoryComment.css";
@@ -31,19 +31,31 @@ export interface HistoryCommentProps {
 }
 
 const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
+  const storyTitle = props.story.metadata ? props.story.metadata.title : "N/A";
   return (
     <HorizontalGutter
       className={cn(styles.root, CLASSES.myComment.$root)}
       data-testid={`historyComment-${props.id}`}
+      container="article"
+      aria-labelledby={`historyComment-${props.id}-label`}
     >
       <div>
+        <Localized
+          id="profile-historyComment-commentLabel"
+          RelativeTime={<RelativeTime date={props.createdAt} />}
+          $storyTitle={storyTitle}
+        >
+          <Hidden id={`historyComment-${props.id}-label`}>
+            Comment <RelativeTime date={props.createdAt} /> on {storyTitle}
+          </Hidden>
+        </Localized>
         <Localized id="profile-historyComment-comment-on">
           <span className={cn(CLASSES.myComment.commentOn, styles.commentOn)}>
             Comment on:
           </span>
         </Localized>
         <div className={cn(styles.storyTitle, CLASSES.myComment.story)}>
-          {props.story.metadata ? props.story.metadata.title : "N/A"}
+          {storyTitle}
         </div>
       </div>
       <div>

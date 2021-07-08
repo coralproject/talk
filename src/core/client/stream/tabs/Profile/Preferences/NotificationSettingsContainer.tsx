@@ -70,6 +70,8 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
     <HorizontalGutter
       data-testid="profile-account-notifications"
       className={CLASSES.emailNotifications.$root}
+      container="section"
+      aria-labelledby="profile-account-notifications-emailNotifications-title"
     >
       <Form initialValues={{ ...notifications }} onSubmit={onSubmit}>
         {({
@@ -83,7 +85,12 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
             <HorizontalGutter>
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-emailNotifications">
-                  <div className={styles.title}>Email Notifications</div>
+                  <div
+                    className={styles.title}
+                    id="profile-account-notifications-emailNotifications-title"
+                  >
+                    Email Notifications
+                  </div>
                 </Localized>
               </HorizontalGutter>
               <HorizontalGutter>
@@ -231,6 +238,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                       icon={<Icon size="sm">warning</Icon>}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
+                      role="alert"
                     />
                   )}
                   {submitSucceeded && showSuccess && (
@@ -246,6 +254,8 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                           </span>
                         </Localized>
                       }
+                      role="dialog"
+                      aria-live="polite"
                     />
                   )}
                 </div>

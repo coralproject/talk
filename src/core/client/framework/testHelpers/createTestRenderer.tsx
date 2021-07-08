@@ -128,6 +128,7 @@ export default function createTestRenderer<
       ios: false,
       mobile: false,
       msie: false,
+      macos: false,
     },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),

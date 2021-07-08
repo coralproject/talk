@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
@@ -25,53 +26,58 @@ export interface Props {
 
 const CommentToggle: FunctionComponent<Props> = (props) => {
   return (
-    <BaseButton
-      onClick={props.toggleCollapsed}
-      className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
-    >
-      <Flex alignItems="flex-start" spacing={1}>
-        <Icon className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}>
-          add
-        </Icon>
-        <Flex
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          className={cn(styles.inner, CLASSES.comment.topBar.$root)}
-          wrap
-        >
+    <Localized id="comments-expand-toggle" attrs={{ "aria-label": true }}>
+      <BaseButton
+        onClick={props.toggleCollapsed}
+        className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
+        aria-label={"Expand comment thread"}
+      >
+        <Flex alignItems="flex-start" spacing={1}>
+          <Icon
+            className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}
+          >
+            add
+          </Icon>
           <Flex
             direction="row"
-            alignItems="center"
             justifyContent="space-between"
+            alignItems="center"
+            className={cn(styles.inner, CLASSES.comment.topBar.$root)}
             wrap
           >
             <Flex
-              className={styles.username}
               direction="row"
               alignItems="center"
-              itemGutter="half"
+              justifyContent="space-between"
+              wrap
             >
-              {props.username && props.username}
-              {props.userTags}
-            </Flex>
-            <Flex direction="row" alignItems="baseline" itemGutter wrap>
-              <RelativeTime
-                className={cn(
-                  styles.timestamp,
-                  CLASSES.comment.topBar.timestamp
+              <Flex
+                className={styles.username}
+                direction="row"
+                alignItems="center"
+                itemGutter="half"
+              >
+                {props.username && props.username}
+                {props.userTags}
+              </Flex>
+              <Flex direction="row" alignItems="baseline" itemGutter wrap>
+                <RelativeTime
+                  className={cn(
+                    styles.timestamp,
+                    CLASSES.comment.topBar.timestamp
+                  )}
+                  date={props.createdAt}
+                />
+                {props.showEditedMarker && (
+                  <EditedMarker className={CLASSES.comment.topBar.edited} />
                 )}
-                date={props.createdAt}
-              />
-              {props.showEditedMarker && (
-                <EditedMarker className={CLASSES.comment.topBar.edited} />
-              )}
+              </Flex>
             </Flex>
+            {props.topBarRight && <div>{props.topBarRight}</div>}
           </Flex>
-          {props.topBarRight && <div>{props.topBarRight}</div>}
         </Flex>
-      </Flex>
-    </BaseButton>
+      </BaseButton>
+    </Localized>
   );
 };
 

@@ -23,11 +23,15 @@ const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
     <HorizontalGutter
       spacing={4}
       className={cn(styles.root, CLASSES.discussions.mostActiveDiscussions)}
+      container="section"
+      aria-labelledby="discussions-mostActiveDiscussions-title"
     >
       <DiscussionsHeader
         header={
           <Localized id="discussions-mostActiveDiscussions">
-            Most active discussions
+            <span id="discussions-mostActiveDiscussions-title">
+              Most active discussions
+            </span>
           </Localized>
         }
         subHeader={

@@ -2,11 +2,17 @@
 
 ## General
 
+general-commentsEmbedSection =
+  .aria-label = Comments Embed
+
 general-moderate = Moderate
 
 general-userBoxUnauthenticated-joinTheConversation = Join the conversation
 general-userBoxUnauthenticated-signIn = Sign in
 general-userBoxUnauthenticated-register = Register
+
+general-authenticationSection =
+  .aria-label = Authentication
 
 general-userBoxAuthenticated-signedIn =
   Signed in as
@@ -21,6 +27,12 @@ general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
+
+general-mainTablist =
+  .aria-label = Main Tablist
+
+general-secondaryTablist =
+  .aria-label = Secondary Tablist
 
 ## Comment Count
 
@@ -41,6 +53,14 @@ comments-watchers =
     *[other] { SHORT_NUMBER($count) } people viewing this discussion
   }
 
+comments-announcement-section =
+  .aria-label = Announcement
+comments-announcement-closeButton =
+  .aria-label = Close Announcement
+
+comments-accountStatus-section =
+  .aria-label = Account Status
+
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =
   Comments are chosen by our team as worth reading.
@@ -50,6 +70,8 @@ comments-featuredCommentTooltip-toggleButton =
 
 comments-collapse-toggle =
   .aria-label = Collapse comment thread
+comments-expand-toggle =
+  .aria-label = Expand comment thread
 comments-bannedInfo-bannedFromCommenting = Your account has been banned from commenting.
 comments-bannedInfo-violatedCommunityGuidelines =
   Someone with access to your account has violated our community
@@ -62,10 +84,15 @@ comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
 
+comments-communityGuidelines-section =
+  .aria-label = Community Guidelines
+
 comments-commentForm-cancel = Cancel
 comments-commentForm-saveChanges = Save changes
 comments-commentForm-submit = Submit
 
+comments-postCommentForm-section =
+  .aria-label = Post a Comment
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
@@ -102,6 +129,8 @@ comments-permalinkPopover-permalinkToComment =
 comments-permalinkButton-share = Share
 comments-permalinkButton =
   .aria-label = Share comment by {$username}
+comments-permalinkView-section =
+  .aria-label = Single Conversation
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
@@ -151,6 +180,15 @@ comments-replyCommentForm-rteLabel = Write a reply
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
+comments-commentContainer-threadLevelLabel = Thread Level { $level }:
+comments-commentContainer-highlightedLabel = Highlighted:
+comments-commentContainer-ancestorLabel = Ancestor:
+comments-commentContainer-replyLabel =
+  Reply from { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-questionLabel =
+  Question from { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-commentLabel =
+  Comment from { $username } <RelativeTime></RelativeTime>
 comments-commentContainer-editButton = Edit
 
 comments-commentContainer-avatar =
@@ -235,16 +273,19 @@ comments-moderationRejectedTombstone-moderateLink =
 
 comments-featuredTag = Featured
 
+# $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
   .aria-label = {$count ->
     [0] {$reaction} comment by {$username}
-    *[other] {$reaction} ({$count}) comment by {$username}
+    *[other] {$reaction} comment by {$username} (Total: {$count})
   }
+
+# $reaction could be "Respected" as an example. Be careful when translating to other languages with different grammar cases.
 comments-reacted =
   .aria-label = {$count ->
     [0] {$reaction} comment by {$username}
     [one] {$reaction} comment by {$username}
-    *[other] {$reaction} ({$count}) comment by {$username}
+    *[other] {$reaction} comment by {$username} (Total: {$count})
   }
 
 comments-jumpToComment-title = Your reply has posted below
@@ -254,9 +295,17 @@ comments-jumpToComment-GoToReply = Go to reply
 
 general-tabBar-qaTab = Q&A
 
+qa-postCommentForm-section =
+  .aria-label = Post a Question
+
 qa-answeredTab = Answered
 qa-unansweredTab = Unanswered
 qa-allCommentsTab = All
+
+qa-answered-answerLabel =
+  Answer from {$username} <RelativeTime></RelativeTime>
+qa-answered-gotoConversation = Go to conversation
+qa-answered-replies = Replies
 
 qa-noQuestionsAtAll =
   There are no questions on this story.
@@ -341,6 +390,8 @@ comments-embedLinks-hide-external = Hide image
 
 
 ### Featured Comments
+comments-featured-label =
+  Featured Comment from {$username} <RelativeTime></RelativeTime>
 comments-featured-gotoConversation = Go to conversation
 comments-featured-replies = Replies
 
@@ -372,6 +423,10 @@ profile-accountDeletion-cancelAccountDeletion =
   Cancel account deletion
 
 ### Comment History
+profile-commentHistory-section =
+  .aria-label = Comment History
+profile-historyComment-commentLabel =
+  Comment <RelativeTime></RelativeTime> on { $storyTitle }
 profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
@@ -795,6 +850,9 @@ profile-changeEmail-success = Your email has been successfully updated
 
 ## Ratings and Reviews
 
+ratingsAndReviews-postCommentForm-section =
+  .aria-label = Submit a Review or Ask a Question
+
 ratingsAndReviews-reviewsTab = Reviews
 ratingsAndReviews-questionsTab = Questions
 ratingsAndReviews-noReviewsAtAll = There are no reviews.
@@ -835,3 +893,5 @@ stream-footer-links-profile = Profile & Replies
   .title = Go to profile and replies
 stream-footer-links-discussions = More discussions
   .title = Go to more discussions
+stream-footer-navigation =
+  .aria-label = Comments Footer

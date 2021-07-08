@@ -14,7 +14,9 @@ interface Props {
 const OpenStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
   <div className={CLASSES.openCommentStream.$root}>
     <Localized id="configure-openStream-title">
-      <div className={styles.heading}>Open Stream</div>
+      <div className={styles.heading} id="configure-openStream-title">
+        Open Stream
+      </div>
     </Localized>
     <Localized id="configure-openStream-description">
       <div className={styles.description}>

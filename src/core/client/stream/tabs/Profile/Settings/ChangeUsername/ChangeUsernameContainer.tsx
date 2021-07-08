@@ -157,10 +157,18 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   });
 
   return (
-    <HorizontalGutter spacing={3} data-testid="profile-changeUsername">
+    <HorizontalGutter
+      spacing={3}
+      data-testid="profile-changeUsername"
+      container="section"
+      aria-labelledby="profile-changeUsername-title"
+    >
       <div>
         <Localized id="profile-changeUsername-username">
-          <div className={cn(styles.title, CLASSES.myUsername.title)}>
+          <div
+            className={cn(styles.title, CLASSES.myUsername.title)}
+            id="profile-changeUsername-title"
+          >
             Username
           </div>
         </Localized>
@@ -211,6 +219,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                 <span>Your username has been successfully updated</span>
               </Localized>
             }
+            aria-live="polite"
           />
         </div>
       )}
@@ -333,6 +342,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                         icon={<Icon size="sm">error</Icon>}
                         titleWeight="semiBold"
                         title={submitError}
+                        role="alert"
                       />
                     )}
                   </HorizontalGutter>

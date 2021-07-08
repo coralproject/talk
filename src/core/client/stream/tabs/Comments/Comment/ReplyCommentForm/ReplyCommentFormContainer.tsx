@@ -40,7 +40,7 @@ import { getSubmissionResponse } from "../../helpers/getSubmitStatus";
 import RefreshSettingsFetch from "../../RefreshSettingsFetch";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
 import { RTE_RESET_VALUE } from "../../RTE/RTE";
-import commentElementID from "../commentElementID";
+import computeCommentElementID from "../computeCommentElementID";
 import ReplyEditSubmitStatus from "../ReplyEditSubmitStatus";
 import {
   CreateCommentReplyMutation,
@@ -220,7 +220,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
       props.onClose();
     }
 
-    const elementID = commentElementID(commentID);
+    const elementID = computeCommentElementID(commentID);
     setTimeout(() => {
       pym.scrollParentToChildEl(elementID);
     }, 300);
@@ -241,6 +241,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
         icon={<Icon>question_answer</Icon>}
         iconColor="none"
         color="primary"
+        aria-live="polite"
       >
         <Localized id="comments-jumpToComment-GoToReply">
           <Button onClick={jumpToComment} variant="flat" underline>

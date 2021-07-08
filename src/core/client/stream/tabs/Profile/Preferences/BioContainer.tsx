@@ -61,10 +61,12 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
     return null;
   }
   return (
-    <HorizontalGutter>
+    <HorizontalGutter container="section" aria-labelledby="profile-bio-title">
       <HorizontalGutter spacing={1}>
         <Localized id="profile-bio-title">
-          <h2 className={styles.title}>Bio</h2>
+          <h2 className={styles.title} id="profile-bio-title">
+            Bio
+          </h2>
         </Localized>
         <Localized id="profile-bio-description">
           <p className={styles.description}>
@@ -122,6 +124,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
                       Your bio has been removed
                     </Localized>
                   }
+                  aria-live="polite"
                 />
               )}
               {submitSucceeded && (
@@ -133,9 +136,14 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
                       Your bio has been updated
                     </Localized>
                   }
+                  aria-live="polite"
                 />
               )}
-              {submitError && <CallOut color="error">{submitError}</CallOut>}
+              {submitError && (
+                <CallOut color="error" role="alert">
+                  {submitError}
+                </CallOut>
+              )}
               <Flex itemGutter className={styles.buttons}>
                 <Localized id="profile-bio-remove">
                   <Button

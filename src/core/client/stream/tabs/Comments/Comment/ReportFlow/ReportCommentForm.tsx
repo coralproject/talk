@@ -157,7 +157,7 @@ class ReportCommentForm extends React.Component<Props> {
                 >
                   <label
                     className={styles.heading}
-                    htmlFor={`comments-reportCommentForm-aditionalDetails--${id}`}
+                    htmlFor={`comments-reportCommentForm-additionalDetails--${id}`}
                   >
                     Additional information (Optional)
                   </label>

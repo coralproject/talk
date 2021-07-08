@@ -6,7 +6,6 @@ exports[`renders permalink view with unknown story 1`] = `
   className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
-  role="tabpanel"
 >
   <div>
     Story not found
