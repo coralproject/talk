@@ -15,17 +15,15 @@ interface UnknownErrorExtension {
 export default class UnknownServerError extends TraceableError {
   // Keep origin of original server response.
   public origin: UnknownErrorExtension;
-  public traceID: string;
 
   constructor(msg: string, error: UnknownErrorExtension) {
-    super(msg);
+    super(msg, error.traceID);
 
     // Maintains proper stack trace for where our error was thrown.
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, UnknownServerError);
     }
 
-    this.traceID = error.traceID;
     this.origin = error;
   }
 }

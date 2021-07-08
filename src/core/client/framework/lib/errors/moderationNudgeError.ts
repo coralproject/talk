@@ -11,6 +11,7 @@ interface ModerationNudgeExtension {
   code: ERROR_CODES;
   message?: string;
   id?: string;
+  traceID: string;
 }
 
 /**
@@ -27,7 +28,7 @@ export default class ModeratioNudgeError extends TraceableError
   public readonly extensions: string;
 
   constructor(extension: ModerationNudgeExtension) {
-    super("ModeratioNudgeError");
+    super("ModeratioNudgeError", extension.traceID);
 
     // Maintains proper stack trace for where our error was thrown.
     if (Error.captureStackTrace) {

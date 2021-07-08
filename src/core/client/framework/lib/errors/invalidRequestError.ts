@@ -27,13 +27,12 @@ export default class InvalidRequestError extends TraceableError
   public readonly extension: InvalidRequestExtension;
   public readonly code: ERROR_CODES;
   public readonly id?: string;
-  public readonly traceID: string;
   public readonly param?: string;
   public readonly message: string;
   public readonly extensions: string;
 
   constructor(extension: InvalidRequestExtension) {
-    super("InvalidRequestError");
+    super("InvalidRequestError", extension.traceID);
 
     // Maintains proper stack trace for where our error was thrown.
     if (Error.captureStackTrace) {
@@ -43,7 +42,6 @@ export default class InvalidRequestError extends TraceableError
     this.extension = extension;
     this.code = extension.code;
     this.id = extension.id;
-    this.traceID = extension.traceID;
     this.param = extension.param;
     this.message = extension.message || extension.code;
   }

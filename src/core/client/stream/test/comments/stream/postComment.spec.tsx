@@ -216,6 +216,7 @@ it("handle moderation nudge error", async () => {
               });
               throw new ModerationNudgeError({
                 code: ERROR_CODES.TOXIC_COMMENT,
+                traceID: "traceID",
               });
             }),
           (s) =>
