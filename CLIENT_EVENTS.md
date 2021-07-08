@@ -356,13 +356,7 @@ createComment.error
 - <a id="queueSortChanged">**queueSortChanged**</a>: This event is emitted when the viewer changes the moderation queue sort.
   ```ts
   {
-      success: {
-          sortOrder: string;
-      };
-      error: {
-          message: string;
-          code?: string | undefined;
-      };
+      sortOrder: string;
   }
   ```
 - <a id="rejectComment">**rejectComment.success**, **rejectComment.error**</a>: This event is emitted when the viewer rejects a comment.

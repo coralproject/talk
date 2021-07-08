@@ -628,11 +628,5 @@ export const CancelAccountDeletionEvent = createViewerNetworkEvent<{
  * queue sort.
  */
 export const QueueSortChangedEvent = createViewerEvent<{
-  success: {
-    sortOrder: string;
-  };
-  error: {
-    message: string;
-    code?: string;
-  };
+  sortOrder: string;
 }>("queueSortChangedEvent");

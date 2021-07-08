@@ -19,8 +19,9 @@ export async function commit(
   await context.localStorage.setItem(MOD_QUEUE_SORT_ORDER, input.sortOrder);
 
   // Track event
-  const sortChangedEvent = QueueSortChangedEvent.begin(context.eventEmitter);
-  sortChangedEvent.success({ sortOrder: input.sortOrder });
+  QueueSortChangedEvent.emit(context.eventEmitter, {
+    sortOrder: input.sortOrder,
+  });
 
   // Set in Relay
   return commitLocalUpdate(environment, (store) => {
