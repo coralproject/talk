@@ -1,16 +1,16 @@
 import createInMemoryStorage from "./InMemoryStorage";
 
-export interface PromisifiedStorage {
+export interface PromisifiedStorage<T = string> {
   length: Promise<number>;
 
   clear(): Promise<void>;
 
-  key(n: number): Promise<string | null>;
+  key(n: number): Promise<T | null>;
 
   /**
    * value = storage[key]
    */
-  getItem(key: string): Promise<string | null>;
+  getItem(key: string): Promise<T | null>;
   /**
    * delete storage[key]
    */
@@ -18,7 +18,7 @@ export interface PromisifiedStorage {
   /**
    * storage[key] = value
    */
-  setItem(key: string, value: string): Promise<void>;
+  setItem(key: string, value: T): Promise<void>;
 }
 
 /**

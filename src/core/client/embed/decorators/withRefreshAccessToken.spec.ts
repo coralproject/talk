@@ -19,7 +19,7 @@ it("should provide refresh access token when called", async () => {
       .withArgs("refreshAccessToken", token)
       .returns(null),
   };
-  withRefreshAccessToken(refreshAccessToken)(fakePym as any);
+  withRefreshAccessToken(refreshAccessToken)(fakePym as any, null as any);
   await wait(() => expect(fakePym.sendMessage.calledOnce).toBe(true));
 });
 
@@ -39,7 +39,7 @@ it("should throw error when calling `nextAccessToken` twice", async () => {
       .withArgs("refreshAccessToken", token)
       .returns(null),
   };
-  withRefreshAccessToken(refreshAccessToken)(fakePym as any);
+  withRefreshAccessToken(refreshAccessToken)(fakePym as any, null as any);
   await wait(() => expect(fakePym.sendMessage.calledOnce).toBe(true));
 });
 
@@ -52,6 +52,6 @@ it("should return empty access token when no refresh access token callback provi
     },
     sendMessage: sinon.stub().withArgs("refreshAccessToken", "").returns(null),
   };
-  withRefreshAccessToken(refreshAccessToken)(fakePym as any);
+  withRefreshAccessToken(refreshAccessToken)(fakePym as any, null as any);
   await wait(() => expect(fakePym.sendMessage.calledOnce).toBe(true));
 });

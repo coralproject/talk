@@ -52,7 +52,10 @@ function sharedUpdater(
   const commentEdge = store
     .getRootField("createComment")!
     .getLinkedRecord("edge")!;
-  const status = commentEdge.getLinkedRecord("node")!.getValue("status");
+  const node = commentEdge.getLinkedRecord("node")!;
+  const status = node.getValue("status");
+  node.setValue("CREATE", "lastViewerAction");
+
   // If comment is not visible, we don't need to add it.
   if (!isPublished(status)) {
     return;
@@ -291,7 +294,7 @@ export const CreateCommentMutation = createMutation(
                   createdAt: currentDate,
                   status: "NONE",
                   pending: false,
-                  lastViewerAction: null,
+                  lastViewerAction: "CREATE",
                   author: {
                     id: viewer.id,
                     username: viewer.username || null,

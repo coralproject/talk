@@ -13,6 +13,7 @@ import { AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated_
 
 import CollapsableComment from "../../Comment/CollapsableComment";
 import CommentContainer from "../../Comment/CommentContainer";
+import { useCommentSeen, useCommentSeenEnabled } from "../../commentSeen";
 import DeletedTombstoneContainer from "../../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import ReplyListContainer from "../../ReplyList/ReplyListContainer";
@@ -34,6 +35,8 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   story,
   isLast,
 }) => {
+  const commentSeenEnabled = useCommentSeenEnabled();
+  const commentSeen = useCommentSeen(comment.id);
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
@@ -41,8 +44,11 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
           {({ collapsed, toggleCollapsed }) => (
             <HorizontalGutter
               className={cn({
-                [styles.borderedComment]: !collapsed && !isLast,
+                [styles.borderedComment]: commentSeen && !collapsed && !isLast,
+                [styles.borderedCommentNotSeen]:
+                  !commentSeen && !collapsed && !isLast,
               })}
+              spacing={commentSeenEnabled ? 0 : undefined}
             >
               <DeletedTombstoneContainer comment={comment}>
                 <CommentContainer
@@ -54,18 +60,20 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
                   toggleCollapsed={toggleCollapsed}
                 />
               </DeletedTombstoneContainer>
-              <div
-                className={cn({
-                  [styles.hiddenReplies]: collapsed,
-                })}
-              >
-                <ReplyListContainer
-                  settings={settings}
-                  viewer={viewer}
-                  comment={comment}
-                  story={story}
-                />
-              </div>
+              {!collapsed && (
+                <div
+                  className={cn({
+                    [styles.commentSeen]: commentSeen,
+                  })}
+                >
+                  <ReplyListContainer
+                    settings={settings}
+                    viewer={viewer}
+                    comment={comment}
+                    story={story}
+                  />
+                </div>
+              )}
             </HorizontalGutter>
           )}
         </CollapsableComment>
@@ -96,6 +104,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   comment: graphql`
     fragment AllCommentsTabCommentContainer_comment on Comment {
+      id
       enteredLive
       ...CommentContainer_comment
       ...ReplyListContainer1_comment
