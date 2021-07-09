@@ -64,6 +64,13 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
     comment.revision.metadata.externalModeration &&
     comment.revision.metadata.externalModeration.length > 0
   );
+  const hasAutomatedActions = !!(
+    comment &&
+    comment.revision &&
+    comment.revision.metadata &&
+    comment.revision.metadata.perspective &&
+    comment.revision.metadata.perspective.score > 0
+  );
 
   return (
     <HorizontalGutter>
@@ -86,16 +93,17 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             </Flex>
           </Tab>
         )}
-        {hasExternalModDetails && (
-          <Tab tabID="EXTERNAL_MOD" classes={styles}>
-            <Flex alignItems="center" itemGutter>
-              <Icon size="md">done_all</Icon>
-              <Localized id="moderateCardDetails-tab-automatedActions">
-                <span>Automated actions</span>
-              </Localized>
-            </Flex>
-          </Tab>
-        )}
+        {hasExternalModDetails ||
+          (hasAutomatedActions && (
+            <Tab tabID="EXTERNAL_MOD" classes={styles}>
+              <Flex alignItems="center" itemGutter>
+                <Icon size="md">done_all</Icon>
+                <Localized id="moderateCardDetails-tab-automatedActions">
+                  <span>Automated actions</span>
+                </Localized>
+              </Flex>
+            </Tab>
+          ))}
       </TabBar>
       {activeTab === "INFO" && (
         <>

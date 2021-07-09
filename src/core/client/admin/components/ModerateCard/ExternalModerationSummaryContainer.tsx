@@ -92,19 +92,10 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
-  if (
-    !comment.revision ||
-    !comment.revision.metadata ||
-    !comment.revision.metadata.externalModeration
-  ) {
-    return null;
-  }
-
-  const externalModerations = comment.revision.metadata.externalModeration.map(
-    (em) => {
+  const externalModerations =
+    comment.revision?.metadata?.externalModeration?.map((em) => {
       return { ...em, missing: false };
-    }
-  );
+    }) || [];
 
   const missingPhases = (
     settings.integrations?.external?.phases?.filter((p) => {
@@ -126,23 +117,25 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      {comment.revision.metadata && comment.revision.metadata.perspective && (
-        <FlagDetailsCategory
-          category={
-            <Localized id="moderate-flagDetails-toxicityScore">
-              <span>Toxicity Score</span>
-            </Localized>
-          }
-        >
-          <ToxicityLabel
-            score={comment.revision.metadata.perspective.score}
-            threshold={
-              settings.integrations.perspective.threshold ||
-              TOXICITY_THRESHOLD_DEFAULT / 100
+      {comment.revision &&
+        comment.revision.metadata &&
+        comment.revision.metadata.perspective && (
+          <FlagDetailsCategory
+            category={
+              <Localized id="moderate-flagDetails-toxicityScore">
+                <span>Toxicity Score</span>
+              </Localized>
             }
-          />
-        </FlagDetailsCategory>
-      )}
+          >
+            <ToxicityLabel
+              score={comment.revision.metadata.perspective.score}
+              threshold={
+                settings.integrations.perspective.threshold ||
+                TOXICITY_THRESHOLD_DEFAULT / 100
+              }
+            />
+          </FlagDetailsCategory>
+        )}
       {phases.map((em) => {
         return (
           <>
