@@ -10,8 +10,8 @@ Online comments are broken. Our open-source commenting platform, Coral,
 reimagines moderation, comment display, and conversation. Use Coral to add
 smarter, safer discussions to your site without giving away your data.
 
-More than 130 newsrooms in 16 countries trust Coral to power their on-site
-communities, including The Washington Post, The Wall Street Journal, and Der
+More than 280 newsrooms in 23 countries trust Coral to power their on-site
+communities, including The Washington Post, The Financial Times, Wired, The Wall Street Journal, and Der
 Spiegel. [Read more about Coral here](https://coralproject.net/).
 
 Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
