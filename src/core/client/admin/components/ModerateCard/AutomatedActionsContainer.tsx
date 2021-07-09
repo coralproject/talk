@@ -8,20 +8,20 @@ import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import { Flex, Marker, Tag } from "coral-ui/components/v2";
 
 import {
+  AutomatedActionsContainer_comment,
   COMMENT_FLAG_REASON,
   COMMENT_STATUS,
-  ExternalModerationSummaryContainer_comment,
-} from "coral-admin/__generated__/ExternalModerationSummaryContainer_comment.graphql";
-import { ExternalModerationSummaryContainer_settings } from "coral-admin/__generated__/ExternalModerationSummaryContainer_settings.graphql";
+} from "coral-admin/__generated__/AutomatedActionsContainer_comment.graphql";
+import { AutomatedActionsContainer_settings } from "coral-admin/__generated__/AutomatedActionsContainer_settings.graphql";
 
 import FlagDetailsCategory from "./FlagDetailsCategory";
 import ToxicityLabel from "./ToxicityLabel";
 
-import styles from "./ExternalModerationSummaryContainer.css";
+import styles from "./AutomatedActionsContainer.css";
 
 interface Props {
-  comment: ExternalModerationSummaryContainer_comment;
-  settings: ExternalModerationSummaryContainer_settings;
+  comment: AutomatedActionsContainer_comment;
+  settings: AutomatedActionsContainer_settings;
 }
 
 interface StatusProps {
@@ -88,7 +88,7 @@ const ReasonMarker: FunctionComponent<ReasonMarkerProps> = ({ reason }) => {
   }
 };
 
-const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
+const AutomatedActionsContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
@@ -155,7 +155,10 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                     <span className={styles.title}>Flags</span>
                   </Localized>
                   {em.result.actions?.map((a, i) => (
-                    <ReasonMarker key={`action-${i}`} reason={a.reason} />
+                    <ReasonMarker
+                      key={`action-${em.name}-${i}`}
+                      reason={a.reason}
+                    />
                   ))}
                 </Flex>
               )}
@@ -165,7 +168,7 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
                     <span className={styles.title}>Tags</span>
                   </Localized>
                   {em.result.tags?.map((t, i) => (
-                    <Marker key={`tag-${i}`}>{t}</Marker>
+                    <Marker key={`tag-${em.name}-${i}`}>{t}</Marker>
                   ))}
                 </Flex>
               )}
@@ -192,7 +195,7 @@ const ExternalModerationSummaryContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
-    fragment ExternalModerationSummaryContainer_comment on Comment {
+    fragment AutomatedActionsContainer_comment on Comment {
       revision {
         metadata {
           perspective {
@@ -214,7 +217,7 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   settings: graphql`
-    fragment ExternalModerationSummaryContainer_settings on Settings {
+    fragment AutomatedActionsContainer_settings on Settings {
       integrations {
         perspective {
           threshold
@@ -227,6 +230,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(ExternalModerationSummaryContainer);
+})(AutomatedActionsContainer);
 
 export default enhanced;
