@@ -2,7 +2,7 @@
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Box-root HorizontalGutter-root ReplyList-root HorizontalGutter-full"
+  className="Box-root HorizontalGutter-root ReplyList-withPadding HorizontalGutter-full"
   data-testid="commentReplyList-comment-0"
   id="coral-comments-replyList-log--comment-0"
   role="log"
@@ -20,13 +20,13 @@ exports[`renders comment stream 1`] = `
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+          className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
             className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+              className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
                 aria-label="Collapse comment thread"

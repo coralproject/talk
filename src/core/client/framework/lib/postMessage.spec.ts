@@ -1,7 +1,7 @@
 import { PostMessageService } from "./postMessage";
 
 it("post and subscribe to a message", (done) => {
-  const postMessage = new PostMessageService();
+  const postMessage = new PostMessageService("coral", window, "*");
   const cancel = postMessage.on("test", (value) => {
     expect(value).toBe("value");
     done();
@@ -12,7 +12,7 @@ it("post and subscribe to a message", (done) => {
 
 it("should support complex value", (done) => {
   const complex = { foo: "bar" };
-  const postMessage = new PostMessageService();
+  const postMessage = new PostMessageService("coral", window, "*");
   const cancel = postMessage.on("test", (value) => {
     expect(value).toBe(complex);
     done();
@@ -22,7 +22,7 @@ it("should support complex value", (done) => {
 });
 
 it("send to a different origin", (done) => {
-  const postMessage = new PostMessageService();
+  const postMessage = new PostMessageService("coral", window, "*");
   const cancelA = postMessage.on("testA", (value) => {
     throw new Error("Should not reach this");
   });
@@ -36,7 +36,7 @@ it("send to a different origin", (done) => {
 });
 
 it("should cancel", (done) => {
-  const postMessage = new PostMessageService();
+  const postMessage = new PostMessageService("coral", window, "*");
   const cancelA = postMessage.on("testA", (value) => {
     throw new Error("Should not reach this");
   });
@@ -49,23 +49,8 @@ it("should cancel", (done) => {
   postMessage.send("testB", "value", window);
 });
 
-it("different scopes are isolated", (done) => {
-  const postMessageA = new PostMessageService("scopeA");
-  const postMessageB = new PostMessageService("scopeB");
-  const cancelA = postMessageA.on("testA", (value) => {
-    throw new Error("Should not reach this");
-  });
-  const cancelB = postMessageA.on("testB", (value) => {
-    done();
-    cancelA();
-    cancelB();
-  });
-  postMessageB.send("testA", "value", window);
-  postMessageA.send("testB", "value", window);
-});
-
 it("different message names are isolated", (done) => {
-  const postMessage = new PostMessageService();
+  const postMessage = new PostMessageService("coral", window, "*");
   const cancelA = postMessage.on("testA", (value) => {
     expect(value).toBe("valueA");
   });

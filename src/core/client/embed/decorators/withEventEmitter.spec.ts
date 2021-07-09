@@ -15,7 +15,7 @@ it("should emit events from pym to eventEmitter", () => {
     },
     el: document.createElement("div"),
   };
-  withEventEmitter(eventEmitterMock as any)(fakePym as any);
+  withEventEmitter(eventEmitterMock as any)(fakePym as any, null as any);
   eventEmitterMock.emit.verify();
 });
 
@@ -32,6 +32,6 @@ it("should emit ready event from pym to eventEmitter", () => {
     },
     el: document.createElement("div"),
   };
-  withEventEmitter(eventEmitterMock as any)(fakePym as any);
+  withEventEmitter(eventEmitterMock as any)(fakePym as any, null as any);
   eventEmitterMock.emit.verify();
 });

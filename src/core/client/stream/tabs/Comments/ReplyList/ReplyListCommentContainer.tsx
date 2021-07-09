@@ -13,6 +13,7 @@ import { ReplyListCommentContainer_viewer } from "coral-stream/__generated__/Rep
 
 import CollapsableComment from "../Comment/CollapsableComment";
 import CommentContainer from "../Comment/CommentContainer";
+import { useCommentSeenEnabled } from "../commentSeen";
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 
@@ -47,6 +48,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
   showConversationLink,
   replyListElement,
 }) => {
+  const commentSeenEnabled = useCommentSeenEnabled();
   return (
     <FadeInTransition active={Boolean(comment.enteredLive)}>
       <IgnoredTombstoneOrHideContainer
@@ -55,7 +57,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         allowTombstoneReveal={allowIgnoredTombstoneReveal}
         disableHide={disableHideIgnoredTombstone}
       >
-        <HorizontalGutter>
+        <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
           <CollapsableComment>
             {({ collapsed, toggleCollapsed }) => (
               <>

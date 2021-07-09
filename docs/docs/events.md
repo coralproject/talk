@@ -18,6 +18,7 @@ In this example, we’re logging all events to the console as well as sending th
         console.log(eventName, data);
         if (eventName === 'createComment.success') {
           my_event_tracker.send('createComment', data);
+        }
       });
     },
   });
@@ -26,4 +27,4 @@ In this example, we’re logging all events to the console as well as sending th
 
 ## Available Events
 
-A complete list of trackable events is available on GitHub: https://github.com/coralproject/talk/blob/master/CLIENT_EVENTS.md
+A complete list of trackable events is available on GitHub: https://github.com/coralproject/talk/blob/main/CLIENT_EVENTS.md
