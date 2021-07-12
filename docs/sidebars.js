@@ -46,8 +46,7 @@ module.exports = {
     {
       type: "link",
       label: "Legacy Documentation",
-      href:
-        "https://github.com/coralproject/talk/tree/release/4/docs/source/legacy",
+      href: "https://legacy.docs.coralproject.net/talk/",
     },
   ],
   ...require("./docs/api/sidebar-schema"),
