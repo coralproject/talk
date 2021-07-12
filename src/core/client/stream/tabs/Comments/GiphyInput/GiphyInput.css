@@ -44,3 +44,7 @@
   max-height: 300px;
   overflow: scroll;
 }
+
+div[class^="GiphyInput-grid"] {
+  overflow: auto;
+}
