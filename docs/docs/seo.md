@@ -2,7 +2,7 @@
 title: SEO
 ---
 
-## iFrames
+## Utilizing iframes
 
 Since Coral is embedded in an article page using an iframe, we often get asked what affect,
 if any, iframes have on a publisher’s SEO. We asked Hart Van Santvoord, Vox Media’s resident
@@ -35,7 +35,7 @@ via iframe provides the SEO benefit publishers are looking for:
   signal to Google
 
 For an example of how the Vox Media SEO team has analyzed iframe content outside of Coral,
-we can can look The Verge. The Verge leverages live blogging for certain types of events,
+we can look The Verge. The Verge leverages live blogging for certain types of events,
 [such as iPhone events](https://www.theverge.com/2019/9/10/20840715/apple-iphone-11-event-live-blog-announcement-photos).
 In this case, similar to Coral, the live blog content itself is embedded on The Verge article
 via iframe but no doubt leads to a more engaged audience who stick around longer, refreshes,

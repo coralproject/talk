@@ -127,6 +127,6 @@ var embed = Coral.createStreamEmbed({
 
 ## Troubleshooting JWT Validation Errors
 
-In addition to the uniqueness constraints on User `id` and `email` values, each `user.id`/`user.email` combination must also be unique inside Coral. This is true for both Single Sign On users created by JWT tokens, as well as users that register/login using Coral’s built in “Login with email authentication”. You can not share authentication strategies for a single user; thus if a user logs in with SSO, they can not also login with email and vice versa. When you attempt to authenticate a JWT token with an email address that already exists in Coral with a different `user.id` than was passed on the token Coral will throw a Duplicate User error.
+In addition to the uniqueness constraints on User `id` and `email` values, each `user.id`/`user.email` combination must also be unique inside Coral. This is true for both Single Sign On users created by JWT tokens, as well as users that register/login using Coral’s built in “Login with email authentication”. You cannot share authentication strategies for a single user; thus, if a user logs in with SSO, they cannot also login with email and vice versa. When you attempt to authenticate a JWT token with an email address that already exists in Coral with a different `user.id` than was passed on the token Coral will throw a Duplicate User error.
 
 Any JWT validation errors thrown can be found in Coral's server logs.

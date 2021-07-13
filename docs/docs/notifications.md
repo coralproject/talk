@@ -11,7 +11,7 @@ _NOTE: Notifications are only supported for users that have a valid email addres
 You must setup SMTP to send email notifications.
 See our documentation on [Email SMTP Settings](/administration#email-smtp-settings) for reference.
 
-When running in production we recommend using a 3rd party mail service provider like SendGrid or MailGun.
+When running in production we recommend using a 3rd party mail service provider like SendGrid or Mailgun.
 
 ### Notification Types
 
@@ -34,7 +34,7 @@ _NOTE: Users can not opt-out of User Profile Notifications_
 
 #### Type: Comment Activity Notifications
 
-Commenter users can subscribe to the following comment activity notificaitons:
+Commenter users can subscribe to the following comment activity notifications:
 
 - When one of my comments receives a reply
 - When a Staff, Moderator, or Admin user replies to one of my comments
@@ -47,7 +47,7 @@ Commenters have 3 options for activity notification frequency:
 - Hourly
 - Daily
 
-Immediately will send one email notification per occurance, versus sending an hourly or daily summary with all occurances listed.
+Immediately will send one email notification per occurrence, versus sending an hourly or daily summary with all occurrences listed.
 
 ### Email Templates
 
