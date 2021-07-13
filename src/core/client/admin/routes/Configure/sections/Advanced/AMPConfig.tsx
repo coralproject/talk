@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { graphql } from "react-relay";
 
 import { FormField, FormFieldDescription } from "coral-ui/components/v2";
-import Link from "coral-ui/components/v3/Link";
+import TextLink from "coral-ui/components/v2/TextLink";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -17,11 +17,15 @@ graphql`
 `;
 
 const LinkToAMP: FC = ({ children }) => (
-  <Link href="https://amp.dev/">{children}</Link>
+  <TextLink href="https://amp.dev/" target="_blank">
+    {children}
+  </TextLink>
 );
 
 const LinkToDocs: FC = ({ children }) => (
-  <Link href="/docs/amp">{children}</Link>
+  <TextLink href="https://docs.coralproject.net/amp" target="_blank">
+    {children}
+  </TextLink>
 );
 
 interface Props {
