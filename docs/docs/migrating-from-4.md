@@ -10,7 +10,7 @@ Coral version 5+ is more than just a version bump, it includes a fundamental rew
 
 ### Migration Path
 
-A step by step migration path is currently in development, and we will be announcing it here once it’s ready.
+A step-by-step migration path is currently in development, and we will be announcing it here once it’s ready.
 
 The process for migration will include:
 

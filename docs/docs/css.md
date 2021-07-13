@@ -27,9 +27,9 @@ You can find all CSS Variables using the Web Inspector or navigate to https://gi
 
 ### Use stable CSS Class Names
 
-If you would like to change the styling of any elements of the comment embed, we provide global classnames. Most elements will be tagged with either `.coral` or `.coral-stream`.
+If you would like to change the styling of any elements of the comment embed, we provide global class names. Most elements will be tagged with either `.coral` or `.coral-stream`.
 
-The easiest way to find the classname for the element you're looking for is to use the web inspector, and then update your stylesheet accordingly.
+The easiest way to find the class name for the element you're looking for is to use the web inspector, and then update your stylesheet accordingly.
 
 You can also navigate to https://github.com/coralproject/talk/blob/main/src/core/client/stream/classes.ts to see available stable class names.
 
