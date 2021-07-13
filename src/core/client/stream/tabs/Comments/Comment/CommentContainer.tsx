@@ -369,7 +369,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-testid={commentElementID(comment.id)}
       // Added for keyboard shortcut support.
       data-key-stop
-      data-not-seen={seen ? undefined : true}
+      data-not-seen={seen || !commentSeenEnabled ? undefined : true}
     >
       <HorizontalGutter>
         <IndentedComment
