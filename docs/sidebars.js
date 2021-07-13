@@ -43,6 +43,11 @@ module.exports = {
       label: "Contact",
       id: "contact",
     },
+    {
+      type: "link",
+      label: "Legacy Documentation",
+      href: "https://legacy.docs.coralproject.net/talk/",
+    },
   ],
   ...require("./docs/api/sidebar-schema"),
 };
