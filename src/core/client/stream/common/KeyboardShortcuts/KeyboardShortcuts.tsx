@@ -87,10 +87,6 @@ const findNextKeyStop = (
       passedCurrentStop = true;
       continue;
     }
-    if (index === stops.length - 1) {
-      // We're at the last one, get the first one!
-      return getFirstKeyStop(stops, options);
-    }
     if (passedCurrentStop) {
       if (!matchTraverseOptions(stops[index], options)) {
         continue;
@@ -124,10 +120,6 @@ const findPreviousKeyStop = (
     if (stops[index].id === currentStop.id) {
       passedCurrentStop = true;
       continue;
-    }
-    if (index === 0) {
-      // We are the first element, get the last one!
-      return getLastKeyStop(stops, options);
     }
     if (passedCurrentStop) {
       if (!matchTraverseOptions(stops[index], options)) {
@@ -198,6 +190,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
 
       if (stop.isLoadMore) {
         stop.element.click();
+        currentStop = findPreviousKeyStop(stop);
       } else {
         currentStop = stop;
       }
