@@ -16,23 +16,60 @@ interface KeyStop {
   id: string;
   isLoadMore: boolean;
   element: HTMLElement;
+  notSeen: boolean;
 }
 
-const getKeyStops = () =>
-  document.querySelectorAll<HTMLElement>("[data-key-stop]");
+interface TraverseOptions {
+  skipSeen?: boolean;
+}
 
 const toKeyStop = (element: HTMLElement): KeyStop => {
   const id = element.id;
   const isLoadMore = "isLoadMore" in element.dataset;
+  const notSeen = "notSeen" in element.dataset;
 
   return {
     element,
     id,
     isLoadMore,
+    notSeen,
   };
 };
 
-const findNextElement = (currentStop: KeyStop | null): KeyStop | null => {
+const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) =>
+  !options.skipSeen || stop.notSeen || stop.isLoadMore;
+
+const getKeyStops = () => {
+  const stops: KeyStop[] = [];
+  document
+    .querySelectorAll<HTMLElement>("[data-key-stop]")
+    .forEach((el) => stops.push(toKeyStop(el)));
+  return stops;
+};
+
+const getFirstKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
+  for (const stop of stops) {
+    if (!matchTraverseOptions(stop, options)) {
+      continue;
+    }
+    return stop;
+  }
+  return null;
+};
+const getLastKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
+  for (const stop of stops.reverse()) {
+    if (!matchTraverseOptions(stop, options)) {
+      continue;
+    }
+    return stop;
+  }
+  return null;
+};
+
+const findNextKeyStop = (
+  currentStop: KeyStop | null,
+  options: TraverseOptions = {}
+): KeyStop | null => {
   const stops = getKeyStops();
   if (stops.length === 0) {
     return null;
@@ -40,28 +77,37 @@ const findNextElement = (currentStop: KeyStop | null): KeyStop | null => {
 
   // There is no current stop, so return the first one!
   if (!currentStop) {
-    return toKeyStop(stops[0]);
+    return getFirstKeyStop(stops, options);
   }
 
+  let passedCurrentStop = false;
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let index = 0; index < stops.length; index++) {
     if (stops[index].id === currentStop.id) {
-      if (index === stops.length - 1) {
-        // We're at the last one, get the first one!
-        return toKeyStop(stops[0]);
+      passedCurrentStop = true;
+      continue;
+    }
+    if (index === stops.length - 1) {
+      // We're at the last one, get the first one!
+      return getFirstKeyStop(stops, options);
+    }
+    if (passedCurrentStop) {
+      if (!matchTraverseOptions(stops[index], options)) {
+        continue;
       }
-
-      // Go one more element forward.
-      return toKeyStop(stops[index + 1]);
+      return stops[index];
     }
   }
 
   // We couldn't find your current element to get the next one! Go to the first
   // stop.
-  return toKeyStop(stops[0]);
+  return getFirstKeyStop(stops, options);
 };
 
-const findPreviousElement = (currentStop: KeyStop | null): KeyStop | null => {
+const findPreviousKeyStop = (
+  currentStop: KeyStop | null,
+  options: TraverseOptions = {}
+): KeyStop | null => {
   const stops = getKeyStops();
   if (stops.length === 0) {
     return null;
@@ -69,25 +115,31 @@ const findPreviousElement = (currentStop: KeyStop | null): KeyStop | null => {
 
   // There is no current stop, get the last one!
   if (!currentStop) {
-    return toKeyStop(stops[stops.length - 1]);
+    return getLastKeyStop(stops, options);
   }
 
+  let passedCurrentStop = false;
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
-  for (let index = 0; index < stops.length; index++) {
+  for (let index = stops.length - 1; index >= 0; index--) {
     if (stops[index].id === currentStop.id) {
-      if (index === 0) {
-        // We are the first element, get the last one!
-        return toKeyStop(stops[stops.length - 1]);
+      passedCurrentStop = true;
+      continue;
+    }
+    if (index === 0) {
+      // We are the first element, get the last one!
+      return getLastKeyStop(stops, options);
+    }
+    if (passedCurrentStop) {
+      if (!matchTraverseOptions(stops[index], options)) {
+        continue;
       }
-
-      // Get one element before the current index!
-      return toKeyStop(stops[index - 1]);
+      return stops[index];
     }
   }
 
   // We couldn't find your current element to get the previous one! Go to the
   // first stop.
-  return toKeyStop(stops[0]);
+  return getLastKeyStop(stops, options);
 };
 
 const KeyboardShortcuts: FunctionComponent = ({ children }) => {
@@ -128,10 +180,14 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
       }
 
       let stop: KeyStop | null = null;
-      if (data.shiftKey && data.key === "C") {
-        stop = findPreviousElement(currentStop);
-      } else if (data.key === "c") {
-        stop = findNextElement(currentStop);
+      if (data.shiftKey && (data.key === "C" || data.key === "Z")) {
+        stop = findPreviousKeyStop(currentStop, {
+          skipSeen: data.key === "Z",
+        });
+      } else if (data.key === "c" || data.key === "z") {
+        stop = findNextKeyStop(currentStop, {
+          skipSeen: data.key === "z",
+        });
       }
 
       if (!stop) {
