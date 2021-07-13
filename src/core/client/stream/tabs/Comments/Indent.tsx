@@ -7,6 +7,7 @@ import styles from "./Indent.css";
 
 export interface IndentProps {
   className?: string;
+  classNameIndent?: string;
   level?: number;
   noBorder?: boolean;
   children: React.ReactNode;
@@ -34,7 +35,7 @@ const Indent: FunctionComponent<IndentProps> = (props) => {
   return (
     <div className={cn(props.className, styles.root)}>
       <div
-        className={cn(getLevelClassName(props.level), {
+        className={cn(props.classNameIndent, getLevelClassName(props.level), {
           [styles.noBorder]: props.noBorder,
           [styles.collapsed]: props.collapsed,
           [styles.open]: !props.collapsed,
