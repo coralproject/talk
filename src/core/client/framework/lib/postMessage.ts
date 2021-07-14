@@ -4,15 +4,18 @@ type PostMessageHandler = (value: any, name: string) => void;
  * Wrapper around the HTML postMessage API.
  */
 export class PostMessageService {
-  private origin: string;
   private scope: string;
+  private defaultTarget: Window;
+  private defaultTargetOrigin: string;
 
   constructor(
-    scope = "coral",
-    origin = `${location.protocol}//${location.host}`
+    scope: string,
+    defaultTarget: Window,
+    defaultTargetOrigin: string
   ) {
-    this.origin = origin;
     this.scope = scope;
+    this.defaultTarget = defaultTarget;
+    this.defaultTargetOrigin = defaultTargetOrigin;
   }
 
   /**
@@ -23,16 +26,20 @@ export class PostMessageService {
    * @param target Window target window, e.g. window.opener
    * @param targetOrigin string origin of target
    */
-  public send(name: string, value: any, target: Window, targetOrigin?: string) {
+  public send(name: string, value: any, target?: Window, targetOrigin = "*") {
     if (!target) {
-      return;
+      if (!this.defaultTargetOrigin) {
+        return;
+      }
+      target = this.defaultTarget;
+      targetOrigin = this.defaultTargetOrigin;
     }
 
     // Serialize the message to be sent via postMessage.
     const msg = { name, value, scope: this.scope };
 
     // Send the message.
-    target.postMessage(msg, targetOrigin || this.origin);
+    target.postMessage(msg, targetOrigin);
   }
 
   /**
@@ -43,15 +50,11 @@ export class PostMessageService {
    */
   public on(name: string, handler: PostMessageHandler) {
     const listener = (event: MessageEvent) => {
-      if (!event.origin) {
-        if (process.env.NODE_ENV !== "test") {
-          // eslint-disable-next-line no-console
-          console.warn("empty origin received in postMessage", name);
-        }
-      } else if (event.origin !== this.origin) {
-        return;
-      }
-      if (event.data.scope !== this.scope) {
+      if (
+        !event.data ||
+        typeof event.data.scope !== "string" ||
+        event.data.scope !== this.scope
+      ) {
         return;
       }
       if (event.data.name !== name) {

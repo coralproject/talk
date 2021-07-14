@@ -1,5 +1,8 @@
 import pym from "pym.js";
 
+import getOrigin from "coral-common/utils/getOrigin";
+import { PostMessageService } from "coral-framework/lib/postMessage";
+
 import { CleanupCallback, Decorator } from "./decorators";
 import {
   FrameControl,
@@ -41,9 +44,16 @@ export default class PymFrameControl implements FrameControl {
       name: `${this.id}_iframe`,
     });
 
+    const iframe = parent.iframe as HTMLIFrameElement;
+    const postMessage = new PostMessageService(
+      "coral",
+      iframe.contentWindow!,
+      getOrigin(iframe.src)
+    );
+
     // Run all the decorators on the parent, and capture any cleanup functions.
     const cleanups = this.decorators
-      .map((enhance) => enhance(parent))
+      .map((enhance) => enhance(parent, postMessage))
       .filter((cb) => !!cb) as CleanupCallback[];
 
     this.rendered = true;

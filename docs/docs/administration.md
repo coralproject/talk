@@ -20,7 +20,7 @@ These are comments that have been held back by the system for some reason. These
 - The article or site is set to pre-moderate all comments (except for Staff/Moderator/Admin/Expert comments)
 - The commenter has been manually set to 'Always Pre-moderate' by a moderator
 - The comment has been ruled as 'Likely to be toxic' by the AI (optional)
-- The commenter's recent behavior has included a higher percentage of rejected comment than the threshhold you set in Configure ('Recent History') (optional)
+- The commenter's recent behavior has included a higher percentage of rejected comment than the threshold you set in Configure ('Recent History') (optional)
 - The commenter has entered an identical comment twice in a row, anywhere on the site
 - The site is set to hold back for review the first comments by new commenters (optional)
 - The comment is marked as likely to spam by our spam detection system (optional)
@@ -72,7 +72,7 @@ Set a limit on how long commenters have to edit their comments sitewide. Edited 
 
 #### **Closing comment streams**
 
-Set comment streams to close after a defined period of time after a story’s publication. When this feature is enabled, existing stories older than the defined period that have not been manually opened or closed will also be updated and set as closed. Manually opening or closing a story will permantenly override the auto-close functionality.
+Set comment streams to close after a defined period of time after a story’s publication. When this feature is enabled, existing stories older than the defined period that have not been manually opened or closed will also be updated and set as closed. Manually opening or closing a story will permanently override the auto-close functionality.
 
 #### **Closed comment stream message**
 
@@ -110,7 +110,7 @@ Prevents repeat offenders from publishing comments without approval. When a comm
 Rejection rate time period determines the look back period of commenter activity that will be considered in performing the calculation.
 
 Rejection rate threshold is calculated by dividing
-number of Rejected comments by (rejected comments + published comments) over the time period specified, and is displayed as a percentage. It does not include comments pending for toxicity, spam or pre-moderation, only moderated comments are considred.
+number of Rejected comments by (rejected comments + published comments) over the time period specified, and is displayed as a percentage. It does not include comments pending for toxicity, spam or pre-moderation, only moderated comments are considered.
 
 ### Toxic Comment Filter
 
@@ -184,4 +184,4 @@ List of domains where your Coral instance is allowed to be embedded. List each d
 
 Advanced settings for how stories are created within Coral; such as if stories are to be automatically created when they are published from your CMS.
 
-See CMS Integration secions [Story Creation](/cms/#story-creation) and [Story Scraping](/cms/#story-scraping) for more details.
+See CMS Integration sections [Story Creation](/cms/#story-creation) and [Story Scraping](/cms/#story-scraping) for more details.
