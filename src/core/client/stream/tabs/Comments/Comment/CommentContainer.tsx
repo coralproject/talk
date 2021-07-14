@@ -68,6 +68,7 @@ import ShowConversationLink from "./ShowConversationLink";
 import { UsernameContainer, UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer, { commentHasTags } from "./UserTagsContainer";
 
+import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
 import styles from "./CommentContainer.css";
 
 interface Props {
@@ -120,7 +121,14 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const seen = useCommentSeen(comment.id);
+  const seenRaw = useCommentSeen(comment.id);
+  const [overrideSeen, setOverrideSeen] = useState(false);
+  const seen = seenRaw || overrideSeen;
+  const setTraversalFocus = useMutation(SetTraversalFocus);
+  const handleFocus = useCallback(() => {
+    void setTraversalFocus({ commentID: comment.id, commentSeenEnabled });
+    setOverrideSeen(true);
+  }, [comment.id, commentSeenEnabled, setTraversalFocus]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -361,15 +369,23 @@ export const CommentContainer: FunctionComponent<Props> = ({
   return (
     <div
       className={cn(
+        styles.root,
+        className,
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-        badgesClassName
+        badgesClassName,
+        {
+          [styles.traversalFocus]:
+            comment.hasTraversalFocus && commentSeenEnabled,
+        }
       )}
+      tabIndex={-1}
       id={commentElementID(comment.id)}
       data-testid={commentElementID(comment.id)}
       // Added for keyboard shortcut support.
       data-key-stop
       data-not-seen={seen || !commentSeenEnabled ? undefined : true}
+      onFocus={handleFocus}
     >
       <HorizontalGutter>
         <IndentedComment
@@ -702,6 +718,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             dontAgree
             flag
           }
+          hasTraversalFocus
           ...CaretContainer_comment
           ...EditCommentFormContainer_comment
           ...MediaSectionContainer_comment

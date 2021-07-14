@@ -3,6 +3,11 @@ import { FunctionComponent, useEffect } from "react";
 import { onPymMessage } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
+import { LOCAL_ID } from "coral-framework/lib/relay/localState";
+import lookup from "coral-framework/lib/relay/lookup";
+
+import commentElementID from "coral-stream/tabs/Comments/Comment/commentElementID";
+import useCommentSeenEnabled from "coral-stream/tabs/Comments/commentSeen/useCommentSeenEnabled";
 
 export interface KeyboardEventData {
   key: string;
@@ -21,23 +26,27 @@ interface KeyStop {
 
 interface TraverseOptions {
   skipSeen?: boolean;
+  skipLoadMore?: boolean;
 }
 
 const toKeyStop = (element: HTMLElement): KeyStop => {
-  const id = element.id;
-  const isLoadMore = "isLoadMore" in element.dataset;
-  const notSeen = "notSeen" in element.dataset;
-
   return {
     element,
-    id,
-    isLoadMore,
-    notSeen,
+    id: element.id,
+    isLoadMore: "isLoadMore" in element.dataset,
+    notSeen: "notSeen" in element.dataset,
   };
 };
 
-const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) =>
-  !options.skipSeen || stop.notSeen || stop.isLoadMore;
+const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) => {
+  if (options.skipLoadMore && stop.isLoadMore) {
+    return false;
+  }
+  if (options.skipSeen && !stop.notSeen && !stop.isLoadMore) {
+    return false;
+  }
+  return true;
+};
 
 const getKeyStops = () => {
   const stops: KeyStop[] = [];
@@ -135,18 +144,23 @@ const findPreviousKeyStop = (
 };
 
 const KeyboardShortcuts: FunctionComponent = ({ children }) => {
-  const { pym } = useCoralContext();
+  const { pym, relayEnvironment } = useCoralContext();
+  const commentSeenEnabled = useCommentSeenEnabled();
   useEffect(() => {
     if (!pym) {
       return;
     }
 
-    // Store a reference to the current stop.
-    let currentStop: KeyStop | null = null;
-
     const handle = (event: KeyboardEvent | string) => {
       let data: KeyboardEventData;
 
+      const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
+        .commentWithTraversalFocus;
+      const currentCommentElement = document.getElementById(
+        commentElementID(currentCommentID)
+      );
+      const currentStop =
+        currentCommentElement && toKeyStop(currentCommentElement);
       try {
         if (typeof event === "string") {
           data = JSON.parse(event);
@@ -172,27 +186,41 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
       }
 
       let stop: KeyStop | null = null;
-      if (data.shiftKey && (data.key === "C" || data.key === "Z")) {
-        stop = findPreviousKeyStop(currentStop, {
-          skipSeen: data.key === "Z",
-        });
-      } else if (data.key === "c" || data.key === "z") {
+      if (data.shiftKey) {
+        if (data.key === "C") {
+          stop = findPreviousKeyStop(currentStop);
+        } else if (commentSeenEnabled && data.key === "Z") {
+          stop = findPreviousKeyStop(currentStop, {
+            skipSeen: true,
+          });
+        }
+      } else if (data.key === "c") {
+        stop = findNextKeyStop(currentStop);
+      } else if (commentSeenEnabled && data.key === "z") {
         stop = findNextKeyStop(currentStop, {
-          skipSeen: data.key === "z",
+          skipSeen: true,
         });
       }
 
       if (!stop) {
         return;
       }
-
-      pym.scrollParentToChildEl(stop.id);
+      const offset =
+        document.getElementById(stop.id)!.getBoundingClientRect().top +
+        window.pageYOffset -
+        150;
+      pym.scrollParentToChildPos(offset);
 
       if (stop.isLoadMore) {
         stop.element.click();
-        currentStop = findPreviousKeyStop(stop);
+        const prevStop = findPreviousKeyStop(stop, {
+          skipLoadMore: true,
+        });
+        if (prevStop) {
+          prevStop.element.focus();
+        }
       } else {
-        currentStop = stop;
+        stop.element.focus();
       }
     };
 
@@ -203,7 +231,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
       unsubscribe();
       window.removeEventListener("keypress", handle);
     };
-  }, [pym]);
+  }, [commentSeenEnabled, pym, relayEnvironment]);
 
   return null;
 };

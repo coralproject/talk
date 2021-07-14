@@ -1,6 +1,11 @@
 $commenterActionEditColor: var(--palette-primary-500);
 $commenterActionEditColorActive: var(--palette-primary-300);
 
+.root {
+  &:focus {
+    outline: none;
+  }
+}
 .tagIcon {
   margin-right: var(--spacing-1);
 }
@@ -68,9 +73,14 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   max-width: 100%;
 }
 
+.traversalFocus .commentSeenEnabled {
+  background-color: $colors-yellow-500;
+}
+
 .commentSeenEnabled {
   padding-top: 8px;
   padding-bottom: 6px;
+  transition: background 600ms ease-out;
 }
 
 .notSeen {
