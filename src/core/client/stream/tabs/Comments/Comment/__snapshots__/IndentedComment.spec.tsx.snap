@@ -2,11 +2,11 @@
 
 exports[`renders correctly 1`] = `
 <Indent
-  className="IndentedComment-open coral coral-comment-collapse-toggle-indent"
+  className="coral coral-comment-collapse-toggle-indent"
   level={1}
 >
   <ForwardRef(forwardRef)
-    alignItems="baseline"
+    alignItems="flex-start"
     spacing={1}
   >
     <Comment

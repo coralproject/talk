@@ -10,15 +10,15 @@ With Coral setup and running locally you can find your **Embed code** under **Co
   (function () {
     var d = document,
       s = d.createElement("script");
-    var url = "{{ CORAL_DOMAIN_NAME }}";
-    s.src = "//" + url + "/assets/js/embed.js";
+    var URL = "{{ CORAL_DOMAIN_NAME }}";
+    s.src = "//" + URL + "/assets/js/embed.js";
     s.async = false;
     s.defer = true;
     s.onload = function () {
       Coral.createStreamEmbed({
         id: "coral_thread",
         autoRender: true,
-        rootURL: "//" + url,
+        rootURL: "//" + URL,
       });
     };
     (d.head || d.body).appendChild(s);
@@ -47,7 +47,7 @@ Options object for `createStreamEmbed`:
 
 ## Story Creation
 
-Lazy `Story` Creation enables stories to be automatically created when they are published from your CMS. Triggering the embed script above renders the comment stream iFrame on your page. By default that script dynamically generates `Stories` in Coral for seamless integration.
+Lazy `Story` Creation enables stories to be automatically created when they are published from your CMS. Triggering the embed script above renders the comment stream iframe on your page. By default that script dynamically generates `Stories` in Coral for seamless integration.
 
 ### storyURL
 
@@ -65,11 +65,11 @@ If you do not specify a `storyURL` when rendering the embed, the `storyURL` is f
 </html>
 ```
 
-The url must reference an existing Permitted Domain. If your articles/stories always have unique urls, then you will not need to modify the default behavior.
+The URL must reference an existing Permitted Domain. If your articles/stories always have unique URLs, then you will not need to modify the default behavior.
 
-If this tag is not present, or if the canonical URL references a different url than your site such as a wire service, you can specify the `storyURL` parameter in the render function.
+If this tag is not present, or if the canonical URL references a different URL than your site such as a wire service, you can specify the `storyURL` parameter in the render function.
 
-The url will be used by Coral to build user facing links, and should reference the location where you would direct a user back to this particular story or article.
+The URL will be used by Coral to build user facing links, and should reference the location where you would direct a user back to this particular story or article.
 
 ### storyID
 
@@ -87,7 +87,7 @@ By default, stories have their metadata scraped when they are loaded. This provi
 
 Metadata scraping is performed by the `scraper` job which is enabled by default.
 
-If your production site is behind a paywall or otherwise prevents scraping, you might need to confiugre a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriote proxy as parsed by the npm proxy-agent package.
+If your production site is behind a paywall or otherwise prevents scraping, you might need to configure a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriate proxy as parsed by the npm proxy-agent package.
 
 | Asset Property     | Selector                                                                                                                                                            |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -14,10 +14,6 @@
   }
 }
 
-.open {
-  padding-bottom: var(--spacing-2);
-}
-
 .icon {
   color: var(--palette-grey-400);
 }

@@ -14,7 +14,10 @@ it("should add commentID", () => {
       }
     },
   };
-  const cleanup = withSetCommentID(fakePym as any) as CleanupCallback;
+  const cleanup = withSetCommentID(
+    fakePym as any,
+    null as any
+  ) as CleanupCallback;
   expect(location.toString()).toBe("http://localhost/?commentID=comment-id");
   cleanup();
   window.history.replaceState(previousState, document.title, previousLocation);
@@ -35,7 +38,10 @@ it("should remove commentID", () => {
       }
     },
   };
-  const cleanup = withSetCommentID(fakePym as any) as CleanupCallback;
+  const cleanup = withSetCommentID(
+    fakePym as any,
+    null as any
+  ) as CleanupCallback;
   expect(location.toString()).toBe("http://localhost/");
   cleanup();
   window.history.replaceState(previousState, document.title, previousLocation);
@@ -53,7 +59,10 @@ it("should send commentID over pym when history changes", () => {
     onMessage: sinon.stub(),
     sendMessage: sinon.mock().once().withArgs("setCommentID", "comment-id"),
   };
-  const cleanup = withSetCommentID(fakePym as any) as CleanupCallback;
+  const cleanup = withSetCommentID(
+    fakePym as any,
+    null as any
+  ) as CleanupCallback;
   simulant.fire(window as any, "popstate");
   cleanup();
   simulant.fire(window as any, "popstate");

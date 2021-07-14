@@ -21,7 +21,7 @@ interface Props extends Omit<PropTypesOf<typeof Box>, "ref"> {
   size?: "half" | "full" | "double" | "triple" | "oneAndAHalf";
 
   /** Choose gutter size, uses predefined sizes from design tokens */
-  spacing?: Spacing;
+  spacing?: Spacing | 0;
 
   /** The name of the HorizontalGutter to render */
   children?: React.ReactNode;
@@ -47,10 +47,11 @@ const HorizontalGutter: FunctionComponent<Props> = (props) => {
     spacing,
     ...rest
   } = props;
+  const spacingClass = spacing ? (classes as any)[`spacing-${spacing}`] : "";
   const rootClassName = cn(
     classes.root,
     className,
-    spacing ? (classes as any)[`spacing-${spacing}`] : classes[size!]
+    spacing !== undefined ? spacingClass : classes[size!]
   );
 
   const innerProps = {

@@ -39,13 +39,13 @@ exports[`renders conversation thread 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+              className="coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
                 className="coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                  className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
                   <div
                     className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -343,7 +343,7 @@ exports[`renders conversation thread 1`] = `
           </svg>
         </div>
         <div
-          className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+          className="coral coral-comment coral coral-reacted-0"
           data-key-stop={true}
           data-testid="comment-comment-0"
           id="comment-comment-0"
@@ -352,13 +352,13 @@ exports[`renders conversation thread 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+              className="coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
                 className="coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                  className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
                   <div
                     className="Box-root HorizontalGutter-root Comment-root Comment-highlight coral coral-comment-highlight HorizontalGutter-half"
@@ -636,13 +636,13 @@ exports[`shows more of this conversation 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+              className="coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
                 className="coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                  className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
                   <div
                     className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -928,13 +928,13 @@ exports[`shows more of this conversation 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <div
-                className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
                   className="coral coral-indent coral-indent-0 Indent-open"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                    className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                   >
                     <div
                       className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -1192,7 +1192,7 @@ exports[`shows more of this conversation 1`] = `
           </svg>
         </div>
         <div
-          className="coral coral-comment coral coral-reacted-0 coral coral-conversationThread-highlighted"
+          className="coral coral-comment coral coral-reacted-0"
           data-key-stop={true}
           data-testid="comment-comment-0"
           id="comment-comment-0"
@@ -1201,13 +1201,13 @@ exports[`shows more of this conversation 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+              className="coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
                 className="coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                  className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                 >
                   <div
                     className="Box-root HorizontalGutter-root Comment-root Comment-highlight coral coral-comment-highlight HorizontalGutter-half"

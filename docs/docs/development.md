@@ -117,7 +117,7 @@ where the string is used.
 Once a language has enough coverage, it should be added to
 `src/core/common/helpers/i18n/locales.ts`.
 
-The [Perspective API](https://github.com/conversationai/perspectiveapi/blob/master/2-api/methods.md#analyzecomment-request)
+The [Perspective API](https://developers.perspectiveapi.com/s/about-the-api-methods)
 also supports comments in specific languages. When the language is supported in
 Coral and supported by the Perspective API, the language should be added to the
 language map in `src/core/server/services/comments/pipeline/phases/toxic.ts`.

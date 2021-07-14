@@ -41,6 +41,9 @@ export interface CoralContext {
   /** Session storage */
   sessionStorage: PromisifiedStorage;
 
+  /** IndexedDB storage */
+  indexedDBStorage: PromisifiedStorage<any>;
+
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
 
