@@ -833,7 +833,12 @@ configure-advanced-embedCode-comment =
   https://docs.coralproject.net for all the configuration
   options.
 
-
+configure-advanced-amp = Accelerated Mobile Pages
+configure-advanced-amp-explanation =
+  Enable support for <LinkToAMP>AMP</LinkToAMP> on the comment stream.
+  Once enabled, you will need to add Coral’s AMP embed code to your page
+  template. See our <LinkToDocs>documentation</LinkToDocs> for more
+  details. Enable Enable Support.
 
 ## Decision History
 decisionHistory-popover =

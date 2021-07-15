@@ -6,7 +6,7 @@ import { translate } from "coral-server/services/i18n";
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
 import { AuthIntegrations } from "../settings";
-import { Tenant } from "./tenant";
+import { LEGACY_FEATURE_FLAGS, Tenant } from "./tenant";
 
 export const getDefaultReactionConfiguration = (
   bundle: FluentBundle
@@ -41,7 +41,7 @@ export const getDefaultStaffConfiguration = (
  */
 export function hasFeatureFlag(
   tenant: Pick<Tenant, "featureFlags">,
-  flag: GQLFEATURE_FLAG
+  flag: GQLFEATURE_FLAG | LEGACY_FEATURE_FLAGS
 ) {
   if (tenant.featureFlags?.includes(flag)) {
     return true;
@@ -52,7 +52,7 @@ export function hasFeatureFlag(
 
 export function ensureFeatureFlag(
   tenant: Pick<Tenant, "featureFlags">,
-  flag: GQLFEATURE_FLAG
+  flag: GQLFEATURE_FLAG | LEGACY_FEATURE_FLAGS
 ) {
   if (!hasFeatureFlag(tenant, flag)) {
     throw new InternalError("tenant does not have feature flag enabled", {
@@ -97,4 +97,11 @@ export function supportsMediaType(
     case "giphy":
       return !!tenant.media?.giphy.enabled && !!tenant.media.giphy.key;
   }
+}
+
+export function isAMPEnabled(tenant: Pick<Tenant, "featureFlags" | "amp">) {
+  if (typeof tenant.amp === "boolean") {
+    return tenant.amp;
+  }
+  return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.ENABLE_AMP);
 }
