@@ -56,6 +56,9 @@ extend type Comment {
 
   # If true then Comment came in live.
   enteredLive: Boolean
+
+  # True if traversal cursor is currently on this comment (Currently a feature of COMMENT_SEEN)
+  hasTraversalFocus: Boolean
 }
 
 extend type CommentsConnection {
@@ -80,4 +83,7 @@ extend type Local {
   commentsTab: COMMENTS_TAB!
   flattenReplies: Boolean!
   enableCommentSeen: Boolean!
+
+  # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
+  commentWithTraversalFocus: String
 }

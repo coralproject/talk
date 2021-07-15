@@ -3,6 +3,11 @@ import { FunctionComponent, useEffect } from "react";
 import { onPymMessage } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
+import { LOCAL_ID } from "coral-framework/lib/relay/localState";
+import lookup from "coral-framework/lib/relay/lookup";
+
+import commentElementID from "coral-stream/tabs/Comments/Comment/commentElementID";
+import useCommentSeenEnabled from "coral-stream/tabs/Comments/commentSeen/useCommentSeenEnabled";
 
 export interface KeyboardEventData {
   key: string;
@@ -16,23 +21,64 @@ interface KeyStop {
   id: string;
   isLoadMore: boolean;
   element: HTMLElement;
+  notSeen: boolean;
 }
 
-const getKeyStops = () =>
-  document.querySelectorAll<HTMLElement>("[data-key-stop]");
+interface TraverseOptions {
+  skipSeen?: boolean;
+  skipLoadMore?: boolean;
+}
 
 const toKeyStop = (element: HTMLElement): KeyStop => {
-  const id = element.id;
-  const isLoadMore = "isLoadMore" in element.dataset;
-
   return {
     element,
-    id,
-    isLoadMore,
+    id: element.id,
+    isLoadMore: "isLoadMore" in element.dataset,
+    notSeen: "notSeen" in element.dataset,
   };
 };
 
-const findNextElement = (currentStop: KeyStop | null): KeyStop | null => {
+const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) => {
+  if (options.skipLoadMore && stop.isLoadMore) {
+    return false;
+  }
+  if (options.skipSeen && !stop.notSeen && !stop.isLoadMore) {
+    return false;
+  }
+  return true;
+};
+
+const getKeyStops = () => {
+  const stops: KeyStop[] = [];
+  document
+    .querySelectorAll<HTMLElement>("[data-key-stop]")
+    .forEach((el) => stops.push(toKeyStop(el)));
+  return stops;
+};
+
+const getFirstKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
+  for (const stop of stops) {
+    if (!matchTraverseOptions(stop, options)) {
+      continue;
+    }
+    return stop;
+  }
+  return null;
+};
+const getLastKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
+  for (const stop of stops.reverse()) {
+    if (!matchTraverseOptions(stop, options)) {
+      continue;
+    }
+    return stop;
+  }
+  return null;
+};
+
+const findNextKeyStop = (
+  currentStop: KeyStop | null,
+  options: TraverseOptions = {}
+): KeyStop | null => {
   const stops = getKeyStops();
   if (stops.length === 0) {
     return null;
@@ -40,28 +86,33 @@ const findNextElement = (currentStop: KeyStop | null): KeyStop | null => {
 
   // There is no current stop, so return the first one!
   if (!currentStop) {
-    return toKeyStop(stops[0]);
+    return getFirstKeyStop(stops, options);
   }
 
+  let passedCurrentStop = false;
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let index = 0; index < stops.length; index++) {
     if (stops[index].id === currentStop.id) {
-      if (index === stops.length - 1) {
-        // We're at the last one, get the first one!
-        return toKeyStop(stops[0]);
+      passedCurrentStop = true;
+      continue;
+    }
+    if (passedCurrentStop) {
+      if (!matchTraverseOptions(stops[index], options)) {
+        continue;
       }
-
-      // Go one more element forward.
-      return toKeyStop(stops[index + 1]);
+      return stops[index];
     }
   }
 
   // We couldn't find your current element to get the next one! Go to the first
   // stop.
-  return toKeyStop(stops[0]);
+  return getFirstKeyStop(stops, options);
 };
 
-const findPreviousElement = (currentStop: KeyStop | null): KeyStop | null => {
+const findPreviousKeyStop = (
+  currentStop: KeyStop | null,
+  options: TraverseOptions = {}
+): KeyStop | null => {
   const stops = getKeyStops();
   if (stops.length === 0) {
     return null;
@@ -69,40 +120,47 @@ const findPreviousElement = (currentStop: KeyStop | null): KeyStop | null => {
 
   // There is no current stop, get the last one!
   if (!currentStop) {
-    return toKeyStop(stops[stops.length - 1]);
+    return getLastKeyStop(stops, options);
   }
 
+  let passedCurrentStop = false;
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
-  for (let index = 0; index < stops.length; index++) {
+  for (let index = stops.length - 1; index >= 0; index--) {
     if (stops[index].id === currentStop.id) {
-      if (index === 0) {
-        // We are the first element, get the last one!
-        return toKeyStop(stops[stops.length - 1]);
+      passedCurrentStop = true;
+      continue;
+    }
+    if (passedCurrentStop) {
+      if (!matchTraverseOptions(stops[index], options)) {
+        continue;
       }
-
-      // Get one element before the current index!
-      return toKeyStop(stops[index - 1]);
+      return stops[index];
     }
   }
 
   // We couldn't find your current element to get the previous one! Go to the
   // first stop.
-  return toKeyStop(stops[0]);
+  return getLastKeyStop(stops, options);
 };
 
 const KeyboardShortcuts: FunctionComponent = ({ children }) => {
-  const { pym } = useCoralContext();
+  const { pym, relayEnvironment } = useCoralContext();
+  const commentSeenEnabled = useCommentSeenEnabled();
   useEffect(() => {
     if (!pym) {
       return;
     }
 
-    // Store a reference to the current stop.
-    let currentStop: KeyStop | null = null;
-
     const handle = (event: KeyboardEvent | string) => {
       let data: KeyboardEventData;
 
+      const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
+        .commentWithTraversalFocus;
+      const currentCommentElement = document.getElementById(
+        commentElementID(currentCommentID)
+      );
+      const currentStop =
+        currentCommentElement && toKeyStop(currentCommentElement);
       try {
         if (typeof event === "string") {
           data = JSON.parse(event);
@@ -128,22 +186,41 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
       }
 
       let stop: KeyStop | null = null;
-      if (data.shiftKey && data.key === "C") {
-        stop = findPreviousElement(currentStop);
+      if (data.shiftKey) {
+        if (data.key === "C") {
+          stop = findPreviousKeyStop(currentStop);
+        } else if (commentSeenEnabled && data.key === "Z") {
+          stop = findPreviousKeyStop(currentStop, {
+            skipSeen: true,
+          });
+        }
       } else if (data.key === "c") {
-        stop = findNextElement(currentStop);
+        stop = findNextKeyStop(currentStop);
+      } else if (commentSeenEnabled && data.key === "z") {
+        stop = findNextKeyStop(currentStop, {
+          skipSeen: true,
+        });
       }
 
       if (!stop) {
         return;
       }
-
-      pym.scrollParentToChildEl(stop.id);
+      const offset =
+        document.getElementById(stop.id)!.getBoundingClientRect().top +
+        window.pageYOffset -
+        150;
+      pym.scrollParentToChildPos(offset);
 
       if (stop.isLoadMore) {
         stop.element.click();
+        const prevStop = findPreviousKeyStop(stop, {
+          skipLoadMore: true,
+        });
+        if (prevStop) {
+          prevStop.element.focus();
+        }
       } else {
-        currentStop = stop;
+        stop.element.focus();
       }
     };
 
@@ -154,7 +231,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
       unsubscribe();
       window.removeEventListener("keypress", handle);
     };
-  }, [pym]);
+  }, [commentSeenEnabled, pym, relayEnvironment]);
 
   return null;
 };
