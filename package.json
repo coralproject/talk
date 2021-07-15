@@ -120,7 +120,7 @@
     "juice": "^6.0.0",
     "jwks-rsa": "^1.7.0",
     "linkifyjs": "^2.1.9",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "long-settimeout": "^1.0.1",
     "lru-cache": "^5.1.1",
     "luxon": "^1.22.2",
