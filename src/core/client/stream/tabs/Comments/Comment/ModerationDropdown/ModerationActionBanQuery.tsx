@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { ModerationActionBanQuery as QueryTypes } from "coral-stream/__generated__/ModerationActionBanQuery.graphql";
 
@@ -29,7 +30,7 @@ export default class ModerationActionBanQuery extends Component<Props> {
         }}
         render={({ error, props }) => {
           if (error) {
-            return <div>{error.message}</div>;
+            return <QueryError error={error} />;
           }
           if (props && !props.user) {
             return null;

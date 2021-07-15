@@ -11,6 +11,7 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
 import { Flex, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
 import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
@@ -30,7 +31,7 @@ export const render = (
   tag?: GQLTAG
 ) => {
   if (data.error) {
-    return <div>{data.error.message}</div>;
+    return <QueryError error={data.error} />;
   }
   if (data.props) {
     if (!data.props.story) {

@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { UserDrawerNotesQuery as QueryTypes } from "coral-admin/__generated__/UserDrawerNotesQuery.graphql";
 
@@ -32,11 +33,7 @@ const UserDrawerNotesQuery: FunctionComponent<Props> = ({ userID }) => {
       cacheConfig={{ force: true }}
       render={({ error, props }) => {
         if (error) {
-          return (
-            <div className={styles.callout}>
-              <CallOut>{error.message}</CallOut>
-            </div>
-          );
+          return <QueryError error={error} />;
         }
 
         if (!props) {

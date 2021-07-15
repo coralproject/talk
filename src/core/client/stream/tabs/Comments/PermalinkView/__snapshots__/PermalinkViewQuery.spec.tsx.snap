@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders error 1`] = `
-<div>
-  error
-</div>
+<QueryError
+  error={[Error: error]}
+/>
 `;
 
 exports[`renders loading 1`] = `

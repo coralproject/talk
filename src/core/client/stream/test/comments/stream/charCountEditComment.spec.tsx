@@ -125,6 +125,7 @@ it("update from server upon specific char count error", async () => {
             throw new InvalidRequestError({
               code: errorCode,
               param: "input.body",
+              traceID: "traceID",
             });
           },
         },

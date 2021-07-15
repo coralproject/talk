@@ -2,7 +2,7 @@ import { Middleware, RRNLRequestError } from "react-relay-network-modern/es";
 
 import { RelayNetworkRequestError } from "../errors";
 import assertOnline from "./assertOnline";
-import extractGraphQLError from "./extractGraphQLError";
+import parseGraphQLResponseErrors from "./parseGraphQLResponseErrors";
 
 function isRRNLRequestError(error: Error): error is RRNLRequestError {
   return error.name === "RRNLRequestError";
@@ -13,7 +13,7 @@ const customErrorMiddleware: Middleware = (next) => async (req) => {
     const res = await next(req);
     if (res.errors) {
       // Extract custom error.
-      const error = extractGraphQLError(res.errors);
+      const error = parseGraphQLResponseErrors(res.errors);
       if (error) {
         throw error;
       }

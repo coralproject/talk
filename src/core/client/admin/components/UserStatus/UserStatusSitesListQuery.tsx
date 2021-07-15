@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { UserStatusSitesListQuery as QueryTypes } from "coral-admin/__generated__/UserStatusSitesListQuery.graphql";
 
@@ -29,7 +30,7 @@ const UserStatusSitesListQuery: FunctionComponent<Props> = ({
         variables={{}}
         render={({ error, props }: QueryRenderData<QueryTypes>) => {
           if (error) {
-            return <div>{error.message}</div>;
+            return <QueryError error={error} />;
           }
 
           if (!props) {

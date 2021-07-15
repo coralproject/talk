@@ -98,6 +98,7 @@ it("renders error from server", async () => {
       .throwsException(
         new InvalidRequestError({
           code,
+          traceID: "traceID",
         })
       );
 

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { AppQuery as QueryTypes } from "coral-auth/__generated__/AppQuery.graphql";
 
@@ -26,7 +27,7 @@ export default class AppQuery extends Component {
         variables={{}}
         render={({ error, props }) => {
           if (error) {
-            return <div>{error.message}</div>;
+            return <QueryError error={error} />;
           }
           if (!props) {
             return null;

@@ -6,3 +6,4 @@ export { default as TextArea } from "./TextArea";
 export { default as Tombstone } from "./Tombstone";
 export { default as ValidationMessage } from "./ValidationMessage";
 export { default as Link } from "./Link";
+export { default as QueryError } from "./QueryError";

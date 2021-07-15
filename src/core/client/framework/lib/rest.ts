@@ -4,7 +4,7 @@ import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { Overwrite } from "coral-framework/types";
 
 import { AccessTokenProvider } from "./auth";
-import { assertOnline, extractError } from "./network";
+import { assertOnline, extractTraceableError } from "./network";
 
 const buildOptions = (inputOptions: RequestInit = {}) => {
   const defaultOptions: RequestInit = {
@@ -34,7 +34,7 @@ const handleResp = async (res: Response) => {
     const type = res.headers.get("content-type");
     if (type && type.includes("application/json")) {
       const response = await res.json();
-      throw extractError(response.error);
+      throw extractTraceableError(response.error);
     } else {
       const response = await res.text();
       throw new Error(response);

@@ -2,7 +2,8 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
-import { CallOut, Spinner } from "coral-ui/components/v2";
+import { Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { SSOSigningSecretRotationQuery as QueryTypes } from "coral-admin/__generated__/SSOSigningSecretRotationQuery.graphql";
 
@@ -28,7 +29,7 @@ const SSOSigningSecretRotationQuery: FunctionComponent<Props> = ({
       cacheConfig={{ force: true }}
       render={({ error, props }: QueryRenderData<QueryTypes>) => {
         if (error) {
-          return <CallOut>{error.message}</CallOut>;
+          return <QueryError error={error} />;
         }
 
         if (!props) {

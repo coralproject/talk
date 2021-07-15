@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import UserHistoryDrawerRejectedComments from "./UserHistoryDrawerRejectedComments";
 
@@ -34,6 +35,10 @@ const UserHistoryDrawerRejectedCommentsQuery: FunctionComponent<Props> = ({
       variables={{ userID }}
       cacheConfig={{ force: true }}
       render={({ error, props }) => {
+        if (error) {
+          return <QueryError error={error} />;
+        }
+
         if (!props || !props.viewer) {
           return (
             <div className={styles.root}>

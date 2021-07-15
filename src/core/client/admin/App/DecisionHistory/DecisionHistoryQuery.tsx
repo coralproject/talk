@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { DecisionHistoryQuery as QueryTypes } from "coral-admin/__generated__/DecisionHistoryQuery.graphql";
 
@@ -26,7 +27,7 @@ class DecisionHistoryQuery extends Component<Props> {
         variables={{}}
         render={({ error, props }) => {
           if (error) {
-            return <div>{error.message}</div>;
+            return <QueryError error={error} />;
           }
           if (!props || !props.viewer) {
             return <DecisionHistoryLoading />;
