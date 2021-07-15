@@ -100,7 +100,7 @@ export interface TenantSettings
   /**
    * featureFlags is the set of flags enabled on this Tenant.
    */
-  featureFlags?: (GQLFEATURE_FLAG | LEGACY_FEATURE_FLAGS)[];
+  featureFlags?: Array<GQLFEATURE_FLAG | LEGACY_FEATURE_FLAGS>;
 
   /**
    * webhooks stores the configurations for this Tenant's webhook rules.
