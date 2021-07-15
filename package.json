@@ -146,7 +146,7 @@
     "querystringify": "^2.1.1",
     "source-map-support": "^0.5.16",
     "stack-utils": "^2.0.1",
-    "striptags": "^3.1.1",
+    "striptags": "^3.2.0",
     "tsscmp": "^1.0.6",
     "url-regex": "^5.0.0",
     "uuid": "^7.0.3",
