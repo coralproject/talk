@@ -455,6 +455,12 @@ const config = convict({
     default: ms("30s"),
     env: "MAILER_JOB_TIMEOUT",
   },
+  non_fingerprinted_cache_max_age: {
+    doc: "Max age for the ",
+    format: "ms",
+    default: ms("30 minutes"),
+    env: "NON_FINGERPRINTED_CACHE_MAX_AGE",
+  },
 });
 
 export type Config = typeof config;
