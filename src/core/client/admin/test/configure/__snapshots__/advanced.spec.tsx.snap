@@ -726,19 +726,33 @@ scrape request.
                   >
                     Enable support for 
                     <a
-                      className="Link-root"
+                      className="TextLink-root"
                       href="https://amp.dev/"
+                      target="_blank"
                     >
                       AMP
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-xs TextLink-icon"
+                      >
+                        open_in_new
+                      </i>
                     </a>
                      on the comment stream.
 Once enabled, you will need to add Coral’s AMP embed code to your page
 template. See our 
                     <a
-                      className="Link-root"
-                      href="/docs/amp"
+                      className="TextLink-root"
+                      href="https://docs.coralproject.net/amp"
+                      target="_blank"
                     >
                       documentation
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-xs TextLink-icon"
+                      >
+                        open_in_new
+                      </i>
                     </a>
                      for more
 details. Enable Enable Support.
