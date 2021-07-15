@@ -3,7 +3,12 @@ import { isNull, omitBy } from "lodash";
 import { ERROR_CODES } from "coral-common/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
-import { Story } from "coral-server/models/story";
+import {
+  archiveStory,
+  markStoryForArchiving,
+  retrieveStory,
+  Story,
+} from "coral-server/models/story";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   addExpert,
@@ -21,6 +26,7 @@ import { scrape } from "coral-server/services/stories/scraper";
 
 import {
   GQLAddStoryExpertInput,
+  GQLArchiveStoryInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLFEATURE_FLAG,
@@ -139,5 +145,18 @@ export const Stories = (ctx: GraphContext) => ({
     }
 
     return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
+  },
+  archiveStory: async (input: GQLArchiveStoryInput) => {
+    const markResult = await markStoryForArchiving(
+      ctx.mongo,
+      ctx.tenant.id,
+      input.storyID
+    );
+
+    if (markResult?.isArchived) {
+      await archiveStory(ctx.mongo, ctx.tenant.id, input.storyID);
+    }
+
+    return retrieveStory(ctx.mongo, ctx.tenant.id, input.storyID);
   },
 });

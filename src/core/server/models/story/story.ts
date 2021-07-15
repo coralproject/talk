@@ -17,7 +17,15 @@ import {
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
-import { stories as collection } from "coral-server/services/mongodb/collections";
+import {
+  archivedCommentActions,
+  archivedCommentModerationActions,
+  archivedComments,
+  commentActions,
+  commentModerationActions,
+  comments,
+  stories as collection,
+} from "coral-server/services/mongodb/collections";
 
 import {
   GQLSTORY_MODE,
@@ -104,6 +112,9 @@ export interface Story extends TenantResource {
    * siteID references the site the story belongs to
    */
   siteID: string;
+
+  isArchiving?: boolean;
+  isArchived?: boolean;
 }
 
 export interface UpsertStoryInput {
@@ -726,4 +737,69 @@ export async function retrieveStorySections(
   // We perform the type assertion here because we know that after filtering out
   // the null entries, the resulting array can not contain null.
   return results.filter((section) => section !== null).sort() as string[];
+}
+
+export async function markStoryForArchiving(
+  mongo: Db,
+  tenantID: string,
+  id: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $set: {
+        isArchiving: true,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
+}
+
+export async function archiveStory(mongo: Db, tenantID: string, id: string) {
+  const targetStory = await collection(mongo).findOne({ id, tenantID });
+  if (!targetStory || !targetStory.isArchiving) {
+    return;
+  }
+
+  const targetComments = await comments(mongo)
+    .find({ tenantID, storyID: id })
+    .toArray();
+  const targetCommentActions = await commentActions(mongo)
+    .find({
+      tenantID,
+      storyID: id,
+    })
+    .toArray();
+  const targetCommentIDs = targetComments.map((c) => c.id);
+  const targetCommentModerationActions = await commentModerationActions(mongo)
+    .find({
+      tenantID,
+      commentID: { $in: targetCommentIDs },
+    })
+    .toArray();
+
+  await archivedComments(mongo).insertMany(targetComments);
+  await archivedCommentActions(mongo).insertMany(targetCommentActions);
+  await archivedCommentModerationActions(mongo).insertMany(
+    targetCommentModerationActions
+  );
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $set: {
+        isArchiving: false,
+        isArchived: true,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
 }

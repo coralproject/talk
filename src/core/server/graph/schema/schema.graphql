@@ -3914,6 +3914,10 @@ type Story @cacheControl(maxAge: 30) {
   this story.
   """
   viewerRating: Comment
+
+  isArchiving: Boolean!
+
+  isArchived: Boolean!
 }
 
 """
@@ -7918,6 +7922,16 @@ type ReviewCommentFlagPayload {
   flag: Flag!
 }
 
+input ArchiveStoryInput {
+  clientMutationId: String!
+  storyID: ID!
+}
+
+type ArchiveStoryPayload {
+  clientMutationId: String!
+  story: Story!
+}
+
 ##################
 ## Mutation
 ##################
@@ -8515,6 +8529,9 @@ type Mutation {
   """
   reviewCommentFlag(input: ReviewCommentFlagInput!): ReviewCommentFlagPayload!
     @auth(roles: [ADMIN, MODERATOR])
+
+  archiveStory(input: ArchiveStoryInput!): ArchiveStoryPayload!
+    @auth(roles: [ADMIN])
 }
 
 ##################

@@ -98,4 +98,10 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     // Return the computed count!
     return ctx.loaders.Stories.viewerCount(s.siteID, s.id);
   },
+  isArchiving: async (s) => {
+    return !!s.isArchiving;
+  },
+  isArchived: async (s) => {
+    return !!s.isArchived;
+  },
 };

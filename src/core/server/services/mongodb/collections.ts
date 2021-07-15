@@ -18,15 +18,25 @@ export const tenants = createCollection<Tenant>("tenants");
 
 export const comments = createCollection<Comment>("comments");
 
+export const archivedComments = createCollection<Comment>("archivedComments");
+
 export const stories = createCollection<Story>("stories");
 
 export const commentActions = createCollection<CommentAction>("commentActions");
+
+export const archivedCommentActions = createCollection<CommentAction>(
+  "archivedCommentActions"
+);
 
 export const sites = createCollection<Site>("sites");
 
 export const commentModerationActions = createCollection<
   CommentModerationAction
 >("commentModerationActions");
+
+export const archivedCommentModerationActions = createCollection<
+  CommentModerationAction
+>("archivedCommentModerationActions");
 
 export const queries = createCollection<PersistedQuery>("queries");
 
@@ -43,6 +53,9 @@ const collections = {
   queries,
   migrations,
   sites,
+  archivedComments,
+  archivedCommentActions,
+  archivedCommentModerationActions,
 };
 
 export default collections;
