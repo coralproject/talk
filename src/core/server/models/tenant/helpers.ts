@@ -100,8 +100,8 @@ export function supportsMediaType(
 }
 
 export function isAMPEnabled(tenant: Pick<Tenant, "featureFlags" | "amp">) {
-  if (tenant.amp !== undefined) {
-    return !!tenant.amp;
+  if (typeof tenant.amp === "boolean") {
+    return tenant.amp;
   }
   return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.ENABLE_AMP);
 }
