@@ -27,6 +27,7 @@ framework-validation-invalidEmail = Please enter a valid email address.
 framework-validation-passwordTooShort = Password must contain at least {$minLength} characters.
 framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
 framework-validation-invalidURL = Invalid URL
+framework-validation-invalidURLStart = Be sure to include http:// or https:// in your URL
 framework-validation-emailsDoNotMatch = Emails do not match. Try again.
 framework-validation-notAWholeNumberBetween = Please enter a whole number between { $min } and { $max }.
 framework-validation-notAWholeNumberGreaterThan = Please enter a whole number greater than { $x }
