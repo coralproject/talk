@@ -156,7 +156,7 @@ should be wrapped in localization components to support other languages.
 ## Localization
 
 For information on localization, see our
-[Contributing a Translation](https://docs.coralproject.net/talk/v5/developing#contributing)
+[Contributing a Translation](https://docs.coralproject.net/development#contributing)
 guide.
 
 ## Documentation
