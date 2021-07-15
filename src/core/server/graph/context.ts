@@ -48,6 +48,7 @@ export interface GraphContextOptions {
   webhookQueue: WebhookQueue;
   notifierQueue: NotifierQueue;
   mongo: Db;
+  archive: Db;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
   tenant: Tenant;
@@ -72,6 +73,7 @@ export default class GraphContext {
   public readonly webhookQueue: WebhookQueue;
   public readonly notifierQueue: NotifierQueue;
   public readonly mongo: Db;
+  public readonly archive: Db;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
   public readonly pubsub: RedisPubSub;
@@ -104,6 +106,7 @@ export default class GraphContext {
     this.i18n = options.i18n;
     this.pubsub = options.pubsub;
     this.mongo = options.mongo;
+    this.archive = options.archive;
     this.redis = options.redis;
     this.tenant = options.tenant;
     this.site = options.site;

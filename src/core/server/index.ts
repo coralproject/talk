@@ -93,8 +93,11 @@ class Server {
   // pubsub stores the pubsub engine used by the application.
   private pubsub: RedisPubSub;
 
-  // mongo stores the mongo connection used by the application.
+  // mongo stores the mongo connection used by the live collections.
   private mongo: Db;
+
+  // mongo archive stores the mongo connection used by the archived collections.
+  private archive: Db;
 
   // tenantCache stores the tenant cache used by the application.
   private tenantCache: TenantCache;
@@ -221,7 +224,19 @@ class Server {
     await this.i18n.load();
 
     // Setup MongoDB.
-    this.mongo = await createMongoDB(config);
+    const mongoURI = config.get("mongodb");
+    let archiveMongoURI = config.get("mongodbArchive");
+    // if the archive URI isn't specified, but the regular mongo uri
+    // is, then use the same db for both mongo instances
+    if (
+      archiveMongoURI === config.default("mongodbArchive") &&
+      mongoURI !== config.default("mongodb")
+    ) {
+      archiveMongoURI = mongoURI;
+    }
+
+    this.mongo = await createMongoDB(mongoURI);
+    this.archive = await createMongoDB(archiveMongoURI);
 
     // Setup Redis.
     this.redis = await createAugmentedRedisClient(config);
@@ -361,6 +376,7 @@ class Server {
       metrics: createMetrics(),
       migrationManager: this.migrationManager,
       mongo: this.mongo,
+      archive: this.archive,
       notifierQueue: this.tasks.notifier,
       parent,
       persistedQueriesRequired:

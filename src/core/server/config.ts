@@ -166,6 +166,13 @@ const config = convict({
     env: "MONGODB_URI",
     sensitive: true,
   },
+  mongodbArchive: {
+    doc: "The MongoDB database to connect for archiving stories.",
+    format: "mongo-uri",
+    default: "mongodb://127.0.0.1:27017/coral",
+    env: "MONGODB_ARCHIVE_URI",
+    sensitive: true,
+  },
   redis: {
     doc: "The Redis database to connect to.",
     format: "redis-uri",

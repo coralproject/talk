@@ -61,6 +61,7 @@ export interface AppOptions {
   metrics: Metrics;
   migrationManager: MigrationManager;
   mongo: Db;
+  archive: Db;
   notifierQueue: NotifierQueue;
   parent: Express;
   persistedQueriesRequired: boolean;

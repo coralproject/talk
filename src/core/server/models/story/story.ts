@@ -759,7 +759,12 @@ export async function markStoryForArchiving(
   return result.value;
 }
 
-export async function archiveStory(mongo: Db, tenantID: string, id: string) {
+export async function archiveStory(
+  mongo: Db,
+  archive: Db,
+  tenantID: string,
+  id: string
+) {
   const targetStory = await collection(mongo).findOne({ id, tenantID });
   if (!targetStory || !targetStory.isArchiving) {
     return;
@@ -782,9 +787,9 @@ export async function archiveStory(mongo: Db, tenantID: string, id: string) {
     })
     .toArray();
 
-  await archivedComments(mongo).insertMany(targetComments);
-  await archivedCommentActions(mongo).insertMany(targetCommentActions);
-  await archivedCommentModerationActions(mongo).insertMany(
+  await archivedComments(archive).insertMany(targetComments);
+  await archivedCommentActions(archive).insertMany(targetCommentActions);
+  await archivedCommentModerationActions(archive).insertMany(
     targetCommentModerationActions
   );
 
