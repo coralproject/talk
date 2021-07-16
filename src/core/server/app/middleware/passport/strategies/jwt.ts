@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { TokenExpiredError } from "jsonwebtoken";
 import { Strategy } from "passport-strategy";
 
 import { AppOptions } from "coral-server/app";
@@ -99,7 +99,10 @@ export async function verifyAndRetrieveUser(
   } catch (err) {
     // When the JWT was revoked, just indicate that there is no user on the
     // request rather than erroring out.
-    if (err instanceof JWTRevokedError) {
+    if (
+      err instanceof JWTRevokedError ||
+      err.jse_cause instanceof TokenExpiredError
+    ) {
       return null;
     }
 
