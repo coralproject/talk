@@ -1,8 +1,16 @@
 import { Collection, Db } from "mongodb";
 
 import { ACTION_TYPE } from "coral-server/models/action/comment";
+import { getLatestRevision } from "coral-server/models/comment";
 import { Story } from "coral-server/models/story";
+import { retrieveTenant } from "coral-server/models/tenant";
 import collections from "coral-server/services/mongodb/collections";
+import { updateAllCommentCounts } from "coral-server/stacks/helpers";
+
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+
+import { moderate } from "../comments/moderation";
+import { AugmentedRedis } from "../redis";
 
 const BATCH_SIZE = 500;
 
@@ -101,12 +109,99 @@ async function deleteUserActionCounts(
   });
 }
 
+async function moderateComments(
+  mongo: Db,
+  redis: AugmentedRedis,
+  tenantID: string,
+  filter: any,
+  targetStatus: GQLCOMMENT_STATUS,
+  now: Date
+) {
+  const tenant = await retrieveTenant(mongo, tenantID);
+  if (!tenant) {
+    throw new Error("unable to retrieve tenant");
+  }
+
+  const comments = collections.comments(mongo).find(filter);
+
+  while (comments.hasNext()) {
+    const comment = await comments.next();
+    if (!comment) {
+      continue;
+    }
+
+    const result = await moderate(
+      mongo,
+      tenant,
+      {
+        commentID: comment.id,
+        commentRevisionID: getLatestRevision(comment).id,
+        moderatorID: null,
+        status: targetStatus,
+      },
+      now
+    );
+
+    if (!result.after) {
+      continue;
+    }
+
+    await updateAllCommentCounts(mongo, redis, {
+      ...result,
+      tenant,
+      // Rejecting a comment does not change the action counts.
+      actionCounts: {},
+    });
+  }
+}
+
 async function deleteUserComments(
   mongo: Db,
+  redis: AugmentedRedis,
   authorID: string,
   tenantID: string,
   now: Date
 ) {
+  // Approve any comments that have children.
+  // This allows the children to be visible after
+  // the comment is deleted.
+  await moderateComments(
+    mongo,
+    redis,
+    tenantID,
+    {
+      tenantID,
+      authorID,
+      status: GQLCOMMENT_STATUS.NONE,
+      childCount: { $gt: 0 },
+    },
+    GQLCOMMENT_STATUS.APPROVED,
+    now
+  );
+
+  // reject any comments that don't have children
+  // This gets rid of any empty/childless deleted comments.
+  await moderateComments(
+    mongo,
+    redis,
+    tenantID,
+    {
+      tenantID,
+      authorID,
+      status: {
+        $in: [
+          GQLCOMMENT_STATUS.PREMOD,
+          GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
+          GQLCOMMENT_STATUS.NONE,
+          GQLCOMMENT_STATUS.APPROVED,
+        ],
+      },
+      childCount: 0,
+    },
+    GQLCOMMENT_STATUS.REJECTED,
+    now
+  );
+
   await collections.comments(mongo).updateMany(
     { tenantID, authorID },
     {
@@ -122,6 +217,7 @@ async function deleteUserComments(
 
 export async function deleteUser(
   mongo: Db,
+  redis: AugmentedRedis,
   userID: string,
   tenantID: string,
   now: Date
@@ -145,7 +241,7 @@ export async function deleteUser(
   await deleteUserActionCounts(mongo, userID, tenantID);
 
   // Delete the user's comments.
-  await deleteUserComments(mongo, userID, tenantID, now);
+  await deleteUserComments(mongo, redis, userID, tenantID, now);
 
   // Mark the user as deleted.
   const result = await collections.users(mongo).findOneAndUpdate(
