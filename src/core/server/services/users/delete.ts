@@ -124,7 +124,7 @@ async function moderateComments(
 
   const comments = collections.comments(mongo).find(filter);
 
-  while (comments.hasNext()) {
+  while (await comments.hasNext()) {
     const comment = await comments.next();
     if (!comment) {
       continue;
