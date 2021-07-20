@@ -222,7 +222,10 @@ it("edit a comment and handle server error", async () => {
     {
       Mutation: {
         editComment: sinon.stub().callsFake(() => {
-          throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
+          throw new InvalidRequestError({
+            code: ERROR_CODES.INTERNAL_ERROR,
+            traceID: "traceID",
+          });
         }),
       },
     },

@@ -1,0 +1,11 @@
+.heading {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+
+  padding-bottom: var(--spacing-1);
+}
+
+.section {
+  padding-left: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+}
