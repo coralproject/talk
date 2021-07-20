@@ -984,6 +984,20 @@ moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
+moderateCardDetails-tab-automatedActions = Automated actions
+moderateCardDetails-tab-noIssuesFound = No issues found
+moderateCardDetails-tab-missingPhase = Was not run
+
+moderateCardDetails-tab-externalMod-status = Status
+moderateCardDetails-tab-externalMod-flags = Flags
+moderateCardDetails-tab-externalMod-tags = Tags
+
+moderateCardDetails-tab-externalMod-none = None
+moderateCardDetails-tab-externalMod-approved = Approved
+moderateCardDetails-tab-externalMod-rejected = Rejected
+moderateCardDetails-tab-externalMod-premod = Pre-moderated
+moderateCardDetails-tab-externalMod-systemWithheld = System withheld
+
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =

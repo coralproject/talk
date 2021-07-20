@@ -17,33 +17,50 @@ const parseDuration = (duration: string | number) => {
 };
 
 interface Options {
+  sharedCacheDuration?: string | false | number;
   cacheDuration?: string | false | number;
   immutable?: boolean;
 }
 
-export const cacheHeadersMiddleware = ({
+export const buildCacheControlHeader = ({
+  sharedCacheDuration = false,
   cacheDuration = false,
   immutable = false,
-}: Options = {}): RequestHandler => {
+}: Options = {}): string | null => {
   // Parse the passed duration to convert it to a max-age value.
   const maxAge = cacheDuration ? parseDuration(cacheDuration) : false;
   if (!maxAge) {
-    return noCacheMiddleware;
+    return null;
   }
 
   // Set cache control headers to encourage browsers/cdn's to cache these
   // requests if we aren't in private mode.
   const directives: string[] = ["public", `max-age=${maxAge}`];
 
+  // Push the shared max age into this set of directives if configured.
+  const sMaxAge = sharedCacheDuration
+    ? parseDuration(sharedCacheDuration)
+    : false;
+  if (sMaxAge) {
+    directives.push(`s-max-age=${sMaxAge}`);
+  }
+
   if (immutable) {
     directives.push("immutable");
   }
 
   // Join the directives together.
-  const value = directives.join(", ");
+  return directives.join(", ");
+};
+
+export const cacheHeadersMiddleware = (options?: Options): RequestHandler => {
+  const header = buildCacheControlHeader(options);
+  if (!header) {
+    return noCacheMiddleware;
+  }
 
   return (req, res, next) => {
-    res.set("Cache-Control", value);
+    res.set("Cache-Control", header);
     next();
   };
 };
