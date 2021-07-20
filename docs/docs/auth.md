@@ -14,7 +14,7 @@ To configure authentication for your instance of Coral, go to **Configure** > **
 
 Best when you want Coral to manage all user registration, creation and authentication. Requires the least amount of setup and configuration. Users register by creating a Username (must be unique across users, no spaces or special chars), Email, and Password. All user details are stored in Coral's database.
 
-By Default - users are sent a verification email and are prompted to verify email addresss, however completing the email verification step is not required to submit comments.
+By default - users are sent a verification email and are prompted to verify their email address, however completing the email verification step is not required to submit comments.
 
 ## Login with OpenID Connect
 
@@ -24,7 +24,7 @@ With OpenID Connect authentication is handled by passing an access token paramet
 
 ## Login with Single Sign On
 
-When you want users to authenticate via your existing identity system, and be automatically registered/logged into Coral. Users register, login, and manage their user details on your existing site, your user database maintains the source of truth for all user information. Users are created and updated in Coral via jwt tokens passed from your auth service to Coral.
+When you want users to authenticate via your existing identity system, and be automatically registered/logged into Coral. Users register, login, and manage their user details on your existing site, your user database maintains the source of truth for all user information. Users are created and updated in Coral via JWT tokens passed from your auth service to Coral.
 
 Requires advanced configuration, please see: [Single Sign On](/sso)
 
@@ -44,7 +44,7 @@ Optional features you can enable or disable to allows users to:
 
 ## Session settings
 
-Determines length of user sessions when not using SSO or when `exp` claim is not provided on jwt. Default: `90 Days`.
+Determines length of user sessions when not using SSO or when `exp` claim is not provided on JWT. Default: `90 Days`.
 
 ## Username Restrictions
 

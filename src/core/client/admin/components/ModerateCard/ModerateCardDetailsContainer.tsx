@@ -19,8 +19,8 @@ import {
 import { ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 import { ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 
+import AutomatedActionsContainer from "./AutomatedActionsContainer";
 import CommentRevisionContainer from "./CommentRevisionContainer";
-import ExternalModerationSummaryContainer from "./ExternalModerationSummaryContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
 
@@ -57,12 +57,14 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 
   const doesHaveFlagDetails = useMemo(() => hasFlagDetails(comment), [comment]);
   const hasRevisions = comment.editing.edited;
-  const hasExternalModDetails = !!(
+  const hasAutomatedActions = !!(
     comment &&
     comment.revision &&
     comment.revision.metadata &&
-    comment.revision.metadata.externalModeration &&
-    comment.revision.metadata.externalModeration.length > 0
+    ((comment.revision.metadata.perspective &&
+      comment.revision.metadata.perspective.score > 0) ||
+      (comment.revision.metadata.externalModeration &&
+        comment.revision.metadata.externalModeration.length > 0))
   );
 
   return (
@@ -86,7 +88,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             </Flex>
           </Tab>
         )}
-        {hasExternalModDetails && (
+        {hasAutomatedActions && (
           <Tab tabID="EXTERNAL_MOD" classes={styles}>
             <Flex alignItems="center" itemGutter>
               <Icon size="md">done_all</Icon>
@@ -112,10 +114,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         <CommentRevisionContainer comment={comment} />
       )}
       {activeTab === "EXTERNAL_MOD" && (
-        <ExternalModerationSummaryContainer
-          comment={comment}
-          settings={settings}
-        />
+        <AutomatedActionsContainer comment={comment} settings={settings} />
       )}
     </HorizontalGutter>
   );
@@ -163,13 +162,13 @@ const enhanced = withFragmentContainer<Props>({
       ...FlagDetailsContainer_comment
       ...CommentRevisionContainer_comment
       ...LinkDetailsContainer_comment
-      ...ExternalModerationSummaryContainer_comment
+      ...AutomatedActionsContainer_comment
     }
   `,
   settings: graphql`
     fragment ModerateCardDetailsContainer_settings on Settings {
       ...LinkDetailsContainer_settings
-      ...ExternalModerationSummaryContainer_settings
+      ...AutomatedActionsContainer_settings
     }
   `,
 })(ModerateCardDetailsContainer);
