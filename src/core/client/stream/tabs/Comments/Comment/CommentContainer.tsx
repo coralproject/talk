@@ -45,6 +45,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
+import { useCommentSeen, useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
@@ -118,6 +119,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showAuthPopup,
   showRemoveAnswered,
 }) => {
+  const commentSeenEnabled = useCommentSeenEnabled();
+  const seen = useCommentSeen(comment.id);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -347,13 +350,20 @@ export const CommentContainer: FunctionComponent<Props> = ({
     return null;
   }
 
+  // Boolean that indicates whether or not we want to
+  // apply the "comment not seen class" for styling purposes.
+  const shouldApplyNotSeenClass =
+    !seen &&
+    !highlight &&
+    comment.lastViewerAction !== "CREATE" &&
+    comment.lastViewerAction !== "EDIT";
+
   return (
     <div
       className={cn(
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-        badgesClassName,
-        className
+        badgesClassName
       )}
       id={commentElementID(comment.id)}
       data-testid={commentElementID(comment.id)}
@@ -362,6 +372,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
     >
       <HorizontalGutter>
         <IndentedComment
+          classNameIndented={cn({
+            [styles.commentSeenEnabled]: commentSeenEnabled,
+            [styles.notSeen]: shouldApplyNotSeenClass,
+            [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
+          })}
           indentLevel={indentLevel}
           collapsed={collapsed}
           body={comment.body}

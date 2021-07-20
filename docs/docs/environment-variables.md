@@ -11,7 +11,7 @@ the variables in a `.env` file in the root of the project in a simple
 
 ### `PORT`
 
-The port to listen for HTTP and Websocket requests. (Default `3000`)
+The port to listen for HTTP and WebSocket requests. (Default `3000`)
 
 ### `MONGODB_URI`
 
@@ -95,7 +95,7 @@ instance for at least the next 60 days.
 
 ### `DISABLE_LIVE_UPDATES`
 
-When `true`, the comment stream will not create a websocket connection to get
+When `true`, the comment stream will not create a WebSocket connection to get
 live comment updates. This applies across all tenants on the installation, and
 cannot be turned back on via the interface. (Default `false`)
 
@@ -150,14 +150,14 @@ uses this Coral server on `PORT` as the upstream. Disabled by default.
 ### `TRUST_PROXY`
 
 When provided, it configures the "trust proxy" settings for Express. If you are
-encountering issues where urls in the administration are showing with a `http`
+encountering issues where URLs in the administration are showing with a `http`
 instead of `https`, you may need to set the `TRUST_PROXY` setting. Refer to
 https://expressjs.com/en/guide/behind-proxies.html for possible values of this
 configuration variable as it pertains to your setup.
 
 ### `WEBSOCKET_KEEP_ALIVE_TIMEOUT`
 
-The interval that should be used to send keep alive messages over websocket to
+The interval that should be used to send keep alive messages over WebSocket to
 keep the socket open, parsed by [ms](https://www.npmjs.com/package/ms).
 (Default `30s`)
 

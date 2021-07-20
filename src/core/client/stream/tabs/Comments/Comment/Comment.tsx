@@ -34,7 +34,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
     <HorizontalGutter
       role="article"
       size="half"
-      className={cn(styles.root, {
+      className={cn(props.className, styles.root, {
         [styles.highlight]: props.highlight,
         [CLASSES.comment.highlight]: props.highlight,
       })}

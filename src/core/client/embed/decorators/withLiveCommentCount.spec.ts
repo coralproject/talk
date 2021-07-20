@@ -35,7 +35,7 @@ beforeAll(() => {
 it("should live update counts when receiving a commentCount event", () => {
   const events = new EventEmitter2({ wildcard: true });
   const fakePym = null as any;
-  withLiveCommentCount(events)(fakePym);
+  withLiveCommentCount(events)(fakePym, null as any);
   events.emit("commentCount", {
     number: 2,
     storyID: "story-1",

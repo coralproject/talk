@@ -133,6 +133,12 @@ const initLocalState: InitLocalState = async ({
       featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES),
       "flattenReplies"
     );
+
+    // Enable comment seen
+    localRecord.setValue(
+      featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN),
+      "enableCommentSeen"
+    );
   });
 };
 
