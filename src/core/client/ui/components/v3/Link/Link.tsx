@@ -5,12 +5,16 @@ import styles from "./Link.css";
 
 const Link: FunctionComponent<{
   href?: string;
-  children?: string;
+  children?: React.ReactNode;
   className?: string;
-}> = ({ href, children, className }) => (
-  <a href={href || children} className={cn(styles.root, className)}>
-    {children}
-  </a>
-);
+}> = ({ href, children, className }) => {
+  const resolvedHref =
+    href || (typeof children === "string" ? children : undefined);
+  return (
+    <a href={resolvedHref} className={cn(styles.root, className)}>
+      {children}
+    </a>
+  );
+};
 
 export default Link;
