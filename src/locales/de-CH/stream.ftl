@@ -21,22 +21,6 @@ general-tabBar-myProfileTab = Mein Profil
 general-tabBar-discussionsTab = Diskussionen
 general-tabBar-configure = Konfigurieren
 
-general-tabBar-aria-comments =
-  .aria-label = Kommentare
-  .title = Kommentare
-general-tabBar-aria-qa =
-  .aria-label = Q&A
-  .title = Q&A
-general-tabBar-aria-myProfile =
-  .aria-label = Mein profil
-  .title = Mein Profil
-general-tabBar-aria-configure =
-  .aria-label = Konfigurieren
-  .title = Mein Profil
-general-tabBar-aria-discussions =
-  .aria-label = Diskussionen
-  .title = Diskussionen
-
 ## Comment Count
 
 comment-count-text =
@@ -44,12 +28,12 @@ comment-count-text =
     [one] Kommentar
     *[other] Kommentare
   }
-  
+
 ## Comments Tab
 
-comments-commentForm-submit = Posten
+comments-commentForm-submit = Kommentar abschicken
 comments-allCommentsTab = Alle Kommentare
-comments-featuredTab = Featured
+comments-featuredTab = Hervorgehoben
 comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-watchers =
   { $count  ->
@@ -57,20 +41,20 @@ comments-watchers =
     *[other] { SHORT_NUMBER($count) } Personen schauen sich diese Diskussion an
   }
 
-comments-featuredCommentTooltip-how = Wie wird ein Kommentar featured?
+comments-featuredCommentTooltip-how = Wie wird ein Kommentar hervorgehoben?
 comments-featuredCommentTooltip-handSelectedComments =
   Kommentare, welche von unserem Team vorgeschlagen werden.
 comments-featuredCommentTooltip-toggleButton =
-  .aria-label = Featured Kommentare tooltip ein-/ ausblenden
-  .title = Featured Kommentare tooltip ein-/ ausblenden
+  .aria-label = Hervorgehobene Kommentare Tooltip ein-/ ausblenden
+  .title = Hervorgehobene Kommentare Tooltip ein-/ ausblenden
 
 comments-collapse-toggle =
   .aria-label = Kommentar Thread zusammenklappen
 comments-bannedInfo-bannedFromCommenting = Dein Account wurde vom Kommentieren blockiert.
 comments-bannedInfo-violatedCommunityGuidelines =
-  Jemand mit Zugriff zu deinem Account hat gegegen die Community Richtlinien
+  Jemand mit Zugriff zu deinem Account hat gegen die Community Richtlinien
   verstossen. Als Result wurde dein Account blockiert. Du kannst nicht mehr kommentieren,
-  andere Kommentare respektieren oder melden. Wenn du denkst, dass dein Account 
+  auf andere Kommentare reagieren oder melden. Wenn du denkst, dass dein Account
   fälschlicherweise blockiert wurde, melde dich bitte an unser Community Team.
 
 comments-noCommentsAtAll = Dieser Artikel hat keine Kommentare.
@@ -82,11 +66,11 @@ comments-commentForm-cancel = Abbrechen
 comments-commentForm-saveChanges = Änderungen speichern
 comments-commentForm-submit = Absenden
 
-comments-postCommentForm-submit = Posten
+comments-postCommentForm-submit = Kommentar abschicken
 comments-replyList-showAll = Alle anzeigen
 comments-replyList-showMoreReplies = Mehr Antworten anzeigen
 
-comments-postCommentForm-gifSeach = Nach einem GIF suchen
+comments-postCommentForm-gifSearch = Nach einem GIF suchen
 comments-postComment-gifSearch-search =
   .aria-label = Suchen
 comments-postComment-gifSearch-loading = Laden...
@@ -147,7 +131,7 @@ comments-remainingCharacters = { $remaining } Zeichen übrig
 
 comments-postCommentFormFake-signInAndJoin = Melde dich an und nimm an der Diskussion teil
 
-comments-postCommentForm-rteLabel = Kommentar posten
+comments-postCommentForm-rteLabel = Kommentar schreiben
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
@@ -179,7 +163,7 @@ comments-editCommentForm-rteLabel = Kommentar bearbeiten
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
 comments-editCommentForm-editRemainingTime = Bearbeitung: <time></time> übrig
-comments-editCommentForm-editTimeExpired = Die Zeit für die Bearbeitung ist abgelaufen. Du kannst diesen Kommentar nicht mehr bearbeiten. Warum verfasst du nicht einen anderen?
+comments-editCommentForm-editTimeExpired = Die Zeit für die Bearbeitung ist abgelaufen. Du kannst diesen Kommentar nicht mehr bearbeiten. Warum verfasst du nicht einen neuen?
 comments-editedMarker-edited = Bearbeitet
 comments-showConversationLink-readMore = Mehr zu dieser Diskussion lesen >
 comments-conversationThread-showMoreOfThisConversation =
@@ -188,7 +172,7 @@ comments-conversationThread-showMoreOfThisConversation =
 comments-permalinkView-currentViewing =
 comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
-  Du schaust dir momentar eine einzige Diskussion an
+  Du schaust dir momentan eine einzige Diskussion an
 comments-inReplyTo = Zur Antwort von <Username></Username>
 comments-replyingTo = Antworten zu <Username></Username>
 
@@ -219,48 +203,48 @@ comments-userIgnorePopover-cancel = Abbrechen
 
 comments-userBanPopover-title = {$username} blockieren?
 comments-userBanPopover-description =
-  Wenn der User blockiert wird, wird nicht mehr kommentieren,
-  Raktionen benutzen oder Kommentare melden können.
+  Wenn der User blockiert wird, wird er nicht mehr kommentieren,
+  Reaktionen nutzen, oder Kommentare melden können.
   Dieser Kommentar wird ebenfalls abgewiesen.
 comments-userBanPopover-scopedDescription =
-  Wenn der User von {$sitename} blockiert wird, wird nicht mehr kommentieren,
-  Raktionen benutzen oder Kommentare melden können.
+  Wenn der User von {$sitename} blockiert wird, wird er nicht mehr kommentieren,
+  Reaktionen nutzen, oder Kommentare melden können.
   Dieser Kommentar wird ebenfalls abgewiesen.
 comments-userBanPopover-cancel = Abbrechen
 comments-userBanPopover-ban = Blockieren
 
 comments-moderationDropdown-popover =
-  .description = A popover menu um den Kommentar zu moderieren
-comments-moderationDropdown-feature = Feature
-comments-moderationDropdown-unfeature = Un-feature
+  .description = Ein Popover Menü um den Kommentar zu moderieren
+comments-moderationDropdown-feature = Hervorheben
+comments-moderationDropdown-unfeature = Hervorhebung zurücksetzen
 comments-moderationDropdown-approve = Genehmigen
 comments-moderationDropdown-approved = genehmigt
 comments-moderationDropdown-reject = Ablehnen
 comments-moderationDropdown-rejected = Abgelehnt
 comments-moderationDropdown-ban = User blockieren
 comments-moderationDropdown-banned = Blockiert
-comments-moderationDropdown-goToModerate =
+comments-moderationDropdown-goToModerate = Zur Moderation gehen
 comments-moderationDropdown-moderationView = Moderation Ansicht
 comments-moderationDropdown-moderateStory = Artikel moderieren
 comments-moderationDropdown-caretButton =
   .aria-label = Moderieren
 
-comments-rejectedTombstone-title = Du hast diesen Kommentar abgelehnt.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Du hast diesen Kommentar abgelehnt.
+comments-moderationRejectedTombstone-moderateLink =
   Gehe zu Moderieren um die Entscheidung zu überprüfen
 
-comments-featuredTag = Featured
+comments-featuredTag = Hervorgehoben
 
 comments-react =
   .aria-label = {$count ->
     [0] {$reaction} Kommentar von {$username}
-    *[other] {$reaction} ({$count}) Kommentar von {$username}
+    *[other] {$reaction} ({$count}) Kommentare von {$username}
   }
 comments-reacted =
   .aria-label = {$count ->
     [0] {$reaction} Kommentar von {$username}
     [one] {$reaction} Kommentar von {$username}
-    *[other] {$reaction} ({$count}) Kommentar von {$username}
+    *[other] {$reaction} ({$count}) Kommentare von {$username}
   }
 
 comments-jumpToComment-title = Deine Antwort wird unten angezeigt
@@ -284,7 +268,7 @@ qa-viewNew =
     *[other] {$count} Neue Fragen anschauen
   }
 
-qa-postQuestionForm-rteLabel = Frage posten
+qa-postQuestionForm-rteLabel = Frage stellen
 qa-postQuestionForm-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 qa-postQuestionFormFake-rte =
@@ -328,7 +312,7 @@ comments-stream-deleteAccount-callOut-title =
 comments-stream-deleteAccount-callOut-receivedDesc =
   Eine Anfrage um deinen Account zu löschen, wurde am { $date } erhalten.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  Wenn du weiter kommentieren, Antworten oder reagieren möchtest, kannst
+  Wenn du weiter kommentieren, Antworten oder Reaktionen nutzen möchtest, kannst
   du deine Anfrage bezgl. der Löschung deines Accounts bis { $date } zurückziehen.
 comments-stream-deleteAccount-callOut-cancel =
   Anfrage zur Account Löschung zurückziehen
@@ -340,8 +324,8 @@ comments-permalink-linkCopied = Link wurde kopiert
 
 ### Embed Links
 
-comments-embedLinks-showEmbeds = embeds anzeigen
-comments-embedLinks-hideEmbeds = embeds verbergen
+comments-embedLinks-showEmbeds = Embeds anzeigen
+comments-embedLinks-hideEmbeds = Embeds verbergen
 
 comments-embedLinks-show-giphy = GIF anzeigen
 comments-embedLinks-hide-giphy = GIF verbergen
@@ -412,7 +396,7 @@ profile-preferences-mediaPreferences-preferencesUpdated =
 profile-account-ignoredCommenters = Ignorierte Kommentatoren
 profile-account-ignoredCommenters-description =
   Du kannst andere Kommentatoren ignorieren, indem du auf ihren Benutzernamen
-  klickst und dann Ignorieren auswählst. Wenn du jemanden ignorierst, werden 
+  klickst und dann Ignorieren auswählst. Wenn du jemanden ignorierst, werden
   alle Kommentare dieses Benutzers vor dir verborgen. Kommentatoren, welche
   du ignorierst, können weiterhin deine Kommentare sehen.
 profile-account-ignoredCommenters-empty = Momentan ignorierst du niemanden
@@ -502,8 +486,8 @@ profile-account-deleteAccount-pages-whenSec1Content =
 profile-account-deleteAccount-pages-whenSec2Header =
   Kann ich weiterhin Kommentare schreiben bis mein Account gelöscht wird?
 profile-account-deleteAccount-pages-whenSec2Content =
-  Nein. Sobald du die Löschung deines Accounts angefragt hast, kannst du keine
-  Kommentare mehr schreiben, auf Kommentare antworten oder Reaktionen auswählen.
+  Nein. Sobald du die Löschung deines Accounts beantragt hast, kannst du keine
+  Kommentare mehr schreiben, auf Kommentare antworten oder Reaktionen nutzen.
 
 profile-account-deleteAccount-pages-downloadCommentHeader = Meine Kommentare herunterladen?
 profile-account-deleteAccount-pages-downloadSubHeader = Meine Kommentare herunterladen
@@ -535,12 +519,12 @@ profile-account-deleteAccount-pages-completeTimeHeader =
   Dein Account wird am { $date } gelöscht
 profile-account-deleteAccount-pages-completeChangeYourMindHeader = Hast du deine Meinung geändert?
 profile-account-deleteAccount-pages-completeSignIntoYourAccount =
-  Einfach vor diesem Datum wieder mit deinem Account anmelden <strong>Account Löschung abbrechen</strong>
+  Einfach vor diesem Datum wieder mit deinem Account anmelden und <strong>Account Löschung abbrechen </strong>
   auswählen.
-profile-account-deleteAccount-pages-completeTellUsWhy = Bitte gib uns den Grund an?
+profile-account-deleteAccount-pages-completeTellUsWhy = Bitte gib uns den Grund an
 profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   Wir würden gerne wissen wieso du deinen Account löschen möchtest. Bitte sende uns dein
-  Feedback über unser Kommenty System via { $email }.
+  Feedback über unser Kommentar System via { $email }.
 profile-account-changePassword-edit = Bearbeiten
 profile-account-changePassword-change = Ändern
 
@@ -550,8 +534,8 @@ profile-notificationsTab = Benachrichtigungen
 profile-account-notifications-emailNotifications = Email Benachrichtigungen
 profile-account-notifications-emailNotifications = Email Benachrichtigungen
 profile-account-notifications-receiveWhen = Benachrichtigungen erhalten wenn:
-profile-account-notifications-onReply = Mein Kommentare Antworten erhält
-profile-account-notifications-onFeatured = Mein Kommentar featured wird
+profile-account-notifications-onReply = Mein Kommentar Antworten erhält
+profile-account-notifications-onFeatured = Mein Kommentar hervorgehoben wird
 profile-account-notifications-onStaffReplies = Ein Redaktor auf meinen Kommentar antwortet
 profile-account-notifications-onModeration = Mein ausstehender Kommentar überprüft wurde
 profile-account-notifications-sendNotifications = Benachrichtigungen senden:
@@ -564,7 +548,7 @@ profile-account-notifications-button-update = Aktualisieren
 
 ## Report Comment Popover
 comments-reportPopover =
-  .description = A dialog for reporting comments
+  .description = Dialogbox um Kommentare zu melden
 comments-reportPopover-reportThisComment = Diesen Kommentar melden
 comments-reportPopover-whyAreYouReporting = Wieso meldest du diesen Kommentar?
 
@@ -586,7 +570,7 @@ comments-reportPopover-submit = Einreichen
 
 comments-reportPopover-thankYou = Vielen Dank!
 comments-reportPopover-receivedMessage =
-  Wir haben deine Nachricht erhalten. Meldung von Mitgliedern wie dir schützen die Community.
+  Wir haben deine Nachricht erhalten. Meldungen von Mitgliedern wie dir schützen die Community.
 
 comments-reportPopover-dismiss = Abweisen
 
@@ -616,7 +600,7 @@ profile-changeUsername-confirmNewUsername-label = Neuen Benutzernamen bestätige
 profile-changeUsername-cancel = Abbrechen
 profile-changeUsername-save = Speichern
 profile-changeUsername-saveChanges = Änderungen speichern
-profile-changeUsername-recentChange = Dein Benutzername wurde in den letzten geändert. Du kannst deinen Benutzernamen am { $nextUpdate } ändern.
+profile-changeUsername-recentChange = Dein Benutzername wurde in den letzten { framework-timeago-time } geändert. Du kannst deinen Benutzernamen am { $nextUpdate } ändern.
 profile-changeUsername-youChangedYourUsernameWithin =
   Du hast deinen Benutzernamen innerhalb der letzten { framework-timeago-time } geändert. Du kannst deinen Benutzernamen am { $nextUpdate } ändern.
 profile-changeUsername-close = Schliessen
@@ -650,7 +634,7 @@ configure-premodLink-title =
 configure-premodLink-commentsContainingLinks =
   Kommentare, welche Links enthalten vormoderieren
 configure-premodLink-description =
-  Moderatoren müssen alle Kommentare, welche einen Link enthalten genehmigen bevor sie beim Artikel veröffentlicht werden.
+  Moderatoren müssen alle Kommentare, welche einen Link enthalten, genehmigen bevor sie beim Artikel veröffentlicht werden.
 
 configure-liveUpdates-title =
 configure-enableLiveUpdates-title = Live Updates aktivieren
@@ -658,16 +642,16 @@ configure-liveUpdates-description =
 configure-enableLiveUpdates-description =
   Wenn aktiviert, werden Kommentare sofort aktualisiert sobald neue Kommentare und Antworten
   eingereicht werden. Es ist nicht mehr nötig die Seite neu zu laden. Falls es zur unüblichen
-  Situation kommen sollte, dass der Artikel sehr viel Traffic erhält und die Kommentare dadruch
+  Situation kommen sollte, dass der Artikel sehr viel Traffic erhält und die Kommentare dadurch
   langsamer laden, kannst du dies wieder deaktivieren.
 configure-enableLiveUpdates-enable = Aktivieren
 
 configure-disableLiveUpdates-title = Live Updates deaktivieren
 configure-disableLiveUpdates-description =
   Wenn deaktiviert, werden Kommentare nicht sofort aktualisiert sobald neue Kommentare und Antworten
-  eingereicht werden. Es ist nötig die Seite neu zu laden. Wir empfehlen diese Einstellung wenn es 
-  zur unüblichen Situation kommen sollte, dass der Artikel sehr viel Traffic erhält und die Kommentare 
-  dadruch langsamer laden,
+  eingereicht werden. Es ist nötig die Seite neu zu laden. Wir empfehlen diese Einstellung wenn es
+  zur unüblichen Situation kommen sollte, dass der Artikel sehr viel Traffic erhält und die Kommentare
+  dadurch langsamer laden,
 configure-disableLiveUpdates-disable = Deaktivieren
 
 configure-liveUpdates-disabledSuccess = Live Updates sind jetzt deaktiviert
@@ -709,7 +693,7 @@ configure-closeStream-description =
 configure-closeStream-closeStream = Stream schliessen
 configure-closeStream-theStreamIsNowOpen = Der Stream ist jetzt offen
 
-configure-openStream-title = Open Stream
+configure-openStream-title = Stream öffnen
 configure-openStream-description =
   Der Kommentar Stream ist momentan geschlossen. Wenn der Kommentar Stream
   geöffnet wird, können neue Kommentare übermittelt und angezeigt werden.
@@ -726,7 +710,7 @@ configure-enableQA-title =
 configure-enableQA-switchToQA =
   Zum Q&A Format wechseln
 configure-enableQA-description =
-  Das Q&A Format erlaubt erlaubt Community Mitgliedern Fragen einzureichen, welche 
+  Das Q&A Format erlaubt erlaubt Community Mitgliedern Fragen einzureichen, welche
   von ausgewählten Experten beantwortet werden können.
 configure-enableQA-enableQA = Zum Q&A wechseln
 configure-enableQA-streamIsNowComments =
@@ -734,13 +718,13 @@ configure-enableQA-streamIsNowComments =
 
 configure-disableQA-title = Diesen Q&A konfigurieren
 configure-disableQA-description =
-  Das Q&A Format erlaubt erlaubt Community Mitgliedern Fragen einzureichen, welche 
+  Das Q&A Format erlaubt Community Mitgliedern Fragen einzureichen, welche
   von ausgewählten Experten beantwortet werden können.
 configure-disableQA-disableQA = Zu Kommentare wechseln
 configure-disableQA-streamIsNowQA =
   Der Stream ist jetzt im Q&A Format
 
-configure-experts-title = Add an Expert
+configure-experts-title = Expert hinzufügen
 configure-experts-filter-searchField =
   .placeholder = Nach Email oder Benutzername suchen
   .aria-label = Nach Email oder Benutzername suchen
@@ -770,7 +754,7 @@ suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   In Übereinstimmung mit den Community Richtlinien von { $organization } wurde dein
   Account vorübergehend suspendiert. Während du suspendiert bist, kannst du nicht
-  kommentieren, respektieren oder Kommentare melden.
+  kommentieren, Reaktionen nutzen oder Kommentare melden.
 suspendInfo-until-pleaseRejoinThe =
   Bitte trete der Konversation auf { $until } wieder bei.
 
@@ -790,7 +774,7 @@ profile-changeEmail-change = Ändern
 profile-changeEmail-please-verify = Deine Email Adresse verifizieren
 profile-changeEmail-please-verify-details =
   Eine Mail wurde gesendet an { $email } um deinen Account zu verifizieren.
-  Du musst deine neue Email Adresse zuerst verifizieren bevor es verwendet werden
+  Du musst deine neue Email Adresse zuerst verifizieren bevor sie verwendet werden
   kann um dich einzuloggen oder um Benachrichtigungen zu erhalten.
 profile-changeEmail-resend = Verifikation noch einmal senden
 profile-changeEmail-heading = Deine Email Adresse bearbeiten
@@ -830,7 +814,7 @@ ratingsAndReviews-basedOnRatings = { $count ->
 
 ratingsAndReviews-allReviewsFilter = Alle Reviews
 ratingsAndReviews-starReviewsFilter = { $rating ->
-  [1] 1 Sten
+  [1] 1 Stern
   *[other] { $rating } Sterne
 }
 

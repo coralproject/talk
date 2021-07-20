@@ -100,7 +100,7 @@ comments-conversationThread-showMoreOfThisConversation =
 comments-permalinkView-currentViewing = Du ser i øjeblikket en
 comments-permalinkView-singleConversation = ENKELKONVERSATION
 comments-inReplyTo = Som svar til <Username></Username>
-comments-replyTo = Svar på: <Username></Username>
+comments-replyingTo = Svar på: <Username></Username>
 
 comments-reportButton-report = Rapportér
 comments-reportButton-reported = Rapporteret

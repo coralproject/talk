@@ -21,22 +21,6 @@ general-tabBar-myProfileTab = Mon profil
 general-tabBar-discussionsTab = Discussions
 general-tabBar-configure = Configuration
 
-general-tabBar-aria-comments =
-  .aria-label = Commentaires
-  .title = Commentaires
-general-tabBar-aria-qa =
-  .aria-label = Q&R
-  .title = Q&R
-general-tabBar-aria-myProfile =
-  .aria-label = Mon profil
-  .title = Mon profil
-general-tabBar-aria-configure =
-  .aria-label = Configuration
-  .title = Mon profil
-general-tabBar-aria-discussions =
-  .aria-label = Discussions
-  .title = Discussions
-
 ## Comment Count
 
 comment-count-text =
@@ -241,8 +225,8 @@ comments-moderationDropdown-moderateStory = Modérer l'article
 comments-moderationDropdown-caretButton =
   .aria-label = Modérer
 
-comments-rejectedTombstone-title = Vous avez rejeté ce commentaire.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Vous avez rejeté ce commentaire.
+comments-moderationRejectedTombstone-moderateLink =
   Allez à la vue de la modération pour réviser cette décision
 
 comments-featuredTag = Mis en avant
@@ -806,6 +790,11 @@ comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
 stream-footer-links-top-of-article = Revenir au début du contenu
+  .title = Aller en haut de l'article
 stream-footer-links-top-of-comments = Revenir au début des commentaires
+  .title = Aller en haut des commentaires
 stream-footer-links-profile = Profile et réponses
+  .title = Aller au profil et aux réponses
 stream-footer-links-discussions = Plus de discussions
+  .title = Lire plus de discussions
+

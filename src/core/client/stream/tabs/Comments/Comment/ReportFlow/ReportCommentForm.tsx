@@ -100,7 +100,7 @@ class ReportCommentForm extends React.Component<Props> {
                         value="COMMENT_REPORTED_ABUSIVE"
                         disabled={submitting}
                       >
-                        This is abusive behaviour
+                        This commenter is being abusive
                       </RadioField>
                     </Localized>
                   </li>

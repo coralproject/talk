@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
@@ -6,6 +7,7 @@ import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
+import { useCommentSeenEnabled } from "../commentSeen";
 import Indent from "../Indent";
 import ReplyListCommentContainer from "./ReplyListCommentContainer";
 
@@ -33,17 +35,20 @@ export interface ReplyListProps {
   disableReplies?: boolean;
   viewNewCount?: number;
   onViewNew?: () => void;
-  allowTombstoneReveal?: boolean;
+  allowIgnoredTombstoneReveal?: boolean;
+  disableHideIgnoredTombstone?: boolean;
   showRemoveAnswered?: boolean;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
+  const commentSeenEnabled = useCommentSeenEnabled();
   return (
     <HorizontalGutter
       id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
       role="log"
-      className={styles.root}
+      className={cn({ [styles.withPadding]: !commentSeenEnabled })}
+      spacing={commentSeenEnabled ? 0 : undefined}
     >
       {props.comments.map((comment) => (
         <ReplyListCommentContainer
@@ -52,7 +57,8 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           comment={comment}
           story={props.story}
           settings={props.settings}
-          allowTombstoneReveal={props.allowTombstoneReveal}
+          allowIgnoredTombstoneReveal={props.allowIgnoredTombstoneReveal}
+          disableHideIgnoredTombstone={props.disableHideIgnoredTombstone}
           localReply={props.localReply}
           indentLevel={props.indentLevel}
           disableReplies={props.disableReplies}

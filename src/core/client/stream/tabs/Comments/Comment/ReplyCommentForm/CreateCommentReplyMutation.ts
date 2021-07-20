@@ -57,13 +57,14 @@ function sharedUpdater(
     .getLinkedRecord("edge")!;
   const node = commentEdge.getLinkedRecord("node")!;
   const status = node.getValue("status");
+  node.setValue("CREATE", "lastViewerAction");
 
   // If comment is not published, we don't need to add it.
   if (!isPublished(status)) {
     return;
   }
 
-  incrementStoryCommentCounts(store, input.storyID);
+  incrementStoryCommentCounts(store, input.storyID, commentEdge);
   prependCommentEdgeToProfile(environment, store, commentEdge);
   tagExpertAnswers(environment, store, input, commentEdge, uuidGenerator);
   if (input.local) {
@@ -331,7 +332,7 @@ async function commit(
                 createdAt: currentDate,
                 status: "NONE",
                 pending: false,
-                lastViewerAction: null,
+                lastViewerAction: "CREATE",
                 author: {
                   id: viewer.id,
                   username: viewer.username || null,

@@ -1,3 +1,4 @@
+import { pick } from "lodash";
 import { graphql } from "react-relay";
 import {
   ConnectionHandler,
@@ -11,10 +12,16 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
+  LOCAL_ID,
   lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLSTORY_MODE,
+  GQLTAG,
+  GQLUSER_ROLE,
+} from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
@@ -28,14 +35,12 @@ import {
   lookupFlattenReplies,
   prependCommentEdgeToProfile,
 } from "../../helpers";
-import incrementTagCommentCounts from "../../helpers/incrementTagCommentCounts";
 
 export type CreateCommentInput = Omit<
   MutationInput<MutationTypes>,
   "flattenReplies"
 > & {
   commentsOrderBy?: COMMENT_SORT;
-  tag?: GQLTAG;
 };
 
 function sharedUpdater(
@@ -47,38 +52,19 @@ function sharedUpdater(
   const commentEdge = store
     .getRootField("createComment")!
     .getLinkedRecord("edge")!;
-  const status = commentEdge.getLinkedRecord("node")!.getValue("status");
+  const node = commentEdge.getLinkedRecord("node")!;
+  const status = node.getValue("status");
+  node.setValue("CREATE", "lastViewerAction");
+
   // If comment is not visible, we don't need to add it.
   if (!isPublished(status)) {
     return;
   }
 
-  if (input.tag) {
-    incrementTagCommentCounts(store, input.storyID, input.tag);
-  }
-
-  incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(environment, store, commentEdge);
-  tagUnansweredQuestions(environment, store, input, commentEdge, uuidGenerator);
   addCommentToStory(store, input, commentEdge);
-}
 
-function getConnection(
-  streamProxy: RecordProxy | null,
-  connectionKey: string,
-  filters: any
-) {
-  if (!streamProxy) {
-    return null;
-  }
-
-  const con = ConnectionHandler.getConnection(
-    streamProxy,
-    connectionKey,
-    filters
-  );
-
-  return con;
+  incrementStoryCommentCounts(store, input.storyID, commentEdge);
 }
 
 /**
@@ -89,70 +75,55 @@ function addCommentToStory(
   input: CreateCommentInput,
   commentEdge: RecordProxy
 ) {
-  // Get stream proxy.
-  const streamProxy = store.get(input.storyID)!;
-  const connectionKey = "Stream_comments";
+  const local = store.get(LOCAL_ID)!;
+  const story = store.get(input.storyID)!;
+  const commentsTab = store.get(LOCAL_ID)!.getValue("commentsTab")!;
 
-  if (input.commentsOrderBy === "CREATED_AT_ASC") {
-    const con = getConnection(streamProxy, connectionKey, {
-      orderBy: "CREATED_AT_ASC",
-      tag: input.tag,
+  if (!input.rating && commentsTab === "REVIEWS") {
+    // Frontend automatically switches to Questions tab.
+    // Nothing to be done here.
+    return;
+  }
+
+  let connectionKey = "Stream_comments";
+  if (commentsTab === "UNANSWERED_COMMENTS") {
+    connectionKey = "UnansweredStream_comments";
+  }
+
+  let tag: GQLTAG | undefined;
+  let rating: number | undefined;
+  switch (commentsTab) {
+    case "UNANSWERED_COMMENTS":
+      tag = GQLTAG.UNANSWERED;
+      break;
+    case "REVIEWS":
+      tag = GQLTAG.REVIEW;
+      rating = local.getValue("ratingFilter") as number;
+      break;
+    case "QUESTIONS":
+      tag = GQLTAG.QUESTION;
+      rating = local.getValue("ratingFilter") as number;
+      break;
+    default:
+  }
+
+  if (input.commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+    const con = ConnectionHandler.getConnection(story, connectionKey, {
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
+      tag,
+      rating,
     });
     if (con) {
       ConnectionHandler.insertEdgeAfter(con, commentEdge);
     }
   } else {
-    const con = getConnection(streamProxy, connectionKey, {
-      orderBy: "CREATED_AT_DESC",
-      tag: input.tag,
+    const con = ConnectionHandler.getConnection(story, connectionKey, {
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      tag,
+      rating,
     });
     if (con) {
       ConnectionHandler.insertEdgeBefore(con, commentEdge);
-    }
-  }
-}
-
-function tagUnansweredQuestions(
-  environment: Environment,
-  store: RecordSourceSelectorProxy,
-  input: CreateCommentInput,
-  commentEdge: RecordProxy,
-  uuidGenerator: CoralContext["uuidGenerator"]
-) {
-  const node = commentEdge.getLinkedRecord("node");
-  if (!node) {
-    return;
-  }
-  const story = store.get(input.storyID);
-  if (!story) {
-    return;
-  }
-  const storySettings = story.getLinkedRecord("settings");
-  const mode = storySettings?.getValue("mode");
-  if (mode !== GQLSTORY_MODE.QA) {
-    return;
-  }
-  const viewer = getViewer(environment)!;
-  const experts = storySettings?.getLinkedRecords("experts");
-
-  // if there are no experts or the author is not an expert, the question is unanswered
-  if (!experts || experts.every((exp) => exp.getValue("id") !== viewer.id)) {
-    const tags = node.getLinkedRecords("tags");
-    if (tags) {
-      const featuredTag = store.create(uuidGenerator(), "Tag");
-      featuredTag.setValue(GQLTAG.UNANSWERED, "code");
-      node.setLinkedRecords(tags.concat(featuredTag), "tags");
-    }
-    const commentCountsRecord = story.getLinkedRecord("commentCounts");
-    if (!commentCountsRecord) {
-      return;
-    }
-    const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
-    if (tagsRecord) {
-      tagsRecord.setValue(
-        (tagsRecord.getValue("UNANSWERED") as number) + 1,
-        "UNANSWERED"
-      );
     }
   }
 }
@@ -193,6 +164,9 @@ graphql`
       mode
       live {
         enabled
+      }
+      experts {
+        id
       }
     }
     ratings {
@@ -265,20 +239,21 @@ export const CreateCommentMutation = createMutation(
       storyID: input.storyID,
     });
 
-    let tag: GQLTAG | undefined;
+    // Determine tags.
+    const tags = new Array<{ code: GQLTAG }>();
     if (input.rating) {
       if (input.body.length > 0 || input.media) {
-        tag = GQLTAG.REVIEW;
+        tags.push({ code: GQLTAG.REVIEW });
       }
     } else if (storySettings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
-      tag = GQLTAG.QUESTION;
+      tags.push({ code: GQLTAG.QUESTION });
+    } else if (storySettings.mode === GQLSTORY_MODE.QA) {
+      const experts = storySettings.experts;
+      // if there are no experts or the author is not an expert, the question is unanswered
+      if (!experts || experts.every((exp) => exp.id !== viewer.id)) {
+        tags.push({ code: GQLTAG.UNANSWERED });
+      }
     }
-
-    const tags = new Array<{ code: GQLTAG }>();
-    if (tag) {
-      tags.push({ code: tag });
-    }
-
     switch (viewer.role) {
       case GQLUSER_ROLE.ADMIN:
         tags.push({ code: GQLTAG.ADMIN });
@@ -292,13 +267,6 @@ export const CreateCommentMutation = createMutation(
       default:
         break;
     }
-
-    const ratings = story.ratings
-      ? {
-          count: story.ratings.count,
-          average: story.ratings.average,
-        }
-      : null;
 
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
@@ -326,7 +294,7 @@ export const CreateCommentMutation = createMutation(
                   createdAt: currentDate,
                   status: "NONE",
                   pending: false,
-                  lastViewerAction: null,
+                  lastViewerAction: "CREATE",
                   author: {
                     id: viewer.id,
                     username: viewer.username || null,
@@ -374,6 +342,9 @@ export const CreateCommentMutation = createMutation(
                       live: {
                         enabled: storySettings.live.enabled,
                       },
+                      experts: storySettings.experts.map((e) =>
+                        pick(e, ["id"])
+                      ),
                     },
                     viewerRating: tags.some(
                       ({ code }) => code === GQLTAG.REVIEW
@@ -392,7 +363,12 @@ export const CreateCommentMutation = createMutation(
                           rating: story.viewerRating.rating,
                         }
                       : null,
-                    ratings,
+                    ratings: story.ratings
+                      ? {
+                          count: story.ratings.count,
+                          average: story.ratings.average,
+                        }
+                      : null,
                   },
                   deleted: false,
                 },
@@ -406,11 +382,11 @@ export const CreateCommentMutation = createMutation(
             if (expectPremoderation) {
               return;
             }
-            sharedUpdater(environment, store, { ...input, tag }, uuidGenerator);
+            sharedUpdater(environment, store, input, uuidGenerator);
             store.get(id)!.setValue(true, "pending");
           },
           updater: (store) => {
-            sharedUpdater(environment, store, { ...input, tag }, uuidGenerator);
+            sharedUpdater(environment, store, input, uuidGenerator);
           },
         }
       );

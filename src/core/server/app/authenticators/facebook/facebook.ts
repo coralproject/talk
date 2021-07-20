@@ -34,7 +34,7 @@ const FacebookUserProfileSchema = Joi.object().keys({
       }),
     })
     .optional(),
-  email: Joi.string().email().optional(),
+  email: Joi.string().email().lowercase().optional(),
 });
 
 interface FacebookUserProfile {

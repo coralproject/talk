@@ -22,22 +22,6 @@ general-tabBar-myProfileTab = Mój profil
 general-tabBar-discussionsTab = Dyskusje
 general-tabBar-configure = Konfiguracja
 
-general-tabBar-aria-comments =
-  .aria-label = Komentarze
-  .title = Komentarze
-general-tabBar-aria-qa =
-  .aria-label = Q&A
-  .title = Q&A
-general-tabBar-aria-myProfile =
-  .aria-label = Mój profil
-  .title = Mój profil
-general-tabBar-aria-configure =
-  .aria-label = Konfiguruj
-  .title = Mój profil
-general-tabBar-aria-discussions =
-  .aria-label = Dyskusje
-  .title = Dyskusje
-
 ## Comment Count
 
 comment-count-text =
@@ -238,8 +222,8 @@ comments-moderationDropdown-moderateStory = Moderuj komentarze
 comments-moderationDropdown-caretButton =
   .aria-label = Moderuj
 
-comments-rejectedTombstone-title = Odrzuciłaś/eś ten komentarz.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Odrzuciłaś/eś ten komentarz.
+comments-moderationRejectedTombstone-moderateLink =
   Przejdź do moderacji, by przyjrzeć się tej decyzji.
 
 comments-featuredTag = Wyróżniony

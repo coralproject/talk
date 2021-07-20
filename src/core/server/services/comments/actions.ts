@@ -103,7 +103,7 @@ async function addCommentAction(
   }
 
   // Grab some useful properties.
-  const { storyID, siteID } = oldComment;
+  const { storyID, siteID, section } = oldComment;
 
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
@@ -124,6 +124,7 @@ async function addCommentAction(
     storyID,
     siteID,
     userID: author.id,
+    section,
   };
 
   // Update the actions for the comment.

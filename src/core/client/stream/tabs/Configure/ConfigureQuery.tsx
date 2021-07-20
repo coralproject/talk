@@ -11,6 +11,7 @@ import {
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import { Delay, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/ConfigureQuery.graphql";
 import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
@@ -40,7 +41,7 @@ export const render = (
   window: Window
 ) => {
   if (error) {
-    return <div>{error.message}</div>;
+    return <QueryError error={error} />;
   }
 
   preloadAndPolyfill(window);

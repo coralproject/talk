@@ -32,6 +32,7 @@ interface ScrapeOptions {
   size: number;
   customUserAgent?: string;
   proxyURL?: string;
+  authorization?: string;
 }
 
 class Scraper {
@@ -93,6 +94,7 @@ class Scraper {
     timeout,
     customUserAgent,
     proxyURL,
+    authorization,
   }: ScrapeOptions) {
     const log = this.log.child({ storyURL: url }, true);
 
@@ -101,6 +103,13 @@ class Scraper {
       options.headers = {
         ...options.headers,
         "User-Agent": customUserAgent,
+      };
+    }
+
+    if (authorization) {
+      options.headers = {
+        ...options.headers,
+        Authorization: authorization,
       };
     }
 
@@ -192,14 +201,26 @@ export async function scrape(
   const timeout = config.get("scrape_timeout");
   const size = config.get("scrape_max_response_size");
 
-  // Get the metadata from the scraped html.
-  const metadata = await scraper.scrape({
+  const options: ScrapeOptions = {
     url: storyURL,
     timeout,
     size,
     customUserAgent: tenant.stories.scraping.customUserAgent,
     proxyURL: tenant.stories.scraping.proxyURL,
-  });
+  };
+
+  const { authentication, username, password } = tenant.stories.scraping;
+  if (authentication && username && password) {
+    const credentials = Buffer.from(
+      `${username}:${password}`,
+      "utf-8"
+    ).toString("base64");
+
+    options.authorization = `Basic ${credentials}`;
+  }
+
+  // Get the metadata from the scraped html.
+  const metadata = await scraper.scrape(options);
   if (!metadata) {
     throw new Error("story at specified url not found");
   }

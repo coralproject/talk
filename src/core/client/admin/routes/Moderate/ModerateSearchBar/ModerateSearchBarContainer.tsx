@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-framework/helpers";
+import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
@@ -43,6 +43,7 @@ interface Props {
   siteSelector: React.ReactNode;
   sectionSelector?: React.ReactNode;
   siteID: string | null;
+  queueName: QUEUE_NAME | undefined;
 }
 
 type SearchBarOptions = PropTypesOf<typeof Bar>["options"];
@@ -107,12 +108,13 @@ function getStoryDetails(
 
 function getContextOptionsWhenModeratingAll(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
-  siteID: string | null
+  siteID: string | null,
+  queue: QUEUE_NAME | undefined
 ): SearchBarOptions {
   return [
     {
       element: (
-        <Option href={getModerationLink({ siteID })}>
+        <Option href={getModerationLink({ queue, siteID })}>
           <GoToAriaInfo />
           <Localized id="moderate-searchBar-allStories">
             <span>All stories</span>
@@ -129,7 +131,8 @@ function getContextOptionsWhenModeratingStory(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
   settings: SettingsData | null,
   story: ModerationQueuesData | null,
-  siteID: string | null
+  siteID: string | null,
+  queue: QUEUE_NAME | undefined
 ): SearchBarOptions {
   if (story === null || settings === null) {
     return [];
@@ -138,7 +141,7 @@ function getContextOptionsWhenModeratingStory(
     {
       element: (
         <Option
-          href={getModerationLink({ storyID: story.id })}
+          href={getModerationLink({ queue, storyID: story.id })}
           details={getStoryDetails(settings, story)}
         >
           <GoToAriaInfo /> {story.metadata && story.metadata.title}
@@ -151,6 +154,7 @@ function getContextOptionsWhenModeratingStory(
       element: (
         <ModerateAllOption
           href={getModerationLink({
+            queue,
             siteID: siteID || (story && story.site.id),
           })}
         />
@@ -177,7 +181,8 @@ interface SearchParams {
 function useSearchOptions(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
   story: ModerationQueuesData | null,
-  siteID: string | null
+  siteID: string | null,
+  queue: QUEUE_NAME | undefined
 ): [SearchBarOptions, OnSearchCallback] {
   const searchStory = useFetch(SearchStoryFetch);
 
@@ -229,6 +234,7 @@ function useSearchOptions(
             element: (
               <Option
                 href={getModerationLink({
+                  queue,
                   storyID: e.node.id,
                   siteID: e.node.site.id,
                 })}
@@ -270,7 +276,7 @@ function useSearchOptions(
       }
       setSearchOptions(nextSearchOptions);
     },
-    [story, searchStory, setSearchOptions, siteID]
+    [siteID, searchStory, story, queue, onClickOrEnter]
   );
 
   return [searchOptions, onSearch];
@@ -279,18 +285,24 @@ function useSearchOptions(
 const ModerateSearchBarContainer: React.FunctionComponent<Props> = (props) => {
   const linkNavHandler = useLinkNavHandler(props.router);
   const contextOptions: PropTypesOf<typeof Bar>["options"] = props.allStories
-    ? getContextOptionsWhenModeratingAll(linkNavHandler, props.siteID)
+    ? getContextOptionsWhenModeratingAll(
+        linkNavHandler,
+        props.siteID,
+        props.queueName
+      )
     : getContextOptionsWhenModeratingStory(
         linkNavHandler,
         props.settings,
         props.story,
-        props.siteID
+        props.siteID,
+        props.queueName
       );
 
   const [searchOptions, onSearch] = useSearchOptions(
     linkNavHandler,
     props.story,
-    props.siteID
+    props.siteID,
+    props.queueName
   );
 
   const options = [...contextOptions, ...searchOptions];

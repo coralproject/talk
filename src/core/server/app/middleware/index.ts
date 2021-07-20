@@ -10,8 +10,6 @@ export * from "./loggedIn";
 export * from "./logging";
 export * from "./metrics";
 export * from "./notFound";
-export * from "./playground";
 export * from "./role";
-export * from "./serveStatic";
 export * from "./tenant";
 export * from "./userLimiter";

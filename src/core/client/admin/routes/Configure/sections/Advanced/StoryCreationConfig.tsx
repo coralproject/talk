@@ -3,20 +3,33 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { parseEmptyAsNull } from "coral-framework/lib/form";
+import { DeepNullable } from "coral-common/types";
+import {
+  colorFromMeta,
+  parseEmptyAsNull,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { validateURL } from "coral-framework/lib/validation";
+import {
+  composeValidatorsWhen,
+  Condition,
+  required,
+  validateURL,
+} from "coral-framework/lib/validation";
+import { GQLSettings } from "coral-framework/schema";
 import {
   FormField,
   FormFieldDescription,
   FormFieldHeader,
   Label,
+  PasswordField,
 } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
+import Subheader from "../../Subheader";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 // eslint-disable-next-line no-unused-expressions
@@ -27,6 +40,9 @@ graphql`
         enabled
         proxyURL
         customUserAgent
+        authentication
+        username
+        password
       }
       disableLazy
     }
@@ -36,6 +52,18 @@ graphql`
 interface Props {
   disabled: boolean;
 }
+
+export type FormProps = DeepNullable<Pick<GQLSettings, "stories">>;
+
+const isEnabled: Condition<any, FormProps> = (value, values) =>
+  Boolean(
+    values.stories && values.stories.scraping && values.stories.scraping.enabled
+  );
+
+const isAuthenticating: Condition<any, FormProps> = (value, values) =>
+  Boolean(
+    values.stories.scraping.enabled && values.stories.scraping.authentication
+  );
 
 const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
@@ -151,6 +179,72 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
         )}
       </Field>
     </FormField>
+    <FormField>
+      <Localized id="configure-advanced-stories-authentication">
+        <Label>Authentication</Label>
+      </Localized>
+      <OnOffField
+        name="stories.scraping.authentication"
+        disabled={disabled}
+        validate={composeValidatorsWhen(isEnabled, required)}
+      />
+    </FormField>
+    <Field
+      name="stories.scraping.authentication"
+      subscription={{ value: true }}
+    >
+      {({ input: { value: enabled } }) => (
+        <>
+          <Localized id="configure-advanced-stories-scrapingCredentialsHeader">
+            <Subheader>Scraping credentials</Subheader>
+          </Localized>
+          <FormField>
+            <Localized id="configure-advanced-stories-scraping-usernameLabel">
+              <Label>Username</Label>
+            </Localized>
+            <Field
+              name="stories.scraping.username"
+              parse={parseEmptyAsNull}
+              validate={composeValidatorsWhen(isAuthenticating, required)}
+            >
+              {({ input, meta }) => (
+                <TextFieldWithValidation
+                  {...input}
+                  id={input.name}
+                  disabled={disabled || !enabled}
+                  fullWidth
+                  meta={meta}
+                />
+              )}
+            </Field>
+          </FormField>
+          <FormField>
+            <Localized id="configure-advanced-stories-scraping-passwordLabel">
+              <Label>Password</Label>
+            </Localized>
+            <Field
+              name="stories.scraping.password"
+              parse={parseEmptyAsNull}
+              validate={composeValidatorsWhen(isAuthenticating, required)}
+            >
+              {({ input, meta }) => (
+                <>
+                  <PasswordField
+                    {...input}
+                    id={input.name}
+                    disabled={disabled || !enabled}
+                    autoComplete="new-password"
+                    fullWidth
+                    color={colorFromMeta(meta)}
+                  />
+                  <ValidationMessage fullWidth meta={meta} />
+                </>
+              )}
+            </Field>
+          </FormField>
+        </>
+      )}
+    </Field>
   </ConfigBox>
 );
 

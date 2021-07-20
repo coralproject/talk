@@ -127,7 +127,7 @@ comments-conversationThread-showMoreOfThisConversation =
 comments-permalinkView-currentViewing = Acum vizualizezi
 comments-permalinkView-singleConversation = Conversație singulară
 comments-inReplyTo = Răspuns la <Username></Username>;
-comments-replyTo = Răspunde la: <Username></Username>;
+comments-replyingTo = Răspunde la: <Username></Username>;
 
 comments-reportButton-report = Raportează
 comments-reportButton-reported = Raportat

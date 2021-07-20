@@ -10,6 +10,7 @@ import { v1 as uuid } from "uuid";
 
 import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n";
+import getOrigin from "coral-common/utils/getOrigin";
 import {
   injectConditionalPolyfills,
   onPymMessage,
@@ -24,8 +25,8 @@ import {
 import { RestClient } from "coral-framework/lib/rest";
 import {
   createLocalStorage,
+  createPostMessageStorage,
   createPromisifiedStorage,
-  createPymStorage,
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
@@ -51,6 +52,7 @@ import {
 import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
 import { PostMessageService } from "../postMessage";
 import { LOCAL_ID } from "../relay";
+import createIndexedDBStorage from "../storage/IndexedDBStorage";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
 import SendPymReady from "./SendPymReady";
 
@@ -91,11 +93,6 @@ interface CreateContextArguments {
   /** tokenRefreshProvider is used to obtain a new access token after expiry. */
   tokenRefreshProvider?: TokenRefreshProvider;
 }
-
-/** websocketURL points to our live graphql server */
-const websocketURL = `${location.protocol === "https:" ? "wss" : "ws"}://${
-  location.host
-}/api/graphql/live`;
 
 /**
  * timeagoFormatter integrates timeago into our translation
@@ -194,8 +191,10 @@ function createManagedCoralContextProvider(
       nextAccessToken?: string,
       options: { ephemeral?: boolean } = {}
     ) => {
-      // Clear session storage.
-      void this.state.context.sessionStorage.clear();
+      // Clear session storage on logouts otherwise keep it!
+      if (!nextAccessToken) {
+        void this.state.context.sessionStorage.clear();
+      }
 
       // Pause subscriptions.
       subscriptionClient.pause();
@@ -286,10 +285,12 @@ function createManagedCoralContextProvider(
 /**
  * resolveLocalStorage decides which local storage to use in the context
  */
-function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
-  if (pym && areWeInIframe(window)) {
-    // Use local storage over pym when we have pym and are in an iframe.
-    return createPymStorage(pym, "localStorage");
+function resolveLocalStorage(
+  postMessage?: PostMessageService
+): PromisifiedStorage {
+  if (postMessage && areWeInIframe(window)) {
+    // Use local storage over postMessage when we are in an iframe.
+    return createPostMessageStorage(postMessage, "localStorage");
   }
   // Use promisified, prefixed local storage.
   return createPromisifiedStorage(createLocalStorage(window));
@@ -298,13 +299,40 @@ function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
 /**
  * resolveSessionStorage decides which session storage to use in the context
  */
-function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
-  if (pym && areWeInIframe(window)) {
-    // Use session storage over pym when we have pym and are in an iframe.
-    return createPymStorage(pym, "sessionStorage");
+function resolveSessionStorage(
+  postMessage?: PostMessageService
+): PromisifiedStorage {
+  if (postMessage && areWeInIframe(window)) {
+    // Use session storage over postMessage when we are in an iframe.
+    return createPostMessageStorage(postMessage, "sessionStorage");
   }
   // Use promisified, prefixed session storage.
   return createPromisifiedStorage(createSessionStorage(window));
+}
+/**
+ * resolveIndexedDBStorage decides which indexeddb storage to use in the context
+ */
+function resolveIndexedDBStorage(
+  postMessage?: PostMessageService
+): PromisifiedStorage<any> {
+  if (postMessage && areWeInIframe(window)) {
+    // Use indexeddb storage over postMessage when we are in an iframe.
+    return createPostMessageStorage(postMessage, "indexedDB");
+  }
+  // Use promisified, prefixed session storage.
+  return createIndexedDBStorage("keyvalue", window.indexedDB);
+}
+
+function resolveGraphQLSubscriptionURI(
+  staticConfig: StaticConfig | null
+): string {
+  if (staticConfig && staticConfig.graphQLSubscriptionURI) {
+    return staticConfig.graphQLSubscriptionURI;
+  }
+
+  return `${location.protocol === "https:" ? "wss" : "ws"}://${
+    location.host
+  }/api/graphql/live`;
 }
 
 /**
@@ -343,6 +371,13 @@ export default async function createManaged({
     };
   }
 
+  const postMessage = new PostMessageService(
+    window,
+    "coral",
+    window.parent,
+    pym ? getOrigin(pym.parentUrl) : "*"
+  );
+
   // Initialize i18n.
   const locales = [localesData.fallbackLocale];
   if (
@@ -367,7 +402,7 @@ export default async function createManaged({
   const localeBundles = await generateBundles(locales, localesData);
   await polyfillIntlLocale(locales, browserInfo);
 
-  const localStorage = resolveLocalStorage(pym);
+  const localStorage = resolveLocalStorage(postMessage);
 
   // Get the access token from storage.
   const auth = await retrieveAccessToken(localStorage);
@@ -375,8 +410,13 @@ export default async function createManaged({
   /** clientID is sent to the server with every request */
   const clientID = uuid();
 
+  const staticConfig = getStaticConfig(window);
+
+  // websocketEndpoint points to our graphql server's live endpoint.
+  const graphQLSubscriptionURI = resolveGraphQLSubscriptionURI(staticConfig);
+
   const subscriptionClient = createManagedSubscriptionClient(
-    websocketURL,
+    graphQLSubscriptionURI,
     clientID,
     bundle,
     bundleConfig
@@ -399,9 +439,10 @@ export default async function createManaged({
     eventEmitter,
     registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
-    postMessage: new PostMessageService(window),
+    postMessage,
     localStorage,
-    sessionStorage: resolveSessionStorage(pym),
+    sessionStorage: resolveSessionStorage(postMessage),
+    indexedDBStorage: resolveIndexedDBStorage(postMessage),
     browserInfo,
     uuidGenerator: uuid,
     // Noop, this is later replaced by the
@@ -420,7 +461,7 @@ export default async function createManaged({
     environment: context.relayEnvironment,
     context,
     auth,
-    staticConfig: getStaticConfig(window),
+    staticConfig,
   });
 
   // Set new token for the websocket connection.

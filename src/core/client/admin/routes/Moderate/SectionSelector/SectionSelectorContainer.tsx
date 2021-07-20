@@ -13,7 +13,7 @@ import SectionSelector from "./SectionSelector";
 interface Props {
   query: SectionSelectorContainer_query | null;
   section?: SectionFilter | null;
-  queueName: string;
+  queueName: QUEUE_NAME | undefined;
 }
 
 const SectionSelectorContainer: FunctionComponent<Props> = ({
@@ -34,7 +34,7 @@ const SectionSelectorContainer: FunctionComponent<Props> = ({
     <SectionSelector
       sections={query.sections}
       section={section}
-      queueName={queueName as QUEUE_NAME}
+      queueName={queueName}
     />
   );
 };

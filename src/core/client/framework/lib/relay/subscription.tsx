@@ -65,6 +65,7 @@ export function useSubscription<V>(
   subscription: Subscription<any, V>
 ): SubscriptionProp<typeof subscription> {
   const context = useCoralContext();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback<SubscriptionProp<typeof subscription>>(
     ((variables: V) => {
       // TODO: (cvle) These events are deprecated.
@@ -75,7 +76,7 @@ export function useSubscription<V>(
         context
       );
     }) as any,
-    [context]
+    [context, subscription]
   );
 }
 

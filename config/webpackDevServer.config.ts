@@ -87,6 +87,10 @@ export default function ({
       "/api": {
         target: `http://localhost:${serverPort}`,
       },
+      // Proxy to the GraphiQL route on the server.
+      "/graphiql": {
+        target: `http://localhost:${serverPort}`,
+      },
     },
     before(app, server) {
       // This lets us fetch source contents from webpack for the error overlay

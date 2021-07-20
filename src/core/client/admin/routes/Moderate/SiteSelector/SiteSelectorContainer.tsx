@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { QUEUE_NAME } from "coral-framework/helpers";
 import {
   useLoadMore,
   withPaginationContainer,
@@ -19,7 +20,7 @@ interface Props {
   viewer: SiteSelectorContainer_viewer | null;
   settings: SiteSelectorContainer_settings | null;
   relay: RelayPaginationProp;
-  queueName: string;
+  queueName: QUEUE_NAME | undefined;
   siteID: string | null;
 }
 

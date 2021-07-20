@@ -34,7 +34,7 @@ export interface CheckBoxProps {
   onChange?: EventHandler<ChangeEvent<HTMLInputElement>>;
 
   disabled?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /**
    * Display a light text.
    */

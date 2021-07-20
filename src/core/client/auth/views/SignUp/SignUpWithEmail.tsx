@@ -31,7 +31,7 @@ const SignUp: FunctionComponent<Props> = (props) => {
         <form autoComplete="off" onSubmit={handleSubmit}>
           {submitError && <CallOut color="error" title={submitError} />}
           <div className={styles.field}>
-            <EmailField disabled={submitting} />
+            <EmailField disabled={submitting} autofocus />
           </div>
           <div className={styles.field}>
             <UsernameField disabled={submitting} />

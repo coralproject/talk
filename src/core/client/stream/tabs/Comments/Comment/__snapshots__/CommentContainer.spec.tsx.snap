@@ -12,6 +12,7 @@ exports[`hide reply button 1`] = `
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -353,6 +354,7 @@ exports[`renders body only 1`] = `
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -702,6 +704,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1051,6 +1054,7 @@ exports[`renders disabled reply when story is closed 1`] = `
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1400,6 +1404,7 @@ exports[`renders in reply to 1`] = `
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1774,6 +1779,7 @@ exports[`renders username and body 1`] = `
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -2118,7 +2124,346 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
   data-testid="comment-comment-id"
   id="comment-comment-id"
 >
-  <ForwardRef(forwardRef) />
+  <ForwardRef(forwardRef)>
+    <IndentedComment
+      badges={null}
+      blur={false}
+      body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      createdAt="1995-12-17T03:24:00.000Z"
+      footer={
+        <React.Fragment>
+          <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
+            justifyContent="space-between"
+          >
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
+              <Relay(ReactionButtonContainer)
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
+                comment={
+                  Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
+                    "author": Object {
+                      "avatar": null,
+                      "badges": Array [],
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": true,
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "lastViewerAction": null,
+                    "parent": null,
+                    "pending": false,
+                    "rating": null,
+                    "status": "NONE",
+                    "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
+                  }
+                }
+                isQA={false}
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
+                readOnly={false}
+                settings={
+                  Object {
+                    "disableCommenting": Object {
+                      "enabled": false,
+                    },
+                    "featureFlags": Array [],
+                  }
+                }
+                viewer={null}
+              />
+              <ReplyButton
+                active={false}
+                author="Marvin"
+                className="CommentContainer-actionButton coral coral-comment-replyButton"
+                disabled={false}
+                id="comments-commentContainer-replyButton-comment-id"
+                onClick={[Function]}
+              />
+              <Relay(PermalinkButtonContainer)
+                author="Marvin"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
+                commentID="comment-id"
+                story={
+                  Object {
+                    "canModerate": false,
+                    "id": "story-0",
+                    "isClosed": false,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
+                    "url": "http://localhost/story",
+                  }
+                }
+              />
+            </ButtonsBar>
+            <ButtonsBar>
+              <withContext(createMutationContainer(Relay(ReportButton)))
+                comment={
+                  Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
+                    "author": Object {
+                      "avatar": null,
+                      "badges": Array [],
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": true,
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "lastViewerAction": null,
+                    "parent": null,
+                    "pending": false,
+                    "rating": null,
+                    "status": "NONE",
+                    "tags": Array [],
+                    "viewerActionPresence": Object {
+                      "dontAgree": false,
+                      "flag": false,
+                    },
+                  }
+                }
+                onClick={[Function]}
+                open={false}
+                viewer={null}
+              />
+            </ButtonsBar>
+          </ForwardRef(forwardRef)>
+        </React.Fragment>
+      }
+      indentLevel={1}
+      media={
+        <Relay(MediaSectionContainer)
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "avatar": null,
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": true,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "rating": null,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
+            }
+          }
+        />
+      }
+      rating={null}
+      showEditedMarker={false}
+      staticTopBarRight={<React.Fragment />}
+      staticUsername={
+        <ForwardRef(forwardRef)
+          alignItems="center"
+          direction="row"
+          wrap={true}
+        >
+          <Relay(UsernameContainer)
+            className="CommentContainer-staticUsername coral coral-username coral-comment-username"
+            comment={
+              Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
+                "author": Object {
+                  "avatar": null,
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": true,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "rating": null,
+                "status": "NONE",
+                "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
+              }
+            }
+          />
+          <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
+            comment={
+              Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
+                "author": Object {
+                  "avatar": null,
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": true,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "rating": null,
+                "status": "NONE",
+                "tags": Array [],
+                "viewerActionPresence": Object {
+                  "dontAgree": false,
+                  "flag": false,
+                },
+              }
+            }
+            settings={
+              Object {
+                "disableCommenting": Object {
+                  "enabled": false,
+                },
+                "featureFlags": Array [],
+              }
+            }
+            story={
+              Object {
+                "canModerate": false,
+                "id": "story-0",
+                "isClosed": false,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
+              }
+            }
+          />
+        </ForwardRef(forwardRef)>
+      }
+      tags={false}
+      toggleCollapsed={[Function]}
+      topBarRight={
+        <React.Fragment>
+          <MatchMediaWithContext
+            gteWidth="mobile"
+          >
+            [Function]
+          </MatchMediaWithContext>
+        </React.Fragment>
+      }
+      username={
+        <Relay(UsernameWithPopoverContainer)
+          className="CommentContainer-usernameButton coral coral-username coral-comment-username"
+          comment={
+            Object {
+              "actionCounts": Object {
+                "reaction": Object {
+                  "total": 0,
+                },
+              },
+              "author": Object {
+                "avatar": null,
+                "badges": Array [],
+                "id": "author-id",
+                "username": "Marvin",
+              },
+              "body": "Woof",
+              "createdAt": "1995-12-17T03:24:00.000Z",
+              "deleted": true,
+              "editing": Object {
+                "editableUntil": "1995-12-17T03:24:30.000Z",
+                "edited": false,
+              },
+              "id": "comment-id",
+              "lastViewerAction": null,
+              "parent": null,
+              "pending": false,
+              "rating": null,
+              "status": "NONE",
+              "tags": Array [],
+              "viewerActionPresence": Object {
+                "dontAgree": false,
+                "flag": false,
+              },
+            }
+          }
+          settings={
+            Object {
+              "disableCommenting": Object {
+                "enabled": false,
+              },
+              "featureFlags": Array [],
+            }
+          }
+          viewer={null}
+        />
+      }
+    />
+  </ForwardRef(forwardRef)>
 </div>
 `;
 
@@ -2134,6 +2479,7 @@ exports[`shows conversation link 1`] = `
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>

@@ -2,6 +2,8 @@ import { RouterState, withRouter } from "found";
 import React, { FunctionComponent, useEffect, useMemo, useRef } from "react";
 import { graphql } from "react-relay";
 
+import { SetRedirectPathMutation } from "coral-admin/mutations";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { globalErrorReporter } from "coral-framework/lib/errors/reporter";
 import {
   useLocal,
@@ -30,6 +32,8 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   const completed = useRef<boolean>(false);
   const completeAccount = useMutation(CompleteAccountMutation);
   const setAuthView = useMutation(SetAuthViewMutation);
+  const setRedirectPath = useMutation(SetRedirectPathMutation);
+  const { window } = useCoralContext();
 
   const [
     {
@@ -95,11 +99,26 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
 
     async function finish() {
       try {
-        // Initiate full user session.
-        // This will also reset local client state
+        // Initiate full user session. This will also reset local client state
         // and `authView` will restore to `SIGN_IN`.
         await completeAccount({ accessToken: accessToken! });
-        router.replace(redirectPath || "/admin");
+        await setRedirectPath({ path: null });
+
+        // If the redirect path exists and does not start with /admin, then use
+        // the `window.location.href` navigation, otherwise use the router.
+        if (redirectPath && !redirectPath.startsWith("/admin")) {
+          window.location.href = redirectPath;
+        } else {
+          const pathname = redirectPath || "/admin";
+          // TODO: (cvle) for some reason having a GET Parameter at the end will lead to 404.
+          // This seems to be an issue in found. Needs more investigation.
+          if (pathname.includes("?")) {
+            // Workaround for now.
+            location.href = pathname;
+          } else {
+            router.replace({ pathname });
+          }
+        }
       } catch (err) {
         globalErrorReporter.report(err);
       }
@@ -121,7 +140,9 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
     localProfileEnabled,
     redirectPath,
     router,
+    setRedirectPath,
     viewer,
+    window,
   ]);
 
   // If the view is different than the current view, then set the view!

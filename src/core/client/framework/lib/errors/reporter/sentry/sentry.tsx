@@ -82,7 +82,16 @@ export class SentryErrorReporter implements ErrorReporter {
         return event;
       },
       integrations: [
-        ...Sentry.defaultIntegrations,
+        ...Sentry.defaultIntegrations.map((i) => {
+          if (
+            process.env.NODE_ENV !== "production" &&
+            i.name === "Breadcrumbs"
+          ) {
+            // Prevent overwriting global `console` during development and test.
+            return new Sentry.Integrations.Breadcrumbs({ console: false });
+          }
+          return i;
+        }),
         new RewriteFrames({
           iteratee: (frame) => {
             if (frame.filename) {

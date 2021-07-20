@@ -9,6 +9,7 @@ import {
 } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { Delay, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
 import { PermalinkViewQueryLocal as Local } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
@@ -22,7 +23,7 @@ interface Props {
 
 export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
-    return <div>{error.message}</div>;
+    return <QueryError error={error} />;
   }
   if (props) {
     if (!props.story) {

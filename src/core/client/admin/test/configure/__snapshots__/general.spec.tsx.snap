@@ -188,6 +188,11 @@ exports[`renders configure general 1`] = `
                       value="en-US"
                     >
                       <option
+                        value="af-ZA"
+                      >
+                        Afrikaans
+                      </option>
+                      <option
                         value="en-US"
                       >
                         English
@@ -251,6 +256,11 @@ exports[`renders configure general 1`] = `
                         value="ru"
                       >
                         Русский
+                      </option>
+                      <option
+                        value="nn-NO"
+                      >
+                        Norsk
                       </option>
                     </select>
                     <span

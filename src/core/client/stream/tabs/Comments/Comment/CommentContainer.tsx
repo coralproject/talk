@@ -45,6 +45,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
+import { useCommentSeen, useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
@@ -55,7 +56,7 @@ import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
-  RejectedTombstoneContainer,
+  ModerationRejectedTombstoneContainer,
 } from "./ModerationDropdown";
 import PermalinkButtonContainer from "./PermalinkButton";
 import ReactionButtonContainer from "./ReactionButton";
@@ -118,6 +119,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showAuthPopup,
   showRemoveAnswered,
 }) => {
+  const commentSeenEnabled = useCommentSeenEnabled();
+  const seen = useCommentSeen(comment.id);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -216,6 +219,15 @@ export const CommentContainer: FunctionComponent<Props> = ({
     if (
       !comment.editing.editableUntil ||
       !isBeforeDate(comment.editing.editableUntil)
+    ) {
+      return false;
+    }
+
+    // Don't allow editing of rating comments
+    if (
+      !comment.body &&
+      comment.rating &&
+      !comment.tags.find((t) => t.code === GQLTAG.REVIEW)
     ) {
       return false;
     }
@@ -330,7 +342,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
-    return <RejectedTombstoneContainer comment={comment} />;
+    return <ModerationRejectedTombstoneContainer comment={comment} />;
   }
 
   // Comment is not published after edit, so don't render it anymore.
@@ -338,13 +350,20 @@ export const CommentContainer: FunctionComponent<Props> = ({
     return null;
   }
 
+  // Boolean that indicates whether or not we want to
+  // apply the "comment not seen class" for styling purposes.
+  const shouldApplyNotSeenClass =
+    !seen &&
+    !highlight &&
+    comment.lastViewerAction !== "CREATE" &&
+    comment.lastViewerAction !== "EDIT";
+
   return (
     <div
       className={cn(
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-        badgesClassName,
-        className
+        badgesClassName
       )}
       id={commentElementID(comment.id)}
       data-testid={commentElementID(comment.id)}
@@ -352,225 +371,228 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-key-stop
     >
       <HorizontalGutter>
-        {!comment.deleted && (
-          <IndentedComment
-            indentLevel={indentLevel}
-            collapsed={collapsed}
-            body={comment.body}
-            rating={isRatingsAndReviews ? comment.rating : null}
-            createdAt={comment.createdAt}
-            blur={!!comment.pending}
-            showEditedMarker={comment.editing.edited}
-            highlight={highlight}
-            toggleCollapsed={toggleCollapsed}
-            parentAuthorName={comment.parent?.author?.username}
-            staticUsername={
-              comment.author && (
-                <Flex direction="row" alignItems="center" wrap>
-                  <UsernameContainer
-                    className={cn(
-                      styles.staticUsername,
-                      CLASSES.comment.topBar.username
-                    )}
-                    comment={comment}
-                  />
-                  <UserTagsContainer
-                    className={CLASSES.comment.topBar.userTag}
-                    story={story}
-                    comment={comment}
-                    settings={settings}
-                  />
-                  {badges && (
-                    <AuthorBadges
-                      className={CLASSES.comment.topBar.userBadge}
-                      badges={badges}
-                    />
-                  )}
-                </Flex>
-              )
-            }
-            username={
-              comment.author && (
-                <UsernameWithPopoverContainer
+        <IndentedComment
+          classNameIndented={cn({
+            [styles.commentSeenEnabled]: commentSeenEnabled,
+            [styles.notSeen]: shouldApplyNotSeenClass,
+            [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
+          })}
+          indentLevel={indentLevel}
+          collapsed={collapsed}
+          body={comment.body}
+          rating={isRatingsAndReviews ? comment.rating : null}
+          createdAt={comment.createdAt}
+          blur={!!comment.pending}
+          showEditedMarker={comment.editing.edited}
+          highlight={highlight}
+          toggleCollapsed={toggleCollapsed}
+          parentAuthorName={comment.parent?.author?.username}
+          staticUsername={
+            comment.author && (
+              <Flex direction="row" alignItems="center" wrap>
+                <UsernameContainer
                   className={cn(
-                    styles.usernameButton,
+                    styles.staticUsername,
                     CLASSES.comment.topBar.username
                   )}
                   comment={comment}
-                  viewer={viewer}
-                  settings={settings}
                 />
-              )
-            }
-            tags={
-              comment.author &&
-              hasTags && (
                 <UserTagsContainer
                   className={CLASSES.comment.topBar.userTag}
                   story={story}
                   comment={comment}
                   settings={settings}
                 />
-              )
-            }
-            badges={
-              comment.author &&
-              badges && (
-                <AuthorBadges
-                  className={CLASSES.comment.topBar.userBadge}
-                  badges={badges}
-                />
-              )
-            }
-            staticTopBarRight={commentTags}
-            topBarRight={
-              <>
-                <MatchMedia gteWidth="mobile">
-                  {(matches) => (
-                    <>
-                      <Flex
-                        alignItems="center"
-                        justifyContent="flex-end"
-                        itemGutter
-                      >
-                        {matches ? commentTags : null}
-                        {editable && (
-                          <Button
-                            color="stream"
-                            variant="text"
-                            onClick={openEditDialog}
-                            className={cn(
-                              CLASSES.comment.topBar.editButton,
-                              styles.editButton
-                            )}
-                            data-testid="comment-edit-button"
-                          >
-                            <Flex alignItems="center" justifyContent="center">
-                              <Icon className={styles.editIcon}>edit</Icon>
-                              <Localized id="comments-commentContainer-editButton">
-                                Edit
-                              </Localized>
-                            </Flex>
-                          </Button>
-                        )}
-                        {showAvatar && comment.author?.avatar && (
-                          <div className={styles.avatarContainer}>
-                            <Localized
-                              id="comments-commentContainer-avatar"
-                              attrs={{ alt: true }}
-                              $username={comment.author.username}
-                            >
-                              <img
-                                src={comment.author.avatar}
-                                className={styles.avatar}
-                                loading="lazy"
-                                referrerPolicy="no-referrer"
-                                alt={`Avatar for ${comment.author.username}`}
-                              />
-                            </Localized>
-                          </div>
-                        )}
-                        {showModerationCaret && (
-                          <CaretContainer
-                            comment={comment}
-                            story={story}
-                            viewer={viewer!}
-                            settings={settings}
-                          />
-                        )}
-                      </Flex>
-                      {!matches ? commentTags : null}
-                    </>
-                  )}
-                </MatchMedia>
-              </>
-            }
-            media={
-              <MediaSectionContainer
-                comment={comment}
-                settings={settings}
-                defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
-              />
-            }
-            footer={
-              <>
-                <Flex
-                  justifyContent="space-between"
-                  className={CLASSES.comment.actionBar.$root}
-                >
-                  <ButtonsBar className={styles.actionBar}>
-                    <ReactionButtonContainer
-                      comment={comment}
-                      settings={settings}
-                      viewer={viewer}
-                      readOnly={
-                        isViewerBanned || isViewerSuspended || isViewerWarned
-                      }
-                      className={cn(
-                        styles.actionButton,
-                        CLASSES.comment.actionBar.reactButton
-                      )}
-                      reactedClassName={cn(
-                        styles.actionButton,
-                        CLASSES.comment.actionBar.reactedButton
-                      )}
-                      isQA={story.settings.mode === GQLSTORY_MODE.QA}
-                    />
-                    {!disableReplies &&
-                      !isViewerBanned &&
-                      !isViewerSuspended &&
-                      !isViewerWarned &&
-                      !isViewerScheduledForDeletion && (
-                        <ReplyButton
-                          id={`comments-commentContainer-replyButton-${comment.id}`}
-                          author={comment.author?.username}
-                          onClick={toggleShowReplyDialog}
-                          active={showReplyDialog}
-                          disabled={
-                            settings.disableCommenting.enabled || story.isClosed
-                          }
-                          className={cn(
-                            styles.actionButton,
-                            CLASSES.comment.actionBar.replyButton
-                          )}
-                        />
-                      )}
-                    <PermalinkButtonContainer
-                      story={story}
-                      commentID={comment.id}
-                      author={comment.author?.username}
-                      className={cn(
-                        styles.actionButton,
-                        CLASSES.comment.actionBar.shareButton
-                      )}
-                    />
-                  </ButtonsBar>
-                  <ButtonsBar>
-                    {!isViewerBanned &&
-                      !isViewerSuspended &&
-                      !isViewerWarned &&
-                      !hideReportButton && (
-                        <ReportButton
-                          onClick={toggleShowReportFlow}
-                          open={showReportFlow}
-                          viewer={viewer}
-                          comment={comment}
-                        />
-                      )}
-                  </ButtonsBar>
-                </Flex>
-                {showConversationLink && (
-                  <ShowConversationLink
-                    className={CLASSES.comment.readMoreOfConversation}
-                    id={`comments-commentContainer-showConversation-${comment.id}`}
-                    onClick={handleShowConversation}
-                    href={getURLWithCommentID(story.url, comment.id)}
+                {badges && (
+                  <AuthorBadges
+                    className={CLASSES.comment.topBar.userBadge}
+                    badges={badges}
                   />
                 )}
-              </>
-            }
-          />
-        )}
+              </Flex>
+            )
+          }
+          username={
+            comment.author && (
+              <UsernameWithPopoverContainer
+                className={cn(
+                  styles.usernameButton,
+                  CLASSES.comment.topBar.username
+                )}
+                comment={comment}
+                viewer={viewer}
+                settings={settings}
+              />
+            )
+          }
+          tags={
+            comment.author &&
+            hasTags && (
+              <UserTagsContainer
+                className={CLASSES.comment.topBar.userTag}
+                story={story}
+                comment={comment}
+                settings={settings}
+              />
+            )
+          }
+          badges={
+            comment.author &&
+            badges && (
+              <AuthorBadges
+                className={CLASSES.comment.topBar.userBadge}
+                badges={badges}
+              />
+            )
+          }
+          staticTopBarRight={commentTags}
+          topBarRight={
+            <>
+              <MatchMedia gteWidth="mobile">
+                {(matches) => (
+                  <>
+                    <Flex
+                      alignItems="center"
+                      justifyContent="flex-end"
+                      itemGutter
+                    >
+                      {matches ? commentTags : null}
+                      {editable && (
+                        <Button
+                          color="stream"
+                          variant="text"
+                          onClick={openEditDialog}
+                          className={cn(
+                            CLASSES.comment.topBar.editButton,
+                            styles.editButton
+                          )}
+                          data-testid="comment-edit-button"
+                        >
+                          <Flex alignItems="center" justifyContent="center">
+                            <Icon className={styles.editIcon}>edit</Icon>
+                            <Localized id="comments-commentContainer-editButton">
+                              Edit
+                            </Localized>
+                          </Flex>
+                        </Button>
+                      )}
+                      {showAvatar && comment.author?.avatar && (
+                        <div className={styles.avatarContainer}>
+                          <Localized
+                            id="comments-commentContainer-avatar"
+                            attrs={{ alt: true }}
+                            $username={comment.author.username}
+                          >
+                            <img
+                              src={comment.author.avatar}
+                              className={styles.avatar}
+                              loading="lazy"
+                              referrerPolicy="no-referrer"
+                              alt={`Avatar for ${comment.author.username}`}
+                            />
+                          </Localized>
+                        </div>
+                      )}
+                      {showModerationCaret && (
+                        <CaretContainer
+                          comment={comment}
+                          story={story}
+                          viewer={viewer!}
+                          settings={settings}
+                        />
+                      )}
+                    </Flex>
+                    {!matches ? commentTags : null}
+                  </>
+                )}
+              </MatchMedia>
+            </>
+          }
+          media={
+            <MediaSectionContainer
+              comment={comment}
+              settings={settings}
+              defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
+            />
+          }
+          footer={
+            <>
+              <Flex
+                justifyContent="space-between"
+                className={CLASSES.comment.actionBar.$root}
+              >
+                <ButtonsBar className={styles.actionBar}>
+                  <ReactionButtonContainer
+                    comment={comment}
+                    settings={settings}
+                    viewer={viewer}
+                    readOnly={
+                      isViewerBanned || isViewerSuspended || isViewerWarned
+                    }
+                    className={cn(
+                      styles.actionButton,
+                      CLASSES.comment.actionBar.reactButton
+                    )}
+                    reactedClassName={cn(
+                      styles.actionButton,
+                      CLASSES.comment.actionBar.reactedButton
+                    )}
+                    isQA={story.settings.mode === GQLSTORY_MODE.QA}
+                  />
+                  {!disableReplies &&
+                    !isViewerBanned &&
+                    !isViewerSuspended &&
+                    !isViewerWarned &&
+                    !isViewerScheduledForDeletion && (
+                      <ReplyButton
+                        id={`comments-commentContainer-replyButton-${comment.id}`}
+                        author={comment.author?.username}
+                        onClick={toggleShowReplyDialog}
+                        active={showReplyDialog}
+                        disabled={
+                          settings.disableCommenting.enabled || story.isClosed
+                        }
+                        className={cn(
+                          styles.actionButton,
+                          CLASSES.comment.actionBar.replyButton
+                        )}
+                      />
+                    )}
+                  <PermalinkButtonContainer
+                    story={story}
+                    commentID={comment.id}
+                    author={comment.author?.username}
+                    className={cn(
+                      styles.actionButton,
+                      CLASSES.comment.actionBar.shareButton
+                    )}
+                  />
+                </ButtonsBar>
+                <ButtonsBar>
+                  {!isViewerBanned &&
+                    !isViewerSuspended &&
+                    !isViewerWarned &&
+                    !hideReportButton && (
+                      <ReportButton
+                        onClick={toggleShowReportFlow}
+                        open={showReportFlow}
+                        viewer={viewer}
+                        comment={comment}
+                      />
+                    )}
+                </ButtonsBar>
+              </Flex>
+              {showConversationLink && (
+                <ShowConversationLink
+                  className={CLASSES.comment.readMoreOfConversation}
+                  id={`comments-commentContainer-showConversation-${comment.id}`}
+                  onClick={handleShowConversation}
+                  href={getURLWithCommentID(story.url, comment.id)}
+                />
+              )}
+            </>
+          }
+        />
         {showReportFlow && (
           <ReportFlowContainer
             viewer={viewer}
@@ -683,7 +705,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           ...EditCommentFormContainer_comment
           ...MediaSectionContainer_comment
           ...ReactionButtonContainer_comment
-          ...RejectedTombstoneContainer_comment
+          ...ModerationRejectedTombstoneContainer_comment
           ...ReplyCommentFormContainer_comment
           ...ReportButton_comment
           ...ReportFlowContainer_comment

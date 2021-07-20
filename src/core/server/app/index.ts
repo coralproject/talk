@@ -2,6 +2,7 @@ import cons from "consolidate";
 import cors from "cors";
 import express, { Express } from "express";
 import enforceHTTPSMiddleware from "express-enforces-ssl";
+import serveStatic from "express-static-gzip";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import {
@@ -18,7 +19,7 @@ import path from "path";
 import { register } from "prom-client";
 
 import {
-  cacheHeadersMiddleware,
+  buildCacheControlHeader,
   noCacheMiddleware,
 } from "coral-server/app/middleware/cacheHeaders";
 import {
@@ -49,7 +50,6 @@ import { compileTrust } from "./helpers";
 import { basicAuth } from "./middleware/basicAuth";
 import { accessLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
-import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
 export interface AppOptions {
@@ -77,6 +77,25 @@ export interface AppOptions {
 }
 
 /**
+ * NON_FINGERPRINTED_FILES are the files that are not fingerprinted (because
+ * they are integrated into the CMS directly). These should be updated when
+ * other files are added.
+ */
+const NON_FINGERPRINTED_FILES = ["count.js", "embed.js"];
+
+/**
+ * isFingerprintedPath will return true if the path provided is a fingerprinted
+ * one.
+ *
+ * @param requestPath the path to test if it's a fingerprinted path
+ * @returns true if the path is a fingerprinted one, false if not.
+ */
+function isFingerprintedPath(requestPath: string) {
+  const basename = path.basename(requestPath);
+  return !NON_FINGERPRINTED_FILES.some((file) => basename.startsWith(file));
+}
+
+/**
  * createApp will create a Coral Express app that can be used to handle requests.
  */
 export async function createApp(options: AppOptions): Promise<Express> {
@@ -84,7 +103,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   configureApplication(options);
 
   // Pull the parent out of the options.
-  const { parent } = options;
+  const { parent, config } = options;
 
   // Logging
   parent.use(accessLogger);
@@ -119,8 +138,44 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Static Files
   parent.use(
     "/assets",
-    cacheHeadersMiddleware({ cacheDuration: "1w" }),
-    serveStatic
+    serveStatic(
+      path.resolve(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "dist",
+        "static",
+        "assets"
+      ),
+      {
+        index: false,
+        serveStatic: {
+          setHeaders: (res, requestPath) => {
+            let header: string | null;
+            if (isFingerprintedPath(requestPath)) {
+              // If this is a fingerprinted path, then we can cache it safely
+              // for a week.
+              header = buildCacheControlHeader({ cacheDuration: "1w" });
+            } else {
+              // If this is not a fingerprinted path, then we can only cache it
+              // for an hour, but for a week in the shared cache.
+              header = buildCacheControlHeader({
+                cacheDuration: config.get("non_fingerprinted_cache_max_age"),
+                sharedCacheDuration: "1w",
+              });
+            }
+
+            if (!header) {
+              return;
+            }
+
+            res.setHeader("Cache-Control", header);
+          },
+        },
+      }
+    )
   );
 
   // Error Handling

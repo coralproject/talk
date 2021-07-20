@@ -5,6 +5,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { TabBarQuery as QueryTypes } from "coral-stream/__generated__/TabBarQuery.graphql";
 import { TabBarQueryLocal as Local } from "coral-stream/__generated__/TabBarQueryLocal.graphql";
@@ -41,7 +42,7 @@ class TabBarQuery extends Component<Props> {
         }}
         render={({ error, props }) => {
           if (error) {
-            return <div>{error.message}</div>;
+            return <QueryError error={error} />;
           }
 
           const ErrorReporterSetUser = props ? (

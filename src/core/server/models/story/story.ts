@@ -325,7 +325,7 @@ export async function retrieveStory(mongo: Db, tenantID: string, id: string) {
 export async function retrieveManyStories(
   mongo: Db,
   tenantID: string,
-  ids: string[]
+  ids: ReadonlyArray<string>
 ) {
   const cursor = collection(mongo).find({
     id: { $in: ids },
@@ -340,7 +340,7 @@ export async function retrieveManyStories(
 export async function retrieveManyStoriesByURL(
   mongo: Db,
   tenantID: string,
-  urls: string[]
+  urls: ReadonlyArray<string>
 ) {
   const cursor = collection(mongo).find({
     url: { $in: urls },

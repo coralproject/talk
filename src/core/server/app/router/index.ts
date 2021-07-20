@@ -3,7 +3,6 @@ import express, { Router } from "express";
 import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
-import playgroundMiddleware from "coral-server/app/middleware/playground";
 import { RouterOptions } from "coral-server/app/router/types";
 import logger from "coral-server/logger";
 
@@ -31,6 +30,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       // When mounting client routes, we need to provide a staticURI even when
       // not provided to the default current domain relative "/".
       staticURI: app.config.get("static_uri") || "/",
+      graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
       featureFlags: [],
     };
 
@@ -78,11 +78,11 @@ function attachGraphiQL(router: Router, app: AppOptions) {
   }
 
   // GraphiQL
-  router.get(
-    "/graphiql",
-    playgroundMiddleware({
+  router.get("/graphiql", (req, res) => {
+    res.render("graphiql", {
+      version: "1.7.20",
       endpoint: "/api/graphql",
       subscriptionEndpoint: "/api/graphql/live",
-    })
-  );
+    });
+  });
 }

@@ -19,23 +19,8 @@ general-userBox-youHaveBeenSuccessfullySignedOut =
 general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
+general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
-
-general-tabBar-aria-comments =
-  .aria-label = Comments
-  .title = Comments
-general-tabBar-aria-qa =
-  .aria-label = Q&A
-  .title = Q&A
-general-tabBar-aria-myProfile =
-  .aria-label = My Profile
-  .title = My Profile
-general-tabBar-aria-configure =
-  .aria-label = Configure
-  .title = My Profile
-general-tabBar-aria-discussions =
-  .aria-label = Discussions
-  .title = Discussions
 
 ## Comment Count
 
@@ -69,7 +54,7 @@ comments-bannedInfo-bannedFromCommenting = Your account has been banned from com
 comments-bannedInfo-violatedCommunityGuidelines =
   Someone with access to your account has violated our community
   guidelines. As a result, your account has been banned. You will no
-  longer be able to comment, respect or report comments. If you think
+  longer be able to comment, use reactions or report comments. If you think
   this has been done in error, please contact our community team.
 
 comments-noCommentsAtAll = There are no comments on this story.
@@ -244,8 +229,8 @@ comments-moderationDropdown-moderateStory = Moderate story
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate
 
-comments-rejectedTombstone-title = You have rejected this comment.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = You have rejected this comment.
+comments-moderationRejectedTombstone-moderateLink =
   Go to moderate to review this decision
 
 comments-featuredTag = Featured
@@ -566,7 +551,7 @@ comments-reportPopover-reportThisComment = Report This Comment
 comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
 
 comments-reportPopover-reasonOffensive = This comment is offensive
-comments-reportPopover-reasonAbusive = This is abusive behaviour
+comments-reportPopover-reasonAbusive = This commenter is being abusive
 comments-reportPopover-reasonIDisagree = I disagree with this comment
 comments-reportPopover-reasonSpam = This looks like an ad or marketing
 comments-reportPopover-reasonOther = Other
@@ -760,6 +745,8 @@ comments-tombstone-ignore = This comment is hidden because you ignored {$usernam
 comments-tombstone-showComment = Show comment
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
+comments-tombstone-rejected =
+  This commenter has been removed by a moderator for violating our community guidelines.
 
 suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
@@ -768,7 +755,7 @@ suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   In accordance with { $organization }'s community guidelines your
   account has been temporarily suspended. While suspended you will not
-  be able to comment, respect or report comments.
+  be able to comment, use reactions or report comments.
 suspendInfo-until-pleaseRejoinThe =
   Please rejoin the conversation on { $until }
 
@@ -841,6 +828,10 @@ comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
 stream-footer-links-top-of-article = Top of article
+  .title = Go to top of article
 stream-footer-links-top-of-comments = Top of comments
+  .title = Go to top of comments
 stream-footer-links-profile = Profile & Replies
+  .title = Go to profile and replies
 stream-footer-links-discussions = More discussions
+  .title = Go to more discussions

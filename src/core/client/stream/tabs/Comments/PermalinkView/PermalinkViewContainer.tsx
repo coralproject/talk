@@ -21,6 +21,7 @@ import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
+import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
@@ -29,8 +30,8 @@ import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__
 import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
 import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
 
+import { CommentSeenProvider } from "../commentSeen";
 import { isPublished } from "../helpers";
-import CommentEnteredSubscription from "../Stream/AllCommentsTab/CommentEnteredSubscription";
 import ConversationThreadContainer from "./ConversationThreadContainer";
 
 import styles from "./PermalinkViewContainer.css";
@@ -90,72 +91,75 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const commentVisible = comment && isPublished(comment.status);
 
   return (
-    <HorizontalGutter
-      className={cn(styles.root, CLASSES.permalinkView.$root, {
-        [CLASSES.permalinkView.authenticated]: Boolean(viewer),
-        [CLASSES.permalinkView.unauthenticated]: !viewer,
-      })}
-      size="double"
-    >
-      <UserBoxContainer viewer={viewer} settings={settings} />
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        direction="column"
-        className={styles.header}
+    <CommentSeenProvider storyID={props.story.id} viewerID={props.viewer?.id}>
+      <HorizontalGutter
+        className={cn(styles.root, CLASSES.permalinkView.$root, {
+          [CLASSES.permalinkView.authenticated]: Boolean(viewer),
+          [CLASSES.permalinkView.unauthenticated]: !viewer,
+        })}
+        size="double"
       >
-        <Localized id="comments-permalinkView-youAreCurrentlyViewing">
-          <div className={styles.title}>
-            You are currently viewing a single conversation
-          </div>
-        </Localized>
-        {showAllCommentsHref && (
-          <Localized id="comments-permalinkView-viewFullDiscussion">
-            <Button
-              className={CLASSES.permalinkView.viewFullDiscussionButton}
-              variant="flat"
-              color="primary"
-              fontSize="medium"
-              fontWeight="semiBold"
-              onClick={onShowAllComments}
-              href={showAllCommentsHref}
-              target="_parent"
-              anchor
-              underline
-            >
-              View full discussion
-            </Button>
+        <UserBoxContainer viewer={viewer} settings={settings} />
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
+          className={styles.header}
+        >
+          <Localized id="comments-permalinkView-youAreCurrentlyViewing">
+            <div className={styles.title}>
+              You are currently viewing a single conversation
+            </div>
           </Localized>
+          {showAllCommentsHref && (
+            <Localized id="comments-permalinkView-viewFullDiscussion">
+              <Button
+                className={CLASSES.permalinkView.viewFullDiscussionButton}
+                variant="flat"
+                color="primary"
+                fontSize="medium"
+                fontWeight="semiBold"
+                onClick={onShowAllComments}
+                href={showAllCommentsHref}
+                target="_parent"
+                anchor
+                underline
+              >
+                View full discussion
+              </Button>
+            </Localized>
+          )}
+        </Flex>
+        {!commentVisible && (
+          <CallOut>
+            <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
+              This comment has been removed or does not exist.
+            </Localized>
+          </CallOut>
         )}
-      </Flex>
-      {!commentVisible && (
-        <CallOut>
-          <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
-            This comment has been removed or does not exist.
-          </Localized>
-        </CallOut>
-      )}
-      {comment && commentVisible && (
-        <HorizontalGutter>
-          <ConversationThreadContainer
-            viewer={viewer}
-            comment={comment}
-            story={story}
-            settings={settings}
-          />
-          <div className={styles.replyList}>
-            <ReplyListContainer
+        {comment && commentVisible && (
+          <HorizontalGutter>
+            <ConversationThreadContainer
               viewer={viewer}
               comment={comment}
               story={story}
               settings={settings}
-              liveDirectRepliesInsertion
-              allowTombstoneReveal
             />
-          </div>
-        </HorizontalGutter>
-      )}
-    </HorizontalGutter>
+            <div className={styles.replyList}>
+              <ReplyListContainer
+                viewer={viewer}
+                comment={comment}
+                story={story}
+                settings={settings}
+                liveDirectRepliesInsertion
+                allowIgnoredTombstoneReveal
+                disableHideIgnoredTombstone
+              />
+            </div>
+          </HorizontalGutter>
+        )}
+      </HorizontalGutter>
+    </CommentSeenProvider>
   );
 };
 
@@ -179,6 +183,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment PermalinkViewContainer_viewer on User {
+      id
       ...ConversationThreadContainer_viewer
       ...ReplyListContainer1_viewer
       ...UserBoxContainer_viewer

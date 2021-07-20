@@ -32,6 +32,13 @@ import {
 } from "./helpers";
 
 /**
+ * LEGACY_FEATURE_FLAGS are feature flags, that are no longer used.
+ */
+export enum LEGACY_FEATURE_FLAGS {
+  ENABLE_AMP = "ENABLE_AMP",
+}
+
+/**
  * TenantResource references a given resource that should be owned by a specific
  * Tenant.
  */
@@ -93,7 +100,7 @@ export interface TenantSettings
   /**
    * featureFlags is the set of flags enabled on this Tenant.
    */
-  featureFlags?: GQLFEATURE_FLAG[];
+  featureFlags?: Array<GQLFEATURE_FLAG | LEGACY_FEATURE_FLAGS>;
 
   /**
    * webhooks stores the configurations for this Tenant's webhook rules.
@@ -249,6 +256,7 @@ export async function createTenant(
     stories: {
       scraping: {
         enabled: true,
+        authentication: false,
       },
       disableLazy: false,
     },
@@ -268,6 +276,7 @@ export async function createTenant(
     },
     memberBios: false,
     rte: defaultRTEConfiguration,
+    amp: false,
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -307,7 +316,7 @@ export async function retrieveManyTenants(
 
 export async function retrieveManyTenantsByDomain(
   mongo: Db,
-  domains: string[]
+  domains: ReadonlyArray<string>
 ) {
   const cursor = collection(mongo).find({
     domain: {

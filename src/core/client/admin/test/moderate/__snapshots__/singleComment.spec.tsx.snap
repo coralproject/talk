@@ -125,6 +125,13 @@ exports[`approves single comment 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+            />
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
@@ -346,6 +353,13 @@ exports[`rejects single comment 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
         >
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+            />
+          </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
@@ -606,6 +620,13 @@ exports[`renders single comment view 1`] = `
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
                 >
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+                    />
+                  </div>
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
                   >

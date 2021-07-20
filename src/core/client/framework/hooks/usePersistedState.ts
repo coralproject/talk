@@ -1,16 +1,16 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import useDebounce from "react-use/lib/useDebounce";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { PromisifiedStorage } from "coral-framework/lib/storage";
 
 function keyFn(key: string): string {
   return `persisted:${key}`;
 }
 
 function usePersistedState<T>(
-  key: string
+  key: string,
+  storage: PromisifiedStorage
 ): [T | undefined, Dispatch<SetStateAction<T | undefined>>, T | undefined] {
-  const { sessionStorage } = useCoralContext();
   const [state, setState] = useState<T>();
   const [initialState, setInitialState] = useState<T>();
   const storageState = useRef<T>();
@@ -18,7 +18,7 @@ function usePersistedState<T>(
   useEffect(() => {
     async function init() {
       try {
-        const value = await sessionStorage.getItem(keyFn(key));
+        const value = await storage.getItem(keyFn(key));
         if (!value) {
           return;
         }
@@ -35,7 +35,7 @@ function usePersistedState<T>(
     }
 
     void init();
-  }, [key, sessionStorage]);
+  }, [key, storage]);
 
   useDebounce(
     async () => {
@@ -45,9 +45,9 @@ function usePersistedState<T>(
 
       try {
         if (state) {
-          await sessionStorage.setItem(keyFn(key), JSON.stringify(state));
+          await storage.setItem(keyFn(key), JSON.stringify(state));
         } else {
-          await sessionStorage.removeItem(keyFn(key));
+          await storage.removeItem(keyFn(key));
         }
 
         storageState.current = state;
@@ -57,7 +57,7 @@ function usePersistedState<T>(
       }
     },
     100,
-    [state, sessionStorage, key]
+    [state, storage, key]
   );
 
   return [state, setState, initialState];

@@ -1,7 +1,0 @@
-schema: ./src/core/server/graph/schema/schema.graphql
-generates:
-  src/core/server/graph/schema/__generated__/introspection.json:
-    plugins:
-      - introspection
-    config:
-      minify: true

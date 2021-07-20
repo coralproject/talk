@@ -1,18 +1,41 @@
-import { RecordSourceProxy } from "relay-runtime";
+import { RecordProxy, RecordSourceProxy } from "relay-runtime";
 
+import { GQLTAG } from "coral-framework/schema";
+
+/**
+ * incrementStoryCommentCounts increases counts on a story.
+ * CommentEdge should contain { tags { code } } in order to
+ * apply tag counts as well.
+ */
 export default function incrementStoryCommentCounts(
   store: RecordSourceProxy,
   storyID: string,
-  increment = 1
+  commentEdge: RecordProxy<any>
 ) {
   // Updating Comment Count
   const story = store.get(storyID);
   if (story) {
-    const record = story.getLinkedRecord("commentCounts");
-    if (record) {
-      // TODO: when we have moderation, we'll need to be careful here.
-      const currentCount = record.getValue("totalPublished");
-      record.setValue((currentCount as number) + increment, "totalPublished");
+    const commentCounts = story.getLinkedRecord("commentCounts");
+    if (commentCounts) {
+      // Increment totalPublished.
+      const currentTotalPublished = commentCounts.getValue(
+        "totalPublished"
+      ) as number;
+      commentCounts.setValue(currentTotalPublished + 1, "totalPublished");
+
+      // Now increment tag counts.
+      const commentCountsTags = commentCounts.getLinkedRecord("tags");
+      if (!commentCountsTags) {
+        return;
+      }
+      const node = commentEdge.getLinkedRecord("node")!;
+      const tags = node.getLinkedRecords("tags")!;
+      for (const tag of tags) {
+        const code = tag.getValue("code") as GQLTAG;
+        const currentTagCount =
+          (commentCountsTags.getValue(code) as number) || 0;
+        commentCountsTags.setValue(currentTagCount + 1, code);
+      }
     }
   }
 }

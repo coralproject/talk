@@ -699,10 +699,7 @@ export default function createWebpackConfig(
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: true,
       },
-      entry: [
-        // Polyfills are in the index.ts file.
-        paths.appEmbedIndex,
-      ],
+      entry: [paths.appEmbedPolyfill, paths.appEmbedIndex],
       output: {
         ...baseConfig.output,
         library: "Coral",

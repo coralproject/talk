@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import { IResolvers } from "@graphql-tools/utils";
 import { EventEmitter2 } from "eventemitter2";
+import FDBFactory from "fake-indexeddb/lib/FDBFactory";
 import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
@@ -12,9 +13,14 @@ import {
   CoralContext,
   CoralContextProvider,
 } from "coral-framework/lib/bootstrap";
+import {
+  CONNECTION_STATUS,
+  ConnectionStatusListenerCallback,
+} from "coral-framework/lib/network";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
+import createIndexedDBStorage from "coral-framework/lib/storage/IndexedDBStorage";
 import { act, createUUIDGenerator } from "coral-framework/testHelpers";
 
 import createFluentBundle from "./createFluentBundle";
@@ -100,11 +106,19 @@ export default function createTestRenderer<
       pause: () => {},
       resume: () => {},
       setAccessToken: () => {},
+      getConnectionStatus: () => CONNECTION_STATUS.CONNECTED,
+      on: (
+        status: CONNECTION_STATUS.CONNECTED,
+        callback: ConnectionStatusListenerCallback
+      ) => {
+        return () => {};
+      },
     },
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
+    indexedDBStorage: createIndexedDBStorage("coral", new FDBFactory()),
     rest: new RestClient("http://localhost/api"),
-    postMessage: new PostMessageService(window),
+    postMessage: new PostMessageService(window, "coral", window, "*"),
     browserInfo: params.browserInfo || {
       supports: {
         cssVariables: true,

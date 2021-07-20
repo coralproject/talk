@@ -26,11 +26,11 @@ resetPassword-missingResetToken = Der Reset-Token ist nicht vorhanden.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation =
+confirmEmail-emailConfirmation = Bestätigungsmail
 confirmEmail-confirmYourEmailAddress =
-  Bestätige deine E-Mail-Adresse
+  Bestätige deine Email-Adresse
 confirmEmail-confirmEmail = Email bestätigen
-confirmEmail-pleaseClickToConfirm = Klicke unten um deine E-Mail-Adresse zu bestätigen.
+confirmEmail-pleaseClickToConfirm = Klicke unten um deine Email-Adresse zu bestätigen.
 confirmEmail-oopsSorry = Hopla, entschuldige!
 confirmEmail-missingConfirmToken = Der Bestätigungs-Token ist nicht vorhanden.
 confirmEmail-successfullyConfirmed = Email erfolgreich bestätigt
@@ -58,8 +58,8 @@ download-landingPage-sorry = Dein Download-Link ist ungültig.
 
 ## Unsubscribe
 
-unsubscribe-confirm =
-unsubscribe-successfullyUnsubscribed =
+unsubscribe-confirm = Abmeldung der Benachrichtigungen
+unsubscribe-successfullyUnsubscribed = Du hast dich erfolgreich von Benachrichtigungen abgemeldet.
 
 unsubscribe-unsubscribeFromEmails = Abmeldunung von E-Mail Benachrichtigungen
 unsubscribe-oopsSorry = Hopla, entschuldige!

@@ -122,7 +122,7 @@ comments-conversationThread-showMoreOfThisConversation =
 comments-permalinkView-currentViewing = U bekijkt nu een
 comments-permalinkView-singleConversation = Losstaande reactie
 comments-inReplyTo = Als antwoord op <Username></Username>
-comments-replyTo = Antwoord op: <Username></Username>
+comments-replyingTo = Antwoord op: <Username></Username>
 
 comments-reportButton-report = Rapporteer
 comments-reportButton-reported = Gerapporteerd

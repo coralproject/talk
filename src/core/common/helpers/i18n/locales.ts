@@ -3,6 +3,7 @@
  * the different languages that can be supported in the BCP 47 format.
  */
 export type LanguageCode =
+  | "af-ZA"
   | "en-US"
   | "pt-BR"
   | "es"
@@ -15,13 +16,15 @@ export type LanguageCode =
   | "fi-FI"
   | "sv"
   | "pl"
-  | "ru";
+  | "ru"
+  | "nn-NO";
 
 /**
  * LOCALES_MAP contains a map of language codes associated with their
  * name in native language.
  */
 export const LOCALES_MAP: Record<LanguageCode, string> = {
+  "af-ZA": "Afrikaans",
   "en-US": "English",
   "pt-BR": "Português brasileiro",
   es: "Español",
@@ -35,6 +38,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   sv: "Svenska",
   pl: "Polski",
   ru: "Русский",
+  "nn-NO": "Norsk",
 };
 
 /**

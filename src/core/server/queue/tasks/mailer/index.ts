@@ -32,6 +32,9 @@ export class MailerQueue {
       jobName: JOB_NAME,
       jobProcessor: createJobProcessor(options),
       queue,
+      // Time the mailer job out after the specified timeout value has been
+      // reached.
+      timeout: options.config.get("mailer_job_timeout"),
     });
     this.content = new MailerContent(options);
     this.tenantCache = options.tenantCache;
@@ -84,6 +87,7 @@ export class MailerQueue {
     return this.task.add({
       tenantID,
       templateName: template.name,
+      templateContext: template.context,
       message: {
         to,
         html,

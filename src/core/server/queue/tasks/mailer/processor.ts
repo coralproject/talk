@@ -4,6 +4,7 @@ import createDOMPurify from "dompurify";
 import {
   Message,
   MessageAttachment,
+  MessageHeaders,
   SMTPClient,
   SMTPConnectionOptions,
 } from "emailjs";
@@ -13,13 +14,14 @@ import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
 import { Db } from "mongodb";
+import timeoutPromiseAfter from "p-timeout";
 
 import { LanguageCode } from "coral-common/helpers";
 import { Config } from "coral-server/config";
 import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
 import { I18n, translate } from "coral-server/services/i18n";
 import {
@@ -27,7 +29,14 @@ import {
   TenantCacheAdapter,
 } from "coral-server/services/tenant/cache";
 
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
+
 export const JOB_NAME = "mailer";
+
+interface TemplateMeta {
+  name: string;
+  context: object;
+}
 
 export interface MailProcessorOptions {
   config: Config;
@@ -38,6 +47,7 @@ export interface MailProcessorOptions {
 
 export interface MailerData {
   templateName: string;
+  templateContext: object;
   message: {
     to: string;
     html: string;
@@ -47,6 +57,7 @@ export interface MailerData {
 
 const MailerDataSchema = Joi.object().keys({
   templateName: Joi.string(),
+  templateContext: Joi.object().unknown(true),
   message: Joi.object().keys({
     to: Joi.string(),
     html: Joi.string(),
@@ -176,25 +187,52 @@ function createMessageTranslator(i18n: I18n) {
     // Generate the text content of the message from the HTML.
     const text = htmlToText.fromString(html);
 
-    // Prepare the message payload.
-    return new Message({
+    const headers: Partial<MessageHeaders> = {
       from: fromAddress,
       to: data.message.to,
       text,
       subject,
       attachment,
-    });
+    };
+
+    // If the EMAIL_META feature flag is enabled, add the `X-Coral-Template`
+    // header.
+    if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.EMAIL_META)) {
+      const template: TemplateMeta = {
+        name: data.templateName,
+        context: data.templateContext,
+      };
+
+      logger.debug({ template }, "adding template context");
+
+      headers["X-Coral-Template"] = JSON.stringify(template);
+    }
+
+    // Prepare the message payload.
+    return new Message(headers);
   };
 }
 
 export const createJobProcessor = (
   options: MailProcessorOptions
 ): JobProcessor<MailerData> => {
-  const { tenantCache, i18n } = options;
+  const { tenantCache, i18n, config } = options;
+
+  // The maximum number of emails that can be sent on a given transport.
+  const smtpTransportSendMax = config.get("smtp_transport_send_max");
+  const transportTimeout = config.get("smtp_transport_timeout");
+
+  // Store the number of emails sent so we can reset the transport if it errors
+  // or it exceeds the maximum send amount.
+  let sentEmailsCounter = 0;
 
   // Create the cache adapter that will handle invalidating the email transport
   // when the tenant experiences a change.
-  const cache = new TenantCacheAdapter<SMTPClient>(tenantCache);
+  const cache = new TenantCacheAdapter<SMTPClient>(tenantCache, async () => {
+    // When the transport is invalidated because of updates to the Tenant, then
+    // reset the email counter.
+    sentEmailsCounter = 0;
+  });
 
   // Create the message translator function.
   const translateMessage = createMessageTranslator(i18n);
@@ -225,6 +263,7 @@ export const createJobProcessor = (
         jobID: job.id,
         jobName: JOB_NAME,
         tenantID,
+        sentEmails: sentEmailsCounter,
       },
       true
     );
@@ -279,14 +318,32 @@ export const createJobProcessor = (
       "finished mail translation"
     );
 
-    let transport = cache.get(tenantID);
+    let transport = cache.get(tenantID) || null;
+
+    // If the transport was cached, and the number of sent emails was greater
+    // than the configured maximum, reset it.
+    if (transport && sentEmailsCounter > smtpTransportSendMax) {
+      // Clear the transport from the cache now that we've determined that the
+      // number of sent emails has gone above the limit.
+      cache.delete(tenantID);
+
+      // Unset the transport so the next block re-creates it,
+      transport = null;
+
+      log.info("resetting smtp transport, maximum send reached");
+    }
+
     if (!transport) {
+      // Reset the sent email counter, we're recreating the transport!
+      sentEmailsCounter = 0;
+
       try {
         // Create the new transport options.
         const opts: Partial<SMTPConnectionOptions> = {
           host: smtp.host,
           port: smtp.port,
           tls: smtp.secure,
+          timeout: transportTimeout,
         };
         if (smtp.authentication && smtp.username && smtp.password) {
           // If authentication details are provided, add them to the transport
@@ -315,11 +372,24 @@ export const createJobProcessor = (
     const messageSendTimer = createTimer();
 
     try {
-      // Send the mail message.
-      await send(transport, message);
+      // Send the mail message, and time the send out if it takes longer than
+      // the transport timeout to finish.
+      await timeoutPromiseAfter(send(transport, message), transportTimeout);
     } catch (e) {
+      // As the email has failed to send, there may be an issue with the
+      // transport, so clear the stored transport.
+      cache.delete(tenantID);
+
+      // Reset the sent email counter, we've reset the transport!
+      sentEmailsCounter = 0;
+
+      log.warn({ err: e }, "reset smtp transport due to a send error");
+
       throw new WrappedInternalError(e, "could not send email");
     }
+
+    // Increment the sent email counter.
+    sentEmailsCounter++;
 
     log.debug({ responseTime: messageSendTimer() }, "sent the email");
   };

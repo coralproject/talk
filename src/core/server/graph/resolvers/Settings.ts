@@ -1,6 +1,7 @@
 import { defaultRTEConfiguration } from "coral-server/models/settings";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import {
+  isAMPEnabled,
   retrieveAnnouncementIfEnabled,
   Tenant,
 } from "coral-server/models/tenant";
@@ -29,4 +30,6 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   memberBios: ({ memberBios = false }) => memberBios,
   premoderateSuspectWords: ({ premoderateSuspectWords = false }) =>
     premoderateSuspectWords,
+  stories: ({ stories }) => stories,
+  amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
 };

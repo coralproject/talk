@@ -21,22 +21,6 @@ general-tabBar-myProfileTab = Omat tiedot
 general-tabBar-discussionsTab = Keskustelut
 general-tabBar-configure = Asetukset
 
-general-tabBar-aria-comments =
-  .aria-label = Kommentit
-  .title = Kommentit
-general-tabBar-aria-qa =
-  .aria-label = K&V
-  .title = K&V
-general-tabBar-aria-myProfile =
-  .aria-label = Omat tiedot
-  .title = Omat tiedot
-general-tabBar-aria-configure =
-  .aria-label = Asetukset
-  .title = Asetukset
-general-tabBar-aria-discussions =
-  .aria-label = Keskustelut
-  .title = Keskustelut
-
 ## Comment Count
 
 comment-count-text =
@@ -50,7 +34,11 @@ comment-count-text =
 comments-allCommentsTab = Kaikki
 comments-featuredTab = Valitut
 comments-counter-shortNum = { SHORT_NUMBER($count) }
-comments-watchers = { SHORT_NUMBER($count) } online
+comments-watchers =
+  { $count  ->
+    [one] 1 henkilö lukee keskustelua
+    *[other] { SHORT_NUMBER($count) } henkilöä lukee keskustelua
+  }
 
 comments-featuredCommentTooltip-how = Miten kommentti pääsee valitut-listalle?
 comments-featuredCommentTooltip-handSelectedComments =
@@ -81,7 +69,9 @@ comments-postCommentForm-submit = Lähetä
 comments-replyList-showAll = Näytä kaikki
 comments-replyList-showMoreReplies = Näytä lisää vastauksia
 
-comments-postCommentForm-gifSeach = Etsi GIF kuvaa
+comments-postCommentForm-gifSearch = Hae GIF kuvaa
+comments-postComment-gifSearch-search =
+  .aria-label = Hae
 comments-postComment-gifSearch-loading = Ladataan...
 comments-postComment-gifSearch-no-results = Ei tuloksia haulle {$query}
 comments-postComment-gifSearch-powered-by-giphy =
@@ -218,6 +208,10 @@ comments-userBanPopover-description =
   Kirjoituskiellossa oleva käyttäjä ei voi enää kirjoittaa kommentteja,
   reagoida niihin tai ilmoittaa muiden kommentteja asiattomiksi.
   Myös tämä kommentti hylätään.
+comments-userBanPopover-scopedDescription =
+  {$sitename} sivustolta kirjoituskiellossa oleva käyttäjä ei voi enää kirjoittaa kommentteja,
+  reagoida niihin tai ilmoittaa muiden kommentteja asiattomiksi.
+  Myös tämä kommentti hylätään.
 comments-userBanPopover-cancel = Peruuta
 comments-userBanPopover-ban = Aseta kirjoituskieltoon
 
@@ -237,8 +231,8 @@ comments-moderationDropdown-moderateStory = Moderoi juttu
 comments-moderationDropdown-caretButton =
   .aria-label = Moderoi
 
-comments-rejectedTombstone-title = Olet hylännyt tämän kommentin.
-comments-rejectedTombstone-moderateLink =
+comments-moderationRejectedTombstone-title = Olet hylännyt tämän kommentin.
+comments-moderationRejectedTombstone-moderateLink =
   Voit muuttaa päätöksen moderoinnin kautta.
 
 comments-featuredTag = Valitut-listalla
@@ -254,6 +248,9 @@ comments-reacted =
     [one] {$reaction} kommentti käyttäjältä {$username}
     *[other] {$reaction} ({$count}) kommentti käyttäjältä {$username}
   }
+
+comments-jumpToComment-title = Vastauksesi näkyy alla
+comments-jumpToComment-GoToReply = Siirry vastaukseen
 
 ### Q&A
 
@@ -324,6 +321,9 @@ comments-stream-deleteAccount-callOut-cancel =
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Peruuta kirjoittajatilin poisto
 
+comments-permalink-copyLink = Kopioi linkki
+comments-permalink-linkCopied = Linkki kopioitu
+
 ### Embed Links
 
 comments-embedLinks-showEmbeds = Näytä upotukset
@@ -352,6 +352,17 @@ profile-myCommentsTab = Omat kommentit
 profile-myCommentsTab-comments = Omat kommentit
 profile-accountTab = Käyttäjätiedot
 profile-preferencesTab = Asetukset
+
+### Bio
+profile-bio-title = Bio
+profile-bio-description =
+  Kirjoita profiilissasi julkisesti näkyvä bio.
+  Enintään 100 merkkiä.
+profile-bio-remove = Poista
+profile-bio-update = Päivitä
+profile-bio-success = Biografiasi päivitettiin.
+profile-bio-removed = Biografiasi poistettiin.
+
 
 ### Account Deletion
 
@@ -781,3 +792,42 @@ profile-changeEmail-saveChanges = Tallenna muutokset
 profile-changeEmail-email = Sähköposti
 profile-changeEmail-title = Sähköpostiosoite
 profile-changeEmail-success = Sähköpostiosoitteesi on vahdettu
+
+## Ratings and Reviews
+
+ratingsAndReviews-reviewsTab = Arvostelut
+ratingsAndReviews-questionsTab = Kysymykset
+ratingsAndReviews-noReviewsAtAll = Ei arvosteluja
+ratingsAndReviews-noQuestionsAtAll = Ei kysymyksiä
+ratingsAndReviews-noReviewsYet = Arvosteluja ei ole vielä lisätty.
+ratingsAndReviews-noQuestionsYet = Kysymyksiä ei ole vielä lisätty.
+ratingsAndReviews-selectARating = Valitse arvosana
+ratingsAndReviews-youRatedThis = Annoit arvosanan
+ratingsAndReviews-showReview = Näytä arvostelu
+  .title = { ratingsAndReviews-showReview }
+ratingsAndReviews-rateAndReview = Anna arvosana ja arvostele
+ratingsAndReviews-askAQuestion = Kysy kysymys
+ratingsAndReviews-basedOnRatings = { $count ->
+  [0] Ei arvosteluja
+  [1] Yksi arvostelu
+  *[other] { SHORT_NUMBER($count) } arvostelua
+}
+
+ratingsAndReviews-allReviewsFilter = Kaikki arvostelut
+ratingsAndReviews-starReviewsFilter = { $rating ->
+  [1] 1 tähti
+  *[other] { $rating } tähteä
+}
+
+comments-addAReviewForm-rteLabel = Lisää arvostelu (ei pakollinen)
+
+comments-addAReviewForm-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+comments-addAReviewFormFake-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
+
+stream-footer-links-top-of-article = Artikkelin alkuun
+stream-footer-links-top-of-comments = Kommenttien alkuun
+stream-footer-links-profile = Profiili & vastaukset
+stream-footer-links-discussions = Lisää keskusteluja

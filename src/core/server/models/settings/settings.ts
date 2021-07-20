@@ -219,6 +219,61 @@ export interface RTEConfiguration {
   spoiler: boolean;
 }
 
+/**
+ * StoryScrapingConfiguration stores the configuration around story scraping.
+ */
+export interface StoryScrapingConfiguration {
+  /**
+   * enabled, when true, enables stories to be scraped. When disabled, stories will
+   * only be looked up instead, and must be created via the API directly.
+   */
+  enabled: boolean;
+
+  /**
+   * proxyURL when specified, allows scraping requests to use the provided proxy.
+   * All requests will then be passed through the appropriote proxy as parsed by
+   * the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
+   */
+  proxyURL?: string;
+
+  /**
+   * customUserAgent when specified will override the user agent used by fetch
+   * requests made during the scraping process.
+   */
+  customUserAgent?: string;
+
+  /**
+   * authentication is whether alternative authentication credentials have been
+   * provided for scraping activities.
+   */
+  authentication?: boolean;
+
+  /**
+   * username is the username to use with basic authentication for scraping jobs.
+   */
+  username?: string;
+
+  /**
+   * password is the password to use with basic authentication for scraping jobs.
+   */
+  password?: string;
+}
+
+/**
+ * StoryConfiguration stores the configuration for working with stories.
+ */
+export interface StoryConfiguration {
+  /**
+   * scraping stores configuration around story scraping.
+   */
+  scraping: StoryScrapingConfiguration;
+
+  /**
+   * disableLazy when true, will only allow lookups of stories created via the API.
+   */
+  disableLazy: boolean;
+}
+
 export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
@@ -230,7 +285,6 @@ export type Settings = GlobalModerationSettings &
     | "editCommentWindowLength"
     | "customCSSURL"
     | "communityGuidelines"
-    | "stories"
     | "createdAt"
     | "slack"
     | "announcement"
@@ -294,6 +348,16 @@ export type Settings = GlobalModerationSettings &
      * staff configures the labels for staff members in comment stream.
      */
     staff: StaffConfiguration;
+
+    /**
+     * stories stores the configuration around stories.
+     */
+    stories: StoryConfiguration;
+
+    /**
+     * amp activates Accelerated Mobile Pages support.
+     */
+    amp?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {
