@@ -58,6 +58,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           dontAgree: false,
           flag: false,
         },
+        hasTraversalFocus: false,
       },
       settings: {
         disableCommenting: {
