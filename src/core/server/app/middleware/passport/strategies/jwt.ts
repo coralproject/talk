@@ -101,7 +101,7 @@ export async function verifyAndRetrieveUser(
     // request rather than erroring out.
     if (
       err instanceof JWTRevokedError ||
-      err.jse_cause instanceof TokenExpiredError
+      err.cause() instanceof TokenExpiredError
     ) {
       return null;
     }
