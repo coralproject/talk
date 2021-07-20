@@ -146,7 +146,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                     <Localized
                       id="configure-slack-channel-hookURL-description"
                       externalLink={
-                        <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/#i-need-to-find-the-webhook-url-again-where-is-it" />
+                        <ExternalLink href="https://docs.coralproject.net/slack#i-need-to-find-the-webhook-url-again-where-is-it" />
                       }
                     >
                       <FormFieldDescription className={styles.description}>

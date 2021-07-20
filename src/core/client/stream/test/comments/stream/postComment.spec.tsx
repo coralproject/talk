@@ -182,7 +182,10 @@ it("post a comment and handle server error", async () => {
       {
         Mutation: {
           createComment: sinon.stub().callsFake(() => {
-            throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
+            throw new InvalidRequestError({
+              code: ERROR_CODES.INTERNAL_ERROR,
+              traceID: "traceID",
+            });
           }),
         },
       },
@@ -213,6 +216,7 @@ it("handle moderation nudge error", async () => {
               });
               throw new ModerationNudgeError({
                 code: ERROR_CODES.TOXIC_COMMENT,
+                traceID: "traceID",
               });
             }),
           (s) =>
@@ -268,6 +272,7 @@ it("handle disabled commenting error", async () => {
           createCommentCalled = true;
           throw new InvalidRequestError({
             code: ERROR_CODES.COMMENTING_DISABLED,
+            traceID: "traceID",
           });
         },
       },
@@ -305,6 +310,7 @@ it("handle story closed", async () => {
         createComment: sinon.stub().callsFake(() => {
           throw new InvalidRequestError({
             code: ERROR_CODES.STORY_CLOSED,
+            traceID: "traceID",
           });
         }),
       },

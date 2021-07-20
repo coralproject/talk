@@ -8,6 +8,7 @@ import {
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import { Delay, Flex, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsQuery.graphql";
 import { FeaturedCommentsQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
@@ -21,7 +22,7 @@ interface Props {
 
 export const render = (data: QueryRenderData<QueryTypes>) => {
   if (data.error) {
-    return <div>{data.error.message}</div>;
+    return <QueryError error={data.error} />;
   }
 
   if (!data.props) {

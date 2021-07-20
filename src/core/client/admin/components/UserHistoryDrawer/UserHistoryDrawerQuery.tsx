@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
 
@@ -41,7 +42,11 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
       `}
       variables={{ userID }}
       cacheConfig={{ force: true }}
-      render={({ props }: QueryRenderData<QueryTypes>) => {
+      render={({ props, error }: QueryRenderData<QueryTypes>) => {
+        if (error) {
+          return <QueryError error={error} />;
+        }
+
         if (!props || !props.viewer) {
           return (
             <div className={styles.root}>

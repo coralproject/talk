@@ -353,6 +353,11 @@ export type Settings = GlobalModerationSettings &
      * stories stores the configuration around stories.
      */
     stories: StoryConfiguration;
+
+    /**
+     * amp activates Accelerated Mobile Pages support.
+     */
+    amp?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

@@ -237,7 +237,10 @@ it("successfully sets email", async () => {
 it("switch to link account", async () => {
   const email = "hans@test.com";
   const setEmail = sinon.stub().callsFake((_: any, data: any) => {
-    throw new InvalidRequestError({ code: ERROR_CODES.DUPLICATE_EMAIL });
+    throw new InvalidRequestError({
+      code: ERROR_CODES.DUPLICATE_EMAIL,
+      traceID: "traceID",
+    });
   });
   const {
     testRenderer,

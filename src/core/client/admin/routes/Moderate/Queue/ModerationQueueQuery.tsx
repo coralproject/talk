@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { parseModerationOptions } from "coral-framework/helpers";
 import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import {
   ModerationQueueQuery as QueryTypes,
@@ -29,7 +30,11 @@ const ModerationQueueQuery: FunctionComponent<Props> = ({ match }) => {
       `}
       variables={{}}
       fetchPolicy="store-and-network"
-      render={({ props }) => {
+      render={({ props, error }) => {
+        if (error) {
+          return <QueryError error={error} />;
+        }
+
         if (!props) {
           return null;
         }

@@ -509,7 +509,10 @@ it("handle server error", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: () => {
-        throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
+        throw new InvalidRequestError({
+          code: ERROR_CODES.INTERNAL_ERROR,
+          traceID: "traceID",
+        });
       },
     },
   });
