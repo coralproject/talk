@@ -2,6 +2,7 @@
 
 exports[`renders reply list 1`] = `
 <div
+  aria-live="off"
   className="Box-root HorizontalGutter-root ReplyList-withPadding HorizontalGutter-full"
   data-testid="commentReplyList-comment-with-deep-replies"
   id="coral-comments-replyList-log--comment-with-deep-replies"
@@ -11,11 +12,32 @@ exports[`renders reply list 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      aria-labelledby="comment-comment-with-replies-label"
       className="coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
       data-testid="comment-comment-with-replies"
       id="comment-comment-with-replies"
+      role="article"
     >
+      <div
+        className="Hidden-root"
+        id="comment-comment-with-replies-label"
+      >
+        <span>
+          Thread Level 1:
+        </span>
+         
+        <span>
+          Reply from Markus 
+          <time
+            className="RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </span>
+      </div>
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
@@ -48,7 +70,6 @@ exports[`renders reply list 1`] = `
               </button>
               <div
                 className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                role="article"
               >
                 <div
                   className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -81,17 +102,10 @@ exports[`renders reply list 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                          aria-label="A popover with more user information"
                           id="username-popover-comment-with-replies"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="username-popover-comment-with-replies-ariainfo"
-                          >
-                            A popover with more user information
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -253,17 +267,10 @@ exports[`renders reply list 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                          aria-label="A dialog showing a permalink to the comment"
                           id="permalink-popover-comment-with-replies"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="permalink-popover-comment-with-replies-ariainfo"
-                          >
-                            A dialog showing a permalink to the comment
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -308,6 +315,7 @@ exports[`renders reply list 1`] = `
       className=""
     >
       <div
+        aria-live="off"
         className="Box-root HorizontalGutter-root ReplyList-withPadding HorizontalGutter-full"
         data-testid="commentReplyList-comment-with-replies"
         id="coral-comments-replyList-log--comment-with-replies"
@@ -317,11 +325,32 @@ exports[`renders reply list 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
+            aria-labelledby="comment-comment-3-label"
             className="coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
             data-testid="comment-comment-3"
             id="comment-comment-3"
+            role="article"
           >
+            <div
+              className="Hidden-root"
+              id="comment-comment-3-label"
+            >
+              <span>
+                Thread Level 2:
+              </span>
+               
+              <span>
+                Reply from Isabelle 
+                <time
+                  className="RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </span>
+            </div>
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
@@ -354,7 +383,6 @@ exports[`renders reply list 1`] = `
                     </button>
                     <div
                       className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                      role="article"
                     >
                       <div
                         className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -387,17 +415,10 @@ exports[`renders reply list 1`] = `
                               </button>
                               <div
                                 aria-hidden={true}
-                                aria-labelledby="username-popover-comment-3-ariainfo"
+                                aria-label="A popover with more user information"
                                 id="username-popover-comment-3"
                                 role="dialog"
-                              >
-                                <div
-                                  className="AriaInfo-root"
-                                  id="username-popover-comment-3-ariainfo"
-                                >
-                                  A popover with more user information
-                                </div>
-                              </div>
+                              />
                             </div>
                           </div>
                           <div
@@ -559,17 +580,10 @@ exports[`renders reply list 1`] = `
                               </button>
                               <div
                                 aria-hidden={true}
-                                aria-labelledby="permalink-popover-comment-3-ariainfo"
+                                aria-label="A dialog showing a permalink to the comment"
                                 id="permalink-popover-comment-3"
                                 role="dialog"
-                              >
-                                <div
-                                  className="AriaInfo-root"
-                                  id="permalink-popover-comment-3-ariainfo"
-                                >
-                                  A dialog showing a permalink to the comment
-                                </div>
-                              </div>
+                              />
                             </div>
                           </div>
                           <div
@@ -618,11 +632,32 @@ exports[`renders reply list 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
+            aria-labelledby="comment-comment-4-label"
             className="coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
             data-testid="comment-comment-4"
             id="comment-comment-4"
+            role="article"
           >
+            <div
+              className="Hidden-root"
+              id="comment-comment-4-label"
+            >
+              <span>
+                Thread Level 2:
+              </span>
+               
+              <span>
+                Reply from Isabelle 
+                <time
+                  className="RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </span>
+            </div>
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
@@ -655,7 +690,6 @@ exports[`renders reply list 1`] = `
                     </button>
                     <div
                       className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                      role="article"
                     >
                       <div
                         className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -688,17 +722,10 @@ exports[`renders reply list 1`] = `
                               </button>
                               <div
                                 aria-hidden={true}
-                                aria-labelledby="username-popover-comment-4-ariainfo"
+                                aria-label="A popover with more user information"
                                 id="username-popover-comment-4"
                                 role="dialog"
-                              >
-                                <div
-                                  className="AriaInfo-root"
-                                  id="username-popover-comment-4-ariainfo"
-                                >
-                                  A popover with more user information
-                                </div>
-                              </div>
+                              />
                             </div>
                           </div>
                           <div
@@ -860,17 +887,10 @@ exports[`renders reply list 1`] = `
                               </button>
                               <div
                                 aria-hidden={true}
-                                aria-labelledby="permalink-popover-comment-4-ariainfo"
+                                aria-label="A dialog showing a permalink to the comment"
                                 id="permalink-popover-comment-4"
                                 role="dialog"
-                              >
-                                <div
-                                  className="AriaInfo-root"
-                                  id="permalink-popover-comment-4-ariainfo"
-                                >
-                                  A dialog showing a permalink to the comment
-                                </div>
-                              </div>
+                              />
                             </div>
                           </div>
                           <div
@@ -922,11 +942,32 @@ exports[`renders reply list 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      aria-labelledby="comment-comment-5-label"
       className="coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
       data-testid="comment-comment-5"
       id="comment-comment-5"
+      role="article"
     >
+      <div
+        className="Hidden-root"
+        id="comment-comment-5-label"
+      >
+        <span>
+          Thread Level 1:
+        </span>
+         
+        <span>
+          Reply from Isabelle 
+          <time
+            className="RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </span>
+      </div>
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
@@ -959,7 +1000,6 @@ exports[`renders reply list 1`] = `
               </button>
               <div
                 className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
-                role="article"
               >
                 <div
                   className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
@@ -992,17 +1032,10 @@ exports[`renders reply list 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="username-popover-comment-5-ariainfo"
+                          aria-label="A popover with more user information"
                           id="username-popover-comment-5"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="username-popover-comment-5-ariainfo"
-                          >
-                            A popover with more user information
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div
@@ -1164,17 +1197,10 @@ exports[`renders reply list 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="permalink-popover-comment-5-ariainfo"
+                          aria-label="A dialog showing a permalink to the comment"
                           id="permalink-popover-comment-5"
                           role="dialog"
-                        >
-                          <div
-                            className="AriaInfo-root"
-                            id="permalink-popover-comment-5-ariainfo"
-                          >
-                            A dialog showing a permalink to the comment
-                          </div>
-                        </div>
+                        />
                       </div>
                     </div>
                     <div

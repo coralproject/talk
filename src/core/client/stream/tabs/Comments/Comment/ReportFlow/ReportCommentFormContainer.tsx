@@ -107,6 +107,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
       }
       onClose={onClose}
       icon={<Icon size="sm">check_circle</Icon>}
+      aria-live="polite"
     >
       <Localized id="comments-reportPopover-receivedMessage">
         We’ve received your message. Reports from members like you keep the

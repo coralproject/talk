@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, {
+  FC,
   FunctionComponent,
   useCallback,
   useEffect,
@@ -25,6 +26,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
@@ -114,6 +116,33 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const isRatingsAndReviews =
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+
+  const PostCommentSection: FC = useMemo(
+    () => (props) => {
+      if (isRatingsAndReviews) {
+        return (
+          <Localized id="ratingsAndReviews-postCommentForm-section">
+            <section aria-label="Submit a Review or Ask a Question">
+              {props.children}
+            </section>
+          </Localized>
+        );
+      }
+      if (isQA) {
+        return (
+          <Localized id="qa-postCommentForm-section">
+            <section aria-label="Post a Question">{props.children}</section>
+          </Localized>
+        );
+      }
+      return (
+        <Localized id="comments-postCommentForm-section">
+          <section aria-label="Post a Comment">{props.children}</section>
+        </Localized>
+      );
+    },
+    [isRatingsAndReviews, isQA]
+  );
 
   const handleOnSubmit: OnSubmitHandler = async (input, form) => {
     try {
@@ -243,39 +272,49 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   if (!keepFormWhenClosed) {
     if (settings.disableCommenting.enabled) {
       return (
-        <PostCommentFormClosedSitewide
-          story={story}
-          message={settings.disableCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
-        />
+        <PostCommentSection>
+          <PostCommentFormClosedSitewide
+            story={story}
+            message={settings.disableCommenting.message}
+            showMessageBox={story.settings.messageBox.enabled}
+          />
+        </PostCommentSection>
       );
     }
 
     if (story.isClosed) {
       return (
-        <PostCommentFormClosed
-          story={story}
-          message={settings.closeCommenting.message}
-          showMessageBox={story.settings.messageBox.enabled}
-        />
+        <PostCommentSection>
+          <PostCommentFormClosed
+            story={story}
+            message={settings.closeCommenting.message}
+            showMessageBox={story.settings.messageBox.enabled}
+          />
+        </PostCommentSection>
       );
     }
   }
 
   if (!viewer) {
     if (isRatingsAndReviews) {
-      return <PostReviewOrQuestion toggle={toggle} onToggle={onToggle} />;
+      return (
+        <PostCommentSection>
+          <PostReviewOrQuestion toggle={toggle} onToggle={onToggle} />
+        </PostCommentSection>
+      );
     }
 
     return (
-      <PostCommentFormFake
-        rteConfig={settings.rte}
-        draft={draft}
-        onDraftChange={setDraft}
-        story={story}
-        showMessageBox={story.settings.messageBox.enabled}
-        onSignIn={handleSignIn}
-      />
+      <PostCommentSection>
+        <PostCommentFormFake
+          rteConfig={settings.rte}
+          draft={draft}
+          onDraftChange={setDraft}
+          story={story}
+          showMessageBox={story.settings.messageBox.enabled}
+          onSignIn={handleSignIn}
+        />
+      </PostCommentSection>
     );
   }
 
@@ -306,7 +345,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   if (isRatingsAndReviews && !toggle) {
     return (
-      <>
+      <PostCommentSection>
         <PostReviewOrQuestion
           toggle={toggle}
           rating={rating}
@@ -314,37 +353,39 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
           onToggle={onToggle}
         />
         <PostCommentSubmitStatusContainer status={submitStatus} />
-      </>
+      </PostCommentSection>
     );
   }
 
   return (
-    <>
-      {isRatingsAndReviews && (
-        <PostReviewOrQuestion
-          toggle={toggle}
-          rating={rating}
-          onShowReview={showReview ? onClickReview : undefined}
-          onToggle={onToggle}
+    <PostCommentSection>
+      <HorizontalGutter size="double">
+        {isRatingsAndReviews && (
+          <PostReviewOrQuestion
+            toggle={toggle}
+            rating={rating}
+            onShowReview={showReview ? onClickReview : undefined}
+            onToggle={onToggle}
+          />
+        )}
+        <PostCommentForm
+          mode={mode}
+          siteID={story.site.id}
+          story={story}
+          onSubmit={handleOnSubmit}
+          onChange={handleOnChange}
+          initialValues={initialValues}
+          mediaConfig={settings.media}
+          rteConfig={settings.rte}
+          min={settings.charCount.enabled ? settings.charCount.min : null}
+          max={settings.charCount.enabled ? settings.charCount.max : null}
+          disabled={disabled}
+          disabledMessage={disabledMessage}
+          submitStatus={submitStatus}
+          showMessageBox={story.settings.messageBox.enabled}
         />
-      )}
-      <PostCommentForm
-        mode={mode}
-        siteID={story.site.id}
-        story={story}
-        onSubmit={handleOnSubmit}
-        onChange={handleOnChange}
-        initialValues={initialValues}
-        mediaConfig={settings.media}
-        rteConfig={settings.rte}
-        min={settings.charCount.enabled ? settings.charCount.min : null}
-        max={settings.charCount.enabled ? settings.charCount.max : null}
-        disabled={disabled}
-        disabledMessage={disabledMessage}
-        submitStatus={submitStatus}
-        showMessageBox={story.settings.messageBox.enabled}
-      />
-    </>
+      </HorizontalGutter>
+    </PostCommentSection>
   );
 };
 
