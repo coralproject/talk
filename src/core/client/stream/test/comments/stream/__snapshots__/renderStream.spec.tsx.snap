@@ -403,13 +403,13 @@ exports[`renders comment stream 1`] = `
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
                   >
                     <div
-                      className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                      className="coral coral-comment-collapse-toggle-indent Indent-root"
                     >
                       <div
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                         >
                           <button
                             aria-label="Collapse comment thread"
@@ -646,7 +646,7 @@ exports[`renders comment stream 1`] = `
                   </div>
                 </div>
                 <div
-                  className=""
+                  className="AllCommentsTabCommentContainer-commentSeen"
                 />
               </div>
               <div
@@ -679,13 +679,13 @@ exports[`renders comment stream 1`] = `
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
                   >
                     <div
-                      className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                      className="coral coral-comment-collapse-toggle-indent Indent-root"
                     >
                       <div
                         className="coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                         >
                           <button
                             aria-label="Collapse comment thread"
@@ -935,7 +935,7 @@ exports[`renders comment stream 1`] = `
                   </div>
                 </div>
                 <div
-                  className=""
+                  className="AllCommentsTabCommentContainer-commentSeen"
                 />
               </div>
               <nav

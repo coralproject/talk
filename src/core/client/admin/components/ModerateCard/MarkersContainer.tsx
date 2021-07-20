@@ -3,7 +3,12 @@ import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Marker, MarkerCount } from "coral-ui/components/v2";
+import {
+  Flex,
+  HorizontalGutter,
+  Marker,
+  MarkerCount,
+} from "coral-ui/components/v2";
 
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
@@ -187,18 +192,32 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
     [props.comment]
   );
 
+  const phases = useMemo(() => {
+    const validPhases: Array<React.ReactElement<any>> =
+      props.comment?.revision?.metadata?.externalModeration?.map((p) => (
+        <Marker key={p.name}>{p.name}</Marker>
+      )) || [];
+
+    return validPhases;
+  }, [props.comment]);
+
   return (
-    <Markers
-      details={
-        <ModerateCardDetailsContainer
-          onUsernameClick={props.onUsernameClick}
-          comment={props.comment}
-          settings={props.settings}
-        />
-      }
-    >
-      {elements}
-    </Markers>
+    <>
+      <HorizontalGutter>
+        <Flex spacing={2}>{phases}</Flex>
+      </HorizontalGutter>
+      <Markers
+        details={
+          <ModerateCardDetailsContainer
+            onUsernameClick={props.onUsernameClick}
+            comment={props.comment}
+            settings={props.settings}
+          />
+        }
+      >
+        {elements}
+      </Markers>
+    </>
   );
 };
 
@@ -207,6 +226,9 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
     fragment MarkersContainer_comment on Comment {
       ...ModerateCardDetailsContainer_comment
       status
+      tags {
+        code
+      }
       revision {
         actionCounts {
           flag {
@@ -230,6 +252,17 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
         metadata {
           wordList {
             timedOut
+          }
+          externalModeration {
+            name
+            analyzedAt
+            result {
+              status
+              tags
+              actions {
+                reason
+              }
+            }
           }
         }
       }

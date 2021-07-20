@@ -12,6 +12,7 @@ import CommentToggle from "./CommentToggle";
 import styles from "./IndentedComment.css";
 
 export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
+  classNameIndented?: string;
   indentLevel?: number;
   blur?: boolean;
   toggleCollapsed?: () => void;
@@ -27,6 +28,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
   indentLevel,
   toggleCollapsed,
   blur,
+  classNameIndented,
   ...rest
 }) => {
   return (
@@ -35,12 +37,12 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
       collapsed={rest.collapsed}
       className={cn(
         {
-          [styles.open]: !rest.collapsed,
           [styles.blur]: blur,
           [CLASSES.comment.collapseToggle.collapsed]: rest.collapsed,
         },
         CLASSES.comment.collapseToggle.indent
       )}
+      classNameIndent={classNameIndented}
     >
       {rest.collapsed ? (
         <CommentToggle
@@ -50,7 +52,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
           topBarRight={staticTopBarRight}
         />
       ) : (
-        <Flex alignItems="baseline" spacing={1}>
+        <Flex alignItems="flex-start" spacing={1}>
           {toggleCollapsed && (
             <Localized
               id="comments-collapse-toggle"

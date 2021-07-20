@@ -11,6 +11,7 @@ import {
 } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
 import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
@@ -32,11 +33,7 @@ interface Props {
 
 export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
-    return (
-      <CallOut color="error" fullWidth aria-live="polite">
-        {error.message}
-      </CallOut>
-    );
+    return <QueryError error={error} />;
   }
 
   // TODO: use official React API once it has one :-)

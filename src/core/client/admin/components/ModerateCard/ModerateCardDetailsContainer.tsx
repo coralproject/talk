@@ -19,6 +19,7 @@ import {
 import { ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 import { ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 
+import AutomatedActionsContainer from "./AutomatedActionsContainer";
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
@@ -31,7 +32,7 @@ interface Props {
   onUsernameClick: (id?: string) => void;
 }
 
-type DetailsTabs = "INFO" | "HISTORY";
+type DetailsTabs = "INFO" | "HISTORY" | "EXTERNAL_MOD";
 
 function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
   return c.revision
@@ -56,6 +57,15 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 
   const doesHaveFlagDetails = useMemo(() => hasFlagDetails(comment), [comment]);
   const hasRevisions = comment.editing.edited;
+  const hasAutomatedActions = !!(
+    comment &&
+    comment.revision &&
+    comment.revision.metadata &&
+    ((comment.revision.metadata.perspective &&
+      comment.revision.metadata.perspective.score > 0) ||
+      (comment.revision.metadata.externalModeration &&
+        comment.revision.metadata.externalModeration.length > 0))
+  );
 
   return (
     <HorizontalGutter>
@@ -78,6 +88,16 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             </Flex>
           </Tab>
         )}
+        {hasAutomatedActions && (
+          <Tab tabID="EXTERNAL_MOD" classes={styles}>
+            <Flex alignItems="center" itemGutter>
+              <Icon size="md">done_all</Icon>
+              <Localized id="moderateCardDetails-tab-automatedActions">
+                <span>Automated actions</span>
+              </Localized>
+            </Flex>
+          </Tab>
+        )}
       </TabBar>
       {activeTab === "INFO" && (
         <>
@@ -85,7 +105,6 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
           {doesHaveFlagDetails && (
             <FlagDetailsContainer
               comment={comment}
-              settings={settings}
               onUsernameClick={onUsernameClick}
             />
           )}
@@ -94,6 +113,9 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       {activeTab === "HISTORY" && (
         <CommentRevisionContainer comment={comment} />
       )}
+      {activeTab === "EXTERNAL_MOD" && (
+        <AutomatedActionsContainer comment={comment} settings={settings} />
+      )}
     </HorizontalGutter>
   );
 };
@@ -101,6 +123,10 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardDetailsContainer_comment on Comment {
+      status
+      tags {
+        code
+      }
       editing {
         edited
       }
@@ -112,6 +138,8 @@ const enhanced = withFragmentContainer<Props>({
               COMMENT_REPORTED_ABUSIVE
               COMMENT_REPORTED_SPAM
               COMMENT_REPORTED_OTHER
+              COMMENT_DETECTED_TOXIC
+              COMMENT_DETECTED_SPAM
             }
           }
         }
@@ -119,17 +147,28 @@ const enhanced = withFragmentContainer<Props>({
           perspective {
             score
           }
+          externalModeration {
+            name
+            result {
+              status
+              tags
+              actions {
+                reason
+              }
+            }
+          }
         }
       }
       ...FlagDetailsContainer_comment
       ...CommentRevisionContainer_comment
       ...LinkDetailsContainer_comment
+      ...AutomatedActionsContainer_comment
     }
   `,
   settings: graphql`
     fragment ModerateCardDetailsContainer_settings on Settings {
-      ...FlagDetailsContainer_settings
       ...LinkDetailsContainer_settings
+      ...AutomatedActionsContainer_settings
     }
   `,
 })(ModerateCardDetailsContainer);

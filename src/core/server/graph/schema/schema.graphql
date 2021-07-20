@@ -548,11 +548,6 @@ enum FEATURE_FLAG {
   FLATTEN_REPLIES
 
   """
-  ENABLE_AMP will enable support for embedding Coral within AMP pages.
-  """
-  ENABLE_AMP
-
-  """
   DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
   overrides the configuration option available in the Admin UI for that tenant.
   """
@@ -563,6 +558,11 @@ enum FEATURE_FLAG {
   `X-Coral-Template` header.
   """
   EMAIL_META
+
+  """
+  COMMENT_SEEN will mark comment that has been seen/unseen.
+  """
+  COMMENT_SEEN
 
   """
   FOR_REVIEW will add a "For Review" Queue that allows moderators to review every flag
@@ -2058,6 +2058,11 @@ type Settings @cacheControl(maxAge: 30) {
   memberBios is whether members can define a bio for their account.
   """
   memberBios: Boolean!
+
+  """
+  amp is whether Accelerated Mobile Pages Support is activated.
+  """
+  amp: Boolean!
 }
 
 ################################################################################
@@ -3073,6 +3078,22 @@ type CommentRevisionWordListMetadata {
   timedOut: Boolean
 }
 
+type ExternalModerationPhaseAction {
+  reason: COMMENT_FLAG_REASON
+}
+
+type ExternalModerationPhaseResult {
+  status: COMMENT_STATUS
+  tags: [TAG!]
+  actions: [ExternalModerationPhaseAction!]
+}
+
+type CommentRevisionExternalModerationPhaseMetadata {
+  name: String!
+  analyzedAt: Time!
+  result: ExternalModerationPhaseResult!
+}
+
 type CommentRevisionMetadata {
   """
   perspective stores metadata associated with the pipeline analysis of this
@@ -3085,6 +3106,12 @@ type CommentRevisionMetadata {
   word list analysis of this comment revision.
   """
   wordList: CommentRevisionWordListMetadata
+
+  """
+  externalModeration are the phases and their actions that were used to
+  analyze this comment revision.
+  """
+  externalModeration: [CommentRevisionExternalModerationPhaseMetadata!]
 }
 
 """
@@ -5277,6 +5304,11 @@ input SettingsInput {
   memberBios is whether members can define a bio for their account.
   """
   memberBios: Boolean
+
+  """
+  amp is whether Accelerated Mobile Pages Support is activated.
+  """
+  amp: Boolean
 }
 
 """

@@ -28,13 +28,13 @@ exports[`post a comment: optimistic response 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+      className="coral coral-comment-collapse-toggle-indent Indent-root"
     >
       <div
         className="coral coral-indent coral-indent-0 Indent-open"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+          className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
             aria-label="Collapse comment thread"

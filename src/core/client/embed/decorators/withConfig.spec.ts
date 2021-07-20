@@ -14,6 +14,6 @@ it("should emit events from pym to Config", () => {
       .withArgs("config", JSON.stringify(config))
       .returns(null),
   };
-  withConfig(config)(fakePym as any);
+  withConfig(config)(fakePym as any, null as any);
   expect(fakePym.sendMessage.calledOnce).toBe(true);
 });

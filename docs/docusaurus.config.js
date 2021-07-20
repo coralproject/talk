@@ -76,10 +76,6 @@ module.exports = {
           title: "More",
           items: [
             {
-              label: "Blog",
-              href: "https://coralproject.net/blog",
-            },
-            {
               label: "GitHub",
               href: "https://github.com/coralproject/talk",
             },

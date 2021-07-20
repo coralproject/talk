@@ -833,7 +833,12 @@ configure-advanced-embedCode-comment =
   https://docs.coralproject.net for all the configuration
   options.
 
-
+configure-advanced-amp = Accelerated Mobile Pages
+configure-advanced-amp-explanation =
+  Enable support for <LinkToAMP>AMP</LinkToAMP> on the comment stream.
+  Once enabled, you will need to add Coral’s AMP embed code to your page
+  template. See our <LinkToDocs>documentation</LinkToDocs> for more
+  details. Enable Enable Support.
 
 ## Decision History
 decisionHistory-popover =
@@ -984,6 +989,20 @@ moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
+moderateCardDetails-tab-automatedActions = Automated actions
+moderateCardDetails-tab-noIssuesFound = No issues found
+moderateCardDetails-tab-missingPhase = Was not run
+
+moderateCardDetails-tab-externalMod-status = Status
+moderateCardDetails-tab-externalMod-flags = Flags
+moderateCardDetails-tab-externalMod-tags = Tags
+
+moderateCardDetails-tab-externalMod-none = None
+moderateCardDetails-tab-externalMod-approved = Approved
+moderateCardDetails-tab-externalMod-rejected = Rejected
+moderateCardDetails-tab-externalMod-premod = Pre-moderated
+moderateCardDetails-tab-externalMod-systemWithheld = System withheld
+
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =

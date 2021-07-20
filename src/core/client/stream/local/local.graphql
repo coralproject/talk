@@ -32,6 +32,7 @@ enum COMMENTS_TAB {
 }
 
 enum COMMENT_VIEWER_ACTION {
+  CREATE
   EDIT
   APPROVE
   REJECT
@@ -78,4 +79,5 @@ extend type Local {
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!
   flattenReplies: Boolean!
+  enableCommentSeen: Boolean!
 }

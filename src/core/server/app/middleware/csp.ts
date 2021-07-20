@@ -8,11 +8,9 @@ import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { retrieveSite, Site } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import { isAMPEnabled, Tenant } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
 import { Request, RequestHandler } from "coral-server/types/express";
-
-import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
 interface RequestQuery {
   parentUrl?: string;
@@ -102,7 +100,7 @@ async function retrieveOriginsFromRequest(
 
   const origins = site.allowedOrigins;
 
-  if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_AMP)) {
+  if (isAMPEnabled(tenant)) {
     const amp = await retrieveAMPOrigins(config, origins);
     origins.push(...amp);
   }
@@ -153,10 +151,7 @@ export const cspSiteMiddleware = ({
 
   // If we have AMP enabled, then we cannot send frame-ancestors because we
   // can't predict the top level ancestor!
-  if (
-    req.coral.tenant &&
-    hasFeatureFlag(req.coral.tenant, GQLFEATURE_FLAG.ENABLE_AMP)
-  ) {
+  if (req.coral.tenant && isAMPEnabled(req.coral.tenant)) {
     return next();
   }
 

@@ -53,6 +53,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   const canDownload =
     !lastDownloadedAt || sinceLastDownload >= DOWNLOAD_LIMIT_TIMEFRAME_DURATION;
   const tilCanDownload = DOWNLOAD_LIMIT_TIMEFRAME_DURATION - sinceLastDownload;
+  const canNextDownload = new Date(Date.now() + tilCanDownload * 1000);
 
   const { scaled, unit } = reduceSeconds(tilCanDownload, [
     TIME.DAY,
@@ -106,7 +107,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           {lastDownloadedAt && !showSuccessMessage && (
             <Localized
               id="profile-account-download-comments-yourMostRecentRequest"
-              $timeStamp={formatter(lastDownloadedAt)}
+              $timeStamp={formatter(canNextDownload)}
             >
               <div
                 className={cn(
@@ -116,7 +117,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
               >
                 Your most recent request was within the last 14 days. You may
                 request to download your comments again on:{" "}
-                {formatter(lastDownloadedAt)}.
+                {formatter(canNextDownload)}.
               </div>
             </Localized>
           )}

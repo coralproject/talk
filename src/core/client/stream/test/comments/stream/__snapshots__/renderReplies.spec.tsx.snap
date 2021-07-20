@@ -2,9 +2,11 @@
 
 exports[`renders reply list 1`] = `
 <div
-  className="Box-root HorizontalGutter-root ReplyList-root HorizontalGutter-full"
+  aria-live="off"
+  className="Box-root HorizontalGutter-root ReplyList-withPadding HorizontalGutter-full"
   data-testid="commentReplyList-comment-with-deep-replies"
   id="coral-comments-replyList-log--comment-with-deep-replies"
+  role="log"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -40,13 +42,13 @@ exports[`renders reply list 1`] = `
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+          className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
             className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+              className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
                 aria-label="Collapse comment thread"
@@ -313,9 +315,11 @@ exports[`renders reply list 1`] = `
       className=""
     >
       <div
-        className="Box-root HorizontalGutter-root ReplyList-root HorizontalGutter-full"
+        aria-live="off"
+        className="Box-root HorizontalGutter-root ReplyList-withPadding HorizontalGutter-full"
         data-testid="commentReplyList-comment-with-replies"
         id="coral-comments-replyList-log--comment-with-replies"
+        role="log"
       >
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -351,13 +355,13 @@ exports[`renders reply list 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <div
-                className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
                   className="Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                    className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                   >
                     <button
                       aria-label="Collapse comment thread"
@@ -658,13 +662,13 @@ exports[`renders reply list 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <div
-                className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+                className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
                   className="Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+                    className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                   >
                     <button
                       aria-label="Collapse comment thread"
@@ -968,13 +972,13 @@ exports[`renders reply list 1`] = `
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="IndentedComment-open coral coral-comment-collapse-toggle-indent Indent-root"
+          className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
             className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignBaseline gutter Flex-spacing-1"
+              className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
                 aria-label="Collapse comment thread"

@@ -46,6 +46,7 @@ import {
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
+import { CommentSeenProvider } from "../commentSeen";
 import AddACommentButton from "./AddACommentButton";
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
@@ -228,7 +229,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   ]);
 
   return (
-    <>
+    <CommentSeenProvider storyID={props.story.id} viewerID={props.viewer?.id}>
       <StoryClosedTimeoutContainer story={props.story} />
       <PreviousCountSpyContainer
         story={props.story}
@@ -555,7 +556,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           </TabContent>
         </HorizontalGutter>
       </HorizontalGutter>
-    </>
+    </CommentSeenProvider>
   );
 };
 
@@ -589,6 +590,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment StreamContainer_viewer on User {
+      id
       status {
         current
       }

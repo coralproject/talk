@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
@@ -6,6 +7,7 @@ import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
+import { useCommentSeenEnabled } from "../commentSeen";
 import Indent from "../Indent";
 import ReplyListCommentContainer from "./ReplyListCommentContainer";
 
@@ -39,11 +41,15 @@ export interface ReplyListProps {
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
+  const commentSeenEnabled = useCommentSeenEnabled();
   return (
     <HorizontalGutter
       id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
-      className={styles.root}
+      role="log"
+      aria-live="off"
+      className={cn({ [styles.withPadding]: !commentSeenEnabled })}
+      spacing={commentSeenEnabled ? 0 : undefined}
     >
       {props.comments.map((comment) => (
         <ReplyListCommentContainer
