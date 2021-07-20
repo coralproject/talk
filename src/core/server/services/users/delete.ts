@@ -1,4 +1,4 @@
-import { Collection, Db } from "mongodb";
+import { Collection, Db, FilterQuery } from "mongodb";
 
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment";
@@ -113,7 +113,7 @@ async function moderateComments(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string,
-  filter: any,
+  filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date
 ) {
