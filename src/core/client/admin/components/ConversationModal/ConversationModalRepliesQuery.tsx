@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { ConversationModalRepliesQuery as QueryTypes } from "coral-admin/__generated__/ConversationModalRepliesQuery.graphql";
 
@@ -39,7 +40,11 @@ const ConversationModalRepliesQuery: FunctionComponent<Props> = ({
       `}
       variables={{ commentID }}
       cacheConfig={{ force: true }}
-      render={({ props }: QueryRenderData<QueryTypes>) => {
+      render={({ props, error }: QueryRenderData<QueryTypes>) => {
+        if (error) {
+          return <QueryError error={error} />;
+        }
+
         if (!props) {
           return (
             <div>
