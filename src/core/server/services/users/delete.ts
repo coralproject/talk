@@ -1,7 +1,7 @@
 import { Collection, Db, FilterQuery } from "mongodb";
 
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import { getLatestRevision } from "coral-server/models/comment";
+import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Story } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
 import collections from "coral-server/services/mongodb/collections";
