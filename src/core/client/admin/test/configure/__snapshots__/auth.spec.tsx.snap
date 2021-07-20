@@ -1266,7 +1266,7 @@ more about creating a JWT Token with
 
                     <a
                       className="ExternalLink-root"
-                      href="https://docs.coralproject.net/coral/v5/integrating/sso/"
+                      href="https://docs.coralproject.net/sso"
                       rel="noopener noreferrer"
                       target="_blank"
                     >

@@ -26,7 +26,7 @@ describe("Scraper", () => {
     </script>
     `;
 
-    expect(scraper.parse("", html)).toEqual({
+    expect(await scraper.parse("", html)).toEqual({
       author: "sam",
       description:
         "We believe that the comments section can be a place where diverse voices come together to share opinions and experiences.",
