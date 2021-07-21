@@ -55,7 +55,10 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
     : null;
 
   return (
-    <div className={cn(styles.root, CLASSES.deleteMyAccount.$root)}>
+    <section
+      className={cn(styles.root, CLASSES.deleteMyAccount.$root)}
+      aria-labelledby="profile-account-deleteAccount-title"
+    >
       <DeleteAccountModal
         open={deletePopoverVisible}
         onClose={hidePopover}
@@ -66,7 +69,10 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
       <div data-testid="profile-account-deleteAccount">
         <div className={cn(styles.content, CLASSES.deleteMyAccount.content)}>
           <Localized id="profile-account-deleteAccount-deleteMyAccount">
-            <div className={cn(styles.title, CLASSES.deleteMyAccount.title)}>
+            <div
+              className={cn(styles.title, CLASSES.deleteMyAccount.title)}
+              id="profile-account-deleteAccount-title"
+            >
               Delete my account
             </div>
           </Localized>
@@ -131,7 +137,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
           </Localized>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

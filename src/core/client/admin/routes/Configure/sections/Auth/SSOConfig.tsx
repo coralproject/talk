@@ -50,7 +50,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled }) => (
             <ExternalLink href="https://jwt.io/introduction/"></ExternalLink>
           }
           DocLink={
-            <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/sso/"></ExternalLink>
+            <ExternalLink href="https://docs.coralproject.net/sso"></ExternalLink>
           }
         >
           <FormFieldDescription>

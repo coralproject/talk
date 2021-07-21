@@ -139,9 +139,9 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
       <HorizontalGutter
         id="comments-unansweredComments-log"
         data-testid="comments-unansweredComments-log"
-        role="log"
-        aria-live="polite"
         size="oneAndAHalf"
+        role="log"
+        aria-live="off"
       >
         {comments.length === 0 && (
           <NoComments mode="QA" isClosed={props.story.isClosed} />
@@ -160,6 +160,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button
+              key={comments.length}
               onClick={loadMoreAndEmit}
               variant="outlined"
               color="secondary"

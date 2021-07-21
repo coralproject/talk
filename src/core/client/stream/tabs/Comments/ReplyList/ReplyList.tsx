@@ -47,6 +47,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
       id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
       role="log"
+      aria-live="off"
       className={cn({ [styles.withPadding]: !commentSeenEnabled })}
       spacing={commentSeenEnabled ? 0 : undefined}
     >

@@ -168,7 +168,13 @@ export const Users = (ctx: GraphContext) => ({
       throw new Error("cannot delete self immediately");
     }
 
-    return deleteUser(ctx.mongo, input.userID, ctx.tenant.id, ctx.now);
+    return deleteUser(
+      ctx.mongo,
+      ctx.redis,
+      input.userID,
+      ctx.tenant.id,
+      ctx.now
+    );
   },
   cancelAccountDeletion: async (
     input: GQLCancelAccountDeletionInput

@@ -8,11 +8,11 @@ There are a few avenues to get in touch with us and others in the community for 
 
 To log a bug or request a feature, submit a Support ticket ([support@coralproject.net](mailto:support@coralproject.net)) and someone from our team will get back to you.
 
-You can also request help on Github by [submitting an issue](https://github.com/coralproject/talk/issues). This also increases your chances of having someone from the community respond to help.
+You can also request help on GitHub by [submitting an issue](https://github.com/coralproject/talk/issues). This also increases your chances of having someone from the community respond to help.
 
 ## How can our dev team contribute to Coral?
 
-We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md) to get started, but feel free to reach out to us via Github too.
+We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md) to get started, but feel free to reach out to us via GitHub too.
 
 ## What if we want to add a feature you don't have?
 

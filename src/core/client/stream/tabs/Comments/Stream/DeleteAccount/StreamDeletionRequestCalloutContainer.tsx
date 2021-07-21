@@ -64,6 +64,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
     <>
       {deletionDate && (
         <CallOut
+          container="section"
           color="error"
           className={CLASSES.pendingAccountDeletion.$root}
           borderPosition="top"
@@ -76,9 +77,12 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
           iconPosition="left"
           title={
             <Localized id="comments-stream-deleteAccount-callOut-title">
-              Account deletion requested
+              <div id="comments-stream-deleteAccount-callOut-title">
+                Account deletion requested
+              </div>
             </Localized>
           }
+          aria-labelledby="comments-stream-deleteAccount-callOut-title"
         >
           <HorizontalGutter className={styles.gutter}>
             <Localized
