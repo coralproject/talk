@@ -6,7 +6,7 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 
-import commentElementID from "coral-stream/tabs/Comments/Comment/commentElementID";
+import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import useCommentSeenEnabled from "coral-stream/tabs/Comments/commentSeen/useCommentSeenEnabled";
 
 export interface KeyboardEventData {
@@ -157,7 +157,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
       const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
         .commentWithTraversalFocus;
       const currentCommentElement = document.getElementById(
-        commentElementID(currentCommentID)
+        computeCommentElementID(currentCommentID)
       );
       const currentStop =
         currentCommentElement && toKeyStop(currentCommentElement);
