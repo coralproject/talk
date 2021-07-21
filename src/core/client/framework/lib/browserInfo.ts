@@ -13,6 +13,7 @@ export interface BrowserInfo {
     intlPluralRules: boolean;
     intersectionObserver: boolean;
   };
+  macos: boolean;
 }
 
 export function supportsCSSVars(window: Window): boolean {
@@ -25,28 +26,34 @@ export function supportsCSSVars(window: Window): boolean {
  * feature support results.
  */
 export function getBrowserInfo(window: Window): BrowserInfo {
-  const browser = Bowser.getParser(window.navigator.userAgent);
-  const ios = browser.is(Bowser.OS_MAP.iOS);
-  const msie = browser.is(Bowser.BROWSER_MAP.ie);
-  const mobile = browser.is(Bowser.PLATFORMS_MAP.mobile);
-  const version = Number.parseFloat(browser.getBrowserVersion());
-  const browserInfo = {
-    version,
-    supports: {
-      intl: typeof Intl !== "undefined",
-      intlPluralRules: typeof Intl !== "undefined" && Boolean(Intl.PluralRules),
-      proxyObject: Boolean((window as any).Proxy),
-      cssVariables: supportsCSSVars(window),
-      fetch: Boolean(window.fetch),
-      intersectionObserver:
-        "IntersectionObserver" in window &&
-        "IntersectionObserverEntry" in window &&
-        "intersectionRatio" in
-          (window as any).IntersectionObserverEntry.prototype,
-    },
-    ios,
-    msie,
-    mobile,
-  };
+  if (!browserInfo) {
+    const browser = Bowser.getParser(window.navigator.userAgent);
+    const ios = browser.is(Bowser.OS_MAP.iOS);
+    const macos = browser.is(Bowser.OS_MAP.MacOS);
+    const msie = browser.is(Bowser.BROWSER_MAP.ie);
+    const mobile = browser.is(Bowser.PLATFORMS_MAP.mobile);
+    const version = Number.parseFloat(browser.getBrowserVersion());
+    browserInfo = {
+      version,
+      supports: {
+        intl: typeof Intl !== "undefined",
+        intlPluralRules:
+          typeof Intl !== "undefined" && Boolean(Intl.PluralRules),
+        proxyObject: Boolean(window.Proxy),
+        cssVariables: window.CSS && CSS.supports("color", "var(--fake-var)"),
+        fetch: Boolean(window.fetch),
+        intersectionObserver:
+          "IntersectionObserver" in window &&
+          "IntersectionObserverEntry" in window &&
+          "intersectionRatio" in
+            (window as any).IntersectionObserverEntry.prototype,
+      },
+      ios,
+      msie,
+      mobile,
+      macos,
+    };
+  }
+
   return browserInfo;
 }

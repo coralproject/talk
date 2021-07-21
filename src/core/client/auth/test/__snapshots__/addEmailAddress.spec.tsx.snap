@@ -139,6 +139,7 @@ Your email address will be used to:
       </div>
       <div
         className="ValidationMessage-root"
+        role="alert"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -285,6 +286,7 @@ Your email address will be used to:
       </div>
       <div
         className="ValidationMessage-root"
+        role="alert"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -332,6 +334,7 @@ Your email address will be used to:
       </div>
       <div
         className="ValidationMessage-root"
+        role="alert"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -661,6 +664,7 @@ Your email address will be used to:
       </div>
       <div
         className="ValidationMessage-root"
+        role="alert"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -708,6 +712,7 @@ Your email address will be used to:
       </div>
       <div
         className="ValidationMessage-root"
+        role="alert"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"

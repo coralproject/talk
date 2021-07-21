@@ -23,7 +23,9 @@ const DisableQA: FunctionComponent<Props> = ({
   <div className={CLASSES.openCommentStream.$root}>
     <Flex alignItems="center">
       <Localized id="configure-disableQA-title">
-        <div className={styles.heading}>Configure this Q&A</div>
+        <div className={styles.heading} id="configure-disableQA-title">
+          Configure this Q&A
+        </div>
       </Localized>
       <div className={styles.experimental}>
         <ExperimentalTag

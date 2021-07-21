@@ -100,64 +100,75 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
         size="double"
       >
         <UserBoxContainer viewer={viewer} settings={settings} />
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
-          className={styles.header}
+        <Localized
+          id="comments-permalinkView-section"
+          attrs={{ "aria-label": true }}
         >
-          <Localized id="comments-permalinkView-youAreCurrentlyViewing">
-            <div className={styles.title}>
-              You are currently viewing a single conversation
-            </div>
-          </Localized>
-          {showAllCommentsHref && (
-            <Localized id="comments-permalinkView-viewFullDiscussion">
-              <Button
-                className={CLASSES.permalinkView.viewFullDiscussionButton}
-                variant="flat"
-                color="primary"
-                fontSize="medium"
-                fontWeight="semiBold"
-                onClick={onShowAllComments}
-                href={showAllCommentsHref}
-                target="_parent"
-                anchor
-                underline
-              >
-                View full discussion
-              </Button>
-            </Localized>
-          )}
-        </Flex>
-        {!commentVisible && (
-          <CallOut>
-            <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
-              This comment has been removed or does not exist.
-            </Localized>
-          </CallOut>
-        )}
-        {comment && commentVisible && (
-          <HorizontalGutter>
-            <ConversationThreadContainer
-              viewer={viewer}
-              comment={comment}
-              story={story}
-              settings={settings}
-            />
-            <div className={styles.replyList}>
-              <ReplyListContainer
-                viewer={viewer}
-                comment={comment}
-                story={story}
-                settings={settings}
-                liveDirectRepliesInsertion
-                allowIgnoredTombstoneReveal
-                disableHideIgnoredTombstone
-              />
-            </div>
+          <HorizontalGutter
+            size="double"
+            container="section"
+            aria-label="Single Conversation"
+          >
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              direction="column"
+              className={styles.header}
+            >
+              <Localized id="comments-permalinkView-youAreCurrentlyViewing">
+                <div className={styles.title}>
+                  You are currently viewing a single conversation
+                </div>
+              </Localized>
+              {showAllCommentsHref && (
+                <Localized id="comments-permalinkView-viewFullDiscussion">
+                  <Button
+                    className={CLASSES.permalinkView.viewFullDiscussionButton}
+                    variant="flat"
+                    color="primary"
+                    fontSize="medium"
+                    fontWeight="semiBold"
+                    onClick={onShowAllComments}
+                    href={showAllCommentsHref}
+                    target="_parent"
+                    anchor
+                    underline
+                  >
+                    View full discussion
+                  </Button>
+                </Localized>
+              )}
+            </Flex>
+            {!commentVisible && (
+              <CallOut aria-live="polite">
+                <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
+                  This comment has been removed or does not exist.
+                </Localized>
+              </CallOut>
+            )}
+            {comment && commentVisible && (
+              <HorizontalGutter>
+                <ConversationThreadContainer
+                  viewer={viewer}
+                  comment={comment}
+                  story={story}
+                  settings={settings}
+                />
+                <div className={styles.replyList}>
+                  <ReplyListContainer
+                    viewer={viewer}
+                    comment={comment}
+                    story={story}
+                    settings={settings}
+                    liveDirectRepliesInsertion
+                    allowIgnoredTombstoneReveal
+                    disableHideIgnoredTombstone
+                  />
+                </div>
+              </HorizontalGutter>
+            )}
           </HorizontalGutter>
-        )}
+        </Localized>
       </HorizontalGutter>
     </CommentSeenProvider>
   );
