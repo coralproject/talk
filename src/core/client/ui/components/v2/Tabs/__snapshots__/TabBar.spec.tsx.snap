@@ -23,6 +23,13 @@ exports[`renders correctly 1`] = `
       role="tab"
       type="button"
     >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
       One
     </button>
   </li>
@@ -44,6 +51,13 @@ exports[`renders correctly 1`] = `
       role="tab"
       type="button"
     >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
       Two
     </button>
   </li>
@@ -65,6 +79,13 @@ exports[`renders correctly 1`] = `
       role="tab"
       type="button"
     >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
       Three
     </button>
   </li>
