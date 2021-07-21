@@ -102,7 +102,7 @@ const MediaField: FunctionComponent<Props> = ({
       return;
     }
 
-    if (value) {
+    if (value && value.url) {
       if (widget === value.type) {
         if (dirty && valid) {
           // When this field is dirty, valid, and the current value was created
