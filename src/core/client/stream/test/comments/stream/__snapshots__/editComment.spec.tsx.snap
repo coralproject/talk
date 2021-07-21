@@ -3,11 +3,13 @@
 exports[`cancel edit 1`] = `
 <div
   aria-labelledby="comment-comment-with-replies-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <div
     className="Hidden-root"
@@ -292,227 +294,6 @@ exports[`cancel edit 1`] = `
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`edit a comment and handle server error: edit form 1`] = `
-<div
-  data-testid="comment-comment-with-replies"
->
-  <div>
-    <div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
-      >
-        <div>
-          <span
-            className="Username-root"
-          >
-            Markus
-          </span>
-        </div>
-        <button
-          className="BaseButton-root Timestamp-root"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          <time
-            className="RelativeTime-root Timestamp-text"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
-          >
-            2018-07-06T18:24:00.000Z
-          </time>
-        </button>
-      </div>
-    </div>
-    <div
-      className="coral coral-editComment EditCommentForm-root"
-    >
-      <form
-        autoComplete="off"
-        id="comments-postCommentForm-form"
-        onSubmit={[Function]}
-      >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
-        >
-          <div>
-            <label
-              className="AriaInfo-root"
-              htmlFor="comments-editCommentForm-rte-comment-with-replies"
-            >
-              Edit comment
-            </label>
-            <div
-              className="CommentForm-commentFormBox coral coral-commentForm"
-            >
-              <div
-                role="none"
-              >
-                <div
-                  className="coral coral-rte"
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                >
-                  <div
-                    className="RTE.module-contentEditableContainer RTE-container coral coral-rte-container"
-                  >
-                    <div
-                      aria-placeholder="Edit comment"
-                      className="RTE.module-contentEditable coral coral-rte-content RTE-content"
-                      id="comments-editCommentForm-rte-comment-with-replies"
-                    />
-                  </div>
-                  <div
-                    className="coral coral-rte-toolbar RTE-toolbar RTE.module-toolbarBottom Toolbar.module-toolbar"
-                  >
-                    <button
-                      aria-pressed={false}
-                      className="BaseButton-root RTEButton-button"
-                      disabled={false}
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      title="Bold"
-                      type="button"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-md"
-                      >
-                        format_bold
-                      </i>
-                    </button>
-                    <button
-                      aria-pressed={false}
-                      className="BaseButton-root RTEButton-button"
-                      disabled={false}
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      title="Italic"
-                      type="button"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-md"
-                      >
-                        format_italic
-                      </i>
-                    </button>
-                    <button
-                      aria-pressed={false}
-                      className="BaseButton-root RTEButton-button"
-                      disabled={false}
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      title="Blockquote"
-                      type="button"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-md"
-                      >
-                        format_quote
-                      </i>
-                    </button>
-                    <button
-                      aria-pressed={false}
-                      className="BaseButton-root RTEButton-button"
-                      disabled={false}
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      title="Bulleted List"
-                      type="button"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-md"
-                      >
-                        format_list_bulleted
-                      </i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
-          >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm MessageIcon-root"
-            >
-              alarm
-            </i>
-            <span>
-              Edit: 
-              <time
-                className="RelativeTime-root"
-                dateTime="2018-07-06T18:24:30.000Z"
-                title="2018-07-06T18:24:30.000Z"
-              >
-                2018-07-06T18:24:30.000Z
-              </time>
-               remaining
-            </span>
-          </div>
-          <div
-            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd gutter Flex-spacing-1"
-          >
-            <button
-              className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-editComment-cancel"
-              data-variant="outlined"
-              disabled={false}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              Cancel
-            </button>
-            <button
-              className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-editComment-submit"
-              data-variant="filled"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              Save changes
-            </button>
-          </div>
-        </div>
-      </form>
     </div>
   </div>
 </div>
@@ -963,11 +744,13 @@ exports[`edit a comment: optimistic response 1`] = `
 exports[`edit a comment: render comment with edit button 1`] = `
 <div
   aria-labelledby="comment-comment-with-replies-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <div
     className="Hidden-root"
@@ -1260,11 +1043,13 @@ exports[`edit a comment: render comment with edit button 1`] = `
 exports[`edit a comment: server response 1`] = `
 <div
   aria-labelledby="comment-comment-with-replies-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <div
     className="Hidden-root"
@@ -1566,11 +1351,13 @@ exports[`edit a comment: server response 1`] = `
 exports[`shows expiry message: edit form closed 1`] = `
 <div
   aria-labelledby="comment-comment-with-replies-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <div
     className="Hidden-root"

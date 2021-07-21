@@ -3,11 +3,13 @@
 exports[`hide reply button 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -83,6 +85,7 @@ exports[`hide reply button 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -148,6 +151,7 @@ exports[`hide reply button 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -192,6 +196,7 @@ exports[`hide reply button 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -246,6 +251,7 @@ exports[`hide reply button 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -282,6 +288,7 @@ exports[`hide reply button 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -351,6 +358,7 @@ exports[`hide reply button 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -383,11 +391,13 @@ exports[`hide reply button 1`] = `
 exports[`renders body only 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -462,6 +472,7 @@ exports[`renders body only 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -535,6 +546,7 @@ exports[`renders body only 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -579,6 +591,7 @@ exports[`renders body only 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -633,6 +646,7 @@ exports[`renders body only 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -669,6 +683,7 @@ exports[`renders body only 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -738,6 +753,7 @@ exports[`renders body only 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -770,11 +786,13 @@ exports[`renders body only 1`] = `
 exports[`renders disabled reply when commenting has been disabled 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -850,6 +868,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -923,6 +942,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -967,6 +987,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -1021,6 +1042,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -1057,6 +1079,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -1126,6 +1149,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -1158,11 +1182,13 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
 exports[`renders disabled reply when story is closed 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -1238,6 +1264,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -1311,6 +1338,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -1355,6 +1383,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -1409,6 +1438,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -1445,6 +1475,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -1514,6 +1545,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -1546,11 +1578,13 @@ exports[`renders disabled reply when story is closed 1`] = `
 exports[`renders in reply to 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -1626,6 +1660,7 @@ exports[`renders in reply to 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": Object {
@@ -1703,6 +1738,7 @@ exports[`renders in reply to 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": Object {
@@ -1751,6 +1787,7 @@ exports[`renders in reply to 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": Object {
@@ -1810,6 +1847,7 @@ exports[`renders in reply to 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": Object {
@@ -1850,6 +1888,7 @@ exports[`renders in reply to 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": Object {
@@ -1923,6 +1962,7 @@ exports[`renders in reply to 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": Object {
@@ -1959,11 +1999,13 @@ exports[`renders in reply to 1`] = `
 exports[`renders username and body 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -2039,6 +2081,7 @@ exports[`renders username and body 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -2112,6 +2155,7 @@ exports[`renders username and body 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -2156,6 +2200,7 @@ exports[`renders username and body 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -2210,6 +2255,7 @@ exports[`renders username and body 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -2246,6 +2292,7 @@ exports[`renders username and body 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -2315,6 +2362,7 @@ exports[`renders username and body 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -2347,11 +2395,13 @@ exports[`renders username and body 1`] = `
 exports[`renders with tombstone when comment has been deleted 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -2427,6 +2477,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -2500,6 +2551,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -2544,6 +2596,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -2598,6 +2651,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -2634,6 +2688,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -2703,6 +2758,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -2735,11 +2791,13 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
 exports[`shows conversation link 1`] = `
 <div
   aria-labelledby="comment-comment-id-label"
-  className="coral coral-comment coral coral-reacted-0"
+  className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  onFocus={[Function]}
   role="article"
+  tabIndex={-1}
 >
   <Hidden
     container="div"
@@ -2815,6 +2873,7 @@ exports[`shows conversation link 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -2888,6 +2947,7 @@ exports[`shows conversation link 1`] = `
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
                     },
+                    "hasTraversalFocus": false,
                     "id": "comment-id",
                     "lastViewerAction": null,
                     "parent": null,
@@ -2938,6 +2998,7 @@ exports[`shows conversation link 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
@@ -2992,6 +3053,7 @@ exports[`shows conversation link 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -3028,6 +3090,7 @@ exports[`shows conversation link 1`] = `
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
                 },
+                "hasTraversalFocus": false,
                 "id": "comment-id",
                 "lastViewerAction": null,
                 "parent": null,
@@ -3097,6 +3160,7 @@ exports[`shows conversation link 1`] = `
                 "editableUntil": "1995-12-17T03:24:30.000Z",
                 "edited": false,
               },
+              "hasTraversalFocus": false,
               "id": "comment-id",
               "lastViewerAction": null,
               "parent": null,
