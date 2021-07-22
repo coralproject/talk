@@ -45,6 +45,7 @@ exports[`checks for invalid username 1`] = `
       </div>
       <div
         className="ValidationMessage-root"
+        role="alert"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -216,6 +217,7 @@ exports[`shows error when submitting empty form 1`] = `
       </div>
       <div
         className="ValidationMessage-root"
+        role="alert"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"

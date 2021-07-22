@@ -47,7 +47,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
     if (!props.viewer) {
       return (
         <Localized id="discussions-discussionsQuery-errorLoadingProfile">
-          <CallOut color="error" fullWidth>
+          <CallOut color="error" fullWidth aria-live="polite">
             Error loading profile
           </CallOut>
         </Localized>
@@ -56,7 +56,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
     if (!props.story) {
       return (
         <Localized id="discussions-discussionsQuery-storyNotFound">
-          <CallOut>Story not found</CallOut>
+          <CallOut aria-live="polite">Story not found</CallOut>
         </Localized>
       );
     }

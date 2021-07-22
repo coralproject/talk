@@ -18,6 +18,13 @@ exports[`renders correctly 1`] = `
     role="tab"
     type="button"
   >
+    <div
+      className="AriaInfo-root"
+    >
+      <span>
+        Tab:
+      </span>
+    </div>
     Three
   </button>
 </li>

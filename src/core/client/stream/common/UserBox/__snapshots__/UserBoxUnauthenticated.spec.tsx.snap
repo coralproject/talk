@@ -1,90 +1,112 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ForwardRef(forwardRef)
-  alignItems="center"
-  className="coral coral-viewerBox"
-  wrap={true}
+<Localized
+  attrs={
+    Object {
+      "aria-label": true,
+    }
+  }
+  id="general-authenticationSection"
 >
-  <Localized
-    id="general-userBoxUnauthenticated-joinTheConversation"
-  >
-    <span
-      className="UserBoxUnauthenticated-joinText"
-    >
-      Join the conversation
-    </span>
-  </Localized>
-  <div
-    className="UserBoxUnauthenticated-actions"
+  <ForwardRef(forwardRef)
+    alignItems="center"
+    aria-label="Authentication"
+    className="coral coral-viewerBox"
+    container="section"
+    wrap={true}
   >
     <Localized
-      id="general-userBoxUnauthenticated-register"
+      id="general-userBoxUnauthenticated-joinTheConversation"
     >
-      <ForwardRef(forwardRef)
-        className="UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
-        color="primary"
-        fontSize="extraSmall"
-        onClick={[Function]}
-        paddingSize="extraSmall"
-        upperCase={true}
-        variant="filled"
+      <span
+        className="UserBoxUnauthenticated-joinText"
       >
-        Register
-      </ForwardRef(forwardRef)>
+        Join the conversation
+      </span>
     </Localized>
-    <Localized
-      id="general-userBoxUnauthenticated-signIn"
+    <div
+      className="UserBoxUnauthenticated-actions"
     >
-      <ForwardRef(forwardRef)
-        className="coral coral-viewerBox-signInButton"
-        color="primary"
-        fontSize="extraSmall"
-        onClick={[Function]}
-        paddingSize="extraSmall"
-        upperCase={true}
-        variant="outlined"
+      <Localized
+        id="general-userBoxUnauthenticated-register"
       >
-        Sign in
-      </ForwardRef(forwardRef)>
-    </Localized>
-  </div>
-</ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          className="UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
+          color="primary"
+          fontSize="extraSmall"
+          onClick={[Function]}
+          paddingSize="extraSmall"
+          upperCase={true}
+          variant="filled"
+        >
+          Register
+        </ForwardRef(forwardRef)>
+      </Localized>
+      <Localized
+        id="general-userBoxUnauthenticated-signIn"
+      >
+        <ForwardRef(forwardRef)
+          className="coral coral-viewerBox-signInButton"
+          color="primary"
+          fontSize="extraSmall"
+          onClick={[Function]}
+          paddingSize="extraSmall"
+          upperCase={true}
+          variant="outlined"
+        >
+          Sign in
+        </ForwardRef(forwardRef)>
+      </Localized>
+    </div>
+  </ForwardRef(forwardRef)>
+</Localized>
 `;
 
 exports[`renders correctly hides showRegisterButton 1`] = `
-<ForwardRef(forwardRef)
-  alignItems="center"
-  className="coral coral-viewerBox"
-  wrap={true}
+<Localized
+  attrs={
+    Object {
+      "aria-label": true,
+    }
+  }
+  id="general-authenticationSection"
 >
-  <Localized
-    id="general-userBoxUnauthenticated-joinTheConversation"
-  >
-    <span
-      className="UserBoxUnauthenticated-joinText"
-    >
-      Join the conversation
-    </span>
-  </Localized>
-  <div
-    className="UserBoxUnauthenticated-actions"
+  <ForwardRef(forwardRef)
+    alignItems="center"
+    aria-label="Authentication"
+    className="coral coral-viewerBox"
+    container="section"
+    wrap={true}
   >
     <Localized
-      id="general-userBoxUnauthenticated-signIn"
+      id="general-userBoxUnauthenticated-joinTheConversation"
     >
-      <ForwardRef(forwardRef)
-        className="coral coral-viewerBox-signInButton"
-        color="primary"
-        fontSize="extraSmall"
-        onClick={[Function]}
-        paddingSize="extraSmall"
-        upperCase={true}
-        variant="outlined"
+      <span
+        className="UserBoxUnauthenticated-joinText"
       >
-        Sign in
-      </ForwardRef(forwardRef)>
+        Join the conversation
+      </span>
     </Localized>
-  </div>
-</ForwardRef(forwardRef)>
+    <div
+      className="UserBoxUnauthenticated-actions"
+    >
+      <Localized
+        id="general-userBoxUnauthenticated-signIn"
+      >
+        <ForwardRef(forwardRef)
+          className="coral coral-viewerBox-signInButton"
+          color="primary"
+          fontSize="extraSmall"
+          onClick={[Function]}
+          paddingSize="extraSmall"
+          upperCase={true}
+          variant="outlined"
+        >
+          Sign in
+        </ForwardRef(forwardRef)>
+      </Localized>
+    </div>
+  </ForwardRef(forwardRef)>
+</Localized>
 `;

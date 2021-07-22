@@ -96,88 +96,26 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
       className={cn(CLASSES.conversationThread.$root, styles.root)}
       data-testid={dataTestID}
     >
-      <div className={styles.rootParent}>
-        <HorizontalGutter container={Line}>
-          {rootParent && (
-            <Circle>
-              <IgnoredTombstoneOrHideContainer
-                viewer={viewer}
-                comment={rootParent}
-                allowTombstoneReveal
-                disableHide
-              >
-                <RejectedTombstoneContainer comment={rootParent}>
-                  <DeletedTombstoneContainer comment={rootParent}>
-                    <CommentContainer
-                      comment={rootParent}
-                      story={story}
-                      viewer={viewer}
-                      settings={settings}
-                      localReply
-                    />
-                  </DeletedTombstoneContainer>
-                </RejectedTombstoneContainer>
-                {viewer && (
-                  <LocalReplyListContainer
-                    story={story}
-                    viewer={viewer}
-                    settings={settings}
-                    comment={rootParent}
-                    indentLevel={1}
-                    allowIgnoredTombstoneReveal
-                  />
-                )}
-              </IgnoredTombstoneOrHideContainer>
-            </Circle>
-          )}
-        </HorizontalGutter>
-      </div>
-
-      {remaining > 0 && (
-        <Flex alignItems="center" className={styles.showMoreContainer}>
-          <Icon size="lg" className={styles.showMoreIcon}>
-            more_vert
-          </Icon>
-          <Localized
-            id="comments-conversationThread-showMoreOfThisConversation"
-            $count={remaining}
-          >
-            <Button
-              className={CLASSES.conversationThread.showMore}
-              onClick={loadMoreAndEmit}
-              disabled={isLoadingMore}
-              variant="flat"
-              fontSize="small"
-              paddingSize="small"
-              color="secondary"
-              upperCase
-            >
-              Show more of this conversation
-            </Button>
-          </Localized>
-          {remaining > 1 && <Counter color="dark">{remaining}</Counter>}
-        </Flex>
-      )}
-
-      <div className={styles.parentList}>
-        {parents.map((parent) => (
-          <div key={parent.id} className={styles.parentContainer}>
-            <Line>
+      <div role="log" aria-live="off" id="permaLinkParentLog">
+        <div className={styles.rootParent}>
+          <HorizontalGutter container={Line}>
+            {rootParent && (
               <Circle>
                 <IgnoredTombstoneOrHideContainer
                   viewer={viewer}
-                  comment={parent}
+                  comment={rootParent}
                   allowTombstoneReveal
                   disableHide
                 >
-                  <RejectedTombstoneContainer comment={parent}>
-                    <DeletedTombstoneContainer comment={parent}>
+                  <RejectedTombstoneContainer comment={rootParent}>
+                    <DeletedTombstoneContainer comment={rootParent}>
                       <CommentContainer
-                        comment={parent}
+                        comment={rootParent}
                         story={story}
                         viewer={viewer}
                         settings={settings}
                         localReply
+                        ariaIsAncestor
                       />
                     </DeletedTombstoneContainer>
                   </RejectedTombstoneContainer>
@@ -186,16 +124,83 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                       story={story}
                       viewer={viewer}
                       settings={settings}
-                      comment={parent}
+                      comment={rootParent}
                       indentLevel={1}
                       allowIgnoredTombstoneReveal
                     />
                   )}
                 </IgnoredTombstoneOrHideContainer>
               </Circle>
-            </Line>
-          </div>
-        ))}
+            )}
+          </HorizontalGutter>
+        </div>
+
+        {remaining > 0 && (
+          <Flex alignItems="center" className={styles.showMoreContainer}>
+            <Icon size="lg" className={styles.showMoreIcon}>
+              more_vert
+            </Icon>
+            <Localized
+              id="comments-conversationThread-showMoreOfThisConversation"
+              $count={remaining}
+            >
+              <Button
+                className={CLASSES.conversationThread.showMore}
+                onClick={loadMoreAndEmit}
+                disabled={isLoadingMore}
+                variant="flat"
+                fontSize="small"
+                paddingSize="small"
+                color="secondary"
+                upperCase
+                aria-controls="permaLinkParentLog"
+              >
+                Show more of this conversation
+              </Button>
+            </Localized>
+            {remaining > 1 && <Counter color="dark">{remaining}</Counter>}
+          </Flex>
+        )}
+
+        <div className={styles.parentList}>
+          {parents.map((parent) => (
+            <div key={parent.id} className={styles.parentContainer}>
+              <Line>
+                <Circle>
+                  <IgnoredTombstoneOrHideContainer
+                    viewer={viewer}
+                    comment={parent}
+                    allowTombstoneReveal
+                    disableHide
+                  >
+                    <RejectedTombstoneContainer comment={parent}>
+                      <DeletedTombstoneContainer comment={parent}>
+                        <CommentContainer
+                          comment={parent}
+                          story={story}
+                          viewer={viewer}
+                          settings={settings}
+                          localReply
+                          ariaIsAncestor
+                        />
+                      </DeletedTombstoneContainer>
+                    </RejectedTombstoneContainer>
+                    {viewer && (
+                      <LocalReplyListContainer
+                        story={story}
+                        viewer={viewer}
+                        settings={settings}
+                        comment={parent}
+                        indentLevel={1}
+                        allowIgnoredTombstoneReveal
+                      />
+                    )}
+                  </IgnoredTombstoneOrHideContainer>
+                </Circle>
+              </Line>
+            </div>
+          ))}
+        </div>
 
         <div className={styles.targetComment}>
           <Circle end>
@@ -214,6 +219,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                     settings={settings}
                     viewer={viewer}
                     highlight
+                    ariaIsHighlighted
                   />
                 </DeletedTombstoneContainer>
               </RejectedTombstoneContainer>
