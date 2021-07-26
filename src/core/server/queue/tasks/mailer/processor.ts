@@ -31,6 +31,8 @@ import {
 
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
+import { isLastAttempt } from "./isLastAttempt";
+
 export const JOB_NAME = "mailer";
 
 interface TemplateMeta {
@@ -384,9 +386,7 @@ export const createJobProcessor = (
       sentEmailsCounter = 0;
       log.warn({ err: e }, "reset smtp transport due to a send error");
 
-      // On the last attempt, the `attemptsMade` will be one less than the max
-      // as we have already _attempted_ `MAX_JOB_ATTEMPTS - 1` times.
-      if (job.attemptsMade >= MAX_JOB_ATTEMPTS - 1) {
+      if (isLastAttempt(job.attemptsMade, MAX_JOB_ATTEMPTS)) {
         throw new WrappedInternalError(e, "could not send email, not retrying");
       }
 
