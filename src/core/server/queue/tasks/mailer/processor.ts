@@ -14,7 +14,7 @@ import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
 import { Db } from "mongodb";
-import timeoutPromiseAfter, { TimeoutError } from "p-timeout";
+import timeoutPromiseAfter from "p-timeout";
 
 import { LanguageCode } from "coral-common/helpers";
 import { Config } from "coral-server/config";
@@ -22,7 +22,7 @@ import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
-import { JobProcessor } from "coral-server/queue/Task";
+import { JobProcessor, MAX_JOB_ATTEMPTS } from "coral-server/queue/Task";
 import { I18n, translate } from "coral-server/services/i18n";
 import {
   TenantCache,
@@ -384,14 +384,13 @@ export const createJobProcessor = (
       sentEmailsCounter = 0;
       log.warn({ err: e }, "reset smtp transport due to a send error");
 
-      if (e instanceof TimeoutError) {
-        // if we timed out, instead of erroring, log a warning and bail out
-        // so that the mailer job can try again later
-        log.warn({ err: e }, "sending email timed out");
-        return;
-      } else {
-        throw new WrappedInternalError(e, "could not send email");
+      // On the last attempt, the `attemptsMade` will be one less than the max
+      // as we have already _attempted_ `MAX_JOB_ATTEMPTS - 1` times.
+      if (job.attemptsMade >= MAX_JOB_ATTEMPTS - 1) {
+        throw new WrappedInternalError(e, "could not send email, not retrying");
       }
+
+      throw new WrappedInternalError(e, "could not send email, will retry");
     }
 
     // Increment the sent email counter.

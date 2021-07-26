@@ -6,6 +6,8 @@ import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { TenantResource } from "coral-server/models/tenant";
 
+export const MAX_JOB_ATTEMPTS = 5 as const;
+
 export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
 
 interface TaskOptions<T, U = void> {
@@ -48,7 +50,7 @@ export default class Task<T extends TenantResource, U = any> {
       },
 
       // Be default, try all jobs at least 5 times.
-      attempts: 5,
+      attempts: MAX_JOB_ATTEMPTS,
     };
     this.idGenerator = jobIdGenerator;
     this.processor = jobProcessor;
