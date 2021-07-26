@@ -81,15 +81,12 @@ export default function createNetwork(
         statusCodes: [500, 503, 504],
         beforeRetry: ({ abort, attempt, lastError }) => {
           if (attempt > 2) {
-            const payload = JSON.stringify({
-              note: "aborted in beforeRetry() callback.",
-              error: {
-                name: lastError?.name,
-                message: lastError?.message,
-                stack: lastError?.stack,
-              },
-            });
-            abort(payload);
+            let message = lastError?.message;
+            if (message && lastError?.name !== "RRNLRetryMiddlewareError") {
+              // Prefix with Error name.
+              message = `(${lastError?.name}) ${message}`;
+            }
+            abort(message);
           }
         },
       }),
