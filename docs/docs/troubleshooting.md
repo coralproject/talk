@@ -4,7 +4,7 @@ title: Troubleshooting Tips
 
 ## How do I find out what version I'm running?
 
-If you visit one of the following endpionts, Coral will return the version you're running and the hash for the latest commit.
+If you visit one of the following endpoints, Coral will return the version you're running and the hash for the latest commit.
 
 - `/api/v1` (works for 4.x.x versions)
 - `/api/version` (works for 5.x.x versions)
@@ -27,7 +27,7 @@ If you visit one of the following endpionts, Coral will return the version you'r
 This depends greatly on what version of Coral you are using and which authentication strategies you've enabled. Some things to check are:
 
 - If using SSO, ensure that your JWT token settings, especially expiry, is being set correctly. You can troubleshoot JWT related issues with the [JWT Debugger](https://jwt.io/).
-- See if you can isolate if it's a particular group of users that are experiencing this issue, e.g. mods, admins, subscribers? Confirm they have the appropriate permissions to comment.
+- See if you can isolate if it's a particular group of users that are experiencing this issue, e.g., mods, admins, subscribers? Confirm they have the appropriate permissions to comment.
 - Note if this is a new issue that happened after an upgrade - did you read the [release notes](https://github.com/coralproject/talk/releases) and confirm that any required manual or automatic database migrations run?
 - If you're still experiencing issues, log a [support ticket](mailto:support@coralproject.net) so we can help diagnose the issue
 

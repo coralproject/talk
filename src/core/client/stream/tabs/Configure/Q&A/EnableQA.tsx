@@ -16,7 +16,9 @@ const EnableQA: FunctionComponent<Props> = ({ onClick, disableButton }) => (
   <div className={CLASSES.openCommentStream.$root}>
     <Flex alignItems="center">
       <Localized id="configure-enableQA-switchToQA">
-        <div className={styles.heading}>Switch to Q&A format</div>
+        <div className={styles.heading} id="configure-enableQA-title">
+          Switch to Q&A format
+        </div>
       </Localized>
       <div className={styles.experimental}>
         <ExperimentalTag

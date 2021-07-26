@@ -2,7 +2,8 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
-  className="ReplyList-root"
+  aria-live="off"
+  className="ReplyList-withPadding"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
   role="log"
@@ -64,7 +65,8 @@ exports[`renders correctly 1`] = `
 
 exports[`when there is more disables load more button 1`] = `
 <ForwardRef(forwardRef)
-  className="ReplyList-root"
+  aria-live="off"
+  className="ReplyList-withPadding"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
   role="log"
@@ -143,7 +145,8 @@ exports[`when there is more disables load more button 1`] = `
 
 exports[`when there is more renders a load more button 1`] = `
 <ForwardRef(forwardRef)
-  className="ReplyList-root"
+  aria-live="off"
+  className="ReplyList-withPadding"
   data-testid="commentReplyList-comment-id"
   id="coral-comments-replyList-log--comment-id"
   role="log"

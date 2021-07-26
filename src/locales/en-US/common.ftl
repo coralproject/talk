@@ -14,3 +14,9 @@ common-embedTypeNotSupported = This media is not supported.
 
 common-experimentalTag = Experimental
 common-experimentalTag-tooltip-title = Experimental feature
+
+# Error handling
+
+common-error-title = An error has occurred
+common-error-message = Message
+common-error-traceID = Trace ID

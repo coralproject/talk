@@ -1,5 +1,6 @@
 import { IResolvers } from "@graphql-tools/utils";
 import { EventEmitter2 } from "eventemitter2";
+import FDBFactory from "fake-indexeddb/lib/FDBFactory";
 import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
@@ -18,6 +19,7 @@ import {
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
+import createIndexedDBStorage from "coral-framework/lib/storage/IndexedDBStorage";
 import { act, createUUIDGenerator } from "coral-framework/testHelpers";
 
 import createFluentBundle from "./createFluentBundle";
@@ -113,8 +115,9 @@ export default function createTestRenderer<
     },
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
+    indexedDBStorage: createIndexedDBStorage("coral", new FDBFactory()),
     rest: new RestClient("http://localhost/api"),
-    postMessage: new PostMessageService(),
+    postMessage: new PostMessageService("coral", window, "*"),
     browserInfo: params.browserInfo || {
       supports: {
         cssVariables: true,
@@ -128,6 +131,7 @@ export default function createTestRenderer<
       ios: false,
       mobile: false,
       msie: false,
+      macos: false,
     },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),

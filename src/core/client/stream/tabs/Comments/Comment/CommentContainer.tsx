@@ -37,7 +37,14 @@ import {
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import {
+  Button,
+  Flex,
+  Hidden,
+  HorizontalGutter,
+  Icon,
+  RelativeTime,
+} from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
@@ -45,11 +52,12 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
+import { useCommentSeen, useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";
-import commentElementID from "./commentElementID";
+import computeCommentElementID from "./computeCommentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import IndentedComment from "./IndentedComment";
@@ -95,6 +103,18 @@ interface Props {
   collapsed?: boolean;
   toggleCollapsed?: () => void;
 
+  /**
+   * Set true, if this is semantically an ancestor to another comment.
+   * Will add appropiate aria label.
+   */
+  ariaIsAncestor?: boolean;
+
+  /**
+   * Set true, if this is semantically a highlighted comment.
+   * Will add appropiate aria label.
+   */
+  ariaIsHighlighted?: boolean;
+
   showRemoveAnswered?: boolean;
 }
 
@@ -106,6 +126,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   hideAnsweredTag,
   hideModerationCarat,
   highlight,
+  ariaIsAncestor,
+  ariaIsHighlighted,
   indentLevel,
   localReply,
   settings,
@@ -118,6 +140,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showAuthPopup,
   showRemoveAnswered,
 }) => {
+  const commentSeenEnabled = useCommentSeenEnabled();
+  const seen = useCommentSeen(comment.id);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -347,21 +371,100 @@ export const CommentContainer: FunctionComponent<Props> = ({
     return null;
   }
 
+  const commentElementID = computeCommentElementID(comment.id);
+
+  // Boolean that indicates whether or not we want to
+  // apply the "comment not seen class" for styling purposes.
+  const shouldApplyNotSeenClass =
+    !seen &&
+    !highlight &&
+    comment.lastViewerAction !== "CREATE" &&
+    comment.lastViewerAction !== "EDIT";
+
   return (
     <div
       className={cn(
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-        badgesClassName,
-        className
+        badgesClassName
       )}
-      id={commentElementID(comment.id)}
-      data-testid={commentElementID(comment.id)}
+      id={commentElementID}
+      role="article"
+      aria-labelledby={`${commentElementID}-label`}
+      data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
     >
+      {/* TODO: (cvle) Refactor at some point */}
+      <Hidden id={`${commentElementID}-label`}>
+        {indentLevel && (
+          <>
+            <Localized
+              id="comments-commentContainer-threadLevelLabel"
+              $level={indentLevel}
+            >
+              <span>Thread Level {indentLevel}:</span>
+            </Localized>{" "}
+          </>
+        )}
+        {ariaIsHighlighted && (
+          <>
+            <Localized id="comments-commentContainer-highlightedLabel">
+              <span>Highlighted:</span>
+            </Localized>{" "}
+          </>
+        )}
+        {ariaIsAncestor && (
+          <>
+            <Localized id="comments-commentContainer-ancestorLabel">
+              <span>Ancestor:</span>
+            </Localized>{" "}
+          </>
+        )}
+        {comment.parent && (
+          <Localized
+            id="comments-commentContainer-replyLabel"
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
+          >
+            <span>
+              Reply from {comment.author?.username}{" "}
+              <RelativeTime date={comment.createdAt} />
+            </span>
+          </Localized>
+        )}
+        {!comment.parent && isQA && (
+          <Localized
+            id="comments-commentContainer-questionLabel"
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
+          >
+            <span>
+              Question from {comment.author?.username}{" "}
+              <RelativeTime date={comment.createdAt} />
+            </span>
+          </Localized>
+        )}
+        {!comment.parent && !isQA && (
+          <Localized
+            id="comments-commentContainer-commentLabel"
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
+          >
+            <span>
+              Comment from {comment.author?.username}{" "}
+              <RelativeTime date={comment.createdAt} />
+            </span>
+          </Localized>
+        )}
+      </Hidden>
       <HorizontalGutter>
         <IndentedComment
+          classNameIndented={cn({
+            [styles.commentSeenEnabled]: commentSeenEnabled,
+            [styles.notSeen]: shouldApplyNotSeenClass,
+            [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
+          })}
           indentLevel={indentLevel}
           collapsed={collapsed}
           body={comment.body}

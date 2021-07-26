@@ -8,13 +8,15 @@ exports[`renders the empty settings pane 1`] = `
   <div
     className="Box-root HorizontalGutter-root AccountSettingsContainer-root HorizontalGutter-full"
   >
-    <div
+    <section
+      aria-labelledby="profile-changeUsername-title"
       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
       data-testid="profile-changeUsername"
     >
       <div>
         <div
           className="ChangeUsernameContainer-title coral coral-myUsername-title"
+          id="profile-changeUsername-title"
         >
           Username
         </div>
@@ -42,8 +44,9 @@ exports[`renders the empty settings pane 1`] = `
           Change
         </button>
       </div>
-    </div>
-    <div
+    </section>
+    <section
+      aria-labelledby="profile-changeEmail-title"
       className="Box-root HorizontalGutter-root coral coral-myEmail HorizontalGutter-full"
       data-testid="profile-changeEmail"
     >
@@ -52,6 +55,7 @@ exports[`renders the empty settings pane 1`] = `
       >
         <div
           className="ChangeEmailContainer-title coral coral-myEmail-title"
+          id="profile-changeEmail-title"
         >
           Email address
         </div>
@@ -74,7 +78,8 @@ exports[`renders the empty settings pane 1`] = `
       <div
         className="ChangeEmailContainer-verifyContainer coral coral-verifyEmail-container"
       >
-        <div
+        <section
+          aria-labelledby="profile-changeEmail-pleaseVerify-title"
           className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-verifyEmail"
         >
           <div
@@ -104,7 +109,9 @@ exports[`renders the empty settings pane 1`] = `
                       <div
                         className="ChangeEmailContainer-verifyTitle coral coral-verifyEmail-title"
                       >
-                        <div>
+                        <div
+                          id="profile-changeEmail-pleaseVerify-title"
+                        >
                           Verify your email address
                         </div>
                       </div>
@@ -133,7 +140,7 @@ to sign in to your account or to receive notifications.
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
       <div
         className="ChangeEmailContainer-changeButton"
@@ -153,13 +160,15 @@ to sign in to your account or to receive notifications.
           Change
         </button>
       </div>
-    </div>
-    <div
+    </section>
+    <section
+      aria-labelledby="profile-account-changePassword-title"
       className="coral coral-myPassword"
       data-testid="profile-account-changePassword"
     >
       <div
         className="ChangePassword-title coral coral-myPassword-title"
+        id="profile-account-changePassword-title"
       >
         Password
       </div>
@@ -177,8 +186,9 @@ to sign in to your account or to receive notifications.
       >
         Change
       </button>
-    </div>
-    <div
+    </section>
+    <section
+      aria-labelledby="profile-account-deleteAccount-title"
       className="DeleteAccountContainer-root coral coral-deleteMyAccount"
     >
       <div
@@ -189,6 +199,7 @@ to sign in to your account or to receive notifications.
         >
           <div
             className="DeleteAccountContainer-title coral coral-deleteMyAccount-title"
+            id="profile-account-deleteAccount-title"
           >
             Delete my account
           </div>
@@ -215,7 +226,7 @@ all your comments from this site.
           Request
         </button>
       </div>
-    </div>
+    </section>
   </div>
 </div>
 `;

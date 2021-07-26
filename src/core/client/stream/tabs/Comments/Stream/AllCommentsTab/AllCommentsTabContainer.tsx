@@ -38,6 +38,7 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
+import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
@@ -87,13 +88,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     // Check the sort ordering to apply extra logic.
     switch (commentsOrderBy) {
       case GQLCOMMENT_SORT.CREATED_AT_ASC:
-        if (hasMore) {
-          // Oldest first when there is more than one page of content can't
-          // possibly have new comments to show in view!
-          return;
-        }
-
-        // We have all the comments for this story in view! Comments could load!
+        // Oldest first can always get more comments in view like when so replies to an old comment.
         break;
       case GQLCOMMENT_SORT.CREATED_AT_DESC:
         // Newest first can always get more comments in view.
@@ -128,23 +123,34 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     tag,
   ]);
 
-  const onChangeRating = useCallback((rating: number | null) => {
-    setLocal({ ratingFilter: rating });
-  }, []);
+  const onChangeRating = useCallback(
+    (rating: number | null) => {
+      setLocal({ ratingFilter: rating });
+    },
+    [setLocal]
+  );
 
+  const lastComment =
+    (story.comments.edges.length &&
+      story.comments.edges[story.comments.edges.length - 1]) ||
+    null;
+
+  const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
     try {
       await loadMore();
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById(`comment-${lastComment?.node.id}`)?.focus();
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, story.id]);
+  }, [loadMore, beginLoadMoreEvent, story.id, lastComment]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const onViewMore = useCallback(() => viewMore({ storyID: story.id, tag }), [
     story.id,
@@ -200,6 +206,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             color="primary"
             onClick={onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
+            aria-controls="comments-allComments-log"
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
@@ -217,9 +224,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       <HorizontalGutter
         id="comments-allComments-log"
         data-testid="comments-allComments-log"
-        role="log"
-        aria-live="polite"
         size="oneAndAHalf"
+        role="log"
+        aria-live="off"
+        spacing={commentSeenEnabled ? 0 : undefined}
       >
         {story.comments.edges.length <= 0 && (
           <NoComments
@@ -242,6 +250,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         {hasMore && (
           <Localized id="comments-loadMore">
             <Button
+              key={`comments-loadMore-${story.comments.edges.length}`}
               id="comments-loadMore"
               onClick={loadMoreAndEmit}
               color="secondary"

@@ -2,6 +2,14 @@
   border-bottom: 1px solid var(--palette-divider);
 }
 
+.borderedCommentNotSeen {
+  border-bottom: 1px solid var(--palette-grey-300);
+}
+
 .hiddenReplies {
   display: none;
+}
+
+.commentSeen:not(:empty) {
+  padding-bottom: var(--spacing-2);
 }

@@ -168,6 +168,13 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+            />
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
@@ -433,6 +440,13 @@ exports[`renders rejected queue with comments 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
                   <div
+                    className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+                  />
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
                     className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
                     <span
@@ -528,27 +542,16 @@ exports[`renders rejected queue with comments 1`] = `
                 </i>
               </button>
             </div>
-            <button
-              className="BaseButton-root"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
+            <div
+              className="ModeratedByContainer-moderatedBy"
             >
-              <div
-                className="ModeratedByContainer-moderatedBy"
-              >
-                Moderated By
-              </div>
-              <div
-                className="ModeratedByContainer-moderatedByUsername"
-              >
-                System
-              </div>
-            </button>
+              Moderated By
+            </div>
+            <div
+              className="ModeratedByContainer-moderatedByUsername"
+            >
+              System
+            </div>
           </div>
         </div>
       </div>
@@ -706,6 +709,13 @@ exports[`renders rejected queue with comments 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
                   <div
+                    className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+                  />
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
                     className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
                     <span
@@ -801,27 +811,16 @@ exports[`renders rejected queue with comments 1`] = `
                 </i>
               </button>
             </div>
-            <button
-              className="BaseButton-root"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
+            <div
+              className="ModeratedByContainer-moderatedBy"
             >
-              <div
-                className="ModeratedByContainer-moderatedBy"
-              >
-                Moderated By
-              </div>
-              <div
-                className="ModeratedByContainer-moderatedByUsername"
-              >
-                System
-              </div>
-            </button>
+              Moderated By
+            </div>
+            <div
+              className="ModeratedByContainer-moderatedByUsername"
+            >
+              System
+            </div>
           </div>
         </div>
       </div>
@@ -985,6 +984,13 @@ exports[`renders rejected queue with comments and load more 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+            />
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
@@ -1093,27 +1099,16 @@ exports[`renders rejected queue with comments and load more 1`] = `
           </i>
         </button>
       </div>
-      <button
-        className="BaseButton-root"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
+      <div
+        className="ModeratedByContainer-moderatedBy"
       >
-        <div
-          className="ModeratedByContainer-moderatedBy"
-        >
-          Moderated By
-        </div>
-        <div
-          className="ModeratedByContainer-moderatedByUsername"
-        >
-          System
-        </div>
-      </button>
+        Moderated By
+      </div>
+      <div
+        className="ModeratedByContainer-moderatedByUsername"
+      >
+        System
+      </div>
     </div>
   </div>
 </div>

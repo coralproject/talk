@@ -28,7 +28,7 @@ const render = (
   const rootClassName = cn(classes.root, className);
 
   return (
-    <div className={rootClassName}>
+    <div className={rootClassName} role="alert">
       <Flex alignItems="center" justifyContent={justifyContent}>
         <Icon size="sm" className={classes.icon}>
           error

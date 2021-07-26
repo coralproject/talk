@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { HorizontalGutter, HorizontalRule } from "coral-ui/components/v2";
+import { HorizontalRule } from "coral-ui/components/v2";
 
 import { MyCommentsContainer_settings } from "coral-stream/__generated__/MyCommentsContainer_settings.graphql";
 import { MyCommentsContainer_story } from "coral-stream/__generated__/MyCommentsContainer_story.graphql";
@@ -34,13 +34,11 @@ const MyCommentsContainer: FunctionComponent<Props> = ({
           <HorizontalRule />
         </div>
       )}
-      <HorizontalGutter spacing={6}>
-        <CommentHistoryContainer
-          settings={settings}
-          viewer={viewer}
-          story={story}
-        />
-      </HorizontalGutter>
+      <CommentHistoryContainer
+        settings={settings}
+        viewer={viewer}
+        story={story}
+      />
     </>
   );
 };

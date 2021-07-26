@@ -4,10 +4,10 @@
  *
  * https://developer.mozilla.org/en-US/docs/Web/API/Storage
  */
-class InMemoryStorage implements Storage {
-  private data: Record<string, string>;
+class InMemoryStorage<T = any> {
+  private data: Record<string, T>;
 
-  constructor(data: Record<string, string> = {}) {
+  constructor(data: Record<string, T> = {}) {
     this.data = data;
   }
 
@@ -27,11 +27,11 @@ class InMemoryStorage implements Storage {
     return Object.keys(this.data)[n];
   }
 
-  public getItem(key: string) {
+  public getItem(key: string): T | null {
     return this.data[key] || null;
   }
 
-  public setItem(key: string, value: string) {
+  public setItem(key: string, value: T) {
     this.data[key] = value;
   }
 
@@ -44,6 +44,8 @@ class InMemoryStorage implements Storage {
   }
 }
 
-export default function createInMemoryStorage(data?: Record<string, string>) {
-  return new InMemoryStorage(data);
+export default function createInMemoryStorage<T = any>(
+  data?: Record<string, T>
+) {
+  return new InMemoryStorage<T>(data);
 }

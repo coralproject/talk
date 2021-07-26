@@ -2,16 +2,55 @@
 
 exports[`hide reply button 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username="Marvin"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-commentLabel"
+    >
+      <span>
+        Comment from 
+        Marvin
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -343,16 +382,54 @@ exports[`hide reply button 1`] = `
 
 exports[`renders body only 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username={null}
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-commentLabel"
+    >
+      <span>
+        Comment from 
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -692,16 +769,55 @@ exports[`renders body only 1`] = `
 
 exports[`renders disabled reply when commenting has been disabled 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username="Marvin"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-commentLabel"
+    >
+      <span>
+        Comment from 
+        Marvin
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1041,16 +1157,55 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
 
 exports[`renders disabled reply when story is closed 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username="Marvin"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-commentLabel"
+    >
+      <span>
+        Comment from 
+        Marvin
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1390,16 +1545,55 @@ exports[`renders disabled reply when story is closed 1`] = `
 
 exports[`renders in reply to 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username="Marvin"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-replyLabel"
+    >
+      <span>
+        Reply from 
+        Marvin
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1764,16 +1958,55 @@ exports[`renders in reply to 1`] = `
 
 exports[`renders username and body 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username="Marvin"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-commentLabel"
+    >
+      <span>
+        Comment from 
+        Marvin
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -2113,16 +2346,55 @@ exports[`renders username and body 1`] = `
 
 exports[`renders with tombstone when comment has been deleted 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username="Marvin"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-commentLabel"
+    >
+      <span>
+        Comment from 
+        Marvin
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -2462,16 +2734,55 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
 
 exports[`shows conversation link 1`] = `
 <div
+  aria-labelledby="comment-comment-id-label"
   className="coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
   data-testid="comment-comment-id"
   id="comment-comment-id"
+  role="article"
 >
+  <Hidden
+    container="div"
+    id="comment-comment-id-label"
+  >
+    <React.Fragment>
+      <Localized
+        $level={1}
+        id="comments-commentContainer-threadLevelLabel"
+      >
+        <span>
+          Thread Level 
+          1
+          :
+        </span>
+      </Localized>
+       
+    </React.Fragment>
+    <Localized
+      $username="Marvin"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      }
+      id="comments-commentContainer-commentLabel"
+    >
+      <span>
+        Comment from 
+        Marvin
+         
+        <ForwardRef(forwardRef)
+          date="1995-12-17T03:24:00.000Z"
+        />
+      </span>
+    </Localized>
+  </Hidden>
   <ForwardRef(forwardRef)>
     <IndentedComment
       badges={null}
       blur={false}
       body="Woof"
+      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
