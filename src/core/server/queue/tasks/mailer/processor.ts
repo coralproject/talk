@@ -22,7 +22,7 @@ import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
-import { JobProcessor, MAX_JOB_ATTEMPTS } from "coral-server/queue/Task";
+import { isLastAttempt, JobProcessor } from "coral-server/queue/Task";
 import { I18n, translate } from "coral-server/services/i18n";
 import {
   TenantCache,
@@ -30,8 +30,6 @@ import {
 } from "coral-server/services/tenant/cache";
 
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
-
-import { isLastAttempt } from "./isLastAttempt";
 
 export const JOB_NAME = "mailer";
 
@@ -386,7 +384,7 @@ export const createJobProcessor = (
       sentEmailsCounter = 0;
       log.warn({ err: e }, "reset smtp transport due to a send error");
 
-      if (isLastAttempt(job.attemptsMade, MAX_JOB_ATTEMPTS)) {
+      if (isLastAttempt(job)) {
         throw new WrappedInternalError(e, "could not send email, not retrying");
       }
 

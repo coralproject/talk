@@ -6,9 +6,14 @@ import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { TenantResource } from "coral-server/models/tenant";
 
-export const MAX_JOB_ATTEMPTS = 5 as const;
-
 export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
+
+const MAX_JOB_ATTEMPTS = 5 as const;
+export const isLastAttempt = (job: Job) => {
+  // On the last attempt, the `attemptsMade` will be one less than the limit
+  // as we have already _attempted_ `limit - 1` times.
+  return job.attemptsMade >= MAX_JOB_ATTEMPTS - 1;
+};
 
 interface TaskOptions<T, U = void> {
   jobName: string;
