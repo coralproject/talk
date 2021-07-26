@@ -14,7 +14,7 @@ import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
 import { Db } from "mongodb";
-import timeoutPromiseAfter from "p-timeout";
+import timeoutPromiseAfter, { TimeoutError } from "p-timeout";
 
 import { LanguageCode } from "coral-common/helpers";
 import { Config } from "coral-server/config";
@@ -382,10 +382,16 @@ export const createJobProcessor = (
 
       // Reset the sent email counter, we've reset the transport!
       sentEmailsCounter = 0;
-
       log.warn({ err: e }, "reset smtp transport due to a send error");
 
-      throw new WrappedInternalError(e, "could not send email");
+      if (e instanceof TimeoutError) {
+        // if we timed out, instead of erroring, log a warning and bail out
+        // so that the mailer job can try again later
+        log.warn({ err: e }, "sending email timed out");
+        return;
+      } else {
+        throw new WrappedInternalError(e, "could not send email");
+      }
     }
 
     // Increment the sent email counter.
