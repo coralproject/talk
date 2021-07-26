@@ -7,6 +7,8 @@ import Timestamp from "coral-stream/common/Timestamp";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
+import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
 
@@ -22,7 +24,7 @@ export interface CommentProps {
   footer?: React.ReactNode;
   showEditedMarker?: boolean;
   highlight?: boolean;
-  parentAuthorName?: string | null;
+  readonly parent: CommentData["parent"];
   tags?: React.ReactNode | null;
   badges?: React.ReactNode | null;
   collapsed?: boolean;
@@ -86,9 +88,9 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         )}
       </Flex>
 
-      {props.parentAuthorName && (
+      {props.parent && (
         <div className={styles.subBar}>
-          <InReplyTo username={props.parentAuthorName} />
+          <InReplyTo parent={props.parent} />
         </div>
       )}
 

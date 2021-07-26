@@ -474,7 +474,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           showEditedMarker={comment.editing.edited}
           highlight={highlight}
           toggleCollapsed={toggleCollapsed}
-          parentAuthorName={comment.parent?.author?.username}
+          parent={comment.parent}
           staticUsername={
             comment.author && (
               <Flex direction="row" alignItems="center" wrap>
@@ -762,6 +762,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             badges
           }
           parent {
+            id
             author {
               username
             }

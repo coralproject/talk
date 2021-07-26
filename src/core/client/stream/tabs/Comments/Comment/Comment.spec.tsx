@@ -15,6 +15,12 @@ it("renders username and body", () => {
     topBarRight: "topBarRight",
     footer: "footer",
     showEditedMarker: true,
+    parent: {
+      id: "test-id",
+      author: {
+        username: "test-user",
+      },
+    },
   };
   const renderer = createRenderer();
   renderer.render(<Comment {...props} />);

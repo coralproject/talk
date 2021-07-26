@@ -2,6 +2,13 @@ $commentsInReplyToUsernameColor: var(--palette-text-500);
 $commentsInReplyToLabelColor: var(--palette-text-100);
 $commentsInReplyToIconColor: var(--palette-text-100);
 
+button {
+  background-color: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
 .icon {
   color: $commentsInReplyToIconColor;
 }
