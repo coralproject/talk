@@ -1,4 +1,5 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+
 import { CommentSeenContext } from "./CommentSeenContext";
 
 /**
@@ -6,8 +7,13 @@ import { CommentSeenContext } from "./CommentSeenContext";
  * Otherwise the comment with the `commentID` will be marked as
  * seen for the next refresh. Must be called within a `<CommentSeenProvider />`
  */
-export default function useCommentSeen(commentID: string) {
-  const { enabled, seen, markSeen } = useContext(CommentSeenContext);
+export default function useCommentSeen(
+  commentID: string
+): [boolean, () => void] {
+  const { enabled, seen, markSeen, overrideAsSeen } = useContext(
+    CommentSeenContext
+  );
+  const [overrideSeen, setOverrideSeen] = useState(false);
   // Mark everything as seen, when we couldn't acquire a seen map.
   const result = seen ? Boolean(seen[commentID]) : true;
   useEffect(() => {
@@ -15,5 +21,12 @@ export default function useCommentSeen(commentID: string) {
       markSeen(commentID);
     }
   }, [commentID, markSeen, result, enabled]);
-  return result;
+  // Override so that we return that this comment has been seen.
+  const override = useCallback(() => {
+    // This takes effect immediately.
+    setOverrideSeen(true);
+    // This will preserve the override inside of the CommentSeenProvider.
+    overrideAsSeen(commentID);
+  }, [commentID, overrideAsSeen]);
+  return [result || overrideSeen, override];
 }

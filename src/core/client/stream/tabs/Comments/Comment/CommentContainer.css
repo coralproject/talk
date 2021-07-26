@@ -74,13 +74,30 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 }
 
 .traversalFocus .commentSeenEnabled {
-  background-color: $colors-yellow-500;
+  border-top: 1px solid $colors-mono-900;
+  border-bottom: 1px solid $colors-mono-900;
+  border-right: 1px solid $colors-mono-900;
+  padding-top: 8px;
+  padding-bottom: 6px;
+  padding-left: 0px;
+  padding-right: 0px;
+
+  &:not(.indented) {
+    border-left: 1px solid $colors-mono-900;
+  }
 }
 
 .commentSeenEnabled {
-  padding-top: 8px;
-  padding-bottom: 6px;
+  padding-top: 9px;
+  padding-bottom: 7px;
+  padding-left: 1px;
+  padding-right: 1px;
   transition: background 600ms ease-out;
+
+  &.indented {
+    padding-left: 0px;
+    padding-right: 1px;
+  }
 }
 
 .notSeen {

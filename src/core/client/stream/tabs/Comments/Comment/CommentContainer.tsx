@@ -142,14 +142,14 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const seenRaw = useCommentSeen(comment.id);
-  const [overrideSeen, setOverrideSeen] = useState(false);
-  const seen = seenRaw || overrideSeen;
+  const [seen, overrideAsSeen] = useCommentSeen(comment.id);
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const handleFocus = useCallback(() => {
     void setTraversalFocus({ commentID: comment.id, commentSeenEnabled });
-    setOverrideSeen(true);
-  }, [comment.id, commentSeenEnabled, setTraversalFocus]);
+    if (!seen) {
+      overrideAsSeen();
+    }
+  }, [comment.id, commentSeenEnabled, overrideAsSeen, seen, setTraversalFocus]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -478,6 +478,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       <HorizontalGutter>
         <IndentedComment
           classNameIndented={cn({
+            [styles.indented]: indentLevel && indentLevel > 0,
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
