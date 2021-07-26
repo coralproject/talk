@@ -7,9 +7,7 @@ import {
 } from "coral-framework/lib/validation";
 
 const hasExternalMediaAttached: Condition = (value, values) => {
-  return (
-    !!values.media && values.media.type === "external" && !!values.media.url
-  );
+  return !!values.media && values.media.type === "external";
 };
 
 export default function getMediaFieldValidators() {
