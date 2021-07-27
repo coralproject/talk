@@ -63,54 +63,42 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         disableHide={disableHideIgnoredTombstone}
       >
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
-          {isReplyFlattened(flattenRepliesEnabled, indentLevel) ? (
-            <>
-              <DeletedTombstoneContainer comment={comment}>
-                <CommentContainer
-                  viewer={viewer}
-                  comment={comment}
-                  story={story}
-                  collapsed={false}
-                  settings={settings}
-                  indentLevel={indentLevel}
-                  localReply={localReply}
-                  disableReplies={disableReplies}
-                  showConversationLink={!!showConversationLink}
-                  showRemoveAnswered={showRemoveAnswered}
-                />
-              </DeletedTombstoneContainer>
-              {replyListElement}
-            </>
-          ) : (
-            <CollapsableComment>
-              {({ collapsed, toggleCollapsed }) => (
+          <CollapsableComment>
+            {({ collapsed, toggleCollapsed }) => {
+              const collapseEnabled = !isReplyFlattened(
+                flattenRepliesEnabled,
+                indentLevel
+              );
+              return (
                 <>
                   <DeletedTombstoneContainer comment={comment}>
                     <CommentContainer
                       viewer={viewer}
                       comment={comment}
                       story={story}
-                      collapsed={collapsed}
+                      collapsed={collapsed && collapseEnabled}
                       settings={settings}
                       indentLevel={indentLevel}
                       localReply={localReply}
                       disableReplies={disableReplies}
                       showConversationLink={!!showConversationLink}
-                      toggleCollapsed={toggleCollapsed}
+                      toggleCollapsed={
+                        collapseEnabled ? toggleCollapsed : undefined
+                      }
                       showRemoveAnswered={showRemoveAnswered}
                     />
                   </DeletedTombstoneContainer>
                   <div
                     className={cn({
-                      [styles.hiddenReplies]: collapsed,
+                      [styles.hiddenReplies]: collapsed && collapseEnabled,
                     })}
                   >
                     {replyListElement}
                   </div>
                 </>
-              )}
-            </CollapsableComment>
-          )}
+              );
+            }}
+          </CollapsableComment>
         </HorizontalGutter>
       </IgnoredTombstoneOrHideContainer>
     </FadeInTransition>
