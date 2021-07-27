@@ -13,7 +13,7 @@ import { graphql } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
-import { useToggleState } from "coral-framework/hooks";
+import { useInMemoryState, useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
 import { MutationProp, useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
@@ -29,6 +29,7 @@ import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/common/AuthPopup";
+import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
 import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
   ShowEditFormEvent,
@@ -76,7 +77,6 @@ import ShowConversationLink from "./ShowConversationLink";
 import { UsernameContainer, UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer, { commentHasTags } from "./UserTagsContainer";
 
-import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
 import styles from "./CommentContainer.css";
 
 interface Props {
@@ -143,14 +143,25 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const [seen, overrideAsSeen] = useCommentSeen(comment.id);
+  const rawSeen = useCommentSeen(comment.id);
+  const [overrideSeen, setOverrideSeen] = useInMemoryState(
+    `overrideSeen:${comment.id}`,
+    false
+  );
+  const seen = rawSeen || !!overrideSeen;
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const handleFocus = useCallback(() => {
     void setTraversalFocus({ commentID: comment.id, commentSeenEnabled });
     if (!seen) {
-      overrideAsSeen();
+      setOverrideSeen(true);
     }
-  }, [comment.id, commentSeenEnabled, overrideAsSeen, seen, setTraversalFocus]);
+  }, [
+    comment.id,
+    commentSeenEnabled,
+    seen,
+    setOverrideSeen,
+    setTraversalFocus,
+  ]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [

@@ -23,6 +23,7 @@ import {
 } from "coral-framework/lib/errors";
 import { RestClient } from "coral-framework/lib/rest";
 import {
+  createInMemoryStorage,
   createLocalStorage,
   createPostMessageStorage,
   createPromisifiedStorage,
@@ -448,6 +449,7 @@ export default async function createManaged({
     localStorage,
     sessionStorage: resolveSessionStorage(postMessage),
     indexedDBStorage: resolveIndexedDBStorage(postMessage),
+    inMemoryStorage: createInMemoryStorage(),
     browserInfo: getBrowserInfo(),
     uuidGenerator: uuid,
     // Noop, this is later replaced by the

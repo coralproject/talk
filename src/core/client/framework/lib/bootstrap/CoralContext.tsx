@@ -18,6 +18,7 @@ import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
 import { ManagedSubscriptionClient } from "../network/createManagedSubscriptionClient";
 import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
+import { InMemoryStorage } from "../storage/InMemoryStorage";
 
 export interface CoralContext {
   /** relayEnvironment for our relay framework. */
@@ -34,6 +35,9 @@ export interface CoralContext {
 
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
+
+  /** inMemory Storage */
+  inMemoryStorage: InMemoryStorage;
 
   /** Local Storage */
   localStorage: PromisifiedStorage;

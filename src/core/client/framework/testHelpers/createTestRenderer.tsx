@@ -18,7 +18,10 @@ import {
 } from "coral-framework/lib/network";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
-import { createPromisifiedStorage } from "coral-framework/lib/storage";
+import {
+  createInMemoryStorage,
+  createPromisifiedStorage,
+} from "coral-framework/lib/storage";
 import createIndexedDBStorage from "coral-framework/lib/storage/IndexedDBStorage";
 import { act, createUUIDGenerator } from "coral-framework/testHelpers";
 
@@ -116,6 +119,7 @@ export default function createTestRenderer<
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
     indexedDBStorage: createIndexedDBStorage("coral", new FDBFactory()),
+    inMemoryStorage: createInMemoryStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService("coral", window, "*"),
     browserInfo: params.browserInfo || {

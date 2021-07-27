@@ -1,4 +1,4 @@
-import { debounce, merge } from "lodash";
+import { debounce } from "lodash";
 import React, {
   createContext,
   useCallback,
@@ -31,8 +31,6 @@ interface ContextState {
   enabled: boolean;
   /** Map of all seen comments in this story */
   seen: SeenMap | null;
-  /** Mark comment as seen in memory, will only see effect when this provider is rerendered */
-  overrideAsSeen: (id: CommentID) => void;
   /** Mark comment as seen in the database, will only see effect after refresh */
   markSeen: (id: CommentID) => void;
 }
@@ -200,7 +198,6 @@ const CommentSeenContext = createContext<ContextState>({
   enabled: false,
   seen: {},
   markSeen: () => {},
-  overrideAsSeen: () => {},
 });
 
 /**
@@ -221,7 +218,6 @@ function CommentSeenProvider(props: {
 
   const [initialSeen, setInitialSeen] = useState<SeenMap | null>(null);
   const seenRef = useRef<SeenMap>({});
-  const overrideAsSeenRef = useRef<SeenMap>({});
 
   const db = useMemo(() => new CommentSeenDB(indexedDBStorage), [
     indexedDBStorage,
@@ -249,10 +245,6 @@ function CommentSeenProvider(props: {
     };
   }, [db, props.storyID, props.viewerID, local.enableCommentSeen]);
 
-  const overrideAsSeen = useCallback((id: string) => {
-    overrideAsSeenRef.current[id] = 1;
-  }, []);
-
   const markSeen = useCallback(
     (id: string) => {
       if (!props.viewerID || !seenRef.current || seenRef.current[id]) {
@@ -264,23 +256,14 @@ function CommentSeenProvider(props: {
     [db, props.storyID, props.viewerID]
   );
 
-  // Number of overrides, used to invalidate `useMemo` below.
-  const overriddenCount = Object.keys(overrideAsSeenRef.current).length;
   const value = useMemo(
     () => ({
       enabled: local.enableCommentSeen,
-      seen: initialSeen ? merge(initialSeen, overrideAsSeenRef.current) : null,
+      seen: initialSeen,
       markSeen,
-      overrideAsSeen,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      local.enableCommentSeen,
-      initialSeen,
-      markSeen,
-      overrideAsSeen,
-      overriddenCount,
-    ]
+    [local.enableCommentSeen, initialSeen, markSeen]
   );
   return <CommentSeenContext.Provider value={value} {...props} />;
 }
