@@ -78,5 +78,5 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 }
 
 .flattenedPadding {
-  padding-left: var(--spacing-4);
+  padding-left: 18px;
 }
