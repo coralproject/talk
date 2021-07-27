@@ -389,6 +389,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.lastViewerAction !== "CREATE" &&
     comment.lastViewerAction !== "EDIT";
 
+  const shouldApplyFocusClass = comment.hasTraversalFocus && commentSeenEnabled;
+
   return (
     <div
       className={cn(
@@ -396,11 +398,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
         className,
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-        badgesClassName,
-        {
-          [styles.traversalFocus]:
-            comment.hasTraversalFocus && commentSeenEnabled,
-        }
+        badgesClassName
       )}
       tabIndex={-1}
       id={commentElementID}
@@ -482,6 +480,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
+            [styles.traversalFocus]: shouldApplyFocusClass,
+            [CLASSES.comment.focus]: shouldApplyFocusClass,
           })}
           indentLevel={indentLevel}
           collapsed={collapsed}

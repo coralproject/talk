@@ -73,17 +73,18 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   max-width: 100%;
 }
 
-.traversalFocus .commentSeenEnabled {
-  border-top: 1px solid $colors-mono-900;
-  border-bottom: 1px solid $colors-mono-900;
-  border-right: 1px solid $colors-mono-900;
+.traversalFocus {
+  border-color: $colors-mono-900;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
   padding-top: 8px;
   padding-bottom: 6px;
   padding-left: 0px;
   padding-right: 0px;
 
   &:not(.indented) {
-    border-left: 1px solid $colors-mono-900;
+    border-left: 1px solid;
   }
 }
 

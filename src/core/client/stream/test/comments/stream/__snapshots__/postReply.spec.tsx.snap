@@ -512,7 +512,7 @@ exports[`post a reply: optimistic response 1`] = `
           className="IndentedComment-blur coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
+            className="CommentContainer-indented Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"

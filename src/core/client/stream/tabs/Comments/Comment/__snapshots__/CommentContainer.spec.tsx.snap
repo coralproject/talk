@@ -52,7 +52,7 @@ exports[`hide reply button 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -439,7 +439,7 @@ exports[`renders body only 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -835,7 +835,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1231,7 +1231,7 @@ exports[`renders disabled reply when story is closed 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -1627,7 +1627,7 @@ exports[`renders in reply to 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -2048,7 +2048,7 @@ exports[`renders username and body 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -2444,7 +2444,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
@@ -2840,7 +2840,7 @@ exports[`shows conversation link 1`] = `
       badges={null}
       blur={false}
       body="Woof"
-      classNameIndented="CommentContainer-notSeen coral-comment-notSeen"
+      classNameIndented="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
