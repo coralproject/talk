@@ -1,6 +1,8 @@
+import onIntersectChange from "coral-embed/onIntersectChange";
 import { Decorator } from "./types";
 
 interface RenderTargetOptions {
+  inViewOnly: boolean;
   disableScroll: boolean;
   style: Partial<CSSStyleDeclaration>;
 }
@@ -18,6 +20,7 @@ const defaultStyle: Partial<CSSStyleDeclaration> = {
  */
 const renderTargetsConfig: Record<string, RenderTargetOptions> = {
   modal: {
+    inViewOnly: false,
     disableScroll: true,
     style: {
       left: "0px",
@@ -26,7 +29,19 @@ const renderTargetsConfig: Record<string, RenderTargetOptions> = {
       height: "100%",
     },
   },
+  footer: {
+    inViewOnly: true,
+    disableScroll: false,
+    style: {
+      left: "0px",
+      bottom: "0px",
+      height: "60px",
+      width: "100%",
+    },
+  },
 };
+
+const renderTargets = Object.keys(renderTargetsConfig);
 
 function createRenderTarget(
   url: string,
@@ -54,7 +69,7 @@ function initRenderTargets(
   id: string
 ): Record<string, HTMLIFrameElement> {
   const result: Record<string, HTMLIFrameElement> = {};
-  Object.keys(renderTargetsConfig).forEach((key) => {
+  renderTargets.forEach((key) => {
     const frame = createRenderTarget(
       url,
       `${id}_iframe_${key}`,
@@ -76,6 +91,26 @@ function initRenderTargets(
 const withRenderTargets = (url: string, id: string): Decorator => (pym) => {
   const frames = initRenderTargets(url, id);
   const targetsDisablingScroll: string[] = [];
+  const needObserver = renderTargets.some(
+    (s) => renderTargetsConfig[s].inViewOnly
+  );
+  const disconnectObserver = !needObserver
+    ? () => {}
+    : onIntersectChange(
+        pym.el,
+        (isIntersecting) => {
+          renderTargets.forEach((target) => {
+            const frame = frames[target];
+            if (!frame || !renderTargetsConfig[target].inViewOnly) {
+              return;
+            }
+            frame.style.display = isIntersecting ? "block" : "none";
+          });
+          // eslint-disable-next-line no-console
+          console.log(isIntersecting);
+        },
+        { rootMargin: "-100px -20px" }
+      );
 
   if (!document.getElementById("coral-embed-style")) {
     const headElements = document.getElementsByTagName("head");
@@ -137,6 +172,7 @@ const withRenderTargets = (url: string, id: string): Decorator => (pym) => {
 
   // Cleanup frames.
   return () => {
+    disconnectObserver();
     Object.keys(frames).forEach((key) => {
       const parentNode = frames[key].parentNode;
       if (parentNode) {

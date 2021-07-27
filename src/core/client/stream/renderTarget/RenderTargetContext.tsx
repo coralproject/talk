@@ -6,6 +6,7 @@ import RenderTargetManager from "./RenderTargetManager";
 
 export interface RenderTargetContext {
   modal: RenderTargetManager;
+  footer: RenderTargetManager;
 }
 
 export const RenderTargetContext = React.createContext<RenderTargetContext>(
@@ -22,6 +23,7 @@ export const RenderTargetContextProvider: FunctionComponent = (props) => {
   const value = useMemo(
     () => ({
       modal: new RenderTargetManager("modal", window, pym),
+      footer: new RenderTargetManager("footer", window, pym),
     }),
     [pym, window]
   );

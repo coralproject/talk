@@ -142,6 +142,8 @@ const initLocalState: InitLocalState = async ({
 
     // Version as reported by the embed.js
     localRecord.setValue(config?.version, "embedVersion");
+
+    localRecord.setValue(Boolean(config?.amp), "amp");
   });
 };
 
