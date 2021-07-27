@@ -60,6 +60,7 @@ import ButtonsBar from "./ButtonsBar";
 import computeCommentElementID from "./computeCommentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
+import { isReplyFlattened } from "./flattenReplies";
 import IndentedComment from "./IndentedComment";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
@@ -479,6 +480,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
             [styles.indented]: indentLevel && indentLevel > 0,
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
+            [styles.flattenedPadding]: isReplyFlattened(
+              flattenReplies,
+              indentLevel
+            ),
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
             [styles.traversalFocus]: shouldApplyFocusClass,
             [CLASSES.comment.focus]: shouldApplyFocusClass,
