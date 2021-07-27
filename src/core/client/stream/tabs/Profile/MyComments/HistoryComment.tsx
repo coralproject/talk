@@ -3,6 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { GQLSTORY_MODE } from "coral-framework/schema";
+import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
@@ -17,7 +18,7 @@ export interface HistoryCommentProps {
   body: string | null;
   createdAt: string;
   rating: number | null;
-  parentAuthorName?: string | null;
+  parent: CommentData["parent"];
   story: {
     metadata: {
       title: string | null;
@@ -62,9 +63,9 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
         <Timestamp className={CLASSES.myComment.timestamp}>
           {props.createdAt}
         </Timestamp>
-        {props.parentAuthorName && (
+        {props.parent?.author?.username && (
           <div className={styles.subBar}>
-            <InReplyTo username={props.parentAuthorName} />
+            <InReplyTo parent={props.parent} />
           </div>
         )}
         <HorizontalGutter>
