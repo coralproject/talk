@@ -42,8 +42,10 @@ const serializeError = (err: CoralError, req: Request, bundles?: I18n) => {
     }
   }
 
+  const traceID = req.coral ? req.coral.id : "";
+
   return {
-    error: err.serializeExtensions(bundle),
+    error: err.serializeExtensions(bundle, traceID),
   };
 };
 
@@ -76,7 +78,11 @@ function wrapAndReport(
   if (!reporter || !reporter.shouldReport(err)) {
     // Log the error.
     log.error(
-      { ...extractLoggerMetadata(req, res), err, statusCode: e.status },
+      {
+        ...extractLoggerMetadata(req, res),
+        err,
+        statusCode: e.status,
+      },
       "http error"
     );
 

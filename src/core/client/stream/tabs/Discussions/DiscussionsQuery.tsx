@@ -11,6 +11,7 @@ import {
 } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { DiscussionsQuery as QueryTypes } from "coral-stream/__generated__/DiscussionsQuery.graphql";
 import { DiscussionsQueryLocal as Local } from "coral-stream/__generated__/DiscussionsQueryLocal.graphql";
@@ -36,11 +37,7 @@ interface Props {
 
 export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
-    return (
-      <CallOut color="error" fullWidth>
-        {error.message}
-      </CallOut>
-    );
+    return <QueryError error={error} />;
   }
 
   // TODO: use official React API once it has one :-)
@@ -50,7 +47,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
     if (!props.viewer) {
       return (
         <Localized id="discussions-discussionsQuery-errorLoadingProfile">
-          <CallOut color="error" fullWidth>
+          <CallOut color="error" fullWidth aria-live="polite">
             Error loading profile
           </CallOut>
         </Localized>
@@ -59,7 +56,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
     if (!props.story) {
       return (
         <Localized id="discussions-discussionsQuery-storyNotFound">
-          <CallOut>Story not found</CallOut>
+          <CallOut aria-live="polite">Story not found</CallOut>
         </Localized>
       );
     }
