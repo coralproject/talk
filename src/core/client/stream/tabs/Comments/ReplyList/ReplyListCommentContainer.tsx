@@ -14,7 +14,7 @@ import { ReplyListCommentContainer_viewer } from "coral-stream/__generated__/Rep
 
 import CollapsableComment from "../Comment/CollapsableComment";
 import CommentContainer from "../Comment/CommentContainer";
-import { replyIsFlattened } from "../Comment/flattenReplies";
+import { isReplyFlattened } from "../Comment/flattenReplies";
 import { useCommentSeenEnabled } from "../commentSeen";
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
@@ -63,7 +63,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         disableHide={disableHideIgnoredTombstone}
       >
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
-          {replyIsFlattened(flattenRepliesEnabled, indentLevel) ? (
+          {isReplyFlattened(flattenRepliesEnabled, indentLevel) ? (
             <>
               <DeletedTombstoneContainer comment={comment}>
                 <CommentContainer

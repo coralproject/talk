@@ -60,7 +60,7 @@ import ButtonsBar from "./ButtonsBar";
 import computeCommentElementID from "./computeCommentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
-import { replyIsFlattened } from "./flattenReplies";
+import { isReplyFlattened } from "./flattenReplies";
 import IndentedComment from "./IndentedComment";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
@@ -464,7 +464,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           classNameIndented={cn({
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
-            [styles.flattenedPadding]: replyIsFlattened(
+            [styles.flattenedPadding]: isReplyFlattened(
               flattenReplies,
               indentLevel
             ),

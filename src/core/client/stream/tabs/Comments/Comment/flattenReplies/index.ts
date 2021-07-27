@@ -1,6 +1,6 @@
 export const FlattenRepliesIndentLevel = 4 as const;
 
-export const replyIsFlattened = (
+export const isReplyFlattened = (
   flattenedRepliesEnabled?: boolean | null,
   indentLevel?: number | null
 ) => {
