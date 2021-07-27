@@ -19,7 +19,6 @@ exports[`renders comment stream 1`] = `
       >
         <button
           aria-controls="tabPane-COMMENTS"
-          aria-label="Comments"
           aria-selected={true}
           className="BaseButton-root Tab-button Tab-streamPrimary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active TabBar-smallTab"
           onBlur={[Function]}
@@ -29,9 +28,15 @@ exports[`renders comment stream 1`] = `
           onMouseOver={[Function]}
           onTouchEnd={[Function]}
           role="tab"
-          title="Comments"
           type="button"
         >
+          <div
+            className="AriaInfo-root"
+          >
+            <span>
+              Tab:
+            </span>
+          </div>
           <div>
             <i
               aria-hidden="true"
@@ -276,6 +281,13 @@ exports[`renders comment stream 1`] = `
                   role="tab"
                   type="button"
                 >
+                  <div
+                    className="AriaInfo-root"
+                  >
+                    <span>
+                      Tab:
+                    </span>
+                  </div>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
                   >

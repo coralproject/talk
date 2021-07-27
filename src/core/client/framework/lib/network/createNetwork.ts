@@ -79,9 +79,14 @@ export default function createNetwork(
         retryDelays: (attempt: number) => Math.pow(2, attempt + 4) * 100,
         // or simple array [3200, 6400, 12800, 25600, 51200, 102400, 204800, 409600],
         statusCodes: [500, 503, 504],
-        beforeRetry: ({ abort, attempt }) => {
+        beforeRetry: ({ abort, attempt, lastError }) => {
           if (attempt > 2) {
-            abort();
+            let message = lastError?.message;
+            if (message && lastError?.name !== "RRNLRetryMiddlewareError") {
+              // Prefix with Error name.
+              message = `(${lastError?.name}) ${message}`;
+            }
+            abort(message);
           }
         },
       }),

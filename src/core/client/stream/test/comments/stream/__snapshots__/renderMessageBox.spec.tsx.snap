@@ -158,6 +158,13 @@ exports[`renders message box when commenting disabled 1`] = `
               type="button"
             >
               <div
+                className="AriaInfo-root"
+              >
+                <span>
+                  Tab:
+                </span>
+              </div>
+              <div
                 className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
               >
                 <span>
@@ -587,6 +594,13 @@ exports[`renders message box when logged in 1`] = `
               role="tab"
               type="button"
             >
+              <div
+                className="AriaInfo-root"
+              >
+                <span>
+                  Tab:
+                </span>
+              </div>
               <div
                 className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
               >
@@ -1018,6 +1032,13 @@ exports[`renders message box when not logged in 1`] = `
               type="button"
             >
               <div
+                className="AriaInfo-root"
+              >
+                <span>
+                  Tab:
+                </span>
+              </div>
+              <div
                 className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
               >
                 <span>
@@ -1326,6 +1347,13 @@ exports[`renders message box when story isClosed 1`] = `
               role="tab"
               type="button"
             >
+              <div
+                className="AriaInfo-root"
+              >
+                <span>
+                  Tab:
+                </span>
+              </div>
               <div
                 className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
               >
