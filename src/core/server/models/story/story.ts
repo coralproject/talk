@@ -24,6 +24,7 @@ import {
   commentActions,
   commentModerationActions,
   comments,
+  sites,
   stories as collection,
 } from "coral-server/services/mongodb/collections";
 
@@ -742,13 +743,16 @@ export async function retrieveStorySections(
 export async function markStoryForArchiving(
   mongo: Db,
   tenantID: string,
-  id: string
+  id: string,
+  now: Date
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     {
       $set: {
         isArchiving: true,
+        closedAt: now,
+        updatedAt: now,
       },
     },
     {
@@ -767,7 +771,7 @@ export async function archiveStory(
 ) {
   const targetStory = await collection(mongo).findOne({ id, tenantID });
   if (!targetStory || !targetStory.isArchiving) {
-    return;
+    throw new StoryNotFoundError(id);
   }
 
   const targetComments = await comments(mongo)
@@ -787,11 +791,98 @@ export async function archiveStory(
     })
     .toArray();
 
-  await archivedComments(archive).insertMany(targetComments);
-  await archivedCommentActions(archive).insertMany(targetCommentActions);
-  await archivedCommentModerationActions(archive).insertMany(
-    targetCommentModerationActions
+  if (targetComments && targetComments.length > 0) {
+    await archivedComments(archive).insertMany(targetComments);
+  }
+  if (targetCommentActions && targetCommentActions.length > 0) {
+    await archivedCommentActions(archive).insertMany(targetCommentActions);
+  }
+  if (
+    targetCommentModerationActions &&
+    targetCommentModerationActions.length > 0
+  ) {
+    await archivedCommentModerationActions(archive).insertMany(
+      targetCommentModerationActions
+    );
+  }
+
+  await comments(mongo).remove({ tenantID, storyID: id });
+  await commentActions(mongo).remove({ tenantID, storyID: id });
+
+  if (targetCommentIDs && targetCommentIDs.length > 0) {
+    await commentModerationActions(mongo).remove({
+      tenantID,
+      commentID: { $in: targetCommentIDs },
+    });
+  }
+
+  // update site counts
+  const siteUpdate = await sites(mongo).findOneAndUpdate(
+    {
+      siteID: targetStory.siteID,
+      tenantID,
+    },
+    {
+      $inc: {
+        "commentCounts.status.APPROVED": -targetStory.commentCounts.status
+          .APPROVED,
+        "commentCounts.status.NONE": -targetStory.commentCounts.status.NONE,
+        "commentCounts.status.PREMOD": -targetStory.commentCounts.status.PREMOD,
+        "commentCounts.status.REJECTED": -targetStory.commentCounts.status
+          .REJECTED,
+        "commentCounts.status.SYSTEM_WITHHELD": -targetStory.commentCounts
+          .status.SYSTEM_WITHHELD,
+
+        "commentCounts.action.FLAG": -targetStory.commentCounts.action.FLAG,
+        "commentCounts.action.REACTION": -targetStory.commentCounts.action
+          .REACTION,
+
+        "commentCounts.action.FLAG__COMMENT_REPORTED_OFFENSIVE": -targetStory
+          .commentCounts.action.FLAG__COMMENT_REPORTED_OFFENSIVE,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_ABUSIVE": -targetStory
+          .commentCounts.action.FLAG__COMMENT_REPORTED_ABUSIVE,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_SPAM": -targetStory
+          .commentCounts.action.FLAG__COMMENT_REPORTED_SPAM,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_OTHER": -targetStory
+          .commentCounts.action.FLAG__COMMENT_REPORTED_OTHER,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_BIO": -targetStory
+          .commentCounts.action.FLAG__COMMENT_REPORTED_BIO,
+
+        "commentCounts.action.FLAG__COMMENT_DETECTED_TOXIC": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_TOXIC,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_SPAM": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_SPAM,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_LINKS": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_LINKS,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_BANNED_WORD": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_BANNED_WORD,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_SUSPECT_WORD": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_SUSPECT_WORD,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_RECENT_HISTORY": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_RECENT_HISTORY,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_PREMOD_USER": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_PREMOD_USER,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_REPEAT_POST": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_REPEAT_POST,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_NEW_COMMENTER": -targetStory
+          .commentCounts.action.FLAG__COMMENT_DETECTED_NEW_COMMENTER,
+
+        "commentCounts.moderationQueue.total": -targetStory.commentCounts
+          .moderationQueue.total,
+        "commentCounts.moderationQueue.queues.pending": -targetStory
+          .commentCounts.moderationQueue.queues.pending,
+        "commentCounts.moderationQueue.queues.reported": -targetStory
+          .commentCounts.moderationQueue.queues.reported,
+        "commentCounts.moderationQueue.queues.unmoderated": -targetStory
+          .commentCounts.moderationQueue.queues.unmoderated,
+      },
+    },
+    { returnOriginal: false }
   );
+
+  if (!siteUpdate.ok) {
+    throw new Error("unable to update site counts");
+  }
 
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
@@ -799,6 +890,152 @@ export async function archiveStory(
       $set: {
         isArchiving: false,
         isArchived: true,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
+}
+
+export async function unarchiveStory(
+  mongo: Db,
+  archive: Db,
+  tenantID: string,
+  id: string
+) {
+  const targetStory = await collection(mongo).findOne({ id, tenantID });
+  if (!targetStory || !targetStory.isArchived) {
+    throw new StoryNotFoundError(id);
+  }
+
+  const targetComments = await archivedComments(archive)
+    .find({ tenantID, storyID: id })
+    .toArray();
+  const targetCommentActions = await archivedCommentActions(archive)
+    .find({
+      tenantID,
+      storyID: id,
+    })
+    .toArray();
+  const targetCommentIDs = targetComments.map((c) => c.id);
+  const targetCommentModerationActions = await archivedCommentModerationActions(
+    archive
+  )
+    .find({
+      tenantID,
+      commentID: { $in: targetCommentIDs },
+    })
+    .toArray();
+
+  if (targetComments && targetComments.length > 0) {
+    await comments(mongo).insertMany(targetComments);
+  }
+  if (targetCommentActions && targetCommentActions.length > 0) {
+    await commentActions(mongo).insertMany(targetCommentActions);
+  }
+  if (
+    targetCommentModerationActions &&
+    targetCommentModerationActions.length > 0
+  ) {
+    await commentModerationActions(mongo).insertMany(
+      targetCommentModerationActions
+    );
+  }
+
+  await archivedComments(archive).remove({ tenantID, storyID: id });
+  await archivedCommentActions(archive).remove({ tenantID, storyID: id });
+  if (targetCommentIDs && targetCommentIDs.length > 0) {
+    await archivedCommentModerationActions(archive).remove({
+      tenantID,
+      commentID: { $in: targetCommentIDs },
+    });
+  }
+
+  // update site counts
+  const siteUpdate = await sites(mongo).findOneAndUpdate(
+    {
+      siteID: targetStory.siteID,
+      tenantID,
+    },
+    {
+      $inc: {
+        "commentCounts.status.APPROVED":
+          targetStory.commentCounts.status.APPROVED || 0,
+        "commentCounts.status.NONE": targetStory.commentCounts.status.NONE || 0,
+        "commentCounts.status.PREMOD":
+          targetStory.commentCounts.status.PREMOD || 0,
+        "commentCounts.status.REJECTED":
+          targetStory.commentCounts.status.REJECTED || 0,
+        "commentCounts.status.SYSTEM_WITHHELD":
+          targetStory.commentCounts.status.SYSTEM_WITHHELD || 0,
+
+        "commentCounts.action.FLAG": targetStory.commentCounts.action.FLAG || 0,
+        "commentCounts.action.REACTION":
+          targetStory.commentCounts.action.REACTION || 0,
+
+        "commentCounts.action.FLAG__COMMENT_REPORTED_OFFENSIVE":
+          targetStory.commentCounts.action.FLAG__COMMENT_REPORTED_OFFENSIVE ||
+          0,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_ABUSIVE":
+          targetStory.commentCounts.action.FLAG__COMMENT_REPORTED_ABUSIVE || 0,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_SPAM":
+          targetStory.commentCounts.action.FLAG__COMMENT_REPORTED_SPAM || 0,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_OTHER":
+          targetStory.commentCounts.action.FLAG__COMMENT_REPORTED_OTHER || 0,
+        "commentCounts.action.FLAG__COMMENT_REPORTED_BIO":
+          targetStory.commentCounts.action.FLAG__COMMENT_REPORTED_BIO || 0,
+
+        "commentCounts.action.FLAG__COMMENT_DETECTED_TOXIC":
+          targetStory.commentCounts.action.FLAG__COMMENT_DETECTED_TOXIC || 0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_SPAM":
+          targetStory.commentCounts.action.FLAG__COMMENT_DETECTED_SPAM || 0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_LINKS":
+          targetStory.commentCounts.action.FLAG__COMMENT_DETECTED_LINKS || 0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_BANNED_WORD":
+          targetStory.commentCounts.action.FLAG__COMMENT_DETECTED_BANNED_WORD ||
+          0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_SUSPECT_WORD":
+          targetStory.commentCounts.action
+            .FLAG__COMMENT_DETECTED_SUSPECT_WORD || 0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_RECENT_HISTORY":
+          targetStory.commentCounts.action
+            .FLAG__COMMENT_DETECTED_RECENT_HISTORY || 0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_PREMOD_USER":
+          targetStory.commentCounts.action.FLAG__COMMENT_DETECTED_PREMOD_USER ||
+          0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_REPEAT_POST":
+          targetStory.commentCounts.action.FLAG__COMMENT_DETECTED_REPEAT_POST ||
+          0,
+        "commentCounts.action.FLAG__COMMENT_DETECTED_NEW_COMMENTER":
+          targetStory.commentCounts.action
+            .FLAG__COMMENT_DETECTED_NEW_COMMENTER || 0,
+
+        "commentCounts.moderationQueue.total":
+          targetStory.commentCounts.moderationQueue.total || 0,
+        "commentCounts.moderationQueue.queues.pending":
+          targetStory.commentCounts.moderationQueue.queues.pending || 0,
+        "commentCounts.moderationQueue.queues.reported":
+          targetStory.commentCounts.moderationQueue.queues.reported || 0,
+        "commentCounts.moderationQueue.queues.unmoderated":
+          targetStory.commentCounts.moderationQueue.queues.unmoderated || 0,
+      },
+    },
+    { returnOriginal: false }
+  );
+
+  if (!siteUpdate.ok) {
+    throw new Error("unable to update site counts");
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $set: {
+        isArchiving: false,
+        isArchived: false,
       },
     },
     {

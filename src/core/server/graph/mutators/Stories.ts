@@ -8,6 +8,7 @@ import {
   markStoryForArchiving,
   retrieveStory,
   Story,
+  unarchiveStory,
 } from "coral-server/models/story";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
@@ -35,6 +36,7 @@ import {
   GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
+  GQLUnarchiveStoryInput,
   GQLUpdateStoryInput,
   GQLUpdateStoryModeInput,
   GQLUpdateStorySettingsInput,
@@ -150,11 +152,31 @@ export const Stories = (ctx: GraphContext) => ({
     const markResult = await markStoryForArchiving(
       ctx.mongo,
       ctx.tenant.id,
-      input.storyID
+      input.storyID,
+      ctx.now
     );
 
-    if (markResult?.isArchived) {
+    if (markResult?.isArchiving) {
       await archiveStory(ctx.mongo, ctx.archive, ctx.tenant.id, input.storyID);
+    }
+
+    return retrieveStory(ctx.mongo, ctx.tenant.id, input.storyID);
+  },
+  unarchiveStory: async (input: GQLUnarchiveStoryInput) => {
+    const markResult = await markStoryForArchiving(
+      ctx.mongo,
+      ctx.tenant.id,
+      input.storyID,
+      ctx.now
+    );
+
+    if (markResult?.isArchiving) {
+      await unarchiveStory(
+        ctx.mongo,
+        ctx.archive,
+        ctx.tenant.id,
+        input.storyID
+      );
     }
 
     return retrieveStory(ctx.mongo, ctx.tenant.id, input.storyID);

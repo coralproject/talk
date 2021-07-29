@@ -3759,6 +3759,11 @@ enum STORY_STATUS {
   CLOSED represents when a given Story is not open for commenting.
   """
   CLOSED
+
+  """
+  ARCHIVED
+  """
+  ARCHIVED
 }
 
 type StoryRatings {
@@ -3865,6 +3870,18 @@ type Story @cacheControl(maxAge: 30) {
   isClosed: Boolean!
 
   """
+  isArchiving returns true when the Story is currently in the process of being
+  archived. A story must always be closed (isClosed: true) when it is archiving.
+  """
+  isArchiving: Boolean!
+
+  """
+  isArchived returns true when the Story is current archived. A story must always
+  be closed (isClosed: true) when it is archived.
+  """
+  isArchived: Boolean!
+
+  """
   commentCounts stores all the counts of Comments that are left on the Comment.
   """
   commentCounts: CommentCounts!
@@ -3914,10 +3931,6 @@ type Story @cacheControl(maxAge: 30) {
   this story.
   """
   viewerRating: Comment
-
-  isArchiving: Boolean!
-
-  isArchived: Boolean!
 }
 
 """
@@ -7932,6 +7945,16 @@ type ArchiveStoryPayload {
   story: Story!
 }
 
+input UnarchiveStoryInput {
+  clientMutationId: String!
+  storyID: ID!
+}
+
+type UnarchiveStoryPayload {
+  clientMutationId: String!
+  story: Story!
+}
+
 ##################
 ## Mutation
 ##################
@@ -8531,6 +8554,9 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   archiveStory(input: ArchiveStoryInput!): ArchiveStoryPayload!
+    @auth(roles: [ADMIN])
+
+  unarchiveStory(input: UnarchiveStoryInput!): UnarchiveStoryPayload!
     @auth(roles: [ADMIN])
 }
 
