@@ -27,6 +27,7 @@ import {
   sites,
   stories as collection,
 } from "coral-server/services/mongodb/collections";
+import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
   GQLSTORY_MODE,
@@ -38,6 +39,7 @@ import {
   createEmptyRelatedCommentCounts,
   RelatedCommentCounts,
   updateRelatedCommentCounts,
+  updateSharedCommentCounts,
 } from "../comment/counts";
 
 export * from "./helpers";
@@ -766,6 +768,7 @@ export async function markStoryForArchiving(
 export async function archiveStory(
   mongo: Db,
   archive: Db,
+  redis: AugmentedRedis,
   tenantID: string,
   id: string
 ) {
@@ -880,6 +883,57 @@ export async function archiveStory(
     { returnOriginal: false }
   );
 
+  await updateSharedCommentCounts(redis, tenantID, {
+    action: {
+      FLAG: -targetStory.commentCounts.action.FLAG,
+      FLAG__COMMENT_REPORTED_OFFENSIVE: -targetStory.commentCounts.action
+        .FLAG__COMMENT_REPORTED_OFFENSIVE,
+      FLAG__COMMENT_REPORTED_ABUSIVE: -targetStory.commentCounts.action
+        .FLAG__COMMENT_REPORTED_ABUSIVE,
+      FLAG__COMMENT_REPORTED_SPAM: -targetStory.commentCounts.action
+        .FLAG__COMMENT_REPORTED_SPAM,
+      FLAG__COMMENT_REPORTED_OTHER: -targetStory.commentCounts.action
+        .FLAG__COMMENT_REPORTED_OTHER,
+      FLAG__COMMENT_REPORTED_BIO: -targetStory.commentCounts.action
+        .FLAG__COMMENT_REPORTED_BIO,
+
+      FLAG__COMMENT_DETECTED_TOXIC: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_TOXIC,
+      FLAG__COMMENT_DETECTED_SPAM: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_SPAM,
+      FLAG__COMMENT_DETECTED_LINKS: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_LINKS,
+      FLAG__COMMENT_DETECTED_BANNED_WORD: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_BANNED_WORD,
+      FLAG__COMMENT_DETECTED_SUSPECT_WORD: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_SUSPECT_WORD,
+      FLAG__COMMENT_DETECTED_RECENT_HISTORY: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_RECENT_HISTORY,
+      FLAG__COMMENT_DETECTED_PREMOD_USER: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_PREMOD_USER,
+      FLAG__COMMENT_DETECTED_REPEAT_POST: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_REPEAT_POST,
+      FLAG__COMMENT_DETECTED_NEW_COMMENTER: -targetStory.commentCounts.action
+        .FLAG__COMMENT_DETECTED_NEW_COMMENTER,
+    },
+    status: {
+      APPROVED: -targetStory.commentCounts.status.APPROVED,
+      NONE: -targetStory.commentCounts.status.NONE,
+      PREMOD: -targetStory.commentCounts.status.PREMOD,
+      REJECTED: -targetStory.commentCounts.status.REJECTED,
+      SYSTEM_WITHHELD: -targetStory.commentCounts.status.SYSTEM_WITHHELD,
+    },
+    moderationQueue: {
+      total: -targetStory.commentCounts.moderationQueue.total,
+      queues: {
+        pending: -targetStory.commentCounts.moderationQueue.queues.pending,
+        reported: -targetStory.commentCounts.moderationQueue.queues.reported,
+        unmoderated: -targetStory.commentCounts.moderationQueue.queues
+          .unmoderated,
+      },
+    },
+  });
+
   if (!siteUpdate.ok) {
     throw new Error("unable to update site counts");
   }
@@ -903,6 +957,7 @@ export async function archiveStory(
 export async function unarchiveStory(
   mongo: Db,
   archive: Db,
+  redis: AugmentedRedis,
   tenantID: string,
   id: string
 ) {
