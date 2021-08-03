@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 
 import { onPymMessage } from "coral-framework/helpers";
+import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
@@ -152,6 +153,10 @@ const findPreviousKeyStop = (
 
 const KeyboardShortcuts: FunctionComponent = ({ children }) => {
   const { pym, relayEnvironment, renderWindow } = useCoralContext();
+  const [toolbarClosed, setToolbarClosed] = useInMemoryState(
+    "keyboardShortcutMobileToolbarClosed",
+    false
+  );
   const amp = useAMP();
   const commentSeenEnabled = useCommentSeenEnabled();
   const handle = useCallback(
@@ -250,7 +255,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
     };
   }, [commentSeenEnabled, handle, pym, relayEnvironment, renderWindow]);
 
-  if (amp) {
+  if (amp || toolbarClosed) {
     return null;
   }
 
@@ -297,6 +302,13 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
             }
           >
             z
+          </Button>
+          <Button
+            variant="filled"
+            color="secondary"
+            onClick={() => setToolbarClosed(true)}
+          >
+            Close
           </Button>
         </Flex>
       </MobileToolbar>
