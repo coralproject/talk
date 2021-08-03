@@ -73,6 +73,22 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   max-width: 100%;
 }
 
+.commentSeenEnabled {
+  padding-top: 9px;
+  padding-bottom: 7px;
+  padding-left: 1px;
+  padding-right: 1px;
+  transition: background 600ms ease-out;
+
+  &.indented {
+    padding-left: 0px;
+    padding-right: 1px;
+  }
+  &.flattenedPadding {
+    padding-left: 19px;
+  }
+}
+
 .traversalFocus {
   border-color: $colors-mono-900;
   border-top: 1px solid;
@@ -86,18 +102,8 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   &:not(.indented) {
     border-left: 1px solid;
   }
-}
-
-.commentSeenEnabled {
-  padding-top: 9px;
-  padding-bottom: 7px;
-  padding-left: 1px;
-  padding-right: 1px;
-  transition: background 600ms ease-out;
-
-  &.indented {
-    padding-left: 0px;
-    padding-right: 1px;
+  &.flattenedPadding {
+    padding-left: 18px;
   }
 }
 
