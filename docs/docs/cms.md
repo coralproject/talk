@@ -91,10 +91,10 @@ If your production site is behind a paywall or otherwise prevents scraping, you 
 
 | Asset Property     | Selector                                                                                                                                                            |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title`            | See [`metascraper-title`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-title/index.js)             |
-| `description`      | See [`metascraper-description`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-description/index.js) |
-| `image`            | See [`metascraper-image`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-image/index.js)             |
-| `author`           | See [`metascraper-author`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-author/index.js)           |
-| `publication_date` | See [`metascraper-date`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-date/index.js)               |
+| `title`            | See [`metascraper-title`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-title/index.js)             |
+| `description`      | See [`metascraper-description`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-description/index.js) |
+| `image`            | See [`metascraper-image`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-image/index.js)             |
+| `author`           | See [`metascraper-author`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-author/index.js)           |
+| `publication_date` | See [`metascraper-date`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-date/index.js)               |
 | `modified_date`    | `meta[property="article:modified"]`                                                                                                                                 |
 | `section`          | `meta[property="article:section"]`                                                                                                                                  |
