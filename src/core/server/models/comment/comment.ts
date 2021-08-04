@@ -27,7 +27,10 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-import { comments as collection } from "coral-server/services/mongodb/collections";
+import {
+  archivedComments,
+  comments as collection,
+} from "coral-server/services/mongodb/collections";
 
 import {
   GQLCOMMENT_SORT,
@@ -443,7 +446,8 @@ export const retrieveCommentRepliesConnection = (
   tenantID: string,
   storyID: string,
   parentID: string,
-  input: CommentConnectionInput
+  input: CommentConnectionInput,
+  isArchived?: boolean
 ) => {
   const filter: any = {
     parentID,
@@ -451,10 +455,15 @@ export const retrieveCommentRepliesConnection = (
     storyID,
   };
 
-  return retrievePublishedCommentConnection(mongo, tenantID, {
-    ...input,
-    filter,
-  });
+  return retrievePublishedCommentConnection(
+    mongo,
+    tenantID,
+    {
+      ...input,
+      filter,
+    },
+    isArchived
+  );
 };
 
 /**
@@ -541,15 +550,21 @@ export const retrieveCommentStoryConnection = (
   mongo: Db,
   tenantID: string,
   storyID: string,
-  input: CommentConnectionInput
+  input: CommentConnectionInput,
+  isArchived?: boolean
 ) =>
-  retrievePublishedCommentConnection(mongo, tenantID, {
-    ...input,
-    filter: {
-      ...input.filter,
-      storyID,
+  retrievePublishedCommentConnection(
+    mongo,
+    tenantID,
+    {
+      ...input,
+      filter: {
+        ...input.filter,
+        storyID,
+      },
     },
-  });
+    isArchived
+  );
 
 /**
  * retrieveCommentUserConnection returns a Connection<Comment> for a given User's
@@ -636,9 +651,16 @@ export const retrieveRejectedCommentUserConnection = (
 export const retrievePublishedCommentConnection = (
   mongo: Db,
   tenantID: string,
-  input: CommentConnectionInput
+  input: CommentConnectionInput,
+  isArchived?: boolean
 ) =>
-  retrieveStatusCommentConnection(mongo, tenantID, PUBLISHED_STATUSES, input);
+  retrieveStatusCommentConnection(
+    mongo,
+    tenantID,
+    PUBLISHED_STATUSES,
+    input,
+    isArchived
+  );
 
 /**
  * retrieveStatusCommentConnection will retrieve a connection that contains
@@ -653,23 +675,32 @@ export const retrieveStatusCommentConnection = (
   mongo: Db,
   tenantID: string,
   statuses: GQLCOMMENT_STATUS[],
-  input: CommentConnectionInput
+  input: CommentConnectionInput,
+  isArchived?: boolean
 ) =>
-  retrieveCommentConnection(mongo, tenantID, {
-    ...input,
-    filter: {
-      ...input.filter,
-      status: { $in: statuses },
+  retrieveCommentConnection(
+    mongo,
+    tenantID,
+    {
+      ...input,
+      filter: {
+        ...input.filter,
+        status: { $in: statuses },
+      },
     },
-  });
+    isArchived
+  );
 
 export async function retrieveCommentConnection(
   mongo: Db,
   tenantID: string,
-  input: CommentConnectionInput
+  input: CommentConnectionInput,
+  isArchived?: boolean
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Create the query.
-  const query = new Query(collection(mongo)).where({ tenantID });
+  const query = new Query(
+    isArchived ? archivedComments(mongo) : collection(mongo)
+  ).where({ tenantID });
 
   // If a filter is being applied, filter it as well.
   if (input.filter) {
