@@ -23,9 +23,11 @@ import {
 } from "coral-framework/lib/errors";
 import { RestClient } from "coral-framework/lib/rest";
 import {
+  combinePromisifiedStorage,
   createLocalStorage,
   createPostMessageStorage,
   createPromisifiedStorage,
+  createPymStorage,
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
@@ -293,11 +295,21 @@ function createManagedCoralContextProvider(
  * resolveLocalStorage decides which local storage to use in the context
  */
 function resolveLocalStorage(
-  postMessage?: PostMessageService
+  postMessage?: PostMessageService,
+  pym?: PymChild
 ): PromisifiedStorage {
-  if (postMessage && areWeInIframe()) {
-    // Use local storage over postMessage when we are in an iframe.
-    return createPostMessageStorage(postMessage, "localStorage");
+  if (areWeInIframe()) {
+    // Use local storage over postMessage (or fallback to pym) when we are in an iframe.
+    const pmStorage =
+      postMessage && createPostMessageStorage(postMessage, "localStorage");
+    const pymStorage = pym && createPymStorage(pym, "localStorage");
+    if (pmStorage || pymStorage) {
+      const combined =
+        pmStorage &&
+        pymStorage &&
+        combinePromisifiedStorage(pmStorage, pymStorage);
+      return [combined, pmStorage, pymStorage].find((x) => Boolean(x))!;
+    }
   }
   // Use promisified, prefixed local storage.
   return createPromisifiedStorage(createLocalStorage());
@@ -307,11 +319,21 @@ function resolveLocalStorage(
  * resolveSessionStorage decides which session storage to use in the context
  */
 function resolveSessionStorage(
-  postMessage?: PostMessageService
+  postMessage?: PostMessageService,
+  pym?: PymChild
 ): PromisifiedStorage {
-  if (postMessage && areWeInIframe()) {
-    // Use session storage over postMessage when we are in an iframe.
-    return createPostMessageStorage(postMessage, "sessionStorage");
+  if (areWeInIframe()) {
+    // Use session storage over postMessage (or fallback to pym) when we are in an iframe.
+    const pmStorage =
+      postMessage && createPostMessageStorage(postMessage, "sessionStorage");
+    const pymStorage = pym && createPymStorage(pym, "sessionStorage");
+    if (pmStorage || pymStorage) {
+      const combined =
+        pmStorage &&
+        pymStorage &&
+        combinePromisifiedStorage(pmStorage, pymStorage);
+      return [combined, pmStorage, pymStorage].find((x) => Boolean(x))!;
+    }
   }
   // Use promisified, prefixed session storage.
   return createPromisifiedStorage(createSessionStorage());
@@ -407,7 +429,7 @@ export default async function createManaged({
   const localeBundles = await generateBundles(locales, localesData);
   await polyfillIntlLocale(locales);
 
-  const localStorage = resolveLocalStorage(postMessage);
+  const localStorage = resolveLocalStorage(postMessage, pym);
 
   // Get the access token from storage.
   const auth = await retrieveAccessToken(localStorage);
@@ -446,7 +468,7 @@ export default async function createManaged({
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage,
     localStorage,
-    sessionStorage: resolveSessionStorage(postMessage),
+    sessionStorage: resolveSessionStorage(postMessage, pym),
     indexedDBStorage: resolveIndexedDBStorage(postMessage),
     browserInfo: getBrowserInfo(),
     uuidGenerator: uuid,
