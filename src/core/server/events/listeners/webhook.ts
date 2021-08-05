@@ -15,6 +15,7 @@ export class WebhookCoralEventListener
   public readonly events = [
     CoralEventType.STORY_CREATED,
     CoralEventType.COMMENT_CREATED,
+    CoralEventType.COMMENT_REPLY_CREATED,
   ];
 
   private readonly queue: WebhookQueue;

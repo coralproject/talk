@@ -1689,6 +1689,8 @@ type WebhookDelivery {
 enum WEBHOOK_EVENT_NAME {
   STORY_CREATED
   COMMENT_CREATED
+  COMMENT_REPLY_CREATED
+  COMMENT_ENTERED
 }
 
 type WebhookEndpoint {
