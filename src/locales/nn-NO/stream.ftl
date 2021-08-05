@@ -241,7 +241,7 @@ comments-rejectedTombstone-title = Du har avvist denne kommentaren.
 comments-rejectedTombstone-moderateLink =
   Gå til Moderering for å gjøre om på denne beslutningen.
 
-comments-featuredTag = Fremhevede
+comment-featuredTag = Fremhevet
 
 comments-react =
   .aria-label = {$count ->
