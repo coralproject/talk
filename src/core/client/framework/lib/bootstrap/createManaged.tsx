@@ -292,7 +292,7 @@ function createManagedCoralContextProvider(
 }
 
 /*
- * resolveLocalStorage decides which storage to use in the context
+ * resolveStorage decides which storage to use in the context
  */
 function resolveStorage(
   type: "localStorage" | "sessionStorage" | "indexedDB",
