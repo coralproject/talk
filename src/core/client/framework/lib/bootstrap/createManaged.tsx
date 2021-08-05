@@ -300,7 +300,7 @@ function resolveStorage(
   pym?: PymChild
 ): PromisifiedStorage {
   if (areWeInIframe()) {
-    // Use local storage over postMessage (or fallback to pym) when we are in an iframe.
+    // Use storage over postMessage (or fallback to pym) when we are in an iframe.
     const pmStorage =
       postMessage && createPostMessageStorage(postMessage, type);
     const pymStorage =
