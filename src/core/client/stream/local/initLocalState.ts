@@ -139,6 +139,9 @@ const initLocalState: InitLocalState = async ({
       featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN),
       "enableCommentSeen"
     );
+
+    // Version as reported by the embed.js
+    localRecord.setValue(config?.version, "embedVersion");
   });
 };
 
