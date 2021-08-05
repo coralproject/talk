@@ -105,7 +105,7 @@ const Modal: FunctionComponent<ModalProps> = ({
     return ReactDOM.createPortal(
       <div role="dialog" className={rootClassName} {...rest}>
         <NoScroll active={open} />
-        <Backdrop active={open} data-testid="backdrop" />
+        <Backdrop active={open} />
         <div
           role="presentation"
           className={cn(
@@ -114,6 +114,7 @@ const Modal: FunctionComponent<ModalProps> = ({
           )}
           onKeyDown={handleEscapeKeyDown}
           onClick={handleBackdropClick}
+          data-testid="scroll"
         >
           <div className={styles.alignContainer1}>
             <div className={styles.alignContainer2}>
