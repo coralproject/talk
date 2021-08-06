@@ -27,6 +27,8 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         id: "story-0",
         url: "http://localhost/story",
         isClosed: false,
+        isArchived: false,
+        isArchiving: false,
         canModerate: false,
         settings: {
           mode: "COMMENTS",
