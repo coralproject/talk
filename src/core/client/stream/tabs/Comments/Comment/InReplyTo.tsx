@@ -16,30 +16,39 @@ interface Props {
   isLink: boolean;
 }
 
-const InReplyTo: FunctionComponent<Props> = ({ parent }) => {
+const InReplyTo: FunctionComponent<Props> = ({ parent, isLink }) => {
   const { pym } = useCoralContext();
 
   const navigateToParent = (id: string) => {
+    /* eslint-disable */
+    console.log('navigating to parent');
     const elemId = computeCommentElementID(id);
     const elem = document.getElementById(elemId);
+    console.log(elem);
     if (elem) {
       void pym?.scrollParentToChildEl(elemId);
       elem.focus();
-      (elem as any).style["background-color"] = "pink";
+      (elem as any).style["border"] = "5px solid green";
     } else {
       /* eslint-disable-next-line */
       console.log("TODO: its not on the page~");
     }
   };
 
-  const Username = () => (
-    <button
-      onClick={() => navigateToParent(parent!.id)}
-      className={cn(styles.username, CLASSES.comment.inReplyTo.username)}
-    >
-      {parent!.author!.username}
-    </button>
-  );
+  const Username = () => {
+    const username = parent!.author!.username;
+    const className = cn(styles.username, CLASSES.comment.inReplyTo.username);
+    return isLink ? (
+      <button
+        onClick={() => navigateToParent(parent!.id)}
+        className={className}
+      >
+        {parent!.author!.username}
+      </button>
+    ) : (
+      <span className={className}>{username}</span>
+    );
+  };
 
   return (
     <Flex alignItems="center" className={CLASSES.comment.inReplyTo.$root}>
