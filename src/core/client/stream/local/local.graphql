@@ -68,6 +68,8 @@ extend type Local {
   storyID: String
   storyURL: String
   storyMode: STORY_MODE
+  # Version as reported by the embed.js
+  embedVersion: String
   # If set, then we are in single comment view.
   commentID: String
   siteID: String
