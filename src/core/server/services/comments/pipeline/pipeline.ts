@@ -62,6 +62,7 @@ export interface PhaseResult {
 
 export interface ModerationPhaseContextInput {
   readonly mongo: Db;
+  readonly archive: Db;
   readonly redis: AugmentedRedis;
   readonly config: Config;
   readonly log: Logger;

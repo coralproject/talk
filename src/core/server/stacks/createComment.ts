@@ -163,6 +163,7 @@ const validateRating = async (
 
 export default async function create(
   mongo: Db,
+  archive: Db,
   redis: AugmentedRedis,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -227,7 +228,7 @@ export default async function create(
   }
 
   const ancestorIDs: string[] = [];
-  const parent = await retrieveParent(mongo, tenant.id, input);
+  const parent = await retrieveParent(mongo, mongo, tenant.id, input);
   if (parent) {
     ancestorIDs.push(parent.id);
     if (hasAncestors(parent)) {
@@ -253,6 +254,7 @@ export default async function create(
       action: "NEW",
       log,
       mongo,
+      archive,
       redis,
       config,
       tenant,

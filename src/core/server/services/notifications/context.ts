@@ -21,6 +21,7 @@ import { generateUnsubscribeURL } from "./categories/unsubscribe";
 
 interface Options {
   mongo: Db;
+  archive: Db;
   tenant: Tenant;
   config: Config;
   signingConfig: JWTSigningConfig;
@@ -34,6 +35,7 @@ interface Options {
  */
 export default class NotificationContext {
   private readonly mongo: Db;
+  private readonly archive: Db;
   private readonly signingConfig: JWTSigningConfig;
 
   /**
@@ -73,7 +75,7 @@ export default class NotificationContext {
     string,
     Readonly<Comment> | null
   > = new DataLoader((commentIDs) =>
-    retrieveManyComments(this.mongo, this.tenant.id, commentIDs)
+    retrieveManyComments(this.mongo, this.archive, this.tenant.id, commentIDs)
   );
 
   /**
@@ -88,6 +90,7 @@ export default class NotificationContext {
 
   constructor({
     mongo,
+    archive,
     tenant,
     now = new Date(),
     log = logger,
@@ -95,6 +98,7 @@ export default class NotificationContext {
     signingConfig,
   }: Options) {
     this.mongo = mongo;
+    this.archive = archive;
     this.tenant = tenant;
     this.now = now;
     this.config = config;

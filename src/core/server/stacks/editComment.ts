@@ -75,6 +75,7 @@ export type EditComment = Omit<
 
 export default async function edit(
   mongo: Db,
+  archive: Db,
   redis: AugmentedRedis,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -90,6 +91,7 @@ export default async function edit(
   // because it wasn't involved in the atomic transaction.
   const originalStaleComment = await retrieveComment(
     mongo,
+    mongo,
     tenant.id,
     input.id
   );
@@ -99,7 +101,7 @@ export default async function edit(
 
   // If the original comment was a reply, then get it's parent!
   const { parentID, parentRevisionID, siteID } = originalStaleComment;
-  const parent = await retrieveParent(mongo, tenant.id, {
+  const parent = await retrieveParent(mongo, mongo, tenant.id, {
     parentID,
     parentRevisionID,
   });
@@ -173,6 +175,7 @@ export default async function edit(
     action: "EDIT",
     log,
     mongo,
+    archive,
     redis,
     config,
     tenant,

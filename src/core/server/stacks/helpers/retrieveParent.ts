@@ -12,6 +12,7 @@ import {
 
 async function retrieveParent(
   mongo: Db,
+  archive: Db,
   tenantID: string,
   input: { parentID?: string; parentRevisionID?: string }
 ) {
@@ -20,7 +21,12 @@ async function retrieveParent(
   }
 
   // Check to see that the reference parent ID exists.
-  const parent = await retrieveComment(mongo, tenantID, input.parentID);
+  const parent = await retrieveComment(
+    mongo,
+    archive,
+    tenantID,
+    input.parentID
+  );
   if (!parent) {
     throw new CommentNotFoundError(input.parentID);
   }

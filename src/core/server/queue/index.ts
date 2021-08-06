@@ -47,6 +47,7 @@ const createQueueOptions = (config: Config): Queue.QueueOptions => {
 
 export interface QueueOptions {
   mongo: Db;
+  archive: Db;
   config: Config;
   tenantCache: TenantCache;
   i18n: I18n;

@@ -356,7 +356,7 @@ export async function editComment(
   );
   if (!result.value) {
     // Try to get the comment.
-    const comment = await retrieveComment(mongo, tenantID, id);
+    const comment = await retrieveComment(mongo, mongo, tenantID, id);
     if (!comment) {
       // TODO: (wyattjoh) return better error
       throw new Error("comment not found");
@@ -391,24 +391,56 @@ export async function editComment(
   };
 }
 
-export async function retrieveComment(mongo: Db, tenantID: string, id: string) {
-  return collection(mongo).findOne({ id, tenantID });
+export async function retrieveComment(
+  mongo: Db,
+  archive: Db,
+  tenantID: string,
+  id: string
+) {
+  const liveComment = await collection(mongo).findOne({ id, tenantID });
+
+  if (liveComment) {
+    return liveComment;
+  }
+
+  const archivedComment = await archivedComments(archive).findOne({
+    id,
+    tenantID,
+  });
+
+  return archivedComment;
 }
 
 export async function retrieveManyComments(
   mongo: Db,
+  archive: Db,
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
-  const cursor = collection(mongo).find({
+  // Try and find it in live comments collection
+  const liveCommentsCursor = collection(mongo).find({
     id: {
       $in: ids,
     },
     tenantID,
   });
 
-  const comments = await cursor.toArray();
+  const liveComments = await liveCommentsCursor.toArray();
+  if (liveComments && liveComments.length > 0) {
+    return ids.map(
+      (id) => liveComments.find((comment) => comment.id === id) || null
+    );
+  }
 
+  // Otherwise, try and find it in the archived comments collection
+  const archivedCommentsCursor = archivedComments(archive).find({
+    id: {
+      $in: ids,
+    },
+    tenantID,
+  });
+
+  const comments = await archivedCommentsCursor.toArray();
   return ids.map((id) => comments.find((comment) => comment.id === id) || null);
 }
 
@@ -477,6 +509,7 @@ export const retrieveCommentRepliesConnection = (
  */
 export async function retrieveCommentParentsConnection(
   mongo: Db,
+  archive: Db,
   tenantID: string,
   comment: Comment,
   { last: limit, before: skip = 0 }: { last: number; before?: number }
@@ -508,7 +541,12 @@ export async function retrieveCommentParentsConnection(
   const ancestorIDs = comment.ancestorIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
-  const nodes = await retrieveManyComments(mongo, tenantID, ancestorIDs);
+  const nodes = await retrieveManyComments(
+    mongo,
+    archive,
+    tenantID,
+    ancestorIDs
+  );
 
   // Loop over the list to ensure that none of the entries is null (indicating
   // that there was a misplaced parent). We can assert the type here because we
@@ -920,7 +958,7 @@ export async function addCommentTag(
     }
   );
   if (!result.value) {
-    const comment = await retrieveComment(mongo, tenantID, commentID);
+    const comment = await retrieveComment(mongo, mongo, tenantID, commentID);
     if (!comment) {
       throw new CommentNotFoundError(commentID);
     }
@@ -958,7 +996,7 @@ export async function removeCommentTag(
     }
   );
   if (!result.value) {
-    const comment = await retrieveComment(mongo, tenantID, commentID);
+    const comment = await retrieveComment(mongo, mongo, tenantID, commentID);
     if (!comment) {
       throw new CommentNotFoundError(commentID);
     }

@@ -1641,6 +1641,7 @@ export async function updateUserLastCommentID(
  */
 export async function retrieveUserLastComment(
   mongo: Db,
+  archive: Db,
   redis: AugmentedRedis,
   tenant: Tenant,
   user: User
@@ -1650,7 +1651,7 @@ export async function retrieveUserLastComment(
     return null;
   }
 
-  return retrieveComment(mongo, tenant.id, id);
+  return retrieveComment(mongo, archive, tenant.id, id);
 }
 
 export interface LinkUser {

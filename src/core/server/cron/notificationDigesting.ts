@@ -18,6 +18,7 @@ import {
 
 interface Options {
   mongo: Db;
+  archive: Db;
   config: Config;
   mailerQueue: MailerQueue;
   signingConfig: JWTSigningConfig;
@@ -62,6 +63,7 @@ const processNotificationDigesting = (
 ): ScheduledJobCommand<Options> => async ({
   log,
   mongo,
+  archive,
   config,
   signingConfig,
   tenantCache,
@@ -75,6 +77,7 @@ const processNotificationDigesting = (
     // digesting operations.
     const ctx = new NotificationContext({
       mongo,
+      archive,
       config,
       signingConfig,
       tenant,

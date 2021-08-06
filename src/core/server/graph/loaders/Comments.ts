@@ -164,7 +164,7 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
 export default (ctx: GraphContext) => ({
   visible: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
-      retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
+      retrieveManyComments(ctx.mongo, ctx.archive, ctx.tenant.id, ids).then(
         mapVisibleComments(ctx.user)
       ),
     {
@@ -174,7 +174,8 @@ export default (ctx: GraphContext) => ({
     }
   ),
   comment: new DataLoader<string, Readonly<Comment> | null>(
-    (ids: string[]) => retrieveManyComments(ctx.mongo, ctx.tenant.id, ids),
+    (ids: string[]) =>
+      retrieveManyComments(ctx.mongo, ctx.archive, ctx.tenant.id, ids),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.
@@ -329,11 +330,17 @@ export default (ctx: GraphContext) => ({
     ).then(primeCommentsFromConnection(ctx));
   },
   parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
-    retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
-      last: defaultTo(last, 1),
-      // The cursor passed here is always going to be a number.
-      before: before as number,
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentParentsConnection(
+      ctx.mongo,
+      ctx.archive,
+      ctx.tenant.id,
+      comment,
+      {
+        last: defaultTo(last, 1),
+        // The cursor passed here is always going to be a number.
+        before: before as number,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
 
   sharedModerationQueueQueuesCounts: new SingletonResolver(
     () =>

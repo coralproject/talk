@@ -38,7 +38,7 @@ export async function addTag(
   tagType: GQLTAG,
   now = new Date()
 ) {
-  const comment = await retrieveComment(mongo, tenant.id, commentID);
+  const comment = await retrieveComment(mongo, mongo, tenant.id, commentID);
   if (!comment) {
     throw new CommentNotFoundError(commentID);
   }
@@ -67,7 +67,7 @@ export async function removeTag(
   commentID: string,
   tagType: GQLTAG
 ) {
-  const comment = await retrieveComment(mongo, tenant.id, commentID);
+  const comment = await retrieveComment(mongo, mongo, tenant.id, commentID);
   if (!comment) {
     throw new CommentNotFoundError(commentID);
   }

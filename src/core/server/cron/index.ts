@@ -16,6 +16,7 @@ export interface ScheduledJobGroups {
 
 interface Options {
   mongo: Db;
+  archive: Db;
   redis: AugmentedRedis;
   config: Config;
   mailerQueue: MailerQueue;

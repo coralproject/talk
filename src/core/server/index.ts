@@ -267,6 +267,7 @@ class Server {
     this.tasks = createQueue({
       config: this.config,
       mongo: this.mongo,
+      archive: this.archive,
       redis: this.redis,
       tenantCache: this.tenantCache,
       i18n: this.i18n,
@@ -333,6 +334,7 @@ class Server {
     // Start up the cron job processors.
     this.scheduledTasks = startScheduledTasks({
       mongo: this.mongo,
+      archive: this.archive,
       redis: this.redis,
       config: this.config,
       mailerQueue: this.tasks.mailer,

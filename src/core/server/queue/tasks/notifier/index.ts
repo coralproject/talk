@@ -16,6 +16,7 @@ import { createJobProcessor, JOB_NAME, NotifierData } from "./processor";
 
 interface Options {
   mongo: Db;
+  archive: Db;
   mailerQueue: MailerQueue;
   config: Config;
   tenantCache: TenantCache;

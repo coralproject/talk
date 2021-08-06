@@ -48,6 +48,7 @@ export const Comments = (ctx: GraphContext) => ({
     mapFieldsetToErrorCodes(
       createComment(
         ctx.mongo,
+        ctx.archive,
         ctx.redis,
         ctx.config,
         ctx.broker,
@@ -76,6 +77,7 @@ export const Comments = (ctx: GraphContext) => ({
     mapFieldsetToErrorCodes(
       editComment(
         ctx.mongo,
+        ctx.archive,
         ctx.redis,
         ctx.config,
         ctx.broker,

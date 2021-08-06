@@ -27,7 +27,12 @@ export default async function moderate(
   // TODO: wrap these operations in a transaction?
 
   // Get the comment that we're moderating.
-  const comment = await retrieveComment(mongo, tenant.id, input.commentID);
+  const comment = await retrieveComment(
+    mongo,
+    mongo,
+    tenant.id,
+    input.commentID
+  );
   if (!comment) {
     throw new CommentNotFoundError(input.commentID);
   }
