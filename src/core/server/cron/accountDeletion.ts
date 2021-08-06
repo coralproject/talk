@@ -14,6 +14,7 @@ import {
 
 interface Options {
   mongo: Db;
+  archive: Db;
   redis: AugmentedRedis;
   mailerQueue: MailerQueue;
   tenantCache: TenantCache;
@@ -36,6 +37,7 @@ export function registerAccountDeletion(
 const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
   log,
   mongo,
+  archive,
   redis,
   mailerQueue,
   tenantCache,
@@ -62,7 +64,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
 
       log.info({ userID: user.id }, "deleting user");
 
-      await deleteUser(mongo, redis, user.id, tenant.id, now);
+      await deleteUser(mongo, archive, redis, user.id, tenant.id, now);
 
       // If the user has an email, then send them a confirmation that their account
       // was deleted.

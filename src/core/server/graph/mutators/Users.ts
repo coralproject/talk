@@ -170,6 +170,7 @@ export const Users = (ctx: GraphContext) => ({
 
     return deleteUser(
       ctx.mongo,
+      ctx.archive,
       ctx.redis,
       input.userID,
       ctx.tenant.id,

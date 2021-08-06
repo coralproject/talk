@@ -146,12 +146,22 @@ async function moderateComments(
       continue;
     }
 
-    await updateAllCommentCounts(mongo, redis, {
-      ...result,
-      tenant,
-      // Rejecting a comment does not change the action counts.
-      actionCounts: {},
-    });
+    await updateAllCommentCounts(
+      mongo,
+      redis,
+      {
+        ...result,
+        tenant,
+        // Rejecting a comment does not change the action counts.
+        actionCounts: {},
+      },
+      {
+        updateShared: false,
+        updateSite: false,
+        updateStory: true,
+        updateUser: true,
+      }
+    );
   }
 }
 
@@ -217,6 +227,7 @@ async function deleteUserComments(
 
 export async function deleteUser(
   mongo: Db,
+  archive: Db,
   redis: AugmentedRedis,
   userID: string,
   tenantID: string,
@@ -239,9 +250,11 @@ export async function deleteUser(
 
   // Delete the user's action counts.
   await deleteUserActionCounts(mongo, userID, tenantID);
+  await deleteUserActionCounts(archive, userID, tenantID);
 
   // Delete the user's comments.
   await deleteUserComments(mongo, redis, userID, tenantID, now);
+  await deleteUserComments(archive, redis, userID, tenantID, now);
 
   // Mark the user as deleted.
   const result = await collections.users(mongo).findOneAndUpdate(
@@ -261,6 +274,12 @@ export async function deleteUser(
       returnOriginal: false,
     }
   );
+
+  // Delete the user's archived action counts.
+  await deleteUserActionCounts(archive, userID, tenantID);
+
+  // Delete the user's archived comments.
+  await deleteUserComments(archive, redis, userID, tenantID, now);
 
   return result.value || null;
 }

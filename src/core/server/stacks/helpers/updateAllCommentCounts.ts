@@ -63,10 +63,23 @@ function calculateStatus(
   };
 }
 
+interface UpdateAllCommentCountsOptions {
+  updateStory?: boolean;
+  updateSite?: boolean;
+  updateUser?: boolean;
+  updateShared?: boolean;
+}
+
 export default async function updateAllCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  input: UpdateAllCommentCountsInput
+  input: UpdateAllCommentCountsInput,
+  options: UpdateAllCommentCountsOptions = {
+    updateStory: true,
+    updateSite: true,
+    updateUser: true,
+    updateShared: true,
+  }
 ) {
   // Compute the queue difference as a result of the old status and the new
   // status and the action counts.
@@ -82,31 +95,37 @@ export default async function updateAllCommentCounts(
     after: { storyID, authorID, siteID },
   } = input;
 
-  // Update the story, site, and user comment counts.
-  await updateStoryCounts(mongo, tenant.id, storyID, {
-    action,
-    status,
-    moderationQueue,
-  });
+  if (options.updateStory) {
+    // Update the story, site, and user comment counts.
+    await updateStoryCounts(mongo, tenant.id, storyID, {
+      action,
+      status,
+      moderationQueue,
+    });
+  }
 
-  await updateSiteCounts(mongo, tenant.id, siteID, {
-    action,
-    status,
-    moderationQueue,
-  });
+  if (options.updateSite) {
+    await updateSiteCounts(mongo, tenant.id, siteID, {
+      action,
+      status,
+      moderationQueue,
+    });
+  }
 
-  if (authorID) {
+  if (options.updateUser && authorID) {
     await updateUserCommentCounts(mongo, tenant.id, authorID, {
       status,
     });
   }
 
-  // Update the shared counts.
-  await updateSharedCommentCounts(redis, tenant.id, {
-    action,
-    status,
-    moderationQueue,
-  });
+  if (options.updateShared) {
+    // Update the shared counts.
+    await updateSharedCommentCounts(redis, tenant.id, {
+      action,
+      status,
+      moderationQueue,
+    });
+  }
 
   return {
     action,
