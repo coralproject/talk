@@ -94,6 +94,7 @@ export class StreamEmbed {
       withConfig({
         accessToken: config.accessToken,
         bodyClassName: config.bodyClassName,
+        version: process.env.TALK_VERSION,
       }),
       withKeypressEvent,
       withRefreshAccessToken(config.refreshAccessToken),
