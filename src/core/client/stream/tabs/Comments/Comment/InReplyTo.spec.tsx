@@ -13,6 +13,7 @@ it("renders correctly", () => {
         username: "Username",
       },
     },
+    isLink: false,
   };
   const renderer = createRenderer();
   renderer.render(<InReplyTo {...props} />);
