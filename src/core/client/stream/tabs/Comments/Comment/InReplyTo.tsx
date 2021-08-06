@@ -19,7 +19,6 @@ interface Props {
 const InReplyTo: FunctionComponent<Props> = ({ parent }) => {
   const { pym } = useCoralContext();
 
-
   const navigateToParent = (id: string) => {
     const elemId = computeCommentElementID(id);
     const elem = document.getElementById(elemId);
