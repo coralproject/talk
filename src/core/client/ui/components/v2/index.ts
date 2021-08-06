@@ -21,6 +21,7 @@ export { default as Box } from "./Box";
 export { default as Button } from "./Button";
 export { default as ButtonIcon } from "./Button/ButtonIcon";
 export { default as CallOut } from "./CallOut";
+export { default as Hidden } from "./Hidden";
 export { default as Card, CardCloseButton } from "./Card";
 export { default as CheckBox } from "./CheckBox";
 export { default as Counter } from "./Counter";

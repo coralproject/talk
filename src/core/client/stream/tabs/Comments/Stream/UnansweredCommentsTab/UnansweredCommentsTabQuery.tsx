@@ -8,6 +8,7 @@ import {
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import { Flex, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
 import { UnansweredCommentsTabQueryLocal as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
@@ -26,7 +27,7 @@ export const render = (
   flattenReplies: boolean
 ) => {
   if (data.error) {
-    return <div>{data.error.message}</div>;
+    return <QueryError error={data.error} />;
   }
   if (data.props) {
     if (!data.props.story) {

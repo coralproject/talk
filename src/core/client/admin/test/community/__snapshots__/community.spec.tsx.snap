@@ -386,17 +386,10 @@ exports[`renders community 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="community-roleChange-ariainfo"
+                  aria-label="A dropdown to change the user role"
                   id="community-roleChange"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="community-roleChange-ariainfo"
-                  >
-                    A dropdown to change the user role
-                  </div>
-                </div>
+                />
               </div>
             </td>
             <td
@@ -482,17 +475,10 @@ exports[`renders community 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="community-roleChange-ariainfo"
+                  aria-label="A dropdown to change the user role"
                   id="community-roleChange"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="community-roleChange-ariainfo"
-                  >
-                    A dropdown to change the user role
-                  </div>
-                </div>
+                />
               </div>
             </td>
             <td
@@ -578,17 +564,10 @@ exports[`renders community 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="community-roleChange-ariainfo"
+                  aria-label="A dropdown to change the user role"
                   id="community-roleChange"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="community-roleChange-ariainfo"
-                  >
-                    A dropdown to change the user role
-                  </div>
-                </div>
+                />
               </div>
             </td>
             <td
@@ -629,17 +608,10 @@ exports[`renders community 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="community-statusChange-ariainfo"
+                  aria-label="A dropdown to change the user status"
                   id="community-statusChange"
                   role="dialog"
-                >
-                  <div
-                    className="AriaInfo-root"
-                    id="community-statusChange-ariainfo"
-                  >
-                    A dropdown to change the user status
-                  </div>
-                </div>
+                />
               </div>
             </td>
           </tr>

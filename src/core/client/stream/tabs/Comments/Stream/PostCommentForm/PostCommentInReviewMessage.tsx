@@ -26,6 +26,7 @@ const PostCommentInReview: FunctionComponent<PostCommentInReviewProps> = (
           </span>
         </Localized>
       }
+      aria-live="polite"
     />
   );
 };

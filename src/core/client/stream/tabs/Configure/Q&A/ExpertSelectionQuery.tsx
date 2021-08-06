@@ -3,6 +3,7 @@ import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
 import { Flex, Spinner } from "coral-ui/components/v2";
+import { QueryError } from "coral-ui/components/v3";
 
 import { ExpertSelectionQuery as QueryTypes } from "coral-stream/__generated__/ExpertSelectionQuery.graphql";
 
@@ -25,7 +26,7 @@ const ExpertSelectionQuery: FunctionComponent<Props> = ({ storyID }) => (
     }}
     render={({ error, props }: any) => {
       if (error) {
-        return <div>{error.message}</div>;
+        return <QueryError error={error} />;
       }
       if (!props) {
         return (

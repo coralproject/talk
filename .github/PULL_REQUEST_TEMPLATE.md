@@ -46,3 +46,12 @@ In this section, you should be describing any manual testing that can be used to
 verify features introduced or bugs fixed in this PR.
 
  -->
+ 
+ 
+## How do we deploy this PR?
+
+<!--
+
+In this section, you should be describing any actions that will need to be taken upon deploy ex. purging caches, setting feature flags
+
+ -->

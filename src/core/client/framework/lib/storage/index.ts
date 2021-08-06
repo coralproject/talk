@@ -7,3 +7,4 @@ export {
   default as createPromisifiedStorage,
   PromisifiedStorage,
 } from "./PromisifiedStorage";
+export { default as combinePromisifiedStorage } from "./combinePromisifiedStorage";
