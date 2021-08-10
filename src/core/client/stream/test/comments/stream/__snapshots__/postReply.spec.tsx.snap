@@ -646,11 +646,12 @@ exports[`post a reply: optimistic response 1`] = `
                       className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                     >
                       In reply to 
-                      <span
+                      <button
                         className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                        onClick={[Function]}
                       >
                         Markus
-                      </span>
+                      </button>
                     </span>
                   </div>
                 </div>

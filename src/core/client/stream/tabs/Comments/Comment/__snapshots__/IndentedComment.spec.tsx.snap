@@ -12,6 +12,13 @@ exports[`renders correctly 1`] = `
     <Comment
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
+      parent={
+        Object {
+          "author": Object {
+            "username": "test-user",
+          },
+        }
+      }
       username="Marvin"
     />
   </ForwardRef(forwardRef)>
