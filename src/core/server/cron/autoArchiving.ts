@@ -3,6 +3,7 @@ import { Db } from "mongodb";
 import { Config } from "coral-server/config";
 import {
   archiveStory,
+  markStoryForArchiving,
   retrieveStoriesToBeArchived,
 } from "coral-server/models/story";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -70,6 +71,21 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
 
     stories.forEach(async (s) => {
       log.info({ storyID: s.id }, "archiving story");
+
+      const markResult = await markStoryForArchiving(
+        mongo,
+        tenant.id,
+        s.id,
+        now
+      );
+
+      // Cannot proceed if we can't lock the story for archiving,
+      // continue to the next one
+      if (!markResult) {
+        log.error({ storyID: s.id }, "unable to grab lock to archive story");
+        return;
+      }
+
       const result = await archiveStory(mongo, archive, redis, tenant.id, s.id);
 
       if (result?.isArchived && !result?.isArchiving) {

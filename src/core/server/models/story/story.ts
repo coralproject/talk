@@ -749,7 +749,43 @@ export async function markStoryForArchiving(
   now: Date
 ) {
   const result = await collection(mongo).findOneAndUpdate(
-    { id, tenantID },
+    {
+      id,
+      tenantID,
+      $and: [
+        { $or: [{ isArchiving: { $exists: false } }, { isArchiving: false }] },
+        { $or: [{ isArchived: { $exists: false } }, { isArchived: false }] },
+      ],
+    },
+    {
+      $set: {
+        isArchiving: true,
+        closedAt: now,
+        updatedAt: now,
+        archivedAt: now,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
+}
+
+export async function markStoryForUnarchiving(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  now: Date
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      isArchiving: false,
+      isArchived: true,
+    },
     {
       $set: {
         isArchiving: true,
@@ -765,8 +801,15 @@ export async function markStoryForArchiving(
   return result.value;
 }
 
-const getStoryCommentCounts = (story: Readonly<Story>, multiplier: number) => {
-  const { commentCounts } = story;
+const getCommentCounts = (options: {
+  story: Readonly<Story>;
+  negate: boolean;
+}) => {
+  const {
+    story: { commentCounts },
+    negate,
+  } = options;
+  const multiplier = negate ? -1 : 1;
 
   const result: RelatedCommentCounts = createEmptyRelatedCommentCounts();
 
@@ -818,8 +861,12 @@ export async function archiveStory(
   id: string
 ) {
   const targetStory = await collection(mongo).findOne({ id, tenantID });
-  if (!targetStory || !targetStory.isArchiving) {
+  if (!targetStory) {
     throw new StoryNotFoundError(id);
+  }
+
+  if (targetStory.isArchived) {
+    return;
   }
 
   const targetComments = await comments(mongo)
@@ -866,7 +913,10 @@ export async function archiveStory(
 
   // negate the comment counts so we can subtract them from the
   // site and shared comment counts
-  const commentCounts = getStoryCommentCounts(targetStory, -1);
+  const commentCounts = getCommentCounts({
+    story: targetStory,
+    negate: true,
+  });
 
   await updateSiteCounts(mongo, tenantID, id, commentCounts);
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
@@ -895,8 +945,12 @@ export async function unarchiveStory(
   id: string
 ) {
   const targetStory = await collection(mongo).findOne({ id, tenantID });
-  if (!targetStory || !targetStory.isArchived) {
+  if (!targetStory) {
     throw new StoryNotFoundError(id);
+  }
+
+  if (!targetStory.isArchived) {
+    return;
   }
 
   const targetComments = await archivedComments(archive)
@@ -944,7 +998,10 @@ export async function unarchiveStory(
 
   // get the comment counts so we can add them to the
   // site and shared comment counts
-  const commentCounts = getStoryCommentCounts(targetStory, 1);
+  const commentCounts = getCommentCounts({
+    story: targetStory,
+    negate: false,
+  });
 
   await updateSiteCounts(mongo, tenantID, id, commentCounts);
   await updateSharedCommentCounts(redis, tenantID, commentCounts);

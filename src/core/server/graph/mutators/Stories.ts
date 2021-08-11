@@ -6,6 +6,7 @@ import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import {
   archiveStory,
   markStoryForArchiving,
+  markStoryForUnarchiving,
   retrieveStory,
   Story,
   unarchiveStory,
@@ -156,7 +157,7 @@ export const Stories = (ctx: GraphContext) => ({
       ctx.now
     );
 
-    if (markResult?.isArchiving) {
+    if (markResult) {
       await archiveStory(
         ctx.mongo,
         ctx.archive,
@@ -169,14 +170,14 @@ export const Stories = (ctx: GraphContext) => ({
     return retrieveStory(ctx.mongo, ctx.tenant.id, input.storyID);
   },
   unarchiveStory: async (input: GQLUnarchiveStoryInput) => {
-    const markResult = await markStoryForArchiving(
+    const markResult = await markStoryForUnarchiving(
       ctx.mongo,
       ctx.tenant.id,
       input.storyID,
       ctx.now
     );
 
-    if (markResult?.isArchiving) {
+    if (markResult) {
       await unarchiveStory(
         ctx.mongo,
         ctx.archive,
