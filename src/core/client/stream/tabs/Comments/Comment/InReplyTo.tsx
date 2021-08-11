@@ -3,6 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { globalErrorReporter } from "coral-framework/lib/errors";
 import CLASSES from "coral-stream/classes";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import { Flex, Icon } from "coral-ui/components/v2";
@@ -26,8 +27,8 @@ const InReplyTo: FunctionComponent<Props> = ({ parent, isLink }) => {
       void pym?.scrollParentToChildEl(elemId);
       elem.focus();
     } else {
-      throw new Error(
-        "Assertion error: Expected to find parent comment but could not"
+      globalErrorReporter.report(
+        `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
   };
