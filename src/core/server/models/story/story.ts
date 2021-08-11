@@ -964,3 +964,17 @@ export async function unarchiveStory(
 
   return result.value;
 }
+
+export async function retrieveStoriesToBeArchived(
+  mongo: Db,
+  tenantID: string,
+  now: Date,
+  limit: number
+) {
+  const stories = await collection(mongo)
+    .find({ tenantID, createdAt: { $gt: now } })
+    .limit(limit)
+    .toArray();
+
+  return stories;
+}

@@ -7,11 +7,13 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { registerAccountDeletion } from "./accountDeletion";
+import { registerAutoArchiving } from "./autoArchiving";
 import { registerNotificationDigesting } from "./notificationDigesting";
 
 export interface ScheduledJobGroups {
   accountDeletion: ReturnType<typeof registerAccountDeletion>;
   notificationDigesting: ReturnType<typeof registerNotificationDigesting>;
+  autoArchiving: ReturnType<typeof registerAutoArchiving>;
 }
 
 interface Options {
@@ -30,6 +32,7 @@ export default function startScheduledTasks(
   const tasks: ScheduledJobGroups = {
     accountDeletion: registerAccountDeletion(options),
     notificationDigesting: registerNotificationDigesting(options),
+    autoArchiving: registerAutoArchiving(options),
   };
 
   for (const { name, schedulers } of Object.values(tasks)) {
