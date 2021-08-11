@@ -17,6 +17,7 @@ exports[`renders correctly 1`] = `
           "author": Object {
             "username": "test-user",
           },
+          "id": "test-id",
         }
       }
       username="Marvin"
