@@ -7,11 +7,11 @@ exports[`renders correctly 1`] = `
 >
   <div
     className="Backdrop-root Backdrop-active"
-    data-testid="backdrop"
-    onClick={[Function]}
   />
   <div
     className="Modal-baseScroll Modal-scroll"
+    data-testid="scroll"
+    onClick={[Function]}
     onKeyDown={[Function]}
     role="presentation"
   >
