@@ -8,6 +8,7 @@ import InReplyTo from "./InReplyTo";
 it("renders correctly", () => {
   const props: PropTypesOf<typeof InReplyTo> = {
     parent: {
+      id: "test-id",
       author: {
         username: "Username",
       },

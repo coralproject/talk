@@ -20,18 +20,15 @@ const InReplyTo: FunctionComponent<Props> = ({ parent, isLink }) => {
   const { pym } = useCoralContext();
 
   const navigateToParent = (id: string) => {
-    /* eslint-disable */
-    console.log('navigating to parent');
     const elemId = computeCommentElementID(id);
     const elem = document.getElementById(elemId);
-    console.log(elem);
     if (elem) {
       void pym?.scrollParentToChildEl(elemId);
       elem.focus();
-      (elem as any).style["border"] = "5px solid green";
     } else {
-      /* eslint-disable-next-line */
-      console.log("TODO: its not on the page~");
+      throw new Error(
+        "Assertion error: Expected to find parent comment but could not"
+      );
     }
   };
 
