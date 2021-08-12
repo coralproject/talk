@@ -69,20 +69,23 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
 
     log.info({ count: stories.length }, "archiving stories");
 
-    stories.forEach(async (s) => {
-      log.info({ storyID: s.id }, "archiving story");
+    for (const story of stories) {
+      log.info({ storyID: story.id }, "archiving story");
 
       const markResult = await markStoryForArchiving(
         mongo,
         tenant.id,
-        s.id,
+        story.id,
         now
       );
 
       // Cannot proceed if we can't lock the story for archiving,
       // continue to the next one
       if (!markResult) {
-        log.error({ storyID: s.id }, "unable to grab lock to archive story");
+        log.error(
+          { storyID: story.id },
+          "unable to grab lock to archive story"
+        );
         return;
       }
 
@@ -90,14 +93,14 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
         { main: mongo, archive },
         redis,
         tenant.id,
-        s.id
+        story.id
       );
 
       if (result?.isArchived && !result?.isArchiving) {
-        log.info({ storyID: s.id }, "successfully archived story");
+        log.info({ storyID: story.id }, "successfully archived story");
       } else {
-        log.error({ storyID: s.id }, "unable to archive story");
+        log.error({ storyID: story.id }, "unable to archive story");
       }
-    });
+    }
   }
 };
