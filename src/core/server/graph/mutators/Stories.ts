@@ -28,7 +28,7 @@ import { scrape } from "coral-server/services/stories/scraper";
 
 import {
   GQLAddStoryExpertInput,
-  GQLArchiveStoryInput,
+  GQLArchiveStoriesInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLFEATURE_FLAG,
@@ -37,7 +37,7 @@ import {
   GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
-  GQLUnarchiveStoryInput,
+  GQLUnarchiveStoriesInput,
   GQLUpdateStoryInput,
   GQLUpdateStoryModeInput,
   GQLUpdateStorySettingsInput,
@@ -149,42 +149,56 @@ export const Stories = (ctx: GraphContext) => ({
 
     return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
   },
-  archiveStory: async (input: GQLArchiveStoryInput) => {
-    const markResult = await markStoryForArchiving(
-      ctx.mongo,
-      ctx.tenant.id,
-      input.storyID,
-      ctx.now
-    );
+  archiveStories: async (input: GQLArchiveStoriesInput) => {
+    const stories: (Readonly<Story> | null)[] = [];
 
-    if (markResult) {
-      await archiveStory(
-        ctx.dataContext.mongo,
-        ctx.redis,
+    for (const storyID of input.storyIDs) {
+      const markResult = await markStoryForArchiving(
+        ctx.mongo,
         ctx.tenant.id,
-        input.storyID
+        storyID,
+        ctx.now
       );
+
+      if (markResult) {
+        await archiveStory(
+          ctx.dataContext.mongo,
+          ctx.redis,
+          ctx.tenant.id,
+          storyID
+        );
+      }
+
+      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
+      stories.push(result);
     }
 
-    return retrieveStory(ctx.mongo, ctx.tenant.id, input.storyID);
+    return stories;
   },
-  unarchiveStory: async (input: GQLUnarchiveStoryInput) => {
-    const markResult = await markStoryForUnarchiving(
-      ctx.mongo,
-      ctx.tenant.id,
-      input.storyID,
-      ctx.now
-    );
+  unarchiveStories: async (input: GQLUnarchiveStoriesInput) => {
+    const stories: (Readonly<Story> | null)[] = [];
 
-    if (markResult) {
-      await unarchiveStory(
-        ctx.dataContext.mongo,
-        ctx.redis,
+    for (const storyID of input.storyIDs) {
+      const markResult = await markStoryForUnarchiving(
+        ctx.mongo,
         ctx.tenant.id,
-        input.storyID
+        storyID,
+        ctx.now
       );
+
+      if (markResult) {
+        await unarchiveStory(
+          ctx.dataContext.mongo,
+          ctx.redis,
+          ctx.tenant.id,
+          storyID
+        );
+      }
+
+      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
+      stories.push(result);
     }
 
-    return retrieveStory(ctx.mongo, ctx.tenant.id, input.storyID);
+    return stories;
   },
 });

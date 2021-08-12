@@ -7935,24 +7935,24 @@ type ReviewCommentFlagPayload {
   flag: Flag!
 }
 
-input ArchiveStoryInput {
+input ArchiveStoriesInput {
   clientMutationId: String!
-  storyID: ID!
+  storyIDs: [ID!]!
 }
 
-type ArchiveStoryPayload {
+type ArchiveStoriesPayload {
   clientMutationId: String!
-  story: Story!
+  stories: [Story!]!
 }
 
-input UnarchiveStoryInput {
+input UnarchiveStoriesInput {
   clientMutationId: String!
-  storyID: ID!
+  storyIDs: [ID!]!
 }
 
-type UnarchiveStoryPayload {
+type UnarchiveStoriesPayload {
   clientMutationId: String!
-  story: Story!
+  stories: [Story!]!
 }
 
 ##################
@@ -8553,10 +8553,10 @@ type Mutation {
   reviewCommentFlag(input: ReviewCommentFlagInput!): ReviewCommentFlagPayload!
     @auth(roles: [ADMIN, MODERATOR])
 
-  archiveStory(input: ArchiveStoryInput!): ArchiveStoryPayload!
+  archiveStories(input: ArchiveStoriesInput!): ArchiveStoriesPayload!
     @auth(roles: [ADMIN])
 
-  unarchiveStory(input: UnarchiveStoryInput!): UnarchiveStoryPayload!
+  unarchiveStories(input: UnarchiveStoriesInput!): UnarchiveStoriesPayload!
     @auth(roles: [ADMIN])
 }
 
