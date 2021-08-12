@@ -1,6 +1,10 @@
 import Joi from "joi";
 
-import { InternalError } from "coral-server/errors";
+import {
+  InternalError,
+  NotFoundError,
+  ValidationError,
+} from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
 import { createFetch } from "coral-server/services/fetch";
 
@@ -12,7 +16,7 @@ const OEmbedResponseSchema = Joi.object().keys({
   html: Joi.string().optional(),
 });
 
-interface OEmbedResponse {
+export interface OEmbedResponse {
   width?: number;
   height?: number | null;
   title?: string;
@@ -51,7 +55,11 @@ export async function fetchOEmbedResponse(
   const res = await fetch(uri);
   if (!res.ok) {
     if (res.status === 404) {
-      return null;
+      throw new NotFoundError("GET", "TODO");
+    }
+
+    if (res.status === 400) {
+      throw new ValidationError(new Error("Invalid embed uri"));
     }
 
     throw new InternalError("response from oEmbed was not ok", {
