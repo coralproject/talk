@@ -79,27 +79,30 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
         now
       );
 
+      // If we have the document, we have the archiving lock and
+      // can proceed to archive
+      if (markResult) {
+        const result = await archiveStory(
+          { main: mongo, archive },
+          redis,
+          tenant.id,
+          story.id
+        );
+
+        if (result?.isArchived && !result?.isArchiving) {
+          log.info({ storyID: story.id }, "successfully archived story");
+        } else {
+          log.error({ storyID: story.id }, "unable to archive story");
+        }
+      }
       // Cannot proceed if we can't lock the story for archiving,
-      // continue to the next one
-      if (!markResult) {
+      // log an error for this archive op and continue on to the next
+      // story in the batch
+      else {
         log.error(
           { storyID: story.id },
           "unable to grab lock to archive story"
         );
-        return;
-      }
-
-      const result = await archiveStory(
-        { main: mongo, archive },
-        redis,
-        tenant.id,
-        story.id
-      );
-
-      if (result?.isArchived && !result?.isArchiving) {
-        log.info({ storyID: story.id }, "successfully archived story");
-      } else {
-        log.error({ storyID: story.id }, "unable to archive story");
       }
     }
   }
