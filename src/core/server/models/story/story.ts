@@ -1028,11 +1028,18 @@ export async function unarchiveStory(
 export async function retrieveStoriesToBeArchived(
   mongo: Db,
   tenantID: string,
-  now: Date,
+  olderThan: Date,
   limit: number
 ) {
   const stories = await collection(mongo)
-    .find({ tenantID, createdAt: { $gt: now } })
+    .find({
+      tenantID,
+      createdAt: { $lte: olderThan },
+      $and: [
+        { $or: [{ isArchiving: { $exists: false } }, { isArchiving: false }] },
+        { $or: [{ isArchived: { $exists: false } }, { isArchived: false }] },
+      ],
+    })
     .limit(limit)
     .toArray();
 
