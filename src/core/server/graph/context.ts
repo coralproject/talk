@@ -4,6 +4,7 @@ import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
+import DataContext from "coral-server/data/context";
 import CoralEventListenerBroker, {
   CoralEventPublisherBroker,
 } from "coral-server/events/publisher";
@@ -88,6 +89,8 @@ export default class GraphContext {
   public readonly signingConfig?: JWTSigningConfig;
   public readonly user?: User;
 
+  public readonly dataContext: DataContext;
+
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
     this.now = options.now || new Date();
@@ -123,5 +126,11 @@ export default class GraphContext {
     this.broker = options.broker.instance(this);
     this.loaders = loaders(this);
     this.mutators = mutators(this);
+
+    this.dataContext = new DataContext({
+      mongoLive: this.mongo,
+      mongoArchive: this.archive,
+      redis: this.redis,
+    });
   }
 }
