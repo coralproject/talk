@@ -51,7 +51,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
     return;
   }
 
-  const amount = config.get("auto_archiving_amount");
+  const batchSize = config.get("auto_archiving_batch_size");
   const age = config.get("auto_archiving_age");
 
   // For each of the tenant's, process their users notifications.
@@ -64,7 +64,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
       mongo,
       tenant.id,
       dateFilter,
-      amount
+      batchSize
     );
 
     log.info({ count: stories.length }, "archiving stories");

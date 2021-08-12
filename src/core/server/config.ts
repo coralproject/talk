@@ -475,12 +475,12 @@ const config = convict({
     default: ms("120 days"),
     env: "AUTO_ARCHIVING_AGE",
   },
-  auto_archiving_amount: {
+  auto_archiving_batch_size: {
     doc:
       "Determines how many stories to try and archive per interval of archiving.",
     format: Number,
     default: 50,
-    env: "AUTO_ARCHIVING_AMOUNT",
+    env: "AUTO_ARCHIVING_BATCH_SIZE",
   },
 });
 
