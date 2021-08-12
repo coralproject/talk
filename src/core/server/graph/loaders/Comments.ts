@@ -1,7 +1,6 @@
 import DataLoader from "dataloader";
 import { defaultTo, isNumber } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import GraphContext from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
@@ -164,7 +163,7 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
 export default (ctx: GraphContext) => ({
   visible: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
-      retrieveManyComments(ctx.mongo, ctx.archive, ctx.tenant.id, ids).then(
+      retrieveManyComments(ctx.dataContext.mongo, ctx.tenant.id, ids).then(
         mapVisibleComments(ctx.user)
       ),
     {
@@ -175,7 +174,7 @@ export default (ctx: GraphContext) => ({
   ),
   comment: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
-      retrieveManyComments(ctx.mongo, ctx.archive, ctx.tenant.id, ids),
+      retrieveManyComments(ctx.dataContext.mongo, ctx.tenant.id, ids),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.
@@ -198,11 +197,10 @@ export default (ctx: GraphContext) => ({
       story = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
     }
 
-    const db: Db = story?.isArchived ? ctx.archive : ctx.mongo;
     const isArchived = story?.isArchived || false;
 
     return retrieveCommentConnection(
-      db,
+      ctx.dataContext.mongo,
       ctx.tenant.id,
       {
         first: defaultTo(first, 10),
@@ -239,40 +237,60 @@ export default (ctx: GraphContext) => ({
     }
   ),
   forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
-    retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentUserConnection(
+      ctx.dataContext.mongo,
+      ctx.tenant.id,
+      userID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   forUserAll: (userID: string, { first, after }: UserToAllCommentsArgs) =>
-    retrieveAllCommentsUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first: defaultTo(first, 10),
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveAllCommentsUserConnection(
+      ctx.dataContext.mongo,
+      ctx.tenant.id,
+      userID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+        after,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   forUserRejected: (
     userID: string,
     { first, after }: UserToRejectedCommentsArgs
   ) =>
-    retrieveRejectedCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first: defaultTo(first, 10),
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveRejectedCommentUserConnection(
+      ctx.dataContext.mongo,
+      ctx.tenant.id,
+      userID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+        after,
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   taggedForStory: (
     storyID: string,
     tag: GQLTAG,
     { first, orderBy, after }: StoryToCommentsArgs
   ) =>
-    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-      filter: {
-        // Filter optionally for comments with a specific tag.
-        "tags.type": tag,
-      },
-    }).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentStoryConnection(
+      ctx.dataContext.mongo,
+      ctx.tenant.id,
+      storyID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+        filter: {
+          // Filter optionally for comments with a specific tag.
+          "tags.type": tag,
+        },
+      }
+    ).then(primeCommentsFromConnection(ctx)),
   forStory: async (
     storyID: string,
     { first, orderBy, after, tag, rating }: StoryToCommentsArgs
@@ -282,9 +300,8 @@ export default (ctx: GraphContext) => ({
       throw new Error("cannot get comments for a story that doesn't exist");
     }
 
-    const db: Db = story.isArchived ? ctx.archive : ctx.mongo;
     return retrieveCommentStoryConnection(
-      db,
+      ctx.dataContext.mongo,
       ctx.tenant.id,
       storyID,
       {
@@ -312,9 +329,8 @@ export default (ctx: GraphContext) => ({
       throw new Error("cannot get comments for a story that doesn't exist");
     }
 
-    const db: Db = story.isArchived ? ctx.archive : ctx.mongo;
     return retrieveCommentRepliesConnection(
-      db,
+      ctx.dataContext.mongo,
       ctx.tenant.id,
       storyID,
       parentID,
@@ -331,8 +347,7 @@ export default (ctx: GraphContext) => ({
   },
   parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
     retrieveCommentParentsConnection(
-      ctx.mongo,
-      ctx.archive,
+      ctx.dataContext.mongo,
       ctx.tenant.id,
       comment,
       {

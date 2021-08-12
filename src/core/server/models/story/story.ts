@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { MongoContext } from "coral-server/data/context";
 import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
@@ -854,13 +855,12 @@ const getCommentCounts = (options: {
 };
 
 export async function archiveStory(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenantID: string,
   id: string
 ) {
-  const targetStory = await collection(mongo).findOne({ id, tenantID });
+  const targetStory = await collection(mongo.main).findOne({ id, tenantID });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
@@ -869,17 +869,19 @@ export async function archiveStory(
     return;
   }
 
-  const targetComments = await comments(mongo)
+  const targetComments = await comments(mongo.main)
     .find({ tenantID, storyID: id })
     .toArray();
-  const targetCommentActions = await commentActions(mongo)
+  const targetCommentActions = await commentActions(mongo.main)
     .find({
       tenantID,
       storyID: id,
     })
     .toArray();
   const targetCommentIDs = targetComments.map((c) => c.id);
-  const targetCommentModerationActions = await commentModerationActions(mongo)
+  const targetCommentModerationActions = await commentModerationActions(
+    mongo.main
+  )
     .find({
       tenantID,
       commentID: { $in: targetCommentIDs },
@@ -887,25 +889,27 @@ export async function archiveStory(
     .toArray();
 
   if (targetComments && targetComments.length > 0) {
-    await archivedComments(archive).insertMany(targetComments);
+    await archivedComments(mongo.archive).insertMany(targetComments);
   }
   if (targetCommentActions && targetCommentActions.length > 0) {
-    await archivedCommentActions(archive).insertMany(targetCommentActions);
+    await archivedCommentActions(mongo.archive).insertMany(
+      targetCommentActions
+    );
   }
   if (
     targetCommentModerationActions &&
     targetCommentModerationActions.length > 0
   ) {
-    await archivedCommentModerationActions(archive).insertMany(
+    await archivedCommentModerationActions(mongo.archive).insertMany(
       targetCommentModerationActions
     );
   }
 
-  await comments(mongo).remove({ tenantID, storyID: id });
-  await commentActions(mongo).remove({ tenantID, storyID: id });
+  await comments(mongo.main).remove({ tenantID, storyID: id });
+  await commentActions(mongo.main).remove({ tenantID, storyID: id });
 
   if (targetCommentIDs && targetCommentIDs.length > 0) {
-    await commentModerationActions(mongo).remove({
+    await commentModerationActions(mongo.main).remove({
       tenantID,
       commentID: { $in: targetCommentIDs },
     });
@@ -918,10 +922,10 @@ export async function archiveStory(
     negate: true,
   });
 
-  await updateSiteCounts(mongo, tenantID, id, commentCounts);
+  await updateSiteCounts(mongo.main, tenantID, id, commentCounts);
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await collection(mongo.main).findOneAndUpdate(
     { id, tenantID },
     {
       $set: {
@@ -938,13 +942,12 @@ export async function archiveStory(
 }
 
 export async function unarchiveStory(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenantID: string,
   id: string
 ) {
-  const targetStory = await collection(mongo).findOne({ id, tenantID });
+  const targetStory = await collection(mongo.main).findOne({ id, tenantID });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
@@ -953,10 +956,10 @@ export async function unarchiveStory(
     return;
   }
 
-  const targetComments = await archivedComments(archive)
+  const targetComments = await archivedComments(mongo.archive)
     .find({ tenantID, storyID: id })
     .toArray();
-  const targetCommentActions = await archivedCommentActions(archive)
+  const targetCommentActions = await archivedCommentActions(mongo.archive)
     .find({
       tenantID,
       storyID: id,
@@ -964,7 +967,7 @@ export async function unarchiveStory(
     .toArray();
   const targetCommentIDs = targetComments.map((c) => c.id);
   const targetCommentModerationActions = await archivedCommentModerationActions(
-    archive
+    mongo.archive
   )
     .find({
       tenantID,
@@ -973,24 +976,24 @@ export async function unarchiveStory(
     .toArray();
 
   if (targetComments && targetComments.length > 0) {
-    await comments(mongo).insertMany(targetComments);
+    await comments(mongo.main).insertMany(targetComments);
   }
   if (targetCommentActions && targetCommentActions.length > 0) {
-    await commentActions(mongo).insertMany(targetCommentActions);
+    await commentActions(mongo.main).insertMany(targetCommentActions);
   }
   if (
     targetCommentModerationActions &&
     targetCommentModerationActions.length > 0
   ) {
-    await commentModerationActions(mongo).insertMany(
+    await commentModerationActions(mongo.main).insertMany(
       targetCommentModerationActions
     );
   }
 
-  await archivedComments(archive).remove({ tenantID, storyID: id });
-  await archivedCommentActions(archive).remove({ tenantID, storyID: id });
+  await archivedComments(mongo.archive).remove({ tenantID, storyID: id });
+  await archivedCommentActions(mongo.archive).remove({ tenantID, storyID: id });
   if (targetCommentIDs && targetCommentIDs.length > 0) {
-    await archivedCommentModerationActions(archive).remove({
+    await archivedCommentModerationActions(mongo.archive).remove({
       tenantID,
       commentID: { $in: targetCommentIDs },
     });
@@ -1003,10 +1006,10 @@ export async function unarchiveStory(
     negate: false,
   });
 
-  await updateSiteCounts(mongo, tenantID, id, commentCounts);
+  await updateSiteCounts(mongo.main, tenantID, id, commentCounts);
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await collection(mongo.main).findOneAndUpdate(
     { id, tenantID },
     {
       $set: {

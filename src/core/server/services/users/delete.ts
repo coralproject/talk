@@ -1,5 +1,6 @@
 import { Collection, Db, FilterQuery } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Story } from "coral-server/models/story";
@@ -226,14 +227,15 @@ async function deleteUserComments(
 }
 
 export async function deleteUser(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   userID: string,
   tenantID: string,
   now: Date
 ) {
-  const user = await collections.users(mongo).findOne({ id: userID, tenantID });
+  const user = await collections
+    .users(mongo.main)
+    .findOne({ id: userID, tenantID });
   if (!user) {
     throw new Error("could not find user by ID");
   }
@@ -243,21 +245,23 @@ export async function deleteUser(
     throw new Error("user was already deleted");
   }
 
-  const tenant = await collections.tenants(mongo).findOne({ id: tenantID });
+  const tenant = await collections
+    .tenants(mongo.main)
+    .findOne({ id: tenantID });
   if (!tenant) {
     throw new Error("could not find tenant by ID");
   }
 
   // Delete the user's action counts.
-  await deleteUserActionCounts(mongo, userID, tenantID);
-  await deleteUserActionCounts(archive, userID, tenantID);
+  await deleteUserActionCounts(mongo.main, userID, tenantID);
+  await deleteUserActionCounts(mongo.archive, userID, tenantID);
 
   // Delete the user's comments.
-  await deleteUserComments(mongo, redis, userID, tenantID, now);
-  await deleteUserComments(archive, redis, userID, tenantID, now);
+  await deleteUserComments(mongo.main, redis, userID, tenantID, now);
+  await deleteUserComments(mongo.archive, redis, userID, tenantID, now);
 
   // Mark the user as deleted.
-  const result = await collections.users(mongo).findOneAndUpdate(
+  const result = await collections.users(mongo.main).findOneAndUpdate(
     { tenantID, id: userID },
     {
       $set: {
@@ -276,10 +280,10 @@ export async function deleteUser(
   );
 
   // Delete the user's archived action counts.
-  await deleteUserActionCounts(archive, userID, tenantID);
+  await deleteUserActionCounts(mongo.archive, userID, tenantID);
 
   // Delete the user's archived comments.
-  await deleteUserComments(archive, redis, userID, tenantID, now);
+  await deleteUserComments(mongo.archive, redis, userID, tenantID, now);
 
   return result.value || null;
 }

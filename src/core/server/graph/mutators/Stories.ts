@@ -159,8 +159,7 @@ export const Stories = (ctx: GraphContext) => ({
 
     if (markResult) {
       await archiveStory(
-        ctx.mongo,
-        ctx.archive,
+        ctx.dataContext.mongo,
         ctx.redis,
         ctx.tenant.id,
         input.storyID
@@ -179,8 +178,7 @@ export const Stories = (ctx: GraphContext) => ({
 
     if (markResult) {
       await unarchiveStory(
-        ctx.mongo,
-        ctx.archive,
+        ctx.dataContext.mongo,
         ctx.redis,
         ctx.tenant.id,
         input.storyID

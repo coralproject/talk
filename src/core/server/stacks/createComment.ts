@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   AuthorAlreadyHasRatedStory,
   CoralError,
@@ -162,8 +163,7 @@ const validateRating = async (
 };
 
 export default async function create(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -188,7 +188,7 @@ export default async function create(
   log.trace("creating comment on story");
 
   // Grab the story that we'll use to check moderation pieces with.
-  const story = await retrieveStory(mongo, tenant.id, input.storyID);
+  const story = await retrieveStory(mongo.main, tenant.id, input.storyID);
   if (!story) {
     throw new StoryNotFoundError(input.storyID);
   }
@@ -198,7 +198,7 @@ export default async function create(
   // NOTE: this should be removed with attribute based auth checks.
   if (isSiteBanned(author, story.siteID)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo, tenant.id, story.siteID);
+    const site = await retrieveSite(mongo.main, tenant.id, story.siteID);
     if (!site) {
       throw new Error(`referenced site not found: ${story.siteID}`);
     }
@@ -224,11 +224,11 @@ export default async function create(
     }
 
     // Validate that the rating is a valid number.
-    await validateRating(mongo, tenant, author, story, input.rating);
+    await validateRating(mongo.main, tenant, author, story, input.rating);
   }
 
   const ancestorIDs: string[] = [];
-  const parent = await retrieveParent(mongo, mongo, tenant.id, input);
+  const parent = await retrieveParent(mongo, tenant.id, input);
   if (parent) {
     ancestorIDs.push(parent.id);
     if (hasAncestors(parent)) {
@@ -253,8 +253,8 @@ export default async function create(
     result = await processForModeration({
       action: "NEW",
       log,
-      mongo,
-      archive,
+      mongo: mongo.main,
+      archive: mongo.archive,
       redis,
       config,
       tenant,
@@ -301,7 +301,7 @@ export default async function create(
 
   // Create the comment!
   const { comment, revision } = await createComment(
-    mongo,
+    mongo.main,
     tenant.id,
     {
       ...input,
@@ -328,9 +328,9 @@ export default async function create(
   // Updating some associated data.
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
-    updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
+    updateStoryLastCommentedAt(mongo.main, tenant.id, story.id, now),
     markCommentAsAnswered(
-      mongo,
+      mongo.main,
       redis,
       broker,
       tenant,
@@ -346,7 +346,7 @@ export default async function create(
   if (input.parentID) {
     // Push the child's ID onto the parent.
     await pushChildCommentIDOntoParent(
-      mongo,
+      mongo.main,
       tenant.id,
       input.parentID,
       comment.id
@@ -359,7 +359,7 @@ export default async function create(
     // Actually add the actions to the database. This will not interact with the
     // counts at all.
     await addCommentActions(
-      mongo,
+      mongo.main,
       tenant,
       result.actions.map(
         (action): CreateAction => ({
@@ -379,7 +379,7 @@ export default async function create(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, {
+  const counts = await updateAllCommentCounts(mongo.main, redis, {
     tenant,
     actionCounts,
     after: comment,

@@ -47,8 +47,7 @@ export const Comments = (ctx: GraphContext) => ({
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
       createComment(
-        ctx.mongo,
-        ctx.archive,
+        ctx.dataContext.mongo,
         ctx.redis,
         ctx.config,
         ctx.broker,
@@ -76,8 +75,7 @@ export const Comments = (ctx: GraphContext) => ({
   edit: ({ commentID, body, media }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
       editComment(
-        ctx.mongo,
-        ctx.archive,
+        ctx.dataContext.mongo,
         ctx.redis,
         ctx.config,
         ctx.broker,

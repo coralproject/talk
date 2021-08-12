@@ -64,7 +64,13 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
 
       log.info({ userID: user.id }, "deleting user");
 
-      await deleteUser(mongo, archive, redis, user.id, tenant.id, now);
+      await deleteUser(
+        { main: mongo, archive },
+        redis,
+        user.id,
+        tenant.id,
+        now
+      );
 
       // If the user has an email, then send them a confirmation that their account
       // was deleted.

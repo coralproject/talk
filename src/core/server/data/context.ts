@@ -3,7 +3,7 @@ import { Db } from "mongodb";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 export interface MongoContext {
-  readonly live: Db;
+  readonly main: Db;
   readonly archive: Db;
 }
 
@@ -19,7 +19,7 @@ export default class DataContext {
 
   constructor(options: DataContextOptions) {
     this.mongo = {
-      live: options.mongoLive,
+      main: options.mongoLive,
       archive: options.mongoArchive,
     };
 

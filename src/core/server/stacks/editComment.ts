@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
   StoryNotFoundError,
@@ -74,8 +74,7 @@ export type EditComment = Omit<
 };
 
 export default async function edit(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -91,7 +90,6 @@ export default async function edit(
   // because it wasn't involved in the atomic transaction.
   const originalStaleComment = await retrieveComment(
     mongo,
-    mongo,
     tenant.id,
     input.id
   );
@@ -101,7 +99,7 @@ export default async function edit(
 
   // If the original comment was a reply, then get it's parent!
   const { parentID, parentRevisionID, siteID } = originalStaleComment;
-  const parent = await retrieveParent(mongo, mongo, tenant.id, {
+  const parent = await retrieveParent(mongo, tenant.id, {
     parentID,
     parentRevisionID,
   });
@@ -111,7 +109,7 @@ export default async function edit(
   // NOTE: this should be removed with attribute based auth checks.
   if (isSiteBanned(author, siteID)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo, tenant.id, siteID);
+    const site = await retrieveSite(mongo.main, tenant.id, siteID);
     if (!site) {
       throw new Error(`referenced site not found: ${siteID}`);
     }
@@ -136,7 +134,7 @@ export default async function edit(
 
   // Grab the story that we'll use to check moderation pieces with.
   const story = await retrieveStory(
-    mongo,
+    mongo.main,
     tenant.id,
     originalStaleComment.storyID
   );
@@ -174,8 +172,8 @@ export default async function edit(
   const { body, status, metadata, actions } = await processForModeration({
     action: "EDIT",
     log,
-    mongo,
-    archive,
+    mongo: mongo.main,
+    archive: mongo.archive,
     redis,
     config,
     tenant,
@@ -202,7 +200,7 @@ export default async function edit(
 
   // Perform the edit.
   const result = await editComment(
-    mongo,
+    mongo.main,
     tenant.id,
     {
       id: input.id,
@@ -226,7 +224,7 @@ export default async function edit(
   // collection.
   if (actions.length > 0) {
     await addCommentActions(
-      mongo,
+      mongo.main,
       tenant,
       actions.map(
         (action): CreateAction => ({
@@ -249,7 +247,7 @@ export default async function edit(
   // moderation action (but don't associate it with a moderator).
   if (result.before.status !== result.after.status) {
     await createCommentModerationAction(
-      mongo,
+      mongo.main,
       tenant.id,
       {
         commentID: result.after.id,
@@ -262,7 +260,7 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, {
+  const counts = await updateAllCommentCounts(mongo.main, redis, {
     tenant,
     actionCounts,
     ...result,

@@ -36,11 +36,16 @@ function getBatch(
   authorID: string,
   connection?: Readonly<Connection<Readonly<Comment>>>
 ) {
-  return retrieveAllCommentsUserConnection(mongo, tenantID, authorID, {
-    orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-    first: 100,
-    after: connection ? connection.pageInfo.endCursor : undefined,
-  });
+  return retrieveAllCommentsUserConnection(
+    { main: mongo, archive: mongo },
+    tenantID,
+    authorID,
+    {
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      first: 100,
+      after: connection ? connection.pageInfo.endCursor : undefined,
+    }
+  );
 }
 
 const createJobProcessor = ({

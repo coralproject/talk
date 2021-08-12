@@ -11,6 +11,7 @@ import {
 } from "coral-common/constants";
 import { formatDate } from "coral-common/date";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   DuplicateEmailError,
   DuplicateUserError,
@@ -1640,8 +1641,7 @@ export async function updateUserLastCommentID(
  * @param user the User that we're looking up the limit for
  */
 export async function retrieveUserLastComment(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenant: Tenant,
   user: User
@@ -1651,7 +1651,7 @@ export async function retrieveUserLastComment(
     return null;
   }
 
-  return retrieveComment(mongo, archive, tenant.id, id);
+  return retrieveComment(mongo, tenant.id, id);
 }
 
 export interface LinkUser {

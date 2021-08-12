@@ -86,7 +86,12 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
         return;
       }
 
-      const result = await archiveStory(mongo, archive, redis, tenant.id, s.id);
+      const result = await archiveStory(
+        { main: mongo, archive },
+        redis,
+        tenant.id,
+        s.id
+      );
 
       if (result?.isArchived && !result?.isArchiving) {
         log.info({ storyID: s.id }, "successfully archived story");

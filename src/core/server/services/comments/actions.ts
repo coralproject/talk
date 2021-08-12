@@ -98,8 +98,7 @@ async function addCommentAction(
   now = new Date()
 ): Promise<AddCommentAction> {
   const oldComment = await retrieveComment(
-    mongo,
-    mongo,
+    { main: mongo, archive: mongo },
     tenant.id,
     input.commentID
   );
@@ -180,8 +179,7 @@ export async function removeCommentAction(
 ): Promise<Readonly<Comment>> {
   // Get the Comment that we are leaving the Action on.
   const oldComment = await retrieveComment(
-    mongo,
-    mongo,
+    { main: mongo, archive: mongo },
     tenant.id,
     input.commentID
   );

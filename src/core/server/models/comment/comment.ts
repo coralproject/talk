@@ -4,6 +4,7 @@ import * as uuid from "uuid";
 
 import { RequireProperty, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { MongoContext } from "coral-server/data/context";
 import {
   CommentEditWindowExpiredError,
   CommentNotFoundError,
@@ -356,7 +357,11 @@ export async function editComment(
   );
   if (!result.value) {
     // Try to get the comment.
-    const comment = await retrieveComment(mongo, mongo, tenantID, id);
+    const comment = await retrieveComment(
+      { main: mongo, archive: mongo },
+      tenantID,
+      id
+    );
     if (!comment) {
       // TODO: (wyattjoh) return better error
       throw new Error("comment not found");
@@ -392,18 +397,17 @@ export async function editComment(
 }
 
 export async function retrieveComment(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string
 ) {
-  const liveComment = await collection(mongo).findOne({ id, tenantID });
+  const liveComment = await collection(mongo.main).findOne({ id, tenantID });
 
   if (liveComment) {
     return liveComment;
   }
 
-  const archivedComment = await archivedComments(archive).findOne({
+  const archivedComment = await archivedComments(mongo.archive).findOne({
     id,
     tenantID,
   });
@@ -412,13 +416,12 @@ export async function retrieveComment(
 }
 
 export async function retrieveManyComments(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
   // Try and find it in live comments collection
-  const liveCommentsCursor = collection(mongo).find({
+  const liveCommentsCursor = collection(mongo.main).find({
     id: {
       $in: ids,
     },
@@ -433,7 +436,7 @@ export async function retrieveManyComments(
   }
 
   // Otherwise, try and find it in the archived comments collection
-  const archivedCommentsCursor = archivedComments(archive).find({
+  const archivedCommentsCursor = archivedComments(mongo.archive).find({
     id: {
       $in: ids,
     },
@@ -474,7 +477,7 @@ function cursorGetterFactory(
  * @param input connection configuration
  */
 export const retrieveCommentRepliesConnection = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   parentID: string,
@@ -508,8 +511,7 @@ export const retrieveCommentRepliesConnection = (
  * @param pagination pagination options to paginate the results
  */
 export async function retrieveCommentParentsConnection(
-  mongo: Db,
-  archive: Db,
+  mongo: MongoContext,
   tenantID: string,
   comment: Comment,
   { last: limit, before: skip = 0 }: { last: number; before?: number }
@@ -541,12 +543,7 @@ export async function retrieveCommentParentsConnection(
   const ancestorIDs = comment.ancestorIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
-  const nodes = await retrieveManyComments(
-    mongo,
-    archive,
-    tenantID,
-    ancestorIDs
-  );
+  const nodes = await retrieveManyComments(mongo, tenantID, ancestorIDs);
 
   // Loop over the list to ensure that none of the entries is null (indicating
   // that there was a misplaced parent). We can assert the type here because we
@@ -585,7 +582,7 @@ export async function retrieveCommentParentsConnection(
  * @param input connection configuration
  */
 export const retrieveCommentStoryConnection = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   input: CommentConnectionInput,
@@ -614,7 +611,7 @@ export const retrieveCommentStoryConnection = (
  * @param input connection configuration
  */
 export const retrieveCommentUserConnection = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string,
   input: CommentConnectionInput
@@ -637,7 +634,7 @@ export const retrieveCommentUserConnection = (
  * @param input connection configuration
  */
 export const retrieveAllCommentsUserConnection = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string,
   input: CommentConnectionInput
@@ -660,7 +657,7 @@ export const retrieveAllCommentsUserConnection = (
  * @param input connection configuration
  */
 export const retrieveRejectedCommentUserConnection = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string,
   input: CommentConnectionInput
@@ -687,7 +684,7 @@ export const retrieveRejectedCommentUserConnection = (
  * @param input connection configuration
  */
 export const retrievePublishedCommentConnection = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: CommentConnectionInput,
   isArchived?: boolean
@@ -710,7 +707,7 @@ export const retrievePublishedCommentConnection = (
  * @param input connection configuration
  */
 export const retrieveStatusCommentConnection = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   statuses: GQLCOMMENT_STATUS[],
   input: CommentConnectionInput,
@@ -730,14 +727,14 @@ export const retrieveStatusCommentConnection = (
   );
 
 export async function retrieveCommentConnection(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: CommentConnectionInput,
   isArchived?: boolean
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Create the query.
   const query = new Query(
-    isArchived ? archivedComments(mongo) : collection(mongo)
+    isArchived ? archivedComments(mongo.archive) : collection(mongo.main)
   ).where({ tenantID });
 
   // If a filter is being applied, filter it as well.
@@ -958,7 +955,11 @@ export async function addCommentTag(
     }
   );
   if (!result.value) {
-    const comment = await retrieveComment(mongo, mongo, tenantID, commentID);
+    const comment = await retrieveComment(
+      { main: mongo, archive: mongo },
+      tenantID,
+      commentID
+    );
     if (!comment) {
       throw new CommentNotFoundError(commentID);
     }
@@ -996,7 +997,11 @@ export async function removeCommentTag(
     }
   );
   if (!result.value) {
-    const comment = await retrieveComment(mongo, mongo, tenantID, commentID);
+    const comment = await retrieveComment(
+      { main: mongo, archive: mongo },
+      tenantID,
+      commentID
+    );
     if (!comment) {
       throw new CommentNotFoundError(commentID);
     }
