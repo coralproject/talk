@@ -17,6 +17,7 @@ general-tabBar-aria-myProfile =
   .title = My profiel
 general-tabBar-aria-configure =
   .title = My profiel
+general-moderate = Modereer
 
 ## Comment Count
 
@@ -45,7 +46,12 @@ comments-replyCommentForm-submit = Stuur
 comments-replyCommentForm-cancel = Kanselleer
 comments-replyCommentForm-rteLabel = Skryf 'n antwoord
 comments-commentContainer-editButton = Redigeer
+comments-editCommentForm-saveChanges = bêre veranderings
 comments-editCommentForm-cancel = Kanselleer
+comments-editCommentForm-rteLabel = Redigeer kommentaar
+comments-editCommentForm-rte =
+  .placeholder = { comments-editCommentForm-rteLabel }
+comments-editCommentForm-editRemainingTime = Redigeer: <time></time> oor
 comments-editedMarker-edited = Geredigeer
 comments-permalinkView-youAreCurrentlyViewing =
   Hierdie is 'n enkele gesprek
@@ -74,6 +80,7 @@ stream-footer-links-top-of-comments = Bo-aan kommentaar
   .title = Go to top of comments
 stream-footer-links-top-of-article = Bo-aan artikel
   .title = Go to top of article
+comments-remainingCharacters = { $remaining } karakters oor
 
 ### Q&A
 
@@ -149,7 +156,9 @@ comments-reportPopover-submit = Stuur
 comments-reportPopover-thankYou = Dankie! 
 comments-reportPopover-receivedMessage =
   Ons het jou boodskap ontvang! Jou rapportering help ons om ons gemeenskap te beveilig.
-
+comments-reportPopover-pleaseLeaveAdditionalInformation =
+  Plaas asb. enige bykomende inligting wat vir ons moderators nuttig sal wees.
+  
 ## Submit Status
 
 # Configure
@@ -164,7 +173,7 @@ discussions-discussionsQuery-storyNotFound = Storie nie gevind
 
 ## Comment Stream
 configure-stream-title-configureThisStream =
-  Maak die stroom volgens jou voorkeure
+  Maak die stroom volgens jou voorkeure
 configure-stream-apply =
 configure-stream-update = Dateer op
 configure-premod-premoderateAllComments = Modereer alle kommentare vooraf
@@ -206,4 +215,3 @@ ratingsAndReviews-starReviewsFilter = { $rating ->
   [1] 1 Ster
   *[other] { $rating } Sterre
 }
-

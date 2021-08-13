@@ -19,6 +19,7 @@ queue-sortMenu-oldest = Oudste
 
 ## Navigation
 navigation-stories = Stories
+navigation-configure = Stel op
 
 ## User Menu
 
@@ -108,6 +109,7 @@ moderate-comment-edited = (geredigeer)
 moderate-comment-viewConversation = Sien gesprek
 moderate-comment-moderateStory = Modereer storie
 moderate-comment-featuredText = In fokus
+moderate-comment-featureText = Funksie
 
 ### Moderate Search Bar
 
