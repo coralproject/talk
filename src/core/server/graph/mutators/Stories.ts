@@ -4,14 +4,13 @@ import { ERROR_CODES } from "coral-common/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import {
-  archiveStory,
   markStoryForArchiving,
   markStoryForUnarchiving,
   retrieveStory,
   Story,
-  unarchiveStory,
 } from "coral-server/models/story";
 import { hasFeatureFlag } from "coral-server/models/tenant";
+import { archiveStory, unarchiveStory } from "coral-server/services/archive";
 import {
   addExpert,
   close,

@@ -2,10 +2,10 @@ import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
 import {
-  archiveStory,
   markStoryForArchiving,
   retrieveStoriesToBeArchived,
 } from "coral-server/models/story";
+import { archiveStory } from "coral-server/services/archive";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
