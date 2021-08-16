@@ -33,8 +33,6 @@ const Configure: FunctionComponent<Props> = (props) => {
       <AddMessageContainer story={props.story} />
       <QAConfigContainer story={props.story} settings={props.settings} />
       <HorizontalRule />
-      <LiveUpdatesConfigContainer story={props.story} />
-      <HorizontalRule />
       <OpenOrCloseStreamContainer story={props.story} />
     </div>
   );
