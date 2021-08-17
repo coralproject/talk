@@ -2,6 +2,7 @@ import { Collection, Cursor } from "mongodb";
 
 import { MongoContext } from "coral-server/data/context";
 import { StoryNotFoundError } from "coral-server/errors";
+import { Logger } from "coral-server/logger";
 import {
   createEmptyRelatedCommentCounts,
   RelatedCommentCounts,
@@ -76,16 +77,23 @@ export async function archiveStory(
   mongo: MongoContext,
   redis: AugmentedRedis,
   tenantID: string,
-  id: string
+  id: string,
+  log: Logger
 ) {
+  const logger = log.child({ storyID: id });
+  logger.info("starting to archive story");
+
   const targetStory = await stories(mongo.main).findOne({ id, tenantID });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
 
   if (targetStory.isArchived) {
+    logger.info("story is already archived, exiting");
     return;
   }
+
+  logger.info("story is able to be archived, proceeding");
 
   const targetComments = comments(mongo.main).find({
     tenantID,
@@ -96,6 +104,7 @@ export async function archiveStory(
     storyID: id,
   });
 
+  logger.info("archiving comments");
   const targetCommentIDs = await moveDocuments({
     source: comments(mongo.main),
     selectionCursor: targetComments,
@@ -110,11 +119,13 @@ export async function archiveStory(
     commentID: { $in: targetCommentIDs },
   });
 
+  logger.info("archiving comment actions");
   await moveDocuments({
     source: commentActions(mongo.main),
     selectionCursor: targetCommentActions,
     destination: archivedCommentActions(mongo.archive),
   });
+  logger.info("archiving comment moderation actions");
   await moveDocuments({
     source: commentModerationActions(mongo.main),
     selectionCursor: targetCommentModerationActions,
@@ -128,9 +139,12 @@ export async function archiveStory(
     negate: true,
   });
 
+  logger.info("updating site counts for archive");
   await updateSiteCounts(mongo.main, tenantID, id, commentCounts);
+  logger.info("updating shared counts for archive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
+  logger.info("marking story as archived");
   const result = await stories(mongo.main).findOneAndUpdate(
     { id, tenantID },
     {
@@ -144,6 +158,7 @@ export async function archiveStory(
     }
   );
 
+  logger.info("completed archiving tasks");
   return result.value;
 }
 
@@ -151,16 +166,23 @@ export async function unarchiveStory(
   mongo: MongoContext,
   redis: AugmentedRedis,
   tenantID: string,
-  id: string
+  id: string,
+  log: Logger
 ) {
+  const logger = log.child({ storyID: id });
+  logger.info("starting to unarchive story");
+
   const targetStory = await stories(mongo.main).findOne({ id, tenantID });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
 
   if (!targetStory.isArchived) {
+    logger.info("story is not archived, exiting");
     return;
   }
+
+  logger.info("story is able to be unarchived, proceeding");
 
   const targetComments = archivedComments(mongo.archive).find({
     tenantID,
@@ -171,6 +193,7 @@ export async function unarchiveStory(
     storyID: id,
   });
 
+  logger.info("unarchiving comments");
   const targetCommentIDs = await moveDocuments({
     source: archivedComments(mongo.archive),
     selectionCursor: targetComments,
@@ -185,11 +208,14 @@ export async function unarchiveStory(
     commentID: { $in: targetCommentIDs },
   });
 
+  logger.info("unarchiving comment actions");
   await moveDocuments({
     source: archivedCommentActions(mongo.archive),
     selectionCursor: targetCommentActions,
     destination: commentActions(mongo.main),
   });
+
+  logger.info("unarchiving comment moderation actions");
   await moveDocuments({
     source: archivedCommentModerationActions(mongo.archive),
     selectionCursor: targetCommentModerationActions,
@@ -203,9 +229,13 @@ export async function unarchiveStory(
     negate: false,
   });
 
+  logger.info("updating site counts for unarchive");
   await updateSiteCounts(mongo.main, tenantID, id, commentCounts);
+
+  logger.info("updating shared counts for unarchive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
+  logger.info("marking story as unarchived");
   const result = await stories(mongo.main).findOneAndUpdate(
     { id, tenantID },
     {
@@ -219,6 +249,7 @@ export async function unarchiveStory(
     }
   );
 
+  logger.info("completed unarchiving tasks");
   return result.value;
 }
 

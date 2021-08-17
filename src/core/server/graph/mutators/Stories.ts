@@ -164,7 +164,8 @@ export const Stories = (ctx: GraphContext) => ({
           ctx.dataContext.mongo,
           ctx.redis,
           ctx.tenant.id,
-          storyID
+          storyID,
+          ctx.logger
         );
       }
 
@@ -190,7 +191,8 @@ export const Stories = (ctx: GraphContext) => ({
           ctx.dataContext.mongo,
           ctx.redis,
           ctx.tenant.id,
-          storyID
+          storyID,
+          ctx.logger
         );
       }
 
