@@ -1,3 +1,5 @@
+import { Collection, Cursor } from "mongodb";
+
 import { MongoContext } from "coral-server/data/context";
 import { StoryNotFoundError } from "coral-server/errors";
 import {
@@ -85,51 +87,39 @@ export async function archiveStory(
     return;
   }
 
-  const targetComments = await comments(mongo.main)
-    .find({ tenantID, storyID: id })
-    .toArray();
-  const targetCommentActions = await commentActions(mongo.main)
-    .find({
-      tenantID,
-      storyID: id,
-    })
-    .toArray();
-  const targetCommentIDs = targetComments.map((c) => c.id);
-  const targetCommentModerationActions = await commentModerationActions(
+  const targetComments = comments(mongo.main).find({
+    tenantID,
+    storyID: id,
+  });
+  const targetCommentActions = commentActions(mongo.main).find({
+    tenantID,
+    storyID: id,
+  });
+
+  const targetCommentIDs = await moveDocuments({
+    source: comments(mongo.main),
+    selectionCursor: targetComments,
+    destination: archivedComments(mongo.archive),
+    returnMovedIDs: true,
+  });
+
+  const targetCommentModerationActions = commentModerationActions(
     mongo.main
-  )
-    .find({
-      tenantID,
-      commentID: { $in: targetCommentIDs },
-    })
-    .toArray();
+  ).find({
+    tenantID,
+    commentID: { $in: targetCommentIDs },
+  });
 
-  if (targetComments && targetComments.length > 0) {
-    await archivedComments(mongo.archive).insertMany(targetComments);
-  }
-  if (targetCommentActions && targetCommentActions.length > 0) {
-    await archivedCommentActions(mongo.archive).insertMany(
-      targetCommentActions
-    );
-  }
-  if (
-    targetCommentModerationActions &&
-    targetCommentModerationActions.length > 0
-  ) {
-    await archivedCommentModerationActions(mongo.archive).insertMany(
-      targetCommentModerationActions
-    );
-  }
-
-  await comments(mongo.main).remove({ tenantID, storyID: id });
-  await commentActions(mongo.main).remove({ tenantID, storyID: id });
-
-  if (targetCommentIDs && targetCommentIDs.length > 0) {
-    await commentModerationActions(mongo.main).remove({
-      tenantID,
-      commentID: { $in: targetCommentIDs },
-    });
-  }
+  await moveDocuments({
+    source: commentActions(mongo.main),
+    selectionCursor: targetCommentActions,
+    destination: archivedCommentActions(mongo.archive),
+  });
+  await moveDocuments({
+    source: commentModerationActions(mongo.main),
+    selectionCursor: targetCommentModerationActions,
+    destination: archivedCommentModerationActions(mongo.archive),
+  });
 
   // negate the comment counts so we can subtract them from the
   // site and shared comment counts
@@ -172,48 +162,39 @@ export async function unarchiveStory(
     return;
   }
 
-  const targetComments = await archivedComments(mongo.archive)
-    .find({ tenantID, storyID: id })
-    .toArray();
-  const targetCommentActions = await archivedCommentActions(mongo.archive)
-    .find({
-      tenantID,
-      storyID: id,
-    })
-    .toArray();
-  const targetCommentIDs = targetComments.map((c) => c.id);
-  const targetCommentModerationActions = await archivedCommentModerationActions(
+  const targetComments = archivedComments(mongo.archive).find({
+    tenantID,
+    storyID: id,
+  });
+  const targetCommentActions = archivedCommentActions(mongo.archive).find({
+    tenantID,
+    storyID: id,
+  });
+
+  const targetCommentIDs = await moveDocuments({
+    source: archivedComments(mongo.archive),
+    selectionCursor: targetComments,
+    destination: comments(mongo.main),
+    returnMovedIDs: true,
+  });
+
+  const targetCommentModerationActions = archivedCommentModerationActions(
     mongo.archive
-  )
-    .find({
-      tenantID,
-      commentID: { $in: targetCommentIDs },
-    })
-    .toArray();
+  ).find({
+    tenantID,
+    commentID: { $in: targetCommentIDs },
+  });
 
-  if (targetComments && targetComments.length > 0) {
-    await comments(mongo.main).insertMany(targetComments);
-  }
-  if (targetCommentActions && targetCommentActions.length > 0) {
-    await commentActions(mongo.main).insertMany(targetCommentActions);
-  }
-  if (
-    targetCommentModerationActions &&
-    targetCommentModerationActions.length > 0
-  ) {
-    await commentModerationActions(mongo.main).insertMany(
-      targetCommentModerationActions
-    );
-  }
-
-  await archivedComments(mongo.archive).remove({ tenantID, storyID: id });
-  await archivedCommentActions(mongo.archive).remove({ tenantID, storyID: id });
-  if (targetCommentIDs && targetCommentIDs.length > 0) {
-    await archivedCommentModerationActions(mongo.archive).remove({
-      tenantID,
-      commentID: { $in: targetCommentIDs },
-    });
-  }
+  await moveDocuments({
+    source: archivedCommentActions(mongo.archive),
+    selectionCursor: targetCommentActions,
+    destination: commentActions(mongo.main),
+  });
+  await moveDocuments({
+    source: archivedCommentModerationActions(mongo.archive),
+    selectionCursor: targetCommentModerationActions,
+    destination: commentModerationActions(mongo.main),
+  });
 
   // get the comment counts so we can add them to the
   // site and shared comment counts
@@ -240,3 +221,56 @@ export async function unarchiveStory(
 
   return result.value;
 }
+
+interface MoveDocumentsOptions {
+  source: Collection;
+  selectionCursor: Cursor;
+  destination: Collection;
+  returnMovedIDs?: boolean;
+}
+
+const BATCH_SIZE = 100;
+const moveDocuments = async ({
+  source,
+  selectionCursor,
+  destination,
+  returnMovedIDs = false,
+}: MoveDocumentsOptions) => {
+  let insertBatch: any[] = [];
+  let deleteIDs: string[] = [];
+  const allIDs: string[] = [];
+
+  while (await selectionCursor.hasNext()) {
+    const document = await selectionCursor.next();
+    if (!document) {
+      continue;
+    }
+
+    insertBatch.push(document);
+
+    const hasID = Object.prototype.hasOwnProperty.call(document, "id");
+    if (hasID) {
+      deleteIDs.push(document.id);
+    }
+    if (hasID && returnMovedIDs) {
+      allIDs.push(document.id);
+    }
+
+    if (insertBatch.length > BATCH_SIZE) {
+      await destination.insertMany(insertBatch);
+      await source.deleteMany({ id: { $in: deleteIDs } });
+
+      insertBatch = [];
+      deleteIDs = [];
+    }
+  }
+
+  if (insertBatch.length > 0) {
+    await destination.insertMany(insertBatch);
+  }
+  if (deleteIDs.length > 0) {
+    await source.deleteMany({ id: { $in: deleteIDs } });
+  }
+
+  return allIDs;
+};
