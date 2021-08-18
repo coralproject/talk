@@ -106,6 +106,7 @@ export async function archiveStory(
 
   logger.info("archiving comments");
   const targetCommentIDs = await moveDocuments({
+    tenantID,
     source: comments(mongo.main),
     selectionCursor: targetComments,
     destination: archivedComments(mongo.archive),
@@ -121,12 +122,14 @@ export async function archiveStory(
 
   logger.info("archiving comment actions");
   await moveDocuments({
+    tenantID,
     source: commentActions(mongo.main),
     selectionCursor: targetCommentActions,
     destination: archivedCommentActions(mongo.archive),
   });
   logger.info("archiving comment moderation actions");
   await moveDocuments({
+    tenantID,
     source: commentModerationActions(mongo.main),
     selectionCursor: targetCommentModerationActions,
     destination: archivedCommentModerationActions(mongo.archive),
@@ -195,6 +198,7 @@ export async function unarchiveStory(
 
   logger.info("unarchiving comments");
   const targetCommentIDs = await moveDocuments({
+    tenantID,
     source: archivedComments(mongo.archive),
     selectionCursor: targetComments,
     destination: comments(mongo.main),
@@ -210,6 +214,7 @@ export async function unarchiveStory(
 
   logger.info("unarchiving comment actions");
   await moveDocuments({
+    tenantID,
     source: archivedCommentActions(mongo.archive),
     selectionCursor: targetCommentActions,
     destination: commentActions(mongo.main),
@@ -217,6 +222,7 @@ export async function unarchiveStory(
 
   logger.info("unarchiving comment moderation actions");
   await moveDocuments({
+    tenantID,
     source: archivedCommentModerationActions(mongo.archive),
     selectionCursor: targetCommentModerationActions,
     destination: commentModerationActions(mongo.main),
@@ -254,6 +260,7 @@ export async function unarchiveStory(
 }
 
 interface MoveDocumentsOptions {
+  tenantID: string;
   source: Collection;
   selectionCursor: Cursor;
   destination: Collection;
@@ -262,6 +269,7 @@ interface MoveDocumentsOptions {
 
 const BATCH_SIZE = 100;
 const moveDocuments = async ({
+  tenantID,
   source,
   selectionCursor,
   destination,
@@ -287,9 +295,12 @@ const moveDocuments = async ({
       allIDs.push(document.id);
     }
 
-    if (insertBatch.length > BATCH_SIZE) {
+    if (insertBatch.length >= BATCH_SIZE) {
       await destination.insertMany(insertBatch);
-      await source.deleteMany({ id: { $in: deleteIDs } });
+
+      const deleteBulkOp = source.initializeUnorderedBulkOp();
+      deleteBulkOp.find({ tenantID, id: { $in: deleteIDs } }).remove();
+      await deleteBulkOp.execute();
 
       insertBatch = [];
       deleteIDs = [];
@@ -300,7 +311,9 @@ const moveDocuments = async ({
     await destination.insertMany(insertBatch);
   }
   if (deleteIDs.length > 0) {
-    await source.deleteMany({ id: { $in: deleteIDs } });
+    const deleteBulkOp = source.initializeUnorderedBulkOp();
+    deleteBulkOp.find({ tenantID, id: { $in: deleteIDs } }).remove();
+    await deleteBulkOp.execute();
   }
 
   return allIDs;
