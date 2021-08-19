@@ -296,11 +296,15 @@ const moveDocuments = async ({
     }
 
     if (insertBatch.length >= BATCH_SIZE) {
-      await destination.insertMany(insertBatch);
+      const bulkInsert = destination.initializeUnorderedBulkOp();
+      for (const item of insertBatch) {
+        bulkInsert.insert(item);
+      }
+      await bulkInsert.execute();
 
-      const deleteBulkOp = source.initializeUnorderedBulkOp();
-      deleteBulkOp.find({ tenantID, id: { $in: deleteIDs } }).remove();
-      await deleteBulkOp.execute();
+      const bulkDelete = source.initializeUnorderedBulkOp();
+      bulkDelete.find({ tenantID, id: { $in: deleteIDs } }).remove();
+      await bulkDelete.execute();
 
       insertBatch = [];
       deleteIDs = [];
@@ -308,12 +312,16 @@ const moveDocuments = async ({
   }
 
   if (insertBatch.length > 0) {
-    await destination.insertMany(insertBatch);
+    const bulkInsert = destination.initializeUnorderedBulkOp();
+    for (const item of insertBatch) {
+      bulkInsert.insert(item);
+    }
+    await bulkInsert.execute();
   }
   if (deleteIDs.length > 0) {
-    const deleteBulkOp = source.initializeUnorderedBulkOp();
-    deleteBulkOp.find({ tenantID, id: { $in: deleteIDs } }).remove();
-    await deleteBulkOp.execute();
+    const bulkDelete = source.initializeUnorderedBulkOp();
+    bulkDelete.find({ tenantID, id: { $in: deleteIDs } }).remove();
+    await bulkDelete.execute();
   }
 
   return allIDs;
