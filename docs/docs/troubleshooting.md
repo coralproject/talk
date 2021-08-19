@@ -34,3 +34,7 @@ This depends greatly on what version of Coral you are using and which authentica
 If a user has been locked out due to too many failed login attempts:
 
 - How long does the user have to wait before they will be allowed to login? 10 mins
+
+## An Admin user logged in via SSO is not automatically logged in to Coral Admin from comments MODERATE button
+
+An admin-authorized user logged in to comments via SSO can only be logged in to the Coral Admin tool automatically if “Coral Admin” is checked under "Configure" -> "Authentication" -> “Login with Single Sign On“.
