@@ -149,7 +149,7 @@ export const Stories = (ctx: GraphContext) => ({
     return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
   },
   archiveStories: async (input: GQLArchiveStoriesInput) => {
-    const stories: (Readonly<Story> | null)[] = [];
+    const stories: Readonly<Story>[] = [];
 
     for (const storyID of input.storyIDs) {
       const markResult = await markStoryForArchiving(
@@ -170,13 +170,15 @@ export const Stories = (ctx: GraphContext) => ({
       }
 
       const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
-      stories.push(result);
+      if (result) {
+        stories.push(result);
+      }
     }
 
     return stories;
   },
   unarchiveStories: async (input: GQLUnarchiveStoriesInput) => {
-    const stories: (Readonly<Story> | null)[] = [];
+    const stories: Readonly<Story>[] = [];
 
     for (const storyID of input.storyIDs) {
       const markResult = await markStoryForUnarchiving(
@@ -197,7 +199,9 @@ export const Stories = (ctx: GraphContext) => ({
       }
 
       const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
-      stories.push(result);
+      if (result) {
+        stories.push(result);
+      }
     }
 
     return stories;
