@@ -100,3 +100,5 @@ _Note that if your story URL returns an HTTP response status code other than 200
 | `publication_date` | See [`metascraper-date`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-date/index.js)               |
 | `modified_date`    | `meta[property="article:modified"]`                                                                                                                                 |
 | `section`          | `meta[property="article:section"]`                                                                                                                                  |
+
+You can debug story scraping for your stories using the [GraphQL API debugScrapeStoryMetadata](https://docs.coralproject.net/api/queries/debug-scrape-story-metadata) query.
