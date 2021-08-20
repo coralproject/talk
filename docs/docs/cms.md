@@ -87,7 +87,9 @@ By default, stories have their metadata scraped when they are loaded. This provi
 
 Metadata scraping is performed by the `scraper` job which is enabled by default.
 
-If your production site is behind a paywall or otherwise prevents scraping, you might need to configure a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriate proxy as parsed by the npm proxy-agent package.
+If your production site is behind a paywall or otherwise prevents scraping, you might need to configure a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriate proxy as parsed by the npm proxy-agent package. A Scraper Proxy URL can be added in the coral Admin under "CONFIGURE" -> "Advanced" -> "Story creation".
+
+_Note that if your story URL returns an HTTP response status code other than 200 (as when it returns a [300-399] "redirect" code), the scraper cannot retrieve metadata._
 
 | Asset Property     | Selector                                                                                                                                                            |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
