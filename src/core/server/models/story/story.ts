@@ -741,10 +741,8 @@ export async function markStoryForArchiving(
     {
       id,
       tenantID,
-      $and: [
-        { $or: [{ isArchiving: { $exists: false } }, { isArchiving: false }] },
-        { $or: [{ isArchived: { $exists: false } }, { isArchived: false }] },
-      ],
+      isArchiving: { $in: [null, false] },
+      isArchived: { $in: [null, false] },
     },
     {
       $set: {
@@ -780,6 +778,7 @@ export async function markStoryForUnarchiving(
         isArchiving: true,
         closedAt: now,
         updatedAt: now,
+        unarchivedAt: now,
       },
     },
     {
@@ -800,10 +799,9 @@ export async function retrieveStoriesToBeArchived(
     .find({
       tenantID,
       createdAt: { $lte: olderThan },
-      $and: [
-        { $or: [{ isArchiving: { $exists: false } }, { isArchiving: false }] },
-        { $or: [{ isArchived: { $exists: false } }, { isArchived: false }] },
-      ],
+      isArchiving: { $in: [null, false] },
+      isArchived: { $in: [null, false] },
+      unarchivedAt: { $in: [null, false] },
     })
     .limit(limit)
     .toArray();
