@@ -38,3 +38,8 @@ If a user has been locked out due to too many failed login attempts:
 ## An Admin user logged in via SSO is not automatically logged in to Coral Admin from comments MODERATE button
 
 An admin-authorized user logged in to comments via SSO can only be logged in to the Coral Admin tool automatically if “Coral Admin” is checked under "Configure" -> "Authentication" -> “Login with Single Sign On“.
+
+## A user on my site has a new SSO 'user.id' but they cannot log in anymore (Duplicate Email error)
+
+If you have changed the SSO `user.id` associated with the users email address, Coral will attempt to add the new user, but will fail because the user's email address is already in the system.  The simplest way to fix this problem is to change the email address (`user.email`) associated with the _old_ `user.id` to something else.  This can be done using the GraphQL API `updateUserEmail` mutation.
+
