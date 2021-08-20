@@ -178,7 +178,7 @@ export default (ctx: GraphContext) => ({
   findOrCreate: new DataLoader(
     createManyBatchLoadFn((input: FindOrCreateStory) =>
       findOrCreate(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.tenant,
         ctx.broker,
         input,
@@ -195,7 +195,7 @@ export default (ctx: GraphContext) => ({
   ),
   find: new DataLoader(
     createManyBatchLoadFn((input: FindStory) =>
-      find(ctx.mongo.main, ctx.tenant, input).then(primeStory(ctx))
+      find(ctx.mongo.live, ctx.tenant, input).then(primeStory(ctx))
     ),
     {
       cacheKeyFn: (input: FindStory) => (input.id ? input.id : input.url),
@@ -204,9 +204,9 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  sections: () => retrieveSections(ctx.mongo.main, ctx.tenant),
+  sections: () => retrieveSections(ctx.mongo.live, ctx.tenant),
   story: new DataLoader<string, Story | null>(
-    (ids) => retrieveManyStories(ctx.mongo.main, ctx.tenant.id, ids),
+    (ids) => retrieveManyStories(ctx.mongo.live, ctx.tenant.id, ids),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.
@@ -214,7 +214,7 @@ export default (ctx: GraphContext) => ({
     }
   ),
   connection: ({ first, after, status, query, siteID }: QueryToStoriesArgs) =>
-    retrieveStoryConnection(ctx.mongo.main, ctx.tenant.id, {
+    retrieveStoryConnection(ctx.mongo.live, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       orderBy: query ? STORY_SORT.TEXT_SCORE : STORY_SORT.CREATED_AT_DESC,
@@ -232,7 +232,7 @@ export default (ctx: GraphContext) => ({
     const start = DateTime.fromJSDate(ctx.now).minus({ hours: 24 }).toJSDate();
 
     return retrieveTopStoryMetrics(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant.id,
       siteID,
       defaultTo(limit, 5),
@@ -243,7 +243,7 @@ export default (ctx: GraphContext) => ({
   viewerRating: (storyID: string) =>
     ctx.user
       ? retrieveAuthorStoryRating(
-          ctx.mongo.main,
+          ctx.mongo.live,
           ctx.tenant.id,
           storyID,
           ctx.user.id
@@ -260,14 +260,14 @@ export default (ctx: GraphContext) => ({
       ctx.config.get("story_viewer_timeout")
     ),
   ratings: new DataLoader((storyIDs: string[]) =>
-    retrieveManyStoryRatings(ctx.mongo.main, ctx.tenant.id, storyIDs)
+    retrieveManyStoryRatings(ctx.mongo.live, ctx.tenant.id, storyIDs)
   ),
   ongoingDiscussions: (
     authorID: string,
     { limit }: UserToOngoingDiscussionsArgs
   ) =>
     retrieveOngoingDiscussions(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant.id,
       authorID,
       defaultTo(limit, 5)
@@ -289,5 +289,5 @@ export default (ctx: GraphContext) => ({
     }
   ),
   activeStories: (limit: number) =>
-    retrieveActiveStories(ctx.mongo.main, ctx.tenant.id, limit),
+    retrieveActiveStories(ctx.mongo.live, ctx.tenant.id, limit),
 });

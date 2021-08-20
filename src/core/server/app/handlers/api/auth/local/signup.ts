@@ -80,7 +80,7 @@ export const signupHandler = ({
 
       // Create the new user.
       const user = await create(
-        mongo.main,
+        mongo.live,
         tenant,
         {
           email,
@@ -96,7 +96,7 @@ export const signupHandler = ({
 
       // Send off the confirm email.
       await sendConfirmationEmail(
-        mongo.main,
+        mongo.live,
         mailerQueue,
         tenant,
         config,

@@ -37,7 +37,7 @@ export default (ctx: Context) => ({
     orderBy,
     filter,
   }: CommentActionConnectionInput) =>
-    retrieveCommentActionConnection(ctx.mongo.main, ctx.tenant.id, {
+    retrieveCommentActionConnection(ctx.mongo.live, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       filter,
@@ -52,7 +52,7 @@ export default (ctx: Context) => ({
     section,
     filter,
   }: FilteredConnectionInput) => {
-    return retrieveCommentActionConnection(ctx.mongo.main, ctx.tenant.id, {
+    return retrieveCommentActionConnection(ctx.mongo.live, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       filter: {

@@ -358,7 +358,7 @@ export async function editComment(
   if (!result.value) {
     // Try to get the comment.
     const comment = await retrieveComment(
-      { main: mongo, archive: mongo },
+      { live: mongo, archive: mongo },
       tenantID,
       id
     );
@@ -401,7 +401,7 @@ export async function retrieveComment(
   tenantID: string,
   id: string
 ) {
-  const liveComment = await collection(mongo.main).findOne({ id, tenantID });
+  const liveComment = await collection(mongo.live).findOne({ id, tenantID });
 
   if (liveComment) {
     return liveComment;
@@ -421,7 +421,7 @@ export async function retrieveManyComments(
   ids: ReadonlyArray<string>
 ) {
   // Try and find it in live comments collection
-  const liveCommentsCursor = collection(mongo.main).find({
+  const liveCommentsCursor = collection(mongo.live).find({
     id: {
       $in: ids,
     },
@@ -740,7 +740,7 @@ export async function retrieveCommentConnection(
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Create the query.
   const query = new Query(
-    isArchived ? archivedComments(mongo.archive) : collection(mongo.main)
+    isArchived ? archivedComments(mongo.archive) : collection(mongo.live)
   ).where({ tenantID });
 
   // If a filter is being applied, filter it as well.
@@ -962,7 +962,7 @@ export async function addCommentTag(
   );
   if (!result.value) {
     const comment = await retrieveComment(
-      { main: mongo, archive: mongo },
+      { live: mongo, archive: mongo },
       tenantID,
       commentID
     );
@@ -1004,7 +1004,7 @@ export async function removeCommentTag(
   );
   if (!result.value) {
     const comment = await retrieveComment(
-      { main: mongo, archive: mongo },
+      { live: mongo, archive: mongo },
       tenantID,
       commentID
     );

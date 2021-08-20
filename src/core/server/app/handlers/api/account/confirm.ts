@@ -108,7 +108,7 @@ export const confirmRequestHandler = ({
 
       // Lookup the user.
       const targetUser = await retrieveUser(
-        mongo.main,
+        mongo.live,
         tenant.id,
         targetUserID
       );
@@ -117,7 +117,7 @@ export const confirmRequestHandler = ({
       }
 
       await sendConfirmationEmail(
-        mongo.main,
+        mongo.live,
         mailerQueue,
         tenant,
         config,
@@ -185,7 +185,7 @@ export const confirmCheckHandler = ({
 
       // Verify the token.
       await verifyConfirmTokenString(
-        mongo.main,
+        mongo.live,
         tenant,
         signingConfig,
         tokenString,
@@ -245,7 +245,7 @@ export const confirmHandler = ({
       }
 
       // Execute the reset.
-      await confirmEmail(mongo.main, tenant, signingConfig, tokenString, now);
+      await confirmEmail(mongo.live, tenant, signingConfig, tokenString, now);
 
       return res.sendStatus(204);
     } catch (err) {

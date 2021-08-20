@@ -54,7 +54,7 @@ export const unsubscribeCheckHandler = ({
 
       // Verify the token.
       await verifyUnsubscribeTokenString(
-        mongo.main,
+        mongo.live,
         tenant,
         signingConfig,
         tokenString,
@@ -115,7 +115,7 @@ export const unsubscribeHandler = ({
 
       // Verify the token.
       const { user } = await verifyUnsubscribeTokenString(
-        mongo.main,
+        mongo.live,
         tenant,
         signingConfig,
         tokenString,
@@ -123,7 +123,7 @@ export const unsubscribeHandler = ({
       );
 
       // Unsubscribe the user from all notification types.
-      await updateUserNotificationSettings(mongo.main, tenant.id, user.id, {
+      await updateUserNotificationSettings(mongo.live, tenant.id, user.id, {
         onFeatured: false,
         onModeration: false,
         onReply: false,

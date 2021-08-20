@@ -28,7 +28,7 @@ export default async function moderate(
 
   // Get the comment that we're moderating.
   const comment = await retrieveComment(
-    { main: mongo, archive: mongo },
+    { live: mongo, archive: mongo },
     tenant.id,
     input.commentID
   );

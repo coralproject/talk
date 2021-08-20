@@ -21,7 +21,7 @@ export const Actions = (ctx: GraphContext) => ({
     }
 
     return approveComment(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -40,7 +40,7 @@ export const Actions = (ctx: GraphContext) => ({
     }
 
     return rejectComment(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -52,7 +52,7 @@ export const Actions = (ctx: GraphContext) => ({
   },
   reviewCommentFlag: async (input: GQLReviewCommentFlagInput) => {
     return await reviewCommentAction(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       // User must be available here, auth directive requires admin/mod
       ctx.user!,

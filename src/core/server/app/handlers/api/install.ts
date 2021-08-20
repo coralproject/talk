@@ -204,12 +204,12 @@ export const installHandler = ({
       // Execute the pending migrations now, as the schema and types are already
       // current for the new tenant being installed now. No point in creating
       // a tenant when migrations have not been ran yet.
-      await migrationManager.executePendingMigrations(mongo.main, redis, true);
+      await migrationManager.executePendingMigrations(mongo.live, redis, true);
 
       // Install will throw if it can not create a Tenant, or it has already been
       // installed.
       const tenant = await install(
-        mongo.main,
+        mongo.live,
         redis,
         req.coral.cache.tenant,
         i18n,
@@ -224,7 +224,7 @@ export const installHandler = ({
         req.coral.now
       );
 
-      await createSite(mongo.main, tenant, siteInput);
+      await createSite(mongo.live, tenant, siteInput);
 
       // Pull the user details out of the input for the user.
       const { email, username, password } = userInput;
@@ -239,7 +239,7 @@ export const installHandler = ({
 
       // Create the first admin user.
       await create(
-        mongo.main,
+        mongo.live,
         tenant,
         {
           email,

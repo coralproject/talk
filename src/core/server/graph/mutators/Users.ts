@@ -87,7 +87,7 @@ export const Users = (ctx: GraphContext) => ({
   invite: async ({ role, emails }: GQLInviteUsersInput) =>
     mapFieldsetToErrorCodes(
       invite(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.tenant,
         ctx.config,
         ctx.mailerQueue,
@@ -107,7 +107,7 @@ export const Users = (ctx: GraphContext) => ({
     input: GQLSetUsernameInput
   ): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
-      setUsername(ctx.mongo.main, ctx.tenant, ctx.user!, input.username),
+      setUsername(ctx.mongo.live, ctx.tenant, ctx.user!, input.username),
       {
         "input.username": [
           ERROR_CODES.USERNAME_ALREADY_SET,
@@ -120,7 +120,7 @@ export const Users = (ctx: GraphContext) => ({
   setEmail: async (input: GQLSetEmailInput): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
       setEmail(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.mailerQueue,
         ctx.tenant,
         ctx.user!,
@@ -138,13 +138,13 @@ export const Users = (ctx: GraphContext) => ({
   setPassword: async (
     input: GQLSetPasswordInput
   ): Promise<Readonly<User> | null> =>
-    setPassword(ctx.mongo.main, ctx.tenant, ctx.user!, input.password),
+    setPassword(ctx.mongo.live, ctx.tenant, ctx.user!, input.password),
   updatePassword: async (
     input: GQLUpdatePasswordInput
   ): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
       updatePassword(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.mailerQueue,
         ctx.tenant,
         ctx.user!,
@@ -158,7 +158,7 @@ export const Users = (ctx: GraphContext) => ({
   ): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
       requestAccountDeletion(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.mailerQueue,
         ctx.tenant,
         ctx.user!,
@@ -186,14 +186,14 @@ export const Users = (ctx: GraphContext) => ({
     input: GQLCancelAccountDeletionInput
   ): Promise<Readonly<User> | null> =>
     cancelAccountDeletion(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!
     ),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       // NOTE: (wyattjoh) this will error if not provided.
       ctx.signingConfig!,
@@ -202,10 +202,10 @@ export const Users = (ctx: GraphContext) => ({
       ctx.now
     ),
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
-    deactivateToken(ctx.mongo.main, ctx.tenant, ctx.user!, input.id),
+    deactivateToken(ctx.mongo.live, ctx.tenant, ctx.user!, input.id),
   updateUsername: async (input: GQLUpdateUsernameInput) =>
     updateUsername(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
@@ -214,19 +214,19 @@ export const Users = (ctx: GraphContext) => ({
     ),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
     updateUsernameByID(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       input.userID,
       input.username,
       ctx.user!
     ),
   updateBio: async (input: GQLUpdateBioInput) =>
-    updateBio(ctx.mongo.main, ctx.tenant, ctx.user!, input.bio),
+    updateBio(ctx.mongo.live, ctx.tenant, ctx.user!, input.bio),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
-    updateEmailByID(ctx.mongo.main, ctx.tenant, input.userID, input.email),
+    updateEmailByID(ctx.mongo.live, ctx.tenant, input.userID, input.email),
   updateEmail: async (input: GQLUpdateEmailInput) =>
     updateEmail(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       ctx.mailerQueue,
       ctx.config,
@@ -237,23 +237,23 @@ export const Users = (ctx: GraphContext) => ({
     ),
   updateNotificationSettings: async (
     input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
-  ) => updateNotificationSettings(ctx.mongo.main, ctx.tenant, ctx.user!, input),
+  ) => updateNotificationSettings(ctx.mongo.live, ctx.tenant, ctx.user!, input),
   updateUserMediaSettings: async (
     input: WithoutMutationID<GQLUpdateUserMediaSettingsInput>
-  ) => updateMediaSettings(ctx.mongo.main, ctx.tenant, ctx.user!, input),
+  ) => updateMediaSettings(ctx.mongo.live, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
-    updateAvatar(ctx.mongo.main, ctx.tenant, input.userID, input.avatar),
+    updateAvatar(ctx.mongo.live, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
-    updateRole(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID, input.role),
+    updateRole(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID, input.role),
   promote: async (input: GQLPromoteUserInput) =>
-    promoteUser(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID),
+    promoteUser(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID),
   demote: async (input: GQLDemoteUserInput) =>
-    demoteUser(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID),
+    demoteUser(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID),
   updateUserModerationScopes: async (
     input: GQLUpdateUserModerationScopesInput
   ) =>
     updateModerationScopes(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       ctx.user!,
       input.userID,
@@ -261,7 +261,7 @@ export const Users = (ctx: GraphContext) => ({
     ),
   createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
     addModeratorNote(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       ctx.user!,
       input.userID,
@@ -270,7 +270,7 @@ export const Users = (ctx: GraphContext) => ({
     ),
   deleteModeratorNote: async (input: GQLDeleteModeratorNoteInput) =>
     destroyModeratorNote(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       input.userID,
       input.id,
@@ -283,7 +283,7 @@ export const Users = (ctx: GraphContext) => ({
     siteIDs,
   }: GQLBanUserInput) =>
     ban(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.mailerQueue,
       ctx.rejectorQueue,
       ctx.tenant,
@@ -296,7 +296,7 @@ export const Users = (ctx: GraphContext) => ({
     ),
   warn: async (input: GQLWarnUserInput) =>
     warn(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       ctx.user!,
       input.userID,
@@ -304,14 +304,14 @@ export const Users = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeWarning: async (input: GQLRemoveUserWarningInput) =>
-    removeWarning(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeWarning(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID, ctx.now),
   acknowledgeWarning: async () =>
-    acknowledgeWarning(ctx.mongo.main, ctx.tenant, ctx.user!.id, ctx.now),
+    acknowledgeWarning(ctx.mongo.live, ctx.tenant, ctx.user!.id, ctx.now),
   premodUser: async (input: GQLPremodUserInput) =>
-    premod(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    premod(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
@@ -321,26 +321,26 @@ export const Users = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeBan: async (input: GQLRemoveUserBanInput) =>
-    removeBan(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeBan(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeSuspension: async (input: GQLRemoveUserSuspensionInput) =>
     removeSuspension(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       ctx.user!,
       input.userID,
       ctx.now
     ),
   removeUserPremod: async (input: GQLRemovePremodUserInput) =>
-    removePremod(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removePremod(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID, ctx.now),
   ignore: async (input: GQLIgnoreUserInput) =>
-    ignore(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    ignore(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
-    removeIgnore(ctx.mongo.main, ctx.tenant, ctx.user!, input.userID),
+    removeIgnore(ctx.mongo.live, ctx.tenant, ctx.user!, input.userID),
   requestUserCommentsDownload: async (
     input: GQLRequestUserCommentsDownloadInput
   ) =>
     requestUserCommentsDownload(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       ctx.config,
       ctx.signingConfig!,
@@ -349,7 +349,7 @@ export const Users = (ctx: GraphContext) => ({
     ),
   requestCommentsDownload: async (input: GQLRequestCommentsDownloadInput) =>
     requestCommentsDownload(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.config,

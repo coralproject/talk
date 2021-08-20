@@ -142,7 +142,7 @@ export const cspSiteMiddleware = ({
   // otherwise look it up from the request.
   const origins = frameAncestorsDeny
     ? []
-    : await retrieveOriginsFromRequest(mongo.main, config, req);
+    : await retrieveOriginsFromRequest(mongo.live, config, req);
 
   const frameOptions = generateFrameOptions(req, origins);
   if (frameOptions) {

@@ -21,7 +21,7 @@ export const facebookHandler = ({ tenantCache, ...options }: Options) =>
 
       return new FacebookAuthenticator({
         ...options,
-        mongo: options.mongo.main,
+        mongo: options.mongo.live,
         integration,
         callbackPath: "/api/auth/facebook/callback",
       });

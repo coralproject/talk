@@ -101,7 +101,7 @@ const primeUsersFromConnection = (ctx: Context) => (
 
 export default (ctx: Context) => {
   const user = new DataLoader<string, User | null>(
-    (ids) => retrieveManyUsers(ctx.mongo.main, ctx.tenant.id, ids),
+    (ids) => retrieveManyUsers(ctx.mongo.live, ctx.tenant.id, ids),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.
@@ -117,7 +117,7 @@ export default (ctx: Context) => {
   return {
     user,
     connection: ({ first, after, role, query, status }: QueryToUsersArgs) =>
-      retrieveUserConnection(ctx.mongo.main, ctx.tenant.id, {
+      retrieveUserConnection(ctx.mongo.live, ctx.tenant.id, {
         first: defaultTo(first, 10),
         after,
         filter: {

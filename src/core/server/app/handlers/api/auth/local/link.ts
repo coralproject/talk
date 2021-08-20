@@ -56,7 +56,7 @@ export const linkHandler = ({
       // Start the account linking process. We are assured the user at this
       // point because of the middleware inserted before which rejects any
       // unauthenticated requests.
-      const user = await link(mongo.main, tenant, req.user!, {
+      const user = await link(mongo.live, tenant, req.user!, {
         email,
         password,
       });

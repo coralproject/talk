@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 
 export interface MongoContext {
-  readonly main: Db;
+  readonly live: Db;
   readonly archive: Db;
 }

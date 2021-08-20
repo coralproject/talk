@@ -234,7 +234,7 @@ export async function deleteUser(
   now: Date
 ) {
   const user = await collections
-    .users(mongo.main)
+    .users(mongo.live)
     .findOne({ id: userID, tenantID });
   if (!user) {
     throw new Error("could not find user by ID");
@@ -246,22 +246,22 @@ export async function deleteUser(
   }
 
   const tenant = await collections
-    .tenants(mongo.main)
+    .tenants(mongo.live)
     .findOne({ id: tenantID });
   if (!tenant) {
     throw new Error("could not find tenant by ID");
   }
 
   // Delete the user's action counts.
-  await deleteUserActionCounts(mongo.main, userID, tenantID);
+  await deleteUserActionCounts(mongo.live, userID, tenantID);
   await deleteUserActionCounts(mongo.archive, userID, tenantID);
 
   // Delete the user's comments.
-  await deleteUserComments(mongo.main, redis, userID, tenantID, now);
+  await deleteUserComments(mongo.live, redis, userID, tenantID, now);
   await deleteUserComments(mongo.archive, redis, userID, tenantID, now);
 
   // Mark the user as deleted.
-  const result = await collections.users(mongo.main).findOneAndUpdate(
+  const result = await collections.users(mongo.live).findOneAndUpdate(
     { tenantID, id: userID },
     {
       $set: {

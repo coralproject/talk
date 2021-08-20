@@ -102,7 +102,7 @@ export const Comments = (ctx: GraphContext) => ({
     commentRevisionID,
   }: GQLCreateCommentReactionInput) =>
     createReaction(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -115,7 +115,7 @@ export const Comments = (ctx: GraphContext) => ({
     ),
   removeReaction: ({ commentID }: GQLRemoveCommentReactionInput) =>
     removeReaction(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -130,7 +130,7 @@ export const Comments = (ctx: GraphContext) => ({
     additionalDetails,
   }: GQLCreateCommentDontAgreeInput) =>
     createDontAgree(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -148,7 +148,7 @@ export const Comments = (ctx: GraphContext) => ({
     ),
   removeDontAgree: ({ commentID }: GQLRemoveCommentDontAgreeInput) =>
     removeDontAgree(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -164,7 +164,7 @@ export const Comments = (ctx: GraphContext) => ({
     additionalDetails,
   }: GQLCreateCommentFlagInput) =>
     createFlag(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -193,7 +193,7 @@ export const Comments = (ctx: GraphContext) => ({
     }
 
     const comment = await addTag(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant,
       commentID,
       commentRevisionID,
@@ -204,7 +204,7 @@ export const Comments = (ctx: GraphContext) => ({
 
     if (comment.status !== GQLCOMMENT_STATUS.APPROVED) {
       await approveComment(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.redis,
         ctx.broker,
         ctx.tenant,
@@ -230,6 +230,6 @@ export const Comments = (ctx: GraphContext) => ({
       await validateUserModerationScopes(ctx, ctx.user!, { commentID });
     }
 
-    return removeTag(ctx.mongo.main, ctx.tenant, commentID, GQLTAG.FEATURED);
+    return removeTag(ctx.mongo.live, ctx.tenant, commentID, GQLTAG.FEATURED);
   },
 });

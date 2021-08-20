@@ -193,7 +193,7 @@ export default (ctx: GraphContext) => ({
   }: QueryToCommentsArgs) => {
     let story: Readonly<Story> | null = null;
     if (storyID) {
-      story = await retrieveStory(ctx.mongo.main, ctx.tenant.id, storyID);
+      story = await retrieveStory(ctx.mongo.live, ctx.tenant.id, storyID);
     }
 
     const isArchived = story?.isArchived || false;
@@ -228,7 +228,7 @@ export default (ctx: GraphContext) => ({
       }
 
       return retrieveManyUserActionPresence(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.tenant.id,
         ctx.user.id,
         commentIDs
@@ -334,7 +334,7 @@ export default (ctx: GraphContext) => ({
   sharedModerationQueueQueuesCounts: new SingletonResolver(
     () =>
       retrieveSharedModerationQueueQueuesCounts(
-        ctx.mongo.main,
+        ctx.mongo.live,
         ctx.redis,
         ctx.tenant.id,
         ctx.now
@@ -346,11 +346,11 @@ export default (ctx: GraphContext) => ({
     }
   ),
   tagCounts: new DataLoader((storyIDs: string[]) =>
-    retrieveStoryCommentTagCounts(ctx.mongo.main, ctx.tenant.id, storyIDs)
+    retrieveStoryCommentTagCounts(ctx.mongo.live, ctx.tenant.id, storyIDs)
   ),
   authorStatusCounts: new DataLoader((authorIDs: string[]) =>
     retrieveManyRecentStatusCounts(
-      ctx.mongo.main,
+      ctx.mongo.live,
       ctx.tenant.id,
       DateTime.fromJSDate(ctx.now)
         .plus({ seconds: -ctx.tenant.recentCommentHistory.timeFrame })

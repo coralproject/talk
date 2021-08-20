@@ -13,7 +13,7 @@ export default (ctx: GraphContext) => ({
     { first, after }: UserToCommentModerationActionHistoryArgs,
     moderatorID: string
   ) =>
-    retrieveCommentModerationActionConnection(ctx.mongo.main, ctx.tenant.id, {
+    retrieveCommentModerationActionConnection(ctx.mongo.live, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       filter: {
@@ -24,7 +24,7 @@ export default (ctx: GraphContext) => ({
     { first, after }: CommentToStatusHistoryArgs,
     commentID: string
   ) =>
-    retrieveCommentModerationActionConnection(ctx.mongo.main, ctx.tenant.id, {
+    retrieveCommentModerationActionConnection(ctx.mongo.live, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       filter: {

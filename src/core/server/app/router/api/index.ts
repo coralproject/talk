@@ -44,7 +44,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Tenant identification middleware. All requests going past this point can
   // only proceed if there is a valid Tenant for the hostname.
   router.use(
-    tenantMiddleware({ mongo: app.mongo.main, cache: app.tenantCache })
+    tenantMiddleware({ mongo: app.mongo.live, cache: app.tenantCache })
   );
 
   // We don't need auth for the story router, so mount it earlier.

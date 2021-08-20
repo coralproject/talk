@@ -38,7 +38,7 @@ export function createPassport(options: Options): passport.Authenticator {
   const auth = new Authenticator();
 
   // Use the LocalStrategy.
-  auth.use(createLocalStrategy({ ...options, mongo: options.mongo.main }));
+  auth.use(createLocalStrategy({ ...options, mongo: options.mongo.live }));
 
   // Use the SSOStrategy.
   auth.use(new JWTStrategy(options));

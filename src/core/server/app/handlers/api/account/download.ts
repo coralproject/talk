@@ -64,7 +64,7 @@ export const accountDownloadHandler = ({
         token: { iat },
         user,
       } = await redeemDownloadToken(
-        mongo.main,
+        mongo.live,
         redis,
         tenant,
         signingConfig,
@@ -76,7 +76,7 @@ export const accountDownloadHandler = ({
       const latestContentDate = new Date(iat * 1000);
 
       // Send the export down the response.
-      await sendUserDownload(res, mongo.main, tenant, user, latestContentDate);
+      await sendUserDownload(res, mongo.live, tenant, user, latestContentDate);
 
       return;
     } catch (err) {
@@ -121,7 +121,7 @@ export const accountDownloadCheckHandler = ({
       await userIDLimiter.test(req, userID);
 
       await verifyDownloadTokenString(
-        mongo.main,
+        mongo.live,
         redis,
         tenant,
         signingConfig,

@@ -63,7 +63,7 @@ export default class NotificationContext {
     string,
     Readonly<User> | null
   > = new DataLoader((userIDs) =>
-    retrieveManyUsers(this.mongo.main, this.tenant.id, userIDs)
+    retrieveManyUsers(this.mongo.live, this.tenant.id, userIDs)
   );
 
   /**
@@ -83,7 +83,7 @@ export default class NotificationContext {
     string,
     Readonly<Story> | null
   > = new DataLoader((storyIDs) =>
-    retrieveManyStories(this.mongo.main, this.tenant.id, storyIDs)
+    retrieveManyStories(this.mongo.live, this.tenant.id, storyIDs)
   );
 
   constructor({
@@ -123,7 +123,7 @@ export default class NotificationContext {
    */
   public async addDigests(userID: string, templates: DigestibleTemplate[]) {
     const user = await insertUserNotificationDigests(
-      this.mongo.main,
+      this.mongo.live,
       this.tenant.id,
       userID,
       templates,
@@ -149,7 +149,7 @@ export default class NotificationContext {
       async *[Symbol.asyncIterator]() {
         while (true) {
           const user = await pullUserNotificationDigests(
-            mongo.main,
+            mongo.live,
             tenant.id,
             frequency
           );

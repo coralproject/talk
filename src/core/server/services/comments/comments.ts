@@ -39,7 +39,7 @@ export async function addTag(
   now = new Date()
 ) {
   const comment = await retrieveComment(
-    { main: mongo, archive: mongo },
+    { live: mongo, archive: mongo },
     tenant.id,
     commentID
   );
@@ -72,7 +72,7 @@ export async function removeTag(
   tagType: GQLTAG
 ) {
   const comment = await retrieveComment(
-    { main: mongo, archive: mongo },
+    { live: mongo, archive: mongo },
     tenant.id,
     commentID
   );

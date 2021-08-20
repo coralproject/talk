@@ -235,14 +235,14 @@ class Server {
     const live = await createMongoDB(mongoURI);
     const archive = await createMongoDB(archiveMongoURI);
 
-    this.mongo = { main: live, archive };
+    this.mongo = { live, archive };
 
     // Setup Redis.
     this.redis = await createAugmentedRedisClient(config);
 
     // Create the TenantCache.
     this.tenantCache = new TenantCache(
-      this.mongo.main,
+      this.mongo.live,
       createRedisClient(this.config),
       config
     );
@@ -258,7 +258,7 @@ class Server {
 
     // Load and upsert the persisted queries.
     this.persistedQueryCache = new PersistedQueryCache({
-      mongo: this.mongo.main,
+      mongo: this.mongo.live,
     });
 
     // Prime the tenant cache so it'll be ready to serve now.
@@ -307,7 +307,7 @@ class Server {
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
       await this.migrationManager.executePendingMigrations(
-        this.mongo.main,
+        this.mongo.live,
         this.redis
       );
       await this.tenantCache.primeAll();

@@ -47,7 +47,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
     while (true) {
       const now = new Date();
       const user = await retrieveUserScheduledForDeletion(
-        mongo.main,
+        mongo.live,
         tenant.id,
         {
           hours: 1,

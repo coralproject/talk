@@ -109,7 +109,7 @@ export default async function edit(
   // NOTE: this should be removed with attribute based auth checks.
   if (isSiteBanned(author, siteID)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo.main, tenant.id, siteID);
+    const site = await retrieveSite(mongo.live, tenant.id, siteID);
     if (!site) {
       throw new Error(`referenced site not found: ${siteID}`);
     }
@@ -134,7 +134,7 @@ export default async function edit(
 
   // Grab the story that we'll use to check moderation pieces with.
   const story = await retrieveStory(
-    mongo.main,
+    mongo.live,
     tenant.id,
     originalStaleComment.storyID
   );
@@ -203,7 +203,7 @@ export default async function edit(
 
   // Perform the edit.
   const result = await editComment(
-    mongo.main,
+    mongo.live,
     tenant.id,
     {
       id: input.id,
@@ -227,7 +227,7 @@ export default async function edit(
   // collection.
   if (actions.length > 0) {
     await addCommentActions(
-      mongo.main,
+      mongo.live,
       tenant,
       actions.map(
         (action): CreateAction => ({
@@ -250,7 +250,7 @@ export default async function edit(
   // moderation action (but don't associate it with a moderator).
   if (result.before.status !== result.after.status) {
     await createCommentModerationAction(
-      mongo.main,
+      mongo.live,
       tenant.id,
       {
         commentID: result.after.id,
@@ -263,7 +263,7 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo.main, redis, {
+  const counts = await updateAllCommentCounts(mongo.live, redis, {
     tenant,
     actionCounts,
     ...result,
