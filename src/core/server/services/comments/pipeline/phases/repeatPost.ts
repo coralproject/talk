@@ -16,7 +16,6 @@ import {
 
 export const repeatPost: IntermediateModerationPhase = async ({
   mongo,
-  archive,
   comment,
   action,
   bodyText,
@@ -38,7 +37,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
 
     // Get the last comment (if it exists).
     const lastComment = await retrieveUserLastComment(
-      { main: mongo, archive },
+      mongo,
       redis,
       tenant,
       author

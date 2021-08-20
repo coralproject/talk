@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import { retrieveUserScheduledForDeletion } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -13,8 +12,7 @@ import {
 } from "./scheduled";
 
 interface Options {
-  mongo: Db;
-  archive: Db;
+  mongo: MongoContext;
   redis: AugmentedRedis;
   mailerQueue: MailerQueue;
   tenantCache: TenantCache;
@@ -37,7 +35,6 @@ export function registerAccountDeletion(
 const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
   log,
   mongo,
-  archive,
   redis,
   mailerQueue,
   tenantCache,
@@ -50,7 +47,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
     while (true) {
       const now = new Date();
       const user = await retrieveUserScheduledForDeletion(
-        mongo,
+        mongo.main,
         tenant.id,
         {
           hours: 1,
@@ -64,13 +61,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
 
       log.info({ userID: user.id }, "deleting user");
 
-      await deleteUser(
-        { main: mongo, archive },
-        redis,
-        user.id,
-        tenant.id,
-        now
-      );
+      await deleteUser(mongo, redis, user.id, tenant.id, now);
 
       // If the user has an email, then send them a confirmation that their account
       // was deleted.

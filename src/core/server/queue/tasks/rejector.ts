@@ -1,6 +1,6 @@
 import Queue from "bull";
-import { Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
@@ -19,7 +19,7 @@ import { GQLCOMMENT_SORT } from "coral-server/graph/schema/__generated__/types";
 const JOB_NAME = "rejector";
 
 export interface RejectorProcessorOptions {
-  mongo: Db;
+  mongo: MongoContext;
   redis: AugmentedRedis;
   tenantCache: TenantCache;
 }
@@ -31,20 +31,21 @@ export interface RejectorData {
 }
 
 function getBatch(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   authorID: string,
   connection?: Readonly<Connection<Readonly<Comment>>>
 ) {
   return retrieveAllCommentsUserConnection(
-    { main: mongo, archive: mongo },
+    mongo,
     tenantID,
     authorID,
     {
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       first: 100,
       after: connection ? connection.pageInfo.endCursor : undefined,
-    }
+    },
+    false
   );
 }
 
@@ -89,7 +90,7 @@ const createJobProcessor = ({
 
       // Reject the comment.
       await rejectComment(
-        mongo,
+        mongo.main,
         redis,
         null,
         tenant,

@@ -1,7 +1,7 @@
-import { Db } from "mongodb";
 import path from "path";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -17,8 +17,7 @@ import {
 } from "./scheduled";
 
 interface Options {
-  mongo: Db;
-  archive: Db;
+  mongo: MongoContext;
   config: Config;
   mailerQueue: MailerQueue;
   signingConfig: JWTSigningConfig;
@@ -63,7 +62,6 @@ const processNotificationDigesting = (
 ): ScheduledJobCommand<Options> => async ({
   log,
   mongo,
-  archive,
   config,
   signingConfig,
   tenantCache,
@@ -77,7 +75,6 @@ const processNotificationDigesting = (
     // digesting operations.
     const ctx = new NotificationContext({
       mongo,
-      archive,
       config,
       signingConfig,
       tenant,

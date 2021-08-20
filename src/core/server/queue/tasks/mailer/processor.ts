@@ -13,11 +13,12 @@ import Joi from "joi";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
-import { Db } from "mongodb";
+
 import timeoutPromiseAfter from "p-timeout";
 
 import { LanguageCode } from "coral-common/helpers";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -40,7 +41,7 @@ interface TemplateMeta {
 
 export interface MailProcessorOptions {
   config: Config;
-  mongo: Db;
+  mongo: MongoContext;
   tenantCache: TenantCache;
   i18n: I18n;
 }

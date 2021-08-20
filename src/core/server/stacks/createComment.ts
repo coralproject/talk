@@ -193,6 +193,10 @@ export default async function create(
     throw new StoryNotFoundError(input.storyID);
   }
 
+  if (story.isArchiving || story.isArchived) {
+    throw new Error("Cannot create comments on an archive story");
+  }
+
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
@@ -253,8 +257,7 @@ export default async function create(
     result = await processForModeration({
       action: "NEW",
       log,
-      mongo: mongo.main,
-      archive: mongo.archive,
+      mongo,
       redis,
       config,
       tenant,

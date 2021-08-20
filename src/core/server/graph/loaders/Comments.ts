@@ -163,7 +163,7 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
 export default (ctx: GraphContext) => ({
   visible: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
-      retrieveManyComments(ctx.dataContext.mongo, ctx.tenant.id, ids).then(
+      retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
         mapVisibleComments(ctx.user)
       ),
     {
@@ -173,8 +173,7 @@ export default (ctx: GraphContext) => ({
     }
   ),
   comment: new DataLoader<string, Readonly<Comment> | null>(
-    (ids: string[]) =>
-      retrieveManyComments(ctx.dataContext.mongo, ctx.tenant.id, ids),
+    (ids: string[]) => retrieveManyComments(ctx.mongo, ctx.tenant.id, ids),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.
@@ -194,13 +193,13 @@ export default (ctx: GraphContext) => ({
   }: QueryToCommentsArgs) => {
     let story: Readonly<Story> | null = null;
     if (storyID) {
-      story = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
+      story = await retrieveStory(ctx.mongo.main, ctx.tenant.id, storyID);
     }
 
     const isArchived = story?.isArchived || false;
 
     return retrieveCommentConnection(
-      ctx.dataContext.mongo,
+      ctx.mongo,
       ctx.tenant.id,
       {
         first: defaultTo(first, 10),
@@ -229,7 +228,7 @@ export default (ctx: GraphContext) => ({
       }
 
       return retrieveManyUserActionPresence(
-        ctx.mongo,
+        ctx.mongo.main,
         ctx.tenant.id,
         ctx.user.id,
         commentIDs
@@ -237,60 +236,40 @@ export default (ctx: GraphContext) => ({
     }
   ),
   forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
-    retrieveCommentUserConnection(
-      ctx.dataContext.mongo,
-      ctx.tenant.id,
-      userID,
-      {
-        first: defaultTo(first, 10),
-        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-        after,
-      }
-    ).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first: defaultTo(first, 10),
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+      after,
+    }).then(primeCommentsFromConnection(ctx)),
   forUserAll: (userID: string, { first, after }: UserToAllCommentsArgs) =>
-    retrieveAllCommentsUserConnection(
-      ctx.dataContext.mongo,
-      ctx.tenant.id,
-      userID,
-      {
-        first: defaultTo(first, 10),
-        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-        after,
-      }
-    ).then(primeCommentsFromConnection(ctx)),
+    retrieveAllCommentsUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first: defaultTo(first, 10),
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      after,
+    }).then(primeCommentsFromConnection(ctx)),
   forUserRejected: (
     userID: string,
     { first, after }: UserToRejectedCommentsArgs
   ) =>
-    retrieveRejectedCommentUserConnection(
-      ctx.dataContext.mongo,
-      ctx.tenant.id,
-      userID,
-      {
-        first: defaultTo(first, 10),
-        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-        after,
-      }
-    ).then(primeCommentsFromConnection(ctx)),
+    retrieveRejectedCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first: defaultTo(first, 10),
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      after,
+    }).then(primeCommentsFromConnection(ctx)),
   taggedForStory: (
     storyID: string,
     tag: GQLTAG,
     { first, orderBy, after }: StoryToCommentsArgs
   ) =>
-    retrieveCommentStoryConnection(
-      ctx.dataContext.mongo,
-      ctx.tenant.id,
-      storyID,
-      {
-        first: defaultTo(first, 10),
-        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-        after,
-        filter: {
-          // Filter optionally for comments with a specific tag.
-          "tags.type": tag,
-        },
-      }
-    ).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
+      first: defaultTo(first, 10),
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+      after,
+      filter: {
+        // Filter optionally for comments with a specific tag.
+        "tags.type": tag,
+      },
+    }).then(primeCommentsFromConnection(ctx)),
   forStory: async (
     storyID: string,
     { first, orderBy, after, tag, rating }: StoryToCommentsArgs
@@ -301,7 +280,7 @@ export default (ctx: GraphContext) => ({
     }
 
     return retrieveCommentStoryConnection(
-      ctx.dataContext.mongo,
+      ctx.mongo,
       ctx.tenant.id,
       storyID,
       {
@@ -330,7 +309,7 @@ export default (ctx: GraphContext) => ({
     }
 
     return retrieveCommentRepliesConnection(
-      ctx.dataContext.mongo,
+      ctx.mongo,
       ctx.tenant.id,
       storyID,
       parentID,
@@ -346,21 +325,16 @@ export default (ctx: GraphContext) => ({
     ).then(primeCommentsFromConnection(ctx));
   },
   parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
-    retrieveCommentParentsConnection(
-      ctx.dataContext.mongo,
-      ctx.tenant.id,
-      comment,
-      {
-        last: defaultTo(last, 1),
-        // The cursor passed here is always going to be a number.
-        before: before as number,
-      }
-    ).then(primeCommentsFromConnection(ctx)),
+    retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
+      last: defaultTo(last, 1),
+      // The cursor passed here is always going to be a number.
+      before: before as number,
+    }).then(primeCommentsFromConnection(ctx)),
 
   sharedModerationQueueQueuesCounts: new SingletonResolver(
     () =>
       retrieveSharedModerationQueueQueuesCounts(
-        ctx.mongo,
+        ctx.mongo.main,
         ctx.redis,
         ctx.tenant.id,
         ctx.now
@@ -372,11 +346,11 @@ export default (ctx: GraphContext) => ({
     }
   ),
   tagCounts: new DataLoader((storyIDs: string[]) =>
-    retrieveStoryCommentTagCounts(ctx.mongo, ctx.tenant.id, storyIDs)
+    retrieveStoryCommentTagCounts(ctx.mongo.main, ctx.tenant.id, storyIDs)
   ),
   authorStatusCounts: new DataLoader((authorIDs: string[]) =>
     retrieveManyRecentStatusCounts(
-      ctx.mongo,
+      ctx.mongo.main,
       ctx.tenant.id,
       DateTime.fromJSDate(ctx.now)
         .plus({ seconds: -ctx.tenant.recentCommentHistory.timeFrame })

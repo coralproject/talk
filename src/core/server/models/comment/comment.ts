@@ -637,15 +637,21 @@ export const retrieveAllCommentsUserConnection = (
   mongo: MongoContext,
   tenantID: string,
   userID: string,
-  input: CommentConnectionInput
+  input: CommentConnectionInput,
+  isArchived = false
 ) =>
-  retrieveCommentConnection(mongo, tenantID, {
-    ...input,
-    filter: {
-      ...input.filter,
-      authorID: userID,
+  retrieveCommentConnection(
+    mongo,
+    tenantID,
+    {
+      ...input,
+      filter: {
+        ...input.filter,
+        authorID: userID,
+      },
     },
-  });
+    isArchived
+  );
 
 /**
  * retrieveRejectedCommentUserConnection returns a Connection<Comment> for a given User's

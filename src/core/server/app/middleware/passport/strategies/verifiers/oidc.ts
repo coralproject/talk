@@ -21,7 +21,7 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
   private cache: TenantCacheAdapter<JwksClient>;
 
   constructor({ mongo, tenantCache }: OIDCVerifierOptions) {
-    this.mongo = mongo;
+    this.mongo = mongo.main;
     this.cache = new TenantCacheAdapter(tenantCache);
   }
 

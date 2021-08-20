@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import logger, { Logger } from "coral-server/logger";
 import { Comment, retrieveManyComments } from "coral-server/models/comment";
 import { retrieveManyStories, Story } from "coral-server/models/story";
@@ -20,8 +20,7 @@ import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/typ
 import { generateUnsubscribeURL } from "./categories/unsubscribe";
 
 interface Options {
-  mongo: Db;
-  archive: Db;
+  mongo: MongoContext;
   tenant: Tenant;
   config: Config;
   signingConfig: JWTSigningConfig;
@@ -34,8 +33,7 @@ interface Options {
  * collect data to include in notifications to be sent.
  */
 export default class NotificationContext {
-  private readonly mongo: Db;
-  private readonly archive: Db;
+  private readonly mongo: MongoContext;
   private readonly signingConfig: JWTSigningConfig;
 
   /**
@@ -65,7 +63,7 @@ export default class NotificationContext {
     string,
     Readonly<User> | null
   > = new DataLoader((userIDs) =>
-    retrieveManyUsers(this.mongo, this.tenant.id, userIDs)
+    retrieveManyUsers(this.mongo.main, this.tenant.id, userIDs)
   );
 
   /**
@@ -75,11 +73,7 @@ export default class NotificationContext {
     string,
     Readonly<Comment> | null
   > = new DataLoader((commentIDs) =>
-    retrieveManyComments(
-      { main: this.mongo, archive: this.archive },
-      this.tenant.id,
-      commentIDs
-    )
+    retrieveManyComments(this.mongo, this.tenant.id, commentIDs)
   );
 
   /**
@@ -89,12 +83,11 @@ export default class NotificationContext {
     string,
     Readonly<Story> | null
   > = new DataLoader((storyIDs) =>
-    retrieveManyStories(this.mongo, this.tenant.id, storyIDs)
+    retrieveManyStories(this.mongo.main, this.tenant.id, storyIDs)
   );
 
   constructor({
     mongo,
-    archive,
     tenant,
     now = new Date(),
     log = logger,
@@ -102,7 +95,6 @@ export default class NotificationContext {
     signingConfig,
   }: Options) {
     this.mongo = mongo;
-    this.archive = archive;
     this.tenant = tenant;
     this.now = now;
     this.config = config;
@@ -131,7 +123,7 @@ export default class NotificationContext {
    */
   public async addDigests(userID: string, templates: DigestibleTemplate[]) {
     const user = await insertUserNotificationDigests(
-      this.mongo,
+      this.mongo.main,
       this.tenant.id,
       userID,
       templates,
@@ -157,7 +149,7 @@ export default class NotificationContext {
       async *[Symbol.asyncIterator]() {
         while (true) {
           const user = await pullUserNotificationDigests(
-            mongo,
+            mongo.main,
             tenant.id,
             frequency
           );

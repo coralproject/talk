@@ -62,8 +62,8 @@ export const todayMetricsHandler = ({
     }
 
     const [users, comments] = await Promise.all([
-      retrieveTodayUserMetrics(mongo, tenantID, tz, now),
-      retrieveTodayCommentMetrics(mongo, tenantID, siteID, tz, now),
+      retrieveTodayUserMetrics(mongo.main, tenantID, tz, now),
+      retrieveTodayCommentMetrics(mongo.main, tenantID, siteID, tz, now),
     ]);
 
     const result: TodayMetricsJSON = {
@@ -90,14 +90,14 @@ export const totalMetricsHandler = ({
       throw new Error("siteID was not provided");
     }
 
-    const site = await retrieveSite(mongo, tenantID, siteID);
+    const site = await retrieveSite(mongo.main, tenantID, siteID);
     if (!site) {
       throw new Error("site specified was not found");
     }
 
     const [users, staff] = await Promise.all([
-      retrieveAllTimeUserMetrics(mongo, tenantID),
-      retrieveAllTimeStaffCommentMetrics(mongo, tenantID, siteID),
+      retrieveAllTimeUserMetrics(mongo.main, tenantID),
+      retrieveAllTimeStaffCommentMetrics(mongo.main, tenantID, siteID),
     ]);
 
     const result: TodayMetricsJSON = {
@@ -129,8 +129,8 @@ export const hourlyCommentsMetricsHandler = ({
     }
 
     const [series, average] = await Promise.all([
-      retrieveHourlyCommentMetrics(mongo, tenantID, siteID, tz, now),
-      retrieveAverageCommentsMetric(mongo, tenantID, siteID, tz, now),
+      retrieveHourlyCommentMetrics(mongo.main, tenantID, siteID, tz, now),
+      retrieveAverageCommentsMetric(mongo.main, tenantID, siteID, tz, now),
     ]);
 
     const result: TimeSeriesMetricsJSON = {
@@ -155,7 +155,7 @@ export const dailyUsersMetricsHandler = ({
     const { tenantID, tz, now } = getMetricsOptions(req);
 
     const result: TimeSeriesMetricsJSON = {
-      series: await retrieveDailyUserMetrics(mongo, tenantID, tz, now),
+      series: await retrieveDailyUserMetrics(mongo.main, tenantID, tz, now),
     };
 
     return res.json(result);
@@ -178,7 +178,7 @@ export const todayStoriesMetricsHandler = ({
     }
 
     const results = await retrieveTodayTopStoryMetrics(
-      mongo,
+      mongo.main,
       tenantID,
       siteID,
       tz,
@@ -188,7 +188,7 @@ export const todayStoriesMetricsHandler = ({
 
     // Fetch all the stories for each count.
     const stories = await retrieveManyStories(
-      mongo,
+      mongo.main,
       tenantID,
       results.map(({ _id }) => _id)
     );

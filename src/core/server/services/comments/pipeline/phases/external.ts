@@ -242,7 +242,7 @@ async function processPhase(
   if (expiredSigningSecretKIDs.length > 0) {
     process.nextTick(() => {
       deleteTenantExternalModerationPhaseSigningSecrets(
-        mongo,
+        mongo.main,
         tenant.id,
         phase.id,
         expiredSigningSecretKIDs

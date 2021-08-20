@@ -1,6 +1,5 @@
-import { Db } from "mongodb";
-
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { CoralEventType } from "coral-server/events";
 import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
 import logger from "coral-server/logger";
@@ -30,8 +29,7 @@ export interface NotifierData {
 
 interface Options {
   mailerQueue: MailerQueue;
-  mongo: Db;
-  archive: Db;
+  mongo: MongoContext;
   config: Config;
   registry: Map<CoralEventType, NotificationCategory[]>;
   tenantCache: TenantCache;
@@ -57,7 +55,6 @@ export interface CategoryNotification {
 export const createJobProcessor = ({
   mailerQueue,
   mongo,
-  archive,
   config,
   registry,
   tenantCache,
@@ -95,7 +92,6 @@ export const createJobProcessor = ({
   // Create a notification context to handle processing notifications.
   const ctx = new NotificationContext({
     mongo,
-    archive,
     config,
     signingConfig,
     tenant,

@@ -61,20 +61,20 @@ export const featuredHander = ({
       req.query
     );
 
-    const site = await retrieveSite(mongo, tenant.id, siteID);
+    const site = await retrieveSite(mongo.main, tenant.id, siteID);
     if (!site) {
       throw new Error("site not found");
     }
 
     const getStories = new DataLoader((ids: string[]) =>
-      retrieveManyStories(mongo, tenant.id, ids)
+      retrieveManyStories(mongo.main, tenant.id, ids)
     );
     const getAuthors = new DataLoader((ids: string[]) =>
-      retrieveManyUsers(mongo, tenant.id, ids)
+      retrieveManyUsers(mongo.main, tenant.id, ids)
     );
 
     const comments = await retrieveFeaturedComments(
-      mongo,
+      mongo.main,
       tenant.id,
       siteID,
       FEATURED_COMMENTS_LIMIT

@@ -3,7 +3,6 @@ import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
-import { Db } from "mongodb";
 import { collectDefaultMetrics } from "prom-client";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
@@ -36,6 +35,7 @@ import {
 } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
+import { MongoContext } from "./data/context";
 import {
   AnalyticsCoralEventListener,
   NotifierCoralEventListener,
@@ -93,11 +93,8 @@ class Server {
   // pubsub stores the pubsub engine used by the application.
   private pubsub: RedisPubSub;
 
-  // mongo stores the mongo connection used by the live collections.
-  private mongo: Db;
-
-  // mongo archive stores the mongo connection used by the archived collections.
-  private archive: Db;
+  // mongo stores the mongo connections used by the app.
+  private mongo: MongoContext;
 
   // tenantCache stores the tenant cache used by the application.
   private tenantCache: TenantCache;
@@ -235,15 +232,17 @@ class Server {
       archiveMongoURI = mongoURI;
     }
 
-    this.mongo = await createMongoDB(mongoURI);
-    this.archive = await createMongoDB(archiveMongoURI);
+    const live = await createMongoDB(mongoURI);
+    const archive = await createMongoDB(archiveMongoURI);
+
+    this.mongo = { main: live, archive };
 
     // Setup Redis.
     this.redis = await createAugmentedRedisClient(config);
 
     // Create the TenantCache.
     this.tenantCache = new TenantCache(
-      this.mongo,
+      this.mongo.main,
       createRedisClient(this.config),
       config
     );
@@ -258,7 +257,9 @@ class Server {
     });
 
     // Load and upsert the persisted queries.
-    this.persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
+    this.persistedQueryCache = new PersistedQueryCache({
+      mongo: this.mongo.main,
+    });
 
     // Prime the tenant cache so it'll be ready to serve now.
     await this.tenantCache.primeAll();
@@ -267,7 +268,6 @@ class Server {
     this.tasks = createQueue({
       config: this.config,
       mongo: this.mongo,
-      archive: this.archive,
       redis: this.redis,
       tenantCache: this.tenantCache,
       i18n: this.i18n,
@@ -307,7 +307,7 @@ class Server {
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
       await this.migrationManager.executePendingMigrations(
-        this.mongo,
+        this.mongo.main,
         this.redis
       );
       await this.tenantCache.primeAll();
@@ -334,7 +334,6 @@ class Server {
     // Start up the cron job processors.
     this.scheduledTasks = startScheduledTasks({
       mongo: this.mongo,
-      archive: this.archive,
       redis: this.redis,
       config: this.config,
       mailerQueue: this.tasks.mailer,
@@ -378,7 +377,6 @@ class Server {
       metrics: createMetrics(),
       migrationManager: this.migrationManager,
       mongo: this.mongo,
-      archive: this.archive,
       notifierQueue: this.tasks.notifier,
       parent,
       persistedQueriesRequired:

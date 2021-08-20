@@ -48,7 +48,7 @@ export const Stories = (ctx: GraphContext) => ({
   create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
       create(
-        ctx.mongo,
+        ctx.mongo.main,
         ctx.tenant,
         ctx.broker,
         ctx.config,
@@ -66,7 +66,7 @@ export const Stories = (ctx: GraphContext) => ({
     ),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
-      update(ctx.mongo, ctx.tenant, input.id, input.story, ctx.now),
+      update(ctx.mongo.main, ctx.tenant, input.id, input.story, ctx.now),
       {
         "input.story.url": [
           ERROR_CODES.STORY_URL_NOT_PERMITTED,
@@ -84,7 +84,7 @@ export const Stories = (ctx: GraphContext) => ({
     }
 
     return updateSettings(
-      ctx.mongo,
+      ctx.mongo.main,
       ctx.tenant,
       input.id,
       input.settings,
@@ -98,7 +98,7 @@ export const Stories = (ctx: GraphContext) => ({
       await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
     }
 
-    return close(ctx.mongo, ctx.tenant, input.id, ctx.now);
+    return close(ctx.mongo.main, ctx.tenant, input.id, ctx.now);
   },
   open: async (input: GQLOpenStoryInput): Promise<Readonly<Story> | null> => {
     // Validate that this user is allowed to open this story if the feature
@@ -107,14 +107,14 @@ export const Stories = (ctx: GraphContext) => ({
       await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
     }
 
-    return open(ctx.mongo, ctx.tenant, input.id, ctx.now);
+    return open(ctx.mongo.main, ctx.tenant, input.id, ctx.now);
   },
   merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
-    merge(ctx.mongo, ctx.tenant, input.destinationID, input.sourceIDs),
+    merge(ctx.mongo.main, ctx.tenant, input.destinationID, input.sourceIDs),
   remove: async (input: GQLRemoveStoryInput): Promise<Readonly<Story> | null> =>
-    remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
+    remove(ctx.mongo.main, ctx.tenant, input.id, input.includeComments),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
-    scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
+    scrape(ctx.mongo.main, ctx.config, ctx.tenant.id, input.id),
   updateStoryMode: async (input: GQLUpdateStoryModeInput) => {
     // Validate that this user is allowed to update the story mode if the
     // feature flag is enabled.
@@ -124,7 +124,12 @@ export const Stories = (ctx: GraphContext) => ({
       });
     }
 
-    return updateStoryMode(ctx.mongo, ctx.tenant, input.storyID, input.mode);
+    return updateStoryMode(
+      ctx.mongo.main,
+      ctx.tenant,
+      input.storyID,
+      input.mode
+    );
   },
   addStoryExpert: async (input: GQLAddStoryExpertInput) => {
     // Validate that this user is allowed to add a story expert if the
@@ -135,7 +140,7 @@ export const Stories = (ctx: GraphContext) => ({
       });
     }
 
-    return addExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
+    return addExpert(ctx.mongo.main, ctx.tenant, input.storyID, input.userID);
   },
   removeStoryExpert: async (input: GQLRemoveStoryExpertInput) => {
     // Validate that this user is allowed to remove a story expert if the
@@ -146,14 +151,19 @@ export const Stories = (ctx: GraphContext) => ({
       });
     }
 
-    return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
+    return removeExpert(
+      ctx.mongo.main,
+      ctx.tenant,
+      input.storyID,
+      input.userID
+    );
   },
   archiveStories: async (input: GQLArchiveStoriesInput) => {
     const stories: Readonly<Story>[] = [];
 
     for (const storyID of input.storyIDs) {
       const markResult = await markStoryForArchiving(
-        ctx.mongo,
+        ctx.mongo.main,
         ctx.tenant.id,
         storyID,
         ctx.now
@@ -161,7 +171,7 @@ export const Stories = (ctx: GraphContext) => ({
 
       if (markResult) {
         await archiveStory(
-          ctx.dataContext.mongo,
+          ctx.mongo,
           ctx.redis,
           ctx.tenant.id,
           storyID,
@@ -169,7 +179,11 @@ export const Stories = (ctx: GraphContext) => ({
         );
       }
 
-      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
+      const result = await retrieveStory(
+        ctx.mongo.main,
+        ctx.tenant.id,
+        storyID
+      );
       if (result) {
         stories.push(result);
       }
@@ -182,7 +196,7 @@ export const Stories = (ctx: GraphContext) => ({
 
     for (const storyID of input.storyIDs) {
       const markResult = await markStoryForUnarchiving(
-        ctx.mongo,
+        ctx.mongo.main,
         ctx.tenant.id,
         storyID,
         ctx.now
@@ -190,7 +204,7 @@ export const Stories = (ctx: GraphContext) => ({
 
       if (markResult) {
         await unarchiveStory(
-          ctx.dataContext.mongo,
+          ctx.mongo,
           ctx.redis,
           ctx.tenant.id,
           storyID,
@@ -198,7 +212,11 @@ export const Stories = (ctx: GraphContext) => ({
         );
       }
 
-      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
+      const result = await retrieveStory(
+        ctx.mongo.main,
+        ctx.tenant.id,
+        storyID
+      );
       if (result) {
         stories.push(result);
       }

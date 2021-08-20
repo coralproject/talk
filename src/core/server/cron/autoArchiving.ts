@@ -1,6 +1,5 @@
-import { Db } from "mongodb";
-
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   markStoryForArchiving,
   retrieveStoriesToBeArchived,
@@ -16,8 +15,7 @@ import {
 } from "./scheduled";
 
 interface Options {
-  mongo: Db;
-  archive: Db;
+  mongo: MongoContext;
   redis: AugmentedRedis;
   tenantCache: TenantCache;
   config: Config;
@@ -40,7 +38,6 @@ export function registerAutoArchiving(
 const archiveStories: ScheduledJobCommand<Options> = async ({
   log,
   mongo,
-  archive,
   redis,
   tenantCache,
   config,
@@ -61,7 +58,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
     const now = new Date();
     const dateFilter = new Date(now.getTime() - age);
     const stories = await retrieveStoriesToBeArchived(
-      mongo,
+      mongo.main,
       tenant.id,
       dateFilter,
       batchSize
@@ -73,7 +70,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
       log.info({ storyID: story.id }, "archiving story");
 
       const markResult = await markStoryForArchiving(
-        mongo,
+        mongo.main,
         tenant.id,
         story.id,
         now
@@ -83,7 +80,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
       // can proceed to archive
       if (markResult) {
         const result = await archiveStory(
-          { main: mongo, archive },
+          mongo,
           redis,
           tenant.id,
           story.id,

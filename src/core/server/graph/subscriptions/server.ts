@@ -246,7 +246,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         (bundleConfig.storyID || bundleConfig.storyURL)
       ) {
         // Then we need to create a new storyViewerf for the request!
-        const story = await find(options.mongo, tenant, {
+        const story = await find(options.mongo.main, tenant, {
           id: bundleConfig.storyID,
           url: bundleConfig.storyURL,
         });

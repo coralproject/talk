@@ -47,7 +47,7 @@ export const Comments = (ctx: GraphContext) => ({
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
       createComment(
-        ctx.dataContext.mongo,
+        ctx.mongo,
         ctx.redis,
         ctx.config,
         ctx.broker,
@@ -75,7 +75,7 @@ export const Comments = (ctx: GraphContext) => ({
   edit: ({ commentID, body, media }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
       editComment(
-        ctx.dataContext.mongo,
+        ctx.mongo,
         ctx.redis,
         ctx.config,
         ctx.broker,
@@ -102,7 +102,7 @@ export const Comments = (ctx: GraphContext) => ({
     commentRevisionID,
   }: GQLCreateCommentReactionInput) =>
     createReaction(
-      ctx.mongo,
+      ctx.mongo.main,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -114,16 +114,23 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeReaction: ({ commentID }: GQLRemoveCommentReactionInput) =>
-    removeReaction(ctx.mongo, ctx.redis, ctx.broker, ctx.tenant, ctx.user!, {
-      commentID,
-    }),
+    removeReaction(
+      ctx.mongo.main,
+      ctx.redis,
+      ctx.broker,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+      }
+    ),
   createDontAgree: ({
     commentID,
     commentRevisionID,
     additionalDetails,
   }: GQLCreateCommentDontAgreeInput) =>
     createDontAgree(
-      ctx.mongo,
+      ctx.mongo.main,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -140,9 +147,16 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeDontAgree: ({ commentID }: GQLRemoveCommentDontAgreeInput) =>
-    removeDontAgree(ctx.mongo, ctx.redis, ctx.broker, ctx.tenant, ctx.user!, {
-      commentID,
-    }),
+    removeDontAgree(
+      ctx.mongo.main,
+      ctx.redis,
+      ctx.broker,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+      }
+    ),
   createFlag: ({
     commentID,
     commentRevisionID,
@@ -150,7 +164,7 @@ export const Comments = (ctx: GraphContext) => ({
     additionalDetails,
   }: GQLCreateCommentFlagInput) =>
     createFlag(
-      ctx.mongo,
+      ctx.mongo.main,
       ctx.redis,
       ctx.broker,
       ctx.tenant,
@@ -179,7 +193,7 @@ export const Comments = (ctx: GraphContext) => ({
     }
 
     const comment = await addTag(
-      ctx.mongo,
+      ctx.mongo.main,
       ctx.tenant,
       commentID,
       commentRevisionID,
@@ -190,7 +204,7 @@ export const Comments = (ctx: GraphContext) => ({
 
     if (comment.status !== GQLCOMMENT_STATUS.APPROVED) {
       await approveComment(
-        ctx.mongo,
+        ctx.mongo.main,
         ctx.redis,
         ctx.broker,
         ctx.tenant,
@@ -216,6 +230,6 @@ export const Comments = (ctx: GraphContext) => ({
       await validateUserModerationScopes(ctx, ctx.user!, { commentID });
     }
 
-    return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
+    return removeTag(ctx.mongo.main, ctx.tenant, commentID, GQLTAG.FEATURED);
   },
 });

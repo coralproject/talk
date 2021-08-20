@@ -1,7 +1,7 @@
 import Queue from "bull";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { CoralEventType } from "coral-server/events";
 import Task from "coral-server/queue/Task";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
@@ -15,8 +15,7 @@ import { TenantCache } from "coral-server/services/tenant/cache";
 import { createJobProcessor, JOB_NAME, NotifierData } from "./processor";
 
 interface Options {
-  mongo: Db;
-  archive: Db;
+  mongo: MongoContext;
   mailerQueue: MailerQueue;
   config: Config;
   tenantCache: TenantCache;

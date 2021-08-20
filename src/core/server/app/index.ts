@@ -13,7 +13,6 @@ import {
   xssFilter,
 } from "helmet";
 import http from "http";
-import { Db } from "mongodb";
 import nunjucks from "nunjucks";
 import path from "path";
 import { register } from "prom-client";
@@ -29,6 +28,7 @@ import {
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { createPassport } from "coral-server/app/middleware/passport";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import CoralEventListenerBroker from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
@@ -60,8 +60,7 @@ export interface AppOptions {
   mailerQueue: MailerQueue;
   metrics: Metrics;
   migrationManager: MigrationManager;
-  mongo: Db;
-  archive: Db;
+  mongo: MongoContext;
   notifierQueue: NotifierQueue;
   parent: Express;
   persistedQueriesRequired: boolean;

@@ -28,9 +28,9 @@ export const ModerationQueue: GQLModerationQueueTypeResolver<ModerationQueueInpu
   comments: (
     { connection },
     { first, after, orderBy },
-    { dataContext, tenant, logger }
+    { mongo, tenant, logger }
   ) => {
-    return retrieveCommentConnection(dataContext.mongo, tenant.id, {
+    return retrieveCommentConnection(mongo, tenant.id, {
       ...connection,
       first: defaultTo(first, 10),
       after,

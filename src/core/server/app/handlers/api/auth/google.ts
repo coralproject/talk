@@ -21,6 +21,7 @@ export const googleHandler = ({ tenantCache, ...options }: Options) =>
 
       return new GoogleAuthenticator({
         ...options,
+        mongo: options.mongo.main,
         integration,
         callbackPath: "/api/auth/google/callback",
       });

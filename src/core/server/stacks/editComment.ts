@@ -142,6 +142,10 @@ export default async function edit(
     throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
+  if (story.isArchiving || story.isArchived) {
+    throw new Error("Cannot create comments on an archive story");
+  }
+
   // Get the story mode of this Story.
   const storyMode = resolveStoryMode(story.settings, tenant);
 
@@ -172,8 +176,7 @@ export default async function edit(
   const { body, status, metadata, actions } = await processForModeration({
     action: "EDIT",
     log,
-    mongo: mongo.main,
-    archive: mongo.archive,
+    mongo,
     redis,
     config,
     tenant,

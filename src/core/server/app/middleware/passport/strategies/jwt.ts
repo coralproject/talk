@@ -60,8 +60,8 @@ export function createVerifiers(
 ): Array<Verifier<Token>> {
   return [
     new OIDCVerifier(options),
-    new SSOVerifier(options),
-    new JWTVerifier(options),
+    new SSOVerifier({ ...options, mongo: options.mongo.main }),
+    new JWTVerifier({ ...options, mongo: options.mongo.main }),
   ];
 }
 

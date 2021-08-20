@@ -30,7 +30,7 @@ export const userDownloadHandler = ({
         token: { iat },
         user,
       } = await redeemDownloadToken(
-        mongo,
+        mongo.main,
         redis,
         tenant,
         signingConfig,
@@ -42,7 +42,7 @@ export const userDownloadHandler = ({
       const latestContentDate = new Date(iat * 1000);
 
       // Send the export down the response.
-      await sendUserDownload(res, mongo, tenant, user, latestContentDate);
+      await sendUserDownload(res, mongo.main, tenant, user, latestContentDate);
 
       return;
     } catch (err) {

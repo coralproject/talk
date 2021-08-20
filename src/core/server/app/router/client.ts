@@ -1,5 +1,4 @@
 import express, { Router } from "express";
-import { Db } from "mongodb";
 import path from "path";
 
 import { StaticConfig } from "coral-common/config";
@@ -9,6 +8,7 @@ import { cspSiteMiddleware } from "coral-server/app/middleware/csp";
 import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -60,7 +60,7 @@ export interface ClientTargetHandlerOptions {
   /**
    * mongo is used when trying to infer a site from the request.
    */
-  mongo: Db;
+  mongo: MongoContext;
 
   /**
    * entrypoint is the entrypoint entry to load.
@@ -124,7 +124,7 @@ interface MountClientRouteOptions {
   staticConfig: StaticConfig;
 
   config: Config;
-  mongo: Db;
+  mongo: MongoContext;
 }
 
 const clientHandler = ({
@@ -204,7 +204,7 @@ export function mountClientRoutes(
   // Tenant identification middleware.
   router.use(
     tenantMiddleware({
-      mongo,
+      mongo: mongo.main,
       cache: tenantCache,
       passNoTenant: true,
     })
