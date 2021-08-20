@@ -166,7 +166,7 @@ const config = convict({
     env: "MONGODB_URI",
     sensitive: true,
   },
-  mongodbArchive: {
+  mongodb_archive: {
     doc: "The MongoDB database to connect for archiving stories.",
     format: "mongo-uri",
     default: "mongodb://127.0.0.1:27017/coral",

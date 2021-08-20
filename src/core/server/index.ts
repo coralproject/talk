@@ -3,6 +3,7 @@ import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
+import { Db } from "mongodb";
 import { collectDefaultMetrics } from "prom-client";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
@@ -221,19 +222,21 @@ class Server {
     await this.i18n.load();
 
     // Setup MongoDB.
-    const mongoURI = config.get("mongodb");
-    let archiveMongoURI = config.get("mongodbArchive");
-    // if the archive URI isn't specified, but the regular mongo uri
-    // is, then use the same db for both mongo instances
-    if (
-      archiveMongoURI === config.default("mongodbArchive") &&
-      mongoURI !== config.default("mongodb")
-    ) {
-      archiveMongoURI = mongoURI;
-    }
+    const liveURI = config.get("mongodb");
+    const live = await createMongoDB(liveURI);
 
-    const live = await createMongoDB(mongoURI);
-    const archive = await createMongoDB(archiveMongoURI);
+    // If we have an archive URI, use it, otherwise, default
+    // to using the live database
+    let archive: Db | null = null;
+    const archiveURI = config.get("mongodb_archive");
+    if (
+      archiveURI === config.default("mongodb_archive") &&
+      liveURI !== config.default("mongodb")
+    ) {
+      archive = live;
+    } else {
+      archive = await createMongoDB(archiveURI);
+    }
 
     this.mongo = { live, archive };
 
