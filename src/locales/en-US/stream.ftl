@@ -643,6 +643,15 @@ comments-submitStatus-submittedAndRejected =
 configure-configureQuery-errorLoadingProfile = Error loading configure
 configure-configureQuery-storyNotFound = Story not found
 
+## Archive
+configure-archived-title = This comment stream has been archived
+configure-archived-onArchivedStream =
+  On archived streams, no new comments, reactions, or reports may be
+  submitted. Also, comments cannot be moderated.
+configure-archived-toAllowTheseActions =
+  To allow these actions, unarchive the stream.
+configure-archived-unarchiveStream = Unarchive stream
+
 ## Change username
 profile-changeUsername-username = Username
 profile-changeUsername-success = Your username has been successfully updated

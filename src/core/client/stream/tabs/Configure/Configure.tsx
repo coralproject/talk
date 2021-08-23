@@ -6,6 +6,7 @@ import { HorizontalRule } from "coral-ui/components/v2";
 
 import ModerateStreamContainer from "../../common/ModerateStream/ModerateStreamContainer";
 import { AddMessageContainer } from "./AddMessage";
+import ArchivedConfigurationContainer from "./ArchivedConfigurationContainer";
 import ConfigureStreamContainer from "./ConfigureStream";
 import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
@@ -21,21 +22,43 @@ export interface Props {
     PropTypesOf<typeof ModerateStreamContainer>["story"] &
     PropTypesOf<typeof QAConfigContainer>["story"] &
     PropTypesOf<typeof LiveUpdatesConfigContainer>["story"] &
-    PropTypesOf<typeof AddMessageContainer>["story"];
+    PropTypesOf<typeof AddMessageContainer>["story"] &
+    PropTypesOf<typeof ArchivedConfigurationContainer>["story"];
+  isArchived: boolean;
+  isArchiving: boolean;
 }
 
-const Configure: FunctionComponent<Props> = (props) => {
+const Configure: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+  story,
+  isArchived,
+  isArchiving,
+}) => {
+  if (isArchiving) {
+    return null;
+  }
+
+  if (isArchived) {
+    return (
+      <div>
+        <UserBoxContainer viewer={viewer} settings={settings} />
+        <ArchivedConfigurationContainer story={story} />
+      </div>
+    );
+  }
+
   return (
     <div>
-      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-      <ConfigureStreamContainer story={props.story} />
+      <UserBoxContainer viewer={viewer} settings={settings} />
+      <ConfigureStreamContainer story={story} />
       <HorizontalRule />
-      <AddMessageContainer story={props.story} />
-      <QAConfigContainer story={props.story} settings={props.settings} />
+      <AddMessageContainer story={story} />
+      <QAConfigContainer story={story} settings={settings} />
       <HorizontalRule />
-      <LiveUpdatesConfigContainer story={props.story} />
+      <LiveUpdatesConfigContainer story={story} />
       <HorizontalRule />
-      <OpenOrCloseStreamContainer story={props.story} />
+      <OpenOrCloseStreamContainer story={story} />
     </div>
   );
 };

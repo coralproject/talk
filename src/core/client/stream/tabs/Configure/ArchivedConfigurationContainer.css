@@ -1,0 +1,11 @@
+.root {
+  margin-top: var(--spacing-4);
+}
+
+.calloutText {
+  margin-bottom: var(--spacing-3);
+}
+
+.icon {
+  color: var(--palette-text-500);
+}
