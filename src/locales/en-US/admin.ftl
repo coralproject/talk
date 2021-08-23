@@ -8,6 +8,8 @@ general-noTextContent = No text content
 ## Story Status
 storyStatus-open = Open
 storyStatus-closed = Closed
+storyStatus-archiving = Archiving
+storyStatus-archived = Archived
 
 ## Roles
 role-admin = Admin

@@ -3759,11 +3759,6 @@ enum STORY_STATUS {
   CLOSED represents when a given Story is not open for commenting.
   """
   CLOSED
-
-  """
-  ARCHIVED
-  """
-  ARCHIVED
 }
 
 type StoryRatings {
