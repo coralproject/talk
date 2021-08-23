@@ -14,16 +14,24 @@ interface Props {
   onRescrape: () => void;
   onOpen: () => void;
   onClose: () => void;
+  onArchive: () => void;
+  onUnarchive: () => void;
   canOpen: boolean;
   canClose: boolean;
+  canArchive: boolean;
+  canUnarchive: boolean;
 }
 
 const StoryActions: FunctionComponent<Props> = ({
   onRescrape,
   onOpen,
   onClose,
+  onArchive,
+  onUnarchive,
   canOpen,
   canClose,
+  canArchive,
+  canUnarchive,
 }) => {
   return (
     <Localized id="stories-actions-popover" attrs={{ description: true }}>
@@ -56,7 +64,7 @@ const StoryActions: FunctionComponent<Props> = ({
                   </DropdownButton>
                 </Localized>
               )}
-              {canClose && (
+              {canClose && !canUnarchive && (
                 <Localized id="stories-actions-close">
                   <DropdownButton
                     onClick={() => {
@@ -65,6 +73,30 @@ const StoryActions: FunctionComponent<Props> = ({
                     }}
                   >
                     Close story
+                  </DropdownButton>
+                </Localized>
+              )}
+              {canArchive && (
+                <Localized id="stories-actions-archive">
+                  <DropdownButton
+                    onClick={() => {
+                      onArchive();
+                      toggleVisibility();
+                    }}
+                  >
+                    Archive story
+                  </DropdownButton>
+                </Localized>
+              )}
+              {canUnarchive && (
+                <Localized id="stories-actions-unarchive">
+                  <DropdownButton
+                    onClick={() => {
+                      onUnarchive();
+                      toggleVisibility();
+                    }}
+                  >
+                    Unarchive story
                   </DropdownButton>
                 </Localized>
               )}

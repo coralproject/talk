@@ -549,6 +549,8 @@ stories-actions-popover =
 stories-actions-rescrape = Re-scrape
 stories-actions-close = Close story
 stories-actions-open = Open story
+stories-actions-archive = Archive story
+stories-actions-unarchive = Unarchive story
 
 ### Sections
 
