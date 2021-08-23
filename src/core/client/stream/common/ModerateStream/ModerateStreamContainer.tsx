@@ -9,12 +9,15 @@ import {
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Ability, can } from "coral-stream/permissions";
+import { Icon, Marker } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
 import { ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
 import { ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
 import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
+
+import styles from "./ModerateStreamContainer.css";
 
 interface Props {
   local: ModerateStreamContainerLocal;
@@ -26,7 +29,7 @@ interface Props {
 const ModerateStreamContainer: FunctionComponent<Props> = ({
   local: { accessToken },
   settings,
-  story: { id, canModerate },
+  story: { id, canModerate, isArchived, isArchiving },
   viewer,
 }) => {
   const href = useMemo(() => {
@@ -44,6 +47,19 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
 
   if (!canModerate || !viewer || !can(viewer, Ability.MODERATE)) {
     return null;
+  }
+
+  if (isArchived || isArchiving) {
+    return (
+      <Marker color="warning" variant="filled">
+        <Icon size="sm" className={styles.icon}>
+          archive
+        </Icon>
+        <Localized id="general-archived">
+          <span>Archived</span>
+        </Localized>
+      </Marker>
+    );
   }
 
   return (
@@ -81,6 +97,8 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerateStreamContainer_story on Story {
       id
       canModerate
+      isArchived
+      isArchiving
     }
   `,
   viewer: graphql`

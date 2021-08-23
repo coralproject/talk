@@ -6,6 +6,7 @@ general-commentsEmbedSection =
   .aria-label = Comments Embed
 
 general-moderate = Moderate
+general-archived = Archived
 
 general-userBoxUnauthenticated-joinTheConversation = Join the conversation
 general-userBoxUnauthenticated-signIn = Sign in
