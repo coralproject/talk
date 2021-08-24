@@ -633,6 +633,17 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
+## Archived Report Comment Popover
+
+comments-archivedReportPopover-reportThisComment = Report This Comment
+comments-archivedReportPopover-doesThisComment =
+  Does this comment violate our community guidelines? Is this offensive or spam?
+  Send  an email to our moderation team at <a>{ $orgURL }</a> with a link to
+  this comment and a brief explanation.
+comments-archivedReportPopover-needALink =
+  Need a link to this comment?
+comments-archivedReportPopover-copyLink = Copy link
+
 ## Submit Status
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
