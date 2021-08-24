@@ -438,7 +438,12 @@ export async function openStory(
   now = new Date()
 ) {
   const result = await collection(mongo).findOneAndUpdate(
-    { id, tenantID },
+    {
+      id,
+      tenantID,
+      isArchived: { $in: [null, false] },
+      isArchiving: { $in: [null, false] },
+    },
     {
       $set: {
         closedAt: false,
