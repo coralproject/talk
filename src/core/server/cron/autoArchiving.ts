@@ -26,9 +26,11 @@ export const NAME = "Auto Archiving";
 export function registerAutoArchiving(
   options: Options
 ): ScheduledJobGroup<Options> {
+  const cronSchedule = options.config.get("auto_archiving_interval");
+
   const job = new ScheduledJob(options, {
-    name: `Daily at midnight ${NAME}`,
-    cronTime: "59 23 * * *",
+    name: `Scheduled ${NAME}`,
+    cronTime: cronSchedule,
     command: archiveStories,
   });
 
@@ -48,7 +50,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
     return;
   }
 
-  const batchSize = config.get("auto_archiving_batch_size");
+  const amount = config.get("auto_archiving_amount");
   const age = config.get("auto_archiving_age");
 
   // For each of the tenant's, process their users notifications.
@@ -61,7 +63,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
       mongo.live,
       tenant.id,
       dateFilter,
-      batchSize
+      amount
     );
 
     log.info({ count: stories.length }, "archiving stories");

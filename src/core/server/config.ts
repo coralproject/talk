@@ -475,12 +475,19 @@ const config = convict({
     default: ms("120 days"),
     env: "AUTO_ARCHIVING_AGE",
   },
-  auto_archiving_batch_size: {
+  auto_archiving_interval: {
+    doc:
+      "The cron scheduling interval for how often auto archiving should run. Defaults to hourly.",
+    format: String,
+    default: "0 * * * *",
+    env: "AUTO_ARCHIVING_INTERVAL",
+  },
+  auto_archiving_amount: {
     doc:
       "Determines how many stories to try and archive per interval of archiving.",
     format: Number,
     default: 50,
-    env: "AUTO_ARCHIVING_BATCH_SIZE",
+    env: "AUTO_ARCHIVING_AMOUNT",
   },
 });
 
