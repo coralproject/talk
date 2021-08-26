@@ -8,6 +8,7 @@ import React, {
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useLive } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
@@ -138,19 +139,22 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
+  const { window } = useCoralContext();
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
     try {
       await loadMore();
       // eslint-disable-next-line no-unused-expressions
-      document.getElementById(`comment-${lastComment?.node.id}`)?.focus();
+      window.document
+        .getElementById(`comment-${lastComment?.node.id}`)
+        ?.focus();
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, story.id, lastComment]);
+  }, [loadMore, beginLoadMoreEvent, story.id, lastComment, window]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const onViewMore = useCallback(() => viewMore({ storyID: story.id, tag }), [
     story.id,

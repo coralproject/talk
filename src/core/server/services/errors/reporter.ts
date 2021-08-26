@@ -32,5 +32,5 @@ export abstract class ErrorReporter {
     return err.reportable;
   }
 
-  public abstract report(err: any, scope: ErrorReporterScope): ErrorReport;
+  public abstract report(err: any, scope?: ErrorReporterScope): ErrorReport;
 }

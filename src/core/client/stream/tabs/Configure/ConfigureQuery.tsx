@@ -4,6 +4,7 @@ import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
 import { polyfillCSSVars } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -16,16 +17,17 @@ import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/Configu
 import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
 
 const loadConfigureContainer = () =>
-  import("./ConfigureContainer" /* webpackChunkName: "configure" */).then(
-    (x) => {
-      // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVars();
-      return x;
-    }
-  );
+  import("./ConfigureContainer" /* webpackChunkName: "configure" */);
+
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadConfigureContainer = once(() =>
-  setTimeout(loadConfigureContainer, 0)
+const preloadAndPolyfill = once((window: Window) =>
+  setTimeout(() => {
+    void loadConfigureContainer().then((x) => {
+      // New css is loaded, take care of polyfilling those css vars for IE11.
+      void polyfillCSSVars(window);
+      return x;
+    });
+  }, 0)
 );
 
 const LazyConfigureContainer = React.lazy(loadConfigureContainer);
@@ -34,13 +36,15 @@ interface Props {
   local: Local;
 }
 
-export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
+export const render = (
+  { error, props }: QueryRenderData<QueryTypes>,
+  window: Window
+) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  // TODO: use official React API once it has one :-)
-  preloadConfigureContainer();
+  preloadAndPolyfill(window);
 
   if (props) {
     if (!props.viewer) {
@@ -77,28 +81,33 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 
 const ConfigureQuery: FunctionComponent<Props> = ({
   local: { storyID, storyURL },
-}) => (
-  <QueryRenderer<QueryTypes>
-    query={graphql`
-      query ConfigureQuery($storyID: ID, $storyURL: String) {
-        story(id: $storyID, url: $storyURL) {
-          ...ConfigureContainer_story
+}) => {
+  const { window } = useCoralContext();
+  return (
+    <QueryRenderer<QueryTypes>
+      query={graphql`
+        query ConfigureQuery($storyID: ID, $storyURL: String) {
+          story(id: $storyID, url: $storyURL) {
+            ...ConfigureContainer_story
+          }
+          viewer {
+            ...ConfigureContainer_viewer
+          }
+          settings {
+            ...ConfigureContainer_settings
+          }
         }
-        viewer {
-          ...ConfigureContainer_viewer
-        }
-        settings {
-          ...ConfigureContainer_settings
-        }
-      }
-    `}
-    variables={{
-      storyID,
-      storyURL,
-    }}
-    render={render}
-  />
-);
+      `}
+      variables={{
+        storyID,
+        storyURL,
+      }}
+      render={(data) => {
+        return render(data, window);
+      }}
+    />
+  );
+};
 
 const enhanced = withLocalStateContainer(
   graphql`

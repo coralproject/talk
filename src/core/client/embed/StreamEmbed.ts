@@ -16,6 +16,7 @@ import {
   withKeypressEvent,
   withLiveCommentCount,
   withPostMessageStorage,
+  withRenderTargets,
   withSetCommentID,
 } from "./decorators";
 import withRefreshAccessToken from "./decorators/withRefreshAccessToken";
@@ -80,26 +81,6 @@ export class StreamEmbed {
       this.ready = true;
     });
 
-    // Create the decorators that will be used by the controller.
-    const decorators: ReadonlyArray<Decorator> = [
-      withIOSSafariWidthWorkaround,
-      withAutoHeight(!!config.amp),
-      withClickEvent,
-      withSetCommentID,
-      withEventEmitter(config.eventEmitter, config.enableDeprecatedEvents),
-      withLiveCommentCount(config.eventEmitter),
-      withPostMessageStorage(coerceStorage("localStorage"), "localStorage"),
-      withPostMessageStorage(coerceStorage("sessionStorage"), "sessionStorage"),
-      withIndexedDBStorage(),
-      withConfig({
-        accessToken: config.accessToken,
-        bodyClassName: config.bodyClassName,
-        version: process.env.TALK_VERSION,
-      }),
-      withKeypressEvent,
-      withRefreshAccessToken(config.refreshAccessToken),
-    ];
-
     const query = stringifyQuery({
       storyID: config.storyID,
       storyURL: config.storyURL,
@@ -124,6 +105,27 @@ export class StreamEmbed {
     // Compose the stream URL for the iframe.
     const streamURL = ensureNoEndSlash(config.rootURL) + urls.embed.stream;
     const url = `${streamURL}?${query}`;
+
+    // Create the decorators that will be used by the controller.
+    const decorators: ReadonlyArray<Decorator> = [
+      withIOSSafariWidthWorkaround,
+      withAutoHeight(!!config.amp),
+      withClickEvent,
+      withSetCommentID,
+      withEventEmitter(config.eventEmitter, config.enableDeprecatedEvents),
+      withLiveCommentCount(config.eventEmitter),
+      withPostMessageStorage(coerceStorage("localStorage"), "localStorage"),
+      withPostMessageStorage(coerceStorage("sessionStorage"), "sessionStorage"),
+      withIndexedDBStorage(),
+      withConfig({
+        accessToken: config.accessToken,
+        bodyClassName: config.bodyClassName,
+        version: process.env.TALK_VERSION,
+      }),
+      withKeypressEvent,
+      withRefreshAccessToken(config.refreshAccessToken),
+      withRenderTargets(url, config.id),
+    ];
 
     // Create the controller.
     this.control = controlFactory({

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { IResolvers } from "@graphql-tools/utils";
 import { EventEmitter2 } from "eventemitter2";
 import FDBFactory from "fake-indexeddb/lib/FDBFactory";
@@ -121,7 +122,7 @@ export default function createTestRenderer<
     indexedDBStorage: createIndexedDBStorage("coral", new FDBFactory()),
     inMemoryStorage: createInMemoryStorage(),
     rest: new RestClient("http://localhost/api"),
-    postMessage: new PostMessageService("coral", window, "*"),
+    postMessage: new PostMessageService(window, "coral", window, "*"),
     browserInfo: params.browserInfo || {
       supports: {
         cssVariables: true,
@@ -149,6 +150,8 @@ export default function createTestRenderer<
       register: () => () => {},
       refreshToken: () => "",
     },
+    window,
+    renderWindow: window,
   };
 
   let testRenderer: ReactTestRenderer;
