@@ -34,9 +34,7 @@ export class Limiter {
     this.prefix = options.prefix;
     this.resource = options.resource;
     this.operation = options.operation;
-    this.disabled =
-      options.config.get("env") === "development" &&
-      options.config.get("disable_rate_limiters");
+    this.disabled = options.config.get("disable_rate_limiters");
   }
 
   private key(key: string, resource?: string, operation?: string): string {
