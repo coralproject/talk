@@ -242,6 +242,13 @@ exports[`renders comment stream with community guidelines 1`] = `
               type="button"
             >
               <div
+                className="AriaInfo-root"
+              >
+                <span>
+                  Tab:
+                </span>
+              </div>
+              <div
                 className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
               >
                 <span>

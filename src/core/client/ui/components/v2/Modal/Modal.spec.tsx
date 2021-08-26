@@ -67,7 +67,7 @@ it("relays backdrop click events", () => {
     );
   });
   testRenderer!.root
-    .findByProps({ "data-testid": "backdrop" })
+    .findByProps({ "data-testid": "scroll" })
     .props.onClick(event);
   act(() => {
     testRenderer.unmount();

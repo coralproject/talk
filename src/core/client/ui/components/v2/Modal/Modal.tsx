@@ -71,8 +71,8 @@ export const Modal: FunctionComponent<ModalProps> = ({
   if (open) {
     const content = (
       <div role="dialog" className={rootClassName} {...rest}>
-        <NoScroll active />
-        <Backdrop active data-testid="backdrop" onClick={handleBackdropClick} />
+        <NoScroll active={open} />
+        <Backdrop active={open} />
         <div
           role="presentation"
           className={cn(
@@ -80,6 +80,8 @@ export const Modal: FunctionComponent<ModalProps> = ({
             disableScroll ? styles.noScroll : styles.scroll
           )}
           onKeyDown={handleEscapeKeyDown}
+          onClick={handleBackdropClick}
+          data-testid="scroll"
         >
           <div className={styles.alignContainer1}>
             <div className={styles.alignContainer2}>

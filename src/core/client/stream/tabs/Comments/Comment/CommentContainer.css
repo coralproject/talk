@@ -76,3 +76,7 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 .notSeen {
   background-color: $colors-yellow-100;
 }
+
+.flattenedPadding {
+  padding-left: 18px;
+}
