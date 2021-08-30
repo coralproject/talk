@@ -29,4 +29,4 @@ In this example, we’re logging all events to the console as well as sending th
 
 A complete list of trackable events is available on GitHub: https://github.com/coralproject/talk/blob/main/CLIENT_EVENTS.md
 
-_Note: only actions on the embedded comments are trackable. Actions taken in the Coral Admin tool are not currently trackable events._
+_Note: only events that occur on the comment embed stream will be emitted. No events are emitted from Coral's Moderation/Admin interface._
