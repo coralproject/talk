@@ -644,6 +644,15 @@ comments-archivedReportPopover-needALink =
   Need a link to this comment?
 comments-archivedReportPopover-copyLink = Copy link
 
+comments-archivedReportPopover-emailSubject = Report comment
+comments-archivedReportPopover-emailBody =
+  I would like to report the following comment:
+  %0A
+  { $permalinkURL }
+  %0A
+  %0A
+  For the reasons stated below:
+
 ## Submit Status
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =

@@ -3,6 +3,8 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
@@ -21,17 +23,31 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
   settings,
   comment,
 }) => {
+  const { localeBundles } = useCoralContext();
   const onCopied = useCallback(() => {}, []);
 
   const permalinkURL = getURLWithCommentID(comment.story.url, comment.id);
 
-  const subject = "Report comment";
-  const emailBody = `
-    I would like to report the following comment:
-    ${permalinkURL}
-
-    For reasons stated below:
-  `;
+  const subject = getMessage(
+    localeBundles,
+    "comments-archivedReportPopover-emailSubject",
+    "Report comment"
+  );
+  const emailBody = getMessage(
+    localeBundles,
+    "comments-archivedReportPopover-emailBody",
+    `
+      I would like to report the following comment:
+      %0A
+      ${permalinkURL}
+      %0A
+      %0A
+      For the reasons stated below:
+    `,
+    {
+      permalinkURL,
+    }
+  );
 
   return (
     <div className={styles.root}>
