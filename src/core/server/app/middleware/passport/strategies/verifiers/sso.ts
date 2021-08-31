@@ -7,6 +7,7 @@ import { URL } from "url";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { validate } from "coral-server/app/request/body";
+import { MongoContext } from "coral-server/data/context";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
@@ -218,7 +219,7 @@ const updateLastUsedAtKID = throttle(
 );
 
 export interface SSOVerifierOptions {
-  mongo: Db;
+  mongo: Pick<MongoContext, "live">;
   redis: AugmentedRedis;
 }
 
@@ -261,7 +262,7 @@ export function getRelevantSSOSigningSecrets(
 }
 
 export class SSOVerifier implements Verifier<SSOToken> {
-  private mongo: Db;
+  private mongo: Pick<MongoContext, "live">;
   private redis: AugmentedRedis;
 
   constructor({ mongo, redis }: SSOVerifierOptions) {
@@ -353,7 +354,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
     }
 
     return findOrCreateSSOUser(
-      this.mongo,
+      this.mongo.live,
       this.redis,
       tenant,
       integration,

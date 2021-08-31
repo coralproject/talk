@@ -1,8 +1,8 @@
 import { Redis } from "ioredis";
 import Joi from "joi";
 import { isNil } from "lodash";
-import { Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import {
@@ -45,13 +45,13 @@ export function isJWTToken(token: JWTToken | object): token is JWTToken {
 
 export interface JWTVerifierOptions {
   signingConfig: JWTSigningConfig;
-  mongo: Db;
+  mongo: Pick<MongoContext, "live">;
   redis: Redis;
 }
 
 export class JWTVerifier implements Verifier<JWTToken> {
   private signingConfig: JWTSigningConfig;
-  private mongo: Db;
+  private mongo: Pick<MongoContext, "live">;
   private redis: Redis;
 
   constructor({ signingConfig, mongo, redis }: JWTVerifierOptions) {
@@ -85,7 +85,7 @@ export class JWTVerifier implements Verifier<JWTToken> {
     }
 
     // Find the user.
-    const user = await retrieveUser(this.mongo, tenant.id, token.sub);
+    const user = await retrieveUser(this.mongo.live, tenant.id, token.sub);
     if (token.pat) {
       // As this is a Personal Access Token, ensure that the Token is valid by
       // checking it against the User's tokens.
