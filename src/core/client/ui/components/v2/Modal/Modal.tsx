@@ -76,8 +76,6 @@ const Modal: FunctionComponent<ModalProps> = ({
   const rootClassName = cn(classes.root, className);
 
   const modalDOMNode = useDOMNode(Boolean(open));
-  const baseScrollId = "TODO-base-scroll";
-
   const handleEscapeKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.keyCode === 27) {
@@ -93,11 +91,6 @@ const Modal: FunctionComponent<ModalProps> = ({
   );
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {
-      const targetId = (e.target as any).id;
-      if (targetId !== baseScrollId) {
-        return;
-      }
-
       if (onBackdropClick) {
         onBackdropClick(e);
       }
@@ -114,7 +107,6 @@ const Modal: FunctionComponent<ModalProps> = ({
         <NoScroll active={open} />
         <Backdrop active={open} />
         <div
-          id={baseScrollId}
           role="presentation"
           className={cn(
             styles.baseScroll,
