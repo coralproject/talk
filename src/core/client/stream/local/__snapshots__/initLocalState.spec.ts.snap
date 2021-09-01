@@ -24,6 +24,7 @@ exports[`init local state 1`] = `
     \\"commentsTab\\": \\"NONE\\",
     \\"flattenReplies\\": false,
     \\"enableCommentSeen\\": false,
+    \\"enableZKey\\": false,
     \\"amp\\": false
   },
   \\"client:root.local.authPopup\\": {

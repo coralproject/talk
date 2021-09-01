@@ -25,7 +25,7 @@ import {
   CommentSeenContext,
   COMMIT_SEEN_EVENT,
 } from "coral-stream/tabs/Comments/commentSeen/CommentSeenContext";
-import useCommentSeenEnabled from "coral-stream/tabs/Comments/commentSeen/useCommentSeenEnabled";
+import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
@@ -33,6 +33,10 @@ import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 import MobileToolbar from "./MobileToolbar";
 
 import styles from "./KeyboardShortcuts.css";
+
+interface Props {
+  loggedIn: boolean;
+}
 
 export interface KeyboardEventData {
   key: string;
@@ -214,6 +218,8 @@ const getNextAction = (
   return null;
 };
 
+// Every time one of these events happen, we update
+// the button state.
 const eventsOfInterest = [
   "mutation.viewNew",
   "mutation.SetTraversalFocus",
@@ -222,7 +228,7 @@ const eventsOfInterest = [
   COMMIT_SEEN_EVENT,
 ];
 
-const KeyboardShortcuts: FunctionComponent = ({ children }) => {
+const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const {
     pym,
     relayEnvironment,
@@ -235,7 +241,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
   );
 
   const amp = useAMP();
-  const commentSeenEnabled = useCommentSeenEnabled();
+  const zKeyEnabled = useZKeyEnabled();
   const { commitSeen } = useContext(CommentSeenContext);
 
   const [nextZAction, setNextZAction] = useState<string | null>(null);
@@ -323,7 +329,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
         return;
       }
 
-      if (pressedKey === "c" || (pressedKey === "z" && commentSeenEnabled)) {
+      if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
         if (pressedKey === "z") {
           traverseOptions = {
             skipSeen: true,
@@ -364,7 +370,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
         stop.element.focus();
       }
     },
-    [pym, commentSeenEnabled, renderWindow, unmarkAll, relayEnvironment]
+    [pym, zKeyEnabled, renderWindow, unmarkAll, relayEnvironment]
   );
 
   const execZAction = useCallback(
@@ -415,7 +421,7 @@ const KeyboardShortcuts: FunctionComponent = ({ children }) => {
     };
   }, [handleKeypress, pym, renderWindow]);
 
-  if (amp || toolbarClosed || !commentSeenEnabled) {
+  if (amp || toolbarClosed || !zKeyEnabled || !loggedIn) {
     return null;
   }
 

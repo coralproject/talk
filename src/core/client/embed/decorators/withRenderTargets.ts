@@ -1,4 +1,4 @@
-import onIntersectChange from "coral-embed/onIntersectChange";
+import onIntersectChange from "../onIntersectChange";
 import { Decorator } from "./types";
 
 interface RenderTargetOptions {

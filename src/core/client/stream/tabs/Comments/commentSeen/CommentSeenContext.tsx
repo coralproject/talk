@@ -29,6 +29,8 @@ type SeenMap = Record<CommentID, 1>;
 interface ContextState {
   /** Whether or not CommentSeen has been enabled */
   enabled: boolean;
+  /** Whether or not ZKey traversal has been enabled */
+  enabledZKey: boolean;
   /** Map of all seen comments in this story */
   seenMap: SeenMap | null;
   /** Mark comment as seen in the database, will only see effect after refresh */
@@ -198,6 +200,7 @@ export class CommentSeenDB {
 
 const CommentSeenContext = createContext<ContextState>({
   enabled: false,
+  enabledZKey: false,
   seenMap: {},
   markSeen: () => {},
   commitSeen: () => {},
@@ -217,6 +220,7 @@ function CommentSeenProvider(props: {
   const [local] = useLocal<CommentSeenContextLocal>(graphql`
     fragment CommentSeenContextLocal on Local {
       enableCommentSeen
+      enableZKey
     }
   `);
 
@@ -267,6 +271,7 @@ function CommentSeenProvider(props: {
   const value = useMemo(
     () => ({
       enabled: local.enableCommentSeen,
+      enabledZKey: local.enableCommentSeen && local.enableZKey,
       seenMap: initialSeen,
       markSeen,
       commitSeen,

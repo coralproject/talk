@@ -140,6 +140,12 @@ const initLocalState: InitLocalState = async ({
       "enableCommentSeen"
     );
 
+    // Enable z-key comment seen
+    localRecord.setValue(
+      featureFlags.includes(GQLFEATURE_FLAG.Z_KEY),
+      "enableZKey"
+    );
+
     // Version as reported by the embed.js
     localRecord.setValue(config?.version, "embedVersion");
 
