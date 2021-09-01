@@ -115,6 +115,13 @@ exports[`sets initial tab as active 1`] = `
       role="tab"
       type="button"
     >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
       One
     </button>
   </li>
@@ -136,6 +143,13 @@ exports[`sets initial tab as active 1`] = `
       role="tab"
       type="button"
     >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
       Two
     </button>
   </li>
@@ -157,6 +171,13 @@ exports[`sets initial tab as active 1`] = `
       role="tab"
       type="button"
     >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
       Three
     </button>
   </li>

@@ -1,0 +1,39 @@
+.flexContainer {
+  height: 100%;
+}
+
+.unmarkAllContainer {
+  flex-grow: 0;
+  border-right: 1px solid currentColor;
+  justify-self: left;
+  @media (min-width: $breakpoints-xs) {
+    padding-right: 10px;
+  }
+  @media (min-width: $breakpoints-mobile) {
+    padding-right: 32px;
+  }
+}
+
+.nextActionContainer {
+  flex-grow: 1;
+  border-right: 1px solid currentColor;
+  & .button {
+    width: 100%;
+  }
+}
+
+.closeContainer {
+  flex-shrink: 0;
+}
+
+.button {
+  padding: 9px 16px;
+}
+.buttonColor {}
+.buttonDisabled {}
+.button.buttonColor, .button:not(:disabled).buttonColor, .button:not(.buttonDisabled).buttonColor {
+  &:hover {
+    color: currentColor;
+  }
+  color: currentColor;
+}

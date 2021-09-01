@@ -35,7 +35,7 @@ const renderTargetsConfig: Record<string, RenderTargetOptions> = {
     style: {
       left: "0px",
       bottom: "0px",
-      height: "60px",
+      height: "52px",
       width: "100%",
     },
   },
@@ -106,8 +106,6 @@ const withRenderTargets = (url: string, id: string): Decorator => (pym) => {
             }
             frame.style.display = isIntersecting ? "block" : "none";
           });
-          // eslint-disable-next-line no-console
-          console.log(isIntersecting);
         },
         { rootMargin: "-100px -20px" }
       );

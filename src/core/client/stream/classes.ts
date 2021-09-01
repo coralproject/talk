@@ -1080,6 +1080,8 @@ const CLASSES = {
       title: "coral coral-ratingsReview-input-title",
     },
   },
+
+  mobileToolbar: "coral coral-mobileToolbar",
 };
 
 export default CLASSES;
