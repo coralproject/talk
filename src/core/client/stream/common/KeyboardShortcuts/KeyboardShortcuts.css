@@ -3,23 +3,13 @@
 }
 
 .unmarkAllContainer {
-  flex-grow: 0;
+  flex-grow: 1;
   border-right: 1px solid currentColor;
-  justify-self: left;
-  @media (min-width: $breakpoints-xs) {
-    padding-right: 10px;
-  }
-  @media (min-width: $breakpoints-mobile) {
-    padding-right: 32px;
-  }
 }
 
 .nextActionContainer {
   flex-grow: 1;
   border-right: 1px solid currentColor;
-  & .button {
-    width: 100%;
-  }
 }
 
 .closeContainer {
@@ -28,6 +18,7 @@
 
 .button {
   padding: 9px 16px;
+  width: 100%;
 }
 .buttonColor {}
 .buttonDisabled {}
