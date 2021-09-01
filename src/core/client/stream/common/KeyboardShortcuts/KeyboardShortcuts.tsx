@@ -305,7 +305,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
             if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
               return;
             }
-            if (el.getAttribute("contenteditable") === "true") {
+            if (el.isContentEditable) {
               return;
             }
           }
