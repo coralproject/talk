@@ -66,6 +66,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment GeneralConfigContainer_settings on Settings {
       ...AnnouncementConfigContainer_settings
+      ...FlattenRepliesConfig_formValues @relay(mask: false)
       ...LocaleConfig_formValues @relay(mask: false)
       ...GuidelinesConfig_formValues @relay(mask: false)
       ...CommentLengthConfig_formValues @relay(mask: false)
