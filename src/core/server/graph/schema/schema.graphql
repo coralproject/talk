@@ -1912,6 +1912,11 @@ type Settings @cacheControl(maxAge: 30) {
   closeCommenting: CloseCommenting!
 
   """
+  flattenReplies contains settings related to hiding/showing all replies to a comment
+  """
+  flattenReplies: Boolean!
+
+  """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
@@ -4772,6 +4777,10 @@ input RecentCommentHistoryConfigurationInput {
   triggerRejectionRate: Float
 }
 
+input FlattenRepliesInput {
+  enabled: Boolean!
+}
+
 input CreateAnnouncementInput {
   """
   content of the announcement.
@@ -5309,6 +5318,11 @@ input SettingsInput {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean
+
+  """
+  flattenReplies is whether or not to flatten replies
+  """
+  flattenReplies: Boolean
 }
 
 """
