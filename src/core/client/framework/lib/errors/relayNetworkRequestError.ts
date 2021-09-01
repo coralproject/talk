@@ -9,6 +9,7 @@ export default class RelayNetworkRequestError extends Error {
 
   constructor(error: RRNLRequestError) {
     let msg = "An unexpected network error occured, please try again later.";
+
     if (error.res) {
       msg += ` [Code: ${error.res.status.toString()}`;
       if (error.res.statusText) {

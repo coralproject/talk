@@ -3,6 +3,7 @@ import { Db } from "mongodb";
 import { Config } from "coral-server/config";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";
+import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { registerAccountDeletion } from "./accountDeletion";
@@ -15,6 +16,7 @@ export interface ScheduledJobGroups {
 
 interface Options {
   mongo: Db;
+  redis: AugmentedRedis;
   config: Config;
   mailerQueue: MailerQueue;
   signingConfig: JWTSigningConfig;

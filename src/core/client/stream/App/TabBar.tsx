@@ -61,8 +61,6 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
             })}
             tabID="COMMENTS"
             variant="streamPrimary"
-            title={commentsTabText}
-            aria-label={commentsTabText}
           >
             {matches ? (
               <span>{commentsTabText}</span>
@@ -99,8 +97,6 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="DISCUSSIONS"
               variant="streamPrimary"
-              title={discussionsText}
-              aria-label={discussionsText}
             >
               {matches ? (
                 <span>{discussionsText}</span>
@@ -121,8 +117,6 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="PROFILE"
               variant="streamPrimary"
-              title={myProfileText}
-              aria-label={myProfileText}
             >
               {matches ? (
                 <span>{myProfileText}</span>
@@ -142,8 +136,6 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               })}
               tabID="CONFIGURE"
               variant="streamPrimary"
-              title={configureText}
-              aria-label={configureText}
             >
               {matches ? (
                 <span>{configureText}</span>
