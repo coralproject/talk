@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
@@ -14,14 +14,20 @@ import styles from "./InReplyTo.css";
 
 interface Props {
   parent: CommentData["parent"];
-  isLink: boolean;
+  enableJumpToParent: boolean;
 }
 
-const InReplyTo: FunctionComponent<Props> = ({ parent, isLink }) => {
+const InReplyTo: FunctionComponent<Props> = ({
+  parent,
+  enableJumpToParent,
+}) => {
   const { pym } = useCoralContext();
 
-  const navigateToParent = (id: string) => {
-    const elemId = computeCommentElementID(id);
+  const navigateToParent = useCallback(() => {
+    if (!parent) {
+      return;
+    }
+    const elemId = computeCommentElementID(parent.id);
     const elem = document.getElementById(elemId);
     if (elem) {
       void pym?.scrollParentToChildEl(elemId);
@@ -31,16 +37,13 @@ const InReplyTo: FunctionComponent<Props> = ({ parent, isLink }) => {
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  };
+  }, [parent, pym]);
 
   const Username = () => {
     const username = parent!.author!.username;
     const className = cn(styles.username, CLASSES.comment.inReplyTo.username);
-    return isLink ? (
-      <button
-        onClick={() => navigateToParent(parent!.id)}
-        className={className}
-      >
+    return enableJumpToParent ? (
+      <button onClick={navigateToParent} className={className}>
         {parent!.author!.username}
       </button>
     ) : (

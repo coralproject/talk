@@ -80,7 +80,7 @@ import styles from "./CommentContainer.css";
 
 interface Props {
   viewer: ViewerData | null;
-  parentLoaded?: boolean;
+  enableJumpToParent?: boolean;
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
@@ -141,7 +141,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   viewer,
   showAuthPopup,
   showRemoveAnswered,
-  parentLoaded,
+  enableJumpToParent,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
   const seen = useCommentSeen(comment.id);
@@ -463,7 +463,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       </Hidden>
       <HorizontalGutter>
         <IndentedComment
-          parentLoaded={parentLoaded}
+          enableJumpToParent={enableJumpToParent}
           classNameIndented={cn({
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,

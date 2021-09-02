@@ -54,7 +54,7 @@ exports[`renders correctly 1`] = `
       className="HistoryComment-subBar"
     >
       <InReplyTo
-        isLink={false}
+        enableJumpToParent={false}
         parent={
           Object {
             "author": Object {

@@ -48,7 +48,7 @@ exports[`renders username and body 1`] = `
     className="Comment-subBar"
   >
     <InReplyTo
-      isLink={true}
+      enableJumpToParent={true}
       parent={
         Object {
           "author": Object {

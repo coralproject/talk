@@ -20,7 +20,7 @@ export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   staticTopBarRight: React.ReactNode;
   tags?: React.ReactNode | null;
   badges?: React.ReactNode | null;
-  parentLoaded?: boolean;
+  enableJumpToParent?: boolean;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({

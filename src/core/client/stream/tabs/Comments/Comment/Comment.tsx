@@ -93,7 +93,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         <div className={styles.subBar}>
           <InReplyTo
             parent={props.parent}
-            isLink={props.parentLoaded !== false}
+            enableJumpToParent={props.parentLoaded !== false}
           />
         </div>
       )}

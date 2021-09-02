@@ -65,7 +65,7 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
         </Timestamp>
         {props.parent?.author?.username && (
           <div className={styles.subBar}>
-            <InReplyTo parent={props.parent} isLink={false} />
+            <InReplyTo parent={props.parent} enableJumpToParent={false} />
           </div>
         )}
         <HorizontalGutter>
