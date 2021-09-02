@@ -333,9 +333,12 @@ function resolveGraphQLSubscriptionURI(
     return staticConfig.graphQLSubscriptionURI;
   }
 
-  let host = staticConfig?.tenantDomain || location.host;
-  if (location.port !== "80" && location.port !== "443") {
-    host += `:${location.port}`;
+  let host = location.host;
+  if (staticConfig?.tenantDomain) {
+    host = staticConfig?.tenantDomain;
+    if (location.port !== "80" && location.port !== "443") {
+      host += `:${location.port}`;
+    }
   }
 
   return `${
