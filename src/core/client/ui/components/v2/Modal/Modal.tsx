@@ -58,6 +58,9 @@ export const Modal: FunctionComponent<ModalProps> = ({
   );
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {
+      if (e.target !== e.currentTarget) {
+        return;
+      }
       if (onBackdropClick) {
         onBackdropClick(e);
       }
