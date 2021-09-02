@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext, useMemo } from "react";
 import ReactDOM from "react-dom";
 
+import { ErrorBoundary } from "coral-framework/components";
 import { useEffectAtUnmount } from "coral-framework/hooks";
 import {
   CoralReactContext,
@@ -49,4 +50,15 @@ const RenderTargetPortal: FunctionComponent<Props> = ({ target, children }) => {
   );
 };
 
-export default RenderTargetPortal;
+/**
+ * RenderTargetPortal with Error Boundary
+ */
+const RenderTargetPortalWithErrorBoundary: FunctionComponent<Props> = (
+  props
+) => (
+  <ErrorBoundary errorContent={null}>
+    <RenderTargetPortal {...props} />
+  </ErrorBoundary>
+);
+
+export default RenderTargetPortalWithErrorBoundary;

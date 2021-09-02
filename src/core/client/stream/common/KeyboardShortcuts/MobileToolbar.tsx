@@ -1,7 +1,6 @@
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import { ErrorBoundary } from "coral-framework/components";
 import CLASSES from "coral-stream/classes";
 import RenderTargetPortal from "coral-stream/renderTarget/RenderTargetPortal";
 
@@ -16,16 +15,14 @@ const MobileToolbar: FunctionComponent<Props> = ({
   className,
   ...rest
 }) => (
-  <ErrorBoundary errorContent={null}>
-    <RenderTargetPortal target="footer">
-      <div
-        className={cn(className, styles.root, CLASSES.mobileToolbar)}
-        {...rest}
-      >
-        {children}
-      </div>
-    </RenderTargetPortal>
-  </ErrorBoundary>
+  <RenderTargetPortal target="footer">
+    <div
+      className={cn(className, styles.root, CLASSES.mobileToolbar)}
+      {...rest}
+    >
+      {children}
+    </div>
+  </RenderTargetPortal>
 );
 
 export default MobileToolbar;
