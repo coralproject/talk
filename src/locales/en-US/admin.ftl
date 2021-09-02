@@ -486,6 +486,11 @@ configure-general-commentEditing-explanation =
 configure-general-commentEditing-commentEditTimeFrame = Comment edit timeframe
 configure-general-commentEditing-seconds = Seconds
 
+#### Flatten replies
+configure-general-flattenReplies-title = Flatten replies
+configure-general-flattenReplies-enabled = Flatten replies enabled
+configure-general-flattenReplies-explanation = MARCUS TODO
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.

@@ -541,13 +541,6 @@ enum FEATURE_FLAG {
   ENABLE_RATINGS_AND_REVIEWS
 
   """
-  FLATTEN_REPLIES when enabled, will cause all replies that would normally be
-  hidden by a "Show more of this conversation" button to be displayed linearly
-  sorted by date.
-  """
-  FLATTEN_REPLIES
-
-  """
   DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
   overrides the configuration option available in the Admin UI for that tenant.
   """
