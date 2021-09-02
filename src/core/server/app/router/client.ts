@@ -155,6 +155,7 @@ const clientHandler = ({
     config: {
       ...config,
       featureFlags,
+      tenantDomain: req.coral.tenant?.domain,
     },
     customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });

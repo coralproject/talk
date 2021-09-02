@@ -333,9 +333,14 @@ function resolveGraphQLSubscriptionURI(
     return staticConfig.graphQLSubscriptionURI;
   }
 
-  return `${location.protocol === "https:" ? "wss" : "ws"}://${
-    location.host
-  }/api/graphql/live`;
+  let host = staticConfig?.tenantDomain || location.host;
+  if (location.port !== "80" && location.port !== "443") {
+    host += `:${location.port}`;
+  }
+
+  return `${
+    location.protocol === "https:" ? "wss" : "ws"
+  }://${host}/api/graphql/live`;
 }
 
 /**
