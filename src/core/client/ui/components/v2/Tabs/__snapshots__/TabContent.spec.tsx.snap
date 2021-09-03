@@ -5,7 +5,6 @@ exports[`renders correctly 1`] = `
   aria-labelledby="tab-one"
   className=""
   id="tabPane-one"
-  role="tabpanel"
 >
   Hola One
 </section>

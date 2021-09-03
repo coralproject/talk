@@ -210,7 +210,10 @@ it("report comment as offensive and handle server error", async () => {
     {
       Mutation: {
         createCommentFlag: sinon.stub().callsFake(() => {
-          throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
+          throw new InvalidRequestError({
+            code: ERROR_CODES.INTERNAL_ERROR,
+            traceID: "traceID",
+          });
         }),
       },
     },

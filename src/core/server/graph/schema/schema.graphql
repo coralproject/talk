@@ -480,7 +480,7 @@ enum FEATURE_FLAG {
 
   """
   SITE_MODERATOR will enable the enhanced Site Moderator role by assigning a new
-  modeartion scope to a user.
+  moderation scope to a user.
   """
   SITE_MODERATOR
 
@@ -546,11 +546,6 @@ enum FEATURE_FLAG {
   sorted by date.
   """
   FLATTEN_REPLIES
-
-  """
-  ENABLE_AMP will enable support for embedding Coral within AMP pages.
-  """
-  ENABLE_AMP
 
   """
   DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
@@ -1593,7 +1588,7 @@ type StoryScrapingConfiguration {
 
   """
   proxyURL when specified, allows scraping requests to use the provided proxy.
-  All requests will then be passed through the appropriote proxy as parsed by
+  All requests will then be passed through the appropriate proxy as parsed by
   the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
   """
   proxyURL: String
@@ -1763,7 +1758,7 @@ for a set duration
 """
 type Announcement {
   """
-  id is a canonical identifier for this Annoucnement, used to dismiss on front-end.
+  id is a canonical identifier for this Announcement, used to dismiss on front-end.
   """
   id: ID!
 
@@ -2063,6 +2058,11 @@ type Settings @cacheControl(maxAge: 30) {
   memberBios is whether members can define a bio for their account.
   """
   memberBios: Boolean!
+
+  """
+  amp is whether Accelerated Mobile Pages Support is activated.
+  """
+  amp: Boolean!
 }
 
 ################################################################################
@@ -2242,15 +2242,15 @@ type SuspensionStatusHistory {
   createdAt: Time!
 
   """
-  modifiedBy is the User that cancelled/edited the suspension. If `null`, then
-  the suspension has not been cancelled/edited, or has been edited by the
+  modifiedBy is the User that canceled/edited the suspension. If `null`, then
+  the suspension has not been canceled/edited, or has been edited by the
   system.
   """
   modifiedBy: User
 
   """
-  modifiedAt is the time that the suspension was cancelled/edited. If `null`,
-  then the suspension has not been cancelled/edited.
+  modifiedAt is the time that the suspension was canceled/edited. If `null`,
+  then the suspension has not been canceled/edited.
   """
   modifiedAt: Time
 
@@ -2527,7 +2527,7 @@ type ModeratorNote {
 
 enum DIGEST_FREQUENCY {
   """
-  NONE will have the notifications send immediatly rather than bundling for digesting.
+  NONE will have the notifications send immediately rather than bundling for digesting.
   """
   NONE
 
@@ -3957,7 +3957,7 @@ type QueueCounts {
   waiting: Int!
 
   """
-  active is the number of jobs that are being activly processed.
+  active is the number of jobs that are being actively processed.
   """
   active: Int!
 
@@ -4014,7 +4014,7 @@ type Query {
 
   """
   comments returns a filtered comments connection that can be paginated. This is
-  a fairly expensive edge to filter against, moderation queues should utlilize
+  a fairly expensive edge to filter against, moderation queues should utilize
   the dedicated edges for more optimized responses.
   """
   comments(
@@ -4901,7 +4901,7 @@ input StoryScrapingConfigurationInput {
 
   """
   proxyURL when specified, allows scraping requests to use the provided proxy.
-  All requests will then be passed through the appropriote proxy as parsed by
+  All requests will then be passed through the appropriate proxy as parsed by
   the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
   """
   proxyURL: String
@@ -5304,6 +5304,11 @@ input SettingsInput {
   memberBios is whether members can define a bio for their account.
   """
   memberBios: Boolean
+
+  """
+  amp is whether Accelerated Mobile Pages Support is activated.
+  """
+  amp: Boolean
 }
 
 """
@@ -8404,14 +8409,14 @@ type Mutation {
   ): UpdateWebhookEndpointPayload! @auth(roles: [ADMIN])
 
   """
-  enableWebhookEndpoint will enable a WebhookEndpoint to recieve new events.
+  enableWebhookEndpoint will enable a WebhookEndpoint to receive new events.
   """
   enableWebhookEndpoint(
     input: EnableWebhookEndpointInput!
   ): EnableWebhookEndpointPayload! @auth(roles: [ADMIN])
 
   """
-  disableWebhookEndpoint will disable a WebhookEndpoint from recieving new
+  disableWebhookEndpoint will disable a WebhookEndpoint from receiving new
   events.
   """
   disableWebhookEndpoint(
@@ -8447,7 +8452,7 @@ type Mutation {
   ): UpdateExternalModerationPhasePayload! @auth(roles: [ADMIN])
 
   """
-  enableExternalModerationPhase will enable a ExternalModerationPhase to recieve
+  enableExternalModerationPhase will enable a ExternalModerationPhase to receive
   new comments.
   """
   enableExternalModerationPhase(
@@ -8456,7 +8461,7 @@ type Mutation {
 
   """
   disableExternalModerationPhase will disable a ExternalModerationPhase from
-  recieving new comments.
+  receiving new comments.
   """
   disableExternalModerationPhase(
     input: DisableExternalModerationPhaseInput!

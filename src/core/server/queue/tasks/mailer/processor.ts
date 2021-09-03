@@ -22,7 +22,7 @@ import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
-import { JobProcessor } from "coral-server/queue/Task";
+import { isLastAttempt, JobProcessor } from "coral-server/queue/Task";
 import { I18n, translate } from "coral-server/services/i18n";
 import {
   TenantCache,
@@ -382,10 +382,13 @@ export const createJobProcessor = (
 
       // Reset the sent email counter, we've reset the transport!
       sentEmailsCounter = 0;
-
       log.warn({ err: e }, "reset smtp transport due to a send error");
 
-      throw new WrappedInternalError(e, "could not send email");
+      if (isLastAttempt(job)) {
+        throw new WrappedInternalError(e, "could not send email, not retrying");
+      }
+
+      throw new WrappedInternalError(e, "could not send email, will retry");
     }
 
     // Increment the sent email counter.

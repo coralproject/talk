@@ -17,7 +17,9 @@ const DisableLiveUpdates: FunctionComponent<Props> = ({
 }) => (
   <div className={CLASSES.openCommentStream.$root}>
     <Localized id="configure-disableLiveUpdates-title">
-      <div className={styles.heading}>Disable live updates</div>
+      <div className={styles.heading} id="configure-disableLiveUpdates-title">
+        Disable live updates
+      </div>
     </Localized>
     <Localized id="configure-disableLiveUpdates-description">
       <div className={styles.description}>

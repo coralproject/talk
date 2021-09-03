@@ -2,10 +2,33 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
+  aria-labelledby="historyComment-comment-id-label"
   className="HistoryComment-root coral coral-myComment"
+  container="article"
   data-testid="historyComment-comment-id"
 >
   <div>
+    <Localized
+      $storyTitle="Story Title"
+      RelativeTime={
+        <ForwardRef(forwardRef)
+          date="2018-07-06T18:24:00.000Z"
+        />
+      }
+      id="profile-historyComment-commentLabel"
+    >
+      <Hidden
+        container="div"
+        id="historyComment-comment-id-label"
+      >
+        Comment 
+        <ForwardRef(forwardRef)
+          date="2018-07-06T18:24:00.000Z"
+        />
+         on 
+        Story Title
+      </Hidden>
+    </Localized>
     <Localized
       id="profile-historyComment-comment-on"
     >

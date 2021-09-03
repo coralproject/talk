@@ -1,13 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
-  className="CommunityGuidelines-root coral coral-guidelines"
+<Localized
+  attrs={
+    Object {
+      "aria-label": true,
+    }
+  }
+  id="comments-communityGuidelines-section"
 >
-  <Markdown
-    className="coral coral-guidelines-content"
+  <section
+    aria-label="Community Guidelines"
+    className="CommunityGuidelines-root coral coral-guidelines"
   >
-    **bold**
-  </Markdown>
-</div>
+    <Markdown
+      className="coral coral-guidelines-content"
+    >
+      **bold**
+    </Markdown>
+  </section>
+</Localized>
 `;

@@ -126,9 +126,9 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
       <HorizontalGutter
         id="comments-featuredComments-log"
         data-testid="comments-featuredComments-log"
-        role="log"
-        aria-live="polite"
         spacing={3}
+        role="log"
+        aria-live="off"
       >
         {comments.map((comment) => (
           <FeaturedCommentContainer
@@ -142,6 +142,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button
+              key={comments.length}
               onClick={loadMoreAndEmit}
               color="secondary"
               variant="outlined"

@@ -69,11 +69,19 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   }, [setShowErrorMessage]);
 
   return (
-    <div className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}>
+    <section
+      className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}
+      aria-labelledby="profile-account-download-comments-title"
+    >
       <Flex justifyContent="space-between" alignItems="flex-start">
         <div>
           <Localized id="profile-account-download-comments-title">
-            <div className={styles.title}>Download my comment history</div>
+            <div
+              className={styles.title}
+              id="profile-account-download-comments-title"
+            >
+              Download my comment history
+            </div>
           </Localized>
           <Localized
             id="profile-account-download-comments-description"
@@ -138,6 +146,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
               </span>
             </Localized>
           }
+          aria-live="polite"
         />
       )}
       {showErrorMessage && (
@@ -160,9 +169,10 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
               <span>We were unable to complete your download request.</span>
             </Localized>
           }
+          role="alert"
         />
       )}
-    </div>
+    </section>
   );
 };
 

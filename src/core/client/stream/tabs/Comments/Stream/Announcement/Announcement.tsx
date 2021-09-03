@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
@@ -14,26 +15,40 @@ interface Props {
 
 const Announcement: FunctionComponent<Props> = (props) => {
   return (
-    <div className={cn(styles.root, CLASSES.announcement)}>
-      <Flex justifyContent="space-between" alignItems="center">
-        <Flex itemGutter="double" alignItems="center">
+    <Localized
+      id="comments-announcement-section"
+      attrs={{ "aria-label": true }}
+    >
+      <section
+        className={cn(styles.root, CLASSES.announcement)}
+        aria-label="Announcement"
+      >
+        <Flex justifyContent="space-between" alignItems="center">
+          <Flex itemGutter="double" alignItems="center">
+            <div>
+              <Icon size="lg">notifications</Icon>
+            </div>
+            <span className={styles.text}>{props.children}</span>
+          </Flex>
           <div>
-            <Icon size="lg">notifications</Icon>
+            <Localized
+              id="comments-announcement-closeButton"
+              attrs={{ "aria-label": true }}
+            >
+              <Button
+                variant="none"
+                color="none"
+                onClick={props.onClose}
+                className={styles.closeButton}
+                aria-label="Close announcement"
+              >
+                <Icon>close</Icon>
+              </Button>
+            </Localized>
           </div>
-          <span className={styles.text}>{props.children}</span>
         </Flex>
-        <div>
-          <Button
-            variant="none"
-            color="none"
-            onClick={props.onClose}
-            className={styles.closeButton}
-          >
-            <Icon>close</Icon>
-          </Button>
-        </div>
-      </Flex>
-    </div>
+      </section>
+    </Localized>
   );
 };
 

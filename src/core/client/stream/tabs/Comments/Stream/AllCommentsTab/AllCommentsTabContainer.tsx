@@ -123,9 +123,17 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     tag,
   ]);
 
-  const onChangeRating = useCallback((rating: number | null) => {
-    setLocal({ ratingFilter: rating });
-  }, []);
+  const onChangeRating = useCallback(
+    (rating: number | null) => {
+      setLocal({ ratingFilter: rating });
+    },
+    [setLocal]
+  );
+
+  const lastComment =
+    (story.comments.edges.length &&
+      story.comments.edges[story.comments.edges.length - 1]) ||
+    null;
 
   const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
@@ -134,13 +142,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
     try {
       await loadMore();
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById(`comment-${lastComment?.node.id}`)?.focus();
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, story.id]);
+  }, [loadMore, beginLoadMoreEvent, story.id, lastComment]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const onViewMore = useCallback(() => viewMore({ storyID: story.id, tag }), [
     story.id,
@@ -196,6 +206,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             color="primary"
             onClick={onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
+            aria-controls="comments-allComments-log"
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
@@ -213,9 +224,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       <HorizontalGutter
         id="comments-allComments-log"
         data-testid="comments-allComments-log"
-        role="log"
-        aria-live="polite"
         size="oneAndAHalf"
+        role="log"
+        aria-live="off"
         spacing={commentSeenEnabled ? 0 : undefined}
       >
         {story.comments.edges.length <= 0 && (
@@ -239,6 +250,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         {hasMore && (
           <Localized id="comments-loadMore">
             <Button
+              key={`comments-loadMore-${story.comments.edges.length}`}
               id="comments-loadMore"
               onClick={loadMoreAndEmit}
               color="secondary"
