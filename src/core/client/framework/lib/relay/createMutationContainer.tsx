@@ -38,7 +38,7 @@ function createMutationContainer<T extends string, I, R>(
         );
 
         private commit = (input: I) => {
-          // TODO: (cvle) These events are deprecated.
+          // TODO: (cvle) Naming of these events are deprecated.
           this.props.context.eventEmitter.emit(`mutation.${propName}`, input);
           return commit(
             this.props.context.relayEnvironment,
