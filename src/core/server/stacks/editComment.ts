@@ -89,7 +89,7 @@ export default async function edit(
   // Get the comment that we're editing. This comment is considered stale,
   // because it wasn't involved in the atomic transaction.
   const originalStaleComment = await retrieveComment(
-    mongo,
+    mongo.live,
     tenant.id,
     input.id
   );

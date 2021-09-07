@@ -3,13 +3,10 @@ import Queue from "bull";
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
-import {
-  Comment,
-  getLatestRevision,
-  retrieveAllCommentsUserConnection,
-} from "coral-server/models/comment";
+import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Connection } from "coral-server/models/helpers";
 import Task, { JobProcessor } from "coral-server/queue/Task";
+import { retrieveAllCommentsUserConnection } from "coral-server/services/comments";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { rejectComment } from "coral-server/stacks";

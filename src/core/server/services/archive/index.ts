@@ -80,6 +80,10 @@ export async function archiveStory(
   id: string,
   log: Logger
 ) {
+  if (!mongo.archive) {
+    throw new Error("Cannot archive, archive connection is not initialized");
+  }
+
   const logger = log.child({ storyID: id });
   logger.info("starting to archive story");
 
@@ -172,6 +176,10 @@ export async function unarchiveStory(
   id: string,
   log: Logger
 ) {
+  if (!mongo.archive) {
+    throw new Error("Cannot archive, archive connection is not initialized");
+  }
+
   const logger = log.child({ storyID: id });
   logger.info("starting to unarchive story");
 

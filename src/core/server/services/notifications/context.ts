@@ -73,7 +73,7 @@ export default class NotificationContext {
     string,
     Readonly<Comment> | null
   > = new DataLoader((commentIDs) =>
-    retrieveManyComments(this.mongo, this.tenant.id, commentIDs)
+    retrieveManyComments(this.mongo.live, this.tenant.id, commentIDs)
   );
 
   /**

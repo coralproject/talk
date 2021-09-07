@@ -111,19 +111,19 @@ async function deleteUserActionCounts(
 }
 
 async function moderateComments(
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenantID: string,
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date
 ) {
-  const tenant = await retrieveTenant(mongo, tenantID);
+  const tenant = await retrieveTenant(mongo.live, tenantID);
   if (!tenant) {
     throw new Error("unable to retrieve tenant");
   }
 
-  const comments = collections.comments(mongo).find(filter);
+  const comments = collections.comments(mongo.live).find(filter);
 
   while (await comments.hasNext()) {
     const comment = await comments.next();
@@ -132,7 +132,7 @@ async function moderateComments(
     }
 
     const result = await moderate(
-      mongo,
+      mongo.live,
       tenant,
       {
         commentID: comment.id,
@@ -148,7 +148,7 @@ async function moderateComments(
     }
 
     await updateAllCommentCounts(
-      mongo,
+      mongo.live,
       redis,
       {
         ...result,
@@ -167,53 +167,61 @@ async function moderateComments(
 }
 
 async function deleteUserComments(
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   authorID: string,
   tenantID: string,
-  now: Date
+  now: Date,
+  isArchived?: boolean
 ) {
-  // Approve any comments that have children.
-  // This allows the children to be visible after
-  // the comment is deleted.
-  await moderateComments(
-    mongo,
-    redis,
-    tenantID,
-    {
+  if (!isArchived) {
+    // Approve any comments that have children.
+    // This allows the children to be visible after
+    // the comment is deleted.
+    await moderateComments(
+      mongo,
+      redis,
       tenantID,
-      authorID,
-      status: GQLCOMMENT_STATUS.NONE,
-      childCount: { $gt: 0 },
-    },
-    GQLCOMMENT_STATUS.APPROVED,
-    now
-  );
-
-  // reject any comments that don't have children
-  // This gets rid of any empty/childless deleted comments.
-  await moderateComments(
-    mongo,
-    redis,
-    tenantID,
-    {
-      tenantID,
-      authorID,
-      status: {
-        $in: [
-          GQLCOMMENT_STATUS.PREMOD,
-          GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-          GQLCOMMENT_STATUS.NONE,
-          GQLCOMMENT_STATUS.APPROVED,
-        ],
+      {
+        tenantID,
+        authorID,
+        status: GQLCOMMENT_STATUS.NONE,
+        childCount: { $gt: 0 },
       },
-      childCount: 0,
-    },
-    GQLCOMMENT_STATUS.REJECTED,
-    now
-  );
+      GQLCOMMENT_STATUS.APPROVED,
+      now
+    );
 
-  await collections.comments(mongo).updateMany(
+    // reject any comments that don't have children
+    // This gets rid of any empty/childless deleted comments.
+    await moderateComments(
+      mongo,
+      redis,
+      tenantID,
+      {
+        tenantID,
+        authorID,
+        status: {
+          $in: [
+            GQLCOMMENT_STATUS.PREMOD,
+            GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
+            GQLCOMMENT_STATUS.NONE,
+            GQLCOMMENT_STATUS.APPROVED,
+          ],
+        },
+        childCount: 0,
+      },
+      GQLCOMMENT_STATUS.REJECTED,
+      now
+    );
+  }
+
+  const collection =
+    isArchived && mongo.archive
+      ? collections.archivedComments(mongo.archive)
+      : collections.comments(mongo.live);
+
+  await collection.updateMany(
     { tenantID, authorID },
     {
       $set: {
@@ -254,11 +262,15 @@ export async function deleteUser(
 
   // Delete the user's action counts.
   await deleteUserActionCounts(mongo.live, userID, tenantID);
-  await deleteUserActionCounts(mongo.archive, userID, tenantID);
+  if (mongo.archive) {
+    await deleteUserActionCounts(mongo.archive, userID, tenantID);
+  }
 
   // Delete the user's comments.
-  await deleteUserComments(mongo.live, redis, userID, tenantID, now);
-  await deleteUserComments(mongo.archive, redis, userID, tenantID, now);
+  await deleteUserComments(mongo, redis, userID, tenantID, now);
+  if (mongo.archive) {
+    await deleteUserComments(mongo, redis, userID, tenantID, now, true);
+  }
 
   // Mark the user as deleted.
   const result = await collections.users(mongo.live).findOneAndUpdate(
@@ -280,10 +292,14 @@ export async function deleteUser(
   );
 
   // Delete the user's archived action counts.
-  await deleteUserActionCounts(mongo.archive, userID, tenantID);
+  if (mongo.archive) {
+    await deleteUserActionCounts(mongo.archive, userID, tenantID);
+  }
 
   // Delete the user's archived comments.
-  await deleteUserComments(mongo.archive, redis, userID, tenantID, now);
+  if (mongo.archive) {
+    await deleteUserComments(mongo, redis, userID, tenantID, now, true);
+  }
 
   return result.value || null;
 }

@@ -1,17 +1,43 @@
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
+import { Collection, Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import { CommentNotFoundError } from "coral-server/errors";
 import {
   addCommentTag,
+  Comment,
+  CommentConnectionInput,
   removeCommentTag,
-  retrieveComment,
+  retrieveAllCommentsUserConnection as retrieveAllCommentsUserConnectionModel,
+  retrieveComment as retrieveCommentModel,
+  retrieveCommentConnection as retrieveCommentConnectionModel,
+  retrieveCommentParentsConnection as retrieveCommentParentsConnectionModel,
+  retrieveCommentRepliesConnection as retrieveCommentRepliesConnectionModel,
+  retrieveCommentStoryConnection as retrieveCommentStoryConnectionModel,
+  retrieveCommentUserConnection as retrieveCommentUserConnectionModel,
+  retrieveManyComments as retrieveManyCommentModels,
+  retrieveRejectedCommentUserConnection as retrieveRejectedCommentUserConnectionModel,
 } from "coral-server/models/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
+import { Connection } from "coral-server/models/helpers";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
 import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
+
+import { archivedComments, comments } from "../mongodb/collections";
+
+export function getCollection(
+  mongo: MongoContext,
+  isArchived?: boolean
+): Collection<Readonly<Comment>> {
+  const collection: Collection<Readonly<Comment>> =
+    isArchived && mongo.archive
+      ? archivedComments(mongo.archive)
+      : comments(mongo.live);
+
+  return collection;
+}
 
 /**
  * getCommentEditableUntilDate will return the date that the given comment is
@@ -38,11 +64,7 @@ export async function addTag(
   tagType: GQLTAG,
   now = new Date()
 ) {
-  const comment = await retrieveComment(
-    { live: mongo, archive: mongo },
-    tenant.id,
-    commentID
-  );
+  const comment = await retrieveCommentModel(mongo, tenant.id, commentID);
   if (!comment) {
     throw new CommentNotFoundError(commentID);
   }
@@ -74,7 +96,8 @@ export async function removeTag(
   const comment = await retrieveComment(
     { live: mongo, archive: mongo },
     tenant.id,
-    commentID
+    commentID,
+    true
   );
   if (!comment) {
     throw new CommentNotFoundError(commentID);
@@ -86,4 +109,165 @@ export async function removeTag(
   }
 
   return removeCommentTag(mongo, tenant.id, commentID, tagType);
+}
+
+export async function retrieveComment(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  skipArchive?: boolean
+) {
+  const liveComment = await retrieveCommentModel(mongo.live, tenantID, id);
+
+  if (liveComment) {
+    return liveComment;
+  }
+
+  if (mongo.archive && !skipArchive) {
+    const archivedComment = await retrieveCommentModel(
+      mongo.archive,
+      tenantID,
+      id
+    );
+
+    return archivedComment;
+  }
+
+  return null;
+}
+
+export async function retrieveManyComments(
+  mongo: MongoContext,
+  tenantID: string,
+  ids: ReadonlyArray<string>
+) {
+  if (ids.length === 0) {
+    return [];
+  }
+
+  const liveComments = await retrieveManyCommentModels(
+    mongo.live,
+    tenantID,
+    ids
+  );
+  if (liveComments.length > 0) {
+    return liveComments;
+  }
+
+  // Otherwise, try and find it in the archived comments collection
+  if (mongo.archive) {
+    return await retrieveManyCommentModels(mongo.archive, tenantID, ids);
+  }
+
+  return [];
+}
+
+export async function retrieveCommentConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  input: CommentConnectionInput,
+  isArchived?: boolean
+): Promise<Readonly<Connection<Readonly<Comment>>>> {
+  const collection = getCollection(mongo, isArchived);
+  return retrieveCommentConnectionModel(collection, tenantID, input);
+}
+
+export function retrieveCommentUserConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  input: CommentConnectionInput,
+  isArchived?: boolean
+) {
+  const collection = getCollection(mongo, isArchived);
+  return retrieveCommentUserConnectionModel(
+    collection,
+    tenantID,
+    userID,
+    input
+  );
+}
+
+export function retrieveAllCommentsUserConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  input: CommentConnectionInput,
+  isArchived?: boolean
+) {
+  const collection = getCollection(mongo, isArchived);
+  return retrieveAllCommentsUserConnectionModel(
+    collection,
+    tenantID,
+    userID,
+    input
+  );
+}
+
+export function retrieveRejectedCommentUserConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  input: CommentConnectionInput
+) {
+  // Rejected comments always come from the live
+  // and never from archived, we don't load mod queues
+  // from the archive
+  const collection = comments(mongo.live);
+  return retrieveRejectedCommentUserConnectionModel(
+    collection,
+    tenantID,
+    userID,
+    input
+  );
+}
+
+export function retrieveCommentStoryConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  input: CommentConnectionInput,
+  isArchived?: boolean
+) {
+  const collection = getCollection(mongo, isArchived);
+  return retrieveCommentStoryConnectionModel(
+    collection,
+    tenantID,
+    storyID,
+    input
+  );
+}
+
+export function retrieveCommentRepliesConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  parentID: string,
+  input: CommentConnectionInput,
+  isArchived?: boolean
+) {
+  const collection = getCollection(mongo, isArchived);
+  return retrieveCommentRepliesConnectionModel(
+    collection,
+    tenantID,
+    storyID,
+    parentID,
+    input
+  );
+}
+
+export function retrieveCommentParentsConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  comment: Comment,
+  paginationParameters: { last: number; before?: number },
+  isArchived?: boolean
+) {
+  const db = isArchived && mongo.archive ? mongo.archive : mongo.live;
+  return retrieveCommentParentsConnectionModel(
+    db,
+    tenantID,
+    comment,
+    paginationParameters
+  );
 }

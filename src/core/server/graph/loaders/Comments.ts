@@ -7,6 +7,16 @@ import { retrieveManyUserActionPresence } from "coral-server/models/action/comme
 import {
   Comment,
   CommentConnectionInput,
+  retrieveManyRecentStatusCounts,
+  retrieveStoryCommentTagCounts,
+} from "coral-server/models/comment";
+import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
+import { hasPublishedStatus } from "coral-server/models/comment/helpers";
+import { Connection } from "coral-server/models/helpers";
+import { Story } from "coral-server/models/story";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import {
   retrieveAllCommentsUserConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
@@ -14,16 +24,8 @@ import {
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
-  retrieveManyRecentStatusCounts,
   retrieveRejectedCommentUserConnection,
-  retrieveStoryCommentTagCounts,
-} from "coral-server/models/comment";
-import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
-import { hasPublishedStatus } from "coral-server/models/comment/helpers";
-import { Connection } from "coral-server/models/helpers";
-import { retrieveStory, Story } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
+} from "coral-server/services/comments";
 
 import {
   CommentToParentsArgs,
@@ -193,7 +195,7 @@ export default (ctx: GraphContext) => ({
   }: QueryToCommentsArgs) => {
     let story: Readonly<Story> | null = null;
     if (storyID) {
-      story = await retrieveStory(ctx.mongo.live, ctx.tenant.id, storyID);
+      story = await ctx.loaders.Stories.story.load(storyID);
     }
 
     const isArchived = story?.isArchived || false;
@@ -256,20 +258,33 @@ export default (ctx: GraphContext) => ({
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
     }).then(primeCommentsFromConnection(ctx)),
-  taggedForStory: (
+  taggedForStory: async (
     storyID: string,
     tag: GQLTAG,
     { first, orderBy, after }: StoryToCommentsArgs
-  ) =>
-    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-      filter: {
-        // Filter optionally for comments with a specific tag.
-        "tags.type": tag,
+  ) => {
+    const story = await ctx.loaders.Stories.story.load(storyID);
+    if (!story) {
+      throw new Error("cannot get comments for a story that doesn't exist");
+    }
+
+    const { isArchived } = story;
+    return retrieveCommentStoryConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      storyID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+        filter: {
+          // Filter optionally for comments with a specific tag.
+          "tags.type": tag,
+        },
       },
-    }).then(primeCommentsFromConnection(ctx)),
+      isArchived
+    ).then(primeCommentsFromConnection(ctx));
+  },
   forStory: async (
     storyID: string,
     { first, orderBy, after, tag, rating }: StoryToCommentsArgs

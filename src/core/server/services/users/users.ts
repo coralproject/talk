@@ -1651,7 +1651,7 @@ export async function retrieveUserLastComment(
     return null;
   }
 
-  return retrieveComment(mongo, tenant.id, id);
+  return retrieveComment(mongo.live, tenant.id, id);
 }
 
 export interface LinkUser {
