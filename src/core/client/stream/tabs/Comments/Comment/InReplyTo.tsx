@@ -6,7 +6,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import CLASSES from "coral-stream/classes";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 
@@ -39,20 +39,18 @@ const InReplyTo: FunctionComponent<Props> = ({
     }
   }, [parent, pym]);
 
-  const Username = () => {
-    const username = parent!.author!.username;
-    const className = cn(styles.username, CLASSES.comment.inReplyTo.username);
-    return enableJumpToParent ? (
-      <button onClick={navigateToParent} className={className}>
-        {parent!.author!.username}
-      </button>
-    ) : (
-      <span className={className}>{username}</span>
-    );
-  };
+  const Username = () => (
+    <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>
+      {parent?.author?.username}
+    </span>
+  );
 
-  return (
-    <Flex alignItems="center" className={CLASSES.comment.inReplyTo.$root}>
+  const Content = (
+    <Flex
+      alignItems="center"
+      className={CLASSES.comment.inReplyTo.$root}
+      container="span"
+    >
       <Icon className={styles.icon}>reply</Icon>{" "}
       <Localized id="comments-inReplyTo" Username={<Username />}>
         <span className={cn(styles.inReplyTo, CLASSES.comment.inReplyTo.text)}>
@@ -61,6 +59,11 @@ const InReplyTo: FunctionComponent<Props> = ({
       </Localized>
     </Flex>
   );
+
+  if (!enableJumpToParent) {
+    return Content;
+  }
+  return <BaseButton onClick={navigateToParent}>{Content}</BaseButton>;
 };
 
 export default InReplyTo;
