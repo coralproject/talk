@@ -542,7 +542,7 @@ reactions, be reported, and be shared.
                       This will appear above the comments sitewide.
 You can format the text using Markdown.
 More information on how to use Markdown
-here:
+here: 
                       <a
                         className="ExternalLink-root"
                         href="#"
@@ -1431,7 +1431,7 @@ each other's comments.
                           >
                             Reactions
                           </option>
-
+                           
                         </select>
                         <span
                           aria-hidden={true}
@@ -2043,7 +2043,7 @@ appears on the comment stream and in the admin interface.
                 <p
                   className="HelperText-root"
                 >
-                  For additional information on GIPHY’s API please visit:
+                  For additional information on GIPHY’s API please visit: 
                   <a
                     className="ExternalLink-root"
                     href="https://developers.giphy.com/docs/api"
