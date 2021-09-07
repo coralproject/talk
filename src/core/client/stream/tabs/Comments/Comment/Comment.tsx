@@ -29,7 +29,7 @@ export interface CommentProps {
   badges?: React.ReactNode | null;
   collapsed?: boolean;
   media?: React.ReactNode;
-  parentLoaded?: boolean;
+  enableJumpToParent?: boolean;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -93,7 +93,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         <div className={styles.subBar}>
           <InReplyTo
             parent={props.parent}
-            enableJumpToParent={props.parentLoaded !== false}
+            enableJumpToParent={props.enableJumpToParent !== false}
           />
         </div>
       )}
