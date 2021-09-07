@@ -34,9 +34,9 @@ jobs:
           keys:
             # Find a cache corresponding to this specific package-lock.json
             # checksum when this file is changed, this key will fail.
-            - v2-dependency-cache-{{ checksum "package-lock.json" }}
+            - v1-dependency-cache-{{ checksum "package-lock.json" }}
             # Find the most recently generated cache used from any branch
-            - v2-dependency-cache-
+            - v1-dependency-cache-
       # Disabled as we don't want to use sudo to update packages
       # - run:
       #     name: Update NPM
@@ -51,9 +51,9 @@ jobs:
       #       command: npm audit
       - run:
           name: Install dependencies
-          command: npm ci
+          command: sh .circleci/npmci.sh
       - save_cache:
-          key: v2-dependency-cache-{{ checksum "package-lock.json" }}
+          key: v1-dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
       - persist_to_workspace:
