@@ -463,7 +463,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   }
 
   return (
-    <MatchMedia lteWidth="mobile">
+    <MatchMedia lteDeviceWidth="mobileMax">
       <MobileToolbar onKeyPress={handleKeypress}>
         <Flex className={styles.flexContainer} alignItems="center">
           <div className={styles.unmarkAllContainer}>
