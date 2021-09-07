@@ -13,6 +13,7 @@ import { onPymMessage } from "coral-framework/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
+import { useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import CLASSES from "coral-stream/classes";
@@ -21,6 +22,7 @@ import {
   ShowAllRepliesEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
+import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
 import {
   CommentSeenContext,
   COMMIT_SEEN_EVENT,
@@ -31,6 +33,7 @@ import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 
 import MobileToolbar from "./MobileToolbar";
+import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
 
@@ -54,6 +57,7 @@ interface KeyStop {
 }
 
 interface TraverseOptions {
+  noCircle?: boolean;
   skipSeen?: boolean;
   skipLoadMore?: boolean;
 }
@@ -154,6 +158,10 @@ const findNextKeyStop = (
     }
   }
 
+  if (options.noCircle) {
+    return null;
+  }
+
   // We couldn't find your current element to get the next one! Go to the first
   // stop.
   return getFirstKeyStop(stops, options);
@@ -187,6 +195,10 @@ const findPreviousKeyStop = (
       }
       return stops[index];
     }
+  }
+
+  if (options.noCircle) {
+    return null;
   }
 
   // We couldn't find your current element to get the previous one! Go to the
@@ -223,6 +235,7 @@ const getNextAction = (
 const eventsOfInterest = [
   "mutation.viewNew",
   "mutation.SetTraversalFocus",
+  "subscription.subscribeToCommentEntered.data",
   ShowAllRepliesEvent.nameSuccess,
   LoadMoreAllCommentsEvent.nameSuccess,
   COMMIT_SEEN_EVENT,
@@ -240,9 +253,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     false
   );
 
+  const setTraversalFocus = useMutation(SetTraversalFocus);
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
-  const { commitSeen } = useContext(CommentSeenContext);
+  const { commitSeen, enabled } = useContext(CommentSeenContext);
 
   const [nextZAction, setNextZAction] = useState<string | null>(null);
   const [disableZAction, setDisableZAction] = useState<boolean>(true);
@@ -359,18 +373,41 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       pym.scrollParentToChildPos(offset);
 
       if (stop.isLoadMore) {
-        const prevStop = findPreviousKeyStop(renderWindow, stop, {
+        let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
           skipLoadMore: true,
+          noCircle: true,
         });
-        if (prevStop) {
-          prevStop.element.focus();
+        if (!prevOrNextStop) {
+          prevOrNextStop = findNextKeyStop(renderWindow, stop, {
+            skipLoadMore: true,
+            noCircle: true,
+          });
+        }
+        if (prevOrNextStop) {
+          void setTraversalFocus({
+            commentID: parseCommentElementID(prevOrNextStop.id),
+            commentSeenEnabled: enabled,
+          });
+          prevOrNextStop.element.focus();
         }
         stop.element.click();
       } else {
+        void setTraversalFocus({
+          commentID: parseCommentElementID(stop.id),
+          commentSeenEnabled: enabled,
+        });
         stop.element.focus();
       }
     },
-    [pym, zKeyEnabled, renderWindow, unmarkAll, relayEnvironment]
+    [
+      pym,
+      zKeyEnabled,
+      renderWindow,
+      unmarkAll,
+      relayEnvironment,
+      setTraversalFocus,
+      enabled,
+    ]
   );
 
   const execZAction = useCallback(

@@ -143,14 +143,15 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const [seen, commitSeen] = useCommentSeen(comment.id);
+  const seen = useCommentSeen(comment.id);
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const handleFocus = useCallback(() => {
-    void setTraversalFocus({ commentID: comment.id, commentSeenEnabled });
-    if (!seen) {
-      commitSeen();
-    }
-  }, [comment.id, commentSeenEnabled, commitSeen, seen, setTraversalFocus]);
+    void setTraversalFocus({
+      commentID: comment.id,
+      commentSeenEnabled,
+      skipCommitSeen: seen,
+    });
+  }, [comment.id, commentSeenEnabled, seen, setTraversalFocus]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [

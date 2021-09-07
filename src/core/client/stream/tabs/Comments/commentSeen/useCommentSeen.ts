@@ -4,16 +4,18 @@ import { useCallback, useContext, useEffect } from "react";
 import useInMemoryState from "coral-framework/hooks/useInMemoryState";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 
-import { CommentSeenContext, COMMIT_SEEN_EVENT } from "./CommentSeenContext";
+import {
+  CommentSeenContext,
+  COMMIT_SEEN_EVENT,
+  CommitSeenEventData,
+} from "./CommentSeenContext";
 
 /**
  * Returns boolean when the comment has been seen already.
  * Otherwise the comment with the `commentID` will be marked as
  * seen for the next refresh. Must be called within a `<CommentSeenProvider />`
  */
-export default function useCommentSeen(
-  commentID: string
-): [boolean, () => void] {
+export default function useCommentSeen(commentID: string): boolean {
   const { enabled, seenMap, markSeen } = useContext(CommentSeenContext);
   const { eventEmitter } = useCoralContext();
 
@@ -44,10 +46,13 @@ export default function useCommentSeen(
     if (seen) {
       return;
     }
-    const listener = eventEmitter.once(
+    const listener = eventEmitter.on(
       // Event is called e.g. when `Unmark all` is activated.
       COMMIT_SEEN_EVENT,
-      () => {
+      ({ commentID: commitCommentID }: CommitSeenEventData) => {
+        if (commitCommentID && commitCommentID !== commentID) {
+          return;
+        }
         commit();
       },
       { objectify: true }
@@ -55,7 +60,7 @@ export default function useCommentSeen(
     return () => {
       listener.off();
     };
-  }, [commit, eventEmitter, seen]);
+  }, [commentID, commit, eventEmitter, seen]);
 
-  return [seen, commit];
+  return seen;
 }

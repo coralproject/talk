@@ -207,6 +207,10 @@ const CommentSeenContext = createContext<ContextState>({
 });
 
 export const COMMIT_SEEN_EVENT = "commentSeen.commit";
+export interface CommitSeenEventData {
+  commentID?: string;
+}
+
 /**
  * This provides the necessary Context for the `useCommentSeen` hook.
  */
@@ -253,9 +257,14 @@ function CommentSeenProvider(props: {
     };
   }, [db, props.storyID, props.viewerID, local.enableCommentSeen]);
 
-  const commitSeen = useCallback(() => {
-    eventEmitter.emit(COMMIT_SEEN_EVENT);
-  }, [eventEmitter]);
+  const commitSeen = useCallback(
+    (commentID?: string) => {
+      eventEmitter.emit(COMMIT_SEEN_EVENT, {
+        commentID,
+      } as CommitSeenEventData);
+    },
+    [eventEmitter]
+  );
 
   const markSeen = useCallback(
     (id: string) => {
