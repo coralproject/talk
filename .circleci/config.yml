@@ -51,7 +51,7 @@ jobs:
       #       command: npm audit
       - run:
           name: Install dependencies
-          command: sh .circleci/npmci.sh
+          command: npm ci
           no_output_timeout: 20m
       - save_cache:
           key: v1-dependency-cache-{{ checksum "package-lock.json" }}
