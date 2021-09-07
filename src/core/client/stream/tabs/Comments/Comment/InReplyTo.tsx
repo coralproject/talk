@@ -63,7 +63,11 @@ const InReplyTo: FunctionComponent<Props> = ({
   if (!enableJumpToParent) {
     return Content;
   }
-  return <BaseButton onClick={navigateToParent}>{Content}</BaseButton>;
+  return (
+    <BaseButton onClick={navigateToParent} className={styles.button}>
+      {Content}
+    </BaseButton>
+  );
 };
 
 export default InReplyTo;
