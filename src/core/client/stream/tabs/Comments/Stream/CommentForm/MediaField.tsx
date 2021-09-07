@@ -174,6 +174,7 @@ const MediaField: FunctionComponent<Props> = ({
           title={error}
           titleWeight="semiBold"
           icon={<Icon>error</Icon>}
+          role="alert"
         />
       )}
     </>

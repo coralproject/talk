@@ -49,7 +49,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
   }, [setShowSuccess]);
 
   return story.isClosed ? (
-    <>
+    <section aria-labelledby="configure-openStream-title">
       <OpenStream onClick={onClick} disableButton={waiting} />
       <div
         className={showSuccess ? styles.calloutVisible : styles.calloutHidden}
@@ -65,12 +65,13 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
             }
             onClose={onCloseSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>
-    </>
+    </section>
   ) : (
-    <>
+    <section aria-labelledby="configure-closeStream-title">
       <CloseStream onClick={onClick} disableButton={waiting} />
       <div
         className={showSuccess ? styles.calloutVisible : styles.calloutHidden}
@@ -86,10 +87,11 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
             }
             onClose={onCloseSuccess}
             visible={showSuccess}
+            aria-live="polite"
           />
         )}
       </div>
-    </>
+    </section>
   );
 };
 

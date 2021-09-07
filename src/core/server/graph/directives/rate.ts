@@ -22,12 +22,8 @@ const rate: DirectiveResolverFn<
   { user, tenant, now, redis, config },
   info
 ) => {
-  // If we're in development mode and rate limiters are disabled, then just
-  // continue anyways now.
-  if (
-    config.get("env") === "development" &&
-    config.get("disable_rate_limiters")
-  ) {
+  // If rate limiters are disabled, then just continue anyways now.
+  if (config.get("disable_rate_limiters")) {
     return next();
   }
 

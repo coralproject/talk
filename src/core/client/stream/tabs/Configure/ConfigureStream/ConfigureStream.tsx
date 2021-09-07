@@ -25,71 +25,80 @@ const ConfigureStream: FunctionComponent<Props> = ({
   storySettings,
 }) => {
   return (
-    <Form onSubmit={onSubmit} initialValues={purgeMetadata(storySettings)}>
-      {({
-        handleSubmit,
-        submitting,
-        pristine,
-        submitError,
-        submitSucceeded,
-      }) => (
-        <form
-          className={CLASSES.configureCommentStream.$root}
-          autoComplete="off"
-          onSubmit={handleSubmit}
-          id="configure-form"
-        >
-          <Localized id="configure-stream-title-configureThisStream">
-            <div className={styles.heading}>Configure this stream</div>
-          </Localized>
-          <div className={styles.configureItems}>
-            <PremodConfigContainer disabled={submitting} />
-            <PremodLinksConfigContainer disabled={submitting} />
-          </div>
-          <Localized id="configure-stream-update">
-            <Button
-              className={CLASSES.configureCommentStream.applyButton}
-              color="primary"
-              variant="filled"
-              type="submit"
-              disabled={submitting || pristine}
-              upperCase
-              data-testid="configure-stream-apply"
-            >
-              Update
-            </Button>
-          </Localized>
-          <div
-            className={
-              submitSucceeded || submitError
-                ? styles.footerWithMessage
-                : styles.footer
-            }
+    <section aria-labelledby="configure-stream-configureThisStream-title">
+      <Form onSubmit={onSubmit} initialValues={purgeMetadata(storySettings)}>
+        {({
+          handleSubmit,
+          submitting,
+          pristine,
+          submitError,
+          submitSucceeded,
+        }) => (
+          <form
+            className={CLASSES.configureCommentStream.$root}
+            autoComplete="off"
+            onSubmit={handleSubmit}
+            id="configure-form"
           >
-            {submitSucceeded && (
-              <CallOut
-                className={CLASSES.configureCommentStream.successMessage}
-                color="success"
-                icon={<Icon size="sm">check_circle</Icon>}
-                title={
-                  <Localized id="configure-stream-streamHasBeenUpdated">
-                    This stream has been updated
-                  </Localized>
-                }
-              />
-            )}
-            {submitError && (
-              <CallOut
-                className={CLASSES.configureCommentStream.errorMessage}
-                color="error"
-                icon={<Icon size="sm">error</Icon>}
-                title={submitError}
-              />
-            )}
-          </div>
-        </form>
-      )}
-    </Form>
+            <Localized id="configure-stream-title-configureThisStream">
+              <div
+                className={styles.heading}
+                id="configure-stream-configureThisStream-title"
+              >
+                Configure this stream
+              </div>
+            </Localized>
+            <div className={styles.configureItems}>
+              <PremodConfigContainer disabled={submitting} />
+              <PremodLinksConfigContainer disabled={submitting} />
+            </div>
+            <Localized id="configure-stream-update">
+              <Button
+                className={CLASSES.configureCommentStream.applyButton}
+                color="primary"
+                variant="filled"
+                type="submit"
+                disabled={submitting || pristine}
+                upperCase
+                data-testid="configure-stream-apply"
+              >
+                Update
+              </Button>
+            </Localized>
+            <div
+              className={
+                submitSucceeded || submitError
+                  ? styles.footerWithMessage
+                  : styles.footer
+              }
+            >
+              {submitSucceeded && (
+                <CallOut
+                  className={CLASSES.configureCommentStream.successMessage}
+                  color="success"
+                  icon={<Icon size="sm">check_circle</Icon>}
+                  title={
+                    <Localized id="configure-stream-streamHasBeenUpdated">
+                      This stream has been updated
+                    </Localized>
+                  }
+                  aria-live="polite"
+                />
+              )}
+              {submitError && (
+                <CallOut
+                  className={CLASSES.configureCommentStream.errorMessage}
+                  color="error"
+                  icon={<Icon size="sm">error</Icon>}
+                  title={submitError}
+                  role="alert"
+                />
+              )}
+            </div>
+          </form>
+        )}
+      </Form>
+    </section>
   );
 };
 
