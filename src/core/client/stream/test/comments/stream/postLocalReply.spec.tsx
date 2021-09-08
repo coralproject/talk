@@ -98,7 +98,7 @@ it("post a local reply", async () => {
     /* Do stuff */
     // Open reply form.
     within(deepestReply)
-      .getByText("reply", { exact: false, selector: "button" })
+      .getByLabelText("Reply to comment by", { exact: false })
       .props.onClick();
     /* Wait for result */
     return await waitForElement(() => within(deepestReply).getByType("form"));

@@ -22,3 +22,7 @@ $commentsInReplyToIconColor: var(--palette-text-100);
   line-height: 1;
   color: $commentsInReplyToLabelColor;
 }
+
+.button {
+  display: block;
+}
