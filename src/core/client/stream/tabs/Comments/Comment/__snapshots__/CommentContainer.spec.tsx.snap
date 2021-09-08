@@ -105,6 +105,7 @@ exports[`hide reply button 1`] = `
                       "enabled": false,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -211,6 +212,7 @@ exports[`hide reply button 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -301,6 +303,7 @@ exports[`hide reply button 1`] = `
                   "enabled": false,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -370,6 +373,7 @@ exports[`hide reply button 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
@@ -484,6 +488,7 @@ exports[`renders body only 1`] = `
                       "enabled": false,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -598,6 +603,7 @@ exports[`renders body only 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -688,6 +694,7 @@ exports[`renders body only 1`] = `
                   "enabled": false,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -757,6 +764,7 @@ exports[`renders body only 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
@@ -872,6 +880,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                       "enabled": true,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -986,6 +995,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "enabled": true,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -1076,6 +1086,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                   "enabled": true,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -1145,6 +1156,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 "enabled": true,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
@@ -1260,6 +1272,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                       "enabled": false,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -1374,6 +1387,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -1464,6 +1478,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                   "enabled": false,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -1533,6 +1548,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
@@ -1652,6 +1668,7 @@ exports[`renders in reply to 1`] = `
                       "enabled": false,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -1774,6 +1791,7 @@ exports[`renders in reply to 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -1873,6 +1891,7 @@ exports[`renders in reply to 1`] = `
                   "enabled": false,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -1946,6 +1965,7 @@ exports[`renders in reply to 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
@@ -2061,6 +2081,7 @@ exports[`renders username and body 1`] = `
                       "enabled": false,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -2175,6 +2196,7 @@ exports[`renders username and body 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -2265,6 +2287,7 @@ exports[`renders username and body 1`] = `
                   "enabled": false,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -2334,6 +2357,7 @@ exports[`renders username and body 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
@@ -2449,6 +2473,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                       "enabled": false,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -2563,6 +2588,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -2653,6 +2679,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                   "enabled": false,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -2722,6 +2749,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
@@ -2837,6 +2865,7 @@ exports[`shows conversation link 1`] = `
                       "enabled": false,
                     },
                     "featureFlags": Array [],
+                    "flattenReplies": false,
                   }
                 }
                 viewer={null}
@@ -2957,6 +2986,7 @@ exports[`shows conversation link 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
         />
@@ -3047,6 +3077,7 @@ exports[`shows conversation link 1`] = `
                   "enabled": false,
                 },
                 "featureFlags": Array [],
+                "flattenReplies": false,
               }
             }
             story={
@@ -3116,6 +3147,7 @@ exports[`shows conversation link 1`] = `
                 "enabled": false,
               },
               "featureFlags": Array [],
+              "flattenReplies": false,
             }
           }
           viewer={null}
