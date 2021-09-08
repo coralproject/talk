@@ -60,6 +60,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         },
       },
       settings: {
+        flattenReplies: false,
         disableCommenting: {
           enabled: false,
         },

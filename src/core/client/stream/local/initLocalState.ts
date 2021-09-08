@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
 import { StaticConfig } from "coral-common/config";
@@ -17,14 +18,19 @@ import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQu
 
 import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
+import { FEATURE_FLAG } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 
-async function determineFeatureFlags(
+type ResolvedConfig = {
+  readonly featureFlags: FEATURE_FLAG[];
+  readonly flattenReplies?: boolean | null;
+}
+
+async function resolveConfig(
   environment: Environment,
   staticConfig?: StaticConfig | null
-) {
-  const featureFlags = staticConfig?.featureFlags;
-  if (featureFlags) {
-    return featureFlags;
+): Promise<ResolvedConfig> {
+  if (staticConfig) {
+    return staticConfig as ResolvedConfig;
   }
   if (process.env.NODE_ENV === "development") {
     // Send a graphql query to server during development to get the feature flags.
@@ -34,15 +40,17 @@ async function determineFeatureFlags(
       graphql`
         query initLocalStateQuery {
           settings {
+            flattenReplies
             featureFlags
           }
         }
       `,
       {}
     );
-    return data.settings.featureFlags as string[];
+
+    return data.settings as ResolvedConfig;
   }
-  return [];
+  return { featureFlags: [] } as { featureFlags: FEATURE_FLAG[], flattenReplies?: boolean };
 }
 
 /**
@@ -75,7 +83,16 @@ const initLocalState: InitLocalState = async ({
     ...rest,
   });
 
-  const featureFlags = await determineFeatureFlags(environment, staticConfig);
+  /* eslint-disable */
+  console.log('INITTING LOCAL STATE', {
+    environment,
+    context,
+    auth,
+    staticConfig,
+    rest
+  })
+
+  const { featureFlags, ...settings } = await resolveConfig(environment, staticConfig);
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -128,17 +145,16 @@ const initLocalState: InitLocalState = async ({
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
 
-    // Flatten replies
-    localRecord.setValue(
-      featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES),
-      "flattenReplies"
-    );
-
     // Enable comment seen
     localRecord.setValue(
       featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN),
       "enableCommentSeen"
     );
+
+    localRecord.setValue(
+      !!settings.flattenReplies,
+      "flattenReplies"
+    )
 
     // Version as reported by the embed.js
     localRecord.setValue(config?.version, "embedVersion");
