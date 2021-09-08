@@ -29,6 +29,7 @@ import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/common/AuthPopup";
+import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
 import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
   ShowEditFormEvent,
@@ -145,6 +146,14 @@ export const CommentContainer: FunctionComponent<Props> = ({
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
   const seen = useCommentSeen(comment.id);
+  const setTraversalFocus = useMutation(SetTraversalFocus);
+  const handleFocus = useCallback(() => {
+    void setTraversalFocus({
+      commentID: comment.id,
+      commentSeenEnabled,
+      skipCommitSeen: seen,
+    });
+  }, [comment.id, commentSeenEnabled, seen, setTraversalFocus]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -384,19 +393,26 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.lastViewerAction !== "CREATE" &&
     comment.lastViewerAction !== "EDIT";
 
+  const shouldApplyFocusClass = comment.hasTraversalFocus && commentSeenEnabled;
+
   return (
     <div
       className={cn(
+        styles.root,
+        className,
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
         badgesClassName
       )}
+      tabIndex={-1}
       id={commentElementID}
       role="article"
       aria-labelledby={`${commentElementID}-label`}
       data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
+      data-not-seen={seen || !commentSeenEnabled ? undefined : true}
+      onFocus={handleFocus}
     >
       {/* TODO: (cvle) Refactor at some point */}
       <Hidden id={`${commentElementID}-label`}>
@@ -465,6 +481,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
         <IndentedComment
           enableJumpToParent={enableJumpToParent}
           classNameIndented={cn({
+            [styles.indented]: indentLevel && indentLevel > 0,
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
             [styles.flattenedPadding]: isReplyFlattened(
@@ -472,6 +489,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
               indentLevel
             ),
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
+            [styles.traversalFocus]: shouldApplyFocusClass,
+            [CLASSES.comment.focus]: shouldApplyFocusClass,
           })}
           indentLevel={indentLevel}
           collapsed={collapsed}
@@ -798,6 +817,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             dontAgree
             flag
           }
+          hasTraversalFocus
           ...CaretContainer_comment
           ...EditCommentFormContainer_comment
           ...MediaSectionContainer_comment

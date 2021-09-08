@@ -24,6 +24,8 @@ export default function create(params: CreateTestRendererParams) {
       localRecord.setLinkedRecord(authPopupRecord, "authPopup");
       localRecord.setValue(false, "flattenReplies");
       localRecord.setValue(false, "enableCommentSeen");
+      localRecord.setValue(false, "enableZKey");
+      localRecord.setValue(false, "amp");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

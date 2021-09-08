@@ -10,6 +10,7 @@ import { LOCAL_ID } from "coral-framework/lib/relay";
 interface Props {
   relayEnvironment: Environment;
   pym: Child;
+  window: Window;
 }
 
 export class OnPymSetCommentID extends Component<Props> {
@@ -26,9 +27,9 @@ export class OnPymSetCommentID extends Component<Props> {
           // Change iframe url, this is important
           // because it is used to cleanly initialized
           // a user session.
-          window.history.replaceState(
-            window.history.state,
-            document.title,
+          props.window.history.replaceState(
+            props.window.history.state,
+            props.window.document.title,
             getURLWithCommentID(location.href, id || undefined)
           );
         }
@@ -41,9 +42,10 @@ export class OnPymSetCommentID extends Component<Props> {
   }
 }
 
-const enhanced = withContext(({ relayEnvironment, pym }) => ({
+const enhanced = withContext(({ relayEnvironment, pym, window }) => ({
   relayEnvironment,
   pym,
+  window,
 }))(OnPymSetCommentID);
 
 export default enhanced;

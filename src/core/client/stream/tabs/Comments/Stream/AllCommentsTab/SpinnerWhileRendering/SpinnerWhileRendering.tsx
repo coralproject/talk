@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { Flex, Spinner } from "coral-ui/components/v2";
 
 interface Props {
   children: React.ReactNode;
 }
 
-function callWhenReallyIdle(callback: () => void) {
+function callWhenReallyIdle(window: Window, callback: () => void) {
   let handle: any = null;
   const rIC = (cb: () => void) => {
     if ((window as any).requestIdleCallback) {
@@ -40,10 +41,11 @@ function callWhenReallyIdle(callback: () => void) {
  */
 const SpinnerWhileRendering: FunctionComponent<Props> = (props) => {
   const [hidden, setHidden] = useState(true);
+  const { window } = useCoralContext();
   useEffect(() => {
     // Ensure window has bee
-    return callWhenReallyIdle(() => setHidden(false));
-  }, [setHidden]);
+    return callWhenReallyIdle(window, () => setHidden(false));
+  }, [setHidden, window]);
   return (
     <>
       {hidden && (

@@ -9,3 +9,4 @@ export { default as withLiveCommentCount } from "./withLiveCommentCount";
 export { default as withPostMessageStorage } from "./withPostMessageStorage";
 export { default as withIndexedDBStorage } from "./withIndexedDBStorage";
 export { default as withSetCommentID } from "./withSetCommentID";
+export { default as withRenderTargets } from "./withRenderTargets";

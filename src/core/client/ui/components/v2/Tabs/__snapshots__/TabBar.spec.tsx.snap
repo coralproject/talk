@@ -91,3 +91,95 @@ exports[`renders correctly 1`] = `
   </li>
 </ul>
 `;
+
+exports[`sets initial tab as active 1`] = `
+<ul
+  className="TabBar-root TabBar-default"
+  role="tablist"
+>
+  <li
+    className="Tab-root"
+    id="tab-one"
+    role="presentation"
+  >
+    <button
+      aria-controls="tabPane-one"
+      aria-selected={true}
+      className="BaseButton-root Tab-button Tab-default Tab-active"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      role="tab"
+      type="button"
+    >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
+      One
+    </button>
+  </li>
+  <li
+    className="Tab-root"
+    id="tab-two"
+    role="presentation"
+  >
+    <button
+      aria-controls="tabPane-two"
+      aria-selected={false}
+      className="BaseButton-root Tab-button Tab-default"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      role="tab"
+      type="button"
+    >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
+      Two
+    </button>
+  </li>
+  <li
+    className="Tab-root"
+    id="tab-three"
+    role="presentation"
+  >
+    <button
+      aria-controls="tabPane-three"
+      aria-selected={false}
+      className="BaseButton-root Tab-button Tab-default"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      role="tab"
+      type="button"
+    >
+      <div
+        className="AriaInfo-root"
+      >
+        <span>
+          Tab:
+        </span>
+      </div>
+      Three
+    </button>
+  </li>
+</ul>
+`;

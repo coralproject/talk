@@ -5,6 +5,7 @@ import { withLocalStateContainer } from "coral-framework/lib/relay";
 
 import { AppContainerLocal as Local } from "coral-stream/__generated__/AppContainerLocal.graphql";
 
+import { RenderTargetContextProvider } from "../renderTarget";
 import App from "./App";
 import {
   OnEvents,
@@ -37,11 +38,11 @@ class AppContainer extends React.Component<Props> {
     } = this.props;
 
     return (
-      <>
+      <RenderTargetContextProvider>
         {this.props.disableListeners ? null : listeners}
         <RefreshTokenHandler />
         <App activeTab={activeTab} />
-      </>
+      </RenderTargetContextProvider>
     );
   }
 }

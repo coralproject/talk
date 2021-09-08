@@ -1,28 +1,40 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
+import UIContext, { UIContextProps } from "../UIContext";
 import Tab from "./Tab";
 import TabBar from "./TabBar";
 
 it("renders correctly", () => {
-  const renderer = TestRenderer.create(
-    <TabBar activeTab="one">
-      <Tab tabID="one">One</Tab>
-      <Tab tabID="two">Two</Tab>
-      <Tab tabID="three">Three</Tab>
-    </TabBar>
+  const context: UIContextProps = {
+    renderWindow: window,
+  };
+  const testRenderer = TestRenderer.create(
+    <UIContext.Provider value={context}>
+      <TabBar activeTab="one">
+        <Tab tabID="one">One</Tab>
+        <Tab tabID="two">Two</Tab>
+        <Tab tabID="three">Three</Tab>
+      </TabBar>
+    </UIContext.Provider>
   );
-  expect(renderer.toJSON()).toMatchSnapshot();
+  expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
 it("sets initial tab as active", () => {
+  const context: UIContextProps = {
+    renderWindow: window,
+  };
   const renderer = TestRenderer.create(
-    <TabBar activeTab="one">
-      <Tab tabID="one">One</Tab>
-      <Tab tabID="two">Two</Tab>
-      <Tab tabID="three">Three</Tab>
-    </TabBar>
+    <UIContext.Provider value={context}>
+      <TabBar activeTab="one">
+        <Tab tabID="one">One</Tab>
+        <Tab tabID="two">Two</Tab>
+        <Tab tabID="three">Three</Tab>
+      </TabBar>
+    </UIContext.Provider>
   );
+  expect(renderer.toJSON()).toMatchSnapshot();
 
   const testInstance = renderer.root;
   expect(testInstance.findByType(TabBar).props.activeTab).toBe("one");

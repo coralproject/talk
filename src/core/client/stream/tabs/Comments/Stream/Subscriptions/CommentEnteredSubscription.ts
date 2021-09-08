@@ -7,7 +7,6 @@ import {
 
 import {
   createSubscription,
-  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -157,107 +156,105 @@ type CommentEnteredVariables = Omit<
 
 const CommentEnteredSubscription = createSubscription(
   "subscribeToCommentEntered",
-  (environment: Environment, variables: CommentEnteredVariables) => {
-    return requestSubscription(environment, {
-      subscription: graphql`
-        subscription CommentEnteredSubscription(
-          $storyID: ID!
-          $ancestorID: ID
-          $flattenReplies: Boolean!
-        ) {
-          commentEntered(storyID: $storyID, ancestorID: $ancestorID) {
-            comment {
+  (environment: Environment, variables: CommentEnteredVariables) => ({
+    subscription: graphql`
+      subscription CommentEnteredSubscription(
+        $storyID: ID!
+        $ancestorID: ID
+        $flattenReplies: Boolean!
+      ) {
+        commentEntered(storyID: $storyID, ancestorID: $ancestorID) {
+          comment {
+            id
+            createdAt
+            parent {
               id
-              createdAt
-              parent {
-                id
-              }
-              tags {
-                code
-              }
-              ...AllCommentsTabCommentContainer_comment
             }
+            tags {
+              code
+            }
+            ...AllCommentsTabCommentContainer_comment
           }
         }
-      `,
-      variables: {
-        storyID: variables.storyID,
-        ancestorID: variables.ancestorID,
-        flattenReplies: lookupFlattenReplies(environment),
-      },
-      updater: (store) => {
-        const rootField = store.getRootField("commentEntered");
-        if (!rootField) {
-          return;
-        }
+      }
+    `,
+    variables: {
+      storyID: variables.storyID,
+      ancestorID: variables.ancestorID,
+      flattenReplies: lookupFlattenReplies(environment),
+    },
+    updater: (store) => {
+      const rootField = store.getRootField("commentEntered");
+      if (!rootField) {
+        return;
+      }
 
-        const flattenReplies = lookupFlattenReplies(environment);
-        const comment = rootField.getLinkedRecord("comment")!;
-        const commentID = comment.getValue("id")! as string;
+      const flattenReplies = lookupFlattenReplies(environment);
+      const comment = rootField.getLinkedRecord("comment")!;
+      const commentID = comment.getValue("id")! as string;
 
-        const commentInStore = Boolean(
-          // We use store from environment here, because it does not contain the response data yet!
-          environment.getStore().getSource().get(commentID)
-        );
-        if (commentInStore) {
-          // Comment already in the queue, ignore it as it might be just expected race condition,
-          // unless the server is sending the same response multiple times.
-          return;
-        }
+      const commentInStore = Boolean(
+        // We use store from environment here, because it does not contain the response data yet!
+        environment.getStore().getSource().get(commentID)
+      );
+      if (commentInStore) {
+        // Comment already in the queue, ignore it as it might be just expected race condition,
+        // unless the server is sending the same response multiple times.
+        return;
+      }
 
-        const parent = comment.getLinkedRecord("parent");
-        const isTopLevelComent = !parent;
-        if (
-          variables.tag &&
-          isTopLevelComent &&
-          comment
-            .getLinkedRecords("tags")
-            ?.every((r) => r.getValue("code") !== variables.tag)
-        ) {
-          if (process.env.NODE_ENV !== "production") {
-            // eslint-disable-next-line no-console
-            console.debug(
-              "commentEnteredSupscription:",
-              "Skipped comment not including tag",
-              variables.tag
-            );
-          }
-          return;
-        }
-
-        comment.setValue(true, "enteredLive");
-
-        if (!isTopLevelComent) {
-          insertReply(
-            store,
-            Boolean(variables.liveDirectRepliesInsertion),
-            flattenReplies,
-            variables.ancestorID
-          );
-          return;
-        } else if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-          updateForNewestFirst(
-            store,
-            variables.storyID,
-            variables.storyConnectionKey,
+      const parent = comment.getLinkedRecord("parent");
+      const isTopLevelComent = !parent;
+      if (
+        variables.tag &&
+        isTopLevelComent &&
+        comment
+          .getLinkedRecords("tags")
+          ?.every((r) => r.getValue("code") !== variables.tag)
+      ) {
+        if (process.env.NODE_ENV !== "production") {
+          // eslint-disable-next-line no-console
+          console.debug(
+            "commentEnteredSupscription:",
+            "Skipped comment not including tag",
             variables.tag
           );
-          return;
-        } else if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-          updateForOldestFirst(
-            store,
-            variables.storyID,
-            variables.storyConnectionKey,
-            variables.tag
-          );
-          return;
         }
-        throw new Error(
-          `Unsupport new top level comment live updates for sort ${variables.orderBy}`
+        return;
+      }
+
+      comment.setValue(true, "enteredLive");
+
+      if (!isTopLevelComent) {
+        insertReply(
+          store,
+          Boolean(variables.liveDirectRepliesInsertion),
+          flattenReplies,
+          variables.ancestorID
         );
-      },
-    });
-  }
+        return;
+      } else if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+        updateForNewestFirst(
+          store,
+          variables.storyID,
+          variables.storyConnectionKey,
+          variables.tag
+        );
+        return;
+      } else if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+        updateForOldestFirst(
+          store,
+          variables.storyID,
+          variables.storyConnectionKey,
+          variables.tag
+        );
+        return;
+      }
+      throw new Error(
+        `Unsupport new top level comment live updates for sort ${variables.orderBy}`
+      );
+    },
+  })
 );
 
 export default CommentEnteredSubscription;

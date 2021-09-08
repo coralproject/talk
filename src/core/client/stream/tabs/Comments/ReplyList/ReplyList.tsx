@@ -93,12 +93,15 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
         <Indent level={props.indentLevel} noBorder>
           <Localized id="comments-replyList-showMoreReplies">
             <Button
+              id={`coral-comments-replyList-showMoreReplies--${props.comment.id}`}
               aria-controls={`coral-comments-replyList-log--${props.comment.id}`}
               onClick={props.onViewNew}
               className={CLASSES.replyList.showMoreReplies}
               variant="outlined"
               color="secondary"
               fullWidth
+              data-key-stop
+              data-is-load-more
             >
               Show More Replies
             </Button>

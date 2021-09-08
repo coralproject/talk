@@ -333,6 +333,7 @@ async function commit(
                 status: "NONE",
                 pending: false,
                 lastViewerAction: "CREATE",
+                hasTraversalFocus: false,
                 author: {
                   id: viewer.id,
                   username: viewer.username || null,
