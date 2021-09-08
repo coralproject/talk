@@ -1,20 +1,22 @@
-export type OnIntersectCancellation = () => void;
+import onIntersectChange, {
+  OnIntersectCancellation,
+} from "./onIntersectChange";
+export { OnIntersectCancellation } from "./onIntersectChange";
 
 export default function onIntersect(
   el: HTMLElement,
-  callback: () => void
+  callback: () => void,
+  options?: IntersectionObserverInit
 ): OnIntersectCancellation {
-  const options = {
-    rootMargin: "100px",
-    threshold: 1.0,
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      observer.disconnect();
-      callback();
-    }
-  }, options);
-  observer.observe(el);
-  return () => observer.disconnect();
+  const disconnect = onIntersectChange(
+    el,
+    (isIntersecting) => {
+      if (isIntersecting) {
+        disconnect();
+        callback();
+      }
+    },
+    options
+  );
+  return disconnect;
 }

@@ -4,7 +4,7 @@
  *
  * https://developer.mozilla.org/en-US/docs/Web/API/Storage
  */
-class InMemoryStorage<T = any> {
+export class InMemoryStorage<T = any> {
   private data: Record<string, T>;
 
   constructor(data: Record<string, T> = {}) {

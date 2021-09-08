@@ -3,7 +3,6 @@ import { Environment } from "relay-runtime";
 
 import {
   createSubscription,
-  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 
@@ -14,53 +13,52 @@ const ModerationCountsSubscription = createSubscription(
   (
     environment: Environment,
     variables: SubscriptionVariables<ModerationCountsSubscription>
-  ) =>
-    requestSubscription(environment, {
-      subscription: graphql`
-        subscription ModerationCountsSubscription($storyID: ID) {
-          commentEnteredModerationQueue(storyID: $storyID) {
-            queue
-          }
-          commentLeftModerationQueue(storyID: $storyID) {
-            queue
-          }
+  ) => ({
+    subscription: graphql`
+      subscription ModerationCountsSubscription($storyID: ID) {
+        commentEnteredModerationQueue(storyID: $storyID) {
+          queue
         }
-      `,
-      variables,
-      updater: (store) => {
-        let queue: string;
-        let change: number;
+        commentLeftModerationQueue(storyID: $storyID) {
+          queue
+        }
+      }
+    `,
+    variables,
+    updater: (store) => {
+      let queue: string;
+      let change: number;
 
-        const enteredRoot = store.getRootField("commentEnteredModerationQueue");
-        const leftRoot = store.getRootField("commentLeftModerationQueue");
-        if (enteredRoot) {
-          queue = enteredRoot.getValue("queue") as string;
-          change = +1;
-        } else if (leftRoot) {
-          queue = leftRoot.getValue("queue") as string;
-          change = -1;
-        } else {
-          throw new Error("Expected a subscription result");
-        }
+      const enteredRoot = store.getRootField("commentEnteredModerationQueue");
+      const leftRoot = store.getRootField("commentLeftModerationQueue");
+      if (enteredRoot) {
+        queue = enteredRoot.getValue("queue") as string;
+        change = +1;
+      } else if (leftRoot) {
+        queue = leftRoot.getValue("queue") as string;
+        change = -1;
+      } else {
+        throw new Error("Expected a subscription result");
+      }
 
-        const moderationQueuesProxy = store
-          .getRoot()
-          .getLinkedRecord("moderationQueues", { storyID: variables.storyID })!;
-        if (!moderationQueuesProxy) {
-          return;
-        }
-        const queueProxy = moderationQueuesProxy.getLinkedRecord(
-          queue!.toLocaleLowerCase()
-        );
-        if (!queueProxy) {
-          return;
-        }
-        queueProxy.setValue(
-          (queueProxy.getValue("count") as number) + change,
-          "count"
-        );
-      },
-    })
+      const moderationQueuesProxy = store
+        .getRoot()
+        .getLinkedRecord("moderationQueues", { storyID: variables.storyID })!;
+      if (!moderationQueuesProxy) {
+        return;
+      }
+      const queueProxy = moderationQueuesProxy.getLinkedRecord(
+        queue!.toLocaleLowerCase()
+      );
+      if (!queueProxy) {
+        return;
+      }
+      queueProxy.setValue(
+        (queueProxy.getValue("count") as number) + change,
+        "count"
+      );
+    },
+  })
 );
 
 export default ModerationCountsSubscription;
