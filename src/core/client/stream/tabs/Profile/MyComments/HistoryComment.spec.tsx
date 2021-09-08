@@ -24,6 +24,12 @@ it("renders correctly", () => {
       },
     },
     footer: null,
+    parent: {
+      id: "parent-id",
+      author: {
+        username: "parent author",
+      },
+    },
   };
   const renderer = createRenderer();
   renderer.render(<HistoryCommentN {...props} />);
