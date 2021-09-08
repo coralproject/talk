@@ -10,6 +10,7 @@ export { default as isPublished } from "./isPublished";
 export { default as prependCommentEdgeToProfile } from "./prependCommentEdgeToProfile";
 export { default as getMediaValidators } from "./getMediaValidators";
 export { default as useStaticFlattenReplies } from "./useStaticFlattenReplies";
+export { default as useAMP } from "./useAMP";
 export { default as lookupFlattenReplies } from "./lookupFlattenReplies";
 export { default as getFlattenedReplyAncestorID } from "./getFlattenedReplyAncestorID";
 export { default as determineDepthTillAncestor } from "./determineDepthTillAncestor";

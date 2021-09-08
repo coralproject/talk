@@ -196,7 +196,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <KeyboardShortcuts />
+      <KeyboardShortcuts loggedIn={!!viewer} />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
           rating={ratingFilter}
@@ -206,11 +206,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
+            id="comments-allComments-viewNewButton"
             variant="outlined"
             color="primary"
             onClick={onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
             aria-controls="comments-allComments-log"
+            data-key-stop
+            data-is-load-more
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (

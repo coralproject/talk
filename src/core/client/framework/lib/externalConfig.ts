@@ -7,6 +7,7 @@ export interface ExternalConfig {
   accessToken?: string;
   bodyClassName?: string;
   version?: string;
+  amp?: boolean;
 }
 
 export function getExternalConfig(

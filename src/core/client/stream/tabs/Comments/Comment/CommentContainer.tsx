@@ -13,7 +13,7 @@ import { graphql } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
-import { useInMemoryState, useToggleState } from "coral-framework/hooks";
+import { useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
 import { MutationProp, useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
@@ -143,25 +143,15 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const rawSeen = useCommentSeen(comment.id);
-  const [overrideSeen, setOverrideSeen] = useInMemoryState(
-    `overrideSeen:${comment.id}`,
-    false
-  );
-  const seen = rawSeen || !!overrideSeen;
+  const seen = useCommentSeen(comment.id);
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const handleFocus = useCallback(() => {
-    void setTraversalFocus({ commentID: comment.id, commentSeenEnabled });
-    if (!seen) {
-      setOverrideSeen(true);
-    }
-  }, [
-    comment.id,
-    commentSeenEnabled,
-    seen,
-    setOverrideSeen,
-    setTraversalFocus,
-  ]);
+    void setTraversalFocus({
+      commentID: comment.id,
+      commentSeenEnabled,
+      skipCommitSeen: seen,
+    });
+  }, [comment.id, commentSeenEnabled, seen, setTraversalFocus]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [

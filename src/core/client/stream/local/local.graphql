@@ -73,6 +73,7 @@ extend type Local {
   storyMode: STORY_MODE
   # Version as reported by the embed.js
   embedVersion: String
+  amp: Boolean!
   # If set, then we are in single comment view.
   commentID: String
   siteID: String
@@ -85,6 +86,7 @@ extend type Local {
   commentsTab: COMMENTS_TAB!
   flattenReplies: Boolean!
   enableCommentSeen: Boolean!
+  enableZKey: Boolean!
 
   # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
   commentWithTraversalFocus: String

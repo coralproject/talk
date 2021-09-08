@@ -84,6 +84,7 @@ createComment.error
 - <a href="#changeEmail">changeEmail</a>
 - <a href="#changePassword">changePassword</a>
 - <a href="#changeUsername">changeUsername</a>
+- <a href="#closeMobileToolbar">closeMobileToolbar</a>
 - <a href="#closeStory">closeStory</a>
 - <a href="#copyPermalink">copyPermalink</a>
 - <a href="#createComment">createComment</a>
@@ -94,6 +95,10 @@ createComment.error
 - <a href="#featureComment">featureComment</a>
 - <a href="#gotoModeration">gotoModeration</a>
 - <a href="#ignoreUser">ignoreUser</a>
+- <a href="#jumpToNextComment">jumpToNextComment</a>
+- <a href="#jumpToNextUnseenComment">jumpToNextUnseenComment</a>
+- <a href="#jumpToPreviousComment">jumpToPreviousComment</a>
+- <a href="#jumpToPreviousUnseenComment">jumpToPreviousUnseenComment</a>
 - <a href="#loadMoreAllComments">loadMoreAllComments</a>
 - <a href="#loadMoreFeaturedComments">loadMoreFeaturedComments</a>
 - <a href="#loadMoreHistoryComments">loadMoreHistoryComments</a>
@@ -131,6 +136,7 @@ createComment.error
 - <a href="#signOut">signOut</a>
 - <a href="#signedIn">signedIn</a>
 - <a href="#unfeatureComment">unfeatureComment</a>
+- <a href="#unmarkAll">unmarkAll</a>
 - <a href="#updateNotificationSettings">updateNotificationSettings</a>
 - <a href="#updateStorySettings">updateStorySettings</a>
 - <a href="#updateUserMediaSettings">updateUserMediaSettings</a>
@@ -206,6 +212,7 @@ createComment.error
       };
   }
   ```
+- <a id="closeMobileToolbar">**closeMobileToolbar**</a>: This event is emitted when the viewer closes to mobile toolbar.
 - <a id="closeStory">**closeStory.success**, **closeStory.error**</a>: This event is emitted when the viewer closes the story.
   ```ts
   {
@@ -305,6 +312,30 @@ createComment.error
           message: string;
           code?: string | undefined;
       };
+  }
+  ```
+- <a id="jumpToNextComment">**jumpToNextComment**</a>: This event is emitted when the viewer triggered the C Key (Next Comment Traversal) functionality.
+  ```ts
+  {
+      source: "keyboard" | "mobileToolbar";
+  }
+  ```
+- <a id="jumpToNextUnseenComment">**jumpToNextUnseenComment**</a>: This event is emitted when the viewer triggered the Z Key (Next Unseen Comment Traversal) functionality.
+  ```ts
+  {
+      source: "keyboard" | "mobileToolbar";
+  }
+  ```
+- <a id="jumpToPreviousComment">**jumpToPreviousComment**</a>: This event is emitted when the viewer triggered the Shift+C Key (Prev Comment Traversal) functionality.
+  ```ts
+  {
+      source: "keyboard" | "mobileToolbar";
+  }
+  ```
+- <a id="jumpToPreviousUnseenComment">**jumpToPreviousUnseenComment**</a>: This event is emitted when the viewer triggered the Shift+Z Key (Prev Unseen Comment Traversal) functionality.
+  ```ts
+  {
+      source: "keyboard" | "mobileToolbar";
   }
   ```
 - <a id="loadMoreAllComments">**loadMoreAllComments.success**, **loadMoreAllComments.error**</a>: This event is emitted when the viewer loads more top level comments into the comment stream.
@@ -550,6 +581,12 @@ createComment.error
           message: string;
           code?: string | undefined;
       };
+  }
+  ```
+- <a id="unmarkAll">**unmarkAll**</a>: This event is emitted when the viewer triggeres the Unmark all functionality.
+  ```ts
+  {
+      source: "keyboard" | "mobileToolbar";
   }
   ```
 - <a id="updateNotificationSettings">**updateNotificationSettings.success**, **updateNotificationSettings.error**</a>: This event is emitted when the viewer updates its notification settings.

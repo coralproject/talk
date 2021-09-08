@@ -346,7 +346,7 @@ exports[`renders comment stream with community guidelines 1`] = `
           role="log"
         >
           <div
-            className="Box-root HorizontalGutter-root AllCommentsTabCommentContainer-borderedComment HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root AllCommentsTabCommentContainer-borderedCommentSeen HorizontalGutter-full"
           >
             <div
               aria-labelledby="comment-comment-0-label"
@@ -619,9 +619,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="AllCommentsTabCommentContainer-commentSeen"
-            />
+            <div />
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -897,9 +895,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="AllCommentsTabCommentContainer-commentSeen"
-            />
+            <div />
           </div>
           <nav
             aria-label="Comments Footer"
