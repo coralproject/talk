@@ -31,6 +31,7 @@ import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/_
 import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
 import { ReplyCommentFormContainer_story as StoryData } from "coral-stream/__generated__/ReplyCommentFormContainer_story.graphql";
 
+import { useCommentSeenEnabled } from "../../commentSeen";
 import {
   shouldTriggerSettingsRefresh,
   shouldTriggerViewerRefresh,
@@ -47,7 +48,6 @@ import {
   withCreateCommentReplyMutation,
 } from "./CreateCommentReplyMutation";
 import ReplyCommentForm, { ReplyCommentFormProps } from "./ReplyCommentForm";
-import { useCommentSeenEnabled } from "../../commentSeen";
 
 interface Props {
   createCommentReply: CreateCommentReplyMutation;
