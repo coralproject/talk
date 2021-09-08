@@ -47,6 +47,7 @@ import {
   withCreateCommentReplyMutation,
 } from "./CreateCommentReplyMutation";
 import ReplyCommentForm, { ReplyCommentFormProps } from "./ReplyCommentForm";
+import { useCommentSeenEnabled } from "../../commentSeen";
 
 interface Props {
   createCommentReply: CreateCommentReplyMutation;
@@ -63,7 +64,8 @@ interface Props {
 }
 
 const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
-  const { pym } = useCoralContext();
+  const { pym, renderWindow } = useCoralContext();
+  const commentSeenEnabled = useCommentSeenEnabled();
 
   const [nudge, setNudge] = useState(true);
   const [initialized, setInitialized] = useState(false);
@@ -222,9 +224,25 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
 
     const elementID = computeCommentElementID(commentID);
     setTimeout(() => {
-      pym.scrollParentToChildEl(elementID);
+      const elem = renderWindow.document.getElementById(elementID);
+      if (elem) {
+        const offset =
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+          elem.getBoundingClientRect().top +
+          renderWindow.pageYOffset -
+          (commentSeenEnabled ? 150 : 0);
+        pym.scrollParentToChildPos(offset);
+        elem.focus();
+      }
     }, 300);
-  }, [jumpToCommentID, props, pym]);
+  }, [
+    commentSeenEnabled,
+    jumpToCommentID,
+    props,
+    pym,
+    renderWindow.document,
+    renderWindow.pageYOffset,
+  ]);
 
   if (!initialized) {
     return null;
