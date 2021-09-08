@@ -19,8 +19,14 @@ import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import CLASSES from "coral-stream/classes";
 import {
+  CloseMobileToolbarEvent,
+  JumpToNextCommentEvent,
+  JumpToNextUnseenCommentEvent,
+  JumpToPreviousCommentEvent,
+  JumpToPreviousUnseenCommentEvent,
   LoadMoreAllCommentsEvent,
   ShowAllRepliesEvent,
+  UnmarkAllEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
@@ -298,65 +304,46 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     renderWindow,
   ]);
 
-  const unmarkAll = useCallback(() => {
-    commitSeen();
-    if (!disableUnmarkAction) {
-      setDisableUnmarkAction(true);
-    }
-  }, [commitSeen, disableUnmarkAction]);
+  const unmarkAll = useCallback(
+    (config: { source: "keyboard" | "mobileToolbar" }) => {
+      UnmarkAllEvent.emit(eventEmitter, { source: config.source });
+      commitSeen();
+      if (!disableUnmarkAction) {
+        setDisableUnmarkAction(true);
+      }
+    },
+    [commitSeen, disableUnmarkAction, eventEmitter]
+  );
 
-  const closeToolbar = useCallback(() => setToolbarClosed(true), [
-    setToolbarClosed,
-  ]);
+  const handleUnmarkAllButton = useCallback(() => {
+    unmarkAll({ source: "mobileToolbar" });
+  }, [unmarkAll]);
 
-  const handleKeypress = useCallback(
-    (event: React.KeyboardEvent | KeyboardEvent | string) => {
+  const handleCloseToolbarButton = useCallback(() => {
+    setToolbarClosed(true);
+    CloseMobileToolbarEvent.emit(eventEmitter);
+  }, [eventEmitter, setToolbarClosed]);
+
+  const traverse = useCallback(
+    (config: {
+      key: "z" | "c";
+      reverse: boolean;
+      source: "keyboard" | "mobileToolbar";
+    }) => {
       if (!pym) {
         return;
       }
-
-      let data: KeyboardEventData;
-      try {
-        if (typeof event === "string") {
-          data = JSON.parse(event);
-        } else {
-          if (event.target) {
-            const el = event.target as HTMLElement;
-            if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
-              return;
-            }
-            if (el.isContentEditable) {
-              return;
-            }
-          }
-          data = event;
-        }
-      } catch (err) {
-        globalErrorReporter.report(err);
-        return;
-      }
-
-      if (data.ctrlKey || data.metaKey || data.altKey) {
-        return;
-      }
-
       let stop: KeyStop | null = null;
       let traverseOptions: TraverseOptions | undefined;
 
-      const pressedKey = data.key.toLocaleLowerCase();
-      if (pressedKey === "a" && data.shiftKey) {
-        unmarkAll();
-        return;
-      }
-
-      if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
-        if (pressedKey === "z") {
+      if (config.key === "c" || (config.key === "z" && zKeyEnabled)) {
+        if (config.key === "z") {
           traverseOptions = {
             skipSeen: true,
           };
         }
         const currentStop = getCurrentKeyStop(renderWindow, relayEnvironment);
-        if (data.shiftKey) {
+        if (config.reverse) {
           stop = findPreviousKeyStop(
             renderWindow,
             currentStop,
@@ -370,6 +357,27 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       if (!stop) {
         return;
       }
+
+      if (config.key === "c") {
+        if (config.reverse) {
+          JumpToPreviousCommentEvent.emit(eventEmitter, {
+            source: config.source,
+          });
+        } else {
+          JumpToNextCommentEvent.emit(eventEmitter, { source: config.source });
+        }
+      } else if (config.key === "z") {
+        if (config.reverse) {
+          JumpToPreviousUnseenCommentEvent.emit(eventEmitter, {
+            source: config.source,
+          });
+        } else {
+          JumpToNextUnseenCommentEvent.emit(eventEmitter, {
+            source: config.source,
+          });
+        }
+      }
+
       const offset =
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         renderWindow.document.getElementById(stop.id)!.getBoundingClientRect()
@@ -406,24 +414,67 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       }
     },
     [
-      pym,
-      zKeyEnabled,
-      renderWindow,
-      unmarkAll,
-      relayEnvironment,
-      setTraversalFocus,
       enabled,
+      eventEmitter,
+      pym,
+      relayEnvironment,
+      renderWindow,
+      setTraversalFocus,
+      zKeyEnabled,
     ]
   );
 
-  const execZAction = useCallback(
-    () =>
-      handleKeypress(
-        JSON.stringify({
-          key: "z",
-        })
-      ),
-    [handleKeypress]
+  const handleKeypress = useCallback(
+    (event: React.KeyboardEvent | KeyboardEvent | string) => {
+      if (!pym) {
+        return;
+      }
+
+      let data: KeyboardEventData;
+      try {
+        if (typeof event === "string") {
+          data = JSON.parse(event);
+        } else {
+          if (event.target) {
+            const el = event.target as HTMLElement;
+            if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+              return;
+            }
+            if (el.isContentEditable) {
+              return;
+            }
+          }
+          data = event;
+        }
+      } catch (err) {
+        globalErrorReporter.report(err);
+        return;
+      }
+
+      if (data.ctrlKey || data.metaKey || data.altKey) {
+        return;
+      }
+
+      const pressedKey = data.key.toLocaleLowerCase();
+      if (pressedKey === "a" && data.shiftKey) {
+        unmarkAll({ source: "keyboard" });
+        return;
+      }
+
+      if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
+        traverse({
+          key: pressedKey,
+          reverse: Boolean(data.shiftKey),
+          source: "keyboard",
+        });
+      }
+    },
+    [pym, traverse, unmarkAll, zKeyEnabled]
+  );
+
+  const handleZKeyButton = useCallback(
+    () => traverse({ key: "z", reverse: false, source: "mobileToolbar" }),
+    [traverse]
   );
 
   // Update button states after first render.
@@ -478,7 +529,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
               size="large"
               uppercase={false}
               disabled={disableUnmarkAction}
-              onClick={unmarkAll}
+              onClick={handleUnmarkAllButton}
               classes={{
                 variantText: styles.button,
                 disabled: styles.buttonDisabled,
@@ -502,7 +553,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
                 disabled: styles.buttonDisabled,
                 colorRegular: styles.buttonColor,
               }}
-              onClick={execZAction}
+              onClick={handleZKeyButton}
             >
               {nextZAction}
               <ButtonIcon>skip_next</ButtonIcon>
@@ -522,7 +573,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
                   disabled: styles.buttonDisabled,
                   colorRegular: styles.buttonColor,
                 }}
-                onClick={closeToolbar}
+                onClick={handleCloseToolbarButton}
                 aria-label="Close"
               >
                 <ButtonIcon>close</ButtonIcon>
