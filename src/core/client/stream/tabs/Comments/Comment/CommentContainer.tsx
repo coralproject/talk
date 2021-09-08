@@ -81,6 +81,7 @@ import styles from "./CommentContainer.css";
 
 interface Props {
   viewer: ViewerData | null;
+  enableJumpToParent?: boolean;
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
@@ -141,6 +142,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   viewer,
   showAuthPopup,
   showRemoveAnswered,
+  enableJumpToParent,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
   const seen = useCommentSeen(comment.id);
@@ -477,6 +479,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       </Hidden>
       <HorizontalGutter>
         <IndentedComment
+          enableJumpToParent={enableJumpToParent}
           classNameIndented={cn({
             [styles.indented]: indentLevel && indentLevel > 0,
             [styles.commentSeenEnabled]: commentSeenEnabled,
@@ -498,7 +501,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           showEditedMarker={comment.editing.edited}
           highlight={highlight}
           toggleCollapsed={toggleCollapsed}
-          parentAuthorName={comment.parent?.author?.username}
+          parent={comment.parent}
           staticUsername={
             comment.author && (
               <Flex direction="row" alignItems="center" wrap>
@@ -786,6 +789,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             badges
           }
           parent {
+            id
             author {
               username
             }

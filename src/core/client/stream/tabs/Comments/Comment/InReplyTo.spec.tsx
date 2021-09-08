@@ -7,7 +7,13 @@ import InReplyTo from "./InReplyTo";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof InReplyTo> = {
-    username: "Username",
+    parent: {
+      id: "test-id",
+      author: {
+        username: "Username",
+      },
+    },
+    enableJumpToParent: false,
   };
   const renderer = createRenderer();
   renderer.render(<InReplyTo {...props} />);

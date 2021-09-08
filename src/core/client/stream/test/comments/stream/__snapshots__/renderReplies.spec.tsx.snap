@@ -144,29 +144,40 @@ exports[`renders reply list 1`] = `
                 <div
                   className="Comment-subBar"
                 >
-                  <div
-                    className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                  <button
+                    className="BaseButton-root InReplyTo-button"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm InReplyTo-icon"
-                    >
-                      reply
-                    </i>
-                    <span>
-                       
-                    </span>
                     <span
-                      className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
-                      In reply to 
-                      <span
-                        className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm InReplyTo-icon"
                       >
-                        Markus
+                        reply
+                      </i>
+                      <span>
+                         
+                      </span>
+                      <span
+                        className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      >
+                        In reply to 
+                        <span
+                          className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                        >
+                          Markus
+                        </span>
                       </span>
                     </span>
-                  </div>
+                  </button>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -459,29 +470,40 @@ exports[`renders reply list 1`] = `
                       <div
                         className="Comment-subBar"
                       >
-                        <div
-                          className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                        <button
+                          className="BaseButton-root InReplyTo-button"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
                         >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm InReplyTo-icon"
-                          >
-                            reply
-                          </i>
-                          <span>
-                             
-                          </span>
                           <span
-                            className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                           >
-                            In reply to 
-                            <span
-                              className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm InReplyTo-icon"
                             >
-                              Markus
+                              reply
+                            </i>
+                            <span>
+                               
+                            </span>
+                            <span
+                              className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            >
+                              In reply to 
+                              <span
+                                className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                              >
+                                Markus
+                              </span>
                             </span>
                           </span>
-                        </div>
+                        </button>
                       </div>
                       <div
                         className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -768,29 +790,40 @@ exports[`renders reply list 1`] = `
                       <div
                         className="Comment-subBar"
                       >
-                        <div
-                          className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                        <button
+                          className="BaseButton-root InReplyTo-button"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
                         >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm InReplyTo-icon"
-                          >
-                            reply
-                          </i>
-                          <span>
-                             
-                          </span>
                           <span
-                            className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                           >
-                            In reply to 
-                            <span
-                              className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm InReplyTo-icon"
                             >
-                              Markus
+                              reply
+                            </i>
+                            <span>
+                               
+                            </span>
+                            <span
+                              className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            >
+                              In reply to 
+                              <span
+                                className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                              >
+                                Markus
+                              </span>
                             </span>
                           </span>
-                        </div>
+                        </button>
                       </div>
                       <div
                         className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -1080,29 +1113,40 @@ exports[`renders reply list 1`] = `
                 <div
                   className="Comment-subBar"
                 >
-                  <div
-                    className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                  <button
+                    className="BaseButton-root InReplyTo-button"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm InReplyTo-icon"
-                    >
-                      reply
-                    </i>
-                    <span>
-                       
-                    </span>
                     <span
-                      className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
-                      In reply to 
-                      <span
-                        className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm InReplyTo-icon"
                       >
-                        Markus
+                        reply
+                      </i>
+                      <span>
+                         
+                      </span>
+                      <span
+                        className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      >
+                        In reply to 
+                        <span
+                          className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                        >
+                          Markus
+                        </span>
                       </span>
                     </span>
-                  </div>
+                  </button>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
