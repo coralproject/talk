@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import { ListenerFn } from "eventemitter2";
 import React, {
   FunctionComponent,
@@ -206,6 +207,12 @@ const findPreviousKeyStop = (
   return getLastKeyStop(stops, options);
 };
 
+const NextUnread = (
+  <Localized id="comments-mobileToolbar-nextUnread">
+    <span>Next unread</span>
+  </Localized>
+);
+
 const getNextAction = (
   window: Window,
   relayEnvironment: Environment,
@@ -216,13 +223,12 @@ const getNextAction = (
   if (next) {
     if (next.isLoadMore) {
       return {
-        // text: next.element.innerText,
-        text: "Next unread",
+        element: NextUnread,
         disabled: Boolean((next.element as HTMLInputElement).disabled),
       };
     } else {
       return {
-        text: "Next unread",
+        element: NextUnread,
         disabled: false,
       };
     }
@@ -258,7 +264,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const zKeyEnabled = useZKeyEnabled();
   const { commitSeen, enabled } = useContext(CommentSeenContext);
 
-  const [nextZAction, setNextZAction] = useState<string | null>(null);
+  const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(null);
   const [disableZAction, setDisableZAction] = useState<boolean>(true);
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
@@ -275,8 +281,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       }
       return;
     }
-    if (nextAction.text !== nextZAction) {
-      setNextZAction(nextAction.text);
+    if (nextAction.element !== nextZAction) {
+      setNextZAction(nextAction.element);
     }
     if (nextAction.disabled !== disableZAction) {
       setDisableZAction(nextAction.disabled);
@@ -480,7 +486,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
               }}
             >
               <ButtonIcon>done_all</ButtonIcon>
-              <span>Unmark all</span>
+              <Localized id="comments-mobileToolbar-unmarkAll">
+                <span>Unmark all</span>
+              </Localized>
             </Button>
           </div>
           <div className={styles.nextActionContainer}>
@@ -496,25 +504,30 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
               }}
               onClick={execZAction}
             >
-              <span>{nextZAction}</span>
+              {nextZAction}
               <ButtonIcon>skip_next</ButtonIcon>
             </Button>
           </div>
           <div className={styles.closeContainer}>
-            <Button
-              variant="text"
-              size="large"
-              uppercase={false}
-              classes={{
-                variantText: styles.button,
-                disabled: styles.buttonDisabled,
-                colorRegular: styles.buttonColor,
-              }}
-              onClick={closeToolbar}
-              aria-label="Close"
+            <Localized
+              id="comments-mobileToolbar-closeButton"
+              attrs={{ "aria-label": true }}
             >
-              <ButtonIcon>close</ButtonIcon>
-            </Button>
+              <Button
+                variant="text"
+                size="large"
+                uppercase={false}
+                classes={{
+                  variantText: styles.button,
+                  disabled: styles.buttonDisabled,
+                  colorRegular: styles.buttonColor,
+                }}
+                onClick={closeToolbar}
+                aria-label="Close"
+              >
+                <ButtonIcon>close</ButtonIcon>
+              </Button>
+            </Localized>
           </div>
         </Flex>
       </MobileToolbar>

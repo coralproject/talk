@@ -291,6 +291,11 @@ comments-reacted =
 comments-jumpToComment-title = Your reply has posted below
 comments-jumpToComment-GoToReply = Go to reply
 
+comments-mobileToolbar-closeButton =
+  .aria-label = Close
+comments-mobileToolbar-unmarkAll = Unmark all
+comments-mobileToolbar-nextUnread = Next unread
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A

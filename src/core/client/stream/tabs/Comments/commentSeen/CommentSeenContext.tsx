@@ -35,8 +35,8 @@ interface ContextState {
   seenMap: SeenMap | null;
   /** Mark comment as seen in the database, will only see effect after refresh */
   markSeen: (id: CommentID) => void;
-  /** Commit all comments marked as seen using `markSeen` into `seen` */
-  commitSeen: () => void;
+  /** Commit specified comment or all comments marked as seen using `markSeen` into `seen` */
+  commitSeen: (id?: CommentID) => void;
 }
 
 /**
@@ -257,6 +257,7 @@ function CommentSeenProvider(props: {
     };
   }, [db, props.storyID, props.viewerID, local.enableCommentSeen]);
 
+  // Commit seen event will propagate to comments that use `useCommentSeen`
   const commitSeen = useCallback(
     (commentID?: string) => {
       eventEmitter.emit(COMMIT_SEEN_EVENT, {
