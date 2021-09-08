@@ -215,6 +215,7 @@ exports[`hide reply button 1`] = `
           }
         />
       }
+      parent={null}
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -602,6 +603,7 @@ exports[`renders body only 1`] = `
           }
         />
       }
+      parent={null}
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -990,6 +992,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
           }
         />
       }
+      parent={null}
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -1378,6 +1381,7 @@ exports[`renders disabled reply when story is closed 1`] = `
           }
         />
       }
+      parent={null}
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -1778,7 +1782,13 @@ exports[`renders in reply to 1`] = `
           }
         />
       }
-      parentAuthorName="ParentAuthor"
+      parent={
+        Object {
+          "author": Object {
+            "username": "ParentAuthor",
+          },
+        }
+      }
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -2179,6 +2189,7 @@ exports[`renders username and body 1`] = `
           }
         />
       }
+      parent={null}
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -2567,6 +2578,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
           }
         />
       }
+      parent={null}
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}
@@ -2961,6 +2973,7 @@ exports[`shows conversation link 1`] = `
           }
         />
       }
+      parent={null}
       rating={null}
       showEditedMarker={false}
       staticTopBarRight={<React.Fragment />}

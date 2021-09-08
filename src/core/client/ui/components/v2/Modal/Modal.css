@@ -9,7 +9,6 @@
 }
 
 .baseScroll {
-  pointer-events: none;
   position: relative;
 
   width: 100%;
