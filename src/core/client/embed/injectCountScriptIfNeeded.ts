@@ -6,7 +6,7 @@ import detectCountScript from "coral-framework/helpers/detectCountScript";
  * automatically includes the `count.js` script.
  */
 const injectCountScriptIfNeeded = (rootURL: string) => {
-  if (detectCountScript()) {
+  if (detectCountScript(window)) {
     return;
   }
   // Detect if we need to inject counts.

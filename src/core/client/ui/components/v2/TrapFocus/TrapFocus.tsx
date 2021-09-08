@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { RefObject } from "react";
+import withUIContext from "../UIContext/withUIContext";
 
 interface RenderProps {
   firstFocusableRef: RefObject<any>;
@@ -8,7 +9,8 @@ interface RenderProps {
 
 type RenderPropsCallback = (props: RenderProps) => React.ReactNode;
 
-export interface TrapFocusProps {
+interface TrapFocusProps {
+  window: Window;
   children?: React.ReactNode | RenderPropsCallback;
 }
 
@@ -18,7 +20,7 @@ function isRenderProp(
   return typeof children === "function";
 }
 
-export default class TrapFocus extends React.Component<TrapFocusProps> {
+export class TrapFocus extends React.Component<TrapFocusProps> {
   private fallbackRef = React.createRef<any>();
   private firstFocusableRef = React.createRef<any>();
   private lastFocusableRef = React.createRef<any>();
@@ -31,7 +33,7 @@ export default class TrapFocus extends React.Component<TrapFocusProps> {
     (this.lastFocusableRef.current || this.fallbackRef.current).focus();
 
   public componentDidMount() {
-    this.previousActiveElement = document.activeElement;
+    this.previousActiveElement = this.props.window.document.activeElement;
     this.fallbackRef.current.focus();
   }
 
@@ -57,3 +59,8 @@ export default class TrapFocus extends React.Component<TrapFocusProps> {
     );
   }
 }
+
+const enhanced = withUIContext(({ renderWindow }) => ({
+  window: renderWindow,
+}))(TrapFocus);
+export default enhanced;

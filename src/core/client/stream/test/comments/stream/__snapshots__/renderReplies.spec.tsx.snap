@@ -13,11 +13,13 @@ exports[`renders reply list 1`] = `
   >
     <div
       aria-labelledby="comment-comment-with-replies-label"
-      className="coral coral-comment coral coral-reacted-0"
+      className="CommentContainer-root coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
       data-testid="comment-comment-with-replies"
       id="comment-comment-with-replies"
+      onFocus={[Function]}
       role="article"
+      tabIndex={-1}
     >
       <div
         className="Hidden-root"
@@ -45,7 +47,7 @@ exports[`renders reply list 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
+            className="CommentContainer-indented Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -142,29 +144,40 @@ exports[`renders reply list 1`] = `
                 <div
                   className="Comment-subBar"
                 >
-                  <div
-                    className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                  <button
+                    className="BaseButton-root InReplyTo-button"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm InReplyTo-icon"
-                    >
-                      reply
-                    </i>
-                    <span>
-                       
-                    </span>
                     <span
-                      className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
-                      In reply to 
-                      <span
-                        className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm InReplyTo-icon"
                       >
-                        Markus
+                        reply
+                      </i>
+                      <span>
+                         
+                      </span>
+                      <span
+                        className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      >
+                        In reply to 
+                        <span
+                          className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                        >
+                          Markus
+                        </span>
                       </span>
                     </span>
-                  </div>
+                  </button>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -326,11 +339,13 @@ exports[`renders reply list 1`] = `
         >
           <div
             aria-labelledby="comment-comment-3-label"
-            className="coral coral-comment coral coral-reacted-0"
+            className="CommentContainer-root coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
             data-testid="comment-comment-3"
             id="comment-comment-3"
+            onFocus={[Function]}
             role="article"
+            tabIndex={-1}
           >
             <div
               className="Hidden-root"
@@ -358,7 +373,7 @@ exports[`renders reply list 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
+                  className="CommentContainer-indented Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -455,29 +470,40 @@ exports[`renders reply list 1`] = `
                       <div
                         className="Comment-subBar"
                       >
-                        <div
-                          className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                        <button
+                          className="BaseButton-root InReplyTo-button"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
                         >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm InReplyTo-icon"
-                          >
-                            reply
-                          </i>
-                          <span>
-                             
-                          </span>
                           <span
-                            className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                           >
-                            In reply to 
-                            <span
-                              className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm InReplyTo-icon"
                             >
-                              Markus
+                              reply
+                            </i>
+                            <span>
+                               
+                            </span>
+                            <span
+                              className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            >
+                              In reply to 
+                              <span
+                                className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                              >
+                                Markus
+                              </span>
                             </span>
                           </span>
-                        </div>
+                        </button>
                       </div>
                       <div
                         className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -633,11 +659,13 @@ exports[`renders reply list 1`] = `
         >
           <div
             aria-labelledby="comment-comment-4-label"
-            className="coral coral-comment coral coral-reacted-0"
+            className="CommentContainer-root coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
             data-testid="comment-comment-4"
             id="comment-comment-4"
+            onFocus={[Function]}
             role="article"
+            tabIndex={-1}
           >
             <div
               className="Hidden-root"
@@ -665,7 +693,7 @@ exports[`renders reply list 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
+                  className="CommentContainer-indented Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -762,29 +790,40 @@ exports[`renders reply list 1`] = `
                       <div
                         className="Comment-subBar"
                       >
-                        <div
-                          className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                        <button
+                          className="BaseButton-root InReplyTo-button"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
                         >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm InReplyTo-icon"
-                          >
-                            reply
-                          </i>
-                          <span>
-                             
-                          </span>
                           <span
-                            className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                           >
-                            In reply to 
-                            <span
-                              className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm InReplyTo-icon"
                             >
-                              Markus
+                              reply
+                            </i>
+                            <span>
+                               
+                            </span>
+                            <span
+                              className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            >
+                              In reply to 
+                              <span
+                                className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                              >
+                                Markus
+                              </span>
                             </span>
                           </span>
-                        </div>
+                        </button>
                       </div>
                       <div
                         className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -943,11 +982,13 @@ exports[`renders reply list 1`] = `
   >
     <div
       aria-labelledby="comment-comment-5-label"
-      className="coral coral-comment coral coral-reacted-0"
+      className="CommentContainer-root coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
       data-testid="comment-comment-5"
       id="comment-comment-5"
+      onFocus={[Function]}
       role="article"
+      tabIndex={-1}
     >
       <div
         className="Hidden-root"
@@ -975,7 +1016,7 @@ exports[`renders reply list 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
+            className="CommentContainer-indented Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -1072,29 +1113,40 @@ exports[`renders reply list 1`] = `
                 <div
                   className="Comment-subBar"
                 >
-                  <div
-                    className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
+                  <button
+                    className="BaseButton-root InReplyTo-button"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm InReplyTo-icon"
-                    >
-                      reply
-                    </i>
-                    <span>
-                       
-                    </span>
                     <span
-                      className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
-                      In reply to 
-                      <span
-                        className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm InReplyTo-icon"
                       >
-                        Markus
+                        reply
+                      </i>
+                      <span>
+                         
+                      </span>
+                      <span
+                        className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                      >
+                        In reply to 
+                        <span
+                          className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                        >
+                          Markus
+                        </span>
                       </span>
                     </span>
-                  </div>
+                  </button>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"

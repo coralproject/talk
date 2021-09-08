@@ -3,6 +3,7 @@ import { Component } from "react";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 
 interface Props {
+  window: CoralContext["window"];
   pym: CoralContext["pym"];
   eventEmitter: CoralContext["eventEmitter"];
 }
@@ -19,7 +20,7 @@ export class OnEvents extends Component<Props> {
         })
       );
 
-      const rudder = (window as any).rudderanalytics;
+      const rudder = (props.window as any).rudderanalytics;
       if (rudder) {
         rudder.track(eventName, value, () => {});
       }
@@ -31,8 +32,9 @@ export class OnEvents extends Component<Props> {
   }
 }
 
-const enhanced = withContext(({ pym, eventEmitter }) => ({
+const enhanced = withContext(({ pym, eventEmitter, window }) => ({
   pym,
   eventEmitter,
+  window,
 }))(OnEvents);
 export default enhanced;
