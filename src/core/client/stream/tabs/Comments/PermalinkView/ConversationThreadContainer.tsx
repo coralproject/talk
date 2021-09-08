@@ -213,6 +213,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
               <RejectedTombstoneContainer comment={comment}>
                 <DeletedTombstoneContainer comment={comment}>
                   <CommentContainer
+                    enableJumpToParent={remaining === 0}
                     className={CLASSES.conversationThread.hightlighted}
                     comment={comment}
                     story={story}
