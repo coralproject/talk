@@ -44,6 +44,21 @@ exports[`renders username and body 1`] = `
       topBarRight
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
+  <div
+    className="Comment-subBar"
+  >
+    <InReplyTo
+      enableJumpToParent={true}
+      parent={
+        Object {
+          "author": Object {
+            "username": "test-user",
+          },
+          "id": "test-id",
+        }
+      }
+    />
+  </div>
   <ForwardRef(forwardRef)
     size="oneAndAHalf"
   >
