@@ -1,16 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`withIndexedDBStorage should handle unknown method 1`] = `
-Array [
-  Object {
-    "key": "postMessageStorage.indexedDB.error",
-    "value": Object {
-      "error": "Unknown method unknown",
-      "id": "0",
-    },
-  },
-]
-`;
+exports[`withIndexedDBStorage should handle unknown method 1`] = `Array []`;
 
 exports[`withIndexedDBStorage should set, get and remove item 1`] = `
 Array [

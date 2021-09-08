@@ -258,9 +258,9 @@ exports[`renders configure general 1`] = `
                         Русский
                       </option>
                       <option
-                        value="nn-NO"
+                        value="nb-NO"
                       >
-                        Norsk
+                        Norsk Bokmål
                       </option>
                     </select>
                     <span

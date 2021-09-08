@@ -22,10 +22,12 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
   return (highlight: boolean) => {
     if (!sanitizers) {
       sanitizers = {
+        // eslint-disable-next-line no-restricted-globals
         default: createSanitize(window, {
           // Allow all RTE features to be displayed.
           features: ALL_FEATURES,
         }),
+        // eslint-disable-next-line no-restricted-globals
         highlight: createSanitize(window, {
           // We need normalized text nodes to mark nodes for suspect/banned words.
           normalize: true,

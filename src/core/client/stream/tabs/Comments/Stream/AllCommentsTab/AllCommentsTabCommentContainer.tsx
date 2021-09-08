@@ -44,7 +44,8 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
           {({ collapsed, toggleCollapsed }) => (
             <HorizontalGutter
               className={cn({
-                [styles.borderedComment]: commentSeen && !collapsed && !isLast,
+                [styles.borderedCommentSeen]:
+                  commentSeen && !collapsed && !isLast,
                 [styles.borderedCommentNotSeen]:
                   !commentSeen && !collapsed && !isLast,
               })}
@@ -61,11 +62,7 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
                 />
               </DeletedTombstoneContainer>
               {!collapsed && (
-                <div
-                  className={cn({
-                    [styles.commentSeen]: commentSeen,
-                  })}
-                >
+                <div>
                   <ReplyListContainer
                     settings={settings}
                     viewer={viewer}

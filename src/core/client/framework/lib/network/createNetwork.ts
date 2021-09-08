@@ -9,8 +9,6 @@ import {
 } from "react-relay-network-modern/es";
 import { GraphQLResponse, Observable, SubscribeFunction } from "relay-runtime";
 
-import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
-
 import { AccessTokenProvider } from "../auth";
 import clearHTTPCacheMiddleware from "./clearHTTPCacheMiddleware";
 import clientIDMiddleware from "./clientIDMiddleware";
@@ -22,8 +20,6 @@ export type TokenRefresh = (
   req: RelayRequestAny,
   res: RelayNetworkLayerResponse
 ) => string | Promise<string>;
-
-const graphqlURL = `${getLocationOrigin()}/api/graphql`;
 
 function createSubscriptionFunction(
   subscriptionClient: ManagedSubscriptionClient
@@ -53,6 +49,7 @@ function createSubscriptionFunction(
 }
 
 export default function createNetwork(
+  graphqlURL: string,
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   accessTokenProvider: AccessTokenProvider,

@@ -7,294 +7,40 @@ exports[`renders configure 1`] = `
   data-testid="current-tab-pane"
   id="tabPane-CONFIGURE"
 >
-  <div>
-    <section
-      aria-label="Authentication"
-      className="coral coral-viewerBox"
+  <div
+    className="CallOut-root CallOut-error CallOut-leftBorder"
+  >
+    <div
+      className="CallOut-container"
     >
       <div
-        className="UserBoxAuthenticated-text"
-      >
-        Signed in as
-      </div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
+        className="CallOut-content"
       >
         <div
-          className="coral coral-viewerBox-username UserBoxAuthenticated-username"
+          className="CallOut-title CallOut-titleMargin CallOut-titleBold"
         >
-          Moderator
+          <span>
+            An error has occurred
+          </span>
         </div>
-        <span
-          className="UserBoxAuthenticated-text UserBoxAuthenticated-signOut"
+        <div
+          className="CallOut-body"
         >
-          Not you? 
-          <button
-            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
-            data-variant="flat"
-            disabled={false}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+          
+          <div
+            className="QueryError-heading"
           >
-            Sign Out
-          </button>
-        </span>
-      </div>
-    </section>
-    <section
-      aria-labelledby="configure-stream-configureThisStream-title"
-    >
-      <form
-        autoComplete="off"
-        className="coral coral-configureCommentStream"
-        id="configure-form"
-        onSubmit={[Function]}
-      >
-        <div
-          className="ConfigureStream-heading"
-          id="configure-stream-configureThisStream-title"
-        >
-          Configure this stream
-        </div>
-        <div
-          className="ConfigureStream-configureItems"
-        >
-          <div>
-            <div
-              className="CheckBox-root CheckBox-streamBlue"
-            >
-              <input
-                checked={false}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
-                id="moderation"
-                name="moderation"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                type="checkbox"
-                value={false}
-              />
-              <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="moderation"
-              >
-                <span
-                  className="CheckBox-labelSpan coral coral-checkbox-label"
-                >
-                  <div
-                    className="ToggleConfig-title"
-                  >
-                    <span>
-                      Pre-moderate all comments
-                    </span>
-                  </div>
-                </span>
-              </label>
-            </div>
-            <div
-              className="ToggleConfig-details"
-            >
-              <div
-                className="WidthLimitedDescription-root"
-              >
-                Moderators must approve any comment before it is published to this story.
-              </div>
-            </div>
+            Message
           </div>
-          <div>
-            <div
-              className="CheckBox-root CheckBox-streamBlue"
-            >
-              <input
-                checked={false}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
-                id="premodLinksEnable"
-                name="premodLinksEnable"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                type="checkbox"
-                value={false}
-              />
-              <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="premodLinksEnable"
-              >
-                <span
-                  className="CheckBox-labelSpan coral coral-checkbox-label"
-                >
-                  <div
-                    className="ToggleConfig-title"
-                  >
-                    <span>
-                      Pre-moderate comments containing links
-                    </span>
-                  </div>
-                </span>
-              </label>
-            </div>
-            <div
-              className="ToggleConfig-details"
-            >
-              <div
-                className="WidthLimitedDescription-root"
-              >
-                Moderators must approve any comment that contains a link before it is published to this story.
-              </div>
-            </div>
+          <div
+            aria-live="polite"
+            className="QueryError-section"
+          >
+            Error: Must provide Source. Received: null
           </div>
         </div>
-        <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
-          data-testid="configure-stream-apply"
-          data-variant="filled"
-          disabled={true}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
-        >
-          Update
-        </button>
-        <div
-          className="ConfigureStream-footer"
-        />
-      </form>
-    </section>
-    <hr
-      className="HorizontalRule-root"
-    />
-    <section
-      aria-labelledby="configure-addMessage-title"
-    >
-      <div
-        className="coral coral-openCommentStream"
-      >
-        <div
-          className="shared-heading"
-          id="configure-addMessage-title"
-        >
-          Add a message or question
-        </div>
-        <div
-          className="shared-description"
-        >
-          Add a message to the top of the comment box for your readers. Use this
-to pose a topic, ask a question or make announcements relating to this
-story.
-        </div>
-        <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
-          data-testid="configure-addMessage"
-          data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Add message
-        </button>
       </div>
-      <div
-        className="AddMessageContainer-messagesHidden"
-      />
-    </section>
-    <hr
-      className="HorizontalRule-root"
-    />
-    <section
-      aria-labelledby="configure-disableLiveUpdates-title"
-    >
-      <div
-        className="coral coral-openCommentStream"
-      >
-        <div
-          className="DisableLiveUpdates-heading"
-          id="configure-disableLiveUpdates-title"
-        >
-          Disable live updates
-        </div>
-        <div
-          className="DisableLiveUpdates-description"
-        >
-          When disabled, new comments and replies will no longer instantly update
-as they are submitted. Commenters will need to refresh the page to see
-new comments. We recommend this in the unusual situation of a story
-getting so much traffic that the comments are loading slowly.
-        </div>
-        <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
-          data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Disable
-        </button>
-      </div>
-      <div
-        className="LiveUpdatesConfigContainer-messagesHidden"
-      />
-    </section>
-    <hr
-      className="HorizontalRule-root"
-    />
-    <section
-      aria-labelledby="configure-closeStream-title"
-    >
-      <div
-        className="coral coral-closeCommentStream"
-      >
-        <div
-          className="CloseStream-heading"
-          id="configure-closeStream-title"
-        >
-          Close comment stream
-        </div>
-        <div
-          className="CloseStream-description"
-        >
-          This comment stream is currently open. By closing this comment stream,
-no new comments may be submitted and all previously submitted comments
-will still be displayed.
-        </div>
-        <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase coral coral-closeCommentStream-closeButton"
-          data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Close Stream
-        </button>
-      </div>
-      <div
-        className="OpenOrCloseStreamContainer-calloutHidden"
-      />
-    </section>
+    </div>
   </div>
 </section>
 `;

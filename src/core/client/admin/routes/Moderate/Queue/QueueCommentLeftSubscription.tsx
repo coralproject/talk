@@ -5,7 +5,6 @@ import { getQueueConnection } from "coral-admin/helpers";
 import { SectionFilter } from "coral-common/section";
 import {
   createSubscription,
-  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import {
@@ -57,44 +56,43 @@ const QueueSubscription = createSubscription(
   (
     environment: Environment,
     variables: SubscriptionVariables<QueueCommentLeftSubscription>
-  ) =>
-    requestSubscription(environment, {
-      subscription: graphql`
-        subscription QueueCommentLeftSubscription(
-          $storyID: ID
-          $siteID: ID
-          $section: SectionFilter
-          $orderBy: COMMENT_SORT
-          $queue: MODERATION_QUEUE!
+  ) => ({
+    subscription: graphql`
+      subscription QueueCommentLeftSubscription(
+        $storyID: ID
+        $siteID: ID
+        $section: SectionFilter
+        $orderBy: COMMENT_SORT
+        $queue: MODERATION_QUEUE!
+      ) {
+        commentLeftModerationQueue(
+          storyID: $storyID
+          siteID: $siteID
+          section: $section
+          orderBy: $orderBy
+          queue: $queue
         ) {
-          commentLeftModerationQueue(
-            storyID: $storyID
-            siteID: $siteID
-            section: $section
-            orderBy: $orderBy
-            queue: $queue
-          ) {
-            comment {
-              id
-              status
-              ...MarkersContainer_comment @relay(mask: false)
-              ...ModeratedByContainer_comment @relay(mask: false)
-            }
+          comment {
+            id
+            status
+            ...MarkersContainer_comment @relay(mask: false)
+            ...ModeratedByContainer_comment @relay(mask: false)
           }
         }
-      `,
-      variables,
-      updater: (store) => {
-        handleCommentLeftModerationQueue(
-          store,
-          variables.queue,
-          variables.storyID || null,
-          variables.siteID || null,
-          variables.orderBy || null,
-          variables.section
-        );
-      },
-    })
+      }
+    `,
+    variables,
+    updater: (store) => {
+      handleCommentLeftModerationQueue(
+        store,
+        variables.queue,
+        variables.storyID || null,
+        variables.siteID || null,
+        variables.orderBy || null,
+        variables.section
+      );
+    },
+  })
 );
 
 export default QueueSubscription;

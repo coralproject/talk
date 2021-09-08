@@ -30,10 +30,10 @@ const initLocalState: InitLocalState = async ({
   let error: string | null = null;
 
   // Get all the parameters from the hash.
-  const params = getParamsFromHash();
+  const params = getParamsFromHash(context.window);
   if (params && (params.accessToken || params.error)) {
     // If there were params in the hash, then clear them!
-    clearHash();
+    clearHash(context.window);
 
     // If there was an error, add it.
     if (params.error) {

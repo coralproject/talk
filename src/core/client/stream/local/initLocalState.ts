@@ -63,7 +63,7 @@ const initLocalState: InitLocalState = async ({
   staticConfig,
   ...rest
 }) => {
-  const config = await getExternalConfig(context.pym);
+  const config = await getExternalConfig(context.window, context.pym);
   if (config) {
     if (config.accessToken) {
       // Access tokens passed via the config should not be persisted.
@@ -71,7 +71,7 @@ const initLocalState: InitLocalState = async ({
     }
     // append body class name if set in config.
     if (config.bodyClassName) {
-      document.body.classList.add(config.bodyClassName);
+      context.window.document.body.classList.add(config.bodyClassName);
     }
   }
 
@@ -151,13 +151,22 @@ const initLocalState: InitLocalState = async ({
       "enableCommentSeen"
     );
 
+    // Enable flatten replies
     localRecord.setValue(
       !!settings.flattenReplies,
       "flattenReplies"
     )
 
+    // Enable z-key comment seen
+    localRecord.setValue(
+      featureFlags.includes(GQLFEATURE_FLAG.Z_KEY),
+      "enableZKey"
+    );
+
     // Version as reported by the embed.js
     localRecord.setValue(config?.version, "embedVersion");
+
+    localRecord.setValue(Boolean(config?.amp), "amp");
   });
 };
 

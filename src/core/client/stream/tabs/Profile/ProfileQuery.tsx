@@ -4,6 +4,7 @@ import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
 import { polyfillCSSVars } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -17,13 +18,18 @@ import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQu
 import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
 
 const loadProfileContainer = () =>
-  import("./ProfileContainer" /* webpackChunkName: "profile" */).then((x) => {
-    // New css is loaded, take care of polyfilling those css vars for IE11.
-    void polyfillCSSVars();
-    return x;
-  });
+  import("./ProfileContainer" /* webpackChunkName: "profile" */);
+
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadProfileContainer = once(() => setTimeout(loadProfileContainer, 0));
+const preloadAndPolyfill = once((window: Window) =>
+  setTimeout(() => {
+    void loadProfileContainer().then((x) => {
+      // New css is loaded, take care of polyfilling those css vars for IE11.
+      void polyfillCSSVars(window);
+      return x;
+    });
+  }, 0)
+);
 
 const LazyProfileContainer = React.lazy(loadProfileContainer);
 
@@ -31,13 +37,15 @@ interface Props {
   local: Local;
 }
 
-export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
+export const render = (
+  { error, props }: QueryRenderData<QueryTypes>,
+  window: Window
+) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  // TODO: use official React API once it has one :-)
-  preloadProfileContainer();
+  preloadAndPolyfill(window);
 
   if (props) {
     if (!props.viewer) {
@@ -77,6 +85,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 const ProfileQuery: FunctionComponent<Props> = ({
   local: { storyID, storyURL },
 }) => {
+  const { window } = useCoralContext();
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <QueryRenderer<QueryTypes>
@@ -101,7 +110,7 @@ const ProfileQuery: FunctionComponent<Props> = ({
         if (handleIncompleteAccount(data)) {
           return null;
         }
-        return render(data);
+        return render(data, window);
       }}
     />
   );
