@@ -526,7 +526,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
         (matches ||
           browserInfo.mobile ||
           browserInfo.tablet ||
-          browserInfo.ipadOS) && (
+          browserInfo.iPadOS) && (
           <MobileToolbar onKeyPress={handleKeypress}>
             <Flex className={styles.flexContainer} alignItems="center">
               <div className={styles.unmarkAllContainer}>
