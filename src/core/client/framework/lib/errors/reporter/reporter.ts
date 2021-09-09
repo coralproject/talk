@@ -1,4 +1,12 @@
 /**
+ * ErrorReporterScope are additional information that
+ * can be sent with the errors.
+ */
+export interface ErrorReporterScope {
+  componentStack?: string;
+}
+
+/**
  * ErrorReport is the report to be provided by the error reporter when an error
  * is reported.
  */
@@ -28,7 +36,7 @@ export interface ErrorReporter {
    *
    * @param err the error to report
    */
-  report(err: any): ErrorReport;
+  report(err: any, scope?: ErrorReporterScope): ErrorReport;
 
   /**
    * setUser should set the user that's currently interacting with the

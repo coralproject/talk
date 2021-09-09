@@ -4,6 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import getAriaPoliteMacOSWorkaround from "coral-framework/helpers/getAriaPoliteMacOSWorkaround";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const { window } = useCoralContext();
   const emitShow = useViewerEvent(ShowIgnoreUserdDialogEvent);
   const removeUserIgnore = useMutation(RemoveUserIgnoreMutation);
   const [showManage, setShowManage] = useState(false);
@@ -127,7 +129,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
             <Localized id="profile-account-ignoredCommenters-empty">
               <div
                 className={styles.empty}
-                aria-live={getAriaPoliteMacOSWorkaround()}
+                aria-live={getAriaPoliteMacOSWorkaround(window)}
               >
                 You are not currently ignoring anyone
               </div>

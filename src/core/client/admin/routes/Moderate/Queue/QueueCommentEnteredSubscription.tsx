@@ -5,7 +5,6 @@ import { getQueueConnection } from "coral-admin/helpers";
 import { SectionFilter } from "coral-common/section";
 import {
   createSubscription,
-  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import {
@@ -121,43 +120,42 @@ const QueueSubscription = createSubscription(
   (
     environment: Environment,
     variables: SubscriptionVariables<QueueCommentEnteredSubscription>
-  ) =>
-    requestSubscription(environment, {
-      subscription: graphql`
-        subscription QueueCommentEnteredSubscription(
-          $storyID: ID
-          $siteID: ID
-          $section: SectionFilter
-          $orderBy: COMMENT_SORT
-          $queue: MODERATION_QUEUE!
+  ) => ({
+    subscription: graphql`
+      subscription QueueCommentEnteredSubscription(
+        $storyID: ID
+        $siteID: ID
+        $section: SectionFilter
+        $orderBy: COMMENT_SORT
+        $queue: MODERATION_QUEUE!
+      ) {
+        commentEnteredModerationQueue(
+          storyID: $storyID
+          siteID: $siteID
+          section: $section
+          orderBy: $orderBy
+          queue: $queue
         ) {
-          commentEnteredModerationQueue(
-            storyID: $storyID
-            siteID: $siteID
-            section: $section
-            orderBy: $orderBy
-            queue: $queue
-          ) {
-            comment {
-              id
-              createdAt
-              ...ModerateCardContainer_comment
-            }
+          comment {
+            id
+            createdAt
+            ...ModerateCardContainer_comment
           }
         }
-      `,
-      variables,
-      updater: (store) => {
-        handleCommentEnteredModerationQueue(
-          store,
-          variables.queue,
-          variables.storyID || null,
-          variables.siteID || null,
-          variables.orderBy || null,
-          variables.section
-        );
-      },
-    })
+      }
+    `,
+    variables,
+    updater: (store) => {
+      handleCommentEnteredModerationQueue(
+        store,
+        variables.queue,
+        variables.storyID || null,
+        variables.siteID || null,
+        variables.orderBy || null,
+        variables.section
+      );
+    },
+  })
 );
 
 export default QueueSubscription;

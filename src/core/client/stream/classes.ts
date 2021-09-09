@@ -294,6 +294,7 @@ const CLASSES = {
     highlight: "coral coral-comment-highlight",
 
     notSeen: "coral-comment-notSeen",
+    focus: "coral-comment-focus",
 
     /**
      * reacted signifies the number of reactions of the comment.
@@ -1079,6 +1080,8 @@ const CLASSES = {
       title: "coral coral-ratingsReview-input-title",
     },
   },
+
+  mobileToolbar: "coral coral-mobileToolbar",
 };
 
 export default CLASSES;

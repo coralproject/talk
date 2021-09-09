@@ -52,6 +52,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
       "Enabling the webhook endpoint will start to send events to this URL. Are you sure you want to continue?"
     );
 
+    // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
       await enableWebhookEndpoint({ id: webhookEndpoint.id });
     }
@@ -63,6 +64,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
       "Disabling this webhook endpoint will stop any new events from being sent to this URL. Are you sure you want to continue?"
     );
 
+    // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
       await disableWebhookEndpoint({ id: webhookEndpoint.id });
     }
@@ -75,6 +77,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
       "Deleting this webhook endpoint will stop any new events from being sent to this URL, and remove all the associated settings with this webhook endpoint. Are you sure you want to continue?"
     );
 
+    // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
       await deleteWebhookEndpoint({ id: webhookEndpoint.id });
 
