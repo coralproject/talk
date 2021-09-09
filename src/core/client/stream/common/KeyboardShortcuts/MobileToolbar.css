@@ -1,7 +1,7 @@
 .root {
   height: 100vh;
   width: 100vw;
-  max-width: 460px;
+  max-width: $breakpoints-mobile-max;
   background: var(--palette-primary-500);
   color: white;
 
