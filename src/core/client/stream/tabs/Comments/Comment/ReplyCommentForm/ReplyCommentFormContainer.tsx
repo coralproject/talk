@@ -235,14 +235,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
         elem.focus();
       }
     }, 300);
-  }, [
-    commentSeenEnabled,
-    jumpToCommentID,
-    props,
-    pym,
-    renderWindow.document,
-    renderWindow.pageYOffset,
-  ]);
+  }, [commentSeenEnabled, jumpToCommentID, props, pym, renderWindow]);
 
   if (!initialized) {
     return null;
