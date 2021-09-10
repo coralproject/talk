@@ -1,4 +1,4 @@
-import { Collection, Cursor } from "mongodb";
+import { Collection, FilterQuery } from "mongodb";
 
 import { MongoContext } from "coral-server/data/context";
 import { StoryNotFoundError } from "coral-server/errors";
@@ -45,43 +45,41 @@ export async function archiveStory(
 
   logger.info("story is able to be archived, proceeding");
 
-  const targetComments = comments(mongo.live).find({
+  const targetComments = {
     tenantID,
     storyID: id,
-  });
-  const targetCommentActions = commentActions(mongo.live).find({
+  };
+  const targetCommentActions = {
     tenantID,
     storyID: id,
-  });
+  };
 
   logger.info("archiving comments");
   const targetCommentIDs = await moveDocuments({
     tenantID,
     source: comments(mongo.live),
-    selectionCursor: targetComments,
+    filter: targetComments,
     destination: archivedComments(mongo.archive),
     returnMovedIDs: true,
   });
 
-  const targetCommentModerationActions = commentModerationActions(
-    mongo.live
-  ).find({
+  const targetCommentModerationActions = {
     tenantID,
     commentID: { $in: targetCommentIDs },
-  });
+  };
 
   logger.info("archiving comment actions");
   await moveDocuments({
     tenantID,
     source: commentActions(mongo.live),
-    selectionCursor: targetCommentActions,
+    filter: targetCommentActions,
     destination: archivedCommentActions(mongo.archive),
   });
   logger.info("archiving comment moderation actions");
   await moveDocuments({
     tenantID,
     source: commentModerationActions(mongo.live),
-    selectionCursor: targetCommentModerationActions,
+    filter: targetCommentModerationActions,
     destination: archivedCommentModerationActions(mongo.archive),
   });
 
@@ -141,36 +139,34 @@ export async function unarchiveStory(
 
   logger.info("story is able to be unarchived, proceeding");
 
-  const targetComments = archivedComments(mongo.archive).find({
+  const targetComments = {
     tenantID,
     storyID: id,
-  });
-  const targetCommentActions = archivedCommentActions(mongo.archive).find({
+  };
+  const targetCommentActions = {
     tenantID,
     storyID: id,
-  });
+  };
 
   logger.info("unarchiving comments");
   const targetCommentIDs = await moveDocuments({
     tenantID,
     source: archivedComments(mongo.archive),
-    selectionCursor: targetComments,
+    filter: targetComments,
     destination: comments(mongo.live),
     returnMovedIDs: true,
   });
 
-  const targetCommentModerationActions = archivedCommentModerationActions(
-    mongo.archive
-  ).find({
+  const targetCommentModerationActions = {
     tenantID,
     commentID: { $in: targetCommentIDs },
-  });
+  };
 
   logger.info("unarchiving comment actions");
   await moveDocuments({
     tenantID,
     source: archivedCommentActions(mongo.archive),
-    selectionCursor: targetCommentActions,
+    filter: targetCommentActions,
     destination: commentActions(mongo.live),
   });
 
@@ -178,7 +174,7 @@ export async function unarchiveStory(
   await moveDocuments({
     tenantID,
     source: archivedCommentModerationActions(mongo.archive),
-    selectionCursor: targetCommentModerationActions,
+    filter: targetCommentModerationActions,
     destination: commentModerationActions(mongo.live),
   });
 
@@ -213,25 +209,28 @@ export async function unarchiveStory(
   return result.value;
 }
 
-interface MoveDocumentsOptions {
+interface MoveDocumentsOptions<T> {
   tenantID: string;
-  source: Collection;
-  selectionCursor: Cursor;
-  destination: Collection;
+  source: Collection<T>;
+  filter: FilterQuery<T>;
+  destination: Collection<T>;
   returnMovedIDs?: boolean;
+  batchSize?: number;
 }
 
-const BATCH_SIZE = 100;
-const moveDocuments = async ({
+async function moveDocuments<T extends { id: string }>({
   tenantID,
   source,
-  selectionCursor,
+  filter,
   destination,
   returnMovedIDs = false,
-}: MoveDocumentsOptions) => {
-  let insertBatch: any[] = [];
+  batchSize = 100,
+}: MoveDocumentsOptions<T>) {
+  let insertBatch: T[] = [];
   let deleteIDs: string[] = [];
   const allIDs: string[] = [];
+
+  const selectionCursor = source.find(filter);
 
   while (await selectionCursor.hasNext()) {
     const document = await selectionCursor.next();
@@ -241,15 +240,12 @@ const moveDocuments = async ({
 
     insertBatch.push(document);
 
-    const hasID = Object.prototype.hasOwnProperty.call(document, "id");
-    if (hasID) {
-      deleteIDs.push(document.id);
-    }
-    if (hasID && returnMovedIDs) {
+    deleteIDs.push(document.id);
+    if (returnMovedIDs) {
       allIDs.push(document.id);
     }
 
-    if (insertBatch.length >= BATCH_SIZE) {
+    if (insertBatch.length >= batchSize) {
       const bulkInsert = destination.initializeUnorderedBulkOp();
       for (const item of insertBatch) {
         bulkInsert.insert(item);
@@ -279,4 +275,4 @@ const moveDocuments = async ({
   }
 
   return allIDs;
-};
+}
