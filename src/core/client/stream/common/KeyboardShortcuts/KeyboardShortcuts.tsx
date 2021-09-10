@@ -271,7 +271,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const zKeyEnabled = useZKeyEnabled();
   const { commitSeen, enabled } = useContext(CommentSeenContext);
 
-  const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(null);
+  const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(
+    NextUnread
+  );
   const [disableZAction, setDisableZAction] = useState<boolean>(true);
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
