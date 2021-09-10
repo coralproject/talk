@@ -25,7 +25,7 @@ interface DetectAndInjectArgs {
 /** Detects count elements and use jsonp to inject the counts. */
 function detectAndInject(opts: DetectAndInjectArgs = {}) {
   const ORIGIN = getCurrentScriptOrigin(ORIGIN_FALLBACK_ID);
-  const STORY_URL = resolveStoryURL();
+  const STORY_URL = resolveStoryURL(window);
 
   /** A map of references pointing to the count query arguments */
   const queryMap: Record<string, CountQueryArgs> = {};
@@ -96,6 +96,6 @@ export function main() {
   detectAndInject();
 }
 
-if (!detectCountScript() && process.env.NODE_ENV !== "test") {
+if (!detectCountScript(window) && process.env.NODE_ENV !== "test") {
   main();
 }

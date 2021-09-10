@@ -37,15 +37,18 @@ export default class PymFrameControl implements FrameControl {
       return;
     }
 
+    const name = `${this.id}_iframe`;
+
     // Create the new pym.Parent that when created will create the iFrame.
     const parent = new pym.Parent(this.id, this.url, {
       title: this.title,
-      id: `${this.id}_iframe`,
-      name: `${this.id}_iframe`,
+      id: name,
+      name,
     });
 
     const iframe = parent.iframe as HTMLIFrameElement;
     const postMessage = new PostMessageService(
+      window,
       "coral",
       iframe.contentWindow!,
       getOrigin(iframe.src)

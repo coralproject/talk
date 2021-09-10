@@ -21,23 +21,24 @@ const InReplyTo: FunctionComponent<Props> = ({
   parent,
   enableJumpToParent,
 }) => {
-  const { pym } = useCoralContext();
+  const { pym, renderWindow } = useCoralContext();
 
   const navigateToParent = useCallback(() => {
     if (!parent) {
       return;
     }
-    const elemId = computeCommentElementID(parent.id);
-    const elem = document.getElementById(elemId);
+
+    const elemID = computeCommentElementID(parent.id);
+    const elem = renderWindow.document.getElementById(elemID);
     if (elem) {
-      void pym?.scrollParentToChildEl(elemId);
+      void pym?.scrollParentToChildEl(elemID);
       elem.focus();
     } else {
       globalErrorReporter.report(
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  }, [parent, pym]);
+  }, [parent, pym, renderWindow.document]);
 
   const Username = () => (
     <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>

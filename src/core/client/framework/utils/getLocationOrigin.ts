@@ -1,5 +1,6 @@
-export default function getLocationOrigin() {
+export default function getLocationOrigin(window: Window) {
   return (
-    location.origin || `${window.location.protocol}//${window.location.host}`
+    window.location.origin ||
+    `${window.location.protocol}//${window.location.host}`
   );
 }

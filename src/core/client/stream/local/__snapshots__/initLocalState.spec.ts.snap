@@ -23,7 +23,9 @@ exports[`init local state 1`] = `
     \\"profileTab\\": \\"MY_COMMENTS\\",
     \\"commentsTab\\": \\"NONE\\",
     \\"flattenReplies\\": false,
-    \\"enableCommentSeen\\": false
+    \\"enableCommentSeen\\": false,
+    \\"enableZKey\\": false,
+    \\"amp\\": false
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",

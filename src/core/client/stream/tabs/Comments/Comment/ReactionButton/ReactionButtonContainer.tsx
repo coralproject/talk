@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   useFetch,
@@ -40,6 +41,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
   reactedClassName,
   isQA = false,
 }) => {
+  const { window } = useCoralContext();
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const createCommentReaction = useMutation(CreateCommentReactionMutation);
   const removeCommentReaction = useMutation(RemoveCommentReactionMutation);
@@ -74,7 +76,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
           // If we can find the viewer status container, then we should scroll
           // to it because it will contain the reason why we failed to update
           // the reaction count!
-          const el = document.getElementById(VIEWER_STATUS_CONTAINER_ID);
+          const el = window.document.getElementById(VIEWER_STATUS_CONTAINER_ID);
           if (el) {
             el.scrollIntoView();
           }
@@ -91,6 +93,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
     refreshViewer,
     removeCommentReaction,
     showAuthPopup,
+    window.document,
   ]);
 
   const {

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 export default function polyfillNodeListForEach() {
   if ("NodeList" in window && !NodeList.prototype.forEach) {
     NodeList.prototype.forEach = function (callback, thisArg) {

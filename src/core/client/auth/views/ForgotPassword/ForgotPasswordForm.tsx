@@ -8,6 +8,7 @@ import Main from "coral-auth/components/Main";
 import { getViewURL } from "coral-auth/helpers";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { SetViewMutation } from "coral-auth/mutations";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { streamColorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
@@ -43,8 +44,9 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
   email,
   onCheckEmail,
 }) => {
+  const { window } = useCoralContext();
   const ref = useResizePopup();
-  const signInHref = getViewURL("SIGN_IN");
+  const signInHref = getViewURL("SIGN_IN", window);
   const forgotPassword = useMutation(ForgotPasswordMutation);
   const setView = useMutation(SetViewMutation);
   const onSubmit = useCallback(
@@ -60,7 +62,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
       }
       return;
     },
-    [forgotPassword]
+    [forgotPassword, onCheckEmail]
   );
   const onGotoSignIn = useCallback(
     (e: React.MouseEvent) => {

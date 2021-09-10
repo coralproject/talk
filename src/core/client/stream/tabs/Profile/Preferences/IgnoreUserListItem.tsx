@@ -3,6 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { getAriaPoliteMacOSWorkaround } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -28,6 +29,7 @@ const IgnoreUserListItem: FunctionComponent<Props> = ({
   username,
   onRemove,
 }) => {
+  const { window } = useCoralContext();
   const [removed, setRemoved] = useState(false);
 
   const onClickRemove = useCallback(() => {
@@ -42,7 +44,7 @@ const IgnoreUserListItem: FunctionComponent<Props> = ({
       <div
         className={styles.removed}
         key={id}
-        aria-live={getAriaPoliteMacOSWorkaround()}
+        aria-live={getAriaPoliteMacOSWorkaround(window)}
       >
         <Localized id="profile-account-ignoredCommenters-youAreNoLonger">
           <span>{"You are no longer ignoring "}</span>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
+
 function isOnline() {
   return typeof navigator !== "undefined" &&
     typeof navigator.onLine === "boolean"
@@ -11,6 +13,7 @@ function isOnline() {
  * Returns a boolean indicating the network online status.
  */
 export default function useOnlineStatus() {
+  const { window } = useCoralContext();
   const [onlineStatus, setOnlineStatus] = useState(isOnline());
   const handleOnline = () => setOnlineStatus(true);
   const handleOffline = () => setOnlineStatus(false);
@@ -22,7 +25,7 @@ export default function useOnlineStatus() {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
-  }, []);
+  }, [window]);
 
   return onlineStatus;
 }
