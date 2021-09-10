@@ -3,6 +3,7 @@ import TestRenderer from "react-test-renderer";
 
 import { PropTypesOf } from "coral-ui/types";
 
+import UIContext, { UIContextProps } from "../UIContext";
 import CheckBox from "./CheckBox";
 
 it("renders correctly", () => {
@@ -12,6 +13,13 @@ it("renders correctly", () => {
     checked: true,
     children: "Yes I agree",
   };
-  const renderer = TestRenderer.create(<CheckBox {...props} />);
-  expect(renderer.toJSON()).toMatchSnapshot();
+  const context: UIContextProps = {
+    renderWindow: window,
+  };
+  const testRenderer = TestRenderer.create(
+    <UIContext.Provider value={context}>
+      {<CheckBox {...props} />}
+    </UIContext.Provider>
+  );
+  expect(testRenderer.toJSON()).toMatchSnapshot();
 });

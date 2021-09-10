@@ -104,7 +104,7 @@ class IndexedDBStorage implements PromisifiedStorage<any> {
 
 export default function createIndexedDBStorage(
   name = "storage",
-  indexedDB: IDBFactory = window.indexedDB
+  indexedDB: IDBFactory
 ): PromisifiedStorage<any> {
   if (!indexedDB) {
     throw new Error("IndexedDB not available");

@@ -37,9 +37,10 @@ jobs:
             - v1-dependency-cache-{{ checksum "package-lock.json" }}
             # Find the most recently generated cache used from any branch
             - v1-dependency-cache-
-      - run:
-          name: Update NPM
-          command: sudo npm update -g npm
+      # Disabled as we don't want to use sudo to update packages
+      # - run:
+      #     name: Update NPM
+      #     command: sudo npm update -g npm
       # Disabled until there's capabilities to ignore a specific vun. Related:
       # https://npm.community/t/please-provide-option-to-ignore-packages-in-npm-audit/403/4
       # https://github.com/npm/cli/pull/10
@@ -51,6 +52,7 @@ jobs:
       - run:
           name: Install dependencies
           command: npm ci
+          no_output_timeout: 20m
       - save_cache:
           key: v1-dependency-cache-{{ checksum "package-lock.json" }}
           paths:

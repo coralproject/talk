@@ -11,6 +11,7 @@ import { graphql } from "react-relay";
 
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
@@ -55,6 +56,7 @@ type SearchBarOptions = PropTypesOf<typeof Bar>["options"];
  * @returns A handler for ListBoxOption
  */
 function useLinkNavHandler(router: Router): ListBoxOptionClickOrEnterHandler {
+  const { window } = useCoralContext();
   return useCallback(
     (evt: MouseEvent | KeyboardEvent, element: ListBoxOptionElement) => {
       if (element.props.href) {
@@ -65,10 +67,10 @@ function useLinkNavHandler(router: Router): ListBoxOptionClickOrEnterHandler {
           evt.preventDefault();
         }
         // Blur will inactivate the textfield and close the popover/listbox.
-        blur();
+        blur(window);
       }
     },
-    [router]
+    [router, window]
   );
 }
 

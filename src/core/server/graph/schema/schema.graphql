@@ -565,6 +565,11 @@ enum FEATURE_FLAG {
   COMMENT_SEEN
 
   """
+  Z_KEY will allow Z key traversal and the mobile toolbar.
+  """
+  Z_KEY
+
+  """
   FOR_REVIEW will add a "For Review" Queue that allows moderators to review every flag
   that has been put on a comment by a user. This feature shall help complying with European Law
   (European Directive 2000/31/CE).

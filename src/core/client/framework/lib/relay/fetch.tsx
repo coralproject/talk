@@ -63,7 +63,7 @@ export function useFetch<V, R>(
   const context = useCoralContext();
   return useCallback<FetchProp<typeof fetch>>(
     ((variables: V) => {
-      // TODO: (cvle) These events are deprecated.
+      // TODO: (cvle) Naming of these events are deprecated.
       context.eventEmitter.emit(`fetch.${fetch.name}`, variables);
       return fetch.fetch(context.relayEnvironment, variables, context);
     }) as any,
@@ -137,7 +137,7 @@ export function withFetch<N extends string, V, R>(
         public static displayName = wrapDisplayName(BaseComponent, "withFetch");
 
         private fetch = (variables: V) => {
-          // TODO: (cvle) These events are deprecated.
+          // TODO: (cvle) Naming of these events are deprecated.
           this.props.context.eventEmitter.emit(
             `fetch.${fetch.name}`,
             variables

@@ -50,6 +50,21 @@ exports[`renders correctly 1`] = `
     >
       2018-07-06T18:24:00.000Z
     </TimeStamp>
+    <div
+      className="HistoryComment-subBar"
+    >
+      <InReplyTo
+        enableJumpToParent={false}
+        parent={
+          Object {
+            "author": Object {
+              "username": "parent author",
+            },
+            "id": "parent-id",
+          }
+        }
+      />
+    </div>
     <ForwardRef(forwardRef)>
       <div
         className="HistoryComment-content"
