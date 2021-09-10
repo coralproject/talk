@@ -712,9 +712,6 @@ configure-disableLiveUpdates-description =
   getting so much traffic that the comments are loading slowly.
 configure-disableLiveUpdates-disable = Disable
 
-configure-liveUpdates-disabledSuccess = Live updates are now disabled
-configure-liveUpdates-enabledSuccess = Live updates are now enabled
-
 configure-messageBox-title =
 configure-addMessage-title =
   Add a message or question

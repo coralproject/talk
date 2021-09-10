@@ -654,9 +654,6 @@ configure-disableLiveUpdates-description =
   dadurch langsamer laden,
 configure-disableLiveUpdates-disable = Deaktivieren
 
-configure-liveUpdates-disabledSuccess = Live Updates sind jetzt deaktiviert
-configure-liveUpdates-enabledSuccess = Live Updates sind jetzt aktiviert
-
 configure-messageBox-title =
 configure-addMessage-title =
   Eine Nachricht oder Frage hinzufügen

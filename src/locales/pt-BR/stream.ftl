@@ -644,9 +644,6 @@ configure-disableLiveUpdates-description =
   recebendo tanto tráfego que os comentários estão carregando lentamente.
 configure-disableLiveUpdates-disable = Desativar
 
-configure-liveUpdates-disabledSuccess = As atualizações em tempo real agora estão desativadas
-configure-liveUpdates-enabledSuccess = As atualizações em tempo real agora estão ativadas
-
 configure-messageBox-title =
 configure-addMessage-title =
   Adicione uma mensagem ou pergunta

@@ -656,9 +656,6 @@ configure-disableLiveUpdates-description =
   мгновенная подгрузка значительно нагружает страницу
 configure-disableLiveUpdates-disable = Отключить
 
-configure-liveUpdates-disabledSuccess = Мгновенное обновление отключено
-configure-liveUpdates-enabledSuccess = Мгновенное обновление включено
-
 configure-messageBox-title = Включить закрепляемое сообщение для этого раздела
 configure-addMessage-title =
   Включить закрепляемое сообщение для этого раздела

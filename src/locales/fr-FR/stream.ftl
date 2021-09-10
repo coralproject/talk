@@ -615,9 +615,6 @@ configure-enableLiveUpdates-description =
   Lorsque cette option est activée, les commentaires sont mis à jour instantanément lorsque de nouveaux commentaires et réponses sont soumis, au lieu de nécessiter un rafraîchissement de la page. Vous pouvez le désactiver dans la situation inhabituelle d'un article qui génère un trafic si important que les commentaires se chargent lentement.
 configure-enableLiveUpdates-enable = Activer
 
-configure-liveUpdates-disabledSuccess = La mise-à-jour en direct est désactivée
-configure-liveUpdates-enabledSuccess = La mise-à-jour en direct est activée
-
 configure-disableLiveUpdates-title = Désactiver la mise à jour en direct
 configure-disableLiveUpdates-description =
   Lorsque cette option est désactivée, les commentaires ne sont plus mis à jour instantanément lorsque de nouveaux commentaires et réponses sont soumis. Un rafraîchissement sera nécessaire. Cette option est recommendée pour les article qui ont un flux de commentaires élevé et que le chargement des commentaires et lent.

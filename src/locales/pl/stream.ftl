@@ -636,9 +636,6 @@ configure-disableLiveUpdates-description =
   generują tak gorące dyskusje, że ich czas ładowania spada.
 configure-disableLiveUpdates-disable = Wyłącz
 
-configure-liveUpdates-disabledSuccess = Aktualizacje na żywo są wyłączone
-configure-liveUpdates-enabledSuccess = Aktualizacje na żywo są wyłączone
-
 configure-addMessage-title =
   Dodaj wiadomość lub pytanie
 configure-addMessage-description =

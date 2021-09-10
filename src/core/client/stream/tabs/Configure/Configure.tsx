@@ -7,7 +7,6 @@ import { HorizontalRule } from "coral-ui/components/v2";
 import ModerateStreamContainer from "../../common/ModerateStream/ModerateStreamContainer";
 import { AddMessageContainer } from "./AddMessage";
 import ConfigureStreamContainer from "./ConfigureStream";
-import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
 import { QAConfigContainer } from "./Q&A";
 
@@ -20,7 +19,6 @@ export interface Props {
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"] &
     PropTypesOf<typeof ModerateStreamContainer>["story"] &
     PropTypesOf<typeof QAConfigContainer>["story"] &
-    PropTypesOf<typeof LiveUpdatesConfigContainer>["story"] &
     PropTypesOf<typeof AddMessageContainer>["story"];
 }
 

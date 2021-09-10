@@ -728,9 +728,6 @@ configure-disableLiveUpdates-description =
   Når denne er slått av vil ikke nye kommentarer lenger vises umiddelbart etter posting. Brukerne må oppdatere siden for å se nye kommentarer. Vi anbefaler dette om en artikkel skulle få så mye trafikk at kommentarene laster tregt.
 configure-disableLiveUpdates-disable = Slå av
 
-configure-liveUpdates-disabledSuccess = Direkte-oppdateringer er nå slått av
-configure-liveUpdates-enabledSuccess = Direkte-oppdateringer er nå aktivert
-
 configure-messageBox-title =
 configure-addMessage-title =
   Legg inn en beskjed eller et spørsmål

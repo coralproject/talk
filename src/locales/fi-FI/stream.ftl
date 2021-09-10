@@ -654,9 +654,6 @@ configure-disableLiveUpdates-description =
   hitautta poikkeuksellisen suosituissa jutuissa.
 configure-disableLiveUpdates-disable = Poista käytöstä
 
-configure-liveUpdates-disabledSuccess = Reaaliaikainen päivitys on nyt poistettu käytöstä
-configure-liveUpdates-enabledSuccess = Reaaliaikainen päivitys on nyt käytössä
-
 configure-messageBox-title =
 configure-addMessage-title =
   Lisää viesti tai kysymys
