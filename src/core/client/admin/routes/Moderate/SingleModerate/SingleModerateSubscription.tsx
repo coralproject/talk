@@ -3,7 +3,6 @@ import { Environment } from "relay-runtime";
 
 import {
   createSubscription,
-  requestSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 
@@ -14,31 +13,30 @@ const SingleModerateSubscription = createSubscription(
   (
     environment: Environment,
     variables: SubscriptionVariables<SingleModerateSubscription>
-  ) =>
-    requestSubscription(environment, {
-      subscription: graphql`
-        subscription SingleModerateSubscription($commentID: ID!) {
-          commentStatusUpdated(id: $commentID) {
-            comment {
-              id
-              status
-              ...MarkersContainer_comment @relay(mask: false)
-              ...ModeratedByContainer_comment @relay(mask: false)
-            }
+  ) => ({
+    subscription: graphql`
+      subscription SingleModerateSubscription($commentID: ID!) {
+        commentStatusUpdated(id: $commentID) {
+          comment {
+            id
+            status
+            ...MarkersContainer_comment @relay(mask: false)
+            ...ModeratedByContainer_comment @relay(mask: false)
           }
         }
-      `,
-      variables,
-      updater: (store) => {
-        const comment = store
-          .getRootField("commentStatusUpdated")!
-          .getLinkedRecord("comment")!;
-        if (comment) {
-          // Mark that the status of the comment was live updated.
-          comment.setValue(true, "statusLiveUpdated");
-        }
-      },
-    })
+      }
+    `,
+    variables,
+    updater: (store) => {
+      const comment = store
+        .getRootField("commentStatusUpdated")!
+        .getLinkedRecord("comment")!;
+      if (comment) {
+        // Mark that the status of the comment was live updated.
+        comment.setValue(true, "statusLiveUpdated");
+      }
+    },
+  })
 );
 
 export default SingleModerateSubscription;

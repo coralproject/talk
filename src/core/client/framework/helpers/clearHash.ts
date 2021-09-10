@@ -1,5 +1,5 @@
-export default function clearHash() {
+export default function clearHash(window: Window) {
   if (window.location.hash) {
-    window.history.replaceState(null, document.title, location.pathname);
+    window.history.replaceState(null, window.document.title, location.pathname);
   }
 }

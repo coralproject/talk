@@ -1,42 +1,28 @@
-import React from "react";
-import TestRenderer from "react-test-renderer";
-
 import { SPOILER_CLASSNAME } from "coral-common/constants";
 
-import HTMLContent from "./HTMLContent";
+import { transform } from "./HTMLContent";
 
 it("renders correctly", () => {
-  const renderer = TestRenderer.create(
-    <HTMLContent>{"<span>Hello world</span>"}</HTMLContent>
-  );
-  expect(renderer.toJSON()).toMatchSnapshot();
+  const input = "<span>Hello world</span>";
+  expect(transform(window, input)).toMatchSnapshot();
 });
 
 it("sanitizes evil html", () => {
-  const renderer = TestRenderer.create(
-    <HTMLContent>
-      {`
-        <script>alert('I am evil')</script>
-        <span onClick="javascript:alert('haha')" title="test">Hello world</span>
-      `}
-    </HTMLContent>
-  );
-  expect(renderer.toJSON()).toMatchSnapshot();
+  const input = `
+    <script>alert('I am evil')</script>
+    <span onClick="javascript:alert('haha')" title="test">Hello world</span>
+  `;
+  expect(transform(window, input)).toMatchSnapshot();
 });
 
 it("transform spoiler tags", () => {
   const revealed = `<span aria-hidden="true">Spoiler</span>`;
-  const renderer = TestRenderer.create(
-    <HTMLContent>
-      {`
-        <span class="${SPOILER_CLASSNAME}">Spoiler</span>
-      `}
-    </HTMLContent>
-  );
+  const input = `
+    <span class="${SPOILER_CLASSNAME}">Spoiler</span>
+  `;
 
   // Check for transformation of unrevealed spoiler.
-  const html = renderer.toTree()?.rendered?.props.dangerouslySetInnerHTML
-    .__html;
+  const html = transform(window, input);
   expect(html).toMatchSnapshot();
 
   // Reveal on click.

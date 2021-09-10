@@ -1,4 +1,5 @@
 import { Component } from "react";
+import withUIContext from "../UIContext/withUIContext";
 
 interface WindowFeatures {
   resizable: number;
@@ -20,9 +21,13 @@ interface PopupProps {
   href: string;
   features?: Partial<WindowFeatures>;
   title?: string;
+  window: Window;
 }
 
-function reconcileFeatures({ centered, ...options }: WindowFeatures): string {
+function reconcileFeatures(
+  window: Window,
+  { centered, ...options }: WindowFeatures
+): string {
   const features: Record<string, any> = {
     ...options,
     left: 0,
@@ -47,7 +52,7 @@ function reconcileFeatures({ centered, ...options }: WindowFeatures): string {
     .join(",");
 }
 
-export default class Popup extends Component<PopupProps> {
+export class Popup extends Component<PopupProps> {
   private ref: Window | null = null;
   private detectCloseInterval: any = null;
   private resetCallbackInterval: any = null;
@@ -74,7 +79,11 @@ export default class Popup extends Component<PopupProps> {
       ...features,
     };
 
-    this.ref = window.open(href, title, reconcileFeatures(opts));
+    this.ref = this.props.window.open(
+      href,
+      title,
+      reconcileFeatures(this.props.window, opts)
+    );
 
     this.attemptSetCallbacks();
 
@@ -235,3 +244,9 @@ export default class Popup extends Component<PopupProps> {
     return null;
   }
 }
+
+const enhanced = withUIContext(({ renderWindow }) => ({
+  window: renderWindow,
+}))(Popup);
+
+export default enhanced;

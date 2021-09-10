@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { IResolvers } from "@graphql-tools/utils";
 import { EventEmitter2 } from "eventemitter2";
 import FDBFactory from "fake-indexeddb/lib/FDBFactory";
@@ -18,7 +19,10 @@ import {
 } from "coral-framework/lib/network";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
-import { createPromisifiedStorage } from "coral-framework/lib/storage";
+import {
+  createInMemoryStorage,
+  createPromisifiedStorage,
+} from "coral-framework/lib/storage";
 import createIndexedDBStorage from "coral-framework/lib/storage/IndexedDBStorage";
 import { act, createUUIDGenerator } from "coral-framework/testHelpers";
 
@@ -116,8 +120,9 @@ export default function createTestRenderer<
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
     indexedDBStorage: createIndexedDBStorage("coral", new FDBFactory()),
+    inMemoryStorage: createInMemoryStorage(),
     rest: new RestClient("http://localhost/api"),
-    postMessage: new PostMessageService("coral", window, "*"),
+    postMessage: new PostMessageService(window, "coral", window, "*"),
     browserInfo: params.browserInfo || {
       supports: {
         cssVariables: true,
@@ -130,8 +135,10 @@ export default function createTestRenderer<
       version: 10.0,
       ios: false,
       mobile: false,
+      tablet: false,
       msie: false,
-      macos: false,
+      macOS: false,
+      iPadOS: false,
     },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
@@ -145,6 +152,8 @@ export default function createTestRenderer<
       register: () => () => {},
       refreshToken: () => "",
     },
+    window,
+    renderWindow: window,
   };
 
   let testRenderer: ReactTestRenderer;
