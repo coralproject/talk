@@ -5,6 +5,7 @@ export interface BrowserInfo {
   ios: boolean;
   msie: boolean;
   mobile: boolean;
+  tablet: boolean;
   supports: {
     cssVariables: boolean;
     fetch: boolean;
@@ -13,7 +14,8 @@ export interface BrowserInfo {
     intlPluralRules: boolean;
     intersectionObserver: boolean;
   };
-  macos: boolean;
+  macOS: boolean;
+  iPadOS: boolean;
 }
 
 export function supportsCSSVars(window: Window): boolean {
@@ -28,9 +30,10 @@ export function supportsCSSVars(window: Window): boolean {
 export function getBrowserInfo(window: Window): BrowserInfo {
   const browser = Bowser.getParser(window.navigator.userAgent);
   const ios = browser.is(Bowser.OS_MAP.iOS);
-  const macos = browser.is(Bowser.OS_MAP.MacOS);
+  const macOS = browser.is(Bowser.OS_MAP.MacOS);
   const msie = browser.is(Bowser.BROWSER_MAP.ie);
   const mobile = browser.is(Bowser.PLATFORMS_MAP.mobile);
+  const tablet = browser.is(Bowser.PLATFORMS_MAP.tablet);
   const version = Number.parseFloat(browser.getBrowserVersion());
   const browserInfo = {
     version,
@@ -50,7 +53,10 @@ export function getBrowserInfo(window: Window): BrowserInfo {
     ios,
     msie,
     mobile,
-    macos,
+    tablet,
+    macOS,
+    // TODO: (cvle) Wish there would be a better way to detecting lying iPadOS.
+    iPadOS: macOS && window.navigator.maxTouchPoints > 1,
   };
 
   return browserInfo;
