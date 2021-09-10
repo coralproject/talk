@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+
 function isVisible(state: VisibilityState) {
   return state === "visible";
 }
@@ -11,13 +13,16 @@ function isVisible(state: VisibilityState) {
  * visiblity.
  */
 function useVisibilityState() {
-  const [state, setState] = useState(isVisible(document.visibilityState));
+  const { window } = useCoralContext();
+  const [state, setState] = useState(
+    isVisible(window.document.visibilityState)
+  );
 
   useEffect(() => {
     // update will set the visibility state if it differs from the current react
     // state.
     const update = () => {
-      const current = isVisible(document.visibilityState);
+      const current = isVisible(window.document.visibilityState);
       if (state !== current) {
         setState(current);
       }
@@ -27,12 +32,12 @@ function useVisibilityState() {
     update();
 
     // Register for when that changes!
-    document.addEventListener("visibilitychange", update);
+    window.document.addEventListener("visibilitychange", update);
 
     return () => {
-      document.removeEventListener("visibilitychange", update);
+      window.document.removeEventListener("visibilitychange", update);
     };
-  }, [state]);
+  }, [state, window.document]);
 
   return state;
 }

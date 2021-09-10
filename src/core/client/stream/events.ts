@@ -539,6 +539,52 @@ export const ShowIgnoreUserdDialogEvent = createViewerEvent(
 );
 
 /**
+ * This event is emitted when the viewer triggered the
+ * C Key (Next Comment Traversal) functionality.
+ */
+export const JumpToNextCommentEvent = createViewerEvent<{
+  source: "keyboard" | "mobileToolbar";
+}>("jumpToNextComment");
+
+/**
+ * This event is emitted when the viewer triggered the
+ * Shift+C Key (Prev Comment Traversal) functionality.
+ */
+export const JumpToPreviousCommentEvent = createViewerEvent<{
+  source: "keyboard" | "mobileToolbar";
+}>("jumpToPreviousComment");
+
+/**
+ * This event is emitted when the viewer triggered the
+ * Z Key (Next Unseen Comment Traversal) functionality.
+ */
+export const JumpToNextUnseenCommentEvent = createViewerEvent<{
+  source: "keyboard" | "mobileToolbar";
+}>("jumpToNextUnseenComment");
+
+/**
+ * This event is emitted when the viewer triggered the
+ * Shift+Z Key (Prev Unseen Comment Traversal) functionality.
+ */
+export const JumpToPreviousUnseenCommentEvent = createViewerEvent<{
+  source: "keyboard" | "mobileToolbar";
+}>("jumpToPreviousUnseenComment");
+
+/**
+ * This event is emitted when the viewer triggeres
+ * the Unmark all functionality.
+ */
+export const UnmarkAllEvent = createViewerEvent<{
+  source: "keyboard" | "mobileToolbar";
+}>("unmarkAll");
+
+/**
+ * This event is emitted when the viewer closes to mobile
+ * toolbar.
+ */
+export const CloseMobileToolbarEvent = createViewerEvent("closeMobileToolbar");
+
+/**
  * This event is emitted when the viewer request another
  * email verification email.
  */

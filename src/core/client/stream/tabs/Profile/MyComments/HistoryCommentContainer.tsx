@@ -47,11 +47,7 @@ const HistoryCommentContainer: FunctionComponent<Props> = (props) => {
           onGotoConversation={handleGotoConversation}
         />
       }
-      parentAuthorName={
-        props.comment.parent &&
-        props.comment.parent.author &&
-        props.comment.parent.author.username
-      }
+      parent={props.comment.parent}
       media={
         <MediaSectionContainer
           comment={props.comment}
@@ -81,6 +77,7 @@ const enhanced = withFragmentContainer<Props>({
       createdAt
       ...MediaSectionContainer_comment
       parent {
+        id
         author {
           username
         }

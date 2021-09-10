@@ -1,9 +1,12 @@
+/* eslint-disable no-restricted-globals */
 import { Child as PymChild } from "pym.js";
 import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { parseQuery } from "coral-common/utils";
+import { injectConditionalPolyfills } from "coral-framework/helpers";
 import { createManaged } from "coral-framework/lib/bootstrap";
+import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { createTokenRefreshProvider } from "coral-framework/lib/network/tokenRefreshProvider";
 
 import AppContainer from "./App";
@@ -19,6 +22,13 @@ function extractBundleConfig() {
 }
 
 async function main() {
+  const { renderTarget } = parseQuery(location.search);
+  if (renderTarget) {
+    // Load any polyfills that are required.
+    await injectConditionalPolyfills(window, getBrowserInfo(window));
+    window.document.body.style.background = "transparent";
+    return;
+  }
   const pym = new PymChild({
     polling: 100,
   });
@@ -42,7 +52,8 @@ async function main() {
     </ManagedCoralContextProvider>
   );
 
-  ReactDOM.render(<Index />, document.getElementById("app"));
+  // eslint-disable-next-line no-restricted-globals
+  ReactDOM.render(<Index />, window.document.getElementById("app"));
 }
 
 void main();

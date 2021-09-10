@@ -24,6 +24,11 @@ export interface StaticConfig {
   staticURI: string;
 
   /**
+   * tenantDomain is the domain of the currently requested tenant.
+   */
+  tenantDomain?: string;
+
+  /**
    * reporter stores the reporter configuration for the current reporter
    * available.
    */

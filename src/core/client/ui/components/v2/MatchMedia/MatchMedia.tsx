@@ -20,6 +20,18 @@ interface Props {
   /** less than equals width. */
   ltWidth?: Breakpoints;
 
+  /** greater than or equal device width. */
+  gteDeviceWidth?: Breakpoints;
+
+  /** greater than device width. */
+  gtDeviceWidth?: Breakpoints;
+
+  /** less than equals device width. */
+  lteDeviceWidth?: Breakpoints;
+
+  /** less than equals device width. */
+  ltDeviceWidth?: Breakpoints;
+
   children: ReactNode | ((matches: boolean) => React.ReactNode);
   className?: string;
   component?:
@@ -35,7 +47,18 @@ interface Props {
 }
 
 export const MatchMedia: FunctionComponent<Props> = (props) => {
-  const { speech, gteWidth, gtWidth, lteWidth, ltWidth, ...rest } = props;
+  const {
+    speech,
+    gteWidth,
+    gtWidth,
+    lteWidth,
+    ltWidth,
+    gteDeviceWidth,
+    gtDeviceWidth,
+    lteDeviceWidth,
+    ltDeviceWidth,
+    ...rest
+  } = props;
   const mapped = {
     // TODO: Temporarily map newer speech to older aural type until
     // react-responsive supports the speech prop.
@@ -49,6 +72,16 @@ export const MatchMedia: FunctionComponent<Props> = (props) => {
       ? breakpoints[ltWidth] - 1
       : lteWidth
       ? breakpoints[lteWidth]
+      : undefined,
+    minDeviceWidth: gtDeviceWidth
+      ? breakpoints[gtDeviceWidth] + 1
+      : gteDeviceWidth
+      ? breakpoints[gteDeviceWidth]
+      : undefined,
+    maxDeviceWidth: ltDeviceWidth
+      ? breakpoints[ltDeviceWidth] - 1
+      : lteDeviceWidth
+      ? breakpoints[lteDeviceWidth]
       : undefined,
   };
   return <Responsive {...rest} {...mapped} />;

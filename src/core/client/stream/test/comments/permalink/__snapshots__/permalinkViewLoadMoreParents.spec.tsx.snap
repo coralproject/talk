@@ -36,11 +36,13 @@ exports[`renders conversation thread 1`] = `
           </div>
           <div
             aria-labelledby="comment-comment-from-staff-0-label"
-            className="coral coral-comment coral coral-reacted-0"
+            className="CommentContainer-root coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
             data-testid="comment-comment-from-staff-0"
             id="comment-comment-from-staff-0"
+            onFocus={[Function]}
             role="article"
+            tabIndex={-1}
           >
             <div
               className="Hidden-root"
@@ -356,11 +358,13 @@ exports[`renders conversation thread 1`] = `
         </div>
         <div
           aria-labelledby="comment-comment-0-label"
-          className="coral coral-comment coral coral-reacted-0"
+          className="CommentContainer-root coral coral-conversationThread-highlighted coral coral-comment coral coral-reacted-0"
           data-key-stop={true}
           data-testid="comment-comment-0"
           id="comment-comment-0"
+          onFocus={[Function]}
           role="article"
+          tabIndex={-1}
         >
           <div
             className="Hidden-root"
@@ -651,11 +655,13 @@ exports[`shows more of this conversation 1`] = `
           </div>
           <div
             aria-labelledby="comment-comment-from-staff-0-label"
-            className="coral coral-comment coral coral-reacted-0"
+            className="CommentContainer-root coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
             data-testid="comment-comment-from-staff-0"
             id="comment-comment-from-staff-0"
+            onFocus={[Function]}
             role="article"
+            tabIndex={-1}
           >
             <div
               className="Hidden-root"
@@ -949,11 +955,13 @@ exports[`shows more of this conversation 1`] = `
             </div>
             <div
               aria-labelledby="comment-comment-1-label"
-              className="coral coral-comment coral coral-reacted-0"
+              className="CommentContainer-root coral coral-comment coral coral-reacted-0"
               data-key-stop={true}
               data-testid="comment-comment-1"
               id="comment-comment-1"
+              onFocus={[Function]}
               role="article"
+              tabIndex={-1}
             >
               <div
                 className="Hidden-root"
@@ -1229,11 +1237,13 @@ exports[`shows more of this conversation 1`] = `
         </div>
         <div
           aria-labelledby="comment-comment-0-label"
-          className="coral coral-comment coral coral-reacted-0"
+          className="CommentContainer-root coral coral-conversationThread-highlighted coral coral-comment coral coral-reacted-0"
           data-key-stop={true}
           data-testid="comment-comment-0"
           id="comment-comment-0"
+          onFocus={[Function]}
           role="article"
+          tabIndex={-1}
         >
           <div
             className="Hidden-root"
