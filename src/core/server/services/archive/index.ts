@@ -9,6 +9,10 @@ import {
 } from "coral-server/models/comment/counts";
 import { updateSiteCounts } from "coral-server/models/site";
 import {
+  markStoryAsArchived,
+  markStoryAsUnarchived,
+} from "coral-server/models/story";
+import {
   archivedCommentActions,
   archivedCommentModerationActions,
   archivedComments,
@@ -96,21 +100,10 @@ export async function archiveStory(
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
   logger.info("marking story as archived");
-  const result = await stories(mongo.live).findOneAndUpdate(
-    { id, tenantID },
-    {
-      $set: {
-        isArchiving: false,
-        isArchived: true,
-      },
-    },
-    {
-      returnOriginal: false,
-    }
-  );
+  const result = await markStoryAsArchived(mongo.live, tenantID, id);
 
   logger.info("completed archiving tasks");
-  return result.value;
+  return result;
 }
 
 export async function unarchiveStory(
@@ -192,21 +185,10 @@ export async function unarchiveStory(
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
   logger.info("marking story as unarchived");
-  const result = await stories(mongo.live).findOneAndUpdate(
-    { id, tenantID },
-    {
-      $set: {
-        isArchiving: false,
-        isArchived: false,
-      },
-    },
-    {
-      returnOriginal: false,
-    }
-  );
+  const result = await markStoryAsUnarchived(mongo.live, tenantID, id);
 
   logger.info("completed unarchiving tasks");
-  return result.value;
+  return result;
 }
 
 interface MoveDocumentsOptions<T> {

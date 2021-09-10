@@ -813,3 +813,45 @@ export async function retrieveStoriesToBeArchived(
 
   return stories;
 }
+
+export async function markStoryAsArchived(
+  mongo: Db,
+  tenantID: string,
+  storyID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id: storyID, tenantID },
+    {
+      $set: {
+        isArchiving: false,
+        isArchived: true,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
+}
+
+export async function markStoryAsUnarchived(
+  mongo: Db,
+  tenantID: string,
+  storyID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id: storyID, tenantID },
+    {
+      $set: {
+        isArchiving: false,
+        isArchived: false,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
+}
