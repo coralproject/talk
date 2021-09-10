@@ -303,7 +303,7 @@ exports[`renders configure general 1`] = `
                 <p
                   className="FormFieldDescription-root"
                 >
-                  MARCUS TODO
+                  Change how levels of replies display. When enabled, replies to comments can go up to four levels deep before they are no longer indented on the page. When disabled, after a depth of four replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
                 </p>
                 <fieldset
                   className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
