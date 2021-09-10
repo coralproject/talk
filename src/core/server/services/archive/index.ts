@@ -4,12 +4,10 @@ import { MongoContext } from "coral-server/data/context";
 import { StoryNotFoundError } from "coral-server/errors";
 import { Logger } from "coral-server/logger";
 import {
-  createEmptyRelatedCommentCounts,
-  RelatedCommentCounts,
+  negateCommentCounts,
   updateSharedCommentCounts,
 } from "coral-server/models/comment/counts";
 import { updateSiteCounts } from "coral-server/models/site";
-import { Story } from "coral-server/models/story";
 import {
   archivedCommentActions,
   archivedCommentModerationActions,
@@ -20,58 +18,6 @@ import {
   stories,
 } from "coral-server/services/mongodb/collections";
 import { AugmentedRedis } from "coral-server/services/redis";
-
-const getCommentCounts = (options: {
-  story: Readonly<Story>;
-  negate: boolean;
-}) => {
-  const {
-    story: { commentCounts },
-    negate,
-  } = options;
-  const multiplier = negate ? -1 : 1;
-
-  const result: RelatedCommentCounts = createEmptyRelatedCommentCounts();
-
-  if (commentCounts.action) {
-    for (const key in commentCounts.action) {
-      if (result.action.hasOwnProperty.call(commentCounts.action, key)) {
-        const value = commentCounts.action[key];
-        result.action[key] = value * multiplier;
-      }
-    }
-  }
-
-  if (commentCounts.moderationQueue) {
-    result.moderationQueue.total =
-      commentCounts.moderationQueue.total * multiplier;
-
-    let key: keyof typeof commentCounts.moderationQueue.queues;
-    for (key in commentCounts.moderationQueue.queues) {
-      if (
-        result.moderationQueue.queues.hasOwnProperty.call(
-          commentCounts.moderationQueue.queues,
-          key
-        )
-      ) {
-        const value = commentCounts.moderationQueue.queues[key];
-        result.moderationQueue.queues[key] = value * multiplier;
-      }
-    }
-  }
-
-  if (commentCounts.status) {
-    let key: keyof typeof commentCounts.status;
-    for (key in commentCounts.status) {
-      if (result.status.hasOwnProperty.call(commentCounts.status, key)) {
-        const value = commentCounts.status[key];
-        result.status[key] = value * multiplier;
-      }
-    }
-  }
-
-  return result;
-};
 
 export async function archiveStory(
   mongo: MongoContext,
@@ -141,8 +87,8 @@ export async function archiveStory(
 
   // negate the comment counts so we can subtract them from the
   // site and shared comment counts
-  const commentCounts = getCommentCounts({
-    story: targetStory,
+  const commentCounts = negateCommentCounts({
+    commentCounts: targetStory.commentCounts,
     negate: true,
   });
 
@@ -238,8 +184,8 @@ export async function unarchiveStory(
 
   // get the comment counts so we can add them to the
   // site and shared comment counts
-  const commentCounts = getCommentCounts({
-    story: targetStory,
+  const commentCounts = negateCommentCounts({
+    commentCounts: targetStory.commentCounts,
     negate: false,
   });
 
