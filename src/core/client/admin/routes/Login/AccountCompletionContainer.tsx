@@ -3,6 +3,8 @@ import React, { FunctionComponent, useEffect, useMemo, useRef } from "react";
 import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
+import { globalErrorReporter } from "coral-framework/lib/errors/reporter";
 import {
   useLocal,
   useMutation,
@@ -31,6 +33,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   const completeAccount = useMutation(CompleteAccountMutation);
   const setAuthView = useMutation(SetAuthViewMutation);
   const setRedirectPath = useMutation(SetRedirectPathMutation);
+  const { window } = useCoralContext();
 
   const [
     {
@@ -117,7 +120,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
           }
         }
       } catch (err) {
-        window.console.error(err);
+        globalErrorReporter.report(err);
       }
     }
 
@@ -139,6 +142,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
     router,
     setRedirectPath,
     viewer,
+    window,
   ]);
 
   // If the view is different than the current view, then set the view!

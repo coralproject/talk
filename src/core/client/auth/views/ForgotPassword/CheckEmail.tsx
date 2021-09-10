@@ -3,6 +3,7 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import Main from "coral-auth/components/Main";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./CheckEmail.css";
@@ -12,10 +13,11 @@ interface Props {
 }
 
 const CheckEmail: FunctionComponent<Props> = ({ email }) => {
+  const { window } = useCoralContext();
   const ref = useResizePopup();
   const closeWindow = useCallback(() => {
     window.close();
-  }, []);
+  }, [window]);
   const UserEmail = () => <span className={styles.strong}>{email}</span>;
   return (
     <div ref={ref} data-testid="forgotPassword-checkEmail-container">

@@ -5,9 +5,9 @@ import { getBrowserInfo } from "coral-framework/lib/browserInfo";
  * on MacOSX where `aria-live="polite"` will get read twice when content is in an iframe.
  * As a workaround we use "assertive" for MacOSX instead.
  */
-function getAriaPoliteMacOSWorkaround() {
-  const browserInfo = getBrowserInfo();
-  if (browserInfo.macos) {
+function getAriaPoliteMacOSWorkaround(window: Window) {
+  const browserInfo = getBrowserInfo(window);
+  if (browserInfo.macOS) {
     return "assertive";
   }
   return "polite";

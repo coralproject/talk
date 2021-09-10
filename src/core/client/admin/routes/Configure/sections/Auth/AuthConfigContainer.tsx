@@ -95,6 +95,7 @@ class AuthConfigContainer extends React.Component<Props> {
         "No authentication integration has been enabled for the Comment Stream. Do you really want to continue?"
       );
 
+      // eslint-disable-next-line no-restricted-globals
       if (!window.confirm(confirmMessage)) {
         cancel();
       }

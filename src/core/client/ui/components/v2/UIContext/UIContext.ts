@@ -16,6 +16,13 @@ export interface UIContextProps {
   registerClickFarAway?: ClickFarAwayRegister;
 
   locales?: string[];
+
+  /**
+   * This is the target window, where our React Elements are rendered to.
+   * This could be different than the global `window` object when we render
+   * to a Portal which lives in a another frame.
+   */
+  renderWindow: Window;
 }
 
 const UIContext = React.createContext<UIContextProps>({} as any);

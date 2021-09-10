@@ -49,6 +49,8 @@ export interface ViewerNetworkEvent<
   T extends { success: object; error: object }
 > {
   name: string;
+  nameSuccess: string;
+  nameError: string;
   /**
    * Mark the network request as started. This will also start tracking the rtt time.
    */
@@ -70,6 +72,8 @@ export function createViewerNetworkEvent<
 >(name: string): ViewerNetworkEvent<T> {
   return {
     name,
+    nameSuccess: `${name}.success`,
+    nameError: `${name}.error`,
     begin: ((eventEmitter, data) => {
       const ms = Date.now();
       return {
