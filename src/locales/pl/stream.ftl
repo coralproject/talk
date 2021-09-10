@@ -619,23 +619,6 @@ configure-premodLink-commentsContainingLinks =
 configure-premodLink-description =
   Moderatorzy muszą zaaprobować wszystkie komentarze zawierające link zanim zostaną opublikowane przy tym artykule.
 
-configure-enableLiveUpdates-title = Włącz aktualizacje na żywo
-configure-enableLiveUpdates-description =
-  Kiedy włączysz tę opcję, komentarze będą aktualizowane
-  od razu po wysłaniu, bez czekania na przeładowanie strony.
-  Możesz wyłączyć tę opcję, w rzadko spotykanej sytuacji, gdy
-  artykuł ma tak dużo odwiedzin, że komentarze ładują się
-  zbyt wolno.
-configure-enableLiveUpdates-enable = Włącz
-
-configure-disableLiveUpdates-title = Wyłącz aktualizacje na żywo
-configure-disableLiveUpdates-description =
-  Kiedy wyłączysz tę opcję nowe odpowiedzi przestaną pojawiać się od razu
-  po wysłaniu. Komentatorzy będą musieli odświeżać stronę, żeby zobaczyć
-  nowe komentarze. Rekomendujemy to ustawienie dla artykułów, które
-  generują tak gorące dyskusje, że ich czas ładowania spada.
-configure-disableLiveUpdates-disable = Wyłącz
-
 configure-addMessage-title =
   Dodaj wiadomość lub pytanie
 configure-addMessage-description =

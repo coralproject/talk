@@ -636,16 +636,6 @@ configure-premodLink-commentsContainingLinks =
 configure-premodLink-description =
   Ylläpidon on hyväksyttävä linkkejä sisältävä kommentti ennen kuin se julkaistaan.
 
-configure-liveUpdates-title =
-configure-enableLiveUpdates-title = Reaaliaikainen päivitys käytössä
-configure-liveUpdates-description =
-configure-enableLiveUpdates-description =
-  Kun reaaliaikainen päivitys on käytössä, uusien kommenttien ja
-  vastausten näkyminen ei vaadi sivulatausta, vaan tiedot päivittyvät välittömästi.
-  Voit poistaa ominaisuuden käytöstä, jos se aiheuttaa kommenttien latautumisen
-  hitautta poikkeuksellisen suosituissa jutuissa.
-configure-enableLiveUpdates-enable = Ota käyttöön
-
 configure-disableLiveUpdates-title = Poista reaaliaikainen päivitys käytöstä
 configure-disableLiveUpdates-description =
   Kun reaaliaikainen päivitys ei ole käytössä, uudet kommentit ja vastaukset eivät enää

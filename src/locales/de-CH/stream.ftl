@@ -636,16 +636,6 @@ configure-premodLink-commentsContainingLinks =
 configure-premodLink-description =
   Moderatoren müssen alle Kommentare, welche einen Link enthalten, genehmigen bevor sie beim Artikel veröffentlicht werden.
 
-configure-liveUpdates-title =
-configure-enableLiveUpdates-title = Live Updates aktivieren
-configure-liveUpdates-description =
-configure-enableLiveUpdates-description =
-  Wenn aktiviert, werden Kommentare sofort aktualisiert sobald neue Kommentare und Antworten
-  eingereicht werden. Es ist nicht mehr nötig die Seite neu zu laden. Falls es zur unüblichen
-  Situation kommen sollte, dass der Artikel sehr viel Traffic erhält und die Kommentare dadurch
-  langsamer laden, kannst du dies wieder deaktivieren.
-configure-enableLiveUpdates-enable = Aktivieren
-
 configure-disableLiveUpdates-title = Live Updates deaktivieren
 configure-disableLiveUpdates-description =
   Wenn deaktiviert, werden Kommentare nicht sofort aktualisiert sobald neue Kommentare und Antworten

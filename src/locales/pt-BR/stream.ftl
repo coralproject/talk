@@ -626,24 +626,6 @@ configure-premodLink-commentsContainingLinks =
 configure-premodLink-description =
   Os moderadores devem aprovar qualquer comentário que contenha um link antes de ser publicado.
 
-configure-liveUpdates-title =
-configure-enableLiveUpdates-title = Ativar atualizações em tempo real
-configure-liveUpdates-description =
-configure-enableLiveUpdates-description =
-  Quando ativado, os comentários serão atualizados instantaneamente
-  assim como novos comentários e respostas, ao invés de exigir
-  o recarregamento da página. Você pode desabilitar esta opção
-  em certas situações, como um alto volume de acesso que pode fazer com que os comentários fiquem lentos.
-configure-enableLiveUpdates-enable = Ativar
-
-configure-disableLiveUpdates-title = Desativar atualizações em tempo real
-configure-disableLiveUpdates-description =
-  Quando desativado, novos comentários e respostas não serão mais atualizados instantaneamente
-  à medida que são enviados. Os comentaristas precisarão atualizar a página para ver
-  novos comentários. Recomendamos isso na situação incomum de uma história
-  recebendo tanto tráfego que os comentários estão carregando lentamente.
-configure-disableLiveUpdates-disable = Desativar
-
 configure-messageBox-title =
 configure-addMessage-title =
   Adicione uma mensagem ou pergunta
