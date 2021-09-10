@@ -7,7 +7,7 @@ import { getBrowserInfo } from "coral-framework/lib/browserInfo";
  */
 function getAriaPoliteMacOSWorkaround(window: Window) {
   const browserInfo = getBrowserInfo(window);
-  if (browserInfo.macos) {
+  if (browserInfo.macOS) {
     return "assertive";
   }
   return "polite";
