@@ -1,7 +1,13 @@
+const LENGTH_CUTOFF = 500;
+
 // markPhrasesHTML looks for `suspect` and `banned` words inside `text` given
 // the settings applied for the locale and highlights them by returning an HTML
 // string.
 function markPhrasesHTML(text: string, expression: RegExp) {
+  if (text.length >= LENGTH_CUTOFF) {
+    return null;
+  }
+
   const tokens = text.split(expression);
 
   // If there were less than two matches, then there was no matched word
