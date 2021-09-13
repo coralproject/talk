@@ -28,7 +28,8 @@ export async function archiveStory(
   redis: AugmentedRedis,
   tenantID: string,
   id: string,
-  log: Logger
+  log: Logger,
+  now: Date
 ) {
   if (!mongo.archive) {
     throw new Error("Cannot archive, archive connection is not initialized");
@@ -100,7 +101,7 @@ export async function archiveStory(
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
   logger.info("marking story as archived");
-  const result = await markStoryAsArchived(mongo.live, tenantID, id);
+  const result = await markStoryAsArchived(mongo.live, tenantID, id, now);
 
   logger.info("completed archiving tasks");
   return result;
@@ -111,7 +112,8 @@ export async function unarchiveStory(
   redis: AugmentedRedis,
   tenantID: string,
   id: string,
-  log: Logger
+  log: Logger,
+  now: Date
 ) {
   if (!mongo.archive) {
     throw new Error("Cannot archive, archive connection is not initialized");
@@ -185,7 +187,7 @@ export async function unarchiveStory(
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
   logger.info("marking story as unarchived");
-  const result = await markStoryAsUnarchived(mongo.live, tenantID, id);
+  const result = await markStoryAsUnarchived(mongo.live, tenantID, id, now);
 
   logger.info("completed unarchiving tasks");
   return result;

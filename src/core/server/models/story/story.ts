@@ -754,7 +754,7 @@ export async function markStoryForArchiving(
         isArchiving: true,
         closedAt: now,
         updatedAt: now,
-        archivedAt: now,
+        startedArchivingAt: now,
       },
     },
     {
@@ -783,7 +783,7 @@ export async function markStoryForUnarchiving(
         isArchiving: true,
         closedAt: now,
         updatedAt: now,
-        unarchivedAt: now,
+        startedUnarchivingAt: now,
       },
     },
     {
@@ -806,6 +806,7 @@ export async function retrieveStoriesToBeArchived(
       createdAt: { $lte: olderThan },
       isArchiving: { $in: [null, false] },
       isArchived: { $in: [null, false] },
+      startedUnarchivingAt: { $in: [null, false] },
       unarchivedAt: { $in: [null, false] },
     })
     .limit(limit)
@@ -817,7 +818,8 @@ export async function retrieveStoriesToBeArchived(
 export async function markStoryAsArchived(
   mongo: Db,
   tenantID: string,
-  storyID: string
+  storyID: string,
+  now: Date
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id: storyID, tenantID },
@@ -825,6 +827,7 @@ export async function markStoryAsArchived(
       $set: {
         isArchiving: false,
         isArchived: true,
+        archivedAt: now,
       },
     },
     {
@@ -838,7 +841,8 @@ export async function markStoryAsArchived(
 export async function markStoryAsUnarchived(
   mongo: Db,
   tenantID: string,
-  storyID: string
+  storyID: string,
+  now: Date
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id: storyID, tenantID },
@@ -846,6 +850,7 @@ export async function markStoryAsUnarchived(
       $set: {
         isArchiving: false,
         isArchived: false,
+        unarchivedAt: now,
       },
     },
     {

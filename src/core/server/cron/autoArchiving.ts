@@ -86,7 +86,8 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
           redis,
           tenant.id,
           story.id,
-          log
+          log,
+          now
         );
 
         if (result?.isArchived && !result?.isArchiving) {

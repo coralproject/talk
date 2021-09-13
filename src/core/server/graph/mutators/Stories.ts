@@ -175,7 +175,8 @@ export const Stories = (ctx: GraphContext) => ({
           ctx.redis,
           ctx.tenant.id,
           storyID,
-          ctx.logger
+          ctx.logger,
+          ctx.now
         );
       }
 
@@ -208,7 +209,8 @@ export const Stories = (ctx: GraphContext) => ({
           ctx.redis,
           ctx.tenant.id,
           storyID,
-          ctx.logger
+          ctx.logger,
+          ctx.now
         );
       }
 
