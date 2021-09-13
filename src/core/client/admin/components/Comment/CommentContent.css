@@ -54,3 +54,13 @@ $comment-link-active: $colors-teal-900;
 .highlight {
   white-space: pre-wrap;
 }
+
+.lengthWarning {
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-2);
+}
+
+.warningTag {
+  background-color: var(--palette-warning-100);
+  color: var(--palette-text-500);
+}

@@ -35,6 +35,8 @@ function markPhrasesHTML(text: string, expression: RegExp) {
 // markHTMLNode manipulates the node by looking for #text nodes and adding
 // markers.
 export default function markHTMLNode(parentNode: Node, expression: RegExp) {
+  let exceededLength = false;
+
   parentNode.childNodes.forEach((node) => {
     // Anchor links are already marked by default, skip them now.
     if (node.nodeName === "A") {
@@ -43,12 +45,20 @@ export default function markHTMLNode(parentNode: Node, expression: RegExp) {
 
     // If the node isn't of text type then we can't mark it directly.
     if (node.nodeName !== "#text") {
-      return markHTMLNode(node, expression);
+      const result = markHTMLNode(node, expression);
+      if (result.exceededLength) {
+        exceededLength = result.exceededLength;
+      }
+      return;
     }
 
     // If the node doesn't have any text content, then we can't mark it either.
     if (!node.textContent) {
       return;
+    }
+
+    if (node.textContent.length > LENGTH_CUTOFF) {
+      exceededLength = true;
     }
 
     // We've encountered a text node with text content that isn't in an anchor
@@ -60,5 +70,10 @@ export default function markHTMLNode(parentNode: Node, expression: RegExp) {
       newNode.innerHTML = replacement;
       parentNode.replaceChild(newNode, node);
     }
+    return;
   });
+
+  return {
+    exceededLength,
+  };
 }

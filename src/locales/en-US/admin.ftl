@@ -1092,6 +1092,9 @@ moderate-user-drawer-notes-button = Add note
 moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
+moderate-highlightLengthWarning =
+  Highlighting has been disabled for this comment due to its length
+
 # For Review Queue
 
 moderate-forReview-reviewedButton =

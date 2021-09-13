@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useMemo } from "react";
 
@@ -11,6 +12,7 @@ import {
   createSanitize,
   Sanitize,
 } from "coral-common/helpers/sanitize";
+import { Tag } from "coral-ui/components/v2";
 
 import styles from "./CommentContent.css";
 
@@ -75,30 +77,50 @@ const CommentContent: FunctionComponent<Props> = ({
     return getPhrasesRegExp(phrases);
   }, [phrases, highlight]);
 
-  // Cache the parsed comment node. If the children cannot be parsed, this will
-  // be null.
-  const parsed = useMemo(() => {
+  const sanitizedNode = useMemo(() => {
     if (typeof children !== "string") {
       return null;
     }
 
     // Sanitize the input for display.
-    const node = getSanitize(highlight && !!phrases)(children);
+    return getSanitize(highlight && !!phrases)(children);
+  }, [children, highlight, phrases]);
 
-    // If the expression is available, then mark the nodes.
-    if (expression) {
-      markHTMLNode(node, expression);
+  // Cache the parsed comment node. If the children cannot be parsed, this will
+  // be null.
+  const { exceededLength, parsed } = useMemo(() => {
+    if (!sanitizedNode) {
+      return { exceededLength: false, parsed: null };
     }
 
-    return node;
-  }, [children, expression, highlight, phrases]);
+    let tooLong = false;
+    // If the expression is available, then mark the nodes.
+    if (expression) {
+      const result = markHTMLNode(sanitizedNode, expression);
+      tooLong = result.exceededLength;
+    }
+
+    return { exceededLength: tooLong, parsed: sanitizedNode };
+  }, [expression, sanitizedNode]);
 
   if (parsed) {
     return (
-      <div
-        className={cn(className, styles.root, highlight && styles.highlight)}
-        dangerouslySetInnerHTML={{ __html: parsed.innerHTML }}
-      />
+      <>
+        <div
+          className={cn(className, styles.root, highlight && styles.highlight)}
+          dangerouslySetInnerHTML={{ __html: parsed.innerHTML }}
+        />
+        {exceededLength && (
+          <div className={styles.lengthWarning}>
+            <Localized id="moderate-highlightLengthWarning">
+              <Tag className={styles.warningTag} color="error">
+                Highlighting has been disabled for this comment due to its
+                length
+              </Tag>
+            </Localized>
+          </div>
+        )}
+      </>
     );
   }
 
