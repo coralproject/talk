@@ -52,6 +52,8 @@ comments-editCommentForm-rteLabel = Redigeer kommentaar
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
 comments-editCommentForm-editRemainingTime = Redigeer: <time></time> oor
+comments-editCommentForm-editTimeExpired = Tyd om te redigeer het verstryk. Jy kan nie meer hierdie kommentaar redigeer nie. Wil jy graag 'n nuwe een plaas?
+
 comments-editedMarker-edited = Geredigeer
 comments-permalinkView-youAreCurrentlyViewing =
   Hierdie is 'n enkele gesprek
@@ -81,10 +83,13 @@ comments-moderationDropdown-moderationView = Modereringskerm
 comments-moderationDropdown-moderateStory = Modereer storie
 comments-featuredTag = In fokus
 stream-footer-links-top-of-comments = Bo-aan kommentaar
-  .title = Go to top of comments
+  .title = Gaan na begin van kommentaar
 stream-footer-links-top-of-article = Bo-aan artikel
-  .title = Go to top of article
+  .title = Gaan na begin van artikel
+stream-footer-links-profile = Profiel en antwoorde
+  .title = Gaan na profiel en antwoorde
 comments-remainingCharacters = { $remaining } karakters oor
+comments-loadMore = Laai meer
 
 ### Q&A
 
@@ -141,6 +146,7 @@ profile-account-notifications-sendNotifications = Stuur kennisgewings:
 profile-account-notifications-sendNotifications-immediately = Onmiddellik
 profile-account-notifications-sendNotifications-daily = Daagliks
 profile-account-notifications-sendNotifications-hourly = Uurliks
+profile-account-notifications-updated = Jou kennisgewinginstellings is bygewerk
 profile-account-notifications-button-update = Dateer op
 
 ## Report Comment Popover
