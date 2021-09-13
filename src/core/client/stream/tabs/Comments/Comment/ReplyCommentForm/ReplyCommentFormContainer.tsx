@@ -63,7 +63,18 @@ interface Props {
   showJumpToComment?: boolean;
 }
 
-const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
+const ReplyCommentFormContainer: FunctionComponent<Props> = ({
+  comment,
+  sessionStorage,
+  autofocus,
+  onClose,
+  createCommentReply,
+  story,
+  localReply,
+  refreshSettings,
+  refreshViewer,
+  settings,
+}) => {
   const { pym, renderWindow } = useCoralContext();
   const commentSeenEnabled = useCommentSeenEnabled();
 
@@ -76,12 +87,12 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
   const [showJumpToComment, setShowJumpToComment] = useState(false);
   const [jumpToCommentID, setJumpToCommentID] = useState<string | null>(null);
 
-  const contextKey = `replyCommentFormBody-${props.comment.id}`;
+  const contextKey = `replyCommentFormBody-${comment.id}`;
   const rteRef = useRef<CoralRTE | null>(null);
 
   useEffect(() => {
     async function fetchBody() {
-      const body = await props.sessionStorage.getItem(contextKey);
+      const body = await sessionStorage.getItem(contextKey);
 
       if (body) {
         setInitialValues({
@@ -93,12 +104,12 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
     }
 
     void fetchBody();
-  }, [contextKey, props.sessionStorage]);
+  }, [contextKey, sessionStorage]);
 
   const handleRTERef = useCallback(
     (rte: CoralRTE | null) => {
       rteRef.current = rte;
-      if (rteRef && props.autofocus) {
+      if (rteRef && autofocus) {
         // Delay focus a bit until iframe had a change to resize.
         setTimeout(
           () => rteRef && rteRef.current && rteRef.current.focus(),
@@ -106,15 +117,15 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
         );
       }
     },
-    [props]
+    [autofocus]
   );
 
   const handleOnCancelOrDismiss = useCallback(() => {
-    void props.sessionStorage.removeItem(contextKey);
-    if (props.onClose) {
-      props.onClose();
+    void sessionStorage.removeItem(contextKey);
+    if (onClose) {
+      onClose();
     }
-  }, [contextKey, props]);
+  }, [contextKey, onClose, sessionStorage]);
 
   const disableNudge = useCallback(() => {
     if (nudge) {
@@ -126,14 +137,14 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
     async (input) => {
       try {
         const response = getSubmissionResponse(
-          await props.createCommentReply({
-            storyID: props.story.id,
-            parentID: props.comment.id,
+          await createCommentReply({
+            storyID: story.id,
+            parentID: comment.id,
             // Assuming comment revision exists otherwise we would
             // not be seeing the reply form options as we we tombstone
             // deleted comments without revision history
-            parentRevisionID: props.comment.revision!.id,
-            local: props.localReply,
+            parentRevisionID: comment.revision!.id,
+            local: localReply,
             nudge,
             body: input.body,
             media: input.media,
@@ -141,15 +152,15 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
         );
 
         if (response.status !== "RETRY") {
-          void props.sessionStorage.removeItem(contextKey);
+          void sessionStorage.removeItem(contextKey);
 
-          if (response.status === "APPROVED" && props.showJumpToComment) {
+          if (response.status === "APPROVED" && showJumpToComment) {
             setJumpToCommentID(response.commentID);
             setShowJumpToComment(true);
 
             return;
-          } else if (response.status === "APPROVED" && props.onClose) {
-            props.onClose();
+          } else if (response.status === "APPROVED" && onClose) {
+            onClose();
             return;
           }
         }
@@ -159,11 +170,11 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
       } catch (error) {
         if (error instanceof InvalidRequestError) {
           if (shouldTriggerSettingsRefresh(error.code)) {
-            await props.refreshSettings({ storyID: props.story.id });
+            await refreshSettings({ storyID: story.id });
           }
 
           if (shouldTriggerViewerRefresh(error.code)) {
-            await props.refreshViewer();
+            await refreshViewer();
           }
 
           if (error.code === ERROR_CODES.USER_WARNED) {
@@ -190,15 +201,29 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
       }
       return;
     },
-    [contextKey, disableNudge, nudge, props]
+    [
+      comment.id,
+      comment.revision,
+      contextKey,
+      createCommentReply,
+      disableNudge,
+      localReply,
+      nudge,
+      onClose,
+      refreshSettings,
+      refreshViewer,
+      sessionStorage,
+      showJumpToComment,
+      story.id,
+    ]
   );
 
   const handleOnChange: ReplyCommentFormProps["onChange"] = useCallback(
     (state, form) => {
       if (state.values.body) {
-        void props.sessionStorage.setItem(contextKey, state.values.body);
+        void sessionStorage.setItem(contextKey, state.values.body);
       } else {
-        void props.sessionStorage.removeItem(contextKey);
+        void sessionStorage.removeItem(contextKey);
       }
       // Reset errors whenever user clears the form.
       if (
@@ -209,7 +234,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
         form.restart({ body: RTE_RESET_VALUE });
       }
     },
-    [contextKey, props.sessionStorage]
+    [contextKey, sessionStorage]
   );
 
   const jumpToComment = useCallback(() => {
@@ -218,8 +243,8 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
       return;
     }
 
-    if (props.onClose) {
-      props.onClose();
+    if (onClose) {
+      onClose();
     }
 
     const elementID = computeCommentElementID(commentID);
@@ -235,7 +260,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
         elem.focus();
       }
     }, 300);
-  }, [commentSeenEnabled, jumpToCommentID, props, pym, renderWindow]);
+  }, [commentSeenEnabled, jumpToCommentID, onClose, pym, renderWindow]);
 
   if (!initialized) {
     return null;
@@ -276,31 +301,23 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = (props) => {
 
   return (
     <ReplyCommentForm
-      siteID={props.comment.site.id}
-      id={props.comment.id}
-      rteConfig={props.settings.rte}
+      siteID={comment.site.id}
+      id={comment.id}
+      rteConfig={settings.rte}
       onSubmit={handleOnSubmit}
       onChange={handleOnChange}
-      mediaConfig={props.settings.media}
+      mediaConfig={settings.media}
       initialValues={initialValues}
       onCancel={handleOnCancelOrDismiss}
       rteRef={handleRTERef}
-      parentUsername={props.comment.author && props.comment.author.username}
-      min={
-        (props.settings.charCount.enabled && props.settings.charCount.min) ||
-        null
-      }
-      max={
-        (props.settings.charCount.enabled && props.settings.charCount.max) ||
-        null
-      }
-      disabled={
-        props.settings.disableCommenting.enabled || props.story.isClosed
-      }
+      parentUsername={comment.author && comment.author.username}
+      min={(settings.charCount.enabled && settings.charCount.min) || null}
+      max={(settings.charCount.enabled && settings.charCount.max) || null}
+      disabled={settings.disableCommenting.enabled || story.isClosed}
       disabledMessage={
-        (props.settings.disableCommenting.enabled &&
-          props.settings.disableCommenting.message) ||
-        props.settings.closeCommenting.message
+        (settings.disableCommenting.enabled &&
+          settings.disableCommenting.message) ||
+        settings.closeCommenting.message
       }
     />
   );
