@@ -18,7 +18,7 @@ export type TestWithTimeout = (testString: string) => MatchResult;
  * @param timeout the timeout to use
  */
 export default function createTesterWithTimeout(
-  regexp: RegExp,
+  regexp: any,
   timeout: number
 ): TestWithTimeout {
   // Create the script we're executing as a part of this regex test operation.

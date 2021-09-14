@@ -1,5 +1,4 @@
 import { LanguageCode } from "coral-common/helpers";
-import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import { createTimer } from "coral-server/helpers";
 import createTesterWithTimeout, {
   MatchResult,
@@ -7,6 +6,8 @@ import createTesterWithTimeout, {
 } from "coral-server/helpers/createTesterWithTimeout";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
+
+import createServerWordListRegEx from "./createServerWordListRegEx";
 
 interface Lists {
   banned: TestWithTimeout | false;
@@ -36,7 +37,7 @@ export class WordList {
     }
 
     // Generate the regular expression for this list.
-    const regexp = createWordListRegExp(locale, list);
+    const regexp = createServerWordListRegEx(locale, list);
 
     // Create a managed regular expression from the provided regular expression
     // so we can time it out if it takes too long!
