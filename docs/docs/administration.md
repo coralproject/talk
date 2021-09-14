@@ -138,6 +138,8 @@ Comments containing a word or phrase in the **Suspect Words** List are placed in
 
 Lists of words/phrases are not case sensitive, and are separated by new lines.
 
+_Note: occasionally comments are marked "Possible Banned Word" - this happens when the banned word check times out, so we don't know if the comment included a banned word or not.  This happens most often in newsrooms that include several thousand banned words on their lists.  It should only occur on a small percentage of your comments.  We will be fixing this problem in the future, so in the meantime you might try trimming your Banned Word list of words/phrases that seem very unlikely to appear, to reduce the frequency of this issue._
+
 ## Email SMTP Settings
 
 These settings can be found under **Admin** > **Configure** > **Email**.
