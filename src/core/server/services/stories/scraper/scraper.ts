@@ -89,10 +89,11 @@ class Scraper {
     customUserAgent,
     proxyURL,
     authorization,
+    size,
   }: ScrapeOptions) {
     const log = this.log.child({ storyURL: url }, true);
 
-    const options: FetchOptions = { method: "GET", timeout };
+    const options: FetchOptions = { method: "GET", timeout, size };
     if (customUserAgent) {
       options.headers = {
         ...options.headers,
