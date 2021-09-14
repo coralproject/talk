@@ -50,7 +50,7 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
               />
             )}
             <div className={cn(CLASSES.login.field, styles.field)}>
-              <EmailField disabled={submitting} autofocus />
+              <EmailField disabled={submitting} />
             </div>
             <div className={cn(CLASSES.login.field, styles.field)}>
               <Field name="password" validate={composeValidators(required)}>
