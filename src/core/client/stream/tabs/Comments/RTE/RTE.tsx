@@ -263,7 +263,7 @@ const RTE: FunctionComponent<Props> = (props) => {
       x.push(props.toolbarButtons);
     }
     return x;
-  }, [features]);
+  }, [features, props.toolbarButtons]);
 
   return (
     <div role="none">

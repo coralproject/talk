@@ -36,6 +36,8 @@ const typescriptOverrides = {
     jsxA11y.rules,
     reactPrettier.rules,
     {
+      // TODO: (cvle) make this an error
+      "react-hooks/exhaustive-deps": "warn",
       "@typescript-eslint/adjacent-overload-signatures": "error",
       // TODO: (cvle) change `readonly` param to `array-simple` when upgraded typescript.
       "@typescript-eslint/array-type": [

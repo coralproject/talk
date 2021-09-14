@@ -259,6 +259,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     relayEnvironment,
     renderWindow,
     eventEmitter,
+    browserInfo,
   } = useCoralContext();
   const [toolbarClosed, setToolbarClosed] = useInMemoryState(
     "keyboardShortcutMobileToolbarClosed",
@@ -270,7 +271,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const zKeyEnabled = useZKeyEnabled();
   const { commitSeen, enabled } = useContext(CommentSeenContext);
 
-  const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(null);
+  const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(
+    NextUnread
+  );
   const [disableZAction, setDisableZAction] = useState<boolean>(true);
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
@@ -521,67 +524,74 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
 
   return (
     <MatchMedia lteDeviceWidth="mobileMax">
-      <MobileToolbar onKeyPress={handleKeypress}>
-        <Flex className={styles.flexContainer} alignItems="center">
-          <div className={styles.unmarkAllContainer}>
-            <Button
-              variant="text"
-              size="large"
-              uppercase={false}
-              disabled={disableUnmarkAction}
-              onClick={handleUnmarkAllButton}
-              classes={{
-                variantText: styles.button,
-                disabled: styles.buttonDisabled,
-                colorRegular: styles.buttonColor,
-              }}
-            >
-              <ButtonIcon>done_all</ButtonIcon>
-              <Localized id="comments-mobileToolbar-unmarkAll">
-                <span>Unmark all</span>
-              </Localized>
-            </Button>
-          </div>
-          <div className={styles.nextActionContainer}>
-            <Button
-              variant="text"
-              size="large"
-              uppercase={false}
-              disabled={disableZAction}
-              classes={{
-                variantText: styles.button,
-                disabled: styles.buttonDisabled,
-                colorRegular: styles.buttonColor,
-              }}
-              onClick={handleZKeyButton}
-            >
-              {nextZAction}
-              <ButtonIcon>skip_next</ButtonIcon>
-            </Button>
-          </div>
-          <div className={styles.closeContainer}>
-            <Localized
-              id="comments-mobileToolbar-closeButton"
-              attrs={{ "aria-label": true }}
-            >
-              <Button
-                variant="text"
-                size="large"
-                uppercase={false}
-                classes={{
-                  variantText: styles.button,
-                  disabled: styles.buttonDisabled,
-                  colorRegular: styles.buttonColor,
-                }}
-                onClick={handleCloseToolbarButton}
-                aria-label="Close"
-              >
-                <ButtonIcon>close</ButtonIcon>
-              </Button>
-            </Localized>
-          </div>
-        </Flex>
-      </MobileToolbar>
+      {(matches) =>
+        (matches ||
+          browserInfo.mobile ||
+          browserInfo.tablet ||
+          browserInfo.iPadOS) && (
+          <MobileToolbar onKeyPress={handleKeypress}>
+            <Flex className={styles.flexContainer} alignItems="center">
+              <div className={styles.unmarkAllContainer}>
+                <Button
+                  variant="text"
+                  size="large"
+                  uppercase={false}
+                  disabled={disableUnmarkAction}
+                  onClick={handleUnmarkAllButton}
+                  classes={{
+                    variantText: styles.button,
+                    disabled: styles.buttonDisabled,
+                    colorRegular: styles.buttonColor,
+                  }}
+                >
+                  <ButtonIcon>done_all</ButtonIcon>
+                  <Localized id="comments-mobileToolbar-unmarkAll">
+                    <span>Unmark all</span>
+                  </Localized>
+                </Button>
+              </div>
+              <div className={styles.nextActionContainer}>
+                <Button
+                  variant="text"
+                  size="large"
+                  uppercase={false}
+                  disabled={disableZAction}
+                  classes={{
+                    variantText: styles.button,
+                    disabled: styles.buttonDisabled,
+                    colorRegular: styles.buttonColor,
+                  }}
+                  onClick={handleZKeyButton}
+                >
+                  {nextZAction}
+                  <ButtonIcon>skip_next</ButtonIcon>
+                </Button>
+              </div>
+              <div className={styles.closeContainer}>
+                <Localized
+                  id="comments-mobileToolbar-closeButton"
+                  attrs={{ "aria-label": true }}
+                >
+                  <Button
+                    variant="text"
+                    size="large"
+                    uppercase={false}
+                    classes={{
+                      variantText: styles.button,
+                      disabled: styles.buttonDisabled,
+                      colorRegular: styles.buttonColor,
+                    }}
+                    onClick={handleCloseToolbarButton}
+                    aria-label="Close"
+                  >
+                    <ButtonIcon>close</ButtonIcon>
+                  </Button>
+                </Localized>
+              </div>
+            </Flex>
+          </MobileToolbar>
+        )
+      }
     </MatchMedia>
   );
 };
