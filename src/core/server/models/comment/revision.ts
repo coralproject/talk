@@ -47,6 +47,9 @@ export interface RevisionMetadata {
      * of the comment was sent through the moderation phases.
      */
     timedOut?: boolean;
+
+    bannedWords?: string[];
+    suspectWords?: string[];
   };
 
   /**

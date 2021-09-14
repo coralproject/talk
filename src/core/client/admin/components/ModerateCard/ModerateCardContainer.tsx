@@ -374,6 +374,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           edited={comment.editing.edited}
           readOnly={readOnly}
           isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
+          bannedWords={comment.revision?.metadata?.wordList?.bannedWords || []}
+          suspectWords={
+            comment.revision?.metadata?.wordList?.suspectWords || []
+          }
         />
       </FadeInTransition>
       <BanModal
@@ -429,6 +433,12 @@ const enhanced = withFragmentContainer<Props>({
               COMMENT_DETECTED_BANNED_WORD
               COMMENT_DETECTED_SUSPECT_WORD
             }
+          }
+        }
+        metadata {
+          wordList {
+            bannedWords
+            suspectWords
           }
         }
       }

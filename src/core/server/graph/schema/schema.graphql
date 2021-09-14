@@ -3081,6 +3081,9 @@ type CommentRevisionWordListMetadata {
   of the comment was sent through the moderation phases.
   """
   timedOut: Boolean
+
+  suspectWords: [String!]
+  bannedWords: [String!]
 }
 
 type ExternalModerationPhaseAction {

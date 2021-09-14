@@ -87,6 +87,9 @@ interface Props {
   onBan: () => void;
   isQA?: boolean;
   rating?: number | null;
+
+  bannedWords?: Readonly<string[]>;
+  suspectWords?: Readonly<string[]>;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -126,6 +129,8 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectPrev,
   onBan,
   isQA,
+  bannedWords,
+  suspectWords,
 }) => {
   const div = useRef<HTMLDivElement>(null);
 
@@ -249,7 +254,11 @@ const ModerateCard: FunctionComponent<Props> = ({
           )}
           <div className={styles.contentArea}>
             <div className={styles.content}>
-              <CommentContent highlight={highlight} phrases={phrases}>
+              <CommentContent
+                highlight={highlight}
+                bannedWords={bannedWords}
+                suspectWords={suspectWords}
+              >
                 {commentBody}
               </CommentContent>
               <MediaContainer comment={comment} />

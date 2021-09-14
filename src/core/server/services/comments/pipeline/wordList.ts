@@ -2,6 +2,7 @@ import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import { createTimer } from "coral-server/helpers";
 import createTesterWithTimeout, {
+  MatchResult,
   TestWithTimeout,
 } from "coral-server/helpers/createTesterWithTimeout";
 import logger from "coral-server/logger";
@@ -13,6 +14,11 @@ interface Lists {
 }
 
 export type Options = Pick<Tenant, "id" | "locale" | "wordList">;
+
+// interface TestResult {
+//   isMatch: boolean | null;
+//   matches: string[];
+// }
 
 export class WordList {
   /**
@@ -97,10 +103,14 @@ export class WordList {
     timeout: number,
     testString: string,
     cache = true
-  ): boolean | null {
+  ): MatchResult {
     const test = this.lists(options, cache, timeout)[listName];
     if (!test) {
-      return false;
+      return {
+        isMatched: false,
+        timedOut: false,
+        matches: [],
+      };
     }
 
     const timer = createTimer();

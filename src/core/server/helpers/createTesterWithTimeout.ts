@@ -2,7 +2,13 @@ import vm from "vm";
 
 import logger from "coral-server/logger";
 
-export type TestWithTimeout = (testString: string) => boolean | null;
+export interface MatchResult {
+  isMatched: boolean | null;
+  timedOut: boolean;
+  matches: string[];
+}
+
+export type TestWithTimeout = (testString: string) => MatchResult;
 
 /**
  * createTesterWithTimeout will create a tester that after the timeout, will
@@ -16,7 +22,7 @@ export default function createTesterWithTimeout(
   timeout: number
 ): TestWithTimeout {
   // Create the script we're executing as a part of this regex test operation.
-  const script = new vm.Script("regexp.test(testString)");
+  const script = new vm.Script("testString.split(regexp)");
 
   // Create a null context object to isolate it with primitives.
   const sandbox = Object.create(null);
@@ -27,17 +33,33 @@ export default function createTesterWithTimeout(
   const ctx = vm.createContext(sandbox);
 
   return (testString: string) => {
-    let result: boolean;
+    let result: MatchResult = {
+      isMatched: false,
+      timedOut: false,
+      matches: [],
+    };
 
     try {
       // Set the testString to the one we're evaluating for this context.
       sandbox.testString = testString;
 
+      const tokens = script.runInContext(ctx, { timeout }) as string[];
+      const matches = tokens.filter((token, i) => i % 4 === 2);
+
       // Run the operation in this context.
-      result = script.runInContext(ctx, { timeout });
+
+      result = {
+        isMatched: matches.length > 0,
+        timedOut: false,
+        matches,
+      };
     } catch (err) {
       if (err.code === "ERR_SCRIPT_EXECUTION_TIMEOUT") {
-        return null;
+        return {
+          isMatched: null,
+          timedOut: true,
+          matches: [],
+        };
       }
 
       logger.error(
@@ -45,7 +67,11 @@ export default function createTesterWithTimeout(
         "an error occurred evaluating the regular expression"
       );
 
-      return null;
+      return {
+        isMatched: null,
+        timedOut: false,
+        matches: [],
+      };
     }
 
     return result;

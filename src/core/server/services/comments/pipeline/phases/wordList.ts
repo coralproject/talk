@@ -31,7 +31,7 @@ export const wordList: IntermediateModerationPhase = ({
 
   // Test the comment for banned words.
   const banned = list.test(tenant, "banned", timeout, bodyText);
-  if (banned) {
+  if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
@@ -40,8 +40,13 @@ export const wordList: IntermediateModerationPhase = ({
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          bannedWords: banned.matches,
+        },
+      },
     };
-  } else if (banned === null) {
+  } else if (banned.timedOut) {
     return {
       actions: [
         {
@@ -60,7 +65,7 @@ export const wordList: IntermediateModerationPhase = ({
   // Test the comment for suspect words.
   const suspect = list.test(tenant, "suspect", timeout, bodyText);
 
-  if (tenant.premoderateSuspectWords && suspect) {
+  if (tenant.premoderateSuspectWords && suspect.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
@@ -69,8 +74,13 @@ export const wordList: IntermediateModerationPhase = ({
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          suspectWords: suspect.matches,
+        },
+      },
     };
-  } else if (suspect) {
+  } else if (suspect.isMatched) {
     return {
       actions: [
         {
@@ -78,8 +88,13 @@ export const wordList: IntermediateModerationPhase = ({
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          suspectWords: suspect.matches,
+        },
+      },
     };
-  } else if (suspect === null) {
+  } else if (suspect.timedOut) {
     return {
       actions: [
         {

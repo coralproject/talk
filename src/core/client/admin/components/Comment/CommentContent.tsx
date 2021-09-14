@@ -1,11 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent, useMemo } from "react";
 
-import {
-  getPhrasesRegExp,
-  GetPhrasesRegExpOptions,
-  markHTMLNode,
-} from "coral-admin/helpers";
+import { markHTMLNode } from "coral-admin/helpers";
 import {
   ALL_FEATURES,
   createSanitize,
@@ -51,30 +47,18 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
 interface Props {
   className?: string;
   children: string | React.ReactElement;
-  phrases?: GetPhrasesRegExpOptions;
   highlight?: boolean;
+  bannedWords?: Readonly<string[]>;
+  suspectWords?: Readonly<string[]>;
 }
 
 const CommentContent: FunctionComponent<Props> = ({
-  phrases,
   className,
   children,
+  bannedWords,
+  suspectWords,
   highlight = false,
 }) => {
-  // Cache the expression used via memo. This will reduce duplicate renders of
-  // this comment content when the children change but the phrase configuration
-  // does not change. The regExp is already cached on a deeper level
-  // automatically, this is just lessening that impact further.
-  const expression = useMemo(() => {
-    // If we aren't in highlight mode for this comment, don't even attempt to
-    // generate the expression.
-    if (!highlight || !phrases) {
-      return null;
-    }
-
-    return getPhrasesRegExp(phrases);
-  }, [phrases, highlight]);
-
   // Cache the parsed comment node. If the children cannot be parsed, this will
   // be null.
   const parsed = useMemo(() => {
@@ -83,15 +67,23 @@ const CommentContent: FunctionComponent<Props> = ({
     }
 
     // Sanitize the input for display.
-    const node = getSanitize(highlight && !!phrases)(children);
+    const node = getSanitize(highlight)(children);
+
+    let words: string[] = [];
+    if (bannedWords) {
+      words = [...words, ...bannedWords];
+    }
+    if (suspectWords) {
+      words = [...words, ...suspectWords];
+    }
 
     // If the expression is available, then mark the nodes.
-    if (expression) {
-      markHTMLNode(node, expression);
+    if (words.length > 0) {
+      markHTMLNode(node, words);
     }
 
     return node;
-  }, [children, expression, highlight, phrases]);
+  }, [bannedWords, children, highlight, suspectWords]);
 
   if (parsed) {
     return (
