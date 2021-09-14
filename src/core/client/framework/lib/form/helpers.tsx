@@ -97,15 +97,11 @@ export const formatStringList = (v: string[] | null) => {
 
 export type FieldMeta = Pick<
   FieldRenderProps<any, HTMLElement>["meta"],
-  "error" | "submitError" | "dirty" | "submitFailed"
+  "error" | "submitError" | "submitFailed"
 >;
 
-export const hasError = ({
-  error,
-  submitError,
-  dirty,
-  submitFailed,
-}: FieldMeta) => (dirty || submitFailed) && (error || submitError);
+export const hasError = ({ error, submitError, submitFailed }: FieldMeta) =>
+  submitFailed && (error || submitError);
 
 export const colorFromMeta = (meta: FieldMeta) =>
   hasError(meta) ? "error" : "regular";
