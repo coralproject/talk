@@ -16,8 +16,8 @@ exports[`renders correctly even if it has consecutive banned words on comments 1
   className="custom CommentContent-root CommentContent-highlight"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "<span>This is a very long comment with <mark>bad</mark> words. Let's try <mark>bad</mark> and <mark>bad</mark>. Now <mark>bad</mark> bad.
-<mark>Bad</mark> BAD <mark>bad</mark>.
+      "__html": "<span>This is a very long comment with <mark>bad</mark> words. Let's try <mark>bad</mark> and <mark>bad</mark>. Now <mark>bad</mark> <mark>bad</mark>.
+Bad BAD <mark>bad</mark>.
 </span>",
     }
   }
@@ -29,7 +29,7 @@ exports[`renders empty words correctly 1`] = `
   className="custom CommentContent-root CommentContent-highlight"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "Hello Bob, you bad guy",
+      "__html": "<span>Hello Bob, you <mark>bad</mark> guy</span>",
     }
   }
 />
