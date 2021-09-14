@@ -44,7 +44,7 @@ export default function createTesterWithTimeout(
       sandbox.testString = testString;
 
       const tokens = script.runInContext(ctx, { timeout }) as string[];
-      const matches = tokens.filter((token, i) => i % 4 === 2);
+      const matches = [...new Set(tokens.filter((token, i) => i % 4 === 2))];
 
       // Run the operation in this context.
 
