@@ -83,18 +83,22 @@ See [GraphQL API Overview](/api/schema) for help with the API.
 
 ## Story Scraping
 
-By default, stories have their metadata scraped when they are loaded. This provides the easiest way for newsrooms to integrate their CMS’s into Coral in a simple way. We use the following meta tags on the target pages that allow us to extract some properties.
+By default, stories have their metadata scraped when they are loaded. This provides the easiest way for newsrooms to integrate their CMS’s into Coral in a simple way. We use the meta tags in the table below on the target pages to allow us to extract some properties.
 
-Metadata scraping is performed by the `scraper` job which is enabled by default.
+Metadata scraping is performed by the `scraper` job which is enabled by default. If you see story Titles in the **Stories** list as `Not available`, this likely means the story could not be scraped automatically, and the first thing to try is to try re-running the scraper job by selecting `Re-scrape` from the menu in the **Actions** column.
 
-If your production site is behind a paywall or otherwise prevents scraping, you might need to configure a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriate proxy as parsed by the npm proxy-agent package.
+If your production site is behind a paywall or otherwise prevents scraping, you might need to configure a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriate proxy as parsed by the npm proxy-agent package. A Scraper Proxy URL can be added in the coral Admin under "CONFIGURE" -> "Advanced" -> "Story creation".
+
+If your story URL returns an HTTP response status code other than 200 (as when it returns a [300-399] "redirect" code), the scraper cannot retrieve metadata.  To see what response code your story URL is returning, use: `curl -I <storyURL>`
 
 | Asset Property     | Selector                                                                                                                                                            |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title`            | See [`metascraper-title`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-title/index.js)             |
-| `description`      | See [`metascraper-description`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-description/index.js) |
-| `image`            | See [`metascraper-image`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-image/index.js)             |
-| `author`           | See [`metascraper-author`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-author/index.js)           |
-| `publication_date` | See [`metascraper-date`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-date/index.js)               |
+| `title`            | See [`metascraper-title`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-title/index.js)             |
+| `description`      | See [`metascraper-description`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-description/index.js) |
+| `image`            | See [`metascraper-image`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-image/index.js)             |
+| `author`           | See [`metascraper-author`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-author/index.js)           |
+| `publication_date` | See [`metascraper-date`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-date/index.js)               |
 | `modified_date`    | `meta[property="article:modified"]`                                                                                                                                 |
 | `section`          | `meta[property="article:section"]`                                                                                                                                  |
+
+You can debug story scraping for your stories using the [GraphQL API debugScrapeStoryMetadata](https://docs.coralproject.net/api/queries/debug-scrape-story-metadata) query.
