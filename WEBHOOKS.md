@@ -282,7 +282,7 @@ function when comparing signatures.
     siteID: string;
 
     /**
-     * ancestorIDs are the IDs of the ancestoral  comments like parent, grandparent, etc
+     * ancestorIDs are the IDs of the ancestoral comments like parent, grandparent, etc
      */
     ancestorIDs: string[];
   }
