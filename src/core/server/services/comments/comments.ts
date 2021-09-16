@@ -145,8 +145,9 @@ export async function retrieveManyComments(
     return [];
   }
 
+  const liveCollection = comments(mongo.live);
   const liveComments = await retrieveManyCommentModels(
-    mongo.live,
+    liveCollection,
     tenantID,
     ids
   );
@@ -156,7 +157,13 @@ export async function retrieveManyComments(
 
   // Otherwise, try and find it in the archived comments collection
   if (mongo.archive) {
-    return await retrieveManyCommentModels(mongo.archive, tenantID, ids);
+    const archivedCollection = archivedComments(mongo.archive);
+    const archived = await retrieveManyCommentModels(
+      archivedCollection,
+      tenantID,
+      ids
+    );
+    return archived;
   }
 
   return [];

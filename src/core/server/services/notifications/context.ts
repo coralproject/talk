@@ -17,6 +17,7 @@ import { JWTSigningConfig } from "coral-server/services/jwt";
 
 import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 
+import { comments } from "../mongodb/collections";
 import { generateUnsubscribeURL } from "./categories/unsubscribe";
 
 interface Options {
@@ -73,7 +74,7 @@ export default class NotificationContext {
     string,
     Readonly<Comment> | null
   > = new DataLoader((commentIDs) =>
-    retrieveManyComments(this.mongo.live, this.tenant.id, commentIDs)
+    retrieveManyComments(comments(this.mongo.live), this.tenant.id, commentIDs)
   );
 
   /**

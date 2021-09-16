@@ -393,12 +393,12 @@ export async function retrieveComment(mongo: Db, tenantID: string, id: string) {
 }
 
 export async function retrieveManyComments(
-  mongo: Db,
+  collection: Collection<Readonly<Comment>>,
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
   // Try and find it in live comments collection
-  const cursor = comments(mongo).find({
+  const cursor = collection.find({
     id: {
       $in: ids,
     },
@@ -503,7 +503,8 @@ export async function retrieveCommentParentsConnection(
   const ancestorIDs = comment.ancestorIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
-  const nodes = await retrieveManyComments(mongo, tenantID, ancestorIDs);
+  const collection = comments(mongo);
+  const nodes = await retrieveManyComments(collection, tenantID, ancestorIDs);
 
   // Loop over the list to ensure that none of the entries is null (indicating
   // that there was a misplaced parent). We can assert the type here because we
