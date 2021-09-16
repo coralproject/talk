@@ -50,8 +50,8 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
     return;
   }
 
-  const amount = config.get("auto_archiving_amount");
-  const age = config.get("auto_archiving_age");
+  const amount = config.get("auto_archiving_batch_size");
+  const age = config.get("auto_archive_older_than");
 
   // For each of the tenant's, process their users notifications.
   for await (const tenant of tenantCache) {

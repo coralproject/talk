@@ -468,12 +468,12 @@ const config = convict({
     default: false,
     env: "ENABLE_AUTO_ARCHIVING",
   },
-  auto_archiving_age: {
+  auto_archive_older_than: {
     doc:
       "If stories are older than this age, they will be auto archived if auto archiving is enabled.",
     format: "ms",
     default: ms("120 days"),
-    env: "AUTO_ARCHIVING_AGE",
+    env: "AUTO_ARCHIVE_OLDER_THAN",
   },
   auto_archiving_interval: {
     doc:
@@ -482,12 +482,12 @@ const config = convict({
     default: "0 * * * *",
     env: "AUTO_ARCHIVING_INTERVAL",
   },
-  auto_archiving_amount: {
+  auto_archiving_batch_size: {
     doc:
       "Determines how many stories to try and archive per interval of archiving.",
     format: Number,
     default: 50,
-    env: "AUTO_ARCHIVING_AMOUNT",
+    env: "AUTO_ARCHIVING_BATCH_SIZE",
   },
 });
 
