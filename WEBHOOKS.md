@@ -207,6 +207,8 @@ function when comparing signatures.
 {
   id: string;
   type: "STORY_CREATED";
+  tenantID: string;
+  tenantDomain: string;
   data: {
     /**
      * storyID is the ID of the newly created Story.
