@@ -330,19 +330,19 @@ class Server {
       this.tasks.notifier.process();
       this.tasks.webhook.process();
       this.tasks.rejector.process();
+
+      // Start up the cron job processors.
+      this.scheduledTasks = startScheduledTasks({
+        mongo: this.mongo,
+        redis: this.redis,
+        config: this.config,
+        mailerQueue: this.tasks.mailer,
+        tenantCache: this.tenantCache,
+        signingConfig: this.signingConfig,
+      });
     } else {
       logger.info("job processing is disabled, not starting job processors");
     }
-
-    // Start up the cron job processors.
-    this.scheduledTasks = startScheduledTasks({
-      mongo: this.mongo,
-      redis: this.redis,
-      config: this.config,
-      mailerQueue: this.tasks.mailer,
-      tenantCache: this.tenantCache,
-      signingConfig: this.signingConfig,
-    });
 
     // Configure the metrics server and start it.
     const port = this.config.get("metrics_port");
