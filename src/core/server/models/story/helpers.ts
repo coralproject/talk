@@ -74,11 +74,11 @@ export function isStoryArchiving(
     return false;
   }
 
-  return story.isArchiving || false;
+  return story.isArchiving ?? false;
 }
 
 export function isStoryArchived(story: Pick<Story, "isArchived">) {
-  return story.isArchived || false;
+  return story.isArchived ?? false;
 }
 
 export function resolveStoryMode(
