@@ -810,11 +810,6 @@ configure-advanced-permittedDomains-description =
   incluindo o protocolo (ex. http://localhost:3000, https://staging.domain.com,
   https://domain.com).
 
-configure-advanced-liveUpdates = Atualizações ao vivo do Stream de comentários
-configure-advanced-liveUpdates-explanation =
-  Quando ativado, habilitará o carregamento e atualização em tempo real dos comentários.
-  Quando desabilitado, os usuários terão de atualizar a página para ver novos comentários.
-
 configure-advanced-embedCode-title = Incorporar
 configure-advanced-embedCode-explanation =
   Copie e cole o código abaixo no seu CMS para incorporar fluxos de comentários do Coral em

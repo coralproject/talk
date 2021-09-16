@@ -816,11 +816,6 @@ configure-advanced-permittedDomains-description =
   including the scheme (ex. http://localhost:3000, https://staging.domain.com,
   https://domain.com).
 
-configure-advanced-liveUpdates = Comment stream live updates
-configure-advanced-liveUpdates-explanation =
-  When enabled, there will be real-time loading and updating of comments.
-  When disabled, users will have to refresh the page to see new comments.
-
 configure-advanced-embedCode-title = Embed code
 configure-advanced-embedCode-explanation =
   Copy and paste the code below into your CMS to embed Coral comment streams in
