@@ -270,9 +270,12 @@ export function retrieveCommentParentsConnection(
   paginationParameters: { last: number; before?: number },
   isArchived?: boolean
 ) {
-  const db = isArchived && mongo.archive ? mongo.archive : mongo.live;
+  const collection =
+    isArchived && mongo.archive
+      ? archivedComments(mongo.archive)
+      : comments(mongo.live);
   return retrieveCommentParentsConnectionModel(
-    db,
+    collection,
     tenantID,
     comment,
     paginationParameters

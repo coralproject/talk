@@ -339,13 +339,24 @@ export default (ctx: GraphContext) => ({
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
   },
-  parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
-    retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
-      last: defaultTo(last, 1),
-      // The cursor passed here is always going to be a number.
-      before: before as number,
-    }).then(primeCommentsFromConnection(ctx)),
+  parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
+    const story = await ctx.loaders.Stories.story.load(comment.storyID);
+    if (!story) {
+      throw new Error("cannot get comments for a story that doesn't exist");
+    }
 
+    return retrieveCommentParentsConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      comment,
+      {
+        last: defaultTo(last, 1),
+        // The cursor passed here is always going to be a number.
+        before: before as number,
+      },
+      story.isArchived
+    ).then(primeCommentsFromConnection(ctx));
+  },
   sharedModerationQueueQueuesCounts: new SingletonResolver(
     () =>
       retrieveSharedModerationQueueQueuesCounts(

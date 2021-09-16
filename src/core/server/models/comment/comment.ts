@@ -471,7 +471,7 @@ export const retrieveCommentRepliesConnection = (
  * @param pagination pagination options to paginate the results
  */
 export async function retrieveCommentParentsConnection(
-  mongo: Db,
+  collection: Collection<Readonly<Comment>>,
   tenantID: string,
   comment: Comment,
   { last: limit, before: skip = 0 }: { last: number; before?: number }
@@ -503,7 +503,6 @@ export async function retrieveCommentParentsConnection(
   const ancestorIDs = comment.ancestorIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
-  const collection = comments(mongo);
   const nodes = await retrieveManyComments(collection, tenantID, ancestorIDs);
 
   // Loop over the list to ensure that none of the entries is null (indicating
