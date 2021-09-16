@@ -1,4 +1,4 @@
-import { Db, MongoError } from "mongodb";
+import { Cursor, Db, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/types";
@@ -797,20 +797,16 @@ export async function markStoryForUnarchiving(
 export async function retrieveStoriesToBeArchived(
   mongo: Db,
   tenantID: string,
-  olderThan: Date,
-  limit: number
-) {
-  const stories = await collection(mongo)
-    .find({
-      tenantID,
-      createdAt: { $lte: olderThan },
-      isArchiving: { $in: [null, false] },
-      isArchived: { $in: [null, false] },
-      startedUnarchivingAt: { $in: [null, false] },
-      unarchivedAt: { $in: [null, false] },
-    })
-    .limit(limit)
-    .toArray();
+  olderThan: Date
+): Promise<Cursor<Readonly<Story>>> {
+  const stories = collection(mongo).find({
+    tenantID,
+    createdAt: { $lte: olderThan },
+    isArchiving: { $in: [null, false] },
+    isArchived: { $in: [null, false] },
+    startedUnarchivingAt: { $in: [null, false] },
+    unarchivedAt: { $in: [null, false] },
+  });
 
   return stories;
 }
