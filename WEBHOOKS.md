@@ -237,19 +237,19 @@ function when comparing signatures.
   tenantDomain: string;
   data: {
     /**
-     * storyID is the ID of the newly created Story.
+     * storyID is the ID of the story on which the comment was created.
      */
     storyID: string;
 
     /**
-     * storyURL is the URL of the newly created Story.
+     * siteID is the ID of the site to which the story belongs.
      */
-    storyURL: string;
+    siteID: string
 
     /**
-     * siteID is the Site that the newly created Story was created on.
+     * commentID is the ID of the newly created comment.
      */
-    siteID: string;
+    commentID: string;
   }
   createdAt: string;
 }
@@ -265,24 +265,24 @@ function when comparing signatures.
   tenantDomain: string;
   data: {
     /**
-     * storyID is the ID of the newly created Story.
+     * commentID is the ID of the reply comment.
+     */
+    commentID: string;
+
+    /**
+     * storyID is the ID of the story on which the reply comment was made.
      */
     storyID: string;
 
     /**
-     * storyURL is the URL of the newly created Story.
-     */
-    storyURL: string;
-
-    /**
-     * siteID is the Site that the newly created Story was created on.
+     * siteID is the ID of the site to which the story belongs.
      */
     siteID: string;
 
     /**
-     * commentID is the comment to which the new comment was a reply
+     * ancestorIDs are the IDs of the comments of that share a parent relationship to the reply.
      */
-    commentID: string;
+    ancestorIDs: string[];
   }
   createdAt: string;
 }
