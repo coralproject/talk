@@ -36,6 +36,7 @@ import {
  */
 export enum LEGACY_FEATURE_FLAGS {
   ENABLE_AMP = "ENABLE_AMP",
+  FLATTEN_REPLIES = "FLATTEN_REPLIES",
 }
 
 /**
@@ -101,6 +102,12 @@ export interface TenantSettings
    * featureFlags is the set of flags enabled on this Tenant.
    */
   featureFlags?: Array<GQLFEATURE_FLAG | LEGACY_FEATURE_FLAGS>;
+
+  /**
+   * flattenReplies is whether the tenant wants replies to be hidden behind
+   * a "Show more of this conversation" link.
+   */
+  flattenReplies?: boolean;
 
   /**
    * webhooks stores the configurations for this Tenant's webhook rules.

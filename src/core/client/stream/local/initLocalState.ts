@@ -83,15 +83,6 @@ const initLocalState: InitLocalState = async ({
     ...rest,
   });
 
-  /* eslint-disable */
-  console.log('INITTING LOCAL STATE', {
-    environment,
-    context,
-    auth,
-    staticConfig,
-    rest
-  })
-
   const { featureFlags, ...settings } = await resolveConfig(environment, staticConfig);
 
   const commentsOrderBy =

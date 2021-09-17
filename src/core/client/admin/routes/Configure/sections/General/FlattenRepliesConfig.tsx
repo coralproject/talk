@@ -35,7 +35,13 @@ const FlattenRepliesConfig: FunctionComponent<Props> = ({ disabled }) => (
       id="configure-general-flattenReplies-explanation"
       strong={<strong />}
     >
-      <FormFieldDescription> TODO: Get copy!</FormFieldDescription>
+      <FormFieldDescription>
+        Change how levels of replies display. When enabled, replies to comments\
+        can go up to four levels deep before they are no longer indented on the\
+        page. When disabled, after a depth of four replies, the rest of the\
+        conversation is displayed in a dedicated view away from the other\
+        comments.
+      </FormFieldDescription>
     </Localized>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-flattenReplies-enabled">

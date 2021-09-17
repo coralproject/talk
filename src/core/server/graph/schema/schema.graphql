@@ -1910,7 +1910,9 @@ type Settings @cacheControl(maxAge: 30) {
   closeCommenting: CloseCommenting!
 
   """
-  flattenReplies contains settings related to hiding/showing all replies to a comment
+  flattenReplies when enabled, will cause all replies that would normally be
+  hidden by a "Show more of this conversation" button to be displayed linearly
+  sorted by date.
   """
   flattenReplies: Boolean
 
