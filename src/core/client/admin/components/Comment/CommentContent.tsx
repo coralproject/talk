@@ -7,6 +7,7 @@ import {
   createSanitize,
   Sanitize,
 } from "coral-common/helpers/sanitize";
+import { GQLWordlistMatch } from "coral-framework/schema";
 
 import styles from "./CommentContent.css";
 
@@ -48,8 +49,8 @@ interface Props {
   className?: string;
   children: string | React.ReactElement;
   highlight?: boolean;
-  bannedWords?: Readonly<string[]>;
-  suspectWords?: Readonly<string[]>;
+  bannedWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
+  suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
 }
 
 const CommentContent: FunctionComponent<Props> = ({
@@ -69,7 +70,7 @@ const CommentContent: FunctionComponent<Props> = ({
     // Sanitize the input for display.
     const node = getSanitize(highlight)(children);
 
-    let words: string[] = [];
+    let words: GQLWordlistMatch[] = [];
     if (bannedWords) {
       words = [...words, ...bannedWords];
     }

@@ -437,8 +437,16 @@ const enhanced = withFragmentContainer<Props>({
         }
         metadata {
           wordList {
-            bannedWords
-            suspectWords
+            bannedWords {
+              value
+              index
+              length
+            }
+            suspectWords {
+              value
+              index
+              length
+            }
           }
         }
       }

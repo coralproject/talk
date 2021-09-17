@@ -34,6 +34,7 @@ import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
 
 import styles from "./ModerateCard.css";
+import { GQLWordlistMatch } from "coral-framework/schema";
 
 interface Props {
   id: string;
@@ -88,8 +89,8 @@ interface Props {
   isQA?: boolean;
   rating?: number | null;
 
-  bannedWords?: Readonly<string[]>;
-  suspectWords?: Readonly<string[]>;
+  bannedWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
+  suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({

@@ -1,14 +1,25 @@
 import vm from "vm";
 
 import logger from "coral-server/logger";
+import { WordlistMatch } from "coral-server/models/comment";
 
 export interface MatchResult {
   isMatched: boolean | null;
   timedOut: boolean;
-  matches: string[];
+  matches: WordlistMatch[];
 }
 
 export type TestWithTimeout = (testString: string) => MatchResult;
+
+function sumPriorLengths(items: string[], index: number): number {
+  let sum = 0;
+  for (let i = 0; i < index; i++) {
+    const item = items[i];
+    sum += item.length;
+  }
+
+  return sum;
+}
 
 /**
  * createTesterWithTimeout will create a tester that after the timeout, will
@@ -44,7 +55,20 @@ export default function createTesterWithTimeout(
       sandbox.testString = testString;
 
       const tokens = script.runInContext(ctx, { timeout }) as string[];
-      const matches = [...new Set(tokens.filter((token, i) => i % 4 === 2))];
+
+      const matches: WordlistMatch[] = [];
+      for (let t = 0; t < tokens.length; t++) {
+        const token = tokens[t];
+        // found a matched word
+        if (t % 4 === 2) {
+          const index = sumPriorLengths(tokens, t);
+          matches.push({
+            value: token,
+            index,
+            length: token.length,
+          });
+        }
+      }
 
       // Run the operation in this context.
 

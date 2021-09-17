@@ -3075,6 +3075,23 @@ type CommentRevisionPerspectiveMetadata {
   score: Float!
 }
 
+type WordlistMatch {
+  """
+  value is the value detected by the word list pipeline.
+  """
+  value: String!
+
+  """
+  index is the starting index of the word occurence in the comment body.
+  """
+  index: Int!
+
+  """
+  length is the length of the value string.
+  """
+  length: Int!
+}
+
 type CommentRevisionWordListMetadata {
   """
   timedOut is whether the wordlist analysis timed out when this revision
@@ -3082,8 +3099,17 @@ type CommentRevisionWordListMetadata {
   """
   timedOut: Boolean
 
-  suspectWords: [String!]
-  bannedWords: [String!]
+  """
+  suspectWords are any suspect words that were matched and found on this
+  comment revision.
+  """
+  suspectWords: [WordlistMatch!]
+
+  """
+  bannedWords are any banned words that were matched and found on this
+  comment revision.
+  """
+  bannedWords: [WordlistMatch!]
 }
 
 type ExternalModerationPhaseAction {

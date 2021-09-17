@@ -16,11 +16,6 @@ interface Lists {
 
 export type Options = Pick<Tenant, "id" | "locale" | "wordList">;
 
-// interface TestResult {
-//   isMatch: boolean | null;
-//   matches: string[];
-// }
-
 export class WordList {
   /**
    * cache is a weak map of word list options to word lists. It's a weak map

@@ -1,20 +1,60 @@
 // markPhrasesHTML looks for `suspect` and `banned` words inside `text` given
 // the settings applied for the locale and highlights them by returning an HTML
-// string.
-function markPhrasesHTML(text: string, words: Readonly<string[]>) {
-  for (const word of words) {
-    const split = text.split(word);
-    text = split.join(`<mark>${word}</mark>`);
+
+import { GQLWordlistMatch } from "coral-framework/schema";
+
+interface SplitValue {
+  value: string;
+  shouldReplace: boolean;
+}
+
+function getWordSplit(text: string, matches: GQLWordlistMatch[]) {
+  const sortedMatches = matches.map((m) => m).sort((a, b) => a.index - b.index);
+
+  const split: SplitValue[] = [];
+  const remainder = text;
+  let rollingIndex = 0;
+  for (const match of sortedMatches) {
+    const before = remainder.substring(
+      rollingIndex,
+      match.index - rollingIndex
+    );
+    const after = remainder.substring(
+      match.index - rollingIndex + match.length,
+      remainder.length
+    );
+
+    split.push({ value: before, shouldReplace: false });
+    split.push({ value: match.value, shouldReplace: true });
+    split.push({ value: after, shouldReplace: false });
+
+    rollingIndex += before.length + match.length;
   }
 
-  return text;
+  return split;
+}
+
+// string.
+function markPhrasesHTML(text: string, words: GQLWordlistMatch[]) {
+  const wordSplit = getWordSplit(text, words);
+
+  let result = "";
+  for (const split of wordSplit) {
+    if (split.shouldReplace) {
+      result += `<mark>${split.value}</mark>`;
+    } else {
+      result += split.value;
+    }
+  }
+
+  return result;
 }
 
 // markHTMLNode manipulates the node by looking for #text nodes and adding
 // markers.
 export default function markHTMLNode(
   parentNode: Node,
-  words: Readonly<string[]>
+  words: GQLWordlistMatch[]
 ) {
   parentNode.childNodes.forEach((node) => {
     // Anchor links are already marked by default, skip them now.
