@@ -694,12 +694,6 @@ configure-premodLink-commentsContainingLinks =
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this story.
 
-configure-disableLiveUpdates-description =
-  When disabled, new comments and replies will no longer instantly update
-  as they are submitted. Commenters will need to refresh the page to see
-  new comments. We recommend this in the unusual situation of a story
-  getting so much traffic that the comments are loading slowly.
-
 configure-messageBox-title =
 configure-addMessage-title =
   Add a message or question
