@@ -282,7 +282,16 @@ const CommentForm: FunctionComponent<Props> = ({
                           inputID={bodyInputID}
                           config={rteConfig}
                           onFocus={onFocus}
-                          onWillPaste={(event) => onPaste(event)}
+                          onWillPaste={(event) => {
+                            if (
+                              !(
+                                (values as FormProps).media &&
+                                (values as FormProps).media?.url
+                              )
+                            ) {
+                              onPaste(event);
+                            }
+                          }}
                           onChange={(html: string) => {
                             input.onChange(html);
                             onBodyChange(html, values as FormProps, form);
