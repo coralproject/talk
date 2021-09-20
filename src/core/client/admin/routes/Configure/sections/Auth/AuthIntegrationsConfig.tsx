@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 
+import { GQLFEATURE_FLAG_RL } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
@@ -15,14 +16,16 @@ interface Props {
     PropTypesOf<typeof GoogleConfigContainer>["auth"] &
     PropTypesOf<typeof SSOConfigContainer>["auth"] &
     PropTypesOf<typeof OIDCConfigContainer>["auth"];
+  featureFlags: ReadonlyArray<GQLFEATURE_FLAG_RL>;
 }
 
 const AuthIntegrationsConfig: FunctionComponent<Props> = ({
   disabled,
   auth,
+  featureFlags,
 }) => (
   <HorizontalGutter size="double">
-    <LocalAuthConfig disabled={disabled} />
+    <LocalAuthConfig disabled={disabled} featureFlags={featureFlags} />
     <OIDCConfigContainer disabled={disabled} auth={auth} />
     <SSOConfigContainer disabled={disabled} auth={auth} />
     <GoogleConfigContainer disabled={disabled} auth={auth} />

@@ -111,6 +111,7 @@ class AuthConfigContainer extends React.Component<Props> {
         <AuthIntegrationsConfig
           auth={this.props.auth}
           disabled={this.props.submitting}
+          featureFlags={this.props.settings.featureFlags}
         />
       </HorizontalGutter>
     );
@@ -121,6 +122,7 @@ const enhanced = withForm(
   withFragmentContainer<Props>({
     settings: graphql`
       fragment AuthConfigContainer_settings on Settings {
+        featureFlags
         ...AccountFeaturesConfig_formValues @relay(mask: false)
       }
     `,
