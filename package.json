@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "6.15.1",
+  "version": "6.15.2",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -321,7 +321,7 @@
     "loader-utils": "^2.0.0",
     "lodash-es": "^4.17.15",
     "marked": "^0.8.2",
-    "material-design-icons": "^3.0.1",
+    "material-design-icons-iconfont": "^6.1.0",
     "mini-css-extract-plugin": "^0.9.0",
     "postcss-advanced-variables": "^3.0.1",
     "postcss-calc-function": "^1.1.0",
