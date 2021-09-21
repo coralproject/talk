@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { GQLFEATURE_FLAG, GQLFEATURE_FLAG_RL } from "coral-framework/schema";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -15,7 +16,7 @@ import styles from "./LocalAuthConfig.css";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment LocalAuthConfig_formValues on Auth {
+  fragment LocalAuthConfigContainer_formValues on Auth {
     integrations {
       local {
         enabled
@@ -31,14 +32,14 @@ graphql`
 
 interface Props {
   disabled?: boolean;
-  featureFlags: ReadonlyArray<GQLFEATURE_FLAG_RL>;
+  settings: any;
 }
 
-const LocalAuthConfig: FunctionComponent<Props> = ({
+const LocalAuthConfigContainer: FunctionComponent<Props> = ({
   disabled,
-  featureFlags,
+  settings,
 }) => {
-  const forceAdminLocalAuth = featureFlags.includes(
+  const forceAdminLocalAuth = settings.featureFlags.includes(
     GQLFEATURE_FLAG.FORCE_ADMIN_LOCAL_AUTH
   );
 
@@ -52,6 +53,7 @@ const LocalAuthConfig: FunctionComponent<Props> = ({
       name="auth.integrations.local.enabled"
       disabled={disabled}
       data-testid="configure-auth-local"
+      forced={forceAdminLocalAuth}
     >
       {(disabledInside) => (
         <>
@@ -86,4 +88,12 @@ const LocalAuthConfig: FunctionComponent<Props> = ({
   );
 };
 
-export default LocalAuthConfig;
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment LocalAuthConfigContainer_settings on Settings {
+      featureFlags
+    }
+  `,
+})(LocalAuthConfigContainer);
+
+export default enhanced;

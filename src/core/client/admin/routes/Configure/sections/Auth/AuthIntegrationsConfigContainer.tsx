@@ -1,12 +1,15 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import { GQLFEATURE_FLAG_RL } from "coral-framework/schema";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
+import { AuthIntegrationsConfigContainer_settings } from "coral-admin/__generated__/AuthIntegrationsConfigContainer_settings.graphql";
+
 import FacebookConfigContainer from "./FacebookConfigContainer";
 import GoogleConfigContainer from "./GoogleConfigContainer";
-import LocalAuthConfig from "./LocalAuthConfig";
+import LocalAuthConfigContainer from "./LocalAuthConfigContainer";
 import OIDCConfigContainer from "./OIDCConfigContainer";
 import SSOConfigContainer from "./SSOConfigContainer";
 
@@ -16,16 +19,16 @@ interface Props {
     PropTypesOf<typeof GoogleConfigContainer>["auth"] &
     PropTypesOf<typeof SSOConfigContainer>["auth"] &
     PropTypesOf<typeof OIDCConfigContainer>["auth"];
-  featureFlags: ReadonlyArray<GQLFEATURE_FLAG_RL>;
+  settings: AuthIntegrationsConfigContainer_settings;
 }
 
-const AuthIntegrationsConfig: FunctionComponent<Props> = ({
+const AuthIntegrationsConfigContainer: FunctionComponent<Props> = ({
   disabled,
   auth,
-  featureFlags,
+  settings,
 }) => (
   <HorizontalGutter size="double">
-    <LocalAuthConfig disabled={disabled} featureFlags={featureFlags} />
+    <LocalAuthConfigContainer disabled={disabled} settings={settings} />
     <OIDCConfigContainer disabled={disabled} auth={auth} />
     <SSOConfigContainer disabled={disabled} auth={auth} />
     <GoogleConfigContainer disabled={disabled} auth={auth} />
@@ -33,4 +36,12 @@ const AuthIntegrationsConfig: FunctionComponent<Props> = ({
   </HorizontalGutter>
 );
 
-export default AuthIntegrationsConfig;
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment AuthIntegrationsConfigContainer_settings on Settings {
+      ...LocalAuthConfigContainer_settings
+    }
+  `,
+})(AuthIntegrationsConfigContainer);
+
+export default enhanced;
