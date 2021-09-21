@@ -62,9 +62,17 @@ export function ensureFeatureFlag(
 }
 
 export function hasEnabledAuthIntegration(
-  tenant: Pick<Tenant, "auth">,
+  tenant: Pick<Tenant, "auth" | "featureFlags">,
   integration: keyof AuthIntegrations
 ) {
+  const forceAdminLocalAuth = hasFeatureFlag(
+    tenant,
+    GQLFEATURE_FLAG.FORCE_ADMIN_LOCAL_AUTH
+  );
+  if (integration === "local" && forceAdminLocalAuth) {
+    return true;
+  }
+
   return tenant.auth.integrations[integration].enabled;
 }
 
