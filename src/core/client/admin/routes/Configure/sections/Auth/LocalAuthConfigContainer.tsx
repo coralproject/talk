@@ -7,12 +7,14 @@ import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
+import { LocalAuthConfigContainer_settings } from "coral-admin/__generated__/LocalAuthConfigContainer_settings.graphql";
+
 import Header from "../../Header";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RegistrationField from "./RegistrationField";
 import TargetFilterField from "./TargetFilterField";
 
-import styles from "./LocalAuthConfig.css";
+import styles from "./LocalAuthConfigContainer.css";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -32,7 +34,7 @@ graphql`
 
 interface Props {
   disabled?: boolean;
-  settings: any;
+  settings: LocalAuthConfigContainer_settings;
 }
 
 const LocalAuthConfigContainer: FunctionComponent<Props> = ({
