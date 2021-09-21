@@ -6,6 +6,7 @@ import { GQLResolver } from "coral-server/graph/schema/__generated__/types";
 
 import { AkismetExternalIntegration } from "./AkismetExternalIntegration";
 import { ApproveCommentPayload } from "./ApproveCommentPayload";
+import { AuthenticationTargetFilter } from "./AuthenticationTargetFilter";
 import { AuthIntegrations } from "./AuthIntegrations";
 import { BanStatus } from "./BanStatus";
 import { BanStatusHistory } from "./BanStatusHistory";
@@ -33,6 +34,7 @@ import { GiphyMediaConfiguration } from "./GiphyMediaConfiguration";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Invite } from "./Invite";
 import { LiveConfiguration } from "./LiveConfiguration";
+import { LocalAuthIntegration } from "./LocalAuthIntegration";
 import { MediaConfiguration } from "./MediaConfiguration";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
@@ -149,6 +151,8 @@ const Resolvers: GQLResolver = {
   WarningStatusHistory,
   WebhookEndpoint,
   YouTubeMediaConfiguration,
+  LocalAuthIntegration,
+  AuthenticationTargetFilter,
 };
 
 export default Resolvers;

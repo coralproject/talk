@@ -664,6 +664,9 @@ configure-auth-sso-rotate-dropdown-description =
 
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on
+configure-auth-local-forceAdminLocalAuth =
+  Admin local auth has been permanently enabled.
+  This is to ensure that Coral service teams can access the administration panel.
 
 configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <Link></Link>

@@ -25,7 +25,7 @@ import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/
 import { AuthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
 
 import AccountFeaturesConfig from "./AccountFeaturesConfig";
-import AuthIntegrationsConfig from "./AuthIntegrationsConfig";
+import AuthIntegrationsConfigContainer from "./AuthIntegrationsConfigContainer";
 import SessionConfig from "./SessionConfig";
 
 export type FormProps = DeepNullable<
@@ -108,9 +108,10 @@ class AuthConfigContainer extends React.Component<Props> {
       <HorizontalGutter size="double" data-testid="configure-authContainer">
         <AccountFeaturesConfig disabled={this.props.submitting} />
         <SessionConfig disabled={this.props.submitting} />
-        <AuthIntegrationsConfig
+        <AuthIntegrationsConfigContainer
           auth={this.props.auth}
           disabled={this.props.submitting}
+          settings={this.props.settings}
         />
       </HorizontalGutter>
     );
@@ -122,6 +123,7 @@ const enhanced = withForm(
     settings: graphql`
       fragment AuthConfigContainer_settings on Settings {
         ...AccountFeaturesConfig_formValues @relay(mask: false)
+        ...AuthIntegrationsConfigContainer_settings
       }
     `,
     auth: graphql`
@@ -129,7 +131,7 @@ const enhanced = withForm(
         ...FacebookConfig_formValues @relay(mask: false)
         ...GoogleConfig_formValues @relay(mask: false)
         ...SSOConfig_formValues @relay(mask: false)
-        ...LocalAuthConfig_formValues @relay(mask: false)
+        ...LocalAuthConfigContainer_formValues @relay(mask: false)
         ...OIDCConfig_formValues @relay(mask: false)
         ...SessionConfig_formValues @relay(mask: false)
 
