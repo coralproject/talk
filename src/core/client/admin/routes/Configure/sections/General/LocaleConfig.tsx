@@ -45,11 +45,7 @@ const LocaleConfig: React.FunctionComponent<Props> = (props) => {
         <Field name="locale" validate={required}>
           {({ input, meta }) => {
             const notExist = !(input.value in LOCALES_MAP);
-            const InvalidLanguage = () => (
-              <strong>
-                <code>{input.value}</code>
-              </strong>
-            );
+            const InvalidLanguage = () => <code>{input.value}</code>;
             return (
               <>
                 {notExist && (
