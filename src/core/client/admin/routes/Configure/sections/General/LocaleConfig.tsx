@@ -55,7 +55,7 @@ const LocaleConfig: React.FunctionComponent<Props> = (props) => {
                   >
                     <CallOut color="error">
                       The previously selected language <InvalidLanguage /> no
-                      longer exists. Please select a different language.
+                      longer exists. Please choose a different language.
                     </CallOut>
                   </Localized>
                 )}

@@ -397,7 +397,7 @@ configure-general-memberBio-label = Allow member bios
 configure-general-locale-language = Language
 configure-general-locale-chooseLanguage = Choose the language for your Coral community.
 configure-general-locale-invalidLanguage =
-  The previously selected language <lang></lang> no longer exists. Please select a different language.
+  The previously selected language <lang></lang> no longer exists. Please choose a different language.
 
 #### Sitewide Commenting
 configure-general-sitewideCommenting-title = Sitewide commenting
