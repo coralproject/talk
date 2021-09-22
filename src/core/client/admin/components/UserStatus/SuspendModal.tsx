@@ -2,6 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import useCommonTranslation, {
+  COMMON_TRANSLATION,
+} from "coral-admin/helpers/useCommonTranslation";
 import { ScaledUnit } from "coral-common/helpers/i18n";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
@@ -31,6 +34,9 @@ const SuspendModal: FunctionComponent<Props> = ({
   success,
   organizationName,
 }) => {
+  const notAvailableTranslation = useCommonTranslation(
+    COMMON_TRANSLATION.NOT_AVAILABLE
+  );
   const [successDuration, setSuccessDuration] = useState("");
   const onFormSubmit = useCallback(
     ({ original, scaled, unit }: ScaledUnit, message: string) => {
@@ -81,7 +87,7 @@ const SuspendModal: FunctionComponent<Props> = ({
               <Localized
                 id="community-suspendModal-areYouSure"
                 strong={<ModalHeaderUsername />}
-                $username={username || <NotAvailable />}
+                $username={username || notAvailableTranslation}
               >
                 <ModalHeader id="suspendModal-title">
                   Suspend{" "}
