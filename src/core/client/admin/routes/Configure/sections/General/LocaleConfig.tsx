@@ -3,18 +3,18 @@ import React from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { LOCALES_MAP } from "coral-common/helpers/i18n/locales";
 import { required } from "coral-framework/lib/validation";
 import {
+  CallOut,
   FormFieldDescription,
   HorizontalGutter,
-  CallOut,
 } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import LocaleField from "../../Fields/LocaleField";
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
-import { LOCALES_MAP } from "coral-common/helpers/i18n/locales";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
