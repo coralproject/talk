@@ -33,10 +33,11 @@ interface Props {
   pendingCount: number | null;
   totalCount: number;
   viewerCount: number | null;
+  onClick: () => void;
 }
 
 const UserRow: FunctionComponent<Props> = (props) => (
-  <TableRow>
+  <TableRow onClick={props.onClick}>
     <TableCell className={styles.titleColumn}>
       <HorizontalGutter>
         <p>
