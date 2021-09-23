@@ -4,7 +4,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 export const AuthenticationTargetFilter: GQLAuthenticationTargetFilterTypeResolver<GQLAuthenticationTargetFilter> = {
-  admin: ({ admin }, _, { tenant, config }) => {
+  admin: ({ admin }, _, { config }) => {
     if (config.get("force_admin_local_auth")) {
       return true;
     }
