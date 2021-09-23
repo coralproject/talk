@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { markHTMLNode } from "coral-admin/helpers";
+import markPhrasesHTML from "coral-admin/helpers/markHTMLNode";
 import {
   ALL_FEATURES,
   createSanitize,
@@ -31,9 +31,7 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
           // Allow all RTE features to be displayed.
           features: ALL_FEATURES,
           config: {
-            FORBID_TAGS: highlight
-              ? ["b", "strong", "i", "em", "s", "span"]
-              : [],
+            FORBID_TAGS: [],
           },
         }),
       };
@@ -67,9 +65,6 @@ const CommentContent: FunctionComponent<Props> = ({
       return null;
     }
 
-    // Sanitize the input for display.
-    const node = getSanitize(highlight)(children);
-
     let words: GQLWordlistMatch[] = [];
     if (bannedWords) {
       words = [...words, ...bannedWords];
@@ -77,11 +72,12 @@ const CommentContent: FunctionComponent<Props> = ({
     if (suspectWords) {
       words = [...words, ...suspectWords];
     }
+    // Sanitize the input for display.
+    const node = getSanitize(highlight)(children);
 
-    // If the expression is available, then mark the nodes.
-    if (words.length > 0) {
-      markHTMLNode(node, words);
-    }
+    // Mark word list phrases
+    const replacement = markPhrasesHTML(node.innerHTML, words);
+    node.innerHTML = replacement;
 
     return node;
   }, [bannedWords, children, highlight, suspectWords]);

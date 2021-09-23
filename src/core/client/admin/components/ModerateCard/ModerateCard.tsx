@@ -13,6 +13,7 @@ import React, {
 import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { HOTKEYS } from "coral-admin/constants";
 import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
+import { GQLWordlistMatch } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
   Button,
@@ -34,7 +35,6 @@ import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
 
 import styles from "./ModerateCard.css";
-import { GQLWordlistMatch } from "coral-framework/schema";
 
 interface Props {
   id: string;
