@@ -48,7 +48,13 @@ const initLocalState: InitLocalState = async ({
     }
   }
 
-  await initLocalBaseState({ environment, context, auth, ...rest });
+  await initLocalBaseState({
+    environment,
+    context,
+    auth,
+    staticConfig,
+    ...rest,
+  });
 
   const modQueueSortOrder = await context.localStorage.getItem(
     MOD_QUEUE_SORT_ORDER
