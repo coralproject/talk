@@ -7,7 +7,7 @@ import CommentContent from "./CommentContent";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof CommentContent> = {
-    bannedWords: [{ value: "bad", index: 22, length: 3 }],
+    bannedWords: [{ value: "bad", index: 15, length: 3 }],
     suspectWords: [],
     className: "custom",
     children: "Hello Bob, you bad guy",
