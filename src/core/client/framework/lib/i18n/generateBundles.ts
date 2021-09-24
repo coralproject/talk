@@ -55,7 +55,7 @@ export default async function generateBundles(
       bundle.addResource(new FluentResource(content));
       promises.push(decorateWarnMissing(bundle));
     } else {
-      throw Error(`Locale ${locale} not available`);
+      globalErrorReporter.report(new Error(`Locale ${locale} not available`));
     }
   }
 
