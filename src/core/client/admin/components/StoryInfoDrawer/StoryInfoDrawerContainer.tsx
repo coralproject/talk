@@ -6,11 +6,13 @@ import {
   Flex,
   HorizontalGutter,
   Icon,
-  SelectField,
-  Option
 } from "coral-ui/components/v2";
 
 import { StoryInfoDrawerQueryResponse as StoryResponse } from "coral-admin/__generated__/StoryInfoDrawerQuery.graphql";
+
+import StoryStatus from "./StoryStatus";
+import RescrapeStory from "./RescrapeStory";
+import { GQLSTORY_STATUS } from "coral-framework/schema";
 
 export interface Props {
   onClose: () => void;
@@ -41,11 +43,10 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             {story.metadata?.title || "Untitled"}
           </h1>
           <a href={story.url}>{story.url}</a>
-          <Flex direction="row">
-            Status: <SelectField value={story.status}>
-              <Option>{story.status}</Option> {/* TODO: update status on change */}
-            </SelectField>
-          </Flex>
+          <StoryStatus
+            storyID={story.id}
+            currentStatus={story.status as GQLSTORY_STATUS}
+          />
           <Flex direction="row">
             <Icon size="md">supervisor_account</Icon>
             {story.metadata?.author} {/* TODO: handle no author */}
@@ -62,9 +63,7 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
                 .map((result) => <ScrapeResult result={result} />)
             }
           </Flex>
-          <Button type="button">
-            RESCRAPE
-          </Button>
+          <RescrapeStory storyID={story.id} />
         </Flex>
       </Flex>
     </HorizontalGutter>

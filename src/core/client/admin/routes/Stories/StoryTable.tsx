@@ -113,7 +113,7 @@ const StoryTable: FunctionComponent<Props> = (props) => {
           </Flex>
         )}
         <StoryInfoDrawer
-          storyID={expandedStoryID} // TODO
+          storyID={expandedStoryID}
           open={storyDrawerVisibile}
           onClose={() => setStoryDrawerVisible(false)}
         />

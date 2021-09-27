@@ -21,6 +21,7 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({ storyID, onClose }) =>
       query={graphql`
         query StoryInfoDrawerQuery($storyID: ID!) {
           story(id: $storyID) {
+            id
             url
             status
             scrapedAt
