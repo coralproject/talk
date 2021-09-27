@@ -9,12 +9,14 @@ interface Props {
   label: React.ReactNode;
   name: string;
   disabled: boolean;
+  forceAdmin?: boolean;
 }
 
 const TargetFilterField: FunctionComponent<Props> = ({
   name,
   label,
   disabled,
+  forceAdmin,
 }) => (
   <FormField>
     <Label>{label}</Label>
@@ -22,7 +24,12 @@ const TargetFilterField: FunctionComponent<Props> = ({
       <Field name={`${name}.admin`} type="checkbox" parse={parseBool}>
         {({ input }) => (
           <Localized id="configure-auth-targetFilterCoralAdmin">
-            <CheckBox {...input} id={input.name} disabled={disabled}>
+            <CheckBox
+              {...input}
+              id={input.name}
+              disabled={disabled || forceAdmin}
+              checked={input.checked || forceAdmin}
+            >
               Coral Admin
             </CheckBox>
           </Localized>
