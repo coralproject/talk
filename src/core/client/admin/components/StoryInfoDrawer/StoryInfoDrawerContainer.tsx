@@ -2,10 +2,10 @@
 import React, { FunctionComponent } from "react";
 
 import {
-  Button,
   Flex,
   HorizontalGutter,
   Icon,
+  TextLink
 } from "coral-ui/components/v2";
 
 import { StoryInfoDrawerQueryResponse as StoryResponse } from "coral-admin/__generated__/StoryInfoDrawerQuery.graphql";
@@ -14,17 +14,19 @@ import StoryStatus from "./StoryStatus";
 import RescrapeStory from "./RescrapeStory";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 
+import styles from "./StoryInfoDrawerContainer.css";
+
 export interface Props {
   onClose: () => void;
   story: NonNullable<StoryResponse["story"]>;
 }
 
-const ScrapeResult: FunctionComponent<{ result: [string, any] }> = ({
+const MetaDataItem: FunctionComponent<{ result: [string, any] }> = ({
   result: [ key, val ]
 }) => (
-  <div>
-    <span>{key}</span>: <span>{val}</span>
-  </div>
+  <Flex direction="row" className={styles.metaDataItem}>
+    <div>{key}</div><div>{val}</div>
+  </Flex>
 );
 
 const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
@@ -33,34 +35,38 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
 }) => {
   // TODO: localize!
   return (
-    <HorizontalGutter spacing={4}>
+    <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
         <Flex direction="column">
-          <h3>
-            STORY DETAILS {/* TODO: dynamically make all caps for localization */}
-          </h3>
-          <h1>
+          <span className={styles.sectionTitle}>
+            Story Details {/* TODO: dynamically make all caps for localization */}
+          </span>
+          <h2 className={styles.storyTitle}>
             {story.metadata?.title || "Untitled"}
-          </h1>
-          <a href={story.url}>{story.url}</a>
-          <StoryStatus
-            storyID={story.id}
-            currentStatus={story.status as GQLSTORY_STATUS}
-          />
-          <Flex direction="row">
-            <Icon size="md">supervisor_account</Icon>
-            {story.metadata?.author} {/* TODO: handle no author */}
+          </h2>
+          <TextLink href={story.url}>{story.url}</TextLink>
+          <Flex direction="row" alignItems="center" className={styles.status}>
+            STATUS: <StoryStatus
+              storyID={story.id}
+              currentStatus={story.status as GQLSTORY_STATUS}
+            />
           </Flex>
-          <Flex direction="row">
-            <Icon size="md">calendar_today</Icon>
-            {story.metadata?.publishedAt} {/* format */}
+          <Flex direction="column" className={styles.publishInfoSection}>
+            <Flex direction="row" className={styles.publishInfo}>
+              <Icon className={styles.icon} size="md">supervisor_account</Icon>
+              {story.metadata?.author} {/* TODO: handle no author */}
+            </Flex>
+            <Flex direction="row" className={styles.publishInfo}>
+              <Icon className={styles.icon} size="md">calendar_today</Icon>
+              {story.metadata?.publishedAt} {/* format */}
+            </Flex>
           </Flex>
-          <h3>SCRAPED METADATA</h3>
-          <Flex direction="column">
+          <span className={styles.sectionTitle}>Scraped Metadata</span>
+          <Flex className={styles.metaData} direction="column">
             {
               Object.entries(story.metadata as object)
                 .filter(( [ , val ] ) => typeof val !== 'function' )
-                .map((result) => <ScrapeResult result={result} />)
+                .map((result) => <MetaDataItem result={result} />)
             }
           </Flex>
           <RescrapeStory storyID={story.id} />

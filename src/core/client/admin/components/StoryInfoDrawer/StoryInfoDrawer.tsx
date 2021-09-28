@@ -5,7 +5,7 @@ import { Card, Modal } from "coral-ui/components/v2";
 
 import StoryInfoDrawerQuery from "./StoryInfoDrawerQuery";
 
-// import styles from "./StoryInfoDrawer.css";
+import styles from "./StoryInfoDrawer.css";
 
 export interface StoryInfoDrawerProps {
   open: boolean;
@@ -26,7 +26,7 @@ const StoryInfoDrawer: FunctionComponent<StoryInfoDrawerProps> = ({
       onClose={onClose}
     >
       {({ firstFocusableRef, lastFocusableRef }) => (
-        <Card>
+        <Card className={styles.root}>
           {storyID && (
             <StoryInfoDrawerQuery onClose={onClose} storyID={storyID} />
           )}

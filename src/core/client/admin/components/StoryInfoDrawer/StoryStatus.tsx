@@ -1,7 +1,14 @@
 /* eslint-disable */
 import React, { FunctionComponent, useState, useCallback } from "react";
 
-import { Option, SelectField } from "coral-ui/components/v2";
+import {
+  Button,
+  ButtonIcon,
+  ClickOutside,
+  Dropdown,
+  DropdownButton,
+  Popover
+} from "coral-ui/components/v2";
 
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 
@@ -42,17 +49,30 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
 
   return (
     <>
-      <SelectField
-        value={status}
-        onChange={(e) => udpateStatus(e.target.value as any)}
+      <Popover
+        id="story-statusChange"
+        placement="bottom-start"
+        description="A dropdown to change the story status"
+        body={({ toggleVisibility, ...rest }) => {
+          console.log('BODY FUNC', rest)
+          return <div>fuck you</div>
+        }}
       >
-        // TODO (marcushaddon): do we need to just hard code these?
-        {Object.keys(GQLSTORY_STATUS).map((s) => (
-          <Option key={s} value={s}>
-            {s}
-          </Option>
-        ))}
-      </SelectField>
+        {({ toggleVisibility, visible }) => (
+          // TODO: Localize
+          <Button
+            onClick={toggleVisibility}
+            color="mono"
+          >
+            {currentStatus}
+            {
+              <ButtonIcon size="lg">
+                {visible ? "arrow_drop_up" : "arrow_drop_down"}
+              </ButtonIcon>
+            }
+          </Button>
+        )}
+      </Popover>
     </>
   );
 };
