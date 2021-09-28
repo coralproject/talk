@@ -3,6 +3,7 @@ export * from "./auth";
 export * from "./dashboard";
 export * from "./externalMedia";
 export * from "./health";
+export * from "./ready";
 export * from "./install";
 export * from "./oembed";
 export * from "./remoteMedia";

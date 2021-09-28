@@ -25,6 +25,8 @@ dotenv.config();
 // modules to ensure the rewriting takes place before those modules load!
 
 import express from "express";
+import fs from "fs";
+import v8 from "v8";
 
 import createCoral from "./core";
 import logger from "./core/server/logger";
@@ -34,6 +36,19 @@ import logger from "./core/server/logger";
 // terminate the Node.js process with a non-zero exit code.
 process.on("unhandledRejection", (err) => {
   throw err;
+});
+
+// You can send a SIGUSR2 signal to dump a heapsnapshot to `process_<pid>.heapsneapshot`.
+// Careful: This will block the main thread for a bit. Create an empty MAINTENANCE file in the root
+// folder to mark this server as `UNREADY` which tells orchestration platforms such as Kubernetes
+// to not serve any traffic. The readiness probe must be pointed to the `/api/ready` endpoint.
+// Wait 7 minutes to make sure no traffic is being handled anymore, before calling this.
+// On unix systems you can send a SIGUSR2 signal with `kill -SIGUSR2 <process_id>`.
+process.on("SIGUSR2", () => {
+  logger.debug("Received SIGUSR2 Signal, creating heapsnapshot...");
+  const filename = `process_${process.pid}.heapsnapshot`;
+  v8.getHeapSnapshot().pipe(fs.createWriteStream(filename));
+  logger.debug(`heapsnapshot created at ${filename}`);
 });
 
 // Create the app that will serve as the mounting point for the Coral Server.

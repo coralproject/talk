@@ -23,3 +23,7 @@ dist
 __generated__
 persisted-queries.json
 docs/out
+
+# don't include runtime files
+MAINTENANCE
+*.heapsnapshot

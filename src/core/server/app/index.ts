@@ -45,7 +45,7 @@ import { PersistedQueryCache } from "coral-server/services/queries";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
-import { healthHandler, versionHandler } from "./handlers";
+import { healthHandler, readyHandler, versionHandler } from "./handlers";
 import { compileTrust } from "./helpers";
 import { basicAuth } from "./middleware/basicAuth";
 import { accessLogger } from "./middleware/logging";
@@ -113,6 +113,9 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
   // Configure the health check endpoint.
   parent.get("/api/health", healthHandler);
+
+  // Configure the readiness endpoint.
+  parent.get("/api/ready", readyHandler);
 
   // Configure the version route.
   parent.get("/api/version", versionHandler);
