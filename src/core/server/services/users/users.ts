@@ -145,6 +145,7 @@ export interface FindOrCreateUserOptions {
 }
 
 export async function findOrCreate(
+  config: Config,
   mongo: Db,
   tenant: Tenant,
   input: FindOrCreateUser,
@@ -174,7 +175,10 @@ export async function findOrCreate(
     // If this is an error related to a duplicate email, we might be in a
     // position where the user can link their accounts. This can only occur if
     // the tenant has both local and another social profile enabled.
-    if (err instanceof DuplicateEmailError && linkUsersAvailable(tenant)) {
+    if (
+      err instanceof DuplicateEmailError &&
+      linkUsersAvailable(config, tenant)
+    ) {
       // Pull the email address out of the input, and re-try creating the user
       // given that. We need to pull the verified property out because we don't
       // want to have that embedded in the `...rest` object.
@@ -1659,12 +1663,13 @@ export interface LinkUser {
 }
 
 export async function link(
+  config: Config,
   mongo: Db,
   tenant: Tenant,
   source: User,
   { email, password }: LinkUser
 ) {
-  if (!linkUsersAvailable(tenant)) {
+  if (!linkUsersAvailable(config, tenant)) {
     throw new Error("cannot link users, not available");
   }
 
