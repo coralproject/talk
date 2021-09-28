@@ -17,6 +17,7 @@ import CloseStoryMutation from "coral-admin/routes/Stories/StoryActions/CloseSto
 import OpenStoryMutation from "coral-admin/routes/Stories/StoryActions/OpenStoryMutation";
 import { useMutation } from "coral-framework/lib/relay";
 import { STORY_STATUS } from "coral-admin/__generated__/StoryStatusContainer_story.graphql";
+import styles from "coral-framework/components/NetworkError.css";
 
 export interface Props {
   storyID: string;
@@ -53,10 +54,24 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
         id="story-statusChange"
         placement="bottom-start"
         description="A dropdown to change the story status"
-        body={({ toggleVisibility, ...rest }) => {
-          console.log('BODY FUNC', rest)
-          return <div>fuck you</div>
-        }}
+        body={({ toggleVisibility }) => (
+          <ClickOutside onClickOutside={toggleVisibility}>
+            <Dropdown
+              // onChange={(e) => udpateStatus(e.target.value as any)}
+            >
+              {Object.keys(GQLSTORY_STATUS).map((s) => (
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  key={s}
+                  value={s}
+                  disabled={currentStatus === s}
+                >
+                  {s}
+                </DropdownButton>
+              ))}
+            </Dropdown>
+          </ClickOutside>
+        )}
       >
         {({ toggleVisibility, visible }) => (
           // TODO: Localize
