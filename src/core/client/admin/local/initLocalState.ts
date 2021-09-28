@@ -17,6 +17,7 @@ const initLocalState: InitLocalState = async ({
   environment,
   context,
   auth = null,
+  staticConfig,
   ...rest
 }) => {
   let redirectPath = await context.localStorage.getItem(
@@ -47,7 +48,13 @@ const initLocalState: InitLocalState = async ({
     }
   }
 
-  await initLocalBaseState({ environment, context, auth, ...rest });
+  await initLocalBaseState({
+    environment,
+    context,
+    auth,
+    staticConfig,
+    ...rest,
+  });
 
   const modQueueSortOrder = await context.localStorage.getItem(
     MOD_QUEUE_SORT_ORDER
@@ -62,6 +69,10 @@ const initLocalState: InitLocalState = async ({
     localRecord.setValue(
       modQueueSortOrder ? modQueueSortOrder : GQLCOMMENT_SORT.CREATED_AT_DESC,
       "moderationQueueSort"
+    );
+    localRecord.setValue(
+      staticConfig?.forceAdminLocalAuth ?? false,
+      "forceAdminLocalAuth"
     );
   });
 };
