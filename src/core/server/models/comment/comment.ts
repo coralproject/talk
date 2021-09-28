@@ -4,6 +4,7 @@ import * as uuid from "uuid";
 
 import { RequireProperty, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { MongoContext } from "coral-server/data/context";
 import {
   CommentEditWindowExpiredError,
   CommentNotFoundError,
@@ -27,7 +28,10 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-import { comments } from "coral-server/services/mongodb/collections";
+import {
+  archivedComments,
+  comments,
+} from "coral-server/services/mongodb/collections";
 
 import {
   GQLCOMMENT_SORT,
@@ -36,6 +40,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { retrieveManyStories } from "../story";
 import { PUBLISHED_STATUSES } from "./constants";
 import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
 import { hasAncestors } from "./helpers";
@@ -948,9 +953,49 @@ export async function removeCommentTag(
 }
 
 export async function retrieveStoryCommentTagCounts(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyIDs: ReadonlyArray<string>
+): Promise<GQLCommentTagCounts[]> {
+  const stories = await retrieveManyStories(mongo.live, tenantID, storyIDs);
+
+  const liveStories = stories
+    .filter((s) => s !== null && s !== undefined)
+    .filter((s) => !s?.isArchived && !s?.isArchiving)
+    .map((s) => s?.id) as string[];
+  const archivedStories = stories
+    .filter((s) => s !== null && s !== undefined)
+    .filter((s) => s?.isArchived)
+    .map((s) => s?.id) as string[];
+
+  const liveCounts: GQLCommentTagCounts[] =
+    liveStories.length > 0
+      ? await retrieveStoryCommentTagCountsFromDb(
+          mongo.live,
+          tenantID,
+          liveStories,
+          false
+        )
+      : [];
+
+  let archivedCounts: GQLCommentTagCounts[] = [];
+  if (mongo.archive && archivedStories.length > 0) {
+    archivedCounts = await retrieveStoryCommentTagCountsFromDb(
+      mongo.archive,
+      tenantID,
+      archivedStories,
+      true
+    );
+  }
+
+  return [...liveCounts, ...archivedCounts];
+}
+
+async function retrieveStoryCommentTagCountsFromDb(
+  mongo: Db,
+  tenantID: string,
+  storyIDs: ReadonlyArray<string>,
+  isArchived: boolean
 ): Promise<GQLCommentTagCounts[]> {
   // Build up the $match query.
   const $match: FilterQuery<Comment> = {
@@ -970,11 +1015,7 @@ export async function retrieveStoryCommentTagCounts(
   // Get the start time.
   const timer = createTimer();
 
-  // Load the counts from the database for this particular tag query.
-  const cursor = comments<{
-    _id: { tag: GQLTAG; storyID: string };
-    total: number;
-  }>(mongo).aggregate([
+  const aggregation = [
     { $match },
     { $unwind: "$tags" },
     {
@@ -983,7 +1024,18 @@ export async function retrieveStoryCommentTagCounts(
         total: { $sum: 1 },
       },
     },
-  ]);
+  ];
+
+  // Load the counts from the database for this particular tag query.
+  const cursor = isArchived
+    ? archivedComments<{
+        _id: { tag: GQLTAG; storyID: string };
+        total: number;
+      }>(mongo).aggregate(aggregation)
+    : comments<{
+        _id: { tag: GQLTAG; storyID: string };
+        total: number;
+      }>(mongo).aggregate(aggregation);
 
   // Get all of the counts.
   const tags = await cursor.toArray();

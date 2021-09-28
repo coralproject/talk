@@ -372,7 +372,7 @@ export default (ctx: GraphContext) => ({
     }
   ),
   tagCounts: new DataLoader((storyIDs: string[]) =>
-    retrieveStoryCommentTagCounts(ctx.mongo.live, ctx.tenant.id, storyIDs)
+    retrieveStoryCommentTagCounts(ctx.mongo, ctx.tenant.id, storyIDs)
   ),
   authorStatusCounts: new DataLoader((authorIDs: string[]) =>
     retrieveManyRecentStatusCounts(
