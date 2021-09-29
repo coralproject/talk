@@ -22,7 +22,7 @@ import { SSOToken, SSOVerifier } from "./verifiers/sso";
 
 export type JWTStrategyOptions = Pick<
   AppOptions,
-  "signingConfig" | "mongo" | "redis" | "tenantCache" | "mongo"
+  "signingConfig" | "mongo" | "redis" | "tenantCache" | "mongo" | "config"
 >;
 
 /**

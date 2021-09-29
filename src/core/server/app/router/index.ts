@@ -32,6 +32,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       staticURI: app.config.get("static_uri") || "/",
       graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
       featureFlags: [],
+      forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
     };
 
     // If sentry is configured, then add it's config to the config.
