@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React, { FunctionComponent, useState, useCallback } from "react";
 
+import TranslatedStoryStatus from "coral-admin/components/TranslatedStoryStatus";
+
 import {
   Button,
   ButtonIcon,
@@ -12,12 +14,13 @@ import {
 
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 
-// TODO: Should these be moved to a common dir?
+import styles from "./StoryStatus.css";
+
+// TODO (marcushaddon): Should these be moved to a common dir?
 import CloseStoryMutation from "coral-admin/routes/Stories/StoryActions/CloseStoryMutation";
 import OpenStoryMutation from "coral-admin/routes/Stories/StoryActions/OpenStoryMutation";
 import { useMutation } from "coral-framework/lib/relay";
 import { STORY_STATUS } from "coral-admin/__generated__/StoryStatusContainer_story.graphql";
-import styles from "coral-framework/components/NetworkError.css";
 
 export interface Props {
   storyID: string;
@@ -30,7 +33,7 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
   const closeStory = useMutation(CloseStoryMutation);
   const openStory = useMutation(OpenStoryMutation);
 
-  const udpateStatus = useCallback(
+  const updateStatus = useCallback(
     async (newStatus: GQLSTORY_STATUS) => {
       if (newStatus === currentStatus) {
         return
@@ -66,7 +69,10 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
                   value={s}
                   disabled={currentStatus === s}
                 >
-                  {s}
+                  {
+                    <TranslatedStoryStatus>
+                      {s as GQLSTORY_STATUS}
+                    </TranslatedStoryStatus>}
                 </DropdownButton>
               ))}
             </Dropdown>
@@ -74,12 +80,17 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
         )}
       >
         {({ toggleVisibility, visible }) => (
-          // TODO: Localize
           <Button
+            className={styles.toggleButton}
             onClick={toggleVisibility}
             color="mono"
+            variant="text"
           >
-            {currentStatus}
+            {
+              <TranslatedStoryStatus>
+                {currentStatus}
+              </TranslatedStoryStatus>
+            }
             {
               <ButtonIcon size="lg">
                 {visible ? "arrow_drop_up" : "arrow_drop_down"}

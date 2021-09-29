@@ -1,10 +1,16 @@
 /* eslint-disable */
-import React, { FunctionComponent } from "react";
+import cn from "classnames";
+import { Localized } from "@fluent/react/compat";
+import React, { FunctionComponent, useState } from "react";
 
 import {
   Flex,
   HorizontalGutter,
   Icon,
+  Tab,
+  TabBar,
+  TabContent,
+  TabPane,
   TextLink
 } from "coral-ui/components/v2";
 
@@ -33,20 +39,28 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
   onClose,
 }) => {
+  const [activeTab, setActiveTab] = useState("CONFIGURE_STORY");
   // TODO: localize!
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
         <Flex direction="column">
-          <span className={styles.sectionTitle}>
-            Story Details {/* TODO: dynamically make all caps for localization */}
-          </span>
+            <Localized id="storyInfoDrawer-title">
+              <span className={styles.sectionTitle}>
+                Story Details
+              </span>
+            </Localized>
           <h2 className={styles.storyTitle}>
-            {story.metadata?.title || "Untitled"}
+            {story.metadata?.title ? story.metadata.title : (
+              <Localized id="storyInfoDrawer-titleNotAvailable">
+                Title not available
+              </Localized>
+            )}
           </h2>
           <TextLink href={story.url}>{story.url}</TextLink>
           <Flex direction="row" alignItems="center" className={styles.status}>
-            STATUS: <StoryStatus
+            <span className={styles.statusText}>Status:</span>
+            <StoryStatus
               storyID={story.id}
               currentStatus={story.status as GQLSTORY_STATUS}
             />
@@ -54,14 +68,24 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           <Flex direction="column" className={styles.publishInfoSection}>
             <Flex direction="row" className={styles.publishInfo}>
               <Icon className={styles.icon} size="md">supervisor_account</Icon>
-              {story.metadata?.author} {/* TODO: handle no author */}
+              {story.metadata?.author ? story.metadata.author : (
+                <Localized id="storyInfoDrawer-authorNotAvailable">
+                  Author not available
+                </Localized>
+              )}
             </Flex>
             <Flex direction="row" className={styles.publishInfo}>
               <Icon className={styles.icon} size="md">calendar_today</Icon>
-              {story.metadata?.publishedAt} {/* format */}
+              {story.metadata?.publishedAt ? story.metadata.publishedAt : (
+                <Localized id="storyInfoDrawer-publishDateNotAvailable">
+                  Publish date not available
+                </Localized>
+              )} {/* TODO (marcushaddon): format */}
             </Flex>
           </Flex>
-          <span className={styles.sectionTitle}>Scraped Metadata</span>
+          <Localized id="storyInfoDrawer-scrapedMetaData">
+            <span className={styles.sectionTitle}>Scraped Metadata</span>
+          </Localized>
           <Flex className={styles.metaData} direction="column">
             {
               Object.entries(story.metadata as object)
@@ -70,6 +94,28 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             }
           </Flex>
           <RescrapeStory storyID={story.id} />
+          <TabBar activeTab="CONFIGURE_STORY" className={styles.tabBar}>
+            <Tab active={true} tabID="CONFIGURE_STORY" onTabClick={setActiveTab}>
+              <Flex
+                alignItems="center"
+                className={cn(styles.tab, {
+                  [styles.activeTab]: activeTab === "CONFIGURE_STORY"
+                })}
+              >
+                <Icon size="sm" className={styles.tabIcon}>
+                  settings
+                </Icon>
+                <Localized id="storyInfoDrawer-configure">
+                  Configure
+                </Localized>
+              </Flex>
+            </Tab>
+          </TabBar>
+          <TabContent activeTab={activeTab}>
+            <TabPane tabID="CONFIGURE_STORY" className={styles.configureStory}>
+              Addition of any other story specific configuration
+            </TabPane>
+          </TabContent>
         </Flex>
       </Flex>
     </HorizontalGutter>

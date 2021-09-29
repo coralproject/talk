@@ -11,10 +11,6 @@
   color: var(--palette-text-500);
 }
 
-.dropdownButton {
-  min-width: 80px;
-}
-
 .icon {
   margin: 0 var(--spacing-2) 0 0;
 }
@@ -22,6 +18,13 @@
 .storyTitle {
   font-size: var(--font-size-8);
   margin: var(--spacing-1) 0;
+}
+
+.statusText {
+  margin: 0 var(--spacing-2) 0 0;
+  font-weight: var(--font-weight-primary-bold);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-2);
 }
 
 .status {
@@ -42,6 +45,27 @@
 
 .metaDataItem > div {
   min-width: 200px;
-  margin: var(--spacing-2);
+  margin: var(--spacing-1) 0;
   padding: 0;
+}
+
+.tabBar {
+  margin-top: var(--spacing-3);
+}
+
+.tab {
+}
+
+.activeTab {
+  border-bottom: 1px solid var(--color-teal-500);
+}
+
+.tabIcon {
+  margin-right: var(--spacing-1);
+}
+
+.configureStory {
+  padding-top: var(--spacing-1);
+  font-weight: var(--font-weight-secondary-regular);
+  color: var(--palette-text-500);
 }

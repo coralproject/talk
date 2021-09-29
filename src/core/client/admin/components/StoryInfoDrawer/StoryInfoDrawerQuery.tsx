@@ -41,7 +41,7 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({ storyID, onClose }) =>
 
         if (!props || !props.story) {
           return (
-            <div className="TODO">
+            <div>
               <Spinner />
             </div>
           );

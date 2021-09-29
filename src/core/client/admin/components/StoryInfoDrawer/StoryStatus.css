@@ -1,0 +1,8 @@
+.toggleButton {
+  padding: 0 var(--spacing-2);
+  border: 1px solid var(--palette-grey-400);
+}
+
+.dropdownButton {
+  min-width: 80px;
+}

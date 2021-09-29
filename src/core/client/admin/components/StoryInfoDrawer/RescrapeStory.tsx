@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Button } from "coral-ui/components/v2";
 import RescrapeStoryMutation from "coral-admin/routes/Stories/StoryActions/RescrapeStoryMutation";
@@ -25,13 +26,22 @@ const ScrapeStory: FunctionComponent<Props> = ({ storyID }) => {
     [storyID],
   )
   return (
-    // TODO (marcushaddon): localize/capitalize
     <Button
       className={styles.button}
-      type="button" // TODO: actually just restyle
+      type="button"
       onClick={rescrape}
+      variant="outlined"
+      color="mono"
     >
-      {triggered ? "RESCRAPE TRIGGERED" : "RESCRAPE"}
+      {triggered ? (
+        <Localized id="storyInfoDrawer-rescrapeTriggered">
+          Triggered
+        </Localized>
+      ) : (
+        <Localized id="storyInfoDrawer-triggerRescrape">
+          Rescrape
+        </Localized>
+      )}
     </Button>
   );
 };
