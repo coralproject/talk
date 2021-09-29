@@ -37,7 +37,8 @@ interface Batch {
 async function deleteUserActionCounts(
   mongo: Db,
   userID: string,
-  tenantID: string
+  tenantID: string,
+  isArchived: boolean
 ) {
   const batch: Batch = {
     comments: [],
@@ -45,17 +46,20 @@ async function deleteUserActionCounts(
   };
 
   async function processBatch() {
-    await executeBulkOperations<Comment>(
-      collections.comments(mongo),
-      batch.comments
-    );
+    const comments = isArchived
+      ? collections.archivedComments
+      : collections.comments;
+
+    await executeBulkOperations<Comment>(comments(mongo), batch.comments);
     batch.comments = [];
 
-    await executeBulkOperations<Story>(
-      collections.stories(mongo),
-      batch.stories
-    );
-    batch.stories = [];
+    if (!isArchived) {
+      await executeBulkOperations<Story>(
+        collections.stories(mongo),
+        batch.stories
+      );
+      batch.stories = [];
+    }
   }
 
   const cursor = collections
@@ -261,9 +265,9 @@ export async function deleteUser(
   }
 
   // Delete the user's action counts.
-  await deleteUserActionCounts(mongo.live, userID, tenantID);
+  await deleteUserActionCounts(mongo.live, userID, tenantID, false);
   if (mongo.archive) {
-    await deleteUserActionCounts(mongo.archive, userID, tenantID);
+    await deleteUserActionCounts(mongo.archive, userID, tenantID, true);
   }
 
   // Delete the user's comments.
@@ -290,16 +294,6 @@ export async function deleteUser(
       returnOriginal: false,
     }
   );
-
-  // Delete the user's archived action counts.
-  if (mongo.archive) {
-    await deleteUserActionCounts(mongo.archive, userID, tenantID);
-  }
-
-  // Delete the user's archived comments.
-  if (mongo.archive) {
-    await deleteUserComments(mongo, redis, userID, tenantID, now, true);
-  }
 
   return result.value || null;
 }
