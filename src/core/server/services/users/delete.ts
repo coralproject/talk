@@ -115,19 +115,19 @@ async function deleteUserActionCounts(
 }
 
 async function moderateComments(
-  mongo: MongoContext,
+  mongoLive: Db,
   redis: AugmentedRedis,
   tenantID: string,
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date
 ) {
-  const tenant = await retrieveTenant(mongo.live, tenantID);
+  const tenant = await retrieveTenant(mongoLive, tenantID);
   if (!tenant) {
     throw new Error("unable to retrieve tenant");
   }
 
-  const comments = collections.comments(mongo.live).find(filter);
+  const comments = collections.comments(mongoLive).find(filter);
 
   while (await comments.hasNext()) {
     const comment = await comments.next();
@@ -136,7 +136,7 @@ async function moderateComments(
     }
 
     const result = await moderate(
-      mongo.live,
+      mongoLive,
       tenant,
       {
         commentID: comment.id,
@@ -152,7 +152,7 @@ async function moderateComments(
     }
 
     await updateAllCommentCounts(
-      mongo.live,
+      mongoLive,
       redis,
       {
         ...result,
@@ -178,12 +178,13 @@ async function deleteUserComments(
   now: Date,
   isArchived?: boolean
 ) {
+  // Can only moderate live comments
   if (!isArchived) {
     // Approve any comments that have children.
     // This allows the children to be visible after
     // the comment is deleted.
     await moderateComments(
-      mongo,
+      mongo.live,
       redis,
       tenantID,
       {
@@ -199,7 +200,7 @@ async function deleteUserComments(
     // reject any comments that don't have children
     // This gets rid of any empty/childless deleted comments.
     await moderateComments(
-      mongo,
+      mongo.live,
       redis,
       tenantID,
       {
