@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { FunctionComponent } from "react";
 
 import { Card, Modal } from "coral-ui/components/v2";
@@ -12,19 +11,16 @@ export interface StoryInfoDrawerProps {
   storyID?: string;
   setStoryID?: (storyID: string) => void;
   onClose: () => void;
-};
+}
 
 const StoryInfoDrawer: FunctionComponent<StoryInfoDrawerProps> = ({
   open,
   onClose,
   setStoryID,
-  storyID
+  storyID,
 }) => {
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-    >
+    <Modal open={open} onClose={onClose}>
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
           {storyID && (

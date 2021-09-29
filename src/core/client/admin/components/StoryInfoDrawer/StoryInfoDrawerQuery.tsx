@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -15,7 +14,10 @@ export interface Props {
   onClose: () => void;
 }
 
-const StoryInfoDrawerQuery: FunctionComponent<Props> = ({ storyID, onClose }) => {
+const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
+  storyID,
+  onClose,
+}) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -48,10 +50,7 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({ storyID, onClose }) =>
         }
 
         return (
-          <StoryInfoDrawerContainer
-            onClose={onClose}
-            story={props.story}
-          />
+          <StoryInfoDrawerContainer onClose={onClose} story={props.story} />
         );
       }}
     />
