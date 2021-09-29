@@ -454,6 +454,13 @@ const config = convict({
     default: ms("30 minutes"),
     env: "NON_FINGERPRINTED_CACHE_MAX_AGE",
   },
+  force_admin_local_auth: {
+    doc:
+      "Will force local auth in the admin to on so that it cannot be turned off.",
+    format: Boolean,
+    default: false,
+    env: "FORCE_ADMIN_LOCAL_AUTH",
+  },
 });
 
 export type Config = typeof config;
