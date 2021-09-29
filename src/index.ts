@@ -1,6 +1,14 @@
 import dotenv from "dotenv";
 import { rewrite } from "env-rewrite";
+// NOTE: It is required for the `dotenv` module to be configured before other
+// modules to ensure the rewriting takes place before those modules load!
+import express from "express";
+import fs from "fs";
 import sourceMapSupport from "source-map-support";
+import v8 from "v8";
+
+import createCoral from "./core";
+import logger from "./core/server/logger";
 
 // Configure the source map support so stack traces will reference the source
 // files rather than the transpiled code.
@@ -21,19 +29,20 @@ rewrite();
 // the environment.
 dotenv.config();
 
-// NOTE: It is required for the `dotenv` module to be configured before other
-// modules to ensure the rewriting takes place before those modules load!
-
-import express from "express";
-
-import createCoral from "./core";
-import logger from "./core/server/logger";
-
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
 process.on("unhandledRejection", (err) => {
   throw err;
+});
+
+// You can send a SIGUSR2 signal to dump a heapsnapshot to `process_<pid>.heapsneapshot`.
+// Careful: This will block the main thread for a bit.
+process.on("SIGUSR2", () => {
+  const filename = `process_${process.pid}.heapsnapshot`;
+  logger.info(`Received SIGUSR2 Signal, creating Heap Snapshot ${filename}`);
+  v8.getHeapSnapshot().pipe(fs.createWriteStream(filename));
+  logger.info(`Heap Snapshot created at ${filename}`);
 });
 
 // Create the app that will serve as the mounting point for the Coral Server.
