@@ -32,6 +32,9 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
               author
               publishedAt
             }
+            settings {
+              ...StorySettingsContainer_storySettings
+            }
           }
         }
       `}

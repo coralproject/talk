@@ -48,24 +48,3 @@
   margin: var(--spacing-1) 0;
   padding: 0;
 }
-
-.tabBar {
-  margin-top: var(--spacing-3);
-}
-
-.tab {
-}
-
-.activeTab {
-  border-bottom: 1px solid var(--color-teal-500);
-}
-
-.tabIcon {
-  margin-right: var(--spacing-1);
-}
-
-.configureStory {
-  padding-top: var(--spacing-1);
-  font-weight: var(--font-weight-secondary-regular);
-  color: var(--palette-text-500);
-}

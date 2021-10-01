@@ -1,23 +1,14 @@
 import { Localized } from "@fluent/react/compat";
-import cn from "classnames";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 
 import { GQLSTORY_STATUS } from "coral-framework/schema";
-import {
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Tab,
-  TabBar,
-  TabContent,
-  TabPane,
-  TextLink,
-} from "coral-ui/components/v2";
+import { Flex, HorizontalGutter, Icon, TextLink } from "coral-ui/components/v2";
 
 import { StoryInfoDrawerQueryResponse as StoryResponse } from "coral-admin/__generated__/StoryInfoDrawerQuery.graphql";
 
 import RescrapeStory from "./RescrapeStory";
 import styles from "./StoryInfoDrawerContainer.css";
+import StorySettingsContainer from "./StorySettingsContainer";
 import StoryStatus from "./StoryStatus";
 
 export interface Props {
@@ -38,7 +29,6 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
   onClose,
 }) => {
-  const [activeTab, setActiveTab] = useState("CONFIGURE_STORY");
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
@@ -101,30 +91,10 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
               ))}
           </Flex>
           <RescrapeStory storyID={story.id} />
-          <TabBar activeTab="CONFIGURE_STORY" className={styles.tabBar}>
-            <Tab
-              active={true}
-              tabID="CONFIGURE_STORY"
-              onTabClick={setActiveTab}
-            >
-              <Flex
-                alignItems="center"
-                className={cn(styles.tab, {
-                  [styles.activeTab]: activeTab === "CONFIGURE_STORY",
-                })}
-              >
-                <Icon size="sm" className={styles.tabIcon}>
-                  settings
-                </Icon>
-                <Localized id="storyInfoDrawer-configure">Configure</Localized>
-              </Flex>
-            </Tab>
-          </TabBar>
-          <TabContent activeTab={activeTab}>
-            <TabPane tabID="CONFIGURE_STORY" className={styles.configureStory}>
-              Addition of any other story specific configuration
-            </TabPane>
-          </TabContent>
+          <StorySettingsContainer
+            settings={story.settings}
+            storyID={story.id}
+          />
         </Flex>
       </Flex>
     </HorizontalGutter>
