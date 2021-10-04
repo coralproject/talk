@@ -1631,7 +1631,7 @@ export async function updateUserLastCommentID(
 }
 
 /**
- * retrieveUserLastComment will return the id (if set) of the comment that
+ * retrieveUserLastCommentNotArchived will return the id (if set) of the comment that
  * the user last wrote. This will return null if the user has not made a comment
  * within the CURRENT_REPEAT_POST_TIMESPAN.
  *
@@ -1640,7 +1640,7 @@ export async function updateUserLastCommentID(
  * @param tenant the Tenant to operate on
  * @param user the User that we're looking up the limit for
  */
-export async function retrieveUserLastComment(
+export async function retrieveUserLastCommentNotArchived(
   mongo: MongoContext,
   redis: AugmentedRedis,
   tenant: Tenant,
