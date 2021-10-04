@@ -6,6 +6,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { VerifyCallback } from "coral-server/app/middleware/passport";
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { InvalidCredentialsError } from "coral-server/errors";
 import {
   retrieveUserWithProfile,
@@ -59,7 +60,7 @@ const verifyFactory = (
 };
 
 export interface LocalStrategyOptions {
-  mongo: Db;
+  mongo: MongoContext;
   redis: Redis;
   config: Config;
 }
@@ -91,6 +92,6 @@ export function createLocalStrategy({
       session: false,
       passReqToCallback: true,
     },
-    verifyFactory(mongo, ipLimiter, emailLimiter)
+    verifyFactory(mongo.live, ipLimiter, emailLimiter)
   );
 }
