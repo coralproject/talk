@@ -358,7 +358,7 @@ export async function editComment(
   );
   if (!result.value) {
     // Try to get the comment.
-    const comment = await retrieveComment(mongo, tenantID, id);
+    const comment = await retrieveComment(comments(mongo), tenantID, id);
     if (!comment) {
       // TODO: (wyattjoh) return better error
       throw new Error("comment not found");
@@ -393,8 +393,12 @@ export async function editComment(
   };
 }
 
-export async function retrieveComment(mongo: Db, tenantID: string, id: string) {
-  return await comments(mongo).findOne({ id, tenantID });
+export async function retrieveComment(
+  collection: Collection<Readonly<Comment>>,
+  tenantID: string,
+  id: string
+) {
+  return await collection.findOne({ id, tenantID });
 }
 
 export async function retrieveManyComments(
@@ -903,7 +907,7 @@ export async function addCommentTag(
     }
   );
   if (!result.value) {
-    const comment = await retrieveComment(mongo, tenantID, commentID);
+    const comment = await retrieveComment(comments(mongo), tenantID, commentID);
     if (!comment) {
       throw new CommentNotFoundError(commentID);
     }
@@ -941,7 +945,7 @@ export async function removeCommentTag(
     }
   );
   if (!result.value) {
-    const comment = await retrieveComment(mongo, tenantID, commentID);
+    const comment = await retrieveComment(comments(mongo), tenantID, commentID);
     if (!comment) {
       throw new CommentNotFoundError(commentID);
     }

@@ -8,6 +8,7 @@ import {
   hasPublishedStatus,
   retrieveComment,
 } from "coral-server/models/comment";
+import { comments } from "coral-server/services/mongodb/collections";
 
 async function retrieveParent(
   mongo: MongoContext,
@@ -19,7 +20,11 @@ async function retrieveParent(
   }
 
   // Check to see that the reference parent ID exists.
-  const parent = await retrieveComment(mongo.live, tenantID, input.parentID);
+  const parent = await retrieveComment(
+    comments(mongo.live),
+    tenantID,
+    input.parentID
+  );
   if (!parent) {
     throw new CommentNotFoundError(input.parentID);
   }

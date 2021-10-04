@@ -109,6 +109,7 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { comments } from "../mongodb/collections";
 import { AugmentedRedis } from "../redis";
 import {
   generateAdminDownloadLink,
@@ -1651,7 +1652,7 @@ export async function retrieveUserLastCommentNotArchived(
     return null;
   }
 
-  return retrieveComment(mongo.live, tenant.id, id);
+  return retrieveComment(comments(mongo.live), tenant.id, id);
 }
 
 export interface LinkUser {

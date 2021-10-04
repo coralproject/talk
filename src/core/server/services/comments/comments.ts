@@ -64,7 +64,11 @@ export async function addTag(
   tagType: GQLTAG,
   now = new Date()
 ) {
-  const comment = await retrieveCommentModel(mongo, tenant.id, commentID);
+  const comment = await retrieveCommentModel(
+    comments(mongo),
+    tenant.id,
+    commentID
+  );
   if (!comment) {
     throw new CommentNotFoundError(commentID);
   }
@@ -117,7 +121,11 @@ export async function retrieveComment(
   id: string,
   skipArchive?: boolean
 ) {
-  const liveComment = await retrieveCommentModel(mongo.live, tenantID, id);
+  const liveComment = await retrieveCommentModel(
+    comments(mongo.live),
+    tenantID,
+    id
+  );
 
   if (liveComment) {
     return liveComment;
@@ -125,7 +133,7 @@ export async function retrieveComment(
 
   if (mongo.archive && !skipArchive) {
     const archivedComment = await retrieveCommentModel(
-      mongo.archive,
+      archivedComments(mongo.archive),
       tenantID,
       id
     );

@@ -38,6 +38,7 @@ import {
   publishCommentFlagCreated,
   publishCommentReactionCreated,
 } from "../events";
+import { comments } from "../mongodb/collections";
 import { submitCommentAsSpam } from "../spam";
 
 export type CreateAction = CreateActionInput;
@@ -97,7 +98,11 @@ async function addCommentAction(
   author: User,
   now = new Date()
 ): Promise<AddCommentAction> {
-  const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
+  const oldComment = await retrieveComment(
+    comments(mongo),
+    tenant.id,
+    input.commentID
+  );
   if (!oldComment) {
     throw new CommentNotFoundError(input.commentID);
   }
@@ -174,7 +179,11 @@ export async function removeCommentAction(
   input: Omit<RemoveActionInput, "commentRevisionID" | "reason">
 ): Promise<Readonly<Comment>> {
   // Get the Comment that we are leaving the Action on.
-  const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
+  const oldComment = await retrieveComment(
+    comments(mongo),
+    tenant.id,
+    input.commentID
+  );
   if (!oldComment) {
     throw new CommentNotFoundError(input.commentID);
   }
