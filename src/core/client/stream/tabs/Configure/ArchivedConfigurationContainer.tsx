@@ -29,9 +29,12 @@ const ArchivedConfigurationContainer: FunctionComponent<Props> = ({
     <div className={styles.root}>
       <CallOut
         color="warning"
+        aria-labelledby="configure-archived-title"
         title={
           <Localized id="configure-archived-title">
-            This comment stream has been archived
+            <div id="configure-archived-title">
+              This comment stream has been archived
+            </div>
           </Localized>
         }
         icon={
