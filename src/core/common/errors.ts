@@ -364,4 +364,11 @@ export enum ERROR_CODES {
    * rated a story and attempts to do so again.
    */
   AUTHOR_ALREADY_HAS_RATED_STORY = "AUTHOR_ALREADY_HAS_RATED_STORY",
+
+  /**
+   * CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY is thrown when a user attempts to
+   * publish a comment on an archived story. We do not allow creating comments
+   * or replies on archived comment data.
+   */
+  CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY = "CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY",
 }

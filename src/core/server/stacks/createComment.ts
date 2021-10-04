@@ -7,6 +7,7 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
   AuthorAlreadyHasRatedStory,
+  CannotCreateCommentOnArchivedStory,
   CoralError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -194,7 +195,7 @@ export default async function create(
   }
 
   if (story.isArchiving || story.isArchived) {
-    throw new Error("Cannot create comments on an archive story");
+    throw new CannotCreateCommentOnArchivedStory(tenant.id, story.id);
   }
 
   // Check if the user is banned on this site, if they are, throw an error right
