@@ -44,7 +44,7 @@ const UnarchiveStoriesMutation = createMutation(
       },
       variables: {
         input: {
-          ...input,
+          storyIDs: input.storyIDs,
           clientMutationId: (clientMutationId++).toString(),
         },
       },
