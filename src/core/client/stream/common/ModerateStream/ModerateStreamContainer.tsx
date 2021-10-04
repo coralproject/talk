@@ -26,6 +26,17 @@ interface Props {
   story: ModerateStreamContainer_story;
 }
 
+const ArchivedMarker = () => (
+  <Marker color="warning" variant="filled">
+    <Icon size="sm" className={styles.icon}>
+      archive
+    </Icon>
+    <Localized id="general-archived">
+      <span>Archived</span>
+    </Localized>
+  </Marker>
+);
+
 const ModerateStreamContainer: FunctionComponent<Props> = ({
   local: { accessToken },
   settings,
@@ -50,16 +61,7 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   }
 
   if (isArchived || isArchiving) {
-    return (
-      <Marker color="warning" variant="filled">
-        <Icon size="sm" className={styles.icon}>
-          archive
-        </Icon>
-        <Localized id="general-archived">
-          <span>Archived</span>
-        </Localized>
-      </Marker>
-    );
+    return <ArchivedMarker />;
   }
 
   return (
