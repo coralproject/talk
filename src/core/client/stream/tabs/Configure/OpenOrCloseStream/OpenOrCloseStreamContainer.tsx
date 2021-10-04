@@ -48,10 +48,6 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
     setShowSuccess(false);
   }, [setShowSuccess]);
 
-  if (story.isArchiving || story.isArchived) {
-    return null;
-  }
-
   return story.isClosed ? (
     <section aria-labelledby="configure-openStream-title">
       <OpenStream onClick={onClick} disableButton={waiting} />
@@ -104,8 +100,6 @@ const enhanced = withFragmentContainer<Props>({
     fragment OpenOrCloseStreamContainer_story on Story {
       id
       isClosed
-      isArchiving
-      isArchived
     }
   `,
 })(withOpenStoryMutation(withCloseStoryMutation(OpenOrCloseStreamContainer)));
