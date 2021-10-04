@@ -61,10 +61,10 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
           <a
             href={`mailto:${settings.organization.contactEmail}?subject=${subject}&body=${emailBody}`}
           >
-            {settings.organization.url}
+            {settings.organization.name}
           </a>
         }
-        $orgURL={settings.organization.url}
+        $orgName={settings.organization.name}
       >
         <div className={styles.body}>
           Does this comment violate our community guidelines? Is this offensive
@@ -93,7 +93,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ArchivedReportFlowContainer_settings on Settings {
       organization {
-        url
+        name
         contactEmail
       }
     }
