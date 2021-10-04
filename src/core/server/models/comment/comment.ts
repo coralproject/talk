@@ -414,12 +414,10 @@ export async function retrieveManyComments(
     tenantID,
   });
 
-  const items = await cursor.toArray();
-  if (items.length > 0) {
-    return ids.map((id) => items.find((comment) => comment.id === id) || null);
-  }
-
-  return [];
+  const foundComments = await cursor.toArray();
+  return ids.map(
+    (id) => foundComments.find((comment) => comment.id === id) || null
+  );
 }
 
 export type CommentConnectionInput = OrderedConnectionInput<
