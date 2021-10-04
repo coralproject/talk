@@ -1,8 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import CLASSES from "coral-stream/classes";
 import { CopyPermalinkEvent } from "coral-stream/events";
@@ -10,6 +17,8 @@ import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./PermalinkCopyButton.css";
+
+const TIMEOUT = 800;
 
 interface Props {
   permalinkURL: string;
@@ -28,16 +37,33 @@ const PermalinkCopyButton: FunctionComponent<Props> = ({
   paddingSize = "small",
   upperCase = false,
 }) => {
+  const { window } = useCoralContext();
+
   const emitCopyEvent = useViewerEvent(CopyPermalinkEvent);
 
   const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  const onTimeout = useCallback(() => {
+    timeoutRef.current = null;
+    setCopied(false);
+  }, [setCopied]);
 
   const handleCopy = useCallback(() => {
     setCopied(true);
     emitCopyEvent({ commentID });
 
     onCopied();
-  }, [setCopied, emitCopyEvent, commentID, onCopied]);
+    timeoutRef.current = window.setTimeout(onTimeout, TIMEOUT);
+  }, [emitCopyEvent, commentID, onCopied, window, onTimeout]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <CopyToClipboard text={permalinkURL} onCopy={handleCopy}>
