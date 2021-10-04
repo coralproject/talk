@@ -3,7 +3,6 @@ import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
-import { Db } from "mongodb";
 import { collectDefaultMetrics } from "prom-client";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
@@ -27,7 +26,6 @@ import {
 } from "coral-server/services/jwt";
 import { createMetrics } from "coral-server/services/metrics";
 import { MigrationManager } from "coral-server/services/migrate";
-import { createMongoDB } from "coral-server/services/mongodb";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
@@ -36,7 +34,7 @@ import {
 } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
-import { MongoContext } from "./data/context";
+import { createMongoContext, MongoContext } from "./data/context";
 import {
   AnalyticsCoralEventListener,
   NotifierCoralEventListener,
@@ -221,24 +219,7 @@ class Server {
     // Load the translations.
     await this.i18n.load();
 
-    // Setup MongoDB.
-    const liveURI = config.get("mongodb");
-    const live = await createMongoDB(liveURI);
-
-    // If we have an archive URI, use it, otherwise, default
-    // to using the live database
-    let archive: Db | null = null;
-    const archiveURI = config.get("mongodb_archive");
-    if (
-      archiveURI === config.default("mongodb_archive") &&
-      liveURI !== config.default("mongodb")
-    ) {
-      archive = live;
-    } else {
-      archive = await createMongoDB(archiveURI);
-    }
-
-    this.mongo = { live, archive };
+    this.mongo = await createMongoContext(config);
 
     // Setup Redis.
     this.redis = await createAugmentedRedisClient(config);

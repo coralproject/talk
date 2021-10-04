@@ -24,19 +24,15 @@ import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
 import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
-
-import { archivedComments, comments } from "../mongodb/collections";
+import { comments as commentsColl } from "../mongodb/collections";
 
 export function getCollection(
   mongo: MongoContext,
   isArchived?: boolean
 ): Collection<Readonly<Comment>> {
-  const collection: Collection<Readonly<Comment>> =
-    isArchived && mongo.archive
-      ? archivedComments(mongo.archive)
-      : comments(mongo.live);
-
-  return collection;
+  return isArchived && mongo.archive
+    ? mongo.archivedComments()
+    : mongo.comments();
 }
 
 /**
@@ -65,7 +61,7 @@ export async function addTag(
   now = new Date()
 ) {
   const comment = await retrieveCommentModel(
-    comments(mongo),
+    commentsColl(mongo),
     tenant.id,
     commentID
   );
@@ -97,11 +93,10 @@ export async function removeTag(
   commentID: string,
   tagType: GQLTAG
 ) {
-  const comment = await retrieveComment(
-    { live: mongo, archive: mongo },
+  const comment = await retrieveCommentModel(
+    commentsColl(mongo),
     tenant.id,
-    commentID,
-    true
+    commentID
   );
   if (!comment) {
     throw new CommentNotFoundError(commentID);
@@ -122,7 +117,7 @@ export async function retrieveComment(
   skipArchive?: boolean
 ) {
   const liveComment = await retrieveCommentModel(
-    comments(mongo.live),
+    mongo.comments(),
     tenantID,
     id
   );
@@ -131,9 +126,10 @@ export async function retrieveComment(
     return liveComment;
   }
 
-  if (mongo.archive && !skipArchive) {
+  const archivedComments = mongo.archivedComments();
+  if (mongo.archive && !skipArchive && archivedComments) {
     const archivedComment = await retrieveCommentModel(
-      archivedComments(mongo.archive),
+      archivedComments,
       tenantID,
       id
     );
@@ -153,9 +149,8 @@ export async function retrieveManyComments(
     return [];
   }
 
-  const liveCollection = comments(mongo.live);
   const liveComments = await retrieveManyCommentModels(
-    liveCollection,
+    mongo.comments(),
     tenantID,
     ids
   );
@@ -165,9 +160,8 @@ export async function retrieveManyComments(
 
   // Otherwise, try and find it in the archived comments collection
   if (mongo.archive) {
-    const archivedCollection = archivedComments(mongo.archive);
     const archived = await retrieveManyCommentModels(
-      archivedCollection,
+      mongo.archivedComments(),
       tenantID,
       ids
     );
@@ -228,7 +222,7 @@ export function retrieveRejectedCommentUserConnection(
   // Rejected comments always come from the live
   // and never from archived, we don't load mod queues
   // from the archive
-  const collection = comments(mongo.live);
+  const collection = mongo.comments();
   return retrieveRejectedCommentUserConnectionModel(
     collection,
     tenantID,
@@ -279,9 +273,7 @@ export function retrieveCommentParentsConnection(
   isArchived?: boolean
 ) {
   const collection =
-    isArchived && mongo.archive
-      ? archivedComments(mongo.archive)
-      : comments(mongo.live);
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
   return retrieveCommentParentsConnectionModel(
     collection,
     tenantID,
