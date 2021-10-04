@@ -730,7 +730,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             onClose={toggleShowReportFlow}
           />
         )}
-        {showReportFlow && story.isArchived && !story.isArchiving && (
+        {showReportFlow && (story.isArchived || story.isArchiving) && (
           <ArchivedReportFlowContainer settings={settings} comment={comment} />
         )}
         {showReplyDialog && !comment.deleted && (
