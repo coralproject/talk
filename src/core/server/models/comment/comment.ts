@@ -1412,7 +1412,7 @@ export async function retrieveManyStoryRatings(
         _id: string;
         average: number;
         count: number;
-      }>(mongo.live),
+      }>(mongo.archive),
       tenantID,
       archivedStoryIDs
     );
