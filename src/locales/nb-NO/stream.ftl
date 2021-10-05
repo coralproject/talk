@@ -251,9 +251,7 @@ comments-sortMenu-mostReplies = Flest svar
 comments-userPopover =
   .description = En popover med mer informasjon
 comments-userPopover-memberSince = Medlem siden: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
-comments-userPopover-ignore = Ignorer
-
- “Skjul kommentarer fra {$username}?”
+comments-userPopover-ignore = Ignorer {$username}?
 
 comments-userIgnorePopover-ignoreUser = Ignorer {$username}?
 comments-userIgnorePopover-description =
