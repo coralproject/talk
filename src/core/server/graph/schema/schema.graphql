@@ -5710,6 +5710,11 @@ input LiveConfigurationInput {
   enabled when true will allow live updates.
   """
   enabled: Boolean
+
+  """
+  TODO is this ok? do we need to update the mutator? configurable when true will allow live mode to be configured.
+  """
+  configurable: Boolean
 }
 
 """
@@ -5720,6 +5725,11 @@ input UpdateStorySettings {
   live provides configuration options related to live updates on this Story.
   """
   live: LiveConfigurationInput
+
+  """
+  mode specifies the mode of the story (live/qa/review)
+  """
+  mode: STORY_MODE
 
   """
   moderation determines whether or not this is a PRE or POST moderated story.
