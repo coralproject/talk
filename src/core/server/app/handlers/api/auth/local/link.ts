@@ -45,7 +45,7 @@ export const linkHandler = ({
       const { tenant, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
-      if (!linkUsersAvailable(tenant)) {
+      if (!linkUsersAvailable(config, tenant)) {
         throw new Error("cannot link users, not available");
       }
 
@@ -56,7 +56,7 @@ export const linkHandler = ({
       // Start the account linking process. We are assured the user at this
       // point because of the middleware inserted before which rejects any
       // unauthenticated requests.
-      const user = await link(mongo, tenant, req.user!, {
+      const user = await link(config, mongo, tenant, req.user!, {
         email,
         password,
       });

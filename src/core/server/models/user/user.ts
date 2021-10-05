@@ -2980,6 +2980,7 @@ export async function retrieveUserScheduledForDeletion(
     {
       tenantID,
       scheduledDeletionDate: { $lte: now },
+      deletedAt: { $exists: false },
     },
     {
       $set: {

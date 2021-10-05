@@ -38,13 +38,15 @@ interface GoogleUserProfile {
 
 export class GoogleAuthenticator extends OAuth2Authenticator {
   private readonly mongo: MongoContext;
+  private readonly config: Config;
   private readonly profileURL = "https://www.googleapis.com/oauth2/v3/userinfo";
   private readonly integration: Readonly<Required<GoogleAuthIntegration>>;
 
-  constructor({ integration, mongo, ...options }: Options) {
+  constructor({ integration, mongo, config, ...options }: Options) {
     super({
       ...options,
       ...integration,
+      config,
       authorizationURL: "https://accounts.google.com/o/oauth2/v2/auth",
       tokenURL: "https://www.googleapis.com/oauth2/v4/token",
       scope: "profile email",
@@ -52,6 +54,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
 
     this.integration = integration;
     this.mongo = mongo;
+    this.config = config;
   }
 
   private async getProfile(accessToken: string): Promise<GoogleUserProfile> {
@@ -115,6 +118,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
 
       // Create the user this time.
       user = await findOrCreate(
+        this.config,
         this.mongo,
         tenant,
         {

@@ -489,6 +489,13 @@ const config = convict({
     default: 50,
     env: "AUTO_ARCHIVING_BATCH_SIZE",
   },
+  force_admin_local_auth: {
+    doc:
+      "Will force local auth in the admin to on so that it cannot be turned off.",
+    format: Boolean,
+    default: false,
+    env: "FORCE_ADMIN_LOCAL_AUTH",
+  },
 });
 
 export type Config = typeof config;

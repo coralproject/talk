@@ -8,6 +8,7 @@ import {
 } from "jwks-rsa";
 import { isNil } from "lodash";
 
+import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { TokenInvalidError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
@@ -149,6 +150,7 @@ export function verifyIDToken(
 }
 
 export async function findOrCreateOIDCUser(
+  config: Config,
   mongo: MongoContext,
   tenant: Tenant,
   integration: OIDCAuthIntegration,
@@ -195,6 +197,7 @@ export async function findOrCreateOIDCUser(
 
   // Create the new user, as one didn't exist before!
   return await findOrCreate(
+    config,
     mongo,
     tenant,
     {
@@ -211,6 +214,7 @@ export async function findOrCreateOIDCUser(
 }
 
 export async function findOrCreateOIDCUserWithToken(
+  config: Config,
   mongo: MongoContext,
   tenant: Tenant,
   client: JwksClient,
@@ -227,5 +231,5 @@ export async function findOrCreateOIDCUserWithToken(
   );
 
   // Find or create the user based on the verified token.
-  return findOrCreateOIDCUser(mongo, tenant, integration, token, now);
+  return findOrCreateOIDCUser(config, mongo, tenant, integration, token, now);
 }

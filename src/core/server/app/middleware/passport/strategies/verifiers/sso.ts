@@ -6,6 +6,7 @@ import { URL } from "url";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { validate } from "coral-server/app/request/body";
+import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
 import logger from "coral-server/logger";
@@ -98,6 +99,7 @@ export const SSOTokenSchema = Joi.object().keys({
 });
 
 export async function findOrCreateSSOUser(
+  config: Config,
   mongo: MongoContext,
   redis: AugmentedRedis,
   tenant: Tenant,
@@ -153,6 +155,7 @@ export async function findOrCreateSSOUser(
 
     // Create the new user, as one didn't exist before!
     user = await findOrCreate(
+      config,
       mongo,
       tenant,
       {
@@ -218,6 +221,7 @@ const updateLastUsedAtKID = throttle(
 );
 
 export interface SSOVerifierOptions {
+  config: Config;
   mongo: MongoContext;
   redis: AugmentedRedis;
 }
@@ -261,10 +265,12 @@ export function getRelevantSSOSigningSecrets(
 }
 
 export class SSOVerifier implements Verifier<SSOToken> {
+  private config: Config;
   private mongo: MongoContext;
   private redis: AugmentedRedis;
 
-  constructor({ mongo, redis }: SSOVerifierOptions) {
+  constructor({ mongo, redis, config }: SSOVerifierOptions) {
+    this.config = config;
     this.mongo = mongo;
     this.redis = redis;
   }
@@ -353,6 +359,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
     }
 
     return findOrCreateSSOUser(
+      this.config,
       this.mongo,
       this.redis,
       tenant,

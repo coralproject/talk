@@ -29,15 +29,17 @@ interface Options {
 }
 
 export class OIDCAuthenticator extends OAuth2Authenticator {
+  private readonly config: Config;
   private readonly jwks: JwksClient;
   private readonly integration: Readonly<Required<OIDCAuthIntegration>>;
   private readonly mongo: MongoContext;
   private readonly redis: Redis;
 
-  constructor({ integration, mongo, redis, ...options }: Options) {
+  constructor({ integration, mongo, redis, config, ...options }: Options) {
     super({
       ...options,
       ...integration,
+      config,
       scope: "openid email profile",
     });
 
@@ -45,6 +47,7 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
     this.integration = integration;
     this.mongo = mongo;
     this.redis = redis;
+    this.config = config;
   }
 
   private async verifyToken(
@@ -130,6 +133,7 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
 
       // Find or create the user.
       const user = await findOrCreateOIDCUser(
+        this.config,
         this.mongo,
         tenant,
         this.integration,
