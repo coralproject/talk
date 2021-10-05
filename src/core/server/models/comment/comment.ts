@@ -9,6 +9,7 @@ import {
   CommentEditWindowExpiredError,
   CommentNotFoundError,
   CommentRevisionNotFoundError,
+  StoryNotFoundError,
 } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -40,7 +41,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { retrieveManyStories } from "../story";
+import { retrieveManyStories, retrieveStory } from "../story";
 import { PUBLISHED_STATUSES } from "./constants";
 import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
 import { hasAncestors } from "./helpers";
@@ -1255,10 +1256,23 @@ export async function retrieveStoryRatings(
 ) {
   const timer = createTimer();
 
-  const results = await comments<{
-    average: number;
-    count: number;
-  }>(mongo.live)
+  const story = await retrieveStory(mongo, tenantID, storyID);
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  const collection =
+    story.isArchived && mongo.archive
+      ? archivedComments<{
+          average: number;
+          count: number;
+        }>(mongo.archive)
+      : comments<{
+          average: number;
+          count: number;
+        }>(mongo.live);
+
+  const results = await collection
     .aggregate([
       {
         $match: {
@@ -1297,18 +1311,18 @@ export async function retrieveStoryRatings(
   return { average, count };
 }
 
-export async function retrieveManyStoryRatings(
-  mongo: MongoContext,
+async function retrieveManyRatingsFromCollection(
+  collection: Collection<
+    Readonly<{
+      _id: string;
+      average: number;
+      count: number;
+    }>
+  >,
   tenantID: string,
-  storyIDs: ReadonlyArray<string>
+  storyIDs: string[]
 ) {
-  const timer = createTimer();
-
-  const results = await comments<{
-    _id: string;
-    average: number;
-    count: number;
-  }>(mongo.live)
+  const results = await collection
     .aggregate([
       {
         $match: {
@@ -1356,13 +1370,70 @@ export async function retrieveManyStoryRatings(
     ])
     .toArray();
 
+  return results;
+}
+
+export async function retrieveManyStoryRatings(
+  mongo: MongoContext,
+  tenantID: string,
+  storyIDs: ReadonlyArray<string>
+) {
+  const timer = createTimer();
+
+  const stories = await retrieveManyStories(mongo, tenantID, storyIDs);
+
+  const liveStoryIDs = stories
+    .filter((s) => s !== null && !s.isArchived && !s.isArchiving)
+    // assert id must be non-null since we filtered out null results
+    .map((s) => s!.id);
+  const archivedStoryIDs = stories
+    .filter((s) => s !== null && s.isArchived && !s.isArchiving)
+    // assert id must be non-null since we filtered out null results
+    .map((s) => s!.id);
+
+  const liveResults = await retrieveManyRatingsFromCollection(
+    comments<{
+      _id: string;
+      average: number;
+      count: number;
+    }>(mongo.live),
+    tenantID,
+    liveStoryIDs
+  );
+
+  let archivedResults: Readonly<{
+    _id: string;
+    average: number;
+    count: number;
+  }>[] = [];
+  if (mongo.archive) {
+    archivedResults = await retrieveManyRatingsFromCollection(
+      archivedComments<{
+        _id: string;
+        average: number;
+        count: number;
+      }>(mongo.live),
+      tenantID,
+      archivedStoryIDs
+    );
+  }
+
   // TODO: If this query becomes too expensive, we can use redis to help.
   logger.info({ took: timer() }, "multi story ratings query");
 
-  return storyIDs.map(
-    (storyID) =>
-      results.find(({ _id }) => _id === storyID) || { average: 0, count: 0 }
-  );
+  return storyIDs.map((storyID) => {
+    const liveVal = liveResults.find(({ _id }) => _id === storyID);
+    if (liveVal) {
+      return liveVal;
+    }
+
+    const archivedVal = archivedResults.find(({ _id }) => _id === storyID);
+    if (archivedVal) {
+      return archivedVal;
+    }
+
+    return { average: 0, count: 0 };
+  });
 }
 
 export async function retrieveFeaturedComments(
