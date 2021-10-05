@@ -12,7 +12,7 @@ import {
 } from "coral-server/models/comment";
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
-import { Connection } from "coral-server/models/helpers";
+import { Connection, createEmptyConnection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -198,7 +198,15 @@ export default (ctx: GraphContext) => ({
       story = await ctx.loaders.Stories.story.load(storyID);
     }
 
+    const isArchiving = story?.isArchiving || false;
     const isArchived = story?.isArchived || false;
+
+    // If we are actively archiving, the comments are in flux as they
+    // move between the live and archive mongo instances, so return an empty
+    // connection for now.
+    if (isArchiving) {
+      return createEmptyConnection<Comment>();
+    }
 
     return retrieveCommentConnection(
       ctx.mongo,
