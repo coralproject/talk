@@ -351,7 +351,7 @@ export default (ctx: GraphContext) => ({
   parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
     const story = await ctx.loaders.Stories.story.load(comment.storyID);
     if (!story) {
-      throw new StoryNotFoundError(storyID);
+      throw new StoryNotFoundError(comment.storyID);
     }
 
     return retrieveCommentParentsConnection(
