@@ -76,7 +76,7 @@ export const accountDownloadHandler = ({
       const latestContentDate = new Date(iat * 1000);
 
       // Send the export down the response.
-      await sendUserDownload(res, mongo.live, tenant, user, latestContentDate);
+      await sendUserDownload(res, mongo, tenant, user, latestContentDate);
 
       return;
     } catch (err) {
