@@ -24,6 +24,8 @@ const CloseStoryMutation = createMutation(
               status
               closedAt
               isClosed
+              isArchiving
+              isArchived
             }
             clientMutationId
           }

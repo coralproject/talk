@@ -24,6 +24,8 @@ const OpenStoryMutation = createMutation(
               status
               closedAt
               isClosed
+              isArchiving
+              isArchived
             }
             clientMutationId
           }
