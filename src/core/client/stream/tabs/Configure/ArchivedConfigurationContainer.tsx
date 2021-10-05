@@ -30,6 +30,7 @@ const ArchivedConfigurationContainer: FunctionComponent<Props> = ({
       <CallOut
         color="warning"
         aria-labelledby="configure-archived-title"
+        container="section"
         title={
           <Localized id="configure-archived-title">
             <div id="configure-archived-title">
