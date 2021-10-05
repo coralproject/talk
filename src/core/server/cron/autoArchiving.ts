@@ -59,7 +59,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
     const now = new Date();
     const dateFilter = new Date(now.getTime() - age);
     const cursor = await retrieveStoriesToBeArchived(
-      mongo.live,
+      mongo,
       tenant.id,
       dateFilter
     );
@@ -76,7 +76,7 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
       log.info({ storyID: story.id }, "archiving story");
 
       const markResult = await markStoryForArchiving(
-        mongo.live,
+        mongo,
         tenant.id,
         story.id,
         now

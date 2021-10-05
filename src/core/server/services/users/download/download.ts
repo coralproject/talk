@@ -100,7 +100,7 @@ export async function sendUserDownload(
 
   // Create a DataLoader to load stories for each batch.
   const getStories = new DataLoader((ids: string[]) =>
-    retrieveManyStories(mongo.live, tenant.id, ids)
+    retrieveManyStories(mongo, tenant.id, ids)
   );
 
   // Generate the filename of the file that the user will download.

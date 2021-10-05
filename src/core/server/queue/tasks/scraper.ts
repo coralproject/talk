@@ -42,7 +42,7 @@ const createJobProcessor = ({
   const timer = createTimer();
 
   log.debug("starting to scrape the story");
-  await scrape(mongo.live, config, tenantID, storyID, storyURL);
+  await scrape(mongo, config, tenantID, storyID, storyURL);
 
   // Compute the end time.
   log.debug({ responseTime: timer() }, "scraped the story");

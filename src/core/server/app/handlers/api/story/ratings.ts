@@ -76,7 +76,7 @@ export const ratingsJSONPHandler = ({
       req.query
     );
 
-    const story = await find(mongo.live, tenant, {
+    const story = await find(mongo, tenant, {
       id,
       url,
     });
@@ -91,7 +91,7 @@ export const ratingsJSONPHandler = ({
       return respond(res, null);
     }
 
-    const ratings = await retrieveStoryRatings(mongo.live, tenant.id, story.id);
+    const ratings = await retrieveStoryRatings(mongo, tenant.id, story.id);
 
     return respond(res, { id: story.id, url: story.url, ratings });
   } catch (err) {

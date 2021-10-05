@@ -9,7 +9,7 @@ import {
 
 export const Sites = (ctx: TenantContext) => ({
   create: async (input: GQLCreateSiteInput): Promise<Readonly<Site> | null> =>
-    create(ctx.mongo.live, ctx.tenant, input.site, ctx.now),
+    create(ctx.mongo, ctx.tenant, input.site, ctx.now),
   update: async (input: GQLUpdateSiteInput): Promise<Readonly<Site> | null> =>
-    update(ctx.mongo.live, ctx.tenant, input.id, input.site, ctx.now),
+    update(ctx.mongo, ctx.tenant, input.id, input.site, ctx.now),
 });

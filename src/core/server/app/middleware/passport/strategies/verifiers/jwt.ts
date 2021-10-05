@@ -45,13 +45,13 @@ export function isJWTToken(token: JWTToken | object): token is JWTToken {
 
 export interface JWTVerifierOptions {
   signingConfig: JWTSigningConfig;
-  mongo: Pick<MongoContext, "live">;
+  mongo: MongoContext;
   redis: Redis;
 }
 
 export class JWTVerifier implements Verifier<JWTToken> {
   private signingConfig: JWTSigningConfig;
-  private mongo: Pick<MongoContext, "live">;
+  private mongo: MongoContext;
   private redis: Redis;
 
   constructor({ signingConfig, mongo, redis }: JWTVerifierOptions) {
@@ -85,7 +85,7 @@ export class JWTVerifier implements Verifier<JWTToken> {
     }
 
     // Find the user.
-    const user = await retrieveUser(this.mongo.live, tenant.id, token.sub);
+    const user = await retrieveUser(this.mongo, tenant.id, token.sub);
     if (token.pat) {
       // As this is a Personal Access Token, ensure that the Token is valid by
       // checking it against the User's tokens.

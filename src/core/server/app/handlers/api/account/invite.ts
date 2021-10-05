@@ -56,7 +56,7 @@ export const inviteCheckHandler = ({
 
       // Verify the token.
       await verifyInviteTokenString(
-        mongo.live,
+        mongo,
         tenant,
         signingConfig,
         tokenString,
@@ -134,7 +134,7 @@ export const inviteHandler = ({
 
       // Redeem the invite to create the new user.
       await redeem(
-        mongo.live,
+        mongo,
         tenant,
         signingConfig,
         tokenString,

@@ -1,8 +1,8 @@
 import { flatten, flattenDeep, identity, isEmpty, pickBy } from "lodash";
-import { Db } from "mongodb";
 import ms from "ms";
 
 import { FirstDeepPartial } from "coral-common/types";
+import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import {
   CommentModerationCountsPerQueue,
@@ -51,7 +51,7 @@ interface SharedModerationQueueCountsMatch {
  * @param tenantID the tenant ID that we are resetting the counts for
  */
 export async function recalculateSharedModerationQueueQueueCounts(
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenantID: string,
   now = new Date()
@@ -71,7 +71,7 @@ export async function recalculateSharedModerationQueueQueueCounts(
   const queueResults = sites<{
     _id: string;
     total: number;
-  }>(mongo).aggregate([
+  }>(mongo.live).aggregate([
     {
       $match: match,
     },
@@ -153,7 +153,7 @@ function fillAndConvertStringToNumber<
  *                 moderation queue counts from
  */
 export async function retrieveSharedModerationQueueQueuesCounts(
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenantID: string,
   now = new Date()

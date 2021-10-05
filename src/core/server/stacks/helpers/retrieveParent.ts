@@ -8,7 +8,6 @@ import {
   hasPublishedStatus,
   retrieveComment,
 } from "coral-server/models/comment";
-import { comments } from "coral-server/services/mongodb/collections";
 
 async function retrieveParent(
   mongo: MongoContext,
@@ -21,7 +20,7 @@ async function retrieveParent(
 
   // Check to see that the reference parent ID exists.
   const parent = await retrieveComment(
-    comments(mongo.live),
+    mongo.comments(),
     tenantID,
     input.parentID
   );

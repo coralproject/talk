@@ -1,6 +1,5 @@
 import { Redis } from "ioredis";
 import Joi from "joi";
-import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
 import { VerifyCallback } from "coral-server/app/middleware/passport";
@@ -15,7 +14,7 @@ import {
 import { Request, TenantCoralRequest } from "coral-server/types/express";
 
 const verifyFactory = (
-  mongo: Db,
+  mongo: MongoContext,
   ipLimiter: RequestLimiter,
   emailLimiter: RequestLimiter
 ) => async (
@@ -92,6 +91,6 @@ export function createLocalStrategy({
       session: false,
       passReqToCallback: true,
     },
-    verifyFactory(mongo.live, ipLimiter, emailLimiter)
+    verifyFactory(mongo, ipLimiter, emailLimiter)
   );
 }

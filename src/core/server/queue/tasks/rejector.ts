@@ -87,7 +87,7 @@ const createJobProcessor = ({
 
       // Reject the comment.
       await rejectComment(
-        mongo.live,
+        mongo,
         redis,
         null,
         tenant,

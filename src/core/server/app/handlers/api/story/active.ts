@@ -50,7 +50,7 @@ export const activeJSONPHandler = ({
     );
 
     // Check to see that this site does exist for this Tenant.
-    const site = await retrieveSite(mongo.live, tenant.id, siteID);
+    const site = await retrieveSite(mongo, tenant.id, siteID);
     if (!site) {
       throw new Error("site not found");
     }
@@ -58,7 +58,7 @@ export const activeJSONPHandler = ({
     // Find top active stories in the last 24 hours.
     const start = DateTime.fromJSDate(now).minus({ hours: 24 }).toJSDate();
     const results = await retrieveTopStoryMetrics(
-      mongo.live,
+      mongo,
       tenant.id,
       siteID,
       5,
@@ -69,7 +69,7 @@ export const activeJSONPHandler = ({
     // Fetch all the stories for each count. This will be returned in the same
     // ordering of the counts.
     const stories = await retrieveManyStories(
-      mongo.live,
+      mongo,
       tenant.id,
       results.map(({ _id }) => _id)
     );

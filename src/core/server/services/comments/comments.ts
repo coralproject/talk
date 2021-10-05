@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { Collection, Db } from "mongodb";
+import { Collection } from "mongodb";
 
 import { MongoContext } from "coral-server/data/context";
 import { CommentNotFoundError } from "coral-server/errors";
@@ -24,7 +24,6 @@ import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
 import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
-import { comments as commentsColl } from "../mongodb/collections";
 
 export function getCollection(
   mongo: MongoContext,
@@ -52,7 +51,7 @@ export function getCommentEditableUntilDate(
 }
 
 export async function addTag(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -61,7 +60,7 @@ export async function addTag(
   now = new Date()
 ) {
   const comment = await retrieveCommentModel(
-    commentsColl(mongo),
+    mongo.comments(),
     tenant.id,
     commentID
   );
@@ -88,13 +87,13 @@ export async function addTag(
 }
 
 export async function removeTag(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   commentID: string,
   tagType: GQLTAG
 ) {
   const comment = await retrieveCommentModel(
-    commentsColl(mongo),
+    mongo.comments(),
     tenant.id,
     commentID
   );

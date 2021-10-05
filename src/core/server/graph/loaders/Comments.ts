@@ -230,7 +230,7 @@ export default (ctx: GraphContext) => ({
       }
 
       return retrieveManyUserActionPresence(
-        ctx.mongo.live,
+        ctx.mongo,
         ctx.tenant.id,
         ctx.user.id,
         commentIDs
@@ -360,7 +360,7 @@ export default (ctx: GraphContext) => ({
   sharedModerationQueueQueuesCounts: new SingletonResolver(
     () =>
       retrieveSharedModerationQueueQueuesCounts(
-        ctx.mongo.live,
+        ctx.mongo,
         ctx.redis,
         ctx.tenant.id,
         ctx.now
@@ -376,7 +376,7 @@ export default (ctx: GraphContext) => ({
   ),
   authorStatusCounts: new DataLoader((authorIDs: string[]) =>
     retrieveManyRecentStatusCounts(
-      ctx.mongo.live,
+      ctx.mongo,
       ctx.tenant.id,
       DateTime.fromJSDate(ctx.now)
         .plus({ seconds: -ctx.tenant.recentCommentHistory.timeFrame })

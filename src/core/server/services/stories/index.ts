@@ -1,9 +1,9 @@
 import { defaultTo, uniq } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { StoryURLInvalidError, UserNotFoundError } from "coral-server/errors";
 import { StoryCreatedCoralEvent } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -63,14 +63,18 @@ import {
 
 export type FindStory = FindStoryInput;
 
-export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
+export async function find(
+  mongo: MongoContext,
+  tenant: Tenant,
+  input: FindStory
+) {
   return findStory(mongo, tenant.id, input);
 }
 
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
 export async function findOrCreate(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   broker: CoralEventPublisherBroker,
   input: FindOrCreateStory,
@@ -131,7 +135,7 @@ export async function findOrCreate(
 }
 
 export async function remove(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   includeComments = false
@@ -197,7 +201,7 @@ export async function remove(
 export type CreateStory = Omit<CreateStoryInput, "siteID">;
 
 export async function create(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   broker: CoralEventPublisherBroker,
   config: Config,
@@ -260,7 +264,7 @@ export async function create(
 export type UpdateStory = UpdateStoryInput;
 
 export async function update(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   input: UpdateStory,
@@ -290,7 +294,7 @@ function validateStoryMode(tenant: Tenant, mode: GQLSTORY_MODE) {
 export type UpdateStorySettings = UpdateStorySettingsInput;
 
 export async function updateSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   input: UpdateStorySettings,
@@ -305,7 +309,7 @@ export async function updateSettings(
 }
 
 export async function open(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   now = new Date()
@@ -314,7 +318,7 @@ export async function open(
 }
 
 export async function close(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   now = new Date()
@@ -323,7 +327,7 @@ export async function close(
 }
 
 export async function merge(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   destinationID: string,
   sourceIDs: string[]
@@ -429,7 +433,7 @@ export async function merge(
 }
 
 export async function addExpert(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   userID: string
@@ -443,7 +447,7 @@ export async function addExpert(
 }
 
 export async function removeExpert(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   userID: string
@@ -457,7 +461,7 @@ export async function removeExpert(
 }
 
 export async function updateStoryMode(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   mode: GQLSTORY_MODE
@@ -468,7 +472,7 @@ export async function updateStoryMode(
   return setStoryMode(mongo, tenant.id, storyID, mode);
 }
 
-export async function retrieveSections(mongo: Db, tenant: Tenant) {
+export async function retrieveSections(mongo: MongoContext, tenant: Tenant) {
   if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
     return null;
   }

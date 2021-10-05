@@ -204,7 +204,7 @@ export function mountClientRoutes(
   // Tenant identification middleware.
   router.use(
     tenantMiddleware({
-      mongo: mongo.live,
+      mongo,
       cache: tenantCache,
       passNoTenant: true,
     })

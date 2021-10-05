@@ -17,7 +17,6 @@ import { JWTSigningConfig } from "coral-server/services/jwt";
 
 import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 
-import { comments } from "../mongodb/collections";
 import { generateUnsubscribeURL } from "./categories/unsubscribe";
 
 interface Options {
@@ -64,7 +63,7 @@ export default class NotificationContext {
     string,
     Readonly<User> | null
   > = new DataLoader((userIDs) =>
-    retrieveManyUsers(this.mongo.live, this.tenant.id, userIDs)
+    retrieveManyUsers(this.mongo, this.tenant.id, userIDs)
   );
 
   /**
@@ -74,7 +73,7 @@ export default class NotificationContext {
     string,
     Readonly<Comment> | null
   > = new DataLoader((commentIDs) =>
-    retrieveManyComments(comments(this.mongo.live), this.tenant.id, commentIDs)
+    retrieveManyComments(this.mongo.comments(), this.tenant.id, commentIDs)
   );
 
   /**
@@ -84,7 +83,7 @@ export default class NotificationContext {
     string,
     Readonly<Story> | null
   > = new DataLoader((storyIDs) =>
-    retrieveManyStories(this.mongo.live, this.tenant.id, storyIDs)
+    retrieveManyStories(this.mongo, this.tenant.id, storyIDs)
   );
 
   constructor({
@@ -124,7 +123,7 @@ export default class NotificationContext {
    */
   public async addDigests(userID: string, templates: DigestibleTemplate[]) {
     const user = await insertUserNotificationDigests(
-      this.mongo.live,
+      this.mongo,
       this.tenant.id,
       userID,
       templates,
@@ -150,7 +149,7 @@ export default class NotificationContext {
       async *[Symbol.asyncIterator]() {
         while (true) {
           const user = await pullUserNotificationDigests(
-            mongo.live,
+            mongo,
             tenant.id,
             frequency
           );

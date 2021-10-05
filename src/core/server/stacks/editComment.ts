@@ -41,7 +41,6 @@ import {
   CreateCommentMediaInput,
 } from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
-import { comments } from "coral-server/services/mongodb/collections";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
@@ -91,7 +90,7 @@ export default async function edit(
   // Get the comment that we're editing. This comment is considered stale,
   // because it wasn't involved in the atomic transaction.
   const originalStaleComment = await retrieveComment(
-    comments(mongo.live),
+    mongo.comments(),
     tenant.id,
     input.id
   );
@@ -111,7 +110,7 @@ export default async function edit(
   // NOTE: this should be removed with attribute based auth checks.
   if (isSiteBanned(author, siteID)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo.live, tenant.id, siteID);
+    const site = await retrieveSite(mongo, tenant.id, siteID);
     if (!site) {
       throw new Error(`referenced site not found: ${siteID}`);
     }
@@ -136,7 +135,7 @@ export default async function edit(
 
   // Grab the story that we'll use to check moderation pieces with.
   const story = await retrieveStory(
-    mongo.live,
+    mongo,
     tenant.id,
     originalStaleComment.storyID
   );
@@ -205,7 +204,7 @@ export default async function edit(
 
   // Perform the edit.
   const result = await editComment(
-    mongo.live,
+    mongo,
     tenant.id,
     {
       id: input.id,
@@ -229,7 +228,7 @@ export default async function edit(
   // collection.
   if (actions.length > 0) {
     await addCommentActions(
-      mongo.live,
+      mongo,
       tenant,
       actions.map(
         (action): CreateAction => ({
@@ -252,7 +251,7 @@ export default async function edit(
   // moderation action (but don't associate it with a moderator).
   if (result.before.status !== result.after.status) {
     await createCommentModerationAction(
-      mongo.live,
+      mongo,
       tenant.id,
       {
         commentID: result.after.id,
@@ -265,7 +264,7 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo.live, redis, {
+  const counts = await updateAllCommentCounts(mongo, redis, {
     tenant,
     actionCounts,
     ...result,

@@ -1,6 +1,5 @@
 import Joi from "joi";
 import { isNumber } from "lodash";
-import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
@@ -84,7 +83,7 @@ export type CreateComment = Omit<
 };
 
 const markCommentAsAnswered = async (
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -138,7 +137,7 @@ const markCommentAsAnswered = async (
 const RatingSchema = Joi.number().min(1).max(5).integer();
 
 const validateRating = async (
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   author: User,
   story: Story,
@@ -189,7 +188,7 @@ export default async function create(
   log.trace("creating comment on story");
 
   // Grab the story that we'll use to check moderation pieces with.
-  const story = await retrieveStory(mongo.live, tenant.id, input.storyID);
+  const story = await retrieveStory(mongo, tenant.id, input.storyID);
   if (!story) {
     throw new StoryNotFoundError(input.storyID);
   }
@@ -203,7 +202,7 @@ export default async function create(
   // NOTE: this should be removed with attribute based auth checks.
   if (isSiteBanned(author, story.siteID)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo.live, tenant.id, story.siteID);
+    const site = await retrieveSite(mongo, tenant.id, story.siteID);
     if (!site) {
       throw new Error(`referenced site not found: ${story.siteID}`);
     }
@@ -229,7 +228,7 @@ export default async function create(
     }
 
     // Validate that the rating is a valid number.
-    await validateRating(mongo.live, tenant, author, story, input.rating);
+    await validateRating(mongo, tenant, author, story, input.rating);
   }
 
   const ancestorIDs: string[] = [];
@@ -305,7 +304,7 @@ export default async function create(
 
   // Create the comment!
   const { comment, revision } = await createComment(
-    mongo.live,
+    mongo,
     tenant.id,
     {
       ...input,
@@ -332,9 +331,9 @@ export default async function create(
   // Updating some associated data.
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
-    updateStoryLastCommentedAt(mongo.live, tenant.id, story.id, now),
+    updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
     markCommentAsAnswered(
-      mongo.live,
+      mongo,
       redis,
       broker,
       tenant,
@@ -350,7 +349,7 @@ export default async function create(
   if (input.parentID) {
     // Push the child's ID onto the parent.
     await pushChildCommentIDOntoParent(
-      mongo.live,
+      mongo,
       tenant.id,
       input.parentID,
       comment.id
@@ -363,7 +362,7 @@ export default async function create(
     // Actually add the actions to the database. This will not interact with the
     // counts at all.
     await addCommentActions(
-      mongo.live,
+      mongo,
       tenant,
       result.actions.map(
         (action): CreateAction => ({
@@ -383,7 +382,7 @@ export default async function create(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo.live, redis, {
+  const counts = await updateAllCommentCounts(mongo, redis, {
     tenant,
     actionCounts,
     after: comment,

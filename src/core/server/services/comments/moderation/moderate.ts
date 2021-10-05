@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
   CommentRevisionNotFoundError,
@@ -15,12 +14,11 @@ import {
   updateCommentStatus,
 } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
-import { comments } from "coral-server/services/mongodb/collections";
 
 export type Moderate = CreateCommentModerationActionInput;
 
 export default async function moderate(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   input: Moderate,
   now: Date
@@ -29,7 +27,7 @@ export default async function moderate(
 
   // Get the comment that we're moderating.
   const comment = await retrieveComment(
-    comments(mongo),
+    mongo.comments(),
     tenant.id,
     input.commentID
   );

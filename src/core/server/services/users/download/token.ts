@@ -2,11 +2,11 @@ import { Redis } from "ioredis";
 import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { TokenInvalidError, UserNotFoundError } from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
@@ -112,7 +112,7 @@ export function isDownloadToken(
 }
 
 export async function verifyDownloadTokenString(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
@@ -151,7 +151,7 @@ export async function verifyDownloadTokenString(
 }
 
 export async function redeemDownloadToken(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,

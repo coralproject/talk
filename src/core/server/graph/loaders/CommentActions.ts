@@ -13,6 +13,7 @@ import {
   GQLCOMMENT_SORT,
   GQLSectionFilter,
 } from "../schema/__generated__/types";
+
 import { requiredPropertyFilter, sectionFilter } from "./helpers";
 
 interface FilteredConnectionInput {
@@ -37,7 +38,7 @@ export default (ctx: Context) => ({
     orderBy,
     filter,
   }: CommentActionConnectionInput) =>
-    retrieveCommentActionConnection(ctx.mongo.live, ctx.tenant.id, {
+    retrieveCommentActionConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       filter,
@@ -52,7 +53,7 @@ export default (ctx: Context) => ({
     section,
     filter,
   }: FilteredConnectionInput) => {
-    return retrieveCommentActionConnection(ctx.mongo.live, ctx.tenant.id, {
+    return retrieveCommentActionConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       filter: {

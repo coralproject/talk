@@ -1,7 +1,6 @@
 import { Collection, Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-
 import { CommentAction } from "coral-server/models/action/comment";
 import { CommentModerationAction } from "coral-server/models/action/moderation/comment";
 import { Comment } from "coral-server/models/comment";

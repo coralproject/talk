@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
   Comment,
@@ -71,7 +70,7 @@ interface UpdateAllCommentCountsOptions {
 }
 
 export default async function updateAllCommentCounts(
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   input: UpdateAllCommentCountsInput,
   options: UpdateAllCommentCountsOptions = {

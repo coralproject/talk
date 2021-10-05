@@ -1,8 +1,9 @@
-import { Cursor, Db, MongoError } from "mongodb";
+import { Cursor, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { MongoContext } from "coral-server/data/context";
 import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
@@ -17,7 +18,6 @@ import {
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
-import { stories as collection } from "coral-server/services/mongodb/collections";
 
 import {
   GQLSTORY_MODE,
@@ -122,7 +122,7 @@ export interface UpsertStoryResult {
 }
 
 export async function upsertStory(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   { id = uuid(), url, mode, siteID }: UpsertStoryInput,
   now = new Date()
@@ -146,7 +146,7 @@ export async function upsertStory(
   try {
     // Perform the find and update operation to try and find and or create the
     // story.
-    const result = await collection(mongo).findOneAndUpdate(
+    const result = await mongo.stories().findOneAndUpdate(
       {
         url,
         tenantID,
@@ -188,7 +188,7 @@ export interface FindStoryInput {
 }
 
 export async function findStory(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   { id, url }: FindStoryInput
 ) {
@@ -217,7 +217,7 @@ export interface FindOrCreateStoryResult {
 }
 
 export async function findOrCreateStory(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   { id, url, mode }: FindOrCreateStoryInput,
   siteID: string | null,
@@ -271,7 +271,7 @@ export type CreateStoryInput = Partial<
   };
 
 export async function createStory(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   url: string,
@@ -298,7 +298,7 @@ export async function createStory(
 
   try {
     // Insert the story into the database.
-    await collection(mongo).insertOne(story);
+    await mongo.stories().insertOne(story);
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
@@ -314,23 +314,27 @@ export async function createStory(
 }
 
 export async function retrieveStoryByURL(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   url: string
 ) {
-  return collection(mongo).findOne({ url, tenantID });
+  return mongo.stories().findOne({ url, tenantID });
 }
 
-export async function retrieveStory(mongo: Db, tenantID: string, id: string) {
-  return collection(mongo).findOne({ id, tenantID });
+export async function retrieveStory(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+) {
+  return mongo.stories().findOne({ id, tenantID });
 }
 
 export async function retrieveManyStories(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
-  const cursor = collection(mongo).find({
+  const cursor = mongo.stories().find({
     id: { $in: ids },
     tenantID,
   });
@@ -341,11 +345,11 @@ export async function retrieveManyStories(
 }
 
 export async function retrieveManyStoriesByURL(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   urls: ReadonlyArray<string>
 ) {
-  const cursor = collection(mongo).find({
+  const cursor = mongo.stories().find({
     url: { $in: urls },
     tenantID,
   });
@@ -361,7 +365,7 @@ export type UpdateStoryInput = Omit<
 >;
 
 export async function updateStory(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   input: UpdateStoryInput,
@@ -377,7 +381,7 @@ export async function updateStory(
   };
 
   try {
-    const result = await collection(mongo).findOneAndUpdate(
+    const result = await mongo.stories().findOneAndUpdate(
       { id, tenantID },
       update,
       // False to return the updated document instead of the original
@@ -402,7 +406,7 @@ export async function updateStory(
 export type UpdateStorySettingsInput = DeepPartial<StorySettings>;
 
 export async function updateStorySettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   input: UpdateStorySettingsInput,
@@ -417,7 +421,7 @@ export async function updateStorySettings(
     },
   };
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     { id, tenantID },
     update,
     // False to return the updated document instead of the original
@@ -432,12 +436,12 @@ export async function updateStorySettings(
 }
 
 export async function openStory(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   now = new Date()
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -463,12 +467,12 @@ export async function openStory(
 }
 
 export async function closeStory(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   now = new Date()
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     { id, tenantID },
     {
       $set: {
@@ -488,8 +492,12 @@ export async function closeStory(
   return result.value;
 }
 
-export async function removeStory(mongo: Db, tenantID: string, id: string) {
-  const result = await collection(mongo).findOneAndDelete({
+export async function removeStory(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+) {
+  const result = await mongo.stories().findOneAndDelete({
     id,
     tenantID,
   });
@@ -504,11 +512,11 @@ export async function removeStory(mongo: Db, tenantID: string, id: string) {
  * removeStories will remove the stories specified by the set of id's.
  */
 export async function removeStories(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   ids: string[]
 ) {
-  return collection(mongo).deleteMany({
+  return mongo.stories().deleteMany({
     tenantID,
     id: {
       $in: ids,
@@ -524,12 +532,12 @@ export enum STORY_SORT {
 export type StoryConnectionInput = OrderedConnectionInput<Story, STORY_SORT>;
 
 export async function retrieveStoryConnection(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: StoryConnectionInput
 ): Promise<Readonly<Connection<Readonly<Story>>>> {
   // Create the query.
-  const query = new Query(collection(mongo)).where({ tenantID });
+  const query = new Query(mongo.stories()).where({ tenantID });
 
   // If a filter is being applied, filter it as well.
   if (input.filter) {
@@ -581,11 +589,12 @@ function applyInputToQuery(input: StoryConnectionInput, query: Query<Story>) {
 }
 
 export async function retrieveActiveStories(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   limit: number
 ) {
-  const stories = await collection(mongo)
+  const stories = await mongo
+    .stories()
     .find({
       tenantID,
       // We limit this query to stories that have the following field. This
@@ -602,12 +611,12 @@ export async function retrieveActiveStories(
 }
 
 export async function updateStoryLastCommentedAt(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   now: Date
 ) {
-  await collection(mongo).updateOne(
+  await mongo.stories().updateOne(
     {
       tenantID,
       id: storyID,
@@ -629,19 +638,19 @@ export async function updateStoryLastCommentedAt(
  * @param commentCounts the counts that we are updating
  */
 export const updateStoryCounts = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
-) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
+) => updateRelatedCommentCounts(mongo.stories(), tenantID, id, commentCounts);
 
 export async function addStoryExpert(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   userID: string
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     {
       tenantID,
       id: storyID,
@@ -663,12 +672,12 @@ export async function addStoryExpert(
 }
 
 export async function removeStoryExpert(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   userID: string
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     {
       tenantID,
       id: storyID,
@@ -690,12 +699,12 @@ export async function removeStoryExpert(
 }
 
 export async function setStoryMode(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   mode: GQLSTORY_MODE
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     {
       tenantID,
       id: storyID,
@@ -724,12 +733,12 @@ export async function setStoryMode(
  * @param tenantID the ID of the Tenant that we're retrieving data
  */
 export async function retrieveStorySections(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string
 ): Promise<string[]> {
-  const results: Array<string | null> = await collection(
-    mongo
-  ).distinct("metadata.section", { tenantID });
+  const results: Array<
+    string | null
+  > = await mongo.stories().distinct("metadata.section", { tenantID });
 
   // We perform the type assertion here because we know that after filtering out
   // the null entries, the resulting array can not contain null.
@@ -737,12 +746,12 @@ export async function retrieveStorySections(
 }
 
 export async function markStoryForArchiving(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   now: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -766,12 +775,12 @@ export async function markStoryForArchiving(
 }
 
 export async function markStoryForUnarchiving(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   now: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -795,11 +804,11 @@ export async function markStoryForUnarchiving(
 }
 
 export async function retrieveStoriesToBeArchived(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   olderThan: Date
 ): Promise<Cursor<Readonly<Story>>> {
-  const stories = collection(mongo).find({
+  const stories = mongo.stories().find({
     tenantID,
     createdAt: { $lte: olderThan },
     isArchiving: { $in: [null, false] },
@@ -812,12 +821,12 @@ export async function retrieveStoriesToBeArchived(
 }
 
 export async function markStoryAsArchived(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   now: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     { id: storyID, tenantID },
     {
       $set: {
@@ -835,12 +844,12 @@ export async function markStoryAsArchived(
 }
 
 export async function markStoryAsUnarchived(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   storyID: string,
   now: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     { id: storyID, tenantID },
     {
       $set: {

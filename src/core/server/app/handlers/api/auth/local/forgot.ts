@@ -82,7 +82,7 @@ export const forgotHandler = ({
       );
 
       // Lookup the user.
-      const user = await retrieveUserWithProfile(mongo.live, tenant.id, {
+      const user = await retrieveUserWithProfile(mongo, tenant.id, {
         id: email,
         type: "local",
       });
@@ -95,7 +95,7 @@ export const forgotHandler = ({
 
       // Prepare the email content to send to the user.
       const resetURL = await generateResetURL(
-        mongo.live,
+        mongo,
         tenant,
         config,
         signingConfig,
@@ -197,7 +197,7 @@ export const forgotResetHandler = ({
 
       // Execute the reset.
       await resetPassword(
-        mongo.live,
+        mongo,
         tenant,
         signingConfig,
         tokenString,
@@ -264,7 +264,7 @@ export const forgotCheckHandler = ({
 
       // Verify the token.
       await verifyResetTokenString(
-        mongo.live,
+        mongo,
         tenant,
         signingConfig,
         tokenString,

@@ -107,17 +107,13 @@ export const confirmRequestHandler = ({
       );
 
       // Lookup the user.
-      const targetUser = await retrieveUser(
-        mongo.live,
-        tenant.id,
-        targetUserID
-      );
+      const targetUser = await retrieveUser(mongo, tenant.id, targetUserID);
       if (!targetUser) {
         throw new UserNotFoundError(targetUserID);
       }
 
       await sendConfirmationEmail(
-        mongo.live,
+        mongo,
         mailerQueue,
         tenant,
         config,
@@ -185,7 +181,7 @@ export const confirmCheckHandler = ({
 
       // Verify the token.
       await verifyConfirmTokenString(
-        mongo.live,
+        mongo,
         tenant,
         signingConfig,
         tokenString,
@@ -245,7 +241,7 @@ export const confirmHandler = ({
       }
 
       // Execute the reset.
-      await confirmEmail(mongo.live, tenant, signingConfig, tokenString, now);
+      await confirmEmail(mongo, tenant, signingConfig, tokenString, now);
 
       return res.sendStatus(204);
     } catch (err) {

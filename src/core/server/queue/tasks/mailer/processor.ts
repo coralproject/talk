@@ -13,7 +13,6 @@ import Joi from "joi";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
-
 import timeoutPromiseAfter from "p-timeout";
 
 import { LanguageCode } from "coral-common/helpers";

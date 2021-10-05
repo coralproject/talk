@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import {
   formatTimeRangeSeries,
   getCount,
@@ -11,7 +11,7 @@ import {
 import { users as collection } from "coral-server/services/mongodb/collections";
 
 export async function retrieveTodayUserMetrics(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   timezone: string,
   now: Date
@@ -20,13 +20,13 @@ export async function retrieveTodayUserMetrics(
   const end = DateTime.fromJSDate(now);
 
   const [total, bans] = await Promise.all([
-    collection<{ count: number }>(mongo)
+    collection<{ count: number }>(mongo.live)
       .aggregate([
         { $match: { tenantID, createdAt: { $gte: start, $lte: end } } },
         { $count: "count" },
       ])
       .toArray(),
-    collection<{ count: number }>(mongo)
+    collection<{ count: number }>(mongo.live)
       .aggregate([
         {
           $match: {
@@ -46,15 +46,18 @@ export async function retrieveTodayUserMetrics(
   };
 }
 
-export async function retrieveAllTimeUserMetrics(mongo: Db, tenantID: string) {
+export async function retrieveAllTimeUserMetrics(
+  mongo: MongoContext,
+  tenantID: string
+) {
   const [bans, total] = await Promise.all([
-    collection<{ count: number }>(mongo)
+    collection<{ count: number }>(mongo.live)
       .aggregate([
         { $match: { tenantID, "status.ban.active": true } },
         { $count: "count" },
       ])
       .toArray(),
-    collection<{ count: number }>(mongo)
+    collection<{ count: number }>(mongo.live)
       .aggregate([{ $match: { tenantID } }, { $count: "count" }])
       .toArray(),
   ]);
@@ -66,7 +69,7 @@ export async function retrieveAllTimeUserMetrics(mongo: Db, tenantID: string) {
 }
 
 export async function retrieveDailyUserMetrics(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   timezone: string,
   now: Date
@@ -74,7 +77,7 @@ export async function retrieveDailyUserMetrics(
   const { start, end } = getTimeRange("day", timezone, now);
 
   // Return the last 7 days (in day documents).
-  const results = await collection<Result>(mongo)
+  const results = await collection<Result>(mongo.live)
     .aggregate([
       { $match: { tenantID, createdAt: { $gte: start, $lte: end } } },
       {

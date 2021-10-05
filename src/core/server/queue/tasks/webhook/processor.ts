@@ -187,7 +187,7 @@ export function createJobProcessor({
         );
 
         await disableWebhookEndpoint(
-          mongo.live,
+          mongo,
           redis,
           tenantCache,
           tenant,
@@ -206,7 +206,7 @@ export function createJobProcessor({
     if (expiredSigningSecretKIDs.length > 0) {
       process.nextTick(() => {
         deleteTenantWebhookEndpointSigningSecrets(
-          mongo.live,
+          mongo,
           tenantID,
           endpoint.id,
           expiredSigningSecretKIDs

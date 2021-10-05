@@ -30,7 +30,7 @@ export const userDownloadHandler = ({
         token: { iat },
         user,
       } = await redeemDownloadToken(
-        mongo.live,
+        mongo,
         redis,
         tenant,
         signingConfig,

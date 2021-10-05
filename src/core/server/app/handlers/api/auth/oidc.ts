@@ -19,7 +19,7 @@ export const oidcHandler = ({ tenantCache, ...options }: Options) =>
 
       return new OIDCAuthenticator({
         ...options,
-        mongo: options.mongo.live,
+        mongo: options.mongo,
         integration,
         callbackPath: "/api/auth/oidc/callback",
       });

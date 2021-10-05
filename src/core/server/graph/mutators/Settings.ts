@@ -61,60 +61,30 @@ export const Settings = ({
   update: (
     input: WithoutMutationID<GQLUpdateSettingsInput>
   ): Promise<Tenant | null> =>
-    update(
-      mongo.live,
-      redis,
-      tenantCache,
-      config,
-      tenant,
-      user!,
-      input.settings
-    ),
+    update(mongo, redis, tenantCache, config, tenant, user!, input.settings),
   rotateSSOSigningSecret: ({ inactiveIn }: GQLRotateSSOSigningSecretInput) =>
-    rotateSSOSigningSecret(
-      mongo.live,
-      redis,
-      tenantCache,
-      tenant,
-      inactiveIn,
-      now
-    ),
+    rotateSSOSigningSecret(mongo, redis, tenantCache, tenant, inactiveIn, now),
   deleteSSOSigningSecret: ({ kid }: GQLDeleteSSOSigningSecretInput) =>
-    deleteSSOSigningSecret(mongo.live, redis, tenantCache, tenant, kid),
+    deleteSSOSigningSecret(mongo, redis, tenantCache, tenant, kid),
   deactivateSSOSigningSecret: ({ kid }: GQLDeactivateSSOSigningSecretInput) =>
-    deactivateSSOSigningSecret(
-      mongo.live,
-      redis,
-      tenantCache,
-      tenant,
-      kid,
-      now
-    ),
+    deactivateSSOSigningSecret(mongo, redis, tenantCache, tenant, kid, now),
   enableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
-    enableFeatureFlag(
-      mongo.live,
-      redis,
-      tenantCache,
-      tenant,
-      flag
-    ).then((flags) => flags.filter(validFeatureFlagsFilter(user))),
+    enableFeatureFlag(mongo, redis, tenantCache, tenant, flag).then((flags) =>
+      flags.filter(validFeatureFlagsFilter(user))
+    ),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
-    disableFeatureFlag(
-      mongo.live,
-      redis,
-      tenantCache,
-      tenant,
-      flag
-    ).then((flags) => flags.filter(validFeatureFlagsFilter(user))),
+    disableFeatureFlag(mongo, redis, tenantCache, tenant, flag).then((flags) =>
+      flags.filter(validFeatureFlagsFilter(user))
+    ),
   createAnnouncement: (input: WithoutMutationID<GQLCreateAnnouncementInput>) =>
-    createAnnouncement(mongo.live, redis, tenantCache, tenant, input),
+    createAnnouncement(mongo, redis, tenantCache, tenant, input),
   deleteAnnouncement: () =>
-    deleteAnnouncement(mongo.live, redis, tenantCache, tenant),
+    deleteAnnouncement(mongo, redis, tenantCache, tenant),
   createWebhookEndpoint: (
     input: WithoutMutationID<GQLCreateWebhookEndpointInput>
   ) =>
     createWebhookEndpoint(
-      mongo.live,
+      mongo,
       redis,
       config,
       tenantCache,
@@ -124,31 +94,23 @@ export const Settings = ({
     ),
   enableWebhookEndpoint: (
     input: WithoutMutationID<GQLEnableWebhookEndpointInput>
-  ) => enableWebhookEndpoint(mongo.live, redis, tenantCache, tenant, input.id),
+  ) => enableWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
   disableWebhookEndpoint: (
     input: WithoutMutationID<GQLDisableWebhookEndpointInput>
-  ) => disableWebhookEndpoint(mongo.live, redis, tenantCache, tenant, input.id),
+  ) => disableWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
   updateWebhookEndpoint: ({
     id,
     ...input
   }: WithoutMutationID<GQLUpdateWebhookEndpointInput>) =>
-    updateWebhookEndpoint(
-      mongo.live,
-      redis,
-      config,
-      tenantCache,
-      tenant,
-      id,
-      input
-    ),
+    updateWebhookEndpoint(mongo, redis, config, tenantCache, tenant, id, input),
   deleteWebhookEndpoint: (
     input: WithoutMutationID<GQLDeleteWebhookEndpointInput>
-  ) => deleteWebhookEndpoint(mongo.live, redis, tenantCache, tenant, input.id),
+  ) => deleteWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
   rotateWebhookEndpointSigningSecret: (
     input: WithoutMutationID<GQLRotateWebhookEndpointSigningSecretInput>
   ) =>
     rotateWebhookEndpointSigningSecret(
-      mongo.live,
+      mongo,
       redis,
       tenantCache,
       tenant,
@@ -160,7 +122,7 @@ export const Settings = ({
     input: WithoutMutationID<GQLCreateExternalModerationPhaseInput>
   ) =>
     createExternalModerationPhase(
-      mongo.live,
+      mongo,
       redis,
       config,
       tenantCache,
@@ -173,7 +135,7 @@ export const Settings = ({
     ...input
   }: WithoutMutationID<GQLUpdateExternalModerationPhaseInput>) =>
     updateExternalModerationPhase(
-      mongo.live,
+      mongo,
       redis,
       config,
       tenantCache,
@@ -184,38 +146,20 @@ export const Settings = ({
   enableExternalModerationPhase: (
     input: WithoutMutationID<GQLEnableExternalModerationPhaseInput>
   ) =>
-    enableExternalModerationPhase(
-      mongo.live,
-      redis,
-      tenantCache,
-      tenant,
-      input.id
-    ),
+    enableExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
   disableExternalModerationPhase: (
     input: WithoutMutationID<GQLDisableExternalModerationPhaseInput>
   ) =>
-    disableExternalModerationPhase(
-      mongo.live,
-      redis,
-      tenantCache,
-      tenant,
-      input.id
-    ),
+    disableExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
   deleteExternalModerationPhase: (
     input: WithoutMutationID<GQLDeleteExternalModerationPhaseInput>
   ) =>
-    deleteExternalModerationPhase(
-      mongo.live,
-      redis,
-      tenantCache,
-      tenant,
-      input.id
-    ),
+    deleteExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
   rotateExternalModerationPhaseSigningSecret: (
     input: WithoutMutationID<GQLRotateExternalModerationPhaseSigningSecretInput>
   ) =>
     rotateExternalModerationPhaseSigningSecret(
-      mongo.live,
+      mongo,
       redis,
       tenantCache,
       tenant,

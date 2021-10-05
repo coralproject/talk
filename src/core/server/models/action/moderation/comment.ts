@@ -1,7 +1,7 @@
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
+import { MongoContext } from "coral-server/data/context";
 import {
   Connection,
   ConnectionInput,
@@ -9,7 +9,6 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-import { commentModerationActions as collection } from "coral-server/services/mongodb/collections";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
@@ -55,7 +54,7 @@ export type CreateCommentModerationActionInput = Omit<
 >;
 
 export async function createCommentModerationAction(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: CreateCommentModerationActionInput,
   now: Date
@@ -78,7 +77,7 @@ export async function createCommentModerationAction(
   };
 
   // Insert it into the database.
-  await collection(mongo).insertOne(action);
+  await mongo.commentModerationActions().insertOne(action);
 
   return action;
 }
@@ -91,11 +90,11 @@ export type CommentModerationActionFilter = Partial<
 >;
 
 export async function retrieveCommentModerationActions(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   filter: CommentModerationActionFilter
 ) {
-  const result = collection(mongo).find({
+  const result = mongo.commentModerationActions().find({
     tenantID,
     ...filter,
   });
@@ -108,12 +107,12 @@ export type CommentModerationActionConnectionInput = ConnectionInput<
 >;
 
 export async function retrieveCommentModerationActionConnection(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: CommentModerationActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentModerationAction>>>> {
   // Create the query.
-  const query = new Query(collection(mongo)).where({ tenantID });
+  const query = new Query(mongo.commentModerationActions()).where({ tenantID });
 
   // If a filter is being applied, filter it as well.
   if (input.filter) {

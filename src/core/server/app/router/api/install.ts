@@ -18,7 +18,7 @@ export function createNewInstallRouter(app: AppOptions): Router {
   // Allow the tenant to be passed on installations.
   router.use(
     tenantMiddleware({
-      mongo: app.mongo.live,
+      mongo: app.mongo,
       cache: app.tenantCache,
       passNoTenant: true,
     })

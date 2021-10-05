@@ -36,7 +36,7 @@ export const recentCommentHistory = async ({
 
   // Get the comment rates for this User.
   const counts = await retrieveRecentStatusCounts(
-    mongo.live,
+    mongo,
     tenant.id,
     since,
     author.id

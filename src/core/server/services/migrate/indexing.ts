@@ -1,7 +1,8 @@
 import { merge } from "lodash";
-import { Collection, Db, IndexOptions } from "mongodb";
+import { Collection, IndexOptions } from "mongodb";
 
 import { Writable } from "coral-common/types";
+import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 
@@ -82,17 +83,17 @@ export function createConnectionOrderVariants<T>(
   };
 }
 
-export const createIndexesFactory = (mongo: Db) => ({
-  users: createIndexFactory(collections.users(mongo)),
-  invites: createIndexFactory(collections.invites(mongo)),
-  tenants: createIndexFactory(collections.tenants(mongo)),
-  comments: createIndexFactory(collections.comments(mongo)),
-  stories: createIndexFactory(collections.stories(mongo)),
-  commentActions: createIndexFactory(collections.commentActions(mongo)),
+export const createIndexesFactory = (mongo: MongoContext) => ({
+  users: createIndexFactory(collections.users(mongo.live)),
+  invites: createIndexFactory(collections.invites(mongo.live)),
+  tenants: createIndexFactory(collections.tenants(mongo.live)),
+  comments: createIndexFactory(collections.comments(mongo.live)),
+  stories: createIndexFactory(collections.stories(mongo.live)),
+  commentActions: createIndexFactory(collections.commentActions(mongo.live)),
   commentModerationActions: createIndexFactory(
-    collections.commentModerationActions(mongo)
+    collections.commentModerationActions(mongo.live)
   ),
-  queries: createIndexFactory(collections.queries(mongo)),
-  migrations: createIndexFactory(collections.migrations(mongo)),
-  sites: createIndexFactory(collections.sites(mongo)),
+  queries: createIndexFactory(collections.queries(mongo.live)),
+  migrations: createIndexFactory(collections.migrations(mongo.live)),
+  sites: createIndexFactory(collections.sites(mongo.live)),
 });

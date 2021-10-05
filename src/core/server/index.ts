@@ -226,7 +226,7 @@ class Server {
 
     // Create the TenantCache.
     this.tenantCache = new TenantCache(
-      this.mongo.live,
+      this.mongo,
       createRedisClient(this.config),
       config
     );
@@ -242,7 +242,7 @@ class Server {
 
     // Load and upsert the persisted queries.
     this.persistedQueryCache = new PersistedQueryCache({
-      mongo: this.mongo.live,
+      mongo: this.mongo,
     });
 
     // Prime the tenant cache so it'll be ready to serve now.
@@ -291,7 +291,7 @@ class Server {
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
       await this.migrationManager.executePendingMigrations(
-        this.mongo.live,
+        this.mongo,
         this.redis
       );
       await this.tenantCache.primeAll();

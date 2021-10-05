@@ -12,15 +12,6 @@ import {
   markStoryAsArchived,
   markStoryAsUnarchived,
 } from "coral-server/models/story";
-import {
-  archivedCommentActions,
-  archivedCommentModerationActions,
-  archivedComments,
-  commentActions,
-  commentModerationActions,
-  comments,
-  stories,
-} from "coral-server/services/mongodb/collections";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 export async function archiveStory(
@@ -38,7 +29,7 @@ export async function archiveStory(
   const logger = log.child({ storyID: id });
   logger.info("starting to archive story");
 
-  const targetStory = await stories(mongo.live).findOne({ id, tenantID });
+  const targetStory = await mongo.stories().findOne({ id, tenantID });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
@@ -62,9 +53,9 @@ export async function archiveStory(
   logger.info("archiving comments");
   const targetCommentIDs = await moveDocuments({
     tenantID,
-    source: comments(mongo.live),
+    source: mongo.comments(),
     filter: targetComments,
-    destination: archivedComments(mongo.archive),
+    destination: mongo.archivedComments(),
     returnMovedIDs: true,
   });
 
@@ -76,16 +67,16 @@ export async function archiveStory(
   logger.info("archiving comment actions");
   await moveDocuments({
     tenantID,
-    source: commentActions(mongo.live),
+    source: mongo.commentActions(),
     filter: targetCommentActions,
-    destination: archivedCommentActions(mongo.archive),
+    destination: mongo.archivedCommentActions(),
   });
   logger.info("archiving comment moderation actions");
   await moveDocuments({
     tenantID,
-    source: commentModerationActions(mongo.live),
+    source: mongo.commentModerationActions(),
     filter: targetCommentModerationActions,
-    destination: archivedCommentModerationActions(mongo.archive),
+    destination: mongo.archivedCommentModerationActions(),
   });
 
   // negate the comment counts so we can subtract them from the
@@ -96,12 +87,12 @@ export async function archiveStory(
   });
 
   logger.info("updating site counts for archive");
-  await updateSiteCounts(mongo.live, tenantID, id, commentCounts);
+  await updateSiteCounts(mongo, tenantID, id, commentCounts);
   logger.info("updating shared counts for archive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
   logger.info("marking story as archived");
-  const result = await markStoryAsArchived(mongo.live, tenantID, id, now);
+  const result = await markStoryAsArchived(mongo, tenantID, id, now);
 
   logger.info("completed archiving tasks");
   return result;
@@ -122,7 +113,7 @@ export async function unarchiveStory(
   const logger = log.child({ storyID: id });
   logger.info("starting to unarchive story");
 
-  const targetStory = await stories(mongo.live).findOne({ id, tenantID });
+  const targetStory = await mongo.stories().findOne({ id, tenantID });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
@@ -146,9 +137,9 @@ export async function unarchiveStory(
   logger.info("unarchiving comments");
   const targetCommentIDs = await moveDocuments({
     tenantID,
-    source: archivedComments(mongo.archive),
+    source: mongo.archivedComments(),
     filter: targetComments,
-    destination: comments(mongo.live),
+    destination: mongo.comments(),
     returnMovedIDs: true,
   });
 
@@ -160,17 +151,17 @@ export async function unarchiveStory(
   logger.info("unarchiving comment actions");
   await moveDocuments({
     tenantID,
-    source: archivedCommentActions(mongo.archive),
+    source: mongo.archivedCommentActions(),
     filter: targetCommentActions,
-    destination: commentActions(mongo.live),
+    destination: mongo.commentActions(),
   });
 
   logger.info("unarchiving comment moderation actions");
   await moveDocuments({
     tenantID,
-    source: archivedCommentModerationActions(mongo.archive),
+    source: mongo.archivedCommentModerationActions(),
     filter: targetCommentModerationActions,
-    destination: commentModerationActions(mongo.live),
+    destination: mongo.commentModerationActions(),
   });
 
   // get the comment counts so we can add them to the
@@ -181,13 +172,13 @@ export async function unarchiveStory(
   });
 
   logger.info("updating site counts for unarchive");
-  await updateSiteCounts(mongo.live, tenantID, id, commentCounts);
+  await updateSiteCounts(mongo, tenantID, id, commentCounts);
 
   logger.info("updating shared counts for unarchive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
   logger.info("marking story as unarchived");
-  const result = await markStoryAsUnarchived(mongo.live, tenantID, id, now);
+  const result = await markStoryAsUnarchived(mongo, tenantID, id, now);
 
   logger.info("completed unarchiving tasks");
   return result;

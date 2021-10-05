@@ -64,7 +64,7 @@ export const accountDownloadHandler = ({
         token: { iat },
         user,
       } = await redeemDownloadToken(
-        mongo.live,
+        mongo,
         redis,
         tenant,
         signingConfig,
@@ -121,7 +121,7 @@ export const accountDownloadCheckHandler = ({
       await userIDLimiter.test(req, userID);
 
       await verifyDownloadTokenString(
-        mongo.live,
+        mongo,
         redis,
         tenant,
         signingConfig,

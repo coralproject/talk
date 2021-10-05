@@ -1,8 +1,8 @@
 import jwks, { JwksClient } from "jwks-rsa";
-import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
 import { getEnabledIntegration } from "coral-server/app/authenticators/oidc/helpers";
+import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
@@ -17,11 +17,11 @@ import { Verifier } from "../jwt";
 export type OIDCVerifierOptions = Pick<AppOptions, "mongo" | "tenantCache">;
 
 export class OIDCVerifier implements Verifier<OIDCIDToken> {
-  private mongo: Db;
+  private mongo: MongoContext;
   private cache: TenantCacheAdapter<JwksClient>;
 
   constructor({ mongo, tenantCache }: OIDCVerifierOptions) {
-    this.mongo = mongo.live;
+    this.mongo = mongo;
     this.cache = new TenantCacheAdapter(tenantCache);
   }
 

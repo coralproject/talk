@@ -56,7 +56,7 @@ export const countJSONPHandler = ({
     );
 
     // Try to query the story.
-    const story = await find(mongo.live, tenant, {
+    const story = await find(mongo, tenant, {
       id,
       url,
     });
@@ -127,7 +127,7 @@ export const countHandler = ({
     const query: StoryCountQuery = validate(StoryCountQuerySchema, req.query);
 
     // Try to query the story.
-    const story = await find(mongo.live, req.coral.tenant, query);
+    const story = await find(mongo, req.coral.tenant, query);
     if (!story) {
       return res.json({ count: null });
     }
