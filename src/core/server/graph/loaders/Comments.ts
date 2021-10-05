@@ -2,6 +2,7 @@ import DataLoader from "dataloader";
 import { defaultTo, isNumber } from "lodash";
 import { DateTime } from "luxon";
 
+import { StoryNotFoundError } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
@@ -273,7 +274,7 @@ export default (ctx: GraphContext) => ({
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
-      throw new Error("cannot get comments for a story that doesn't exist");
+      throw new StoryNotFoundError(storyID);
     }
 
     const { isArchived } = story;
@@ -299,7 +300,7 @@ export default (ctx: GraphContext) => ({
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
-      throw new Error("cannot get comments for a story that doesn't exist");
+      throw new StoryNotFoundError(storyID);
     }
 
     return retrieveCommentStoryConnection(
@@ -328,7 +329,7 @@ export default (ctx: GraphContext) => ({
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
-      throw new Error("cannot get comments for a story that doesn't exist");
+      throw new StoryNotFoundError(storyID);
     }
 
     return retrieveCommentRepliesConnection(
@@ -350,7 +351,7 @@ export default (ctx: GraphContext) => ({
   parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
     const story = await ctx.loaders.Stories.story.load(comment.storyID);
     if (!story) {
-      throw new Error("cannot get comments for a story that doesn't exist");
+      throw new StoryNotFoundError(storyID);
     }
 
     return retrieveCommentParentsConnection(
