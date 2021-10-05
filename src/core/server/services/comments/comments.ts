@@ -153,7 +153,7 @@ export async function retrieveManyComments(
     tenantID,
     ids
   );
-  if (liveComments.length > 0) {
+  if (liveComments.length > 0 && liveComments.some((c) => c !== null)) {
     return liveComments;
   }
 
