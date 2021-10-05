@@ -575,13 +575,6 @@ enum FEATURE_FLAG {
   (European Directive 2000/31/CE).
   """
   FOR_REVIEW
-
-  """
-  FORCE_ADMIN_LOCAL_AUTH will force local auth in the admin to on so that it cannot be turned
-  off. This is useful for SSO clients who use SSO for their admin access and might try and
-  turn off the local admin auth.
-  """
-  FORCE_ADMIN_LOCAL_AUTH
 }
 
 # The moderation mode of the site.
