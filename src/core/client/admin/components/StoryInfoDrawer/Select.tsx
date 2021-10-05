@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { Localized } from "@fluent/react/compat";
+import { useField } from "formik";
 import React, { FunctionComponent, useState } from "react";
 
 import {
@@ -17,6 +18,7 @@ import styles from "./Select.css";
 
 export interface Props {
   id: string;
+  name: string;
   selected?: any;
   options: any[];
   onSelect: (option: any) => void;
@@ -24,7 +26,7 @@ export interface Props {
   placement?: Placement; // TODO (marcushaddon): import Placement type
 }
 
-const StoryActions: FunctionComponent<Props> = ({
+const Select: FunctionComponent<Props> = ({
   id,
   placement,
   options,
@@ -80,4 +82,14 @@ const StoryActions: FunctionComponent<Props> = ({
   );
 };
 
-export default StoryActions;
+export const FormikSelect: FunctionComponent<Props> = (props) => {
+  const [field, meta, helpers] = useField(props.name);
+  return (
+    <Select
+      {...props}
+      onSelect={(selected) => helpers.setValue(selected)}
+    />
+  )
+};
+
+export default Select;
