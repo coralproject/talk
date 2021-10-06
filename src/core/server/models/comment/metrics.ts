@@ -8,7 +8,6 @@ import {
   getTimeRange,
   Result,
 } from "coral-server/helpers/metrics";
-import { comments as collection } from "coral-server/services/mongodb/collections";
 
 import {
   GQLCOMMENT_STATUS,
@@ -27,8 +26,9 @@ export async function retrieveHourlyCommentMetrics(
   const { start, end } = getTimeRange("hour", timezone, now);
 
   // Return the last 24 hours (in hour documents).
-  const results = await collection<Result>(mongo.live)
-    .aggregate([
+  const results = await mongo
+    .comments()
+    .aggregate<Result>([
       { $match: { tenantID, siteID, createdAt: { $gte: start, $lte: end } } },
       {
         $group: {
@@ -59,10 +59,9 @@ export async function retrieveTodayCommentMetrics(
   const start = DateTime.fromJSDate(now).setZone(timezone).startOf("day");
   const end = DateTime.fromJSDate(now);
 
-  const status = await collection<{ _id: GQLCOMMENT_STATUS; count: number }>(
-    mongo.live
-  )
-    .aggregate([
+  const status = await mongo
+    .comments()
+    .aggregate<{ _id: GQLCOMMENT_STATUS; count: number }>([
       {
         $match: {
           tenantID,
@@ -82,8 +81,9 @@ export async function retrieveTodayCommentMetrics(
   const rejected = status.find((doc) => doc._id === GQLCOMMENT_STATUS.REJECTED);
   const total = status.reduce((acc, doc) => acc + doc.count, 0);
 
-  const staff = await collection<{ count: number }>(mongo.live)
-    .aggregate([
+  const staff = await mongo
+    .comments()
+    .aggregate<{ count: number }>([
       {
         $match: {
           tenantID,
@@ -109,8 +109,9 @@ export async function retrieveAllTimeStaffCommentMetrics(
   siteID: string
 ) {
   // Get the referenced tenant, site, and staff comments.
-  const staff = await collection<{ count: number }>(mongo.live)
-    .aggregate([
+  const staff = await mongo
+    .comments()
+    .aggregate<{ count: number }>([
       {
         $match: {
           tenantID,
@@ -135,8 +136,9 @@ export async function retrieveAverageCommentsMetric(
   const { start, hours, end } = getTimeRange("hour", timezone, now, 72);
 
   // Return the last 24 hours (in hour documents).
-  const results = await collection<{ count: number }>(mongo.live)
-    .aggregate([
+  const results = await mongo
+    .comments()
+    .aggregate<{ count: number }>([
       { $match: { tenantID, siteID, createdAt: { $gte: start, $lte: end } } },
       { $count: "count" },
     ])
@@ -155,8 +157,9 @@ export async function retrieveTopStoryMetrics(
   start: Date,
   now: Date
 ) {
-  const results = await collection<Result>(mongo.live)
-    .aggregate([
+  const results = await mongo
+    .comments()
+    .aggregate<Result>([
       {
         $match: {
           tenantID,

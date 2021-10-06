@@ -8,7 +8,6 @@ import {
   CommentModerationCountsPerQueue,
   RelatedCommentCounts,
 } from "coral-server/models/comment/counts";
-import { sites } from "coral-server/services/mongodb/collections";
 import { AugmentedPipeline, AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -68,10 +67,10 @@ export async function recalculateSharedModerationQueueQueueCounts(
   };
 
   // Fetch all the moderation queue counts.
-  const queueResults = sites<{
+  const queueResults = mongo.sites().aggregate<{
     _id: string;
     total: number;
-  }>(mongo.live).aggregate([
+  }>([
     {
       $match: match,
     },

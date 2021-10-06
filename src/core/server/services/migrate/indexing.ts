@@ -6,8 +6,6 @@ import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 
-import collections from "../mongodb/collections";
-
 type IndexType = 1 | -1 | "text";
 
 export type IndexSpecification<T> = {
@@ -84,16 +82,16 @@ export function createConnectionOrderVariants<T>(
 }
 
 export const createIndexesFactory = (mongo: MongoContext) => ({
-  users: createIndexFactory(collections.users(mongo.live)),
-  invites: createIndexFactory(collections.invites(mongo.live)),
-  tenants: createIndexFactory(collections.tenants(mongo.live)),
-  comments: createIndexFactory(collections.comments(mongo.live)),
-  stories: createIndexFactory(collections.stories(mongo.live)),
-  commentActions: createIndexFactory(collections.commentActions(mongo.live)),
+  users: createIndexFactory(mongo.users()),
+  invites: createIndexFactory(mongo.invites()),
+  tenants: createIndexFactory(mongo.tenants()),
+  comments: createIndexFactory(mongo.comments()),
+  stories: createIndexFactory(mongo.stories()),
+  commentActions: createIndexFactory(mongo.commentActions()),
   commentModerationActions: createIndexFactory(
-    collections.commentModerationActions(mongo.live)
+    mongo.commentModerationActions()
   ),
-  queries: createIndexFactory(collections.queries(mongo.live)),
-  migrations: createIndexFactory(collections.migrations(mongo.live)),
-  sites: createIndexFactory(collections.sites(mongo.live)),
+  queries: createIndexFactory(mongo.queries()),
+  migrations: createIndexFactory(mongo.migrations()),
+  sites: createIndexFactory(mongo.sites()),
 });

@@ -29,10 +29,6 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-import {
-  archivedComments,
-  comments,
-} from "coral-server/services/mongodb/collections";
 
 import {
   GQLCOMMENT_SORT,
@@ -1040,14 +1036,14 @@ async function retrieveStoryCommentTagCountsFromDb(
   // Load the counts from the database for this particular tag query.
   const cursor =
     isArchived && mongo.archive
-      ? archivedComments<{
+      ? mongo.archivedComments().aggregate<{
           _id: { tag: GQLTAG; storyID: string };
           total: number;
-        }>(mongo.archive).aggregate(aggregation)
-      : comments<{
+        }>(aggregation)
+      : mongo.comments().aggregate<{
           _id: { tag: GQLTAG; storyID: string };
           total: number;
-        }>(mongo.live).aggregate(aggregation);
+        }>(aggregation);
 
   // Get all of the counts.
   const tags = await cursor.toArray();
@@ -1088,13 +1084,13 @@ export async function retrieveManyRecentStatusCounts(
   authorIDs: ReadonlyArray<string>
 ) {
   // Get all the statuses for the given date stamp.
-  const cursor = comments<{
+  const cursor = mongo.comments().aggregate<{
     _id: {
       status: GQLCOMMENT_STATUS;
       authorID: string;
     };
     count: number;
-  }>(mongo.live).aggregate([
+  }>([
     {
       $match: {
         tenantID,
@@ -1171,8 +1167,9 @@ export async function retrieveOngoingDiscussions(
   // have to collect _all_ the stories that a user has commented on (their id's
   // at least) before limiting the result. This may change on different versions
   // of MongoDB though.
-  const results = await comments<{ _id: string }>(mongo.live)
-    .aggregate([
+  const results = await mongo
+    .comments()
+    .aggregate<{ _id: string }>([
       {
         $match: {
           tenantID,
@@ -1231,18 +1228,18 @@ export async function retrieveAuthorStoryRating(
 ) {
   const timer = createTimer();
 
-  const comment = await comments<RequireProperty<Comment, "rating">>(
-    mongo.live
-  ).findOne({
-    tenantID,
-    storyID,
-    authorID,
-    parentID: null,
-    status: {
-      $in: [...PUBLISHED_STATUSES, GQLCOMMENT_STATUS.PREMOD],
-    },
-    rating: { $gt: 0 },
-  });
+  const comment = await mongo
+    .comments()
+    .findOne<RequireProperty<Comment, "rating">>({
+      tenantID,
+      storyID,
+      authorID,
+      parentID: null,
+      status: {
+        $in: [...PUBLISHED_STATUSES, GQLCOMMENT_STATUS.PREMOD],
+      },
+      rating: { $gt: 0 },
+    });
 
   logger.info({ took: timer() }, "check comment rated query");
 
@@ -1263,17 +1260,14 @@ export async function retrieveStoryRatings(
 
   const collection =
     story.isArchived && mongo.archive
-      ? archivedComments<{
-          average: number;
-          count: number;
-        }>(mongo.archive)
-      : comments<{
-          average: number;
-          count: number;
-        }>(mongo.live);
+      ? mongo.archivedComments()
+      : mongo.comments();
 
   const results = await collection
-    .aggregate([
+    .aggregate<{
+      average: number;
+      count: number;
+    }>([
       {
         $match: {
           tenantID,
@@ -1312,18 +1306,18 @@ export async function retrieveStoryRatings(
 }
 
 async function retrieveManyRatingsFromCollection(
-  collection: Collection<
-    Readonly<{
-      _id: string;
-      average: number;
-      count: number;
-    }>
-  >,
+  collection: Collection<Readonly<Comment>>,
   tenantID: string,
   storyIDs: string[]
 ) {
   const results = await collection
-    .aggregate([
+    .aggregate<
+      Readonly<{
+        _id: string;
+        average: number;
+        count: number;
+      }>
+    >([
       {
         $match: {
           tenantID,
@@ -1392,11 +1386,7 @@ export async function retrieveManyStoryRatings(
     .map((s) => s!.id);
 
   const liveResults = await retrieveManyRatingsFromCollection(
-    comments<{
-      _id: string;
-      average: number;
-      count: number;
-    }>(mongo.live),
+    mongo.comments(),
     tenantID,
     liveStoryIDs
   );
@@ -1408,11 +1398,7 @@ export async function retrieveManyStoryRatings(
   }>[] = [];
   if (mongo.archive) {
     archivedResults = await retrieveManyRatingsFromCollection(
-      archivedComments<{
-        _id: string;
-        average: number;
-        count: number;
-      }>(mongo.archive),
+      mongo.archivedComments(),
       tenantID,
       archivedStoryIDs
     );

@@ -21,10 +21,6 @@ import {
 } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
-import {
-  commentActions,
-  tenants,
-} from "coral-server/services/mongodb/collections";
 
 import { MigrationError } from "../error";
 import { createIndexesFactory } from "../indexing";
@@ -136,14 +132,14 @@ export default class extends Migration {
     const batch = this.batch(mongo.stories(), tenant.id);
 
     // Recalculate the action counts for the stories.
-    const cursor = commentActions<{
+    const cursor = mongo.commentActions().aggregate<{
       _id: string;
       actions: {
         actionType: ACTION_TYPE;
         reason?: FLAG_REASON;
         sum: number;
       }[];
-    }>(mongo.live).aggregate([
+    }>([
       // Find all actions related to this Tenant.
       { $match: { tenantID: tenant.id } },
       // Group and count them to collect all the actions related to each
@@ -249,7 +245,7 @@ export default class extends Migration {
   }
 
   public async up(mongo: MongoContext, tenantID: string) {
-    const tenant = await tenants<OldTenant>(mongo.live).findOne({
+    const tenant = await mongo.tenants().findOne<OldTenant>({
       id: tenantID,
     });
     if (!tenant) {
