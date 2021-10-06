@@ -9,7 +9,6 @@ import {
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Ability, can } from "coral-stream/permissions";
-import { Icon, Marker } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
@@ -17,25 +16,12 @@ import { ModerateStreamContainer_story } from "coral-stream/__generated__/Modera
 import { ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
 import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
 
-import styles from "./ModerateStreamContainer.css";
-
 interface Props {
   local: ModerateStreamContainerLocal;
   settings: ModerateStreamContainer_settings;
   viewer: ModerateStreamContainer_viewer | null;
   story: ModerateStreamContainer_story;
 }
-
-const ArchivedMarker = () => (
-  <Marker color="warning" variant="filled">
-    <Icon size="sm" className={styles.icon}>
-      archive
-    </Icon>
-    <Localized id="general-archived">
-      <span>Archived</span>
-    </Localized>
-  </Marker>
-);
 
 const ModerateStreamContainer: FunctionComponent<Props> = ({
   local: { accessToken },
@@ -61,7 +47,7 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   }
 
   if (isArchived || isArchiving) {
-    return <ArchivedMarker />;
+    return null;
   }
 
   return (
