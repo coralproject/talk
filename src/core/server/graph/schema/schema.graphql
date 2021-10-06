@@ -3020,7 +3020,12 @@ type CommentModerationAction {
   """
   revision is the moderated CommentRevision.
   """
-  revision: CommentRevision!
+  revision: CommentRevision
+
+  """
+  comment is the moderated Comment.
+  """
+  comment: Comment!
 
   """
   status represents the status that was assigned by the moderator.
