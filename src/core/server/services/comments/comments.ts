@@ -50,6 +50,18 @@ export function getCommentEditableUntilDate(
     .toJSDate();
 }
 
+/**
+ * addTag will add a tag to the comment.
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param commentID is the comment we are adding a tag to.
+ * @param commentRevisionID is the revision of the comment we are tagging.
+ * @param user is the user adding this tag.
+ * @param tagType is the type of tag we are adding.
+ * @param now is the time this tag was added.
+ * @returns the modified comment with the newly added tag.
+ */
 export async function addTag(
   mongo: MongoContext,
   tenant: Tenant,
@@ -86,6 +98,15 @@ export async function addTag(
   });
 }
 
+/**
+ * removeTag will remove a specific tag type from a comment.
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param commentID is the comment identifier we are removing the tag from.
+ * @param tagType is the tag type to remove.
+ * @returns the comment with the updated tag attributes.
+ */
 export async function removeTag(
   mongo: MongoContext,
   tenant: Tenant,
@@ -109,6 +130,18 @@ export async function removeTag(
   return removeCommentTag(mongo, tenant.id, commentID, tagType);
 }
 
+/**
+ * retrieves a comment from the mongo context. If archiving is enabled and it
+ * cannot find the comment within the live comments, it will try and find it in
+ * the archived comments.
+ *
+ * @param mongo is the mongo context.
+ * @param tenantID is the filtering tenant for this comment.
+ * @param id is the identifier of the comment we want to retrieve.
+ * @param skipArchive if set will not attempt to search the archive for the
+ * comment if it can't find the comment in the live comments.
+ * @returns the requested comment or null if not found.
+ */
 export async function retrieveComment(
   mongo: MongoContext,
   tenantID: string,
@@ -139,6 +172,14 @@ export async function retrieveComment(
   return null;
 }
 
+/**
+ * retrieves many comments from mongo. This will search both live and archived
+ * comments if the archive database is available.
+ * @param mongo is the mongo context used to retrieve comments from.
+ * @param tenantID is the filtering tenant for this comment set.
+ * @param ids are the ids of the comments we want to retrieve.
+ * @returns an array of comments.
+ */
 export async function retrieveManyComments(
   mongo: MongoContext,
   tenantID: string,
@@ -170,6 +211,17 @@ export async function retrieveManyComments(
   return [];
 }
 
+/**
+ * retrieves a comment connection for the provided input.
+ *
+ * @param mongo is the mongo context used to retrieve the comments.
+ * @param tenantID is the filtering tenant id for this connection.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
 export async function retrieveCommentConnection(
   mongo: MongoContext,
   tenantID: string,
@@ -180,6 +232,17 @@ export async function retrieveCommentConnection(
   return retrieveCommentConnectionModel(collection, tenantID, input);
 }
 
+/**
+ * retrieves a comment connection for the provided input specific to a user.
+ *
+ * @param mongo is the mongo context used to retrieve the comments.
+ * @param tenantID is the filtering tenant id for this connection.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
 export function retrieveCommentUserConnection(
   mongo: MongoContext,
   tenantID: string,
@@ -196,6 +259,17 @@ export function retrieveCommentUserConnection(
   );
 }
 
+/**
+ * retrieves a comment connection for all comments associated with a user.
+ *
+ * @param mongo is the mongo context used to retrieve the comments.
+ * @param tenantID is the filtering tenant id for this connection.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
 export function retrieveAllCommentsUserConnection(
   mongo: MongoContext,
   tenantID: string,
@@ -212,6 +286,17 @@ export function retrieveAllCommentsUserConnection(
   );
 }
 
+/**
+ * retrieves a comment connection for the rejected comments of a user.
+ *
+ * @param mongo is the mongo context used to retrieve the comments.
+ * @param tenantID is the filtering tenant id for this connection.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
 export function retrieveRejectedCommentUserConnection(
   mongo: MongoContext,
   tenantID: string,
@@ -230,6 +315,18 @@ export function retrieveRejectedCommentUserConnection(
   );
 }
 
+/**
+ * retrieves a comment connection for a specific story.
+ *
+ * @param mongo is the mongo context used to retrieve the comments.
+ * @param tenantID is the filtering tenant id for this connection.
+ * @param storyID is the story we are retrieving comments for.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
 export function retrieveCommentStoryConnection(
   mongo: MongoContext,
   tenantID: string,
@@ -246,6 +343,19 @@ export function retrieveCommentStoryConnection(
   );
 }
 
+/**
+ * retrieves a comment connection for the replies to a certain comment.
+ *
+ * @param mongo is the mongo context used to retrieve the comments.
+ * @param tenantID is the filtering tenant id for this connection.
+ * @param storyID is the story we are retrieving comments for.
+ * @param parentID is the parent comment we are retrieving replies for.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
 export function retrieveCommentRepliesConnection(
   mongo: MongoContext,
   tenantID: string,
@@ -264,6 +374,17 @@ export function retrieveCommentRepliesConnection(
   );
 }
 
+/**
+ * retrieves the parent comments for a comment.
+ *
+ * @param mongo is the mongo context we retrieve comments from.
+ * @param tenantID is the filtering tenant for these comments.
+ * @param comment is the comment we want to find parents for.
+ * @param paginationParameters are the pagination sort/select options.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
 export function retrieveCommentParentsConnection(
   mongo: MongoContext,
   tenantID: string,
