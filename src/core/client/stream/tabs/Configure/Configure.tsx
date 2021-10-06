@@ -35,6 +35,10 @@ const Configure: FunctionComponent<Props> = ({
   isArchived,
   isArchiving,
 }) => {
+  const UserBoxElement = (
+    <UserBoxContainer viewer={viewer} settings={settings} />
+  );
+
   if (isArchiving) {
     return null;
   }
@@ -42,7 +46,7 @@ const Configure: FunctionComponent<Props> = ({
   if (isArchived) {
     return (
       <div>
-        <UserBoxContainer viewer={viewer} settings={settings} />
+        {UserBoxElement}
         <ArchivedConfigurationContainer story={story} />
       </div>
     );
@@ -50,7 +54,7 @@ const Configure: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <UserBoxContainer viewer={viewer} settings={settings} />
+      {UserBoxElement}
       <ConfigureStreamContainer story={story} />
       <HorizontalRule />
       <AddMessageContainer story={story} />
