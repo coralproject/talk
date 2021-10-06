@@ -17,10 +17,10 @@ class DecisionHistoryItemContainer extends React.Component<
   DecisionHistoryItemContainerProps
 > {
   public render() {
-    const href = `/admin/moderate/comment/${this.props.action.revision.comment.id}`;
+    const href = `/admin/moderate/comment/${this.props.action.comment.id}`;
     const username =
-      (this.props.action.revision.comment.author &&
-        this.props.action.revision.comment.author.username) ||
+      (this.props.action.comment.author &&
+        this.props.action.comment.author.username) ||
       "Unknown"; // TODO: (cvle) Figure out what to display, when username is not available.
     if (this.props.action.status === "APPROVED") {
       return (
@@ -49,13 +49,10 @@ const enhanced = withFragmentContainer<DecisionHistoryItemContainerProps>({
   action: graphql`
     fragment DecisionHistoryItemContainer_action on CommentModerationAction {
       id
-      revision {
+      comment {
         id
-        comment {
-          id
-          author {
-            username
-          }
+        author {
+          username
         }
       }
       createdAt
