@@ -64,7 +64,7 @@ const StoryActions: FunctionComponent<Props> = ({
                   </DropdownButton>
                 </Localized>
               )}
-              {canClose && !canUnarchive && (
+              {canClose && (
                 <Localized id="stories-actions-close">
                   <DropdownButton
                     onClick={() => {
