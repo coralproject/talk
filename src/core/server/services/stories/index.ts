@@ -4,7 +4,11 @@ import { DateTime } from "luxon";
 import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { StoryURLInvalidError, UserNotFoundError } from "coral-server/errors";
+import {
+  CannotOpenAnArchivedStory,
+  StoryURLInvalidError,
+  UserNotFoundError,
+} from "coral-server/errors";
 import { StoryCreatedCoralEvent } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
@@ -314,6 +318,11 @@ export async function open(
   storyID: string,
   now = new Date()
 ) {
+  const story = await retrieveStory(mongo, tenant.id, storyID);
+  if (story?.isArchived || story?.isArchiving) {
+    throw new CannotOpenAnArchivedStory(tenant.id, storyID);
+  }
+
   return openStory(mongo, tenant.id, storyID, now);
 }
 

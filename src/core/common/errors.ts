@@ -371,4 +371,10 @@ export enum ERROR_CODES {
    * or replies on archived comment data.
    */
   CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY = "CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY",
+
+  /**
+   * CANNOT_OPEN_AN_ARCHIVED_STORY is thrown when a user attempts to open a
+   * story that is archived or actively being archived.
+   */
+  CANNOT_OPEN_AN_ARCHIVED_STORY = "CANNOT_OPEN_AN_ARCHIVED_STORY",
 }

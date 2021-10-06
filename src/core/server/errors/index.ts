@@ -893,3 +893,13 @@ export class CannotCreateCommentOnArchivedStory extends CoralError {
     });
   }
 }
+
+export class CannotOpenAnArchivedStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_OPEN_AN_ARCHIVED_STORY,
+      status: 400,
+      context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
+    });
+  }
+}
