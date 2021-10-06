@@ -18,3 +18,8 @@
   font-weight: var(--font-weight-secondary-regular);
   color: var(--palette-text-500);
 }
+
+.setting {
+  padding: var(--spacing-3) 0;
+  align-items: center;
+}

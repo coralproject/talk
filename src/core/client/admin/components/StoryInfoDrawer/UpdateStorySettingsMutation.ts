@@ -21,6 +21,12 @@ const UpdateStorySettingsMutation = createMutation(
               story {
                 settings {
                   mode
+                  moderation
+                  live {
+                    configurable
+                    enabled
+                  }
+                  premodLinksEnable
                 }
               }
             }

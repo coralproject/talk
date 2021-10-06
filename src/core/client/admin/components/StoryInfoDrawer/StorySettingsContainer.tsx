@@ -8,6 +8,8 @@ import React, { FunctionComponent, useState } from "react";
 import { useMutation } from "coral-framework/lib/relay";
 
 import { StorySettingsContainer_storySettings } from "coral-admin/__generated__/StorySettingsContainer_storySettings.graphql";
+// TODO (marcushaddon): common dir?
+import ExpertSelectionQuery from "coral-stream/tabs/Configure/Q&A/ExpertSelectionQuery";
 
 // TODO (marcushaddon): should this be relocated?
 import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
@@ -15,8 +17,10 @@ import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
 import {
   Button,
   CheckBox,
+  Divider,
   Flex,
   Icon,
+  Label,
   Tab,
   TabBar,
   TabContent,
@@ -60,12 +64,17 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
       },
       mode: values.mode,
       premodLinksEnable: values.premodLinksEnable,
-    }
+    };
 
+    console.log(updatedSettings);
+
+    helpers.setSubmitting(true);
     const res = await updateSettings({
       id: storyID,
       settings: updatedSettings,
     });
+    helpers.setSubmitting(false);
+    helpers.setTouched({});
   }
 
   return (
@@ -106,59 +115,105 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
                 <Form>
                   <Flex direction="column">
 
-                    {/* PREMODLINKSENABLED */}
-                    <CheckBox
-                      checked={args.values.premodLinksEnable}
-                      name="premodLinksEnable"
-                      onChange={args.handleChange}
-                    /> Pre Mode Links Enabled
+                    <Flex direction="row" className={styles.setting}>
+                      {/* PREMODLINKSENABLED */}
+                      <CheckBox
+                        checked={args.values.premodLinksEnable}
+                        name="premodLinksEnable"
+                        onChange={args.handleChange}
+                      />
+                      <Localized id="storyInfoDrawerSettings-premodLinksEnable">
+                        <Label id="storyInfoDrawerSettings-premodLinksEnable">
+                          Pre Mode Links Enabled
+                        </Label>
+                      </Localized>
+                    </Flex>
 
-                    {/* LIVE ENABLED */}
-                    <CheckBox
-                      checked={args.values.liveEnabled}
-                      name="liveEnabled"
-                      onChange={args.handleChange}
-                    /> Live Enabled
+                    <Flex direction="row" className={styles.setting}>
+                      {/* LIVE ENABLED */}
+                      <CheckBox
+                        checked={args.values.liveEnabled}
+                        name="liveEnabled"
+                        onChange={args.handleChange}
+                      />
+                      <Localized id="storyInfoDrawerSettings-liveEnabled">
+                        <Label id="storyInfoDrawerSettings-liveEnabled">
+                          Live Enabled
+                        </Label>
+                      </Localized>
+                    </Flex>
 
-                    {/* LIVE CONFIGURABLE */}
-                    <CheckBox
-                      checked={args.values.liveConfigurable}
-                      name="liveConfigurable"
-                      onChange={args.handleChange}
-                    /> Live Configurable
+                    <Flex direction="row" className={styles.setting}>
+                      {/* LIVE CONFIGURABLE */}
+                      <CheckBox
+                        checked={args.values.liveConfigurable}
+                        name="liveConfigurable"
+                        onChange={args.handleChange}
+                      />
+                      <Localized id="storyInfoDrawerSettings-liveConfigurabel">
+                        <Label id="storyInfoDrawerSettings-liveConfigurabel">
+                          Live Configurable
+                        </Label>
+                      </Localized>
+                    </Flex>
 
                     {/* MODERATION MODE */}
-                    <FormikSelect
-                      id="storySettingsContainer-moderationMode"
-                      name="moderationMode"
-                      description="A menu for setting the moderation mode for the story"
-                      options={Object.keys(GQLMODERATION_MODE)}
-                      selected={args.values.moderationMode} // Double check
-                      onSelect={(selected) => {
+                    <Flex direction="row" className={styles.setting}>
+                      <Localized id="storyInfoDrawerSettings-moderation">
+                        <Label id="storyInfoDrawerSettings-moderation">
+                          Moderation
+                        </Label>
+                      </Localized>
+                      <FormikSelect
+                        id="storySettingsContainer-moderationMode"
+                        name="moderationMode"
+                        description="A menu for setting the moderation mode for the story"
+                        options={Object.keys(GQLMODERATION_MODE)}
+                        selected={args.values.moderationMode} // Double check
+                        onSelect={(selected) => {
 
-                      }}
-                    />
+                        }}
+                      />
+                    </Flex>
 
                     {/* STORY MODE */}
-                    <FormikSelect
-                      id="storySettingsContainer-storyMode"
-                      name="mode"
-                      description="A menu for setting the story mode of the story"
-                      options={Object.keys(GQLSTORY_MODE)}
-                      selected={settings.mode}
-                      onSelect={(clicked) => {
-                        // modeHelpers.setValue(clicked);
-                      }}
-                    />
+                    <Flex direction="row" className={styles.setting}>
+                      <Localized id="storyInfoDrawerSettings-mode">
+                        <Label id="storyInfoDrawerSettings-mode">
+                          Mode
+                        </Label>
+                      </Localized>
+                      <FormikSelect
+                        id="storySettingsContainer-storyMode"
+                        name="mode"
+                        description="A menu for setting the story mode of the story"
+                        options={Object.keys(GQLSTORY_MODE)}
+                        selected={settings.mode}
+                        onSelect={(clicked) => {
+                          // modeHelpers.setValue(clicked);
+                        }}
+                      />
+                    </Flex>
 
+                    {/* SAVE/SUBMIT */}
                     <Button
                       variant="outlined"
                       color="regular"
                       type="submit"
-                      disabled={args.isSubmitting}
+                      disabled={args.isSubmitting || !args.dirty}
                     >
                       Save
                     </Button>
+
+                    {settings.mode === "QA" && (
+                      <>
+                        <Divider />
+                        {/* EXPERT SELECTION */}
+                        <ExpertSelectionQuery
+                          storyID={storyID}
+                        />
+                      </>
+                    )}
                   </Flex>
                 </Form>
               );
