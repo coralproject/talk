@@ -21,13 +21,16 @@ export default async function moderate(
   mongo: MongoContext,
   tenant: Tenant,
   input: Moderate,
-  now: Date
+  now: Date,
+  isArchived = false
 ) {
   // TODO: wrap these operations in a transaction?
+  const commentsColl =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
 
   // Get the comment that we're moderating.
   const comment = await retrieveComment(
-    mongo.comments(),
+    commentsColl,
     tenant.id,
     input.commentID
   );
@@ -64,7 +67,8 @@ export default async function moderate(
     tenant.id,
     input.commentID,
     input.commentRevisionID,
-    input.status
+    input.status,
+    isArchived
   );
   if (!result) {
     throw new CommentRevisionNotFoundError(
@@ -78,7 +82,8 @@ export default async function moderate(
     mongo,
     tenant.id,
     input,
-    now
+    now,
+    isArchived
   );
   if (!action) {
     // TODO: wrap in better error?
