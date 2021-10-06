@@ -85,7 +85,7 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
         variant="outlined"
         paddingSize="extraSmall"
         upperCase
-        className={CLASSES.archive.reportFlow.copyPermalinkButton}
+        className={CLASSES.reportPopover.copyButton}
       />
     </div>
   );

@@ -627,6 +627,7 @@ const CLASSES = {
     closeButton: "coral coral-reportPopover-closeButton",
     cancelButton: "coral coral-reportPopover-cancelButton",
     submitButton: "coral coral-reportPopover-submitButton",
+    copyButton: "coral coral-reportPopover-copyButton",
   },
 
   /**
@@ -1082,12 +1083,6 @@ const CLASSES = {
   },
 
   mobileToolbar: "coral coral-mobileToolbar",
-
-  archive: {
-    reportFlow: {
-      copyPermalinkButton: "coral coral-archive-reportFlow-copyPermalinkButton",
-    },
-  },
 };
 
 export default CLASSES;
