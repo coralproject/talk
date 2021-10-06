@@ -1113,3 +1113,288 @@ exports[`renders rejected queue with comments and load more 1`] = `
   </div>
 </div>
 `;
+
+exports[`renders rejected queue with comments and load more 2`] = `
+<div
+  className="Card-root ModerateCard-root"
+  data-testid="moderate-comment-comment-2"
+  id="moderate-comment-comment-2"
+  onClick={[Function]}
+  tabIndex={0}
+>
+  <div
+    className="Box-root Flex-root Flex-flex"
+  >
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root UsernameButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span
+              className="Username-root"
+            >
+              Max
+            </span>
+          </button>
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <time
+              className="RelativeTime-root Timestamp-text"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
+        </div>
+      </div>
+      <div
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="ModerateCard-content"
+        >
+          <div
+            className="CommentContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I think I deserve better",
+              }
+            }
+          />
+        </div>
+        <div
+          className="ModerateCard-viewContext"
+        >
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+            data-variant="text"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm ButtonIcon-root"
+            >
+              question_answer
+            </i>
+            <span>
+              View Conversation
+            </span>
+          </button>
+        </div>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
+      <div
+        className="ModerateCard-footer"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+        >
+          <div>
+            <div
+              className="ModerateCard-storyLabel"
+            >
+              <span>
+                Comment On
+              </span>
+              <span>
+                :
+              </span>
+            </div>
+            <div
+              className="ModerateCard-commentOn"
+            >
+              <span
+                className="ModerateCard-storyTitle"
+              >
+                Finally a Cure for Cancer
+              </span>
+            </div>
+            <div>
+              <a
+                className="TextLink-root ModerateCard-link"
+                href="/admin/moderate/stories/story-1"
+                onClick={[Function]}
+              >
+                Moderate Story
+              </a>
+            </div>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex gutter Flex-spacing-2"
+            />
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+            >
+              <span
+                className="Marker-root Marker-colorReported Marker-variantRegular"
+              >
+                <span>
+                  Offensive
+                </span>
+                 
+                <span
+                  className="Count-root"
+                >
+                  1
+                </span>
+              </span>
+              <span
+                className="Marker-root Marker-colorReported Marker-variantRegular"
+              >
+                <span>
+                  Spam
+                </span>
+                 
+                <span
+                  className="Count-root"
+                >
+                  1
+                </span>
+              </span>
+              <button
+                aria-controls="uuid-2"
+                aria-expanded={false}
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
+                data-variant="text"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span
+                  className="Markers-detailsText"
+                >
+                  Details
+                </span>
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm ButtonIcon-root"
+                >
+                  arrow_drop_down
+                </i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
+    >
+      <div
+        className="ModerateCard-decision"
+      >
+        Decision
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+      >
+        <button
+          aria-label="Reject"
+          className="BaseButton-root RejectButton-root RejectButton-invert"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-lg RejectButton-icon"
+          >
+            close
+          </i>
+        </button>
+        <button
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-lg ApproveButton-icon"
+          >
+            done
+          </i>
+        </button>
+      </div>
+      <div
+        className="ModeratedByContainer-moderatedBy"
+      >
+        Moderated By
+      </div>
+      <div
+        className="ModeratedByContainer-moderatedByUsername"
+      >
+        System
+      </div>
+    </div>
+  </div>
+</div>
+`;

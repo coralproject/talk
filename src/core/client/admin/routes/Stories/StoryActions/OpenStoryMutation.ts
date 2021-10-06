@@ -38,6 +38,8 @@ const OpenStoryMutation = createMutation(
             status: GQLSTORY_STATUS.OPEN,
             closedAt: null,
             isClosed: false,
+            isArchived: false,
+            isArchiving: false,
           },
           clientMutationId: clientMutationId.toString(),
         },

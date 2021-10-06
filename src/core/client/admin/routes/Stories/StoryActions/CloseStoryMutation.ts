@@ -38,6 +38,8 @@ const CloseStoryMutation = createMutation(
             status: GQLSTORY_STATUS.CLOSED,
             closedAt: new Date().toISOString(),
             isClosed: true,
+            isArchived: false,
+            isArchiving: false,
           },
           clientMutationId: clientMutationId.toString(),
         },
