@@ -98,6 +98,9 @@ export const RejectedQueueRoute: FunctionComponent<Props> = (props) => {
           </Localized>
         }
         allStories={!props.storyID}
+        isArchived={
+          props.query.story?.isArchived || props.query.story?.isArchiving
+        }
       />
     </IntersectionProvider>
   );
@@ -137,6 +140,10 @@ const enhanced = withPaginationContainer<
               ...ModerateCardContainer_comment
             }
           }
+        }
+        story(id: $storyID) {
+          isArchiving
+          isArchived
         }
         settings {
           ...ModerateCardContainer_settings
