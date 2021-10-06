@@ -57,7 +57,8 @@ export async function createCommentModerationAction(
   mongo: MongoContext,
   tenantID: string,
   input: CreateCommentModerationActionInput,
-  now: Date
+  now: Date,
+  isArchived = false
 ) {
   // default are the properties set by the application when a new comment
   // moderation action is created.
@@ -76,8 +77,13 @@ export async function createCommentModerationAction(
     ...input,
   };
 
+  const coll =
+    isArchived && mongo.archive
+      ? mongo.archivedCommentModerationActions()
+      : mongo.commentModerationActions();
+
   // Insert it into the database.
-  await mongo.commentModerationActions().insertOne(action);
+  await coll.insertOne(action);
 
   return action;
 }

@@ -119,14 +119,17 @@ async function moderateComments(
   tenantID: string,
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
-  now: Date
+  now: Date,
+  isArchived = false
 ) {
   const tenant = await retrieveTenant(mongo, tenantID);
   if (!tenant) {
     throw new Error("unable to retrieve tenant");
   }
 
-  const comments = mongo.comments().find(filter);
+  const coll =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+  const comments = coll.find(filter);
 
   while (await comments.hasNext()) {
     const comment = await comments.next();
@@ -143,7 +146,8 @@ async function moderateComments(
         moderatorID: null,
         status: targetStatus,
       },
-      now
+      now,
+      isArchived
     );
 
     if (!result.after) {
@@ -191,7 +195,8 @@ async function deleteUserComments(
       childCount: { $gt: 0 },
     },
     GQLCOMMENT_STATUS.APPROVED,
-    now
+    now,
+    isArchived
   );
 
   // reject any comments that don't have children
@@ -214,7 +219,8 @@ async function deleteUserComments(
       childCount: 0,
     },
     GQLCOMMENT_STATUS.REJECTED,
-    now
+    now,
+    isArchived
   );
 
   const collection =
@@ -263,6 +269,9 @@ export async function deleteUser(
 
   // Delete the user's comments.
   await deleteUserComments(mongo, redis, userID, tenantID, now);
+  if (mongo.archive) {
+    await deleteUserComments(mongo, redis, userID, tenantID, now, true);
+  }
 
   // Mark the user as deleted.
   const result = await mongo.users().findOneAndUpdate(

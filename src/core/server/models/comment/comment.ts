@@ -760,9 +760,12 @@ export async function updateCommentStatus(
   tenantID: string,
   id: string,
   revisionID: string,
-  status: GQLCOMMENT_STATUS
+  status: GQLCOMMENT_STATUS,
+  isArchived = false
 ): Promise<UpdateCommentStatus | null> {
-  const result = await mongo.comments().findOneAndUpdate(
+  const coll =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+  const result = await coll.findOneAndUpdate(
     {
       id,
       tenantID,
