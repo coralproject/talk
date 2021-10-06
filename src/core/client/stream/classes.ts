@@ -1082,6 +1082,12 @@ const CLASSES = {
   },
 
   mobileToolbar: "coral coral-mobileToolbar",
+
+  archive: {
+    reportFlow: {
+      copyPermalinkButton: "coral coral-archive-reportFlow-copyPermalinkButton",
+    },
+  },
 };
 
 export default CLASSES;
