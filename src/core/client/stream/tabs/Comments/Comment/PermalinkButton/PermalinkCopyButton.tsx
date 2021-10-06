@@ -11,7 +11,6 @@ import CopyToClipboard from "react-copy-to-clipboard";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
-import CLASSES from "coral-stream/classes";
 import { CopyPermalinkEvent } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -21,6 +20,7 @@ import styles from "./PermalinkCopyButton.css";
 const TIMEOUT = 800;
 
 interface Props {
+  className?: string;
   permalinkURL: string;
   commentID: string;
   onCopied: () => void;
@@ -30,6 +30,7 @@ interface Props {
 }
 
 const PermalinkCopyButton: FunctionComponent<Props> = ({
+  className,
   permalinkURL,
   commentID,
   onCopied,
@@ -69,7 +70,7 @@ const PermalinkCopyButton: FunctionComponent<Props> = ({
     <CopyToClipboard text={permalinkURL} onCopy={handleCopy}>
       <Button
         className={cn(
-          CLASSES.sharePopover.copyButton,
+          className,
           styles.buttonRoot,
           copied ? styles.copied : styles.copy,
           {

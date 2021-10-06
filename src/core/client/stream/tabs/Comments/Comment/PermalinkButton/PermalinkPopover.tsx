@@ -60,6 +60,7 @@ const PermalinkPopover: FunctionComponent<Props> = ({
         onCopied={onCopied}
         permalinkURL={permalinkURL}
         commentID={commentID}
+        className={CLASSES.sharePopover.copyButton}
       />
     </Flex>
   );

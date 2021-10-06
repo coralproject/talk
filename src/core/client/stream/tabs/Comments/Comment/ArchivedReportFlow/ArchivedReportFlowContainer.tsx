@@ -6,6 +6,7 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 
 import { ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
 import { ArchivedReportFlowContainer_settings } from "coral-stream/__generated__/ArchivedReportFlowContainer_settings.graphql";
@@ -84,6 +85,7 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
         variant="outlined"
         paddingSize="extraSmall"
         upperCase
+        className={CLASSES.sharePopover.copyButton}
       />
     </div>
   );
