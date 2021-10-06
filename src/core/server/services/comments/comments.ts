@@ -175,6 +175,7 @@ export async function retrieveComment(
 /**
  * retrieves many comments from mongo. This will search both live and archived
  * comments if the archive database is available.
+ *
  * @param mongo is the mongo context used to retrieve comments from.
  * @param tenantID is the filtering tenant for this comment set.
  * @param ids are the ids of the comments we want to retrieve.
