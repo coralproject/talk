@@ -53,12 +53,14 @@ const StoryActionsContainer: FunctionComponent<Props> = (props) => {
       onArchive={onArchive}
       onUnarchive={onUnarchive}
       canClose={props.story.status === GQLSTORY_STATUS.OPEN && canChangeStatus}
-      canOpen={props.story.status === GQLSTORY_STATUS.CLOSED && canChangeStatus}
-      canArchive={
+      canOpen={
         props.story.status === GQLSTORY_STATUS.CLOSED &&
-        viewCanArchive &&
-        !props.story.isArchiving &&
-        !props.story.isArchived
+        canChangeStatus &&
+        !props.story.isArchived &&
+        !props.story.isArchiving
+      }
+      canArchive={
+        viewCanArchive && !props.story.isArchiving && !props.story.isArchived
       }
       canUnarchive={
         props.story.status === GQLSTORY_STATUS.CLOSED &&
