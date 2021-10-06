@@ -377,4 +377,10 @@ export enum ERROR_CODES {
    * story that is archived or actively being archived.
    */
   CANNOT_OPEN_AN_ARCHIVED_STORY = "CANNOT_OPEN_AN_ARCHIVED_STORY",
+
+  /**
+   * CANNOT_MERGE_AN_ARCHIVED_STORY is thrown when a user attempts to merge a
+   * story that is archived or actively being archived.
+   */
+  CANNOT_MERGE_AN_ARCHIVED_STORY = "CANNOT_MERGE_AN_ARCHIVED_STORY",
 }

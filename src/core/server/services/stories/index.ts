@@ -5,6 +5,7 @@ import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
+  CannotMergeAnArchivedStory,
   CannotOpenAnArchivedStory,
   StoryURLInvalidError,
   UserNotFoundError,
@@ -375,6 +376,12 @@ export async function merge(
     )
   ) {
     throw new Error("cannot merge stories not in comments mode");
+  }
+
+  // We cannot merge stories that are archived or archiving
+  const story = stories.find((s) => s.isArchived || s.isArchiving);
+  if (story) {
+    throw new CannotMergeAnArchivedStory(tenant.id, story.id);
   }
 
   // Move all the comment's from the source stories over to the destination
