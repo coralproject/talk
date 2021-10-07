@@ -91,7 +91,7 @@ const Select: FunctionComponent<Props> = ({
   );
 };
 
-export const FormikSelect: FunctionComponent<Props> = (props) => {
+export const FormikSelect: FunctionComponent<Omit<Props, "onSelect">> = (props) => {
   const [field, meta, helpers] = useField(props.name);
   return (
     <Select

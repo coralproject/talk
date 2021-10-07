@@ -23,3 +23,7 @@
   padding: var(--spacing-3) 0;
   align-items: center;
 }
+
+.setting > input {
+  vertical-align: bottom;
+}

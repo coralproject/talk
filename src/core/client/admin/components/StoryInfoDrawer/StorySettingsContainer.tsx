@@ -168,10 +168,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
                           label="Moderation"
                           description="A menu for setting the moderation mode for the story"
                           options={Object.keys(GQLMODERATION_MODE)}
-                          selected={args.values.moderationMode} // Double check
-                          onSelect={(selected) => {
-
-                          }}
+                          selected={args.values.moderationMode}
                         />
                       </Localized>
                     </Flex>
@@ -186,9 +183,6 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
                           description="A menu for setting the story mode of the story"
                           options={Object.keys(GQLSTORY_MODE)}
                           selected={settings.mode}
-                          onSelect={(clicked) => {
-                            // modeHelpers.setValue(clicked);
-                          }}
                         />
                       </Localized>
                     </Flex>
