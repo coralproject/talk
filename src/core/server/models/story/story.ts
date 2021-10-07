@@ -810,7 +810,12 @@ export async function retrieveStoriesToBeArchived(
 ): Promise<Cursor<Readonly<Story>>> {
   const stories = mongo.stories().find({
     tenantID,
-    createdAt: { $lte: olderThan },
+    $or: [
+      { lastCommentedAt: { $lte: olderThan } },
+      {
+        $and: [{ lastCommentedAt: null }, { createdAt: { $lte: olderThan } }],
+      },
+    ],
     isArchiving: { $in: [null, false] },
     isArchived: { $in: [null, false] },
     startedUnarchivingAt: { $in: [null, false] },
