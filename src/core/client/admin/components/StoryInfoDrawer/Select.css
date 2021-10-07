@@ -10,12 +10,6 @@
   border: 1px solid var(--palette-grey-400);
 }
 
-/* TODO (marcushaddon): this is a temporary hack and STILL ISNT WORKING */
-.dropdown {
-  position: relative;
-  opacity: 1;
-}
-
 .dropdownButton {
   min-width: 80px;
 }
