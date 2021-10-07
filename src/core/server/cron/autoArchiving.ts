@@ -1,9 +1,6 @@
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import {
-  markStoryForArchiving,
-  retrieveStoriesToBeArchived,
-} from "coral-server/models/story";
+import { retrieveLockedStoryToBeArchived } from "coral-server/models/story";
 import { archiveStory } from "coral-server/services/archive";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -58,57 +55,40 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
 
     const now = new Date();
     const dateFilter = new Date(now.getTime() - age);
-    const cursor = await retrieveStoriesToBeArchived(
-      mongo,
-      tenant.id,
-      dateFilter
-    );
 
     let count = 0;
-    while ((await cursor.hasNext()) && count < amount) {
-      const story = await cursor.next();
-      count++;
+    do {
+      const story = await retrieveLockedStoryToBeArchived(
+        mongo,
+        tenant.id,
+        dateFilter,
+        now
+      );
 
       if (!story) {
-        continue;
+        break;
       }
 
       log.info({ storyID: story.id }, "archiving story");
 
-      const markResult = await markStoryForArchiving(
+      // If we have the document, we have the archiving lock and
+      // can proceed to archive
+      const result = await archiveStory(
         mongo,
+        redis,
         tenant.id,
         story.id,
+        log,
         now
       );
 
-      // If we have the document, we have the archiving lock and
-      // can proceed to archive
-      if (markResult) {
-        const result = await archiveStory(
-          mongo,
-          redis,
-          tenant.id,
-          story.id,
-          log,
-          now
-        );
+      if (result?.isArchived && !result?.isArchiving) {
+        log.info({ storyID: story.id }, "successfully archived story");
+      } else {
+        log.error({ storyID: story.id }, "unable to archive story");
+      }
 
-        if (result?.isArchived && !result?.isArchiving) {
-          log.info({ storyID: story.id }, "successfully archived story");
-        } else {
-          log.error({ storyID: story.id }, "unable to archive story");
-        }
-      }
-      // Cannot proceed if we can't lock the story for archiving,
-      // log an error for this archive op and continue on to the next
-      // story in the batch
-      else {
-        log.error(
-          { storyID: story.id },
-          "unable to grab lock to archive story"
-        );
-      }
-    }
+      count++;
+    } while (count < amount);
   }
 };

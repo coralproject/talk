@@ -1,4 +1,4 @@
-import { Cursor, MongoError } from "mongodb";
+import { MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/types";
@@ -745,6 +745,26 @@ export async function retrieveStorySections(
   return results.filter((section) => section !== null).sort() as string[];
 }
 
+/**
+ * This is used when we are locking a story to put it into an archiving state.
+ * We currently use this for the markStoryForArchiving and the
+ * retrieveStoryToBeArchived functions to avoid duplication of the $set logic.
+ *
+ * @param now the time we are archiving at
+ * @returns the $set param for marking a story as currently in an archiving
+ * state.
+ */
+function getMarkStoryForArchivingSetParam(now: Date) {
+  return {
+    $set: {
+      isArchiving: true,
+      closedAt: now,
+      updatedAt: now,
+      startedArchivingAt: now,
+    },
+  };
+}
+
 export async function markStoryForArchiving(
   mongo: MongoContext,
   tenantID: string,
@@ -758,14 +778,7 @@ export async function markStoryForArchiving(
       isArchiving: { $in: [null, false] },
       isArchived: { $in: [null, false] },
     },
-    {
-      $set: {
-        isArchiving: true,
-        closedAt: now,
-        updatedAt: now,
-        startedArchivingAt: now,
-      },
-    },
+    getMarkStoryForArchivingSetParam(now),
     {
       returnOriginal: false,
     }
@@ -803,26 +816,31 @@ export async function markStoryForUnarchiving(
   return result.value;
 }
 
-export async function retrieveStoriesToBeArchived(
+export async function retrieveLockedStoryToBeArchived(
   mongo: MongoContext,
   tenantID: string,
-  olderThan: Date
-): Promise<Cursor<Readonly<Story>>> {
-  const stories = mongo.stories().find({
-    tenantID,
-    $or: [
-      { lastCommentedAt: { $lte: olderThan } },
-      {
-        $and: [{ lastCommentedAt: null }, { createdAt: { $lte: olderThan } }],
-      },
-    ],
-    isArchiving: { $in: [null, false] },
-    isArchived: { $in: [null, false] },
-    startedUnarchivingAt: { $in: [null, false] },
-    unarchivedAt: { $in: [null, false] },
-  });
+  olderThan: Date,
+  now: Date
+): Promise<Readonly<Story> | null> {
+  const result = await mongo.stories().findOneAndUpdate(
+    {
+      tenantID,
+      $or: [
+        { lastCommentedAt: { $lte: olderThan } },
+        {
+          $and: [{ lastCommentedAt: null }, { createdAt: { $lte: olderThan } }],
+        },
+      ],
+      isArchiving: { $in: [null, false] },
+      isArchived: { $in: [null, false] },
+      startedUnarchivingAt: { $in: [null, false] },
+      unarchivedAt: { $in: [null, false] },
+    },
+    getMarkStoryForArchivingSetParam(now),
+    { returnOriginal: false }
+  );
 
-  return stories;
+  return result.value || null;
 }
 
 export async function markStoryAsArchived(

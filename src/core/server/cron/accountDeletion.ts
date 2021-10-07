@@ -1,5 +1,5 @@
 import { MongoContext } from "coral-server/data/context";
-import { retrieveUserScheduledForDeletion } from "coral-server/models/user";
+import { retrieveLockedUserScheduledForDeletion } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -46,7 +46,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
     // eslint-disable-next-line no-constant-condition
     while (true) {
       const now = new Date();
-      const user = await retrieveUserScheduledForDeletion(
+      const user = await retrieveLockedUserScheduledForDeletion(
         mongo,
         tenant.id,
         {

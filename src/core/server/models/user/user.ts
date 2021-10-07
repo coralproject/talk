@@ -2966,7 +2966,7 @@ export async function pullUserNotificationDigests(
  * @param rescheduledDuration duration in which to reschedule
  * @param now the current time
  */
-export async function retrieveUserScheduledForDeletion(
+export async function retrieveLockedUserScheduledForDeletion(
   mongo: MongoContext,
   tenantID: string,
   rescheduledDuration: DurationObject,
