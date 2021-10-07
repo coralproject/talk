@@ -17,6 +17,7 @@ import {
   mergeCommentActionCounts,
   mergeManyStoryActions,
   removeStoryActions,
+  removeStoryModerationActions,
 } from "coral-server/models/action/comment";
 import {
   calculateTotalCommentCount,
@@ -165,6 +166,27 @@ export async function remove(
   }
 
   if (includeComments) {
+    // Remove the moderation actions associated with the comments we just removed.
+    const {
+      deletedCount: removedModerationActions,
+    } = await removeStoryModerationActions(mongo, tenant.id, story.id);
+
+    log.debug(
+      { removedModerationActions },
+      "removed moderation actions while deleting story"
+    );
+
+    if (mongo.archive) {
+      const {
+        deletedCount: removedArchivedModerationActions,
+      } = await removeStoryModerationActions(mongo, tenant.id, story.id, true);
+
+      log.debug(
+        { removedArchivedModerationActions },
+        "removed archived moderation actions while deleting story"
+      );
+    }
+
     // Remove the actions associated with the comments we just removed.
     const { deletedCount: removedActions } = await removeStoryActions(
       mongo,
@@ -174,6 +196,20 @@ export async function remove(
 
     log.debug({ removedActions }, "removed actions while deleting story");
 
+    if (mongo.archive) {
+      const { deletedCount: removedArchivedActions } = await removeStoryActions(
+        mongo,
+        tenant.id,
+        story.id,
+        true
+      );
+
+      log.debug(
+        { removedArchivedActions },
+        "removed archived actions while deleting story"
+      );
+    }
+
     // Remove the comments for the story.
     const { deletedCount: removedComments } = await removeStoryComments(
       mongo,
@@ -182,6 +218,17 @@ export async function remove(
     );
 
     log.debug({ removedComments }, "removed comments while deleting story");
+
+    if (mongo.archive) {
+      const {
+        deletedCount: removedArchivedComments,
+      } = await removeStoryComments(mongo, tenant.id, story.id, true);
+
+      log.debug(
+        { removedArchivedComments },
+        "removed archived comments while deleting story"
+      );
+    }
   } else if (calculateTotalCommentCount(story.commentCounts.status) > 0) {
     log.warn(
       "attempted to remove story that has linked comments without consent for deleting comments"

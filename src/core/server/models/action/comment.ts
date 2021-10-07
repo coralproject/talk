@@ -707,15 +707,39 @@ function incrementActionCounts(
 }
 
 /**
- * removeRootActions will remove all the Action's associated with a given root
- * identifier.
+ * removeStoryModerationActions will remove all the Moderation Action's associated
+ * with the story
+ */
+export async function removeStoryModerationActions(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  isArchive = false
+) {
+  const coll =
+    isArchive && mongo.archive
+      ? mongo.archivedCommentModerationActions()
+      : mongo.commentModerationActions();
+  return coll.deleteMany({
+    tenantID,
+    storyID,
+  });
+}
+
+/**
+ * removeStoryActions will remove all the Action's associated with the story
  */
 export async function removeStoryActions(
   mongo: MongoContext,
   tenantID: string,
-  storyID: string
+  storyID: string,
+  isArchive = false
 ) {
-  return mongo.commentActions().deleteMany({
+  const coll =
+    isArchive && mongo.archive
+      ? mongo.archivedCommentActions()
+      : mongo.commentActions();
+  return coll.deleteMany({
     tenantID,
     storyID,
   });

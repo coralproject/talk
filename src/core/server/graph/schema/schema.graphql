@@ -3025,7 +3025,7 @@ type CommentModerationAction {
   """
   comment is the moderated Comment.
   """
-  comment: Comment!
+  comment: Comment
 
   """
   status represents the status that was assigned by the moderator.

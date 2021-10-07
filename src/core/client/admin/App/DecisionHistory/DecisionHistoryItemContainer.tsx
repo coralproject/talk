@@ -17,9 +17,13 @@ class DecisionHistoryItemContainer extends React.Component<
   DecisionHistoryItemContainerProps
 > {
   public render() {
-    const href = `/admin/moderate/comment/${this.props.action.comment.id}`;
+    // Comment might be deleted and null, because of database inconsistencies, handle this gracefully.
+    const href = this.props.action.comment
+      ? `/admin/moderate/comment/${this.props.action.comment.id}`
+      : null;
     const username =
-      (this.props.action.comment.author &&
+      (this.props.action.comment &&
+        this.props.action.comment.author &&
         this.props.action.comment.author.username) ||
       "Unknown"; // TODO: (cvle) Figure out what to display, when username is not available.
     if (this.props.action.status === "APPROVED") {

@@ -15,7 +15,7 @@ import {
 } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 
-export type Moderate = CreateCommentModerationActionInput;
+export type Moderate = Omit<CreateCommentModerationActionInput, "storyID">;
 
 export default async function moderate(
   mongo: MongoContext,
@@ -81,7 +81,10 @@ export default async function moderate(
   const action = await createCommentModerationAction(
     mongo,
     tenant.id,
-    input,
+    {
+      ...input,
+      storyID: comment.storyID,
+    },
     now,
     isArchived
   );

@@ -254,6 +254,7 @@ export default async function edit(
       mongo,
       tenant.id,
       {
+        storyID: story.id,
         commentID: result.after.id,
         commentRevisionID: result.revision.id,
         status: result.after.status,

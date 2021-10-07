@@ -25,6 +25,11 @@ export interface CommentModerationAction extends TenantResource {
   commentID: string;
 
   /**
+   * storyID is the ID of the Story that the moderated Comment was on.
+   */
+  storyID: string;
+
+  /**
    * commentRevisionID is the ID of the Revision that the moderation action is
    * based on.
    */

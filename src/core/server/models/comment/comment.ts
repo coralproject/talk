@@ -842,10 +842,13 @@ export async function updateCommentActionCounts(
 export async function removeStoryComments(
   mongo: MongoContext,
   tenantID: string,
-  storyID: string
+  storyID: string,
+  isArchive = false
 ) {
+  const coll =
+    isArchive && mongo.archive ? mongo.archivedComments() : mongo.comments();
   // Delete all the comments written on a specific story.
-  return mongo.comments().deleteMany({
+  return coll.deleteMany({
     tenantID,
     storyID,
   });
