@@ -479,14 +479,14 @@ const config = convict({
     doc:
       "The cron scheduling interval for how often auto archiving should run. Defaults to hourly.",
     format: String,
-    default: "0 * * * *",
+    default: "0,15,30,45 * * * *",
     env: "AUTO_ARCHIVING_INTERVAL",
   },
   auto_archiving_batch_size: {
     doc:
       "Determines how many stories to try and archive per interval of archiving.",
     format: Number,
-    default: 50,
+    default: 500,
     env: "AUTO_ARCHIVING_BATCH_SIZE",
   },
   force_admin_local_auth: {
