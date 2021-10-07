@@ -47,7 +47,6 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           </h2>
           <TextLink href={story.url}>{story.url}</TextLink>
           <Flex direction="row" alignItems="center" className={styles.status}>
-            <span className={styles.statusText}>Status:</span>
             <StoryStatus
               storyID={story.id}
               currentStatus={story.status as GQLSTORY_STATUS}

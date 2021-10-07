@@ -1,4 +1,5 @@
 .root {
+  overflow: scroll;
   font-family: var(--font-family-primary);
 }
 
@@ -18,13 +19,6 @@
 .storyTitle {
   font-size: var(--font-size-8);
   margin: var(--spacing-1) 0;
-}
-
-.statusText {
-  margin: 0 var(--spacing-2) 0 0;
-  font-weight: var(--font-weight-primary-bold);
-  color: var(--palette-text-500);
-  font-size: var(--font-size-2);
 }
 
 .status {

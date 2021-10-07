@@ -19,6 +19,8 @@ import styles from "./Select.css";
 export interface Props {
   id: string;
   name: string;
+  label?: string;
+  className?: string;
   selected?: any;
   options: any[];
   onSelect: (option: any) => void;
@@ -28,6 +30,7 @@ export interface Props {
 
 const Select: FunctionComponent<Props> = ({
   id,
+  label,
   placement,
   options,
   selected,
@@ -36,49 +39,55 @@ const Select: FunctionComponent<Props> = ({
 }) => {
   const [current, setCurrent] = useState(selected || options?.[0]);
   return (
-    <Popover
-      id={id}
-      placement={placement || "bottom-start"}
-      description={description}
-      body={({ toggleVisibility }) => (
-        <ClickOutside onClickOutside={toggleVisibility}>
-          <Dropdown>
-            {options.map((option, i) => (
-              <DropdownButton
-                key={i}
-                onClick={() => {
-                  onSelect(option);
-                  setCurrent(option);
-                  toggleVisibility();
-                }}
-              >
-                {option}
-              </DropdownButton>
-            ))}
-          </Dropdown>
-        </ClickOutside>
+    <>
+      {label && (
+        <span className={styles.label}>{label}:</span>
       )}
-    >
-      {({ toggleVisibility, ref, visible }) => (
-        <Localized id="stories-actionsButton" attrs={{ "aria-label": true }}>
-          <Button
-            aria-label="Select action"
-            onClick={toggleVisibility}
-            ref={ref}
-            color="mono"
-            variant="text"
-            uppercase={false}
-          >
-            {current}
-            {
-              <ButtonIcon size="lg">
-                {visible ? "expand_less" : "expand_more"}
-              </ButtonIcon>
-            }
-          </Button>
-        </Localized>
-      )}
-    </Popover>
+      <Popover
+        id={id}
+        placement={placement || "bottom-start"}
+        description={description}
+        body={({ toggleVisibility }) => (
+          <ClickOutside onClickOutside={toggleVisibility}>
+            <Dropdown>
+              {options.map((option, i) => (
+                <DropdownButton
+                  key={i}
+                  onClick={() => {
+                    onSelect(option);
+                    setCurrent(option);
+                    toggleVisibility();
+                  }}
+                >
+                  {option}
+                </DropdownButton>
+              ))}
+            </Dropdown>
+          </ClickOutside>
+        )}
+      >
+        {({ toggleVisibility, ref, visible }) => (
+          <Localized id="stories-actionsButton" attrs={{ "aria-label": true }}>
+            <Button
+              aria-label="Select action"
+              className={styles.toggleButton}
+              onClick={toggleVisibility}
+              ref={ref}
+              color="mono"
+              variant="text"
+              uppercase={false}
+            >
+              {current}
+              {
+                <ButtonIcon size="lg">
+                  {visible ? "arrow_drop_up" : "arrow_drop_down"}
+                </ButtonIcon>
+              }
+            </Button>
+          </Localized>
+        )}
+      </Popover>
+    </>
   );
 };
 

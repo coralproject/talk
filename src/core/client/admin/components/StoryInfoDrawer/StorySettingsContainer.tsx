@@ -94,7 +94,9 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
             <Icon size="sm" className={styles.tabIcon}>
               settings
             </Icon>
-            <Localized id="storyInfoDrawer-configure">Configure</Localized>
+            <Localized id="storyInfoDrawer-configure">
+              <span>Configure</span>
+            </Localized>
           </Flex>
         </Tab>
       </TabBar>
@@ -160,39 +162,35 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
                     {/* MODERATION MODE */}
                     <Flex direction="row" className={styles.setting}>
                       <Localized id="storyInfoDrawerSettings-moderation">
-                        <Label id="storyInfoDrawerSettings-moderation">
-                          Moderation
-                        </Label>
-                      </Localized>
-                      <FormikSelect
-                        id="storySettingsContainer-moderationMode"
-                        name="moderationMode"
-                        description="A menu for setting the moderation mode for the story"
-                        options={Object.keys(GQLMODERATION_MODE)}
-                        selected={args.values.moderationMode} // Double check
-                        onSelect={(selected) => {
+                        <FormikSelect
+                          id="storySettingsContainer-moderationMode"
+                          name="moderationMode"
+                          label="Moderation"
+                          description="A menu for setting the moderation mode for the story"
+                          options={Object.keys(GQLMODERATION_MODE)}
+                          selected={args.values.moderationMode} // Double check
+                          onSelect={(selected) => {
 
-                        }}
-                      />
+                          }}
+                        />
+                      </Localized>
                     </Flex>
 
                     {/* STORY MODE */}
                     <Flex direction="row" className={styles.setting}>
                       <Localized id="storyInfoDrawerSettings-mode">
-                        <Label id="storyInfoDrawerSettings-mode">
-                          Mode
-                        </Label>
+                        <FormikSelect
+                          id="storySettingsContainer-storyMode"
+                          name="mode"
+                          label="Mode"
+                          description="A menu for setting the story mode of the story"
+                          options={Object.keys(GQLSTORY_MODE)}
+                          selected={settings.mode}
+                          onSelect={(clicked) => {
+                            // modeHelpers.setValue(clicked);
+                          }}
+                        />
                       </Localized>
-                      <FormikSelect
-                        id="storySettingsContainer-storyMode"
-                        name="mode"
-                        description="A menu for setting the story mode of the story"
-                        options={Object.keys(GQLSTORY_MODE)}
-                        selected={settings.mode}
-                        onSelect={(clicked) => {
-                          // modeHelpers.setValue(clicked);
-                        }}
-                      />
                     </Flex>
 
                     {/* SAVE/SUBMIT */}
@@ -205,7 +203,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
                       Save
                     </Button>
 
-                    {settings.mode === "QA" && (
+                    {args.values.mode === "QA" && (
                       <>
                         <Divider />
                         {/* EXPERT SELECTION */}
