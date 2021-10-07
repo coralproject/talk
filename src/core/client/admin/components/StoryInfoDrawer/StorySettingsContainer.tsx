@@ -66,8 +66,6 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
       premodLinksEnable: values.premodLinksEnable,
     };
 
-    console.log(updatedSettings);
-
     helpers.setSubmitting(true);
     const res = await updateSettings({
       id: storyID,
