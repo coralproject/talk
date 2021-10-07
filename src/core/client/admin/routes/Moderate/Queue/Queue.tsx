@@ -8,8 +8,7 @@ import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { HOTKEYS } from "coral-admin/constants";
 import useMemoizer from "coral-framework/hooks/useMemoizer";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
-import { CallOut } from "coral-ui/components/v3";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { useHotkey } from "coral-ui/hooks";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -31,7 +30,6 @@ interface Props {
   emptyElement?: React.ReactElement;
   allStories?: boolean;
   viewNewCount?: number;
-  isArchived?: boolean;
 }
 
 const Queue: FunctionComponent<Props> = ({
@@ -46,7 +44,6 @@ const Queue: FunctionComponent<Props> = ({
   allStories,
   viewNewCount,
   onViewNew,
-  isArchived = false,
 }) => {
   const { window } = useCoralContext();
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
@@ -136,40 +133,6 @@ const Queue: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter className={styles.root} size="double">
-      {isArchived && (
-        <CallOut
-          color="warning"
-          aria-labelledby="moderate-archived-queue-title"
-          container="section"
-          title={
-            <Localized id="moderate-archived-queue-title">
-              <div id="moderate-archived-queue-title">
-                This story has been archived
-              </div>
-            </Localized>
-          }
-          icon={
-            <Icon size="sm" className={styles.icon}>
-              archive
-            </Icon>
-          }
-        >
-          <>
-            <Localized id="moderate-archived-queue-forArchivedStories">
-              <div className={styles.calloutText}>
-                For archived stories, no moderation actions can be made on the
-                comments.
-              </div>
-            </Localized>
-            <Localized id="moderate-archived-queue-toAllowTheseActions">
-              <div className={styles.calloutText}>
-                To allow these actions, unarchive the story.
-              </div>
-            </Localized>
-          </>
-        </CallOut>
-      )}
-
       {Boolean(viewNewCount && viewNewCount > 0) && (
         <Flex justifyContent="center" className={styles.viewNewButtonContainer}>
           <Localized id="moderate-queue-viewNew" $count={viewNewCount}>
