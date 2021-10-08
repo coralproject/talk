@@ -104,12 +104,6 @@ export interface TenantSettings
   featureFlags?: Array<GQLFEATURE_FLAG | LEGACY_FEATURE_FLAGS>;
 
   /**
-   * flattenReplies is whether the tenant wants replies to be hidden behind
-   * a "Show more of this conversation" link.
-   */
-  flattenReplies?: boolean;
-
-  /**
    * webhooks stores the configurations for this Tenant's webhook rules.
    */
   webhooks: {
