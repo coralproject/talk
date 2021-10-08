@@ -1914,7 +1914,7 @@ type Settings @cacheControl(maxAge: 30) {
   hidden by a "Show more of this conversation" button to be displayed linearly
   sorted by date.
   """
-  flattenReplies: Boolean
+  flattenReplies: Boolean!
 
   """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
