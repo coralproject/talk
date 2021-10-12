@@ -12,7 +12,11 @@ export type WebhookCoralEventListenerPayloads = StoryCreatedCoralEventPayload;
 export class WebhookCoralEventListener
   implements CoralEventListener<WebhookCoralEventListenerPayloads> {
   public readonly name = "webhook";
-  public readonly events = [CoralEventType.STORY_CREATED];
+  public readonly events = [
+    CoralEventType.STORY_CREATED,
+    CoralEventType.COMMENT_CREATED,
+    CoralEventType.COMMENT_REPLY_CREATED,
+  ];
 
   private readonly queue: WebhookQueue;
 

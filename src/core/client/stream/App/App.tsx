@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import CLASSES from "coral-stream/classes";
 import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components/v2";
 
@@ -20,10 +21,15 @@ export interface AppProps {
 }
 
 const App: FunctionComponent<AppProps> = (props) => {
+  const { browserInfo } = useCoralContext();
   return (
     <Localized id="general-commentsEmbedSection" attrs={{ "aria-label": true }}>
       <HorizontalGutter
-        className={cn(CLASSES.app, styles.root)}
+        className={cn(CLASSES.app, styles.root, {
+          // TODO: (cvle) We disable transitions on ios devices to help with performance issues on large streams.
+          // Remove when we introduced virtualised rendering.
+          [styles.disableTransitions]: browserInfo.ios || browserInfo.iPadOS,
+        })}
         container="main"
         aria-label="Comments Embed"
       >
