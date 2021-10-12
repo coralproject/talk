@@ -164,8 +164,8 @@ async function moderateComments(
         actionCounts: {},
       },
       {
-        updateShared: false,
-        updateSite: false,
+        updateShared: !isArchived,
+        updateSite: !isArchived,
         updateStory: true,
         updateUser: true,
       }
