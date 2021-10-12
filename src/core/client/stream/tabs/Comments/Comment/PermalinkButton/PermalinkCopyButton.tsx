@@ -23,7 +23,7 @@ interface Props {
   className?: string;
   permalinkURL: string;
   commentID: string;
-  onCopied: () => void;
+  onCopied?: () => void;
   variant?: "regular" | "outlined";
   paddingSize?: "extraSmall" | "small" | "medium" | "large" | "none";
   upperCase?: boolean;
@@ -54,7 +54,9 @@ const PermalinkCopyButton: FunctionComponent<Props> = ({
     setCopied(true);
     emitCopyEvent({ commentID });
 
-    onCopied();
+    if (onCopied) {
+      onCopied();
+    }
     timeoutRef.current = window.setTimeout(onTimeout, TIMEOUT);
   }, [emitCopyEvent, commentID, onCopied, window, onTimeout]);
 

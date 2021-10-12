@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
@@ -25,7 +25,6 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
   comment,
 }) => {
   const { localeBundles } = useCoralContext();
-  const onCopied = useCallback(() => {}, []);
 
   const permalinkURL = getURLWithCommentID(comment.story.url, comment.id);
 
@@ -79,7 +78,6 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
       </Localized>
 
       <PermalinkCopyButton
-        onCopied={onCopied}
         permalinkURL={permalinkURL}
         commentID={comment.id}
         variant="outlined"

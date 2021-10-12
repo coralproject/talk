@@ -80,25 +80,23 @@ export const ApprovedQueueRoute: FunctionComponent<Props> = (props) => {
   const comments = props.query.comments.edges.map((edge) => edge.node);
 
   return (
-    <>
-      <IntersectionProvider>
-        <Queue
-          settings={props.query.settings}
-          viewer={props.query.viewer}
-          comments={comments}
-          onLoadMore={loadMore}
-          hasLoadMore={props.relay.hasMore()}
-          disableLoadMore={disableLoadMore}
-          danglingLogic={danglingLogic}
-          emptyElement={
-            <Localized id="moderate-emptyQueue-approved">
-              <EmptyMessage>There are no approved comments.</EmptyMessage>
-            </Localized>
-          }
-          allStories={!props.storyID}
-        />
-      </IntersectionProvider>
-    </>
+    <IntersectionProvider>
+      <Queue
+        settings={props.query.settings}
+        viewer={props.query.viewer}
+        comments={comments}
+        onLoadMore={loadMore}
+        hasLoadMore={props.relay.hasMore()}
+        disableLoadMore={disableLoadMore}
+        danglingLogic={danglingLogic}
+        emptyElement={
+          <Localized id="moderate-emptyQueue-approved">
+            <EmptyMessage>There are no approved comments.</EmptyMessage>
+          </Localized>
+        }
+        allStories={!props.storyID}
+      />
+    </IntersectionProvider>
   );
 };
 
