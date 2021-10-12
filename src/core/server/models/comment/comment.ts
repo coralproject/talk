@@ -965,6 +965,17 @@ export async function removeCommentTag(
   return result.value;
 }
 
+function isCountEmpty(counts: GQLCommentTagCounts): boolean {
+  for (const [, value] of Object.entries(counts)) {
+    const v = value as number;
+    if (v > 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export async function retrieveStoryCommentTagCounts(
   mongo: MongoContext,
   tenantID: string,
@@ -981,7 +992,7 @@ export async function retrieveStoryCommentTagCounts(
     .filter((s) => s?.isArchived)
     .map((s) => s?.id) as string[];
 
-  const liveCounts: GQLCommentTagCounts[] =
+  const liveCounts: StoryCommentTagCounts[] =
     liveStories.length > 0
       ? await retrieveStoryCommentTagCountsFromDb(
           mongo,
@@ -991,7 +1002,7 @@ export async function retrieveStoryCommentTagCounts(
         )
       : [];
 
-  let archivedCounts: GQLCommentTagCounts[] = [];
+  let archivedCounts: StoryCommentTagCounts[] = [];
   if (mongo.archive && archivedStories.length > 0) {
     archivedCounts = await retrieveStoryCommentTagCountsFromDb(
       mongo,
@@ -1001,7 +1012,28 @@ export async function retrieveStoryCommentTagCounts(
     );
   }
 
-  return [...liveCounts, ...archivedCounts];
+  return storyIDs.map((id) => {
+    const liveCount = liveCounts.find((c) => c.id === id);
+    const archivedCount = archivedCounts.find((c) => c.id === id);
+
+    if (liveCount && !isCountEmpty(liveCount.counts)) {
+      return liveCount.counts;
+    } else if (archivedCount && !isCountEmpty(archivedCount.counts)) {
+      return archivedCount.counts;
+    } else {
+      return {
+        [GQLTAG.FEATURED]: 0,
+        [GQLTAG.UNANSWERED]: 0,
+        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.QUESTION]: 0,
+      };
+    }
+  });
+}
+
+interface StoryCommentTagCounts {
+  id: string;
+  counts: GQLCommentTagCounts;
 }
 
 async function retrieveStoryCommentTagCountsFromDb(
@@ -1009,7 +1041,7 @@ async function retrieveStoryCommentTagCountsFromDb(
   tenantID: string,
   storyIDs: ReadonlyArray<string>,
   isArchived: boolean
-): Promise<GQLCommentTagCounts[]> {
+): Promise<StoryCommentTagCounts[]> {
   // Build up the $match query.
   const $match: FilterQuery<Comment> = {
     tenantID,
@@ -1063,9 +1095,7 @@ async function retrieveStoryCommentTagCountsFromDb(
     // Get the tags associated with this storyID.
     const tagCounts = tags.filter(({ _id }) => _id.storyID === storyID) || [];
 
-    // Then remap these tags to strip the storyID as the returned order already
-    // preserves the storyID information.
-    return tagCounts.reduce(
+    const reducedCounts = tagCounts.reduce(
       (counts, { _id: { tag: code }, total }) => ({
         ...counts,
         [code]: total,
@@ -1080,6 +1110,11 @@ async function retrieveStoryCommentTagCountsFromDb(
         [GQLTAG.QUESTION]: 0,
       }
     );
+
+    return {
+      id: storyID,
+      counts: reducedCounts,
+    };
   });
 }
 
