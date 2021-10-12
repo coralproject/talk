@@ -23,7 +23,6 @@ import SpinnerWhileRendering from "./SpinnerWhileRendering";
 interface Props {
   preload?: boolean;
   tag?: GQLTAG;
-  flattenReplies: boolean; // TODO (marcushaddon): can this not be optional?
 }
 
 export const render = (
