@@ -18,6 +18,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
+import { rejectComment } from "coral-server/stacks";
 
 const JOB_NAME = "rejector";
 
@@ -53,24 +54,18 @@ function getBatch(
   );
 }
 
-const rejectComments = async (
+const rejectArchivedComments = async (
   mongo: MongoContext,
   log: Logger,
-  tenant: Readonly<Tenant> | null,
+  tenant: Readonly<Tenant>,
   authorID: string,
-  moderatorID: string,
-  isArchived = false
+  moderatorID: string
 ) => {
-  if (!tenant) {
-    log.error("referenced tenant was not found");
-    return;
-  }
-
   // Get the current time.
   const now = new Date();
 
   // Find all comments written by the author that should be rejected.
-  let connection = await getBatch(mongo, tenant.id, authorID);
+  let connection = await getBatch(mongo, tenant.id, authorID, undefined, true);
   while (connection.nodes.length > 0) {
     for (const comment of connection.nodes) {
       // Get the latest revision of the comment.
@@ -82,7 +77,44 @@ const rejectComments = async (
         moderatorID,
       };
 
-      await moderate(mongo, tenant, input, now, isArchived);
+      await moderate(mongo, tenant, input, now, true);
+    }
+    // If there was not another page, abort processing.
+    if (!connection.pageInfo.hasNextPage) {
+      break;
+    }
+    // Load the next page.
+    connection = await getBatch(mongo, tenant.id, authorID, connection, true);
+  }
+};
+
+const rejectLiveComments = async (
+  mongo: MongoContext,
+  redis: AugmentedRedis,
+  log: Logger,
+  tenant: Readonly<Tenant>,
+  authorID: string,
+  moderatorID: string
+) => {
+  // Get the current time.
+  const now = new Date();
+
+  // Find all comments written by the author that should be rejected.
+  let connection = await getBatch(mongo, tenant.id, authorID);
+  while (connection.nodes.length > 0) {
+    for (const comment of connection.nodes) {
+      // Get the latest revision of the comment.
+      const revision = getLatestRevision(comment);
+      await rejectComment(
+        mongo,
+        redis,
+        null,
+        tenant,
+        comment.id,
+        revision.id,
+        moderatorID,
+        now
+      );
     }
     // If there was not another page, abort processing.
     if (!connection.pageInfo.hasNextPage) {
@@ -95,6 +127,7 @@ const rejectComments = async (
 
 const createJobProcessor = ({
   mongo,
+  redis,
   tenantCache,
 }: RejectorProcessorOptions): JobProcessor<RejectorData> => async (job) => {
   // Pull out the job data.
@@ -121,9 +154,9 @@ const createJobProcessor = ({
     return;
   }
 
-  await rejectComments(mongo, log, tenant, authorID, moderatorID, false);
+  await rejectLiveComments(mongo, redis, log, tenant, authorID, moderatorID);
   if (mongo.archive) {
-    await rejectComments(mongo, log, tenant, authorID, moderatorID, true);
+    await rejectArchivedComments(mongo, log, tenant, authorID, moderatorID);
   }
 
   // Compute the end time.
