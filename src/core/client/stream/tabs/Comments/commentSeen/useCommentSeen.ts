@@ -15,12 +15,15 @@ import {
  * Otherwise the comment with the `commentID` will be marked as
  * seen for the next refresh. Must be called within a `<CommentSeenProvider />`
  */
-export default function useCommentSeen(commentID: string): boolean {
+export default function useCommentSeen(
+  viewerID: string | undefined | null,
+  commentID: string
+): boolean {
   const { enabled, seenMap, markSeen } = useContext(CommentSeenContext);
   const { eventEmitter } = useCoralContext();
 
   const [commited, setCommited] = useInMemoryState(
-    `commitedSeen:${commentID}`,
+    `commitedSeen:${viewerID}:${commentID}`,
     false
   );
 
@@ -36,11 +39,11 @@ export default function useCommentSeen(commentID: string): boolean {
   }, [setCommited]);
 
   useEffect(() => {
-    if (enabled && seen === false) {
+    if (viewerID && enabled && seen === false) {
       // Tells CommentSeenProvider to mark comment as seen in the database.
       markSeen(commentID);
     }
-  }, [commentID, markSeen, seen, enabled]);
+  }, [commentID, markSeen, seen, enabled, viewerID]);
 
   useEffect(() => {
     if (seen) {
@@ -62,5 +65,12 @@ export default function useCommentSeen(commentID: string): boolean {
     };
   }, [commentID, commit, eventEmitter, seen]);
 
+  // if we have no viewer, not logged in, cannot perform a comment seen
+  // check. Just mark it as seen so it appears viewed.
+  if (!viewerID) {
+    return true;
+  }
+
+  // Else, if logged in, return the seen state of the comment.
   return seen;
 }
