@@ -2,7 +2,7 @@ import Queue from "bull";
 
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
-import logger, { Logger } from "coral-server/logger";
+import logger from "coral-server/logger";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Connection } from "coral-server/models/helpers";
 import { Tenant } from "coral-server/models/tenant";
@@ -112,7 +112,6 @@ const rejectArchivedComments = async (
 const rejectLiveComments = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
-  log: Logger,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string
@@ -175,7 +174,7 @@ const createJobProcessor = ({
     return;
   }
 
-  await rejectLiveComments(mongo, redis, log, tenant, authorID, moderatorID);
+  await rejectLiveComments(mongo, redis, tenant, authorID, moderatorID);
   if (mongo.archive) {
     await rejectArchivedComments(mongo, redis, tenant, authorID, moderatorID);
   }
