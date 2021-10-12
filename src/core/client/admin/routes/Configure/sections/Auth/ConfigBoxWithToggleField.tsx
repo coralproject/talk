@@ -12,6 +12,7 @@ interface Props {
   name: string;
   title: React.ReactNode;
   disabled?: boolean;
+  forced?: boolean;
   children: (disabledInside: boolean) => React.ReactNode;
 }
 
@@ -20,6 +21,7 @@ const ConfigBoxWithToggleField: FunctionComponent<Props> = ({
   name,
   title,
   disabled,
+  forced,
   children,
   ...rest
 }) => (
@@ -32,9 +34,21 @@ const ConfigBoxWithToggleField: FunctionComponent<Props> = ({
         topRight={
           <FormField>
             <Localized id="configure-auth-configBoxEnabled">
-              <CheckBox {...input} id={input.name} disabled={disabled} light>
-                Enabled
-              </CheckBox>
+              {forced ? (
+                <CheckBox
+                  {...input}
+                  id={input.name}
+                  disabled={true}
+                  checked={true}
+                  light
+                >
+                  Enabled
+                </CheckBox>
+              ) : (
+                <CheckBox {...input} id={input.name} disabled={disabled} light>
+                  Enabled
+                </CheckBox>
+              )}
             </Localized>
           </FormField>
         }

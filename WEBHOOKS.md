@@ -104,6 +104,12 @@ app.post("/webhook", parser.raw({ type: "application/json" }), (req, res) => {
         `A Story with ID ${data.storyID} and URL ${data.storyURL} was created!`
       );
       break;
+    case "COMMENT_CREATED":
+      // ... handle COMMENT_CREATED event
+      break;
+    case "COMMENT_REPLY_CREATED":
+      // ... handle COMMENT_REPLY_CREATED event
+      break;
     // ... handle other event types.
     default:
       // Unexpected event type
@@ -190,6 +196,8 @@ function when comparing signatures.
 ## Events Listing
 
 - [`STORY_CREATED`](#story-created-event)
+- [`COMMENT_CREATED`](#comment-created-event)
+- [`COMMENT_REPLY_CREATED`](#comment-reply-created-event)
 
 ## Events
 
@@ -199,6 +207,8 @@ function when comparing signatures.
 {
   id: string;
   type: "STORY_CREATED";
+  tenantID: string;
+  tenantDomain: string;
   data: {
     /**
      * storyID is the ID of the newly created Story.
@@ -214,6 +224,67 @@ function when comparing signatures.
      * siteID is the Site that the newly created Story was created on.
      */
     siteID: string;
+  }
+  createdAt: string;
+}
+```
+
+- <a id="comment-created-event">**COMMENT_CREATED**</a>
+
+```ts
+{
+  id: string;
+  type: "COMMENT_CREATED";
+  tenantID: string;
+  tenantDomain: string;
+  data: {
+    /**
+     * storyID is the ID of the story on which the comment was created.
+     */
+    storyID: string;
+
+    /**
+     * siteID is the ID of the site to which the story belongs.
+     */
+    siteID: string
+
+    /**
+     * commentID is the ID of the newly created comment.
+     */
+    commentID: string;
+  }
+  createdAt: string;
+}
+```
+
+- <a id="comment-reply-created-event">**COMMENT_REPLY_CREATED**</a>
+
+```ts
+{
+  id: string;
+  type: "COMMENT_REPLY_CREATED";
+  tenantID: string;
+  tenantDomain: string;
+  data: {
+    /**
+     * commentID is the ID of the reply comment.
+     */
+    commentID: string;
+
+    /**
+     * storyID is the ID of the story on which the reply comment was made.
+     */
+    storyID: string;
+
+    /**
+     * siteID is the ID of the site to which the story belongs.
+     */
+    siteID: string;
+
+    /**
+     * ancestorIDs are the IDs of the ancestoral comments like parent, grandparent, etc
+     */
+    ancestorIDs: string[];
   }
   createdAt: string;
 }

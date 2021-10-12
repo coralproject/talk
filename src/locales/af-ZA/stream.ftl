@@ -30,6 +30,7 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-noCommentsYet = Daar is nog geen kommentaar nie. Hoekom skryf jy nie een nie?
 comments-streamQuery-storyNotFound = Storie nie gevind
 comments-commentForm-cancel = Kanselleer
+comments-commentForm-saveChanges = Bêre veranderings
 comments-commentForm-submit = Stuur
 comments-postCommentForm-submit = Stuur
 comments-postComment-confirmMedia-cancel = Kanselleer
@@ -45,13 +46,17 @@ comments-replyButton-reply = Antwoord
 comments-replyCommentForm-submit = Stuur
 comments-replyCommentForm-cancel = Kanselleer
 comments-replyCommentForm-rteLabel = Skryf 'n antwoord
+comments-replyCommentForm-rte =
+  .placeholder = { comments-replyCommentForm-rteLabel }
 comments-commentContainer-editButton = Redigeer
-comments-editCommentForm-saveChanges = bêre veranderings
+comments-editCommentForm-saveChanges = Bêre veranderings
 comments-editCommentForm-cancel = Kanselleer
 comments-editCommentForm-rteLabel = Redigeer kommentaar
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
 comments-editCommentForm-editRemainingTime = Redigeer: <time></time> oor
+comments-editCommentForm-editTimeExpired = Tyd om te redigeer het verstryk. Jy kan nie meer hierdie kommentaar redigeer nie. Wil jy graag 'n nuwe een plaas?
+
 comments-editedMarker-edited = Geredigeer
 comments-permalinkView-youAreCurrentlyViewing =
   Hierdie is 'n enkele gesprek
@@ -81,10 +86,13 @@ comments-moderationDropdown-moderationView = Modereringskerm
 comments-moderationDropdown-moderateStory = Modereer storie
 comments-featuredTag = In fokus
 stream-footer-links-top-of-comments = Bo-aan kommentaar
-  .title = Go to top of comments
+  .title = Gaan na begin van kommentaar
 stream-footer-links-top-of-article = Bo-aan artikel
-  .title = Go to top of article
+  .title = Gaan na begin van artikel
+stream-footer-links-profile = Profiel en antwoorde
+  .title = Gaan na profiel en antwoorde
 comments-remainingCharacters = { $remaining } karakters oor
+comments-loadMore = Laai meer
 
 ### Q&A
 
@@ -141,6 +149,7 @@ profile-account-notifications-sendNotifications = Stuur kennisgewings:
 profile-account-notifications-sendNotifications-immediately = Onmiddellik
 profile-account-notifications-sendNotifications-daily = Daagliks
 profile-account-notifications-sendNotifications-hourly = Uurliks
+profile-account-notifications-updated = Jou kennisgewinginstellings is bygewerk
 profile-account-notifications-button-update = Dateer op
 
 ## Report Comment Popover
@@ -169,6 +178,7 @@ configure-configureQuery-storyNotFound = Storie nie gevind
 
 ## Change username
 profile-changeUsername-edit = Redigeer
+profile-changeUsername-saveChanges = Bêre veranderings
 profile-changeUsername-cancel = Kanselleer
 
 ## Discussions tab
@@ -204,7 +214,7 @@ configure-closeStream-description =
 configure-closeStream-closeStream = Sluit stroom
 
 profile-changeEmail-edit = Redigeer
-
+profile-changeEmail-saveChanges = Bêre veranderings
 profile-changeEmail-cancel = Kanselleer
 
 ## Ratings and Reviews
