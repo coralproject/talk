@@ -19,6 +19,7 @@ import {
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
 import { rejectComment } from "coral-server/stacks";
+import { updateAllCommentCounts } from "coral-server/stacks/helpers";
 
 const JOB_NAME = "rejector";
 
@@ -56,7 +57,7 @@ function getBatch(
 
 const rejectArchivedComments = async (
   mongo: MongoContext,
-  log: Logger,
+  redis: AugmentedRedis,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string
@@ -77,7 +78,27 @@ const rejectArchivedComments = async (
         moderatorID,
       };
 
-      await moderate(mongo, tenant, input, now, true);
+      const result = await moderate(mongo, tenant, input, now, true);
+      if (!result.after) {
+        continue;
+      }
+
+      await updateAllCommentCounts(
+        mongo,
+        redis,
+        {
+          ...result,
+          tenant,
+          // Rejecting a comment does not change the action counts.
+          actionCounts: {},
+        },
+        {
+          updateShared: false,
+          updateSite: false,
+          updateStory: true,
+          updateUser: true,
+        }
+      );
     }
     // If there was not another page, abort processing.
     if (!connection.pageInfo.hasNextPage) {
@@ -156,7 +177,7 @@ const createJobProcessor = ({
 
   await rejectLiveComments(mongo, redis, log, tenant, authorID, moderatorID);
   if (mongo.archive) {
-    await rejectArchivedComments(mongo, log, tenant, authorID, moderatorID);
+    await rejectArchivedComments(mongo, redis, tenant, authorID, moderatorID);
   }
 
   // Compute the end time.
