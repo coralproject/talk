@@ -31,6 +31,7 @@ export default function useCommentSeen(
     // Return seen=true when `commit` was called.
     commited ||
     // Return seen=true, when we couldn't acquire a seen map.
+    // seenMap is also not set when viewer is not logged in.
     (seenMap ? Boolean(seenMap[commentID]) : true);
 
   // Commiting marks a previously unread comment as seen.
@@ -39,11 +40,11 @@ export default function useCommentSeen(
   }, [setCommited]);
 
   useEffect(() => {
-    if (viewerID && enabled && seen === false) {
+    if (enabled && seen === false) {
       // Tells CommentSeenProvider to mark comment as seen in the database.
       markSeen(commentID);
     }
-  }, [commentID, markSeen, seen, enabled, viewerID]);
+  }, [commentID, markSeen, seen, enabled]);
 
   useEffect(() => {
     if (seen) {
@@ -65,12 +66,5 @@ export default function useCommentSeen(
     };
   }, [commentID, commit, eventEmitter, seen]);
 
-  // if we have no viewer, not logged in, cannot perform a comment seen
-  // check. Just mark it as seen so it appears viewed.
-  if (!viewerID) {
-    return true;
-  }
-
-  // Else, if logged in, return the seen state of the comment.
   return seen;
 }
