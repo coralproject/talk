@@ -146,7 +146,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   enableJumpToParent,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const seen = useCommentSeen(comment.id);
+  const seen = useCommentSeen(viewer?.id, comment.id);
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const handleFocus = useCallback(() => {
     void setTraversalFocus({

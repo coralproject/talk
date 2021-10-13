@@ -15,12 +15,15 @@ import {
  * Otherwise the comment with the `commentID` will be marked as
  * seen for the next refresh. Must be called within a `<CommentSeenProvider />`
  */
-export default function useCommentSeen(commentID: string): boolean {
+export default function useCommentSeen(
+  viewerID: string | undefined | null,
+  commentID: string
+): boolean {
   const { enabled, seenMap, markSeen } = useContext(CommentSeenContext);
   const { eventEmitter } = useCoralContext();
 
   const [commited, setCommited] = useInMemoryState(
-    `commitedSeen:${commentID}`,
+    `commitedSeen:${viewerID}:${commentID}`,
     false
   );
 
@@ -28,6 +31,7 @@ export default function useCommentSeen(commentID: string): boolean {
     // Return seen=true when `commit` was called.
     commited ||
     // Return seen=true, when we couldn't acquire a seen map.
+    // seenMap is also not set when viewer is not logged in.
     (seenMap ? Boolean(seenMap[commentID]) : true);
 
   // Commiting marks a previously unread comment as seen.
