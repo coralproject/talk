@@ -56,7 +56,7 @@ exports[`renders message box when commenting disabled 1`] = `
         </div>
       </section>
       <div
-        className="StreamContainer-moderateStream"
+        className="StreamContainer-rightStreamHeader"
       />
     </div>
     <section
@@ -378,7 +378,7 @@ exports[`renders message box when logged in 1`] = `
         </div>
       </section>
       <div
-        className="StreamContainer-moderateStream"
+        className="StreamContainer-rightStreamHeader"
       />
     </div>
     <section
@@ -841,7 +841,7 @@ exports[`renders message box when not logged in 1`] = `
         </div>
       </section>
       <div
-        className="StreamContainer-moderateStream"
+        className="StreamContainer-rightStreamHeader"
       />
     </div>
     <section
@@ -1256,7 +1256,7 @@ exports[`renders message box when story isClosed 1`] = `
         </div>
       </section>
       <div
-        className="StreamContainer-moderateStream"
+        className="StreamContainer-rightStreamHeader"
       />
     </div>
     <section

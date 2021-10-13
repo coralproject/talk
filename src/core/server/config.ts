@@ -166,6 +166,13 @@ const config = convict({
     env: "MONGODB_URI",
     sensitive: true,
   },
+  mongodb_archive: {
+    doc: "The MongoDB database to connect for archiving stories.",
+    format: "mongo-uri",
+    default: "mongodb://127.0.0.1:27017/coral",
+    env: "MONGODB_ARCHIVE_URI",
+    sensitive: true,
+  },
   redis: {
     doc: "The Redis database to connect to.",
     format: "redis-uri",
@@ -453,6 +460,41 @@ const config = convict({
     format: "ms",
     default: ms("30 minutes"),
     env: "NON_FINGERPRINTED_CACHE_MAX_AGE",
+  },
+  enable_auto_archiving: {
+    doc:
+      "Enables auto archiving for stories older than the specified interval.",
+    format: Boolean,
+    default: false,
+    env: "ENABLE_AUTO_ARCHIVING",
+  },
+  auto_archive_older_than: {
+    doc:
+      "If stories are older than this age, they will be auto archived if auto archiving is enabled.",
+    format: "ms",
+    default: ms("120 days"),
+    env: "AUTO_ARCHIVE_OLDER_THAN",
+  },
+  auto_archiving_interval: {
+    doc:
+      "The cron scheduling interval for how often auto archiving should run. Defaults to hourly.",
+    format: String,
+    default: "0,15,30,45 * * * *",
+    env: "AUTO_ARCHIVING_INTERVAL",
+  },
+  auto_archiving_batch_size: {
+    doc:
+      "Determines how many stories to try and archive per interval of archiving.",
+    format: Number,
+    default: 500,
+    env: "AUTO_ARCHIVING_BATCH_SIZE",
+  },
+  force_admin_local_auth: {
+    doc:
+      "Will force local auth in the admin to on so that it cannot be turned off.",
+    format: Boolean,
+    default: false,
+    env: "FORCE_ADMIN_LOCAL_AUTH",
   },
 });
 

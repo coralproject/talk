@@ -16,6 +16,8 @@ export default function create(params: CreateTestRendererParams<GQLResolver>) {
         "moderationQueueSort"
       );
 
+      localRecord.setValue(false, "forceAdminLocalAuth");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

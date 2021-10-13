@@ -7,7 +7,7 @@ import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
-import { retrieveUserLastComment } from "coral-server/services/users";
+import { retrieveUserLastCommentNotArchived } from "coral-server/services/users";
 
 import {
   GQLCOMMENT_FLAG_REASON,
@@ -36,7 +36,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
     log.trace("checking comment for repeat content");
 
     // Get the last comment (if it exists).
-    const lastComment = await retrieveUserLastComment(
+    const lastComment = await retrieveUserLastCommentNotArchived(
       mongo,
       redis,
       tenant,

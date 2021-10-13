@@ -67,6 +67,20 @@ export function getStoryClosedAt(
   return null;
 }
 
+export function isStoryArchiving(
+  story: Pick<Story, "isArchiving" | "isArchived">
+) {
+  if (story.isArchived) {
+    return false;
+  }
+
+  return story.isArchiving ?? false;
+}
+
+export function isStoryArchived(story: Pick<Story, "isArchived">) {
+  return story.isArchived ?? false;
+}
+
 export function resolveStoryMode(
   storySettings: Story["settings"],
   tenant: Pick<Tenant, "featureFlags">

@@ -2,12 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
+import { useLocal } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { LocalAuthConfigContainer_settings } from "coral-admin/__generated__/LocalAuthConfigContainer_settings.graphql";
+import { LocalAuthConfigContainerLocal } from "coral-admin/__generated__/LocalAuthConfigContainerLocal.graphql";
 
 import Header from "../../Header";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
@@ -34,16 +33,16 @@ graphql`
 
 interface Props {
   disabled?: boolean;
-  settings: LocalAuthConfigContainer_settings;
 }
 
-const LocalAuthConfigContainer: FunctionComponent<Props> = ({
-  disabled,
-  settings,
-}) => {
-  const forceAdminLocalAuth = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.FORCE_ADMIN_LOCAL_AUTH
-  );
+const LocalAuthConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
+  const [{ forceAdminLocalAuth }] = useLocal<
+    LocalAuthConfigContainerLocal
+  >(graphql`
+    fragment LocalAuthConfigContainerLocal on Local {
+      forceAdminLocalAuth
+    }
+  `);
 
   return (
     <ConfigBoxWithToggleField
@@ -90,12 +89,4 @@ const LocalAuthConfigContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment LocalAuthConfigContainer_settings on Settings {
-      featureFlags
-    }
-  `,
-})(LocalAuthConfigContainer);
-
-export default enhanced;
+export default LocalAuthConfigContainer;

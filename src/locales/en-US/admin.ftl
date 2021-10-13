@@ -8,6 +8,8 @@ general-noTextContent = No text content
 ## Story Status
 storyStatus-open = Open
 storyStatus-closed = Closed
+storyStatus-archiving = Archiving
+storyStatus-archived = Archived
 
 ## Roles
 role-admin = Admin
@@ -396,6 +398,8 @@ configure-general-memberBio-label = Allow member bios
 #### Locale
 configure-general-locale-language = Language
 configure-general-locale-chooseLanguage = Choose the language for your Coral community.
+configure-general-locale-invalidLanguage =
+  The previously selected language <lang></lang> no longer exists. Please choose a different language.
 
 #### Sitewide Commenting
 configure-general-sitewideCommenting-title = Sitewide commenting
@@ -547,6 +551,8 @@ stories-actions-popover =
 stories-actions-rescrape = Re-scrape
 stories-actions-close = Close story
 stories-actions-open = Open story
+stories-actions-archive = Archive story
+stories-actions-unarchive = Unarchive story
 
 ### Sections
 
@@ -1123,6 +1129,13 @@ moderate-forReview-reportedOffensive = Offensive
 moderate-forReview-reportedOther = Other
 moderate-forReview-reportedSpam = Spam
 
+# Archive
+
+moderate-archived-queue-title = This story has been archived
+moderate-archived-queue-noModerationActions = 
+  No moderation actions can be made on the comments when a story is archived.
+moderate-archived-queue-toPerformTheseActions =
+  To perform these actions, unarchive the story.
 
 ## Community
 community-emptyMessage = We could not find anyone in your community matching your criteria.

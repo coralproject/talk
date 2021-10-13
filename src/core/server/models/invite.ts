@@ -1,9 +1,8 @@
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
+import { MongoContext } from "coral-server/data/context";
 import { TenantResource } from "coral-server/models/tenant";
-import { invites as collection } from "coral-server/services/mongodb/collections";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
@@ -22,7 +21,7 @@ export type CreateInviteInput = Omit<
 >;
 
 export async function createInvite(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   { email, ...input }: CreateInviteInput,
   createdBy: string,
@@ -48,14 +47,18 @@ export async function createInvite(
   };
 
   // Insert it into the database. This may throw an error.
-  await collection(mongo).insertOne(invite);
+  await mongo.invites().insertOne(invite);
 
   return invite;
 }
 
-export async function redeemInvite(mongo: Db, tenantID: string, id: string) {
+export async function redeemInvite(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+) {
   // Try to snag the invite from the database safely.
-  const result = await collection(mongo).findOneAndDelete({ id, tenantID }, {});
+  const result = await mongo.invites().findOneAndDelete({ id, tenantID }, {});
   if (!result.value) {
     throw new Error("an unexpected error occurred");
   }
@@ -64,32 +67,35 @@ export async function redeemInvite(mongo: Db, tenantID: string, id: string) {
 }
 
 export async function redeemInviteFromEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   email: string
 ) {
   // Try to snag the invite from the database safely.
-  const result = await collection(mongo).findOneAndDelete(
-    { email, tenantID },
-    {}
-  );
+  const result = await mongo
+    .invites()
+    .findOneAndDelete({ email, tenantID }, {});
 
   return result.value || null;
 }
 
 export async function retrieveInviteFromEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   email: string
 ) {
-  return collection(mongo).findOne({
+  return mongo.invites().findOne({
     tenantID,
     email: email.toLowerCase(),
   });
 }
 
-export async function retrieveInvite(mongo: Db, tenantID: string, id: string) {
-  return collection(mongo).findOne({
+export async function retrieveInvite(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+) {
+  return mongo.invites().findOne({
     tenantID,
     id,
   });

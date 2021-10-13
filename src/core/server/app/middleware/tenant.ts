@@ -1,6 +1,6 @@
-import { Db } from "mongodb";
 import { v1 as uuid } from "uuid";
 
+import { MongoContext } from "coral-server/data/context";
 import { TenantNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { retrieveSite, Site } from "coral-server/models/site";
@@ -89,7 +89,7 @@ function parseQueryFromRequest(
  * @param query the query that was parsed for this request
  */
 async function retrieveSiteFromQuery(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   { storyURL, storyID, parentUrl, siteID }: RequestQuery
 ): Promise<Site | null> {
@@ -136,7 +136,7 @@ async function retrieveSiteFromQuery(
  * @param req the request in question
  */
 async function retrieveSiteFromRequest(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   req: Request
 ): Promise<Site | null> {
@@ -158,7 +158,7 @@ async function retrieveSiteFromRequest(
 }
 
 interface Options {
-  mongo: Db;
+  mongo: MongoContext;
   cache: TenantCache;
   passNoTenant?: boolean;
 }
