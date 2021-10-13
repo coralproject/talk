@@ -12,6 +12,7 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
+  createEmptyRelatedCommentCounts,
 } from "./empty";
 
 /**
@@ -226,3 +227,52 @@ export async function updateRelatedCommentCounts<
 
   return result.value || null;
 }
+
+export const negateCommentCounts = (options: {
+  commentCounts: Readonly<RelatedCommentCounts>;
+  negate: boolean;
+}) => {
+  const { commentCounts, negate } = options;
+  const multiplier = negate ? -1 : 1;
+
+  const result: RelatedCommentCounts = createEmptyRelatedCommentCounts();
+
+  if (commentCounts.action) {
+    for (const key in commentCounts.action) {
+      if (Object.prototype.hasOwnProperty.call(commentCounts.action, key)) {
+        const value = commentCounts.action[key];
+        result.action[key] = value * multiplier;
+      }
+    }
+  }
+
+  if (commentCounts.moderationQueue) {
+    result.moderationQueue.total =
+      commentCounts.moderationQueue.total * multiplier;
+
+    let key: keyof typeof commentCounts.moderationQueue.queues;
+    for (key in commentCounts.moderationQueue.queues) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          commentCounts.moderationQueue.queues,
+          key
+        )
+      ) {
+        const value = commentCounts.moderationQueue.queues[key];
+        result.moderationQueue.queues[key] = value * multiplier;
+      }
+    }
+  }
+
+  if (commentCounts.status) {
+    let key: keyof typeof commentCounts.status;
+    for (key in commentCounts.status) {
+      if (Object.prototype.hasOwnProperty.call(commentCounts.status, key)) {
+        const value = commentCounts.status[key];
+        result.status[key] = value * multiplier;
+      }
+    }
+  }
+
+  return result;
+};
