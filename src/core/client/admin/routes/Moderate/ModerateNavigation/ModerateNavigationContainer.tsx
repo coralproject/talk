@@ -57,14 +57,20 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
     subscribeToCommentLeft,
   ]);
 
+  const storyIsArchived = props.story?.isArchived || props.story?.isArchiving;
+
   if (!props.moderationQueues) {
     return <Navigation />;
   }
   return (
     <Navigation
-      unmoderatedCount={props.moderationQueues.unmoderated.count}
-      reportedCount={props.moderationQueues.reported.count}
-      pendingCount={props.moderationQueues.pending.count}
+      unmoderatedCount={
+        storyIsArchived ? 0 : props.moderationQueues.unmoderated.count
+      }
+      reportedCount={
+        storyIsArchived ? 0 : props.moderationQueues.reported.count
+      }
+      pendingCount={storyIsArchived ? 0 : props.moderationQueues.pending.count}
       storyID={props.story && props.story.id}
       siteID={props.siteID}
       section={props.section}
@@ -80,6 +86,8 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment ModerateNavigationContainer_story on Story {
       id
+      isArchiving
+      isArchived
     }
   `,
   settings: graphql`

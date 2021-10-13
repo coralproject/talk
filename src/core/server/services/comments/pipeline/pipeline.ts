@@ -1,8 +1,7 @@
-import { Db } from "mongodb";
-
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { Promiseable, RequireProperty } from "coral-common/types";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
@@ -61,7 +60,7 @@ export interface PhaseResult {
 }
 
 export interface ModerationPhaseContextInput {
-  readonly mongo: Db;
+  readonly mongo: MongoContext;
   readonly redis: AugmentedRedis;
   readonly config: Config;
   readonly log: Logger;

@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import Migration from "coral-server/services/migrate/migration";
 
 import {
@@ -7,7 +6,7 @@ import {
   createIndexesFactory,
 } from "../indexing";
 
-function createIndexer(mongo: Db) {
+function createIndexer(mongo: MongoContext) {
   // Get the indexing functions ready for each of the collections.
   const index = createIndexesFactory(mongo);
 
@@ -40,7 +39,7 @@ function createIndexer(mongo: Db) {
 }
 
 export default class extends Migration {
-  public async indexes(mongo: Db) {
+  public async indexes(mongo: MongoContext) {
     // Create the indexer functions.
     const { index, variants } = createIndexer(mongo);
 

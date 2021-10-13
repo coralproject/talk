@@ -1,11 +1,11 @@
 import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   ConfirmEmailTokenExpired,
   TokenInvalidError,
@@ -65,7 +65,7 @@ export function isConfirmToken(
 }
 
 export async function generateConfirmURL(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   config: Config,
   signingConfig: JWTSigningConfig,
@@ -114,7 +114,7 @@ export async function generateConfirmURL(
 }
 
 export async function verifyConfirmTokenString(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
   tokenString: string,
@@ -173,7 +173,7 @@ export async function verifyConfirmTokenString(
 }
 
 export async function confirmEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
   tokenString: string,
@@ -207,7 +207,7 @@ export async function confirmEmail(
 }
 
 export async function sendConfirmationEmail(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   config: Config,

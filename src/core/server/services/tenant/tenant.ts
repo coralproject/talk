@@ -1,9 +1,9 @@
 import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
-import { Db } from "mongodb";
 import { URL } from "url";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
@@ -60,7 +60,7 @@ function cleanWordLists(
 }
 
 export async function update(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   config: Config,
@@ -127,7 +127,7 @@ export async function isInstalled(cache: TenantCache, domain?: string) {
 export type InstallTenant = CreateTenantInput;
 
 export async function install(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   i18n: I18n,
@@ -178,7 +178,7 @@ export async function discoverOIDCConfiguration(issuerString: string) {
 }
 
 export async function enableFeatureFlag(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -205,7 +205,7 @@ export async function enableFeatureFlag(
 }
 
 export async function disableFeatureFlag(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -232,7 +232,7 @@ export async function disableFeatureFlag(
 }
 
 export async function createAnnouncement(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -249,7 +249,7 @@ export async function createAnnouncement(
 }
 
 export async function deleteAnnouncement(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant
