@@ -235,7 +235,7 @@ export async function remove(
     );
 
     throw new Error(
-      "Failed to delete story. Attempted to remove a story that still has comments. It is preferable that you merge a story instead of trying to delete it. If you are sure about what you're doing and want to delete this story with its comments. Use the option `includeComments = true`. For more details check the schema suggestions for this mutation input."
+      "Failed to delete story. Attempted to remove a story that still has comments. It is preferable that you merge a story or update its Story URL instead of trying to delete it. If you are sure about what you're doing and want to delete this story with its comments. Use the option `includeComments = true`. For more details check the schema suggestions for this mutation input."
     );
   }
 
