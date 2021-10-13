@@ -12,7 +12,14 @@ interface Props {
 }
 
 const StoryStatusContainer: FunctionComponent<Props> = (props) => {
-  return <StoryStatusText>{props.story.status}</StoryStatusText>;
+  return (
+    <StoryStatusText
+      isArchived={props.story.isArchived}
+      isArchiving={props.story.isArchiving}
+    >
+      {props.story.status}
+    </StoryStatusText>
+  );
 };
 
 const enhanced = withFragmentContainer<Props>({
@@ -20,6 +27,8 @@ const enhanced = withFragmentContainer<Props>({
     fragment StoryStatusContainer_story on Story {
       id
       status
+      isArchiving
+      isArchived
     }
   `,
 })(StoryStatusContainer);

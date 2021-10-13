@@ -374,6 +374,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           edited={comment.editing.edited}
           readOnly={readOnly}
           isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
+          isArchived={comment.story.isArchived}
+          isArchiving={comment.story.isArchiving}
         />
       </FadeInTransition>
       <BanModal
@@ -457,6 +459,8 @@ const enhanced = withFragmentContainer<Props>({
         settings {
           mode
         }
+        isArchived
+        isArchiving
       }
       site {
         id

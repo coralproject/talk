@@ -1,8 +1,8 @@
 import { Redis } from "ioredis";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   createTenantWebhookEndpoint,
   CreateTenantWebhookEndpointInput,
@@ -42,7 +42,7 @@ export function validateWebhookEndpointInput(
 }
 
 export async function createWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   config: Config,
   cache: TenantCache,
@@ -74,7 +74,7 @@ export async function createWebhookEndpoint(
 }
 
 export async function updateWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   config: Config,
   cache: TenantCache,
@@ -125,7 +125,7 @@ export async function updateWebhookEndpoint(
 }
 
 export async function enableWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -165,7 +165,7 @@ export async function enableWebhookEndpoint(
 }
 
 export async function disableWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -205,7 +205,7 @@ export async function disableWebhookEndpoint(
 }
 
 export async function deleteWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -233,7 +233,7 @@ export async function deleteWebhookEndpoint(
 }
 
 export async function rotateWebhookEndpointSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,

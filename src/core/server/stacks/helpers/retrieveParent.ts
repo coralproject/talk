@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
   CommentRevisionNotFoundError,
@@ -11,7 +10,7 @@ import {
 } from "coral-server/models/comment";
 
 async function retrieveParent(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: { parentID?: string; parentRevisionID?: string }
 ) {
@@ -20,7 +19,11 @@ async function retrieveParent(
   }
 
   // Check to see that the reference parent ID exists.
-  const parent = await retrieveComment(mongo, tenantID, input.parentID);
+  const parent = await retrieveComment(
+    mongo.comments(),
+    tenantID,
+    input.parentID
+  );
   if (!parent) {
     throw new CommentNotFoundError(input.parentID);
   }
