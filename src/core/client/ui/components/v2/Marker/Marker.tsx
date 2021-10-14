@@ -15,7 +15,7 @@ interface Props {
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
    */
-  color?: "reported" | "pending";
+  color?: "reported" | "pending" | "warning";
 
   variant?: "regular" | "filled";
 }
@@ -26,6 +26,7 @@ const Marker: FunctionComponent<Props> = (props) => {
   const rootClassName = cn(classes.root, className, {
     [classes.colorReported]: color === "reported",
     [classes.colorPending]: color === "pending",
+    [classes.colorWarning]: color === "warning",
     [classes.variantRegular]: variant === "regular",
     [classes.variantFilled]: variant === "filled",
   });

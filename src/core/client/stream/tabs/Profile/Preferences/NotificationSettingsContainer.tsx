@@ -95,11 +95,14 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
               </HorizontalGutter>
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-receiveWhen">
-                  <div className={styles.header}>
+                  <div
+                    className={styles.header}
+                    id="profile-account-notifications-receiveWhen"
+                  >
                     Receive notifications when:
                   </div>
                 </Localized>
-                <FieldSet>
+                <FieldSet aria-labelledby="profile-account-notifications-receiveWhen">
                   <FormField>
                     <Field name="onReply" type="checkbox">
                       {({ input }) => (

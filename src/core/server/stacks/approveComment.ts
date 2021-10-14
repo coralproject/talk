@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
@@ -13,7 +12,7 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types
 import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 const approveComment = async (
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
