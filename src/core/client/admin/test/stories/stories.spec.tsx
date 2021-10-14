@@ -24,8 +24,10 @@ import create from "../create";
 import {
   emptyStories,
   settings,
+  settingsWithMultisite,
   site,
   siteConnection,
+  sites,
   stories,
   storyConnection,
   users,
@@ -317,6 +319,87 @@ it("filter by search", async () => {
   await act(async () => {
     await waitForElement(() =>
       within(container).getByText("could not find any", { exact: false })
+    );
+  });
+});
+
+it("search by site name", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        settings: () => settingsWithMultisite,
+        sites: ({ variables, callCount }) => {
+          switch (callCount) {
+            case 1:
+              expectAndFail(variables.query).toBe("Test");
+              return {
+                edges: [{ node: sites[0], cursor: sites[0].createdAt }],
+                pageInfo: { endCursor: null, hasNextPage: false },
+              };
+            case 2:
+              expectAndFail(variables.query).toBe("Test Site");
+              return {
+                edges: [{ node: sites[0], cursor: sites[0].createdAt }],
+                pageInfo: { endCursor: null, hasNextPage: false },
+              };
+            case 4:
+              expectAndFail(variables.query).toBe("Not a site");
+              return {
+                edges: [],
+                pageInfo: { endCursor: null, hasNextPage: false },
+              };
+            default:
+              return siteConnection;
+          }
+        },
+      },
+    }),
+  });
+
+  const siteSearchField = within(container).getByTestID(
+    "site-search-textField"
+  );
+  await act(async () => {
+    await wait(() => {
+      expect(siteSearchField.props.value).toBe("");
+    });
+  });
+
+  const siteSearchButton = within(container).getByTestID("site-search-button");
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Test" },
+    })
+  );
+  act(() => {
+    siteSearchButton.props.onClick();
+  });
+
+  const siteSearchTestSiteFilterOption = within(container).getByText(
+    "Test Site"
+  );
+  act(() => {
+    siteSearchTestSiteFilterOption.props.onClick();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(siteSearchField.props.value).toBe("Test Site");
+    });
+  });
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Not a site" },
+    })
+  );
+  act(() => {
+    siteSearchButton.props.onClick();
+  });
+
+  await act(async () => {
+    await waitForElement(() =>
+      within(container).getByText("No sites were found with that search")
     );
   });
 });

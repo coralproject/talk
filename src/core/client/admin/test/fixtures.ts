@@ -214,6 +214,11 @@ export const settings = createFixture<GQLSettings>({
   amp: false,
 });
 
+export const settingsWithMultisite = createFixture<GQLSettings>({
+  ...settings,
+  multisite: true,
+});
+
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
