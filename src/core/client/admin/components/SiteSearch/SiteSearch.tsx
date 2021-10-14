@@ -58,7 +58,6 @@ const SiteSearch: FunctionComponent<Props> = ({
   return (
     <>
       <SiteSearchTextField
-        searchFilter={searchFilter}
         setSearchFilter={setSearchFilter}
         tempSearchFilter={tempSearchFilter}
         setTempSearchFilter={setTempSearchFilter}

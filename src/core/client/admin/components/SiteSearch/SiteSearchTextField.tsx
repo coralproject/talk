@@ -1,10 +1,9 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { Button, Flex, Icon, TextField } from "coral-ui/components/v2";
 
 interface Props {
-  searchFilter: string;
   setSearchFilter: (filter: string) => void;
   tempSearchFilter: string;
   setTempSearchFilter: (filter: string) => void;
@@ -12,7 +11,6 @@ interface Props {
 }
 
 const SiteSearchTextField: FunctionComponent<Props> = ({
-  searchFilter,
   setSearchFilter,
   tempSearchFilter,
   setTempSearchFilter,
@@ -50,10 +48,6 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
     },
     [onSubmitSearch, clearSearchFilter]
   );
-
-  useEffect(() => {
-    setTempSearchFilter(searchFilter);
-  }, [searchFilter]);
 
   return (
     <Flex>
