@@ -1,12 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import { PropTypesOf } from "coral-framework/types";
 import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
-import styles from "./SiteSearchList.css";
 import AutoLoadMore from "../AutoLoadMore";
-import { PropTypesOf } from "coral-framework/types";
 import SiteFilterOption from "./SiteFilterOption";
+
+import styles from "./SiteSearchList.css";
 
 interface Props {
   isVisible: boolean;

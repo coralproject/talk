@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-
-import { PropTypesOf } from "coral-framework/types";
-
-import SiteSearchList from "./SiteSearchList";
-import SiteSearchTextField from "./SiteSearchTextField";
-import SiteFilterOption from "./SiteFilterOption";
+import { RelayPaginationProp } from "react-relay";
 
 import { useRefetch } from "coral-framework/lib/relay";
-import { SiteFilterContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteFilterContainerPaginationQuery.graphql";
-import { RelayPaginationProp } from "react-relay";
+import { PropTypesOf } from "coral-framework/types";
 import { ClickOutside } from "coral-ui/components/v2";
+
+import { SiteFilterContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteFilterContainerPaginationQuery.graphql";
+
+import SiteFilterOption from "./SiteFilterOption";
+import SiteSearchList from "./SiteSearchList";
+import SiteSearchTextField from "./SiteSearchTextField";
 
 interface Props {
   sites: Array<{ id: string } & PropTypesOf<typeof SiteFilterOption>["site"]>;
