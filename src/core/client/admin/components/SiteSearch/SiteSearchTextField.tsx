@@ -22,7 +22,7 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
   const onSubmitSearch = useCallback(() => {
     setSearchFilter(tempSearchFilter);
     setIsSiteSearchListVisible(true);
-  }, [tempSearchFilter]);
+  }, [tempSearchFilter, setSearchFilter, setIsSiteSearchListVisible]);
   const onSearchTextChanged = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setTempSearchFilter(event.target.value);
