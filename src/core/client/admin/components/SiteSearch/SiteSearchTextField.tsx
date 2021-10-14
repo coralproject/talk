@@ -20,7 +20,6 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
 }) => {
   const clearSearchFilter = useCallback(() => {
     setSearchFilter("");
-    setIsSiteSearchListVisible(false);
   }, [setSearchFilter]);
   const onSubmitSearch = useCallback(() => {
     setSearchFilter(tempSearchFilter);

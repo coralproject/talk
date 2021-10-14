@@ -1,14 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-
-import { PropTypesOf } from "coral-framework/types";
-import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
+import { RelayPaginationProp } from "react-relay";
 
 import SiteSearch, {
   SiteFilterOption,
 } from "coral-admin/components/SiteSearch";
-
-import { RelayPaginationProp } from "react-relay";
+import { PropTypesOf } from "coral-framework/types";
+import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
 
 interface Props {
   sites: Array<{ id: string } & PropTypesOf<typeof SiteFilterOption>["site"]>;

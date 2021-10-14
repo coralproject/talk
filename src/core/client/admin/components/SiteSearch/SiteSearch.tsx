@@ -74,7 +74,7 @@ const SiteSearch: FunctionComponent<Props> = ({
             disableLoadMore={disableLoadMore}
             onLoadMore={onLoadMore}
           >
-            {/* NOTE: In future, can render this based on a kind passed through for filter button, moderation link, etc. */}
+            {/* NOTE: In future, can render the options based on a kind passed through for filter button, moderation link, etc. */}
             <SiteFilterOption
               onSelect={onSiteFilterOptionSelect}
               setSearchFilter={setSearchFilter}
