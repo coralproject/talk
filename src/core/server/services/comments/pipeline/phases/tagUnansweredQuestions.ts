@@ -1,3 +1,4 @@
+import { isUserStoryExpert } from "coral-server/models/story";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -7,7 +8,6 @@ import {
   GQLSTORY_MODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
-import { isUserStoryExpert } from "coral-server/models/story";
 
 export const tagUnansweredQuestions: IntermediateModerationPhase = ({
   author,

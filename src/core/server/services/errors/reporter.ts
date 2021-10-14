@@ -1,4 +1,5 @@
 import { CoralError } from "coral-server/errors";
+
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export interface ErrorReporterScope {

@@ -58,7 +58,7 @@ export const forgotHandler = ({
       const { tenant, logger, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
-      if (!hasEnabledAuthIntegration(tenant, "local")) {
+      if (!hasEnabledAuthIntegration(config, tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 
@@ -172,7 +172,7 @@ export const forgotResetHandler = ({
       const { tenant, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
-      if (!hasEnabledAuthIntegration(tenant, "local")) {
+      if (!hasEnabledAuthIntegration(config, tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 
@@ -246,7 +246,7 @@ export const forgotCheckHandler = ({
       const { tenant, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
-      if (!hasEnabledAuthIntegration(tenant, "local")) {
+      if (!hasEnabledAuthIntegration(config, tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 

@@ -3,8 +3,14 @@ import { isNull, omitBy } from "lodash";
 import { ERROR_CODES } from "coral-common/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
-import { Story } from "coral-server/models/story";
+import {
+  markStoryForArchiving,
+  markStoryForUnarchiving,
+  retrieveStory,
+  Story,
+} from "coral-server/models/story";
 import { hasFeatureFlag } from "coral-server/models/tenant";
+import { archiveStory, unarchiveStory } from "coral-server/services/archive";
 import {
   addExpert,
   close,
@@ -21,6 +27,7 @@ import { scrape } from "coral-server/services/stories/scraper";
 
 import {
   GQLAddStoryExpertInput,
+  GQLArchiveStoriesInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLFEATURE_FLAG,
@@ -29,6 +36,7 @@ import {
   GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
+  GQLUnarchiveStoriesInput,
   GQLUpdateStoryInput,
   GQLUpdateStoryModeInput,
   GQLUpdateStorySettingsInput,
@@ -139,5 +147,65 @@ export const Stories = (ctx: GraphContext) => ({
     }
 
     return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
+  },
+  archiveStories: async (input: GQLArchiveStoriesInput) => {
+    const stories: Readonly<Story>[] = [];
+
+    for (const storyID of input.storyIDs) {
+      const markResult = await markStoryForArchiving(
+        ctx.mongo,
+        ctx.tenant.id,
+        storyID,
+        ctx.now
+      );
+
+      if (markResult) {
+        await archiveStory(
+          ctx.mongo,
+          ctx.redis,
+          ctx.tenant.id,
+          storyID,
+          ctx.logger,
+          ctx.now
+        );
+      }
+
+      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
+      if (result) {
+        stories.push(result);
+      }
+    }
+
+    return stories;
+  },
+  unarchiveStories: async (input: GQLUnarchiveStoriesInput) => {
+    const stories: Readonly<Story>[] = [];
+
+    for (const storyID of input.storyIDs) {
+      const markResult = await markStoryForUnarchiving(
+        ctx.mongo,
+        ctx.tenant.id,
+        storyID,
+        ctx.now
+      );
+
+      if (markResult) {
+        await unarchiveStory(
+          ctx.mongo,
+          ctx.redis,
+          ctx.tenant.id,
+          storyID,
+          ctx.logger,
+          ctx.now
+        );
+      }
+
+      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
+      if (result) {
+        stories.push(result);
+      }
+    }
+
+    return stories;
   },
 });

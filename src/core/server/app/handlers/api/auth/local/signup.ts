@@ -54,7 +54,7 @@ export const signupHandler = ({
       const { tenant, now } = req.coral;
 
       // Check to ensure that the local integration has been enabled.
-      if (!hasEnabledAuthIntegration(tenant, "local")) {
+      if (!hasEnabledAuthIntegration(config, tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 

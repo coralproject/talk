@@ -169,3 +169,21 @@ export async function resolveConnection<T>(
     pageInfo,
   };
 }
+
+export function createEmptyConnection<T>() {
+  const edges: Edge<T>[] = [];
+  const nodes: T[] = [];
+
+  const pageInfo: PageInfo = {
+    hasNextPage: false,
+    hasPreviousPage: false,
+    startCursor: null,
+    endCursor: null,
+  };
+
+  return {
+    edges,
+    nodes,
+    pageInfo,
+  };
+}

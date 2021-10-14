@@ -1,12 +1,11 @@
 import { Db, MongoClient } from "mongodb";
 
-import { Config } from "coral-server/config";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
 
-async function createMongoClient(config: Config): Promise<MongoClient> {
+async function createMongoClient(mongoURI: string): Promise<MongoClient> {
   try {
-    return await MongoClient.connect(config.get("mongodb"), {
+    return await MongoClient.connect(mongoURI, {
       useNewUrlParser: true,
       ignoreUndefined: true,
     });
@@ -35,9 +34,9 @@ function attachHandlers(db: Db) {
  *
  * @param config application configuration.
  */
-export async function createMongoDB(config: Config): Promise<Db> {
+export async function createMongoDB(mongoURI: string): Promise<Db> {
   // Connect and create a client for MongoDB.
-  const client = await createMongoClient(config);
+  const client = await createMongoClient(mongoURI);
 
   logger.info("mongodb has connected");
 

@@ -22,11 +22,16 @@ $markerPendingColor: $colors-teal-700;
   color: $markerPendingColor;
 }
 
+.colorWarning {
+  color: var(--palette-warning-900);
+}
+
 .variantRegular {
 }
 
 .variantFilled {
   color: var(--palette-text-000);
+
   &.colorReported {
     background-color: $markerReportedColor;
     border-color: $markerReportedColor;
@@ -35,5 +40,11 @@ $markerPendingColor: $colors-teal-700;
   &.colorPending {
     background-color: $markerPendingColor;
     border-color: $markerPendingColor;
+  }
+
+  &.colorWarning {
+    background-color: var(--palette-warning-100);
+    border-color: var(--palette-warning-900);
+    color: var(--palette-text-500);
   }
 }
