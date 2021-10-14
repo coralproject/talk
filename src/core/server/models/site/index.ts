@@ -117,6 +117,10 @@ async function retrieveConnection(
     query.after(skip);
   }
 
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
   // Return a connection.
   return resolveConnection(query, input, (_, index) => index + skip + 1);
 }

@@ -14,18 +14,21 @@ interface Props {
   site: SiteFilterOption_site | null;
   onSelect: (id: string | null) => void;
   active: boolean;
+  setSearchFilter: (filter: string) => void;
 }
 
 const SiteFilterOption: FunctionComponent<Props> = ({
   site,
   onSelect,
   active,
+  setSearchFilter,
 }) => {
   const root = cn(styles.root, {
     [styles.active]: active,
   });
   const onClick = useCallback(() => {
     onSelect(site ? site.id : null);
+    setSearchFilter(site ? site.name : "");
   }, [site]);
   return (
     <Button

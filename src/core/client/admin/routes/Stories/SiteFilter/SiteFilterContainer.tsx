@@ -32,6 +32,7 @@ const SiteFilterContainer: React.FunctionComponent<Props> = (props) => {
       onLoadMore={loadMore}
       hasMore={props.relay.hasMore()}
       disableLoadMore={isLoadingMore}
+      relay={props.relay}
     />
   );
 };
@@ -49,14 +50,14 @@ const enhanced = withPaginationContainer<
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
+          searchFilter: { type: "String" }
         ) {
-        sites(first: $count, after: $cursor)
+        sites(first: $count, after: $cursor, query: $searchFilter)
           @connection(key: "SitesConfig_sites") {
           edges {
             node {
               id
               ...SiteFilterOption_site
-              ...SiteFilterSelected_site
             }
           }
         }
@@ -71,13 +72,23 @@ const enhanced = withPaginationContainer<
       return {
         count,
         cursor,
+        searchFilter: fragmentVariables.searchFilter,
       };
     },
     query: graphql`
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-      query SiteFilterContainerPaginationQuery($count: Int!, $cursor: Cursor) {
-        ...SiteFilterContainer_query @arguments(count: $count, cursor: $cursor)
+      query SiteFilterContainerPaginationQuery(
+        $count: Int!
+        $cursor: Cursor
+        $searchFilter: String
+      ) {
+        ...SiteFilterContainer_query
+          @arguments(
+            count: $count
+            cursor: $cursor
+            searchFilter: $searchFilter
+          )
       }
     `,
   }
