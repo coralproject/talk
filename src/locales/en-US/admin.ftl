@@ -530,7 +530,7 @@ configure-sites-site-edit = Edit { $site } details
 configure-sites-site-form-embed-code = Embed code
 sites-emptyMessage = We could not find any sites matching your criteria.
 sites-selector-allSites = All sites
-sites-filter-sites-allSites = All sites
+site-filter-option-allSites = All sites
 
 site-selector-all-sites = All sites
 stories-filter-sites-allSites = All sites
@@ -538,6 +538,14 @@ stories-filter-statuses = Status
 stories-column-site = Site
 site-table-siteName = Site name
 stories-filter-sites = Site
+
+site-search-searchButton =
+  .aria-label = Search
+site-search-textField =
+  .aria-label = Search by site name
+site-search-textField =
+  .placeholder = Search by site name
+site-search-none-found = No sites were found with that search
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
