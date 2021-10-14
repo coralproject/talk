@@ -10,6 +10,14 @@ const hasExternalMediaAttached: Condition = (value, values) => {
   return !!values.media && values.media.type === "external";
 };
 
+export function getImageValidators() {
+  return composeValidators(
+    (v, values) => validateURL(v, values),
+    (v, values) => validateImageURL(v, values)
+  );
+}
+
+// TODO (marcushaddon): check to see if this is still used
 export default function getMediaFieldValidators() {
   return validateWhen(
     hasExternalMediaAttached,
