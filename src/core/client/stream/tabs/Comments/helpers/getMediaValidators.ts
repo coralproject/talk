@@ -17,7 +17,6 @@ export function getImageValidators() {
   );
 }
 
-// TODO (marcushaddon): check to see if this is still used
 export default function getMediaFieldValidators() {
   return validateWhen(
     hasExternalMediaAttached,
