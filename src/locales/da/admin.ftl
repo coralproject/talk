@@ -312,6 +312,10 @@ configure-advanced-customCSS-override =
 
 configure-advanced-permittedDomains = Tilladte domæner
 
+configure-advanced-liveUpdates = Kommentar Stream Live-opdateringer
+configure-advanced-liveUpdates-explanation =
+  Når det er aktiveret, vil der blive realtid indlæst og opdateret af kommentarer, når nye kommentarer og svar offentliggøres.
+
 configure-advanced-embedCode-title = Integrer kode
 configure-advanced-embedCode-explanation =
   Kopier og indsæt nedenstående kode i dit CMS for at integrere Coral-kommentarestreams i hver af dit websteds historier.
