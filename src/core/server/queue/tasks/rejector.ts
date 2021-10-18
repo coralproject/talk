@@ -1,25 +1,30 @@
 import Queue from "bull";
-import { Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
-import {
-  Comment,
-  getLatestRevision,
-  retrieveAllCommentsUserConnection,
-} from "coral-server/models/comment";
+import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Connection } from "coral-server/models/helpers";
+import { Tenant } from "coral-server/models/tenant";
 import Task, { JobProcessor } from "coral-server/queue/Task";
+import {
+  moderate,
+  retrieveAllCommentsUserConnection,
+} from "coral-server/services/comments";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
-import { rejectComment } from "coral-server/stacks";
 
-import { GQLCOMMENT_SORT } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+} from "coral-server/graph/schema/__generated__/types";
+import { rejectComment } from "coral-server/stacks";
+import { updateAllCommentCounts } from "coral-server/stacks/helpers";
 
 const JOB_NAME = "rejector";
 
 export interface RejectorProcessorOptions {
-  mongo: Db;
+  mongo: MongoContext;
   redis: AugmentedRedis;
   tenantCache: TenantCache;
 }
@@ -31,17 +36,114 @@ export interface RejectorData {
 }
 
 function getBatch(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   authorID: string,
-  connection?: Readonly<Connection<Readonly<Comment>>>
+  connection?: Readonly<Connection<Readonly<Comment>>>,
+  isArchived = false
 ) {
-  return retrieveAllCommentsUserConnection(mongo, tenantID, authorID, {
-    orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-    first: 100,
-    after: connection ? connection.pageInfo.endCursor : undefined,
-  });
+  return retrieveAllCommentsUserConnection(
+    mongo,
+    tenantID,
+    authorID,
+    {
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      first: 100,
+      after: connection ? connection.pageInfo.endCursor : undefined,
+    },
+    isArchived
+  );
 }
+
+const rejectArchivedComments = async (
+  mongo: MongoContext,
+  redis: AugmentedRedis,
+  tenant: Readonly<Tenant>,
+  authorID: string,
+  moderatorID: string
+) => {
+  // Get the current time.
+  const now = new Date();
+
+  // Find all comments written by the author that should be rejected.
+  let connection = await getBatch(mongo, tenant.id, authorID, undefined, true);
+  while (connection.nodes.length > 0) {
+    for (const comment of connection.nodes) {
+      // Get the latest revision of the comment.
+      const revision = getLatestRevision(comment);
+      const input = {
+        commentID: comment.id,
+        commentRevisionID: revision.id,
+        status: GQLCOMMENT_STATUS.REJECTED,
+        moderatorID,
+      };
+
+      const result = await moderate(mongo, tenant, input, now, true);
+      if (!result.after) {
+        continue;
+      }
+
+      await updateAllCommentCounts(
+        mongo,
+        redis,
+        {
+          ...result,
+          tenant,
+          // Rejecting a comment does not change the action counts.
+          actionCounts: {},
+        },
+        {
+          updateShared: false,
+          updateSite: false,
+          updateStory: true,
+          updateUser: true,
+        }
+      );
+    }
+    // If there was not another page, abort processing.
+    if (!connection.pageInfo.hasNextPage) {
+      break;
+    }
+    // Load the next page.
+    connection = await getBatch(mongo, tenant.id, authorID, connection, true);
+  }
+};
+
+const rejectLiveComments = async (
+  mongo: MongoContext,
+  redis: AugmentedRedis,
+  tenant: Readonly<Tenant>,
+  authorID: string,
+  moderatorID: string
+) => {
+  // Get the current time.
+  const now = new Date();
+
+  // Find all comments written by the author that should be rejected.
+  let connection = await getBatch(mongo, tenant.id, authorID);
+  while (connection.nodes.length > 0) {
+    for (const comment of connection.nodes) {
+      // Get the latest revision of the comment.
+      const revision = getLatestRevision(comment);
+      await rejectComment(
+        mongo,
+        redis,
+        null,
+        tenant,
+        comment.id,
+        revision.id,
+        moderatorID,
+        now
+      );
+    }
+    // If there was not another page, abort processing.
+    if (!connection.pageInfo.hasNextPage) {
+      break;
+    }
+    // Load the next page.
+    connection = await getBatch(mongo, tenant.id, authorID, connection);
+  }
+};
 
 const createJobProcessor = ({
   mongo,
@@ -72,34 +174,9 @@ const createJobProcessor = ({
     return;
   }
 
-  // Get the current time.
-  const currentTime = new Date();
-
-  // Find all comments written by the author that should be rejected.
-  let connection = await getBatch(mongo, tenantID, authorID);
-  while (connection.nodes.length > 0) {
-    for (const comment of connection.nodes) {
-      // Get the latest revision of the comment.
-      const revision = getLatestRevision(comment);
-
-      // Reject the comment.
-      await rejectComment(
-        mongo,
-        redis,
-        null,
-        tenant,
-        comment.id,
-        revision.id,
-        moderatorID,
-        currentTime
-      );
-    }
-    // If there was not another page, abort processing.
-    if (!connection.pageInfo.hasNextPage) {
-      break;
-    }
-    // Load the next page.
-    connection = await getBatch(mongo, tenantID, authorID, connection);
+  await rejectLiveComments(mongo, redis, tenant, authorID, moderatorID);
+  if (mongo.archive) {
+    await rejectArchivedComments(mongo, redis, tenant, authorID, moderatorID);
   }
 
   // Compute the end time.

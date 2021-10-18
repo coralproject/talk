@@ -1,7 +1,7 @@
 import { Redis } from "ioredis";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { CoralEventPayload } from "coral-server/events/event";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -25,7 +25,7 @@ const MAXIMUM_EVENT_ATTEMPTS_LOG_SIZE = 50;
 
 export interface WebhookProcessorOptions {
   config: Config;
-  mongo: Db;
+  mongo: MongoContext;
   redis: Redis;
   tenantCache: TenantCache;
 }

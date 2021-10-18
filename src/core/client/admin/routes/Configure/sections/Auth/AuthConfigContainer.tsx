@@ -129,7 +129,7 @@ const enhanced = withForm(
         ...FacebookConfig_formValues @relay(mask: false)
         ...GoogleConfig_formValues @relay(mask: false)
         ...SSOConfig_formValues @relay(mask: false)
-        ...LocalAuthConfig_formValues @relay(mask: false)
+        ...LocalAuthConfigContainer_formValues @relay(mask: false)
         ...OIDCConfig_formValues @relay(mask: false)
         ...SessionConfig_formValues @relay(mask: false)
 

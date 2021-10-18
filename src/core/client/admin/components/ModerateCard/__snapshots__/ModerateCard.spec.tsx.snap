@@ -112,7 +112,6 @@ exports[`renders approved correctly 1`] = `
       >
         <RejectButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}
@@ -242,14 +241,12 @@ exports[`renders correctly 1`] = `
       >
         <RejectButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}
         />
         <ApproveButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}
@@ -509,7 +506,6 @@ exports[`renders rejected correctly 1`] = `
         />
         <ApproveButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}
@@ -641,14 +637,12 @@ exports[`renders reply correctly 1`] = `
       >
         <RejectButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}
         />
         <ApproveButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}
@@ -809,14 +803,12 @@ exports[`renders story info 1`] = `
       >
         <RejectButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}
         />
         <ApproveButton
           className=""
-          disabled={false}
           invert={false}
           onClick={[Function]}
           readOnly={false}

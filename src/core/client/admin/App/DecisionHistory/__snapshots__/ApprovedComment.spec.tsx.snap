@@ -20,11 +20,13 @@ exports[`renders correctly 1`] = `
     <DecisionHistory>
       2018-07-06T18:24:00.000Z
     </DecisionHistory>
-    <Footer />
-    <GoToCommentLink
-      href="#"
-      onClick={[Function]}
-    />
+    <React.Fragment>
+      <Footer />
+      <GoToCommentLink
+        href="#"
+        onClick={[Function]}
+      />
+    </React.Fragment>
   </Footer>
 </DecisionItem>
 `;

@@ -378,6 +378,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           suspectWords={
             comment.revision?.metadata?.wordList?.suspectWords || []
           }
+          isArchived={comment.story.isArchived}
+          isArchiving={comment.story.isArchiving}
         />
       </FadeInTransition>
       <BanModal
@@ -475,6 +477,8 @@ const enhanced = withFragmentContainer<Props>({
         settings {
           mode
         }
+        isArchived
+        isArchiving
       }
       site {
         id

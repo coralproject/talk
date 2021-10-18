@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:14-alpine
 
 # Install build dependancies.
 RUN apk --no-cache add git python
@@ -19,6 +19,10 @@ RUN mkdir -p dist/core/common/__generated__ && \
 # SEE: https://github.com/nodejs/docker-node/blob/a2eb9f80b0fd224503ee2678867096c9e19a51c2/docs/BestPractices.md#non-root-user
 RUN chown -R node /usr/src/app
 USER node
+
+# Node alpine image does not include ssh. This is a workaround for https://github.com/npm/cli/issues/2610.
+RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com/ && \
+    git config --global url."https://".insteadOf ssh://
 
 # Install build static assets and clear caches.
 RUN npm ci && \

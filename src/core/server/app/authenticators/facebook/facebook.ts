@@ -1,8 +1,8 @@
 import crypto from "crypto";
 import Joi from "joi";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { validateSchema } from "coral-server/helpers";
 import { FacebookAuthIntegration } from "coral-server/models/settings";
 import {
@@ -19,7 +19,7 @@ import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 
 interface Options {
   config: Config;
-  mongo: Db;
+  mongo: MongoContext;
   signingConfig: JWTSigningConfig;
   integration: Required<FacebookAuthIntegration>;
   callbackPath: string;
@@ -50,14 +50,16 @@ interface FacebookUserProfile {
 const VERSION = "v3.2";
 
 export class FacebookAuthenticator extends OAuth2Authenticator {
-  private readonly mongo: Db;
+  private readonly mongo: MongoContext;
+  private readonly config: Config;
   private readonly profileURL = `https://graph.facebook.com/${VERSION}/me`;
   private readonly integration: Readonly<Required<FacebookAuthIntegration>>;
 
-  constructor({ integration, mongo, ...options }: Options) {
+  constructor({ integration, mongo, config, ...options }: Options) {
     super({
       ...options,
       ...integration,
+      config,
       authorizationURL: `https://www.facebook.com/${VERSION}/dialog/oauth`,
       tokenURL: `https://graph.facebook.com/${VERSION}/oauth/access_token`,
       scope: "email",
@@ -68,6 +70,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
 
     this.integration = integration;
     this.mongo = mongo;
+    this.config = config;
   }
 
   /**
@@ -151,6 +154,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
 
       // Create the user this time.
       user = await findOrCreate(
+        this.config,
         this.mongo,
         tenant,
         {

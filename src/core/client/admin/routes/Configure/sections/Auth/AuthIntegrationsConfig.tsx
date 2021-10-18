@@ -5,7 +5,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 
 import FacebookConfigContainer from "./FacebookConfigContainer";
 import GoogleConfigContainer from "./GoogleConfigContainer";
-import LocalAuthConfig from "./LocalAuthConfig";
+import LocalAuthConfigContainer from "./LocalAuthConfigContainer";
 import OIDCConfigContainer from "./OIDCConfigContainer";
 import SSOConfigContainer from "./SSOConfigContainer";
 
@@ -22,7 +22,7 @@ const AuthIntegrationsConfig: FunctionComponent<Props> = ({
   auth,
 }) => (
   <HorizontalGutter size="double">
-    <LocalAuthConfig disabled={disabled} />
+    <LocalAuthConfigContainer disabled={disabled} />
     <OIDCConfigContainer disabled={disabled} auth={auth} />
     <SSOConfigContainer disabled={disabled} auth={auth} />
     <GoogleConfigContainer disabled={disabled} auth={auth} />
