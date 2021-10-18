@@ -56,7 +56,7 @@ exports[`renders comment stream with community guidelines 1`] = `
         </div>
       </section>
       <div
-        className="StreamContainer-moderateStream"
+        className="StreamContainer-rightStreamHeader"
       />
     </div>
     <section

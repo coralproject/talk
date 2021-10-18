@@ -24,6 +24,8 @@ const permissionMap = {
   // Mutation.inviteUsers
   INVITE_USERS: [GQLUSER_ROLE.ADMIN],
   VIEW_STATISTICS: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR],
+  // Mutation.archiveStories, Mutation.unarchiveStories
+  ARCHIVE_STORY: [GQLUSER_ROLE.ADMIN],
 };
 
 export type AbilityType = keyof typeof permissionMap;

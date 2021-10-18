@@ -1,7 +1,7 @@
 import { User } from "@sentry/node";
-import { Db } from "mongodb";
 import fetch from "node-fetch";
 
+import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { retrieveStory, Story } from "coral-server/models/story";
@@ -85,7 +85,7 @@ const submitNotSpam = async (params: Parameters) => {
 };
 
 export const submitCommentAsNotSpam = async (
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   comment: Readonly<Comment>,
   request?: Request | undefined
@@ -128,7 +128,7 @@ export const submitCommentAsNotSpam = async (
 };
 
 export const submitCommentAsSpam = async (
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   comment: Readonly<Comment>,
   request?: Request | undefined

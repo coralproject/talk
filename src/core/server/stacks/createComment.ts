@@ -1,11 +1,12 @@
 import Joi from "joi";
 import { isNumber } from "lodash";
-import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   AuthorAlreadyHasRatedStory,
+  CannotCreateCommentOnArchivedStory,
   CoralError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -82,7 +83,7 @@ export type CreateComment = Omit<
 };
 
 const markCommentAsAnswered = async (
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -136,7 +137,7 @@ const markCommentAsAnswered = async (
 const RatingSchema = Joi.number().min(1).max(5).integer();
 
 const validateRating = async (
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   author: User,
   story: Story,
@@ -162,7 +163,7 @@ const validateRating = async (
 };
 
 export default async function create(
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -190,6 +191,10 @@ export default async function create(
   const story = await retrieveStory(mongo, tenant.id, input.storyID);
   if (!story) {
     throw new StoryNotFoundError(input.storyID);
+  }
+
+  if (story.isArchiving || story.isArchived) {
+    throw new CannotCreateCommentOnArchivedStory(tenant.id, story.id);
   }
 
   // Check if the user is banned on this site, if they are, throw an error right

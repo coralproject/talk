@@ -1,6 +1,5 @@
 import { intersection } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import {
   ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
@@ -11,6 +10,7 @@ import {
 } from "coral-common/constants";
 import { formatDate } from "coral-common/date";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   DuplicateEmailError,
   DuplicateUserError,
@@ -145,7 +145,8 @@ export interface FindOrCreateUserOptions {
 }
 
 export async function findOrCreate(
-  mongo: Db,
+  config: Config,
+  mongo: MongoContext,
   tenant: Tenant,
   input: FindOrCreateUser,
   options: FindOrCreateUserOptions,
@@ -174,7 +175,10 @@ export async function findOrCreate(
     // If this is an error related to a duplicate email, we might be in a
     // position where the user can link their accounts. This can only occur if
     // the tenant has both local and another social profile enabled.
-    if (err instanceof DuplicateEmailError && linkUsersAvailable(tenant)) {
+    if (
+      err instanceof DuplicateEmailError &&
+      linkUsersAvailable(config, tenant)
+    ) {
       // Pull the email address out of the input, and re-try creating the user
       // given that. We need to pull the verified property out because we don't
       // want to have that embedded in the `...rest` object.
@@ -202,7 +206,7 @@ export type CreateUser = FindOrCreateUserInput;
 export type CreateUserOptions = FindOrCreateUserOptions;
 
 export async function create(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   input: CreateUser,
   options: CreateUserOptions,
@@ -252,7 +256,7 @@ export async function create(
  * @param username the new username for the User
  */
 export async function setUsername(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   username: string
@@ -278,7 +282,7 @@ export async function setUsername(
  * @param email the new email for the User
  */
 export async function setEmail(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -314,7 +318,7 @@ export async function setEmail(
  * @param password the new password for the User
  */
 export async function setPassword(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   password: string
@@ -349,7 +353,7 @@ export async function setPassword(
  * @param newPassword the new password for the User
  */
 export async function updatePassword(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -418,7 +422,7 @@ export async function updatePassword(
 }
 
 export async function requestAccountDeletion(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -468,7 +472,7 @@ export async function requestAccountDeletion(
 }
 
 export async function cancelAccountDeletion(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User
@@ -507,7 +511,7 @@ export async function cancelAccountDeletion(
  * @param name name of the Token
  */
 export async function createToken(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   config: JWTSigningConfig,
   user: User,
@@ -547,7 +551,7 @@ export async function createToken(
  * @param id of the Token to be deactivated
  */
 export async function deactivateToken(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   id: string
@@ -569,7 +573,7 @@ export async function deactivateToken(
  * @param username the username that we are setting on the User
  */
 export async function updateUsername(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -643,7 +647,7 @@ export async function updateUsername(
  * @param username the username that we are setting on the User
  */
 export async function updateUsernameByID(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   username: string,
@@ -662,7 +666,7 @@ export async function updateUsernameByID(
  * @param role the role that we are setting on the User
  */
 export async function updateRole(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: Pick<User, "id">,
   userID: string,
@@ -676,7 +680,7 @@ export async function updateRole(
 }
 
 export async function promoteUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   userID: string
@@ -733,7 +737,7 @@ export async function promoteUser(
 }
 
 export async function demoteUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   userID: string
@@ -791,7 +795,7 @@ export async function demoteUser(
 }
 
 export async function updateModerationScopes(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: Pick<User, "id">,
   userID: string,
@@ -892,7 +896,7 @@ function canUpdateEmailAddress(tenant: Tenant, user: User): boolean {
  * @param password the users password for confirmation
  */
 export async function updateEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   mailer: MailerQueue,
   config: Config,
@@ -942,7 +946,7 @@ export async function updateEmail(
  * @param email the email address that we are setting on the User
  */
 export async function updateEmailByID(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   email: string
@@ -962,7 +966,7 @@ export async function updateEmailByID(
  * @param bio the bio that we are setting on the User
  */
 export async function updateBio(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   bio?: string
@@ -983,7 +987,7 @@ export async function updateBio(
  * @param avatar the avatar that we are setting on the User
  */
 export async function updateAvatar(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   avatar?: string
@@ -1002,7 +1006,7 @@ export async function updateAvatar(
  * @param now the current time that the note was created
  */
 export async function addModeratorNote(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1026,7 +1030,7 @@ export async function addModeratorNote(
  */
 
 export async function destroyModeratorNote(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   id: string,
@@ -1049,7 +1053,7 @@ export async function destroyModeratorNote(
  * @param now the current time that the ban took effect
  */
 export async function ban(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   rejector: RejectorQueue,
   tenant: Tenant,
@@ -1182,7 +1186,7 @@ export async function ban(
  * @param now the current time that the ban took effect
  */
 export async function premod(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1206,7 +1210,7 @@ export async function premod(
 }
 
 export async function removePremod(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1241,7 +1245,7 @@ export async function removePremod(
  * @param now the current time that the warning took effect
  */
 export async function warn(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1266,7 +1270,7 @@ export async function warn(
 }
 
 export async function removeWarning(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1292,7 +1296,7 @@ export async function removeWarning(
 }
 
 export async function acknowledgeWarning(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   now = new Date()
@@ -1325,7 +1329,7 @@ export async function acknowledgeWarning(
  * @param now the current time that the suspension will take effect
  */
 export async function suspend(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -1391,7 +1395,7 @@ export async function suspend(
 }
 
 export async function removeSuspension(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   userID: string,
@@ -1420,7 +1424,7 @@ export async function removeSuspension(
 }
 
 export async function removeBan(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   userID: string,
@@ -1457,7 +1461,7 @@ export async function removeBan(
 }
 
 export async function ignore(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   userID: string,
@@ -1486,7 +1490,7 @@ export async function ignore(
 }
 
 export async function removeIgnore(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   userID: string
@@ -1508,7 +1512,7 @@ export async function removeIgnore(
 }
 
 export async function requestCommentsDownload(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   config: Config,
@@ -1567,7 +1571,7 @@ export async function requestCommentsDownload(
 }
 
 export async function requestUserCommentsDownload(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   config: Config,
   signingConfig: JWTSigningConfig,
@@ -1586,7 +1590,7 @@ export async function requestUserCommentsDownload(
 }
 
 export async function updateNotificationSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   settings: NotificationSettingsInput
@@ -1595,7 +1599,7 @@ export async function updateNotificationSettings(
 }
 
 export async function updateMediaSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   settings: UpdateUserMediaSettingsInput
@@ -1630,7 +1634,7 @@ export async function updateUserLastCommentID(
 }
 
 /**
- * retrieveUserLastComment will return the id (if set) of the comment that
+ * retrieveUserLastCommentNotArchived will return the id (if set) of the comment that
  * the user last wrote. This will return null if the user has not made a comment
  * within the CURRENT_REPEAT_POST_TIMESPAN.
  *
@@ -1639,8 +1643,8 @@ export async function updateUserLastCommentID(
  * @param tenant the Tenant to operate on
  * @param user the User that we're looking up the limit for
  */
-export async function retrieveUserLastComment(
-  mongo: Db,
+export async function retrieveUserLastCommentNotArchived(
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenant: Tenant,
   user: User
@@ -1650,7 +1654,7 @@ export async function retrieveUserLastComment(
     return null;
   }
 
-  return retrieveComment(mongo, tenant.id, id);
+  return retrieveComment(mongo.comments(), tenant.id, id);
 }
 
 export interface LinkUser {
@@ -1659,12 +1663,13 @@ export interface LinkUser {
 }
 
 export async function link(
-  mongo: Db,
+  config: Config,
+  mongo: MongoContext,
   tenant: Tenant,
   source: User,
   { email, password }: LinkUser
 ) {
-  if (!linkUsersAvailable(tenant)) {
+  if (!linkUsersAvailable(config, tenant)) {
     throw new Error("cannot link users, not available");
   }
 

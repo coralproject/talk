@@ -4,7 +4,6 @@ import { graphql } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema/";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { ReplyListCommentContainer_comment } from "coral-stream/__generated__/ReplyListCommentContainer_comment.graphql";
@@ -51,9 +50,6 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
   replyListElement,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const flattenRepliesEnabled = settings.featureFlags?.includes(
-    GQLFEATURE_FLAG.FLATTEN_REPLIES
-  );
   return (
     <FadeInTransition active={Boolean(comment.enteredLive)}>
       <IgnoredTombstoneOrHideContainer
@@ -66,7 +62,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
           <CollapsableComment>
             {({ collapsed, toggleCollapsed }) => {
               const collapseEnabled = !isReplyFlattened(
-                flattenRepliesEnabled,
+                settings.flattenReplies,
                 indentLevel
               );
               return (
@@ -120,6 +116,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ReplyListCommentContainer_settings on Settings {
       ...CommentContainer_settings
+      flattenReplies
       featureFlags
     }
   `,

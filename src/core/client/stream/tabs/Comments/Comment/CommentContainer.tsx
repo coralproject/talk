@@ -56,6 +56,7 @@ import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated_
 import { useCommentSeen, useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
+import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
 import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";
 import computeCommentElementID from "./computeCommentElementID";
@@ -145,7 +146,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   enableJumpToParent,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const seen = useCommentSeen(comment.id);
+  const seen = useCommentSeen(viewer?.id, comment.id);
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const handleFocus = useCallback(() => {
     void setTraversalFocus({
@@ -248,6 +249,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
       return false;
     }
 
+    if (story.isArchiving || story.isArchived) {
+      return false;
+    }
+
     // Can't edit a comment if the editable date is before the current date!
     if (
       !comment.editing.editableUntil ||
@@ -341,11 +346,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
     !!viewer &&
     story.canModerate &&
     can(viewer, Ability.MODERATE) &&
-    !hideModerationCarat;
-
-  const flattenReplies = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.FLATTEN_REPLIES
-  );
+    !hideModerationCarat &&
+    !story.isArchiving &&
+    !story.isArchived;
 
   if (showEditDialog) {
     return (
@@ -485,7 +488,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
             [styles.flattenedPadding]: isReplyFlattened(
-              flattenReplies,
+              settings.flattenReplies,
               indentLevel
             ),
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
@@ -642,7 +645,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
                     settings={settings}
                     viewer={viewer}
                     readOnly={
-                      isViewerBanned || isViewerSuspended || isViewerWarned
+                      isViewerBanned ||
+                      isViewerSuspended ||
+                      isViewerWarned ||
+                      story.isArchived ||
+                      story.isArchiving
                     }
                     className={cn(
                       styles.actionButton,
@@ -665,7 +672,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         onClick={toggleShowReplyDialog}
                         active={showReplyDialog}
                         disabled={
-                          settings.disableCommenting.enabled || story.isClosed
+                          settings.disableCommenting.enabled ||
+                          story.isClosed ||
+                          story.isArchived ||
+                          story.isArchiving
                         }
                         className={cn(
                           styles.actionButton,
@@ -708,13 +718,16 @@ export const CommentContainer: FunctionComponent<Props> = ({
             </>
           }
         />
-        {showReportFlow && (
+        {showReportFlow && !story.isArchived && !story.isArchiving && (
           <ReportFlowContainer
             viewer={viewer}
             comment={comment}
             settings={settings}
             onClose={toggleShowReportFlow}
           />
+        )}
+        {showReportFlow && (story.isArchived || story.isArchiving) && (
+          <ArchivedReportFlowContainer settings={settings} comment={comment} />
         )}
         {showReplyDialog && !comment.deleted && (
           <ReplyCommentFormContainer
@@ -726,7 +739,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             showJumpToComment={Boolean(
               indentLevel &&
                 indentLevel >= MAX_REPLY_INDENT_DEPTH - 1 &&
-                flattenReplies
+                settings.flattenReplies
             )}
           />
         )}
@@ -772,6 +785,8 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           settings {
             mode
           }
+          isArchiving
+          isArchived
           ...CaretContainer_story
           ...EditCommentFormContainer_story
           ...PermalinkButtonContainer_story
@@ -829,10 +844,12 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           ...UsernameContainer_comment
           ...UsernameWithPopoverContainer_comment
           ...UserTagsContainer_comment
+          ...ArchivedReportFlowContainer_comment
         }
       `,
       settings: graphql`
         fragment CommentContainer_settings on Settings {
+          flattenReplies
           disableCommenting {
             enabled
           }
@@ -845,6 +862,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           ...ReportFlowContainer_settings
           ...UsernameWithPopoverContainer_settings
           ...UserTagsContainer_settings
+          ...ArchivedReportFlowContainer_settings
         }
       `,
     })(CommentContainer)

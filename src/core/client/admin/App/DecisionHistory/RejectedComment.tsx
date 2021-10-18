@@ -11,7 +11,7 @@ import Timestamp from "./Timestamp";
 import Username from "./Username";
 
 interface Props {
-  href: string;
+  href: string | null;
   username: string;
   date: string;
   onGotoComment?: React.EventHandler<React.MouseEvent>;
@@ -27,8 +27,12 @@ const RejectedComment: FunctionComponent<Props> = (props) => (
     </Localized>
     <Footer>
       <Timestamp>{props.date}</Timestamp>
-      <DotDivider />
-      <GoToCommentLink href={props.href} onClick={props.onGotoComment} />
+      {props.href && (
+        <>
+          <DotDivider />
+          <GoToCommentLink href={props.href} onClick={props.onGotoComment} />
+        </>
+      )}
     </Footer>
   </DecisionItem>
 );

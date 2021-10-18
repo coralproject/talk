@@ -4,6 +4,9 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { Form } from "react-final-form";
 import { graphql } from "react-relay";
 
+import useCommonTranslation, {
+  COMMON_TRANSLATION,
+} from "coral-admin/helpers/useCommonTranslation";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -32,7 +35,6 @@ import { SiteModeratorActions_viewer } from "coral-admin/__generated__/SiteModer
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
-import NotAvailable from "../NotAvailable";
 import DemoteUserMutation from "./DemoteUserMutation";
 import PromoteUserMutation from "./PromoteUserMutation";
 import UserRoleChangeButton from "./UserRoleChangeButton";
@@ -48,6 +50,9 @@ interface Props {
 const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
   const promoteUser = useMutation(PromoteUserMutation);
   const demoteUser = useMutation(DemoteUserMutation);
+  const notAvailableTranslation = useCommonTranslation(
+    COMMON_TRANSLATION.NOT_AVAILABLE
+  );
 
   const [mode, setMode] = useState<"promote" | "demote" | null>(null);
   const [isModalVisible, , toggleModalVisibility] = useToggleState();
@@ -147,7 +152,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                       <Localized
                         id="community-assignYourSitesTo"
                         strong={<ModalHeaderUsername />}
-                        $username={user.username || <NotAvailable />}
+                        $username={user.username || notAvailableTranslation}
                       >
                         <ModalHeader>
                           Assign your sites to{" "}

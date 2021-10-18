@@ -1,11 +1,9 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import Migration from "coral-server/services/migrate/migration";
-import collections from "coral-server/services/mongodb/collections";
 
 export default class extends Migration {
-  public async up(mongo: Db, tenantID: string) {
-    await collections.tenants(mongo).updateOne(
+  public async up(mongo: MongoContext, tenantID: string) {
+    await mongo.tenants().updateOne(
       { id: tenantID },
       {
         $rename: {

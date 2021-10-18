@@ -8,6 +8,8 @@ general-noTextContent = No text content
 ## Story Status
 storyStatus-open = Open
 storyStatus-closed = Closed
+storyStatus-archiving = Archiving
+storyStatus-archived = Archived
 
 ## Roles
 role-admin = Admin
@@ -396,6 +398,8 @@ configure-general-memberBio-label = Allow member bios
 #### Locale
 configure-general-locale-language = Language
 configure-general-locale-chooseLanguage = Choose the language for your Coral community.
+configure-general-locale-invalidLanguage =
+  The previously selected language <lang></lang> no longer exists. Please choose a different language.
 
 #### Sitewide Commenting
 configure-general-sitewideCommenting-title = Sitewide commenting
@@ -486,6 +490,12 @@ configure-general-commentEditing-explanation =
 configure-general-commentEditing-commentEditTimeFrame = Comment edit timeframe
 configure-general-commentEditing-seconds = Seconds
 
+#### Flatten replies
+configure-general-flattenReplies-title = Flatten replies
+configure-general-flattenReplies-enabled = Flatten replies enabled
+configure-general-flattenReplies-explanation =
+  Change how levels of replies display. When enabled, replies to comments can go up to four levels deep before they are no longer indented on the page. When disabled, after a depth of four replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
@@ -547,6 +557,8 @@ stories-actions-popover =
 stories-actions-rescrape = Re-scrape
 stories-actions-close = Close story
 stories-actions-open = Open story
+stories-actions-archive = Archive story
+stories-actions-unarchive = Unarchive story
 
 ### Sections
 
@@ -664,6 +676,9 @@ configure-auth-sso-rotate-dropdown-description =
 
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on
+configure-auth-local-forceAdminLocalAuth =
+  Admin local auth has been permanently enabled.
+  This is to ensure that Coral service teams can access the administration panel.
 
 configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <Link></Link>
@@ -1120,6 +1135,13 @@ moderate-forReview-reportedOffensive = Offensive
 moderate-forReview-reportedOther = Other
 moderate-forReview-reportedSpam = Spam
 
+# Archive
+
+moderate-archived-queue-title = This story has been archived
+moderate-archived-queue-noModerationActions = 
+  No moderation actions can be made on the comments when a story is archived.
+moderate-archived-queue-toPerformTheseActions =
+  To perform these actions, unarchive the story.
 
 ## Community
 community-emptyMessage = We could not find anyone in your community matching your criteria.

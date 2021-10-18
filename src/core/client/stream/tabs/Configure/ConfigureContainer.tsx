@@ -22,6 +22,8 @@ export class StreamContainer extends React.Component<ConfigureContainerProps> {
         story={this.props.story}
         settings={this.props.settings}
         viewer={this.props.viewer}
+        isArchived={this.props.story.isArchived}
+        isArchiving={this.props.story.isArchiving}
       />
     );
   }
@@ -29,12 +31,14 @@ export class StreamContainer extends React.Component<ConfigureContainerProps> {
 const enhanced = withFragmentContainer<ConfigureContainerProps>({
   story: graphql`
     fragment ConfigureContainer_story on Story {
+      isArchived
+      isArchiving
       ...ConfigureStreamContainer_story
       ...OpenOrCloseStreamContainer_story
       ...ModerateStreamContainer_story
       ...QAConfigContainer_story
-      ...LiveUpdatesConfigContainer_story
       ...AddMessageContainer_story
+      ...ArchivedConfigurationContainer_story
     }
   `,
   viewer: graphql`

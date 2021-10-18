@@ -1,5 +1,4 @@
 import * as site from "coral-server/models/site";
-
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   canModerate,

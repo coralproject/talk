@@ -1,6 +1,7 @@
 import * as actions from "coral-server/models/action/moderation/comment";
 
 import { GQLCommentModerationActionTypeResolver } from "../schema/__generated__/types";
+import { maybeLoadOnlyID } from "./Comment";
 
 export const CommentModerationAction: GQLCommentModerationActionTypeResolver<actions.CommentModerationAction> = {
   revision: async (action, input, ctx) => {
@@ -18,6 +19,8 @@ export const CommentModerationAction: GQLCommentModerationActionTypeResolver<act
 
     return { comment, revision };
   },
+  comment: ({ commentID }, args, ctx, info) =>
+    maybeLoadOnlyID(ctx, info, commentID),
   moderator: (action, input, ctx) =>
     action.moderatorID ? ctx.loaders.Users.user.load(action.moderatorID) : null,
 };

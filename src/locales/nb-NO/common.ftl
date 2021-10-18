@@ -8,3 +8,9 @@ common-banEmailTemplate =
 
 common-embedNotFound = Mediafilen ble ikke funnet. Den kan ha blitt slettet.
 common-networkError = Nettverksfeil. Vennligst oppdater siden og prøv igjen.
+
+# Error handling
+
+common-error-title = Det har oppstått en feil
+common-error-message = Feilmelding
+common-error-traceID = Sporings-ID

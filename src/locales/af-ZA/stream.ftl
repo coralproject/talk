@@ -30,6 +30,7 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-noCommentsYet = Daar is nog geen kommentaar nie. Hoekom skryf jy nie een nie?
 comments-streamQuery-storyNotFound = Storie nie gevind
 comments-commentForm-cancel = Kanselleer
+comments-commentForm-saveChanges = Bêre veranderings
 comments-commentForm-submit = Stuur
 comments-postCommentForm-submit = Stuur
 comments-postComment-confirmMedia-cancel = Kanselleer
@@ -45,8 +46,10 @@ comments-replyButton-reply = Antwoord
 comments-replyCommentForm-submit = Stuur
 comments-replyCommentForm-cancel = Kanselleer
 comments-replyCommentForm-rteLabel = Skryf 'n antwoord
+comments-replyCommentForm-rte =
+  .placeholder = { comments-replyCommentForm-rteLabel }
 comments-commentContainer-editButton = Redigeer
-comments-editCommentForm-saveChanges = bêre veranderings
+comments-editCommentForm-saveChanges = Bêre veranderings
 comments-editCommentForm-cancel = Kanselleer
 comments-editCommentForm-rteLabel = Redigeer kommentaar
 comments-editCommentForm-rte =
@@ -175,6 +178,7 @@ configure-configureQuery-storyNotFound = Storie nie gevind
 
 ## Change username
 profile-changeUsername-edit = Redigeer
+profile-changeUsername-saveChanges = Bêre veranderings
 profile-changeUsername-cancel = Kanselleer
 
 ## Discussions tab
@@ -192,12 +196,6 @@ configure-premodLink-commentsContainingLinks =
   Modereer kommentare vooraf wat skakels insluit
 configure-premodLink-description =
   Moderators moet enige kommentaar wat 'n skakel insluit goedkeur voor dit gepubliseer kan word.
-configure-disableLiveUpdates-title = Skakel regstreekse opdatering af
-configure-disableLiveUpdates-description =
-  Wanneer afgeskakel, sal kommentare en antwoorde nie meer dadelik opdateer ná dit gestuur is nie.
-  Kommentators sal die blad moet verfris om nuwe kommentare te sien. Ons beveel hierdie aan onder buitengewone omstandighede
-  soos wanneer hoë verkeer na 'n storie die laai van nuwe kommentare stadiger maak.
-configure-disableLiveUpdates-disable = Deaktiveer
 configure-addMessage-title =
   Voeg 'n boodskap of vraag by
 configure-addMessage-description =
@@ -216,7 +214,7 @@ configure-closeStream-description =
 configure-closeStream-closeStream = Sluit stroom
 
 profile-changeEmail-edit = Redigeer
-
+profile-changeEmail-saveChanges = Bêre veranderings
 profile-changeEmail-cancel = Kanselleer
 
 ## Ratings and Reviews

@@ -3,6 +3,9 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Form } from "react-final-form";
 
+import useCommonTranslation, {
+  COMMON_TRANSLATION,
+} from "coral-admin/helpers/useCommonTranslation";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   Button,
@@ -18,7 +21,6 @@ import { PropTypesOf } from "coral-ui/types";
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
-import NotAvailable from "../NotAvailable";
 import SiteModeratorModalSiteFieldContainer from "./SiteModeratorModalSiteFieldContainer";
 
 import styles from "./SiteModeratorModal.css";
@@ -40,6 +42,9 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   selectedSiteIDs = [],
   query,
 }) => {
+  const notAvailableTranslation = useCommonTranslation(
+    COMMON_TRANSLATION.NOT_AVAILABLE
+  );
   const onSubmit = useCallback(
     async (values: { siteIDs: string[] }) => {
       try {
@@ -72,7 +77,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                   <Localized
                     id="community-siteModeratorModal-assignSites"
                     strong={<ModalHeaderUsername />}
-                    $username={username || <NotAvailable />}
+                    $username={username || notAvailableTranslation}
                   >
                     <ModalHeader>
                       Assign sites for{" "}

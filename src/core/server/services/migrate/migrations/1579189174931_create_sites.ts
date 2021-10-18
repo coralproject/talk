@@ -1,6 +1,5 @@
-import { Db } from "mongodb";
-
 import { dotize } from "coral-common/utils/dotize";
+import { MongoContext } from "coral-server/data/context";
 import {
   ACTION_TYPE,
   encodeActionCountKeys,
@@ -22,7 +21,6 @@ import {
 } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
-import collections from "coral-server/services/mongodb/collections";
 
 import { MigrationError } from "../error";
 import { createIndexesFactory } from "../indexing";
@@ -32,7 +30,7 @@ interface OldTenant extends Tenant {
 }
 
 async function findOrCreateSite(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Readonly<OldTenant>
 ): Promise<Site> {
   // Get all the sites attached to this Tenant (if there are any).
@@ -62,15 +60,18 @@ async function findOrCreateSite(
 }
 
 export default class extends Migration {
-  private async findOrCreateSite(mongo: Db, tenant: Readonly<OldTenant>) {
+  private async findOrCreateSite(
+    mongo: MongoContext,
+    tenant: Readonly<OldTenant>
+  ) {
     // Try to find the site.
     const site = await findOrCreateSite(mongo, tenant);
 
     this.log(tenant.id).info("starting stories migration");
 
     // Add the siteID to all the stories.
-    let result = await collections
-      .stories(mongo)
+    let result = await mongo
+      .stories()
       .updateMany(
         { tenantID: tenant.id, siteID: null },
         { $set: { siteID: site.id } }
@@ -87,8 +88,8 @@ export default class extends Migration {
     this.log(tenant.id).info("starting comments migration");
 
     // Add the siteID to all comments.
-    result = await collections
-      .comments(mongo)
+    result = await mongo
+      .comments()
       .updateMany(
         { tenantID: tenant.id, siteID: null },
         { $set: { siteID: site.id } }
@@ -105,8 +106,8 @@ export default class extends Migration {
     this.log(tenant.id).info("starting commentActions migration");
 
     // Add the siteID to all commentActions.
-    result = await collections
-      .commentActions(mongo)
+    result = await mongo
+      .commentActions()
       .updateMany(
         { tenantID: tenant.id, siteID: null },
         { $set: { siteID: site.id } }
@@ -123,50 +124,51 @@ export default class extends Migration {
     return site;
   }
 
-  private async updateStoryActionCommentCounts(mongo: Db, tenant: Tenant) {
+  private async updateStoryActionCommentCounts(
+    mongo: MongoContext,
+    tenant: Tenant
+  ) {
     // Create the batch writer.
-    const batch = this.batch(collections.stories(mongo), tenant.id);
+    const batch = this.batch(mongo.stories(), tenant.id);
 
     // Recalculate the action counts for the stories.
-    const cursor = collections
-      .commentActions<{
-        _id: string;
-        actions: {
-          actionType: ACTION_TYPE;
-          reason?: FLAG_REASON;
-          sum: number;
-        }[];
-      }>(mongo)
-      .aggregate([
-        // Find all actions related to this Tenant.
-        { $match: { tenantID: tenant.id } },
-        // Group and count them to collect all the actions related to each
-        // action type, reason, and story.
-        {
-          $group: {
-            _id: {
-              storyID: "$storyID",
-              actionType: "$actionType",
-              reason: "$reason",
-            },
-            sum: { $sum: 1 },
+    const cursor = mongo.commentActions().aggregate<{
+      _id: string;
+      actions: {
+        actionType: ACTION_TYPE;
+        reason?: FLAG_REASON;
+        sum: number;
+      }[];
+    }>([
+      // Find all actions related to this Tenant.
+      { $match: { tenantID: tenant.id } },
+      // Group and count them to collect all the actions related to each
+      // action type, reason, and story.
+      {
+        $group: {
+          _id: {
+            storyID: "$storyID",
+            actionType: "$actionType",
+            reason: "$reason",
           },
+          sum: { $sum: 1 },
         },
-        // Group all the entries from storyID together now, and collect their
-        // action summaries.
-        {
-          $group: {
-            _id: "$_id.storyID",
-            actions: {
-              $push: {
-                actionType: "$_id.actionType",
-                reason: "$_id.reason",
-                sum: "$sum",
-              },
+      },
+      // Group all the entries from storyID together now, and collect their
+      // action summaries.
+      {
+        $group: {
+          _id: "$_id.storyID",
+          actions: {
+            $push: {
+              actionType: "$_id.actionType",
+              reason: "$_id.reason",
+              sum: "$sum",
             },
           },
         },
-      ]);
+      },
+    ]);
 
     while (await cursor.hasNext()) {
       const doc = await cursor.next();
@@ -199,10 +201,14 @@ export default class extends Migration {
     await batch.finish();
   }
 
-  private async updateCommentCounts(mongo: Db, tenant: Tenant, site: Site) {
+  private async updateCommentCounts(
+    mongo: MongoContext,
+    tenant: Tenant,
+    site: Site
+  ) {
     // Create a cursor for going through all the stories. That way we can find
     // all the actions that we can collect in one action.
-    const cursor = collections.stories(mongo).find({ tenantID: tenant.id });
+    const cursor = mongo.stories().find({ tenantID: tenant.id });
 
     // Begin accumulating comment counts for the site.
     const counts = createEmptyRelatedCommentCounts();
@@ -238,10 +244,10 @@ export default class extends Migration {
     await updateSiteCounts(mongo, tenant.id, site.id, counts);
   }
 
-  public async up(mongo: Db, tenantID: string) {
-    const tenant = await collections
-      .tenants<OldTenant>(mongo)
-      .findOne({ id: tenantID });
+  public async up(mongo: MongoContext, tenantID: string) {
+    const tenant = await mongo.tenants().findOne<OldTenant>({
+      id: tenantID,
+    });
     if (!tenant) {
       throw new MigrationError(tenantID, "could not find tenant", "tenants", [
         tenantID,
@@ -258,7 +264,7 @@ export default class extends Migration {
     await this.updateCommentCounts(mongo, tenant, site);
   }
 
-  public async indexes(mongo: Db) {
+  public async indexes(mongo: MongoContext) {
     // Create the indexes factory.
     const index = createIndexesFactory(mongo);
 

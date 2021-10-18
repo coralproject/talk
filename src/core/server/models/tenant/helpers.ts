@@ -1,5 +1,6 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 
+import { Config } from "coral-server/config";
 import { InternalError } from "coral-server/errors";
 import { translate } from "coral-server/services/i18n";
 
@@ -62,17 +63,26 @@ export function ensureFeatureFlag(
 }
 
 export function hasEnabledAuthIntegration(
-  tenant: Pick<Tenant, "auth">,
+  config: Config,
+  tenant: Pick<Tenant, "auth" | "featureFlags">,
   integration: keyof AuthIntegrations
 ) {
+  const forceAdminLocalAuth = config.get("force_admin_local_auth");
+  if (integration === "local" && forceAdminLocalAuth) {
+    return true;
+  }
+
   return tenant.auth.integrations[integration].enabled;
 }
 
-export function linkUsersAvailable(tenant: Pick<Tenant, "auth">) {
+export function linkUsersAvailable(
+  config: Config,
+  tenant: Pick<Tenant, "auth">
+) {
   return (
-    hasEnabledAuthIntegration(tenant, "local") &&
-    (hasEnabledAuthIntegration(tenant, "facebook") ||
-      hasEnabledAuthIntegration(tenant, "google"))
+    hasEnabledAuthIntegration(config, tenant, "local") &&
+    (hasEnabledAuthIntegration(config, tenant, "facebook") ||
+      hasEnabledAuthIntegration(config, tenant, "google"))
   );
 }
 
@@ -104,4 +114,14 @@ export function isAMPEnabled(tenant: Pick<Tenant, "featureFlags" | "amp">) {
     return tenant.amp;
   }
   return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.ENABLE_AMP);
+}
+
+export function areRepliesFlattened(
+  tenant: Pick<Tenant, "featureFlags" | "flattenReplies">
+) {
+  if (typeof tenant.flattenReplies === "boolean") {
+    return tenant.flattenReplies;
+  }
+
+  return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.FLATTEN_REPLIES);
 }

@@ -1,13 +1,11 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import Migration from "coral-server/services/migrate/migration";
-import collections from "coral-server/services/mongodb/collections";
 
 import { MigrationError } from "../error";
 
 export default class extends Migration {
-  public async up(mongo: Db, id: string) {
-    await collections.tenants(mongo).updateOne(
+  public async up(mongo: MongoContext, id: string) {
+    await mongo.tenants().updateOne(
       { id, webhooks: null },
       {
         $set: {
@@ -19,9 +17,9 @@ export default class extends Migration {
     );
   }
 
-  public async test(mongo: Db, id: string) {
+  public async test(mongo: MongoContext, id: string) {
     // Ensure that the tenant has the webhooks set.
-    const tenant = await collections.tenants(mongo).findOne({ id });
+    const tenant = await mongo.tenants().findOne({ id });
     if (!tenant) {
       throw new MigrationError(
         id,
@@ -41,9 +39,7 @@ export default class extends Migration {
     }
   }
 
-  public async down(mongo: Db, id: string) {
-    await collections
-      .tenants(mongo)
-      .updateOne({ id }, { $unset: { webhooks: "" } });
+  public async down(mongo: MongoContext, id: string) {
+    await mongo.tenants().updateOne({ id }, { $unset: { webhooks: "" } });
   }
 }

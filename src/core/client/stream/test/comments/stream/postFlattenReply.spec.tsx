@@ -36,7 +36,10 @@ const createTestRenderer = async (
             return storyWithDeepestReplies;
           },
           viewer: () => commenters[0],
-          settings: () => settings,
+          settings: () => ({
+            ...settings,
+            flattenReplies: true,
+          }),
         },
       }),
       params.resolvers

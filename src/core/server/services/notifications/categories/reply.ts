@@ -5,6 +5,7 @@ import {
 } from "coral-server/events";
 import { mapErrorsToNull } from "coral-server/helpers/dataloader";
 import { hasPublishedStatus } from "coral-server/models/comment";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
 import { IgnoredUser } from "coral-server/models/user";
 
@@ -19,6 +20,14 @@ export const reply: NotificationCategory<Payloads> = {
   process: async (ctx, input) => {
     const comment = await ctx.comments.load(input.data.commentID);
     if (!comment || !hasPublishedStatus(comment)) {
+      return null;
+    }
+
+    // If the comment was already in a published state, don't notify again
+    if (
+      "oldStatus" in input.data &&
+      PUBLISHED_STATUSES.includes(input.data.oldStatus)
+    ) {
       return null;
     }
 

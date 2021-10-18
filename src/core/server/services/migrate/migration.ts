@@ -1,6 +1,7 @@
 import Logger from "bunyan";
-import { Collection, Db } from "mongodb";
+import { Collection } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import { TenantResource } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
@@ -8,10 +9,10 @@ import { I18n } from "coral-server/services/i18n";
 import Batch from "./batch";
 
 interface Migration {
-  indexes?(mongo: Db): Promise<void>;
-  up?(mongo: Db, tenantID: string): Promise<void>;
-  test?(mongo: Db, tenantID: string): Promise<void>;
-  down?(mongo: Db, tenantID: string): Promise<void>;
+  indexes?(mongo: MongoContext): Promise<void>;
+  up?(mongo: MongoContext, tenantID: string): Promise<void>;
+  test?(mongo: MongoContext, tenantID: string): Promise<void>;
+  down?(mongo: MongoContext, tenantID: string): Promise<void>;
 }
 
 export interface MigrationOptions {
