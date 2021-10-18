@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import React, {
-  ChangeEvent,
   FunctionComponent,
   KeyboardEvent,
   useCallback,
@@ -59,70 +58,66 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
         onSelect(url);
       }}
     >
-      {({ handleSubmit }) => {
-        return (
-          <div className={styles.root}>
-              <Field
-                name="externalImg"
-                validate={getImageValidators()}
-              >
-                {({ input, meta }) => {
-
-                  return (
+      {({ handleSubmit }) => (
+        <div className={styles.root}>
+            <Field
+              name="externalImg"
+              validate={getImageValidators()}
+            >
+              {({ input, meta }) => (
+                  <HorizontalGutter>
                     <HorizontalGutter>
-                      <HorizontalGutter>
-                        <Localized id="comments-postComment-pasteImage">
-                          <InputLabel htmlFor="coral-comments-postComment-pasteImage">
-                            Paste image URL
-                          </InputLabel>
-                        </Localized>
-                        <Flex>
-                          <TextField
-                            name="externalImg"
-                            id="coral-comments-postComment-pasteImage"
-                            className={styles.input}
-                            onChange={(evt) => {
-                              setURL(evt.currentTarget.value);
-                              input.onChange(evt);
-                            }}
-                            onKeyPress={onKeyPress}
-                            fullWidth
-                            variant="seamlessAdornment"
-                            color="streamBlue"
-                            ref={ref}
-                          />
-                          <Localized id="comments-postComment-insertImage">
-                            <Button
-                              color="stream"
-                              disabled={!!meta.error}
-                              onClick={(e) => {
-                                if (!url || meta.error) return;
-
-                                handleSubmit();
-                              }}
-                              className={styles.insertButton}
-                            >
-                              Insert
-                            </Button>
-                          </Localized>
-                        </Flex>
-                      </HorizontalGutter>
-                      {meta.dirty && meta.error && (
-                        <CallOut
-                          color="error"
-                          title={meta.error}
-                          titleWeight="semiBold"
-                          icon={<Icon>error</Icon>}
-                          role="alert"
+                      <Localized id="comments-postComment-pasteImage">
+                        <InputLabel htmlFor="coral-comments-postComment-pasteImage">
+                          Paste image URL
+                        </InputLabel>
+                      </Localized>
+                      <Flex>
+                        <TextField
+                          name="externalImg"
+                          id="coral-comments-postComment-pasteImage"
+                          className={styles.input}
+                          onChange={(evt) => {
+                            setURL(evt.currentTarget.value);
+                            input.onChange(evt);
+                          }}
+                          onKeyPress={onKeyPress}
+                          fullWidth
+                          variant="seamlessAdornment"
+                          color="streamBlue"
+                          ref={ref}
                         />
-                      )}
+                        <Localized id="comments-postComment-insertImage">
+                          <Button
+                            color="stream"
+                            disabled={!!meta.error}
+                            onClick={(e) => {
+                              if (!url || meta.error) return;
+
+                              handleSubmit();
+                            }}
+                            className={styles.insertButton}
+                          >
+                            Insert
+                          </Button>
+                        </Localized>
+                      </Flex>
                     </HorizontalGutter>
-                  );
-                }}
-              </Field>
-          </div>
-        );
-      }}
+                    {meta.dirty && meta.error && (
+                      <CallOut
+                        color="error"
+                        title={meta.error}
+                        titleWeight="semiBold"
+                        icon={<Icon>error</Icon>}
+                        role="alert"
+                      />
+                    )}
+                  </HorizontalGutter>
+                )
+              }
+            </Field>
+        </div>
+      )}
     </Form>
   );
 };
