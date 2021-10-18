@@ -48,6 +48,24 @@ export function reconstructTenantURL(
   return constructTenantURL(config, tenant, path);
 }
 
+export function constructDownloadLinkURL(
+  config: Config,
+  tenant: Pick<Tenant, "domain">,
+  path = "/",
+  downloadLinkDomainOverride: string
+): string {
+  const linkDomain =
+    downloadLinkDomainOverride !== ""
+      ? downloadLinkDomainOverride
+      : tenant.domain;
+  let url: URL = new URL(path, `https://${linkDomain}`);
+  if (config.get("env") === "development") {
+    url = new URL(path, `http://${linkDomain}:${config.get("dev_port")}`);
+  }
+
+  return url.href;
+}
+
 export function doesRequireSchemePrefixing(url: string) {
   return !url.startsWith("http");
 }
