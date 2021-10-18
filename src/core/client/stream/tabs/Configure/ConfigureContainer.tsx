@@ -33,7 +33,6 @@ const enhanced = withFragmentContainer<ConfigureContainerProps>({
       ...OpenOrCloseStreamContainer_story
       ...ModerateStreamContainer_story
       ...QAConfigContainer_story
-      ...LiveUpdatesConfigContainer_story
       ...AddMessageContainer_story
     }
   `,
