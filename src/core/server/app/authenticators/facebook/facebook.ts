@@ -50,14 +50,16 @@ interface FacebookUserProfile {
 const VERSION = "v3.2";
 
 export class FacebookAuthenticator extends OAuth2Authenticator {
+  private readonly config: Config;
   private readonly mongo: Db;
   private readonly profileURL = `https://graph.facebook.com/${VERSION}/me`;
   private readonly integration: Readonly<Required<FacebookAuthIntegration>>;
 
-  constructor({ integration, mongo, ...options }: Options) {
+  constructor({ integration, mongo, config, ...options }: Options) {
     super({
       ...options,
       ...integration,
+      config,
       authorizationURL: `https://www.facebook.com/${VERSION}/dialog/oauth`,
       tokenURL: `https://graph.facebook.com/${VERSION}/oauth/access_token`,
       scope: "email",
@@ -68,6 +70,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
 
     this.integration = integration;
     this.mongo = mongo;
+    this.config = config;
   }
 
   /**
@@ -151,6 +154,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
 
       // Create the user this time.
       user = await findOrCreate(
+        this.config,
         this.mongo,
         tenant,
         {

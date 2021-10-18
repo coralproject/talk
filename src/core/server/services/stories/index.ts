@@ -178,8 +178,9 @@ export async function remove(
       "attempted to remove story that has linked comments without consent for deleting comments"
     );
 
-    // TODO: (wyattjoh) improve error
-    throw new Error("asset has comments, cannot remove");
+    throw new Error(
+      "Failed to delete story. Attempted to remove a story that still has comments. It is preferable that you merge a story or update its Story URL instead of trying to delete it. If you are sure about what you're doing and want to delete this story with its comments. Use the option `includeComments = true`. For more details check the schema suggestions for this mutation input."
+    );
   }
 
   const removedStory = await removeStory(mongo, tenant.id, story.id);
