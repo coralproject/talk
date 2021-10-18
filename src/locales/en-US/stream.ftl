@@ -6,6 +6,7 @@ general-commentsEmbedSection =
   .aria-label = Comments Embed
 
 general-moderate = Moderate
+general-archived = Archived
 
 general-userBoxUnauthenticated-joinTheConversation = Join the conversation
 general-userBoxUnauthenticated-signIn = Sign in
@@ -632,6 +633,26 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
+## Archived Report Comment Popover
+
+comments-archivedReportPopover-reportThisComment = Report This Comment
+comments-archivedReportPopover-doesThisComment =
+  Does this comment violate our community guidelines? Is this offensive or spam?
+  Send  an email to our moderation team at <a>{ $orgName }</a> with a link to
+  this comment and a brief explanation.
+comments-archivedReportPopover-needALink =
+  Need a link to this comment?
+comments-archivedReportPopover-copyLink = Copy link
+
+comments-archivedReportPopover-emailSubject = Report comment
+comments-archivedReportPopover-emailBody =
+  I would like to report the following comment:
+  %0A
+  { $permalinkURL }
+  %0A
+  %0A
+  For the reasons stated below:
+
 ## Submit Status
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
@@ -642,6 +663,15 @@ comments-submitStatus-submittedAndRejected =
 # Configure
 configure-configureQuery-errorLoadingProfile = Error loading configure
 configure-configureQuery-storyNotFound = Story not found
+
+## Archive
+configure-archived-title = This comment stream has been archived
+configure-archived-onArchivedStream =
+  On archived streams, no new comments, reactions, or reports may be
+  submitted. Also, comments cannot be moderated.
+configure-archived-toAllowTheseActions =
+  To allow these actions, unarchive the stream.
+configure-archived-unarchiveStream = Unarchive stream
 
 ## Change username
 profile-changeUsername-username = Username

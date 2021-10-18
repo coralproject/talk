@@ -2,12 +2,12 @@ import { Redis } from "ioredis";
 import Joi from "joi";
 import { isNil, throttle } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 import { URL } from "url";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { validate } from "coral-server/app/request/body";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
@@ -44,7 +44,7 @@ import {
 import { Verifier } from "../jwt";
 
 export interface SSOStrategyOptions {
-  mongo: Db;
+  mongo: MongoContext;
 }
 
 export interface SSOUserProfile {
@@ -100,7 +100,7 @@ export const SSOTokenSchema = Joi.object().keys({
 
 export async function findOrCreateSSOUser(
   config: Config,
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenant: Tenant,
   integration: GQLSSOAuthIntegration,
@@ -222,7 +222,7 @@ const updateLastUsedAtKID = throttle(
 
 export interface SSOVerifierOptions {
   config: Config;
-  mongo: Db;
+  mongo: MongoContext;
   redis: AugmentedRedis;
 }
 
@@ -266,7 +266,7 @@ export function getRelevantSSOSigningSecrets(
 
 export class SSOVerifier implements Verifier<SSOToken> {
   private config: Config;
-  private mongo: Db;
+  private mongo: MongoContext;
   private redis: AugmentedRedis;
 
   constructor({ mongo, redis, config }: SSOVerifierOptions) {

@@ -224,6 +224,7 @@ function addLocalCommentReplyToStory(
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentReplyMutation_story on Story {
+    url
     settings {
       moderation
     }
@@ -289,8 +290,8 @@ async function commit(
   const viewer = getViewer(environment)!;
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
-  const storySettings = lookup<GQLStory>(relayEnvironment, input.storyID)!
-    .settings;
+  const story = lookup<GQLStory>(relayEnvironment, input.storyID)!;
+  const storySettings = story.settings;
   if (!storySettings || !storySettings.moderation) {
     throw new Error("Moderation mode of the story was not included");
   }
@@ -375,6 +376,7 @@ async function commit(
                 },
                 story: {
                   id: input.storyID,
+                  url: story.url,
                   settings: {
                     live: {
                       enabled: storySettings.live.enabled,

@@ -1,17 +1,15 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { commentActions } from "coral-server/services/mongodb/collections";
 
 const reviewCommentAction = async (
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   now: Date,
   commentActionID: string
 ) => {
-  const result = await commentActions(mongo).findOneAndUpdate(
+  const result = await mongo.commentActions().findOneAndUpdate(
     {
       tenantID: tenant.id,
       id: commentActionID,

@@ -883,3 +883,33 @@ export class ScrapeFailed extends CoralError {
     }
   }
 }
+
+export class CannotCreateCommentOnArchivedStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY,
+      status: 400,
+      context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
+    });
+  }
+}
+
+export class CannotOpenAnArchivedStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_OPEN_AN_ARCHIVED_STORY,
+      status: 400,
+      context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
+    });
+  }
+}
+
+export class CannotMergeAnArchivedStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_MERGE_AN_ARCHIVED_STORY,
+      status: 400,
+      context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
+    });
+  }
+}

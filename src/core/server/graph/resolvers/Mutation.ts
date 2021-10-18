@@ -425,4 +425,12 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     flag: await ctx.mutators.Actions.reviewCommentFlag(input),
     clientMutationId: input.clientMutationId,
   }),
+  archiveStories: async (source, { input }, ctx) => ({
+    stories: await ctx.mutators.Stories.archiveStories(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  unarchiveStories: async (source, { input }, ctx) => ({
+    stories: await ctx.mutators.Stories.unarchiveStories(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

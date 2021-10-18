@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 // Use the following collections reference to interact with specific
 // collections.
 // import collections from "coral-server/services/mongodb/collections";
@@ -10,7 +9,7 @@ export default class extends Migration {
   // migration will not be ran!
   public static disabled = true;
 
-  public async up(mongo: Db, tenantID: string) {
+  public async up(mongo: MongoContext, tenantID: string) {
     throw new Error("migration not implemented");
   }
 }
