@@ -293,7 +293,6 @@ export function createStory(
         },
         mode: GQLSTORY_MODE.COMMENTS,
         experts: [],
-        flattenReplies: false,
       },
     })
   );
