@@ -23,18 +23,7 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
       query={graphql`
         query StoryInfoDrawerQuery($storyID: ID!) {
           story(id: $storyID) {
-            id
-            url
-            status
-            scrapedAt
-            metadata {
-              title
-              author
-              publishedAt
-            }
-            settings {
-              ...StorySettingsContainer_storySettings
-            }
+            ...StoryInfoDrawerContainer_story
           }
         }
       `}

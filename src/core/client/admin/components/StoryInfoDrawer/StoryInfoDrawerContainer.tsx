@@ -1,10 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "relay-runtime";
 
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 import { Flex, HorizontalGutter, Icon, TextLink } from "coral-ui/components/v2";
 
-import { StoryInfoDrawerQueryResponse as StoryResponse } from "coral-admin/__generated__/StoryInfoDrawerQuery.graphql";
+import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
 
 import RescrapeStory from "./RescrapeStory";
 import styles from "./StoryInfoDrawerContainer.css";
@@ -13,7 +15,7 @@ import StoryStatus from "./StoryStatus";
 
 export interface Props {
   onClose: () => void;
-  story: NonNullable<StoryResponse["story"]>;
+  story: StoryInfoDrawerContainer_story;
 }
 
 const MetaDataItem: FunctionComponent<{ result: [string, any] }> = ({
@@ -100,4 +102,23 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   );
 };
 
-export default StoryInfoDrawerContainer;
+const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment StoryInfoDrawerContainer_story on Story {
+      id
+      url
+      status
+      scrapedAt
+      metadata {
+        title
+        author
+        publishedAt
+      }
+      settings {
+        ...StorySettingsContainer_storySettings
+      }
+    }
+  `,
+})(StoryInfoDrawerContainer);
+
+export default enhanced;

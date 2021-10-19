@@ -1,5 +1,5 @@
 .root {
-  overflow: scroll;
+  overflow-y: scroll;
   font-family: var(--font-family-primary);
 }
 
