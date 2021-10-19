@@ -293,6 +293,7 @@ export function createStory(
         },
         mode: GQLSTORY_MODE.COMMENTS,
         experts: [],
+        flattenReplies: false,
       },
     })
   );
@@ -362,6 +363,7 @@ export function createSettings() {
       approvedCommentsThreshold: 2,
     },
     premoderateSuspectWords: false,
+    flattenReplies: false,
     auth: {
       integrations: {
         local: {
