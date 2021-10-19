@@ -15,6 +15,7 @@ import {
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
+import ArchivedMarker from "coral-stream/common/ArchivedMarker/ArchivedMarker";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
   COMMENTS_ORDER_BY,
@@ -244,7 +245,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       >
         <Flex alignItems="flex-start" justifyContent="space-between" wrap>
           <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-          <div className={styles.moderateStream}>
+          <div className={styles.rightStreamHeader}>
+            {(props.story.isArchived || props.story.isArchiving) && (
+              <ArchivedMarker />
+            )}
             <ModerateStreamContainer
               settings={props.settings}
               story={props.story}
@@ -578,6 +582,8 @@ const enhanced = withFragmentContainer<Props>({
           QUESTION
         }
       }
+      isArchived
+      isArchiving
       ...CreateCommentMutation_story
       ...CreateCommentReplyMutation_story
       ...ModerateStreamContainer_story

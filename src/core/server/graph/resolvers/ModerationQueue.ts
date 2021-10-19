@@ -1,9 +1,7 @@
 import { defaultTo } from "lodash";
 
-import {
-  CommentConnectionInput,
-  retrieveCommentConnection,
-} from "coral-server/models/comment";
+import { CommentConnectionInput } from "coral-server/models/comment";
+import { retrieveCommentConnection } from "coral-server/services/comments";
 
 import {
   GQLCOMMENT_SORT,

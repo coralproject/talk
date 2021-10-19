@@ -1,6 +1,4 @@
-import { Db } from "mongodb";
-
-import { migrations as collection } from "coral-server/services/mongodb/collections";
+import { MongoContext } from "coral-server/data/context";
 
 export enum MIGRATION_STATE {
   STARTED = "STARTED",
@@ -17,12 +15,12 @@ export interface MigrationRecord {
 }
 
 export async function startMigration(
-  mongo: Db,
+  mongo: MongoContext,
   id: number,
   clientID: string,
   now = new Date()
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.migrations().findOneAndUpdate(
     { id },
     {
       $setOnInsert: {
@@ -55,12 +53,12 @@ export async function startMigration(
  * @param now the current date
  */
 async function updateMigrationState(
-  mongo: Db,
+  mongo: MongoContext,
   id: number,
   state: MIGRATION_STATE.FINISHED | MIGRATION_STATE.FAILED,
   now: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.migrations().findOneAndUpdate(
     { id },
     {
       $set: {
@@ -80,15 +78,23 @@ async function updateMigrationState(
   return result.value || null;
 }
 
-export async function finishMigration(mongo: Db, id: number, now = new Date()) {
+export async function finishMigration(
+  mongo: MongoContext,
+  id: number,
+  now = new Date()
+) {
   return updateMigrationState(mongo, id, MIGRATION_STATE.FINISHED, now);
 }
 
-export async function failMigration(mongo: Db, id: number, now = new Date()) {
+export async function failMigration(
+  mongo: MongoContext,
+  id: number,
+  now = new Date()
+) {
   return updateMigrationState(mongo, id, MIGRATION_STATE.FAILED, now);
 }
 
-export async function retrieveAllMigrationRecords(mongo: Db) {
-  const cursor = collection(mongo).find({}).sort({ id: 1 });
+export async function retrieveAllMigrationRecords(mongo: MongoContext) {
+  const cursor = mongo.migrations().find({}).sort({ id: 1 });
   return cursor.toArray();
 }

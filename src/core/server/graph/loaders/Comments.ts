@@ -2,11 +2,22 @@ import DataLoader from "dataloader";
 import { defaultTo, isNumber } from "lodash";
 import { DateTime } from "luxon";
 
+import { StoryNotFoundError } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
   CommentConnectionInput,
+  retrieveManyRecentStatusCounts,
+  retrieveStoryCommentTagCounts,
+} from "coral-server/models/comment";
+import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
+import { hasPublishedStatus } from "coral-server/models/comment/helpers";
+import { Connection, createEmptyConnection } from "coral-server/models/helpers";
+import { Story } from "coral-server/models/story";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import {
   retrieveAllCommentsUserConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
@@ -14,16 +25,8 @@ import {
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
-  retrieveManyRecentStatusCounts,
   retrieveRejectedCommentUserConnection,
-  retrieveStoryCommentTagCounts,
-} from "coral-server/models/comment";
-import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
-import { hasPublishedStatus } from "coral-server/models/comment/helpers";
-import { Connection } from "coral-server/models/helpers";
-import { Story } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
+} from "coral-server/services/comments";
 
 import {
   CommentToParentsArgs,
@@ -180,7 +183,7 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  forFilter: ({
+  forFilter: async ({
     first,
     after,
     storyID,
@@ -190,21 +193,42 @@ export default (ctx: GraphContext) => ({
     tag,
     query,
     orderBy,
-  }: QueryToCommentsArgs) =>
-    retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
-      first: defaultTo(first, 10),
-      after,
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      filter: {
-        ...queryFilter(query),
-        ...tagFilter(tag),
-        ...sectionFilter(ctx.tenant, section),
-        // If these properties are not provided or are null, remove them from
-        // the filter because they do not exist in a nullable state on the
-        // database model.
-        ...requiredPropertyFilter({ storyID, siteID, status }),
+  }: QueryToCommentsArgs) => {
+    let story: Readonly<Story> | null = null;
+    if (storyID) {
+      story = await ctx.loaders.Stories.story.load(storyID);
+    }
+
+    const isArchiving = story?.isArchiving || false;
+    const isArchived = story?.isArchived || false;
+
+    // If we are actively archiving, the comments are in flux as they
+    // move between the live and archive mongo instances, so return an empty
+    // connection for now.
+    if (isArchiving) {
+      return createEmptyConnection<Comment>();
+    }
+
+    return retrieveCommentConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      {
+        first: defaultTo(first, 10),
+        after,
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        filter: {
+          ...queryFilter(query),
+          ...tagFilter(tag),
+          ...sectionFilter(ctx.tenant, section),
+          // If these properties are not provided or are null, remove them from
+          // the filter because they do not exist in a nullable state on the
+          // database model.
+          ...requiredPropertyFilter({ storyID, siteID, status }),
+        },
       },
-    }).then(primeCommentsFromConnection(ctx)),
+      isArchived
+    ).then(primeCommentsFromConnection(ctx));
+  },
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
     (commentIDs: string[]) => {
       if (!ctx.user) {
@@ -243,48 +267,72 @@ export default (ctx: GraphContext) => ({
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
     }).then(primeCommentsFromConnection(ctx)),
-  taggedForStory: (
+  taggedForStory: async (
     storyID: string,
     tag: GQLTAG,
     { first, orderBy, after }: StoryToCommentsArgs
-  ) =>
-    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-      filter: {
-        // Filter optionally for comments with a specific tag.
-        "tags.type": tag,
+  ) => {
+    const story = await ctx.loaders.Stories.story.load(storyID);
+    if (!story) {
+      throw new StoryNotFoundError(storyID);
+    }
+
+    const { isArchived } = story;
+    return retrieveCommentStoryConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      storyID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+        filter: {
+          // Filter optionally for comments with a specific tag.
+          "tags.type": tag,
+        },
       },
-    }).then(primeCommentsFromConnection(ctx)),
+      isArchived
+    ).then(primeCommentsFromConnection(ctx));
+  },
   forStory: async (
     storyID: string,
     { first, orderBy, after, tag, rating }: StoryToCommentsArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
-      throw new Error("cannot get comments for a story that doesn't exist");
+      throw new StoryNotFoundError(storyID);
     }
 
-    return retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first: defaultTo(first, 10),
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-      after,
-      filter: {
-        ...tagFilter(tag),
-        ...ratingFilter(ctx.tenant, story, rating),
-        // Only get Comments that are top level. If the client wants to load
-        // another layer, they can request another nested connection.
-        parentID: null,
+    return retrieveCommentStoryConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      storyID,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+        after,
+        filter: {
+          ...tagFilter(tag),
+          ...ratingFilter(ctx.tenant, story, rating),
+          // Only get Comments that are top level. If the client wants to load
+          // another layer, they can request another nested connection.
+          parentID: null,
+        },
       },
-    }).then(primeCommentsFromConnection(ctx));
+      story.isArchived
+    ).then(primeCommentsFromConnection(ctx));
   },
-  forParent: (
+  forParent: async (
     storyID: string,
     parentID: string,
     { first, orderBy, after, flatten }: CommentToRepliesArgs
-  ) =>
-    retrieveCommentRepliesConnection(
+  ) => {
+    const story = await ctx.loaders.Stories.story.load(storyID);
+    if (!story) {
+      throw new StoryNotFoundError(storyID);
+    }
+
+    return retrieveCommentRepliesConnection(
       ctx.mongo,
       ctx.tenant.id,
       storyID,
@@ -296,15 +344,28 @@ export default (ctx: GraphContext) => ({
         filter: {
           ...flattenFilter(parentID, { enabled: Boolean(flatten) }),
         },
-      }
-    ).then(primeCommentsFromConnection(ctx)),
-  parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
-    retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
-      last: defaultTo(last, 1),
-      // The cursor passed here is always going to be a number.
-      before: before as number,
-    }).then(primeCommentsFromConnection(ctx)),
+      },
+      story.isArchived
+    ).then(primeCommentsFromConnection(ctx));
+  },
+  parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
+    const story = await ctx.loaders.Stories.story.load(comment.storyID);
+    if (!story) {
+      throw new StoryNotFoundError(comment.storyID);
+    }
 
+    return retrieveCommentParentsConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      comment,
+      {
+        last: defaultTo(last, 1),
+        // The cursor passed here is always going to be a number.
+        before: before as number,
+      },
+      story.isArchived
+    ).then(primeCommentsFromConnection(ctx));
+  },
   sharedModerationQueueQueuesCounts: new SingletonResolver(
     () =>
       retrieveSharedModerationQueueQueuesCounts(

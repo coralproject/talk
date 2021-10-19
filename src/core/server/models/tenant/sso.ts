@@ -1,16 +1,14 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import { rotateSigningSecret } from "coral-server/models/settings";
-import { tenants as collection } from "coral-server/services/mongodb/collections";
 
 export async function rotateTenantSSOSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   inactiveAt: Date,
   now: Date
 ) {
   return rotateSigningSecret({
-    collection: collection(mongo),
+    collection: mongo.tenants(),
     filter: { id },
     path: "auth.integrations.sso",
     prefix: "ssosec",
@@ -20,14 +18,14 @@ export async function rotateTenantSSOSigningSecret(
 }
 
 export async function deactivateTenantSSOSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   kid: string,
   inactiveAt: Date,
   now: Date
 ) {
   // Update the tenant.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $set: {
@@ -51,12 +49,12 @@ export async function deactivateTenantSSOSigningSecret(
 }
 
 export async function deleteTenantSSOSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   kid: string
 ) {
   // Update the tenant.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $pull: {

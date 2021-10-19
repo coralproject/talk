@@ -1,11 +1,11 @@
 import { createCacheUrl } from "@ampproject/toolbox-cache-url";
 import builder from "content-security-policy-builder";
 import { compact, flatten } from "lodash";
-import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
 import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { retrieveSite, Site } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { isAMPEnabled, Tenant } from "coral-server/models/tenant";
@@ -20,7 +20,7 @@ interface RequestQuery {
 }
 
 async function retrieveSiteFromEmbed(
-  mongo: Db,
+  mongo: MongoContext,
   req: Request,
   tenant: Tenant
 ): Promise<Site | null> {
@@ -84,7 +84,7 @@ async function retrieveAMPOrigins(
 }
 
 async function retrieveOriginsFromRequest(
-  mongo: Db,
+  mongo: MongoContext,
   config: Config,
   req: Request
 ): Promise<string[]> {
