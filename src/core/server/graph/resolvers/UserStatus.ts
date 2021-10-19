@@ -74,8 +74,8 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
     ...user.consolidateUserWarningStatus(warning),
     userID,
   }),
-  modMessage: ({ message, userID }): ModMessageStatusInput => ({
-    ...user.consolidateUserModMessageStatus(message),
+  modMessage: ({ modMessage, userID }): ModMessageStatusInput => ({
+    ...user.consolidateUserModMessageStatus(modMessage),
     userID,
   }),
 };

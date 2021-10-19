@@ -2187,14 +2187,12 @@ export async function modMessageUser(
     createdAt: now,
     message,
   };
+  // todo: handle the case where the user already has an active modMessage
   // Try to update the user with the message.
   const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
-      "status.modMessage.active": {
-        $ne: true,
-      },
     },
     {
       $set: {
@@ -2219,6 +2217,75 @@ export async function modMessageUser(
     }
 
     throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * acknowledgeOwnModMessage will acknowledge a moderation message that was
+ * sent to the user.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param now the current date
+ */
+export async function acknowledgeOwnModMessage(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
+  // Create the new update.
+  const update: ModMessageStatusHistory = {
+    active: false,
+    acknowledgedAt: now,
+    createdAt: now,
+    createdBy: id,
+  };
+
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.modMessage.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.modMessage.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.modMessage.active": false,
+      },
+      $push: {
+        "status.modMessage.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the acknowledge mod message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user didn't have a mod message to acknowledge, so nothing needs to be done!
+    // todo: confirm this
+    return user;
   }
 
   return result.value;
@@ -2443,12 +2510,6 @@ export function consolidateUsernameStatus(
   return username;
 }
 
-export function consolidateUserModMessageStatus(
-  message: User["status"]["modMessage"]
-) {
-  return message;
-}
-
 const computeBanActive = (ban: BanStatus, siteID?: string) => {
   if (ban.active) {
     return true;
@@ -2473,6 +2534,23 @@ export function consolidateUserBanStatus(
 
 export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {
   return premod;
+}
+
+export function consolidateUserModMessageStatus(
+  modMessage: User["status"]["modMessage"]
+) {
+  if (!modMessage) {
+    return {
+      active: false,
+      history: [],
+    };
+  }
+  const activeModMessage = modMessage.history[modMessage.history.length - 1];
+  return {
+    active: modMessage.active,
+    history: modMessage.history,
+    message: activeModMessage ? activeModMessage.message : undefined,
+  };
 }
 
 export function consolidateUserWarningStatus(

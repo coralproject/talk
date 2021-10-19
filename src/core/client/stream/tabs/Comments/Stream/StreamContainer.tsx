@@ -57,6 +57,7 @@ import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
 import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletionRequestCalloutContainer";
 import FeaturedComments from "./FeaturedComments";
 import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
+import ModMessageContainer from "./ModMessage/ModMessageContainer";
 import { PostCommentFormContainer } from "./PostCommentForm";
 import PreviousCountSpyContainer from "./PreviousCountSpyContainer";
 import SortMenu from "./SortMenu";
@@ -169,6 +170,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     GQLUSER_STATUS.SUSPENDED
   );
   const warned = !!props.viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
+  const modMessaged = !!props.viewer?.status.modMessage.active;
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
@@ -283,7 +285,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
               />
             </>
           ))}
-        {(banned || warned || suspended) && (
+        {(banned || warned || suspended || modMessaged) && (
           <Localized
             id="comments-accountStatus-section"
             attrs={{ "aria-label": true }}
@@ -300,6 +302,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 />
               )}
               {warned && <WarningContainer viewer={props.viewer} />}
+              {/* todo: determine if we want to include the message here or
+              separately since it doesn't affect the user status. For now, including here. */}
+              {modMessaged && <ModMessageContainer viewer={props.viewer} />}
             </section>
           </Localized>
         )}
@@ -599,10 +604,14 @@ const enhanced = withFragmentContainer<Props>({
       id
       status {
         current
+        modMessage {
+          active
+        }
       }
       ...CreateCommentMutation_viewer
       ...CreateCommentReplyMutation_viewer
       ...ModerateStreamContainer_viewer
+      ...ModMessageContainer_viewer
       ...PostCommentFormContainer_viewer
       ...StreamDeletionRequestCalloutContainer_viewer
       ...SuspendedInfoContainer_viewer

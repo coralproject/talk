@@ -8438,6 +8438,14 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
+  acknowledgeModMessage will remove a warning
+  """
+  acknowledgeModMessage(
+    input: AcknowledgeModMessageInput!
+  ): AcknowledgeModMessagePayload @auth
+  # todo: does it need any kind of auth here like the acknowledge warning?
+
+  """
   warnUser will warn a user and prevent them from commenting until they acknowledge
   """
   warnUser(input: WarnUserInput!): WarnUserPayload!
@@ -8450,7 +8458,7 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  acknowledgWarning will remove a warning
+  acknowledgeWarning will remove a warning
   """
   acknowledgeWarning(
     input: AcknowledgeWarningInput!

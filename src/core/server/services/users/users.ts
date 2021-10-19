@@ -41,10 +41,12 @@ import {
   Tenant,
 } from "coral-server/models/tenant";
 import {
+  acknowledgeOwnModMessage,
   acknowledgeOwnWarning,
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
+  consolidateUserModMessageStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
   consolidateUserWarningStatus,
@@ -1255,6 +1257,32 @@ export async function modMessage(
 ) {
   // Send moderation message to the user.
   return modMessageUser(mongo, tenant.id, userID, moderator.id, message, now);
+}
+
+// todo: need to add some documentation above this function
+export async function acknowledgeModMessage(
+  mongo: MongoContext,
+  tenant: Tenant,
+  userID: string,
+  now = new Date()
+) {
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  const modMessageStatus = consolidateUserModMessageStatus(
+    targetUser.status.modMessage
+  );
+  if (!modMessageStatus.active) {
+    // The user does not currently have a mod message sent to them, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // acknowledge the mod message
+  // todo: look into -- is there another way to acknowledge warnings since this specifies own?
+  return acknowledgeOwnModMessage(mongo, tenant.id, userID, now);
 }
 
 /**
