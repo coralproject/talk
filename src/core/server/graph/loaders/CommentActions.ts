@@ -13,6 +13,7 @@ import {
   GQLCOMMENT_SORT,
   GQLSectionFilter,
 } from "../schema/__generated__/types";
+
 import { requiredPropertyFilter, sectionFilter } from "./helpers";
 
 interface FilteredConnectionInput {

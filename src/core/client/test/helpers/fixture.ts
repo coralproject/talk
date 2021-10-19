@@ -271,6 +271,8 @@ export function createStory(
       },
       canModerate: true,
       isClosed: false,
+      isArchived: false,
+      isArchiving: false,
       commentCounts: {
         totalPublished: 0,
         tags: {

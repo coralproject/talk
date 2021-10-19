@@ -1,5 +1,6 @@
-import { GQLCommentMediaTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as comment from "coral-server/models/comment";
+
+import { GQLCommentMediaTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 const resolveType: GQLCommentMediaTypeResolver<comment.CommentMedia> = (
   embed

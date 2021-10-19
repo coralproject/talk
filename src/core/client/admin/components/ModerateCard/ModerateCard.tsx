@@ -87,6 +87,8 @@ interface Props {
   onBan: () => void;
   isQA?: boolean;
   rating?: number | null;
+  isArchived?: boolean;
+  isArchiving?: boolean;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -126,6 +128,8 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectPrev,
   onBan,
   isQA,
+  isArchived,
+  isArchiving,
 }) => {
   const div = useRef<HTMLDivElement>(null);
 
@@ -331,7 +335,12 @@ const ModerateCard: FunctionComponent<Props> = ({
               onClick={onReject}
               invert={status === "rejected"}
               disabled={
-                status === "rejected" || dangling || deleted || readOnly
+                status === "rejected" ||
+                dangling ||
+                deleted ||
+                readOnly ||
+                isArchived ||
+                isArchiving
               }
               readOnly={readOnly}
               className={cn({
@@ -342,7 +351,12 @@ const ModerateCard: FunctionComponent<Props> = ({
               onClick={onApprove}
               invert={status === "approved"}
               disabled={
-                status === "approved" || dangling || deleted || readOnly
+                status === "approved" ||
+                dangling ||
+                deleted ||
+                readOnly ||
+                isArchived ||
+                isArchiving
               }
               readOnly={readOnly}
               className={cn({

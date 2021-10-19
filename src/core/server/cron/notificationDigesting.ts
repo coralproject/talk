@@ -1,7 +1,7 @@
-import { Db } from "mongodb";
 import path from "path";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -17,7 +17,7 @@ import {
 } from "./scheduled";
 
 interface Options {
-  mongo: Db;
+  mongo: MongoContext;
   config: Config;
   mailerQueue: MailerQueue;
   signingConfig: JWTSigningConfig;

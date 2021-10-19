@@ -1,7 +1,7 @@
 import Queue, { Job } from "bull";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import Task from "coral-server/queue/Task";
@@ -10,7 +10,7 @@ import { scrape } from "coral-server/services/stories/scraper";
 const JOB_NAME = "scraper";
 
 export interface ScrapeProcessorOptions {
-  mongo: Db;
+  mongo: MongoContext;
   config: Config;
 }
 

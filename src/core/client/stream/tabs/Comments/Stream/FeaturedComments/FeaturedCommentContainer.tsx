@@ -46,7 +46,15 @@ interface Props {
 const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
   const { comment, settings, story, viewer } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
-  const isBanned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const isViewerBanned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.BANNED
+  );
+  const isViewerSuspended = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.SUSPENDED
+  );
+  const isViewerWarned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.WARNED
+  );
   const isRatingsAndReviews =
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
@@ -134,7 +142,13 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
             comment={comment}
             settings={settings}
             viewer={viewer}
-            readOnly={isBanned}
+            readOnly={
+              isViewerBanned ||
+              isViewerSuspended ||
+              isViewerWarned ||
+              story.isArchived ||
+              story.isArchiving
+            }
             className={CLASSES.featuredComment.actionBar.reactButton}
             reactedClassName={CLASSES.featuredComment.actionBar.reactedButton}
           />
@@ -212,6 +226,8 @@ const enhanced = withFragmentContainer<Props>({
       settings {
         mode
       }
+      isArchiving
+      isArchived
       ...UserTagsContainer_story
     }
   `,

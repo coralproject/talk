@@ -1,7 +1,7 @@
 import Queue from "bull";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import {
@@ -46,7 +46,7 @@ const createQueueOptions = (config: Config): Queue.QueueOptions => {
 };
 
 export interface QueueOptions {
-  mongo: Db;
+  mongo: MongoContext;
   config: Config;
   tenantCache: TenantCache;
   i18n: I18n;
