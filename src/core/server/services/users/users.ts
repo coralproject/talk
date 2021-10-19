@@ -58,6 +58,7 @@ import {
   ignoreUser,
   linkUsers,
   mergeUserSiteModerationScopes,
+  modMessageUser,
   NotificationSettingsInput,
   premodUser,
   pullUserSiteModerationScopes,
@@ -1233,6 +1234,27 @@ export async function removePremod(
 
   // For each of the suspensions, remove it.
   return removeUserPremod(mongo, tenant.id, userID, moderator.id, now);
+}
+
+/**
+ * modMessage will send a moderation message to a specific user.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be messaged on
+ * @param moderator the User that is messaging the User
+ * @param userID the ID of the User being messaged
+ * @param now the current time that the message was sent
+ */
+export async function modMessage(
+  mongo: MongoContext,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  message: string,
+  now = new Date()
+) {
+  // Send moderation message to the user.
+  return modMessageUser(mongo, tenant.id, userID, moderator.id, message, now);
 }
 
 /**

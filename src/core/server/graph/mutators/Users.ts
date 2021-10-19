@@ -12,6 +12,7 @@ import {
   demoteUser,
   destroyModeratorNote,
   ignore,
+  modMessage,
   premod,
   promoteUser,
   removeBan,
@@ -53,6 +54,7 @@ import {
   GQLDemoteUserInput,
   GQLIgnoreUserInput,
   GQLInviteUsersInput,
+  GQLModMessageUserInput,
   GQLPremodUserInput,
   GQLPromoteUserInput,
   GQLRemovePremodUserInput,
@@ -285,6 +287,15 @@ export const Users = (ctx: GraphContext) => ({
     ),
   warn: async (input: GQLWarnUserInput) =>
     warn(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.message,
+      ctx.now
+    ),
+  modMessage: async (input: GQLModMessageUserInput) =>
+    modMessage(
       ctx.mongo,
       ctx.tenant,
       ctx.user!,

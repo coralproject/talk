@@ -2333,6 +2333,51 @@ type WarningStatus {
   history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
+type ModMessageStatusHistory {
+  """
+  active when true, indicates that the given user has been sent a moderation message but has not acknowledged the message.
+  """
+  active: Boolean!
+
+  """
+  createdBy is the user that messaged the commenter
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time the user was messaged
+  """
+  createdAt: Time!
+
+  """
+  acknowledgedAt is the time the commenter acknowledged the message. if `null` then the message
+  has not been acknowledged
+  """
+  acknowledgedAt: Time
+
+  """
+  message is the custom message sent to the commenter
+  """
+  message: String
+}
+
+type ModMessageStatus {
+  """
+  active when true, indicates that the given user has been messaged but has not acknowledged it.
+  """
+  active: Boolean!
+
+  """
+  message is the current message for the message sent to the User.
+  """
+  message: String
+
+  """
+  history will return the status history items for messages.
+  """
+  history: [ModMessageStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
 type PremodStatusHistory {
   """
   active when true, indicates that the given user is premodded.
@@ -2440,6 +2485,16 @@ type UserStatus {
   warning stores the user warning status as well as the history of warnings
   """
   warning: WarningStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  message stores the user message status as well as the history of messages
+  """
+  modMessage: ModMessageStatus!
     @auth(
       userIDField: "userID"
       roles: [ADMIN, MODERATOR]
@@ -7273,6 +7328,56 @@ type AcknowledgeWarningPayload {
 }
 
 ##################
+# modMessageUser
+##################
+input ModMessageUserInput {
+  """
+  userID is the ID of the User that should have their account messaged.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  message is displayed to the user in the stream
+  """
+  message: String!
+}
+
+type ModMessageUserPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+input AcknowledgeModMessageInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AcknowledgeModMessagePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
 # banUser
 ##################
 
@@ -8324,6 +8429,12 @@ type Mutation {
   suspendUser will suspend a specific User from interacting with Comments.
   """
   suspendUser(input: SuspendUserInput!): SuspendUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  modMessageUser will send a user a moderation message that they need to acknowledge
+  """
+  modMessageUser(input: ModMessageUserInput!): ModMessageUserPayload!
     @auth(roles: [ADMIN, MODERATOR])
 
   """

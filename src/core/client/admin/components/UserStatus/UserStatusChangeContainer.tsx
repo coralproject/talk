@@ -10,6 +10,8 @@ import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/User
 
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
+import ModMessageModal from "./ModMessageModal";
+import ModMessageUserMutation from "./ModMessageUserMutation";
 import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
@@ -45,18 +47,37 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const premodUser = useMutation(PremodUserMutation);
   const removeUserPremod = useMutation(RemoveUserPremodMudtaion);
   const warnUser = useMutation(WarnUserMutation);
+  const messageUser = useMutation(ModMessageUserMutation);
   const removeUserWarning = useMutation(RemoveUserWarningMutation);
   const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
   const [showWarn, setShowWarn] = useState<boolean>(false);
+  const [showSendModMessage, setShowSendModMessage] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
+  const [showSendModMessageSuccess, setShowSendModMessageSuccess] = useState<
+    boolean
+  >(false);
 
   const moderationScopesEnabled =
     settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
     settings.multisite;
 
+  const handleModMessage = useCallback(() => {
+    setShowSendModMessage(true);
+  }, [user, setShowSendModMessage]);
+  const hideSendModMessage = useCallback(() => {
+    setShowSendModMessage(false);
+    setShowSendModMessageSuccess(false);
+  }, [setShowWarn]);
+  const handleSendModMessageConfirm = useCallback(
+    (message: string) => {
+      void messageUser({ userID: user.id, message });
+      setShowSendModMessageSuccess(true);
+    },
+    [messageUser, user, setShowSendModMessageSuccess]
+  );
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {
       return;
@@ -197,6 +218,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         warned={user.status.warning.active}
         onWarn={handleWarn}
         onRemoveWarning={handleRemoveWarning}
+        onModMessage={handleModMessage}
         fullWidth={fullWidth}
         bordered={bordered}
         moderationScopesEnabled={moderationScopesEnabled}
@@ -227,6 +249,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onClose={hideWarn}
         onConfirm={handleWarnConfirm}
         success={showWarnSuccess}
+      />
+      <ModMessageModal
+        username={user.username}
+        open={showSendModMessage}
+        onClose={hideSendModMessage}
+        onConfirm={handleSendModMessageConfirm}
+        success={showSendModMessageSuccess}
       />
       {
         <BanModal

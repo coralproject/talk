@@ -6,6 +6,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { BanStatusInput } from "./BanStatus";
+import { ModMessageStatusInput } from "./ModMessageStatus";
 import { PremodStatusInput } from "./PremodStatus";
 import { SuspensionStatusInput } from "./SuspensionStatus";
 import { UsernameStatusInput } from "./UsernameStatus";
@@ -71,6 +72,10 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<
   }),
   warning: ({ warning, userID }): WarningStatusInput => ({
     ...user.consolidateUserWarningStatus(warning),
+    userID,
+  }),
+  modMessage: ({ message, userID }): ModMessageStatusInput => ({
+    ...user.consolidateUserModMessageStatus(message),
     userID,
   }),
 };

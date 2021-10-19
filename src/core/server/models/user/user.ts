@@ -34,6 +34,7 @@ import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import {
   GQLBanStatus,
   GQLDIGEST_FREQUENCY,
+  GQLModMessageStatus,
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
@@ -308,6 +309,36 @@ export interface PremodStatus {
   history: PremodStatusHistory[];
 }
 
+export interface ModMessageStatusHistory {
+  /**
+   * active when true, indicates that the given user has not acknowledged the message.
+   */
+  active: boolean;
+  /**
+   * createdBy is the user that created this message
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+  /**
+   * acknowledgedAt is the time the commenter acknowledged it
+   */
+  acknowledgedAt?: Date;
+
+  /**
+   * message is the message sent to the commenter
+   */
+  message?: string;
+}
+
+export interface ModMessageStatus {
+  active: boolean;
+  history: ModMessageStatusHistory[];
+}
+
 export interface WarningStatusHistory {
   /**
    * active when true, indicates that the given user has not acknowledged the warning.
@@ -369,6 +400,12 @@ export interface UserStatus {
    * warnings
    */
   warning?: WarningStatus;
+
+  /**
+   * modMessage stores whether a user has an unacknowledged moderation message and
+   * a history of moderation messages
+   */
+  modMessage: ModMessageStatus;
 }
 
 /**
@@ -604,6 +641,7 @@ async function findOrCreateUserInput(
       ban: { active: false, history: [] },
       premod: { active: false, history: [] },
       warning: { active: false, history: [] },
+      modMessage: { active: false, history: [] },
     },
     notifications: {
       onReply: false,
@@ -2134,6 +2172,58 @@ export async function removeActiveUserSuspensions(
   return result.value;
 }
 
+export async function modMessageUser(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  message?: string,
+  now = new Date()
+) {
+  // Create the new message.
+  const modMessageHistory: ModMessageStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+    message,
+  };
+  // Try to update the user with the message.
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.modMessage.active": {
+        $ne: true,
+      },
+    },
+    {
+      $set: {
+        "status.modMessage.active": true,
+      },
+      $push: {
+        "status.modMessage.history": modMessageHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    // Get the user so we can figure out why the message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
 export async function warnUser(
   mongo: MongoContext,
   tenantID: string,
@@ -2335,6 +2425,12 @@ export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
+export type ConsolidatedModMessageStatus = Omit<
+  GQLModMessageStatus,
+  "history"
+> &
+  Pick<ModMessageStatus, "history">;
+
 export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
   Pick<PremodStatus, "history">;
 
@@ -2345,6 +2441,12 @@ export function consolidateUsernameStatus(
   username: User["status"]["username"]
 ) {
   return username;
+}
+
+export function consolidateUserModMessageStatus(
+  message: User["status"]["modMessage"]
+) {
+  return message;
 }
 
 const computeBanActive = (ban: BanStatus, siteID?: string) => {
