@@ -2363,7 +2363,7 @@ type ModMessageStatusHistory {
 
 type ModMessageStatus {
   """
-  active when true, indicates that the given user has been messaged but has not acknowledged it.
+  active when true, indicates that the given user has been sent a moderation message but has not acknowledged it.
   """
   active: Boolean!
 
@@ -8443,7 +8443,6 @@ type Mutation {
   acknowledgeModMessage(
     input: AcknowledgeModMessageInput!
   ): AcknowledgeModMessagePayload @auth
-  # todo: does it need any kind of auth here like the acknowledge warning?
 
   """
   warnUser will warn a user and prevent them from commenting until they acknowledge

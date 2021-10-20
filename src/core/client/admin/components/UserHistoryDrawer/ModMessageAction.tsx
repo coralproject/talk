@@ -22,7 +22,7 @@ const ModMessageAction: FunctionComponent<ModMessageActionProps> = ({
         <span>User messaged</span>
       </Localized>
     );
-  } else if (action === "acknowledged") {
+  } else {
     return (
       <Localized
         id="moderate-user-drawer-account-history-modMessage-acknowledged"
@@ -35,6 +35,5 @@ const ModMessageAction: FunctionComponent<ModMessageActionProps> = ({
       </Localized>
     );
   }
-  return null;
 };
 export default ModMessageAction;

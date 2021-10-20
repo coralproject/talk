@@ -302,8 +302,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 />
               )}
               {warned && <WarningContainer viewer={props.viewer} />}
-              {/* todo: determine if we want to include the message here or
-              separately since it doesn't affect the user status. For now, including here. */}
               {modMessaged && <ModMessageContainer viewer={props.viewer} />}
             </section>
           </Localized>

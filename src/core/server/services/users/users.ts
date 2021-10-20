@@ -1259,7 +1259,14 @@ export async function modMessage(
   return modMessageUser(mongo, tenant.id, userID, moderator.id, message, now);
 }
 
-// todo: need to add some documentation above this function
+/**
+ * acknowledgeModMessage will acknowledge that a mod message was seen by the user
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be messaged on
+ * @param userID the ID of the User acknowledging the mod message
+ * @param now the current time that the message was acknowledged by the user
+ */
 export async function acknowledgeModMessage(
   mongo: MongoContext,
   tenant: Tenant,
@@ -1281,7 +1288,6 @@ export async function acknowledgeModMessage(
   }
 
   // acknowledge the mod message
-  // todo: look into -- is there another way to acknowledge warnings since this specifies own?
   return acknowledgeOwnModMessage(mongo, tenant.id, userID, now);
 }
 

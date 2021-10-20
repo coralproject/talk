@@ -4,8 +4,7 @@ import React, { FunctionComponent } from "react";
 import { HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-// todo: should these message styles be shared somewhere instead of duplicated?
-import styles from "./ModMessage.css";
+import AccountStatusCalloutMessage from "../AccountStatusCalloutMessage";
 
 interface Props {
   message: string;
@@ -33,8 +32,7 @@ const ModMessage: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
         <Localized id="modMessage-message-heading">
           <p>Moderator message:</p>
         </Localized>
-        <blockquote className={styles.message}>{message}</blockquote>
-        {/* todo: can reuse localization here? */}
+        <AccountStatusCalloutMessage message={message} />
         <Localized id="modMessage-acknowledge">
           <Button
             paddingSize="extraSmall"

@@ -4,10 +4,10 @@ import React, { FunctionComponent, useCallback } from "react";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
-import ChangeStatusModal from "./ChangeStatusModal";
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
+import ChangeStatusModal from "./ChangeStatusModal";
 import ModMessageForm from "./ModMessageForm";
 
 interface Props {
@@ -36,7 +36,6 @@ const ModMessageModal: FunctionComponent<Props> = ({
     <ChangeStatusModal
       open={open}
       onClose={onClose}
-      // todo: make sure this is connected since just changed
       aria-labelledby="modMessageModal-title"
     >
       {({ lastFocusableRef }) => (
