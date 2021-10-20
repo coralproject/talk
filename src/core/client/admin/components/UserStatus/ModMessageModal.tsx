@@ -37,15 +37,14 @@ const ModMessageModal: FunctionComponent<Props> = ({
       open={open}
       onClose={onClose}
       // todo: make sure this is connected since just changed
-      aria-labelledby="messageModal-title"
+      aria-labelledby="modMessageModal-title"
     >
       {({ lastFocusableRef }) => (
         <>
           {success && (
             <HorizontalGutter spacing={3}>
               <Localized
-                // todo: actually add to translations
-                id="community-messageModal-success"
+                id="community-modMessageModal-success"
                 $username={username}
                 strong={<ModalHeaderUsername />}
               >
@@ -56,8 +55,7 @@ const ModMessageModal: FunctionComponent<Props> = ({
               </Localized>
 
               <Flex justifyContent="flex-end" itemGutter="half">
-                {/* todo: actually add to translations */}
-                <Localized id="community-messageModal-success-close">
+                <Localized id="community-modMessageModal-success-close">
                   <Button ref={lastFocusableRef} onClick={onClose}>
                     Ok
                   </Button>
@@ -68,11 +66,11 @@ const ModMessageModal: FunctionComponent<Props> = ({
           {!success && (
             <HorizontalGutter spacing={3}>
               <Localized
-                id="community-messageModal-areYouSure"
+                id="community-modMessageModal-areYouSure"
                 strong={<ModalHeaderUsername />}
                 $username={username || <NotAvailable />}
               >
-                <ModalHeader id="messageModal-title">
+                <ModalHeader id="modMessageModal-title">
                   Message{" "}
                   <ModalHeaderUsername>
                     {username || <NotAvailable />}
@@ -80,7 +78,7 @@ const ModMessageModal: FunctionComponent<Props> = ({
                   ?
                 </ModalHeader>
               </Localized>
-              <Localized id="community-messageModal-consequence">
+              <Localized id="community-modMessageModal-consequence">
                 <ModalBodyText>
                   Send a message to a commenter that is visible only to them.
                 </ModalBodyText>

@@ -1049,6 +1049,9 @@ moderate-user-drawer-username-change-old = Old:
 moderate-user-drawer-account-history-premod-set = Always pre-moderate
 moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
 
+moderate-user-drawer-account-history-modMessage-sent = User messaged
+moderate-user-drawer-account-history-modMessage-acknowledged = Message acknowledged at { $acknowledgedAt }
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
@@ -1298,6 +1301,11 @@ community-warnModal-warnUser = Warn user
 community-userStatus-warn = Warn
 community-userStatus-warnEverywhere = Warn everywhere
 community-userStatus-message = Message
+
+community-modMessageModal-success = A message has been sent to <strong>{ $username }</strong>.
+community-modMessageModal-success-close = Ok
+community-modMessageModal-areYouSure = Message <strong>{ $username }</strong>?
+community-modMessageModal-consequence = Send a message to a commenter that is visible only to them.
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.

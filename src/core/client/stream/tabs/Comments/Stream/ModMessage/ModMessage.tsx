@@ -17,32 +17,24 @@ const ModMessage: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
     <CallOut
       color="primary"
       iconColor="none"
-      icon={<Icon size="sm">report</Icon>}
+      icon={
+        <Icon size="sm" color="stream">
+          message
+        </Icon>
+      }
       borderPosition="top"
       title={
-        // todo: actually add to localization
         <Localized id="modMessage-heading">
-          Your account has been sent a message from a moderator
+          Your account has been sent a message
         </Localized>
       }
     >
       <HorizontalGutter spacing={3}>
-        {/* todo: actually add to localization */}
-        {/* <Localized id="modMessage-explanation">
-          <p>
-            In accordance with our community guidelines your account has been
-            issued a warning.
-          </p>
-        </Localized> */}
-        <blockquote className={styles.message}>{message}</blockquote>
-        {/* todo: actually add to localization */}
-        <Localized id="modMessage-instructions">
-          <p>
-            So that we know you've seen this message, please press the
-            "Acknowledge" button below.
-          </p>
+        <Localized id="modMessage-message-heading">
+          <p>Moderator message:</p>
         </Localized>
-        {/* todo: actually add to localization */}
+        <blockquote className={styles.message}>{message}</blockquote>
+        {/* todo: can reuse localization here? */}
         <Localized id="modMessage-acknowledge">
           <Button
             paddingSize="extraSmall"

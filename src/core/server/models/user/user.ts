@@ -2187,7 +2187,7 @@ export async function modMessageUser(
     createdAt: now,
     message,
   };
-  // todo: handle the case where the user already has an active modMessage
+
   // Try to update the user with the message.
   const result = await mongo.users().findOneAndUpdate(
     {

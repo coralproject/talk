@@ -18,15 +18,16 @@ const ModMessageAction: FunctionComponent<ModMessageActionProps> = ({
   });
   if (action === "created") {
     return (
-      // todo: actually add this localization id
       <Localized id="moderate-user-drawer-account-history-modMessage-sent">
         <span>User messaged</span>
       </Localized>
     );
   } else if (action === "acknowledged") {
     return (
-      // todo: actually add this localization id
-      <Localized id="moderate-user-drawer-account-history-modMessage-acknowledged">
+      <Localized
+        id="moderate-user-drawer-account-history-modMessage-acknowledged"
+        $acknowledgedAt={acknowledgedAt ? formatter(acknowledgedAt) : ""}
+      >
         <span>
           Message acknowledged at{" "}
           {acknowledgedAt ? formatter(acknowledgedAt) : ""}
