@@ -1306,6 +1306,11 @@ community-modMessageModal-success = A message has been sent to <strong>{ $userna
 community-modMessageModal-success-close = Ok
 community-modMessageModal-areYouSure = Message <strong>{ $username }</strong>?
 community-modMessageModal-consequence = Send a message to a commenter that is visible only to them.
+community-modMessageModal-message-label = Message
+community-modMessageModal-message-required = Required
+community-modMessageModal-message-description = Explain to this user how they should change their behavior on your site.
+community-modMessageModal-cancel = Cancel
+community-modMessageModal-messageUser = Message user
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.

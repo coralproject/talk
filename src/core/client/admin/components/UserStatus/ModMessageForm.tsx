@@ -40,17 +40,14 @@ const ModMessageForm: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <HorizontalGutter spacing={1}>
                 <Flex alignItems="baseline" spacing={1}>
-                  {/* TODO: Add this id to localization */}
-                  <Localized id="community-messageModal-message-label">
+                  <Localized id="community-modMessageModal-message-label">
                     <Label className={styles.label}>Message</Label>
                   </Localized>
-                  {/* TODO: Add this id to localization */}
-                  <Localized id="community-messageModal-message-required">
+                  <Localized id="community-modMessageModal-message-required">
                     <span className={styles.required}>Required</span>
                   </Localized>
                 </Flex>
-                {/* TODO: Add this id to localization */}
-                <Localized id="community-messageModal-message-description">
+                <Localized id="community-modMessageModal-message-description">
                   <HelperText>
                     Explain to this user how they should change their behavior
                     on your site.
@@ -59,19 +56,16 @@ const ModMessageForm: FunctionComponent<Props> = ({
               </HorizontalGutter>
               <Field component="textarea" name="message" validate={required}>
                 {({ input }) => (
-                  // TODO: Add this id to localization
-                  <Textarea id="messageModal-message" {...input} fullwidth />
+                  <Textarea id="modMessageModal-message" {...input} fullwidth />
                 )}
               </Field>
               <Flex justifyContent="flex-end" itemGutter="half">
-                {/* TODO: Add this id to localization */}
-                <Localized id="community-messageModal-cancel">
+                <Localized id="community-modMessageModal-cancel">
                   <Button variant="flat" onClick={onCancel}>
                     Cancel
                   </Button>
                 </Localized>
-                {/* TODO: Add this id to localization */}
-                <Localized id="community-messageModal-messageUser">
+                <Localized id="community-modMessageModal-messageUser">
                   <Button
                     ref={lastFocusableRef}
                     type="submit"

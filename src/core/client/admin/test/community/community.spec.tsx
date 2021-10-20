@@ -820,6 +820,69 @@ it("remove user ban", async () => {
   expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
 });
 
+it("send user a moderation message", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      modMessageUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          message:
+            "Just wanted to send a friendly reminder about our comment guidelines.",
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            modMessage: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change user status").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  act(() => {
+    within(popup).getByText("Message", { selector: "button" }).props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Message", {
+    exact: false,
+  });
+
+  act(() => {
+    within(modal)
+      .getByID("modMessageModal-message")
+      .props.onChange(
+        "Just wanted to send a friendly reminder about our comment guidelines."
+      );
+  });
+
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+  // Sending the user a moderation message should not change their status
+  within(userRow).getByText("Active");
+  expect(resolvers.Mutation!.modMessageUser!.called).toBe(true);
+});
+
 it("invites user", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
