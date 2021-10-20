@@ -33,7 +33,6 @@ const FlattenRepliesConfig: FunctionComponent<Props> = ({ disabled }) => (
   >
     <Localized
       id="configure-general-flattenReplies-explanation"
-      strong={<strong />}
     >
       <FormFieldDescription>
         Change how levels of replies display. When enabled, replies to comments\
