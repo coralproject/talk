@@ -49,7 +49,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
 
   return (
     <Form onSubmit={({ externalImg }) => onSelect(externalImg)}>
-      {({ handleSubmit, submitting, pristine, valid }) => (
+      {({ handleSubmit, submitting, pristine, invalid }) => (
         <div className={styles.root}>
           <Field name="externalImg" validate={getImageValidators()}>
             {({ input, meta }) => (
@@ -62,22 +62,19 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
                   </Localized>
                   <Flex>
                     <TextField
+                      {...input}
                       name="externalImg"
                       id="coral-comments-postComment-pasteImage"
                       className={styles.input}
-                      onChange={(evt) => {
-                        input.onChange(evt);
-                      }}
                       onKeyPress={onKeyPress}
                       fullWidth
                       variant="seamlessAdornment"
                       color="streamBlue"
-                      ref={ref}
                     />
                     <Localized id="comments-postComment-insertImage">
                       <Button
                         color="stream"
-                        disabled={pristine || !valid || submitting}
+                        disabled={pristine || invalid || submitting}
                         onClick={() => handleSubmit()}
                         className={styles.insertButton}
                       >
