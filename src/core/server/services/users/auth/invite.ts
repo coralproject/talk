@@ -1,11 +1,11 @@
 import Joi from "joi";
 import { isNull, uniq } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   IntegrationDisabled,
   InviteIncludesExistingUser,
@@ -107,7 +107,7 @@ export async function generateInviteURL(
 }
 
 export async function verifyInviteTokenString(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
   tokenString: string,
@@ -152,7 +152,7 @@ export interface InviteUser {
 }
 
 export async function invite(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   config: Config,
   mailerQueue: MailerQueue,
@@ -271,7 +271,7 @@ export interface RedeemInvite {
 }
 
 export async function redeem(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
   tokenString: string,

@@ -1,9 +1,9 @@
 import fs from "fs-extra";
 import { Redis } from "ioredis";
-import { Db } from "mongodb";
 import path from "path";
 import * as uuid from "uuid";
 
+import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
@@ -109,7 +109,7 @@ export default class Manager {
    *
    * @param mongo the database handle to use to get the migrations
    */
-  private async pending(mongo: Db): Promise<Migration[]> {
+  private async pending(mongo: MongoContext): Promise<Migration[]> {
     // Get all the migration records in the database.
     const records = await retrieveAllMigrationRecords(mongo);
 
@@ -138,13 +138,13 @@ export default class Manager {
     });
   }
 
-  private async currentMigration(mongo: Db) {
+  private async currentMigration(mongo: MongoContext) {
     const records = await retrieveAllMigrationRecords(mongo);
     return records.length > 0 ? records[records.length - 1] : null;
   }
 
   public async executePendingMigrations(
-    mongo: Db,
+    mongo: MongoContext,
     redis: Redis,
     silent = false
   ) {

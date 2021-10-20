@@ -4,10 +4,10 @@ import authorScraper from "metascraper-author";
 import descriptionScraper from "metascraper-description";
 import imageScraper from "metascraper-image";
 import titleScraper from "metascraper-title";
-import { Db } from "mongodb";
 import ProxyAgent from "proxy-agent";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { ScrapeFailed } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { retrieveStory, updateStory } from "coral-server/models/story";
@@ -89,10 +89,11 @@ class Scraper {
     customUserAgent,
     proxyURL,
     authorization,
+    size,
   }: ScrapeOptions) {
     const log = this.log.child({ storyURL: url }, true);
 
-    const options: FetchOptions = { method: "GET", timeout };
+    const options: FetchOptions = { method: "GET", timeout, size };
     if (customUserAgent) {
       options.headers = {
         ...options.headers,
@@ -169,7 +170,7 @@ function createScraper() {
 export const scraper = createScraper();
 
 export async function scrape(
-  mongo: Db,
+  mongo: MongoContext,
   config: Config,
   tenantID: string,
   storyID: string,
@@ -196,7 +197,7 @@ export async function scrape(
   const size = config.get("scrape_max_response_size");
 
   const options: ScrapeOptions = {
-    url: storyURL,
+    url: storyURL ?? "",
     timeout,
     size,
     customUserAgent: tenant.stories.scraping.customUserAgent,

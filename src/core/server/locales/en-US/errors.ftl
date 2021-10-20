@@ -67,3 +67,6 @@ error-validation = A validation error occurred.
 error-userBioTooLong = Bio exceeds maximum length.
 error-commentEditWindowExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
 error-authorAlreadyHasRatedStory = You’ve already submitted a rating on this page.
+error-cannotCreateCommentOnArchivedStory = Cannot create a comment on an archived story without unarchiving.
+error-cannotOpenAnArchivedStory = Cannot open an archived story. The story must be unarchived first.
+error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story must be unarchived first.

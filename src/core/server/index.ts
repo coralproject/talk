@@ -3,7 +3,6 @@ import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
-import { Db } from "mongodb";
 import { collectDefaultMetrics } from "prom-client";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
@@ -27,7 +26,6 @@ import {
 } from "coral-server/services/jwt";
 import { createMetrics } from "coral-server/services/metrics";
 import { MigrationManager } from "coral-server/services/migrate";
-import { createMongoDB } from "coral-server/services/mongodb";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
@@ -36,6 +34,7 @@ import {
 } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
+import { createMongoContext, MongoContext } from "./data/context";
 import {
   AnalyticsCoralEventListener,
   NotifierCoralEventListener,
@@ -93,8 +92,8 @@ class Server {
   // pubsub stores the pubsub engine used by the application.
   private pubsub: RedisPubSub;
 
-  // mongo stores the mongo connection used by the application.
-  private mongo: Db;
+  // mongo stores the mongo connections used by the app.
+  private mongo: MongoContext;
 
   // tenantCache stores the tenant cache used by the application.
   private tenantCache: TenantCache;
@@ -220,8 +219,7 @@ class Server {
     // Load the translations.
     await this.i18n.load();
 
-    // Setup MongoDB.
-    this.mongo = await createMongoDB(config);
+    this.mongo = await createMongoContext(config);
 
     // Setup Redis.
     this.redis = await createAugmentedRedisClient(config);
@@ -243,7 +241,9 @@ class Server {
     });
 
     // Load and upsert the persisted queries.
-    this.persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
+    this.persistedQueryCache = new PersistedQueryCache({
+      mongo: this.mongo,
+    });
 
     // Prime the tenant cache so it'll be ready to serve now.
     await this.tenantCache.primeAll();
@@ -311,19 +311,19 @@ class Server {
       this.tasks.notifier.process();
       this.tasks.webhook.process();
       this.tasks.rejector.process();
+
+      // Start up the cron job processors.
+      this.scheduledTasks = startScheduledTasks({
+        mongo: this.mongo,
+        redis: this.redis,
+        config: this.config,
+        mailerQueue: this.tasks.mailer,
+        tenantCache: this.tenantCache,
+        signingConfig: this.signingConfig,
+      });
     } else {
       logger.info("job processing is disabled, not starting job processors");
     }
-
-    // Start up the cron job processors.
-    this.scheduledTasks = startScheduledTasks({
-      mongo: this.mongo,
-      redis: this.redis,
-      config: this.config,
-      mailerQueue: this.tasks.mailer,
-      tenantCache: this.tenantCache,
-      signingConfig: this.signingConfig,
-    });
 
     // Configure the metrics server and start it.
     const port = this.config.get("metrics_port");

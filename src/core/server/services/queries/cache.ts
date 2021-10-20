@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
 import LRU from "lru-cache";
-import { Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import { loadPersistedQueries } from "coral-server/graph/persisted";
 import logger from "coral-server/logger";
 import {
@@ -11,14 +11,14 @@ import {
 } from "coral-server/models/queries/queries";
 
 interface PersistedQueryCacheOptions {
-  mongo: Db;
+  mongo: MongoContext;
 }
 
 /**
  * PersistedQueryCache abstracts the persisted query management.
  */
 export class PersistedQueryCache {
-  private mongo: Db;
+  private mongo: MongoContext;
   private queries: Map<string, PersistedQuery>;
   private cache: LRU<string, PersistedQuery>;
   private loader: DataLoader<string, PersistedQuery | null>;

@@ -3,8 +3,13 @@ import React from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { LOCALES_MAP } from "coral-common/helpers/i18n/locales";
 import { required } from "coral-framework/lib/validation";
-import { FormFieldDescription, HorizontalGutter } from "coral-ui/components/v2";
+import {
+  CallOut,
+  FormFieldDescription,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import LocaleField from "../../Fields/LocaleField";
@@ -38,16 +43,31 @@ const LocaleConfig: React.FunctionComponent<Props> = (props) => {
           </FormFieldDescription>
         </Localized>
         <Field name="locale" validate={required}>
-          {({ input, meta }) => (
-            <>
-              <LocaleField
-                {...input}
-                id={`configure-locale-${input.name}`}
-                disabled={props.disabled}
-              />
-              <ValidationMessage meta={meta} fullWidth />
-            </>
-          )}
+          {({ input, meta }) => {
+            const notExist = !(input.value in LOCALES_MAP);
+            const InvalidLanguage = () => <code>{input.value}</code>;
+            return (
+              <>
+                {notExist && (
+                  <Localized
+                    id="configure-general-locale-invalidLanguage"
+                    Lang={<InvalidLanguage />}
+                  >
+                    <CallOut color="error">
+                      The previously selected language <InvalidLanguage /> no
+                      longer exists. Please choose a different language.
+                    </CallOut>
+                  </Localized>
+                )}
+                <LocaleField
+                  {...input}
+                  id={`configure-locale-${input.name}`}
+                  disabled={props.disabled}
+                />
+                <ValidationMessage meta={meta} fullWidth />
+              </>
+            );
+          }}
         </Field>
       </HorizontalGutter>
     </ConfigBox>

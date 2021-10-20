@@ -104,12 +104,17 @@ configure-slack-channel-triggers-allComments = Alle kommentare
 ## moderate
 moderate-navigation-reported = Gerapporteer
 moderate-marker-other = Ander
+
+moderate-markers-details = Besonderhede
 moderate-flagDetails-other = Ander
+
 moderate-comment-edited = (geredigeer)
+moderate-comment-inReplyTo = Antwoord op <Username></Username>
 moderate-comment-viewConversation = Sien gesprek
 moderate-comment-moderateStory = Modereer storie
 moderate-comment-featuredText = In fokus
 moderate-comment-featureText = Funksie
+moderate-comment-storyLabel = Lewer kommentaar op
 
 ### Moderate Search Bar
 

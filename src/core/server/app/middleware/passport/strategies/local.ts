@@ -1,11 +1,11 @@
 import { Redis } from "ioredis";
 import Joi from "joi";
-import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
 import { VerifyCallback } from "coral-server/app/middleware/passport";
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { InvalidCredentialsError } from "coral-server/errors";
 import {
   retrieveUserWithProfile,
@@ -14,7 +14,7 @@ import {
 import { Request, TenantCoralRequest } from "coral-server/types/express";
 
 const verifyFactory = (
-  mongo: Db,
+  mongo: MongoContext,
   ipLimiter: RequestLimiter,
   emailLimiter: RequestLimiter
 ) => async (
@@ -59,7 +59,7 @@ const verifyFactory = (
 };
 
 export interface LocalStrategyOptions {
-  mongo: Db;
+  mongo: MongoContext;
   redis: Redis;
   config: Config;
 }
