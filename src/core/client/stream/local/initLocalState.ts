@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
 import { StaticConfig } from "coral-common/config";
@@ -14,13 +13,13 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
+import { FEATURE_FLAG } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
 import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
-import { FEATURE_FLAG } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 
-type ResolvedConfig = {
+interface ResolvedConfig {
   readonly featureFlags: FEATURE_FLAG[];
   readonly flattenReplies?: boolean | null;
 }
@@ -50,7 +49,7 @@ async function resolveConfig(
 
     return data.settings as ResolvedConfig;
   }
-  return { featureFlags: [] } as { featureFlags: FEATURE_FLAG[], flattenReplies?: boolean };
+  return { featureFlags: [] };
 }
 
 /**
@@ -83,7 +82,10 @@ const initLocalState: InitLocalState = async ({
     ...rest,
   });
 
-  const { featureFlags, ...settings } = await resolveConfig(environment, staticConfig);
+  const { featureFlags, ...settings } = await resolveConfig(
+    environment,
+    staticConfig
+  );
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -143,10 +145,7 @@ const initLocalState: InitLocalState = async ({
     );
 
     // Enable flatten replies
-    localRecord.setValue(
-      !!settings.flattenReplies,
-      "flattenReplies"
-    )
+    localRecord.setValue(!!settings.flattenReplies, "flattenReplies");
 
     // Enable z-key comment seen
     localRecord.setValue(
