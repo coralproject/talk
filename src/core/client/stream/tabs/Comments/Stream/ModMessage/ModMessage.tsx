@@ -24,14 +24,11 @@ const ModMessage: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
       borderPosition="top"
       title={
         <Localized id="modMessage-heading">
-          Your account has been sent a message
+          Your account has been sent a message by a moderator
         </Localized>
       }
     >
       <HorizontalGutter spacing={3}>
-        <Localized id="modMessage-message-heading">
-          <p>Moderator message:</p>
-        </Localized>
         <AccountStatusCalloutMessage message={message} />
         <Localized id="modMessage-acknowledge">
           <Button

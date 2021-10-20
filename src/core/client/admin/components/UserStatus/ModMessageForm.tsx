@@ -6,7 +6,6 @@ import { required } from "coral-framework/lib/validation";
 import {
   Button,
   Flex,
-  HelperText,
   HorizontalGutter,
   Label,
   Textarea,
@@ -47,12 +46,6 @@ const ModMessageForm: FunctionComponent<Props> = ({
                     <span className={styles.required}>Required</span>
                   </Localized>
                 </Flex>
-                <Localized id="community-modMessageModal-message-description">
-                  <HelperText>
-                    Explain to this user how they should change their behavior
-                    on your site.
-                  </HelperText>
-                </Localized>
               </HorizontalGutter>
               <Field component="textarea" name="message" validate={required}>
                 {({ input }) => (

@@ -178,6 +178,10 @@ export const baseUser = createFixture<GQLUser>({
       active: false,
       history: [],
     },
+    modMessage: {
+      active: false,
+      history: [],
+    },
   },
   ignoredUsers: [],
   comments: {
@@ -204,6 +208,42 @@ export const baseUser = createFixture<GQLUser>({
   ],
   avatar: NULL_VALUE,
 });
+
+export const userWithModMessageHistory = {
+  ...baseUser,
+  status: {
+    ...baseUser.status,
+    warning: {
+      active: true,
+      history: [
+        {
+          active: true,
+          createdBy: { id: "4d4e482f-24ce-44a7-8e2f-dbbb3c17cf52" },
+          createdAt: "2021-10-20T13:54:23.549Z",
+          message: "You have been warned",
+        },
+      ],
+    },
+    modMessage: {
+      active: true,
+      history: [
+        {
+          active: true,
+          createdBy: { id: "4d4e482f-24ce-44a7-8e2f-dbbb3c17cf52" },
+          createdAt: "2021-10-19T19:02:22.532Z",
+          message: "first message",
+        },
+        {
+          active: true,
+          createdBy: { id: "4d4e482f-24ce-44a7-8e2f-dbbb3c17cf52" },
+          createdAt: "2021-10-19T19:08:53.844Z",
+          message:
+            "This is a friendly reminder about our community guidelines.",
+        },
+      ],
+    },
+  },
+};
 
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
