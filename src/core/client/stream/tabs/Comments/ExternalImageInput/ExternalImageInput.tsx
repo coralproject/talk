@@ -9,17 +9,15 @@ import React, {
 
 import { Field, Form } from "react-final-form";
 
-import { CallOut } from "coral-ui/components/v3";
-
 import { getImageValidators } from "../helpers/getMediaValidators";
 
 import {
   Button,
   Flex,
   HorizontalGutter,
-  Icon,
   InputLabel,
   TextField,
+  ValidationMessage,
 } from "coral-ui/components/v2";
 
 import styles from "./ExternalImageInput.css";
@@ -84,13 +82,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
                   </Flex>
                 </HorizontalGutter>
                 {meta.dirty && meta.error && (
-                  <CallOut
-                    color="error"
-                    title={meta.error}
-                    titleWeight="semiBold"
-                    icon={<Icon>error</Icon>}
-                    role="alert"
-                  />
+                  <ValidationMessage>{meta.error}</ValidationMessage>
                 )}
               </HorizontalGutter>
             )}
