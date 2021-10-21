@@ -1,11 +1,11 @@
 import Joi from "joi";
 import { isNil } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   LocalProfileNotSetError,
   PasswordResetTokenExpired,
@@ -66,7 +66,7 @@ export function isResetToken(token: ResetToken | object): token is ResetToken {
  * @param now the current time
  */
 export async function generateResetURL(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   config: Config,
   signingConfig: JWTSigningConfig,
@@ -112,7 +112,7 @@ export async function generateResetURL(
 }
 
 export async function verifyResetTokenString(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
   tokenString: string,
@@ -162,7 +162,7 @@ export async function verifyResetTokenString(
 }
 
 export async function resetPassword(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
   tokenString: string,

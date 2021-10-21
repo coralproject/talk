@@ -216,48 +216,6 @@ story.
       className="HorizontalRule-root"
     />
     <section
-      aria-labelledby="configure-disableLiveUpdates-title"
-    >
-      <div
-        className="coral coral-openCommentStream"
-      >
-        <div
-          className="DisableLiveUpdates-heading"
-          id="configure-disableLiveUpdates-title"
-        >
-          Disable live updates
-        </div>
-        <div
-          className="DisableLiveUpdates-description"
-        >
-          When disabled, new comments and replies will no longer instantly update
-as they are submitted. Commenters will need to refresh the page to see
-new comments. We recommend this in the unusual situation of a story
-getting so much traffic that the comments are loading slowly.
-        </div>
-        <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
-          data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Disable
-        </button>
-      </div>
-      <div
-        className="LiveUpdatesConfigContainer-messagesHidden"
-      />
-    </section>
-    <hr
-      className="HorizontalRule-root"
-    />
-    <section
       aria-labelledby="configure-closeStream-title"
     >
       <div

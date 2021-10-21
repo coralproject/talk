@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision, hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
@@ -17,7 +16,7 @@ import {
 import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 const rejectComment = async (
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   broker: CoralEventPublisherBroker | null,
   tenant: Tenant,

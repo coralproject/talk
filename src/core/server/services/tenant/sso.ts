@@ -1,7 +1,7 @@
 import { Redis } from "ioredis";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import {
   deactivateTenantSSOSigningSecret,
   deleteLastUsedAtTenantSSOSigningSecret,
@@ -13,7 +13,7 @@ import {
 import { TenantCache } from "./cache";
 
 export async function rotateSSOSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -41,7 +41,7 @@ export async function rotateSSOSigningSecret(
 }
 
 export async function deactivateSSOSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -74,7 +74,7 @@ export async function deactivateSSOSigningSecret(
 }
 
 export async function deleteSSOSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,

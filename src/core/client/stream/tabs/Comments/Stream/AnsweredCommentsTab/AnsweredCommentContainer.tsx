@@ -44,7 +44,15 @@ interface Props {
 const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
   const { comment, settings, story, viewer } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
-  const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
+  const isViewerBanned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.BANNED
+  );
+  const isViewerSuspended = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.SUSPENDED
+  );
+  const isViewerWarned = !!viewer?.status.current.includes(
+    GQLUSER_STATUS.WARNED
+  );
   const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
   const onGotoConversation = useCallback(
     (e: MouseEvent) => {
@@ -141,7 +149,13 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
             comment={comment}
             settings={settings}
             viewer={viewer}
-            readOnly={banned}
+            readOnly={
+              isViewerBanned ||
+              isViewerSuspended ||
+              isViewerWarned ||
+              story.isArchived ||
+              story.isArchiving
+            }
             className={CLASSES.featuredComment.actionBar.reactButton}
             reactedClassName={CLASSES.featuredComment.actionBar.reactedButton}
             isQA
@@ -207,6 +221,8 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment AnsweredCommentContainer_story on Story {
       url
+      isArchiving
+      isArchived
       ...UserTagsContainer_story
       ...CommentContainer_story
     }

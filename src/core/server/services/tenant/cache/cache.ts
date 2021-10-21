@@ -1,10 +1,10 @@
 import DataLoader from "dataloader";
 import { EventEmitter } from "events";
 import { Redis } from "ioredis";
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import {
   countTenants,
@@ -81,7 +81,7 @@ export default class TenantCache {
   private readonly clientApplicationID = uuid();
 
   private readonly redis: Redis;
-  private readonly mongo: Db;
+  private readonly mongo: MongoContext;
   private readonly emitter = new EventEmitter();
 
   /**
@@ -89,7 +89,7 @@ export default class TenantCache {
    */
   public readonly cachingEnabled: boolean;
 
-  constructor(mongo: Db, redis: Redis, config: Config) {
+  constructor(mongo: MongoContext, redis: Redis, config: Config) {
     this.cachingEnabled = !config.get("disable_tenant_caching");
     if (!this.cachingEnabled) {
       logger.warn("tenant caching is disabled");

@@ -358,6 +358,12 @@ export type Settings = GlobalModerationSettings &
      * amp activates Accelerated Mobile Pages support.
      */
     amp?: boolean;
+
+    /**
+     * flattenReplies is whether the tenant wants replies to be hidden behind
+     * a "Show more of this conversation" link.
+     */
+    flattenReplies: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

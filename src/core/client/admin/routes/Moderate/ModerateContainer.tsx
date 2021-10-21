@@ -146,6 +146,7 @@ const ModerateContainer: FunctionComponent<Props> = ({
       allStories={allStories}
       settings={data.settings}
       queueName={queueName}
+      isArchived={data.story?.isArchived || data.story?.isArchiving}
     >
       {children}
     </Moderate>
@@ -179,6 +180,8 @@ const enhanced = withRouteConfig<Props>({
           id
           canModerate
         }
+        isArchived
+        isArchiving
       }
 
       moderationQueues(storyID: $storyID, siteID: $siteID, section: $section) {

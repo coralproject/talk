@@ -541,13 +541,6 @@ enum FEATURE_FLAG {
   ENABLE_RATINGS_AND_REVIEWS
 
   """
-  FLATTEN_REPLIES when enabled, will cause all replies that would normally be
-  hidden by a "Show more of this conversation" button to be displayed linearly
-  sorted by date.
-  """
-  FLATTEN_REPLIES
-
-  """
   DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
   overrides the configuration option available in the Admin UI for that tenant.
   """
@@ -575,13 +568,6 @@ enum FEATURE_FLAG {
   (European Directive 2000/31/CE).
   """
   FOR_REVIEW
-
-  """
-  FORCE_ADMIN_LOCAL_AUTH will force local auth in the admin to on so that it cannot be turned
-  off. This is useful for SSO clients who use SSO for their admin access and might try and
-  turn off the local admin auth.
-  """
-  FORCE_ADMIN_LOCAL_AUTH
 }
 
 # The moderation mode of the site.
@@ -1926,6 +1912,13 @@ type Settings @cacheControl(maxAge: 30) {
   closeCommenting: CloseCommenting!
 
   """
+  flattenReplies when enabled, will cause all replies that would normally be
+  hidden by a "Show more of this conversation" button to be displayed linearly
+  sorted by date.
+  """
+  flattenReplies: Boolean!
+
+  """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
@@ -3027,7 +3020,12 @@ type CommentModerationAction {
   """
   revision is the moderated CommentRevision.
   """
-  revision: CommentRevision!
+  revision: CommentRevision
+
+  """
+  comment is the moderated Comment.
+  """
+  comment: Comment
 
   """
   status represents the status that was assigned by the moderator.
@@ -3872,6 +3870,18 @@ type Story @cacheControl(maxAge: 30) {
   isClosed returns true when the Story is currently closed for commenting.
   """
   isClosed: Boolean!
+
+  """
+  isArchiving returns true when the Story is currently in the process of being
+  archived. A story must always be closed (isClosed: true) when it is archiving.
+  """
+  isArchiving: Boolean!
+
+  """
+  isArchived returns true when the Story is current archived. A story must always
+  be closed (isClosed: true) when it is archived.
+  """
+  isArchived: Boolean!
 
   """
   commentCounts stores all the counts of Comments that are left on the Comment.
@@ -4786,6 +4796,10 @@ input RecentCommentHistoryConfigurationInput {
   triggerRejectionRate: Float
 }
 
+input FlattenRepliesInput {
+  enabled: Boolean!
+}
+
 input CreateAnnouncementInput {
   """
   content of the announcement.
@@ -5323,6 +5337,11 @@ input SettingsInput {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean
+
+  """
+  flattenReplies is whether or not to flatten replies
+  """
+  flattenReplies: Boolean
 }
 
 """
@@ -7927,6 +7946,26 @@ type ReviewCommentFlagPayload {
   flag: Flag!
 }
 
+input ArchiveStoriesInput {
+  clientMutationId: String!
+  storyIDs: [ID!]!
+}
+
+type ArchiveStoriesPayload {
+  clientMutationId: String!
+  stories: [Story!]!
+}
+
+input UnarchiveStoriesInput {
+  clientMutationId: String!
+  storyIDs: [ID!]!
+}
+
+type UnarchiveStoriesPayload {
+  clientMutationId: String!
+  stories: [Story!]!
+}
+
 ##################
 ## Mutation
 ##################
@@ -8524,6 +8563,12 @@ type Mutation {
   """
   reviewCommentFlag(input: ReviewCommentFlagInput!): ReviewCommentFlagPayload!
     @auth(roles: [ADMIN, MODERATOR])
+
+  archiveStories(input: ArchiveStoriesInput!): ArchiveStoriesPayload!
+    @auth(roles: [ADMIN])
+
+  unarchiveStories(input: UnarchiveStoriesInput!): UnarchiveStoriesPayload!
+    @auth(roles: [ADMIN])
 }
 
 ##################

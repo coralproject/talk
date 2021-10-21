@@ -45,4 +45,11 @@ export interface StaticConfig {
    * featureFlags are all the feature flags currently enabled on the tenant.
    */
   featureFlags: string[];
+
+  /**
+   * forceAdminLocalAuth is whether local authentication is always available
+   * for this Coral deployment. This is useful for ensuring that Coral service
+   * teams can access the admin with their Coral local authentication.
+   */
+  forceAdminLocalAuth: boolean;
 }

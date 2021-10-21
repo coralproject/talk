@@ -1,10 +1,9 @@
 import { Redis } from "ioredis";
 import { isEmpty } from "lodash";
-import { Db } from "mongodb";
 import uuid from "uuid/v4";
 
 import { dotize } from "coral-common/utils/dotize";
-import { tenants as collection } from "coral-server/services/mongodb/collections";
+import { MongoContext } from "coral-server/data/context";
 
 import { GQLWEBHOOK_EVENT_NAME } from "coral-server/graph/schema/__generated__/types";
 
@@ -13,14 +12,14 @@ import { getWebhookEndpoint } from "./helpers";
 import { Endpoint, retrieveTenant } from "./tenant";
 
 export async function rotateTenantWebhookEndpointSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   endpointID: string,
   inactiveAt: Date,
   now: Date
 ) {
   return rotateSigningSecret({
-    collection: collection(mongo),
+    collection: mongo.tenants(),
     filter: { id },
     path: "webhooks.endpoints",
     prefix: "whsec",
@@ -37,7 +36,7 @@ export interface CreateTenantWebhookEndpointInput {
 }
 
 export async function createTenantWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   input: CreateTenantWebhookEndpointInput,
   now: Date
@@ -52,7 +51,7 @@ export async function createTenantWebhookEndpoint(
   };
 
   // Update the Tenant with this new endpoint.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     { $push: { "webhooks.endpoints": endpoint } },
     {
@@ -87,7 +86,7 @@ export interface UpdateTenantWebhookEndpointInput {
 }
 
 export async function updateTenantWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   endpointID: string,
   update: UpdateTenantWebhookEndpointInput
@@ -104,7 +103,7 @@ export async function updateTenantWebhookEndpoint(
   }
 
   // Perform the actual update operation.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     { $set },
     {
@@ -134,12 +133,12 @@ export async function updateTenantWebhookEndpoint(
 }
 
 export async function deleteTenantWebhookEndpointSigningSecrets(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   endpointID: string,
   kids: string[]
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $pull: {
@@ -168,11 +167,11 @@ export async function deleteTenantWebhookEndpointSigningSecrets(
 }
 
 export async function deleteTenantWebhookEndpoint(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   endpointID: string
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $pull: {

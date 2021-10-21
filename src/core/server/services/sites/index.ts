@@ -1,6 +1,5 @@
-import { Db } from "mongodb";
-
 import { getOrigin } from "coral-server/app/url";
+import { MongoContext } from "coral-server/data/context";
 import {
   createSite,
   CreateSiteInput,
@@ -13,7 +12,11 @@ import { Tenant } from "coral-server/models/tenant";
 
 type CreateSite = Omit<CreateSiteInput, "tenantID">;
 
-export async function findSiteByURL(mongo: Db, tenantID: string, url: string) {
+export async function findSiteByURL(
+  mongo: MongoContext,
+  tenantID: string,
+  url: string
+) {
   const origin = getOrigin(url);
   if (!origin) {
     return null;
@@ -33,7 +36,7 @@ function conformURLToOrigins(allowedOrigins?: string[]) {
 }
 
 export async function create(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   input: CreateSite,
   now = new Date()
@@ -51,7 +54,7 @@ export async function create(
 }
 
 export const update = (
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   id: string,
   input: UpdateSiteInput,

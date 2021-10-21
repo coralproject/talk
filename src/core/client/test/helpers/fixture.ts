@@ -271,6 +271,8 @@ export function createStory(
       },
       canModerate: true,
       isClosed: false,
+      isArchived: false,
+      isArchiving: false,
       commentCounts: {
         totalPublished: 0,
         tags: {
@@ -362,6 +364,7 @@ export function createSettings() {
       approvedCommentsThreshold: 2,
     },
     premoderateSuspectWords: false,
+    flattenReplies: false,
     auth: {
       integrations: {
         local: {

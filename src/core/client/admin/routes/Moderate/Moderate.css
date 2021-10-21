@@ -19,3 +19,11 @@ $moderate-background: var(--palette-grey-100);
 .subBar {
   background-color: $moderate-background;
 }
+
+.calloutText {
+  margin-bottom: var(--spacing-3);
+}
+
+.icon {
+  color: var(--palette-text-500);
+}
