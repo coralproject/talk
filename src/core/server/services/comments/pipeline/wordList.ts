@@ -1,17 +1,13 @@
 import { LanguageCode } from "coral-common/helpers";
 import { createTimer } from "coral-server/helpers";
-import createTesterWithTimeout, {
-  MatchResult,
-  TestWithTimeout,
-} from "coral-server/helpers/createTesterWithTimeout";
+import { MatchResult } from "coral-server/helpers/createTesterWithTimeout";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
-
-import createServerWordListRegEx from "./createServerWordListRegEx";
+import WordlistService from "coral-server/services/wordList/wordlistService";
 
 interface Lists {
-  banned: TestWithTimeout | false;
-  suspect: TestWithTimeout | false;
+  banned: WordlistService | false;
+  suspect: WordlistService | false;
 }
 
 export type Options = Pick<Tenant, "id" | "locale" | "wordList">;
@@ -31,12 +27,10 @@ export class WordList {
       return false;
     }
 
-    // Generate the regular expression for this list.
-    const regexp = createServerWordListRegEx(locale, list);
-
-    // Create a managed regular expression from the provided regular expression
-    // so we can time it out if it takes too long!
-    return createTesterWithTimeout(regexp, timeout);
+    return new WordlistService(logger, timeout, {
+      lang: locale,
+      phrases: list,
+    });
   }
 
   /**
@@ -93,15 +87,15 @@ export class WordList {
    *                   list
    * @param cache when true, will re-use the cached testers based on the lists
    */
-  public test(
+  public async test(
     options: Options,
     listName: keyof Lists,
     timeout: number,
     testString: string,
     cache = true
-  ): MatchResult {
-    const test = this.lists(options, cache, timeout)[listName];
-    if (!test) {
+  ): Promise<MatchResult> {
+    const tester = this.lists(options, cache, timeout)[listName];
+    if (!tester) {
       return {
         isMatched: false,
         timedOut: false,
@@ -112,7 +106,7 @@ export class WordList {
     const timer = createTimer();
 
     // Test the string against the list and timeout if it takes too long.
-    const result = test(testString);
+    const result = await tester.test(testString);
     if (result === null) {
       logger.info(
         { tenantID: options.id, listName, took: timer(), testString },
@@ -125,6 +119,6 @@ export class WordList {
       );
     }
 
-    return result;
+    return result.result;
   }
 }

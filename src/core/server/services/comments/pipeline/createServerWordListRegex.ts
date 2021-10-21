@@ -41,7 +41,7 @@ export function escapeRegExp(str: string) {
 export default function createServerWordListRegEx(
   lang: LanguageCode,
   phrases: string[]
-) {
+): RE2 {
   // Get the rule list for this language, fallback to english if we haven't
   // provided any overrides.
   const rule: WordListRule = defaults(

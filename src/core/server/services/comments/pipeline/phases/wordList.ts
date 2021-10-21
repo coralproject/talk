@@ -15,11 +15,11 @@ import { WordList } from "../wordList";
 const list = new WordList();
 
 // This phase checks the comment against the wordList.
-export const wordList: IntermediateModerationPhase = ({
+export const wordList: IntermediateModerationPhase = async ({
   config,
   tenant,
   comment,
-}): IntermediatePhaseResult | void => {
+}): Promise<IntermediatePhaseResult | void> => {
   // If there isn't a body, there can't be a bad word!
   if (!comment.body) {
     return;
@@ -29,7 +29,7 @@ export const wordList: IntermediateModerationPhase = ({
   const timeout = config.get("word_list_timeout");
 
   // Test the comment for banned words.
-  const banned = list.test(tenant, "banned", timeout, comment.body);
+  const banned = await list.test(tenant, "banned", timeout, comment.body);
   if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
@@ -62,7 +62,7 @@ export const wordList: IntermediateModerationPhase = ({
   }
 
   // Test the comment for suspect words.
-  const suspect = list.test(tenant, "suspect", timeout, comment.body);
+  const suspect = await list.test(tenant, "suspect", timeout, comment.body);
 
   if (tenant.premoderateSuspectWords && suspect.isMatched) {
     return {
