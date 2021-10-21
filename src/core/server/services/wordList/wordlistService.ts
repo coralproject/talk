@@ -2,10 +2,16 @@ import { v4 as uuid } from "uuid";
 import { Worker } from "worker_threads";
 
 import { LanguageCode } from "coral-common/helpers";
-import { MatchResult } from "coral-server/helpers/createTesterWithTimeout";
 import { Logger } from "coral-server/logger";
+import { WordlistMatch } from "coral-server/models/comment";
 
 import { WordlistThreadRequest } from "./serviceThread";
+
+export interface MatchResult {
+  isMatched: boolean | null;
+  timedOut: boolean;
+  matches: WordlistMatch[];
+}
 
 interface WordlistRequest {
   id: string;

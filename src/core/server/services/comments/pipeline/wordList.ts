@@ -1,9 +1,10 @@
 import { LanguageCode } from "coral-common/helpers";
 import { createTimer } from "coral-server/helpers";
-import { MatchResult } from "coral-server/helpers/createTesterWithTimeout";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
-import WordlistService from "coral-server/services/wordList/wordlistService";
+import WordlistService, {
+  MatchResult,
+} from "coral-server/services/wordList/wordlistService";
 
 interface Lists {
   banned: WordlistService | false;
