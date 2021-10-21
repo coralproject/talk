@@ -2492,7 +2492,7 @@ type UserStatus {
     )
 
   """
-  modMssage stores the user moderation message status as well as the history of moderation messages
+  modMessage stores the user moderation message status as well as the history of moderation messages
   """
   modMessage: ModMessageStatus!
     @auth(

@@ -59,7 +59,7 @@ it("shows moderation message at the top of the stream", async () => {
     )
   ).toBeDefined();
 
-  // can still see comment stream and add comments
+  // can still see comment stream and interact with comments
   expect(within(tabPane).getByTestID("comments-allComments-log")).toBeDefined();
   expect(within(tabPane).queryByTestID("comment-reply-button")).toBeDefined();
   expect(within(tabPane).queryByTestID("comment-report-button")).toBeDefined();
@@ -68,21 +68,19 @@ it("shows moderation message at the top of the stream", async () => {
   // only one message shows up even if there are two messages and neither has been acknowledged
   expect(within(modMessageCallout).queryByText("first message")).toBeNull();
 
-  // a warning still also shows up with the moderation message
+  // a warning, if present, still also shows up with the moderation message
   expect(
     within(modMessageCallout).queryByText(
       "Your account has been issued a warning"
     )
   ).toBeDefined();
 
-  // the moderation message can be acknowledged
+  // the moderation message can be acknowledged and is no longer shown once acknowledged
   const acknowledgeModMessageButton = within(modMessageCallout).getByText(
     "Acknowledge"
   );
   act(() => {
     acknowledgeModMessageButton.props.onClick();
   });
-
-  // the moderation message is no longer shown once acknowledged
   expect(within(tabPane).queryByLabelText("Account Status")).toBeNull();
 });
