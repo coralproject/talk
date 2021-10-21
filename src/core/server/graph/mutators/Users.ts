@@ -295,6 +295,10 @@ export const Users = (ctx: GraphContext) => ({
       input.message,
       ctx.now
     ),
+  removeWarning: async (input: GQLRemoveUserWarningInput) =>
+    removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  acknowledgeWarning: async () =>
+    acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   modMessage: async (input: GQLModMessageUserInput) =>
     modMessage(
       ctx.mongo,
@@ -304,10 +308,6 @@ export const Users = (ctx: GraphContext) => ({
       input.message,
       ctx.now
     ),
-  removeWarning: async (input: GQLRemoveUserWarningInput) =>
-    removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
-  acknowledgeWarning: async () =>
-    acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   acknowledgeModMessage: async () =>
     acknowledgeModMessage(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   premodUser: async (input: GQLPremodUserInput) =>

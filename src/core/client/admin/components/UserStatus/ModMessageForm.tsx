@@ -11,7 +11,7 @@ import {
   Textarea,
 } from "coral-ui/components/v2";
 
-import styles from "./WarnForm.css";
+import styles from "./ModMessageForm.css";
 
 interface Props {
   onCancel: () => void;

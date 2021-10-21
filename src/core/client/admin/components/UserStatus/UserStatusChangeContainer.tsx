@@ -15,7 +15,7 @@ import ModMessageUserMutation from "./ModMessageUserMutation";
 import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
-import RemoveUserPremodMudtaion from "./RemoveUserPremodMutation";
+import RemoveUserPremodMutation from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
 import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
 import SuspendModal from "./SuspendModal";
@@ -45,38 +45,38 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const removeUserBan = useMutation(RemoveUserBanMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
-  const removeUserPremod = useMutation(RemoveUserPremodMudtaion);
+  const removeUserPremod = useMutation(RemoveUserPremodMutation);
   const warnUser = useMutation(WarnUserMutation);
-  const messageUser = useMutation(ModMessageUserMutation);
+  const modMessageUser = useMutation(ModMessageUserMutation);
   const removeUserWarning = useMutation(RemoveUserWarningMutation);
   const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
   const [showWarn, setShowWarn] = useState<boolean>(false);
-  const [showSendModMessage, setShowSendModMessage] = useState<boolean>(false);
+  const [showModMessage, setShowModMessage] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
-  const [showSendModMessageSuccess, setShowSendModMessageSuccess] = useState<
-    boolean
-  >(false);
+  const [showModMessageSuccess, setShowModMessageSuccess] = useState<boolean>(
+    false
+  );
 
   const moderationScopesEnabled =
     settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
     settings.multisite;
 
   const handleModMessage = useCallback(() => {
-    setShowSendModMessage(true);
-  }, [user, setShowSendModMessage]);
+    setShowModMessage(true);
+  }, [user, setShowModMessage]);
   const hideSendModMessage = useCallback(() => {
-    setShowSendModMessage(false);
-    setShowSendModMessageSuccess(false);
+    setShowModMessage(false);
+    setShowModMessageSuccess(false);
   }, [setShowWarn]);
   const handleSendModMessageConfirm = useCallback(
     (message: string) => {
-      void messageUser({ userID: user.id, message });
-      setShowSendModMessageSuccess(true);
+      void modMessageUser({ userID: user.id, message });
+      setShowModMessageSuccess(true);
     },
-    [messageUser, user, setShowSendModMessageSuccess]
+    [modMessageUser, user, setShowModMessageSuccess]
   );
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {
@@ -252,10 +252,10 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       />
       <ModMessageModal
         username={user.username}
-        open={showSendModMessage}
+        open={showModMessage}
         onClose={hideSendModMessage}
         onConfirm={handleSendModMessageConfirm}
-        success={showSendModMessageSuccess}
+        success={showModMessageSuccess}
       />
       {
         <BanModal

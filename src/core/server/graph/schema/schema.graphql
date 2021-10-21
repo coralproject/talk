@@ -2368,12 +2368,12 @@ type ModMessageStatus {
   active: Boolean!
 
   """
-  message is the current message for the message sent to the User.
+  message is the current message for the moderation message sent to the User.
   """
   message: String
 
   """
-  history will return the status history items for messages.
+  history will return the status history items for moderation messages.
   """
   history: [ModMessageStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
@@ -2492,7 +2492,7 @@ type UserStatus {
     )
 
   """
-  message stores the user message status as well as the history of messages
+  modMssage stores the user moderation message status as well as the history of moderation messages
   """
   modMessage: ModMessageStatus!
     @auth(
@@ -8432,19 +8432,6 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  modMessageUser will send a user a moderation message that they need to acknowledge
-  """
-  modMessageUser(input: ModMessageUserInput!): ModMessageUserPayload!
-    @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  acknowledgeModMessage will remove a warning
-  """
-  acknowledgeModMessage(
-    input: AcknowledgeModMessageInput!
-  ): AcknowledgeModMessagePayload @auth
-
-  """
   warnUser will warn a user and prevent them from commenting until they acknowledge
   """
   warnUser(input: WarnUserInput!): WarnUserPayload!
@@ -8462,6 +8449,19 @@ type Mutation {
   acknowledgeWarning(
     input: AcknowledgeWarningInput!
   ): AcknowledgeWarningPayload @auth(permit: [WARNED])
+
+  """
+  modMessageUser will send a user a moderation message that they need to acknowledge
+  """
+  modMessageUser(input: ModMessageUserInput!): ModMessageUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  acknowledgeModMessage will remove a warning
+  """
+  acknowledgeModMessage(
+    input: AcknowledgeModMessageInput!
+  ): AcknowledgeModMessagePayload @auth
 
   """
   removeUserSuspension will remove an active suspension from a User if they have

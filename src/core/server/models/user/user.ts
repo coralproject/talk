@@ -309,36 +309,6 @@ export interface PremodStatus {
   history: PremodStatusHistory[];
 }
 
-export interface ModMessageStatusHistory {
-  /**
-   * active when true, indicates that the given user has not acknowledged the message.
-   */
-  active: boolean;
-  /**
-   * createdBy is the user that created this message
-   */
-  createdBy: string;
-
-  /**
-   * createdAt is the time the username was created
-   */
-  createdAt: Date;
-  /**
-   * acknowledgedAt is the time the commenter acknowledged it
-   */
-  acknowledgedAt?: Date;
-
-  /**
-   * message is the message sent to the commenter
-   */
-  message?: string;
-}
-
-export interface ModMessageStatus {
-  active: boolean;
-  history: ModMessageStatusHistory[];
-}
-
 export interface WarningStatusHistory {
   /**
    * active when true, indicates that the given user has not acknowledged the warning.
@@ -367,6 +337,36 @@ export interface WarningStatusHistory {
 export interface WarningStatus {
   active: boolean;
   history: WarningStatusHistory[];
+}
+
+export interface ModMessageStatusHistory {
+  /**
+   * active when true, indicates that the given user has not acknowledged the message.
+   */
+  active: boolean;
+  /**
+   * createdBy is the user that created this message
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+  /**
+   * acknowledgedAt is the time the commenter acknowledged it
+   */
+  acknowledgedAt?: Date;
+
+  /**
+   * message is the message sent to the commenter
+   */
+  message?: string;
+}
+
+export interface ModMessageStatus {
+  active: boolean;
+  history: ModMessageStatusHistory[];
 }
 
 /**
@@ -2172,125 +2172,6 @@ export async function removeActiveUserSuspensions(
   return result.value;
 }
 
-export async function modMessageUser(
-  mongo: MongoContext,
-  tenantID: string,
-  id: string,
-  createdBy: string,
-  message?: string,
-  now = new Date()
-) {
-  // Create the new message.
-  const modMessageHistory: ModMessageStatusHistory = {
-    active: true,
-    createdBy,
-    createdAt: now,
-    message,
-  };
-
-  // Try to update the user with the message.
-  const result = await mongo.users().findOneAndUpdate(
-    {
-      id,
-      tenantID,
-    },
-    {
-      $set: {
-        "status.modMessage.active": true,
-      },
-      $push: {
-        "status.modMessage.history": modMessageHistory,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-
-  if (!result.value) {
-    // Get the user so we can figure out why the message operation failed.
-    const user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
-
-    throw new Error("an unexpected error occurred");
-  }
-
-  return result.value;
-}
-
-/**
- * acknowledgeOwnModMessage will acknowledge a moderation message that was
- * sent to the user.
- *
- * @param mongo the mongo database handle
- * @param tenantID the Tenant's ID where the User exists
- * @param id the ID of the user having their warning removed
- * @param now the current date
- */
-export async function acknowledgeOwnModMessage(
-  mongo: MongoContext,
-  tenantID: string,
-  id: string,
-  now = new Date()
-) {
-  // Create the new update.
-  const update: ModMessageStatusHistory = {
-    active: false,
-    acknowledgedAt: now,
-    createdAt: now,
-    createdBy: id,
-  };
-
-  const result = await mongo.users().findOneAndUpdate(
-    {
-      id,
-      tenantID,
-      $or: [
-        {
-          "status.modMessage.active": {
-            $ne: false,
-          },
-        },
-        {
-          "status.modMessage.history": {
-            $size: 0,
-          },
-        },
-      ],
-    },
-    {
-      $set: {
-        "status.modMessage.active": false,
-      },
-      $push: {
-        "status.modMessage.history": update,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    // Get the user so we can figure out why the acknowledge mod message operation failed.
-    const user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
-
-    // The user didn't have a mod message to acknowledge, so nothing needs to be done!
-    // todo: confirm this
-    return user;
-  }
-
-  return result.value;
-}
-
 export async function warnUser(
   mongo: MongoContext,
   tenantID: string,
@@ -2486,23 +2367,142 @@ export async function acknowledgeOwnWarning(
 
   return result.value;
 }
+
+export async function modMessageUser(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  message?: string,
+  now = new Date()
+) {
+  // Create the new message.
+  const modMessageHistory: ModMessageStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+    message,
+  };
+
+  // Try to update the user with the message.
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: {
+        "status.modMessage.active": true,
+      },
+      $push: {
+        "status.modMessage.history": modMessageHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    // Get the user so we can figure out why the message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * acknowledgeOwnModMessage will acknowledge a moderation message that was
+ * sent to the user.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param now the current date
+ */
+export async function acknowledgeOwnModMessage(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
+  // Create the new update.
+  const update: ModMessageStatusHistory = {
+    active: false,
+    acknowledgedAt: now,
+    createdAt: now,
+    createdBy: id,
+  };
+
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.modMessage.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.modMessage.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.modMessage.active": false,
+      },
+      $push: {
+        "status.modMessage.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the acknowledge mod message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user didn't have a mod message to acknowledge, so nothing needs to be done
+    return user;
+  }
+
+  return result.value;
+}
+
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
   Pick<BanStatus, "history"> & { siteIDs?: string[] };
 
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
-export type ConsolidatedModMessageStatus = Omit<
-  GQLModMessageStatus,
-  "history"
-> &
-  Pick<ModMessageStatus, "history">;
-
 export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
   Pick<PremodStatus, "history">;
 
 export type ConsolidatedWarningStatus = Omit<GQLWarningStatus, "history"> &
   Pick<PremodStatus, "history">;
+
+export type ConsolidatedModMessageStatus = Omit<
+  GQLModMessageStatus,
+  "history"
+> &
+  Pick<ModMessageStatus, "history">;
 
 export function consolidateUsernameStatus(
   username: User["status"]["username"]
@@ -2536,23 +2536,6 @@ export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {
   return premod;
 }
 
-export function consolidateUserModMessageStatus(
-  modMessage: User["status"]["modMessage"]
-) {
-  if (!modMessage) {
-    return {
-      active: false,
-      history: [],
-    };
-  }
-  const activeModMessage = modMessage.history[modMessage.history.length - 1];
-  return {
-    active: modMessage.active,
-    history: modMessage.history,
-    message: activeModMessage ? activeModMessage.message : undefined,
-  };
-}
-
 export function consolidateUserWarningStatus(
   warning: User["status"]["warning"]
 ) {
@@ -2567,6 +2550,23 @@ export function consolidateUserWarningStatus(
     active: warning.active,
     history: warning.history,
     message: activeWarning ? activeWarning.message : undefined,
+  };
+}
+
+export function consolidateUserModMessageStatus(
+  modMessage: User["status"]["modMessage"]
+) {
+  if (!modMessage) {
+    return {
+      active: false,
+      history: [],
+    };
+  }
+  const activeModMessage = modMessage.history[modMessage.history.length - 1];
+  return {
+    active: modMessage.active,
+    history: modMessage.history,
+    message: activeModMessage ? activeModMessage.message : undefined,
   };
 }
 

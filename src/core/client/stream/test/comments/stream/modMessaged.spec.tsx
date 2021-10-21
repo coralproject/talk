@@ -11,20 +11,18 @@ import {
 import { settings, stories, userWithModMessageHistory } from "../../fixtures";
 import create from "./create";
 
-const modMessagedUser = userWithModMessageHistory;
-
 const story = stories[0];
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { testRenderer } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          viewer: () => modMessagedUser,
+          viewer: () => userWithModMessageHistory,
           stream: () => story,
         },
       }),
@@ -43,8 +41,6 @@ async function createTestRenderer(
   );
 
   return {
-    testRenderer,
-    context,
     tabPane,
   };
 }
