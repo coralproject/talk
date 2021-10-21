@@ -8,7 +8,7 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { settings, userWithModMessageHistory, stories } from "../../fixtures";
+import { settings, stories, userWithModMessageHistory } from "../../fixtures";
 import create from "./create";
 
 const modMessagedUser = userWithModMessageHistory;
