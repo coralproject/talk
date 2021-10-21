@@ -435,14 +435,6 @@ configure-premodLink-description =
   Moderatorul trebuie să aprobe orice comentariu care conține un link,
   înainte de a fi publicat, pentru acest subiect
 
-configure-liveUpdates-title = Activează actualizări în timp real pentru
-acest subiect
-configure-liveUpdates-description =
-  Atunci când opțiunea este activată, comentariile sunt actualizate
-  instant, iar răspunsurile la comentarii sunt trimise fără a mai fi
-  necesar refresh-ul paginii. Poți dezactiva această opțiune în situația
-  neobișnuită a unui articol care obține atât de mult trafic încât
-  comentariile se încarcă foarte încet.
 configure-messageBox-title = Activează cutia de mesaje pentru acest subiect
 configure-messageBox-description =
   Adaugă un mesaj la începutul boxului de comentarii, pentru cititorii tăi.
