@@ -541,13 +541,6 @@ enum FEATURE_FLAG {
   ENABLE_RATINGS_AND_REVIEWS
 
   """
-  FLATTEN_REPLIES when enabled, will cause all replies that would normally be
-  hidden by a "Show more of this conversation" button to be displayed linearly
-  sorted by date.
-  """
-  FLATTEN_REPLIES
-
-  """
   DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
   overrides the configuration option available in the Admin UI for that tenant.
   """
@@ -1917,6 +1910,13 @@ type Settings @cacheControl(maxAge: 30) {
   Stories.
   """
   closeCommenting: CloseCommenting!
+
+  """
+  flattenReplies when enabled, will cause all replies that would normally be
+  hidden by a "Show more of this conversation" button to be displayed linearly
+  sorted by date.
+  """
+  flattenReplies: Boolean!
 
   """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
@@ -4796,6 +4796,10 @@ input RecentCommentHistoryConfigurationInput {
   triggerRejectionRate: Float
 }
 
+input FlattenRepliesInput {
+  enabled: Boolean!
+}
+
 input CreateAnnouncementInput {
   """
   content of the announcement.
@@ -5333,6 +5337,11 @@ input SettingsInput {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean
+
+  """
+  flattenReplies is whether or not to flatten replies
+  """
+  flattenReplies: Boolean
 }
 
 """

@@ -1,6 +1,7 @@
 import { defaultRTEConfiguration } from "coral-server/models/settings";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import {
+  areRepliesFlattened,
   isAMPEnabled,
   retrieveAnnouncementIfEnabled,
   Tenant,
@@ -32,4 +33,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     premoderateSuspectWords,
   stories: ({ stories }) => stories,
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
+  flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),
 };

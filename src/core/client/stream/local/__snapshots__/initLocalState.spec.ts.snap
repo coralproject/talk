@@ -22,8 +22,8 @@ exports[`init local state 1`] = `
     \\"activeTab\\": \\"COMMENTS\\",
     \\"profileTab\\": \\"MY_COMMENTS\\",
     \\"commentsTab\\": \\"NONE\\",
-    \\"flattenReplies\\": false,
     \\"enableCommentSeen\\": false,
+    \\"flattenReplies\\": false,
     \\"enableZKey\\": false,
     \\"amp\\": false
   },
