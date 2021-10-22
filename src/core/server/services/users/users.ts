@@ -1342,7 +1342,8 @@ export async function modMessage(
 }
 
 /**
- * acknowledgeModMessage will acknowledge that a mod message was seen by the user
+ * acknowledgeModMessage will acknowledge that a mod message was seen by the user and
+ * set moderation messages to inactive
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be messaged on

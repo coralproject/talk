@@ -8457,7 +8457,7 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  acknowledgeModMessage will remove a warning
+  acknowledgeModMessage will set moderation messages to inactive
   """
   acknowledgeModMessage(
     input: AcknowledgeModMessageInput!
