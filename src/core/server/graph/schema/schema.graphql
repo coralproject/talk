@@ -8461,7 +8461,8 @@ type Mutation {
   """
   acknowledgeModMessage(
     input: AcknowledgeModMessageInput!
-  ): AcknowledgeModMessagePayload @auth
+  ): AcknowledgeModMessagePayload
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   removeUserSuspension will remove an active suspension from a User if they have
