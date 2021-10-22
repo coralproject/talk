@@ -7,6 +7,8 @@ import { WordlistMatch } from "coral-server/models/comment";
 
 import { WordlistThreadRequest } from "./serviceThread";
 
+const SCRIPT_FILE = "./dist/core/server/services/wordList/serviceThread.js";
+
 export interface MatchResult {
   isMatched: boolean | null;
   timedOut: boolean;
@@ -51,7 +53,7 @@ export default class WordlistService {
     this.timeout = timeout;
     this.requests = new Map<string, WordlistRequest>();
 
-    this.script = "./dist/core/server/services/wordList/serviceThread.js";
+    this.script = SCRIPT_FILE;
     this.worker = new Worker(this.script, {
       workerData: options,
     });
