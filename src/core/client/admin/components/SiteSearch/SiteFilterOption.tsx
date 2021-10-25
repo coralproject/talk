@@ -1,17 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Button } from "coral-ui/components/v2";
 
-import { SiteFilterOption_site } from "coral-admin/__generated__/SiteFilterOption_site.graphql";
+import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
 
 import styles from "./SiteFilterOption.css";
 
 interface Props {
-  site: SiteFilterOption_site | null;
+  site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null;
   onSelect: (id: string | null) => void;
   active: boolean;
   setSearchFilter: (filter: string) => void;
@@ -48,13 +46,4 @@ const SiteFilterOption: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  site: graphql`
-    fragment SiteFilterOption_site on Site {
-      name
-      id
-    }
-  `,
-})(SiteFilterOption);
-
-export default enhanced;
+export default SiteFilterOption;

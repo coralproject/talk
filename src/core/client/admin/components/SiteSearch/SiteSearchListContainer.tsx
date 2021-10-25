@@ -104,7 +104,7 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              ...SiteFilterOption_site
+              name
             }
           }
         }
