@@ -6,11 +6,10 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
 import { SiteSearchList_query } from "coral-admin/__generated__/SiteSearchList_query.graphql";
 import { SiteSearchListPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListPaginationQuery.graphql";
-
-import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
 import AutoLoadMore from "../AutoLoadMore";
 import SiteFilterOption from "./SiteFilterOption";
@@ -27,7 +26,7 @@ interface Props {
   searchFilter: string;
 }
 
-const SiteSearchList: FunctionComponent<Props> = ({
+const SiteSearchListContainer: FunctionComponent<Props> = ({
   query,
   relay,
   onSelect,
@@ -140,5 +139,5 @@ const enhanced = withPaginationContainer<
       }
     `,
   }
-)(SiteSearchList);
+)(SiteSearchListContainer);
 export default enhanced;

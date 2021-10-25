@@ -2,11 +2,11 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { SiteSearchListQuery as QueryTypes } from "coral-admin/__generated__/SiteSearchListQuery.graphql";
 
-import SiteSearchList from "./SiteSearchList";
-import { QueryError } from "coral-ui/components/v3";
+import SiteSearchListContainer from "./SiteSearchListContainer";
 
 interface Props {
   onSelect: (id: string | null) => void;
@@ -45,7 +45,7 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
 
         if (props) {
           return (
-            <SiteSearchList
+            <SiteSearchListContainer
               query={props}
               onSelect={onSelect}
               siteID={siteID}
