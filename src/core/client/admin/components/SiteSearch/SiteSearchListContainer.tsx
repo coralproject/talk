@@ -8,8 +8,8 @@ import {
 } from "coral-framework/lib/relay";
 import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
-import { SiteSearchList_query } from "coral-admin/__generated__/SiteSearchList_query.graphql";
-import { SiteSearchListPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListPaginationQuery.graphql";
+import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
+import { SiteSearchListContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListContainerPaginationQuery.graphql";
 
 import AutoLoadMore from "../AutoLoadMore";
 import SiteFilterOption from "./SiteFilterOption";
@@ -17,7 +17,7 @@ import SiteFilterOption from "./SiteFilterOption";
 import styles from "./SiteSearchList.css";
 
 interface Props {
-  query: SiteSearchList_query;
+  query: SiteSearchListContainer_query;
   relay: RelayPaginationProp;
   onSelect: (id: string | null) => void;
   siteID: string | null;
@@ -84,16 +84,16 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   );
 };
 
-type FragmentVariables = SiteSearchListPaginationQueryVariables;
+type FragmentVariables = SiteSearchListContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
   Props,
-  SiteSearchListPaginationQueryVariables,
+  SiteSearchListContainerPaginationQueryVariables,
   FragmentVariables
 >(
   {
     query: graphql`
-      fragment SiteSearchList_query on Query
+      fragment SiteSearchListContainer_query on Query
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
@@ -125,12 +125,12 @@ const enhanced = withPaginationContainer<
     query: graphql`
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-      query SiteSearchListPaginationQuery(
+      query SiteSearchListContainerPaginationQuery(
         $count: Int!
         $cursor: Cursor
         $searchFilter: String!
       ) {
-        ...SiteSearchList_query
+        ...SiteSearchListContainer_query
           @arguments(
             count: $count
             cursor: $cursor

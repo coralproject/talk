@@ -27,7 +27,8 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
     <QueryRenderer<QueryTypes>
       query={graphql`
         query SiteSearchListQuery($searchFilter: String!) {
-          ...SiteSearchList_query @arguments(searchFilter: $searchFilter)
+          ...SiteSearchListContainer_query
+            @arguments(searchFilter: $searchFilter)
         }
       `}
       variables={{
