@@ -31,7 +31,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { FormikSelect } from "./Select";
 
 import styles from "./StorySettingsContainer.css";
-import { GQLMODERATION_MODE, GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLMODERATION_MODE } from "coral-framework/schema";
 
 export interface Props {
   storyID: string;
@@ -44,16 +44,11 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
     mode,
     moderation: moderationMode,
     premodLinksEnable,
-    live: {
-      enabled: liveEnabled,
-      configurable: liveConfigurable,
-    }
   } = settings;
 
   const updateSettings = useMutation(UpdateStorySettingsMutation);
 
   const onSubmit = async (values: any, helpers: FormikHelpers<any>) => {
-    // TODO (marcushaddon): figure out how to add experts
     // TODO (marcushaddon): should we figure out whats changed and submit only new values?
 
     const updatedSettings = {
@@ -102,11 +97,8 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
         <TabPane tabID="CONFIGURE_STORY" className={styles.configureStory}>
           <Formik
             initialValues={{
-              mode,
               moderationMode,
               premodLinksEnable,
-              liveEnabled,
-              liveConfigurable,
             }}
             onSubmit={onSubmit}
           >
@@ -117,43 +109,14 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
 
                     <Flex direction="row" className={styles.setting}>
                       {/* PREMODLINKSENABLED */}
-                      <CheckBox
-                        checked={args.values.premodLinksEnable}
-                        name="premodLinksEnable"
-                        onChange={args.handleChange}
-                      />
                       <Localized id="storyInfoDrawerSettings-premodLinksEnable">
-                        <Label id="storyInfoDrawerSettings-premodLinksEnable">
-                          Pre Mode Links Enabled
-                        </Label>
-                      </Localized>
-                    </Flex>
-
-                    <Flex direction="row" className={styles.setting}>
-                      {/* LIVE ENABLED */}
-                      <CheckBox
-                        checked={args.values.liveEnabled}
-                        name="liveEnabled"
-                        onChange={args.handleChange}
-                      />
-                      <Localized id="storyInfoDrawerSettings-liveEnabled">
-                        <Label id="storyInfoDrawerSettings-liveEnabled">
-                          Live Enabled
-                        </Label>
-                      </Localized>
-                    </Flex>
-
-                    <Flex direction="row" className={styles.setting}>
-                      {/* LIVE CONFIGURABLE */}
-                      <CheckBox
-                        checked={args.values.liveConfigurable}
-                        name="liveConfigurable"
-                        onChange={args.handleChange}
-                      />
-                      <Localized id="storyInfoDrawerSettings-liveConfigurabel">
-                        <Label id="storyInfoDrawerSettings-liveConfigurabel">
-                          Live Configurable
-                        </Label>
+                        <CheckBox
+                          checked={args.values.premodLinksEnable}
+                          name="premodLinksEnable"
+                          onChange={args.handleChange}
+                        >
+                          <div className={styles.checkboxText}>Pre Mode Links Enabled</div>
+                        </CheckBox>
                       </Localized>
                     </Flex>
 
@@ -171,20 +134,6 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
                       </Localized>
                     </Flex>
 
-                    {/* STORY MODE */}
-                    <Flex direction="row" className={styles.setting}>
-                      <Localized id="storyInfoDrawerSettings-mode">
-                        <FormikSelect
-                          id="storySettingsContainer-storyMode"
-                          name="mode"
-                          label="Mode"
-                          description="A menu for setting the story mode of the story"
-                          options={Object.keys(GQLSTORY_MODE)}
-                          selected={settings.mode}
-                        />
-                      </Localized>
-                    </Flex>
-
                     {/* SAVE/SUBMIT */}
                     <Button
                       variant="outlined"
@@ -195,7 +144,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
                       Save
                     </Button>
 
-                    {args.values.mode === "QA" && (
+                    {mode === "QA" && (
                       <>
                         <Divider />
                         {/* EXPERT SELECTION */}
@@ -218,13 +167,9 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment StorySettingsContainer_storySettings on StorySettings {
-      live {
-        enabled
-        configurable
-      }
+      mode
       moderation
       premodLinksEnable
-      mode
       experts {
         id
         username

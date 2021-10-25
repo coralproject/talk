@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { defaultsDeep } from "lodash";
 
 import { decodeActionCounts } from "coral-server/models/action/comment";
@@ -49,13 +50,19 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   commentCounts: (s): CommentCountsInput => s,
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.
-  settings: (s, input, ctx): StorySettingsInput =>
-    defaultsDeep(
+  settings: (s, input, ctx, info): StorySettingsInput => {
+    const val = defaultsDeep(
       // Pass these options as required by StorySettingsInput.
       { story: s },
       s.settings,
       ctx.tenant
-    ),
+    );
+    /* eslint-disable */
+    console.log("Story.settings resolver");;
+
+
+    return { ...val, };
+  },
   moderationQueues: storyModerationInputResolver,
   site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
   viewerRating: (s, input, ctx) => {

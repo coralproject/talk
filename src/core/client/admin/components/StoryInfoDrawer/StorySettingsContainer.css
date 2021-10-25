@@ -27,3 +27,7 @@
 .setting > input {
   vertical-align: bottom;
 }
+
+.checkboxText {
+  font-weight: var(--font-weight-secondary-regular);
+}
