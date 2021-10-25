@@ -1,6 +1,6 @@
 .list {
   position: absolute;
-  z-index: 99;
+  z-index: $zindex-popover;
 
   width: calc(29 * var(--mini-unit));
   max-height: 120px;

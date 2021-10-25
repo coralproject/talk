@@ -330,19 +330,13 @@ it("search by site name", async () => {
         settings: () => settingsWithMultisite,
         sites: ({ variables, callCount }) => {
           switch (callCount) {
-            case 1:
+            case 0:
               expectAndFail(variables.query).toBe("Test");
               return {
                 edges: [{ node: sites[0], cursor: sites[0].createdAt }],
                 pageInfo: { endCursor: null, hasNextPage: false },
               };
-            case 2:
-              expectAndFail(variables.query).toBe("Test Site");
-              return {
-                edges: [{ node: sites[0], cursor: sites[0].createdAt }],
-                pageInfo: { endCursor: null, hasNextPage: false },
-              };
-            case 4:
+            case 1:
               expectAndFail(variables.query).toBe("Not a site");
               return {
                 edges: [],
@@ -365,21 +359,20 @@ it("search by site name", async () => {
     });
   });
 
-  const siteSearchButton = within(container).getByTestID("site-search-button");
   act(() =>
     siteSearchField.props.onChange({
       target: { value: "Test" },
     })
   );
+
+  const siteSearchButton = within(container).getByTestID("site-search-button");
   act(() => {
     siteSearchButton.props.onClick();
   });
 
-  const siteSearchTestSiteFilterOption = within(container).getByText(
-    "Test Site"
-  );
-  act(() => {
-    siteSearchTestSiteFilterOption.props.onClick();
+  await act(async () => {
+    await waitForElement(() => within(container).getByText("Test Site"));
+    within(container).getByText("Test Site").props.onClick();
   });
 
   await act(async () => {

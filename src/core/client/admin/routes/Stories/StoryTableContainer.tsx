@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
@@ -13,7 +14,6 @@ import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
 import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
 
-import SiteFilterContainer from "./SiteFilter";
 import StoryTable from "./StoryTable";
 import StoryTableFilter from "./StoryTableFilter";
 
@@ -58,11 +58,7 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
             searchFilter={searchFilter}
           />
           {props.query && props.query.settings.multisite && (
-            <SiteFilterContainer
-              query={props.query}
-              siteID={siteFilter}
-              onSelect={setSiteFilter}
-            />
+            <SiteSearch siteID={siteFilter} onSelect={setSiteFilter} />
           )}
         </Flex>
         <StoryTable
@@ -104,7 +100,6 @@ const enhanced = withPaginationContainer<
         settings {
           multisite
         }
-        ...SiteFilterContainer_query
         stories(
           first: $count
           after: $cursor

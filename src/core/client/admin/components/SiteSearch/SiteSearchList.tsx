@@ -1,7 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql, RelayPaginationProp } from "react-relay";
 
-import { PropTypesOf } from "coral-framework/types";
+import {
+  useLoadMore,
+  withPaginationContainer,
+} from "coral-framework/lib/relay";
+
+import { SiteSearchList_query } from "coral-admin/__generated__/SiteSearchList_query.graphql";
+import { SiteSearchListPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListPaginationQuery.graphql";
+
 import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
 import AutoLoadMore from "../AutoLoadMore";
@@ -10,30 +18,52 @@ import SiteFilterOption from "./SiteFilterOption";
 import styles from "./SiteSearchList.css";
 
 interface Props {
-  isVisible: boolean;
-  sites: Array<{ id: string } & PropTypesOf<typeof SiteFilterOption>["site"]>;
-  hasMore: boolean;
-  loading: boolean;
-  disableLoadMore: boolean;
-  onLoadMore: () => void;
+  query: SiteSearchList_query;
+  relay: RelayPaginationProp;
+  onSelect: (id: string | null) => void;
+  siteID: string | null;
+  setIsSiteSearchListVisible: (isVisible: boolean) => void;
+  setSearchFilter: (filter: string) => void;
+  searchFilter: string;
 }
 
 const SiteSearchList: FunctionComponent<Props> = ({
-  isVisible,
-  sites,
-  loading,
-  hasMore,
-  disableLoadMore,
-  onLoadMore,
-  children,
+  query,
+  relay,
+  onSelect,
+  siteID,
+  setIsSiteSearchListVisible,
+  setSearchFilter,
 }) => {
-  if (!isVisible) {
-    return null;
-  }
+  const sites = query ? query.sites.edges.map((edge) => edge.node) : [];
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
+
+  const hasMore = relay.hasMore();
+  const loading = !query;
+
+  const onSiteFilterOptionSelect = (id: string | null) => {
+    onSelect(id);
+    setIsSiteSearchListVisible(false);
+  };
 
   return (
-    <Card className={styles.list}>
-      {children}
+    <Card className={styles.list} data-testid="site-search-list">
+      {/* NOTE: In future, can render the options based on a kind passed through for filter button, moderation link, etc. */}
+      <SiteFilterOption
+        onSelect={onSiteFilterOptionSelect}
+        setSearchFilter={setSearchFilter}
+        site={null}
+        active={!siteID}
+      />
+      {sites.map((s) => (
+        <SiteFilterOption
+          onSelect={(id) => onSiteFilterOptionSelect(id)}
+          setSearchFilter={setSearchFilter}
+          site={s}
+          active={s.id === siteID}
+          key={s.id}
+        />
+      ))}
       {!loading && sites.length === 0 && (
         <div className={styles.noneFound}>
           <Localized id="site-search-none-found">
@@ -48,14 +78,67 @@ const SiteSearchList: FunctionComponent<Props> = ({
       )}
       {hasMore && (
         <Flex justifyContent="center">
-          <AutoLoadMore
-            disableLoadMore={disableLoadMore}
-            onLoadMore={onLoadMore}
-          />
+          <AutoLoadMore disableLoadMore={isLoadingMore} onLoadMore={loadMore} />
         </Flex>
       )}
     </Card>
   );
 };
 
-export default SiteSearchList;
+type FragmentVariables = SiteSearchListPaginationQueryVariables;
+
+const enhanced = withPaginationContainer<
+  Props,
+  SiteSearchListPaginationQueryVariables,
+  FragmentVariables
+>(
+  {
+    query: graphql`
+      fragment SiteSearchList_query on Query
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          searchFilter: { type: "String" }
+        ) {
+        sites(first: $count, after: $cursor, query: $searchFilter)
+          @connection(key: "SitesConfig_sites") {
+          edges {
+            node {
+              id
+              ...SiteFilterOption_site
+            }
+          }
+        }
+      }
+    `,
+  },
+  {
+    getConnectionFromProps(props) {
+      return props.query && props.query.sites;
+    },
+    getVariables(props, { count, cursor }, fragmentVariables) {
+      return {
+        count,
+        cursor,
+        searchFilter: fragmentVariables.searchFilter,
+      };
+    },
+    query: graphql`
+      # Pagination query to be fetched upon calling 'loadMore'.
+      # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+      query SiteSearchListPaginationQuery(
+        $count: Int!
+        $cursor: Cursor
+        $searchFilter: String!
+      ) {
+        ...SiteSearchList_query
+          @arguments(
+            count: $count
+            cursor: $cursor
+            searchFilter: $searchFilter
+          )
+      }
+    `,
+  }
+)(SiteSearchList);
+export default enhanced;
