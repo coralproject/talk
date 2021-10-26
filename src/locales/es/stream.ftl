@@ -30,8 +30,8 @@ comments-featuredCommentTooltip-toggleButton =
 
 comments-bannedInfo-bannedFromCommenting = Su cuenta ha sido bloqueada para poder comentar.
 comments-bannedInfo-violatedCommunityGuidelines =
-  Alguien con acceso a su cuenta ha violado nuestras directrices de la comunidad. 
-  Como resultado, su cuenta ha sido bloqueada. 
+  Alguien con acceso a su cuenta ha violado nuestras directrices de la comunidad.
+  Como resultado, su cuenta ha sido bloqueada.
   Ya no podrás comentar, respetar o reportar comentarios. Si usted piensa
   que esto se ha hecho por error, póngase en contacto con nuestro equipo de la comunidad.
 
@@ -351,10 +351,6 @@ configure-premodLink-commentsContainingLinks = Pre-moderar comentarios que conti
 configure-premodLink-description =
   Los moderadores deben aprobar cualquier comentario que contenga un enlace antes de que se publique en esta secuencia.
 
-configure-liveUpdates-title = Habilitar actualizaciones en vivo para esta historia
-configure-liveUpdates-description =
-  Cuando se habilita, se cargarán y actualizarán los comentarios en tiempo real a medida que se publiquen nuevos comentarios y respuestas.
-
 configure-messageBox-title = Habilitar campo de mensaje para esta secuencia
 configure-messageBox-description =
   Agregue un mensaje en la parte superior del campo de comentarios para sus lectores.
@@ -424,7 +420,7 @@ suspendInfo-heading-yourAccountHasBeen =
 suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   De acuerdo con las directrices de la comunidad de { $organization }, tu
-  cuenta ha sido suspendida temporalmente. Mientras esté suspendida 
+  cuenta ha sido suspendida temporalmente. Mientras esté suspendida
   no podrás comentar, respetar o denunciar comentarios.
 suspendInfo-until-pleaseRejoinThe =
   Vuelva a unirse a la conversación el { $until }

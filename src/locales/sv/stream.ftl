@@ -391,10 +391,6 @@ configure-premodLink-title = Förhandsmoderera kommentarer som innehåller länk
 configure-premodLink-description =
   Moderatorer måste godkänna varje kommentar som innehåller en länk innan den publiceras vid den här artikeln.
 
-configure-liveUpdates-title = Använd liveuppdatering för den här artikeln
-configure-liveUpdates-description =
-  Kommentarerna uppdateras direkt när nya kommentarer och svar skickas in, istället för att kräva en sidomladdning. Du kan stänga av den här funktionen i ovanliga fall då en artikel får så mycket trafik att kommentarerna laddas långsamt.
-
 configure-messageBox-title = Använd meddelanderuta för den här artikeln
 configure-messageBox-description =
   Lägg till ett meddelande till läsarna överst i kommentarsrutan.

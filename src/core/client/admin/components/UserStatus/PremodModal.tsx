@@ -2,6 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import useCommonTranslation, {
+  COMMON_TRANSLATION,
+} from "coral-admin/helpers/useCommonTranslation";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import ModalBodyText from "../ModalBodyText";
@@ -22,6 +25,9 @@ const PremodModal: FunctionComponent<Props> = ({
   onConfirm,
   username,
 }) => {
+  const notAvailableTranslation = useCommonTranslation(
+    COMMON_TRANSLATION.NOT_AVAILABLE
+  );
   return (
     <ChangeStatusModal
       open={open}
@@ -33,7 +39,7 @@ const PremodModal: FunctionComponent<Props> = ({
           <Localized
             id="community-premodModal-areYouSure"
             strong={<ModalHeaderUsername />}
-            $username={username || <NotAvailable />}
+            $username={username || notAvailableTranslation}
           >
             <ModalHeader id="PremodModal-title">
               Are you sure you want to always premoderate{" "}
