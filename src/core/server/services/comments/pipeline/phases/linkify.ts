@@ -1,4 +1,5 @@
-import linkifyjs, { Options } from "linkifyjs/html";
+import linkifyHTML from "linkify-html";
+import { Options } from "linkifyjs";
 
 import {
   IntermediateModerationPhase,
@@ -6,7 +7,7 @@ import {
 } from "coral-server/services/comments/pipeline";
 
 // linkify configuration.
-const config: Options = {
+const config: Partial<Options> = {
   className: "",
   tagName: "a",
   // If the href starts with `//`, then it shouldn't be treated as a valid URL
@@ -20,7 +21,7 @@ export const linkify: IntermediateModerationPhase = async ({
 }): Promise<IntermediatePhaseResult | void> => {
   if (bodyText.trim().length > 0) {
     return {
-      body: linkifyjs(comment.body, config),
+      body: linkifyHTML(comment.body, config),
     };
   }
 };
