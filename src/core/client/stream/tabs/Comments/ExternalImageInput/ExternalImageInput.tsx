@@ -5,11 +5,9 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-
 import { Field, Form } from "react-final-form";
 
-import { getImageValidators } from "../helpers/getMediaValidators";
-
+import { ValidationMessage } from "coral-framework/lib/form";
 import {
   Button,
   Flex,
@@ -18,7 +16,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import { ValidationMessage } from "coral-framework/lib/form";
+import { getImageValidators } from "../helpers/getMediaValidators";
 
 import styles from "./ExternalImageInput.css";
 
