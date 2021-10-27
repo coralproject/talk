@@ -17,8 +17,9 @@ import {
   HorizontalGutter,
   InputLabel,
   TextField,
-  ValidationMessage,
 } from "coral-ui/components/v2";
+
+import { ValidationMessage } from "coral-framework/lib/form";
 
 import styles from "./ExternalImageInput.css";
 
@@ -47,7 +48,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
 
   return (
     <Form onSubmit={({ externalImg }) => onSelect(externalImg)}>
-      {({ handleSubmit, submitting, pristine, invalid }) => (
+      {({ handleSubmit, submitting, pristine }) => (
         <div className={styles.root}>
           <Field name="externalImg" validate={getImageValidators()}>
             {({ input, meta }) => (
@@ -72,7 +73,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
                     <Localized id="comments-postComment-insertImage">
                       <Button
                         color="stream"
-                        disabled={pristine || invalid || submitting}
+                        disabled={pristine || submitting}
                         onClick={() => handleSubmit()}
                         className={styles.insertButton}
                       >
@@ -81,9 +82,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
                     </Localized>
                   </Flex>
                 </HorizontalGutter>
-                {meta.dirty && meta.error && (
-                  <ValidationMessage>{meta.error}</ValidationMessage>
-                )}
+                <ValidationMessage meta={meta} />
               </HorizontalGutter>
             )}
           </Field>
