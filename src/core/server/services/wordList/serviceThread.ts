@@ -35,7 +35,7 @@ const run = async (options: WordlistServiceOptions) => {
     if (!msg) {
       parentPort!.postMessage({
         id: "",
-        success: false,
+        done: false,
         result: {
           isMatched: false,
           timedOut: false,
@@ -70,18 +70,19 @@ const run = async (options: WordlistServiceOptions) => {
 
       parentPort!.postMessage({
         id: msg.id,
-        success: true,
+        done: true,
         result,
       });
     } catch (err) {
       parentPort!.postMessage({
         id: msg.id,
-        success: false,
+        done: false,
         result: {
           isMatched: false,
           timedOut: false,
           matches: [],
         },
+        err,
       });
     }
   });

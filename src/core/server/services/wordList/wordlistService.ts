@@ -21,6 +21,7 @@ interface WordlistRequest {
     value: WordlistThreadResult | PromiseLike<WordlistThreadResult>
   ) => void;
   reject: (reason?: any) => void;
+  timeoutHandle: NodeJS.Timeout;
 }
 
 export interface WordlistServiceOptions {
@@ -30,8 +31,9 @@ export interface WordlistServiceOptions {
 
 interface WordlistThreadResult {
   id: string;
-  success: boolean;
+  done: boolean;
   result: MatchResult;
+  err?: Error;
 }
 
 export default class WordlistService {
@@ -65,6 +67,12 @@ export default class WordlistService {
     this.worker.on("error", this.onErrorDelegate);
   }
 
+  public dispose() {
+    if (this.worker) {
+      this.worker.unref();
+    }
+  }
+
   public test(testString: string) {
     const id = uuid();
 
@@ -76,25 +84,24 @@ export default class WordlistService {
         id,
         resolve,
         reject,
+        timeoutHandle: setTimeout(() => {
+          if (!requests.has(id)) {
+            return;
+          }
+
+          const timedOutResult: WordlistThreadResult = {
+            id,
+            done: true,
+            result: {
+              isMatched: false,
+              timedOut: true,
+              matches: [],
+            },
+          };
+          resolve(timedOutResult);
+          requests.delete(id);
+        }, timeout),
       });
-
-      setTimeout(() => {
-        if (!requests.has(id)) {
-          return;
-        }
-
-        const timedOutResult: WordlistThreadResult = {
-          id,
-          success: false,
-          result: {
-            isMatched: false,
-            timedOut: true,
-            matches: [],
-          },
-        };
-        resolve(timedOutResult);
-        requests.delete(id);
-      }, timeout);
     });
 
     const request: WordlistThreadRequest = {
@@ -107,7 +114,28 @@ export default class WordlistService {
   }
 
   private onMessage(msg: WordlistThreadResult) {
-    if (!msg || !msg.success) {
+    if (!msg.err) {
+      this.onResultMessage(msg);
+    } else {
+      this.onErrorMessage(msg);
+    }
+  }
+
+  private onErrorMessage(msg: WordlistThreadResult) {
+    if (!msg || !msg.err) {
+      return;
+    }
+
+    this.logger.error(
+      { err: msg.err },
+      "an error occurred evaluating the regular expression."
+    );
+
+    throw msg.err;
+  }
+
+  private onResultMessage(msg: WordlistThreadResult) {
+    if (!msg || msg.err) {
       return;
     }
     if (!this.requests.has(msg.id)) {
@@ -119,6 +147,7 @@ export default class WordlistService {
       return;
     }
 
+    clearTimeout(request.timeoutHandle);
     request.resolve(msg);
     this.requests.delete(msg.id);
   }
@@ -126,7 +155,9 @@ export default class WordlistService {
   private onError(err: Error) {
     this.logger.error(
       { err },
-      "an error occurred evaluating the regular expression"
+      "a catastrophic error occurred evaluating a regular expression."
     );
+
+    process.exit(1);
   }
 }
