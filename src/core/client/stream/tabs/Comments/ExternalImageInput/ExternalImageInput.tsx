@@ -1,14 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import React, {
-  ChangeEvent,
   FunctionComponent,
   KeyboardEvent,
-  useCallback,
   useEffect,
   useRef,
-  useState,
 } from "react";
+import { Field, Form } from "react-final-form";
 
+import { ValidationMessage } from "coral-framework/lib/form";
 import {
   Button,
   Flex,
@@ -17,6 +16,8 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
+import { getImageValidators } from "../helpers/getMediaValidators";
+
 import styles from "./ExternalImageInput.css";
 
 interface Props {
@@ -24,12 +25,7 @@ interface Props {
 }
 
 const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
-  const [url, setURL] = useState<string>("");
   const ref = useRef<HTMLInputElement>(null);
-
-  const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-    setURL(evt.target.value);
-  }, []);
 
   useEffect(() => {
     if (ref.current) {
@@ -37,57 +33,56 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
     }
   }, []);
 
-  const onClick = useCallback(() => {
-    onSelect(url);
-
-    // TODO: we should handle this state better...
-    setURL("");
-  }, [url, setURL, onSelect]);
-
-  // This will handle when the user hits enter where we don't want to submit the
-  // form.
-  const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") {
-      return;
-    }
-
-    e.preventDefault();
-  }, []);
-
   return (
-    <div className={styles.root}>
-      <HorizontalGutter>
-        <HorizontalGutter>
-          <Localized id="comments-postComment-pasteImage">
-            <InputLabel htmlFor="coral-comments-postComment-pasteImage">
-              Paste image URL
-            </InputLabel>
-          </Localized>
-          <Flex>
-            <TextField
-              id="coral-comments-postComment-pasteImage"
-              className={styles.input}
-              value={url}
-              onChange={onChange}
-              onKeyPress={onKeyPress}
-              fullWidth
-              variant="seamlessAdornment"
-              color="streamBlue"
-              ref={ref}
-            />
-            <Localized id="comments-postComment-insertImage">
-              <Button
-                color="stream"
-                onClick={onClick}
-                className={styles.insertButton}
-              >
-                Insert
-              </Button>
-            </Localized>
-          </Flex>
-        </HorizontalGutter>
-      </HorizontalGutter>
-    </div>
+    <Form onSubmit={({ externalImg }) => onSelect(externalImg)}>
+      {({ handleSubmit, submitting, pristine }) => (
+        <div className={styles.root}>
+          <Field name="externalImg" validate={getImageValidators()}>
+            {({ input, meta }) => (
+              <HorizontalGutter>
+                <HorizontalGutter>
+                  <Localized id="comments-postComment-pasteImage">
+                    <InputLabel htmlFor="coral-comments-postComment-pasteImage">
+                      Paste image URL
+                    </InputLabel>
+                  </Localized>
+                  <Flex>
+                    <TextField
+                      {...input}
+                      id="coral-comments-postComment-pasteImage"
+                      className={styles.input}
+                      onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key !== "Enter") {
+                          return;
+                        }
+                        void handleSubmit();
+                        // This will handle when the user hits enter where we don't want to submit the
+                        // parent form.
+                        e.preventDefault();
+                      }}
+                      fullWidth
+                      variant="seamlessAdornment"
+                      color="streamBlue"
+                    />
+                    <Localized id="comments-postComment-insertImage">
+                      <Button
+                        color="stream"
+                        disabled={pristine || submitting}
+                        onClick={() => handleSubmit()}
+                        className={styles.insertButton}
+                      >
+                        Insert
+                      </Button>
+                    </Localized>
+                  </Flex>
+                </HorizontalGutter>
+                <ValidationMessage meta={meta} />
+              </HorizontalGutter>
+            )}
+          </Field>
+        </div>
+      )}
+    </Form>
   );
 };
 
