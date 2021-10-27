@@ -131,6 +131,13 @@ export default class WordlistService {
       "an error occurred evaluating the regular expression."
     );
 
+    const request = this.requests.get(msg.id);
+    if (request) {
+      clearTimeout(request.timeoutHandle);
+      request.resolve(msg);
+      this.requests.delete(msg.id);
+    }
+
     throw msg.err;
   }
 
