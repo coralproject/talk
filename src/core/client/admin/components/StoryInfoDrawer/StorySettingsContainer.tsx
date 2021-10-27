@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Form, Formik, FormikHelpers } from "formik";
+import { useForm, SubmitHandler, Controller, useController } from "react-hook-form";
 import { graphql } from "relay-runtime";
 import React, { FunctionComponent, useState } from "react";
 
@@ -16,11 +16,9 @@ import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
 
 import {
   Button,
-  CheckBox,
   Divider,
   Flex,
   Icon,
-  Label,
   Tab,
   TabBar,
   TabContent,
@@ -28,7 +26,8 @@ import {
 } from "coral-ui/components/v2";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { FormikSelect } from "./Select";
+import CheckBox from "./Checkbox";
+import Select from "./Select";
 
 import styles from "./StorySettingsContainer.css";
 import { GQLMODERATION_MODE } from "coral-framework/schema";
@@ -38,6 +37,8 @@ export interface Props {
   settings: StorySettingsContainer_storySettings;
 }
 
+// const Forwarded
+
 const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings }) => {
   const [activeTab, setActiveTab] = useState("CONFIGURE_STORY");
   const {
@@ -46,9 +47,18 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
     premodLinksEnable,
   } = settings;
 
+  const { register, handleSubmit, watch, formState, control } = useForm<Props["settings"]>();
+  console.log(watch());
+
   const updateSettings = useMutation(UpdateStorySettingsMutation);
 
-  const onSubmit = async (values: any, helpers: FormikHelpers<any>) => {
+  const onSubmit: SubmitHandler<StorySettingsContainer_storySettings> = (data, e) => {
+    e?.preventDefault();
+    console.log(data, "<- submitted");
+    console.log({ formState, dirty: formState.dirtyFields });
+  }
+
+  const __onSubmit = async (values: any) => {
     // TODO (marcushaddon): should we figure out whats changed and submit only new values?
 
     const updatedSettings = {
@@ -60,15 +70,15 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
       mode: values.mode,
       premodLinksEnable: values.premodLinksEnable,
     };
-
-    helpers.setSubmitting(true);
-    const res = await updateSettings({
-      id: storyID,
-      settings: updatedSettings,
-    });
-    helpers.setSubmitting(false);
-    helpers.setTouched({});
   }
+
+  const {
+    field: { ref: premodLinksEnabledRef, ...premodLinksEnabledProps }
+  } = useController<Props["settings"]>({
+    name: "premodLinksEnable",
+    control,
+    defaultValue: premodLinksEnable
+  });
 
   return (
     <>
@@ -95,69 +105,56 @@ const StorySettingsContainer: FunctionComponent<Props> = ({ storyID, settings })
       </TabBar>
       <TabContent activeTab={activeTab}>
         <TabPane tabID="CONFIGURE_STORY" className={styles.configureStory}>
-          <Formik
-            initialValues={{
-              moderationMode,
-              premodLinksEnable,
-            }}
-            onSubmit={onSubmit}
-          >
-            {(args) => {
-              return (
-                <Form>
-                  <Flex direction="column">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex direction="column">
+              <Flex direction="row" className={styles.setting}>
+                {/* PREMODLINKSENABLED */}
+                {/* <Localized id="storyInfoDrawerSettings-premodLinksEnable"> */}
+                  <CheckBox
+                    name="premodLinksEnable"
+                    control={control}
+                    defaultValue={premodLinksEnable}
+                  >
+                    <div className={styles.checkboxText}>Pre Mode Links Enabled</div>
+                  </CheckBox>
+                {/* </Localized> */}
+              </Flex>
 
-                    <Flex direction="row" className={styles.setting}>
-                      {/* PREMODLINKSENABLED */}
-                      <Localized id="storyInfoDrawerSettings-premodLinksEnable">
-                        <CheckBox
-                          checked={args.values.premodLinksEnable}
-                          name="premodLinksEnable"
-                          onChange={args.handleChange}
-                        >
-                          <div className={styles.checkboxText}>Pre Mode Links Enabled</div>
-                        </CheckBox>
-                      </Localized>
-                    </Flex>
+              {/* MODERATION MODE */}
+              {/* <Flex direction="row" className={styles.setting}>
+                <Localized id="storyInfoDrawerSettings-moderation">
+                  <Select
+                    id="storySettingsContainer-moderationMode"
+                    name="moderationMode"
+                    label="Moderation"
+                    description="A menu for setting the moderation mode for the story"
+                    options={Object.keys(GQLMODERATION_MODE)}
+                    selected={args.values.moderationMode}
+                  />
+                </Localized>
+              </Flex> */}
 
-                    {/* MODERATION MODE */}
-                    <Flex direction="row" className={styles.setting}>
-                      <Localized id="storyInfoDrawerSettings-moderation">
-                        <FormikSelect
-                          id="storySettingsContainer-moderationMode"
-                          name="moderationMode"
-                          label="Moderation"
-                          description="A menu for setting the moderation mode for the story"
-                          options={Object.keys(GQLMODERATION_MODE)}
-                          selected={args.values.moderationMode}
-                        />
-                      </Localized>
-                    </Flex>
+              {/* SAVE/SUBMIT */}
+              <Button
+                variant="outlined"
+                color="regular"
+                type="submit"
+                disabled={formState.isSubmitting|| !formState.dirtyFields}
+              >
+                Save
+              </Button>
 
-                    {/* SAVE/SUBMIT */}
-                    <Button
-                      variant="outlined"
-                      color="regular"
-                      type="submit"
-                      disabled={args.isSubmitting || !args.dirty}
-                    >
-                      Save
-                    </Button>
-
-                    {mode === "QA" && (
-                      <>
-                        <Divider />
-                        {/* EXPERT SELECTION */}
-                        <ExpertSelectionQuery
-                          storyID={storyID}
-                        />
-                      </>
-                    )}
-                  </Flex>
-                </Form>
-              );
-            }}
-          </Formik>
+              {mode === "QA" && (
+                <>
+                  <Divider />
+                  {/* EXPERT SELECTION */}
+                  <ExpertSelectionQuery
+                    storyID={storyID}
+                  />
+                </>
+              )}
+            </Flex>
+          </form>
         </TabPane>
       </TabContent>
     </>
