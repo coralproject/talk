@@ -1,11 +1,13 @@
-import createWordListRegExp from "./createWordListRegExp";
+import RE2 from "re2";
 
-const buildTester = (re: RegExp) => (str: string) => re.test(str);
+import createServerWordListRegEx from "coral-server/services/comments/pipeline/createServerWordListRegEx";
 
-const buildSplitter = (re: RegExp) => (str: string) => str.split(re);
+const buildTester = (re: RE2) => (str: string) => re.test(str);
+
+const buildSplitter = (re: RE2) => (str: string) => str.split(re);
 
 describe("en-US", () => {
-  const re = createWordListRegExp("en-US", [
+  const re = createServerWordListRegEx("en-US", [
     "bad",
     "french fries",
     "worse",
@@ -124,7 +126,7 @@ describe("en-US", () => {
 });
 
 describe("es", () => {
-  const re = createWordListRegExp("es", ["adónde vas", "tú"]);
+  const re = createServerWordListRegEx("es", ["adónde vas", "tú"]);
 
   const test = buildTester(re);
 
@@ -136,7 +138,7 @@ describe("es", () => {
 });
 
 describe("pt-BR", () => {
-  const re = createWordListRegExp("pt-BR", [
+  const re = createServerWordListRegEx("pt-BR", [
     "bi",
     "outro",
     "café",

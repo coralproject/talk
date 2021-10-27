@@ -340,7 +340,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
-          phrases={settings}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
