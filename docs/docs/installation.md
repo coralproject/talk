@@ -80,7 +80,7 @@ Then head on over to http://localhost:5000 to install Coral!
 
 ### Source
 
-Coral requires NodeJS >=14, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=16, we recommend using `nvm` to help manage node
 versions https://github.com/nvm-sh/nvm.
 
 ```bash
