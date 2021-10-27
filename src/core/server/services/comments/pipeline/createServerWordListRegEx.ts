@@ -69,5 +69,5 @@ export default function createServerWordListRegEx(
   // at the end of the string or at another word boundary.
   const pattern = `(^|${rule.boundary})(${words})($|${rule.boundary})`;
 
-  return new RE2(pattern);
+  return new RE2(pattern, "i");
 }
