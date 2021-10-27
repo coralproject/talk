@@ -20,7 +20,7 @@ Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
 - MongoDB ^4.2
 - Redis ^3.2
-- NodeJS ^14.18
+- NodeJS ^12.20
 - NPM ^8.0
 
 ## Running
@@ -80,7 +80,7 @@ Then head on over to http://localhost:5000 to install Coral!
 
 ### Source
 
-Coral requires NodeJS >=14, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=12, we recommend using `nvm` to help manage node
 versions https://github.com/nvm-sh/nvm.
 
 ```bash

@@ -12,7 +12,7 @@
     "url": "git://github.com/coralproject/talk.git"
   },
   "engines": {
-    "node": "^14.18",
+    "node": "^12.20",
     "npm": "^8.0.0"
   },
   "bugs": "https://github.com/coralproject/talk/issues",

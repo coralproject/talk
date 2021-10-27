@@ -8,7 +8,7 @@ description: A guide to developing and extending Coral.
 Running Coral for development is very similar to installing Coral via Source as
 described in our [Getting Started](/#source) guide.
 
-Coral requires NodeJS ^14.18, we recommend using `nvm` to help manage node
+Coral requires NodeJS ^12.20, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
