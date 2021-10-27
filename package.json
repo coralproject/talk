@@ -12,8 +12,8 @@
     "url": "git://github.com/coralproject/talk.git"
   },
   "engines": {
-    "node": "^14.18",
-    "npm": "^8.0.0"
+    "node": "^16.12.0",
+    "npm": "^8.1.0"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
@@ -68,7 +68,7 @@
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.0",
     "@fluent/dom": "^0.6.0",
-    "@google-cloud/profiler": "^4.1.0",
+    "@google-cloud/profiler": "^4.1.5",
     "@graphql-tools/schema": "^6.2.4",
     "@graphql-tools/utils": "^6.2.4",
     "@metascraper/helpers": "^5.22.5",
