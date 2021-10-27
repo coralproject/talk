@@ -112,11 +112,7 @@ Array [
   " ",
   "bad",
   " ",
-  "bad, very",
-  " ",
-  "BAD",
-  ".",
-  "",
+  "bad, very BAD.",
 ]
 `;
 

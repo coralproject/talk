@@ -2,12 +2,34 @@ import { defaults } from "lodash";
 import RE2 from "re2";
 
 import { LanguageCode } from "coral-common/helpers";
-import {
-  DefaultWordListRule,
-  escapeRegExp,
-  WordListRule,
-  WordListRules,
-} from "coral-common/utils/createWordListRegExp";
+import { DeepPartial } from "coral-common/types";
+
+export interface WordListRule {
+  boundary: string;
+  punctuation: string;
+}
+
+export const DefaultWordListRule: WordListRule = {
+  // The following symbol, \p{L} refers to any letter class within unicode.
+  // Because we're adding the ^, we're also saying to exclude any from that set,
+  // leaving all non-word characters from unicode available for selection.
+  boundary: "[^\\p{L}]+",
+  punctuation: "[\\s\"'?!.,¿¡`:;]+",
+};
+
+export const WordListRules: DeepPartial<Record<LanguageCode, WordListRule>> = {
+  "en-US": DefaultWordListRule,
+};
+
+/**
+ * Escape string for special regular expression characters.
+ *
+ * @param str the string to escape from regex characters
+ */
+export function escapeRegExp(str: string) {
+  // $& means the whole matched string
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 /**
  * generateRegExp will generate the tester that can be used to test strings

@@ -12,7 +12,6 @@ import React, {
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { HOTKEYS } from "coral-admin/constants";
-import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { GQLWordlistMatch } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
@@ -54,7 +53,6 @@ interface Props {
   featured: boolean;
   moderatedBy: React.ReactNode | null;
   viewContextHref: string;
-  phrases: GetPhrasesRegExpOptions;
   showStory: boolean;
   storyTitle?: React.ReactNode;
   storyHref?: string;
@@ -108,7 +106,6 @@ const ModerateCard: FunctionComponent<Props> = ({
   viewContextHref,
   status,
   featured,
-  phrases,
   onApprove,
   onReject,
   onFeature,
