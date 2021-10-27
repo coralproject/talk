@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
   KeyboardEvent,
-  useCallback,
   useEffect,
   useRef,
 } from "react";
@@ -36,16 +35,6 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
     }
   }, []);
 
-  // This will handle when the user hits enter where we don't want to submit the
-  // form.
-  const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") {
-      return;
-    }
-
-    e.preventDefault();
-  }, []);
-
   return (
     <Form onSubmit={({ externalImg }) => onSelect(externalImg)}>
       {({ handleSubmit, submitting, pristine }) => (
@@ -62,10 +51,17 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
                   <Flex>
                     <TextField
                       {...input}
-                      name="externalImg"
                       id="coral-comments-postComment-pasteImage"
                       className={styles.input}
-                      onKeyPress={onKeyPress}
+                      onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key !== "Enter") {
+                          return;
+                        }
+                        void handleSubmit();
+                        // This will handle when the user hits enter where we don't want to submit the
+                        // parent form.
+                        e.preventDefault();
+                      }}
                       fullWidth
                       variant="seamlessAdornment"
                       color="streamBlue"
