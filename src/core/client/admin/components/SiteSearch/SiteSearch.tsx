@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import {
   ClickOutside,
@@ -23,6 +28,22 @@ const SiteSearch: FunctionComponent<Props> = ({ siteID, onSelect }) => {
     boolean
   >(false);
 
+  const onSearch = useCallback(() => {
+    setSearchFilter(tempSearchFilter);
+    setIsSiteSearchListVisible(true);
+  }, [tempSearchFilter, setSearchFilter, setIsSiteSearchListVisible]);
+
+  const onClearSearch = useCallback(() => {
+    setSearchFilter("");
+  }, [setSearchFilter]);
+
+  const onSearchTextChanged = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTempSearchFilter(event.target.value);
+    },
+    [setTempSearchFilter]
+  );
+
   useEffect(() => {
     setTempSearchFilter(searchFilter);
   }, [searchFilter]);
@@ -34,10 +55,10 @@ const SiteSearch: FunctionComponent<Props> = ({ siteID, onSelect }) => {
           <Label>Site</Label>
         </Localized>
         <SiteSearchTextField
-          setSearchFilter={setSearchFilter}
-          tempSearchFilter={tempSearchFilter}
-          setTempSearchFilter={setTempSearchFilter}
-          setIsSiteSearchListVisible={setIsSiteSearchListVisible}
+          onSearch={onSearch}
+          value={tempSearchFilter}
+          onClearSearch={onClearSearch}
+          onSearchTextChanged={onSearchTextChanged}
         />
         {isSiteSearchListVisible && (
           <ClickOutside

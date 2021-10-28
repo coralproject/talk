@@ -14,7 +14,7 @@ import { SiteSearchListContainerPaginationQueryVariables } from "coral-admin/__g
 import AutoLoadMore from "../AutoLoadMore";
 import SiteFilterOption from "./SiteFilterOption";
 
-import styles from "./SiteSearchList.css";
+import styles from "./SiteSearchListContainer.css";
 
 interface Props {
   query: SiteSearchListContainer_query;

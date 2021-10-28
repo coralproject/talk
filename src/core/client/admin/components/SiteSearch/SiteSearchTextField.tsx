@@ -4,49 +4,36 @@ import React, { FunctionComponent, useCallback } from "react";
 import { Button, Flex, Icon, TextField } from "coral-ui/components/v2";
 
 interface Props {
-  setSearchFilter: (filter: string) => void;
-  tempSearchFilter: string;
-  setTempSearchFilter: (filter: string) => void;
-  setIsSiteSearchListVisible: (isVisible: boolean) => void;
+  onSearch: () => void;
+  onClearSearch: () => void;
+  onSearchTextChanged: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 }
 
 const SiteSearchTextField: FunctionComponent<Props> = ({
-  setSearchFilter,
-  tempSearchFilter,
-  setTempSearchFilter,
-  setIsSiteSearchListVisible,
+  onSearch,
+  onClearSearch,
+  onSearchTextChanged,
+  value,
 }) => {
-  const clearSearchFilter = useCallback(() => {
-    setSearchFilter("");
-  }, [setSearchFilter]);
-  const onSubmitSearch = useCallback(() => {
-    setSearchFilter(tempSearchFilter);
-    setIsSiteSearchListVisible(true);
-  }, [tempSearchFilter, setSearchFilter, setIsSiteSearchListVisible]);
-  const onSearchTextChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setTempSearchFilter(event.target.value);
-    },
-    [setTempSearchFilter]
-  );
   const onSearchKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === "Escape") {
-        clearSearchFilter();
+        onClearSearch();
       }
     },
-    [clearSearchFilter]
+    [onClearSearch]
   );
   const onSearchKeyPress = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === "Enter") {
-        onSubmitSearch();
+        onSearch();
       }
       if (event.key === "Escape") {
-        clearSearchFilter();
+        onClearSearch();
       }
     },
-    [onSubmitSearch, clearSearchFilter]
+    [onSearch, onClearSearch]
   );
 
   return (
@@ -64,7 +51,7 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
           onKeyPress={onSearchKeyPress}
           onKeyDown={onSearchKeyDown}
           variant="seamlessAdornment"
-          value={tempSearchFilter}
+          value={value}
           adornment={
             <Localized
               id="site-search-searchButton"
@@ -76,7 +63,7 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
                 color="dark"
                 adornmentRight
                 aria-label="Search"
-                onClick={onSubmitSearch}
+                onClick={onSearch}
               >
                 <Icon size="md">search</Icon>
               </Button>
