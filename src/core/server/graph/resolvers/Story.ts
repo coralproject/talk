@@ -34,9 +34,9 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
       return false;
     }
 
-    // If the feature flag for site moderators is not turned on return based on
+    // If the tenant is not multisite, return based on
     // the users role.
-    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    if (!ctx.tenant.multisite) {
       return hasModeratorRole(ctx.user);
     }
 

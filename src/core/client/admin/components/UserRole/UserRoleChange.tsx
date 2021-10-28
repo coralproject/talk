@@ -27,7 +27,7 @@ interface Props {
   role: GQLUSER_ROLE_RL;
   scoped?: boolean;
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
-  moderationScopesEnabled?: boolean;
+  isMultisite?: boolean;
   query: PropTypesOf<typeof SiteModeratorModal>["query"];
 }
 
@@ -38,7 +38,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
   onChangeRole,
   onChangeModerationScopes,
   moderationScopes,
-  moderationScopesEnabled = false,
+  isMultisite = false,
   query,
 }) => {
   // Setup state and callbacks for the popover.
@@ -56,11 +56,11 @@ const UserRoleChange: FunctionComponent<Props> = ({
     async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
       await onChangeRole(r);
 
-      if (moderationScopesEnabled) {
+      if (isMultisite) {
         await onChangeModerationScopes(siteIDs);
       }
     },
-    [onChangeRole, onChangeModerationScopes, moderationScopesEnabled]
+    [onChangeRole, onChangeModerationScopes, isMultisite]
   );
   const onClick = useCallback(
     (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => async () => {
@@ -94,7 +94,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
 
   return (
     <>
-      {moderationScopesEnabled && (
+      {isMultisite && (
         <SiteModeratorModal
           username={username}
           open={isModalVisible}
@@ -116,21 +116,21 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 <UserRoleChangeButton
                   active={role === GQLUSER_ROLE.COMMENTER}
                   role={GQLUSER_ROLE.COMMENTER}
-                  moderationScopesEnabled={moderationScopesEnabled}
+                  isMultisite={isMultisite}
                   onClick={onClick(GQLUSER_ROLE.COMMENTER)}
                 />
                 <UserRoleChangeButton
                   active={role === GQLUSER_ROLE.STAFF}
                   role={GQLUSER_ROLE.STAFF}
-                  moderationScopesEnabled={moderationScopesEnabled}
+                  isMultisite={isMultisite}
                   onClick={onClick(GQLUSER_ROLE.STAFF)}
                 />
-                {moderationScopesEnabled && (
+                {isMultisite && (
                   <UserRoleChangeButton
                     active={scoped && role === GQLUSER_ROLE.MODERATOR}
                     role={GQLUSER_ROLE.MODERATOR}
                     scoped
-                    moderationScopesEnabled
+                    isMultisite
                     onClick={() => {
                       setModalVisibility(true);
                       setPopoverVisibility(false);
@@ -139,18 +139,17 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 )}
                 <UserRoleChangeButton
                   active={
-                    (!moderationScopesEnabled ||
-                      (moderationScopesEnabled && !scoped)) &&
+                    (!isMultisite || (isMultisite && !scoped)) &&
                     role === GQLUSER_ROLE.MODERATOR
                   }
                   role={GQLUSER_ROLE.MODERATOR}
-                  moderationScopesEnabled={moderationScopesEnabled}
+                  isMultisite={isMultisite}
                   onClick={onClick(GQLUSER_ROLE.MODERATOR)}
                 />
                 <UserRoleChangeButton
                   active={role === GQLUSER_ROLE.ADMIN}
                   role={GQLUSER_ROLE.ADMIN}
-                  moderationScopesEnabled={moderationScopesEnabled}
+                  isMultisite={isMultisite}
                   onClick={onClick(GQLUSER_ROLE.ADMIN)}
                 />
               </Dropdown>
@@ -173,7 +172,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 variant="text"
               >
                 <UserRoleText
-                  moderationScopesEnabled={moderationScopesEnabled}
+                  isMultisite={isMultisite}
                   scoped={scoped}
                   role={role}
                 />

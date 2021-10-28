@@ -16,7 +16,6 @@ import {
   DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
-  InternalError,
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
@@ -34,12 +33,7 @@ import {
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { retrieveManySites } from "coral-server/models/site";
-import {
-  ensureFeatureFlag,
-  hasFeatureFlag,
-  linkUsersAvailable,
-  Tenant,
-} from "coral-server/models/tenant";
+import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
   acknowledgeOwnWarning,
   banUser,
@@ -104,7 +98,6 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
-  GQLFEATURE_FLAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -685,12 +678,6 @@ export async function promoteUser(
   viewer: User,
   userID: string
 ) {
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-    throw new InternalError("feature flag not enabled", {
-      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
-    });
-  }
-
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -742,12 +729,6 @@ export async function demoteUser(
   viewer: User,
   userID: string
 ) {
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-    throw new InternalError("feature flag not enabled", {
-      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
-    });
-  }
-
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -801,9 +782,6 @@ export async function updateModerationScopes(
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
-  // Ensure Tenant has site moderators enabled.
-  ensureFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
-
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
   }

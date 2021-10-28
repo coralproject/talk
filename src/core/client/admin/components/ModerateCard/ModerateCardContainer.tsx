@@ -22,7 +22,6 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import {
-  GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
@@ -109,12 +108,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
   `);
 
-  const scoped = useMemo(
-    () =>
-      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-      !!viewer.moderationScopes?.scoped,
-    [settings, viewer]
-  );
+  const scoped = useMemo(() => !!viewer.moderationScopes?.scoped, [viewer]);
 
   const readOnly = useMemo(() => scoped && !comment.canModerate, [
     scoped,
@@ -483,7 +477,6 @@ const enhanced = withFragmentContainer<Props>({
         suspect
       }
       multisite
-      featureFlags
       ...MarkersContainer_settings
     }
   `,

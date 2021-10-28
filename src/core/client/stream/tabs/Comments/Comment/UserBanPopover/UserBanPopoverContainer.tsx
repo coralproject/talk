@@ -6,7 +6,6 @@ import { graphql } from "react-relay";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex } from "coral-ui/components/v2";
 
@@ -38,13 +37,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const banUser = useMutation(BanUserMutation);
   const { localeBundles } = useCoralContext();
 
-  // Not checking for multisite here due to permission issues.
-  // We shouldn't have this enabled unless we're already multisite
-  // anyways. Also, if we send site ID's and multisite is off, the
-  // backend will handle this.
-  const moderationScopesEnabled = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.SITE_MODERATOR
-  );
+  const isMultisite = settings.multisite;
 
   const onBan = useCallback(() => {
     void banUser({
@@ -57,8 +50,8 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         "Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments",
         { username: user.username }
       ),
-      // only do this if moderation scopes are enabled
-      siteIDs: moderationScopesEnabled ? [story.site.id] : [],
+      // only do this if is multisite
+      siteIDs: isMultisite ? [story.site.id] : [],
     });
 
     if (!rejected && comment.revision) {
@@ -76,7 +69,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     comment.id,
     comment.revision,
     localeBundles,
-    moderationScopesEnabled,
+    isMultisite,
     banUser,
     rejected,
     onDismiss,
@@ -89,7 +82,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       <Localized id="comments-userBanPopover-title" $username={user.username}>
         <div className={styles.title}>Ban {user.username}?</div>
       </Localized>
-      {moderationScopesEnabled ? (
+      {isMultisite ? (
         <Localized
           id="comments-userBanPopover-scopedDescription"
           $sitename={story.site.name}
@@ -165,7 +158,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment UserBanPopoverContainer_settings on Settings {
-      featureFlags
+      multisite
     }
   `,
 })(UserBanPopoverContainer);

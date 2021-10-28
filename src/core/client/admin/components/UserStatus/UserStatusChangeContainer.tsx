@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
@@ -53,9 +53,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
 
-  const moderationScopesEnabled =
-    settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-    settings.multisite;
+  const isMultisite = settings.multisite;
 
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {
@@ -167,12 +165,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
-    return (
-      <UserStatusContainer
-        user={user}
-        moderationScopesEnabled={moderationScopesEnabled}
-      />
-    );
+    return <UserStatusContainer user={user} isMultisite={isMultisite} />;
   }
 
   return (
@@ -199,12 +192,9 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemoveWarning={handleRemoveWarning}
         fullWidth={fullWidth}
         bordered={bordered}
-        moderationScopesEnabled={moderationScopesEnabled}
+        isMultisite={isMultisite}
       >
-        <UserStatusContainer
-          user={user}
-          moderationScopesEnabled={moderationScopesEnabled}
-        />
+        <UserStatusContainer user={user} isMultisite={isMultisite} />
       </UserStatusChange>
       <SuspendModal
         username={user.username}
@@ -234,7 +224,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           open={showBanned}
           onClose={handleBanModalClose}
           onConfirm={handleBanConfirm}
-          moderationScopesEnabled={moderationScopesEnabled}
+          isMultisite={isMultisite}
           viewerScopes={{
             role: viewer.role,
             sites: viewer.moderationScopes?.sites?.map((s) => s),
@@ -282,7 +272,6 @@ const enhanced = withFragmentContainer<Props>({
         name
       }
       multisite
-      featureFlags
     }
   `,
   viewer: graphql`

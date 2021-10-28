@@ -35,7 +35,7 @@ interface Props {
   onSetSearchFilter: (search: string) => void;
   viewer: PropTypesOf<typeof InviteUsersContainer>["viewer"];
   settings: PropTypesOf<typeof InviteUsersContainer>["settings"];
-  moderationScopesEnabled: boolean;
+  isMultisite: boolean;
 }
 
 const UserTableFilter: FunctionComponent<Props> = (props) => (
@@ -170,7 +170,7 @@ const UserTableFilter: FunctionComponent<Props> = (props) => (
                 <Localized id="userStatus-banned">
                   <Option value={GQLUSER_STATUS_FILTER.BANNED}>Banned</Option>
                 </Localized>
-                {props.moderationScopesEnabled && (
+                {props.isMultisite && (
                   <Localized id="userStatus-siteBanned">
                     <Option value={GQLUSER_STATUS_FILTER.SITE_BANNED}>
                       Site banned
