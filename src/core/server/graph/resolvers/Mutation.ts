@@ -219,8 +219,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.acknowledgeWarning(),
     clientMutationId: input.clientMutationId,
   }),
-  modMessageUser: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.Users.modMessage(input),
+  sendModMessageUser: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.sendModMessage(input),
     clientMutationId: input.clientMutationId,
   }),
   acknowledgeModMessage: async (source, { input }, ctx) => ({

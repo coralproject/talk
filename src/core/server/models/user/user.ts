@@ -405,7 +405,7 @@ export interface UserStatus {
    * modMessage stores whether a user has an unacknowledged moderation message and
    * a history of moderation messages
    */
-  modMessage: ModMessageStatus;
+  modMessage?: ModMessageStatus;
 }
 
 /**
@@ -2327,18 +2327,9 @@ export async function acknowledgeOwnWarning(
     {
       id,
       tenantID,
-      $or: [
-        {
-          "status.warning.active": {
-            $ne: false,
-          },
-        },
-        {
-          "status.warning.history": {
-            $size: 0,
-          },
-        },
-      ],
+      "status.warning.active": {
+        $eq: true,
+      },
     },
     {
       $set: {
@@ -2368,7 +2359,7 @@ export async function acknowledgeOwnWarning(
   return result.value;
 }
 
-export async function modMessageUser(
+export async function sendModMessageUser(
   mongo: MongoContext,
   tenantID: string,
   id: string,
@@ -2445,18 +2436,9 @@ export async function acknowledgeOwnModMessage(
     {
       id,
       tenantID,
-      $or: [
-        {
-          "status.modMessage.active": {
-            $ne: false,
-          },
-        },
-        {
-          "status.modMessage.history": {
-            $size: 0,
-          },
-        },
-      ],
+      "status.modMessage.active": {
+        $eq: true,
+      },
     },
     {
       $set: {
@@ -2553,6 +2535,10 @@ export function consolidateUserWarningStatus(
   };
 }
 
+/**
+ * consolidateUserModMessageStatus takes the most recent moderation message if there is one
+ * and adds its message to the modMessage status
+ */
 export function consolidateUserModMessageStatus(
   modMessage: User["status"]["modMessage"]
 ) {

@@ -290,9 +290,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             id="comments-accountStatus-section"
             attrs={{ "aria-label": true }}
           >
-            <section
+            <HorizontalGutter
               id={VIEWER_STATUS_CONTAINER_ID}
               aria-label="Account Status"
+              container="section"
             >
               {banned && <BannedInfo />}
               {suspended && (
@@ -303,7 +304,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
               )}
               {warned && <WarningContainer viewer={props.viewer} />}
               {modMessaged && <ModMessageContainer viewer={props.viewer} />}
-            </section>
+            </HorizontalGutter>
           </Localized>
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>

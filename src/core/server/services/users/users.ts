@@ -60,7 +60,6 @@ import {
   ignoreUser,
   linkUsers,
   mergeUserSiteModerationScopes,
-  modMessageUser,
   NotificationSettingsInput,
   premodUser,
   pullUserSiteModerationScopes,
@@ -73,6 +72,7 @@ import {
   retrieveUser,
   retrieveUserWithEmail,
   scheduleDeletionDate,
+  sendModMessageUser,
   setUserEmail,
   setUserLastDownloadedAt,
   setUserLocalProfile,
@@ -1321,7 +1321,7 @@ export async function acknowledgeWarning(
 }
 
 /**
- * modMessage will send a moderation message to a specific user.
+ * sendModMessage will send a moderation message to a specific user.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be messaged on
@@ -1329,7 +1329,7 @@ export async function acknowledgeWarning(
  * @param userID the ID of the User being messaged
  * @param now the current time that the message was sent
  */
-export async function modMessage(
+export async function sendModMessage(
   mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
@@ -1338,7 +1338,14 @@ export async function modMessage(
   now = new Date()
 ) {
   // Send moderation message to the user.
-  return modMessageUser(mongo, tenant.id, userID, moderator.id, message, now);
+  return sendModMessageUser(
+    mongo,
+    tenant.id,
+    userID,
+    moderator.id,
+    message,
+    now
+  );
 }
 
 /**

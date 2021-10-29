@@ -7328,9 +7328,9 @@ type AcknowledgeWarningPayload {
 }
 
 ##################
-# modMessageUser
+# sendModMessageUser
 ##################
-input ModMessageUserInput {
+input SendModMessageUserInput {
   """
   userID is the ID of the User that should have their account messaged.
   """
@@ -7347,7 +7347,7 @@ input ModMessageUserInput {
   message: String!
 }
 
-type ModMessageUserPayload {
+type SendModMessageUserPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -8448,13 +8448,15 @@ type Mutation {
   """
   acknowledgeWarning(
     input: AcknowledgeWarningInput!
-  ): AcknowledgeWarningPayload @auth(permit: [WARNED])
+  ): AcknowledgeWarningPayload
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
-  modMessageUser will send a user a moderation message that they need to acknowledge
+  sendModMessageUser will send a user a moderation message that they need to acknowledge
   """
-  modMessageUser(input: ModMessageUserInput!): ModMessageUserPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+  sendModMessageUser(
+    input: SendModMessageUserInput!
+  ): SendModMessageUserPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
   acknowledgeModMessage will set moderation messages to inactive

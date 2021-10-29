@@ -13,7 +13,6 @@ import {
   demoteUser,
   destroyModeratorNote,
   ignore,
-  modMessage,
   premod,
   promoteUser,
   removeBan,
@@ -24,6 +23,7 @@ import {
   requestAccountDeletion,
   requestCommentsDownload,
   requestUserCommentsDownload,
+  sendModMessage,
   setEmail,
   setPassword,
   setUsername,
@@ -55,7 +55,6 @@ import {
   GQLDemoteUserInput,
   GQLIgnoreUserInput,
   GQLInviteUsersInput,
-  GQLModMessageUserInput,
   GQLPremodUserInput,
   GQLPromoteUserInput,
   GQLRemovePremodUserInput,
@@ -66,6 +65,7 @@ import {
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
+  GQLSendModMessageUserInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
@@ -299,8 +299,8 @@ export const Users = (ctx: GraphContext) => ({
     removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   acknowledgeWarning: async () =>
     acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
-  modMessage: async (input: GQLModMessageUserInput) =>
-    modMessage(
+  sendModMessage: async (input: GQLSendModMessageUserInput) =>
+    sendModMessage(
       ctx.mongo,
       ctx.tenant,
       ctx.user!,
