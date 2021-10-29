@@ -25,11 +25,7 @@ export const StorySettings: Required<GQLStorySettingsTypeResolver<
     };
   },
   // FEATURE_FLAG:ENABLE_QA
-  mode: (s, input, ctx) => {
-    /* eslint-disable */
-    console.log("StorySettings mode resolver");
-    return story.resolveStoryMode(s, ctx.tenant);
-  },
+  mode: (s, input, ctx) => story.resolveStoryMode(s, ctx.tenant),
   experts: (s, input, ctx) => {
     if (s.expertIDs) {
       return ctx.loaders.Users.user.loadMany(s.expertIDs);
