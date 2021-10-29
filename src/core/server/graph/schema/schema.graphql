@@ -5710,11 +5710,6 @@ input LiveConfigurationInput {
   enabled when true will allow live updates.
   """
   enabled: Boolean
-
-  """
-  configurable when true will allow live mode to be configured.
-  """
-  configurable: Boolean
 }
 
 """
