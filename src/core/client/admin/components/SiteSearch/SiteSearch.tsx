@@ -51,11 +51,11 @@ const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
       site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
     ) => {
       onSelect(site ? site.id : null);
-      setSearchFilter(site ? site.name : "");
+      setTempSearchFilter(site ? site.name : "");
       setActiveSiteID(site ? site.id : null);
       setIsSiteSearchListVisible(false);
     },
-    [onSelect, setSearchFilter, setIsSiteSearchListVisible]
+    [onSelect, setTempSearchFilter, setIsSiteSearchListVisible]
   );
 
   useEffect(() => {

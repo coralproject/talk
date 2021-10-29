@@ -48,7 +48,6 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
             <SiteSearchListContainer
               query={props}
               onSelect={onSelect}
-              searchFilter={searchFilter}
               activeSiteID={activeSiteID}
             />
           );

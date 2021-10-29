@@ -22,7 +22,6 @@ interface Props {
   onSelect: (
     site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
   ) => void;
-  searchFilter: string;
   activeSiteID: string | null;
 }
 
