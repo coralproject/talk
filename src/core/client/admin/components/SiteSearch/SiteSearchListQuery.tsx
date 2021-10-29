@@ -13,14 +13,14 @@ interface Props {
   onSelect: (
     site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
   ) => void;
-  siteID: string | null;
   searchFilter: string;
+  activeSiteID: string | null;
 }
 
 const SiteSearchListQuery: FunctionComponent<Props> = ({
   onSelect,
-  siteID,
   searchFilter,
+  activeSiteID,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -48,8 +48,8 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
             <SiteSearchListContainer
               query={props}
               onSelect={onSelect}
-              siteID={siteID}
               searchFilter={searchFilter}
+              activeSiteID={activeSiteID}
             />
           );
         }

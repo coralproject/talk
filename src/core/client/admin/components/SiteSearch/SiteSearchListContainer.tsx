@@ -22,15 +22,15 @@ interface Props {
   onSelect: (
     site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
   ) => void;
-  siteID: string | null;
   searchFilter: string;
+  activeSiteID: string | null;
 }
 
 const SiteSearchListContainer: FunctionComponent<Props> = ({
   query,
   relay,
   onSelect,
-  siteID,
+  activeSiteID,
 }) => {
   const sites = query ? query.sites.edges.map((edge) => edge.node) : [];
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
@@ -41,12 +41,12 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   return (
     <Card className={styles.list} data-testid="site-search-list">
       {/* NOTE: In future, can render the options based on a kind passed through for filter button, moderation link, etc. */}
-      <SiteFilterOption onClick={onSelect} site={null} active={!siteID} />
+      <SiteFilterOption onClick={onSelect} site={null} active={!activeSiteID} />
       {sites.map((s) => (
         <SiteFilterOption
           onClick={onSelect}
           site={s}
-          active={s.id === siteID}
+          active={s.id === activeSiteID}
           key={s.id}
         />
       ))}

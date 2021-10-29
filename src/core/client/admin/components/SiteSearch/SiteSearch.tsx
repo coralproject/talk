@@ -19,16 +19,16 @@ import SiteSearchListQuery from "./SiteSearchListQuery";
 import SiteSearchTextField from "./SiteSearchTextField";
 
 interface Props {
-  siteID: string | null;
   onSelect: (id: string | null) => void;
 }
 
-const SiteSearch: FunctionComponent<Props> = ({ siteID, onSelect }) => {
+const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [tempSearchFilter, setTempSearchFilter] = useState<string>("");
   const [isSiteSearchListVisible, setIsSiteSearchListVisible] = useState<
     boolean
   >(false);
+  const [activeSiteID, setActiveSiteID] = useState<string | null>(null);
 
   const onSearch = useCallback(() => {
     setSearchFilter(tempSearchFilter);
@@ -52,6 +52,7 @@ const SiteSearch: FunctionComponent<Props> = ({ siteID, onSelect }) => {
     ) => {
       onSelect(site ? site.id : null);
       setSearchFilter(site ? site.name : "");
+      setActiveSiteID(site ? site.id : null);
       setIsSiteSearchListVisible(false);
     },
     [onSelect, setSearchFilter, setIsSiteSearchListVisible]
@@ -80,8 +81,8 @@ const SiteSearch: FunctionComponent<Props> = ({ siteID, onSelect }) => {
             <div>
               <SiteSearchListQuery
                 onSelect={onSelectSite}
-                siteID={siteID}
                 searchFilter={searchFilter}
+                activeSiteID={activeSiteID}
               />
             </div>
           </ClickOutside>
