@@ -5727,11 +5727,6 @@ input UpdateStorySettings {
   live: LiveConfigurationInput
 
   """
-  mode specifies the mode of the story (live/qa/review)
-  """
-  mode: STORY_MODE
-
-  """
   moderation determines whether or not this is a PRE or POST moderated story.
   """
   moderation: MODERATION_MODE

@@ -49,7 +49,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   commentCounts: (s): CommentCountsInput => s,
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.
-  settings: (s, input, ctx, info): StorySettingsInput =>
+  settings: (s, input, ctx): StorySettingsInput =>
     defaultsDeep(
       // Pass these options as required by StorySettingsInput.
       { story: s },
