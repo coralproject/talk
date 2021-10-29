@@ -4,8 +4,8 @@ import { graphql } from "react-relay";
 import { QueryRenderer } from "coral-framework/lib/relay";
 import { QueryError } from "coral-ui/components/v3";
 
-import { SiteSearchListQuery as QueryTypes } from "coral-admin/__generated__/SiteSearchListQuery.graphql";
 import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
+import { SiteSearchListQuery as QueryTypes } from "coral-admin/__generated__/SiteSearchListQuery.graphql";
 
 import SiteSearchListContainer from "./SiteSearchListContainer";
 
