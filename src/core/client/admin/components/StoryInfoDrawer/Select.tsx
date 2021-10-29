@@ -1,18 +1,17 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
-import { useField } from "formik";
 import React, { FunctionComponent, useState } from "react";
+import { Control, useController } from "react-hook-form";
 
 import {
   Button,
   ButtonIcon,
+  ClickOutside,
   Dropdown,
   DropdownButton,
-  ClickOutside,
   Popover,
 } from "coral-ui/components/v2";
 
-import { Placement } from "coral-ui/components/v2/Popover/Popover"
+import { Placement } from "coral-ui/components/v2/Popover/Popover";
 
 import styles from "./Select.css";
 
@@ -25,7 +24,7 @@ export interface Props {
   options: any[];
   onSelect: (option: any) => void;
   description: string;
-  placement?: Placement; // TODO (marcushaddon): import Placement type
+  placement?: Placement;
 }
 
 const Select: FunctionComponent<Props> = ({
@@ -35,14 +34,12 @@ const Select: FunctionComponent<Props> = ({
   options,
   selected,
   description,
-  onSelect
+  onSelect,
 }) => {
   const [current, setCurrent] = useState(selected || options?.[0]);
   return (
     <>
-      {label && (
-        <span className={styles.label}>{label}:</span>
-      )}
+      {label && <span className={styles.label}>{label}:</span>}
       <Popover
         id={id}
         placement={placement || "bottom-start"}
@@ -91,14 +88,23 @@ const Select: FunctionComponent<Props> = ({
   );
 };
 
-export const FormikSelect: FunctionComponent<Omit<Props, "onSelect">> = (props) => {
-  const [field, meta, helpers] = useField(props.name);
-  return (
-    <Select
-      {...props}
-      onSelect={(selected) => helpers.setValue(selected)}
-    />
-  )
+type HookSelectProps = Omit<Props, "onSelect"> & {
+  control: Control;
+};
+
+export const HookSelect: FunctionComponent<HookSelectProps> = ({
+  name,
+  control,
+  ...rest
+}) => {
+  const {
+    field: { ref, ...fieldProps },
+  } = useController({
+    name,
+    control,
+  });
+
+  return <Select {...rest} name={name} onSelect={fieldProps.onChange} />;
 };
 
 export default Select;

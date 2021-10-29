@@ -1,8 +1,7 @@
-/* eslint-disable */
 import {
   commitMutationPromiseNormalized,
   createMutation,
-  MutationInput
+  MutationInput,
 } from "coral-framework/lib/relay";
 import { graphql } from "relay-runtime";
 import { Environment } from "relay-runtime";
@@ -16,27 +15,29 @@ const UpdateStorySettingsMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<any>(environment, {
       mutation: graphql`
-        mutation UpdateStorySettingsMutation($input: UpdateStorySettingsInput!) {
+        mutation UpdateStorySettingsMutation(
+          $input: UpdateStorySettingsInput!
+        ) {
           updateStorySettings(input: $input) {
-              story {
-                settings {
-                  mode
-                  moderation
-                  live {
-                    configurable
-                    enabled
-                  }
-                  premodLinksEnable
+            story {
+              settings {
+                mode
+                moderation
+                live {
+                  configurable
+                  enabled
                 }
+                premodLinksEnable
               }
             }
           }
-        `,
+        }
+      `,
       variables: {
         input: {
           ...input,
-          clientMutationId: (clientMutationId++).toString()
-        }
+          clientMutationId: (clientMutationId++).toString(),
+        },
       },
     })
 );
