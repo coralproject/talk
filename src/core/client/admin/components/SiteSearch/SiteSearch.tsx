@@ -13,6 +13,8 @@ import {
   Label,
 } from "coral-ui/components/v2";
 
+import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
+
 import SiteSearchListQuery from "./SiteSearchListQuery";
 import SiteSearchTextField from "./SiteSearchTextField";
 
@@ -44,6 +46,17 @@ const SiteSearch: FunctionComponent<Props> = ({ siteID, onSelect }) => {
     [setTempSearchFilter]
   );
 
+  const onSelectSite = useCallback(
+    (
+      site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
+    ) => {
+      onSelect(site ? site.id : null);
+      setSearchFilter(site ? site.name : "");
+      setIsSiteSearchListVisible(false);
+    },
+    [onSelect, setSearchFilter, setIsSiteSearchListVisible]
+  );
+
   useEffect(() => {
     setTempSearchFilter(searchFilter);
   }, [searchFilter]);
@@ -66,10 +79,8 @@ const SiteSearch: FunctionComponent<Props> = ({ siteID, onSelect }) => {
           >
             <div>
               <SiteSearchListQuery
-                onSelect={onSelect}
+                onSelect={onSelectSite}
                 siteID={siteID}
-                setIsSiteSearchListVisible={setIsSiteSearchListVisible}
-                setSearchFilter={setSearchFilter}
                 searchFilter={searchFilter}
               />
             </div>

@@ -5,23 +5,22 @@ import { QueryRenderer } from "coral-framework/lib/relay";
 import { QueryError } from "coral-ui/components/v3";
 
 import { SiteSearchListQuery as QueryTypes } from "coral-admin/__generated__/SiteSearchListQuery.graphql";
+import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
 
 import SiteSearchListContainer from "./SiteSearchListContainer";
 
 interface Props {
-  onSelect: (id: string | null) => void;
+  onSelect: (
+    site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
+  ) => void;
   siteID: string | null;
-  setIsSiteSearchListVisible: (isVisible: boolean) => void;
   searchFilter: string;
-  setSearchFilter: (filter: string) => void;
 }
 
 const SiteSearchListQuery: FunctionComponent<Props> = ({
   onSelect,
   siteID,
-  setIsSiteSearchListVisible,
   searchFilter,
-  setSearchFilter,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -50,8 +49,6 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
               query={props}
               onSelect={onSelect}
               siteID={siteID}
-              setIsSiteSearchListVisible={setIsSiteSearchListVisible}
-              setSearchFilter={setSearchFilter}
               searchFilter={searchFilter}
             />
           );

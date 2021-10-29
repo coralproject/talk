@@ -19,10 +19,10 @@ import styles from "./SiteSearchListContainer.css";
 interface Props {
   query: SiteSearchListContainer_query;
   relay: RelayPaginationProp;
-  onSelect: (id: string | null) => void;
+  onSelect: (
+    site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
+  ) => void;
   siteID: string | null;
-  setIsSiteSearchListVisible: (isVisible: boolean) => void;
-  setSearchFilter: (filter: string) => void;
   searchFilter: string;
 }
 
@@ -31,8 +31,6 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   relay,
   onSelect,
   siteID,
-  setIsSiteSearchListVisible,
-  setSearchFilter,
 }) => {
   const sites = query ? query.sites.edges.map((edge) => edge.node) : [];
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
@@ -40,24 +38,13 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   const hasMore = relay.hasMore();
   const loading = !query;
 
-  const onSiteFilterOptionSelect = (id: string | null) => {
-    onSelect(id);
-    setIsSiteSearchListVisible(false);
-  };
-
   return (
     <Card className={styles.list} data-testid="site-search-list">
       {/* NOTE: In future, can render the options based on a kind passed through for filter button, moderation link, etc. */}
-      <SiteFilterOption
-        onSelect={onSiteFilterOptionSelect}
-        setSearchFilter={setSearchFilter}
-        site={null}
-        active={!siteID}
-      />
+      <SiteFilterOption onClick={onSelect} site={null} active={!siteID} />
       {sites.map((s) => (
         <SiteFilterOption
-          onSelect={(id) => onSiteFilterOptionSelect(id)}
-          setSearchFilter={setSearchFilter}
+          onClick={onSelect}
           site={s}
           active={s.id === siteID}
           key={s.id}
