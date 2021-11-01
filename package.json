@@ -113,7 +113,7 @@
     "graphql-subscriptions": "^1.1.0",
     "he": "^1.2.0",
     "helmet": "^3.22.0",
-    "html-to-text": "^5.1.1",
+    "html-to-text": "^8.0.0",
     "ioredis": "^4.16.1",
     "joi": "^17.2.1",
     "jsdom": "^16.2.2",
