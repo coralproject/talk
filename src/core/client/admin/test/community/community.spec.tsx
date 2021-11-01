@@ -825,7 +825,7 @@ it("send user a moderation message", async () => {
 
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
-      modMessageUser: ({ variables }) => {
+      sendModMessageUser: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: user.id,
           message:
@@ -869,7 +869,7 @@ it("send user a moderation message", async () => {
 
   act(() => {
     within(modal)
-      .getByID("modMessageModal-message")
+      .getByTestID("modMessageModal-message")
       .props.onChange(
         "Just wanted to send a friendly reminder about our comment guidelines."
       );
@@ -880,7 +880,7 @@ it("send user a moderation message", async () => {
   });
   // Sending the user a moderation message should not change their status
   within(userRow).getByText("Active");
-  expect(resolvers.Mutation!.modMessageUser!.called).toBe(true);
+  expect(resolvers.Mutation!.sendModMessageUser!.called).toBe(true);
 });
 
 it("invites user", async () => {

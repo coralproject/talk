@@ -49,7 +49,11 @@ const ModMessageForm: FunctionComponent<Props> = ({
               </HorizontalGutter>
               <Field component="textarea" name="message" validate={required}>
                 {({ input }) => (
-                  <Textarea id="modMessageModal-message" {...input} fullwidth />
+                  <Textarea
+                    data-testid="modMessageModal-message"
+                    {...input}
+                    fullwidth
+                  />
                 )}
               </Field>
               <Flex justifyContent="flex-end" itemGutter="half">
