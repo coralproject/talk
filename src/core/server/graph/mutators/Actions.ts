@@ -1,11 +1,9 @@
 import GraphContext from "coral-server/graph/context";
-import { hasFeatureFlag } from "coral-server/models/tenant";
 import { approveComment, rejectComment } from "coral-server/stacks";
 import reviewCommentAction from "coral-server/stacks/reviewCommentAction";
 
 import {
   GQLApproveCommentInput,
-  GQLFEATURE_FLAG,
   GQLRejectCommentInput,
   GQLReviewCommentFlagInput,
 } from "../schema/__generated__/types";
@@ -15,8 +13,8 @@ import { validateUserModerationScopes } from "./helpers";
 export const Actions = (ctx: GraphContext) => ({
   approveComment: async (input: GQLApproveCommentInput) => {
     // Validate that this user is allowed to moderate this comment if the
-    // feature flag is enabled.
-    if (hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    // config for site moderators is enabled.
+    if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, input);
     }
 
@@ -34,8 +32,8 @@ export const Actions = (ctx: GraphContext) => ({
   },
   rejectComment: async (input: GQLRejectCommentInput) => {
     // Validate that this user is allowed to moderate this comment if the
-    // feature flag is enabled.
-    if (hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
+    // config for site moderators is enabled.
+    if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, input);
     }
 

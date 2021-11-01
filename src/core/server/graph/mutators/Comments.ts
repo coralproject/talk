@@ -171,8 +171,8 @@ export const Comments = (ctx: GraphContext) => ({
     commentRevisionID,
   }: WithoutMutationID<GQLFeatureCommentInput>) => {
     // Validate that this user is allowed to moderate this comment if the
-    // tenant is multisite
-    if (ctx.tenant.multisite) {
+    // site moderators config is enabled
+    if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, { commentID });
     }
 
@@ -209,8 +209,8 @@ export const Comments = (ctx: GraphContext) => ({
     commentID,
   }: WithoutMutationID<GQLUnfeatureCommentInput>) => {
     // Validate that this user is allowed to moderate this comment if the
-    // tenant is multisite.
-    if (ctx.tenant.multisite) {
+    // site moderators config is enabled
+    if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, { commentID });
     }
 

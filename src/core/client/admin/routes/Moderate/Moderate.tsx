@@ -44,6 +44,7 @@ interface Props {
   section?: SectionFilter | null;
   settings:
     | (PropTypesOf<typeof ModerateSearchBarContainer>["settings"] &
+        PropTypesOf<typeof SiteSelectorContainer>["settings"] &
         PropTypesOf<typeof ModerateNavigationContainer>["settings"])
     | null;
   children?: React.ReactNode;
@@ -96,6 +97,7 @@ const Moderate: FunctionComponent<Props> = ({
           <SiteSelectorContainer
             queueName={queueName}
             query={query}
+            settings={settings}
             viewer={viewer}
             siteID={routeParams.siteID || siteID || null}
           />

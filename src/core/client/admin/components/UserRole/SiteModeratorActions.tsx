@@ -129,7 +129,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
   if (!canPerformActions) {
     return (
       <UserRoleText
-        isMultisite
+        moderationScopesEnabled
         scoped={!!user.moderationScopes?.scoped}
         role={user.role}
       />
@@ -280,7 +280,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     <UserRoleChangeButton
                       role={GQLUSER_ROLE.MODERATOR}
                       scoped
-                      isMultisite
+                      moderationScopesEnabled
                       onClick={onPromote}
                     />
                   ))}
@@ -311,7 +311,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                 variant="text"
               >
                 <UserRoleText
-                  isMultisite
+                  moderationScopesEnabled
                   scoped={!!user.moderationScopes?.scoped}
                   role={user.role}
                 />

@@ -10,7 +10,7 @@ import UserStatus from "./UserStatus";
 
 interface Props {
   user: UserStatusContainer_user;
-  isMultisite: boolean;
+  moderationScopesEnabled: boolean;
 }
 
 const UserStatusContainer: FunctionComponent<Props> = (props) => {
@@ -23,7 +23,7 @@ const UserStatusContainer: FunctionComponent<Props> = (props) => {
           props.user.status.ban?.sites.length > 0
         )
       }
-      isMultisite={props.isMultisite}
+      moderationScopesEnabled={props.moderationScopesEnabled}
       bannedSiteCount={props.user.status.ban?.sites?.length}
       suspended={props.user.status.current.includes(GQLUSER_STATUS.SUSPENDED)}
       premod={props.user.status.current.includes(GQLUSER_STATUS.PREMOD)}

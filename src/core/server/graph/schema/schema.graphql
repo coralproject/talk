@@ -479,12 +479,6 @@ enum FEATURE_FLAG {
   DEFAULT_QA_STORY_MODE
 
   """
-  SITE_MODERATOR will enable the enhanced Site Moderator role by assigning a new
-  moderation scope to a user.
-  """
-  SITE_MODERATOR
-
-  """
   REDUCED_SECURITY_MODE when true will allow unpersisted queries to be executed
   in production environments.
   """
@@ -2070,6 +2064,11 @@ type Settings @cacheControl(maxAge: 30) {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean!
+  """
+  siteModeratorEnabled is whether the config var is enabled for
+  single site moderators when a tenant has multiple sites
+  """
+  siteModeratorEnabled: Boolean!
 }
 
 ################################################################################

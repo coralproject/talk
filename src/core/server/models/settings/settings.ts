@@ -289,7 +289,6 @@ export type Settings = GlobalModerationSettings &
     | "slack"
     | "announcement"
     | "memberBios"
-    | "multisite"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -365,7 +364,6 @@ export type Settings = GlobalModerationSettings &
      * a "Show more of this conversation" link.
      */
     flattenReplies: boolean;
-    multisite: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

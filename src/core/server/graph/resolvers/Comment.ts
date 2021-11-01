@@ -65,8 +65,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       return false;
     }
 
-    // If the tenant is not multisite, return based on the users role.
-    if (!ctx.tenant.multisite) {
+    if (!ctx.config.get("enable_site_moderator")) {
       return hasModeratorRole(ctx.user);
     }
 

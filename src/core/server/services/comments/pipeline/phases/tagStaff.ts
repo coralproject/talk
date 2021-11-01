@@ -25,8 +25,10 @@ function roleAsTag(role: GQLUSER_ROLE) {
 export const tagStaff: IntermediateModerationPhase = ({
   author,
   story,
+  config,
 }): IntermediatePhaseResult | void => {
-  if (!canModerate(author, story)) {
+  const siteModeratorEnabled = config.get("enable_site_moderator");
+  if (siteModeratorEnabled && !canModerate(author, story)) {
     return;
   }
 

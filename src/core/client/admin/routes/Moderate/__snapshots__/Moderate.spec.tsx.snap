@@ -20,6 +20,11 @@ exports[`renders correctly 1`] = `
     siteSelector={
       <Relay(SiteSelectorContainer)
         query=""
+        settings={
+          Object {
+            "multisite": false,
+          }
+        }
         siteID={null}
         viewer={null}
       />

@@ -42,7 +42,10 @@ const UserTableContainer: FunctionComponent<Props> = (props) => {
     statusFilter,
   });
 
-  const isMultisite = !!props?.query?.settings.multisite;
+  const moderationScopesEnabled = !!(
+    props?.query?.settings.siteModeratorEnabled &&
+    props?.query?.settings.multisite
+  );
 
   return (
     <IntersectionProvider>
@@ -56,7 +59,7 @@ const UserTableContainer: FunctionComponent<Props> = (props) => {
           searchFilter={searchFilter}
           viewer={props.query && props.query.viewer}
           settings={props.query && props.query.settings}
-          isMultisite={isMultisite}
+          moderationScopesEnabled={moderationScopesEnabled}
         />
         <UserTable
           viewer={props.query && props.query.viewer}
@@ -98,6 +101,7 @@ const enhanced = withPaginationContainer<
         settings {
           multisite
           featureFlags
+          siteModeratorEnabled
           ...InviteUsersContainer_settings
           ...UserRowContainer_settings
         }

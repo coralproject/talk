@@ -108,7 +108,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
   `);
 
-  const scoped = useMemo(() => !!viewer.moderationScopes?.scoped, [viewer]);
+  const scoped = useMemo(
+    () => settings.siteModeratorEnabled && !!viewer.moderationScopes?.scoped,
+    [settings, viewer]
+  );
 
   const readOnly = useMemo(() => scoped && !comment.canModerate, [
     scoped,
@@ -477,6 +480,7 @@ const enhanced = withFragmentContainer<Props>({
         suspect
       }
       multisite
+      siteModeratorEnabled
       ...MarkersContainer_settings
     }
   `,

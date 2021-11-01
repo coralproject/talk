@@ -129,6 +129,7 @@ export const settings = createFixture<GQLSettings>({
     sarcasm: false,
   },
   flattenReplies: false,
+  siteModeratorEnabled: true,
 });
 
 export const site = createFixture<GQLSite>({

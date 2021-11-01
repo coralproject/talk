@@ -7,7 +7,7 @@ interface Props {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
   role: GQLUSER_ROLE_RL;
   scoped?: boolean;
-  isMultisite: boolean;
+  moderationScopesEnabled: boolean;
 }
 
 function createElement(
@@ -36,7 +36,7 @@ const TranslatedRole: React.FunctionComponent<Props> = (props) => {
         </Localized>
       );
     case GQLUSER_ROLE.MODERATOR:
-      if (!props.isMultisite) {
+      if (!props.moderationScopesEnabled) {
         return (
           <Localized id="role-moderator">
             {createElement(props.container!, "Moderator")}

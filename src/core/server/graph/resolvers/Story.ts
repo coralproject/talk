@@ -34,9 +34,9 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
       return false;
     }
 
-    // If the tenant is not multisite, return based on
+    // // If the config for site moderators is not enabled return based on
     // the users role.
-    if (!ctx.tenant.multisite) {
+    if (!ctx.config.get("enable_site_moderator")) {
       return hasModeratorRole(ctx.user);
     }
 

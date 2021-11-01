@@ -58,7 +58,8 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   const canChangeRole =
     viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
 
-  const isMultisite = settings.multisite;
+  const moderationScopesEnabled =
+    settings.siteModeratorEnabled && settings.multisite;
 
   const canPromoteDemote =
     viewer.id !== user.id &&
@@ -73,7 +74,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     return (
       <ButtonPadding>
         <UserRoleText
-          isMultisite={isMultisite}
+          moderationScopesEnabled={moderationScopesEnabled}
           scoped={user.moderationScopes?.scoped}
           role={user.role}
         />
@@ -89,7 +90,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       role={user.role}
       scoped={user.moderationScopes?.scoped}
       moderationScopes={user.moderationScopes}
-      isMultisite={isMultisite}
+      moderationScopesEnabled={moderationScopesEnabled}
       query={query}
     />
   );
@@ -124,6 +125,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment UserRoleChangeContainer_settings on Settings {
       multisite
+      siteModeratorEnabled
     }
   `,
   query: graphql`

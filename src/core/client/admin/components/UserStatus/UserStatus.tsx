@@ -9,7 +9,7 @@ import styles from "./UserStatus.css";
 interface Props {
   banned: boolean;
   bannedSiteCount?: number | null;
-  isMultisite: boolean;
+  moderationScopesEnabled: boolean;
 
   suspended: boolean;
   premod: boolean;
@@ -26,7 +26,7 @@ const render = (className: string, content: React.ReactNode) => (
 
 const UserStatus: FunctionComponent<Props> = (props) => {
   if (
-    props.isMultisite &&
+    props.moderationScopesEnabled &&
     props.banned &&
     props.bannedSiteCount &&
     props.bannedSiteCount > 0
@@ -39,7 +39,7 @@ const UserStatus: FunctionComponent<Props> = (props) => {
     );
   }
   if (
-    props.isMultisite &&
+    props.moderationScopesEnabled &&
     props.banned &&
     (!props.bannedSiteCount || props.bannedSiteCount === 0)
   ) {

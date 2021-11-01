@@ -56,6 +56,12 @@ export const User: GQLUserTypeResolver<user.User> = {
     userID: id,
   }),
   moderationScopes: ({ role, moderationScopes }, input, ctx) => {
+    // If the config for site moderators is not enabled return null
+    // always.
+    if (!ctx.config.get("enable_site_moderator")) {
+      return null;
+    }
+
     // Moderation scopes only apply to users that have the moderator role.
     if (role !== GQLUSER_ROLE.MODERATOR) {
       return null;

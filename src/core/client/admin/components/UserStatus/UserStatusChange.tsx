@@ -41,7 +41,7 @@ interface Props {
   children: React.ReactNode;
   fullWidth?: boolean;
   bordered?: boolean;
-  isMultisite?: boolean;
+  moderationScopesEnabled?: boolean;
 }
 
 const UserStatusChange: FunctionComponent<Props> = ({
@@ -60,7 +60,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
   children,
   fullWidth = true,
   bordered = false,
-  isMultisite = false,
+  moderationScopesEnabled = false,
 }) => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
@@ -116,7 +116,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
             ) : (
               <Localized
                 id={
-                  isMultisite
+                  moderationScopesEnabled
                     ? "community-userStatus-suspendEverywhere"
                     : "community-userStatus-suspend"
                 }
@@ -175,7 +175,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
             ) : (
               <Localized
                 id={
-                  isMultisite
+                  moderationScopesEnabled
                     ? "community-userStatus-warnEverywhere"
                     : "community-userStatus-warn"
                 }

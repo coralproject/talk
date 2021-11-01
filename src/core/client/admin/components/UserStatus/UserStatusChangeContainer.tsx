@@ -53,7 +53,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
 
-  const isMultisite = settings.multisite;
+  const moderationScopesEnabled =
+    settings.siteModeratorEnabled && settings.multisite;
 
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {
@@ -165,7 +166,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
-    return <UserStatusContainer user={user} isMultisite={isMultisite} />;
+    return (
+      <UserStatusContainer
+        user={user}
+        moderationScopesEnabled={moderationScopesEnabled}
+      />
+    );
   }
 
   return (
@@ -192,9 +198,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemoveWarning={handleRemoveWarning}
         fullWidth={fullWidth}
         bordered={bordered}
-        isMultisite={isMultisite}
+        moderationScopesEnabled={moderationScopesEnabled}
       >
-        <UserStatusContainer user={user} isMultisite={isMultisite} />
+        <UserStatusContainer
+          user={user}
+          moderationScopesEnabled={moderationScopesEnabled}
+        />
       </UserStatusChange>
       <SuspendModal
         username={user.username}
@@ -224,7 +233,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           open={showBanned}
           onClose={handleBanModalClose}
           onConfirm={handleBanConfirm}
-          isMultisite={isMultisite}
+          moderationScopesEnabled={moderationScopesEnabled}
           viewerScopes={{
             role: viewer.role,
             sites: viewer.moderationScopes?.sites?.map((s) => s),
@@ -272,6 +281,7 @@ const enhanced = withFragmentContainer<Props>({
         name
       }
       multisite
+      siteModeratorEnabled
     }
   `,
   viewer: graphql`

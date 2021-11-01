@@ -34,7 +34,7 @@ interface Props {
   ) => void;
   getMessage: GetMessage;
 
-  isMultisite?: boolean | null;
+  moderationScopesEnabled?: boolean | null;
   viewerScopes: Scopes;
   userScopes: Scopes;
 }
@@ -45,7 +45,7 @@ const BanModal: FunctionComponent<Props> = ({
   onConfirm,
   username,
   getMessage,
-  isMultisite,
+  moderationScopesEnabled,
   viewerScopes,
   userScopes,
 }) => {
@@ -60,7 +60,7 @@ const BanModal: FunctionComponent<Props> = ({
   }, [getMessage, username]);
 
   const isSiteMod =
-    !!isMultisite &&
+    !!moderationScopesEnabled &&
     viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
     !!viewerScopes.sites &&
     viewerScopes.sites?.length > 0;
@@ -188,7 +188,7 @@ const BanModal: FunctionComponent<Props> = ({
                     }
                   </Field>
 
-                  {isMultisite && (
+                  {moderationScopesEnabled && (
                     <UserStatusSitesListQuery
                       viewerScopes={viewerScopes}
                       userScopes={userScopes}
