@@ -681,7 +681,7 @@ export async function promoteUser(
   config: Config
 ) {
   if (!config.get("enable_site_moderator")) {
-    throw new InternalError("site moderators not enabled");
+    throw new InternalError("site moderator config not enabled");
   }
 
   if (viewer.id === userID) {
@@ -737,7 +737,7 @@ export async function demoteUser(
   config: Config
 ) {
   if (!config.get("enable_site_moderator")) {
-    throw new InternalError("site moderators not enabled");
+    throw new InternalError("site moderator config not enabled");
   }
 
   if (viewer.id === userID) {
@@ -795,7 +795,7 @@ export async function updateModerationScopes(
   config: Config
 ) {
   if (!config.get("enable_site_moderator")) {
-    throw new InternalError("site moderators not enabled");
+    throw new InternalError("site moderator config not enabled");
   }
 
   if (viewer.id === userID) {

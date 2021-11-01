@@ -518,7 +518,7 @@ const config = convict({
       "Will enable the Site Moderator role for individual sites on a tenant by assigning a new moderation scope to a user.",
     format: Boolean,
     default: true,
-    env: "enable_site_moderator",
+    env: "ENABLE_SITE_MODERATOR",
   },
 });
 
