@@ -1,12 +1,14 @@
-import { SendModMessageUserMutation as MutationTypes } from "coral-admin/__generated__/SendModMessageUserMutation.graphql";
+import { graphql } from "react-relay";
+import { Environment } from "relay-runtime";
+
 import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+
+import { SendModMessageUserMutation as MutationTypes } from "coral-admin/__generated__/SendModMessageUserMutation.graphql";
 
 let clientMutationId = 0;
 
