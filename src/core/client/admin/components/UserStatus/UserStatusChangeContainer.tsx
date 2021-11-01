@@ -11,13 +11,13 @@ import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/User
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
-import SendModMessageUserMutation from "./SendModMessageUserMutation";
 import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMutation from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
 import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
+import SendModMessageUserMutation from "./SendModMessageUserMutation";
 import SuspendModal from "./SuspendModal";
 import SuspendUserMutation from "./SuspendUserMutation";
 import UserStatusChange from "./UserStatusChange";
