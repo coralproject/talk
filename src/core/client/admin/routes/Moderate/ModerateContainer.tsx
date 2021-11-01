@@ -55,7 +55,7 @@ const ModerateContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    // If the site moderators config isn't enabled, we don't need to do anything!
+    // If the site moderator config isn't enabled, we don't need to do anything!
     if (!data.settings.siteModeratorEnabled) {
       return;
     }

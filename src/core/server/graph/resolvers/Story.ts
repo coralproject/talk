@@ -34,7 +34,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
       return false;
     }
 
-    // // If the config for site moderators is not enabled return based on
+    // If the config for site moderator is not enabled return based on
     // the users role.
     if (!ctx.config.get("enable_site_moderator")) {
       return hasModeratorRole(ctx.user);

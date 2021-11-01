@@ -2066,7 +2066,7 @@ type Settings @cacheControl(maxAge: 30) {
   amp: Boolean!
   """
   siteModeratorEnabled is whether the config var is enabled for
-  single site moderators when a tenant has multiple sites
+  the single site moderator role
   """
   siteModeratorEnabled: Boolean!
 }

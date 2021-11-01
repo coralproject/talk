@@ -13,7 +13,7 @@ import { validateUserModerationScopes } from "./helpers";
 export const Actions = (ctx: GraphContext) => ({
   approveComment: async (input: GQLApproveCommentInput) => {
     // Validate that this user is allowed to moderate this comment if the
-    // config for site moderators is enabled.
+    // config for site moderator is enabled.
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, input);
     }
@@ -32,7 +32,7 @@ export const Actions = (ctx: GraphContext) => ({
   },
   rejectComment: async (input: GQLRejectCommentInput) => {
     // Validate that this user is allowed to moderate this comment if the
-    // config for site moderators is enabled.
+    // config for site moderator is enabled.
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, input);
     }

@@ -76,7 +76,7 @@ export const Stories = (ctx: GraphContext) => ({
     input: GQLUpdateStorySettingsInput
   ): Promise<Readonly<Story> | null> => {
     // Validate that this user is allowed to edit this story if the
-    // site moderators config is enabled
+    // site moderator config is enabled
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
     }
@@ -91,7 +91,7 @@ export const Stories = (ctx: GraphContext) => ({
   },
   close: async (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> => {
     // Validate that this user is allowed to close this story if the
-    // site moderators config is enabled
+    // site moderator config is enabled
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
     }
@@ -100,7 +100,7 @@ export const Stories = (ctx: GraphContext) => ({
   },
   open: async (input: GQLOpenStoryInput): Promise<Readonly<Story> | null> => {
     // Validate that this user is allowed to open this story if the
-    // site moderators config is enabled
+    // site moderator config is enabled
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
     }
@@ -115,7 +115,7 @@ export const Stories = (ctx: GraphContext) => ({
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
   updateStoryMode: async (input: GQLUpdateStoryModeInput) => {
     // Validate that this user is allowed to update the story mode if the
-    // site moderators config is enabled
+    // site moderator config is enabled
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, {
         storyID: input.storyID,
@@ -126,7 +126,7 @@ export const Stories = (ctx: GraphContext) => ({
   },
   addStoryExpert: async (input: GQLAddStoryExpertInput) => {
     // Validate that this user is allowed to add a story expert if the
-    // site moderators config is enabled
+    // site moderator config is enabled
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, {
         storyID: input.storyID,
@@ -137,7 +137,7 @@ export const Stories = (ctx: GraphContext) => ({
   },
   removeStoryExpert: async (input: GQLRemoveStoryExpertInput) => {
     // Validate that this user is allowed to remove a story expert if the
-    // site moderators config is enabled
+    // site moderator config is enabled
     if (ctx.config.get("enable_site_moderator")) {
       await validateUserModerationScopes(ctx, ctx.user!, {
         storyID: input.storyID,
