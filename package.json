@@ -333,7 +333,7 @@
     "postcss-nested": "^4.2.1",
     "postcss-prepend-imports": "^1.0.1",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.0.2",
+    "prettier": "^2.4.1",
     "proxy-polyfill": "^0.3.1",
     "pstree.remy": "^1.1.7",
     "pym.js": "^1.3.2",
