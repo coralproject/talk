@@ -205,7 +205,7 @@
     "@types/jest-axe": "^3.5.0",
     "@types/jsdom": "^16.2.0",
     "@types/jsonwebtoken": "^8.3.8",
-    "@types/lodash": "^4.14.149",
+    "@types/lodash": "^4.14.176",
     "@types/lru-cache": "^5.1.0",
     "@types/luxon": "^1.22.0",
     "@types/marked": "^0.7.3",
