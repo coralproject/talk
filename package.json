@@ -241,7 +241,7 @@
     "@types/source-map-support": "^0.5.3",
     "@types/stack-trace": "0.0.29",
     "@types/stack-utils": "^1.0.1",
-    "@types/uuid": "^7.0.2",
+    "@types/uuid": "^8.3.1",
     "@types/verror": "^1.10.3",
     "@types/vinyl": "^2.0.4",
     "@types/webpack": "^4.41.17",
