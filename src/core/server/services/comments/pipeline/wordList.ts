@@ -127,13 +127,18 @@ export class WordList {
 
     const timer = createTimer();
 
-    const sanitized = this.sanitizer(testString);
+    const sanitizedTestString = this.sanitizer(testString).innerHTML;
 
     // Test the string against the list and timeout if it takes too long.
-    const result = test(sanitized.innerHTML);
+    const result = test(sanitizedTestString);
     if (result === null) {
-      logger.info(
-        { tenantID: options.id, listName, took: timer(), sanitized },
+      logger.warn(
+        {
+          tenantID: options.id,
+          listName,
+          took: timer(),
+          testString: sanitizedTestString,
+        },
         "word list phrase test timed out"
       );
     } else {
