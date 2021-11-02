@@ -29,7 +29,7 @@ exports[`renders empty words correctly 1`] = `
   className="custom CommentContent-root CommentContent-highlight"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "Hello <b>Bob</b>, you bad guy",
+      "__html": "Hello Bob, you bad guy",
     }
   }
 />
