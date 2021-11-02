@@ -29,12 +29,13 @@ export const tagStaff: IntermediateModerationPhase = ({
   story,
   tenant,
 }): IntermediatePhaseResult | void => {
-  const siteModEnabled = hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
-  if (siteModEnabled && !canModerate(author, story)) {
-    return;
-  }
+  // If user is staff, admin, or org mod, tag
+  const isStaff = roleIsStaff(author.role);
+  const isSiteMod =
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR) &&
+    canModerate(author, story);
 
-  if (!roleIsStaff(author.role)) {
+  if (!(isStaff || isSiteMod)) {
     return;
   }
 
