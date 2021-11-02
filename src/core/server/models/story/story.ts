@@ -107,6 +107,8 @@ export interface Story extends TenantResource {
 
   isArchiving?: boolean;
   isArchived?: boolean;
+
+  disableLiveEditing?: boolean;
 }
 
 export interface UpsertStoryInput {

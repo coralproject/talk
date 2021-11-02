@@ -33,4 +33,7 @@ export const StorySettings: Required<GQLStorySettingsTypeResolver<
 
     return [];
   },
+  disableLiveEditing: (s, input, ctx) => {
+    return s.disableLiveEditing ?? false;
+  },
 };
