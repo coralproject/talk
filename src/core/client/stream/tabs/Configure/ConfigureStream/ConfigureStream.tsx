@@ -13,7 +13,6 @@ import PremodLinksConfigContainer from "./PremodLinksConfig";
 import { UpdateStorySettingsInput } from "./UpdateStorySettingsMutation";
 
 import styles from "./ConfigureStream.css";
-import DisableLiveEditingConfig from "./DisableLiveEditingConfig";
 
 interface Props {
   storyID: string;
@@ -52,7 +51,6 @@ const ConfigureStream: FunctionComponent<Props> = ({
             <div className={styles.configureItems}>
               <PremodConfigContainer disabled={submitting} />
               <PremodLinksConfigContainer disabled={submitting} />
-              <DisableLiveEditingConfig disabled={submitting} />
             </div>
             <Localized id="configure-stream-update">
               <Button

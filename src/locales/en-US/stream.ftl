@@ -720,10 +720,6 @@ configure-premodLink-commentsContainingLinks =
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this story.
 
-configure-disableLiveEditing-title = Disable live editing
-configure-disableLiveEditing-description = 
-  Disables edits from showing up as they are submitted by the user to the stream.
-
 configure-messageBox-title =
 configure-addMessage-title =
   Add a message or question

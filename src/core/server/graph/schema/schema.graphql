@@ -3831,8 +3831,6 @@ type StorySettings {
   the story stream is in Q&A mode.
   """
   experts: [User!]!
-
-  disableLiveEditing: Boolean
 }
 
 """
@@ -5855,8 +5853,6 @@ input UpdateStorySettings {
   messageBox stores settings related to the Story Message Box.
   """
   messageBox: StoryMessageBoxInput
-
-  disableLiveEditing: Boolean
 }
 
 input UpdateStorySettingsInput {
