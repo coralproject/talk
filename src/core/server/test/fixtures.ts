@@ -167,16 +167,25 @@ export const createTenantFixture = (): Tenant => {
   };
 };
 
-export const createTokenFixture = (name = "test-token"): Token => ({
+export interface CreateTokenFixtureInput {
+  name?: string;
+}
+
+export const createTokenFixture = (
+  input: CreateUserFixtureInput = {}
+): Token => ({
   id: uuid(),
-  name,
+  name: input.name || "test-token",
   createdAt: new Date(),
 });
 
-export const createUserFixture = (
-  name = "test-user",
-  tenantID = uuid()
-): User => {
+export interface CreateUserFixtureInput {
+  name?: string;
+  tenantID?: string;
+}
+
+export const createUserFixture = (input: CreateUserFixtureInput = {}): User => {
+  const { name, tenantID } = { name: "test-user", tenantID: uuid(), ...input };
   const id = uuid();
   return {
     id,
@@ -253,10 +262,14 @@ export const createUserFixture = (
   };
 };
 
-export const createSiteFixture = (
-  name = "test-site",
-  tenantID = uuid()
-): Site => {
+export interface CreateSiteFixtureInput {
+  name?: string;
+  tenantID?: string;
+}
+
+export const createSiteFixture = (input: CreateUserFixtureInput = {}): Site => {
+  const { tenantID, name } = { tenantID: uuid(), name: "test-site", ...input };
+
   return {
     id: uuid(),
     tenantID,
