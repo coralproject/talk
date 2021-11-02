@@ -1,4 +1,7 @@
+import { JSDOM } from "jsdom";
+
 import { LanguageCode } from "coral-common/helpers";
+import { ALL_FEATURES, createSanitize } from "coral-common/helpers/sanitize";
 import { createTimer } from "coral-server/helpers";
 import createTesterWithTimeout, {
   MatchResult,
@@ -24,6 +27,15 @@ export class WordList {
    * collection system.
    */
   private readonly cache = new WeakMap<Options, Lists>();
+  private readonly sanitizer = createSanitize(new JSDOM("", {}).window as any, {
+    // We need normalized text nodes to mark nodes for suspect/banned words.
+    normalize: true,
+    // Allow all RTE features to be displayed.
+    features: ALL_FEATURES,
+    config: {
+      FORBID_TAGS: ["b", "strong", "i", "em", "s", "span"],
+    },
+  });
 
   private generate(locale: LanguageCode, list: string[], timeout: number) {
     // If a word list has no entries, then we can make a simple tester.
@@ -111,11 +123,13 @@ export class WordList {
 
     const timer = createTimer();
 
+    const sanitized = this.sanitizer(testString);
+
     // Test the string against the list and timeout if it takes too long.
-    const result = test(testString);
+    const result = test(sanitized.innerHTML);
     if (result === null) {
       logger.info(
-        { tenantID: options.id, listName, took: timer(), testString },
+        { tenantID: options.id, listName, took: timer(), sanitized },
         "word list phrase test timed out"
       );
     } else {

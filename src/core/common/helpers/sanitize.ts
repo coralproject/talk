@@ -160,6 +160,10 @@ export interface SanitizeOptions {
 
 export type Sanitize = (source: Node | string) => HTMLElement;
 
+// Source for constant: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+// Using this instead of Node.TEXT_NODE because Node is not defined in Node.js
+const TEXT_NODE_TYPE = 3;
+
 export function createSanitize(
   window: Window,
   options?: SanitizeOptions
@@ -183,8 +187,8 @@ export function createSanitize(
   if (options?.normalize) {
     purify.addHook("afterSanitizeElements", (n) => {
       if (
-        n.nodeType === Node.TEXT_NODE &&
-        n.previousSibling?.nodeType === Node.TEXT_NODE
+        n.nodeType === TEXT_NODE_TYPE &&
+        n.previousSibling?.nodeType === TEXT_NODE_TYPE
       ) {
         // Merge text node sublings together.
         // eslint-disable-next-line no-unused-expressions

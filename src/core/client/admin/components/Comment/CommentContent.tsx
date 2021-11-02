@@ -31,7 +31,9 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
           // Allow all RTE features to be displayed.
           features: ALL_FEATURES,
           config: {
-            FORBID_TAGS: [],
+            FORBID_TAGS: highlight
+              ? ["b", "strong", "i", "em", "s", "span"]
+              : [],
           },
         }),
       };
