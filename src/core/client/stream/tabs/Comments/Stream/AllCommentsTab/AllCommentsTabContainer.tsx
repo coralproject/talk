@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import { graphql, RelayPaginationProp } from "react-relay";
+import { Disposable, graphql, RelayPaginationProp } from "react-relay";
 
 import { useLive } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
@@ -116,13 +116,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       tag,
     });
 
-    const commentEditedDisposable = subscribeToCommentEdited({
-      storyID: story.id,
-    });
+    let commentEditedDisposable: Disposable | null = null;
+    if (!story.settings.disableLiveEditing) {
+      commentEditedDisposable = subscribeToCommentEdited({
+        storyID: story.id,
+      });
+    }
 
     return () => {
       commenteEnteredDisposable.dispose();
-      commentEditedDisposable.dispose();
+      if (!story.settings.disableLiveEditing && commentEditedDisposable) {
+        commentEditedDisposable.dispose();
+      }
     };
   }, [
     commentsOrderBy,
@@ -132,6 +137,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     subscribeToCommentEntered,
     subscribeToCommentEdited,
     tag,
+    story.settings.disableLiveEditing,
   ]);
 
   const onChangeRating = useCallback(
@@ -345,6 +351,7 @@ const enhanced = withPaginationContainer<
             enabled
           }
           mode
+          disableLiveEditing
         }
         commentCounts {
           totalPublished
