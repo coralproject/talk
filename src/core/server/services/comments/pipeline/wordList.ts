@@ -131,7 +131,7 @@ export class WordList {
 
     // Test the string against the list and timeout if it takes too long.
     const result = test(sanitizedTestString);
-    if (result === null) {
+    if (result.timedOut) {
       logger.warn(
         {
           tenantID: options.id,
