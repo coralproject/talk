@@ -24,6 +24,9 @@ const CommentEditedSubscription = createSubscription(
             tags {
               code
             }
+            editing {
+              edited
+            }
           }
         }
       }
