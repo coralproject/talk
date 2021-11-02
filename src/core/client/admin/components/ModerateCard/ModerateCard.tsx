@@ -12,7 +12,7 @@ import React, {
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { HOTKEYS } from "coral-admin/constants";
-import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
+import { GQLWordlistMatch } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
   Button,
@@ -53,7 +53,6 @@ interface Props {
   featured: boolean;
   moderatedBy: React.ReactNode | null;
   viewContextHref: string;
-  phrases: GetPhrasesRegExpOptions;
   showStory: boolean;
   storyTitle?: React.ReactNode;
   storyHref?: string;
@@ -87,6 +86,9 @@ interface Props {
   onBan: () => void;
   isQA?: boolean;
   rating?: number | null;
+
+  bannedWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
+  suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
   isArchived?: boolean;
   isArchiving?: boolean;
 }
@@ -104,7 +106,6 @@ const ModerateCard: FunctionComponent<Props> = ({
   viewContextHref,
   status,
   featured,
-  phrases,
   onApprove,
   onReject,
   onFeature,
@@ -128,6 +129,8 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectPrev,
   onBan,
   isQA,
+  bannedWords,
+  suspectWords,
   isArchived,
   isArchiving,
 }) => {
@@ -253,7 +256,11 @@ const ModerateCard: FunctionComponent<Props> = ({
           )}
           <div className={styles.contentArea}>
             <div className={styles.content}>
-              <CommentContent highlight={highlight} phrases={phrases}>
+              <CommentContent
+                highlight={highlight}
+                bannedWords={bannedWords}
+                suspectWords={suspectWords}
+              >
                 {commentBody}
               </CommentContent>
               <MediaContainer comment={comment} />

@@ -9,6 +9,12 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+export interface WordlistMatch {
+  value: string;
+  index: number;
+  length: number;
+}
+
 export interface RevisionMetadata {
   /**
    * akismet is true when it was determined to be spam.
@@ -47,6 +53,9 @@ export interface RevisionMetadata {
      * of the comment was sent through the moderation phases.
      */
     timedOut?: boolean;
+
+    bannedWords?: WordlistMatch[];
+    suspectWords?: WordlistMatch[];
   };
 
   /**
