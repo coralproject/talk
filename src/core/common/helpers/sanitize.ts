@@ -6,6 +6,33 @@ import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
 // types in coral-common instead? 🤔
 import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
 
+/** Tags that we remove before looking for suspect/banned words */
+export const WORDLIST_FORBID_TAGS = [
+  "a",
+  "b",
+  "strong",
+  "i",
+  "em",
+  "s",
+  "del",
+  "ins",
+  "mark",
+  "cite",
+  "q",
+  "samp",
+  "small",
+  "sup",
+  "sub",
+  "span",
+  "u",
+  "code",
+  "time",
+  "var",
+  "wbr",
+  "kbd",
+  "abbr",
+];
+
 export interface RTEFeatures {
   bold?: boolean;
   italic?: boolean;

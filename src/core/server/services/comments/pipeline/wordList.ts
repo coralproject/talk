@@ -1,7 +1,11 @@
 import { JSDOM } from "jsdom";
 
 import { LanguageCode } from "coral-common/helpers";
-import { ALL_FEATURES, createSanitize } from "coral-common/helpers/sanitize";
+import {
+  ALL_FEATURES,
+  createSanitize,
+  WORDLIST_FORBID_TAGS,
+} from "coral-common/helpers/sanitize";
 import { createTimer } from "coral-server/helpers";
 import createTesterWithTimeout, {
   MatchResult,
@@ -33,7 +37,7 @@ export class WordList {
     // Allow all RTE features to be displayed.
     features: ALL_FEATURES,
     config: {
-      FORBID_TAGS: ["b", "strong", "i", "em", "s", "span"],
+      FORBID_TAGS: WORDLIST_FORBID_TAGS,
     },
   });
 

@@ -6,6 +6,7 @@ import {
   ALL_FEATURES,
   createSanitize,
   Sanitize,
+  WORDLIST_FORBID_TAGS,
 } from "coral-common/helpers/sanitize";
 import { GQLWordlistMatch } from "coral-framework/schema";
 
@@ -31,9 +32,7 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
           // Allow all RTE features to be displayed.
           features: ALL_FEATURES,
           config: {
-            FORBID_TAGS: highlight
-              ? ["b", "strong", "i", "em", "s", "span"]
-              : [],
+            FORBID_TAGS: highlight ? WORDLIST_FORBID_TAGS : [],
           },
         }),
       };
