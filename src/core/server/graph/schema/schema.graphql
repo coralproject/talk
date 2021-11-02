@@ -2070,6 +2070,11 @@ type Settings @cacheControl(maxAge: 30) {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean!
+  """
+  enableForReviewQueue is whether the For Review queue should be included
+  in the Moderate tab of the admin
+  """
+  enableForReviewQueue: Boolean!
 }
 
 ################################################################################
