@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { GQLTAG, GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import { GQLFEATURE_FLAG, GQLTAG, GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -13,11 +13,9 @@ import { IntermediateModerationPhaseContext } from "..";
 import { tagStaff } from "./tagStaff";
 
 interface Case {
-  user: User;
+  author: User;
   story: Story;
   tenant: Tenant;
-  expectedTag: GQLTAG | void;
-  it: string;
 }
 
 /** testCase returns whether a comment would
@@ -28,21 +26,32 @@ const testCase = (input: Case): GQLTAG | void => {
     (input as unknown) as IntermediateModerationPhaseContext
   ) as any;
 
-  if (result.tags?.length > 1) {
+  if (result?.tags?.length > 1) {
     throw new Error("tagStaff unexpectadly applied more than one tag");
   }
 
-  return result.tags?.[0];
+  return result?.tags?.[0];
 };
 
 const tenant = createTenantFixture();
 const tenantID = tenant.id;
 
+// TODO: this will need to be updated once https://github.com/coralproject/talk/pull/3769 is merged
+const tenantWithSiteModDisabled = createTenantFixture({
+  id: tenantID,
+  featureFlags: [],
+});
+
+const tenantWithSiteModEnabled = createTenantFixture({
+  id: tenantID,
+  featureFlags: [GQLFEATURE_FLAG.SITE_MODERATOR],
+})
+
 const siteA = createSiteFixture({ tenantID });
 const siteB = createSiteFixture({ tenantID });
 
-const siteAStory = createStoryFixture(tenantID);
-const siteBStory = createStoryFixture(tenantID);
+const siteAStory = createStoryFixture({ tenantID, siteID: siteA.id });
+const siteBStory = createStoryFixture({ tenantID, siteID: siteB.id });
 
 const adminUser = createUserFixture({ tenantID });
 adminUser.role = GQLUSER_ROLE.ADMIN;
@@ -61,19 +70,94 @@ const siteBModUser = createUserFixture({ tenantID });
 siteBModUser.role = GQLUSER_ROLE.MODERATOR;
 siteBModUser.moderationScopes = { siteIDs: [siteB.id] };
 
-const commenter = createUserFixture({ tenantID });
+require("fs").writeFileSync("deleteme.json", JSON.stringify({
+  tenant,
+  tenantWithSiteModEnabled,
+  tenantWithSiteModDisabled,
+  siteA,
+  siteB,
+  siteAStory,
+  siteBStory,
+  siteAModUser,
+  siteBModUser
+}, null, 2))
+
+// const commenter = createUserFixture({ tenantID });
 
 describe("tagStaff", () => {
-  const cases: Case[] = [
-    {
-      it: "admin gets a badge on all sites (1)",
-      user: adminUser,
+  it("admin gets a badge on all sites", () => {
+    expect(testCase({
+      author: adminUser,
       story: siteAStory,
       tenant,
-      expectedTag: tenant.staff.adminLabel as GQLTAG,
-    }
-  ];
-  for (const _case of cases) {
-    it(_case.it, () => expect(testCase(_case)).toEqual(_case.expectedTag));
-  }
+    })).toEqual(GQLTAG.ADMIN);
+
+    expect(testCase({
+      author: adminUser,
+      story: siteBStory,
+      tenant
+    })).toEqual(GQLTAG.ADMIN);
+  })
+
+  it("organization moderator gets badge on all sites", () => {
+    expect(testCase({
+      author: orgModUser,
+      story: siteAStory,
+      tenant: tenantWithSiteModDisabled,
+    })).toEqual(GQLTAG.MODERATOR);
+
+    expect(testCase({
+      author: orgModUser,
+      story: siteBStory,
+      tenant: tenantWithSiteModDisabled,
+    })).toEqual(GQLTAG.MODERATOR);
+
+    expect(testCase({
+      author: orgModUser,
+      story: siteAStory,
+      tenant: tenantWithSiteModEnabled,
+    })).toEqual(GQLTAG.MODERATOR);
+
+    expect(testCase({
+      author: orgModUser,
+      story: siteBStory,
+      tenant: tenantWithSiteModEnabled,
+    })).toEqual(GQLTAG.MODERATOR);
+  });
+
+  it("staff user gets staff badge on all sites", () => {
+    expect(testCase({
+      author: staffUser,
+      story: siteAStory,
+      tenant
+    })).toEqual(GQLTAG.STAFF);
+
+    expect(testCase({
+      author: staffUser,
+      story: siteBStory,
+      tenant,
+    })).toEqual(GQLTAG.STAFF);
+  });
+
+  it("site moderators get moderator badge on assigned sites", () => {
+    expect(testCase({
+      author: siteAModUser,
+      story: siteAStory,
+      tenant: tenantWithSiteModEnabled,
+    })).toEqual(GQLTAG.MODERATOR);
+
+    expect(testCase({
+      author: siteBModUser,
+      story: siteBStory,
+      tenant: tenantWithSiteModEnabled
+    })).toEqual(GQLTAG.MODERATOR);
+  });
+
+  it("site moderators do not get badge on non assigned sites", () => {
+    expect(testCase({
+      author: siteAModUser,
+      story: siteBStory,
+      tenant: tenantWithSiteModEnabled
+    })).toBeUndefined();
+  });
 });

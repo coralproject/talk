@@ -1,3 +1,4 @@
+import { merge } from "lodash";
 import { v4 as uuid } from "uuid";
 
 import TIME from "coral-common/time";
@@ -12,9 +13,19 @@ import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { Token, User } from "coral-server/models/user";
 
-export const createTenantFixture = (): Tenant => {
+type Defaults<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? Defaults<U>[]
+    : T[P] extends object
+    ? Defaults<T[P]>
+    : T[P];
+};
+
+export const createTenantFixture = (
+  defaults: Defaults<Tenant> = {}
+): Tenant => {
   const now = new Date();
-  return {
+  const fixture = {
     // Create a new ID.
     id: uuid(),
     locale: "en-US",
@@ -165,32 +176,22 @@ export const createTenantFixture = (): Tenant => {
     amp: false,
     flattenReplies: false,
   };
+
+  return merge(fixture, defaults);
 };
 
-export interface CreateTokenFixtureInput {
-  name?: string;
-}
-
-export const createTokenFixture = (
-  input: CreateUserFixtureInput = {}
-): Token => ({
+export const createTokenFixture = (defaults: Defaults<Token> = {}): Token => ({
   id: uuid(),
-  name: input.name || "test-token",
+  name: "test-token",
   createdAt: new Date(),
 });
 
-export interface CreateUserFixtureInput {
-  name?: string;
-  tenantID?: string;
-}
-
-export const createUserFixture = (input: CreateUserFixtureInput = {}): User => {
-  const { name, tenantID } = { name: "test-user", tenantID: uuid(), ...input };
+export const createUserFixture = (defaults: Defaults<User> = {}): User => {
   const id = uuid();
-  return {
+  const fixture = {
     id,
-    tenantID,
-    username: name,
+    tenantID: uuid(),
+    username: "test-user",
     avatar: "ovuupi cabka",
     email: "piwdengoc@vewapi.st",
     badges: [],
@@ -231,7 +232,7 @@ export const createUserFixture = (input: CreateUserFixtureInput = {}): User => {
         history: [
           {
             id: uuid(),
-            username: name,
+            username: "test-user",
             createdAt: new Date(),
             createdBy: id,
           },
@@ -260,20 +261,15 @@ export const createUserFixture = (input: CreateUserFixtureInput = {}): User => {
     },
     bio: "essavta da",
   };
+
+  return merge(fixture, defaults);
 };
 
-export interface CreateSiteFixtureInput {
-  name?: string;
-  tenantID?: string;
-}
-
-export const createSiteFixture = (input: CreateUserFixtureInput = {}): Site => {
-  const { tenantID, name } = { tenantID: uuid(), name: "test-site", ...input };
-
-  return {
+export const createSiteFixture = (defaults: Defaults<Site> = {}): Site => {
+  const fixture = {
     id: uuid(),
-    tenantID,
-    name,
+    tenantID: uuid(),
+    name: "test-site",
     allowedOrigins: [],
     commentCounts: {
       action: {},
@@ -295,17 +291,16 @@ export const createSiteFixture = (input: CreateUserFixtureInput = {}): Site => {
     },
     createdAt: new Date(),
   };
+
+  return merge(fixture, defaults) as Site;
 };
 
-export const createStoryFixture = (
-  siteID = uuid(),
-  tenantID = uuid()
-): Story => {
-  return {
+export const createStoryFixture = (defaults: Defaults<Story> = {}): Story => {
+  const fixture = {
     id: uuid(),
     url: "https://www.site.com/story",
-    siteID,
-    tenantID,
+    siteID: uuid(),
+    tenantID: uuid(),
     commentCounts: {
       action: {},
       status: {
@@ -327,4 +322,6 @@ export const createStoryFixture = (
     createdAt: new Date(),
     settings: {},
   };
+
+  return merge(fixture, defaults) as Story;
 };
