@@ -364,6 +364,12 @@ export type Settings = GlobalModerationSettings &
      * a "Show more of this conversation" link.
      */
     flattenReplies: boolean;
+
+    /**
+     * forReviewQueue is whether the tenant wants to enable the For Review
+     * moderation queue
+     */
+    forReviewQueue?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

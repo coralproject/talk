@@ -2071,10 +2071,10 @@ type Settings @cacheControl(maxAge: 30) {
   """
   amp: Boolean!
   """
-  enableForReviewQueue is whether the For Review queue should be included
+  forReviewQueue is whether the For Review queue should be included
   in the Moderate tab of the admin
   """
-  enableForReviewQueue: Boolean!
+  forReviewQueue: Boolean!
 }
 
 ################################################################################
@@ -5347,6 +5347,11 @@ input SettingsInput {
   flattenReplies is whether or not to flatten replies
   """
   flattenReplies: Boolean
+
+  """
+  forReviewQueue is whether or not to show the For Review queue in the admin Moderate tab
+  """
+  forReviewQueue: Boolean
 }
 
 """
