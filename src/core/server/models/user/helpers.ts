@@ -199,3 +199,13 @@ export function hasLocalProfile(
 
   return true;
 }
+
+/**
+ * hasSSOProfile will return true if the User has an SSOProfile
+ *
+ * @param user the User to pull the SSOProfile out of
+ */
+export function hasSSOProfile(user: Pick<User, "profiles">): boolean {
+  const profile = getUserProfile(user, "sso") as SSOProfile | null;
+  return profile ? true : false;
+}

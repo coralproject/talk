@@ -7637,6 +7637,36 @@ type RotateSSOSigningSecretPayload {
 }
 
 #########################
+## updateSSOProfileID
+#########################
+
+input UpdateSSOProfileIDInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  userID is the ID of the user whose SSOProfile ID is being updated.
+  """
+  userID: ID!
+  """
+  SSOProfileID is the new ID to set for the user's SSOProfile ID.
+  """
+  SSOProfileID: String!
+}
+
+type UpdateSSOProfileIDPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the User whose SSOProfile ID is being updated.
+  """
+  user: User!
+}
+
+#########################
 ## deactivateSSOSigningSecret
 #########################
 
@@ -8018,6 +8048,10 @@ type Mutation {
   deleteSSOSigningSecret(
     input: DeleteSSOSigningSecretInput!
   ): DeleteSSOSigningSecretPayload! @auth(roles: [ADMIN])
+
+  updateSSOProfileID(
+    input: UpdateSSOProfileIDInput!
+  ): UpdateSSOProfileIDPayload! @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in

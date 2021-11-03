@@ -14,6 +14,7 @@ import {
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   PasswordResetTokenExpired,
+  SSOProfileNotSetError,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadyPremoderated,
@@ -49,7 +50,7 @@ import {
   createEmptyCommentStatusCounts,
   updateRelatedCommentCounts,
 } from "../comment";
-import { getLocalProfile, hasLocalProfile } from "./helpers";
+import { getLocalProfile, getSSOProfile, hasLocalProfile } from "./helpers";
 
 export interface LocalProfile {
   type: "local";
@@ -1524,6 +1525,48 @@ export async function createUserToken(
     user: result.value,
     token,
   };
+}
+
+export async function updateSSOProfileIDUser(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  SSOProfileID: string
+) {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+      "profiles.type": "sso",
+    },
+    {
+      $set: {
+        "profiles.$[profiles].id": SSOProfileID,
+      },
+    },
+    {
+      arrayFilters: [{ "profiles.type": "sso" }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, userID);
+    if (!user) {
+      throw new UserNotFoundError(userID);
+    }
+
+    const SSOProfile = getSSOProfile(user);
+    if (!SSOProfile) {
+      throw new SSOProfileNotSetError();
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
 }
 
 export async function deactivateUserToken(

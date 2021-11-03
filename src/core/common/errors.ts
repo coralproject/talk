@@ -105,6 +105,8 @@ export enum ERROR_CODES {
    */
   LOCAL_PROFILE_NOT_SET = "LOCAL_PROFILE_NOT_SET",
 
+  SSO_PROFILE_NOT_SET = "SSO_PROFILE_NOT_SET",
+
   /**
    * USERNAME_ALREADY_SET is returned when the user attempts to set a username
    * via the set operations when they already have a username associated with
