@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -8,36 +8,39 @@ import { CallOut } from "coral-ui/components/v3";
 
 import { ReplyEditedWarningContainer_comment } from "coral-stream/__generated__/ReplyEditedWarningContainer_comment.graphql";
 
+import styles from "./ReplyEditedWarningContainer.css";
+
 interface Props {
-  startedReplyingAt: Date;
   comment: ReplyEditedWarningContainer_comment;
 }
 
-const ReplyEditedWarningContainer: FunctionComponent<Props> = ({
-  comment,
-  startedReplyingAt,
-}) => {
-  if (!comment.editing.edited) {
-    return null;
-  }
+const ReplyEditedWarningContainer: FunctionComponent<Props> = ({ comment }) => {
+  const openedRevisionID = useMemo(() => {
+    return comment.revision!.id;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (comment.revision) {
-    const revisionDate = new Date(comment.revision.createdAt);
-    if (revisionDate < startedReplyingAt) {
-      return null;
-    }
+  if (!comment.editing.edited || comment.revision?.id === openedRevisionID) {
+    return null;
   }
 
   return (
     <CallOut
       color="warning"
-      icon={<Icon size="xs">warning</Icon>}
+      icon={
+        <Icon size="xs" className={styles.icon}>
+          warning
+        </Icon>
+      }
       iconColor="none"
-    >
-      <Localized id="comments-replyChangedWarning-theCommentHasChanged">
-        The comment has changed since you started replying to it.
-      </Localized>
-    </CallOut>
+      title={
+        <Localized id="comments-replyChangedWarning-theCommentHasChanged">
+          <span className={styles.title}>
+            The comment has changed since you started replying to it.
+          </span>
+        </Localized>
+      }
+    />
   );
 };
 
@@ -48,7 +51,7 @@ const enhanced = withFragmentContainer<Props>({
         edited
       }
       revision {
-        createdAt
+        id
       }
     }
   `,

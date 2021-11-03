@@ -17,15 +17,12 @@ const CommentEditedSubscription = createSubscription(
       subscription CommentEditedSubscription($storyID: ID!) {
         commentEdited(storyID: $storyID) {
           comment {
-            id
-            createdAt
             body
-            status
-            tags {
-              code
-            }
             editing {
               edited
+            }
+            revision {
+              id
             }
           }
         }

@@ -91,8 +91,6 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   const contextKey = `replyCommentFormBody-${comment.id}`;
   const rteRef = useRef<CoralRTE | null>(null);
 
-  const [formOpenedAt] = useState<Date>(new Date());
-
   useEffect(() => {
     async function fetchBody() {
       const body = await sessionStorage.getItem(contextKey);
@@ -304,10 +302,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ReplyEditedWarningContainer
-        startedReplyingAt={formOpenedAt}
-        comment={comment}
-      />
+      <ReplyEditedWarningContainer comment={comment} />
       <ReplyCommentForm
         siteID={comment.site.id}
         id={comment.id}
