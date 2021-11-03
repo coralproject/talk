@@ -293,6 +293,9 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Unmark all
 comments-mobileToolbar-nextUnread = Next unread
 
+comments-replyChangedWarning-theCommentHasChanged =
+  The comment has changed since you started replying to it.
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A

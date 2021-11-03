@@ -48,6 +48,7 @@ import {
   withCreateCommentReplyMutation,
 } from "./CreateCommentReplyMutation";
 import ReplyCommentForm, { ReplyCommentFormProps } from "./ReplyCommentForm";
+import ReplyEditedWarningContainer from "./ReplyEditedWarningContainer";
 
 interface Props {
   createCommentReply: CreateCommentReplyMutation;
@@ -89,6 +90,8 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
 
   const contextKey = `replyCommentFormBody-${comment.id}`;
   const rteRef = useRef<CoralRTE | null>(null);
+
+  const [formOpenedAt] = useState<Date>(new Date());
 
   useEffect(() => {
     async function fetchBody() {
@@ -300,26 +303,32 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   }
 
   return (
-    <ReplyCommentForm
-      siteID={comment.site.id}
-      id={comment.id}
-      rteConfig={settings.rte}
-      onSubmit={handleOnSubmit}
-      onChange={handleOnChange}
-      mediaConfig={settings.media}
-      initialValues={initialValues}
-      onCancel={handleOnCancelOrDismiss}
-      rteRef={handleRTERef}
-      parentUsername={comment.author && comment.author.username}
-      min={(settings.charCount.enabled && settings.charCount.min) || null}
-      max={(settings.charCount.enabled && settings.charCount.max) || null}
-      disabled={settings.disableCommenting.enabled || story.isClosed}
-      disabledMessage={
-        (settings.disableCommenting.enabled &&
-          settings.disableCommenting.message) ||
-        settings.closeCommenting.message
-      }
-    />
+    <>
+      <ReplyEditedWarningContainer
+        startedReplyingAt={formOpenedAt}
+        comment={comment}
+      />
+      <ReplyCommentForm
+        siteID={comment.site.id}
+        id={comment.id}
+        rteConfig={settings.rte}
+        onSubmit={handleOnSubmit}
+        onChange={handleOnChange}
+        mediaConfig={settings.media}
+        initialValues={initialValues}
+        onCancel={handleOnCancelOrDismiss}
+        rteRef={handleRTERef}
+        parentUsername={comment.author && comment.author.username}
+        min={(settings.charCount.enabled && settings.charCount.min) || null}
+        max={(settings.charCount.enabled && settings.charCount.max) || null}
+        disabled={settings.disableCommenting.enabled || story.isClosed}
+        disabledMessage={
+          (settings.disableCommenting.enabled &&
+            settings.disableCommenting.message) ||
+          settings.closeCommenting.message
+        }
+      />
+    </>
   );
 };
 
@@ -385,6 +394,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               revision {
                 id
               }
+              ...ReplyEditedWarningContainer_comment
             }
           `,
         })(ReplyCommentFormContainer)
