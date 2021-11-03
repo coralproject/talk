@@ -1,8 +1,25 @@
 import vm from "vm";
 
 import logger from "coral-server/logger";
+import { WordlistMatch } from "coral-server/models/comment";
 
-export type TestWithTimeout = (testString: string) => boolean | null;
+export interface MatchResult {
+  isMatched: boolean | null;
+  timedOut: boolean;
+  matches: WordlistMatch[];
+}
+
+export type TestWithTimeout = (testString: string) => MatchResult;
+
+function sumPriorLengths(items: string[], index: number): number {
+  let sum = 0;
+  for (let i = 0; i < index; i++) {
+    const item = items[i];
+    sum += item.length;
+  }
+
+  return sum;
+}
 
 /**
  * createTesterWithTimeout will create a tester that after the timeout, will
@@ -12,11 +29,11 @@ export type TestWithTimeout = (testString: string) => boolean | null;
  * @param timeout the timeout to use
  */
 export default function createTesterWithTimeout(
-  regexp: RegExp,
+  regexp: any,
   timeout: number
 ): TestWithTimeout {
   // Create the script we're executing as a part of this regex test operation.
-  const script = new vm.Script("regexp.test(testString)");
+  const script = new vm.Script("testString.split(regexp)");
 
   // Create a null context object to isolate it with primitives.
   const sandbox = Object.create(null);
@@ -27,17 +44,46 @@ export default function createTesterWithTimeout(
   const ctx = vm.createContext(sandbox);
 
   return (testString: string) => {
-    let result: boolean;
+    let result: MatchResult = {
+      isMatched: false,
+      timedOut: false,
+      matches: [],
+    };
 
     try {
       // Set the testString to the one we're evaluating for this context.
       sandbox.testString = testString;
 
+      const tokens = script.runInContext(ctx, { timeout }) as string[];
+
+      const matches: WordlistMatch[] = [];
+      for (let t = 0; t < tokens.length; t++) {
+        const token = tokens[t];
+        // found a matched word
+        if (t % 4 === 2) {
+          const index = sumPriorLengths(tokens, t);
+          matches.push({
+            value: token,
+            index,
+            length: token.length,
+          });
+        }
+      }
+
       // Run the operation in this context.
-      result = script.runInContext(ctx, { timeout });
+
+      result = {
+        isMatched: matches.length > 0,
+        timedOut: false,
+        matches,
+      };
     } catch (err) {
       if (err.code === "ERR_SCRIPT_EXECUTION_TIMEOUT") {
-        return null;
+        return {
+          isMatched: null,
+          timedOut: true,
+          matches: [],
+        };
       }
 
       logger.error(
@@ -45,7 +91,11 @@ export default function createTesterWithTimeout(
         "an error occurred evaluating the regular expression"
       );
 
-      return null;
+      return {
+        isMatched: null,
+        timedOut: false,
+        matches: [],
+      };
     }
 
     return result;
