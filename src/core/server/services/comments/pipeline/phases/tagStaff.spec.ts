@@ -49,7 +49,7 @@ const tenantWithSiteModDisabled = createTenantFixture({
 const tenantWithSiteModEnabled = createTenantFixture({
   id: tenantID,
   featureFlags: [GQLFEATURE_FLAG.SITE_MODERATOR],
-})
+});
 
 const siteA = createSiteFixture({ tenantID });
 const siteB = createSiteFixture({ tenantID });
