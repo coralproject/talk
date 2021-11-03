@@ -60,7 +60,9 @@ it("shows moderation message at the top of the stream", async () => {
   ).toBeDefined();
 
   // can still see comment stream and interact with comments
-  expect(within(tabPane).getByTestID("comments-allComments-log")).toBeDefined();
+  expect(
+    within(tabPane).queryByTestID("comments-allComments-log")
+  ).toBeDefined();
   expect(within(tabPane).queryByTestID("comment-reply-button")).toBeDefined();
   expect(within(tabPane).queryByTestID("comment-report-button")).toBeDefined();
   expect(within(tabPane).queryByTestID("comment-edit-button")).toBeDefined();
