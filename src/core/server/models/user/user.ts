@@ -1527,7 +1527,7 @@ export async function createUserToken(
   };
 }
 
-export async function updateSSOProfileIDUser(
+export async function updateUserSSOProfileID(
   mongo: MongoContext,
   tenantID: string,
   userID: string,

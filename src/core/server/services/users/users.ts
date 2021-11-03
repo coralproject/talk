@@ -76,7 +76,7 @@ import {
   setUserUsername,
   siteBanUser,
   suspendUser,
-  updateSSOProfileIDUser,
+  updateUserSSOProfileID,
   updateUserAvatar,
   updateUserBio,
   updateUserEmail,
@@ -578,7 +578,7 @@ export async function updateSSOProfileID(
   userID: string,
   SSOProfileID: string
 ) {
-  return updateSSOProfileIDUser(mongo, tenant.id, userID, SSOProfileID);
+  return updateUserSSOProfileID(mongo, tenant.id, userID, SSOProfileID);
 }
 
 /**

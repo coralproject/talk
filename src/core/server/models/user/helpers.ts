@@ -201,7 +201,8 @@ export function hasLocalProfile(
 }
 
 /**
- * hasSSOProfile will return true if the User has an SSOProfile
+ * hasSSOProfile will return true if the User has an SSOProfile and false
+ * if they do not.
  *
  * @param user the User to pull the SSOProfile out of
  */
