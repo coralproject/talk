@@ -1537,6 +1537,8 @@ export async function updateUserSSOProfileID(
     {
       id: userID,
       tenantID,
+      // This ensures that the document we're updating already has an sso
+      // profile associated with them.
       "profiles.type": "sso",
     },
     {
