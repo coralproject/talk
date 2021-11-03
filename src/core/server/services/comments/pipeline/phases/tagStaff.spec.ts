@@ -1,13 +1,16 @@
-/* eslint-disable */
-import { GQLFEATURE_FLAG, GQLTAG, GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLTAG,
+  GQLUSER_ROLE,
+} from "coral-server/graph/schema/__generated__/types";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
-  createUserFixture,
+  createSiteFixture,
   createStoryFixture,
   createTenantFixture,
-  createSiteFixture
+  createUserFixture,
 } from "coral-server/test/fixtures";
 import { IntermediateModerationPhaseContext } from "..";
 import { tagStaff } from "./tagStaff";
@@ -18,7 +21,8 @@ interface Case {
   tenant: Tenant;
 }
 
-/** testCase returns whether a comment would
+/**
+ * testCase returns how a comment would
  * be tagged for a given author, story, and tenant
  */
 const testCase = (input: Case): GQLTAG | void => {
@@ -70,94 +74,148 @@ const siteBModUser = createUserFixture({ tenantID });
 siteBModUser.role = GQLUSER_ROLE.MODERATOR;
 siteBModUser.moderationScopes = { siteIDs: [siteB.id] };
 
-require("fs").writeFileSync("deleteme.json", JSON.stringify({
-  tenant,
-  tenantWithSiteModEnabled,
-  tenantWithSiteModDisabled,
-  siteA,
-  siteB,
-  siteAStory,
-  siteBStory,
-  siteAModUser,
-  siteBModUser
-}, null, 2))
-
-// const commenter = createUserFixture({ tenantID });
+const commenter = createUserFixture({ tenantID, role: GQLUSER_ROLE.COMMENTER });
 
 describe("tagStaff", () => {
   it("admin gets a badge on all sites", () => {
-    expect(testCase({
-      author: adminUser,
-      story: siteAStory,
-      tenant,
-    })).toEqual(GQLTAG.ADMIN);
+    expect(
+      testCase({
+        author: adminUser,
+        story: siteAStory,
+        tenant,
+      })
+    ).toEqual(GQLTAG.ADMIN);
 
-    expect(testCase({
-      author: adminUser,
-      story: siteBStory,
-      tenant
-    })).toEqual(GQLTAG.ADMIN);
-  })
+    expect(
+      testCase({
+        author: adminUser,
+        story: siteBStory,
+        tenant,
+      })
+    ).toEqual(GQLTAG.ADMIN);
+  });
 
   it("organization moderator gets badge on all sites", () => {
-    expect(testCase({
-      author: orgModUser,
-      story: siteAStory,
-      tenant: tenantWithSiteModDisabled,
-    })).toEqual(GQLTAG.MODERATOR);
+    expect(
+      testCase({
+        author: orgModUser,
+        story: siteAStory,
+        tenant: tenantWithSiteModDisabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
 
-    expect(testCase({
-      author: orgModUser,
-      story: siteBStory,
-      tenant: tenantWithSiteModDisabled,
-    })).toEqual(GQLTAG.MODERATOR);
+    expect(
+      testCase({
+        author: orgModUser,
+        story: siteBStory,
+        tenant: tenantWithSiteModDisabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
 
-    expect(testCase({
-      author: orgModUser,
-      story: siteAStory,
-      tenant: tenantWithSiteModEnabled,
-    })).toEqual(GQLTAG.MODERATOR);
+    expect(
+      testCase({
+        author: orgModUser,
+        story: siteAStory,
+        tenant: tenantWithSiteModEnabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
 
-    expect(testCase({
-      author: orgModUser,
-      story: siteBStory,
-      tenant: tenantWithSiteModEnabled,
-    })).toEqual(GQLTAG.MODERATOR);
+    expect(
+      testCase({
+        author: orgModUser,
+        story: siteBStory,
+        tenant: tenantWithSiteModEnabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
   });
 
   it("staff user gets staff badge on all sites", () => {
-    expect(testCase({
-      author: staffUser,
-      story: siteAStory,
-      tenant
-    })).toEqual(GQLTAG.STAFF);
+    expect(
+      testCase({
+        author: staffUser,
+        story: siteAStory,
+        tenant,
+      })
+    ).toEqual(GQLTAG.STAFF);
 
-    expect(testCase({
-      author: staffUser,
-      story: siteBStory,
-      tenant,
-    })).toEqual(GQLTAG.STAFF);
+    expect(
+      testCase({
+        author: staffUser,
+        story: siteBStory,
+        tenant,
+      })
+    ).toEqual(GQLTAG.STAFF);
   });
 
   it("site moderators get moderator badge on assigned sites", () => {
-    expect(testCase({
-      author: siteAModUser,
-      story: siteAStory,
-      tenant: tenantWithSiteModEnabled,
-    })).toEqual(GQLTAG.MODERATOR);
+    expect(
+      testCase({
+        author: siteAModUser,
+        story: siteAStory,
+        tenant: tenantWithSiteModEnabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
 
-    expect(testCase({
-      author: siteBModUser,
-      story: siteBStory,
-      tenant: tenantWithSiteModEnabled
-    })).toEqual(GQLTAG.MODERATOR);
+    expect(
+      testCase({
+        author: siteBModUser,
+        story: siteBStory,
+        tenant: tenantWithSiteModEnabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
   });
 
   it("site moderators do not get badge on non assigned sites", () => {
-    expect(testCase({
-      author: siteAModUser,
-      story: siteBStory,
-      tenant: tenantWithSiteModEnabled
-    })).toBeUndefined();
+    expect(
+      testCase({
+        author: siteAModUser,
+        story: siteBStory,
+        tenant: tenantWithSiteModEnabled,
+      })
+    ).toBeUndefined();
+
+    expect(
+      testCase({
+        author: siteBModUser,
+        story: siteAStory,
+        tenant: tenantWithSiteModEnabled,
+      })
+    ).toBeUndefined();
+  });
+
+  it("moderation scopes are ignored when single site moderators are disabled", () => {
+    expect(
+      testCase({
+        author: siteAModUser,
+        story: siteBStory,
+        tenant: tenantWithSiteModDisabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
+
+    expect(
+      testCase({
+        author: siteBModUser,
+        story: siteAStory,
+        tenant: tenantWithSiteModDisabled,
+      })
+    ).toEqual(GQLTAG.MODERATOR);
+  });
+
+  it("commenters do not get badges", () => {
+    expect(
+      testCase({
+        author: commenter,
+        story: siteAStory,
+        tenant,
+      })
+    ).toBeUndefined();
+
+    expect(
+      testCase({
+        author: commenter,
+        story: siteBStory,
+        tenant,
+      })
+    ).toBeUndefined();
   });
 });

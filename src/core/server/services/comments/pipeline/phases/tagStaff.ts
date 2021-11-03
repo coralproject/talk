@@ -1,9 +1,7 @@
-/* eslint-disable */
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   canModerate,
   isSiteModerationScoped,
-  //   roleIsStaff,
 } from "coral-server/models/user/helpers";
 import {
   IntermediateModerationPhase,
@@ -34,11 +32,8 @@ export const tagStaff: IntermediateModerationPhase = ({
   story,
   tenant,
 }): IntermediatePhaseResult | void => {
-  // If user is staff, admin, or org mod, tag
-  /* eslint-disable */
-  // const isStaff = roleIsStaff(author.role);
   const siteModEnabled = hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
-  const isSiteMod = isSiteModerationScoped(author.moderationScopes)
+  const isSiteMod = isSiteModerationScoped(author.moderationScopes);
   const isModForSite = canModerate(author, story);
 
   if (siteModEnabled && isSiteMod && !isModForSite) {
