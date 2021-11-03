@@ -570,15 +570,15 @@ export async function deactivateToken(
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the ID of the User we are updating
- * @param SSOProfileID the ID to set on the User's SSOProfile
+ * @param ssoProfileID the ID to set on the User's SSOProfile
  */
 export async function updateSSOProfileID(
   mongo: MongoContext,
   tenant: Tenant,
   userID: string,
-  SSOProfileID: string
+  ssoProfileID: string
 ) {
-  return updateUserSSOProfileID(mongo, tenant.id, userID, SSOProfileID);
+  return updateUserSSOProfileID(mongo, tenant.id, userID, ssoProfileID);
 }
 
 /**

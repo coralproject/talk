@@ -195,7 +195,7 @@ export const Users = (ctx: GraphContext) => ({
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
   updateSSOProfileID: async (input: GQLUpdateSSOProfileIDInput) =>
-    updateSSOProfileID(ctx.mongo, ctx.tenant, input.userID, input.SSOProfileID),
+    updateSSOProfileID(ctx.mongo, ctx.tenant, input.userID, input.ssoProfileID),
   updateUsername: async (input: GQLUpdateUsernameInput) =>
     updateUsername(
       ctx.mongo,

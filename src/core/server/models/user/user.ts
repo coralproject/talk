@@ -1531,7 +1531,7 @@ export async function updateUserSSOProfileID(
   mongo: MongoContext,
   tenantID: string,
   userID: string,
-  SSOProfileID: string
+  ssoProfileID: string
 ) {
   const result = await mongo.users().findOneAndUpdate(
     {
@@ -1543,7 +1543,7 @@ export async function updateUserSSOProfileID(
     },
     {
       $set: {
-        "profiles.$[profiles].id": SSOProfileID,
+        "profiles.$[profiles].id": ssoProfileID,
       },
     },
     {
@@ -1560,8 +1560,8 @@ export async function updateUserSSOProfileID(
       throw new UserNotFoundError(userID);
     }
 
-    const SSOProfile = getSSOProfile(user);
-    if (!SSOProfile) {
+    const ssoProfile = getSSOProfile(user);
+    if (!ssoProfile) {
       throw new SSOProfileNotSetError();
     }
 

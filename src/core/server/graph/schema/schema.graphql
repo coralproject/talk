@@ -7650,9 +7650,9 @@ input UpdateSSOProfileIDInput {
   """
   userID: ID!
   """
-  SSOProfileID is the new ID to set for the user's SSOProfile ID.
+  ssoProfileID is the new ID to set for the user's SSOProfile ID.
   """
-  SSOProfileID: String!
+  ssoProfileID: String!
 }
 
 type UpdateSSOProfileIDPayload {
