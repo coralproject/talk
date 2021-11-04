@@ -7,9 +7,9 @@ import {
   SigningKey,
 } from "jwks-rsa";
 import { isNil } from "lodash";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { TokenInvalidError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
 import { OIDCAuthIntegration } from "coral-server/models/settings";
@@ -151,7 +151,7 @@ export function verifyIDToken(
 
 export async function findOrCreateOIDCUser(
   config: Config,
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   integration: OIDCAuthIntegration,
   {
@@ -215,7 +215,7 @@ export async function findOrCreateOIDCUser(
 
 export async function findOrCreateOIDCUserWithToken(
   config: Config,
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   client: JwksClient,
   integration: Required<OIDCAuthIntegration>,

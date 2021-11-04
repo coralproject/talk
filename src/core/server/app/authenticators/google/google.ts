@@ -1,7 +1,7 @@
 import Joi from "joi";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { validateSchema } from "coral-server/helpers";
 import { GoogleAuthIntegration } from "coral-server/models/settings";
 import {
@@ -17,7 +17,7 @@ import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 
 interface Options {
-  mongo: Db;
+  mongo: MongoContext;
   signingConfig: JWTSigningConfig;
   config: Config;
   integration: Required<GoogleAuthIntegration>;
@@ -37,8 +37,8 @@ interface GoogleUserProfile {
 }
 
 export class GoogleAuthenticator extends OAuth2Authenticator {
+  private readonly mongo: MongoContext;
   private readonly config: Config;
-  private readonly mongo: Db;
   private readonly profileURL = "https://www.googleapis.com/oauth2/v3/userinfo";
   private readonly integration: Readonly<Required<GoogleAuthIntegration>>;
 

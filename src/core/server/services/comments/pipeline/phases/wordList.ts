@@ -19,7 +19,6 @@ export const wordList: IntermediateModerationPhase = ({
   config,
   tenant,
   comment,
-  bodyText,
 }): IntermediatePhaseResult | void => {
   // If there isn't a body, there can't be a bad word!
   if (!comment.body) {
@@ -30,8 +29,8 @@ export const wordList: IntermediateModerationPhase = ({
   const timeout = config.get("word_list_timeout");
 
   // Test the comment for banned words.
-  const banned = list.test(tenant, "banned", timeout, bodyText);
-  if (banned) {
+  const banned = list.test(tenant, "banned", timeout, comment.body);
+  if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
@@ -40,8 +39,13 @@ export const wordList: IntermediateModerationPhase = ({
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          bannedWords: banned.matches,
+        },
+      },
     };
-  } else if (banned === null) {
+  } else if (banned.timedOut) {
     return {
       actions: [
         {
@@ -58,9 +62,9 @@ export const wordList: IntermediateModerationPhase = ({
   }
 
   // Test the comment for suspect words.
-  const suspect = list.test(tenant, "suspect", timeout, bodyText);
+  const suspect = list.test(tenant, "suspect", timeout, comment.body);
 
-  if (tenant.premoderateSuspectWords && suspect) {
+  if (tenant.premoderateSuspectWords && suspect.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
@@ -69,8 +73,13 @@ export const wordList: IntermediateModerationPhase = ({
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          suspectWords: suspect.matches,
+        },
+      },
     };
-  } else if (suspect) {
+  } else if (suspect.isMatched) {
     return {
       actions: [
         {
@@ -78,8 +87,13 @@ export const wordList: IntermediateModerationPhase = ({
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },
       ],
+      metadata: {
+        wordList: {
+          suspectWords: suspect.matches,
+        },
+      },
     };
-  } else if (suspect === null) {
+  } else if (suspect.timedOut) {
     return {
       actions: [
         {

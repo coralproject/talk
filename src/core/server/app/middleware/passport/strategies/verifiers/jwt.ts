@@ -1,8 +1,8 @@
 import { Redis } from "ioredis";
 import Joi from "joi";
 import { isNil } from "lodash";
-import { Db } from "mongodb";
 
+import { MongoContext } from "coral-server/data/context";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import {
@@ -45,13 +45,13 @@ export function isJWTToken(token: JWTToken | object): token is JWTToken {
 
 export interface JWTVerifierOptions {
   signingConfig: JWTSigningConfig;
-  mongo: Db;
+  mongo: MongoContext;
   redis: Redis;
 }
 
 export class JWTVerifier implements Verifier<JWTToken> {
   private signingConfig: JWTSigningConfig;
-  private mongo: Db;
+  private mongo: MongoContext;
   private redis: Redis;
 
   constructor({ signingConfig, mongo, redis }: JWTVerifierOptions) {

@@ -1,8 +1,8 @@
 import { Redis } from "ioredis";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { getExternalModerationPhase } from "coral-server/models/settings";
 import {
   createTenantExternalModerationPhase,
@@ -41,7 +41,7 @@ export function validateExternalModerationPhaseInput(
 }
 
 export async function createExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   config: Config,
   cache: TenantCache,
@@ -73,7 +73,7 @@ export async function createExternalModerationPhase(
 }
 
 export async function updateExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   config: Config,
   cache: TenantCache,
@@ -129,7 +129,7 @@ export async function updateExternalModerationPhase(
 }
 
 export async function deleteExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -165,7 +165,7 @@ export async function deleteExternalModerationPhase(
 }
 
 export async function enableExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -215,7 +215,7 @@ export async function enableExternalModerationPhase(
 }
 
 export async function disableExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
@@ -264,7 +264,7 @@ export async function disableExternalModerationPhase(
 }
 
 export async function rotateExternalModerationPhaseSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,

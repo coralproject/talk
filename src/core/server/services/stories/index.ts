@@ -1,10 +1,15 @@
 import { defaultTo, uniq } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
-import { StoryURLInvalidError, UserNotFoundError } from "coral-server/errors";
+import { MongoContext } from "coral-server/data/context";
+import {
+  CannotMergeAnArchivedStory,
+  CannotOpenAnArchivedStory,
+  StoryURLInvalidError,
+  UserNotFoundError,
+} from "coral-server/errors";
 import { StoryCreatedCoralEvent } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
@@ -12,6 +17,7 @@ import {
   mergeCommentActionCounts,
   mergeManyStoryActions,
   removeStoryActions,
+  removeStoryModerationActions,
 } from "coral-server/models/action/comment";
 import {
   calculateTotalCommentCount,
@@ -63,14 +69,18 @@ import {
 
 export type FindStory = FindStoryInput;
 
-export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
+export async function find(
+  mongo: MongoContext,
+  tenant: Tenant,
+  input: FindStory
+) {
   return findStory(mongo, tenant.id, input);
 }
 
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
 export async function findOrCreate(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   broker: CoralEventPublisherBroker,
   input: FindOrCreateStory,
@@ -131,7 +141,7 @@ export async function findOrCreate(
 }
 
 export async function remove(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   includeComments = false
@@ -156,6 +166,27 @@ export async function remove(
   }
 
   if (includeComments) {
+    // Remove the moderation actions associated with the comments we just removed.
+    const {
+      deletedCount: removedModerationActions,
+    } = await removeStoryModerationActions(mongo, tenant.id, story.id);
+
+    log.debug(
+      { removedModerationActions },
+      "removed moderation actions while deleting story"
+    );
+
+    if (mongo.archive) {
+      const {
+        deletedCount: removedArchivedModerationActions,
+      } = await removeStoryModerationActions(mongo, tenant.id, story.id, true);
+
+      log.debug(
+        { removedArchivedModerationActions },
+        "removed archived moderation actions while deleting story"
+      );
+    }
+
     // Remove the actions associated with the comments we just removed.
     const { deletedCount: removedActions } = await removeStoryActions(
       mongo,
@@ -165,6 +196,20 @@ export async function remove(
 
     log.debug({ removedActions }, "removed actions while deleting story");
 
+    if (mongo.archive) {
+      const { deletedCount: removedArchivedActions } = await removeStoryActions(
+        mongo,
+        tenant.id,
+        story.id,
+        true
+      );
+
+      log.debug(
+        { removedArchivedActions },
+        "removed archived actions while deleting story"
+      );
+    }
+
     // Remove the comments for the story.
     const { deletedCount: removedComments } = await removeStoryComments(
       mongo,
@@ -173,13 +218,25 @@ export async function remove(
     );
 
     log.debug({ removedComments }, "removed comments while deleting story");
+
+    if (mongo.archive) {
+      const {
+        deletedCount: removedArchivedComments,
+      } = await removeStoryComments(mongo, tenant.id, story.id, true);
+
+      log.debug(
+        { removedArchivedComments },
+        "removed archived comments while deleting story"
+      );
+    }
   } else if (calculateTotalCommentCount(story.commentCounts.status) > 0) {
     log.warn(
       "attempted to remove story that has linked comments without consent for deleting comments"
     );
 
-    // TODO: (wyattjoh) improve error
-    throw new Error("asset has comments, cannot remove");
+    throw new Error(
+      "Failed to delete story. Attempted to remove a story that still has comments. It is preferable that you merge a story or update its Story URL instead of trying to delete it. If you are sure about what you're doing and want to delete this story with its comments. Use the option `includeComments = true`. For more details check the schema suggestions for this mutation input."
+    );
   }
 
   const removedStory = await removeStory(mongo, tenant.id, story.id);
@@ -197,7 +254,7 @@ export async function remove(
 export type CreateStory = Omit<CreateStoryInput, "siteID">;
 
 export async function create(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   broker: CoralEventPublisherBroker,
   config: Config,
@@ -260,7 +317,7 @@ export async function create(
 export type UpdateStory = UpdateStoryInput;
 
 export async function update(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   input: UpdateStory,
@@ -290,7 +347,7 @@ function validateStoryMode(tenant: Tenant, mode: GQLSTORY_MODE) {
 export type UpdateStorySettings = UpdateStorySettingsInput;
 
 export async function updateSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   input: UpdateStorySettings,
@@ -305,16 +362,21 @@ export async function updateSettings(
 }
 
 export async function open(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   now = new Date()
 ) {
+  const story = await retrieveStory(mongo, tenant.id, storyID);
+  if (story?.isArchived || story?.isArchiving) {
+    throw new CannotOpenAnArchivedStory(tenant.id, storyID);
+  }
+
   return openStory(mongo, tenant.id, storyID, now);
 }
 
 export async function close(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   now = new Date()
@@ -323,7 +385,7 @@ export async function close(
 }
 
 export async function merge(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   destinationID: string,
   sourceIDs: string[]
@@ -362,6 +424,12 @@ export async function merge(
     )
   ) {
     throw new Error("cannot merge stories not in comments mode");
+  }
+
+  // We cannot merge stories that are archived or archiving
+  const story = stories.find((s) => s.isArchived || s.isArchiving);
+  if (story) {
+    throw new CannotMergeAnArchivedStory(tenant.id, story.id);
   }
 
   // Move all the comment's from the source stories over to the destination
@@ -429,7 +497,7 @@ export async function merge(
 }
 
 export async function addExpert(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   userID: string
@@ -443,7 +511,7 @@ export async function addExpert(
 }
 
 export async function removeExpert(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   userID: string
@@ -457,7 +525,7 @@ export async function removeExpert(
 }
 
 export async function updateStoryMode(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   storyID: string,
   mode: GQLSTORY_MODE
@@ -468,7 +536,7 @@ export async function updateStoryMode(
   return setStoryMode(mongo, tenant.id, storyID, mode);
 }
 
-export async function retrieveSections(mongo: Db, tenant: Tenant) {
+export async function retrieveSections(mongo: MongoContext, tenant: Tenant) {
   if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
     return null;
   }

@@ -1,8 +1,8 @@
+import { TOXICITY_MODEL_DEFAULT } from "coral-common/constants";
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import { reconstructTenantURL } from "coral-server/app/url";
 import { sendToPerspective } from "coral-server/services/perspective";
 
-import { TOXICITY_MODEL_DEFAULT } from "coral-common/constants";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 import { CommentStatusUpdatedCoralEventPayload } from "../events";

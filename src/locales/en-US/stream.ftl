@@ -6,6 +6,7 @@ general-commentsEmbedSection =
   .aria-label = Comments Embed
 
 general-moderate = Moderate
+general-archived = Archived
 
 general-userBoxUnauthenticated-joinTheConversation = Join the conversation
 general-userBoxUnauthenticated-signIn = Sign in
@@ -632,6 +633,26 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
+## Archived Report Comment Popover
+
+comments-archivedReportPopover-reportThisComment = Report This Comment
+comments-archivedReportPopover-doesThisComment =
+  Does this comment violate our community guidelines? Is this offensive or spam?
+  Send  an email to our moderation team at <a>{ $orgName }</a> with a link to
+  this comment and a brief explanation.
+comments-archivedReportPopover-needALink =
+  Need a link to this comment?
+comments-archivedReportPopover-copyLink = Copy link
+
+comments-archivedReportPopover-emailSubject = Report comment
+comments-archivedReportPopover-emailBody =
+  I would like to report the following comment:
+  %0A
+  { $permalinkURL }
+  %0A
+  %0A
+  For the reasons stated below:
+
 ## Submit Status
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
@@ -642,6 +663,15 @@ comments-submitStatus-submittedAndRejected =
 # Configure
 configure-configureQuery-errorLoadingProfile = Error loading configure
 configure-configureQuery-storyNotFound = Story not found
+
+## Archive
+configure-archived-title = This comment stream has been archived
+configure-archived-onArchivedStream =
+  On archived streams, no new comments, reactions, or reports may be
+  submitted. Also, comments cannot be moderated.
+configure-archived-toAllowTheseActions =
+  To allow these actions, unarchive the stream.
+configure-archived-unarchiveStream = Unarchive stream
 
 ## Change username
 profile-changeUsername-username = Username
@@ -693,27 +723,6 @@ configure-premodLink-commentsContainingLinks =
   Pre-moderate comments containing links
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this story.
-
-configure-liveUpdates-title =
-configure-enableLiveUpdates-title = Enable live updates
-configure-liveUpdates-description =
-configure-enableLiveUpdates-description =
-  When enabled, the comments will be updated instantly as new comments and
-  replies are submitted, instead of requiring a page refresh. You can
-  disable this in the unusual situation of an article getting so much
-  traffic that the comments are loading slowly.
-configure-enableLiveUpdates-enable = Enable
-
-configure-disableLiveUpdates-title = Disable live updates
-configure-disableLiveUpdates-description =
-  When disabled, new comments and replies will no longer instantly update
-  as they are submitted. Commenters will need to refresh the page to see
-  new comments. We recommend this in the unusual situation of a story
-  getting so much traffic that the comments are loading slowly.
-configure-disableLiveUpdates-disable = Disable
-
-configure-liveUpdates-disabledSuccess = Live updates are now disabled
-configure-liveUpdates-enabledSuccess = Live updates are now enabled
 
 configure-messageBox-title =
 configure-addMessage-title =
@@ -827,6 +836,9 @@ warning-instructions =
 warning-acknowledge = Acknowledge
 
 warning-notice = Your account has been issued a warning. To continue participating please <a>review the warning message</a>.
+
+modMessage-heading = Your account has been sent a message by a moderator
+modMessage-acknowledge = Acknowledge
 
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)

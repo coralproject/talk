@@ -8,6 +8,8 @@ general-noTextContent = No text content
 ## Story Status
 storyStatus-open = Open
 storyStatus-closed = Closed
+storyStatus-archiving = Archiving
+storyStatus-archived = Archived
 
 ## Roles
 role-admin = Admin
@@ -488,6 +490,12 @@ configure-general-commentEditing-explanation =
 configure-general-commentEditing-commentEditTimeFrame = Comment edit timeframe
 configure-general-commentEditing-seconds = Seconds
 
+#### Flatten replies
+configure-general-flattenReplies-title = Flatten replies
+configure-general-flattenReplies-enabled = Flatten replies enabled
+configure-general-flattenReplies-explanation =
+  Change how levels of replies display. When enabled, replies to comments can go up to four levels deep before they are no longer indented on the page. When disabled, after a depth of four replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
@@ -557,6 +565,8 @@ stories-actions-popover =
 stories-actions-rescrape = Re-scrape
 stories-actions-close = Close story
 stories-actions-open = Open story
+stories-actions-archive = Archive story
+stories-actions-unarchive = Unarchive story
 
 ### Sections
 
@@ -1053,6 +1063,9 @@ moderate-user-drawer-username-change-old = Old:
 moderate-user-drawer-account-history-premod-set = Always pre-moderate
 moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
 
+moderate-user-drawer-account-history-modMessage-sent = User messaged
+moderate-user-drawer-account-history-modMessage-acknowledged = Message acknowledged at { $acknowledgedAt }
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
@@ -1133,6 +1146,13 @@ moderate-forReview-reportedOffensive = Offensive
 moderate-forReview-reportedOther = Other
 moderate-forReview-reportedSpam = Spam
 
+# Archive
+
+moderate-archived-queue-title = This story has been archived
+moderate-archived-queue-noModerationActions =
+  No moderation actions can be made on the comments when a story is archived.
+moderate-archived-queue-toPerformTheseActions =
+  To perform these actions, unarchive the story.
 
 ## Community
 community-emptyMessage = We could not find anyone in your community matching your criteria.
@@ -1294,6 +1314,16 @@ community-warnModal-cancel = Cancel
 community-warnModal-warnUser = Warn user
 community-userStatus-warn = Warn
 community-userStatus-warnEverywhere = Warn everywhere
+community-userStatus-message = Message
+
+community-modMessageModal-success = A message has been sent to <strong>{ $username }</strong>.
+community-modMessageModal-success-close = Ok
+community-modMessageModal-areYouSure = Message <strong>{ $username }</strong>?
+community-modMessageModal-consequence = Send a message to a commenter that is visible only to them.
+community-modMessageModal-message-label = Message
+community-modMessageModal-message-required = Required
+community-modMessageModal-cancel = Cancel
+community-modMessageModal-messageUser = Message user
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.

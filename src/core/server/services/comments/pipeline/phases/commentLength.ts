@@ -4,7 +4,6 @@ import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "coral-server/errors";
-
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,

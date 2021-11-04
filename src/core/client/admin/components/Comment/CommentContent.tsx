@@ -1,16 +1,14 @@
 import cn from "classnames";
 import React, { FunctionComponent, useMemo } from "react";
 
-import {
-  getPhrasesRegExp,
-  GetPhrasesRegExpOptions,
-  markHTMLNode,
-} from "coral-admin/helpers";
+import markPhrasesHTML from "coral-admin/helpers/markHTMLNode";
 import {
   ALL_FEATURES,
   createSanitize,
   Sanitize,
+  WORDLIST_FORBID_TAGS,
 } from "coral-common/helpers/sanitize";
+import { GQLWordlistMatch } from "coral-framework/schema";
 
 import styles from "./CommentContent.css";
 
@@ -34,9 +32,7 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
           // Allow all RTE features to be displayed.
           features: ALL_FEATURES,
           config: {
-            FORBID_TAGS: highlight
-              ? ["b", "strong", "i", "em", "s", "span"]
-              : [],
+            FORBID_TAGS: highlight ? WORDLIST_FORBID_TAGS : [],
           },
         }),
       };
@@ -51,30 +47,18 @@ const getSanitize: (highlight: boolean) => Sanitize = (() => {
 interface Props {
   className?: string;
   children: string | React.ReactElement;
-  phrases?: GetPhrasesRegExpOptions;
   highlight?: boolean;
+  bannedWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
+  suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
 }
 
 const CommentContent: FunctionComponent<Props> = ({
-  phrases,
   className,
   children,
+  bannedWords,
+  suspectWords,
   highlight = false,
 }) => {
-  // Cache the expression used via memo. This will reduce duplicate renders of
-  // this comment content when the children change but the phrase configuration
-  // does not change. The regExp is already cached on a deeper level
-  // automatically, this is just lessening that impact further.
-  const expression = useMemo(() => {
-    // If we aren't in highlight mode for this comment, don't even attempt to
-    // generate the expression.
-    if (!highlight || !phrases) {
-      return null;
-    }
-
-    return getPhrasesRegExp(phrases);
-  }, [phrases, highlight]);
-
   // Cache the parsed comment node. If the children cannot be parsed, this will
   // be null.
   const parsed = useMemo(() => {
@@ -82,16 +66,22 @@ const CommentContent: FunctionComponent<Props> = ({
       return null;
     }
 
-    // Sanitize the input for display.
-    const node = getSanitize(highlight && !!phrases)(children);
-
-    // If the expression is available, then mark the nodes.
-    if (expression) {
-      markHTMLNode(node, expression);
+    let words: GQLWordlistMatch[] = [];
+    if (bannedWords) {
+      words = [...words, ...bannedWords];
     }
+    if (suspectWords) {
+      words = [...words, ...suspectWords];
+    }
+    // Sanitize the input for display.
+    const node = getSanitize(highlight)(children);
+
+    // Mark word list phrases
+    const replacement = markPhrasesHTML(node.innerHTML, words);
+    node.innerHTML = replacement;
 
     return node;
-  }, [children, expression, highlight, phrases]);
+  }, [bannedWords, children, highlight, suspectWords]);
 
   if (parsed) {
     return (

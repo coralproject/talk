@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import logger, { Logger } from "coral-server/logger";
 import { Comment, retrieveManyComments } from "coral-server/models/comment";
 import { retrieveManyStories, Story } from "coral-server/models/story";
@@ -20,7 +20,7 @@ import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/typ
 import { generateUnsubscribeURL } from "./categories/unsubscribe";
 
 interface Options {
-  mongo: Db;
+  mongo: MongoContext;
   tenant: Tenant;
   config: Config;
   signingConfig: JWTSigningConfig;
@@ -33,7 +33,7 @@ interface Options {
  * collect data to include in notifications to be sent.
  */
 export default class NotificationContext {
-  private readonly mongo: Db;
+  private readonly mongo: MongoContext;
   private readonly signingConfig: JWTSigningConfig;
 
   /**
@@ -73,7 +73,7 @@ export default class NotificationContext {
     string,
     Readonly<Comment> | null
   > = new DataLoader((commentIDs) =>
-    retrieveManyComments(this.mongo, this.tenant.id, commentIDs)
+    retrieveManyComments(this.mongo.comments(), this.tenant.id, commentIDs)
   );
 
   /**

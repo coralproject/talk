@@ -58,6 +58,16 @@ convict.addFormat({
   },
 });
 
+// Add a custom format for domain.
+convict.addFormat({
+  name: "domain",
+  validate: (domain: string) => {
+    if (domain) {
+      Joi.assert(domain, Joi.string().domain());
+    }
+  },
+});
+
 // Add a custom format for a list of comma seperated strings.
 convict.addFormat({
   name: "list",
@@ -164,6 +174,13 @@ const config = convict({
     format: "mongo-uri",
     default: "mongodb://127.0.0.1:27017/coral",
     env: "MONGODB_URI",
+    sensitive: true,
+  },
+  mongodb_archive: {
+    doc: "The MongoDB database to connect for archiving stories.",
+    format: "mongo-uri",
+    default: "mongodb://127.0.0.1:27017/coral",
+    env: "MONGODB_ARCHIVE_URI",
     sensitive: true,
   },
   redis: {
@@ -448,11 +465,46 @@ const config = convict({
     default: ms("30s"),
     env: "MAILER_JOB_TIMEOUT",
   },
+  download_gdpr_comments_link_domain: {
+    doc:
+      "Specifies an alternative domain to be used for the download GDPR comments link sent out in emails. If set to default empty string, will use the tenant domain. Example: yourdomain.com",
+    format: "domain",
+    default: "",
+    env: "DOWNLOAD_GDPR_COMMENTS_LINK_DOMAIN",
+  },
   non_fingerprinted_cache_max_age: {
     doc: "Max age for the ",
     format: "ms",
     default: ms("30 minutes"),
     env: "NON_FINGERPRINTED_CACHE_MAX_AGE",
+  },
+  enable_auto_archiving: {
+    doc:
+      "Enables auto archiving for stories older than the specified interval.",
+    format: Boolean,
+    default: false,
+    env: "ENABLE_AUTO_ARCHIVING",
+  },
+  auto_archive_older_than: {
+    doc:
+      "If stories are older than this age, they will be auto archived if auto archiving is enabled.",
+    format: "ms",
+    default: ms("120 days"),
+    env: "AUTO_ARCHIVE_OLDER_THAN",
+  },
+  auto_archiving_interval: {
+    doc:
+      "The cron scheduling interval for how often auto archiving should run. Defaults to hourly.",
+    format: String,
+    default: "0,15,30,45 * * * *",
+    env: "AUTO_ARCHIVING_INTERVAL",
+  },
+  auto_archiving_batch_size: {
+    doc:
+      "Determines how many stories to try and archive per interval of archiving.",
+    format: Number,
+    default: 500,
+    env: "AUTO_ARCHIVING_BATCH_SIZE",
   },
   force_admin_local_auth: {
     doc:

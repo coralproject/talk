@@ -411,10 +411,6 @@ configure-premodLink-title = Pre-moderatie van reacties met links
 configure-premodLink-description =
   Moderatoren moeten elke reactie met een link eerst goedkeuren voordat deze zichtbaar wordt.
 
-configure-liveUpdates-title = Inschakelen live updates van dit bericht
-configure-liveUpdates-description =
-  Wanneer ingeschakeld, zullen er real-time reacties ingeladen en geüpdatet worden als er nieuwe reacties en antwoorden toegevoegd worden.
-
 configure-messageBox-title = Inschakelen bericht box voor deze reactiestroom
 configure-messageBox-description =
   Voeg voor je lezers bovenaan de reactie box een bericht toe. Gebruik dit om een vraag te stellen of

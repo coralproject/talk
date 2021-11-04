@@ -48,6 +48,29 @@ export function reconstructTenantURL(
   return constructTenantURL(config, tenant, path);
 }
 
+/**
+ * constructDownloadLinkURL will construct a URL based off of either a domain
+ * override set by the download_gdpr_comments_link_domain env var or default to
+ * the Tenant's domain.
+ */
+export function constructDownloadLinkURL(
+  config: Config,
+  tenant: Pick<Tenant, "domain">,
+  path = "/",
+  downloadLinkDomainOverride: string
+): string {
+  const linkDomain =
+    downloadLinkDomainOverride !== ""
+      ? downloadLinkDomainOverride
+      : tenant.domain;
+  let url: URL = new URL(path, `https://${linkDomain}`);
+  if (config.get("env") === "development") {
+    url = new URL(path, `http://${linkDomain}:${config.get("dev_port")}`);
+  }
+
+  return url.href;
+}
+
 export function doesRequireSchemePrefixing(url: string) {
   return !url.startsWith("http");
 }

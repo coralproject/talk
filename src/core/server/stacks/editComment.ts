@@ -1,8 +1,9 @@
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
+  CannotCreateCommentOnArchivedStory,
   CommentNotFoundError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -74,7 +75,7 @@ export type EditComment = Omit<
 };
 
 export default async function edit(
-  mongo: Db,
+  mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -89,7 +90,7 @@ export default async function edit(
   // Get the comment that we're editing. This comment is considered stale,
   // because it wasn't involved in the atomic transaction.
   const originalStaleComment = await retrieveComment(
-    mongo,
+    mongo.comments(),
     tenant.id,
     input.id
   );
@@ -140,6 +141,10 @@ export default async function edit(
   );
   if (!story) {
     throw new StoryNotFoundError(originalStaleComment.storyID);
+  }
+
+  if (story.isArchiving || story.isArchived) {
+    throw new CannotCreateCommentOnArchivedStory(tenant.id, story.id);
   }
 
   // Get the story mode of this Story.
@@ -249,6 +254,7 @@ export default async function edit(
       mongo,
       tenant.id,
       {
+        storyID: story.id,
         commentID: result.after.id,
         commentRevisionID: result.revision.id,
         status: result.after.status,

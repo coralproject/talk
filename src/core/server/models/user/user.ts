@@ -1,10 +1,11 @@
 import bcrypt from "bcryptjs";
 import { DateTime, DurationObject } from "luxon";
-import { Db, MongoError } from "mongodb";
+import { MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { MongoContext } from "coral-server/data/context";
 import {
   ConfirmEmailTokenExpired,
   DuplicateEmailError,
@@ -29,11 +30,11 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
-import { users as collection } from "coral-server/services/mongodb/collections";
 
 import {
   GQLBanStatus,
   GQLDIGEST_FREQUENCY,
+  GQLModMessageStatus,
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
@@ -338,6 +339,36 @@ export interface WarningStatus {
   history: WarningStatusHistory[];
 }
 
+export interface ModMessageStatusHistory {
+  /**
+   * active when true, indicates that the given user has not acknowledged the message.
+   */
+  active: boolean;
+  /**
+   * createdBy is the user that created this message
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+  /**
+   * acknowledgedAt is the time the commenter acknowledged it
+   */
+  acknowledgedAt?: Date;
+
+  /**
+   * message is the message sent to the commenter
+   */
+  message?: string;
+}
+
+export interface ModMessageStatus {
+  active: boolean;
+  history: ModMessageStatusHistory[];
+}
+
 /**
  * UserStatus stores the user status information regarding moderation state.
  */
@@ -369,6 +400,12 @@ export interface UserStatus {
    * warnings
    */
   warning?: WarningStatus;
+
+  /**
+   * modMessage stores whether a user has an unacknowledged moderation message and
+   * a history of moderation messages
+   */
+  modMessage?: ModMessageStatus;
 }
 
 /**
@@ -604,6 +641,7 @@ async function findOrCreateUserInput(
       ban: { active: false, history: [] },
       premod: { active: false, history: [] },
       warning: { active: false, history: [] },
+      modMessage: { active: false, history: [] },
     },
     notifications: {
       onReply: false,
@@ -664,7 +702,7 @@ async function findOrCreateUserInput(
 }
 
 export async function findOrCreateUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: FindOrCreateUserInput,
   now: Date
@@ -672,7 +710,7 @@ export async function findOrCreateUser(
   const user = await findOrCreateUserInput(tenantID, input, now);
 
   try {
-    const result = await collection(mongo).findOneAndUpdate(
+    const result = await mongo.users().findOneAndUpdate(
       {
         tenantID,
         profiles: {
@@ -716,7 +754,7 @@ export async function findOrCreateUser(
 export type CreateUserInput = FindOrCreateUserInput;
 
 export async function createUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: CreateUserInput,
   now: Date
@@ -725,7 +763,7 @@ export async function createUser(
 
   try {
     // Insert it into the database. This may throw an error.
-    await collection(mongo).insertOne(user);
+    await mongo.users().insertOne(user);
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate User error.
@@ -745,16 +783,20 @@ export async function createUser(
   return user;
 }
 
-export async function retrieveUser(mongo: Db, tenantID: string, id: string) {
-  return collection(mongo).findOne({ tenantID, id });
+export async function retrieveUser(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+) {
+  return mongo.users().findOne({ tenantID, id });
 }
 
 export async function retrieveManyUsers(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
-  const cursor = collection(mongo).find({
+  const cursor = mongo.users().find({
     tenantID,
     id: {
       $in: ids,
@@ -767,11 +809,11 @@ export async function retrieveManyUsers(
 }
 
 export async function retrieveUserWithProfile(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   profile: Partial<Pick<Profile, "id" | "type">>
 ) {
-  return collection(mongo).findOne({
+  return mongo.users().findOne({
     tenantID,
     profiles: {
       $elemMatch: profile,
@@ -780,13 +822,13 @@ export async function retrieveUserWithProfile(
 }
 
 export async function retrieveUserWithEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   emailAddress: string
 ) {
   const email = emailAddress.toLowerCase();
 
-  return collection(mongo).findOne({
+  return mongo.users().findOne({
     tenantID,
     $or: [
       {
@@ -808,12 +850,12 @@ export async function retrieveUserWithEmail(
  * @param role new role to set to the User
  */
 export async function updateUserRole(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   role: GQLUSER_ROLE
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     { id, tenantID },
     { $set: { role } },
     {
@@ -830,12 +872,12 @@ export async function updateUserRole(
 }
 
 export async function mergeUserSiteModerationScopes(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   siteIDs: ReadonlyArray<string>
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     { id, tenantID },
     {
       $addToSet: {
@@ -856,12 +898,12 @@ export async function mergeUserSiteModerationScopes(
 }
 
 export async function pullUserSiteModerationScopes(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   siteIDs: ReadonlyArray<string>
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     { id, tenantID },
     {
       $pull: {
@@ -882,12 +924,12 @@ export async function pullUserSiteModerationScopes(
 }
 
 export async function updateUserModerationScopes(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   moderationScopes: UserModerationScopes
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     { id, tenantID },
     { $set: { moderationScopes } },
     {
@@ -917,7 +959,7 @@ export async function verifyUserPassword(
 }
 
 export async function updateUserPassword(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   password: string,
@@ -927,7 +969,7 @@ export async function updateUserPassword(
   const hashedPassword = await hashPassword(password);
 
   // Update the user with the new password.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -976,12 +1018,12 @@ export async function updateUserPassword(
 }
 
 export async function scheduleDeletionDate(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string,
   deletionDate: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
       tenantID,
@@ -1003,11 +1045,11 @@ export async function scheduleDeletionDate(
 }
 
 export async function clearDeletionDate(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
       tenantID,
@@ -1040,14 +1082,14 @@ export interface UpdateUserInput {
 }
 
 export async function updateUserFromSSO(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   update: UpdateUserInput,
   lastIssuedAt: Date
 ) {
   // Update the user with the new properties.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -1093,7 +1135,7 @@ export async function updateUserFromSSO(
  * @param username the username that we want to set
  */
 export async function setUserUsername(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   username: string
@@ -1101,7 +1143,7 @@ export async function setUserUsername(
   // TODO: (wyattjoh) investigate adding the username previously used to an array.
 
   // The username wasn't found, so add it to the user.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -1146,7 +1188,7 @@ export async function setUserUsername(
  */
 
 export async function updateUserUsername(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   username: string,
@@ -1160,7 +1202,7 @@ export async function updateUserUsername(
     createdAt: now,
   };
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     { id, tenantID },
     {
       $set: {
@@ -1199,7 +1241,7 @@ export async function updateUserUsername(
  * @param emailAddress the email address we want to set
  */
 export async function setUserEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   emailAddress: string
@@ -1208,7 +1250,7 @@ export async function setUserEmail(
   const email = emailAddress.toLowerCase();
 
   // Search to see if this email has been used before.
-  let user = await collection(mongo).findOne({
+  let user = await mongo.users().findOne({
     tenantID,
     email,
   });
@@ -1217,7 +1259,7 @@ export async function setUserEmail(
   }
 
   // The email wasn't found, so try to update the User.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -1264,7 +1306,7 @@ export async function setUserEmail(
  * @param emailVerified whether email is verified
  */
 export async function updateUserEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   emailAddress: string,
@@ -1275,7 +1317,7 @@ export async function updateUserEmail(
 
   try {
     // The email wasn't found, so try to update the User.
-    const result = await collection(mongo).findOneAndUpdate(
+    const result = await mongo.users().findOneAndUpdate(
       {
         tenantID,
         id,
@@ -1320,13 +1362,13 @@ export async function updateUserEmail(
  * @param bio the string for the user bio
  */
 export async function updateUserBio(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   bio?: string
 ) {
   // The email wasn't found, so try to update the User.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -1367,13 +1409,13 @@ export async function updateUserBio(
  * @param avatar URL that the avatar exists at
  */
 export async function updateUserAvatar(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   avatar?: string
 ) {
   // The email wasn't found, so try to update the User.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -1416,7 +1458,7 @@ export async function updateUserAvatar(
  * @param password the password we want to set
  */
 export async function setUserLocalProfile(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   emailAddress: string,
@@ -1446,7 +1488,7 @@ export async function setUserLocalProfile(
   };
 
   // The profile wasn't found, so add it to the User.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -1485,7 +1527,7 @@ export async function setUserLocalProfile(
 }
 
 export async function createUserToken(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string,
   name: string,
@@ -1498,7 +1540,7 @@ export async function createUserToken(
     createdAt: now,
   };
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
       tenantID,
@@ -1523,13 +1565,13 @@ export async function createUserToken(
 }
 
 export async function deactivateUserToken(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string,
   id: string
 ) {
   // Try to remove the Token from the User.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
       tenantID,
@@ -1577,12 +1619,12 @@ export async function deactivateUserToken(
 export type UserConnectionInput = ConnectionInput<User>;
 
 export async function retrieveUserConnection(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: UserConnectionInput
 ): Promise<Readonly<Connection<Readonly<User>>>> {
   // Create the query.
-  const query = new Query(collection(mongo)).where({ tenantID });
+  const query = new Query(mongo.users()).where({ tenantID });
 
   // If a filter is being applied, filter it as well.
   if (input.filter) {
@@ -1616,7 +1658,7 @@ async function retrieveConnection(
  * @param now the current date
  */
 export async function premodUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -1630,7 +1672,7 @@ export async function premodUser(
   };
 
   // Try to update the user if the user isn't already banned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -1681,7 +1723,7 @@ export async function premodUser(
  * @param now the current date
  */
 export async function removeUserPremod(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -1695,7 +1737,7 @@ export async function removeUserPremod(
   };
 
   // Try to update the user if the user isn't already banned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -1731,7 +1773,7 @@ export async function removeUserPremod(
 }
 
 export async function siteBanUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -1749,7 +1791,7 @@ export async function siteBanUser(
   };
 
   // Try to update the user if the user isn't already banned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -1799,7 +1841,7 @@ export async function siteBanUser(
  * @param now the current date
  */
 export async function banUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -1816,7 +1858,7 @@ export async function banUser(
   };
 
   // Try to update the user if the user isn't already banned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -1858,7 +1900,7 @@ export async function banUser(
 }
 
 export async function removeUserSiteBan(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -1875,7 +1917,7 @@ export async function removeUserSiteBan(
   };
 
   // Try to update the user if the user isn't already banned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -1920,7 +1962,7 @@ export async function removeUserSiteBan(
  * @param now the current date
  */
 export async function removeUserBan(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -1937,7 +1979,7 @@ export async function removeUserBan(
   };
 
   // Try to update the user if the user isn't already banned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -1996,7 +2038,7 @@ export async function removeUserBan(
  * @param now the current date
  */
 export async function suspendUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -2017,7 +2059,7 @@ export async function suspendUser(
   };
 
   // Try to update the user if the user isn't already suspended.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2077,7 +2119,7 @@ export async function suspendUser(
  * @param now the current date
  */
 export async function removeActiveUserSuspensions(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   modifiedBy: string,
@@ -2093,7 +2135,7 @@ export async function removeActiveUserSuspensions(
   };
 
   // Try to update the user suspension times.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     { tenantID, id },
     {
       $set: dotize({
@@ -2131,7 +2173,7 @@ export async function removeActiveUserSuspensions(
 }
 
 export async function warnUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -2146,7 +2188,7 @@ export async function warnUser(
     message,
   };
   // Try to update the user if the user isn't already warned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2198,7 +2240,7 @@ export async function warnUser(
  * @param now the current date
  */
 export async function removeUserWarning(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -2212,7 +2254,7 @@ export async function removeUserWarning(
   };
 
   // Try to update the user if the user isn't already warned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2267,7 +2309,7 @@ export async function removeUserWarning(
  * @param now the current date
  */
 export async function acknowledgeOwnWarning(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   now = new Date()
@@ -2281,22 +2323,13 @@ export async function acknowledgeOwnWarning(
   };
 
   // Try to update the user if the user isn't already warned.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
-      $or: [
-        {
-          "status.warning.active": {
-            $ne: false,
-          },
-        },
-        {
-          "status.warning.history": {
-            $size: 0,
-          },
-        },
-      ],
+      "status.warning.active": {
+        $eq: true,
+      },
     },
     {
       $set: {
@@ -2325,6 +2358,116 @@ export async function acknowledgeOwnWarning(
 
   return result.value;
 }
+
+export async function sendModMessageUser(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  message?: string,
+  now = new Date()
+) {
+  // Create the new message.
+  const modMessageHistory: ModMessageStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+    message,
+  };
+
+  // Try to update the user with the message.
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: {
+        "status.modMessage.active": true,
+      },
+      $push: {
+        "status.modMessage.history": modMessageHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    // Get the user so we can figure out why the message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * acknowledgeOwnModMessage will acknowledge a moderation message that was
+ * sent to the user.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param now the current date
+ */
+export async function acknowledgeOwnModMessage(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
+  // Create the new update.
+  const update: ModMessageStatusHistory = {
+    active: false,
+    acknowledgedAt: now,
+    createdAt: now,
+    createdBy: id,
+  };
+
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.modMessage.active": {
+        $eq: true,
+      },
+    },
+    {
+      $set: {
+        "status.modMessage.active": false,
+      },
+      $push: {
+        "status.modMessage.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the acknowledge mod message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user didn't have a mod message to acknowledge, so nothing needs to be done
+    return user;
+  }
+
+  return result.value;
+}
+
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
   Pick<BanStatus, "history"> & { siteIDs?: string[] };
 
@@ -2336,6 +2479,12 @@ export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
 
 export type ConsolidatedWarningStatus = Omit<GQLWarningStatus, "history"> &
   Pick<PremodStatus, "history">;
+
+export type ConsolidatedModMessageStatus = Omit<
+  GQLModMessageStatus,
+  "history"
+> &
+  Pick<ModMessageStatus, "history">;
 
 export function consolidateUsernameStatus(
   username: User["status"]["username"]
@@ -2383,6 +2532,27 @@ export function consolidateUserWarningStatus(
     active: warning.active,
     history: warning.history,
     message: activeWarning ? activeWarning.message : undefined,
+  };
+}
+
+/**
+ * consolidateUserModMessageStatus takes the most recent moderation message if there is one
+ * and adds its message to the modMessage status
+ */
+export function consolidateUserModMessageStatus(
+  modMessage: User["status"]["modMessage"]
+) {
+  if (!modMessage) {
+    return {
+      active: false,
+      history: [],
+    };
+  }
+  const activeModMessage = modMessage.history[modMessage.history.length - 1];
+  return {
+    active: modMessage.active,
+    history: modMessage.history,
+    message: activeModMessage ? activeModMessage.message : undefined,
   };
 }
 
@@ -2446,7 +2616,7 @@ export function consolidateUserStatus(
  * @param id ID of the User that we are creating a reset ID with
  */
 export async function createOrRetrieveUserPasswordResetID(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string
 ): Promise<string> {
@@ -2454,7 +2624,7 @@ export async function createOrRetrieveUserPasswordResetID(
   const resetID = uuid();
 
   // Associate the resetID with the user.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -2501,7 +2671,7 @@ export async function createOrRetrieveUserPasswordResetID(
 }
 
 export async function createOrRetrieveUserEmailVerificationID(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string
 ): Promise<string> {
@@ -2509,7 +2679,7 @@ export async function createOrRetrieveUserEmailVerificationID(
   const emailVerificationID = uuid();
 
   // Associate the resetID with the user.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -2550,7 +2720,7 @@ export async function createOrRetrieveUserEmailVerificationID(
 }
 
 export async function resetUserPassword(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   password: string,
@@ -2561,7 +2731,7 @@ export async function resetUserPassword(
   const hashedPassword = await hashPassword(password);
 
   // Update the user with the new password.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -2618,14 +2788,14 @@ export async function resetUserPassword(
 }
 
 export async function confirmUserEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   email: string,
   emailVerificationID: string
 ) {
   // Update the user with a confirmed email address.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       id,
@@ -2667,7 +2837,7 @@ export async function confirmUserEmail(
 }
 
 export async function ignoreUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   ignoreUserID: string,
@@ -2678,7 +2848,7 @@ export async function ignoreUser(
     createdAt: now,
   };
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2722,12 +2892,12 @@ export async function ignoreUser(
 }
 
 export async function removeUserIgnore(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   ignoreUserID: string
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2765,12 +2935,12 @@ export async function removeUserIgnore(
 }
 
 export async function setUserLastDownloadedAt(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   now: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2800,14 +2970,14 @@ export async function setUserLastDownloadedAt(
 export type NotificationSettingsInput = Partial<GQLUserNotificationSettings>;
 
 export async function updateUserNotificationSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   notifications: NotificationSettingsInput
 ) {
   const update: DeepPartial<User> = { notifications };
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2835,14 +3005,14 @@ export async function updateUserNotificationSettings(
 export type UpdateUserMediaSettingsInput = Partial<GQLUserMediaSettings>;
 
 export async function updateUserMediaSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   mediaSettings: UpdateUserMediaSettingsInput
 ) {
   const update: DeepPartial<User> = { mediaSettings };
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2878,7 +3048,7 @@ export async function updateUserMediaSettings(
  * @param now the current time
  */
 export async function insertUserNotificationDigests(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   templates: DigestibleTemplate[],
@@ -2890,7 +3060,7 @@ export async function insertUserNotificationDigests(
     createdAt: now,
   }));
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id,
       tenantID,
@@ -2932,11 +3102,11 @@ export async function insertUserNotificationDigests(
  *                  operation
  */
 export async function pullUserNotificationDigests(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   frequency: GQLDIGEST_FREQUENCY
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       "notifications.digestFrequency": frequency,
@@ -2962,8 +3132,8 @@ export async function pullUserNotificationDigests(
  * @param rescheduledDuration duration in which to reschedule
  * @param now the current time
  */
-export async function retrieveUserScheduledForDeletion(
-  mongo: Db,
+export async function retrieveLockedUserScheduledForDeletion(
+  mongo: MongoContext,
   tenantID: string,
   rescheduledDuration: DurationObject,
   now: Date
@@ -2972,10 +3142,11 @@ export async function retrieveUserScheduledForDeletion(
     .plus(rescheduledDuration)
     .toJSDate();
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       tenantID,
       scheduledDeletionDate: { $lte: now },
+      deletedAt: { $exists: false },
     },
     {
       $set: {
@@ -3003,7 +3174,7 @@ export async function retrieveUserScheduledForDeletion(
  * @param now the current time that the note was created
  */
 export async function createModeratorNote(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   createdBy: string,
@@ -3016,7 +3187,7 @@ export async function createModeratorNote(
     body: note,
     createdBy,
   };
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     { id, tenantID },
     {
       $push: {
@@ -3046,13 +3217,13 @@ export async function createModeratorNote(
  * @param createdBy the ID of the note author
  */
 export async function deleteModeratorNote(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   userID: string,
   id: string,
   createdBy: string
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
       tenantID,
@@ -3073,13 +3244,13 @@ export async function deleteModeratorNote(
 }
 
 export async function linkUsers(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   sourceUserID: string,
   destinationUserID: string
 ) {
   // Delete the old user from the database.
-  const source = await collection(mongo).findOneAndDelete({
+  const source = await mongo.users().findOneAndDelete({
     id: sourceUserID,
     tenantID,
   });
@@ -3096,7 +3267,7 @@ export async function linkUsers(
   }
 
   // Add the new profile to the destination user.
-  const dest = await collection(mongo).findOneAndUpdate(
+  const dest = await mongo.users().findOneAndUpdate(
     {
       id: destinationUserID,
       tenantID,
@@ -3117,8 +3288,8 @@ export async function linkUsers(
 }
 
 export const updateUserCommentCounts = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
-) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
+) => updateRelatedCommentCounts(mongo.users(), tenantID, id, commentCounts);

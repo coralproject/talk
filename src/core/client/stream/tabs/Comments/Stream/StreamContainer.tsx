@@ -15,6 +15,7 @@ import {
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
+import ArchivedMarker from "coral-stream/common/ArchivedMarker/ArchivedMarker";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
   COMMENTS_ORDER_BY,
@@ -56,6 +57,7 @@ import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
 import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletionRequestCalloutContainer";
 import FeaturedComments from "./FeaturedComments";
 import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
+import ModMessageContainer from "./ModMessage/ModMessageContainer";
 import { PostCommentFormContainer } from "./PostCommentForm";
 import PreviousCountSpyContainer from "./PreviousCountSpyContainer";
 import SortMenu from "./SortMenu";
@@ -168,6 +170,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     GQLUSER_STATUS.SUSPENDED
   );
   const warned = !!props.viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
+  const modMessaged = !!props.viewer?.status.modMessage.active;
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
@@ -244,7 +247,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       >
         <Flex alignItems="flex-start" justifyContent="space-between" wrap>
           <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-          <div className={styles.moderateStream}>
+          <div className={styles.rightStreamHeader}>
+            {(props.story.isArchived || props.story.isArchiving) && (
+              <ArchivedMarker />
+            )}
             <ModerateStreamContainer
               settings={props.settings}
               story={props.story}
@@ -279,14 +285,15 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
               />
             </>
           ))}
-        {(banned || warned || suspended) && (
+        {(banned || warned || suspended || modMessaged) && (
           <Localized
             id="comments-accountStatus-section"
             attrs={{ "aria-label": true }}
           >
-            <section
+            <HorizontalGutter
               id={VIEWER_STATUS_CONTAINER_ID}
               aria-label="Account Status"
+              container="section"
             >
               {banned && <BannedInfo />}
               {suspended && (
@@ -296,7 +303,8 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 />
               )}
               {warned && <WarningContainer viewer={props.viewer} />}
-            </section>
+              {modMessaged && <ModMessageContainer viewer={props.viewer} />}
+            </HorizontalGutter>
           </Localized>
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
@@ -578,6 +586,8 @@ const enhanced = withFragmentContainer<Props>({
           QUESTION
         }
       }
+      isArchived
+      isArchiving
       ...CreateCommentMutation_story
       ...CreateCommentReplyMutation_story
       ...ModerateStreamContainer_story
@@ -593,10 +603,14 @@ const enhanced = withFragmentContainer<Props>({
       id
       status {
         current
+        modMessage {
+          active
+        }
       }
       ...CreateCommentMutation_viewer
       ...CreateCommentReplyMutation_viewer
       ...ModerateStreamContainer_viewer
+      ...ModMessageContainer_viewer
       ...PostCommentFormContainer_viewer
       ...StreamDeletionRequestCalloutContainer_viewer
       ...SuspendedInfoContainer_viewer
@@ -609,6 +623,7 @@ const enhanced = withFragmentContainer<Props>({
       reaction {
         sortLabel
       }
+      flattenReplies
       featureFlags
       disableCommenting {
         enabled

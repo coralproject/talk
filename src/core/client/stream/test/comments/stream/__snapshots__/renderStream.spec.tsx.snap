@@ -110,7 +110,7 @@ exports[`renders comment stream 1`] = `
             </div>
           </section>
           <div
-            className="StreamContainer-moderateStream"
+            className="StreamContainer-rightStreamHeader"
           />
         </div>
         <section

@@ -66,4 +66,8 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USER_BIO_TOO_LONG: "error-userBioTooLong",
   COMMENT_EDIT_WINDOW_EXPIRED: "error-commentEditWindowExpired",
   AUTHOR_ALREADY_HAS_RATED_STORY: "error-authorAlreadyHasRatedStory",
+  CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY:
+    "error-cannotCreateCommentOnArchivedStory",
+  CANNOT_OPEN_AN_ARCHIVED_STORY: "error-cannotOpenAnArchivedStory",
+  CANNOT_MERGE_AN_ARCHIVED_STORY: "error-cannotMergeAnArchivedStory",
 };

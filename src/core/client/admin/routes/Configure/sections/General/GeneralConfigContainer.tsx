@@ -15,6 +15,7 @@ import ClosedStreamMessageConfig from "./ClosedStreamMessageConfig";
 import ClosingCommentStreamsConfig from "./ClosingCommentStreamsConfig";
 import CommentEditingConfig from "./CommentEditingConfig";
 import CommentLengthConfig from "./CommentLengthConfig";
+import FlattenRepliesConfig from "./FlattenRepliesConfig";
 import GuidelinesConfig from "./GuidelinesConfig";
 import LocaleConfig from "./LocaleConfig";
 import MediaLinksConfig from "./MediaLinksConfig";
@@ -44,6 +45,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       className={styles.root}
     >
       <LocaleConfig disabled={submitting} />
+      <FlattenRepliesConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
       <AnnouncementConfigContainer disabled={submitting} settings={settings} />
       <GuidelinesConfig disabled={submitting} />
@@ -64,6 +66,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment GeneralConfigContainer_settings on Settings {
       ...AnnouncementConfigContainer_settings
+      ...FlattenRepliesConfig_formValues @relay(mask: false)
       ...LocaleConfig_formValues @relay(mask: false)
       ...GuidelinesConfig_formValues @relay(mask: false)
       ...CommentLengthConfig_formValues @relay(mask: false)
