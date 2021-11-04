@@ -28,8 +28,7 @@ export const Actions = (ctx: GraphContext) => ({
     );
   },
   rejectComment: async (input: GQLRejectCommentInput) => {
-    // Validate that this user is allowed to moderate this comment if the
-    // config for site moderator is enabled.
+    // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, input);
 
     return rejectComment(
