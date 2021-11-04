@@ -235,9 +235,9 @@ export const Users = (ctx: GraphContext) => ({
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
   promote: async (input: GQLPromoteUserInput) =>
-    promoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.config),
+    promoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
   demote: async (input: GQLDemoteUserInput) =>
-    demoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.config),
+    demoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
   updateUserModerationScopes: async (
     input: GQLUpdateUserModerationScopesInput
   ) =>
@@ -246,8 +246,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.tenant,
       ctx.user!,
       input.userID,
-      input.moderationScopes,
-      ctx.config
+      input.moderationScopes
     ),
   createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
     addModeratorNote(

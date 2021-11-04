@@ -2064,11 +2064,6 @@ type Settings @cacheControl(maxAge: 30) {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean!
-  """
-  siteModeratorEnabled is whether the config var is enabled for
-  the single site moderator role
-  """
-  siteModeratorEnabled: Boolean!
 }
 
 ################################################################################

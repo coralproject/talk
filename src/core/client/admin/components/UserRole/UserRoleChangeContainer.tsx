@@ -58,8 +58,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   const canChangeRole =
     viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
 
-  const moderationScopesEnabled =
-    settings.siteModeratorEnabled && settings.multisite;
+  const moderationScopesEnabled = settings.multisite;
 
   const canPromoteDemote =
     viewer.id !== user.id &&
@@ -125,7 +124,6 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment UserRoleChangeContainer_settings on Settings {
       multisite
-      siteModeratorEnabled
     }
   `,
   query: graphql`

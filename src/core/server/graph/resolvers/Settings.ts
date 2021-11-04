@@ -34,6 +34,4 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   stories: ({ stories }) => stories,
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
   flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),
-  siteModeratorEnabled: (parent, args, ctx) =>
-    ctx.config.get("enable_site_moderator"),
 };

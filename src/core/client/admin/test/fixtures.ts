@@ -213,7 +213,6 @@ export const settings = createFixture<GQLSettings>({
   },
   amp: false,
   flattenReplies: false,
-  siteModeratorEnabled: true,
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(

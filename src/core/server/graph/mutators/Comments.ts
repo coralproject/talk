@@ -170,11 +170,7 @@ export const Comments = (ctx: GraphContext) => ({
     commentID,
     commentRevisionID,
   }: WithoutMutationID<GQLFeatureCommentInput>) => {
-    // Validate that this user is allowed to moderate this comment if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, { commentID });
-    }
+    await validateUserModerationScopes(ctx, ctx.user!, { commentID });
 
     const comment = await addTag(
       ctx.mongo,
@@ -208,11 +204,7 @@ export const Comments = (ctx: GraphContext) => ({
   unfeature: async ({
     commentID,
   }: WithoutMutationID<GQLUnfeatureCommentInput>) => {
-    // Validate that this user is allowed to moderate this comment if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, { commentID });
-    }
+    await validateUserModerationScopes(ctx, ctx.user!, { commentID });
 
     return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
   },

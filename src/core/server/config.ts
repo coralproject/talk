@@ -513,13 +513,6 @@ const config = convict({
     default: false,
     env: "FORCE_ADMIN_LOCAL_AUTH",
   },
-  enable_site_moderator: {
-    doc:
-      "Will enable the Site Moderator role for individual sites on a tenant by assigning a new moderation scope to a user.",
-    format: Boolean,
-    default: true,
-    env: "ENABLE_SITE_MODERATOR",
-  },
 });
 
 export type Config = typeof config;

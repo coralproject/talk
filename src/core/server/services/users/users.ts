@@ -16,7 +16,6 @@ import {
   DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
-  InternalError,
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
@@ -677,13 +676,8 @@ export async function promoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string,
-  config: Config
+  userID: string
 ) {
-  if (!config.get("enable_site_moderator")) {
-    throw new InternalError("site moderator config not enabled");
-  }
-
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -733,13 +727,8 @@ export async function demoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string,
-  config: Config
+  userID: string
 ) {
-  if (!config.get("enable_site_moderator")) {
-    throw new InternalError("site moderator config not enabled");
-  }
-
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -791,13 +780,8 @@ export async function updateModerationScopes(
   tenant: Tenant,
   viewer: Pick<User, "id">,
   userID: string,
-  moderationScopes: UserModerationScopes,
-  config: Config
+  moderationScopes: UserModerationScopes
 ) {
-  if (!config.get("enable_site_moderator")) {
-    throw new InternalError("site moderator config not enabled");
-  }
-
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
   }

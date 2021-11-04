@@ -75,11 +75,8 @@ export const Stories = (ctx: GraphContext) => ({
   updateSettings: async (
     input: GQLUpdateStorySettingsInput
   ): Promise<Readonly<Story> | null> => {
-    // Validate that this user is allowed to edit this story if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
-    }
+    // Validate that this user is allowed to edit this story
+    await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
 
     return updateSettings(
       ctx.mongo,
@@ -90,20 +87,14 @@ export const Stories = (ctx: GraphContext) => ({
     );
   },
   close: async (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> => {
-    // Validate that this user is allowed to close this story if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
-    }
+    // Validate that this user is allowed to close this story
+    await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
 
     return close(ctx.mongo, ctx.tenant, input.id, ctx.now);
   },
   open: async (input: GQLOpenStoryInput): Promise<Readonly<Story> | null> => {
-    // Validate that this user is allowed to open this story if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
-    }
+    // Validate that this user is allowed to open this story
+    await validateUserModerationScopes(ctx, ctx.user!, { storyID: input.id });
 
     return open(ctx.mongo, ctx.tenant, input.id, ctx.now);
   },
@@ -114,35 +105,26 @@ export const Stories = (ctx: GraphContext) => ({
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
   updateStoryMode: async (input: GQLUpdateStoryModeInput) => {
-    // Validate that this user is allowed to update the story mode if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, {
-        storyID: input.storyID,
-      });
-    }
+    // Validate that this user is allowed to update the story mode
+    await validateUserModerationScopes(ctx, ctx.user!, {
+      storyID: input.storyID,
+    });
 
     return updateStoryMode(ctx.mongo, ctx.tenant, input.storyID, input.mode);
   },
   addStoryExpert: async (input: GQLAddStoryExpertInput) => {
-    // Validate that this user is allowed to add a story expert if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, {
-        storyID: input.storyID,
-      });
-    }
+    // Validate that this user is allowed to add a story expert
+    await validateUserModerationScopes(ctx, ctx.user!, {
+      storyID: input.storyID,
+    });
 
     return addExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
   },
   removeStoryExpert: async (input: GQLRemoveStoryExpertInput) => {
-    // Validate that this user is allowed to remove a story expert if the
-    // site moderator config is enabled
-    if (ctx.config.get("enable_site_moderator")) {
-      await validateUserModerationScopes(ctx, ctx.user!, {
-        storyID: input.storyID,
-      });
-    }
+    // Validate that this user is allowed to remove a story expert
+    await validateUserModerationScopes(ctx, ctx.user!, {
+      storyID: input.storyID,
+    });
 
     return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
   },

@@ -53,8 +53,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
 
-  const moderationScopesEnabled =
-    settings.siteModeratorEnabled && settings.multisite;
+  const moderationScopesEnabled = settings.multisite;
 
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {
@@ -281,7 +280,6 @@ const enhanced = withFragmentContainer<Props>({
         name
       }
       multisite
-      siteModeratorEnabled
     }
   `,
   viewer: graphql`

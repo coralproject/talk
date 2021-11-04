@@ -3,10 +3,7 @@ import { defaultsDeep } from "lodash";
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
 import { hasFeatureFlag } from "coral-server/models/tenant";
-import {
-  canModerate,
-  hasModeratorRole,
-} from "coral-server/models/user/helpers";
+import { canModerate } from "coral-server/models/user/helpers";
 import { isLiveEnabled } from "coral-server/services/stories";
 
 import {
@@ -32,12 +29,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   canModerate: (s, input, ctx) => {
     if (!ctx.user) {
       return false;
-    }
-
-    // If the config for site moderator is not enabled return based on
-    // the users role.
-    if (!ctx.config.get("enable_site_moderator")) {
-      return hasModeratorRole(ctx.user);
     }
 
     // We know the user is provided because this edge is authenticated.

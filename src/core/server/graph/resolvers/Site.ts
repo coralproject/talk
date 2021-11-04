@@ -1,8 +1,5 @@
 import * as site from "coral-server/models/site";
-import {
-  canModerate,
-  hasModeratorRole,
-} from "coral-server/models/user/helpers";
+import { canModerate } from "coral-server/models/user/helpers";
 
 import { GQLSiteTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
@@ -10,12 +7,6 @@ export const Site: GQLSiteTypeResolver<site.Site> = {
   canModerate: ({ id }, args, ctx) => {
     if (!ctx.user) {
       return false;
-    }
-
-    // If the config for site moderator is not enabled, return based on
-    // the users role.
-    if (!ctx.config.get("enable_site_moderator")) {
-      return hasModeratorRole(ctx.user);
     }
 
     return canModerate(ctx.user, { siteID: id });

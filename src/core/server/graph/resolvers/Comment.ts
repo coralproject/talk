@@ -18,10 +18,7 @@ import {
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
-import {
-  canModerate,
-  hasModeratorRole,
-} from "coral-server/models/user/helpers";
+import { canModerate } from "coral-server/models/user/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import {
@@ -63,10 +60,6 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   canModerate: (c, input, ctx) => {
     if (!ctx.user) {
       return false;
-    }
-
-    if (!ctx.config.get("enable_site_moderator")) {
-      return hasModeratorRole(ctx.user);
     }
 
     return canModerate(ctx.user, { siteID: c.siteID });

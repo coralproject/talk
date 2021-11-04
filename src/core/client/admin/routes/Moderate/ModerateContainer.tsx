@@ -55,11 +55,6 @@ const ModerateContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    // If the site moderator config isn't enabled, we don't need to do anything!
-    if (!data.settings.siteModeratorEnabled) {
-      return;
-    }
-
     // If the viewer isn't moderation scoped, nothing we need to do!
     if (
       !data.viewer.moderationScopes?.scoped ||
@@ -165,10 +160,7 @@ const enhanced = withRouteConfig<Props>({
 
       settings {
         ...ModerateSearchBarContainer_settings
-        ...SiteSelectorContainer_settings
         ...ModerateNavigationContainer_settings
-
-        siteModeratorEnabled
       }
 
       story(id: $storyID) @include(if: $includeStory) {
