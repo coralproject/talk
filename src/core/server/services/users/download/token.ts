@@ -4,7 +4,10 @@ import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { v4 as uuid } from "uuid";
 
-import { constructTenantURL } from "coral-server/app/url";
+import {
+  constructDownloadLinkURL,
+  constructTenantURL,
+} from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { TokenInvalidError, UserNotFoundError } from "coral-server/errors";
@@ -67,10 +70,15 @@ export async function generateDownloadLink(
     now
   );
 
-  return constructTenantURL(
+  const downloadLinkDomainOverride = config.get(
+    "download_gdpr_comments_link_domain"
+  );
+
+  return constructDownloadLinkURL(
     config,
     tenant,
-    `/account/download#downloadToken=${token}`
+    `/account/download#downloadToken=${token}`,
+    downloadLinkDomainOverride
   );
 }
 

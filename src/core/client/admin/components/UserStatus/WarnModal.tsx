@@ -2,6 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import useCommonTranslation, {
+  COMMON_TRANSLATION,
+} from "coral-admin/helpers/useCommonTranslation";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import ModalBodyText from "../ModalBodyText";
@@ -27,6 +30,9 @@ const WarnModal: FunctionComponent<Props> = ({
   organizationName,
   success,
 }) => {
+  const notAvailableTranslation = useCommonTranslation(
+    COMMON_TRANSLATION.NOT_AVAILABLE
+  );
   const onFormSubmit = useCallback(
     (message: string) => {
       onConfirm(message);
@@ -69,7 +75,7 @@ const WarnModal: FunctionComponent<Props> = ({
               <Localized
                 id="community-warnModal-areYouSure"
                 strong={<ModalHeaderUsername />}
-                $username={username || <NotAvailable />}
+                $username={username || notAvailableTranslation}
               >
                 <ModalHeader id="warnModal-title">
                   Warn{" "}

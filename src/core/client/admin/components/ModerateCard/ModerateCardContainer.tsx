@@ -340,7 +340,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
-          phrases={settings}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
@@ -374,6 +373,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           edited={comment.editing.edited}
           readOnly={readOnly}
           isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
+          bannedWords={comment.revision?.metadata?.wordList?.bannedWords || []}
+          suspectWords={
+            comment.revision?.metadata?.wordList?.suspectWords || []
+          }
           isArchived={comment.story.isArchived}
           isArchiving={comment.story.isArchiving}
         />
@@ -430,6 +433,20 @@ const enhanced = withFragmentContainer<Props>({
             reasons {
               COMMENT_DETECTED_BANNED_WORD
               COMMENT_DETECTED_SUSPECT_WORD
+            }
+          }
+        }
+        metadata {
+          wordList {
+            bannedWords {
+              value
+              index
+              length
+            }
+            suspectWords {
+              value
+              index
+              length
             }
           }
         }

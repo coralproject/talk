@@ -8,7 +8,6 @@ import ModerateStreamContainer from "../../common/ModerateStream/ModerateStreamC
 import { AddMessageContainer } from "./AddMessage";
 import ArchivedConfigurationContainer from "./ArchivedConfigurationContainer";
 import ConfigureStreamContainer from "./ConfigureStream";
-import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
 import { QAConfigContainer } from "./Q&A";
 
@@ -21,7 +20,6 @@ export interface Props {
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"] &
     PropTypesOf<typeof ModerateStreamContainer>["story"] &
     PropTypesOf<typeof QAConfigContainer>["story"] &
-    PropTypesOf<typeof LiveUpdatesConfigContainer>["story"] &
     PropTypesOf<typeof AddMessageContainer>["story"] &
     PropTypesOf<typeof ArchivedConfigurationContainer>["story"];
   isArchived: boolean;
@@ -59,8 +57,6 @@ const Configure: FunctionComponent<Props> = ({
       <HorizontalRule />
       <AddMessageContainer story={story} />
       <QAConfigContainer story={story} settings={settings} />
-      <HorizontalRule />
-      <LiveUpdatesConfigContainer story={story} />
       <HorizontalRule />
       <OpenOrCloseStreamContainer story={story} />
     </div>

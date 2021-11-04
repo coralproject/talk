@@ -369,6 +369,7 @@ export function createSettings() {
       approvedCommentsThreshold: 2,
     },
     premoderateSuspectWords: false,
+    flattenReplies: false,
     auth: {
       integrations: {
         local: {

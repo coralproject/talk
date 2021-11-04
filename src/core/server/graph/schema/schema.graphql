@@ -541,13 +541,6 @@ enum FEATURE_FLAG {
   ENABLE_RATINGS_AND_REVIEWS
 
   """
-  FLATTEN_REPLIES when enabled, will cause all replies that would normally be
-  hidden by a "Show more of this conversation" button to be displayed linearly
-  sorted by date.
-  """
-  FLATTEN_REPLIES
-
-  """
   DISABLE_LIVE_UPDATES will disable live updates at the tenant level and
   overrides the configuration option available in the Admin UI for that tenant.
   """
@@ -1919,6 +1912,13 @@ type Settings @cacheControl(maxAge: 30) {
   closeCommenting: CloseCommenting!
 
   """
+  flattenReplies when enabled, will cause all replies that would normally be
+  hidden by a "Show more of this conversation" button to be displayed linearly
+  sorted by date.
+  """
+  flattenReplies: Boolean!
+
+  """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
@@ -3137,12 +3137,41 @@ type CommentRevisionPerspectiveMetadata {
   score: Float!
 }
 
+type WordlistMatch {
+  """
+  value is the value detected by the word list pipeline.
+  """
+  value: String!
+
+  """
+  index is the starting index of the word occurence in the comment body.
+  """
+  index: Int!
+
+  """
+  length is the length of the value string.
+  """
+  length: Int!
+}
+
 type CommentRevisionWordListMetadata {
   """
   timedOut is whether the wordlist analysis timed out when this revision
   of the comment was sent through the moderation phases.
   """
   timedOut: Boolean
+
+  """
+  suspectWords are any suspect words that were matched and found on this
+  comment revision.
+  """
+  suspectWords: [WordlistMatch!]
+
+  """
+  bannedWords are any banned words that were matched and found on this
+  comment revision.
+  """
+  bannedWords: [WordlistMatch!]
 }
 
 type ExternalModerationPhaseAction {
@@ -4851,6 +4880,10 @@ input RecentCommentHistoryConfigurationInput {
   triggerRejectionRate: Float
 }
 
+input FlattenRepliesInput {
+  enabled: Boolean!
+}
+
 input CreateAnnouncementInput {
   """
   content of the announcement.
@@ -5388,6 +5421,11 @@ input SettingsInput {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean
+
+  """
+  flattenReplies is whether or not to flatten replies
+  """
+  flattenReplies: Boolean
 }
 
 """

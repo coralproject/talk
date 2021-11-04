@@ -47,19 +47,6 @@ exports[`renders approved correctly 1`] = `
         >
           <CommentContent
             highlight={false}
-            phrases={
-              Object {
-                "locale": "en-US",
-                "wordList": Object {
-                  "banned": Array [
-                    "banned",
-                  ],
-                  "suspect": Array [
-                    "suspect",
-                  ],
-                },
-              }
-            }
           >
             content
           </CommentContent>
@@ -189,19 +176,6 @@ exports[`renders correctly 1`] = `
         >
           <CommentContent
             highlight={false}
-            phrases={
-              Object {
-                "locale": "en-US",
-                "wordList": Object {
-                  "banned": Array [
-                    "banned",
-                  ],
-                  "suspect": Array [
-                    "suspect",
-                  ],
-                },
-              }
-            }
           >
             content
           </CommentContent>
@@ -330,19 +304,6 @@ exports[`renders dangling correctly 1`] = `
         >
           <CommentContent
             highlight={false}
-            phrases={
-              Object {
-                "locale": "en-US",
-                "wordList": Object {
-                  "banned": Array [
-                    "banned",
-                  ],
-                  "suspect": Array [
-                    "suspect",
-                  ],
-                },
-              }
-            }
           >
             content
           </CommentContent>
@@ -473,19 +434,6 @@ exports[`renders rejected correctly 1`] = `
         >
           <CommentContent
             highlight={false}
-            phrases={
-              Object {
-                "locale": "en-US",
-                "wordList": Object {
-                  "banned": Array [
-                    "banned",
-                  ],
-                  "suspect": Array [
-                    "suspect",
-                  ],
-                },
-              }
-            }
           >
             content
           </CommentContent>
@@ -624,19 +572,6 @@ exports[`renders reply correctly 1`] = `
         >
           <CommentContent
             highlight={false}
-            phrases={
-              Object {
-                "locale": "en-US",
-                "wordList": Object {
-                  "banned": Array [
-                    "banned",
-                  ],
-                  "suspect": Array [
-                    "suspect",
-                  ],
-                },
-              }
-            }
           >
             content
           </CommentContent>
@@ -765,19 +700,6 @@ exports[`renders story info 1`] = `
         >
           <CommentContent
             highlight={false}
-            phrases={
-              Object {
-                "locale": "en-US",
-                "wordList": Object {
-                  "banned": Array [
-                    "banned",
-                  ],
-                  "suspect": Array [
-                    "suspect",
-                  ],
-                },
-              }
-            }
           >
             content
           </CommentContent>
@@ -944,19 +866,6 @@ exports[`renders tombstoned when comment is deleted 1`] = `
         >
           <CommentContent
             highlight={false}
-            phrases={
-              Object {
-                "locale": "en-US",
-                "wordList": Object {
-                  "banned": Array [
-                    "banned",
-                  ],
-                  "suspect": Array [
-                    "suspect",
-                  ],
-                },
-              }
-            }
           >
             <Localized
               id="moderate-comment-deleted-body"

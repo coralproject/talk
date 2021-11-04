@@ -623,6 +623,7 @@ const enhanced = withFragmentContainer<Props>({
       reaction {
         sortLabel
       }
+      flattenReplies
       featureFlags
       disableCommenting {
         enabled
