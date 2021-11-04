@@ -34,9 +34,10 @@ const ReplyEditedWarningContainer: FunctionComponent<Props> = ({ comment }) => {
       }
       iconColor="none"
       title={
-        <Localized id="comments-replyChangedWarning-theCommentHasChanged">
+        <Localized id="comments-replyChangedWarning-theCommentHasJust">
           <span className={styles.title}>
-            The comment has changed since you started replying to it.
+            This comment has just been edited. The latest version is displayed
+            above.
           </span>
         </Localized>
       }
