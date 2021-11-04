@@ -204,10 +204,6 @@ comments-userBanPopover-description =
   Depois de banido, este usuário não poderá mais
   comentar, usar reações ou relatar comentários.
   Este comentário também será rejeitado.
-comments-userBanPopover-scopedDescription =
-  Uma vez banido de {$sitename}, este usuário não
-  será capaz de comentar, utilizar reaçÕes, ou reportar
-  comentários. Este comentário também será rejeitado.
 comments-userBanPopover-cancel = Cancelar
 comments-userBanPopover-ban = Banir
 
