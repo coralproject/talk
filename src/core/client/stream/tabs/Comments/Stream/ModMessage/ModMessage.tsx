@@ -11,34 +11,26 @@ interface Props {
   onAcknowledge: () => void;
 }
 
-const Warning: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
+const ModMessage: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
   return (
     <CallOut
-      color="error"
+      color="primary"
       iconColor="none"
-      icon={<Icon size="sm">report</Icon>}
+      icon={
+        <Icon size="sm" color="stream">
+          message
+        </Icon>
+      }
       borderPosition="top"
       title={
-        <Localized id="warning-heading">
-          Your account has been issued a warning
+        <Localized id="modMessage-heading">
+          Your account has been sent a message by a moderator
         </Localized>
       }
     >
       <HorizontalGutter spacing={3}>
-        <Localized id="warning-explanation">
-          <p>
-            In accordance with our community guidelines your account has been
-            issued a warning.
-          </p>
-        </Localized>
         <AccountStatusCalloutMessage message={message} />
-        <Localized id="warning-instructions">
-          <p>
-            To continue participating in discussions please press the
-            "Acknowledge" button below.
-          </p>
-        </Localized>
-        <Localized id="warning-acknowledge">
+        <Localized id="modMessage-acknowledge">
           <Button
             paddingSize="extraSmall"
             color="secondary"
@@ -52,4 +44,4 @@ const Warning: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
   );
 };
 
-export default Warning;
+export default ModMessage;

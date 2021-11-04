@@ -1055,6 +1055,9 @@ moderate-user-drawer-username-change-old = Old:
 moderate-user-drawer-account-history-premod-set = Always pre-moderate
 moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
 
+moderate-user-drawer-account-history-modMessage-sent = User messaged
+moderate-user-drawer-account-history-modMessage-acknowledged = Message acknowledged at { $acknowledgedAt }
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
@@ -1138,7 +1141,7 @@ moderate-forReview-reportedSpam = Spam
 # Archive
 
 moderate-archived-queue-title = This story has been archived
-moderate-archived-queue-noModerationActions = 
+moderate-archived-queue-noModerationActions =
   No moderation actions can be made on the comments when a story is archived.
 moderate-archived-queue-toPerformTheseActions =
   To perform these actions, unarchive the story.
@@ -1303,6 +1306,16 @@ community-warnModal-cancel = Cancel
 community-warnModal-warnUser = Warn user
 community-userStatus-warn = Warn
 community-userStatus-warnEverywhere = Warn everywhere
+community-userStatus-message = Message
+
+community-modMessageModal-success = A message has been sent to <strong>{ $username }</strong>.
+community-modMessageModal-success-close = Ok
+community-modMessageModal-areYouSure = Message <strong>{ $username }</strong>?
+community-modMessageModal-consequence = Send a message to a commenter that is visible only to them.
+community-modMessageModal-message-label = Message
+community-modMessageModal-message-required = Required
+community-modMessageModal-cancel = Cancel
+community-modMessageModal-messageUser = Message user
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.

@@ -34,6 +34,7 @@ import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import {
   GQLBanStatus,
   GQLDIGEST_FREQUENCY,
+  GQLModMessageStatus,
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
@@ -338,6 +339,36 @@ export interface WarningStatus {
   history: WarningStatusHistory[];
 }
 
+export interface ModMessageStatusHistory {
+  /**
+   * active when true, indicates that the given user has not acknowledged the message.
+   */
+  active: boolean;
+  /**
+   * createdBy is the user that created this message
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+  /**
+   * acknowledgedAt is the time the commenter acknowledged it
+   */
+  acknowledgedAt?: Date;
+
+  /**
+   * message is the message sent to the commenter
+   */
+  message?: string;
+}
+
+export interface ModMessageStatus {
+  active: boolean;
+  history: ModMessageStatusHistory[];
+}
+
 /**
  * UserStatus stores the user status information regarding moderation state.
  */
@@ -369,6 +400,12 @@ export interface UserStatus {
    * warnings
    */
   warning?: WarningStatus;
+
+  /**
+   * modMessage stores whether a user has an unacknowledged moderation message and
+   * a history of moderation messages
+   */
+  modMessage?: ModMessageStatus;
 }
 
 /**
@@ -604,6 +641,7 @@ async function findOrCreateUserInput(
       ban: { active: false, history: [] },
       premod: { active: false, history: [] },
       warning: { active: false, history: [] },
+      modMessage: { active: false, history: [] },
     },
     notifications: {
       onReply: false,
@@ -2289,18 +2327,9 @@ export async function acknowledgeOwnWarning(
     {
       id,
       tenantID,
-      $or: [
-        {
-          "status.warning.active": {
-            $ne: false,
-          },
-        },
-        {
-          "status.warning.history": {
-            $size: 0,
-          },
-        },
-      ],
+      "status.warning.active": {
+        $eq: true,
+      },
     },
     {
       $set: {
@@ -2329,6 +2358,116 @@ export async function acknowledgeOwnWarning(
 
   return result.value;
 }
+
+export async function sendModMessageUser(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  message?: string,
+  now = new Date()
+) {
+  // Create the new message.
+  const modMessageHistory: ModMessageStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+    message,
+  };
+
+  // Try to update the user with the message.
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: {
+        "status.modMessage.active": true,
+      },
+      $push: {
+        "status.modMessage.history": modMessageHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    // Get the user so we can figure out why the message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * acknowledgeOwnModMessage will acknowledge a moderation message that was
+ * sent to the user.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their warning removed
+ * @param now the current date
+ */
+export async function acknowledgeOwnModMessage(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
+  // Create the new update.
+  const update: ModMessageStatusHistory = {
+    active: false,
+    acknowledgedAt: now,
+    createdAt: now,
+    createdBy: id,
+  };
+
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.modMessage.active": {
+        $eq: true,
+      },
+    },
+    {
+      $set: {
+        "status.modMessage.active": false,
+      },
+      $push: {
+        "status.modMessage.history": update,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the acknowledge mod message operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user didn't have a mod message to acknowledge, so nothing needs to be done
+    return user;
+  }
+
+  return result.value;
+}
+
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
   Pick<BanStatus, "history"> & { siteIDs?: string[] };
 
@@ -2340,6 +2479,12 @@ export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
 
 export type ConsolidatedWarningStatus = Omit<GQLWarningStatus, "history"> &
   Pick<PremodStatus, "history">;
+
+export type ConsolidatedModMessageStatus = Omit<
+  GQLModMessageStatus,
+  "history"
+> &
+  Pick<ModMessageStatus, "history">;
 
 export function consolidateUsernameStatus(
   username: User["status"]["username"]
@@ -2387,6 +2532,27 @@ export function consolidateUserWarningStatus(
     active: warning.active,
     history: warning.history,
     message: activeWarning ? activeWarning.message : undefined,
+  };
+}
+
+/**
+ * consolidateUserModMessageStatus takes the most recent moderation message if there is one
+ * and adds its message to the modMessage status
+ */
+export function consolidateUserModMessageStatus(
+  modMessage: User["status"]["modMessage"]
+) {
+  if (!modMessage) {
+    return {
+      active: false,
+      history: [],
+    };
+  }
+  const activeModMessage = modMessage.history[modMessage.history.length - 1];
+  return {
+    active: modMessage.active,
+    history: modMessage.history,
+    message: activeModMessage ? activeModMessage.message : undefined,
   };
 }
 
