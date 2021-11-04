@@ -24,16 +24,16 @@ interface Props {
 
 const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
   const [searchFilter, setSearchFilter] = useState<string>("");
-  const [tempSearchFilter, setTempSearchFilter] = useState<string>("");
+  const [searchTextFieldValue, setSearchTextFieldValue] = useState<string>("");
   const [isSiteSearchListVisible, setIsSiteSearchListVisible] = useState<
     boolean
   >(false);
   const [activeSiteID, setActiveSiteID] = useState<string | null>(null);
 
   const onSearch = useCallback(() => {
-    setSearchFilter(tempSearchFilter);
+    setSearchFilter(searchTextFieldValue);
     setIsSiteSearchListVisible(true);
-  }, [tempSearchFilter, setSearchFilter, setIsSiteSearchListVisible]);
+  }, [searchTextFieldValue, setSearchFilter, setIsSiteSearchListVisible]);
 
   const onClearSearch = useCallback(() => {
     setSearchFilter("");
@@ -41,9 +41,9 @@ const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
 
   const onSearchTextChanged = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setTempSearchFilter(event.target.value);
+      setSearchTextFieldValue(event.target.value);
     },
-    [setTempSearchFilter]
+    [setSearchTextFieldValue]
   );
 
   const onSelectSite = useCallback(
@@ -51,15 +51,15 @@ const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
       site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
     ) => {
       onSelect(site ? site.id : null);
-      setTempSearchFilter(site ? site.name : "");
+      setSearchTextFieldValue(site ? site.name : "");
       setActiveSiteID(site ? site.id : null);
       setIsSiteSearchListVisible(false);
     },
-    [onSelect, setTempSearchFilter, setIsSiteSearchListVisible]
+    [onSelect, setSearchTextFieldValue, setIsSiteSearchListVisible]
   );
 
   useEffect(() => {
-    setTempSearchFilter(searchFilter);
+    setSearchTextFieldValue(searchFilter);
   }, [searchFilter]);
 
   return (
@@ -70,7 +70,7 @@ const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
         </Localized>
         <SiteSearchTextField
           onSearch={onSearch}
-          value={tempSearchFilter}
+          value={searchTextFieldValue}
           onClearSearch={onClearSearch}
           onSearchTextChanged={onSearchTextChanged}
         />

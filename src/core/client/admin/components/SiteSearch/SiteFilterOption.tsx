@@ -4,15 +4,11 @@ import React, { FunctionComponent } from "react";
 
 import { Button } from "coral-ui/components/v2";
 
-import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
-
 import styles from "./SiteFilterOption.css";
 
 interface Props {
-  site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null;
-  onClick: (
-    site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
-  ) => void;
+  site: { name: string; id: string } | null;
+  onClick: (site: { name: string; id: string } | null) => void;
   active: boolean;
 }
 
