@@ -1,12 +1,10 @@
 import { GraphQLResolveInfo } from "graphql";
 
 import GraphContext from "coral-server/graph/context";
-import { hasFeatureFlag } from "coral-server/models/tenant";
 import * as user from "coral-server/models/user";
 import { roleIsStaff } from "coral-server/models/user/helpers";
 
 import {
-  GQLFEATURE_FLAG,
   GQLUser,
   GQLUSER_ROLE,
   GQLUserTypeResolver,
@@ -58,12 +56,6 @@ export const User: GQLUserTypeResolver<user.User> = {
     userID: id,
   }),
   moderationScopes: ({ role, moderationScopes }, input, ctx) => {
-    // If the feature flag for site moderators is not turned on return null
-    // always.
-    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-      return null;
-    }
-
     // Moderation scopes only apply to users that have the moderator role.
     if (role !== GQLUSER_ROLE.MODERATOR) {
       return null;

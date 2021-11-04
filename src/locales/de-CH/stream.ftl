@@ -206,10 +206,6 @@ comments-userBanPopover-description =
   Wenn der User blockiert wird, wird er nicht mehr kommentieren,
   Reaktionen nutzen, oder Kommentare melden können.
   Dieser Kommentar wird ebenfalls abgewiesen.
-comments-userBanPopover-scopedDescription =
-  Wenn der User von {$sitename} blockiert wird, wird er nicht mehr kommentieren,
-  Reaktionen nutzen, oder Kommentare melden können.
-  Dieser Kommentar wird ebenfalls abgewiesen.
 comments-userBanPopover-cancel = Abbrechen
 comments-userBanPopover-ban = Blockieren
 

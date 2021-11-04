@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
@@ -60,9 +60,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     boolean
   >(false);
 
-  const moderationScopesEnabled =
-    settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-    settings.multisite;
+  const moderationScopesEnabled = settings.multisite;
 
   const handleModMessage = useCallback(() => {
     setShowModMessage(true);
@@ -311,7 +309,6 @@ const enhanced = withFragmentContainer<Props>({
         name
       }
       multisite
-      featureFlags
     }
   `,
   viewer: graphql`

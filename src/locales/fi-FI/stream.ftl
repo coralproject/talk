@@ -208,10 +208,6 @@ comments-userBanPopover-description =
   Kirjoituskiellossa oleva käyttäjä ei voi enää kirjoittaa kommentteja,
   reagoida niihin tai ilmoittaa muiden kommentteja asiattomiksi.
   Myös tämä kommentti hylätään.
-comments-userBanPopover-scopedDescription =
-  {$sitename} sivustolta kirjoituskiellossa oleva käyttäjä ei voi enää kirjoittaa kommentteja,
-  reagoida niihin tai ilmoittaa muiden kommentteja asiattomiksi.
-  Myös tämä kommentti hylätään.
 comments-userBanPopover-cancel = Peruuta
 comments-userBanPopover-ban = Aseta kirjoituskieltoon
 
