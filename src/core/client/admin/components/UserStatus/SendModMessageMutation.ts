@@ -8,19 +8,19 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { SendModMessageUserMutation as MutationTypes } from "coral-admin/__generated__/SendModMessageUserMutation.graphql";
+import { SendModMessageMutation as MutationTypes } from "coral-admin/__generated__/SendModMessageMutation.graphql";
 
 let clientMutationId = 0;
 
-const SendModMessageUserMutation = createMutation(
-  "sendModMessageUser",
+const SendModMessageMutation = createMutation(
+  "sendModMessage",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
     const viewer = getViewer(environment)!;
     const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation SendModMessageUserMutation($input: SendModMessageUserInput!) {
-          sendModMessageUser(input: $input) {
+        mutation SendModMessageMutation($input: SendModMessageInput!) {
+          sendModMessage(input: $input) {
             user {
               id
               status {
@@ -49,7 +49,7 @@ const SendModMessageUserMutation = createMutation(
         },
       },
       optimisticResponse: {
-        sendModMessageUser: {
+        sendModMessage: {
           user: {
             id: input.userID,
             status: {
@@ -75,4 +75,4 @@ const SendModMessageUserMutation = createMutation(
   }
 );
 
-export default SendModMessageUserMutation;
+export default SendModMessageMutation;

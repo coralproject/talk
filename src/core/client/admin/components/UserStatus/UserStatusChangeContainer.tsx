@@ -17,7 +17,7 @@ import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMutation from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
 import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
-import SendModMessageUserMutation from "./SendModMessageUserMutation";
+import SendModMessageMutation from "./SendModMessageMutation";
 import SuspendModal from "./SuspendModal";
 import SuspendUserMutation from "./SuspendUserMutation";
 import UserStatusChange from "./UserStatusChange";
@@ -47,7 +47,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const premodUser = useMutation(PremodUserMutation);
   const removeUserPremod = useMutation(RemoveUserPremodMutation);
   const warnUser = useMutation(WarnUserMutation);
-  const sendModMessageUser = useMutation(SendModMessageUserMutation);
+  const sendModMessage = useMutation(SendModMessageMutation);
   const removeUserWarning = useMutation(RemoveUserWarningMutation);
   const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
@@ -73,10 +73,10 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   }, [setShowWarn]);
   const handleSendModMessageConfirm = useCallback(
     (message: string) => {
-      void sendModMessageUser({ userID: user.id, message });
+      void sendModMessage({ userID: user.id, message });
       setShowSendModMessageSuccess(true);
     },
-    [sendModMessageUser, user, setShowSendModMessageSuccess]
+    [sendModMessage, user, setShowSendModMessageSuccess]
   );
   const handleWarn = useCallback(() => {
     if (user.status.warning.active) {

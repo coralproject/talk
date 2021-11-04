@@ -65,7 +65,7 @@ import {
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
-  GQLSendModMessageUserInput,
+  GQLSendModMessageInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
@@ -299,7 +299,7 @@ export const Users = (ctx: GraphContext) => ({
     removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   acknowledgeWarning: async () =>
     acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
-  sendModMessage: async (input: GQLSendModMessageUserInput) =>
+  sendModMessage: async (input: GQLSendModMessageInput) =>
     sendModMessage(
       ctx.mongo,
       ctx.tenant,
