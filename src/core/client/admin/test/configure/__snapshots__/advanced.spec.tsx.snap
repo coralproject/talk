@@ -813,6 +813,7 @@ details. Enable Enable Support.
           </div>
           <div
             className="Box-root ConfigBox-root"
+            data-testid="review-all-user-reports-config-box"
           >
             <div
               className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"

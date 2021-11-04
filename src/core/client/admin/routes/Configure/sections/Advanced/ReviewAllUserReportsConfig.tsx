@@ -28,6 +28,7 @@ const ReviewAllUserReportsConfig: FC<Props> = ({ disabled }) => (
         </Header>
       </Localized>
     }
+    data-testid="review-all-user-reports-config-box"
   >
     <FormField>
       <Localized id="configure-advanced-review-all-user-reports-explanation">
