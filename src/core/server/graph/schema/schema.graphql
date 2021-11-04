@@ -4181,7 +4181,7 @@ type Query {
 
   site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
 
-  sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
+  sites(first: Int = 10 @constraint(max: 50), after: Cursor, query: String): SitesConnection!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
