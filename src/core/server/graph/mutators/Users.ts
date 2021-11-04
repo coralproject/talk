@@ -3,6 +3,7 @@ import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { User } from "coral-server/models/user";
 import {
+  acknowledgeModMessage,
   acknowledgeWarning,
   addModeratorNote,
   ban,
@@ -22,6 +23,7 @@ import {
   requestAccountDeletion,
   requestCommentsDownload,
   requestUserCommentsDownload,
+  sendModMessage,
   setEmail,
   setPassword,
   setUsername,
@@ -63,6 +65,7 @@ import {
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
+  GQLSendModMessageInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
@@ -296,6 +299,17 @@ export const Users = (ctx: GraphContext) => ({
     removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   acknowledgeWarning: async () =>
     acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
+  sendModMessage: async (input: GQLSendModMessageInput) =>
+    sendModMessage(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.message,
+      ctx.now
+    ),
+  acknowledgeModMessage: async () =>
+    acknowledgeModMessage(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   premodUser: async (input: GQLPremodUserInput) =>
     premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>

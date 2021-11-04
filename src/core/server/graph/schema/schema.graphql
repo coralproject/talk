@@ -2327,6 +2327,51 @@ type WarningStatus {
   history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
+type ModMessageStatusHistory {
+  """
+  active when true, indicates that the given user has been sent a moderation message but has not acknowledged the message.
+  """
+  active: Boolean!
+
+  """
+  createdBy is the user that messaged the commenter
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time the user was messaged
+  """
+  createdAt: Time!
+
+  """
+  acknowledgedAt is the time the commenter acknowledged the message. if `null` then the message
+  has not been acknowledged
+  """
+  acknowledgedAt: Time
+
+  """
+  message is the custom message sent to the commenter
+  """
+  message: String
+}
+
+type ModMessageStatus {
+  """
+  active when true, indicates that the given user has been sent a moderation message but has not acknowledged it.
+  """
+  active: Boolean!
+
+  """
+  message is the current message for the moderation message sent to the User.
+  """
+  message: String
+
+  """
+  history will return the status history items for moderation messages.
+  """
+  history: [ModMessageStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
 type PremodStatusHistory {
   """
   active when true, indicates that the given user is premodded.
@@ -2434,6 +2479,16 @@ type UserStatus {
   warning stores the user warning status as well as the history of warnings
   """
   warning: WarningStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  modMessage stores the user moderation message status as well as the history of moderation messages
+  """
+  modMessage: ModMessageStatus!
     @auth(
       userIDField: "userID"
       roles: [ADMIN, MODERATOR]
@@ -3076,12 +3131,41 @@ type CommentRevisionPerspectiveMetadata {
   score: Float!
 }
 
+type WordlistMatch {
+  """
+  value is the value detected by the word list pipeline.
+  """
+  value: String!
+
+  """
+  index is the starting index of the word occurence in the comment body.
+  """
+  index: Int!
+
+  """
+  length is the length of the value string.
+  """
+  length: Int!
+}
+
 type CommentRevisionWordListMetadata {
   """
   timedOut is whether the wordlist analysis timed out when this revision
   of the comment was sent through the moderation phases.
   """
   timedOut: Boolean
+
+  """
+  suspectWords are any suspect words that were matched and found on this
+  comment revision.
+  """
+  suspectWords: [WordlistMatch!]
+
+  """
+  bannedWords are any banned words that were matched and found on this
+  comment revision.
+  """
+  bannedWords: [WordlistMatch!]
 }
 
 type ExternalModerationPhaseAction {
@@ -4091,7 +4175,7 @@ type Query {
 
   site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
 
-  sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
+  sites(first: Int = 10 @constraint(max: 50), after: Cursor, query: String): SitesConnection!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -7276,6 +7360,56 @@ type AcknowledgeWarningPayload {
 }
 
 ##################
+# sendModMessage
+##################
+input SendModMessageInput {
+  """
+  userID is the ID of the User that should have their account messaged.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  message is displayed to the user in the stream
+  """
+  message: String!
+}
+
+type SendModMessagePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+input AcknowledgeModMessageInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AcknowledgeModMessagePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
 # banUser
 ##################
 
@@ -8342,11 +8476,27 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  acknowledgWarning will remove a warning
+  acknowledgeWarning will remove a warning
   """
   acknowledgeWarning(
     input: AcknowledgeWarningInput!
-  ): AcknowledgeWarningPayload @auth(permit: [WARNED])
+  ): AcknowledgeWarningPayload
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
+
+  """
+  sendModMessage will send a user a moderation message that they need to acknowledge
+  """
+  sendModMessage(
+    input: SendModMessageInput!
+  ): SendModMessagePayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  acknowledgeModMessage will set moderation messages to inactive
+  """
+  acknowledgeModMessage(
+    input: AcknowledgeModMessageInput!
+  ): AcknowledgeModMessagePayload
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   removeUserSuspension will remove an active suspension from a User if they have

@@ -522,7 +522,7 @@ configure-sites-site-edit = Editar detalhes do { $site }
 configure-sites-site-form-embed-code = Código embutido
 sites-emptyMessage = Não encontramos nenhum site correspondendo a esses critérios.
 sites-selector-allSites = Todos os sites
-sites-filter-sites-allSites = Todos os sites
+site-filter-option-allSites = Todos os sites
 
 site-selector-all-sites = Todos os sites
 stories-filter-sites-allSites = Todos os sites

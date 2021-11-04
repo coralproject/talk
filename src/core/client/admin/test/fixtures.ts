@@ -215,6 +215,13 @@ export const settings = createFixture<GQLSettings>({
   flattenReplies: false,
 });
 
+export const settingsWithMultisite = createFixture<GQLSettings>(
+  {
+    multisite: true,
+  },
+  settings
+);
+
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
@@ -401,6 +408,10 @@ export const baseUser = createFixture<GQLUser>({
       history: [],
     },
     warning: {
+      active: false,
+      history: [],
+    },
+    modMessage: {
       active: false,
       history: [],
     },

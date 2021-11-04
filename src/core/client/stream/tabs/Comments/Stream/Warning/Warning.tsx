@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 import { HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import styles from "./Warning.css";
+import AccountStatusCalloutMessage from "../AccountStatusCalloutMessage";
 
 interface Props {
   message: string;
@@ -31,7 +31,7 @@ const Warning: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
             issued a warning.
           </p>
         </Localized>
-        <blockquote className={styles.message}>{message}</blockquote>
+        <AccountStatusCalloutMessage message={message} />
         <Localized id="warning-instructions">
           <p>
             To continue participating in discussions please press the

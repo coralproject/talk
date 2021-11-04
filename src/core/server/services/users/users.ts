@@ -35,10 +35,12 @@ import { Comment, retrieveComment } from "coral-server/models/comment";
 import { retrieveManySites } from "coral-server/models/site";
 import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
+  acknowledgeOwnModMessage,
   acknowledgeOwnWarning,
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
+  consolidateUserModMessageStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
   consolidateUserWarningStatus,
@@ -64,6 +66,7 @@ import {
   retrieveUser,
   retrieveUserWithEmail,
   scheduleDeletionDate,
+  sendModMessageUser,
   setUserEmail,
   setUserLastDownloadedAt,
   setUserLocalProfile,
@@ -1294,6 +1297,68 @@ export async function acknowledgeWarning(
   // remove warning
   return acknowledgeOwnWarning(mongo, tenant.id, userID, now);
 }
+
+/**
+ * sendModMessage will send a moderation message to a specific user.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be messaged on
+ * @param moderator the User that is messaging the User
+ * @param userID the ID of the User being messaged
+ * @param now the current time that the message was sent
+ */
+export async function sendModMessage(
+  mongo: MongoContext,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  message: string,
+  now = new Date()
+) {
+  // Send moderation message to the user.
+  return sendModMessageUser(
+    mongo,
+    tenant.id,
+    userID,
+    moderator.id,
+    message,
+    now
+  );
+}
+
+/**
+ * acknowledgeModMessage will acknowledge that a mod message was seen by the user and
+ * set moderation messages to inactive
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be messaged on
+ * @param userID the ID of the User acknowledging the mod message
+ * @param now the current time that the message was acknowledged by the user
+ */
+export async function acknowledgeModMessage(
+  mongo: MongoContext,
+  tenant: Tenant,
+  userID: string,
+  now = new Date()
+) {
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  const modMessageStatus = consolidateUserModMessageStatus(
+    targetUser.status.modMessage
+  );
+  if (!modMessageStatus.active) {
+    // The user does not currently have a mod message sent to them, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // acknowledge the mod message
+  return acknowledgeOwnModMessage(mongo, tenant.id, userID, now);
+}
+
 /**
  * suspend will suspend a give user from interacting with Coral.
  *
