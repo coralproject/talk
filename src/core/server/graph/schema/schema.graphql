@@ -2071,8 +2071,8 @@ type Settings @cacheControl(maxAge: 30) {
   """
   amp: Boolean!
   """
-  forReviewQueue is whether the For Review queue should be included
-  in the Moderate tab of the admin
+  forReviewQueue is whether or not to show the For Review queue in
+  the Moderate tab of the admin
   """
   forReviewQueue: Boolean!
 }
@@ -5349,7 +5349,8 @@ input SettingsInput {
   flattenReplies: Boolean
 
   """
-  forReviewQueue is whether or not to show the For Review queue in the admin Moderate tab
+  forReviewQueue is whether or not to show the For Review queue in
+  the Moderate tab of the admin
   """
   forReviewQueue: Boolean
 }

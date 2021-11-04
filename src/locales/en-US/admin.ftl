@@ -855,13 +855,13 @@ configure-advanced-amp-explanation =
   template. See our <LinkToDocs>documentation</LinkToDocs> for more
   details. Enable Enable Support.
 
-configure-advanced-review-all-user-reports = Review all user reports
-configure-advanced-review-all-user-reports-explanation =
+configure-advanced-for-review-queue = Review all user reports
+configure-advanced-for-review-queue-explanation =
   Once a comment is approved, it won't appear again in the reported queue
   even if additional users report it. This feature adds a "For review" queue,
   allowing moderators to see all user reports in the system, and manually
   mark them as "Reviewed".
-configure-advanced-review-all-user-reports-label = Show "For review" queue
+configure-advanced-for-review-queue-label = Show "For review" queue
 
 ## Decision History
 decisionHistory-popover =

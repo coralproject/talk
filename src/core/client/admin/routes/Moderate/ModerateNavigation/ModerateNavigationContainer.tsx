@@ -7,7 +7,6 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-// import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
 import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
 import { ModerateNavigationContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";

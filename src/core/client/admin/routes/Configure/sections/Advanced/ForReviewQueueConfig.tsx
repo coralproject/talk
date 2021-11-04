@@ -10,7 +10,7 @@ import OnOffField from "../../OnOffField";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment ReviewAllUserReportsConfig_formValues on Settings {
+  fragment ForReviewQueueConfig_formValues on Settings {
     forReviewQueue
   }
 `;
@@ -19,19 +19,19 @@ interface Props {
   disabled: boolean;
 }
 
-const ReviewAllUserReportsConfig: FC<Props> = ({ disabled }) => (
+const ForReviewQueueConfig: FC<Props> = ({ disabled }) => (
   <ConfigBox
     title={
-      <Localized id="configure-advanced-review-all-user-reports">
-        <Header htmlFor="configure-advanced-review-all-user-reports">
+      <Localized id="configure-advanced-for-review-queue">
+        <Header htmlFor="configure-advanced-for-review-queue">
           Review all user reports
         </Header>
       </Localized>
     }
-    data-testid="review-all-user-reports-config-box"
+    data-testid="for-review-queue-config-box"
   >
     <FormField>
-      <Localized id="configure-advanced-review-all-user-reports-explanation">
+      <Localized id="configure-advanced-for-review-queue-explanation">
         <FormFieldDescription>
           Once a comment is approved, it won't appear again in the reported
           queue even if additional users report it. This feature adds a "For
@@ -39,7 +39,7 @@ const ReviewAllUserReportsConfig: FC<Props> = ({ disabled }) => (
           system, and manually mark them as "Reviewed".
         </FormFieldDescription>
       </Localized>
-      <Localized id="configure-advanced-review-all-user-reports-label">
+      <Localized id="configure-advanced-for-review-queue-label">
         <Label component="legend">Show "For review" queue</Label>
       </Localized>
       <OnOffField name="forReviewQueue" disabled={disabled} />
@@ -47,4 +47,4 @@ const ReviewAllUserReportsConfig: FC<Props> = ({ disabled }) => (
   </ConfigBox>
 );
 
-export default ReviewAllUserReportsConfig;
+export default ForReviewQueueConfig;

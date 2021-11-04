@@ -191,7 +191,7 @@ it("change review all user reports to enable For review queue", async () => {
   });
 
   const forReviewQueueBox = within(advancedContainer).getByTestID(
-    "review-all-user-reports-config-box"
+    "for-review-queue-config-box"
   );
 
   const onField = within(forReviewQueueBox).getByLabelText("On");
