@@ -58,6 +58,10 @@ async function bootstrap() {
     // Create the server instance.
     const server = createCoral();
 
+    process.on("SIGTERM", () => {
+      void server.stop();
+    });
+
     // Connect the server to databases.
     await server.connect();
 
