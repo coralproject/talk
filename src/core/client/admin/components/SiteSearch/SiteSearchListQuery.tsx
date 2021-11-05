@@ -15,12 +15,14 @@ interface Props {
   ) => void;
   searchFilter: string;
   activeSiteID: string | null;
+  showOnlyScopedSitesInSiteSearchList: boolean;
 }
 
 const SiteSearchListQuery: FunctionComponent<Props> = ({
   onSelect,
   searchFilter,
   activeSiteID,
+  showOnlyScopedSitesInSiteSearchList,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -49,6 +51,9 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
               query={props}
               onSelect={onSelect}
               activeSiteID={activeSiteID}
+              showOnlyScopedSitesInSiteSearchList={
+                showOnlyScopedSitesInSiteSearchList
+              }
             />
           );
         }

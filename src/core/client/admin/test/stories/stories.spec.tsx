@@ -367,7 +367,7 @@ it("search by site name", async () => {
 
   const siteSearchButton = within(container).getByTestID("site-search-button");
   act(() => {
-    siteSearchButton.props.onClick();
+    siteSearchButton.props.onClick({ preventDefault: noop });
   });
 
   await act(async () => {
@@ -387,7 +387,7 @@ it("search by site name", async () => {
     })
   );
   act(() => {
-    siteSearchButton.props.onClick();
+    siteSearchButton.props.onClick({ preventDefault: noop });
   });
 
   await act(async () => {

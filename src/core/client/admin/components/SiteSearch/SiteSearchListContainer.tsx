@@ -1,11 +1,12 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
 import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
@@ -16,22 +17,54 @@ import SiteFilterOption from "./SiteFilterOption";
 
 import styles from "./SiteSearchListContainer.css";
 
+interface ScopeSite {
+  readonly id: string;
+  readonly name: string;
+}
+
 interface Props {
   query: SiteSearchListContainer_query;
   relay: RelayPaginationProp;
-  onSelect: (
-    site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
-  ) => void;
+  onSelect: (site: { name: string; id: string } | null) => void;
   activeSiteID: string | null;
+  showOnlyScopedSitesInSiteSearchList: boolean;
 }
+
+const siteIsVisible = (
+  id: string,
+  viewerSites: ReadonlyArray<ScopeSite> | null | undefined
+) => {
+  if (!viewerSites || viewerSites.length === 0) {
+    return true;
+  }
+
+  return viewerSites.map((s) => s.id).includes(id);
+};
 
 const SiteSearchListContainer: FunctionComponent<Props> = ({
   query,
   relay,
   onSelect,
   activeSiteID,
+  showOnlyScopedSitesInSiteSearchList,
 }) => {
-  const sites = query ? query.sites.edges.map((edge) => edge.node) : [];
+  const viewer = query.viewer;
+  const viewerSites = viewer?.moderationScopes?.sites;
+  const viewerIsScoped =
+    viewer?.moderationScopes?.sites && viewer.moderationScopes.sites.length > 0;
+  const viewerIsSiteMod =
+    viewer?.role === GQLUSER_ROLE.MODERATOR && viewerIsScoped;
+  const viewerIsSiteModAndShouldScope =
+    viewerIsSiteMod && showOnlyScopedSitesInSiteSearchList;
+
+  const sites = useMemo(() => {
+    const items = query?.sites.edges.map((edge) => edge.node) || [];
+
+    return viewerIsSiteModAndShouldScope
+      ? items.filter((i: { id: string }) => siteIsVisible(i.id, viewerSites))
+      : items;
+  }, [query?.sites.edges, viewerIsSiteModAndShouldScope, viewerSites]);
+
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
 
   const hasMore = relay.hasMore();
@@ -85,6 +118,15 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
           searchFilter: { type: "String" }
         ) {
+        viewer {
+          role
+          moderationScopes {
+            sites {
+              id
+              name
+            }
+          }
+        }
         sites(first: $count, after: $cursor, query: $searchFilter)
           @connection(key: "SitesConfig_sites") {
           edges {
