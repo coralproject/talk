@@ -44,10 +44,10 @@ async function createTestRenderer(
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
-          settings: () =>
-            pureMerge<typeof settings>(settings, {
-              forReviewQueue: true,
-            }),
+          settings: () => ({
+            ...settings,
+            forReviewQueue: true,
+          }),
           viewer: () => viewer,
           moderationQueues: () => emptyModerationQueues,
           flags: () => emptyFlags,
