@@ -12,7 +12,7 @@ interface Props {
   onRemoveSite: (id: string | null) => void;
 }
 
-const UserStatusSitesListSelectedSites: FunctionComponent<Props> = ({
+const UserStatusSitesListSelectedSitesQuery: FunctionComponent<Props> = ({
   siteID,
   onRemoveSite,
 }) => {
@@ -21,7 +21,6 @@ const UserStatusSitesListSelectedSites: FunctionComponent<Props> = ({
       query={graphql`
         query UserStatusSitesListSelectedSitesQuery($siteID: ID!) {
           site(id: $siteID) {
-            id
             name
           }
         }
@@ -51,4 +50,4 @@ const UserStatusSitesListSelectedSites: FunctionComponent<Props> = ({
   );
 };
 
-export default UserStatusSitesListSelectedSites;
+export default UserStatusSitesListSelectedSitesQuery;
