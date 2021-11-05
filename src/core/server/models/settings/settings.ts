@@ -367,7 +367,8 @@ export type Settings = GlobalModerationSettings &
 
     /**
      * forReviewQueue is whether the tenant wants to enable the For Review
-     * moderation queue
+     * moderation queue in the admin to review every flag that has been
+     * put on a comment by a user.
      */
     forReviewQueue?: boolean;
   };
