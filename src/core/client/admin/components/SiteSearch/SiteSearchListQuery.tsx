@@ -16,6 +16,7 @@ interface Props {
   searchFilter: string;
   activeSiteID: string | null;
   showOnlyScopedSitesInSiteSearchList: boolean;
+  showAllSitesSearchFilterOption: boolean;
 }
 
 const SiteSearchListQuery: FunctionComponent<Props> = ({
@@ -23,6 +24,7 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
   searchFilter,
   activeSiteID,
   showOnlyScopedSitesInSiteSearchList,
+  showAllSitesSearchFilterOption,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -54,6 +56,7 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
               showOnlyScopedSitesInSiteSearchList={
                 showOnlyScopedSitesInSiteSearchList
               }
+              showAllSitesSearchFilterOption={showAllSitesSearchFilterOption}
             />
           );
         }

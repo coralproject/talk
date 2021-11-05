@@ -135,7 +135,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
                     onSelect={onAddSite}
                     showSiteSearchLabel={false}
                     showOnlyScopedSitesInSiteSearchList={true}
-                    // showAllSitesOption={false}
+                    showAllSitesSearchFilterOption={false}
                   />
                 </>
               )}

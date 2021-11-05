@@ -28,6 +28,7 @@ interface Props {
   onSelect: (site: { name: string; id: string } | null) => void;
   activeSiteID: string | null;
   showOnlyScopedSitesInSiteSearchList: boolean;
+  showAllSitesSearchFilterOption: boolean;
 }
 
 const siteIsVisible = (
@@ -47,6 +48,7 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   onSelect,
   activeSiteID,
   showOnlyScopedSitesInSiteSearchList,
+  showAllSitesSearchFilterOption,
 }) => {
   const viewer = query.viewer;
   const viewerSites = viewer?.moderationScopes?.sites;
@@ -73,7 +75,13 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   return (
     <Card className={styles.list} data-testid="site-search-list">
       {/* NOTE: In future, can render the options based on a kind passed through for filter button, moderation link, etc. */}
-      <SiteFilterOption onClick={onSelect} site={null} active={!activeSiteID} />
+      {showAllSitesSearchFilterOption && !viewerIsSiteModAndShouldScope && (
+        <SiteFilterOption
+          onClick={onSelect}
+          site={null}
+          active={!activeSiteID}
+        />
+      )}
       {sites.map((s) => (
         <SiteFilterOption
           onClick={onSelect}

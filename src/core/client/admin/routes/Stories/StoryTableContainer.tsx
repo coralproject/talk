@@ -62,6 +62,7 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
               onSelect={setSiteFilter}
               showSiteSearchLabel={true}
               showOnlyScopedSitesInSiteSearchList={false}
+              showAllSitesSearchFilterOption={true}
             />
           )}
         </Flex>

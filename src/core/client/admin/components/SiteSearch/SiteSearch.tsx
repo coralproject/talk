@@ -22,12 +22,14 @@ interface Props {
   onSelect: (id: string | null) => void;
   showOnlyScopedSitesInSiteSearchList: boolean;
   showSiteSearchLabel: boolean;
+  showAllSitesSearchFilterOption: boolean;
 }
 
 const SiteSearch: FunctionComponent<Props> = ({
   onSelect,
   showOnlyScopedSitesInSiteSearchList,
   showSiteSearchLabel,
+  showAllSitesSearchFilterOption,
 }) => {
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [searchTextFieldValue, setSearchTextFieldValue] = useState<string>("");
@@ -98,6 +100,7 @@ const SiteSearch: FunctionComponent<Props> = ({
                 showOnlyScopedSitesInSiteSearchList={
                   showOnlyScopedSitesInSiteSearchList
                 }
+                showAllSitesSearchFilterOption={showAllSitesSearchFilterOption}
               />
             </div>
           </ClickOutside>
