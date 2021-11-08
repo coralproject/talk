@@ -1036,15 +1036,17 @@ it("ban user across specific sites", async () => {
   ).toHaveLength(2);
 
   // Remove a site to ban on
-  await act(() => {
+  act(() => {
     within(modal)
       .getAllByTestID("user-status-selected-site")[0]
       .props.onChange();
-    // Submit ban and see that user is correctly banned across selected site
-    act(() => {
-      within(modal).getByType("form").props.onSubmit();
-    });
-    expect(resolvers.Mutation!.banUser!.called).toBe(true);
   });
+
+  // Submit ban and see that user is correctly banned across selected site
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+
   within(userRow).getByText("Banned (1)");
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });
