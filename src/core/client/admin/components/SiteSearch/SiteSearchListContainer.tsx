@@ -27,17 +27,6 @@ interface Props {
   showAllSitesSearchFilterOption: boolean;
 }
 
-const siteIsVisible = (
-  id: string,
-  viewerSites: ReadonlyArray<{ readonly id: string }> | null | undefined
-) => {
-  if (!viewerSites || viewerSites.length === 0) {
-    return true;
-  }
-
-  return viewerSites.map((s) => s.id).includes(id);
-};
-
 const SiteSearchListContainer: FunctionComponent<Props> = ({
   query,
   relay,
@@ -47,7 +36,6 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   showAllSitesSearchFilterOption,
 }) => {
   const viewer = query.viewer;
-  const viewerSites = viewer?.moderationScopes?.sites;
   const viewerIsScoped =
     viewer?.moderationScopes?.sites && viewer.moderationScopes.sites.length > 0;
   const viewerIsScopedAndShouldScope =
@@ -56,10 +44,10 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   const sites = useMemo(() => {
     const items = query?.sites.edges.map((edge) => edge.node) || [];
 
-    return viewerIsScopedAndShouldScope
-      ? items.filter((i: { id: string }) => siteIsVisible(i.id, viewerSites))
+    return showOnlyScopedSitesInSearchResults
+      ? items.filter((item: { canModerate: boolean }) => item.canModerate)
       : items;
-  }, [query?.sites.edges, viewerIsScopedAndShouldScope, viewerSites]);
+  }, [query?.sites.edges, showOnlyScopedSitesInSearchResults]);
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
 
@@ -133,6 +121,7 @@ const enhanced = withPaginationContainer<
             node {
               id
               name
+              canModerate
             }
           }
         }
