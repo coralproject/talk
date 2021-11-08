@@ -32,6 +32,7 @@ import {
   settings,
   settingsWithMultisite,
   siteConnection,
+  sites,
   users,
 } from "../fixtures";
 
@@ -928,6 +929,18 @@ it("ban user across specific sites", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Query: {
       settings: () => settingsWithMultisite,
+      site: ({ variables, callCount }) => {
+        switch (callCount) {
+          case 0:
+            expectAndFail(variables.id).toBe("site-1");
+            return sites[0];
+          case 1:
+            expectAndFail(variables.id).toBe("site-2");
+            return sites[1];
+          default:
+            return siteConnection;
+        }
+      },
     },
     Mutation: {
       banUser: ({ variables }) => {
@@ -1023,7 +1036,7 @@ it("ban user across specific sites", async () => {
   ).toHaveLength(2);
 
   // Remove a site to ban on
-  act(() => {
+  await act(() => {
     within(modal)
       .getAllByTestID("user-status-selected-site")[0]
       .props.onChange();
@@ -1031,7 +1044,7 @@ it("ban user across specific sites", async () => {
     act(() => {
       within(modal).getByType("form").props.onSubmit();
     });
-    within(userRow).getByText("Banned (1)");
     expect(resolvers.Mutation!.banUser!.called).toBe(true);
   });
+  within(userRow).getByText("Banned (1)");
 });

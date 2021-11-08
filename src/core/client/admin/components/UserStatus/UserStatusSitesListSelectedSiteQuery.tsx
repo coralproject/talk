@@ -5,21 +5,21 @@ import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CheckBox } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
-import { UserStatusSitesListSelectedSitesQuery as QueryTypes } from "coral-admin/__generated__/UserStatusSitesListSelectedSitesQuery.graphql";
+import { UserStatusSitesListSelectedSiteQuery as QueryTypes } from "coral-admin/__generated__/UserStatusSitesListSelectedSiteQuery.graphql";
 
 interface Props {
   siteID: string;
   onChange: (id: string | null) => void;
 }
 
-const UserStatusSitesListSelectedSitesQuery: FunctionComponent<Props> = ({
+const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
   siteID,
   onChange,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query UserStatusSitesListSelectedSitesQuery($siteID: ID!) {
+        query UserStatusSitesListSelectedSiteQuery($siteID: ID!) {
           site(id: $siteID) {
             name
           }
@@ -50,4 +50,4 @@ const UserStatusSitesListSelectedSitesQuery: FunctionComponent<Props> = ({
   );
 };
 
-export default UserStatusSitesListSelectedSitesQuery;
+export default UserStatusSitesListSelectedSiteQuery;

@@ -16,7 +16,7 @@ import {
 
 import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
-import UserStatusSitesListSelectedSitesQuery from "./UserStatusSitesListSelectedSitesQuery";
+import UserStatusSitesListSelectedSiteQuery from "./UserStatusSitesListSelectedSiteQuery";
 
 import styles from "./UserStatusSitesList.css";
 
@@ -123,7 +123,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
                   <HorizontalGutter spacing={3} mt={5} mb={4}>
                     {selectedIDsInput.value.map((siteID) => {
                       return (
-                        <UserStatusSitesListSelectedSitesQuery
+                        <UserStatusSitesListSelectedSiteQuery
                           key={siteID}
                           siteID={siteID}
                           onChange={onRemoveSite}
