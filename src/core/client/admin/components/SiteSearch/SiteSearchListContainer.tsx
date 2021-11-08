@@ -6,7 +6,6 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
 import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
@@ -26,7 +25,7 @@ interface Props {
   relay: RelayPaginationProp;
   onSelect: (site: { name: string; id: string } | null) => void;
   activeSiteID: string | null;
-  showOnlyScopedSitesInSiteSearchList: boolean;
+  showOnlyScopedSitesInSearchResults: boolean;
   showAllSitesSearchFilterOption: boolean;
 }
 
@@ -46,25 +45,23 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   relay,
   onSelect,
   activeSiteID,
-  showOnlyScopedSitesInSiteSearchList,
+  showOnlyScopedSitesInSearchResults,
   showAllSitesSearchFilterOption,
 }) => {
   const viewer = query.viewer;
   const viewerSites = viewer?.moderationScopes?.sites;
   const viewerIsScoped =
     viewer?.moderationScopes?.sites && viewer.moderationScopes.sites.length > 0;
-  const viewerIsSiteMod =
-    viewer?.role === GQLUSER_ROLE.MODERATOR && viewerIsScoped;
-  const viewerIsSiteModAndShouldScope =
-    viewerIsSiteMod && showOnlyScopedSitesInSiteSearchList;
+  const viewerIsScopedAndShouldScope =
+    viewerIsScoped && showOnlyScopedSitesInSearchResults;
 
   const sites = useMemo(() => {
     const items = query?.sites.edges.map((edge) => edge.node) || [];
 
-    return viewerIsSiteModAndShouldScope
+    return viewerIsScopedAndShouldScope
       ? items.filter((i: { id: string }) => siteIsVisible(i.id, viewerSites))
       : items;
-  }, [query?.sites.edges, viewerIsSiteModAndShouldScope, viewerSites]);
+  }, [query?.sites.edges, viewerIsScopedAndShouldScope, viewerSites]);
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
 
@@ -74,7 +71,7 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   return (
     <Card className={styles.list} data-testid="site-search-list">
       {/* NOTE: In future, can render the options based on a kind passed through for filter button, moderation link, etc. */}
-      {showAllSitesSearchFilterOption && !viewerIsSiteModAndShouldScope && (
+      {showAllSitesSearchFilterOption && !viewerIsScopedAndShouldScope && (
         <SiteFilterOption
           onClick={onSelect}
           site={null}
@@ -126,7 +123,6 @@ const enhanced = withPaginationContainer<
           searchFilter: { type: "String" }
         ) {
         viewer {
-          role
           moderationScopes {
             sites {
               id

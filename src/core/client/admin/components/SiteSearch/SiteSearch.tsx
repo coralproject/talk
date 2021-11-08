@@ -20,14 +20,14 @@ import SiteSearchTextField from "./SiteSearchTextField";
 
 interface Props {
   onSelect: (id: string | null) => void;
-  showOnlyScopedSitesInSiteSearchList: boolean;
+  showOnlyScopedSitesInSearchResults: boolean;
   showSiteSearchLabel: boolean;
   showAllSitesSearchFilterOption: boolean;
 }
 
 const SiteSearch: FunctionComponent<Props> = ({
   onSelect,
-  showOnlyScopedSitesInSiteSearchList,
+  showOnlyScopedSitesInSearchResults,
   showSiteSearchLabel,
   showAllSitesSearchFilterOption,
 }) => {
@@ -97,8 +97,8 @@ const SiteSearch: FunctionComponent<Props> = ({
                 onSelect={onSelectSite}
                 searchFilter={searchFilter}
                 activeSiteID={activeSiteID}
-                showOnlyScopedSitesInSiteSearchList={
-                  showOnlyScopedSitesInSiteSearchList
+                showOnlyScopedSitesInSearchResults={
+                  showOnlyScopedSitesInSearchResults
                 }
                 showAllSitesSearchFilterOption={showAllSitesSearchFilterOption}
               />

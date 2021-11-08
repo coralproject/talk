@@ -9,12 +9,12 @@ import { UserStatusSitesListSelectedSitesQuery as QueryTypes } from "coral-admin
 
 interface Props {
   siteID: string;
-  onRemoveSite: (id: string | null) => void;
+  onChange: (id: string | null) => void;
 }
 
 const UserStatusSitesListSelectedSitesQuery: FunctionComponent<Props> = ({
   siteID,
-  onRemoveSite,
+  onChange,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -36,7 +36,7 @@ const UserStatusSitesListSelectedSitesQuery: FunctionComponent<Props> = ({
           return (
             <CheckBox
               checked={true}
-              onChange={() => onRemoveSite(siteID)}
+              onChange={() => onChange(siteID)}
               data-testid="user-status-selected-site"
             >
               {props.site.name}

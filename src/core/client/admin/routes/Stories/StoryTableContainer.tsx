@@ -61,7 +61,7 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
             <SiteSearch
               onSelect={setSiteFilter}
               showSiteSearchLabel={true}
-              showOnlyScopedSitesInSiteSearchList={false}
+              showOnlyScopedSitesInSearchResults={false}
               showAllSitesSearchFilterOption={true}
             />
           )}

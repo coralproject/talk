@@ -12,7 +12,7 @@ interface Props {
   onSelect: (site: { id: string; name: string } | null) => void;
   searchFilter: string;
   activeSiteID: string | null;
-  showOnlyScopedSitesInSiteSearchList: boolean;
+  showOnlyScopedSitesInSearchResults: boolean;
   showAllSitesSearchFilterOption: boolean;
 }
 
@@ -20,7 +20,7 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
   onSelect,
   searchFilter,
   activeSiteID,
-  showOnlyScopedSitesInSiteSearchList,
+  showOnlyScopedSitesInSearchResults,
   showAllSitesSearchFilterOption,
 }) => {
   return (
@@ -50,8 +50,8 @@ const SiteSearchListQuery: FunctionComponent<Props> = ({
               query={props}
               onSelect={onSelect}
               activeSiteID={activeSiteID}
-              showOnlyScopedSitesInSiteSearchList={
-                showOnlyScopedSitesInSiteSearchList
+              showOnlyScopedSitesInSearchResults={
+                showOnlyScopedSitesInSearchResults
               }
               showAllSitesSearchFilterOption={showAllSitesSearchFilterOption}
             />

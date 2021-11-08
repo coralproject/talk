@@ -126,7 +126,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
                         <UserStatusSitesListSelectedSitesQuery
                           key={siteID}
                           siteID={siteID}
-                          onRemoveSite={onRemoveSite}
+                          onChange={onRemoveSite}
                         />
                       );
                     })}
@@ -134,7 +134,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
                   <SiteSearch
                     onSelect={onAddSite}
                     showSiteSearchLabel={false}
-                    showOnlyScopedSitesInSiteSearchList={true}
+                    showOnlyScopedSitesInSearchResults={true}
                     showAllSitesSearchFilterOption={false}
                   />
                 </>
