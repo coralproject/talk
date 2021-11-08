@@ -101,44 +101,43 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
           {(viewerIsAdmin ||
             viewerIsOrgAdmin ||
             (viewerIsScoped && !viewerIsSingleSiteMod)) && (
+            <Flex className={styles.sitesToggle} spacing={5}>
+              <FormField>
+                <Localized id="community-banModal-allSites">
+                  <RadioButton checked={!showSites} onChange={onHideSites}>
+                    All sites
+                  </RadioButton>
+                </Localized>
+              </FormField>
+              <FormField>
+                <Localized id="community-banModal-specificSites">
+                  <RadioButton checked={showSites} onChange={onShowSites}>
+                    Specific Sites
+                  </RadioButton>
+                </Localized>
+              </FormField>
+            </Flex>
+          )}
+
+          {showSites && (
             <>
-              <Flex className={styles.sitesToggle} spacing={5}>
-                <FormField>
-                  <Localized id="community-banModal-allSites">
-                    <RadioButton checked={!showSites} onChange={onHideSites}>
-                      All sites
-                    </RadioButton>
-                  </Localized>
-                </FormField>
-                <FormField>
-                  <Localized id="community-banModal-specificSites">
-                    <RadioButton checked={showSites} onChange={onShowSites}>
-                      Specific Sites
-                    </RadioButton>
-                  </Localized>
-                </FormField>
-              </Flex>
-              {showSites && (
-                <>
-                  <HorizontalGutter spacing={3} mt={5} mb={4}>
-                    {selectedIDsInput.value.map((siteID) => {
-                      return (
-                        <UserStatusSitesListSelectedSiteQuery
-                          key={siteID}
-                          siteID={siteID}
-                          onChange={onRemoveSite}
-                        />
-                      );
-                    })}
-                  </HorizontalGutter>
-                  <SiteSearch
-                    onSelect={onAddSite}
-                    showSiteSearchLabel={false}
-                    showOnlyScopedSitesInSearchResults={true}
-                    showAllSitesSearchFilterOption={false}
-                  />
-                </>
-              )}
+              <HorizontalGutter spacing={3} mt={5} mb={4}>
+                {selectedIDsInput.value.map((siteID) => {
+                  return (
+                    <UserStatusSitesListSelectedSiteQuery
+                      key={siteID}
+                      siteID={siteID}
+                      onChange={onRemoveSite}
+                    />
+                  );
+                })}
+              </HorizontalGutter>
+              <SiteSearch
+                onSelect={onAddSite}
+                showSiteSearchLabel={false}
+                showOnlyScopedSitesInSearchResults={true}
+                showAllSitesSearchFilterOption={false}
+              />
             </>
           )}
         </FieldSet>
