@@ -16,14 +16,12 @@ import SiteFilterOption from "./SiteFilterOption";
 
 import styles from "./SiteSearchListContainer.css";
 
-interface ScopeSite {
-  readonly id: string;
-}
-
 interface Props {
   query: SiteSearchListContainer_query;
   relay: RelayPaginationProp;
-  onSelect: (site: { name: string; id: string } | null) => void;
+  onSelect: (
+    site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
+  ) => void;
   activeSiteID: string | null;
   showOnlyScopedSitesInSearchResults: boolean;
   showAllSitesSearchFilterOption: boolean;
@@ -31,7 +29,7 @@ interface Props {
 
 const siteIsVisible = (
   id: string,
-  viewerSites: ReadonlyArray<ScopeSite> | null | undefined
+  viewerSites: ReadonlyArray<{ readonly id: string }> | null | undefined
 ) => {
   if (!viewerSites || viewerSites.length === 0) {
     return true;
