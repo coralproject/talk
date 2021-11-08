@@ -9,7 +9,6 @@ import {
   FieldSet,
   Flex,
   FormField,
-  HorizontalGutter,
   Label,
   RadioButton,
 } from "coral-ui/components/v2";
@@ -120,17 +119,10 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
               </Flex>
               {showSites && (
                 <>
-                  <HorizontalGutter spacing={3} mt={5} mb={4}>
-                    {selectedIDsInput.value.map((siteID) => {
-                      return (
-                        <UserStatusSitesListSelectedSitesQuery
-                          key={siteID}
-                          siteID={siteID}
-                          onRemoveSite={onRemoveSite}
-                        />
-                      );
-                    })}
-                  </HorizontalGutter>
+                  <UserStatusSitesListSelectedSitesQuery
+                    selectedSites={selectedIDsInput.value}
+                    onRemoveSite={onRemoveSite}
+                  />
                   <SiteSearch
                     onSelect={onAddSite}
                     showSiteSearchLabel={false}
