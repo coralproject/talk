@@ -4179,7 +4179,6 @@ type Query {
     first: Int = 10 @constraint(max: 50)
     after: Cursor
     query: String
-    ids: [String]
   ): SitesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """

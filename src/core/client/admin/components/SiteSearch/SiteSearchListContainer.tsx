@@ -19,7 +19,6 @@ import styles from "./SiteSearchListContainer.css";
 
 interface ScopeSite {
   readonly id: string;
-  readonly name: string;
 }
 
 interface Props {
@@ -131,7 +130,6 @@ const enhanced = withPaginationContainer<
           moderationScopes {
             sites {
               id
-              name
             }
           }
         }
