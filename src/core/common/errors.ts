@@ -203,6 +203,12 @@ export enum ERROR_CODES {
   COMMENT_REVISION_NOT_FOUND = "COMMENT_REVISION_NOT_FOUND",
 
   /**
+   * PARENT_COMMENT_REJECTED is returned when a Comment's parent
+   * comment has been rejected.
+   */
+  PARENT_COMMENT_REJECTED = "PARENT_COMMENT_REJECTED",
+
+  /**
    * AUTHENTICATION_ERROR is returned when a general authentication error has
    * occurred and the request can not be processed.
    */
