@@ -1,7 +1,7 @@
 FROM node:14-alpine
 
 # Install build dependancies.
-RUN apk --no-cache add git python
+RUN apk --no-cache add git python3
 
 # Create app directory.
 RUN mkdir -p /usr/src/app
