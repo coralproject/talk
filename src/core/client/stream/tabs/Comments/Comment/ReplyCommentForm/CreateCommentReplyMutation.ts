@@ -32,10 +32,14 @@ import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__gene
 
 import {
   determineDepthTillAncestor,
+  determineDepthTillStory,
   getFlattenedReplyAncestorID,
   incrementStoryCommentCounts,
   isPublished,
   lookupFlattenReplies,
+  lookupStoryConnectionKey,
+  lookupStoryConnectionOrderBy,
+  lookupStoryConnectionTag,
   prependCommentEdgeToProfile,
 } from "../../helpers";
 
@@ -156,7 +160,16 @@ function addCommentReplyToStory(
   const flattenReplies = lookupFlattenReplies(environment);
   const singleCommentID = lookup(environment, LOCAL_ID).commentID;
   const comment = commentEdge.getLinkedRecord("node")!;
-  const depth = determineDepthTillAncestor(comment, singleCommentID);
+  const depth = singleCommentID
+    ? determineDepthTillAncestor(comment, singleCommentID)
+    : determineDepthTillStory(
+        store,
+        comment,
+        input.storyID,
+        lookupStoryConnectionOrderBy(environment),
+        lookupStoryConnectionKey(environment),
+        lookupStoryConnectionTag(environment)
+      );
 
   if (depth === null) {
     // could not trace back to ancestor, that should not happen.
