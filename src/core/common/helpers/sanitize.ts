@@ -57,8 +57,6 @@ export const ALL_FEATURES: RTEFeatures = {
   sarcasm: true,
 };
 
-const MAILTO_PROTOCOL = "mailto:";
-
 /**
  * convertGQLRTEConfigToRTEFeatures turns the
  * RTE configuration from the GraphQL Schema to
@@ -84,28 +82,9 @@ export function convertGQLRTEConfigToRTEFeatures(
  */
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
-    // Ensure we wrap all the links with the target + rel set.
-    node.setAttribute("target", "_blank");
-    node.setAttribute("rel", "noopener noreferrer");
-
-    // Ensure that all the links have the same link as they do text.
-    let href = node.getAttribute("href");
-    if (href) {
-      if (node.textContent !== href) {
-        // remove "mailto:" prefix from link text
-        const url = new URL(href);
-        if (url.protocol === MAILTO_PROTOCOL) {
-          href = href.replace(url.protocol, "");
-        }
-      }
-      node.textContent = href;
-    } else {
-      // Turn anchor with no href into `SPAN`.
-      const span = node.ownerDocument.createElement("SPAN");
-      span.innerHTML = node.innerHTML;
-      node.insertAdjacentElement("beforebegin", span);
-      node.parentNode!.removeChild(node);
-    }
+    // Turn anchor into text corresponding to innerHTML.
+    node.insertAdjacentText("beforebegin", node.innerHTML);
+    node.parentNode!.removeChild(node);
   }
 };
 
