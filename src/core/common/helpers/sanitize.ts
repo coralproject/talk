@@ -193,11 +193,8 @@ export function createSanitize(
   purify.addHook("afterSanitizeElements", (n) => {
     // Replace nbsp, including those inserted when sanitizing
     // anchor tags and replacing them with their text
-    const replaceNbsp = (value: string | null) => {
-      return value ? value.replace(/\xA0/g, " ") : value;
-    };
-    if (n.nodeType === TEXT_NODE_TYPE) {
-      n.nodeValue = replaceNbsp(n.nodeValue);
+    if (n.nodeType === TEXT_NODE_TYPE && n.nodeValue) {
+      n.nodeValue = n.nodeValue.replace(/\xA0/g, " ");
     }
   });
   if (options?.normalize) {
