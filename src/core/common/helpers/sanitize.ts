@@ -190,6 +190,16 @@ export function createSanitize(
     sanitizeAttributes.bind(null, features)
   );
   purify.addHook("afterSanitizeAttributes", sanitizeAnchor);
+  purify.addHook("afterSanitizeElements", (n) => {
+    // Replace nbsp, including those inserted when sanitizing
+    // anchor tags and replacing them with their text
+    const replaceNbsp = (value: string | null) => {
+      return value ? value.replace(/\xA0/g, " ") : value;
+    };
+    if (n.nodeType === TEXT_NODE_TYPE) {
+      n.nodeValue = replaceNbsp(n.nodeValue);
+    }
+  });
   if (options?.normalize) {
     purify.addHook("afterSanitizeElements", (n) => {
       if (
