@@ -77,8 +77,8 @@ export function convertGQLRTEConfigToRTEFeatures(
 }
 
 /**
- * Ensure that each anchor tag has a "target" and "rel" attributes set, and
- * strip the "href" attribute from all non-anchor tags.
+ * Ensure that each anchor tag is replaced with text that
+ * corresponds to its inner html.
  */
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
