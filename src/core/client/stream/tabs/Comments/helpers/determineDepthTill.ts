@@ -1,4 +1,6 @@
+import { LOCAL_ID } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
   ConnectionHandler,
   RecordProxy,
@@ -36,8 +38,30 @@ function isCommentInsideParentRepliesConnection(comment: RecordProxy) {
     "ReplyList_replies",
     { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
   )!;
-
+  if (!repliesConnection) {
+    return false;
+  }
   return isNodeIDInRepliesConnection(comment.getDataID(), repliesConnection);
+}
+
+function findFlattenedParent(comment: RecordProxy, ancestorID?: string | null) {
+  const maxDepth = MAX_REPLY_INDENT_DEPTH + 1; // +1 to include root level.
+  const ancestors: RecordProxy[] = [];
+  let cur = comment;
+  while (cur) {
+    ancestors.unshift(cur);
+    if (cur.getDataID() === ancestorID) {
+      break;
+    }
+    cur = cur.getLinkedRecord("parent");
+  }
+  if (ancestors.length > maxDepth) {
+    return {
+      flattendParent: ancestors[maxDepth - 1],
+      exceededDepth: ancestors.length - maxDepth,
+    };
+  }
+  return null;
 }
 
 /**
@@ -75,8 +99,12 @@ export function determineDepthTillStory(
     return null;
   }
 
-  let depth = 1;
-  let cur = firstParent;
+  // If flattenReplies start iterating from flattened Parent.
+  const flattenReplies = store.get(LOCAL_ID)?.getValue("flattenReplies");
+  const result = flattenReplies ? findFlattenedParent(comment) : null;
+  let depth = result !== null ? result.exceededDepth : 1;
+  let cur = result !== null ? result.flattendParent : firstParent;
+
   while (cur) {
     const parent: RecordProxy | null = cur.getLinkedRecord("parent");
     if (parent === null) {
@@ -103,6 +131,7 @@ export function determineDepthTillStory(
  * comments that is loaded inside the stream!
  */
 export function determineDepthTillAncestor(
+  store: RecordSourceSelectorProxy<unknown>,
   comment: RecordProxy,
   ancestorID?: string | null
 ) {
@@ -110,18 +139,26 @@ export function determineDepthTillAncestor(
   if (comment.getDataID() === ancestorID) {
     return 0;
   }
-  let cur: RecordProxy | null | undefined = comment.getLinkedRecord("parent");
-  if (!cur) {
+  const firstParent: RecordProxy | null | undefined = comment.getLinkedRecord(
+    "parent"
+  );
+  if (!firstParent) {
     // It's a top level comment, so can't determine depth till ancestor.
     return null;
   }
 
   // Parent is ancestor, return 1.
-  if (cur.getDataID() === ancestorID) {
+  if (firstParent.getDataID() === ancestorID) {
     return 1;
   }
 
-  let depth = 1;
+  // If flattenReplies start iterating from flattened Parent.
+  const flattenReplies = store.get(LOCAL_ID)?.getValue("flattenReplies");
+  const result = flattenReplies
+    ? findFlattenedParent(comment, ancestorID)
+    : null;
+  let depth = result !== null ? result.exceededDepth : 1;
+  let cur = result !== null ? result.flattendParent : firstParent;
   while (cur) {
     const parent: RecordProxy | null = cur.getLinkedRecord("parent");
     if (parent !== null) {
