@@ -19,40 +19,34 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
           Moderation
         </Link>
       </Localized>
-      {/* knote: actually add id */}
-      <Localized id="configure-sideBarNavigation-moderation-comments">
-        <Link
-          exact
-          to={{ pathname: "/admin/configure/moderation", hash: "#comments" }}
-        >
-          {(href: {
-            onClick: (e: React.SyntheticEvent<Element, Event>) => void;
-          }) => {
-            return (
+      <Link
+        exact
+        to={{ pathname: "/admin/configure/moderation", hash: "#comments" }}
+      >
+        {(href: { onClick: (e: React.SyntheticEvent<Element>) => void }) => {
+          return (
+            <Localized id="configure-sideBarNavigation-moderation-comments">
               <SubLink onClick={href.onClick} anchorLink="#comments">
                 Comments
               </SubLink>
-            );
-          }}
-        </Link>
-      </Localized>
-      {/* knote: actually add id */}
-      <Localized id="configure-sideBarNavigation-moderation-users">
-        <Link
-          exact
-          to={{ pathname: "/admin/configure/moderation", hash: "#users" }}
-        >
-          {(href: {
-            onClick: (e: React.SyntheticEvent<Element, Event>) => void;
-          }) => {
-            return (
+            </Localized>
+          );
+        }}
+      </Link>
+      <Link
+        exact
+        to={{ pathname: "/admin/configure/moderation", hash: "#users" }}
+      >
+        {(href: { onClick: (e: React.SyntheticEvent<Element>) => void }) => {
+          return (
+            <Localized id="configure-sideBarNavigation-moderation-users">
               <SubLink onClick={href.onClick} anchorLink="#users">
                 Users
               </SubLink>
-            );
-          }}
-        </Link>
-      </Localized>
+            </Localized>
+          );
+        }}
+      </Link>
       <Localized id="configure-sideBarNavigation-moderationPhases">
         <Link to="/admin/configure/moderation/phases">Moderation Phases</Link>
       </Localized>
