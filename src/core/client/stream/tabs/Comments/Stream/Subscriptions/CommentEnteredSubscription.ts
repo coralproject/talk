@@ -97,7 +97,7 @@ function insertReply(
   }
 
   const depth = ancestorID
-    ? determineDepthTillAncestor(comment, ancestorID)
+    ? determineDepthTillAncestor(store, comment, ancestorID)
     : determineDepthTillStory(
         store,
         comment,

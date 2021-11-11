@@ -161,7 +161,7 @@ function addCommentReplyToStory(
   const singleCommentID = lookup(environment, LOCAL_ID).commentID;
   const comment = commentEdge.getLinkedRecord("node")!;
   const depth = singleCommentID
-    ? determineDepthTillAncestor(comment, singleCommentID)
+    ? determineDepthTillAncestor(store, comment, singleCommentID)
     : determineDepthTillStory(
         store,
         comment,
