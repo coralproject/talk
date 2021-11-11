@@ -7452,6 +7452,42 @@ type BanUserPayload {
   clientMutationId: String!
 }
 
+type UpdateUserBanInput {
+  """
+  userID is the id of the user whos ban status should be updated
+  """
+  userID: ID!
+
+  """
+  siteIDs are the ids of sites on which the user should be banned
+  """
+  siteIDs: [ID!]
+
+  """
+  message is the message that should be sent to the user (if sites
+  have been added to their ban list)
+  """
+  message: String!
+
+  """
+  rejectExistingComments is whether existing comments should be rejected
+  on sites on which the user has been newly banned, if any.
+  """
+  rejectExistingComments: Boolean
+}
+
+type UpdateUserBanPayload {
+  """
+  user is the updated user
+  """
+  user: User!
+
+  """
+  clientMutationID is required for relay support
+  """
+  clientMutationId: String!
+}
+
 ##################
 # suspendUser
 ##################
