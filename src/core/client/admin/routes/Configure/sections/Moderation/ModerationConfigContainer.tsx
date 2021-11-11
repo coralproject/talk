@@ -1,7 +1,9 @@
-import React, { useMemo } from "react";
+import { useRouter } from "found";
+import React, { useEffect, useMemo } from "react";
 import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   purgeMetadata,
   withFragmentContainer,
@@ -27,13 +29,25 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
 }) => {
   const form = useForm();
   useMemo(() => form.initialize(purgeMetadata(settings)), []);
+
+  const router = useRouter();
+  const { window } = useCoralContext();
+  useEffect(() => {
+    // If sublink in left nav is clicked, we want to scroll the corresponding anchor link into view
+    const anchorLinkId = router.match.location.hash.replace("#", "");
+    // eslint-disable-next-line no-unused-expressions
+    window.document.getElementById(anchorLinkId)?.scrollIntoView();
+  }, [router]);
+
   return (
     <HorizontalGutter size="double" data-testid="configure-moderationContainer">
+      <span id="comments" />
       <PreModerationConfig disabled={submitting} />
-      <NewCommentersConfig disabled={submitting} />
-      <RecentCommentHistoryConfig disabled={submitting} />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
+      <span id="users" />
+      <NewCommentersConfig disabled={submitting} />
+      <RecentCommentHistoryConfig disabled={submitting} />
     </HorizontalGutter>
   );
 };

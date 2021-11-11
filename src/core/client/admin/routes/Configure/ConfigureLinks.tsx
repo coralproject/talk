@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import Link from "./Link";
 import Navigation from "./Navigation";
+import SubLink from "./Sublink";
 
 const ConfigureLinks: FunctionComponent<{}> = () => {
   return (
@@ -16,6 +17,40 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
       <Localized id="configure-sideBarNavigation-moderation">
         <Link exact to="/admin/configure/moderation">
           Moderation
+        </Link>
+      </Localized>
+      {/* knote: actually add id */}
+      <Localized id="configure-sideBarNavigation-moderation-comments">
+        <Link
+          exact
+          to={{ pathname: "/admin/configure/moderation", hash: "#comments" }}
+        >
+          {(href: {
+            onClick: (e: React.SyntheticEvent<Element, Event>) => void;
+          }) => {
+            return (
+              <SubLink onClick={href.onClick} anchorLink="#comments">
+                Comments
+              </SubLink>
+            );
+          }}
+        </Link>
+      </Localized>
+      {/* knote: actually add id */}
+      <Localized id="configure-sideBarNavigation-moderation-users">
+        <Link
+          exact
+          to={{ pathname: "/admin/configure/moderation", hash: "#users" }}
+        >
+          {(href: {
+            onClick: (e: React.SyntheticEvent<Element, Event>) => void;
+          }) => {
+            return (
+              <SubLink onClick={href.onClick} anchorLink="#users">
+                Users
+              </SubLink>
+            );
+          }}
         </Link>
       </Localized>
       <Localized id="configure-sideBarNavigation-moderationPhases">
