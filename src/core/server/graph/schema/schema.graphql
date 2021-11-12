@@ -7452,16 +7452,21 @@ type BanUserPayload {
   clientMutationId: String!
 }
 
-type UpdateUserBanInput {
+input UpdateUserBanInput {
   """
   userID is the id of the user whos ban status should be updated
   """
   userID: ID!
 
   """
-  siteIDs are the ids of sites on which the user should be banned
+  banSiteIDs are the ids of sites on which the user should be banned
   """
-  siteIDs: [ID!]
+  banSiteIDs: [ID!]
+
+  """
+  unbanSiteIDs are the ids of sites on which the user should be unbanned
+  """
+  unbanSiteIDs: [ID!]
 
   """
   message is the message that should be sent to the user (if sites
@@ -8488,7 +8493,14 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  removeUserBan will remove an active ban from a User if they have one.
+  updateUserBan will ban a specified user from specified sites (if
+  not already banned from them)
+  """
+  updateUserBan(input: UpdateUserBanInput!): UpdateUserBanPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeUserBan will remove an active ban from a User if they have one
   """
   removeUserBan(input: RemoveUserBanInput!): RemoveUserBanPayload!
     @auth(roles: [ADMIN, MODERATOR], unscoped: true)

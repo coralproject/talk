@@ -37,6 +37,7 @@ import {
   updateNotificationSettings,
   updatePassword,
   updateRole,
+  updateUserBan,
   updateUsername,
   updateUsernameByID,
   warn,
@@ -75,6 +76,7 @@ import {
   GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
+  GQLUpdateUserBanInput,
   GQLUpdateUserEmailInput,
   GQLUpdateUserMediaSettingsInput,
   GQLUpdateUserModerationScopesInput,
@@ -275,6 +277,24 @@ export const Users = (ctx: GraphContext) => ({
     siteIDs,
   }: GQLBanUserInput) =>
     ban(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.rejectorQueue,
+      ctx.tenant,
+      ctx.user!,
+      userID,
+      message,
+      rejectExistingComments,
+      siteIDs,
+      ctx.now
+    ),
+  updateUserBan: async ({
+    userID,
+    message,
+    rejectExistingComments = false,
+    siteIDs,
+  }: GQLUpdateUserBanInput) => async () =>
+    updateUserBan(
       ctx.mongo,
       ctx.mailerQueue,
       ctx.rejectorQueue,
