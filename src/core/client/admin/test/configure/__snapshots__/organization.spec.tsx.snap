@@ -53,6 +53,22 @@ exports[`renders configure organization 1`] = `
                 </a>
               </li>
               <li>
+                <button
+                  className="SubLink-subLink"
+                  onClick={[Function]}
+                >
+                  Comments
+                </button>
+              </li>
+              <li>
+                <button
+                  className="SubLink-subLink"
+                  onClick={[Function]}
+                >
+                  Users
+                </button>
+              </li>
+              <li>
                 <a
                   className="Link-link"
                   href="/admin/configure/moderation/phases"

@@ -41,11 +41,9 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="double" data-testid="configure-moderationContainer">
-      <span id="comments" />
       <PreModerationConfig disabled={submitting} />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
-      <span id="users" />
       <NewCommentersConfig disabled={submitting} />
       <RecentCommentHistoryConfig disabled={submitting} />
     </HorizontalGutter>

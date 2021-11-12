@@ -2,7 +2,7 @@ import cn from "classnames";
 import { useRouter } from "found";
 import React, { FunctionComponent } from "react";
 
-import styles from "./Sublink.css";
+import styles from "./SubLink.css";
 
 interface Props {
   children?: React.ReactNode;
@@ -14,8 +14,8 @@ const SubLink: FunctionComponent<Props> = (props) => {
   const router = useRouter();
   const classNames =
     props.anchorLink === router.match.location.hash
-      ? cn(styles.sublinkActive, styles.sublink)
-      : styles.sublink;
+      ? cn(styles.subLinkActive, styles.subLink)
+      : styles.subLink;
 
   return (
     <button className={classNames} onClick={(e) => props.onClick(e)}>

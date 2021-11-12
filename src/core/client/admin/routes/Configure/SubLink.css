@@ -3,8 +3,8 @@ $sideNavBorderColor: var(--palette-grey-300);
 $sideNavIndicatorColor: $colors-coral-500;
 $sideNavActiveColor: var(--palette-text-500);
 
-.sublink {
-  background: none;
+.subLink {
+  background-color: var(--palette-background-body);
   border: none;
   color: $sideNavItemColor;
   font-family: var(--font-family-primary);
@@ -25,7 +25,7 @@ $sideNavActiveColor: var(--palette-text-500);
   }
 }
 
-.sublinkActive, .sublinkActive:hover {
+.subLinkActive, .subLinkActive:hover {
   color: $sideNavActiveColor;
   font-weight: var(--font-weight-primary-bold);
 }

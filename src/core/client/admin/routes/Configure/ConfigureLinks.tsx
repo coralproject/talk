@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import Link from "./Link";
 import Navigation from "./Navigation";
-import SubLink from "./Sublink";
+import SubLink from "./SubLink";
 
 const ConfigureLinks: FunctionComponent<{}> = () => {
   return (
@@ -21,12 +21,16 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
       </Localized>
       <Link
         exact
-        to={{ pathname: "/admin/configure/moderation", hash: "#comments" }}
+        to={{ pathname: "/admin/configure/moderation", hash: "#Comments" }}
       >
-        {(href: { onClick: (e: React.SyntheticEvent<Element>) => void }) => {
+        {({
+          onClick,
+        }: {
+          onClick: (e: React.SyntheticEvent<Element>) => void;
+        }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-comments">
-              <SubLink onClick={href.onClick} anchorLink="#comments">
+              <SubLink onClick={onClick} anchorLink="#Comments">
                 Comments
               </SubLink>
             </Localized>
@@ -35,12 +39,16 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
       </Link>
       <Link
         exact
-        to={{ pathname: "/admin/configure/moderation", hash: "#users" }}
+        to={{ pathname: "/admin/configure/moderation", hash: "#Users" }}
       >
-        {(href: { onClick: (e: React.SyntheticEvent<Element>) => void }) => {
+        {({
+          onClick,
+        }: {
+          onClick: (e: React.SyntheticEvent<Element>) => void;
+        }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-users">
-              <SubLink onClick={href.onClick} anchorLink="#users">
+              <SubLink onClick={onClick} anchorLink="#Users">
                 Users
               </SubLink>
             </Localized>

@@ -39,6 +39,7 @@ const format = (v: "PRE" | "POST") => {
 const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <ConfigBox
+      id="Comments"
       title={
         <Localized id="configure-moderation-preModeration-title">
           <Header container={<legend />}>Pre-moderation</Header>

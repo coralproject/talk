@@ -53,6 +53,22 @@ exports[`renders configure moderation 1`] = `
                 </a>
               </li>
               <li>
+                <button
+                  className="SubLink-subLink"
+                  onClick={[Function]}
+                >
+                  Comments
+                </button>
+              </li>
+              <li>
+                <button
+                  className="SubLink-subLink"
+                  onClick={[Function]}
+                >
+                  Users
+                </button>
+              </li>
+              <li>
                 <a
                   className="Link-link"
                   href="/admin/configure/moderation/phases"
@@ -146,6 +162,7 @@ exports[`renders configure moderation 1`] = `
         >
           <fieldset
             className="FieldSet-root Box-root ConfigBox-root"
+            id="Comments"
           >
             <div
               className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -359,320 +376,6 @@ approved by a moderator.
                     </div>
                   </div>
                 </fieldset>
-              </fieldset>
-            </div>
-          </fieldset>
-          <div
-            className="Box-root ConfigBox-root"
-          >
-            <div
-              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-            >
-              <div>
-                <legend
-                  className="Header-root"
-                >
-                  New commenter approval
-                </legend>
-              </div>
-              <div />
-            </div>
-            <div
-              className="ConfigBox-content"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
-              >
-                <p
-                  className="FormFieldDescription-root"
-                >
-                  When this is active, initial comments by a new commenter will be sent to Pending
-for moderator approval before publication.
-                </p>
-                <fieldset
-                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-                >
-                  <legend
-                    className="Label-root"
-                  >
-                    Enable new commenter approval
-                  </legend>
-                  <div>
-                    <div
-                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                    >
-                      <input
-                        checked={false}
-                        className="RadioButton-input"
-                        disabled={false}
-                        id="newCommenters.premodEnabled-true"
-                        name="newCommenters.premodEnabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="radio"
-                        value="true"
-                      />
-                      <label
-                        className="RadioButton-label"
-                        htmlFor="newCommenters.premodEnabled-true"
-                      >
-                        <span>
-                          On
-                        </span>
-                      </label>
-                    </div>
-                    <div
-                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                    >
-                      <input
-                        checked={true}
-                        className="RadioButton-input"
-                        disabled={false}
-                        id="newCommenters.premodEnabled-false"
-                        name="newCommenters.premodEnabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="radio"
-                        value="false"
-                      />
-                      <label
-                        className="RadioButton-label RadioButton-labelChecked"
-                        htmlFor="newCommenters.premodEnabled-false"
-                      >
-                        <span>
-                          Off
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </fieldset>
-                <div
-                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-                >
-                  <label
-                    className="Label-root"
-                  >
-                    Number of comments that must be approved
-                  </label>
-                  <div
-                    className="TextField-root"
-                  >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input NewCommentersConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
-                      disabled={false}
-                      name="newCommenters.approvedCommentsThreshold"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value={2}
-                    />
-                    <div
-                      className="TextField-adornment"
-                    >
-                      comments
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <fieldset
-            className="FieldSet-root Box-root ConfigBox-root"
-          >
-            <div
-              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-            >
-              <div>
-                <legend
-                  className="Header-root"
-                >
-                  Recent history
-                </legend>
-              </div>
-              <div />
-            </div>
-            <div
-              className="ConfigBox-content"
-            >
-              <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
-              >
-                <fieldset
-                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-                >
-                  <div
-                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
-                  >
-                    <legend
-                      className="Label-root"
-                    >
-                      Recent comment history time period
-                    </legend>
-                    <p
-                      className="HelperText-root"
-                    >
-                      Amount of time to calculate a commenter's rejection rate.
-                    </p>
-                  </div>
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
-                  >
-                    <div
-                      className="TextField-root DurationField-value"
-                    >
-                      <input
-                        aria-label="value"
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular TextField-textAlignCenter"
-                        disabled={false}
-                        name="recentCommentHistory.timeFrame-value"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value="7"
-                      />
-                    </div>
-                    <span
-                      className="DurationField-unit"
-                    >
-                      Days
-                    </span>
-                  </div>
-                </fieldset>
-                <fieldset
-                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-                >
-                  <div
-                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
-                  >
-                    <legend
-                      className="Label-root"
-                    >
-                      Recent history filter
-                    </legend>
-                    <p
-                      className="HelperText-root"
-                    >
-                      Prevents repeat offenders from publishing comments without approval.
-When a commenter's rejection rate is above the threshold, their
-comments are sent to Pending for moderator approval. This does not
-apply to Staff comments.
-                    </p>
-                  </div>
-                  <div>
-                    <div
-                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                    >
-                      <input
-                        checked={false}
-                        className="RadioButton-input"
-                        disabled={false}
-                        id="recentCommentHistory.enabled-true"
-                        name="recentCommentHistory.enabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="radio"
-                        value="true"
-                      />
-                      <label
-                        className="RadioButton-label"
-                        htmlFor="recentCommentHistory.enabled-true"
-                      >
-                        <span>
-                          On
-                        </span>
-                      </label>
-                    </div>
-                    <div
-                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                    >
-                      <input
-                        checked={true}
-                        className="RadioButton-input"
-                        disabled={false}
-                        id="recentCommentHistory.enabled-false"
-                        name="recentCommentHistory.enabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="radio"
-                        value="false"
-                      />
-                      <label
-                        className="RadioButton-label RadioButton-labelChecked"
-                        htmlFor="recentCommentHistory.enabled-false"
-                      >
-                        <span>
-                          Off
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </fieldset>
-                <div
-                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-                >
-                  <div
-                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
-                  >
-                    <label
-                      className="Label-root"
-                    >
-                      Rejection rate threshold
-                    </label>
-                    <p
-                      className="HelperText-root"
-                    >
-                      Rejected comments ÷ (rejected comments + published comments)
-over the timeframe above, as a percentage. It does not include
-comments pending for toxicity, spam or pre-moderation.
-                    </p>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
-                  >
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input RecentCommentHistoryConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
-                        disabled={false}
-                        name="recentCommentHistory.triggerRejectionRate"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value="30"
-                      />
-                      <div
-                        className="TextField-adornment"
-                      >
-                        <span
-                          className="TextFieldAdornment-root"
-                        >
-                          %
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </fieldset>
             </div>
           </fieldset>
@@ -1388,6 +1091,321 @@ in your Akismet account:
                         type="text"
                         value=""
                       />
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </fieldset>
+          <div
+            className="Box-root ConfigBox-root"
+            id="Users"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <legend
+                  className="Header-root"
+                >
+                  New commenter approval
+                </legend>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  When this is active, initial comments by a new commenter will be sent to Pending
+for moderator approval before publication.
+                </p>
+                <fieldset
+                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    Enable new commenter approval
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="newCommenters.premodEnabled-true"
+                        name="newCommenters.premodEnabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="newCommenters.premodEnabled-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="newCommenters.premodEnabled-false"
+                        name="newCommenters.premodEnabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="newCommenters.premodEnabled-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    Number of comments that must be approved
+                  </label>
+                  <div
+                    className="TextField-root"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input NewCommentersConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                      disabled={false}
+                      name="newCommenters.approvedCommentsThreshold"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value={2}
+                    />
+                    <div
+                      className="TextField-adornment"
+                    >
+                      comments
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <fieldset
+            className="FieldSet-root Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <legend
+                  className="Header-root"
+                >
+                  Recent history
+                </legend>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <fieldset
+                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                  >
+                    <legend
+                      className="Label-root"
+                    >
+                      Recent comment history time period
+                    </legend>
+                    <p
+                      className="HelperText-root"
+                    >
+                      Amount of time to calculate a commenter's rejection rate.
+                    </p>
+                  </div>
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                  >
+                    <div
+                      className="TextField-root DurationField-value"
+                    >
+                      <input
+                        aria-label="value"
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                        disabled={false}
+                        name="recentCommentHistory.timeFrame-value"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value="7"
+                      />
+                    </div>
+                    <span
+                      className="DurationField-unit"
+                    >
+                      Days
+                    </span>
+                  </div>
+                </fieldset>
+                <fieldset
+                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                  >
+                    <legend
+                      className="Label-root"
+                    >
+                      Recent history filter
+                    </legend>
+                    <p
+                      className="HelperText-root"
+                    >
+                      Prevents repeat offenders from publishing comments without approval.
+When a commenter's rejection rate is above the threshold, their
+comments are sent to Pending for moderator approval. This does not
+apply to Staff comments.
+                    </p>
+                  </div>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="recentCommentHistory.enabled-true"
+                        name="recentCommentHistory.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="recentCommentHistory.enabled-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="recentCommentHistory.enabled-false"
+                        name="recentCommentHistory.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="recentCommentHistory.enabled-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                  >
+                    <label
+                      className="Label-root"
+                    >
+                      Rejection rate threshold
+                    </label>
+                    <p
+                      className="HelperText-root"
+                    >
+                      Rejected comments ÷ (rejected comments + published comments)
+over the timeframe above, as a percentage. It does not include
+comments pending for toxicity, spam or pre-moderation.
+                    </p>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                  >
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input RecentCommentHistoryConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                        disabled={false}
+                        name="recentCommentHistory.triggerRejectionRate"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value="30"
+                      />
+                      <div
+                        className="TextField-adornment"
+                      >
+                        <span
+                          className="TextFieldAdornment-root"
+                        >
+                          %
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
