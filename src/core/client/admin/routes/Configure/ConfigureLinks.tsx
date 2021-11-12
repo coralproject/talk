@@ -24,13 +24,15 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
         to={{ pathname: "/admin/configure/moderation", hash: "#Comments" }}
       >
         {({
+          href,
           onClick,
         }: {
+          href: string;
           onClick: (e: React.SyntheticEvent<Element>) => void;
         }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-comments">
-              <SubLink onClick={onClick} anchorHash="#Comments">
+              <SubLink href={href} onClick={onClick}>
                 Comments
               </SubLink>
             </Localized>
@@ -42,13 +44,15 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
         to={{ pathname: "/admin/configure/moderation", hash: "#Users" }}
       >
         {({
+          href,
           onClick,
         }: {
+          href: string;
           onClick: (e: React.SyntheticEvent<Element>) => void;
         }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-users">
-              <SubLink onClick={onClick} anchorHash="#Users">
+              <SubLink href={href} onClick={onClick}>
                 Users
               </SubLink>
             </Localized>
