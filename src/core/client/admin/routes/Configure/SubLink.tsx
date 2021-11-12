@@ -22,7 +22,7 @@ const SubLink: FunctionComponent<Props> = (props) => {
       : styles.subLink;
 
   return (
-    <BaseButton className={classNames} onClick={(e) => props.onClick(e)}>
+    <BaseButton className={classNames} onClick={props.onClick}>
       {props.children}
     </BaseButton>
   );
