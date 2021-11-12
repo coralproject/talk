@@ -1228,6 +1228,8 @@ export async function updateUserBan(
       (bsi) => !targetUser.status.ban.siteIDs?.includes(bsi)
     );
 
+    /* eslint-disable */
+    console.log({ siteBanUser });
     await siteBanUser(
       mongo,
       tenant.id,
