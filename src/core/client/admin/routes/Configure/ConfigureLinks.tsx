@@ -30,7 +30,7 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
         }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-comments">
-              <SubLink onClick={onClick} anchorLink="#Comments">
+              <SubLink onClick={onClick} anchorHash="#Comments">
                 Comments
               </SubLink>
             </Localized>
@@ -48,7 +48,7 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
         }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-users">
-              <SubLink onClick={onClick} anchorLink="#Users">
+              <SubLink onClick={onClick} anchorHash="#Users">
                 Users
               </SubLink>
             </Localized>

@@ -4,24 +4,18 @@ $sideNavIndicatorColor: $colors-coral-500;
 $sideNavActiveColor: var(--palette-text-500);
 
 .subLink {
-  background-color: var(--palette-background-body);
-  border: none;
+  border-left: 1px solid $sideNavBorderColor;
   color: $sideNavItemColor;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-4);
   line-height: 1.11;
-  font-weight: var(--font-weight-primary-regular);
-  display: inline-block;
   padding: var(--spacing-2) var(--spacing-2)
     var(--spacing-2) calc(var(--spacing-5) + 4px);
-  border-left: 1px solid $sideNavBorderColor;
-  text-decoration: none;
 
   &:hover {
-    cursor: pointer;
     border-left: 2px solid $sideNavIndicatorColor;
-    padding-left: calc(var(--spacing-5) + 3px);
     color: $sideNavActiveColor;
+    padding-left: calc(var(--spacing-5) + 3px);
   }
 }
 

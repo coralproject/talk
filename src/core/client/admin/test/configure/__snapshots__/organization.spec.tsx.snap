@@ -54,16 +54,28 @@ exports[`renders configure organization 1`] = `
               </li>
               <li>
                 <button
-                  className="SubLink-subLink"
+                  className="BaseButton-root SubLink-subLink"
+                  onBlur={[Function]}
                   onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
                   Comments
                 </button>
               </li>
               <li>
                 <button
-                  className="SubLink-subLink"
+                  className="BaseButton-root SubLink-subLink"
+                  onBlur={[Function]}
                   onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
                   Users
                 </button>
