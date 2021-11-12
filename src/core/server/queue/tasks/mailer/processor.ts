@@ -8,7 +8,6 @@ import {
   SMTPClient,
   SMTPConnectionOptions,
 } from "emailjs";
-import htmlToText from "html-to-text";
 import Joi from "joi";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
@@ -184,13 +183,10 @@ function createMessageTranslator(i18n: I18n) {
       { organizationName: tenant.organization.name }
     );
 
-    // Generate the text content of the message from the HTML.
-    const text = htmlToText.fromString(html);
-
     const headers: Partial<MessageHeaders> = {
       from: fromAddress,
       to: data.message.to,
-      text,
+      text: html,
       subject,
       attachment,
     };
