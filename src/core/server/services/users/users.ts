@@ -1228,34 +1228,36 @@ export async function updateUserBan(
       (bsi) => !targetUser.status.ban.siteIDs?.includes(bsi)
     );
 
-    /* eslint-disable */
-    console.log({ siteBanUser });
-    await siteBanUser(
-      mongo,
-      tenant.id,
-      userID,
-      banner.id,
-      message,
-      idsToBan,
-      now
-    );
-    newBans = true;
+    if (idsToBan.length > 0) {
+      await siteBanUser(
+        mongo,
+        tenant.id,
+        userID,
+        banner.id,
+        message,
+        idsToBan,
+        now
+      );
+      newBans = true;
+    }
   }
 
   // unban user on unban ID sites if banned on them
   if (unbanSiteIDs?.length) {
-    const newUnbans = unbanSiteIDs.filter(
-      (usi) => !targetUser.status.ban.siteIDs?.includes(usi)
+    const newUnbans = unbanSiteIDs.filter((usi) =>
+      targetUser.status.ban.siteIDs?.includes(usi)
     );
 
-    await removeUserSiteBan(
-      mongo,
-      tenant.id,
-      userID,
-      banner.id,
-      now,
-      newUnbans
-    );
+    if (newUnbans.length > 0) {
+      await removeUserSiteBan(
+        mongo,
+        tenant.id,
+        userID,
+        banner.id,
+        now,
+        newUnbans
+      );
+    }
   }
   // if any new bans and rejectExistingCommments, reject existing comments
   if (newBans && rejectExistingComments) {

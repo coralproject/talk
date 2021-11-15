@@ -1,4 +1,4 @@
-jest.mock("../../models/user");
+jest.mock("coral-server/models/user");
 
 import {
   createMockMailer,
@@ -13,15 +13,23 @@ import { updateUserBan } from "./users";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 describe("updateUserBan", () => {
-  // afterEach(jest.clearAllMocks);
+  afterEach(jest.clearAllMocks);
 
   const mailer = createMockMailer();
   const rejector = createMockRejector();
   const mongo = createMockMongoContex();
   const tenant = createTenantFixture();
+  const tenantID = tenant.id;
   const badUser = createUserFixture();
   const siteA = createSiteFixture({ tenantID: tenant.id });
   const siteB = createSiteFixture({ tenantID: tenant.id });
+  const admin = createUserFixture({
+    tenantID,
+    role: GQLUSER_ROLE.ADMIN,
+  });
+
+  /* eslint-disable-next-line */
+  const userService = require("coral-server/models/user");
 
   it("rejects updates by non mod users", async () => {
     const commentor = createUserFixture({
@@ -124,11 +132,6 @@ describe("updateUserBan", () => {
     /* eslint-disable-next-line */
     require("coral-server/models/user").retrieveUser.mockResolvedValue(bannedOnSiteA);
 
-    const admin = createUserFixture({
-      tenantID: tenant.id,
-      role: GQLUSER_ROLE.ADMIN,
-    });
-
     const res = await updateUserBan(
       mongo,
       mailer,
@@ -144,8 +147,100 @@ describe("updateUserBan", () => {
     expect(res.id).toEqual(bannedOnSiteA.id);
     expect(
       /* eslint-disable-next-line */
-      require("coral-server/models/user").siteBanUser
+      userService.siteBanUser
     ).toHaveBeenCalledTimes(0);
     expect(mailer.add).toHaveBeenCalledTimes(0); // MARCUS: not getting the mocks, hmm
+  });
+
+  it("performs bans on new sites", async () => {
+    const bannedOnSiteB = createUserFixture({
+      tenantID,
+      status: {
+        ban: {
+          siteIDs: [siteB.id],
+        },
+      },
+    });
+
+    userService.retrieveUser.mockResolvedValue(bannedOnSiteB);
+
+    const res = await updateUserBan(
+      mongo,
+      mailer,
+      rejector,
+      tenant,
+      admin,
+      bannedOnSiteB.id,
+      "TEST MESSAGE",
+      true,
+      [siteA.id]
+    );
+
+    expect(res.id).toEqual(bannedOnSiteB.id);
+    expect(userService.siteBanUser).toHaveBeenCalledTimes(1);
+    expect(mailer.add).toHaveBeenCalledTimes(1);
+    expect(rejector.add).toHaveBeenCalledTimes(1);
+  });
+
+  it("skips currently unbanned sites", async () => {
+    const notBannedUser = createUserFixture({
+      tenantID,
+    });
+
+    userService.retrieveUser.mockResolvedValue(notBannedUser);
+
+    const res = await updateUserBan(
+      mongo,
+      mailer,
+      rejector,
+      tenant,
+      admin,
+      notBannedUser.id,
+      "TEST MESSAGE",
+      false,
+      [],
+      [siteA.id, siteB.id]
+    );
+
+    expect(res.id).toEqual(notBannedUser.id);
+    expect(userService.removeUserSiteBan).toHaveBeenCalledTimes(0);
+  });
+
+  it("observes rejectExistingComments argument", async () => {
+    const unbannedUser = createUserFixture({
+      tenantID,
+    });
+
+    userService.retrieveUser.mockResolvedValue(unbannedUser);
+
+    const dontRejectRes = await updateUserBan(
+      mongo,
+      mailer,
+      rejector,
+      tenant,
+      admin,
+      unbannedUser.id,
+      "Test Message",
+      false,
+      [siteA.id, siteB.id]
+    );
+
+    expect(dontRejectRes.id).toEqual(unbannedUser.id);
+    expect(rejector.add).toHaveBeenCalledTimes(0);
+
+    const rejectRes = await updateUserBan(
+      mongo,
+      mailer,
+      rejector,
+      tenant,
+      admin,
+      unbannedUser.id,
+      "Test Message",
+      true,
+      [siteA.id, siteB.id]
+    );
+
+    expect(rejectRes.id).toEqual(unbannedUser.id);
+    expect(rejector.add).toHaveBeenCalledTimes(1);
   });
 });
