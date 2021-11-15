@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLSTORY_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLSTORY_STATUS } from "coral-framework/schema";
 
 import { StoryActionsContainer_story } from "coral-admin/__generated__/StoryActionsContainer_story.graphql";
 import { StoryActionsContainer_viewer } from "coral-admin/__generated__/StoryActionsContainer_viewer.graphql";
@@ -60,7 +60,10 @@ const StoryActionsContainer: FunctionComponent<Props> = (props) => {
         !props.story.isArchiving
       }
       canArchive={
-        viewCanArchive && !props.story.isArchiving && !props.story.isArchived
+        viewCanArchive &&
+        !props.story.isArchiving &&
+        !props.story.isArchived &&
+        props.story.settings?.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS
       }
       canUnarchive={
         props.story.status === GQLSTORY_STATUS.CLOSED &&
@@ -85,6 +88,9 @@ const enhanced = withFragmentContainer<Props>({
       status
       isArchived
       isArchiving
+      settings {
+        mode
+      }
     }
   `,
 })(StoryActionsContainer);
