@@ -94,125 +94,131 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 </Localized>
               </HorizontalGutter>
               <HorizontalGutter>
-                <Localized id="profile-account-notifications-receiveWhen">
-                  <div
-                    className={styles.header}
-                    id="profile-account-notifications-receiveWhen"
-                  >
-                    Receive notifications when:
-                  </div>
-                </Localized>
-                <FieldSet aria-labelledby="profile-account-notifications-receiveWhen">
-                  <FormField>
-                    <Field name="onReply" type="checkbox">
-                      {({ input }) => (
-                        <Localized id="profile-account-notifications-onReply">
-                          <CheckBox
-                            {...input}
-                            id={input.name}
-                            className={styles.checkBox}
-                            variant="streamBlue"
-                          >
-                            My comment receives a reply
-                          </CheckBox>
-                        </Localized>
-                      )}
-                    </Field>
-                  </FormField>
-                  <FormField>
-                    <Field name="onFeatured" type="checkbox">
-                      {({ input }) => (
-                        <Localized id="profile-account-notifications-onFeatured">
-                          <CheckBox
-                            {...input}
-                            id={input.name}
-                            className={styles.checkBox}
-                            variant="streamBlue"
-                          >
-                            My comment is featured
-                          </CheckBox>
-                        </Localized>
-                      )}
-                    </Field>
-                  </FormField>
-                  <FormField>
-                    <Field name="onStaffReplies" type="checkbox">
-                      {({ input }) => (
-                        <Localized id="profile-account-notifications-onStaffReplies">
-                          <CheckBox
-                            {...input}
-                            id={input.name}
-                            className={styles.checkBox}
-                            variant="streamBlue"
-                          >
-                            A staff member replies to my comment
-                          </CheckBox>
-                        </Localized>
-                      )}
-                    </Field>
-                  </FormField>
-                  <FormField>
-                    <Field name="onModeration" type="checkbox">
-                      {({ input }) => (
-                        <Localized id="profile-account-notifications-onModeration">
-                          <CheckBox
-                            {...input}
-                            id={input.name}
-                            className={styles.checkBox}
-                            variant="streamBlue"
-                          >
-                            My pending comment has been reviewed
-                          </CheckBox>
-                        </Localized>
-                      )}
-                    </Field>
-                  </FormField>
-                  <FormField>
-                    <Localized id="profile-account-notifications-sendNotifications">
-                      <label
-                        className={cn(styles.header, styles.sendNotifications)}
-                        htmlFor="digestFrequency"
-                      >
-                        Send Notifications:
-                      </label>
+                <FieldSet>
+                  <HorizontalGutter>
+                    <Localized id="profile-account-notifications-receiveWhen">
+                      <legend className={styles.header}>
+                        Receive notifications when:
+                      </legend>
                     </Localized>
-                    <FormSpy subscription={{ values: true }}>
-                      {({ values }) => (
-                        <Field name="digestFrequency">
+                    <div>
+                      <FormField>
+                        <Field name="onReply" type="checkbox">
                           {({ input }) => (
-                            <div>
-                              <SelectField
+                            <Localized id="profile-account-notifications-onReply">
+                              <CheckBox
                                 {...input}
                                 id={input.name}
-                                disabled={
-                                  !values.onReply &&
-                                  !values.onStaffReplies &&
-                                  !values.onFeatured &&
-                                  !values.onModeration
-                                }
+                                className={styles.checkBox}
+                                variant="streamBlue"
                               >
-                                <Localized id="profile-account-notifications-sendNotifications-immediately">
-                                  <Option value={GQLDIGEST_FREQUENCY.NONE}>
-                                    Immediately
-                                  </Option>
-                                </Localized>
-                                <Localized id="profile-account-notifications-sendNotifications-daily">
-                                  <Option value={GQLDIGEST_FREQUENCY.DAILY}>
-                                    Daily
-                                  </Option>
-                                </Localized>
-                                <Localized id="profile-account-notifications-sendNotifications-hourly">
-                                  <Option value={GQLDIGEST_FREQUENCY.HOURLY}>
-                                    Hourly
-                                  </Option>
-                                </Localized>
-                              </SelectField>
-                            </div>
+                                My comment receives a reply
+                              </CheckBox>
+                            </Localized>
                           )}
                         </Field>
-                      )}
-                    </FormSpy>
-                  </FormField>
+                      </FormField>
+                      <FormField>
+                        <Field name="onFeatured" type="checkbox">
+                          {({ input }) => (
+                            <Localized id="profile-account-notifications-onFeatured">
+                              <CheckBox
+                                {...input}
+                                id={input.name}
+                                className={styles.checkBox}
+                                variant="streamBlue"
+                              >
+                                My comment is featured
+                              </CheckBox>
+                            </Localized>
+                          )}
+                        </Field>
+                      </FormField>
+                      <FormField>
+                        <Field name="onStaffReplies" type="checkbox">
+                          {({ input }) => (
+                            <Localized id="profile-account-notifications-onStaffReplies">
+                              <CheckBox
+                                {...input}
+                                id={input.name}
+                                className={styles.checkBox}
+                                variant="streamBlue"
+                              >
+                                A staff member replies to my comment
+                              </CheckBox>
+                            </Localized>
+                          )}
+                        </Field>
+                      </FormField>
+                      <FormField>
+                        <Field name="onModeration" type="checkbox">
+                          {({ input }) => (
+                            <Localized id="profile-account-notifications-onModeration">
+                              <CheckBox
+                                {...input}
+                                id={input.name}
+                                className={styles.checkBox}
+                                variant="streamBlue"
+                              >
+                                My pending comment has been reviewed
+                              </CheckBox>
+                            </Localized>
+                          )}
+                        </Field>
+                      </FormField>
+                      <FormField>
+                        <Localized id="profile-account-notifications-sendNotifications">
+                          <label
+                            className={cn(
+                              styles.header,
+                              styles.sendNotifications
+                            )}
+                            htmlFor="digestFrequency"
+                          >
+                            Send Notifications:
+                          </label>
+                        </Localized>
+                        <FormSpy subscription={{ values: true }}>
+                          {({ values }) => (
+                            <Field name="digestFrequency">
+                              {({ input }) => (
+                                <div>
+                                  <SelectField
+                                    {...input}
+                                    id={input.name}
+                                    disabled={
+                                      !values.onReply &&
+                                      !values.onStaffReplies &&
+                                      !values.onFeatured &&
+                                      !values.onModeration
+                                    }
+                                  >
+                                    <Localized id="profile-account-notifications-sendNotifications-immediately">
+                                      <Option value={GQLDIGEST_FREQUENCY.NONE}>
+                                        Immediately
+                                      </Option>
+                                    </Localized>
+                                    <Localized id="profile-account-notifications-sendNotifications-daily">
+                                      <Option value={GQLDIGEST_FREQUENCY.DAILY}>
+                                        Daily
+                                      </Option>
+                                    </Localized>
+                                    <Localized id="profile-account-notifications-sendNotifications-hourly">
+                                      <Option
+                                        value={GQLDIGEST_FREQUENCY.HOURLY}
+                                      >
+                                        Hourly
+                                      </Option>
+                                    </Localized>
+                                  </SelectField>
+                                </div>
+                              )}
+                            </Field>
+                          )}
+                        </FormSpy>
+                      </FormField>
+                    </div>
+                  </HorizontalGutter>
                 </FieldSet>
               </HorizontalGutter>
               <div

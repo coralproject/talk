@@ -19,6 +19,7 @@
 
   color: var(--palette-text-500);
 
+  padding: 0;
   padding-bottom: var(--spacing-1);
 }
 
