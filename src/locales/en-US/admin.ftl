@@ -1013,8 +1013,11 @@ moderate-searchBar-seeAllResults = See all results
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
+moderateCardDetails-tab-reactions = Reactions
 moderateCardDetails-tab-noIssuesFound = No issues found
 moderateCardDetails-tab-missingPhase = Was not run
+
+reactions-loadMore = Load more
 
 moderateCardDetails-tab-externalMod-status = Status
 moderateCardDetails-tab-externalMod-flags = Flags

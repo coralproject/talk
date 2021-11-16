@@ -23,6 +23,7 @@ import AutomatedActionsContainer from "./AutomatedActionsContainer";
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
+import ReactionsTabDetailsQuery from "./ReactionsTabDetailsQuery";
 
 import styles from "./ModerateCardDetailsContainer.css";
 
@@ -32,7 +33,7 @@ interface Props {
   onUsernameClick: (id?: string) => void;
 }
 
-type DetailsTabs = "INFO" | "HISTORY" | "EXTERNAL_MOD";
+type DetailsTabs = "INFO" | "HISTORY" | "EXTERNAL_MOD" | "REACTIONS";
 
 function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
   return c.revision
@@ -66,6 +67,9 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       (comment.revision.metadata.externalModeration &&
         comment.revision.metadata.externalModeration.length > 0))
   );
+  const hasReactions =
+    comment.revision?.actionCounts.reaction.total &&
+    comment.revision?.actionCounts.reaction.total > 0;
 
   return (
     <HorizontalGutter>
@@ -78,10 +82,20 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             </Localized>
           </Flex>
         </Tab>
+        {hasReactions && (
+          <Tab tabID="REACTIONS" classes={styles}>
+            <Flex alignItems="center" itemGutter>
+              <Icon size="md">thumb_up</Icon>
+              <Localized id="moderateCardDetails-tab-reactions">
+                <span>Reactions</span>
+              </Localized>
+            </Flex>
+          </Tab>
+        )}
         {hasRevisions && (
           <Tab tabID="HISTORY" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <Icon>edit</Icon>
+              <Icon size="md">edit</Icon>
               <Localized id="moderateCardDetails-tab-edits">
                 <span>Edit history</span>
               </Localized>
@@ -110,6 +124,12 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
           )}
         </>
       )}
+      {activeTab === "REACTIONS" && (
+        <ReactionsTabDetailsQuery
+          commentID={comment.id}
+          onUsernameClick={onUsernameClick}
+        />
+      )}
       {activeTab === "HISTORY" && (
         <CommentRevisionContainer comment={comment} />
       )}
@@ -123,6 +143,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardDetailsContainer_comment on Comment {
+      id
       status
       tags {
         code
@@ -141,6 +162,9 @@ const enhanced = withFragmentContainer<Props>({
               COMMENT_DETECTED_TOXIC
               COMMENT_DETECTED_SPAM
             }
+          }
+          reaction {
+            total
           }
         }
         metadata {
