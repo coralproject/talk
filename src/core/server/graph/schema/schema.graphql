@@ -4175,8 +4175,11 @@ type Query {
 
   site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
 
-  sites(first: Int = 10 @constraint(max: 50), after: Cursor, query: String): SitesConnection!
-    @auth(roles: [ADMIN, MODERATOR])
+  sites(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+    query: String
+  ): SitesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewer is the current logged in User. If no user is currently logged in, it will
@@ -8534,9 +8537,8 @@ type Mutation {
   """
   sendModMessage will send a user a moderation message that they need to acknowledge
   """
-  sendModMessage(
-    input: SendModMessageInput!
-  ): SendModMessagePayload! @auth(roles: [ADMIN, MODERATOR])
+  sendModMessage(input: SendModMessageInput!): SendModMessagePayload!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   acknowledgeModMessage will set moderation messages to inactive

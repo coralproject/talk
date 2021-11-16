@@ -20,8 +20,7 @@ import { CallOut } from "coral-ui/components/v3";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import UserStatusSitesList from "./UserStatusSitesList";
-import { Scopes } from "./UserStatusSitesListContainer";
+import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
