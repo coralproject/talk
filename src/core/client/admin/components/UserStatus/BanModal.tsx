@@ -3,7 +3,9 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 
+import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
+
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
@@ -18,13 +20,14 @@ import { CallOut } from "coral-ui/components/v3";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
+import UserStatusSitesList from "./UserStatusSitesList";
 import { Scopes } from "./UserStatusSitesListContainer";
-import UserStatusSitesListQuery from "./UserStatusSitesListQuery";
 
 import styles from "./BanModal.css";
 
 interface Props {
   username: string | null;
+  banStatus: UserStatusChangeContainer_user["status"]["ban"]; // MARCUS: better way to do this?
   open: boolean;
   onClose: () => void;
   onConfirm: (
@@ -48,6 +51,7 @@ const BanModal: FunctionComponent<Props> = ({
   moderationScopesEnabled,
   viewerScopes,
   userScopes,
+  banStatus,
 }) => {
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
@@ -189,9 +193,9 @@ const BanModal: FunctionComponent<Props> = ({
                   </Field>
 
                   {moderationScopesEnabled && (
-                    <UserStatusSitesListQuery
+                    <UserStatusSitesList
+                      bannedSites={banStatus.sites || []}
                       viewerScopes={viewerScopes}
-                      userScopes={userScopes}
                     />
                   )}
 

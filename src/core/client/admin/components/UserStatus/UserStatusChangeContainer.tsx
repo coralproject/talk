@@ -260,7 +260,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           username={user.username}
           open={showBanned}
           onClose={handleBanModalClose}
-          onConfirm={handleBanConfirm}
+          onConfirm={handleBanConfirm} // MARCUS: here
           moderationScopesEnabled={moderationScopesEnabled}
           viewerScopes={{
             role: viewer.role,
