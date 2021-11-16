@@ -65,8 +65,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   // MARCUS: set initial banned sites
 
   useEffect(() => {
-    selectedIDsInput.onChange(bannedSites);
-  }, [bannedSites, selectedIDsInput]);
+    selectedIDsInput.onChange(bannedSites.map((bs) => bs.id)); // This is probably just handled by the selected site qeury
+  }, [bannedSites]);
+  // MARCUS: including selectedIDsInput in dep array causes selectedIDs to be overwritten?
 
   /* eslint-disable */
   console.log({ sites: selectedIDsInput.value }, "UserStatusSitesList rendering");

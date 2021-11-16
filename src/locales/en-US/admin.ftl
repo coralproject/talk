@@ -1208,10 +1208,7 @@ community-siteModeratorActions-popover =
 community-userStatus-popover =
   .description = A dropdown to change the user status
 
-community-userStatus-banUser = Ban User
-community-userStatus-ban = Ban
-community-userStatus-removeBan = Remove Ban
-community-userStatus-removeUserBan = Remove ban
+community-userStatus-manageBan = Manage Ban
 community-userStatus-suspendUser = Suspend User
 community-userStatus-suspend = Suspend
 community-userStatus-suspendEverywhere = Suspend everywhere

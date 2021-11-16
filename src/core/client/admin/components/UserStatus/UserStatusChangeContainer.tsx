@@ -13,7 +13,6 @@ import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
 import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
-import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMutation from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
 import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
@@ -42,7 +41,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 }) => {
   const banUser = useMutation(BanUserMutation);
   const suspendUser = useMutation(SuspendUserMutation);
-  const removeUserBan = useMutation(RemoveUserBanMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
   const removeUserPremod = useMutation(RemoveUserPremodMutation);
@@ -101,15 +99,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   const handleManageBan = useCallback(() => {
-    if (
-      !user.status.ban.active &&
-      (!user.status.ban.sites || user.status.ban.sites.length === 0)
-    ) {
+    if (user.status.ban.active) {
       return;
     }
+    setShowBanned(true);
+  }, [user, setShowBanned]);
 
-    void removeUserBan({ userID: user.id }); // MARCUS: here
-  }, [user, removeUserBan]);
   const handleSuspend = useCallback(() => {
     if (user.status.suspension.active) {
       return;
