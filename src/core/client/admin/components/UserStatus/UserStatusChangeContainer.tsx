@@ -99,13 +99,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     },
     [warnUser, user, setShowWarnSuccess]
   );
-  const handleBan = useCallback(() => {
-    if (user.status.ban.active) {
-      return;
-    }
-    setShowBanned(true);
-  }, [user, setShowBanned]);
-  const handleRemoveBan = useCallback(() => {
+
+  const handleManageBan = useCallback(() => {
     if (
       !user.status.ban.active &&
       (!user.status.ban.sites || user.status.ban.sites.length === 0)
@@ -113,7 +108,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    void removeUserBan({ userID: user.id });
+    void removeUserBan({ userID: user.id }); // MARCUS: here
   }, [user, removeUserBan]);
   const handleSuspend = useCallback(() => {
     if (user.status.suspension.active) {
@@ -197,8 +192,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   return (
     <>
       <UserStatusChange
-        onBan={handleBan}
-        onRemoveBan={!viewer.moderationScopes?.scoped && handleRemoveBan}
+        onManageBan={handleManageBan} // MARCUS: doubel check this
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
