@@ -270,6 +270,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
             role: user.role,
             sites: user.status.ban.sites?.map((s) => s),
           }}
+          banStatus={user.status.ban}
         />
       }
     </>

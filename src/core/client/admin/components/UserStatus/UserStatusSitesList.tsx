@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
@@ -56,10 +61,15 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     !!(viewerIsScoped || viewerIsSingleSiteMod)
   );
 
-  const { input: selectedIDsInput } = useField<string[]>("selectedIDs", {
-    initialValue: bannedSites.map((bs) => bs.id),
-  });
+  const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
   // MARCUS: set initial banned sites
+
+  useEffect(() => {
+    selectedIDsInput.onChange(bannedSites);
+  }, [bannedSites, selectedIDsInput]);
+
+  /* eslint-disable */
+  console.log({ sites: selectedIDsInput.value }, "UserStatusSitesList rendering");
 
   const onHideSites = useCallback(() => {
     setShowSites(false);
@@ -83,6 +93,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
 
   const onAddSite = useCallback(
     (siteID: string) => {
+      /* eslint-disable */
+      console.log({ siteID }, "onAddSite!");
       const changed = [...selectedIDsInput.value];
 
       const index = changed.indexOf(siteID);

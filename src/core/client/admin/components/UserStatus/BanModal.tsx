@@ -26,7 +26,7 @@ import styles from "./BanModal.css";
 
 interface Props {
   username: string | null;
-  banStatus: UserStatusChangeContainer_user["status"]["ban"]; // MARCUS: better way to do this?
+  banStatus?: UserStatusChangeContainer_user["status"]["ban"]; // MARCUS: better way to do this?
   open: boolean;
   onClose: () => void;
   onConfirm: (
@@ -193,7 +193,7 @@ const BanModal: FunctionComponent<Props> = ({
 
                   {moderationScopesEnabled && (
                     <UserStatusSitesList
-                      bannedSites={banStatus.sites || []}
+                      bannedSites={banStatus?.sites || []}
                       viewerScopes={viewerScopes}
                     />
                   )}
