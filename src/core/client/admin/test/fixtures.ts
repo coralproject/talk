@@ -685,6 +685,9 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_DETECTED_BANNED_WORD: 0,
         },
       },
+      reaction: {
+        total: 2,
+      },
     },
     metadata: {
       perspective: NULL_VALUE,
@@ -750,6 +753,9 @@ export const reportedComments = createFixtures<GQLComment>(
               COMMENT_REPORTED_SPAM: 2,
             },
           },
+          reaction: {
+            total: 2,
+          },
         },
         metadata: {
           perspective: {
@@ -788,6 +794,9 @@ export const reportedComments = createFixtures<GQLComment>(
             reasons: {
               COMMENT_REPORTED_OFFENSIVE: 3,
             },
+          },
+          reaction: {
+            total: 2,
           },
         },
         metadata: {
@@ -834,6 +843,9 @@ export const reportedComments = createFixtures<GQLComment>(
               COMMENT_REPORTED_OFFENSIVE: 1,
             },
           },
+          reaction: {
+            total: 2,
+          },
         },
         metadata: {
           perspective: {
@@ -872,6 +884,9 @@ export const reportedComments = createFixtures<GQLComment>(
             reasons: {
               COMMENT_REPORTED_SPAM: 1,
             },
+          },
+          reaction: {
+            total: 2,
           },
         },
         metadata: {

@@ -67,9 +67,11 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       (comment.revision.metadata.externalModeration &&
         comment.revision.metadata.externalModeration.length > 0))
   );
-  const hasReactions =
-    comment.revision?.actionCounts.reaction.total &&
-    comment.revision?.actionCounts.reaction.total > 0;
+  const hasReactions = !!(
+    comment &&
+    comment.revision &&
+    comment.revision.actionCounts.reaction.total > 0
+  );
 
   return (
     <HorizontalGutter>
