@@ -20,3 +20,6 @@ common-experimentalTag-tooltip-title = Experimental feature
 common-error-title = An error has occurred
 common-error-message = Message
 common-error-traceID = Trace ID
+common-error-relayNetworkRequestError-anUnexpectedNetworkError = 
+  An unexpected network error occured, please try again later.
+common-error-relayNetworkRequestError-code = Code
