@@ -17,6 +17,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   INTERNAL_ERROR: "error-internalError",
   LOCAL_PROFILE_ALREADY_SET: "error-localProfileAlreadySet",
   LOCAL_PROFILE_NOT_SET: "error-localProfileNotSet",
+  SSO_PROFILE_NOT_SET: "error-SSOProfileNotSet",
   NOT_FOUND: "error-notFound",
   PASSWORD_TOO_SHORT: "error-passwordTooShort",
   STORY_CLOSED: "error-storyClosed",
