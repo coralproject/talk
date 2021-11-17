@@ -22,7 +22,6 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import {
-  GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
@@ -109,12 +108,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
   `);
 
-  const scoped = useMemo(
-    () =>
-      settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-      !!viewer.moderationScopes?.scoped,
-    [settings, viewer]
-  );
+  const scoped = useMemo(() => !!viewer.moderationScopes?.scoped, [viewer]);
 
   const readOnly = useMemo(() => scoped && !comment.canModerate, [
     scoped,
@@ -340,7 +334,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
-          phrases={settings}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
@@ -374,6 +367,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           edited={comment.editing.edited}
           readOnly={readOnly}
           isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
+          bannedWords={comment.revision?.metadata?.wordList?.bannedWords || []}
+          suspectWords={
+            comment.revision?.metadata?.wordList?.suspectWords || []
+          }
           isArchived={comment.story.isArchived}
           isArchiving={comment.story.isArchiving}
         />
@@ -433,6 +430,20 @@ const enhanced = withFragmentContainer<Props>({
             }
           }
         }
+        metadata {
+          wordList {
+            bannedWords {
+              value
+              index
+              length
+            }
+            suspectWords {
+              value
+              index
+              length
+            }
+          }
+        }
       }
       tags {
         code
@@ -483,7 +494,6 @@ const enhanced = withFragmentContainer<Props>({
         suspect
       }
       multisite
-      featureFlags
       ...MarkersContainer_settings
     }
   `,

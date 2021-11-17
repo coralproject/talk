@@ -5,7 +5,6 @@ import { graphql } from "react-relay";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { Spinner } from "coral-ui/components/v2";
 
 import { ModerateContainerQueryResponse } from "coral-admin/__generated__/ModerateContainerQuery.graphql";
@@ -53,11 +52,6 @@ const ModerateContainer: FunctionComponent<Props> = ({
   useEffect(() => {
     // Wait for the data and viewer to become available.
     if (!data || !data.viewer) {
-      return;
-    }
-
-    // If the feature flag isn't enabled, we don't need to do anything!
-    if (!data.settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR)) {
       return;
     }
 
@@ -166,10 +160,7 @@ const enhanced = withRouteConfig<Props>({
 
       settings {
         ...ModerateSearchBarContainer_settings
-        ...SiteSelectorContainer_settings
         ...ModerateNavigationContainer_settings
-
-        featureFlags
       }
 
       story(id: $storyID) @include(if: $includeStory) {

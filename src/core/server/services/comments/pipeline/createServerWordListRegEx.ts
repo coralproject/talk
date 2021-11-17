@@ -1,15 +1,15 @@
 import { defaults } from "lodash";
-import XRegExp from "xregexp";
+import RE2 from "re2";
 
 import { LanguageCode } from "coral-common/helpers";
 import { DeepPartial } from "coral-common/types";
 
-interface WordListRule {
+export interface WordListRule {
   boundary: string;
   punctuation: string;
 }
 
-const DefaultWordListRule: WordListRule = {
+export const DefaultWordListRule: WordListRule = {
   // The following symbol, \p{L} refers to any letter class within unicode.
   // Because we're adding the ^, we're also saying to exclude any from that set,
   // leaving all non-word characters from unicode available for selection.
@@ -17,7 +17,7 @@ const DefaultWordListRule: WordListRule = {
   punctuation: "[\\s\"'?!.,¿¡`:;]+",
 };
 
-const WordListRules: DeepPartial<Record<LanguageCode, WordListRule>> = {
+export const WordListRules: DeepPartial<Record<LanguageCode, WordListRule>> = {
   "en-US": DefaultWordListRule,
 };
 
@@ -26,7 +26,7 @@ const WordListRules: DeepPartial<Record<LanguageCode, WordListRule>> = {
  *
  * @param str the string to escape from regex characters
  */
-function escapeRegExp(str: string) {
+export function escapeRegExp(str: string) {
   // $& means the whole matched string
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -38,7 +38,7 @@ function escapeRegExp(str: string) {
  * @param lang the language to possibly swap word list rules
  * @param phrases the phrases to use for creating the expression
  */
-export default function createWordListRegExp(
+export default function createServerWordListRegEx(
   lang: LanguageCode,
   phrases: string[]
 ) {
@@ -69,13 +69,5 @@ export default function createWordListRegExp(
   // at the end of the string or at another word boundary.
   const pattern = `(^|${rule.boundary})(${words})($|${rule.boundary})`;
 
-  try {
-    // Create the RegExp using xregexp to pre-process the pattern to generate
-    // one with the correct unicode ranges. Including A for "astral" unicode
-    // support for supporting higher character ranges.
-    return XRegExp(pattern, "iuA");
-  } catch {
-    // IE does not support unicode support, so we'll create one without.
-    return XRegExp(pattern, "i");
-  }
+  return new RE2(pattern, "iuA");
 }

@@ -1,11 +1,20 @@
+import { JSDOM } from "jsdom";
+
 import { LanguageCode } from "coral-common/helpers";
-import createWordListRegExp from "coral-common/utils/createWordListRegExp";
+import {
+  ALL_FEATURES,
+  createSanitize,
+  WORDLIST_FORBID_TAGS,
+} from "coral-common/helpers/sanitize";
 import { createTimer } from "coral-server/helpers";
 import createTesterWithTimeout, {
+  MatchResult,
   TestWithTimeout,
 } from "coral-server/helpers/createTesterWithTimeout";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
+
+import createServerWordListRegEx from "./createServerWordListRegEx";
 
 interface Lists {
   banned: TestWithTimeout | false;
@@ -22,6 +31,15 @@ export class WordList {
    * collection system.
    */
   private readonly cache = new WeakMap<Options, Lists>();
+  private readonly sanitizer = createSanitize(new JSDOM("", {}).window as any, {
+    // We need normalized text nodes to mark nodes for suspect/banned words.
+    normalize: true,
+    // Allow all RTE features to be displayed.
+    features: ALL_FEATURES,
+    config: {
+      FORBID_TAGS: WORDLIST_FORBID_TAGS,
+    },
+  });
 
   private generate(locale: LanguageCode, list: string[], timeout: number) {
     // If a word list has no entries, then we can make a simple tester.
@@ -30,7 +48,7 @@ export class WordList {
     }
 
     // Generate the regular expression for this list.
-    const regexp = createWordListRegExp(locale, list);
+    const regexp = createServerWordListRegEx(locale, list);
 
     // Create a managed regular expression from the provided regular expression
     // so we can time it out if it takes too long!
@@ -97,19 +115,30 @@ export class WordList {
     timeout: number,
     testString: string,
     cache = true
-  ): boolean | null {
+  ): MatchResult {
     const test = this.lists(options, cache, timeout)[listName];
     if (!test) {
-      return false;
+      return {
+        isMatched: false,
+        timedOut: false,
+        matches: [],
+      };
     }
 
     const timer = createTimer();
 
+    const sanitizedTestString = this.sanitizer(testString).innerHTML;
+
     // Test the string against the list and timeout if it takes too long.
-    const result = test(testString);
-    if (result === null) {
-      logger.info(
-        { tenantID: options.id, listName, took: timer(), testString },
+    const result = test(sanitizedTestString);
+    if (result.timedOut) {
+      logger.warn(
+        {
+          tenantID: options.id,
+          listName,
+          took: timer(),
+          testString: sanitizedTestString,
+        },
         "word list phrase test timed out"
       );
     } else {

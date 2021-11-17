@@ -3,11 +3,7 @@ import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  GQLFEATURE_FLAG,
-  GQLUSER_ROLE,
-  GQLUSER_ROLE_RL,
-} from "coral-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 import { UserRoleChangeContainer_query } from "coral-admin/__generated__/UserRoleChangeContainer_query.graphql";
 import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
@@ -62,9 +58,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   const canChangeRole =
     viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
 
-  const moderationScopesEnabled =
-    settings.featureFlags.includes(GQLFEATURE_FLAG.SITE_MODERATOR) &&
-    settings.multisite;
+  const moderationScopesEnabled = settings.multisite;
 
   const canPromoteDemote =
     viewer.id !== user.id &&
@@ -130,7 +124,6 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment UserRoleChangeContainer_settings on Settings {
       multisite
-      featureFlags
     }
   `,
   query: graphql`

@@ -1,11 +1,13 @@
-import createWordListRegExp from "./createWordListRegExp";
+import RE2 from "re2";
 
-const buildTester = (re: RegExp) => (str: string) => re.test(str);
+import createServerWordListRegEx from "coral-server/services/comments/pipeline/createServerWordListRegEx";
 
-const buildSplitter = (re: RegExp) => (str: string) => str.split(re);
+const buildTester = (re: RE2) => (str: string) => re.test(str);
+
+const buildSplitter = (re: RE2) => (str: string) => str.split(re);
 
 describe("en-US", () => {
-  const re = createWordListRegExp("en-US", [
+  const re = createServerWordListRegEx("en-US", [
     "bad",
     "french fries",
     "worse",
@@ -99,32 +101,128 @@ describe("en-US", () => {
   const split = buildSplitter(re);
 
   it("splits the words in a sentence correctly", () => {
-    expect(split("this sentence is bad.")).toMatchSnapshot();
-    expect(split("this sentence is worse.")).toMatchSnapshot();
+    expect(split("this sentence is bad.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence is",
+        " ",
+        "bad",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence is worse.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence is",
+        " ",
+        "worse",
+        ".",
+        "",
+      ]
+    `);
   });
 
   it("splits words when there are repeat words", () => {
-    expect(split("This is bad bad, very BAD.")).toMatchSnapshot();
+    expect(split("This is bad bad, very BAD.")).toMatchInlineSnapshot(`
+      Array [
+        "This is",
+        " ",
+        "bad",
+        " ",
+        "bad, very",
+        " ",
+        "BAD",
+        ".",
+        "",
+      ]
+    `);
   });
 
   it("splits the words with unicode in a sentence correctly", () => {
-    expect(split("this sentence has one jalapeño.")).toMatchSnapshot();
-    expect(split("this sentence has many jalapeños.")).toMatchSnapshot();
+    expect(split("this sentence has one jalapeño.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has one",
+        " ",
+        "jalapeño",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence has many jalapeños.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has many jalapeños.",
+      ]
+    `);
   });
 
   it("splits the multi-words in a sentence correctly", () => {
-    expect(split("this sentence has french fries.")).toMatchSnapshot();
-    expect(split("this sentence has french;fries.")).toMatchSnapshot();
-    expect(split("this sentence has french!fries.")).toMatchSnapshot();
-    expect(split("this sentence has french.fries.")).toMatchSnapshot();
-    expect(split("this sentence has french?fries.")).toMatchSnapshot();
-    expect(split("this sentence has french¿fries.")).toMatchSnapshot();
-    expect(split("this sentence has french:fries.")).toMatchSnapshot();
+    expect(split("this sentence has french fries.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has",
+        " ",
+        "french fries",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence has french;fries.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has",
+        " ",
+        "french;fries",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence has french!fries.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has",
+        " ",
+        "french!fries",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence has french.fries.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has",
+        " ",
+        "french.fries",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence has french?fries.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has",
+        " ",
+        "french?fries",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence has french¿fries.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has",
+        " ",
+        "french¿fries",
+        ".",
+        "",
+      ]
+    `);
+    expect(split("this sentence has french:fries.")).toMatchInlineSnapshot(`
+      Array [
+        "this sentence has",
+        " ",
+        "french:fries",
+        ".",
+        "",
+      ]
+    `);
   });
 });
 
 describe("es", () => {
-  const re = createWordListRegExp("es", ["adónde vas", "tú"]);
+  const re = createServerWordListRegEx("es", ["adónde vas", "tú"]);
 
   const test = buildTester(re);
 
@@ -136,7 +234,7 @@ describe("es", () => {
 });
 
 describe("pt-BR", () => {
-  const re = createWordListRegExp("pt-BR", [
+  const re = createServerWordListRegEx("pt-BR", [
     "bi",
     "outro",
     "café",
@@ -162,12 +260,56 @@ describe("pt-BR", () => {
   const split = buildSplitter(re);
 
   it("splits the words with unicode in a sentence correctly", () => {
-    expect(split("biólogo se soletra com: bi ")).toMatchSnapshot();
-    expect(split("m.e.r.d.a")).toMatchSnapshot();
-    expect(split("não tomo café pois faz mal")).toMatchSnapshot();
-    expect(split("Como fazer coisas ruins")).toMatchSnapshot();
-    expect(split("O biólogo recomenda este artigo")).toMatchSnapshot();
-    expect(split("cafe")).toMatchSnapshot();
-    expect(split("Ser banido é uma merda")).toMatchSnapshot();
+    expect(split("biólogo se soletra com: bi ")).toMatchInlineSnapshot(`
+      Array [
+        "biólogo se soletra com",
+        ": ",
+        "bi",
+        " ",
+        "",
+      ]
+    `);
+    expect(split("m.e.r.d.a")).toMatchInlineSnapshot(`
+      Array [
+        "",
+        "",
+        "m.e.r.d.a",
+        "",
+        "",
+      ]
+    `);
+    expect(split("não tomo café pois faz mal")).toMatchInlineSnapshot(`
+      Array [
+        "não tomo",
+        " ",
+        "café",
+        " ",
+        "pois faz mal",
+      ]
+    `);
+    expect(split("Como fazer coisas ruins")).toMatchInlineSnapshot(`
+      Array [
+        "",
+        "",
+        "Como fazer coisas ruins",
+        "",
+        "",
+      ]
+    `);
+    expect(split("O biólogo recomenda este artigo")).toMatchInlineSnapshot(`
+      Array [
+        "O biólogo recomenda este artigo",
+      ]
+    `);
+    expect(split("cafe")).toMatchInlineSnapshot(`
+      Array [
+        "cafe",
+      ]
+    `);
+    expect(split("Ser banido é uma merda")).toMatchInlineSnapshot(`
+      Array [
+        "Ser banido é uma merda",
+      ]
+    `);
   });
 });
