@@ -137,8 +137,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     onToggleSite(id, true);
   }, []);
 
-  const allSiteIDs = [...banSiteIDs.value, ...unbanSiteIDs.value];
-
   return (
     <>
       <IntersectionProvider>
@@ -173,7 +171,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
           {showSites && (
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
-                {allSiteIDs.map((siteID) => {
+                {candidateSites.map((siteID) => {
                   const checked = banSiteIDs.value.includes(siteID);
                   /* eslint-disable */
                   console.log({ siteID, checked }, "Rendering site checkbox in Sites List");

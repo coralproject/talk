@@ -63,7 +63,6 @@ const UserStatusChange: FunctionComponent<Props> = ({
               <Localized id="community-userStatus-manageBan">
                 <DropdownButton
                   className={styles.dropdownButton}
-                  // disabled={!onBan}
                   onClick={() => {
                     onManageBan();
                     toggleVisibility();

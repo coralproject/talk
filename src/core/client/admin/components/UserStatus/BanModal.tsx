@@ -201,7 +201,7 @@ const BanModal: FunctionComponent<Props> = ({
                     </Localized>
                     <Localized id="community-banModal-banUser">
                       <Button type="submit" ref={lastFocusableRef}>
-                        Ban User
+                        Save
                       </Button>
                     </Localized>
                   </Flex>
