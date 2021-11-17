@@ -13,14 +13,14 @@ export default class RelayNetworkRequestError extends Error {
   constructor(error: RRNLRequestError, localeBundles: FluentBundle[]) {
     let msg = getMessage(
       localeBundles,
-      "common-error-relayNetworkRequestError-anUnexpectedNetworkError",
+      "framework-error-relayNetworkRequestError-anUnexpectedNetworkError",
       "An unexpected network error occured, please try again later."
     );
 
     if (error.res) {
       const codePrefix = getMessage(
         localeBundles,
-        "common-error-relayNetworkRequestError-code",
+        "framework-error-relayNetworkRequestError-code",
         "Code"
       );
 
