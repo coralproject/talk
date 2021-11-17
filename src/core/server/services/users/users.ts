@@ -1222,6 +1222,7 @@ export async function updateUserBan(
   }
 
   let newBans = false;
+  let user: User = targetUser;
   // ban user on banID sites not already banned on
   if (banSiteIDs?.length) {
     const idsToBan = banSiteIDs.filter(
@@ -1229,7 +1230,7 @@ export async function updateUserBan(
     );
 
     if (idsToBan.length > 0) {
-      await siteBanUser(
+      user = await siteBanUser(
         mongo,
         tenant.id,
         userID,
@@ -1249,7 +1250,7 @@ export async function updateUserBan(
     );
 
     if (newUnbans.length > 0) {
-      await removeUserSiteBan(
+      user = await removeUserSiteBan(
         mongo,
         tenant.id,
         userID,
@@ -1287,7 +1288,7 @@ export async function updateUserBan(
     });
   }
 
-  return targetUser;
+  return user;
 }
 
 /**

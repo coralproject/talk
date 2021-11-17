@@ -5,7 +5,7 @@ import { Environment } from "relay-runtime";
 import { commitMutationPromiseNormalized, createMutation, MutationInput } from "coral-framework/lib/relay";
 
 import { UpdateUserBanMutation as QueryTypes } from "coral-admin/__generated__/UpdateUserBanMutation.graphql";
-let clientMutationID = 0;
+let clientMutationId = 0;
 
 const UpdateUserBanMutation = createMutation(
   "updateUserBan",
@@ -31,7 +31,7 @@ const UpdateUserBanMutation = createMutation(
         variables: {
           input: {
             ...input,
-            clientMutationID: clientMutationID++,
+            clientMutationId: (clientMutationId++).toString(),
           }
         }
       }

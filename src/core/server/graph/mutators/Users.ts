@@ -292,7 +292,8 @@ export const Users = (ctx: GraphContext) => ({
     userID,
     message,
     rejectExistingComments = false,
-    siteIDs,
+    banSiteIDs,
+    unbanSiteIDs,
   }: GQLUpdateUserBanInput) => async () =>
     updateUserBan(
       ctx.mongo,
@@ -303,7 +304,8 @@ export const Users = (ctx: GraphContext) => ({
       userID,
       message,
       rejectExistingComments,
-      siteIDs,
+      banSiteIDs,
+      unbanSiteIDs,
       ctx.now
     ),
   warn: async (input: GQLWarnUserInput) =>
