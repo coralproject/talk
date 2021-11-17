@@ -1,9 +1,3 @@
-.root {
-}
-
-.icon {
-}
-
 .message {
   border-left: 2px solid var(--palette-grey-500);
   padding: var(--spacing-1) 0 var(--spacing-1) var(--spacing-3);

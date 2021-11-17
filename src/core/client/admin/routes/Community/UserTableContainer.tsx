@@ -8,7 +8,6 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import {
-  GQLFEATURE_FLAG,
   GQLUSER_ROLE_RL,
   GQLUSER_STATUS_FILTER_RL,
 } from "coral-framework/schema";
@@ -43,11 +42,7 @@ const UserTableContainer: FunctionComponent<Props> = (props) => {
     statusFilter,
   });
 
-  const moderationScopesEnabled = !!(
-    props?.query?.settings.featureFlags.includes(
-      GQLFEATURE_FLAG.SITE_MODERATOR
-    ) && props?.query?.settings.multisite
-  );
+  const moderationScopesEnabled = !!props?.query?.settings.multisite;
 
   return (
     <IntersectionProvider>

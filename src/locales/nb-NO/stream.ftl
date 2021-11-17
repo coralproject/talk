@@ -266,10 +266,6 @@ comments-userBanPopover-description =
   Når en bruker først er blokkert vil han/hun ikke lenger
   kunne kommentere, reagere eller rapportere kommentarer.
   Denne kommentaren vil også bli avvist.
-comments-userBanPopover-scopedDescription =
-  Når en bruker først er blokkert fra {$sitename}, vil han/hun ikke lenger
-  kunne kommentere, reagere eller rapportere kommentarer.
-  Denne kommentaren vil også bli avvist.
 
 comments-userBanPopover-cancel = Avbryt
 comments-userBanPopover-ban = Blokker

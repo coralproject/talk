@@ -353,6 +353,12 @@ export class EmailAlreadySetError extends CoralError {
   }
 }
 
+export class SSOProfileNotSetError extends CoralError {
+  constructor() {
+    super({ code: ERROR_CODES.SSO_PROFILE_NOT_SET });
+  }
+}
+
 export class LocalProfileNotSetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.LOCAL_PROFILE_NOT_SET });
