@@ -20,7 +20,7 @@ const UserHistoryDrawer: FunctionComponent<UserHistoryDrawerProps> = ({
   setUserID,
 }) => {
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} data-testid="userHistoryDrawer-modal">
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
           {userID && (

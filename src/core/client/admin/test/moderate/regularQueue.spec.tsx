@@ -235,6 +235,81 @@ it("show details of comment with flags", async () => {
     );
   });
 });
+
+it("show reaction details for a comment with reactions", async () => {
+  await act(async () => {
+    const { testRenderer } = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          comment: ({ variables, callCount }) => {
+            switch (callCount) {
+              case 0:
+                expectAndFail(variables).toMatchObject({ id: "comment-0" });
+                return reportedComments[0];
+              default:
+                return reportedComments[0];
+            }
+          },
+          user: ({ variables, callCount }) => {
+            switch (callCount) {
+              case 0:
+                expectAndFail(variables).toMatchObject({
+                  id: "user-commenter-1",
+                });
+                return users.commenters[1];
+              default:
+                return users.commenters[1];
+            }
+          },
+          moderationQueues: () =>
+            pureMerge(emptyModerationQueues, {
+              reported: {
+                count: 1,
+                comments: {
+                  edges: [
+                    {
+                      node: reportedComments[0],
+                      cursor: reportedComments[0].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[0].createdAt,
+                    hasNextPage: false,
+                  },
+                },
+              },
+            }),
+        },
+      }),
+    });
+    const { getByTestID } = within(testRenderer.root);
+    const reported = await waitForElement(() =>
+      getByTestID(`moderate-comment-${reportedComments[0].id}`)
+    );
+    await act(async () => {
+      within(reported)
+        .getByText("Details", { selector: "button" })
+        .props.onClick();
+    });
+    await act(async () => {
+      within(reported)
+        .getByText("Reactions", { selector: "button" })
+        .props.onClick();
+    });
+    // Reacter's username is shown, and clicking their username
+    // opens their user history drawer modal
+    await act(async () => {
+      within(testRenderer.root)
+        .getByText("Ngoc", { selector: "button" })
+        .props.onClick();
+    });
+    const modal = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("userHistoryDrawer-modal")
+    );
+    within(modal).getByText("Ngoc");
+  });
+});
+
 it("shows a moderate story", async () => {
   await act(async () => {
     const {
