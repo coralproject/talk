@@ -697,7 +697,7 @@ export const baseComment = createFixture<GQLComment>({
         },
       },
       reaction: {
-        total: 2,
+        total: 0,
       },
     },
     metadata: {
@@ -765,7 +765,7 @@ export const reportedComments = createFixtures<GQLComment>(
             },
           },
           reaction: {
-            total: 2,
+            total: 1,
           },
         },
         metadata: {
@@ -822,7 +822,7 @@ export const reportedComments = createFixtures<GQLComment>(
             },
           },
           reaction: {
-            total: 2,
+            total: 0,
           },
         },
         metadata: {
@@ -870,7 +870,7 @@ export const reportedComments = createFixtures<GQLComment>(
             },
           },
           reaction: {
-            total: 2,
+            total: 0,
           },
         },
         metadata: {
@@ -912,7 +912,7 @@ export const reportedComments = createFixtures<GQLComment>(
             },
           },
           reaction: {
-            total: 2,
+            total: 0,
           },
         },
         metadata: {
