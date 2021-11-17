@@ -7482,6 +7482,11 @@ input UpdateUserBanInput {
   on sites on which the user has been newly banned, if any.
   """
   rejectExistingComments: Boolean
+
+  """
+  clientMutationID is required for relay support
+  """
+  clientMutationId: String!
 }
 
 type UpdateUserBanPayload {

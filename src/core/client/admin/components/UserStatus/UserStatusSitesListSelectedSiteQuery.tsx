@@ -9,12 +9,14 @@ import { UserStatusSitesListSelectedSiteQuery as QueryTypes } from "coral-admin/
 
 interface Props {
   siteID: string;
-  onChange: (id: string | null) => void;
+  onChange: (id: string | null, on: boolean) => void;
+  checked: boolean;
 }
 
 const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
   siteID,
   onChange,
+  checked,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -33,10 +35,12 @@ const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
           return <QueryError error={error} />;
         }
         if (props && props.site) {
+          /* eslint-disable */
+          console.log({ props, checked }, "rendering checkbox inside of checkbox");
           return (
             <CheckBox
-              checked={true}
-              onChange={() => onChange(siteID)}
+              checked={checked}
+              onChange={() => onChange(siteID, !checked)}
               data-testid="user-status-selected-site"
             >
               {props.site.name}

@@ -32,7 +32,8 @@ interface Props {
   onConfirm: (
     rejectExistingComments: boolean,
     message?: string,
-    siteIDs?: string[] | null | undefined
+    banSiteIDs?: string[] | null | undefined,
+    unbanSiteIDs?: string[] | null | undefined
   ) => void;
   getMessage: GetMessage;
 
@@ -71,27 +72,13 @@ const BanModal: FunctionComponent<Props> = ({
   const onFormSubmit = useCallback(
     (input) => {
       try {
-        let selectedIDs = input.selectedIDs || [];
-
-        // single site mods can only ban for their
-        // one assigned site, override anything else that
-        // might come through
-        if (
-          isSiteMod &&
-          viewerScopes.sites &&
-          viewerScopes.sites.length === 1
-        ) {
-          selectedIDs = [viewerScopes.sites[0].id];
-        }
-
-        if (isSiteMod && (!selectedIDs || selectedIDs.length === 0)) {
-          return { [FORM_ERROR]: "At least one site must be selected" };
-        }
+        const { banSiteIDs, unbanSiteIDs } = input;
 
         onConfirm(
           input.rejectExistingComments,
           input.emailMessage,
-          selectedIDs
+          banSiteIDs,
+          unbanSiteIDs
         );
 
         return;

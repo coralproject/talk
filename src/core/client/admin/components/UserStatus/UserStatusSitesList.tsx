@@ -61,16 +61,18 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     !!(viewerIsScoped || viewerIsSingleSiteMod)
   );
 
-  const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
+  const [candidateSites, setCandidateSites] = useState<string[]>(
+    bannedSites.map((bs) => bs.id)
+  );
+
+  const { input: banSiteIDs } = useField<string[]>("banSiteIDs");
+  const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
   // MARCUS: set initial banned sites
 
   useEffect(() => {
-    selectedIDsInput.onChange(bannedSites.map((bs) => bs.id)); // This is probably just handled by the selected site qeury
+    banSiteIDs.onChange(bannedSites.map((bs) => bs.id)); // This is probably just handled by the selected site qeury
   }, [bannedSites]);
   // MARCUS: including selectedIDsInput in dep array causes selectedIDs to be overwritten?
-
-  /* eslint-disable */
-  console.log({ sites: selectedIDsInput.value }, "UserStatusSitesList rendering");
 
   const onHideSites = useCallback(() => {
     setShowSites(false);
@@ -78,35 +80,64 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   const onShowSites = useCallback(() => {
     setShowSites(true);
   }, [setShowSites]);
-  const onRemoveSite = useCallback(
+
+  const onUnbanFromSite = useCallback(
     (siteID: string) => {
-      const changed = [...selectedIDsInput.value];
-
-      const index = changed.indexOf(siteID);
-      if (index >= 0) {
-        changed.splice(index, 1);
+      const inBanIDs = banSiteIDs.value.indexOf(siteID) > -1;
+      const inUnbanIDs = unbanSiteIDs.value.indexOf(siteID) > -1;
+      if (inBanIDs) {
+        // remove from banSiteIDs
+        banSiteIDs.onChange(banSiteIDs.value.filter((id) => id !== siteID));
       }
-
-      selectedIDsInput.onChange(changed);
+      if (!inUnbanIDs) {
+        // add to unbanSiteIDs
+        unbanSiteIDs.onChange([...unbanSiteIDs.value, siteID]);
+      }
     },
-    [selectedIDsInput]
+    [banSiteIDs, unbanSiteIDs]
   );
 
-  const onAddSite = useCallback(
+  const onBanFromSite = useCallback(
     (siteID: string) => {
-      /* eslint-disable */
-      console.log({ siteID }, "onAddSite!");
-      const changed = [...selectedIDsInput.value];
-
-      const index = changed.indexOf(siteID);
-      if (index === -1) {
-        changed.push(siteID);
+      const inBanIDs = banSiteIDs.value.indexOf(siteID) > -1;
+      const inUnbanIDs = unbanSiteIDs.value.indexOf(siteID) > -1;
+      if (!inBanIDs) {
+        // add to banSiteIDs
+        banSiteIDs.onChange([...banSiteIDs.value, siteID]);
       }
-
-      selectedIDsInput.onChange(changed);
+      if (inUnbanIDs) {
+        // remove from unbanSiteIDs
+        unbanSiteIDs.onChange(unbanSiteIDs.value.filter((id) => id !== siteID));
+      }
     },
-    [selectedIDsInput]
+    [banSiteIDs, unbanSiteIDs]
   );
+
+  const onToggleSite = useCallback(
+    (id: string, on: boolean) => {
+      if (on) {
+        onBanFromSite(id);
+      } else {
+        onUnbanFromSite(id);
+      }
+    },
+    [onBanFromSite, onUnbanFromSite]
+  );
+
+  const onAddSite = useCallback((id: string | null) => {
+    if (!id) {
+      return;
+    }
+
+    if (candidateSites.includes(id)) {
+      return;
+    }
+
+    setCandidateSites([...candidateSites, id]);
+    onToggleSite(id, true);
+  }, []);
+
+  const allSiteIDs = [...banSiteIDs.value, ...unbanSiteIDs.value];
 
   return (
     <>
@@ -142,12 +173,17 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
           {showSites && (
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
-                {selectedIDsInput.value.map((siteID) => {
+                {allSiteIDs.map((siteID) => {
+                  const checked = banSiteIDs.value.includes(siteID);
+                  /* eslint-disable */
+                  console.log({ siteID, checked }, "Rendering site checkbox in Sites List");
                   return (
+                    // MARCUS: these need to be able to be unchecked
                     <UserStatusSitesListSelectedSiteQuery
                       key={siteID}
                       siteID={siteID}
-                      onChange={onRemoveSite}
+                      checked={checked}
+                      onChange={onToggleSite}
                     />
                   );
                 })}
