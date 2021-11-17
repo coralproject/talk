@@ -171,3 +171,41 @@ it("renders without live configuration when not configurable", async () => {
     within(advancedContainer).queryByLabelText("Comment Stream Live Updates")
   ).toEqual(null);
 });
+
+it("change review all user reports to enable For review queue", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settings,
+    },
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.forReviewQueue).toEqual(true);
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { configureContainer, advancedContainer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const forReviewQueueBox = within(advancedContainer).getByTestID(
+    "for-review-queue-config-box"
+  );
+
+  const onField = within(forReviewQueueBox).getByLabelText("On");
+  act(() => onField.props.onChange(onField.props.value.toString()));
+
+  // Send form
+  act(() => {
+    within(configureContainer).getByType("form").props.onSubmit();
+  });
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+    });
+  });
+});
