@@ -503,6 +503,15 @@ export class CommentRevisionNotFoundError extends CoralError {
   }
 }
 
+export class ParentCommentRejectedError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.PARENT_COMMENT_REJECTED,
+      context: { pub: { commentID } },
+    });
+  }
+}
+
 export class AuthorAlreadyHasRatedStory extends CoralError {
   constructor(userID: string, storyID: string) {
     super({

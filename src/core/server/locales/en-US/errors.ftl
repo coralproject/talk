@@ -1,6 +1,7 @@
 error-commentingDisabled = Commenting has been disabled tenant wide.
 error-storyClosed = Story is currently closed for commenting.
 error-commentBodyTooShort = Comment body must have at least {$min} characters.
+error-parentCommentRejected = The comment you are replying to has been rejected by a moderator.
 error-commentBodyExceedsMaxLength =
   Comment body exceeds maximum length of {$max} characters.
 error-storyURLNotPermitted =
