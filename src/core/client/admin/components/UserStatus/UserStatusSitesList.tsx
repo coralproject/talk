@@ -74,7 +74,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
 
   const { input: banSiteIDs } = useField<string[]>("banSiteIDs");
   const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
-  // MARCUS: set initial banned sites
 
   const bannedOutOfScope = new Set(
     bannedSites.filter((bs) => outOfScope(bs.id)).map((bs) => bs.id)
@@ -84,8 +83,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
       .filter((bs) => !outOfScope(bs.id))
       .map((bs) => bs.id);
     banSiteIDs.onChange(inScopeIDs); // This is probably just handled by the selected site qeury
-  }, [bannedSites]);
-  // // MARCUS: including selectedIDsInput in dep array causes selectedIDs to be overwritten?
+  }, [bannedSites, outOfScope]);
+  // MARCUS: including selectedIDsInput in dep array causes selectedIDs to be overwritten?
 
   const onHideSites = useCallback(() => {
     setShowSites(false);
@@ -137,18 +136,21 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     [onBanFromSite, onUnbanFromSite]
   );
 
-  const onAddSite = useCallback((id: string | null) => {
-    if (!id) {
-      return;
-    }
+  const onAddSite = useCallback(
+    (id: string | null) => {
+      if (!id) {
+        return;
+      }
 
-    if (candidateSites.includes(id)) {
-      return;
-    }
+      if (candidateSites.includes(id)) {
+        return;
+      }
 
-    setCandidateSites([...candidateSites, id]);
-    onToggleSite(id, true);
-  }, []);
+      setCandidateSites([...candidateSites, id]);
+      onToggleSite(id, true);
+    },
+    [onToggleSite]
+  );
 
   return (
     <>
@@ -190,7 +192,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                     bannedOutOfScope.has(siteID);
 
                   return (
-                    // MARCUS: these need to be able to be unchecked
                     <UserStatusSitesListSelectedSiteQuery
                       key={siteID}
                       siteID={siteID}
