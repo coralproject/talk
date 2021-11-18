@@ -31,6 +31,7 @@ interface Props {
   fullWidth?: boolean;
   bordered?: boolean;
   moderationScopesEnabled?: boolean;
+  viewerIsScoped?: boolean;
 }
 
 const UserStatusChange: FunctionComponent<Props> = ({
@@ -50,6 +51,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
   fullWidth = true,
   bordered = false,
   moderationScopesEnabled = false,
+  viewerIsScoped = false,
 }) => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
@@ -64,6 +66,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                 <DropdownButton
                   data-testid="manage-ban"
                   className={styles.dropdownButton}
+                  disabled={banned && viewerIsScoped}
                   onClick={() => {
                     onManageBan();
                     toggleVisibility();

@@ -61,6 +61,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   >(false);
 
   const moderationScopesEnabled = settings.multisite;
+  const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
 
   const handleModMessage = useCallback(() => {
     setShowModMessage(true);
@@ -206,13 +207,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
         onRemovePremod={handleRemovePremod}
+        viewerIsScoped={viewerIsScoped}
         banned={
-          user.status.ban.active ||
+          user.status.ban.active /* ||
           !!(
             user.status.ban &&
             user.status.ban.sites &&
             user.status.ban?.sites?.length !== 0
-          )
+          ) */
         }
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
