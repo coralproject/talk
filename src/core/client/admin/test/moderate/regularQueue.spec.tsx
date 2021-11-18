@@ -304,7 +304,7 @@ it("show reaction details for a comment with reactions", async () => {
         .props.onClick();
     });
     const modal = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("userHistoryDrawer-modal")
+      getByTestID("userHistoryDrawer-modal")
     );
     within(modal).getByText("Ngoc");
   });

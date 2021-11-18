@@ -1014,10 +1014,9 @@ moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
 moderateCardDetails-tab-reactions = Reactions
+moderateCardDetails-tab-reactions-loadMore = Load More
 moderateCardDetails-tab-noIssuesFound = No issues found
 moderateCardDetails-tab-missingPhase = Was not run
-
-reactions-loadMore = Load More
 
 moderateCardDetails-tab-externalMod-status = Status
 moderateCardDetails-tab-externalMod-flags = Flags

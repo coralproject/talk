@@ -58,7 +58,7 @@ const ReactionDetailsContainer: FunctionComponent<Props> = ({
           )
       )}
       {hasMore && (
-        <Localized id="reactions-loadMore">
+        <Localized id="moderateCardDetails-tab-reactions-loadMore">
           <Button
             variant="outlined"
             color="secondary"
