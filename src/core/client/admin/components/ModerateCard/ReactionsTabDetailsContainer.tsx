@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import NotAvailable from "coral-admin/components/NotAvailable";
 import {
   useLoadMore,
   withPaginationContainer,
@@ -35,8 +36,7 @@ const ReactionsTabDetailsContainer: FunctionComponent<Props> = ({
     <>
       {reactions.map(
         (reaction) =>
-          reaction.id &&
-          reaction.reacter && (
+          reaction.id && (
             <Flex key={reaction.id}>
               <BaseButton
                 onClick={() => {
@@ -47,7 +47,11 @@ const ReactionsTabDetailsContainer: FunctionComponent<Props> = ({
                 className={styles.button}
               >
                 <span className={styles.username}>
-                  {reaction.reacter.username}
+                  {reaction.reacter?.username ? (
+                    reaction.reacter.username
+                  ) : (
+                    <NotAvailable />
+                  )}
                 </span>
               </BaseButton>
             </Flex>
