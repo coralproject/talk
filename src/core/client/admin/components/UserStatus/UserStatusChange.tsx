@@ -62,6 +62,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
             {
               <Localized id="community-userStatus-manageBan">
                 <DropdownButton
+                  data-testid="manage-ban"
                   className={styles.dropdownButton}
                   onClick={() => {
                     onManageBan();
@@ -188,7 +189,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
           attrs={{ "aria-label": true }}
         >
           <Button
-            aria-label="Change user status"
+            aria-label="Change user status" // MARCUS for testing!
             className={cn(styles.button, {
               [styles.fullWidth]: fullWidth,
               [styles.bordered]: bordered,

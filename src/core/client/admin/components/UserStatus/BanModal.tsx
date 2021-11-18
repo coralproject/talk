@@ -31,9 +31,10 @@ interface Props {
   onClose: () => void;
   onConfirm: (
     rejectExistingComments: boolean,
-    message?: string,
+    allSites: boolean,
     banSiteIDs?: string[] | null | undefined,
-    unbanSiteIDs?: string[] | null | undefined
+    unbanSiteIDs?: string[] | null | undefined,
+    message?: string
   ) => void;
   getMessage: GetMessage;
 
@@ -72,13 +73,16 @@ const BanModal: FunctionComponent<Props> = ({
   const onFormSubmit = useCallback(
     (input) => {
       try {
-        const { banSiteIDs, unbanSiteIDs } = input;
+        const { banSiteIDs, unbanSiteIDs, allSites } = input;
 
+        /* eslint-disable */
+        console.log({ allSites }, "on cofirm in ban modal");
         onConfirm(
           input.rejectExistingComments,
-          input.emailMessage,
+          allSites,
           banSiteIDs,
-          unbanSiteIDs
+          unbanSiteIDs,
+          input.emailMessage
         );
 
         return;

@@ -64,14 +64,13 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     [viewerIsScoped, viewerScopes.sites]
   );
 
-  const [showSites, setShowSites] = useState<boolean>(
-    !!(viewerIsScoped || viewerIsSingleSiteMod)
-  );
-
   const [candidateSites, setCandidateSites] = useState<string[]>(
     bannedSites.map((bs) => bs.id)
   );
 
+  const { input: allSites } = useField<boolean>("allSites", {
+    initialValue: !viewerIsScoped, // unscoped users default to all sites, scoped users cannot ban on all sites
+  });
   const { input: banSiteIDs } = useField<string[]>("banSiteIDs");
   const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
 
@@ -87,11 +86,11 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   // MARCUS: including banSiteIDs in dep array causes selectedIDs to be overwritten?
 
   const onHideSites = useCallback(() => {
-    setShowSites(false);
-  }, [setShowSites]);
+    allSites.onChange(true);
+  }, [allSites]);
   const onShowSites = useCallback(() => {
-    setShowSites(true);
-  }, [setShowSites]);
+    allSites.onChange(false);
+  }, [allSites]);
 
   const onUnbanFromSite = useCallback(
     (siteID: string) => {
@@ -168,14 +167,18 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
             <Flex className={styles.sitesToggle} spacing={5}>
               <FormField>
                 <Localized id="community-banModal-allSites">
-                  <RadioButton checked={!showSites} onChange={onHideSites}>
+                  <RadioButton
+                    checked={allSites.value}
+                    onChange={onHideSites}
+                    disabled={viewerIsScoped}
+                  >
                     All sites
                   </RadioButton>
                 </Localized>
               </FormField>
               <FormField>
                 <Localized id="community-banModal-specificSites">
-                  <RadioButton checked={showSites} onChange={onShowSites}>
+                  <RadioButton checked={!allSites.value} onChange={onShowSites}>
                     Specific Sites
                   </RadioButton>
                 </Localized>
@@ -183,7 +186,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
             </Flex>
           )}
 
-          {showSites && (
+          {!allSites.value && (
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
                 {candidateSites.map((siteID) => {

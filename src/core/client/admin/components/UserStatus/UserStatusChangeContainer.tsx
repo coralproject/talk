@@ -9,6 +9,7 @@ import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserSt
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import BanModal from "./BanModal";
+import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
 import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
@@ -39,6 +40,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   bordered,
   viewer,
 }) => {
+  const banUser = useMutation(BanUserMutation);
   const updateUserBan = useMutation(UpdateUserBanMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
@@ -163,32 +165,28 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   const handleUpdateBan = useCallback(
-    (rejectExistingComments, message, banSiteIDs, unbanSiteIDs) => {
-      /**
-       * MARCUS TODO:
-       * 1. Update this to accept bannedIDs, unbannedIDs
-       * 2. Create updateBan mutation
-       * 3. Use updateBan mutation
-       * 4. Update BanUser modal to track sites removed vs. added, submit each to appropriate fields
-       */
+    (rejectExistingComments, allSites, banSiteIDs, unbanSiteIDs, message) => {
       /* eslint-disable */
-      console.log({
-        userID: user.id,
-        message,
-        rejectExistingComments,
-        banSiteIDs,
-        unbanSiteIDs,
-      }, "HERE WE GO");
-      void updateUserBan({
-        userID: user.id,
-        message,
-        rejectExistingComments,
-        banSiteIDs,
-        unbanSiteIDs,
-      });
+      if (allSites) {
+        console.log("banning user from all sites");
+        void banUser({
+          userID: user.id,
+          message,
+          rejectExistingComments,
+        });
+      } else {
+        console.log("managing ban");
+        void updateUserBan({
+          userID: user.id,
+          message,
+          rejectExistingComments,
+          banSiteIDs,
+          unbanSiteIDs,
+        });
+      }
       setShowBanned(false);
     },
-    [updateUserBan, user.id]
+    [updateUserBan, banUser, user.id]
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
@@ -203,7 +201,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   return (
     <>
       <UserStatusChange
-        onManageBan={handleManageBan} // MARCUS: doubel check this
+        onManageBan={handleManageBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
