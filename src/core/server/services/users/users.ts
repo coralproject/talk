@@ -82,6 +82,7 @@ import {
   updateUserNotificationSettings,
   updateUserPassword,
   updateUserRole,
+  updateUserSSOProfileID,
   updateUserUsername,
   User,
   UserModerationScopes,
@@ -557,6 +558,23 @@ export async function deactivateToken(
   }
 
   return deactivateUserToken(mongo, tenant.id, user.id, id);
+}
+
+/**
+ * updateSSOProfileID will update the id on the user's SSOProfile
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the ID of the User we are updating
+ * @param ssoProfileID the ID to set on the User's SSOProfile
+ */
+export async function updateSSOProfileID(
+  mongo: MongoContext,
+  tenant: Tenant,
+  userID: string,
+  ssoProfileID: string
+) {
+  return updateUserSSOProfileID(mongo, tenant.id, userID, ssoProfileID);
 }
 
 /**
