@@ -58,7 +58,12 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
             searchFilter={searchFilter}
           />
           {props.query && props.query.settings.multisite && (
-            <SiteSearch onSelect={setSiteFilter} />
+            <SiteSearch
+              onSelect={setSiteFilter}
+              showSiteSearchLabel={true}
+              showOnlyScopedSitesInSearchResults={false}
+              showAllSitesSearchFilterOption={true}
+            />
           )}
         </Flex>
         <StoryTable

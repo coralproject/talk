@@ -16,6 +16,7 @@ import { CommentEnteredSubscription } from "coral-stream/__generated__/CommentEn
 
 import {
   determineDepthTillAncestor,
+  determineDepthTillStory,
   getFlattenedReplyAncestorID,
   lookupFlattenReplies,
 } from "../../helpers";
@@ -81,12 +82,30 @@ function insertReply(
   store: RecordSourceSelectorProxy<unknown>,
   liveDirectRepliesInsertion: boolean,
   flattenReplies: boolean,
+  storyID: string,
+  storyConnectionKey: string,
+  orderBy?: GQLCOMMENT_SORT_RL,
+  tag?: string,
   ancestorID?: string | null
 ) {
   const comment = store
     .getRootField("commentEntered")!
     .getLinkedRecord("comment")!;
-  const depth = determineDepthTillAncestor(comment, ancestorID);
+
+  if (!ancestorID && !orderBy) {
+    throw new Error("orderBy not set");
+  }
+
+  const depth = ancestorID
+    ? determineDepthTillAncestor(store, comment, ancestorID)
+    : determineDepthTillStory(
+        store,
+        comment,
+        storyID,
+        orderBy!,
+        storyConnectionKey,
+        tag
+      );
 
   if (depth === null) {
     // could not trace back to ancestor, discard.
@@ -110,12 +129,10 @@ function insertReply(
     parentProxy = store.get(parentID)!;
   }
 
-  const connectionKey = "ReplyList_replies";
-  const filters = { orderBy: "CREATED_AT_ASC" };
   const connection = ConnectionHandler.getConnection(
     parentProxy,
-    connectionKey,
-    filters
+    "ReplyList_replies",
+    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
   );
   if (!connection) {
     // If it has no connection, it could not have been
@@ -230,6 +247,10 @@ const CommentEnteredSubscription = createSubscription(
           store,
           Boolean(variables.liveDirectRepliesInsertion),
           flattenReplies,
+          variables.storyID,
+          variables.storyConnectionKey,
+          variables.orderBy,
+          variables.tag,
           variables.ancestorID
         );
         return;
