@@ -23,7 +23,7 @@ import AutomatedActionsContainer from "./AutomatedActionsContainer";
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
-import ReactionsTabDetailsQuery from "./ReactionsTabDetailsQuery";
+import ReactionDetailsQuery from "./ReactionDetailsQuery";
 
 import styles from "./ModerateCardDetailsContainer.css";
 
@@ -33,7 +33,7 @@ interface Props {
   onUsernameClick: (id?: string) => void;
 }
 
-type DetailsTabs = "INFO" | "HISTORY" | "EXTERNAL_MOD" | "REACTIONS";
+type DetailsTabs = "INFO" | "REACTIONS" | "HISTORY" | "EXTERNAL_MOD";
 
 function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
   return c.revision
@@ -127,7 +127,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         </>
       )}
       {activeTab === "REACTIONS" && (
-        <ReactionsTabDetailsQuery
+        <ReactionDetailsQuery
           commentID={comment.id}
           onUsernameClick={onUsernameClick}
         />

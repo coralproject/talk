@@ -10,18 +10,18 @@ import {
 import { BaseButton, Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { ReactionsTabDetailsContainer_comment } from "coral-admin/__generated__/ReactionsTabDetailsContainer_comment.graphql";
-import { ReactionsTabDetailsContainerPaginationQuery } from "coral-admin/__generated__/ReactionsTabDetailsContainerPaginationQuery.graphql";
+import { ReactionDetailsContainer_comment } from "coral-admin/__generated__/ReactionDetailsContainer_comment.graphql";
+import { ReactionDetailsContainerPaginationQuery } from "coral-admin/__generated__/ReactionDetailsContainerPaginationQuery.graphql";
 
-import styles from "./ReactionsTabDetailsContainer.css";
+import styles from "./ReactionDetailsContainer.css";
 
 interface Props {
-  comment: ReactionsTabDetailsContainer_comment;
+  comment: ReactionDetailsContainer_comment;
   relay: RelayPaginationProp;
   onUsernameClick: (id?: string) => void;
 }
 
-const ReactionsTabDetailsContainer: FunctionComponent<Props> = ({
+const ReactionDetailsContainer: FunctionComponent<Props> = ({
   comment,
   relay,
   onUsernameClick,
@@ -74,23 +74,23 @@ const ReactionsTabDetailsContainer: FunctionComponent<Props> = ({
   );
 };
 
-type FragmentVariables = ReactionsTabDetailsContainerPaginationQuery;
+type FragmentVariables = ReactionDetailsContainerPaginationQuery;
 
 const enhanced = withPaginationContainer<
   Props,
-  ReactionsTabDetailsContainerPaginationQuery,
+  ReactionDetailsContainerPaginationQuery,
   FragmentVariables
 >(
   {
     comment: graphql`
-      fragment ReactionsTabDetailsContainer_comment on Comment
+      fragment ReactionDetailsContainer_comment on Comment
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
         ) {
         id
         reactions(first: $count, after: $cursor)
-          @connection(key: "ReactionsTabDetails_reactions") {
+          @connection(key: "ReactionDetails_reactions") {
           edges {
             node {
               id
@@ -119,18 +119,18 @@ const enhanced = withPaginationContainer<
     query: graphql`
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-      query ReactionsTabDetailsContainerPaginationQuery(
+      query ReactionDetailsContainerPaginationQuery(
         $count: Int!
         $cursor: Cursor
         $commentID: ID!
       ) {
         comment(id: $commentID) {
-          ...ReactionsTabDetailsContainer_comment
+          ...ReactionDetailsContainer_comment
             @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
   }
-)(ReactionsTabDetailsContainer);
+)(ReactionDetailsContainer);
 
 export default enhanced;

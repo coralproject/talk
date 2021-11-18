@@ -4,25 +4,25 @@ import { graphql } from "react-relay";
 import { QueryRenderer } from "coral-framework/lib/relay";
 import { QueryError } from "coral-ui/components/v3";
 
-import { ReactionsTabDetailsQuery as QueryTypes } from "coral-admin/__generated__/ReactionsTabDetailsQuery.graphql";
+import { ReactionDetailsQuery as QueryTypes } from "coral-admin/__generated__/ReactionDetailsQuery.graphql";
 
-import ReactionsTabDetailsContainer from "./ReactionsTabDetailsContainer";
+import ReactionDetailsContainer from "./ReactionDetailsContainer";
 
 interface Props {
   commentID: string;
   onUsernameClick: (id?: string) => void;
 }
 
-const ReactionsTabDetailsQuery: FunctionComponent<Props> = ({
+const ReactionDetailsQuery: FunctionComponent<Props> = ({
   commentID,
   onUsernameClick,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query ReactionsTabDetailsQuery($commentID: ID!) {
+        query ReactionDetailsQuery($commentID: ID!) {
           comment(id: $commentID) {
-            ...ReactionsTabDetailsContainer_comment
+            ...ReactionDetailsContainer_comment
           }
         }
       `}
@@ -41,7 +41,7 @@ const ReactionsTabDetailsQuery: FunctionComponent<Props> = ({
 
         if (props && props.comment) {
           return (
-            <ReactionsTabDetailsContainer
+            <ReactionDetailsContainer
               comment={props.comment}
               onUsernameClick={onUsernameClick}
             />
@@ -54,4 +54,4 @@ const ReactionsTabDetailsQuery: FunctionComponent<Props> = ({
   );
 };
 
-export default ReactionsTabDetailsQuery;
+export default ReactionDetailsQuery;
