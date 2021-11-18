@@ -82,9 +82,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     const inScopeIDs = bannedSites
       .filter((bs) => !outOfScope(bs.id))
       .map((bs) => bs.id);
-    banSiteIDs.onChange(inScopeIDs); // This is probably just handled by the selected site qeury
+    banSiteIDs.onChange(inScopeIDs);
   }, [bannedSites, outOfScope]);
-  // MARCUS: including selectedIDsInput in dep array causes selectedIDs to be overwritten?
+  // MARCUS: including banSiteIDs in dep array causes selectedIDs to be overwritten?
 
   const onHideSites = useCallback(() => {
     setShowSites(false);

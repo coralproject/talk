@@ -163,6 +163,7 @@ describe("updateUserBan", () => {
     });
 
     userService.retrieveUser.mockResolvedValue(bannedOnSiteB);
+    userService.siteBanUser.mockResolvedValue(bannedOnSiteB);
 
     const res = await updateUserBan(
       mongo,
@@ -212,6 +213,7 @@ describe("updateUserBan", () => {
     });
 
     userService.retrieveUser.mockResolvedValue(unbannedUser);
+    userService.siteBanUser.mockResolvedValue(unbannedUser);
 
     const dontRejectRes = await updateUserBan(
       mongo,

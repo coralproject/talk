@@ -36,6 +36,8 @@ import {
   users,
 } from "../fixtures";
 
+const SAVE_BUTTON_ID = "save-ban-status";
+
 const viewer = users.admins[0];
 
 beforeEach(async () => {
@@ -677,7 +679,7 @@ it("ban user", async () => {
   );
 
   act(() => {
-    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+    within(popup).getByTestID(SAVE_BUTTON_ID).props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText(
@@ -726,7 +728,7 @@ it("ban user with custom message", async () => {
   });
 
   act(() => {
-    within(userRow).getByLabelText("Change user status").props.onClick();
+    within(userRow).getByLabelText("Change user status").props.onClick(); // MARCUS: this might have changed
   });
 
   const popup = within(userRow).getByLabelText(
@@ -734,7 +736,7 @@ it("ban user with custom message", async () => {
   );
 
   act(() => {
-    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+    within(popup).getByTestID(SAVE_BUTTON_ID).props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText(
@@ -761,66 +763,6 @@ it("ban user with custom message", async () => {
   });
   within(userRow).getByText("Banned");
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
-});
-
-it("remove user ban", async () => {
-  const user = users.bannedCommenter;
-  const resolvers = createResolversStub<GQLResolver>({
-    Mutation: {
-      removeUserBan: ({ variables }) => {
-        expectAndFail(variables).toMatchObject({
-          userID: user.id,
-        });
-        const userRecord = pureMerge<typeof user>(user, {
-          status: {
-            current: user.status.current.filter(
-              (s) => s !== GQLUSER_STATUS.BANNED
-            ),
-            ban: { active: false },
-          },
-        });
-        return {
-          user: userRecord,
-        };
-      },
-    },
-    Query: {
-      users: () => ({
-        edges: [
-          {
-            node: user,
-            cursor: user.createdAt,
-          },
-        ],
-        pageInfo: { endCursor: null, hasNextPage: false },
-      }),
-    },
-  });
-
-  const { container } = await createTestRenderer({
-    resolvers,
-  });
-
-  const userRow = within(container).getByText(user.username!, {
-    selector: "tr",
-  });
-
-  act(() => {
-    within(userRow).getByLabelText("Change user status").props.onClick();
-  });
-
-  const popup = within(userRow).getByLabelText(
-    "A dropdown to change the user status"
-  );
-
-  act(() => {
-    within(popup)
-      .getByText("Remove ban", { selector: "button" })
-      .props.onClick();
-  });
-
-  within(userRow).getByText("Active");
-  expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
 });
 
 it("send user a moderation message", async () => {
@@ -977,7 +919,7 @@ it("ban user across specific sites", async () => {
   );
 
   act(() => {
-    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+    within(popup).getByTestID(SAVE_BUTTON_ID).props.onClick();
   });
   const modal = within(testRenderer.root).getByLabelText(
     "Are you sure you want to ban",
