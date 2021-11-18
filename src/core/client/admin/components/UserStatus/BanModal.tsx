@@ -199,7 +199,7 @@ const BanModal: FunctionComponent<Props> = ({
                         Cancel
                       </Button>
                     </Localized>
-                    <Localized id="community-banModal-banUser">
+                    <Localized id="community-banModal-updateBan">
                       <Button type="submit" ref={lastFocusableRef}>
                         Save
                       </Button>

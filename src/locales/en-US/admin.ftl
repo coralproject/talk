@@ -1225,7 +1225,7 @@ community-banModal-consequence =
   Once banned, this user will no longer be able to comment, use
   reactions, or report comments.
 community-banModal-cancel = Cancel
-community-banModal-banUser = Ban User
+community-banModal-updateBan = Save
 community-banModal-customize = Customize ban email message
 community-banModal-reject-existing = Reject all comments by this user
 
