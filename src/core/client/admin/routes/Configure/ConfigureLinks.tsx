@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, MouseEventHandler } from "react";
 
 import Link from "./Link";
 import Navigation from "./Navigation";
@@ -28,7 +28,7 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
           onClick,
         }: {
           href: string;
-          onClick: (e: React.SyntheticEvent<Element>) => void;
+          onClick: MouseEventHandler<HTMLButtonElement>;
         }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-comments">
@@ -48,7 +48,7 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
           onClick,
         }: {
           href: string;
-          onClick: (e: React.SyntheticEvent<Element>) => void;
+          onClick: MouseEventHandler<HTMLButtonElement>;
         }) => {
           return (
             <Localized id="configure-sideBarNavigation-moderation-users">

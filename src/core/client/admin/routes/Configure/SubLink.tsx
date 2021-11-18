@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { useRouter } from "found";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, MouseEventHandler } from "react";
 
 import { BaseButton } from "coral-ui/components/v2";
 
@@ -8,7 +8,7 @@ import styles from "./SubLink.css";
 
 interface Props {
   href: string;
-  onClick: (e: React.SyntheticEvent) => void;
+  onClick: MouseEventHandler<HTMLButtonElement>;
   children?: React.ReactNode;
 }
 
