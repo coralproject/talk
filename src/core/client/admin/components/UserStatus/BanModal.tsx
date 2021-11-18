@@ -18,8 +18,7 @@ import { CallOut } from "coral-ui/components/v3";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import { Scopes } from "./UserStatusSitesListContainer";
-import UserStatusSitesListQuery from "./UserStatusSitesListQuery";
+import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
@@ -189,10 +188,7 @@ const BanModal: FunctionComponent<Props> = ({
                   </Field>
 
                   {moderationScopesEnabled && (
-                    <UserStatusSitesListQuery
-                      viewerScopes={viewerScopes}
-                      userScopes={userScopes}
-                    />
+                    <UserStatusSitesList viewerScopes={viewerScopes} />
                   )}
 
                   {submitError && (

@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
@@ -23,6 +23,8 @@ interface Props {
     site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
   ) => void;
   activeSiteID: string | null;
+  showOnlyScopedSitesInSearchResults: boolean;
+  showAllSitesSearchFilterOption: boolean;
 }
 
 const SiteSearchListContainer: FunctionComponent<Props> = ({
@@ -30,8 +32,23 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   relay,
   onSelect,
   activeSiteID,
+  showOnlyScopedSitesInSearchResults,
+  showAllSitesSearchFilterOption,
 }) => {
-  const sites = query ? query.sites.edges.map((edge) => edge.node) : [];
+  const viewer = query.viewer;
+  const viewerIsScoped =
+    viewer?.moderationScopes?.sites && viewer.moderationScopes.sites.length > 0;
+  const viewerIsScopedAndShouldScope =
+    viewerIsScoped && showOnlyScopedSitesInSearchResults;
+
+  const sites = useMemo(() => {
+    const items = query?.sites.edges.map((edge) => edge.node) || [];
+
+    return showOnlyScopedSitesInSearchResults
+      ? items.filter((item: { canModerate: boolean }) => item.canModerate)
+      : items;
+  }, [query?.sites.edges, showOnlyScopedSitesInSearchResults]);
+
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
 
   const hasMore = relay.hasMore();
@@ -40,7 +57,13 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
   return (
     <Card className={styles.list} data-testid="site-search-list">
       {/* NOTE: In future, can render the options based on a kind passed through for filter button, moderation link, etc. */}
-      <SiteFilterOption onClick={onSelect} site={null} active={!activeSiteID} />
+      {showAllSitesSearchFilterOption && !viewerIsScopedAndShouldScope && (
+        <SiteFilterOption
+          onClick={onSelect}
+          site={null}
+          active={!activeSiteID}
+        />
+      )}
       {sites.map((s) => (
         <SiteFilterOption
           onClick={onSelect}
@@ -85,12 +108,20 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
           searchFilter: { type: "String" }
         ) {
+        viewer {
+          moderationScopes {
+            sites {
+              id
+            }
+          }
+        }
         sites(first: $count, after: $cursor, query: $searchFilter)
           @connection(key: "SitesConfig_sites") {
           edges {
             node {
               id
               name
+              canModerate
             }
           }
         }

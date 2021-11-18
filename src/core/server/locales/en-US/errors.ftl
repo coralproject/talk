@@ -21,6 +21,7 @@ error-localProfileAlreadySet =
   Specified account already has a password set.
 error-localProfileNotSet =
   Specified account does not have a password set.
+error-SSOProfileNotSet = Specified user does not have an SSO profile.
 error-usernameAlreadySet = Specified account already has their username set.
 error-usernameContainsInvalidCharacters =
   Provided username contains invalid characters.

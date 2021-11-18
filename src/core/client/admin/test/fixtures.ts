@@ -213,6 +213,7 @@ export const settings = createFixture<GQLSettings>({
   },
   amp: false,
   flattenReplies: false,
+  forReviewQueue: false,
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(
