@@ -102,11 +102,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   const handleManageBan = useCallback(() => {
-    if (user.status.ban.active) {
-      return;
-    }
     setShowBanned(true);
-  }, [user, setShowBanned]);
+  }, [setShowBanned]);
 
   const handleSuspend = useCallback(() => {
     if (user.status.suspension.active) {
@@ -209,12 +206,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemovePremod={handleRemovePremod}
         viewerIsScoped={viewerIsScoped}
         banned={
-          user.status.ban.active /* ||
-          !!(
-            user.status.ban &&
-            user.status.ban.sites &&
-            user.status.ban?.sites?.length !== 0
-          ) */
+          user.status.ban.active
         }
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
@@ -227,7 +219,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         moderationScopesEnabled={moderationScopesEnabled}
       >
         <UserStatusContainer
-          user={user}
+          user={user} // MARCUS: this is showing (1) if banned on one site and then banned on all
           moderationScopesEnabled={moderationScopesEnabled}
         />
       </UserStatusChange>
