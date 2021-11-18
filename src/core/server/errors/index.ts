@@ -353,6 +353,12 @@ export class EmailAlreadySetError extends CoralError {
   }
 }
 
+export class SSOProfileNotSetError extends CoralError {
+  constructor() {
+    super({ code: ERROR_CODES.SSO_PROFILE_NOT_SET });
+  }
+}
+
 export class LocalProfileNotSetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.LOCAL_PROFILE_NOT_SET });
@@ -493,6 +499,15 @@ export class CommentRevisionNotFoundError extends CoralError {
     super({
       code: ERROR_CODES.COMMENT_NOT_FOUND,
       context: { pub: { commentID, commentRevisionID } },
+    });
+  }
+}
+
+export class ParentCommentRejectedError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.PARENT_COMMENT_REJECTED,
+      context: { pub: { commentID } },
     });
   }
 }

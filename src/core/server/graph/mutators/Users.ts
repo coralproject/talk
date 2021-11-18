@@ -38,6 +38,7 @@ import {
   updatePassword,
   updateRole,
   updateUserBan,
+  updateSSOProfileID,
   updateUsername,
   updateUsernameByID,
   warn,
@@ -75,6 +76,7 @@ import {
   GQLUpdateEmailInput,
   GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
+  GQLUpdateSSOProfileIDInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserBanInput,
   GQLUpdateUserEmailInput,
@@ -197,6 +199,8 @@ export const Users = (ctx: GraphContext) => ({
     ),
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
+  updateSSOProfileID: async (input: GQLUpdateSSOProfileIDInput) =>
+    updateSSOProfileID(ctx.mongo, ctx.tenant, input.userID, input.ssoProfileID),
   updateUsername: async (input: GQLUpdateUsernameInput) =>
     updateUsername(
       ctx.mongo,
