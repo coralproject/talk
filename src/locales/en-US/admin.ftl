@@ -1017,7 +1017,7 @@ moderateCardDetails-tab-reactions = Reactions
 moderateCardDetails-tab-noIssuesFound = No issues found
 moderateCardDetails-tab-missingPhase = Was not run
 
-reactions-loadMore = Load more
+reactions-loadMore = Load More
 
 moderateCardDetails-tab-externalMod-status = Status
 moderateCardDetails-tab-externalMod-flags = Flags

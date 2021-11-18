@@ -35,7 +35,6 @@ const ReactionsTabDetailsContainer: FunctionComponent<Props> = ({
     <>
       {reactions.map(
         (reaction) =>
-          reaction &&
           reaction.id &&
           reaction.reacter && (
             <Flex key={reaction.id}>
@@ -45,7 +44,7 @@ const ReactionsTabDetailsContainer: FunctionComponent<Props> = ({
                     onUsernameClick(reaction.reacter?.userID);
                   }
                 }}
-                className={styles.usernameButton}
+                className={styles.button}
               >
                 <span className={styles.username}>
                   {reaction.reacter.username}
@@ -56,7 +55,13 @@ const ReactionsTabDetailsContainer: FunctionComponent<Props> = ({
       )}
       {hasMore && (
         <Localized id="reactions-loadMore">
-          <Button onClick={loadMore} disabled={isLoadingMore}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            fontSize="extraSmall"
+            onClick={loadMore}
+            disabled={isLoadingMore}
+          >
             Load More
           </Button>
         </Localized>
