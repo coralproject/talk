@@ -1,10 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
@@ -57,6 +52,13 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     viewerScopes.sites.length === 1
   );
 
+  const outOfScope = useCallback(
+    (siteID: string) =>
+      viewerIsScoped &&
+      !viewerScopes.sites?.some((scope) => scope.id === siteID),
+    [viewerIsScoped, viewerScopes.sites]
+  );
+
   const [showSites, setShowSites] = useState<boolean>(
     !!(viewerIsScoped || viewerIsSingleSiteMod)
   );
@@ -69,10 +71,13 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
   // MARCUS: set initial banned sites
 
-  useEffect(() => {
-    banSiteIDs.onChange(bannedSites.map((bs) => bs.id)); // This is probably just handled by the selected site qeury
-  }, [bannedSites]);
-  // MARCUS: including selectedIDsInput in dep array causes selectedIDs to be overwritten?
+  // useEffect(() => {
+  //   const inScopeIDs = bannedSites.filter((bs) => !outOfScope(bs.id)).map((bs) => bs.id)
+  //   banSiteIDs.onChange(
+  //     inScopeIDs
+  //   ); // This is probably just handled by the selected site qeury
+  // }, [bannedSites]);
+  // // MARCUS: including selectedIDsInput in dep array causes selectedIDs to be overwritten?
 
   const onHideSites = useCallback(() => {
     setShowSites(false);
@@ -172,9 +177,10 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
                 {candidateSites.map((siteID) => {
-                  const checked = banSiteIDs.value.includes(siteID);
-                  /* eslint-disable */
-                  console.log({ siteID, checked }, "Rendering site checkbox in Sites List");
+                  const checked =
+                    banSiteIDs.value.includes(siteID) ||
+                    bannedSites.some((bs) => bs.id === siteID);
+
                   return (
                     // MARCUS: these need to be able to be unchecked
                     <UserStatusSitesListSelectedSiteQuery
@@ -182,6 +188,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                       siteID={siteID}
                       checked={checked}
                       onChange={onToggleSite}
+                      disabled={outOfScope(siteID)}
                     />
                   );
                 })}
