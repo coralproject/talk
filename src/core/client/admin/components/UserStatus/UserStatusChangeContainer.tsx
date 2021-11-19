@@ -169,7 +169,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       /* eslint-disable */
       switch (updateType) {
         case "ALL_SITES":
-          console.log("banning user from all sites");
           void banUser({
             userID: user.id,
             message,
@@ -177,7 +176,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           });
           break;
         case "SPECIFIC_SITES":
-          console.log("managing ban");
           void updateUserBan({
             userID: user.id,
             message,

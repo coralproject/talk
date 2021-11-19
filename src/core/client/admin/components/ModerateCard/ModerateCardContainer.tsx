@@ -275,17 +275,21 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const handleBanConfirm = useCallback(
     async (
+      updateType: string,
       rejectExistingComments: boolean,
-      message: string,
-      siteIDs: string[] | null | undefined
+      banSiteIDs: string[] | null | undefined,
+      unbanSiteIDs: string[] | null | undefined,
+      message: string
     ) => {
       if (comment.author) {
-        await banUser({
-          userID: comment.author.id,
-          message,
-          rejectExistingComments,
-          siteIDs,
-        });
+        /* eslint-disable */
+        console.log({updateType, banSiteIDs, unbanSiteIDs })
+        // await banUser({
+        //   userID: comment.author.id,
+        //   message,
+        //   rejectExistingComments,
+        //   siteIDs: banSiteIDs,
+        // });
       }
       setShowBanModal(false);
     },
@@ -388,6 +392,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           role: viewer.role,
           sites: viewer.moderationScopes?.sites?.map((s) => s),
         }}
+        moderationScopesEnabled={settings.multisite}
         userScopes={{
           role: comment.author ? comment.author.role : GQLUSER_ROLE.COMMENTER,
           sites: comment.author

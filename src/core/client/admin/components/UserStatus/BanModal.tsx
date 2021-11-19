@@ -75,8 +75,6 @@ const BanModal: FunctionComponent<Props> = ({
       try {
         const { banSiteIDs, unbanSiteIDs, updateType } = input;
 
-        /* eslint-disable */
-        console.log({ updateType }, "on cofirm in ban modal");
         onConfirm(
           updateType,
           input.rejectExistingComments,
