@@ -283,12 +283,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     ) => {
       if (comment.author) {
         // MARCUS: need to verify this still works correctly
-        // await banUser({
-        //   userID: comment.author.id,
-        //   message,
-        //   rejectExistingComments,
-        //   siteIDs: banSiteIDs,
-        // });
+        await banUser({
+          userID: comment.author.id,
+          message,
+          rejectExistingComments,
+          siteIDs: banSiteIDs,
+        });
       }
       setShowBanModal(false);
     },
