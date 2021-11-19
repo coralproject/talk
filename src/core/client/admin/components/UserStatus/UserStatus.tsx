@@ -29,7 +29,7 @@ const UserStatus: FunctionComponent<Props> = (props) => {
     props.moderationScopesEnabled &&
     props.banned &&
     props.bannedSiteCount &&
-    props.bannedSiteCount > 0
+    props.bannedSiteCount > 0 // MARCUS: this should evaluate to false if user is ban active and also has a single site ban
   ) {
     return render(
       styles.error,

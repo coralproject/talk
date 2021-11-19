@@ -13,6 +13,7 @@ import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
 import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
+import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMutation from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
 import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
@@ -42,6 +43,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 }) => {
   const banUser = useMutation(BanUserMutation);
   const updateUserBan = useMutation(UpdateUserBanMutation);
+  const unbanUser = useMutation(RemoveUserBanMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
@@ -163,24 +165,30 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   const handleUpdateBan = useCallback(
-    (rejectExistingComments, allSites, banSiteIDs, unbanSiteIDs, message) => {
+    (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
       /* eslint-disable */
-      if (allSites) {
-        console.log("banning user from all sites");
-        void banUser({
-          userID: user.id,
-          message,
-          rejectExistingComments,
-        });
-      } else {
-        console.log("managing ban");
-        void updateUserBan({
-          userID: user.id,
-          message,
-          rejectExistingComments,
-          banSiteIDs,
-          unbanSiteIDs,
-        });
+      switch (updateType) {
+        case "ALL_SITES":
+          console.log("banning user from all sites");
+          void banUser({
+            userID: user.id,
+            message,
+            rejectExistingComments,
+          });
+          break;
+        case "SPECIFIC_SITES":
+          console.log("managing ban");
+          void updateUserBan({
+            userID: user.id,
+            message,
+            rejectExistingComments,
+            banSiteIDs,
+            unbanSiteIDs,
+          });
+        case "NO_SITES":
+          void unbanUser({
+            userID: user.id,
+          });
       }
       setShowBanned(false);
     },

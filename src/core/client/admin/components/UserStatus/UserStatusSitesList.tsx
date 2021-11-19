@@ -68,8 +68,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     bannedSites.map((bs) => bs.id)
   );
 
-  const { input: allSites } = useField<boolean>("allSites", {
-    initialValue: !viewerIsScoped, // unscoped users default to all sites, scoped users cannot ban on all sites
+  const { input: updateType } = useField<string>("updateType", {
+    initialValue: "ALL_SITES",
   });
   const { input: banSiteIDs } = useField<string[]>("banSiteIDs");
   const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
@@ -84,13 +84,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     banSiteIDs.onChange(inScopeIDs);
   }, [bannedSites, outOfScope]);
   // MARCUS: including banSiteIDs in dep array causes selectedIDs to be overwritten?
-
-  const onHideSites = useCallback(() => {
-    allSites.onChange(true);
-  }, [allSites]);
-  const onShowSites = useCallback(() => {
-    allSites.onChange(false);
-  }, [allSites]);
 
   const onUnbanFromSite = useCallback(
     (siteID: string) => {
@@ -168,9 +161,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
               <FormField>
                 <Localized id="community-banModal-allSites">
                   <RadioButton
-                    checked={allSites.value}
-                    onChange={onHideSites}
-                    disabled={viewerIsScoped}
+                    checked={updateType.value === "ALL_SITES"}
+                    onChange={() => updateType.onChange("ALL_SITES")}
                   >
                     All sites
                   </RadioButton>
@@ -178,15 +170,28 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
               </FormField>
               <FormField>
                 <Localized id="community-banModal-specificSites">
-                  <RadioButton checked={!allSites.value} onChange={onShowSites}>
+                  <RadioButton
+                    checked={updateType.value === "SPECIFIC_SITES"}
+                    onChange={() => updateType.onChange("SPECIFIC_SITES")}
+                  >
                     Specific Sites
+                  </RadioButton>
+                </Localized>
+              </FormField>
+              <FormField>
+                <Localized id="community-banModal-noSites">
+                  <RadioButton
+                    checked={updateType.value === "NO_SITES"}
+                    onChange={() => updateType.onChange("NO_SITES")}
+                  >
+                    All sites
                   </RadioButton>
                 </Localized>
               </FormField>
             </Flex>
           )}
 
-          {!allSites.value && (
+          {updateType.value === "SPECIFIC_SITES" && (
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
                 {candidateSites.map((siteID) => {
