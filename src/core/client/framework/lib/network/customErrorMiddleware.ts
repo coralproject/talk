@@ -1,3 +1,4 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 import { Middleware, RRNLRequestError } from "react-relay-network-modern/es";
 
 import { RelayNetworkRequestError } from "../errors";
@@ -8,7 +9,9 @@ function isRRNLRequestError(error: Error): error is RRNLRequestError {
   return error.name === "RRNLRequestError";
 }
 
-const customErrorMiddleware: Middleware = (next) => async (req) => {
+const customErrorMiddleware: (localeBundles: FluentBundle[]) => Middleware = (
+  localeBundles
+) => (next) => async (req) => {
   try {
     const res = await next(req);
     if (res.errors) {
@@ -23,7 +26,7 @@ const customErrorMiddleware: Middleware = (next) => async (req) => {
     // Make sure we are online, otherwise throw.
     assertOnline(error);
     if (isRRNLRequestError(error)) {
-      throw new RelayNetworkRequestError(error);
+      throw new RelayNetworkRequestError(error, localeBundles);
     }
     throw error;
   }

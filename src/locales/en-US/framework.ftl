@@ -134,3 +134,9 @@ framework-starRating =
     [1] 1 Star
     *[other] {$value} Stars
   }
+
+### Relay Network Request Error
+
+framework-error-relayNetworkRequestError-anUnexpectedNetworkError = 
+  An unexpected network error occurred, please try again later.
+framework-error-relayNetworkRequestError-code = Code

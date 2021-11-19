@@ -106,6 +106,12 @@ export enum ERROR_CODES {
   LOCAL_PROFILE_NOT_SET = "LOCAL_PROFILE_NOT_SET",
 
   /**
+   * SSO_PROFILE_NOT_SET is returned when the user attempts to perform an
+   * action which requires an SSO profile to be associated with the user.
+   */
+  SSO_PROFILE_NOT_SET = "SSO_PROFILE_NOT_SET",
+
+  /**
    * USERNAME_ALREADY_SET is returned when the user attempts to set a username
    * via the set operations when they already have a username associated with
    * their account.
@@ -201,6 +207,12 @@ export enum ERROR_CODES {
    * targeted revision was not found.
    */
   COMMENT_REVISION_NOT_FOUND = "COMMENT_REVISION_NOT_FOUND",
+
+  /**
+   * PARENT_COMMENT_REJECTED is returned when a Comment's parent
+   * comment has been rejected.
+   */
+  PARENT_COMMENT_REJECTED = "PARENT_COMMENT_REJECTED",
 
   /**
    * AUTHENTICATION_ERROR is returned when a general authentication error has
