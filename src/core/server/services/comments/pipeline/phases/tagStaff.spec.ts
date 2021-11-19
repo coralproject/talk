@@ -39,7 +39,6 @@ const testCase = (input: Case): GQLTAG | void => {
 const tenant = createTenantFixture();
 const tenantID = tenant.id;
 
-// TODO: this will need to be updated once https://github.com/coralproject/talk/pull/3769 is merged
 const tenantWithSiteModDisabled = createTenantFixture({
   id: tenantID,
   featureFlags: [],
