@@ -811,6 +811,99 @@ details. Enable Enable Support.
               </div>
             </div>
           </div>
+          <div
+            className="Box-root ConfigBox-root"
+            data-testid="for-review-queue-config-box"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <label
+                  className="Header-root"
+                  htmlFor="configure-advanced-for-review-queue"
+                >
+                  Review all user reports
+                </label>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <p
+                    className="FormFieldDescription-root"
+                  >
+                    Once a comment is approved, it won't appear again in the reported queue
+even if additional users report it. This feature adds a "For review" queue,
+allowing moderators to see all user reports in the system, and manually
+mark them as "Reviewed".
+                  </p>
+                  <legend
+                    className="Label-root"
+                  >
+                    Show "For review" queue
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="forReviewQueue-true"
+                        name="forReviewQueue"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="forReviewQueue-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="forReviewQueue-false"
+                        name="forReviewQueue"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="forReviewQueue-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

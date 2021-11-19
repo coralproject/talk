@@ -555,13 +555,6 @@ enum FEATURE_FLAG {
   Z_KEY will allow Z key traversal and the mobile toolbar.
   """
   Z_KEY
-
-  """
-  FOR_REVIEW will add a "For Review" Queue that allows moderators to review every flag
-  that has been put on a comment by a user. This feature shall help complying with European Law
-  (European Directive 2000/31/CE).
-  """
-  FOR_REVIEW
 }
 
 # The moderation mode of the site.
@@ -2064,6 +2057,15 @@ type Settings @cacheControl(maxAge: 30) {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean!
+
+  """
+  forReviewQueue is whether or not to show the For Review queue in
+  the Moderate tab of the admin. This queue allows moderators to
+  review every flag that has been put on a comment by a user. This
+  feature shall help complying with European Law
+  (European Directive 2000/31/CE).
+  """
+  forReviewQueue: Boolean!
 }
 
 ################################################################################
@@ -5423,6 +5425,15 @@ input SettingsInput {
   flattenReplies is whether or not to flatten replies
   """
   flattenReplies: Boolean
+
+  """
+  forReviewQueue is whether or not to show the For Review queue in
+  the Moderate tab of the admin. This queue allows moderators to
+  review every flag that has been put on a comment by a user. This
+  feature shall help complying with European Law
+  (European Directive 2000/31/CE).
+  """
+  forReviewQueue: Boolean
 }
 
 """
@@ -7814,6 +7825,36 @@ type RotateSSOSigningSecretPayload {
 }
 
 #########################
+## updateSSOProfileID
+#########################
+
+input UpdateSSOProfileIDInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  userID is the ID of the user whose SSOProfile ID is being updated.
+  """
+  userID: ID!
+  """
+  ssoProfileID is the new ID to set for the user's SSOProfile ID.
+  """
+  ssoProfileID: String!
+}
+
+type UpdateSSOProfileIDPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the User whose SSOProfile ID is being updated.
+  """
+  user: User!
+}
+
+#########################
 ## deactivateSSOSigningSecret
 #########################
 
@@ -8195,6 +8236,10 @@ type Mutation {
   deleteSSOSigningSecret(
     input: DeleteSSOSigningSecretInput!
   ): DeleteSSOSigningSecretPayload! @auth(roles: [ADMIN])
+
+  updateSSOProfileID(
+    input: UpdateSSOProfileIDInput!
+  ): UpdateSSOProfileIDPayload! @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in
