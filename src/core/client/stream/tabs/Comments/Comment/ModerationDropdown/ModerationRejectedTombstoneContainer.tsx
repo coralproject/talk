@@ -1,23 +1,50 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { getModerationLink } from "coral-framework/helpers";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
 import { ModerationRejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_comment.graphql";
+import { ModerationRejectedTombstoneContainer_local } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_local.graphql";
+import { ModerationRejectedTombstoneContainer_settings as SettingsData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_settings.graphql";
 
 import styles from "./ModerationRejectedTombstoneContainer.css";
 
 interface Props {
   comment: CommentData;
+  settings: SettingsData;
 }
 
 const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
   comment,
+  settings,
 }) => {
+  const [{ accessToken }] = useLocal<
+    ModerationRejectedTombstoneContainer_local
+  >(graphql`
+    fragment ModerationRejectedTombstoneContainer_local on Local {
+      accessToken
+    }
+  `);
+
+  const moderationLinkSuffix =
+    !!accessToken &&
+    settings.auth.integrations.sso.enabled &&
+    settings.auth.integrations.sso.targetFilter.admin &&
+    `#accessToken=${accessToken}`;
+
+  const gotoModerateCommentHref = useMemo(() => {
+    let link = getModerationLink({ commentID: comment.id });
+    if (moderationLinkSuffix) {
+      link += moderationLinkSuffix;
+    }
+
+    return link;
+  }, [comment.id, moderationLinkSuffix]);
   return (
     <Tombstone className={CLASSES.moderationRejectedTombstone.$root} fullWidth>
       <Localized id="comments-moderationRejectedTombstone-title">
@@ -28,7 +55,7 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
         color="primary"
         underline
         className={CLASSES.moderationRejectedTombstone.goToModerateButton}
-        href={`/admin/moderate/comment/${comment.id}`}
+        href={gotoModerateCommentHref}
         target="_blank"
       >
         <Flex alignItems="center">
@@ -48,6 +75,20 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerationRejectedTombstoneContainer_comment on Comment {
       id
+    }
+  `,
+  settings: graphql`
+    fragment ModerationRejectedTombstoneContainer_settings on Settings {
+      auth {
+        integrations {
+          sso {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+        }
+      }
     }
   `,
 })(ModerationRejectedTombstoneContainer);
