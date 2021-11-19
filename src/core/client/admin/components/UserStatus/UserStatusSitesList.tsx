@@ -77,13 +77,14 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   const bannedOutOfScope = new Set(
     bannedSites.filter((bs) => outOfScope(bs.id)).map((bs) => bs.id)
   );
+
   useEffect(() => {
     const inScopeIDs = bannedSites
       .filter((bs) => !outOfScope(bs.id))
       .map((bs) => bs.id);
     banSiteIDs.onChange(inScopeIDs);
-  }, [bannedSites, outOfScope]);
-  // MARCUS: including banSiteIDs in dep array causes selectedIDs to be overwritten?
+  }, [bannedSites, outOfScope, banSiteIDs]);
+  // MARCUS: This is causing an infinite update loop
 
   const onUnbanFromSite = useCallback(
     (siteID: string) => {

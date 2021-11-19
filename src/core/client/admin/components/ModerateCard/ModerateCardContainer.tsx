@@ -282,8 +282,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       message: string
     ) => {
       if (comment.author) {
-        /* eslint-disable */
-        console.log({updateType, banSiteIDs, unbanSiteIDs })
+        // MARCUS: need to verify this still works correctly
         // await banUser({
         //   userID: comment.author.id,
         //   message,
