@@ -245,10 +245,6 @@ comments-userBanPopover-description =
   Once banned, this user will no longer be able
   to comment, use reactions, or report comments.
   This comment will also be rejected.
-comments-userBanPopover-scopedDescription =
-  Once banned from {$sitename}, this user will
-  no longer be able to comment, use reactions, or report
-  comments. This comment will also be rejected.
 comments-userBanPopover-cancel = Cancel
 comments-userBanPopover-ban = Ban
 
@@ -836,6 +832,9 @@ warning-instructions =
 warning-acknowledge = Acknowledge
 
 warning-notice = Your account has been issued a warning. To continue participating please <a>review the warning message</a>.
+
+modMessage-heading = Your account has been sent a message by a moderator
+modMessage-acknowledge = Acknowledge
 
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)

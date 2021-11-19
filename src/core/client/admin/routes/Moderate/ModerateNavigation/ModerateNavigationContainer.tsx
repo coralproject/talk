@@ -7,7 +7,6 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
 import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
 import { ModerateNavigationContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";
@@ -75,9 +74,7 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
       siteID={props.siteID}
       section={props.section}
       mode={props.settings?.moderation}
-      enableForReview={props.settings?.featureFlags.includes(
-        GQLFEATURE_FLAG.FOR_REVIEW
-      )}
+      enableForReview={props.settings?.forReviewQueue}
     />
   );
 };
@@ -93,7 +90,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ModerateNavigationContainer_settings on Settings {
       moderation
-      featureFlags
+      forReviewQueue
     }
   `,
   moderationQueues: graphql`

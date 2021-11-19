@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import BanAction, { BanActionProps } from "./BanAction";
+import ModMessageAction, { ModMessageActionProps } from "./ModMessageAction";
 import PremodAction, { PremodActionProps } from "./PremodAction";
 import SiteBanAction from "./SiteBanAction";
 import SuspensionAction, { SuspensionActionProps } from "./SuspensionAction";
@@ -10,13 +11,21 @@ import UsernameChangeAction, {
 import WarningAction, { WarningActionProps } from "./WarningAction";
 
 export interface HistoryActionProps {
-  kind: "username" | "suspension" | "ban" | "site-ban" | "premod" | "warning";
+  kind:
+    | "username"
+    | "suspension"
+    | "ban"
+    | "site-ban"
+    | "premod"
+    | "warning"
+    | "modMessage";
   action:
     | UsernameChangeActionProps
     | SuspensionActionProps
     | BanActionProps
     | PremodActionProps
-    | WarningActionProps;
+    | WarningActionProps
+    | ModMessageActionProps;
 }
 
 const AccountHistoryAction: FunctionComponent<HistoryActionProps> = ({
@@ -38,6 +47,8 @@ const AccountHistoryAction: FunctionComponent<HistoryActionProps> = ({
       return <PremodAction {...(action as PremodActionProps)} />;
     case "warning":
       return <WarningAction {...(action as WarningActionProps)} />;
+    case "modMessage":
+      return <ModMessageAction {...(action as ModMessageActionProps)} />;
     default:
       return null;
   }

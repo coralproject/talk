@@ -538,7 +538,7 @@ configure-sites-site-edit = Edit { $site } details
 configure-sites-site-form-embed-code = Embed code
 sites-emptyMessage = We could not find any sites matching your criteria.
 sites-selector-allSites = All sites
-sites-filter-sites-allSites = All sites
+site-filter-option-allSites = All sites
 
 site-selector-all-sites = All sites
 stories-filter-sites-allSites = All sites
@@ -546,6 +546,14 @@ stories-filter-statuses = Status
 stories-column-site = Site
 site-table-siteName = Site name
 stories-filter-sites = Site
+
+site-search-searchButton =
+  .aria-label = Search
+site-search-textField =
+  .aria-label = Search by site name
+site-search-textField =
+  .placeholder = Search by site name
+site-search-none-found = No sites were found with that search
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
@@ -855,6 +863,14 @@ configure-advanced-amp-explanation =
   template. See our <LinkToDocs>documentation</LinkToDocs> for more
   details. Enable Enable Support.
 
+configure-advanced-for-review-queue = Review all user reports
+configure-advanced-for-review-queue-explanation =
+  Once a comment is approved, it won't appear again in the reported queue
+  even if additional users report it. This feature adds a "For review" queue,
+  allowing moderators to see all user reports in the system, and manually
+  mark them as "Reviewed".
+configure-advanced-for-review-queue-label = Show "For review" queue
+
 ## Decision History
 decisionHistory-popover =
   .description = A dialog showing the decision history
@@ -1055,6 +1071,9 @@ moderate-user-drawer-username-change-old = Old:
 moderate-user-drawer-account-history-premod-set = Always pre-moderate
 moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
 
+moderate-user-drawer-account-history-modMessage-sent = User messaged
+moderate-user-drawer-account-history-modMessage-acknowledged = Message acknowledged at { $acknowledgedAt }
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
@@ -1138,7 +1157,7 @@ moderate-forReview-reportedSpam = Spam
 # Archive
 
 moderate-archived-queue-title = This story has been archived
-moderate-archived-queue-noModerationActions = 
+moderate-archived-queue-noModerationActions =
   No moderation actions can be made on the comments when a story is archived.
 moderate-archived-queue-toPerformTheseActions =
   To perform these actions, unarchive the story.
@@ -1303,6 +1322,16 @@ community-warnModal-cancel = Cancel
 community-warnModal-warnUser = Warn user
 community-userStatus-warn = Warn
 community-userStatus-warnEverywhere = Warn everywhere
+community-userStatus-message = Message
+
+community-modMessageModal-success = A message has been sent to <strong>{ $username }</strong>.
+community-modMessageModal-success-close = Ok
+community-modMessageModal-areYouSure = Message <strong>{ $username }</strong>?
+community-modMessageModal-consequence = Send a message to a commenter that is visible only to them.
+community-modMessageModal-message-label = Message
+community-modMessageModal-message-required = Required
+community-modMessageModal-cancel = Cancel
+community-modMessageModal-messageUser = Message user
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.

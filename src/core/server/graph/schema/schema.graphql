@@ -479,12 +479,6 @@ enum FEATURE_FLAG {
   DEFAULT_QA_STORY_MODE
 
   """
-  SITE_MODERATOR will enable the enhanced Site Moderator role by assigning a new
-  moderation scope to a user.
-  """
-  SITE_MODERATOR
-
-  """
   REDUCED_SECURITY_MODE when true will allow unpersisted queries to be executed
   in production environments.
   """
@@ -561,13 +555,6 @@ enum FEATURE_FLAG {
   Z_KEY will allow Z key traversal and the mobile toolbar.
   """
   Z_KEY
-
-  """
-  FOR_REVIEW will add a "For Review" Queue that allows moderators to review every flag
-  that has been put on a comment by a user. This feature shall help complying with European Law
-  (European Directive 2000/31/CE).
-  """
-  FOR_REVIEW
 }
 
 # The moderation mode of the site.
@@ -2070,6 +2057,15 @@ type Settings @cacheControl(maxAge: 30) {
   amp is whether Accelerated Mobile Pages Support is activated.
   """
   amp: Boolean!
+
+  """
+  forReviewQueue is whether or not to show the For Review queue in
+  the Moderate tab of the admin. This queue allows moderators to
+  review every flag that has been put on a comment by a user. This
+  feature shall help complying with European Law
+  (European Directive 2000/31/CE).
+  """
+  forReviewQueue: Boolean!
 }
 
 ################################################################################
@@ -2333,6 +2329,51 @@ type WarningStatus {
   history: [WarningStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
+type ModMessageStatusHistory {
+  """
+  active when true, indicates that the given user has been sent a moderation message but has not acknowledged the message.
+  """
+  active: Boolean!
+
+  """
+  createdBy is the user that messaged the commenter
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time the user was messaged
+  """
+  createdAt: Time!
+
+  """
+  acknowledgedAt is the time the commenter acknowledged the message. if `null` then the message
+  has not been acknowledged
+  """
+  acknowledgedAt: Time
+
+  """
+  message is the custom message sent to the commenter
+  """
+  message: String
+}
+
+type ModMessageStatus {
+  """
+  active when true, indicates that the given user has been sent a moderation message but has not acknowledged it.
+  """
+  active: Boolean!
+
+  """
+  message is the current message for the moderation message sent to the User.
+  """
+  message: String
+
+  """
+  history will return the status history items for moderation messages.
+  """
+  history: [ModMessageStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
 type PremodStatusHistory {
   """
   active when true, indicates that the given user is premodded.
@@ -2440,6 +2481,16 @@ type UserStatus {
   warning stores the user warning status as well as the history of warnings
   """
   warning: WarningStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  modMessage stores the user moderation message status as well as the history of moderation messages
+  """
+  modMessage: ModMessageStatus!
     @auth(
       userIDField: "userID"
       roles: [ADMIN, MODERATOR]
@@ -4126,8 +4177,11 @@ type Query {
 
   site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
 
-  sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
-    @auth(roles: [ADMIN, MODERATOR])
+  sites(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+    query: String
+  ): SitesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewer is the current logged in User. If no user is currently logged in, it will
@@ -5371,6 +5425,15 @@ input SettingsInput {
   flattenReplies is whether or not to flatten replies
   """
   flattenReplies: Boolean
+
+  """
+  forReviewQueue is whether or not to show the For Review queue in
+  the Moderate tab of the admin. This queue allows moderators to
+  review every flag that has been put on a comment by a user. This
+  feature shall help complying with European Law
+  (European Directive 2000/31/CE).
+  """
+  forReviewQueue: Boolean
 }
 
 """
@@ -7311,6 +7374,56 @@ type AcknowledgeWarningPayload {
 }
 
 ##################
+# sendModMessage
+##################
+input SendModMessageInput {
+  """
+  userID is the ID of the User that should have their account messaged.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  message is displayed to the user in the stream
+  """
+  message: String!
+}
+
+type SendModMessagePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+input AcknowledgeModMessageInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AcknowledgeModMessagePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
 # banUser
 ##################
 
@@ -7663,6 +7776,36 @@ type RotateSSOSigningSecretPayload {
   settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
+}
+
+#########################
+## updateSSOProfileID
+#########################
+
+input UpdateSSOProfileIDInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  userID is the ID of the user whose SSOProfile ID is being updated.
+  """
+  userID: ID!
+  """
+  ssoProfileID is the new ID to set for the user's SSOProfile ID.
+  """
+  ssoProfileID: String!
+}
+
+type UpdateSSOProfileIDPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the User whose SSOProfile ID is being updated.
+  """
+  user: User!
 }
 
 #########################
@@ -8048,6 +8191,10 @@ type Mutation {
     input: DeleteSSOSigningSecretInput!
   ): DeleteSSOSigningSecretPayload! @auth(roles: [ADMIN])
 
+  updateSSOProfileID(
+    input: UpdateSSOProfileIDInput!
+  ): UpdateSSOProfileIDPayload! @auth(roles: [ADMIN])
+
   """
   createCommentReaction will create a Reaction authored by the current logged in
   User on a Comment.
@@ -8377,11 +8524,26 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  acknowledgWarning will remove a warning
+  acknowledgeWarning will remove a warning
   """
   acknowledgeWarning(
     input: AcknowledgeWarningInput!
-  ): AcknowledgeWarningPayload @auth(permit: [WARNED])
+  ): AcknowledgeWarningPayload
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
+
+  """
+  sendModMessage will send a user a moderation message that they need to acknowledge
+  """
+  sendModMessage(input: SendModMessageInput!): SendModMessagePayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  acknowledgeModMessage will set moderation messages to inactive
+  """
+  acknowledgeModMessage(
+    input: AcknowledgeModMessageInput!
+  ): AcknowledgeModMessagePayload
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
   removeUserSuspension will remove an active suspension from a User if they have

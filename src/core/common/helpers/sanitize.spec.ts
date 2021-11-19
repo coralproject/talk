@@ -32,31 +32,6 @@ it("sanitizes out attributes not allowed", () => {
   `);
 });
 
-it("sanitizes out empty anchors", () => {
-  const sanitize = createSanitize(window as any, {
-    features: ALL_FEATURES,
-  });
-  expect(
-    sanitize(
-      '<a href="https://genderbread.org/">genderbread.org</a>; <a target="_blank">no anchor</a>'
-    )
-  ).toMatchInlineSnapshot(`
-    <body>
-      <a
-        href="https://genderbread.org/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        https://genderbread.org/
-      </a>
-      ; 
-      <span>
-        no anchor
-      </span>
-    </body>
-  `);
-});
-
 it("sanitizes without features enabled", () => {
   const sanitize = createSanitize(window as any);
   expect(
@@ -114,58 +89,24 @@ it("sanitizes without features enabled", () => {
   `);
 });
 
-it("allows anchor links", () => {
-  const sanitize = createSanitize(window as any);
-  expect(sanitize('<a href="http://test.com">This is a link</a>'))
-    .toMatchInlineSnapshot(`
-    <body>
-      <a
-        href="http://test.com"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        http://test.com
-      </a>
-    </body>
-  `);
-});
-
-it("allows mailto links", () => {
-  const sanitize = createSanitize(window as any);
-  expect(sanitize('<a href="mailto:email@example.com">email@example.com</a>'))
-    .toMatchInlineSnapshot(`
-    <body>
-      <a
-        href="mailto:email@example.com"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        email@example.com
-      </a>
-    </body>
-  `);
-});
-
-it("allows anchor tags and counts them correctly", () => {
+it("replaces anchor tags with their text", () => {
   const sanitize = createSanitize(window as any);
   const el = sanitize(
     `
     <div>
-      <a href="https://mozilla.org/">Mozilla</a>
-      <a href="https://mozilla.org/">Mozilla</a>
+      <a href="http://test.com">This is a link</a>. This is <a target="_blank">another link with no href</a> in a comment.
     </div>
   `
   );
-
-  expect(el.innerHTML).toMatchInlineSnapshot(`
+  expect(el.innerHTML).toMatchInlineSnapshot(
+    `
     "
         <div>
-          <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">https://mozilla.org/</a>
-          <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">https://mozilla.org/</a>
+          This is a link. This is another link with no href in a comment.
         </div>
       "
-  `);
-  expect(el.getElementsByTagName("a").length).toEqual(2);
+  `
+  );
 });
 
 it("allows bolded tags", () => {

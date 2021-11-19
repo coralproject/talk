@@ -34,6 +34,7 @@ interface Props {
   onRemovePremod: () => void;
   onWarn: () => void;
   onRemoveWarning: () => void;
+  onModMessage: () => void;
   banned: boolean;
   suspended: boolean;
   premod: boolean;
@@ -53,6 +54,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
   onRemovePremod,
   onWarn,
   onRemoveWarning,
+  onModMessage,
   warned,
   banned,
   suspended,
@@ -194,6 +196,19 @@ const UserStatusChange: FunctionComponent<Props> = ({
                 </DropdownButton>
               </Localized>
             )}
+            <Localized id="community-userStatus-message">
+              <DropdownButton
+                className={styles.dropdownButton}
+                onClick={() => {
+                  if (onModMessage) {
+                    onModMessage();
+                    toggleVisibility();
+                  }
+                }}
+              >
+                Message
+              </DropdownButton>
+            </Localized>
           </Dropdown>
         </ClickOutside>
       )}
