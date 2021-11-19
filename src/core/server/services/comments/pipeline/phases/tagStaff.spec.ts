@@ -1,5 +1,4 @@
 import {
-  GQLFEATURE_FLAG,
   GQLTAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -48,7 +47,6 @@ const tenantWithSiteModDisabled = createTenantFixture({
 
 const tenantWithSiteModEnabled = createTenantFixture({
   id: tenantID,
-  featureFlags: [GQLFEATURE_FLAG.SITE_MODERATOR],
 });
 
 const siteA = createSiteFixture({ tenantID });
@@ -181,24 +179,6 @@ describe("tagStaff", () => {
         tenant: tenantWithSiteModEnabled,
       })
     ).toBeUndefined();
-  });
-
-  it("moderation scopes are ignored when single site moderators are disabled", () => {
-    expect(
-      testCase({
-        author: siteAModUser,
-        story: siteBStory,
-        tenant: tenantWithSiteModDisabled,
-      })
-    ).toEqual(GQLTAG.MODERATOR);
-
-    expect(
-      testCase({
-        author: siteBModUser,
-        story: siteAStory,
-        tenant: tenantWithSiteModDisabled,
-      })
-    ).toEqual(GQLTAG.MODERATOR);
   });
 
   it("commenters do not get badges", () => {
