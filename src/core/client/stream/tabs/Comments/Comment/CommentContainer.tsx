@@ -378,7 +378,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
-    return <ModerationRejectedTombstoneContainer comment={comment} />;
+    return (
+      <ModerationRejectedTombstoneContainer
+        comment={comment}
+        settings={settings}
+      />
+    );
   }
 
   // Comment is not published after edit, so don't render it anymore.
@@ -858,6 +863,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           ...EditCommentFormContainer_settings
           ...MediaSectionContainer_settings
           ...ReactionButtonContainer_settings
+          ...ModerationRejectedTombstoneContainer_settings
           ...ReplyCommentFormContainer_settings
           ...ReportFlowContainer_settings
           ...UsernameWithPopoverContainer_settings
