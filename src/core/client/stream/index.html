@@ -12,13 +12,202 @@
       // This is only loaded in development, so include the React devtools hooks.
       if (window.parent) {
         try {
-          window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
-        }
-        catch {
-          console.warn("React Devtools Global Hook not loaded")
+          window.__REACT_DEVTOOLS_GLOBAL_HOOK__ =
+            window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+        } catch {
+          console.warn("React Devtools Global Hook not loaded");
         }
       }
     </script>
-    <div id="app"></div>
+    <div id="app">
+      <!-- TOP TABS -->
+      <div style="display: flex;">
+        <div
+          style="
+            background-color: #cbd1d2;
+            height: 3rem;
+            width: 8rem;
+            margin-right: 0.5rem;
+          "
+        ></div>
+        <div
+          style="
+            background-color: #eaeff0;
+            height: 3rem;
+            width: 8rem;
+            margin-right: 0.5rem;
+          "
+        ></div>
+        <div
+          style="background-color: #eaeff0; height: 3rem; width: 8rem;"
+        ></div>
+      </div>
+      <!-- SIGNED IN AS -->
+      <div
+        style="
+          background-color: #eaeff0;
+          height: 1rem;
+          width: 8rem;
+          margin-top: 1rem;
+        "
+      ></div>
+      <!-- USERNAME -->
+      <div
+        style="
+          background-color: #eaeff0;
+          height: 2rem;
+          width: 12rem;
+          margin-top: 0.5rem;
+        "
+      ></div>
+      <div
+        style="
+          background-color: #eaeff0;
+          height: 3rem;
+          margin-top: 1rem;
+          width: 100%;
+        "
+      ></div>
+      <!-- COMMENTING BOX -->
+      <div
+        style="
+          background-color: #f4f7f7;
+          height: 6rem;
+          margin-top: 1rem;
+          width: 100%;
+        "
+      ></div>
+      <div
+        style="display: flex; align-items: flex-end; flex-direction: column;"
+      >
+        <div
+          style="
+            background-color: #eaeff0;
+            height: 2rem;
+            width: 4rem;
+            margin-top: 0.5rem;
+          "
+        ></div>
+        <!-- TODO: make another flex div here with three divs inside -->
+        <div style="display: flex; width: 100%; margin-top: 0.5rem;">
+          <div
+            style="background-color: #f4f7f7; height: 1rem; width: 8rem;"
+          ></div>
+          <div
+            style="
+              background-color: #cbd1d2;
+              height: 1rem;
+              width: 8rem;
+              margin-left: 0.5rem;
+            "
+          ></div>
+          <div
+            style="
+              background-color: #f4f7f7;
+              height: 1rem;
+              width: 8rem;
+              margin-left: auto;
+            "
+          ></div>
+        </div>
+      </div>
+      <!-- COMMENTS -->
+      <!-- COMMENT ONE -->
+      <hr style="border: 1px solid #eaeff0; margin-top: 0.5rem;" />
+      <div
+        style="
+          background-color: #f4f7f7;
+          width: 18rem;
+          height: 2rem;
+          margin-top: 1rem;
+        "
+      ></div>
+      <div
+        style="
+          background-color: #eaeff0;
+          height: 3rem;
+          width: 100%;
+          margin-top: 0.5rem;
+        "
+      ></div>
+      <div
+        style="
+          display: flex;
+          margin-top: 0.5rem;
+          justify-content: space-between;
+        "
+      >
+        <div
+          style="width: 12rem; height: 1rem; background-color: #f4f7f7;"
+        ></div>
+        <div
+          style="width: 2rem; height: 1rem; background-color: #f4f7f7;"
+        ></div>
+      </div>
+      <!-- COMMENT TWO -->
+      <hr style="border: 1px solid #eaeff0; margin-top: 0.5rem;" />
+      <div
+        style="
+          background-color: #f4f7f7;
+          width: 18rem;
+          height: 2rem;
+          margin-top: 1rem;
+        "
+      ></div>
+      <div
+        style="
+          background-color: #eaeff0;
+          height: 3rem;
+          width: 100%;
+          margin-top: 0.5rem;
+        "
+      ></div>
+      <div
+        style="
+          display: flex;
+          margin-top: 0.5rem;
+          justify-content: space-between;
+        "
+      >
+        <div
+          style="width: 12rem; height: 1rem; background-color: #f4f7f7;"
+        ></div>
+        <div
+          style="width: 2rem; height: 1rem; background-color: #f4f7f7;"
+        ></div>
+      </div>
+      <!-- COMMENT THREE -->
+      <hr style="border: 1px solid #eaeff0; margin-top: 0.5rem;" />
+      <div
+        style="
+          background-color: #f4f7f7;
+          width: 18rem;
+          height: 2rem;
+          margin-top: 1rem;
+        "
+      ></div>
+      <div
+        style="
+          background-color: #eaeff0;
+          height: 3rem;
+          width: 100%;
+          margin-top: 0.5rem;
+        "
+      ></div>
+      <div
+        style="
+          display: flex;
+          margin-top: 0.5rem;
+          justify-content: space-between;
+        "
+      >
+        <div
+          style="width: 12rem; height: 1rem; background-color: #f4f7f7;"
+        ></div>
+        <div
+          style="width: 2rem; height: 1rem; background-color: #f4f7f7;"
+        ></div>
+      </div>
+    </div>
   </body>
 </html>
