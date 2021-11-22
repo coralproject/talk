@@ -4,7 +4,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { Button, Flex, Icon, TextField } from "coral-ui/components/v2";
 
 interface Props {
-  onSearch: () => void;
+  onSearch: (event: React.SyntheticEvent) => void;
   onClearSearch: () => void;
   onSearchTextChanged: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
@@ -27,7 +27,7 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
   const onSearchKeyPress = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === "Enter") {
-        onSearch();
+        onSearch(event);
       }
       if (event.key === "Escape") {
         onClearSearch();

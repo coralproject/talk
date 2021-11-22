@@ -1,7 +1,6 @@
 import { pureMerge } from "coral-common/utils";
 import {
   GQLCOMMENT_SORT,
-  GQLFEATURE_FLAG,
   GQLResolver,
   MutationToReviewCommentFlagResolver,
 } from "coral-framework/schema";
@@ -47,7 +46,7 @@ async function createTestRenderer(
         Query: {
           settings: () => ({
             ...settings,
-            featureFlags: [GQLFEATURE_FLAG.FOR_REVIEW],
+            forReviewQueue: true,
           }),
           viewer: () => viewer,
           moderationQueues: () => emptyModerationQueues,
