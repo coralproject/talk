@@ -1,0 +1,25 @@
+$sideNavItemColor: var(--palette-text-100);
+$sideNavBorderColor: var(--palette-grey-300);
+$sideNavIndicatorColor: $colors-coral-500;
+$sideNavActiveColor: var(--palette-text-500);
+
+.subLink {
+  border-left: 1px solid $sideNavBorderColor;
+  color: $sideNavItemColor;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+  padding: var(--spacing-2) var(--spacing-2)
+    var(--spacing-2) calc(var(--spacing-5) + 4px);
+
+  &:hover {
+    border-left: 2px solid $sideNavIndicatorColor;
+    color: $sideNavActiveColor;
+    padding-left: calc(var(--spacing-5) + 3px);
+  }
+}
+
+.subLinkActive, .subLinkActive:hover {
+  color: $sideNavActiveColor;
+  font-weight: var(--font-weight-primary-bold);
+}
