@@ -963,13 +963,13 @@ it.only("manages bans on individual sites", async () => {
     within(modal).getByText("Second Site", { exact: false }).props.onClick();
   });
 
-  // TODO: test Unban from first site
+  // TODO (marcushaddon): test Unban from first site
 
   act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
 
-  // TODO: expect correct sites to render in checklist
+  // TODO (marcushaddon): expect correct sites to render in checklist
 });
 
 it("send user a moderation message", async () => {

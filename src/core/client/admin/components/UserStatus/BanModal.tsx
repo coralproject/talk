@@ -75,11 +75,22 @@ const BanModal: FunctionComponent<Props> = ({
       try {
         const { banSiteIDs, unbanSiteIDs, updateType } = input;
 
+        const inScope = (siteID: string) =>
+          !moderationScopesEnabled ||
+          viewerScopes?.sites?.some(({ id }) => id === siteID);
+
+        const filteredBans = banSiteIDs?.filter((siteID: string) =>
+          inScope(siteID)
+        );
+        const filteredUnbans = unbanSiteIDs?.filter((siteID: string) =>
+          inScope(siteID)
+        );
+
         onConfirm(
           updateType,
           input.rejectExistingComments,
-          banSiteIDs,
-          unbanSiteIDs,
+          filteredBans,
+          filteredUnbans,
           input.emailMessage
         );
 
