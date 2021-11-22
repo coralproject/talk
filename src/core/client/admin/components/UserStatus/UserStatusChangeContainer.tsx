@@ -258,24 +258,22 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onConfirm={handleSendModMessageConfirm}
         success={showSendModMessageSuccess}
       />
-      {
-        <BanModal
-          username={user.username}
-          open={showBanned}
-          onClose={handleBanModalClose}
-          onConfirm={handleUpdateBan}
-          moderationScopesEnabled={moderationScopesEnabled}
-          viewerScopes={{
-            role: viewer.role,
-            sites: viewer.moderationScopes?.sites?.map((s) => s),
-          }}
-          userScopes={{
-            role: user.role,
-            sites: user.status.ban.sites?.map((s) => s),
-          }}
-          banStatus={user.status.ban}
-        />
-      }
+      <BanModal
+        username={user.username}
+        open={showBanned}
+        onClose={handleBanModalClose}
+        onConfirm={handleUpdateBan}
+        moderationScopesEnabled={moderationScopesEnabled}
+        viewerScopes={{
+          role: viewer.role,
+          sites: viewer.moderationScopes?.sites?.map((s) => s),
+        }}
+        userScopes={{
+          role: user.role,
+          sites: user.status.ban.sites?.map((s) => s),
+        }}
+        banStatus={user.status.ban}
+      />
     </>
   );
 };

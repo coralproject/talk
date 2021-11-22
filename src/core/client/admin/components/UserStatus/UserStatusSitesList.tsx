@@ -83,7 +83,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
       .filter((bs) => !outOfScope(bs.id))
       .map((bs) => bs.id);
     banSiteIDs.onChange(inScopeIDs);
-  }, [bannedSites, outOfScope, banSiteIDs]);
+  }, []);
   // MARCUS: This is causing an infinite update loop
 
   const onUnbanFromSite = useCallback(
