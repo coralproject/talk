@@ -638,7 +638,7 @@ it("suspend user with custom message", async () => {
   expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
 });
 
-it("ban user", async () => {
+it("bans user from all sites", async () => {
   const user = users.commenters[0];
 
   const resolvers = createResolversStub<GQLResolver>({
@@ -851,6 +851,125 @@ it("remove user ban from all sites", async () => {
 
   within(userRow).getByText("Active");
   expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
+});
+
+it.only("manages bans on individual sites", async () => {
+  const user = users.commenters[0];
+  const site1 = sites[0];
+  const site2 = sites[1];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settingsWithMultisite,
+      users: () => {
+        const userWithSpecificBans = pureMerge<typeof user>(user, {
+          status: {
+            current: [GQLUSER_STATUS.ACTIVE],
+            ban: {
+              active: false,
+              sites: [site1],
+              history: [
+                {
+                  active: true,
+                  createdAt: new Date().toISOString(),
+                  sites: [site1],
+                },
+              ],
+            },
+          },
+        });
+        return {
+          edges: [
+            {
+              node: userWithSpecificBans,
+              cursor: user.createdAt,
+            },
+          ],
+          pageInfo: { endCursor: null, hasNextPage: false },
+        };
+      },
+      sites: () => ({
+        edges: [
+          {
+            node: sites[1],
+            cursor: sites[1].createdAt,
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      }),
+    },
+    Mutation: {
+      updateUserBan: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          banSiteIDs: [site1.id, site2.id],
+        });
+
+        return { user };
+      },
+    },
+  });
+
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow)
+      .getByLabelText("Change user status", { exact: false })
+      .props.onClick();
+  });
+
+  const dropdown = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  act(() => {
+    within(dropdown)
+      .getByText("Manage ban", { selector: "button", exact: false })
+      .props.onClick();
+  });
+
+  const modal = within(userRow).getByLabelText("Are you sure you want to ban", {
+    exact: false,
+  });
+
+  act(() => {
+    within(modal)
+      .getByLabelText("Specific sites", { exact: false })
+      .props.onChange();
+  });
+
+  const siteSearchField = within(modal).getByTestID("site-search-textField");
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Second" },
+    })
+  );
+
+  const siteSearchButton = within(modal).getByTestID("site-search-button");
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // Add site to ban on
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Second Site", { exact: false }).props.onClick();
+  });
+
+  // TODO: test Unban from first site
+
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+
+  // TODO: expect correct sites to render in checklist
 });
 
 it("send user a moderation message", async () => {
