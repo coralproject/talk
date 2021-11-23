@@ -37,13 +37,17 @@
 }
 
 .action {
-  min-width: 125px;
+  min-width: 150px;
   font-weight: 600;
 }
 
 .user {
   min-width: 125px;
   max-width: 125px;
+}
+
+.description {
+  min-width: 150px;
 }
 
 .user > * {

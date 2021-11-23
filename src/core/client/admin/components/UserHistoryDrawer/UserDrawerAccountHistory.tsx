@@ -273,7 +273,9 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
                 <AccountHistoryAction {...history} />
               </TableCell>
               <TableCell className={styles.user}>{history.takenBy}</TableCell>
-              <TableCell>{history.description}</TableCell>
+              <TableCell className={styles.description}>
+                {history.description}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
