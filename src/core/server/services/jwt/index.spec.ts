@@ -11,7 +11,7 @@ describe("extractJWTFromRequest", () => {
         authorization: "Bearer token",
       },
       url: "",
-    };
+    } as Request;
 
     expect(extractTokenFromRequest((req as any) as Request)).toEqual("token");
 
