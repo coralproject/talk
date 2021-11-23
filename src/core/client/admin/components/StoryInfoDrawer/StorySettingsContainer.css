@@ -15,6 +15,7 @@
 
 .configureStory {
   padding-top: var(--spacing-1);
+  font-family: var(--font-family-secondary);
   font-weight: var(--font-weight-secondary-regular);
   color: var(--palette-text-500);
 }
