@@ -5,6 +5,96 @@
     <meta charset="utf-8" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <style>
+      .load-flex {
+        display: flex;
+      }
+      .load-flex-spaceBetween {
+        justify-content: space-between;
+      }
+      .load-flex-wrap {
+        flex-wrap: wrap;
+      }
+      .load-flex-alignItems-end {
+        align-items: flex-end;
+      }
+      .load-flex-column {
+        flex-direction: column;
+      }
+      .load-height-xs {
+        height: 1rem;
+      }
+      .load-height-s {
+        height: 2rem;
+      }
+      .load-height-m {
+        height: 3rem;
+      }
+      .load-height-l {
+        height: 8rem;
+      }
+      .load-width-xs {
+        width: 4rem;
+      }
+      .load-width-s {
+        width: 8rem;
+      }
+      .load-width-m {
+        width: 12rem;
+      }
+      .load-width-l {
+        width: 18rem;
+      }
+      .load-width-full {
+        width: 100%;
+      }
+      .load-bgGrey100 {
+        background-color: #f4f7f7;
+      }
+      .load-bgGrey200 {
+        background-color: #eaeff0;
+      }
+      .load-bgGrey300 {
+        background-color: #cbd1d2;
+      }
+      .load-rMargin-s {
+        margin-right: 0.5rem;
+      }
+      .load-tMargin-s {
+        margin-top: 0.5rem;
+      }
+      .load-tMargin-m {
+        margin-top: 1rem;
+      }
+      .load-lMargin-s {
+        margin-left: 0.5rem;
+      }
+      .load-lMargin-auto {
+        margin-left: auto;
+      }
+      .load-hr {
+        border: 1px solid #eaeff0;
+      }
+      @media (max-width: 639px) {
+        .load-topTabs {
+          height: 4rem;
+          margin-right: 0;
+          width: 5rem;
+        }
+        .load-topTabs:last-of-type {
+          align-self: end;
+          height: 3rem;
+          width: 3rem;
+        }
+        .load-submitButton {
+          width: 100%;
+        }
+        .load-sortBy {
+          margin-top: 0.5rem;
+          width: 100%;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -20,187 +110,83 @@
       }
     </script>
     <div id="app">
+      <!-- skeleton representation of components before React loads -->
       <!-- TOP TABS -->
-      <div style="display: flex;">
+      <div class="load-flex">
         <div
-          style="
-            background-color: #cbd1d2;
-            height: 3rem;
-            width: 8rem;
-            margin-right: 0.5rem;
-          "
+          class="load-topTabs load-bgGrey300 load-height-m load-width-s load-rMargin-s"
         ></div>
         <div
-          style="
-            background-color: #eaeff0;
-            height: 3rem;
-            width: 8rem;
-            margin-right: 0.5rem;
-          "
+          class="load-topTabs load-bgGrey200 load-height-m load-width-s load-rMargin-s"
         ></div>
         <div
-          style="background-color: #eaeff0; height: 3rem; width: 8rem;"
+          class="load-topTabs load-bgGrey200 load-height-m load-width-s"
         ></div>
       </div>
       <!-- SIGNED IN AS -->
       <div
-        style="
-          background-color: #eaeff0;
-          height: 1rem;
-          width: 8rem;
-          margin-top: 1rem;
-        "
+        class="load-bgGrey200 load-height-xs load-width-s load-tMargin-m"
       ></div>
       <!-- USERNAME -->
       <div
-        style="
-          background-color: #eaeff0;
-          height: 2rem;
-          width: 12rem;
-          margin-top: 0.5rem;
-        "
-      ></div>
-      <div
-        style="
-          background-color: #eaeff0;
-          height: 3rem;
-          margin-top: 1rem;
-          width: 100%;
-        "
+        class="load-bgGrey200 load-height-s load-width-m load-tMargin-s"
       ></div>
       <!-- COMMENTING BOX -->
       <div
-        style="
-          background-color: #f4f7f7;
-          height: 6rem;
-          margin-top: 1rem;
-          width: 100%;
-        "
+        class="load-bgGrey100 load-height-l load-width-full load-tMargin-m"
       ></div>
       <!-- SUBMIT BUTTON -->
       <div
-        style="
-          background-color: #eaeff0;
-          display: flex;
-          height: 2rem;
-          width: 4rem;
-          margin-left: auto;
-          margin-top: 0.5rem;
-        "
+        class="load-submitButton load-flex load-bgGrey200 load-height-s load-width-xs load-tMargin-s load-lMargin-auto"
       ></div>
-      <div
-        style="display: flex; align-items: flex-end; flex-direction: column;"
-      >
+      <div class="load-flex load-flex-alignItems-end load-flex-column">
         <!-- COMMENTS TABS AND SORT BY -->
-        <div style="display: flex; width: 100%; margin-top: 0.5rem;">
+        <div class="load-flex load-flex-wrap load-width-full load-tMargin-s">
+          <div class="load-bgGrey100 load-height-xs load-width-s"></div>
           <div
-            style="background-color: #f4f7f7; height: 1rem; width: 8rem;"
+            class="load-bgGrey300 load-height-xs load-width-s load-lMargin-s"
           ></div>
           <div
-            style="
-              background-color: #cbd1d2;
-              height: 1rem;
-              width: 8rem;
-              margin-left: 0.5rem;
-            "
-          ></div>
-          <div
-            style="
-              background-color: #f4f7f7;
-              height: 1rem;
-              width: 8rem;
-              margin-left: auto;
-            "
+            class="load-sortBy load-bgGrey100 load-height-xs load-width-s load-lMargin-auto"
           ></div>
         </div>
       </div>
-      <!-- COMMENTS -->
+      <!-- COMMENTS - all comments are the same -->
       <!-- COMMENT ONE -->
-      <hr style="border: 1px solid #eaeff0; margin-top: 0.5rem;" />
+      <hr class="load-hr load-tMargin-s" />
       <div
-        style="
-          background-color: #f4f7f7;
-          width: 18rem;
-          height: 2rem;
-          margin-top: 1rem;
-        "
+        class="load-bgGrey100 load-width-l load-height-s load-tMargin-m"
       ></div>
       <div
-        style="
-          background-color: #eaeff0;
-          height: 3rem;
-          width: 100%;
-          margin-top: 0.5rem;
-        "
+        class="load-bgGrey200 load-height-m load-width-full load-tMargin-s"
       ></div>
-      <div
-        style="
-          background-color: #f4f7f7;
-          display: flex;
-          margin-top: 0.5rem;
-          justify-content: space-between;
-        "
-      >
-        <div style="width: 12rem; height: 1rem;"></div>
-        <div style="width: 2rem; height: 1rem;"></div>
+      <div class="load-flex load-flex-spaceBetween load-tMargin-s">
+        <div class="load-bgGrey100 load-width-m load-height-xs"></div>
+        <div class="load-bgGrey100 load-height-xs load-width-xs"></div>
       </div>
       <!-- COMMENT TWO -->
-      <hr style="border: 1px solid #eaeff0; margin-top: 0.5rem;" />
+      <hr class="load-hr load-tMargin-s" />
       <div
-        style="
-          background-color: #f4f7f7;
-          width: 18rem;
-          height: 2rem;
-          margin-top: 1rem;
-        "
+        class="load-bgGrey100 load-width-l load-height-s load-tMargin-m"
       ></div>
       <div
-        style="
-          background-color: #eaeff0;
-          height: 3rem;
-          width: 100%;
-          margin-top: 0.5rem;
-        "
+        class="load-bgGrey200 load-height-m load-width-full load-tMargin-s"
       ></div>
-      <div
-        style="
-          background-color: #f4f7f7;
-          display: flex;
-          margin-top: 0.5rem;
-          justify-content: space-between;
-        "
-      >
-        <div style="width: 12rem; height: 1rem;"></div>
-        <div style="width: 2rem; height: 1rem;"></div>
+      <div class="load-flex load-flex-spaceBetween load-tMargin-s">
+        <div class="load-bgGrey100 load-width-m load-height-xs"></div>
+        <div class="load-bgGrey100 load-height-xs load-width-xs"></div>
       </div>
       <!-- COMMENT THREE -->
-      <hr style="border: 1px solid #eaeff0; margin-top: 0.5rem;" />
+      <hr class="load-hr load-tMargin-s" />
       <div
-        style="
-          background-color: #f4f7f7;
-          width: 18rem;
-          height: 2rem;
-          margin-top: 1rem;
-        "
+        class="load-bgGrey100 load-width-l load-height-s load-tMargin-m"
       ></div>
       <div
-        style="
-          background-color: #eaeff0;
-          height: 3rem;
-          width: 100%;
-          margin-top: 0.5rem;
-        "
+        class="load-bgGrey200 load-height-m load-width-full load-tMargin-s"
       ></div>
-      <div
-        style="
-          background-color: #f4f7f7;
-          display: flex;
-          margin-top: 0.5rem;
-          justify-content: space-between;
-        "
-      >
-        <div style="width: 12rem; height: 1rem;"></div>
-        <div style="width: 2rem; height: 1rem;"></div>
+      <div class="load-flex load-flex-spaceBetween load-tMargin-s">
+        <div class="load-bgGrey100 load-width-m load-height-xs"></div>
+        <div class="load-bgGrey100 load-height-xs load-width-xs"></div>
       </div>
     </div>
   </body>
