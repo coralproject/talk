@@ -54,7 +54,7 @@ export class AnalyticsCoralEventListener
   }
 
   private track(event: Event) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this.analytics.track(event, (err) => {
         if (err) {
           return reject(err);
