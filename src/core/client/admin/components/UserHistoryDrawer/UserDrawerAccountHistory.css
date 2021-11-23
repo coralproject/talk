@@ -37,23 +37,13 @@
 }
 
 .action {
-  min-width: 150px;
+  min-width: 125px;
   font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .user {
   min-width: 125px;
   max-width: 125px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.description {
-  min-width: 150px;
 }
 
 .user > * {
