@@ -5,8 +5,4 @@
 
   width: 646px;
   height: 100%;
-
-  display: flex;
-  flex-flow: column nowrap;
-  flex-direction: column;
 }

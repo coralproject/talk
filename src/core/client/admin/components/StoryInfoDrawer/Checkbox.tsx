@@ -7,6 +7,7 @@ export interface Props {
   name: string;
   control: Control;
   defaultValue: any;
+  disabled?: boolean;
   children: React.ReactChildren | React.ReactChild;
 }
 
@@ -14,6 +15,7 @@ const HookCheckBox: FunctionComponent<Props> = ({
   name,
   control,
   defaultValue,
+  disabled = false,
   children,
 }) => {
   const {
@@ -25,7 +27,7 @@ const HookCheckBox: FunctionComponent<Props> = ({
   });
 
   return (
-    <CheckBox {...fieldProps} ref={ref}>
+    <CheckBox {...fieldProps} disabled={disabled} ref={ref}>
       {children}
     </CheckBox>
   );

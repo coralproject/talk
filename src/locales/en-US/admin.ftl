@@ -1324,6 +1324,10 @@ storyInfoDrawer-authorNotAvailable = Author not available
 storyInfoDrawer-publishDateNotAvailable = Publish date not available
 storyInfoDrawer-scrapedMetaData = Scraped metadata
 storyInfoDrawer-configure = Configure
+storyInfoDrawerSettings-premodLinksEnable = Pre Mod Links Enabled
+storyInfoDrawerSettings-moderation = Moderation
+storyInfoDrawerSettings-moderationMode-pre = Pre
+storyInfoDrawerSettings-moderationMode-post = Post
 
 
 ## Invite

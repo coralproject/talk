@@ -31,14 +31,23 @@ import { HookSelect as Select } from "./Select";
 
 import styles from "./StorySettingsContainer.css";
 
-import { GQLMODERATION_MODE } from "coral-framework/schema";
+export type MODERATION_MODE = StorySettingsContainer_storySettings["moderation"];
 
 export interface Props {
   storyID: string;
   settings: StorySettingsContainer_storySettings;
 }
 
-// const Forwarded
+const localizedModMode = (mode: MODERATION_MODE): string => {
+  switch (mode) {
+    case "PRE":
+      return "storyInfoDrawerSettings-moderationMode-pre";
+    case "POST":
+      return "storyInfoDrawerSettings-moderationMode-post";
+    case "%future added value":
+      return "storyInfoDrawerSettings-moderationMode-future";
+  }
+};
 
 const StorySettingsContainer: FunctionComponent<Props> = ({
   storyID,
@@ -91,17 +100,18 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
             <Flex direction="column">
               <Flex direction="row" className={styles.setting}>
                 {/* PREMODLINKSENABLED */}
-                {/* <Localized id="storyInfoDrawerSettings-premodLinksEnable"> */}
-                <CheckBox
-                  name="premodLinksEnable"
-                  control={control}
-                  defaultValue={premodLinksEnable}
-                >
-                  <div className={styles.checkboxText}>
-                    Pre Mode Links Enabled
-                  </div>
-                </CheckBox>
-                {/* </Localized> */}
+                <Localized id="storyInfoDrawerSettings-premodLinksEnable">
+                  <CheckBox
+                    name="premodLinksEnable"
+                    control={control}
+                    defaultValue={premodLinksEnable}
+                    disabled={formState.isSubmitting}
+                  >
+                    <div className={styles.checkboxText}>
+                      Pre Mode Links Enabled
+                    </div>
+                  </CheckBox>
+                </Localized>
               </Flex>
 
               {/* MODERATION MODE */}
@@ -112,8 +122,20 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                     name="moderation"
                     label="Moderation"
                     description="A menu for setting the moderation mode for the story"
-                    options={Object.keys(GQLMODERATION_MODE)}
-                    selected={moderation}
+                    options={[
+                      {
+                        value: "PRE",
+                        localizationID: localizedModMode("PRE"),
+                      },
+                      {
+                        value: "POST",
+                        localizationID: localizedModMode("POST"),
+                      },
+                    ]}
+                    selected={{
+                      value: moderation,
+                      localizationID: localizedModMode(moderation),
+                    }}
                     control={control}
                   />
                 </Localized>

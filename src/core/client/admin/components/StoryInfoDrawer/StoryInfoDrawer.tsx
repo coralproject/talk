@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Card, Modal } from "coral-ui/components/v2";
+import { Card, Flex, Modal } from "coral-ui/components/v2";
 
 import StoryInfoDrawerQuery from "./StoryInfoDrawerQuery";
 
@@ -21,11 +21,13 @@ const StoryInfoDrawer: FunctionComponent<StoryInfoDrawerProps> = ({
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      {({ firstFocusableRef, lastFocusableRef }) => (
+      {() => (
         <Card className={styles.root}>
-          {storyID && (
-            <StoryInfoDrawerQuery onClose={onClose} storyID={storyID} />
-          )}
+          <Flex direction="column">
+            {storyID && (
+              <StoryInfoDrawerQuery onClose={onClose} storyID={storyID} />
+            )}
+          </Flex>
         </Card>
       )}
     </Modal>

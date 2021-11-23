@@ -14,6 +14,17 @@ export interface Props {
   currentStatus: STORY_STATUS;
 }
 
+const { OPEN, CLOSED } = GQLSTORY_STATUS;
+
+const localizedStoryStatus = (status: GQLSTORY_STATUS): string => {
+  switch (status) {
+    case OPEN:
+      return "storyInfoDrawer-storyStatus-open";
+    case CLOSED:
+      return "storyInfoDrawer-storyStatus-closed";
+  }
+};
+
 const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
   const closeStory = useMutation(CloseStoryMutation);
   const openStory = useMutation(OpenStoryMutation);
@@ -24,7 +35,7 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
         return;
       }
 
-      const op = newStatus === GQLSTORY_STATUS.OPEN ? openStory : closeStory;
+      const op = newStatus === OPEN ? openStory : closeStory;
       await op({ id: storyID });
     },
     [storyID, currentStatus, closeStory, openStory]
@@ -36,8 +47,14 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
       label="Status"
       name="status"
       description="A dropdown for setting the status of the story"
-      options={Object.keys(GQLSTORY_STATUS)}
-      selected={currentStatus}
+      options={Object.keys(GQLSTORY_STATUS).map((s) => ({
+        value: s as GQLSTORY_STATUS,
+        localizationID: localizedStoryStatus(s as GQLSTORY_STATUS),
+      }))}
+      selected={{
+        value: currentStatus,
+        localizationID: localizedStoryStatus(currentStatus as GQLSTORY_STATUS),
+      }}
       onSelect={(selected) => updateStatus(selected)}
     />
   );

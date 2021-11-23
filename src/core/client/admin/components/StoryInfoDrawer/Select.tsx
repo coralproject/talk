@@ -15,13 +15,18 @@ import { Placement } from "coral-ui/components/v2/Popover/Popover";
 
 import styles from "./Select.css";
 
+export interface LocalizedOption {
+  value: string;
+  localizationID: string;
+}
+
 export interface Props {
   id: string;
   name: string;
   label?: string;
   className?: string;
-  selected?: any;
-  options: any[];
+  selected?: LocalizedOption;
+  options: LocalizedOption[];
   onSelect: (option: any) => void;
   description: string;
   placement?: Placement;
@@ -48,23 +53,24 @@ const Select: FunctionComponent<Props> = ({
           <ClickOutside onClickOutside={toggleVisibility}>
             <Dropdown>
               {options.map((option, i) => (
-                <DropdownButton
-                  key={i}
-                  onClick={() => {
-                    onSelect(option);
-                    setCurrent(option);
-                    toggleVisibility();
-                  }}
-                >
-                  {option}
-                </DropdownButton>
+                <Localized id={option.localizationID} key={i}>
+                  <DropdownButton
+                    onClick={() => {
+                      onSelect(option.value);
+                      setCurrent(option);
+                      toggleVisibility();
+                    }}
+                  >
+                    {option.value}
+                  </DropdownButton>
+                </Localized>
               ))}
             </Dropdown>
           </ClickOutside>
         )}
       >
         {({ toggleVisibility, ref, visible }) => (
-          <Localized id="stories-actionsButton" attrs={{ "aria-label": true }}>
+          <Localized id={current.localizationID} attrs={{ "aria-label": true }}>
             <Button
               aria-label="Select action"
               className={styles.toggleButton}
@@ -74,7 +80,7 @@ const Select: FunctionComponent<Props> = ({
               variant="text"
               uppercase={false}
             >
-              {current}
+              {current.value}
               {
                 <ButtonIcon size="lg">
                   {visible ? "arrow_drop_up" : "arrow_drop_down"}
