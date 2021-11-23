@@ -77,6 +77,7 @@ const BanModal: FunctionComponent<Props> = ({
 
         const inScope = (siteID: string) =>
           !moderationScopesEnabled ||
+          !viewerScopes?.sites ||
           viewerScopes?.sites?.some(({ id }) => id === siteID);
 
         const filteredBans = banSiteIDs?.filter((siteID: string) =>
@@ -85,6 +86,9 @@ const BanModal: FunctionComponent<Props> = ({
         const filteredUnbans = unbanSiteIDs?.filter((siteID: string) =>
           inScope(siteID)
         );
+
+        /* eslint-disable */
+        debugger;
 
         onConfirm(
           updateType,
