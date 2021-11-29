@@ -29,7 +29,7 @@ const UserStatus: FunctionComponent<Props> = (props) => {
   if (
     props.moderationScopesEnabled &&
     props.bannedSiteCount &&
-    props.bannedSiteCount > 0 // MARCUS: this should evaluate to false if user is ban active and also has a single site ban
+    props.bannedSiteCount > 0
   ) {
     return render(
       styles.error,
@@ -38,10 +38,7 @@ const UserStatus: FunctionComponent<Props> = (props) => {
       </Localized>
     );
   }
-  if (
-    props.moderationScopesEnabled &&
-    props.banned // MARCUS?: what is the relationship between top level 'banned' and bannedSiteCount / siteIDs / banHistory???
-  ) {
+  if (props.moderationScopesEnabled && props.banned) {
     return render(
       styles.error,
       <Localized id="userStatus-banned-all">

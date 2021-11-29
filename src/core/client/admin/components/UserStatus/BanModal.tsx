@@ -26,7 +26,7 @@ import styles from "./BanModal.css";
 
 interface Props {
   username: string | null;
-  banStatus?: UserStatusChangeContainer_user["status"]["ban"]; // MARCUS: better way to do this?
+  banStatus?: UserStatusChangeContainer_user["status"]["ban"];
   open: boolean;
   onClose: () => void;
   onConfirm: (

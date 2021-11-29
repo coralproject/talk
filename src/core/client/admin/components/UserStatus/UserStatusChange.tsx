@@ -192,7 +192,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
           attrs={{ "aria-label": true }}
         >
           <Button
-            aria-label="Change user status" // MARCUS for testing!
+            aria-label="Change user status"
             className={cn(styles.button, {
               [styles.fullWidth]: fullWidth,
               [styles.bordered]: bordered,

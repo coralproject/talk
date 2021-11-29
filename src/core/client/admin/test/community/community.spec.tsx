@@ -741,7 +741,7 @@ it("ban user with custom message", async () => {
   });
 
   act(() => {
-    within(userRow).getByLabelText("Change user status").props.onClick(); // MARCUS: this might have
+    within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
   const dropdown = within(userRow).getByLabelText(
@@ -962,8 +962,6 @@ it.only("manages bans on individual sites", async () => {
     await waitForElement(() => within(modal).getByTestID("site-search-list"));
     within(modal).getByText("Second Site", { exact: false }).props.onClick();
   });
-
-  // TODO (marcushaddon): test Unban from first site
 
   act(() => {
     within(modal).getByType("form").props.onSubmit();

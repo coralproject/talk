@@ -37,8 +37,6 @@ const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
           return <QueryError error={error} />;
         }
         if (props && props.site) {
-          /* eslint-disable */
-          console.log({ props, checked }, "rendering checkbox inside of checkbox");
           return (
             <CheckBox
               checked={checked}

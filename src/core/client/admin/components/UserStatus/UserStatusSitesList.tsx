@@ -31,7 +31,7 @@ export interface Scopes {
 }
 
 interface Props {
-  readonly bannedSites: ReadonlyArray<ScopeSite>; // MARCUS better way to do this?
+  readonly bannedSites: ReadonlyArray<ScopeSite>;
   viewerScopes: Scopes;
 }
 
@@ -90,8 +90,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
       if (!inBanIDs) {
         // add to banSiteIDs
         banSiteIDs.onChange([...banSiteIDs.value, siteID]);
-        /* eslint-disable */
-        console.log("BANNING ON SITE", siteID);
       }
       if (inUnbanIDs) {
         // remove from unbanSiteIDs

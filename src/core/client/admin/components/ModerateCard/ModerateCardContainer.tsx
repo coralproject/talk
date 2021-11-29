@@ -282,9 +282,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       message: string
     ) => {
       if (comment.author) {
-        // MARCUS: need to verify this still works correctly
-        /* eslint-disable */
-        debugger;
         await banUser({
           userID: comment.author.id,
           message,

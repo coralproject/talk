@@ -166,8 +166,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 
   const handleUpdateBan = useCallback(
     (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
-      /* eslint-disable */
-      debugger;
       switch (updateType) {
         case "ALL_SITES":
           void banUser({
@@ -216,9 +214,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onPremod={handlePremod}
         onRemovePremod={handleRemovePremod}
         viewerIsScoped={viewerIsScoped}
-        banned={
-          user.status.ban.active // MARCUS again, what is the relationship between this and single site ban status?
-        }
+        banned={user.status.ban.active}
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
         warned={user.status.warning.active}
@@ -230,7 +226,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         moderationScopesEnabled={moderationScopesEnabled}
       >
         <UserStatusContainer
-          user={user} // MARCUS: this is showing (1) if banned on one site and then banned on all
+          user={user}
           moderationScopesEnabled={moderationScopesEnabled}
         />
       </UserStatusChange>
