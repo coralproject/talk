@@ -41,7 +41,7 @@ const UserStatus: FunctionComponent<Props> = (props) => {
   if (
     props.moderationScopesEnabled &&
     props.banned &&
-    (!props.bannedSiteCount || props.bannedSiteCount === 0)
+    (!props.bannedSiteCount || props.bannedSiteCount === 0) // MARCUS?: what is the relationship between top level 'banned' and bannedSiteCount / siteIDs / banHistory???
   ) {
     return render(
       styles.error,

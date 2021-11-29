@@ -8550,7 +8550,7 @@ type Mutation {
   not already banned from them)
   """
   updateUserBan(input: UpdateUserBanInput!): UpdateUserBanPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN, MODERATOR], unscoped: false)
 
   """
   removeUserBan will remove an active ban from a User if they have one

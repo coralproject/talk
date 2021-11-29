@@ -159,7 +159,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
             viewerIsOrgAdmin ||
             (viewerIsScoped && !viewerIsSingleSiteMod)) && (
             <Flex className={styles.sitesToggle} spacing={5}>
-              <FormField>
+              <FormField> {/* MARCUS: can we disable this is user is top level banned? */}
                 <Localized id="community-banModal-allSites">
                   <RadioButton
                     checked={updateType.value === "ALL_SITES"}
@@ -179,16 +179,18 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                   </RadioButton>
                 </Localized>
               </FormField>
-              <FormField>
-                <Localized id="community-banModal-noSites">
-                  <RadioButton
-                    checked={updateType.value === "NO_SITES"}
-                    onChange={() => updateType.onChange("NO_SITES")}
-                  >
-                    All sites
-                  </RadioButton>
-                </Localized>
-              </FormField>
+              {!viewerIsScoped && (
+                <FormField>
+                  <Localized id="community-banModal-noSites">
+                    <RadioButton
+                      checked={updateType.value === "NO_SITES"}
+                      onChange={() => updateType.onChange("NO_SITES")}
+                    >
+                      No Sites
+                    </RadioButton>
+                  </Localized>
+                </FormField>
+              )}
             </Flex>
           )}
 

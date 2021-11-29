@@ -167,12 +167,15 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const handleUpdateBan = useCallback(
     (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
       /* eslint-disable */
+      debugger;
+
       switch (updateType) {
         case "ALL_SITES":
           void banUser({
             userID: user.id,
             message,
             rejectExistingComments,
+            siteIDs: viewerIsScoped ? viewer.moderationScopes.sites.map(s => s.id) : []
           });
           break;
         case "SPECIFIC_SITES":
@@ -183,6 +186,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
             banSiteIDs,
             unbanSiteIDs,
           });
+          break;
         case "NO_SITES":
           void unbanUser({
             userID: user.id,

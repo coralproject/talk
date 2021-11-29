@@ -87,9 +87,6 @@ const BanModal: FunctionComponent<Props> = ({
           inScope(siteID)
         );
 
-        /* eslint-disable */
-        debugger;
-
         onConfirm(
           updateType,
           input.rejectExistingComments,
