@@ -27,6 +27,10 @@ jobs:
   npm_dependencies:
     <<: *job_node_defaults
     steps:
+      - run:
+          name: Install correct NPM version
+          command: npm install -g npm@8.0.0
+          no_output_timeout: 10m
       - checkout
       - attach_workspace:
           at: ~/coralproject/talk
