@@ -902,7 +902,7 @@ it.only("manages bans on individual sites", async () => {
       updateUserBan: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: user.id,
-          banSiteIDs: [site1.id, site2.id],
+          banSiteIDs: [site2.id],
         });
 
         return { user };
@@ -968,8 +968,6 @@ it.only("manages bans on individual sites", async () => {
   act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
-
-  // TODO (marcushaddon): expect correct sites to render in checklist
 });
 
 it("send user a moderation message", async () => {

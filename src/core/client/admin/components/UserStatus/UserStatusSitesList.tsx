@@ -90,6 +90,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
       if (!inBanIDs) {
         // add to banSiteIDs
         banSiteIDs.onChange([...banSiteIDs.value, siteID]);
+        /* eslint-disable */
+        console.log("BANNING ON SITE", siteID);
       }
       if (inUnbanIDs) {
         // remove from unbanSiteIDs
@@ -182,8 +184,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                 {candidateSites.map((siteID) => {
                   const checked =
                     banSiteIDs.value.includes(siteID) ||
-                    initiallyBanned(siteID) &&
-                    !unbanSiteIDs.value.includes(siteID);
+                    (initiallyBanned(siteID) &&
+                      !unbanSiteIDs.value.includes(siteID));
 
                   return (
                     <UserStatusSitesListSelectedSiteQuery

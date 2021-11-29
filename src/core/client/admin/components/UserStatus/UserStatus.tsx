@@ -25,10 +25,9 @@ const render = (className: string, content: React.ReactNode) => (
 );
 
 const UserStatus: FunctionComponent<Props> = (props) => {
-  // MARCUS: possibly create bug
+  // MARCUS: possibly create bug ticket
   if (
     props.moderationScopesEnabled &&
-    props.banned &&
     props.bannedSiteCount &&
     props.bannedSiteCount > 0 // MARCUS: this should evaluate to false if user is ban active and also has a single site ban
   ) {

@@ -168,14 +168,15 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
       /* eslint-disable */
       debugger;
-
       switch (updateType) {
         case "ALL_SITES":
           void banUser({
             userID: user.id,
             message,
             rejectExistingComments,
-            siteIDs: viewerIsScoped ? viewer.moderationScopes.sites.map(s => s.id) : []
+            siteIDs: viewerIsScoped
+              ? viewer?.moderationScopes?.sites?.map((s) => s.id)
+              : [],
           });
           break;
         case "SPECIFIC_SITES":
