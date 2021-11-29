@@ -29,7 +29,7 @@ jobs:
     steps:
       - run:
           name: Install correct NPM version
-          command: npm install -g npm@8.0.0
+          command: sudo npm install -g npm@8.0.0
           no_output_timeout: 10m
       - checkout
       - attach_workspace:
