@@ -77,7 +77,7 @@ const BanModal: FunctionComponent<Props> = ({
 
         const inScope = (siteID: string) =>
           !moderationScopesEnabled ||
-          !viewerScopes?.sites ||
+          !viewerScopes?.sites?.length ||
           viewerScopes?.sites?.some(({ id }) => id === siteID);
 
         const filteredBans = banSiteIDs?.filter((siteID: string) =>
