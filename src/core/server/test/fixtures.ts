@@ -13,6 +13,7 @@ import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { Token, User } from "coral-server/models/user";
+
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 

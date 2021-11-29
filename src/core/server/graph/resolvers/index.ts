@@ -14,6 +14,7 @@ import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
 import { CommentCreatedPayload } from "./CommentCreatedPayload";
+import { CommentEditedPayload } from "./CommentEditedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentEnteredPayload } from "./CommentEnteredPayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
@@ -157,6 +158,7 @@ const Resolvers: GQLResolver = {
   YouTubeMediaConfiguration,
   LocalAuthIntegration,
   AuthenticationTargetFilter,
+  CommentEditedPayload,
 };
 
 export default Resolvers;

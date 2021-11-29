@@ -29,7 +29,10 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
+import {
+  CommentEditedSubscription,
+  CommentEnteredSubscription,
+} from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -77,6 +80,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     `
   );
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
+  const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
@@ -105,15 +109,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       return;
     }
 
-    const disposable = subscribeToCommentEntered({
+    const commenteEnteredDisposable = subscribeToCommentEntered({
       storyID: story.id,
       orderBy: commentsOrderBy,
       storyConnectionKey: "Stream_comments",
       tag,
     });
 
+    const commentEditedDisposable = subscribeToCommentEdited({
+      storyID: story.id,
+    });
+
     return () => {
-      disposable.dispose();
+      commenteEnteredDisposable.dispose();
+      commentEditedDisposable.dispose();
     };
   }, [
     commentsOrderBy,
@@ -121,6 +130,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     live,
     story.id,
     subscribeToCommentEntered,
+    subscribeToCommentEdited,
     tag,
   ]);
 
