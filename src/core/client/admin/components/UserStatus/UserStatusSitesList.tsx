@@ -1,10 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
@@ -57,11 +52,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     viewerScopes.sites.length === 1
   );
 
-  const outOfScope = useCallback(
-    (siteID: string) =>
-      viewerIsScoped &&
-      !viewerScopes.sites?.some((scope) => scope.id === siteID),
-    [viewerIsScoped, viewerScopes.sites]
+  const initiallyBanned = useCallback(
+    (siteID: string) => bannedSites.some(({ id }) => id === siteID),
+    [bannedSites]
   );
 
   const [candidateSites, setCandidateSites] = useState<string[]>(
@@ -73,18 +66,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   });
   const { input: banSiteIDs } = useField<string[]>("banSiteIDs");
   const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
-
-  const bannedOutOfScope = new Set(
-    bannedSites.filter((bs) => outOfScope(bs.id)).map((bs) => bs.id)
-  );
-
-  useEffect(() => {
-    const inScopeIDs = bannedSites
-      .filter((bs) => !outOfScope(bs.id))
-      .map((bs) => bs.id);
-    banSiteIDs.onChange(inScopeIDs);
-  }, []);
-  // MARCUS: This is causing an infinite update loop
 
   const onUnbanFromSite = useCallback(
     (siteID: string) => {
@@ -159,7 +140,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
             viewerIsOrgAdmin ||
             (viewerIsScoped && !viewerIsSingleSiteMod)) && (
             <Flex className={styles.sitesToggle} spacing={5}>
-              <FormField> {/* MARCUS: can we disable this is user is top level banned? */}
+              <FormField>
+                {/* MARCUS: can we disable this is user is top level banned? */}
                 <Localized id="community-banModal-allSites">
                   <RadioButton
                     checked={updateType.value === "ALL_SITES"}
@@ -200,7 +182,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                 {candidateSites.map((siteID) => {
                   const checked =
                     banSiteIDs.value.includes(siteID) ||
-                    bannedOutOfScope.has(siteID);
+                    initiallyBanned(siteID) &&
+                    !unbanSiteIDs.value.includes(siteID);
 
                   return (
                     <UserStatusSitesListSelectedSiteQuery
@@ -208,7 +191,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                       siteID={siteID}
                       checked={checked}
                       onChange={onToggleSite}
-                      disabled={outOfScope(siteID)}
+                      disabled={viewerIsScoped && initiallyBanned(siteID)}
                     />
                   );
                 })}

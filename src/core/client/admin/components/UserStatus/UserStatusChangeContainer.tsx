@@ -216,7 +216,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onRemovePremod={handleRemovePremod}
         viewerIsScoped={viewerIsScoped}
         banned={
-          user.status.ban.active
+          user.status.ban.active // MARCUS again, what is the relationship between this and single site ban status?
         }
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}

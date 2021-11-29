@@ -25,6 +25,7 @@ const render = (className: string, content: React.ReactNode) => (
 );
 
 const UserStatus: FunctionComponent<Props> = (props) => {
+  // MARCUS: possibly create bug
   if (
     props.moderationScopesEnabled &&
     props.banned &&
@@ -40,8 +41,7 @@ const UserStatus: FunctionComponent<Props> = (props) => {
   }
   if (
     props.moderationScopesEnabled &&
-    props.banned &&
-    (!props.bannedSiteCount || props.bannedSiteCount === 0) // MARCUS?: what is the relationship between top level 'banned' and bannedSiteCount / siteIDs / banHistory???
+    props.banned // MARCUS?: what is the relationship between top level 'banned' and bannedSiteCount / siteIDs / banHistory???
   ) {
     return render(
       styles.error,

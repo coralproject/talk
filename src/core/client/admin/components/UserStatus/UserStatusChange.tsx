@@ -66,7 +66,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                 <DropdownButton
                   data-testid="manage-ban"
                   className={styles.dropdownButton}
-                  disabled={banned && viewerIsScoped}
+                  // disabled={banned && viewerIsScoped} MARCUS: When can banned be true?
                   onClick={() => {
                     onManageBan();
                     toggleVisibility();
