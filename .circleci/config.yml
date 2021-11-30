@@ -202,8 +202,7 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - machine:
-          environment:
+      - environment:
             SHORT_GIT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
       - run:
           name: Authenticate Google Cloud SDK
