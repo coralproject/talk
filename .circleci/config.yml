@@ -195,6 +195,21 @@ jobs:
           command: bash ./scripts/docker.sh deploy
           no_output_timeout: 30m
 
+  # push_to_gcr will build and push the Docker image.
+  push_to_gcr:
+    <<: *job_node_defaults
+    steps:
+      - checkout
+      - run:
+          name: Authenticate Google Cloud SDK
+          command: |
+            echo "${GCLOUD_SERVICE_KEY}" | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
+            gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
+      - run: 
+          name: Push the image to GCR
+          command: docker push gcr.io/the-coral-project/coral:${CIRCLE_TAG/#v}
+
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
 filter_release: &filter_release
@@ -238,6 +253,10 @@ workflows:
           <<: *filter_develop
           requires:
             - npm_dependencies
+      - push_to_gcr:
+          <<: *filter_develop
+          requires:
+            - build
   build-test-deploy:
     jobs:
       - npm_dependencies:
