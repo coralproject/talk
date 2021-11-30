@@ -1,13 +1,16 @@
 jest.mock("coral-server/models/user");
 
 import {
-  createMockMailer,
-  createMockMongoContex,
-  createMockRejector,
   createSiteFixture,
   createTenantFixture,
   createUserFixture,
 } from "coral-server/test/fixtures";
+import {
+  createMockMailer,
+  createMockMongoContex,
+  createMockRejector,
+} from "coral-server/test/mocks";
+
 import { updateUserBan } from "./users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
@@ -149,7 +152,7 @@ describe("updateUserBan", () => {
       /* eslint-disable-next-line */
       userService.siteBanUser
     ).toHaveBeenCalledTimes(0);
-    expect(mailer.add).toHaveBeenCalledTimes(0); // MARCUS: not getting the mocks, hmm
+    expect(mailer.add).toHaveBeenCalledTimes(0);
   });
 
   it("performs bans on new sites", async () => {

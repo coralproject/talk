@@ -196,6 +196,7 @@ const BanModal: FunctionComponent<Props> = ({
                     <UserStatusSitesList
                       bannedSites={banStatus?.sites || []}
                       viewerScopes={viewerScopes}
+                      banActive={banStatus?.active}
                     />
                   )}
 

@@ -1283,7 +1283,7 @@ export async function updateUserBan(
     await rejector.add({
       tenantID: tenant.id,
       authorID: targetUser.id,
-      moderatorID: banner.id, // MARCUS: is this going to reject them across all sites?
+      moderatorID: banner.id,
     });
   }
   // if any new bans, send email

@@ -25,7 +25,6 @@ const render = (className: string, content: React.ReactNode) => (
 );
 
 const UserStatus: FunctionComponent<Props> = (props) => {
-  // MARCUS: possibly create bug ticket
   if (
     props.moderationScopesEnabled &&
     props.bannedSiteCount &&

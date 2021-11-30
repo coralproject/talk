@@ -31,6 +31,7 @@ export interface Scopes {
 }
 
 interface Props {
+  readonly banActive?: Readonly<boolean>;
   readonly bannedSites: ReadonlyArray<ScopeSite>;
   viewerScopes: Scopes;
 }
@@ -38,6 +39,7 @@ interface Props {
 const UserStatusSitesList: FunctionComponent<Props> = ({
   viewerScopes,
   bannedSites,
+  banActive,
 }) => {
   const viewerIsAdmin = viewerScopes.role === GQLUSER_ROLE.ADMIN;
   const viewerIsOrgAdmin =
@@ -141,11 +143,11 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
             (viewerIsScoped && !viewerIsSingleSiteMod)) && (
             <Flex className={styles.sitesToggle} spacing={5}>
               <FormField>
-                {/* MARCUS: can we disable this is user is top level banned? */}
                 <Localized id="community-banModal-allSites">
                   <RadioButton
                     checked={updateType.value === "ALL_SITES"}
                     onChange={() => updateType.onChange("ALL_SITES")}
+                    disabled={banActive}
                   >
                     All sites
                   </RadioButton>

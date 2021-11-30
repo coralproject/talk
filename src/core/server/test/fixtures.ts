@@ -2,7 +2,6 @@ import { merge } from "lodash";
 import { v4 as uuid } from "uuid";
 
 import TIME from "coral-common/time";
-import { MongoContext } from "coral-server/data/context";
 import {
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
@@ -13,9 +12,6 @@ import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { Token, User } from "coral-server/models/user";
-
-import { MailerQueue } from "coral-server/queue/tasks/mailer";
-import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 
 type Defaults<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
@@ -329,20 +325,3 @@ export const createStoryFixture = (defaults: Defaults<Story> = {}): Story => {
 
   return merge(fixture, defaults) as Story;
 };
-
-/* eslint-disable */
-// MARCUS: fix linting, these are mocks, not fixtures
-export const createMockMongoContex = () =>
-  ({
-    /* feel free to add mock methods as needed */
-  }) as unknown as MongoContext;
-
-export const createMockMailer = () =>
-  ({
-    add: jest.fn().mockResolvedValue({})
-  }) as unknown as MailerQueue;
-
-export const createMockRejector = () =>
-  ({
-    add: jest.fn().mockResolvedValue({})
-  }) as unknown as RejectorQueue;
