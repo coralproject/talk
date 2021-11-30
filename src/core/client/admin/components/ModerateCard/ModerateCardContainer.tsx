@@ -8,7 +8,9 @@ import React, {
 import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import BanModal from "coral-admin/components/UserStatus/BanModal";
+import BanModal, {
+  UpdateType,
+} from "coral-admin/components/UserStatus/BanModal";
 import {
   ApproveCommentMutation,
   RejectCommentMutation,
@@ -36,6 +38,8 @@ import { ModerateCardContainer_settings } from "coral-admin/__generated__/Modera
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 
+import RemoveUserBanMutation from "../UserStatus/RemoveUserBanMutation";
+import UpdateUserBanMutation from "../UserStatus/UpdateUserBanMutation";
 import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
@@ -99,6 +103,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   const featureComment = useMutation(FeatureCommentMutation);
   const unfeatureComment = useMutation(UnfeatureCommentMutation);
   const banUser = useMutation(BanCommentUserMutation);
+  const updateUserBan = useMutation(UpdateUserBanMutation);
+  const removeUserBan = useMutation(RemoveUserBanMutation);
 
   const [{ moderationQueueSort }] = useLocal<
     ModerateCardContainerLocal
@@ -275,23 +281,40 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const handleBanConfirm = useCallback(
     async (
-      updateType: string,
+      updateType: UpdateType,
       rejectExistingComments: boolean,
       banSiteIDs: string[] | null | undefined,
       unbanSiteIDs: string[] | null | undefined,
       message: string
     ) => {
-      if (comment.author) {
-        await banUser({
-          userID: comment.author.id,
-          message,
-          rejectExistingComments,
-          siteIDs: banSiteIDs,
-        });
+      const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
+      switch (updateType) {
+        case "ALL_SITES":
+          await banUser({
+            userID: comment.author!.id, // Should be defined because the modal shouldn't open if author is null
+            message,
+            rejectExistingComments,
+            siteIDs: viewerIsScoped
+              ? viewer.moderationScopes.sites.map(({ id }) => id)
+              : [],
+          });
+          break;
+        case "SPECIFIC_SITES":
+          await updateUserBan({
+            userID: comment.author!.id,
+            message,
+            banSiteIDs,
+            unbanSiteIDs,
+          });
+          break;
+        case "NO_SITES":
+          await removeUserBan({
+            userID: comment.author!.id,
+          });
       }
       setShowBanModal(false);
     },
-    [comment, banUser, setShowBanModal]
+    [comment, banUser, setShowBanModal, removeUserBan, updateUserBan, viewer]
   );
 
   // Only highlight comments that have been flagged for containing a banned or

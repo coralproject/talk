@@ -24,13 +24,15 @@ import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
+export type UpdateType = "ALL_SITES" | "SPECIFIC_SITES" | "NO_SITES";
+
 interface Props {
   username: string | null;
   banStatus?: UserStatusChangeContainer_user["status"]["ban"];
   open: boolean;
   onClose: () => void;
   onConfirm: (
-    updateType: string,
+    updateType: UpdateType,
     rejectExistingComments: boolean,
     banSiteIDs?: string[] | null | undefined,
     unbanSiteIDs?: string[] | null | undefined,
