@@ -1159,7 +1159,7 @@ moderate-forReview-reportedSpam = Spam
 # Archive
 
 moderate-archived-queue-title = This story has been archived
-moderate-archived-queue-noModerationActions =
+moderate-archived-queue-noModerationActions = 
   No moderation actions can be made on the comments when a story is archived.
 moderate-archived-queue-toPerformTheseActions =
   To perform these actions, unarchive the story.
