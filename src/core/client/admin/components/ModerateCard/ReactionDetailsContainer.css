@@ -1,3 +1,8 @@
+.container {
+  max-height: 300px;
+  overflow: auto;
+}
+
 .username {
   color: var(--palette-text-900);
   font-size: var(--font-size-2);

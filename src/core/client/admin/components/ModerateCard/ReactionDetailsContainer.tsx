@@ -33,7 +33,7 @@ const ReactionDetailsContainer: FunctionComponent<Props> = ({
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
 
   return (
-    <>
+    <div className={styles.container}>
       {reactions.map(
         (reaction) =>
           reaction.id && (
@@ -70,7 +70,7 @@ const ReactionDetailsContainer: FunctionComponent<Props> = ({
           </Button>
         </Localized>
       )}
-    </>
+    </div>
   );
 };
 
@@ -85,7 +85,7 @@ const enhanced = withPaginationContainer<
     comment: graphql`
       fragment ReactionDetailsContainer_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
+          count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
         ) {
         id
