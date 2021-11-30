@@ -125,3 +125,12 @@ export function areRepliesFlattened(
 
   return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.FLATTEN_REPLIES);
 }
+
+export function isForReviewQueueEnabled(
+  tenant: Pick<Tenant, "featureFlags" | "forReviewQueue">
+) {
+  if (typeof tenant.forReviewQueue === "boolean") {
+    return tenant.forReviewQueue;
+  }
+  return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.FOR_REVIEW);
+}

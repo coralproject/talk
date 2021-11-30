@@ -1,4 +1,7 @@
-import { canModerate, roleIsStaff } from "coral-server/models/user/helpers";
+import {
+  canModerate,
+  isSiteModerationScoped,
+} from "coral-server/models/user/helpers";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -26,11 +29,10 @@ export const tagStaff: IntermediateModerationPhase = ({
   author,
   story,
 }): IntermediatePhaseResult | void => {
-  if (!canModerate(author, story)) {
-    return;
-  }
+  const isSiteMod = isSiteModerationScoped(author.moderationScopes);
+  const isModForSite = canModerate(author, story);
 
-  if (!roleIsStaff(author.role)) {
+  if (isSiteMod && !isModForSite) {
     return;
   }
 

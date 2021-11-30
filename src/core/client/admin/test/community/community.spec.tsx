@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import { v1 as uuid } from "uuid";
 
 import { pureMerge } from "coral-common/utils";
@@ -29,7 +30,9 @@ import {
   disabledLocalRegistration,
   emptyCommunityUsers,
   settings,
+  settingsWithMultisite,
   siteConnection,
+  sites,
   users,
 } from "../fixtures";
 
@@ -918,4 +921,132 @@ it("invites user", async () => {
   await wait(() => {
     expect(resolvers.Mutation!.inviteUsers!.called).toBe(true);
   });
+});
+
+it("ban user across specific sites", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settingsWithMultisite,
+      site: ({ variables, callCount }) => {
+        switch (callCount) {
+          case 0:
+            expectAndFail(variables.id).toBe("site-1");
+            return sites[0];
+          case 1:
+            expectAndFail(variables.id).toBe("site-2");
+            return sites[1];
+          default:
+            return siteConnection;
+        }
+      },
+    },
+    Mutation: {
+      banUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.BANNED),
+            ban: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change user status").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  act(() => {
+    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+  });
+  const modal = within(testRenderer.root).getByLabelText(
+    "Are you sure you want to ban",
+    {
+      exact: false,
+    }
+  );
+
+  act(() => {
+    within(modal).getByLabelText("Specific sites").props.onChange();
+  });
+
+  const siteSearchField = within(modal).getByTestID("site-search-textField");
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Test" },
+    })
+  );
+
+  const siteSearchButton = within(modal).getByTestID("site-search-button");
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // Add site to ban on
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Test Site").props.onClick();
+  });
+
+  const testSiteCheckbox = within(modal).getAllByTestID(
+    "user-status-selected-site"
+  );
+  expect(testSiteCheckbox).toHaveLength(1);
+  expect(testSiteCheckbox[0].props.checked).toEqual(true);
+
+  // Add another site to ban on
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Another" },
+    })
+  );
+
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Second Site").props.onClick();
+  });
+
+  expect(
+    within(modal).getAllByTestID("user-status-selected-site")
+  ).toHaveLength(2);
+
+  // Remove a site to ban on
+  act(() => {
+    within(modal)
+      .getAllByTestID("user-status-selected-site")[0]
+      .props.onChange();
+  });
+
+  // Submit ban and see that user is correctly banned across selected site
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+
+  within(userRow).getByText("Banned (1)");
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });

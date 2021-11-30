@@ -40,6 +40,7 @@ graphql`
 const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <ConfigBox
+      id="Users"
       title={
         <Localized id="configure-moderation-newCommenters-title">
           <Header container="legend">New commenter approval</Header>

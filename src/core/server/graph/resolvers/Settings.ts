@@ -3,6 +3,7 @@ import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFl
 import {
   areRepliesFlattened,
   isAMPEnabled,
+  isForReviewQueueEnabled,
   retrieveAnnouncementIfEnabled,
   Tenant,
 } from "coral-server/models/tenant";
@@ -34,4 +35,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   stories: ({ stories }) => stories,
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
   flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),
+  forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
 };

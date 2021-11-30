@@ -293,6 +293,9 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Unmark all
 comments-mobileToolbar-nextUnread = Next unread
 
+comments-replyChangedWarning-theCommentHasJust =
+  This comment has just been edited. The latest version is displayed above.
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A

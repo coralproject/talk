@@ -20,9 +20,17 @@ import SiteSearchTextField from "./SiteSearchTextField";
 
 interface Props {
   onSelect: (id: string | null) => void;
+  showOnlyScopedSitesInSearchResults: boolean;
+  showSiteSearchLabel: boolean;
+  showAllSitesSearchFilterOption: boolean;
 }
 
-const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
+const SiteSearch: FunctionComponent<Props> = ({
+  onSelect,
+  showOnlyScopedSitesInSearchResults,
+  showSiteSearchLabel,
+  showAllSitesSearchFilterOption,
+}) => {
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [searchTextFieldValue, setSearchTextFieldValue] = useState<string>("");
   const [isSiteSearchListVisible, setIsSiteSearchListVisible] = useState<
@@ -30,10 +38,14 @@ const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
   >(false);
   const [activeSiteID, setActiveSiteID] = useState<string | null>(null);
 
-  const onSearch = useCallback(() => {
-    setSearchFilter(searchTextFieldValue);
-    setIsSiteSearchListVisible(true);
-  }, [searchTextFieldValue, setSearchFilter, setIsSiteSearchListVisible]);
+  const onSearch = useCallback(
+    (event: React.SyntheticEvent) => {
+      event.preventDefault();
+      setSearchFilter(searchTextFieldValue);
+      setIsSiteSearchListVisible(true);
+    },
+    [searchTextFieldValue, setSearchFilter, setIsSiteSearchListVisible]
+  );
 
   const onClearSearch = useCallback(() => {
     setSearchFilter("");
@@ -65,9 +77,11 @@ const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
   return (
     <FieldSet>
       <HorizontalGutter spacing={2}>
-        <Localized id="stories-filter-sites">
-          <Label>Site</Label>
-        </Localized>
+        {showSiteSearchLabel && (
+          <Localized id="stories-filter-sites">
+            <Label>Site</Label>
+          </Localized>
+        )}
         <SiteSearchTextField
           onSearch={onSearch}
           value={searchTextFieldValue}
@@ -83,6 +97,10 @@ const SiteSearch: FunctionComponent<Props> = ({ onSelect }) => {
                 onSelect={onSelectSite}
                 searchFilter={searchFilter}
                 activeSiteID={activeSiteID}
+                showOnlyScopedSitesInSearchResults={
+                  showOnlyScopedSitesInSearchResults
+                }
+                showAllSitesSearchFilterOption={showAllSitesSearchFilterOption}
               />
             </div>
           </ClickOutside>
