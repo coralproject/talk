@@ -198,8 +198,13 @@ jobs:
   # push_to_gcr will build and push the Docker image.
   push_to_gcr:
     <<: *job_node_defaults
+    docker:
+      - image: google/cloud-sdk
     steps:
       - checkout
+      - machine:
+          environment:
+            SHORT_GIT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
       - run:
           name: Authenticate Google Cloud SDK
           command: |
@@ -208,7 +213,7 @@ jobs:
             gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
       - run: 
           name: Push the image to GCR
-          command: docker push gcr.io/the-coral-project/coral:${CIRCLE_TAG/#v}
+          command: docker push gcr.io/the-coral-project/coral:${SHORT_GIT_HASH}
 
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
