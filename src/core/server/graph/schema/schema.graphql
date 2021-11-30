@@ -8905,6 +8905,16 @@ type CommentReleasedPayload {
   comment: Comment!
 }
 
+"""
+CommentEditedPayload is returned when a Comment is edited.
+"""
+type CommentEditedPayload {
+  """
+  comment is the Comment that was edited.
+  """
+  comment: Comment!
+}
+
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -8967,4 +8977,9 @@ type Subscription {
   """
   commentFeatured(storyID: ID!): CommentFeaturedPayload!
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  commentEdited returns when a Comment is edited.
+  """
+  commentEdited(storyID: ID!): CommentEditedPayload!
 }

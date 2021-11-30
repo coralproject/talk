@@ -7,6 +7,7 @@ import {
 } from "coral-server/models/comment";
 import {
   publishCommentCreated,
+  publishCommentEdited,
   publishCommentReleased,
   publishCommentReplyCreated,
   publishCommentReplyReleased,
@@ -47,6 +48,10 @@ export default async function publishChanges(
         input.moderatorID || null
       )
     );
+
+    if (hasPublishedStatus(input.after)) {
+      promises.push(publishCommentEdited(broker, input.after));
+    }
 
     if (hasModeratorStatus(input.before) && hasPublishedStatus(input.after)) {
       if (input.after.parentID) {
