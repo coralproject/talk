@@ -18,6 +18,7 @@ import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_v
 
 import UserStatusSitesListSelectedSiteQuery from "./UserStatusSitesListSelectedSiteQuery";
 
+import { UpdateType } from "./BanModal";
 import styles from "./UserStatusSitesList.css";
 
 interface ScopeSite {
@@ -63,8 +64,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     bannedSites.map((bs) => bs.id)
   );
 
-  const { input: updateType } = useField<string>("updateType", {
-    initialValue: "ALL_SITES",
+  const { input: updateType } = useField<UpdateType>("updateType", {
+    initialValue: UpdateType.ALL_SITES,
   });
   const { input: banSiteIDs } = useField<string[]>("banSiteIDs");
   const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
@@ -102,13 +103,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   );
 
   const onToggleSite = useCallback(
-    (id: string, on: boolean) => {
-      if (on) {
-        onBanFromSite(id);
-      } else {
-        onUnbanFromSite(id);
-      }
-    },
+    (siteID: string, ban: boolean) =>
+      ban ? onBanFromSite(siteID) : onUnbanFromSite(siteID),
     [onBanFromSite, onUnbanFromSite]
   );
 
@@ -145,8 +141,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
               <FormField>
                 <Localized id="community-banModal-allSites">
                   <RadioButton
-                    checked={updateType.value === "ALL_SITES"}
-                    onChange={() => updateType.onChange("ALL_SITES")}
+                    checked={updateType.value === UpdateType.ALL_SITES}
+                    onChange={() => updateType.onChange(UpdateType.ALL_SITES)}
                     disabled={banActive}
                   >
                     All sites
@@ -156,8 +152,10 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
               <FormField>
                 <Localized id="community-banModal-specificSites">
                   <RadioButton
-                    checked={updateType.value === "SPECIFIC_SITES"}
-                    onChange={() => updateType.onChange("SPECIFIC_SITES")}
+                    checked={updateType.value === UpdateType.SPECIFIC_SITES}
+                    onChange={() =>
+                      updateType.onChange(UpdateType.SPECIFIC_SITES)
+                    }
                   >
                     Specific Sites
                   </RadioButton>
@@ -167,8 +165,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                 <FormField>
                   <Localized id="community-banModal-noSites">
                     <RadioButton
-                      checked={updateType.value === "NO_SITES"}
-                      onChange={() => updateType.onChange("NO_SITES")}
+                      checked={updateType.value === UpdateType.NO_SITES}
+                      onChange={() => updateType.onChange(UpdateType.NO_SITES)}
                     >
                       No Sites
                     </RadioButton>

@@ -24,7 +24,11 @@ import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
-export type UpdateType = "ALL_SITES" | "SPECIFIC_SITES" | "NO_SITES";
+export enum UpdateType {
+  ALL_SITES = "ALL_SITES",
+  SPECIFIC_SITES = "SPECIFIC_SITES",
+  NO_SITES = "NO_SITES",
+}
 
 interface Props {
   username: string | null;
@@ -78,22 +82,20 @@ const BanModal: FunctionComponent<Props> = ({
         const { banSiteIDs, unbanSiteIDs, updateType } = input;
 
         const inScope = (siteID: string) =>
-          !moderationScopesEnabled ||
-          !viewerScopes?.sites?.length ||
-          viewerScopes?.sites?.some(({ id }) => id === siteID);
+          !isSiteMod || viewerScopes?.sites?.some(({ id }) => id === siteID);
 
-        const filteredBans = banSiteIDs?.filter((siteID: string) =>
+        const inScopeFilteredBans = banSiteIDs?.filter((siteID: string) =>
           inScope(siteID)
         );
-        const filteredUnbans = unbanSiteIDs?.filter((siteID: string) =>
+        const inScopeFilteredUnbans = unbanSiteIDs?.filter((siteID: string) =>
           inScope(siteID)
         );
 
         onConfirm(
           updateType,
           input.rejectExistingComments,
-          filteredBans,
-          filteredUnbans,
+          inScopeFilteredBans,
+          inScopeFilteredUnbans,
           input.emailMessage
         );
 
@@ -217,11 +219,7 @@ const BanModal: FunctionComponent<Props> = ({
                       </Button>
                     </Localized>
                     <Localized id="community-banModal-updateBan">
-                      <Button
-                        data-testid="save-ban-status"
-                        type="submit"
-                        ref={lastFocusableRef}
-                      >
+                      <Button type="submit" ref={lastFocusableRef}>
                         Save
                       </Button>
                     </Localized>

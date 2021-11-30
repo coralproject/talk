@@ -289,17 +289,17 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     ) => {
       const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
       switch (updateType) {
-        case "ALL_SITES":
+        case UpdateType.ALL_SITES:
           await banUser({
             userID: comment.author!.id, // Should be defined because the modal shouldn't open if author is null
             message,
             rejectExistingComments,
             siteIDs: viewerIsScoped
-              ? viewer.moderationScopes.sites.map(({ id }) => id)
+              ? viewer.moderationScopes!.sites!.map(({ id }) => id)
               : [],
           });
           break;
-        case "SPECIFIC_SITES":
+        case UpdateType.SPECIFIC_SITES:
           await updateUserBan({
             userID: comment.author!.id,
             message,
@@ -307,7 +307,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
             unbanSiteIDs,
           });
           break;
-        case "NO_SITES":
+        case UpdateType.NO_SITES:
           await removeUserBan({
             userID: comment.author!.id,
           });

@@ -676,12 +676,12 @@ it("bans user from all sites", async () => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
-  const statusMenu = within(userRow).getByLabelText(
+  const dropdown = within(userRow).getByLabelText(
     "A dropdown to change the user status"
   );
 
   act(() => {
-    within(statusMenu)
+    within(dropdown)
       .getByText("Manage ban", { selector: "button", exact: false })
       .props.onClick();
   });
@@ -853,7 +853,7 @@ it("remove user ban from all sites", async () => {
   expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
 });
 
-it.only("manages bans on individual sites", async () => {
+it("manages bans on individual sites", async () => {
   const user = users.commenters[0];
   const site1 = sites[0];
   const site2 = sites[1];

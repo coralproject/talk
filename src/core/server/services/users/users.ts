@@ -26,6 +26,7 @@ import {
   UserAlreadySuspendedError,
   UserBioTooLongError,
   UserCannotBeIgnoredError,
+  UserForbiddenError,
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
   UserNotFoundError,
@@ -111,6 +112,7 @@ import {
   generateDownloadLink,
 } from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
+import { ValidationError } from "joi";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -1176,7 +1178,8 @@ export async function ban(
 }
 
 /**
- * ban will ban a specific user from interacting with Coral.
+ * updateUserBan will ban or unban a specific user from interacting with Coral
+ * on specified sites.
  *
  * @param mongo mongo database to interact with
  * @param mailer the mailer
@@ -1206,7 +1209,12 @@ export async function updateUserBan(
     banner.role !== GQLUSER_ROLE.ADMIN &&
     banner.role !== GQLUSER_ROLE.MODERATOR
   ) {
-    throw new Error("User not authorized to peform UpdateUserBan"); // Look for specific error
+    throw new UserForbiddenError(
+      "User not authorized to peform UpdateUserBan",
+      "userBan",
+      "update",
+      userID
+    );
   }
   // if scoped, make sure sites are in scope
   const scopedSites = banner.moderationScopes?.siteIDs;
@@ -1215,14 +1223,23 @@ export async function updateUserBan(
       (siteID) => !scopedSites.includes(siteID)
     );
     if (notAllowedBans?.length) {
-      throw new Error("Site moderator not authorized to ban user on site");
+      throw new UserForbiddenError(
+        "Site moderator not authorized to ban user on site",
+        "userBan",
+        "update"
+      );
     }
 
     const notAllowedUnbans = unbanSiteIDs?.filter(
       (siteID) => !scopedSites.includes(siteID)
     );
     if (notAllowedUnbans?.length) {
-      throw new Error("Site moderator not authorized to unban user on site");
+      throw new UserForbiddenError(
+        "Site moderator not authorized to unban user on site",
+        "userBan",
+        "update",
+        userID
+      );
     }
   }
 
@@ -1230,7 +1247,11 @@ export async function updateUserBan(
   if (banSiteIDs?.length && unbanSiteIDs?.length) {
     const all = new Set([...banSiteIDs, ...unbanSiteIDs]);
     if (all.size < banSiteIDs.length + unbanSiteIDs.length) {
-      throw new Error("Found duplicate site IDs in ban and unban lists");
+      throw new ValidationError(
+        "Found duplicate site IDs in ban and unban lists",
+        "banIDs and unBanIDs are overlapping",
+        undefined
+      );
     }
   }
 

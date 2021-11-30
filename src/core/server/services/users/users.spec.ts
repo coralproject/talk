@@ -1,5 +1,6 @@
 jest.mock("coral-server/models/user");
 
+import { UserForbiddenError } from "coral-server/errors";
 import {
   createSiteFixture,
   createTenantFixture,
@@ -14,6 +15,7 @@ import {
 import { updateUserBan } from "./users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import { ValidationError } from "joi";
 
 describe("updateUserBan", () => {
   afterEach(jest.clearAllMocks);
@@ -35,7 +37,7 @@ describe("updateUserBan", () => {
   const userService = require("coral-server/models/user");
 
   it("rejects updates by non mod users", async () => {
-    const commentor = createUserFixture({
+    const commenter = createUserFixture({
       tenantID: tenant.id,
       role: GQLUSER_ROLE.COMMENTER,
     });
@@ -46,13 +48,13 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          commentor,
+          commenter,
           badUser.id,
           "Test message",
           false,
           [siteA.id]
         )
-    ).rejects.toThrow(); // TODO: assert correct error
+    ).rejects.toThrow(UserForbiddenError);
 
     const staff = createUserFixture({
       tenantID: tenant.id,
@@ -72,7 +74,7 @@ describe("updateUserBan", () => {
           false,
           [siteA.id]
         )
-    ).rejects.toThrow(); // TODO: assert correct error
+    ).rejects.toThrow(UserForbiddenError);
   });
 
   it("rejects updates out of mods scope", async () => {
@@ -96,7 +98,7 @@ describe("updateUserBan", () => {
           false,
           [siteB.id]
         )
-    ).rejects.toThrow(); // TODO: assert correct error
+    ).rejects.toThrow(UserForbiddenError);
   });
 
   it("rejects if banIds and unbanIds are overlapping", async () => {
@@ -119,7 +121,7 @@ describe("updateUserBan", () => {
           [siteA.id, siteB.id],
           [siteA.id]
         )
-    ).rejects.toThrow(); // TODO: assert correct error
+    ).rejects.toThrow(ValidationError);
   });
 
   it("skips already banned sites", async () => {

@@ -7468,7 +7468,7 @@ type BanUserPayload {
 
 input UpdateUserBanInput {
   """
-  userID is the id of the user whos ban status should be updated
+  userID is the id of the user whose ban status should be updated
   """
   userID: ID!
 
@@ -8547,7 +8547,8 @@ type Mutation {
 
   """
   updateUserBan will ban a specified user from specified sites (if
-  not already banned from them)
+  not already banned from them) and unban a user from specified sites
+  (if currently banned from them)
   """
   updateUserBan(input: UpdateUserBanInput!): UpdateUserBanPayload!
     @auth(roles: [ADMIN, MODERATOR], unscoped: false)

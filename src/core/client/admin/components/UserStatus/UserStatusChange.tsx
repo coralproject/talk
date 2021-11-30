@@ -64,7 +64,6 @@ const UserStatusChange: FunctionComponent<Props> = ({
             {
               <Localized id="community-userStatus-manageBan">
                 <DropdownButton
-                  data-testid="manage-ban"
                   className={styles.dropdownButton}
                   disabled={banned && viewerIsScoped}
                   onClick={() => {
