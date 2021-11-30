@@ -569,6 +569,12 @@ enum MODERATION_MODE {
   Comments posted while in `POST` will be visible immediately.
   """
   POST
+
+  """
+  Comments posted while in `SINGLE_SITES` mode will be labeled with
+  a `PREMOD` status if the site
+  """
+  SINGLE_SITES
 }
 
 """
@@ -1802,6 +1808,8 @@ type Site {
   createdAt is when the site was created.
   """
   createdAt: Time! @auth(roles: [ADMIN, MODERATOR])
+  # KNOTE: Add comment here
+  moderation: MODERATION_MODE
 }
 
 type RTEConfiguration {
@@ -1879,6 +1887,9 @@ type Settings @cacheControl(maxAge: 30) {
   moderation: MODERATION_MODE
     @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  # KNOTE: Add a comment
+  premoderationSites: [String]
 
   """
   communityGuidelines will be shown in the comments stream.
@@ -5288,6 +5299,9 @@ input SettingsInput {
   moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE
+
+  # KNOTE: Add comment here
+  premoderationSites: [String]
 
   """
   communityGuidelines will be shown in the comments stream.

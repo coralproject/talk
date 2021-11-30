@@ -2,7 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { formatBool, parseStringBool } from "coral-framework/lib/form";
 import {
   FieldSet,
   FormField,
@@ -14,6 +13,7 @@ import { Link } from "coral-ui/components/v3";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import PreModerateAllCommentsConfigContainer from "./PreModerateAllCommentsConfigContainer";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -21,22 +21,20 @@ graphql`
     moderation
     premodLinksEnable
     premoderateSuspectWords
+    premoderationSites
   }
 `;
 
 interface Props {
   disabled: boolean;
+  // KNOTE: update type
+  settings: any;
 }
 
-const parse = (v: string) => {
-  return parseStringBool(v) ? "PRE" : "POST";
-};
-
-const format = (v: "PRE" | "POST") => {
-  return formatBool(v === "PRE");
-};
-
-const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
+const PreModerationConfig: FunctionComponent<Props> = ({
+  disabled,
+  settings,
+}) => {
   return (
     <ConfigBox
       id="Comments"
@@ -53,17 +51,10 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
           unless approved by a moderator.
         </FormFieldDescription>
       </Localized>
-      <FormField container={<FieldSet />}>
-        <Localized id="configure-moderation-preModeration-moderation">
-          <Label component="legend">Pre-moderate all comments sitewide</Label>
-        </Localized>
-        <OnOffField
-          name="moderation"
-          disabled={disabled}
-          parse={parse}
-          format={format}
-        />
-      </FormField>
+      <PreModerateAllCommentsConfigContainer
+        disabled={disabled}
+        settings={settings}
+      />
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-preModeration-premodLinksEnable">
           <Label component="legend">
