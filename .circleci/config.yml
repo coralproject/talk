@@ -214,10 +214,10 @@ jobs:
           name: Export git hash environment variable
           command: echo 'export SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -6)' >> $BASH_ENV
       - run: 
-          name: Create andpush the image to GCR
+          name: Create and push the image to GCR
           command: |
             echo "${SHORT_GIT_HASH}"
-            CONTAINER_ID=$(docker create "coralproject/talk:${SHORT_GIT_HASH}")
+            CONTAINER_ID=$(docker create "coralproject/talk:${CIRCLE_TAG/#v}")
             echo "${CONTAINER_ID}"
             docker images
             #docker push gcr.io/the-coral-project/coral:${SHORT_GIT_HASH}
