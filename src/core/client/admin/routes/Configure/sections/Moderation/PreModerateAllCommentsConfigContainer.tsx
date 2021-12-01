@@ -32,7 +32,7 @@ const PreModerateAllCommentsConfigContainer: React.FunctionComponent<Props> = ({
   return (
     <FormField container={<FieldSet />}>
       <Localized id="configure-moderation-preModeration-moderation">
-        <Label component="legend">Pre-moderate all comments sitewide</Label>
+        <Label component="legend">Pre-moderate all comments</Label>
       </Localized>
       {settings.multisite ? (
         <PreModerateAllCommentsConfig disabled={disabled} />

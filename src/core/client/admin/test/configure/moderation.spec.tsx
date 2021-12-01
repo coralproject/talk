@@ -10,9 +10,15 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { noop } from "lodash";
 
 import create from "../create";
-import { settings, users } from "../fixtures";
+import {
+  settings,
+  settingsWithMultisite,
+  siteConnection,
+  users,
+} from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/moderation");
@@ -63,7 +69,7 @@ it("renders configure moderation", async () => {
   expect(within(configureContainer).toJSON()).toMatchSnapshot();
 });
 
-it("change site wide pre-moderation", async () => {
+it("change site wide pre-moderation to On for single-site tenants", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
@@ -81,7 +87,7 @@ it("change site wide pre-moderation", async () => {
   });
 
   const preModerationContainer = within(moderationContainer).getAllByText(
-    "Pre-moderate all comments sitewide",
+    "Pre-moderate all comments",
     {
       selector: "fieldset",
     }
@@ -92,6 +98,92 @@ it("change site wide pre-moderation", async () => {
 
   // Let's enable it.
   act(() => onField.props.onChange(onField.props.value.toString()));
+  // Send form
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(onField.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+});
+
+it("change site wide pre-moderation to Single sites", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      sites: () => siteConnection,
+    },
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.moderation).toEqual(
+          GQLMODERATION_MODE.SINGLE_SITES
+        );
+        expectAndFail(variables.settings.premoderateAllCommentsSites).toEqual([
+          "site-1",
+        ]);
+        return {
+          settings: pureMerge(settingsWithMultisite, variables.settings),
+        };
+      },
+    },
+  });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
+    {
+      resolvers,
+    },
+    settingsWithMultisite
+  );
+
+  const preModerationContainer = within(moderationContainer).getAllByText(
+    "Pre-moderate all comments",
+    {
+      selector: "fieldset",
+    }
+  )[0];
+
+  const onField = within(preModerationContainer).getByLabelText("Single sites");
+
+  // Let's enable it.
+  act(() => onField.props.onChange(onField.props.value.toString()));
+
+  // KNOTE: Here is where need to do a site search and add some selected sites
+  const siteSearchField = within(preModerationContainer).getByTestID(
+    "site-search-textField"
+  );
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Test" },
+    })
+  );
+
+  const siteSearchButton = within(preModerationContainer).getByTestID(
+    "site-search-button"
+  );
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // Add site on which to premoderate all comments
+  await act(async () => {
+    await waitForElement(() =>
+      within(preModerationContainer).getByTestID("site-search-list")
+    );
+    within(preModerationContainer).getByText("Test Site").props.onClick();
+  });
+
+  const form = findParentWithType(preModerationContainer, "form")!;
+
   // Send form
   act(() => {
     form.props.onSubmit();

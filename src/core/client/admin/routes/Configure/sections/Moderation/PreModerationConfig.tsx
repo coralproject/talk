@@ -58,7 +58,7 @@ const PreModerationConfig: FunctionComponent<Props> = ({
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-preModeration-premodLinksEnable">
           <Label component="legend">
-            Pre-moderate comments containing links sitewide
+            Pre-moderate all comments containing links
           </Label>
         </Localized>
         <OnOffField name="premodLinksEnable" disabled={disabled} />
@@ -66,7 +66,7 @@ const PreModerationConfig: FunctionComponent<Props> = ({
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-premModeration-premodSuspectWordsEnable">
           <Label component="legend">
-            Pre-moderate comments containing Suspect Words
+            Pre-moderate all comments containing Suspect Words
           </Label>
         </Localized>
         <Localized

@@ -206,7 +206,7 @@ approved by a moderator.
                   <legend
                     className="Label-root"
                   >
-                    Pre-moderate all comments sitewide
+                    Pre-moderate all comments
                   </legend>
                   <div>
                     <div

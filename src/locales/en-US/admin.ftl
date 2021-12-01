@@ -734,9 +734,11 @@ configure-moderation-preModeration-explanation =
   When pre-moderation is turned on, comments will not be published unless
   approved by a moderator.
 configure-moderation-preModeration-moderation =
-  Pre-moderate all comments sitewide
+  Pre-moderate all comments
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate comments containing links sitewide
+configure-moderation-singleSites = Single sites
+configure-moderation-allSites = All sites
 
 configure-moderation-apiKey = API key
 
