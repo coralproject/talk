@@ -1,4 +1,3 @@
-// TODO remove
 /**
  * Returns true if we are in an iframe.
  */

@@ -9,7 +9,7 @@ import { initLocalState } from "./local";
 import localesData from "./locales";
 
 // Import css variables.
-import "coral-ui/theme/admin.css";
+// import "coral-ui/theme/admin.css";
 
 async function main() {
   const ManagedCoralContextProvider = await createManaged({

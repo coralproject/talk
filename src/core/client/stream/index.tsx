@@ -1,12 +1,10 @@
 /* eslint-disable no-restricted-globals */
-import { Child as PymChild } from "pym.js";
 import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { parseQuery } from "coral-common/utils";
-import { injectConditionalPolyfills } from "coral-framework/helpers";
+
 import { createManaged } from "coral-framework/lib/bootstrap";
-import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { createTokenRefreshProvider } from "coral-framework/lib/network/tokenRefreshProvider";
 
 import AppContainer from "./App";
@@ -24,14 +22,9 @@ function extractBundleConfig() {
 async function main() {
   const { renderTarget } = parseQuery(location.search);
   if (renderTarget) {
-    // Load any polyfills that are required.
-    await injectConditionalPolyfills(window, getBrowserInfo(window));
-    window.document.body.style.background = "transparent";
-    return;
+    // TODO: (cvle) iframeless
+    throw new Error("Render targets not supported.");
   }
-  const pym = new PymChild({
-    polling: 100,
-  });
 
   // Detect and extract the storyID and storyURL from the current page so we can
   // add it to the managed provider.
@@ -40,7 +33,6 @@ async function main() {
   const ManagedCoralContextProvider = await createManaged({
     initLocalState,
     localesData,
-    pym,
     bundle: "stream",
     bundleConfig,
     tokenRefreshProvider: createTokenRefreshProvider(),

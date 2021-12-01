@@ -8,21 +8,21 @@ import { AppContainerLocal as Local } from "coral-stream/__generated__/AppContai
 import { RenderTargetContextProvider } from "../renderTarget";
 import App from "./App";
 import {
-  OnEvents,
+  OnEmbedLogin,
+  OnEmbedLogout,
+  OnEmbedSetCommentID,
+  OnEventsForRudderStack,
   OnPostMessageSetAccessToken,
-  OnPymLogin,
-  OnPymLogout,
-  OnPymSetCommentID,
 } from "./listeners";
 import RefreshTokenHandler from "./RefreshTokenHandler";
 
 const listeners = (
   <>
-    <OnPymLogin />
-    <OnPymLogout />
-    <OnPymSetCommentID />
+    <OnEmbedLogin />
+    <OnEmbedLogout />
+    <OnEmbedSetCommentID />
     <OnPostMessageSetAccessToken />
-    <OnEvents />
+    <OnEventsForRudderStack />
   </>
 );
 

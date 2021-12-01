@@ -33,6 +33,8 @@ export interface Config {
   bodyClassName?: string;
   customCSSURL?: string;
   amp?: boolean;
+
+  graphQLSubscriptionURI?: string;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -61,4 +63,38 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     refreshAccessToken: config.refreshAccessToken,
     amp: config.amp,
   });
+}
+
+export function createStreamEmbed2(config: Config) {
+  // Parse query params
+  const query = parseQuery(location.search);
+  const eventEmitter = new EventEmitter2({ wildcard: true });
+
+  if (config.events) {
+    config.events(eventEmitter);
+  }
+
+  const id = config.id || "coral-embed-stream";
+  const script = document.createElement("script");
+  script.onload = function () {
+    (window as any).CoralStream.attach({
+      storyID: config.storyID || query.storyID,
+      storyURL: config.storyURL || query.storyURL || resolveStoryURL(window),
+      storyMode: config.storyMode || undefined,
+      commentID: config.commentID || query.commentID,
+      rootURL: config.rootURL || getLocationOrigin(window),
+      eventEmitter,
+      accessToken: config.accessToken,
+      customCSSURL: config.customCSSURL,
+      refreshAccessToken: config.refreshAccessToken,
+      amp: config.amp,
+      element: document.getElementById(id),
+      graphQLSubscriptionURI: config.graphQLSubscriptionURI,
+      /* autoRender: config.autoRender,
+      bodyClassName: config.bodyClassName,
+      enableDeprecatedEvents: config.enableDeprecatedEvents,*/
+    });
+  };
+  script.src = "/assets/js/stream2.js";
+  document.head.appendChild(script);
 }

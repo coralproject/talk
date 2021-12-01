@@ -119,10 +119,10 @@ export default function createWebpackConfig(
       new MiniCssExtractPlugin({
         filename: isProduction
           ? "assets/css/[name].[contenthash].css"
-          : "assets/css/[name].css",
+          : "assets/css/[name].[hash].css",
         chunkFilename: isProduction
           ? "assets/css/[id].[contenthash].css"
-          : "assets/css/[id].css",
+          : "assets/css/[id].[hash].css",
       }),
       isProduction &&
         new OptimizeCssnanoPlugin({
@@ -233,10 +233,10 @@ export default function createWebpackConfig(
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
         ? "assets/js/[name].[contenthash].js"
-        : "assets/js/[name].js",
+        : "assets/js/[name].[hash].js",
       chunkFilename: isProduction
         ? "assets/js/[name].[contenthash].chunk.js"
-        : "assets/js/[name].chunk.js",
+        : "assets/js/[name].[hash].chunk.js",
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -266,8 +266,6 @@ export default function createWebpackConfig(
       // thus we can't turn on `strictExportPresence` which would turn warnings into errors.
       strictExportPresence: false,
       rules: [
-        // Disable require.ensure as it's not a standard language feature.
-        { parser: { requireEnsure: false } },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -597,13 +595,13 @@ export default function createWebpackConfig(
     {
       ...baseConfig,
       entry: {
-        stream: [
+        /* stream: [
           // We ship polyfills by default
           paths.appPolyfill,
           ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appStreamIndex,
-        ],
+        ],*/
         auth: [
           // We ship polyfills by default
           paths.appPolyfill,
@@ -691,7 +689,7 @@ export default function createWebpackConfig(
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
-        // Ensure that we never split the embed into chunks.
+        // Ensure that we never split the main library into chunks.
         splitChunks: {
           chunks: "async",
         },
@@ -746,12 +744,49 @@ export default function createWebpackConfig(
         ),
       ]),
     },
+    /* Webpack config for our stream */
+    {
+      ...baseConfig,
+      optimization: {
+        ...baseConfig.optimization,
+        // Ensure that we never split the main library into chunks.
+        splitChunks: {
+          chunks: "async",
+        },
+        // We can turn on sideEffects here as we don't use
+        // css here and don't run into: https://github.com/webpack/webpack/issues/7094
+        sideEffects: false,
+      },
+      entry: [
+        paths.appPolyfill,
+        ...ifBuild(paths.appPublicPath),
+        ...devServerEntries,
+        paths.appStreamBundle,
+      ],
+      output: {
+        ...baseConfig.output,
+        library: "CoralStream",
+        // don't hash the embed, cache-busting must be completed by the requester
+        // as this lives in a static template on the embed site.
+        filename: "assets/js/stream2.js",
+      },
+      plugins: filterPlugins([
+        ...baseConfig.plugins!,
+        ...ifBuild(
+          new WebpackAssetsManifest({
+            output: "stream-asset-manifest.json",
+            entrypoints: true,
+            integrity: true,
+          })
+        ),
+      ]),
+    },
     /* Webpack config for count */
     {
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
-        // Ensure that we never split the count into chunks.
+        // Ensure that we never split the main library into chunks.
         splitChunks: {
           chunks: "async",
         },

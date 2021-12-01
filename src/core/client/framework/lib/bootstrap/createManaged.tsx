@@ -14,7 +14,6 @@ import { LanguageCode } from "coral-common/helpers/i18n";
 import getOrigin from "coral-common/utils/getOrigin";
 import {
   injectConditionalPolyfills,
-  onPymMessage,
   potentiallyInjectAxe,
 } from "coral-framework/helpers";
 import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
@@ -25,18 +24,13 @@ import {
 } from "coral-framework/lib/errors";
 import { RestClient } from "coral-framework/lib/rest";
 import {
-  combinePromisifiedStorage,
   createInMemoryStorage,
   createLocalStorage,
-  createPostMessageStorage,
   createPromisifiedStorage,
-  createPymStorage,
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
-import areWeInIframe from "coral-framework/utils/areWeInIframe";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
-import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
 import {
   AccessTokenProvider,
@@ -96,6 +90,9 @@ interface CreateContextArguments {
 
   /** tokenRefreshProvider is used to obtain a new access token after expiry. */
   tokenRefreshProvider?: TokenRefreshProvider;
+
+  /** Replace graphql subscrition url. */
+  graphQLSubscriptionURI?: string;
 }
 
 /**
@@ -293,26 +290,8 @@ function createManagedCoralContextProvider(
  * resolveStorage decides which storage to use in the context
  */
 function resolveStorage(
-  type: "localStorage" | "sessionStorage" | "indexedDB",
-  postMessage?: PostMessageService,
-  pym?: PymChild
+  type: "localStorage" | "sessionStorage" | "indexedDB"
 ): PromisifiedStorage {
-  if (areWeInIframe(window)) {
-    // Use storage over postMessage (or fallback to pym) when we are in an iframe.
-    const pmStorage =
-      postMessage && createPostMessageStorage(postMessage, type);
-    const pymStorage =
-      pym && type !== "indexedDB" && createPymStorage(pym, type);
-    if (pmStorage || pymStorage) {
-      const combined =
-        pmStorage &&
-        pymStorage &&
-        combinePromisifiedStorage(pmStorage, pymStorage);
-      return [combined, pmStorage, pymStorage].find((x) =>
-        Boolean(x)
-      ) as PromisifiedStorage;
-    }
-  }
   switch (type) {
     case "localStorage":
       return createPromisifiedStorage(createLocalStorage(window));
@@ -358,6 +337,7 @@ export default async function createManaged({
   bundleConfig = {},
   tokenRefreshProvider,
   reporterFeedbackPrompt = false,
+  graphQLSubscriptionURI,
 }: CreateContextArguments): Promise<ComponentType> {
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
@@ -370,14 +350,6 @@ export default async function createManaged({
   // Set error reporter.
   if (reporter) {
     setGlobalErrorReporter(reporter);
-  }
-
-  // Listen for outside clicks.
-  let registerClickFarAway: ClickFarAwayRegister | undefined;
-  if (pym) {
-    registerClickFarAway = (cb) => {
-      return onPymMessage(pym, "click", cb);
-    };
   }
 
   const postMessage = new PostMessageService(
@@ -411,7 +383,7 @@ export default async function createManaged({
   const localeBundles = await generateBundles(locales, localesData);
   await polyfillIntlLocale(locales, browserInfo);
 
-  const localStorage = resolveStorage("localStorage", postMessage, pym);
+  const localStorage = resolveStorage("localStorage");
 
   // Get the access token from storage.
   const auth = await retrieveAccessToken(localStorage);
@@ -422,7 +394,8 @@ export default async function createManaged({
   const staticConfig = getStaticConfig(window);
 
   // websocketEndpoint points to our graphql server's live endpoint.
-  const graphQLSubscriptionURI = resolveGraphQLSubscriptionURI(staticConfig);
+  graphQLSubscriptionURI =
+    graphQLSubscriptionURI || resolveGraphQLSubscriptionURI(staticConfig);
 
   const subscriptionClient = createManagedSubscriptionClient(
     graphQLSubscriptionURI,
@@ -447,12 +420,11 @@ export default async function createManaged({
     timeagoFormatter,
     pym,
     eventEmitter,
-    registerClickFarAway,
     rest: createRestClient(clientID, accessTokenProvider),
     postMessage,
     localStorage,
-    sessionStorage: resolveStorage("sessionStorage", postMessage, pym),
-    indexedDBStorage: resolveStorage("indexedDB", postMessage, pym),
+    sessionStorage: resolveStorage("sessionStorage"),
+    indexedDBStorage: resolveStorage("indexedDB"),
     inMemoryStorage: createInMemoryStorage(),
     browserInfo,
     uuidGenerator: uuid,

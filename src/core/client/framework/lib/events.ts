@@ -85,7 +85,7 @@ export function createViewerNetworkEvent<
           if (success) {
             final.success = success;
           }
-          eventEmitter.emit(`${name}.success`, final);
+          eventEmitter.emit(`viewer.${name}.success`, final);
         }) as ViewerNetworkEventStarted<T>["success"],
         error: ((error) => {
           const final: any = {
@@ -95,7 +95,7 @@ export function createViewerNetworkEvent<
           if (error) {
             final.error = error;
           }
-          eventEmitter.emit(`${name}.error`, final);
+          eventEmitter.emit(`viewer.${name}.error`, final);
         }) as ViewerNetworkEventStarted<T>["error"],
       };
     }) as ViewerNetworkEvent<T>["begin"],
@@ -111,7 +111,7 @@ export function createViewerEvent<T>(name: string): ViewerEvent<T> {
   return {
     name,
     emit: ((eventEmitter, data) => {
-      eventEmitter.emit(name, data);
+      eventEmitter.emit(`viewer.${name}`, data);
     }) as ViewerEvent<T>["emit"],
   };
 }

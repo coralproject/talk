@@ -5,7 +5,6 @@ import ReactDOM from "react-dom";
 import { parseQuery } from "coral-common/utils";
 
 import { BrowserInfo } from "../lib/browserInfo";
-import { areWeInIframe } from "../utils";
 
 function extractQuery(href: string) {
   const query = href.split("?")[1];
@@ -47,7 +46,7 @@ export default async function potentiallyInjectAxe(
     rules: [
       {
         id: "page-has-heading-one",
-        enabled: !areWeInIframe(window),
+        enabled: false,
       },
       {
         id: "html-has-lang",

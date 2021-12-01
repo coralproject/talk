@@ -28,6 +28,7 @@ export default {
   appStreamHTML: resolveSrc("core/client/stream/index.html"),
   appStreamLocalesTemplate: resolveSrc("core/client/stream/locales.ts"),
   appStreamIndex: resolveSrc("core/client/stream/index.tsx"),
+  appStreamBundle: resolveSrc("core/client/stream/stream.tsx"),
 
   appAuthHTML: resolveSrc("core/client/auth/index.html"),
   appAuthLocalesTemplate: resolveSrc("core/client/auth/locales.ts"),
