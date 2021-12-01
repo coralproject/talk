@@ -210,7 +210,7 @@ jobs:
             gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
       - run:
           name: Export git hash environment variable
-          command: echo 'export SHORT_GIT_HASH=$(CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
+          command: echo 'export SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
       - run: 
           name: Push the image to GCR
           command: |
