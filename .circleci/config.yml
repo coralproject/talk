@@ -210,11 +210,12 @@ jobs:
             gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
       - run:
           name: Export git hash environment variable
-          command: echo 'export SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
+          command: echo 'export SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -6)' >> $BASH_ENV
       - run: 
           name: Push the image to GCR
           command: |
             echo "${SHORT_GIT_HASH}"
+            docker images
             docker push gcr.io/the-coral-project/coral:${SHORT_GIT_HASH}
 
 # filter_release will add the filters for a deploy job in a workflow to make it
