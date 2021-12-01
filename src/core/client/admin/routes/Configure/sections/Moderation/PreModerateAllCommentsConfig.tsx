@@ -1,11 +1,11 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
+import { Field, useField } from "react-final-form";
 import { graphql } from "react-relay";
 
+import SiteSearch from "coral-admin/components/SiteSearch";
 import { HorizontalGutter, RadioButton } from "coral-ui/components/v2";
 
-import { Field, useField } from "react-final-form";
-import SiteSearch from "coral-admin/components/SiteSearch";
 import PreModerationSitesSelectedQuery from "./PreModerationSitesSelectedQuery";
 
 import styles from "./PreModerateAllCommentsConfig.css";
@@ -14,7 +14,7 @@ import styles from "./PreModerateAllCommentsConfig.css";
 graphql`
   fragment PreModerateAllCommentsConfig_formValues on Settings {
     moderation
-    premoderationSites
+    premoderateAllCommentsSites
   }
 `;
 
@@ -25,7 +25,9 @@ interface Props {
 const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
   disabled,
 }) => {
-  const { input: premodSites } = useField<string[]>("premoderationSites");
+  const { input: premodSites } = useField<string[]>(
+    "premoderateAllCommentsSites"
+  );
 
   const onSiteSearchSelect = useCallback(
     (siteID: string) => {
@@ -60,8 +62,9 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
             id="moderation-PRE"
             disabled={disabled}
           >
-            {/* KNOTE: Add localized */}
-            All sites
+            <Localized id="configure-moderation-allSites">
+              <span>All sites</span>
+            </Localized>
           </RadioButton>
         )}
       </Field>
@@ -74,12 +77,13 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
               id="moderation-SINGLE_SITES"
               disabled={disabled}
             >
-              {/* KNOTE: Add localized */}
-              Single sites
+              <Localized id="configure-moderation-singleSites">
+                <span>Single sites</span>
+              </Localized>
             </RadioButton>
             {input.checked && (
               <div className={styles.specificSites}>
-                <Field name="premoderationSites">
+                <Field name="premoderateAllCommentsSites">
                   {() => (
                     <>
                       <HorizontalGutter spacing={3} mt={3} mb={3}>
@@ -115,8 +119,10 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
             id="moderation-POST"
             disabled={disabled}
           >
-            {/* KNOTE: Add localized */}
-            Off
+            {/* KNOTE: Okay to use this localized here? */}
+            <Localized id="configure-onOffField-off">
+              <span>Off</span>
+            </Localized>
           </RadioButton>
         )}
       </Field>

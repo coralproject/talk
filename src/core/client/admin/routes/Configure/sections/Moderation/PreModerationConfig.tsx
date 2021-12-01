@@ -21,7 +21,7 @@ graphql`
     moderation
     premodLinksEnable
     premoderateSuspectWords
-    premoderationSites
+    premoderateAllCommentsSites
   }
 `;
 

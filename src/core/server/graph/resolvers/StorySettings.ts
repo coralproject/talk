@@ -17,7 +17,7 @@ export const StorySettings: Required<GQLStorySettingsTypeResolver<
       return s.moderation;
     }
     if (ctx.tenant.moderation === "SINGLE_SITES") {
-      return ctx.tenant.premoderationSites.includes(s.story.siteID)
+      return ctx.tenant.premoderateAllCommentsSites.includes(s.story.siteID)
         ? "PRE"
         : "POST";
     }

@@ -572,7 +572,7 @@ enum MODERATION_MODE {
 
   """
   Comments posted while in `SINGLE_SITES` mode will be labeled with
-  a `PREMOD` status if the site
+  a `PRE` status if the site is included in premoderateAllCommentsSites
   """
   SINGLE_SITES
 }
@@ -1808,7 +1808,11 @@ type Site {
   createdAt is when the site was created.
   """
   createdAt: Time! @auth(roles: [ADMIN, MODERATOR])
-  # KNOTE: Add comment here
+
+  """
+  premoderateAllCommentsSites are the sites that should have all comments
+  premoderated when moderation mode is SINGLE_SITES
+  """
   moderation: MODERATION_MODE
 }
 
@@ -1888,8 +1892,11 @@ type Settings @cacheControl(maxAge: 30) {
     @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
-  # KNOTE: Add a comment
-  premoderationSites: [String]
+  """
+  premoderateAllCommentsSites are the sites that should have all comments
+  premoderated when moderation mode is SINGLE_SITES
+  """
+  premoderateAllCommentsSites: [String]
 
   """
   communityGuidelines will be shown in the comments stream.
@@ -5300,8 +5307,11 @@ input SettingsInput {
   """
   moderation: MODERATION_MODE
 
-  # KNOTE: Add comment here
-  premoderationSites: [String!]!
+  """
+  premoderateAllCommentsSites are the sites that should have all comments
+  premoderated when moderation mode is SINGLE_SITES
+  """
+  premoderateAllCommentsSites: [String!]!
 
   """
   communityGuidelines will be shown in the comments stream.

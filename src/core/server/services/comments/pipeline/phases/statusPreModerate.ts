@@ -15,7 +15,7 @@ const testModerationMode = (
   siteID: string
 ) => {
   if (settings.moderation === "SINGLE_SITES") {
-    return settings.premoderationSites?.includes(siteID);
+    return settings.premoderateAllCommentsSites?.includes(siteID);
   }
   return settings.moderation === GQLMODERATION_MODE.PRE;
 };

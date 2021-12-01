@@ -1,15 +1,16 @@
+import { Localized } from "@fluent/react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
+import { formatBool, parseStringBool } from "coral-framework/lib/form";
+
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { FieldSet, FormField, Label } from "coral-ui/components/v2";
 
 import { PreModerateAllCommentsConfigContainer_settings } from "coral-admin/__generated__/PreModerateAllCommentsConfigContainer_settings.graphql";
 
-import PreModerateAllCommentsConfig from "./PreModerateAllCommentsConfig";
 import OnOffField from "../../OnOffField";
-import { formatBool, parseStringBool } from "coral-framework/lib/form";
-import { FieldSet, FormField, Label } from "coral-ui/components/v2";
-import { Localized } from "@fluent/react/compat";
+import PreModerateAllCommentsConfig from "./PreModerateAllCommentsConfig";
 
 interface Props {
   settings: PreModerateAllCommentsConfigContainer_settings;
