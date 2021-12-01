@@ -422,6 +422,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-not-seen={seen || !commentSeenEnabled ? undefined : true}
       onFocus={handleFocus}
     >
+      {comment.seen ? <div>SEEN</div> : <div>UNSEEN</div>}
       {/* TODO: (cvle) Refactor at some point */}
       <Hidden id={`${commentElementID}-label`}>
         {indentLevel && (
@@ -838,6 +839,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             flag
           }
           hasTraversalFocus
+          seen
           ...CaretContainer_comment
           ...EditCommentFormContainer_comment
           ...MediaSectionContainer_comment

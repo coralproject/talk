@@ -3619,6 +3619,11 @@ type Comment @cacheControl(maxAge: 5) {
   rating is the optional rating that is attached to the Comment.
   """
   rating: Int
+
+  """
+  seen determines whether a comment has been seen by the user already.
+  """
+  seen: Boolean
 }
 
 type PageInfo {

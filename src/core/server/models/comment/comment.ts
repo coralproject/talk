@@ -143,6 +143,8 @@ export interface Comment extends TenantResource {
    * undefined, this Comment is not deleted.
    */
   deletedAt?: Date;
+
+  seen?: boolean;
 }
 
 export type CreateCommentInput = Omit<
