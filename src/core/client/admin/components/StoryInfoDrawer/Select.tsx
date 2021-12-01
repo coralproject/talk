@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useState } from "react";
-import { Control, useController } from "react-hook-form";
+import { Field } from "react-final-form";
 
 import {
   Button,
@@ -94,23 +94,45 @@ const Select: FunctionComponent<Props> = ({
   );
 };
 
-type HookSelectProps = Omit<Props, "onSelect"> & {
-  control: Control;
-};
+export type FinalFormSelectProps = Omit<Props, "onSelect">;
 
-export const HookSelect: FunctionComponent<HookSelectProps> = ({
+export const FinalFormSelect: FunctionComponent<FinalFormSelectProps> = ({
   name,
-  control,
   ...rest
 }) => {
-  const {
-    field: { ref, ...fieldProps },
-  } = useController({
-    name,
-    control,
-  });
-
-  return <Select {...rest} name={name} onSelect={fieldProps.onChange} />;
+  return (
+    <Field name={name}>
+      {(props) => (
+        <Select
+          name={name}
+          selected={props.input.value}
+          onSelect={props.input.onChange}
+          {...rest}
+        />
+      )}
+    </Field>
+  );
 };
+
+// TODO (marcushaddon): leaving this commented out as we intend
+// to migrate to react-hook-forms eventually
+// type HookSelectProps = Omit<Props, "onSelect"> & {
+//   control: Control;
+// };
+
+// export const HookSelect: FunctionComponent<HookSelectProps> = ({
+//   name,
+//   control,
+//   ...rest
+// }) => {
+//   const {
+//     field: { ref, ...fieldProps },
+//   } = useController({
+//     name,
+//     control,
+//   });
+
+//   return <Select {...rest} name={name} onSelect={fieldProps.onChange} />;
+// };
 
 export default Select;

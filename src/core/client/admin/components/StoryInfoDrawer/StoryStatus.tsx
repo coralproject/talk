@@ -2,7 +2,6 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 
-// TODO (marcushaddon): Should these be moved to a common dir?
 import { STORY_STATUS } from "coral-admin/__generated__/StoryStatusContainer_story.graphql";
 import CloseStoryMutation from "coral-admin/routes/Stories/StoryActions/CloseStoryMutation";
 import OpenStoryMutation from "coral-admin/routes/Stories/StoryActions/OpenStoryMutation";

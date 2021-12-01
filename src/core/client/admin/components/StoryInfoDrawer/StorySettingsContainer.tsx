@@ -1,16 +1,16 @@
+/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, { FunctionComponent, useCallback, useState } from "react";
+import { Form, Field } from "react-final-form";
 import { graphql } from "relay-runtime";
 
-import { useMutation } from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { CheckBox } from "coral-ui/components/v2";
 
 import { StorySettingsContainer_storySettings } from "coral-admin/__generated__/StorySettingsContainer_storySettings.graphql";
-// TODO (marcushaddon): common dir?
 import ExpertSelectionQuery from "coral-stream/tabs/Configure/Q&A/ExpertSelectionQuery";
 
-// TODO (marcushaddon): should this be relocated?
 import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
 
 import {
@@ -24,10 +24,7 @@ import {
   TabPane,
 } from "coral-ui/components/v2";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import CheckBox from "./Checkbox";
-import { HookSelect as Select } from "./Select";
+import { FinalFormSelect as Select } from "./Select";
 
 import styles from "./StorySettingsContainer.css";
 
@@ -58,20 +55,14 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
 
   const { mode, moderation, premodLinksEnable } = settings;
 
-  const { handleSubmit, formState, control, reset } = useForm<
-    Props["settings"]
-  >();
-
   const updateSettings = useMutation(UpdateStorySettingsMutation);
 
-  const onSubmit: SubmitHandler<StorySettingsContainer_storySettings> = async (
+  const onSubmit = async (
     values: any
   ) => {
-    // TODO (marcushaddon): should we figure out whats changed and submit only new values
 
     const res = await updateSettings({ id: storyID, settings: values });
 
-    reset(res.story.settings);
     setSettings(res.story.settings);
   };
 
@@ -96,70 +87,97 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
       </TabBar>
       <TabContent activeTab={activeTab}>
         <TabPane tabID="CONFIGURE_STORY" className={styles.configureStory}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Flex direction="column">
-              <Flex direction="row" className={styles.setting}>
-                {/* PREMODLINKSENABLED */}
-                <Localized id="storyInfoDrawerSettings-premodLinksEnable">
-                  <CheckBox
-                    name="premodLinksEnable"
-                    control={control}
-                    defaultValue={premodLinksEnable}
-                    disabled={formState.isSubmitting}
-                  >
-                    <div className={styles.checkboxText}>
-                      Pre Mode Links Enabled
-                    </div>
-                  </CheckBox>
-                </Localized>
-              </Flex>
+          <Form onSubmit={onSubmit}>
+            {
+              ({
+                handleSubmit,
+                submitting,
+                dirty,
+                form,
+                submitSucceeded,
+                dirtySinceLastSubmit,
+                ...unused
+              }) => {
+                // const {
+                const onSubmit = useCallback(
+                  async (values: any) => {
+                    await handleSubmit(values);
+                    console.log({ unused });
+                  }, []
+                )
+                return (
+                  <form onSubmit={onSubmit}>
+                    <Flex direction="column">
+                      <Flex direction="row" className={styles.setting}>
+                        {/* PREMODLINKSENABLED */}
+                        <Field name="premodLinksEnable" type="checkbox" initialValue={premodLinksEnable}>
+                          {
+                            ({ input }) => (
+                              <Localized id="storyInfoDrawerSettings-premodLinksEnable">
+                                <CheckBox
+                                  {...input}
+                                  checked={input.checked}
+                                  disabled={submitting}
+                                >
+                                  <div className={styles.checkboxText}>
+                                    Pre Mode Links Enabled
+                                  </div>
+                                </CheckBox>
+                              </Localized>
+                            )
+                          }
+                        </Field>
+                      </Flex>
 
-              {/* MODERATION MODE */}
-              <Flex direction="row" className={styles.setting}>
-                <Localized id="storyInfoDrawerSettings-moderation">
-                  <Select
-                    id="storySettingsContainer-moderationMode"
-                    name="moderation"
-                    label="Moderation"
-                    description="A menu for setting the moderation mode for the story"
-                    options={[
-                      {
-                        value: "PRE",
-                        localizationID: localizedModMode("PRE"),
-                      },
-                      {
-                        value: "POST",
-                        localizationID: localizedModMode("POST"),
-                      },
-                    ]}
-                    selected={{
-                      value: moderation,
-                      localizationID: localizedModMode(moderation),
-                    }}
-                    control={control}
-                  />
-                </Localized>
-              </Flex>
+                      {/* MODERATION MODE */}
+                      <Flex direction="row" className={styles.setting}>
+                        <Localized id="storyInfoDrawerSettings-moderation">
+                          <Select
+                            id="storySettingsContainer-moderationMode"
+                            name="moderation"
+                            label="Moderation"
+                            description="A menu for setting the moderation mode for the story"
+                            options={[
+                              {
+                                value: "PRE",
+                                localizationID: localizedModMode("PRE"),
+                              },
+                              {
+                                value: "POST",
+                                localizationID: localizedModMode("POST"),
+                              },
+                            ]}
+                            selected={{
+                              value: moderation,
+                              localizationID: localizedModMode(moderation),
+                            }}
+                          />
+                        </Localized>
+                      </Flex>
 
-              {/* SAVE/SUBMIT */}
-              <Button
-                variant="outlined"
-                color="regular"
-                type="submit"
-                disabled={formState.isSubmitting || !formState.isDirty}
-              >
-                Save
-              </Button>
+                      {/* SAVE/SUBMIT */}
+                      <Button
+                        variant="outlined"
+                        color="regular"
+                        type="submit"
+                        disabled={submitting || !dirty || (submitSucceeded && !dirtySinceLastSubmit)}
+                      >
+                        Save
+                      </Button>
 
-              {mode === "QA" && (
-                <>
-                  <Divider />
-                  {/* EXPERT SELECTION */}
-                  <ExpertSelectionQuery storyID={storyID} />
-                </>
-              )}
-            </Flex>
-          </form>
+                      {mode === "QA" && (
+                        <>
+                          <Divider />
+                          {/* EXPERT SELECTION */}
+                          <ExpertSelectionQuery storyID={storyID} />
+                        </>
+                      )}
+                    </Flex>
+                  </form>
+                );
+              }
+            }
+          </Form>
         </TabPane>
       </TabContent>
     </>
