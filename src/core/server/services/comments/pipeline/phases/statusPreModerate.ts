@@ -10,8 +10,15 @@ import {
   GQLMODERATION_MODE,
 } from "coral-server/graph/schema/__generated__/types";
 
-const testModerationMode = (settings: DeepPartial<GlobalModerationSettings>) =>
-  settings.moderation === GQLMODERATION_MODE.PRE;
+const testModerationMode = (
+  settings: DeepPartial<GlobalModerationSettings>,
+  siteID: string
+) => {
+  if (settings.moderation === "SINGLE_SITES") {
+    return settings.premoderationSites?.includes(siteID);
+  }
+  return settings.moderation === GQLMODERATION_MODE.PRE;
+};
 
 // This phase checks to see if the settings have premod enabled, if they do,
 // the comment is premod, otherwise, it's just none.
@@ -22,8 +29,8 @@ export const statusPreModerate: IntermediateModerationPhase = ({
   // If the settings say that we're in premod mode, then the comment is in
   // premod status.
   if (
-    testModerationMode(tenant) ||
-    (story.settings && testModerationMode(story.settings))
+    testModerationMode(tenant, story.siteID) ||
+    (story.settings && testModerationMode(story.settings, story.siteID))
   ) {
     return {
       status: GQLCOMMENT_STATUS.PREMOD,

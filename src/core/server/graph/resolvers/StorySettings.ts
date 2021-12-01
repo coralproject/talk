@@ -12,7 +12,17 @@ export const StorySettings: Required<GQLStorySettingsTypeResolver<
   StorySettingsInput
 >> = {
   live: (s): LiveConfigurationInput => s.story,
-  moderation: (s, input, ctx) => s.moderation || ctx.tenant.moderation,
+  moderation: (s, input, ctx) => {
+    if (s.moderation) {
+      return s.moderation;
+    }
+    if (ctx.tenant.moderation === "SINGLE_SITES") {
+      return ctx.tenant.premoderationSites.includes(s.story.siteID)
+        ? "PRE"
+        : "POST";
+    }
+    return ctx.tenant.moderation;
+  },
   premodLinksEnable: (s, input, ctx) =>
     s.premodLinksEnable || ctx.tenant.premodLinksEnable,
   messageBox: (s) => {

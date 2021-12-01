@@ -5301,7 +5301,7 @@ input SettingsInput {
   moderation: MODERATION_MODE
 
   # KNOTE: Add comment here
-  premoderationSites: [String]
+  premoderationSites: [String!]!
 
   """
   communityGuidelines will be shown in the comments stream.
