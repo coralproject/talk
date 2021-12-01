@@ -114,25 +114,4 @@ export const FinalFormSelect: FunctionComponent<FinalFormSelectProps> = ({
   );
 };
 
-// TODO (marcushaddon): leaving this commented out as we intend
-// to migrate to react-hook-forms eventually
-// type HookSelectProps = Omit<Props, "onSelect"> & {
-//   control: Control;
-// };
-
-// export const HookSelect: FunctionComponent<HookSelectProps> = ({
-//   name,
-//   control,
-//   ...rest
-// }) => {
-//   const {
-//     field: { ref, ...fieldProps },
-//   } = useController({
-//     name,
-//     control,
-//   });
-
-//   return <Select {...rest} name={name} onSelect={fieldProps.onChange} />;
-// };
-
 export default Select;
