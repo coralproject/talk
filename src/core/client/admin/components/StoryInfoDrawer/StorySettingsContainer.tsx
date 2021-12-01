@@ -1,8 +1,7 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useState } from "react";
-import { Form, Field } from "react-final-form";
+import React, { FunctionComponent, useState } from "react";
+import { Field, Form } from "react-final-form";
 import { graphql } from "relay-runtime";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -58,9 +57,8 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
   const updateSettings = useMutation(UpdateStorySettingsMutation);
 
   const onSubmit = async (
-    values: any
+    values: Partial<StorySettingsContainer_storySettings>
   ) => {
-
     const res = await updateSettings({ id: storyID, settings: values });
 
     setSettings(res.story.settings);
@@ -88,95 +86,91 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
       <TabContent activeTab={activeTab}>
         <TabPane tabID="CONFIGURE_STORY" className={styles.configureStory}>
           <Form onSubmit={onSubmit}>
-            {
-              ({
-                handleSubmit,
-                submitting,
-                dirty,
-                form,
-                submitSucceeded,
-                dirtySinceLastSubmit,
-                ...unused
-              }) => {
-                // const {
-                const onSubmit = useCallback(
-                  async (values: any) => {
-                    await handleSubmit(values);
-                    console.log({ unused });
-                  }, []
-                )
-                return (
-                  <form onSubmit={onSubmit}>
-                    <Flex direction="column">
-                      <Flex direction="row" className={styles.setting}>
-                        {/* PREMODLINKSENABLED */}
-                        <Field name="premodLinksEnable" type="checkbox" initialValue={premodLinksEnable}>
-                          {
-                            ({ input }) => (
-                              <Localized id="storyInfoDrawerSettings-premodLinksEnable">
-                                <CheckBox
-                                  {...input}
-                                  checked={input.checked}
-                                  disabled={submitting}
-                                >
-                                  <div className={styles.checkboxText}>
-                                    Pre Mode Links Enabled
-                                  </div>
-                                </CheckBox>
-                              </Localized>
-                            )
-                          }
-                        </Field>
-                      </Flex>
-
-                      {/* MODERATION MODE */}
-                      <Flex direction="row" className={styles.setting}>
-                        <Localized id="storyInfoDrawerSettings-moderation">
-                          <Select
-                            id="storySettingsContainer-moderationMode"
-                            name="moderation"
-                            label="Moderation"
-                            description="A menu for setting the moderation mode for the story"
-                            options={[
-                              {
-                                value: "PRE",
-                                localizationID: localizedModMode("PRE"),
-                              },
-                              {
-                                value: "POST",
-                                localizationID: localizedModMode("POST"),
-                              },
-                            ]}
-                            selected={{
-                              value: moderation,
-                              localizationID: localizedModMode(moderation),
-                            }}
-                          />
-                        </Localized>
-                      </Flex>
-
-                      {/* SAVE/SUBMIT */}
-                      <Button
-                        variant="outlined"
-                        color="regular"
-                        type="submit"
-                        disabled={submitting || !dirty || (submitSucceeded && !dirtySinceLastSubmit)}
+            {({
+              handleSubmit,
+              submitting,
+              dirty,
+              form,
+              submitSucceeded,
+              dirtySinceLastSubmit,
+            }) => {
+              return (
+                <form onSubmit={handleSubmit}>
+                  <Flex direction="column">
+                    <Flex direction="row" className={styles.setting}>
+                      {/* PREMODLINKSENABLED */}
+                      <Field
+                        name="premodLinksEnable"
+                        type="checkbox"
+                        initialValue={premodLinksEnable}
                       >
-                        Save
-                      </Button>
-
-                      {mode === "QA" && (
-                        <>
-                          <Divider />
-                          {/* EXPERT SELECTION */}
-                          <ExpertSelectionQuery storyID={storyID} />
-                        </>
-                      )}
+                        {({ input }) => (
+                          <Localized id="storyInfoDrawerSettings-premodLinksEnable">
+                            <CheckBox
+                              {...input}
+                              checked={input.checked}
+                              disabled={submitting}
+                            >
+                              <div className={styles.checkboxText}>
+                                Pre Mode Links Enabled
+                              </div>
+                            </CheckBox>
+                          </Localized>
+                        )}
+                      </Field>
                     </Flex>
-                  </form>
-                );
-              }
-            }
+
+                    {/* MODERATION MODE */}
+                    <Flex direction="row" className={styles.setting}>
+                      <Localized id="storyInfoDrawerSettings-moderation">
+                        <Select
+                          id="storySettingsContainer-moderationMode"
+                          name="moderation"
+                          label="Moderation"
+                          description="A menu for setting the moderation mode for the story"
+                          options={[
+                            {
+                              value: "PRE",
+                              localizationID: localizedModMode("PRE"),
+                            },
+                            {
+                              value: "POST",
+                              localizationID: localizedModMode("POST"),
+                            },
+                          ]}
+                          selected={{
+                            value: moderation,
+                            localizationID: localizedModMode(moderation),
+                          }}
+                        />
+                      </Localized>
+                    </Flex>
+
+                    {/* SAVE/SUBMIT */}
+                    <Button
+                      variant="outlined"
+                      color="regular"
+                      type="submit"
+                      disabled={
+                        submitting ||
+                        !dirty ||
+                        (submitSucceeded && !dirtySinceLastSubmit)
+                      }
+                    >
+                      Save
+                    </Button>
+
+                    {mode === "QA" && (
+                      <>
+                        <Divider />
+                        {/* EXPERT SELECTION */}
+                        <ExpertSelectionQuery storyID={storyID} />
+                      </>
+                    )}
+                  </Flex>
+                </form>
+              );
+            }}
           </Form>
         </TabPane>
       </TabContent>
