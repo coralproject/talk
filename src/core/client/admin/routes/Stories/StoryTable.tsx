@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useState } from "react";
 
@@ -34,9 +33,8 @@ interface Props {
 }
 
 const StoryTable: FunctionComponent<Props> = (props) => {
-
-  const [ storyDrawerVisibile, setStoryDrawerVisible ] = useState(false);
-  const [ expandedStoryID, setExpandedStoryID ] = useState("");
+  const [storyDrawerVisibile, setStoryDrawerVisible] = useState(false);
+  const [expandedStoryID, setExpandedStoryID] = useState("");
 
   return (
     <>
