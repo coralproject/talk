@@ -205,22 +205,15 @@ jobs:
       - setup_remote_docker:
           <<: *setup_remote_docker_defaults
       - run:
-          name: Authenticate Google Cloud SDK
+          name: Authenticate Google Cloud SDK for Docker
           command: |
             echo "${GCLOUD_SERVICE_KEY}" | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
             gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
-      - run:
-          name: Export git hash environment variable
-          command: echo 'export SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -6)' >> $BASH_ENV
+            gcloud auth configure-docker --quiet
       - run: 
           name: Create and push the image to GCR
-          command: |
-            echo "${SHORT_GIT_HASH}"
-            CONTAINER_ID=$(docker create "coralproject/talk:${CIRCLE_TAG/#v}")
-            echo "${CONTAINER_ID}"
-            docker images
-            #docker push gcr.io/the-coral-project/coral:${SHORT_GIT_HASH}
+          command: bash ./scripts/docker.sh deploy-commit
 
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
@@ -267,6 +260,10 @@ workflows:
             - npm_dependencies
       - push_to_gcr:
           <<: *filter_develop
+#           filters:
+#             branches:
+#               only:
+#                 - develop
           requires:
             - build
   build-test-deploy:
