@@ -214,7 +214,7 @@ jobs:
             echo "${SHORT_GIT_HASH}"
             docker push gcr.io/the-coral-project/coral:${SHORT_GIT_HASH}
           environment:
-            SHORT_GIT_HASH: echo $CIRCLE_SHA1 | cut -c -7
+            SHORT_GIT_HASH: echo "{$CIRCLE_SHA1}" | cut -c -7
 
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
