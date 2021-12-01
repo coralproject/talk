@@ -2,6 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { formatBool, parseStringBool } from "coral-framework/lib/form";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   FieldSet,
   FormField,
@@ -10,10 +12,12 @@ import {
 } from "coral-ui/components/v2";
 import { Link } from "coral-ui/components/v3";
 
+import { PreModerateAllCommentsConfigContainer_settings } from "coral-admin/__generated__/PreModerateAllCommentsConfigContainer_settings.graphql";
+
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import PreModerateAllCommentsConfigContainer from "./PreModerateAllCommentsConfigContainer";
+import PreModerateAllCommentsConfig from "./PreModerateAllCommentsConfig";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -27,11 +31,18 @@ graphql`
 
 interface Props {
   disabled: boolean;
-  // KNOTE: update type
-  settings: any;
+  settings: PreModerateAllCommentsConfigContainer_settings;
 }
 
-const PreModerationConfig: FunctionComponent<Props> = ({
+const parse = (v: string) => {
+  return parseStringBool(v) ? "PRE" : "POST";
+};
+
+const format = (v: "PRE" | "POST") => {
+  return formatBool(v === "PRE");
+};
+
+const PreModerationConfigContainer: FunctionComponent<Props> = ({
   disabled,
   settings,
 }) => {
@@ -51,10 +62,21 @@ const PreModerationConfig: FunctionComponent<Props> = ({
           unless approved by a moderator.
         </FormFieldDescription>
       </Localized>
-      <PreModerateAllCommentsConfigContainer
-        disabled={disabled}
-        settings={settings}
-      />
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-moderation-preModeration-moderation">
+          <Label component="legend">Pre-moderate all comments</Label>
+        </Localized>
+        {settings.multisite ? (
+          <PreModerateAllCommentsConfig disabled={disabled} />
+        ) : (
+          <OnOffField
+            name="moderation"
+            disabled={disabled}
+            parse={parse}
+            format={format}
+          />
+        )}
+      </FormField>
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-preModeration-premodLinksEnable">
           <Label component="legend">
@@ -84,4 +106,12 @@ const PreModerationConfig: FunctionComponent<Props> = ({
   );
 };
 
-export default PreModerationConfig;
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment PreModerateAllCommentsConfigContainer_settings on Settings {
+      multisite
+    }
+  `,
+})(PreModerationConfigContainer);
+
+export default enhanced;

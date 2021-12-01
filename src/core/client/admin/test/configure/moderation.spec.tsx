@@ -1,3 +1,5 @@
+import { noop } from "lodash";
+
 import { pureMerge } from "coral-common/utils";
 import { GQLMODERATION_MODE, GQLResolver } from "coral-framework/schema";
 import {
@@ -10,7 +12,6 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
-import { noop } from "lodash";
 
 import create from "../create";
 import {
@@ -69,7 +70,7 @@ it("renders configure moderation", async () => {
   expect(within(configureContainer).toJSON()).toMatchSnapshot();
 });
 
-it("change site wide pre-moderation to On for single-site tenants", async () => {
+it("change pre-moderation to On for all comments for single-site tenants", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
@@ -156,7 +157,6 @@ it("change site wide pre-moderation to Single sites", async () => {
   // Let's enable it.
   act(() => onField.props.onChange(onField.props.value.toString()));
 
-  // KNOTE: Here is where need to do a site search and add some selected sites
   const siteSearchField = within(preModerationContainer).getByTestID(
     "site-search-textField"
   );

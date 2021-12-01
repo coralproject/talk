@@ -56,9 +56,9 @@ const enhanced = withFragmentContainer<Props>({
       ...AkismetConfig_formValues @relay(mask: false)
       ...PerspectiveConfig_formValues @relay(mask: false)
       ...PreModerationConfig_formValues @relay(mask: false)
+      ...PreModerateAllCommentsConfigContainer_settings
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_settings @relay(mask: false)
-      ...PreModerateAllCommentsConfigContainer_settings
     }
   `,
 })(ModerationConfigContainer);

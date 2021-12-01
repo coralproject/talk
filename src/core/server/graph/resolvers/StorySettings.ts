@@ -1,6 +1,9 @@
 import * as story from "coral-server/models/story";
 
-import { GQLStorySettingsTypeResolver } from "../schema/__generated__/types";
+import {
+  GQLMODERATION_MODE,
+  GQLStorySettingsTypeResolver,
+} from "../schema/__generated__/types";
 
 import { LiveConfigurationInput } from "./LiveConfiguration";
 
@@ -16,10 +19,10 @@ export const StorySettings: Required<GQLStorySettingsTypeResolver<
     if (s.moderation) {
       return s.moderation;
     }
-    if (ctx.tenant.moderation === "SINGLE_SITES") {
+    if (ctx.tenant.moderation === GQLMODERATION_MODE.SINGLE_SITES) {
       return ctx.tenant.premoderateAllCommentsSites.includes(s.story.siteID)
-        ? "PRE"
-        : "POST";
+        ? GQLMODERATION_MODE.PRE
+        : GQLMODERATION_MODE.POST;
     }
     return ctx.tenant.moderation;
   },

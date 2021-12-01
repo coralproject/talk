@@ -56,12 +56,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
     <>
       <Field name="moderation" type="radio" value="PRE">
         {({ input }) => (
-          <RadioButton
-            {...input}
-            // KNOTE: confirm id
-            id="moderation-PRE"
-            disabled={disabled}
-          >
+          <RadioButton {...input} id={`${input.name}-PRE`} disabled={disabled}>
             <Localized id="configure-moderation-allSites">
               <span>All sites</span>
             </Localized>
@@ -73,8 +68,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
           <>
             <RadioButton
               {...input}
-              // KNOTE: confirm id
-              id="moderation-SINGLE_SITES"
+              id={`${input.name}-SINGLE_SITES`}
               disabled={disabled}
             >
               <Localized id="configure-moderation-singleSites">
@@ -113,12 +107,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
       </Field>
       <Field name="moderation" type="radio" value="POST">
         {({ input }) => (
-          <RadioButton
-            {...input}
-            // KNOTE: confirm id
-            id="moderation-POST"
-            disabled={disabled}
-          >
+          <RadioButton {...input} id={`${input.name}-POST`} disabled={disabled}>
             {/* KNOTE: Okay to use this localized here? */}
             <Localized id="configure-onOffField-off">
               <span>Off</span>

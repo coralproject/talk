@@ -572,7 +572,7 @@ enum MODERATION_MODE {
 
   """
   Comments posted while in `SINGLE_SITES` mode will be labeled with
-  a `PRE` status if the site is included in premoderateAllCommentsSites
+  a `PREMOD` status if the site is included in premoderateAllCommentsSites.
   """
   SINGLE_SITES
 }
