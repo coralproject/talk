@@ -214,6 +214,7 @@ jobs:
       - run: 
           name: Create and push the image to GCR
           command: bash ./scripts/docker.sh deploy-commit
+          no_output_timeout: 30m
 
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
