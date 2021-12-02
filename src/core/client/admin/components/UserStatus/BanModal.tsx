@@ -32,7 +32,7 @@ export enum UpdateType {
 
 interface Props {
   username: string | null;
-  banStatus?: UserStatusChangeContainer_user["status"]["ban"];
+  userBanStatus: UserStatusChangeContainer_user["status"]["ban"];
   open: boolean;
   onClose: () => void;
   onConfirm: (
@@ -46,7 +46,6 @@ interface Props {
 
   moderationScopesEnabled?: boolean | null;
   viewerScopes: Scopes;
-  userScopes: Scopes;
 }
 
 const BanModal: FunctionComponent<Props> = ({
@@ -57,8 +56,7 @@ const BanModal: FunctionComponent<Props> = ({
   getMessage,
   moderationScopesEnabled,
   viewerScopes,
-  userScopes,
-  banStatus,
+  userBanStatus,
 }) => {
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
@@ -112,8 +110,8 @@ const BanModal: FunctionComponent<Props> = ({
       return viewerScopes.sites ? viewerScopes.sites : [];
     }
 
-    return userScopes.sites ? userScopes.sites : [];
-  }, [isSiteMod, userScopes.sites, viewerScopes.sites]);
+    return userBanStatus.sites || [];
+  }, [isSiteMod, userBanStatus.sites, viewerScopes.sites]);
 
   return (
     <ChangeStatusModal
@@ -198,9 +196,9 @@ const BanModal: FunctionComponent<Props> = ({
 
                   {moderationScopesEnabled && (
                     <UserStatusSitesList
-                      bannedSites={banStatus?.sites || []}
+                      bannedSites={userBanStatus?.sites || []}
                       viewerScopes={viewerScopes}
-                      banActive={banStatus?.active}
+                      banActive={userBanStatus?.active}
                     />
                   )}
 

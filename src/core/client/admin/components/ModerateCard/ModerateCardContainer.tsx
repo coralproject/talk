@@ -23,12 +23,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import {
-  GQLSTORY_MODE,
-  GQLTAG,
-  GQLUSER_ROLE,
-  GQLUSER_STATUS,
-} from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
@@ -400,27 +395,24 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           isArchiving={comment.story.isArchiving}
         />
       </FadeInTransition>
-      <BanModal
-        username={
-          comment.author && comment.author.username
-            ? comment.author.username
-            : ""
-        }
-        open={showBanModal}
-        onClose={handleBanModalClose}
-        onConfirm={handleBanConfirm}
-        viewerScopes={{
-          role: viewer.role,
-          sites: viewer.moderationScopes?.sites?.map((s) => s),
-        }}
-        moderationScopesEnabled={settings.multisite}
-        userScopes={{
-          role: comment.author ? comment.author.role : GQLUSER_ROLE.COMMENTER,
-          sites: comment.author
-            ? comment.author.status.ban.sites?.map((s) => s)
-            : [],
-        }}
-      />
+      {comment.author && (
+        <BanModal
+          username={
+            comment.author && comment.author.username
+              ? comment.author.username
+              : ""
+          }
+          open={showBanModal}
+          onClose={handleBanModalClose}
+          onConfirm={handleBanConfirm}
+          viewerScopes={{
+            role: viewer.role,
+            sites: viewer.moderationScopes?.sites?.map((s) => s),
+          }}
+          moderationScopesEnabled={settings.multisite}
+          userBanStatus={comment.author.status.ban}
+        />
+      )}
     </>
   );
 };
@@ -435,6 +427,7 @@ const enhanced = withFragmentContainer<Props>({
         status {
           current
           ban {
+            active
             sites {
               id
               name
