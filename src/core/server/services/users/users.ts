@@ -30,6 +30,7 @@ import {
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
   UserNotFoundError,
+  ValidationError,
 } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
@@ -112,7 +113,6 @@ import {
   generateDownloadLink,
 } from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
-import { ValidationError } from "joi";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -1248,9 +1248,7 @@ export async function updateUserBan(
     const all = new Set([...banSiteIDs, ...unbanSiteIDs]);
     if (all.size < banSiteIDs.length + unbanSiteIDs.length) {
       throw new ValidationError(
-        "Found duplicate site IDs in ban and unban lists",
-        "banIDs and unBanIDs are overlapping",
-        undefined
+        new Error("Found duplicate site IDs in ban and unban lists")
       );
     }
   }
