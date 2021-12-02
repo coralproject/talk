@@ -14,10 +14,9 @@ const testModerationMode = (
   settings: DeepPartial<GlobalModerationSettings>,
   siteID: string
 ) => {
-  if (settings.moderation === GQLMODERATION_MODE.SINGLE_SITES) {
-    return settings.premoderateAllCommentsSites?.includes(siteID);
-  }
-  return settings.moderation === GQLMODERATION_MODE.PRE;
+  return settings.moderation === GQLMODERATION_MODE.SINGLE_SITES
+    ? settings.premoderateAllCommentsSites?.includes(siteID)
+    : settings.moderation === GQLMODERATION_MODE.PRE;
 };
 
 // This phase checks to see if the settings have premod enabled, if they do,

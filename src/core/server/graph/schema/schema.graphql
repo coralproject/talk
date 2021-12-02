@@ -1808,12 +1808,6 @@ type Site {
   createdAt is when the site was created.
   """
   createdAt: Time! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  premoderateAllCommentsSites are the sites that should have all comments
-  premoderated when moderation mode is SINGLE_SITES
-  """
-  moderation: MODERATION_MODE
 }
 
 type RTEConfiguration {
@@ -1896,7 +1890,7 @@ type Settings @cacheControl(maxAge: 30) {
   premoderateAllCommentsSites are the sites that should have all comments
   premoderated when moderation mode is SINGLE_SITES
   """
-  premoderateAllCommentsSites: [String]
+  premoderateAllCommentsSites: [ID!]!
 
   """
   communityGuidelines will be shown in the comments stream.
@@ -5311,7 +5305,7 @@ input SettingsInput {
   premoderateAllCommentsSites are the sites that should have all comments
   premoderated when moderation mode is SINGLE_SITES
   """
-  premoderateAllCommentsSites: [String!]!
+  premoderateAllCommentsSites: [ID!]!
 
   """
   communityGuidelines will be shown in the comments stream.

@@ -9,7 +9,7 @@ import { PreModerationSitesSelectedQuery as QueryTypes } from "coral-admin/__gen
 
 interface Props {
   siteID: string;
-  onChange: (id: string | null) => void;
+  onChange: (id: string) => void;
 }
 
 const PreModerationSitesSelectedQuery: FunctionComponent<Props> = ({
@@ -32,15 +32,11 @@ const PreModerationSitesSelectedQuery: FunctionComponent<Props> = ({
         if (error) {
           return <QueryError error={error} />;
         }
-        if (props && props.site) {
-          return (
-            <CheckBox checked onChange={() => onChange(siteID)}>
-              {props.site.name}
-            </CheckBox>
-          );
-        } else {
-          return null;
-        }
+        return props && props.site ? (
+          <CheckBox checked onChange={() => onChange(siteID)}>
+            {props.site.name}
+          </CheckBox>
+        ) : null;
       }}
     />
   );
