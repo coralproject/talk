@@ -220,7 +220,7 @@ it("change site wide link pre-moderation", async () => {
   });
 
   const preModerationContainer = within(moderationContainer).getAllByText(
-    "Pre-moderate comments containing links sitewide",
+    "Pre-moderate all comments containing links",
     {
       selector: "fieldset",
     }
