@@ -736,7 +736,7 @@ configure-moderation-preModeration-explanation =
 configure-moderation-preModeration-moderation =
   Pre-moderate all comments
 configure-moderation-preModeration-premodLinksEnable =
-  Pre-moderate comments containing links sitewide
+  Pre-moderate all comments containing links
 configure-moderation-singleSites = Single sites
 configure-moderation-singleSites-validation = You must select at least one site.
 configure-moderation-allSites = All sites
@@ -751,7 +751,7 @@ configure-moderation-akismet-explanation =
   If approved by a moderator, the comment will be published.
 
 configure-moderation-premModeration-premodSuspectWordsEnable =
-  Pre-moderate comments containing Suspect Words
+  Pre-moderate all comments containing Suspect Words
 configure-moderation-premModeration-premodSuspectWordsDescription =
   You can view and edit your Suspect Word list <wordListLink>here</wordListLink>
 
