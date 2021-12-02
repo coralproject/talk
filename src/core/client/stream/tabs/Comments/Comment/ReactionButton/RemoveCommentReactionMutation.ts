@@ -56,7 +56,7 @@ async function commit(
         mutation,
         variables: {
           input: {
-            ...pick(input, ["commentID"]),
+            ...pick(input, ["commentID", "commentRevisionID"]),
             clientMutationId: (clientMutationId++).toString(),
           },
         },
