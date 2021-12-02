@@ -1,0 +1,78 @@
+import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
+import {
+  retrieveSeenCommentsForDeletion,
+  SeenComments,
+} from "coral-server/models/seenComments/seenComments";
+import { TenantCache } from "coral-server/services/tenant/cache";
+
+import {
+  ScheduledJob,
+  ScheduledJobCommand,
+  ScheduledJobGroup,
+} from "./scheduled";
+
+interface Options {
+  mongo: MongoContext;
+  tenantCache: TenantCache;
+  config: Config;
+}
+
+export const NAME = "Seen Comments Cleanup";
+
+export function registerSeenCommentsCleanup(
+  options: Options
+): ScheduledJobGroup<Options> {
+  const job = new ScheduledJob(options, {
+    name: `Daily ${NAME}`,
+    cronTime: "0 8 * * *",
+    command: cleanupSeenComments,
+  });
+
+  return { name: NAME, schedulers: [job] };
+}
+
+const cleanupSeenComments: ScheduledJobCommand<Options> = async ({
+  log,
+  mongo,
+  tenantCache,
+}) => {
+  for await (const tenant of tenantCache) {
+    log = log.child({ tenantID: tenant.id }, true);
+
+    const now = new Date();
+    const age = 2 * 7 * 24 * 60 * 60 * 1000;
+    const dateFilter = new Date(now.getTime() - age);
+
+    const batchSize = 500;
+    const batch = [];
+
+    const seenComments = await retrieveSeenCommentsForDeletion(
+      mongo,
+      tenant.id,
+      now,
+      dateFilter
+    );
+
+    for (let i = 0; i < batchSize; i++) {
+      if (seenComments) {
+        batch.push({
+          deleteOne: {
+            filter: { tenantID: tenant.id, id: seenComments.id },
+          },
+        });
+      } else {
+        break;
+      }
+    }
+
+    await executeBulkOperations<SeenComments>(mongo.seenComments(), batch);
+  }
+};
+
+function executeBulkOperations<T>(
+  arg0: any,
+  batch: { deleteOne: { filter: { tenantID: any; id: string } } }[]
+) {
+  throw new Error("Function not implemented.");
+}

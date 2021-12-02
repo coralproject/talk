@@ -8,11 +8,13 @@ import { TenantCache } from "coral-server/services/tenant/cache";
 import { registerAccountDeletion } from "./accountDeletion";
 import { registerAutoArchiving } from "./autoArchiving";
 import { registerNotificationDigesting } from "./notificationDigesting";
+import { registerSeenCommentsCleanup } from "./seenCommentsCleanup";
 
 export interface ScheduledJobGroups {
   accountDeletion: ReturnType<typeof registerAccountDeletion>;
   notificationDigesting: ReturnType<typeof registerNotificationDigesting>;
   autoArchiving: ReturnType<typeof registerAutoArchiving>;
+  seenComments: ReturnType<typeof registerSeenCommentsCleanup>;
 }
 
 interface Options {
@@ -31,6 +33,7 @@ export default function startScheduledTasks(
     accountDeletion: registerAccountDeletion(options),
     notificationDigesting: registerNotificationDigesting(options),
     autoArchiving: registerAutoArchiving(options),
+    seenComments: registerSeenCommentsCleanup(options),
   };
 
   for (const { name, schedulers } of Object.values(tasks)) {

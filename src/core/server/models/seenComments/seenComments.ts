@@ -12,6 +12,7 @@ export interface SeenComments extends TenantResource {
   userID: string;
 
   lastSeenAt: Date;
+  isDeleting?: boolean;
 
   comments: Map<string, Date>;
 }
@@ -97,4 +98,29 @@ export async function markSeenComments(
       lastSeenAt: now,
     });
   }
+}
+
+export async function retrieveSeenCommentsForDeletion(
+  mongo: MongoContext,
+  tenantID: string,
+  now: Date,
+  olderThan: Date
+): Promise<SeenComments | null | undefined> {
+  const result = await mongo.seenComments().findOneAndUpdate(
+    {
+      tenantID,
+      isDeleting: { $in: [null, false] },
+      lastSeenAt: { $lte: olderThan },
+    },
+    {
+      $set: {
+        isDeleting: true,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value as SeenComments;
 }
