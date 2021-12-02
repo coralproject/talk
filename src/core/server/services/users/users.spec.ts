@@ -1,6 +1,6 @@
 jest.mock("coral-server/models/user");
 
-import { UserForbiddenError } from "coral-server/errors";
+import { UserForbiddenError, ValidationError } from "coral-server/errors";
 import {
   createSiteFixture,
   createTenantFixture,
@@ -15,7 +15,6 @@ import {
 import { updateUserBan } from "./users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
-import { ValidationError } from "joi";
 
 describe("updateUserBan", () => {
   afterEach(jest.clearAllMocks);
