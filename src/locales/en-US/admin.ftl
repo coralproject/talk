@@ -171,6 +171,8 @@ configure-unsavedInputWarning =
 configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
 configure-sideBarNavigation-moderation = Moderation
+configure-sideBarNavigation-moderation-comments = Comments
+configure-sideBarNavigation-moderation-users = Users
 configure-sideBarNavigation-organization = Organization
 configure-sideBarNavigation-moderationPhases = Moderation Phases
 configure-sideBarNavigation-advanced = Advanced
@@ -1021,6 +1023,8 @@ moderate-searchBar-seeAllResults = See all results
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
+moderateCardDetails-tab-reactions = Reactions
+moderateCardDetails-tab-reactions-loadMore = Load More
 moderateCardDetails-tab-noIssuesFound = No issues found
 moderateCardDetails-tab-missingPhase = Was not run
 
@@ -1157,7 +1161,7 @@ moderate-forReview-reportedSpam = Spam
 # Archive
 
 moderate-archived-queue-title = This story has been archived
-moderate-archived-queue-noModerationActions =
+moderate-archived-queue-noModerationActions = 
   No moderation actions can be made on the comments when a story is archived.
 moderate-archived-queue-toPerformTheseActions =
   To perform these actions, unarchive the story.
