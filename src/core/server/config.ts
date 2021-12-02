@@ -513,6 +513,20 @@ const config = convict({
     default: false,
     env: "FORCE_ADMIN_LOCAL_AUTH",
   },
+  seen_comments_cleanup_interval: {
+    doc:
+      "The cron scheduling interval for how often seen comments cleanup should happen. Defaults to daily at 8 AM.",
+    format: String,
+    default: "0 8 * * *",
+    env: "SEEN_COMMENTS_CLEANUP_INTERVAL",
+  },
+  expire_seen_comments_older_than: {
+    doc:
+      "If seen comment history records are older than this age, they will be removed.",
+    format: "ms",
+    default: ms("7 days"),
+    env: "EXPIRE_SEEN_COMMENTS_OLDER_THAN",
+  },
 });
 
 export type Config = typeof config;

@@ -23,9 +23,10 @@ export const NAME = "Seen Comments Cleanup";
 export function registerSeenCommentsCleanup(
   options: Options
 ): ScheduledJobGroup<Options> {
+  const cronTime = options.config.get("seen_comments_cleanup_interval");
   const job = new ScheduledJob(options, {
     name: `Daily ${NAME}`,
-    cronTime: "0 8 * * *",
+    cronTime,
     command: cleanupSeenComments,
   });
 
@@ -36,12 +37,13 @@ const cleanupSeenComments: ScheduledJobCommand<Options> = async ({
   log,
   mongo,
   tenantCache,
+  config,
 }) => {
   for await (const tenant of tenantCache) {
     log = log.child({ tenantID: tenant.id }, true);
 
     const now = new Date();
-    const age = 2 * 7 * 24 * 60 * 60 * 1000;
+    const age = config.get("expire_seen_comments_older_than");
     const dateFilter = new Date(now.getTime() - age);
 
     const batchSize = 500;
