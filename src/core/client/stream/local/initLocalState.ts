@@ -59,10 +59,6 @@ const initLocalState: InitLocalState = async ({
       // Access tokens passed via the config should not be persisted.
       auth = parseAccessToken(config.accessToken);
     }
-    // append body class name if set in config.
-    if (config.bodyClassName) {
-      context.window.document.body.classList.add(config.bodyClassName);
-    }
   }
 
   await initLocalBaseState({
@@ -153,9 +149,6 @@ interface Options {
   storyURL?: string;
   storyMode?: string;
   commentID?: string;
-  title: string;
-  element: HTMLElement;
-  rootURL: string;
   customCSSURL?: string;
   accessToken?: string;
   version?: string;
@@ -172,10 +165,6 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
     // Access tokens passed via the config should not be persisted.
     auth = parseAccessToken(options.accessToken);
   }
-  // append body class name if set in config.
-  /* if (config.bodyClassName) {
-    context.window.document.body.classList.add(config.bodyClassName);
-  }*/
 
   await initLocalBaseState({
     environment,
@@ -253,6 +242,8 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
     localRecord.setValue(options?.version, "embedVersion");
 
     localRecord.setValue(Boolean(options?.amp), "amp");
+
+    localRecord.setValue(options?.customCSSURL, "customCSSURL");
   });
 };
 

@@ -5,6 +5,7 @@ export { default as ensureStartSlash } from "./ensureStartSlash";
 export { default as ensureNoStartSlash } from "./ensureNoStartSlash";
 export { default as ensureNoEndSlash } from "./ensureNoEndSlash";
 export { default as getOrigin } from "./getOrigin";
+export { default as getHost } from "./getHost";
 export { default as isBeforeDate } from "./isBeforeDate";
 export { default as isPromise } from "./isPromise";
 export { default as isPromiseLike } from "./isPromiseLike";

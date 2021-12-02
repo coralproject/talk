@@ -1,23 +1,23 @@
-import { Child } from "pym.js";
+import { EventEmitter2 } from "eventemitter2";
 import React from "react";
 
 import withContext from "./withContext";
 
 interface Props {
-  pym: Child;
+  eventEmitter: EventEmitter2;
 }
 
 /**
- * SendPymReady will notify the parent pym that
+ * SendReady will notify the embed that
  * we are ready and have setup all listeners.
  */
-class SendPymReady extends React.Component<Props> {
+class SendReady extends React.Component<Props> {
   private sent = false;
 
   public componentDidMount() {
     if (!this.sent) {
       this.sent = true;
-      this.props.pym.sendMessage("ready", "");
+      this.props.eventEmitter.emit("ready", "");
     }
   }
 
@@ -26,5 +26,7 @@ class SendPymReady extends React.Component<Props> {
   }
 }
 
-const enhanced = withContext(({ pym }) => ({ pym }))(SendPymReady);
+const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
+  SendReady
+);
 export default enhanced;

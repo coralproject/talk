@@ -11,7 +11,7 @@ import { v1 as uuid } from "uuid";
 
 import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n";
-import getOrigin from "coral-common/utils/getOrigin";
+import getHost from "coral-common/utils/getHost";
 import {
   injectConditionalPolyfills,
   potentiallyInjectAxe,
@@ -30,6 +30,7 @@ import {
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
+import SetAccessTokenMutation from "coral-framework/mutations/SetAccessTokenMutation";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import {
@@ -47,12 +48,15 @@ import {
   createNetwork,
   ManagedSubscriptionClient,
 } from "../network";
-import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
+import {
+  createTokenRefreshProvider,
+  TokenRefreshProvider,
+} from "../network/tokenRefreshProvider";
 import { PostMessageService } from "../postMessage";
 import { LOCAL_ID } from "../relay";
 import createIndexedDBStorage from "../storage/IndexedDBStorage";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
-import SendPymReady from "./SendPymReady";
+import SendReady from "./SendReady";
 
 export type InitLocalState = (dependencies: {
   environment: Environment;
@@ -61,7 +65,14 @@ export type InitLocalState = (dependencies: {
   staticConfig?: StaticConfig | null;
 }) => void | Promise<void>;
 
+export type RefreshAccessTokenPromise = () => Promise<string>;
 interface CreateContextArguments {
+  /** URL of the Coral server */
+  rootURL?: string;
+
+  /** ISO Code of language to use */
+  lang?: string;
+
   /** Locales data that is returned by our `locales-loader`. */
   localesData: LocalesData;
 
@@ -88,11 +99,11 @@ interface CreateContextArguments {
   /** bundleConfig is the configuration parameters for this bundle */
   bundleConfig?: Record<string, string>;
 
-  /** tokenRefreshProvider is used to obtain a new access token after expiry. */
-  tokenRefreshProvider?: TokenRefreshProvider;
-
   /** Replace graphql subscrition url. */
   graphQLSubscriptionURI?: string;
+
+  /** A promise that returns the next acess token when expired */
+  refreshAccessTokenPromise?: RefreshAccessTokenPromise;
 }
 
 /**
@@ -124,10 +135,11 @@ export const timeagoFormatter: Formatter = (value, unit, suffix) => {
 };
 
 function createRelayEnvironment(
+  rootURL: string,
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   localeBundles: FluentBundle[],
-  tokenRefreshProvider?: TokenRefreshProvider,
+  tokenRefreshProvider: TokenRefreshProvider,
   clearCacheBefore?: Date
 ) {
   const source = new RecordSource();
@@ -141,12 +153,12 @@ function createRelayEnvironment(
   };
   const environment = new Environment({
     network: createNetwork(
-      `${getLocationOrigin(window)}/api/graphql`,
+      `${rootURL}/api/graphql`,
       subscriptionClient,
       clientID,
       accessTokenProvider,
       localeBundles,
-      tokenRefreshProvider?.refreshToken,
+      tokenRefreshProvider.refreshToken,
       clearCacheBefore
     ),
     store: new Store(source),
@@ -156,10 +168,11 @@ function createRelayEnvironment(
 }
 
 function createRestClient(
+  rootURL: string,
   clientID: string,
   accessTokenProvider: AccessTokenProvider
 ) {
-  return new RestClient("/api", clientID, accessTokenProvider);
+  return new RestClient(`${rootURL}/api`, clientID, accessTokenProvider);
 }
 
 /**
@@ -167,13 +180,15 @@ function createRestClient(
  * and handles context changes, e.g. when a user session changes.
  */
 function createManagedCoralContextProvider(
+  rootURL: string,
   context: CoralContext,
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   initLocalState: InitLocalState,
   localesData: LocalesData,
   localeBundles: FluentBundle[],
-  ErrorBoundary?: React.ComponentType
+  ErrorBoundary?: React.ComponentType,
+  refreshAccessTokenPromise?: RefreshAccessTokenPromise
 ) {
   const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
     {},
@@ -188,6 +203,24 @@ function createManagedCoralContextProvider(
           changeLocale: this.changeLocale,
         },
       };
+      if (refreshAccessTokenPromise) {
+        context.tokenRefreshProvider.register(async () => {
+          const token = await refreshAccessTokenPromise();
+          if (token) {
+            await SetAccessTokenMutation.commit(
+              this.state.context.relayEnvironment,
+              {
+                accessToken: token,
+                ephemeral: true,
+                refresh: true,
+              },
+              this.state.context
+            );
+            return token;
+          }
+          return "";
+        });
+      }
     }
 
     // This is called every time a user session starts or ends.
@@ -215,6 +248,7 @@ function createManagedCoralContextProvider(
 
       // Create the new environment.
       const { environment, accessTokenProvider } = createRelayEnvironment(
+        rootURL,
         subscriptionClient,
         clientID,
         localeBundles,
@@ -227,7 +261,7 @@ function createManagedCoralContextProvider(
       const newContext: CoralContext = {
         ...this.state.context,
         relayEnvironment: environment,
-        rest: createRestClient(clientID, accessTokenProvider),
+        rest: createRestClient(rootURL, clientID, accessTokenProvider),
       };
 
       // Initialize local state.
@@ -277,7 +311,7 @@ function createManagedCoralContextProvider(
           ) : (
             this.props.children
           )}
-          {this.state.context.pym && <SendPymReady />}
+          <SendReady />
         </CoralContextProvider>
       );
     }
@@ -304,13 +338,14 @@ function resolveStorage(
 }
 
 function resolveGraphQLSubscriptionURI(
+  rootURL: string,
   staticConfig: StaticConfig | null
 ): string {
   if (staticConfig && staticConfig.graphQLSubscriptionURI) {
     return staticConfig.graphQLSubscriptionURI;
   }
 
-  let host = location.host;
+  let host = getHost(rootURL);
   if (staticConfig?.tenantDomain) {
     host = staticConfig.tenantDomain;
     if (location.port !== "80" && location.port !== "443") {
@@ -329,22 +364,25 @@ function resolveGraphQLSubscriptionURI(
  * to the rest of the application.
  */
 export default async function createManaged({
+  rootURL = getLocationOrigin(window),
+  lang = document.documentElement.lang,
   initLocalState = noop,
   localesData,
   pym,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 1000 }),
   bundle,
   bundleConfig = {},
-  tokenRefreshProvider,
   reporterFeedbackPrompt = false,
   graphQLSubscriptionURI,
+  refreshAccessTokenPromise,
 }: CreateContextArguments): Promise<ComponentType> {
+  const tokenRefreshProvider = createTokenRefreshProvider();
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
   await injectConditionalPolyfills(window, browserInfo);
 
   // Potentially inject react-axe for runtime a11y checks.
-  await potentiallyInjectAxe(pym?.parentUrl, browserInfo);
+  await potentiallyInjectAxe(window.location.href, browserInfo);
 
   const reporter = createReporter(window, { reporterFeedbackPrompt });
   // Set error reporter.
@@ -355,18 +393,15 @@ export default async function createManaged({
   const postMessage = new PostMessageService(
     window,
     "coral",
-    window.parent,
-    pym ? getOrigin(pym.parentUrl) : "*"
+    window,
+    window.location.origin
   );
 
   // Initialize i18n.
   const locales = [localesData.fallbackLocale];
-  if (
-    document.documentElement.lang &&
-    document.documentElement.lang !== localesData.fallbackLocale
-  ) {
+  if (lang && lang !== localesData.fallbackLocale) {
     // Use locale specified by the server.
-    locales.splice(0, 0, document.documentElement.lang);
+    locales.splice(0, 0, lang);
   } else if (
     localesData.defaultLocale &&
     localesData.defaultLocale !== localesData.fallbackLocale
@@ -395,7 +430,8 @@ export default async function createManaged({
 
   // websocketEndpoint points to our graphql server's live endpoint.
   graphQLSubscriptionURI =
-    graphQLSubscriptionURI || resolveGraphQLSubscriptionURI(staticConfig);
+    graphQLSubscriptionURI ||
+    resolveGraphQLSubscriptionURI(rootURL, staticConfig);
 
   const subscriptionClient = createManagedSubscriptionClient(
     graphQLSubscriptionURI,
@@ -405,6 +441,7 @@ export default async function createManaged({
   );
 
   const { environment, accessTokenProvider } = createRelayEnvironment(
+    rootURL,
     subscriptionClient,
     clientID,
     localeBundles,
@@ -420,7 +457,7 @@ export default async function createManaged({
     timeagoFormatter,
     pym,
     eventEmitter,
-    rest: createRestClient(clientID, accessTokenProvider),
+    rest: createRestClient(rootURL, clientID, accessTokenProvider),
     postMessage,
     localStorage,
     sessionStorage: resolveStorage("sessionStorage"),
@@ -455,12 +492,14 @@ export default async function createManaged({
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
   return createManagedCoralContextProvider(
+    rootURL,
     context,
     subscriptionClient,
     clientID,
     initLocalState,
     localesData,
     localeBundles,
-    reporter?.ErrorBoundary
+    reporter?.ErrorBoundary,
+    refreshAccessTokenPromise
   );
 }

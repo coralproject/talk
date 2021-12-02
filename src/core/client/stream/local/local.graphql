@@ -66,6 +66,7 @@ extend type CommentsConnection {
   viewNewEdges: [CommentEdge!]
 }
 extend type Local {
+  customCSSURL: String
   activeTab: TAB!
   authPopup: AuthPopup!
   storyID: String

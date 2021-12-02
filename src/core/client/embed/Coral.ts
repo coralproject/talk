@@ -40,41 +40,63 @@ export interface Config {
 export function createStreamEmbed(config: Config): StreamEmbed {
   // Parse query params
   const query = parseQuery(location.search);
-  const eventEmitter = new EventEmitter2({ wildcard: true });
+  const embedEventEmitter = new EventEmitter2({
+    wildcard: true,
+  });
+  const streamEventEmitter = new EventEmitter2({
+    wildcard: true,
+    maxListeners: 1000,
+  });
 
   if (config.events) {
-    config.events(eventEmitter);
+    config.events(embedEventEmitter);
   }
 
   return new StreamEmbed({
-    title: "Coral Embed Stream",
+    id: config.id || "coral-embed-stream",
     storyID: config.storyID || query.storyID,
     storyURL: config.storyURL || query.storyURL || resolveStoryURL(window),
     storyMode: config.storyMode || undefined,
     commentID: config.commentID || query.commentID,
-    id: config.id || "coral-embed-stream",
     rootURL: config.rootURL || getLocationOrigin(window),
-    autoRender: config.autoRender,
-    eventEmitter,
+    eventEmitter: streamEventEmitter,
     accessToken: config.accessToken,
-    bodyClassName: config.bodyClassName,
-    enableDeprecatedEvents: config.enableDeprecatedEvents,
     customCSSURL: config.customCSSURL,
     refreshAccessToken: config.refreshAccessToken,
     amp: config.amp,
+    graphQLSubscriptionURI: config.graphQLSubscriptionURI,
+    autoRender: config.autoRender,
+    enableDeprecatedEvents: config.enableDeprecatedEvents,
   });
 }
 
 export function createStreamEmbed2(config: Config) {
   // Parse query params
   const query = parseQuery(location.search);
-  const eventEmitter = new EventEmitter2({ wildcard: true });
+  const embedEventEmitter = new EventEmitter2({
+    wildcard: true,
+  });
+  const streamEventEmitter = new EventEmitter2({
+    wildcard: true,
+    maxListeners: 1000,
+  });
 
   if (config.events) {
-    config.events(eventEmitter);
+    config.events(embedEventEmitter);
   }
 
   const id = config.id || "coral-embed-stream";
+  const element = document.getElementById(id);
+  if (!element) {
+    // eslint-disable-next-line no-console
+    console.error(`Element to render Coral Stream not found: ${id}`);
+    return;
+  }
+  if (config.bodyClassName) {
+    element.className = element.className
+      ? `${element.className} ${config.bodyClassName}`
+      : config.bodyClassName;
+  }
   const script = document.createElement("script");
   script.onload = function () {
     (window as any).CoralStream.attach({
@@ -83,7 +105,7 @@ export function createStreamEmbed2(config: Config) {
       storyMode: config.storyMode || undefined,
       commentID: config.commentID || query.commentID,
       rootURL: config.rootURL || getLocationOrigin(window),
-      eventEmitter,
+      eventEmitter: streamEventEmitter,
       accessToken: config.accessToken,
       customCSSURL: config.customCSSURL,
       refreshAccessToken: config.refreshAccessToken,
@@ -91,7 +113,6 @@ export function createStreamEmbed2(config: Config) {
       element: document.getElementById(id),
       graphQLSubscriptionURI: config.graphQLSubscriptionURI,
       /* autoRender: config.autoRender,
-      bodyClassName: config.bodyClassName,
       enableDeprecatedEvents: config.enableDeprecatedEvents,*/
     });
   };

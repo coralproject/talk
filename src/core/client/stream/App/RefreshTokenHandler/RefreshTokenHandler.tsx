@@ -19,7 +19,6 @@ import {
   ShowAuthPopupMutation,
   waitTillAuthPopupIsClosed,
 } from "../../common/AuthPopup";
-import getPymRefreshAccessToken from "./getPymRefreshAccessToken";
 
 const authControlQuery = graphql`
   query RefreshTokenHandlerAuthControlQuery {
@@ -42,10 +41,6 @@ const RefreshTokenHandler: FunctionComponent = () => {
   } = useCoralContext();
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const setAccessToken = useMutation(SetAccessTokenMutation);
-  if (!tokenRefreshProvider) {
-    // eslint-disable-next-line no-console
-    console.error("TokenRefreshProvider is missing");
-  }
   useEffect(() => {
     // Prevent garbage collection of auth control data that we use
     // below as long as this component is rendered.
@@ -59,20 +54,7 @@ const RefreshTokenHandler: FunctionComponent = () => {
   }, [relayEnvironment]);
 
   useEffect(() => {
-    return tokenRefreshProvider?.register(async () => {
-      // Try to get a new access token over pym.
-      if (pym) {
-        const token = await getPymRefreshAccessToken(pym);
-        if (token) {
-          await setAccessToken({
-            accessToken: token,
-            ephemeral: true,
-            refresh: true,
-          });
-          return token;
-        }
-      }
-
+    return tokenRefreshProvider.register(async () => {
       // Lookup data that should have been already requested by
       // the UserBoxContainer (with the authControl_settings fragment).
       const data = lookupQuery<RefreshTokenHandlerAuthControlQuery>(

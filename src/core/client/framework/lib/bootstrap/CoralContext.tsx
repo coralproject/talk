@@ -89,7 +89,7 @@ export interface CoralContext {
   eventEmitter: EventEmitter2;
 
   /** TokenRefreshProvider is used to obtain a new access token after expiry */
-  tokenRefreshProvider?: TokenRefreshProvider;
+  tokenRefreshProvider: TokenRefreshProvider;
 
   /** Clear session data. */
   clearSession: (

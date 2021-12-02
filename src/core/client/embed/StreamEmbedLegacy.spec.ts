@@ -4,7 +4,7 @@ import sinon from "sinon";
 import timekeeper from "timekeeper";
 
 import { FrameControlConfig, FrameControlFactory } from "./FrameControl";
-import { StreamEmbed, StreamEmbedConfig } from "./StreamEmbed";
+import { StreamEmbed, StreamEmbedConfig } from "./StreamEmbedLegacy";
 
 function createPymFrameControlStub() {
   return {
