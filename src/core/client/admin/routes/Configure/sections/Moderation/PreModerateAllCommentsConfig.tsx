@@ -4,7 +4,18 @@ import { Field, useField } from "react-final-form";
 import { graphql } from "react-relay";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
-import { HorizontalGutter, RadioButton } from "coral-ui/components/v2";
+import { hasError } from "coral-framework/lib/form";
+import {
+  Condition,
+  required,
+  validateWhen,
+} from "coral-framework/lib/validation";
+import { GQLMODERATION_MODE } from "coral-framework/schema";
+import {
+  HorizontalGutter,
+  RadioButton,
+  ValidationMessage,
+} from "coral-ui/components/v2";
 
 import PreModerationSitesSelectedQuery from "./PreModerationSitesSelectedQuery";
 
@@ -22,36 +33,45 @@ interface Props {
   disabled: boolean;
 }
 
+const singleSitesIsEnabled: Condition = (_value, values) =>
+  Boolean(values.moderation === GQLMODERATION_MODE.SINGLE_SITES);
+
 const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
   disabled,
 }) => {
-  const { input: premodSites } = useField<string[]>(
-    "premoderateAllCommentsSites"
-  );
+  const {
+    input: premoderateAllCommentsSitesInput,
+    meta: premoderateAllCommentsSitesMeta,
+  } = useField<string[]>("premoderateAllCommentsSites", {
+    validate: validateWhen(singleSitesIsEnabled, required),
+  });
 
-  const onSiteSearchSelect = useCallback(
+  const { input: moderationInput } = useField<string>("moderation");
+
+  const onAddSite = useCallback(
     (siteID: string) => {
-      const changed = [...premodSites.value];
+      const changed = [...premoderateAllCommentsSitesInput.value];
       const index = changed.indexOf(siteID);
       if (index === -1) {
         changed.push(siteID);
       }
-      premodSites.onChange(changed);
+      premoderateAllCommentsSitesInput.onChange(changed);
     },
-    [premodSites]
+    [premoderateAllCommentsSitesInput]
   );
 
   const onRemoveSite = useCallback(
     (siteID: string) => {
-      const changed = [...premodSites.value];
+      const changed = [...premoderateAllCommentsSitesInput.value];
       const index = changed.indexOf(siteID);
       if (index >= 0) {
         changed.splice(index, 1);
       }
-      premodSites.onChange(changed);
+      premoderateAllCommentsSitesInput.onChange(changed);
     },
-    [premodSites]
+    [premoderateAllCommentsSitesInput]
   );
+
   return (
     <>
       <Field name="moderation" type="radio" value="PRE">
@@ -75,40 +95,40 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
                 <span>Single sites</span>
               </Localized>
             </RadioButton>
-            {input.checked && (
-              <div className={styles.specificSites}>
-                <Field name="premoderateAllCommentsSites">
-                  {() => (
-                    <>
-                      <HorizontalGutter spacing={3} mt={3} mb={3}>
-                        {premodSites.value.map((siteID: string) => {
-                          return (
-                            <PreModerationSitesSelectedQuery
-                              key={siteID}
-                              siteID={siteID}
-                              onChange={onRemoveSite}
-                            />
-                          );
-                        })}
-                      </HorizontalGutter>
-                      <SiteSearch
-                        showOnlyScopedSitesInSearchResults
-                        showAllSitesSearchFilterOption={false}
-                        showSiteSearchLabel={false}
-                        onSelect={onSiteSearchSelect}
-                      />
-                    </>
-                  )}
-                </Field>
-              </div>
-            )}
           </>
         )}
       </Field>
+      {moderationInput.value === GQLMODERATION_MODE.SINGLE_SITES && (
+        <div className={styles.specificSites}>
+          <HorizontalGutter spacing={3} mt={3} mb={3}>
+            {premoderateAllCommentsSitesInput.value.map((siteID: string) => {
+              return (
+                <PreModerationSitesSelectedQuery
+                  key={siteID}
+                  siteID={siteID}
+                  onChange={onRemoveSite}
+                />
+              );
+            })}
+          </HorizontalGutter>
+          <SiteSearch
+            showOnlyScopedSitesInSearchResults
+            showAllSitesSearchFilterOption={false}
+            showSiteSearchLabel={false}
+            onSelect={onAddSite}
+          />
+          {hasError(premoderateAllCommentsSitesMeta) ? (
+            <Localized id="configure-moderation-singleSites-validation">
+              <ValidationMessage className={styles.validationMessage}>
+                You must select at least one site.
+              </ValidationMessage>
+            </Localized>
+          ) : null}
+        </div>
+      )}
       <Field name="moderation" type="radio" value="POST">
         {({ input }) => (
           <RadioButton {...input} id={`${input.name}-POST`} disabled={disabled}>
-            {/* KNOTE: Okay to use this localized here? */}
             <Localized id="configure-onOffField-off">
               <span>Off</span>
             </Localized>

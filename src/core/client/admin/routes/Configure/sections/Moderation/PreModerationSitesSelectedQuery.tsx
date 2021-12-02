@@ -22,7 +22,6 @@ const PreModerationSitesSelectedQuery: FunctionComponent<Props> = ({
         query PreModerationSitesSelectedQuery($siteID: ID!) {
           site(id: $siteID) {
             name
-            id
           }
         }
       `}
@@ -35,7 +34,7 @@ const PreModerationSitesSelectedQuery: FunctionComponent<Props> = ({
         }
         if (props && props.site) {
           return (
-            <CheckBox checked={true} onChange={() => onChange(siteID)}>
+            <CheckBox checked onChange={() => onChange(siteID)}>
               {props.site.name}
             </CheckBox>
           );

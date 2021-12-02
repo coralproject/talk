@@ -738,6 +738,7 @@ configure-moderation-preModeration-moderation =
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate comments containing links sitewide
 configure-moderation-singleSites = Single sites
+configure-moderation-singleSites-validation = You must select at least one site.
 configure-moderation-allSites = All sites
 
 configure-moderation-apiKey = API key
