@@ -261,12 +261,15 @@ workflows:
             - npm_dependencies
       - push_to_gcr:
           <<: *filter_develop
-#           filters:
-#             branches:
-#               only:
-#                 - develop
+          filters:
+            branches:
+              only:
+                - develop
           requires:
+            - lint
+            - unit_tests
             - build
+
   build-test-deploy:
     jobs:
       - npm_dependencies:

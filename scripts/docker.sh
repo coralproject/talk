@@ -100,7 +100,7 @@ fi
 
 if [ "$1" = "deploy-commit" ]
 then
-  if [ -n "${CIRCLE_SHA1}" ]
+  if [[ -n "${CIRCLE_SHA1}" && -n "${GCR_IMAGE_NAME}" ]]
   then
     deploy_commit
   fi
