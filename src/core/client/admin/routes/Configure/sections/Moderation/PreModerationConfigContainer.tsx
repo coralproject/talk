@@ -12,7 +12,7 @@ import {
 } from "coral-ui/components/v2";
 import { Link } from "coral-ui/components/v3";
 
-import { PreModerateAllCommentsConfigContainer_settings } from "coral-admin/__generated__/PreModerateAllCommentsConfigContainer_settings.graphql";
+import { PreModerationConfigContainer_settings } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -21,7 +21,7 @@ import PreModerateAllCommentsConfig from "./PreModerateAllCommentsConfig";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment PreModerationConfig_formValues on Settings {
+  fragment PreModerationConfigContainer_formValues on Settings {
     moderation
     premodLinksEnable
     premoderateSuspectWords
@@ -31,7 +31,7 @@ graphql`
 
 interface Props {
   disabled: boolean;
-  settings: PreModerateAllCommentsConfigContainer_settings;
+  settings: PreModerationConfigContainer_settings;
 }
 
 const parse = (v: string) => {
@@ -108,7 +108,7 @@ const PreModerationConfigContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment PreModerateAllCommentsConfigContainer_settings on Settings {
+    fragment PreModerationConfigContainer_settings on Settings {
       multisite
     }
   `,
