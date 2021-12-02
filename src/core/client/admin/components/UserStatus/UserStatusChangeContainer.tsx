@@ -269,11 +269,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           role: viewer.role,
           sites: viewer.moderationScopes?.sites?.map((s) => s),
         }}
-        userScopes={{
-          role: user.role,
-          sites: user.status.ban.sites?.map((s) => s),
-        }}
-        banStatus={user.status.ban}
+        userBanStatus={user.status.ban}
       />
     </>
   );

@@ -32,7 +32,7 @@ export enum UpdateType {
 
 interface Props {
   username: string | null;
-  userBanStatus: UserStatusChangeContainer_user["status"]["ban"];
+  userBanStatus?: UserStatusChangeContainer_user["status"]["ban"];
   open: boolean;
   onClose: () => void;
   onConfirm: (
@@ -110,8 +110,8 @@ const BanModal: FunctionComponent<Props> = ({
       return viewerScopes.sites ? viewerScopes.sites : [];
     }
 
-    return userBanStatus.sites || [];
-  }, [isSiteMod, userBanStatus.sites, viewerScopes.sites]);
+    return userBanStatus?.sites || [];
+  }, [isSiteMod, userBanStatus?.sites, viewerScopes.sites]);
 
   return (
     <ChangeStatusModal
