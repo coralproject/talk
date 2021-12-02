@@ -6,6 +6,33 @@ import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
 // types in coral-common instead? 🤔
 import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
 
+/** Tags that we remove before looking for suspect/banned words */
+export const WORDLIST_FORBID_TAGS = [
+  "a",
+  "b",
+  "strong",
+  "i",
+  "em",
+  "s",
+  "del",
+  "ins",
+  "mark",
+  "cite",
+  "q",
+  "samp",
+  "small",
+  "sup",
+  "sub",
+  "span",
+  "u",
+  "code",
+  "time",
+  "var",
+  "wbr",
+  "kbd",
+  "abbr",
+];
+
 export interface RTEFeatures {
   bold?: boolean;
   italic?: boolean;
@@ -30,8 +57,6 @@ export const ALL_FEATURES: RTEFeatures = {
   sarcasm: true,
 };
 
-const MAILTO_PROTOCOL = "mailto:";
-
 /**
  * convertGQLRTEConfigToRTEFeatures turns the
  * RTE configuration from the GraphQL Schema to
@@ -52,33 +77,14 @@ export function convertGQLRTEConfigToRTEFeatures(
 }
 
 /**
- * Ensure that each anchor tag has a "target" and "rel" attributes set, and
- * strip the "href" attribute from all non-anchor tags.
+ * Ensure that each anchor tag is replaced with text that
+ * corresponds to its inner html.
  */
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
-    // Ensure we wrap all the links with the target + rel set.
-    node.setAttribute("target", "_blank");
-    node.setAttribute("rel", "noopener noreferrer");
-
-    // Ensure that all the links have the same link as they do text.
-    let href = node.getAttribute("href");
-    if (href) {
-      if (node.textContent !== href) {
-        // remove "mailto:" prefix from link text
-        const url = new URL(href);
-        if (url.protocol === MAILTO_PROTOCOL) {
-          href = href.replace(url.protocol, "");
-        }
-      }
-      node.textContent = href;
-    } else {
-      // Turn anchor with no href into `SPAN`.
-      const span = node.ownerDocument.createElement("SPAN");
-      span.innerHTML = node.innerHTML;
-      node.insertAdjacentElement("beforebegin", span);
-      node.parentNode!.removeChild(node);
-    }
+    // Turn anchor into text corresponding to innerHTML.
+    node.insertAdjacentText("beforebegin", node.innerHTML);
+    node.parentNode!.removeChild(node);
   }
 };
 
@@ -160,6 +166,10 @@ export interface SanitizeOptions {
 
 export type Sanitize = (source: Node | string) => HTMLElement;
 
+// Source for constant: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+// Using this instead of Node.TEXT_NODE because Node is not defined in Node.js
+const TEXT_NODE_TYPE = 3;
+
 export function createSanitize(
   window: Window,
   options?: SanitizeOptions
@@ -180,11 +190,18 @@ export function createSanitize(
     sanitizeAttributes.bind(null, features)
   );
   purify.addHook("afterSanitizeAttributes", sanitizeAnchor);
+  purify.addHook("afterSanitizeElements", (n) => {
+    // Replace nbsp, including those inserted when sanitizing
+    // anchor tags and replacing them with their text
+    if (n.nodeType === TEXT_NODE_TYPE && n.nodeValue) {
+      n.nodeValue = n.nodeValue.replace(/\xA0/g, " ");
+    }
+  });
   if (options?.normalize) {
     purify.addHook("afterSanitizeElements", (n) => {
       if (
-        n.nodeType === Node.TEXT_NODE &&
-        n.previousSibling?.nodeType === Node.TEXT_NODE
+        n.nodeType === TEXT_NODE_TYPE &&
+        n.previousSibling?.nodeType === TEXT_NODE_TYPE
       ) {
         // Merge text node sublings together.
         // eslint-disable-next-line no-unused-expressions

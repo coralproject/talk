@@ -1,5 +1,6 @@
 import {
   CommentCreatedCoralEvent,
+  CommentEditedCoralEvent,
   CommentEnteredCoralEvent,
   CommentEnteredModerationQueueCoralEvent,
   CommentFeaturedCoralEvent,
@@ -212,6 +213,18 @@ export async function publishModerationQueueChanges(
       storyID: comment.storyID,
       siteID: comment.siteID,
       section: comment.section,
+    });
+  }
+}
+
+export async function publishCommentEdited(
+  broker: CoralEventPublisherBroker,
+  comment: Pick<Comment, "id" | "status" | "storyID">
+) {
+  if (hasPublishedStatus(comment)) {
+    await CommentEditedCoralEvent.publish(broker, {
+      commentID: comment.id,
+      storyID: comment.storyID,
     });
   }
 }

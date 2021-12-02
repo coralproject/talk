@@ -1,9 +1,9 @@
 import { OperationTypeNode } from "graphql";
-import { Db, MongoError } from "mongodb";
+import { MongoError } from "mongodb";
 
 import { waitFor } from "coral-common/helpers";
+import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
-import { queries as collection } from "coral-server/services/mongodb/collections";
 
 export interface PersistedQuery {
   id: string;
@@ -15,12 +15,12 @@ export interface PersistedQuery {
 }
 
 export async function primeQueries(
-  mongo: Db,
+  mongo: MongoContext,
   queries: PersistedQuery[],
   tries = 1
 ) {
   // Setup persisting these queries.
-  const bulk = collection(mongo).initializeUnorderedBulkOp({});
+  const bulk = mongo.queries().initializeUnorderedBulkOp({});
 
   // Upsert each query.
   for (const query of queries) {
@@ -57,8 +57,8 @@ export async function primeQueries(
   }
 }
 
-export async function getQueries(mongo: Db, ids: string[]) {
-  const cursor = collection(mongo).find({ id: { $in: ids } });
+export async function getQueries(mongo: MongoContext, ids: string[]) {
+  const cursor = mongo.queries().find({ id: { $in: ids } });
   const queries = await cursor.toArray();
   return ids.map((id) => queries.find((query) => query.id === id) || null);
 }

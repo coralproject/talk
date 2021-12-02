@@ -1,6 +1,5 @@
-import { Db } from "mongodb";
-
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { CoralEventType } from "coral-server/events";
 import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
 import logger from "coral-server/logger";
@@ -30,7 +29,7 @@ export interface NotifierData {
 
 interface Options {
   mailerQueue: MailerQueue;
-  mongo: Db;
+  mongo: MongoContext;
   config: Config;
   registry: Map<CoralEventType, NotificationCategory[]>;
   tenantCache: TenantCache;

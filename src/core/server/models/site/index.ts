@@ -1,9 +1,10 @@
 import { identity, isNumber } from "lodash";
-import { Db, MongoError } from "mongodb";
+import { MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { FirstDeepPartial } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
+import { MongoContext } from "coral-server/data/context";
 import { DuplicateSiteAllowedOriginError } from "coral-server/errors";
 import {
   Connection,
@@ -12,7 +13,6 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-import { sites as collection } from "coral-server/services/mongodb/collections";
 
 import {
   createEmptyRelatedCommentCounts,
@@ -43,7 +43,7 @@ export function getURLOrigins(urls: ReadonlyArray<string>) {
  * @param input the customizable parts of the Site available during creation
  */
 export async function createSite(
-  mongo: Db,
+  mongo: MongoContext,
   input: CreateSiteInput,
   now = new Date()
 ): Promise<Readonly<Site>> {
@@ -55,7 +55,7 @@ export async function createSite(
   };
 
   try {
-    await collection(mongo).insertOne(site);
+    await mongo.sites().insertOne(site);
     return site;
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
@@ -72,21 +72,28 @@ export async function createSite(
   }
 }
 
-export async function retrieveSite(mongo: Db, tenantID: string, id: string) {
-  return collection(mongo).findOne({ id, tenantID });
+export async function retrieveSite(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+) {
+  return mongo.sites().findOne({ id, tenantID });
 }
 
-export async function retrieveTenantSites(mongo: Db, tenantID: string) {
-  const cursor = collection(mongo).find({ tenantID });
+export async function retrieveTenantSites(
+  mongo: MongoContext,
+  tenantID: string
+) {
+  const cursor = mongo.sites().find({ tenantID });
   return cursor.toArray();
 }
 
 export async function retrieveManySites(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
-  const cursor = collection(mongo).find({
+  const cursor = mongo.sites().find({
     id: { $in: ids },
     tenantID,
   });
@@ -96,11 +103,11 @@ export async function retrieveManySites(
 }
 
 export async function retrieveSiteByOrigin(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   origin: string
 ) {
-  return collection(mongo).findOne({
+  return mongo.sites().findOne({
     tenantID,
     allowedOrigins: origin,
   });
@@ -117,21 +124,25 @@ async function retrieveConnection(
     query.after(skip);
   }
 
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
   // Return a connection.
   return resolveConnection(query, input, (_, index) => index + skip + 1);
 }
 
-export async function countTenantSites(mongo: Db, tenantID: string) {
-  return collection(mongo).find({ tenantID }).count();
+export async function countTenantSites(mongo: MongoContext, tenantID: string) {
+  return mongo.sites().find({ tenantID }).count();
 }
 
 export async function retrieveSiteConnection(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   input: SiteConnectionInput
 ): Promise<Readonly<Connection<Readonly<Site>>>> {
   // Create the query.
-  const query = new Query(collection(mongo)).where({ tenantID });
+  const query = new Query(mongo.sites()).where({ tenantID });
 
   return retrieveConnection(input, query);
 }
@@ -139,7 +150,7 @@ export async function retrieveSiteConnection(
 export type UpdateSiteInput = Partial<Omit<CreateSiteInput, "tenantID">>;
 
 export async function updateSite(
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   input: UpdateSiteInput,
@@ -152,7 +163,7 @@ export async function updateSite(
     },
   };
   try {
-    const result = await collection(mongo).findOneAndUpdate(
+    const result = await mongo.sites().findOneAndUpdate(
       { id, tenantID },
       update,
       // False to return the updated document instead of the original
@@ -172,8 +183,8 @@ export async function updateSite(
 }
 
 export const updateSiteCounts = (
-  mongo: Db,
+  mongo: MongoContext,
   tenantID: string,
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
-) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
+) => updateRelatedCommentCounts(mongo.sites(), tenantID, id, commentCounts);

@@ -163,6 +163,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     ...(await ctx.mutators.Users.deactivateToken(input)),
     clientMutationId: input.clientMutationId,
   }),
+  updateSSOProfileID: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.updateSSOProfileID(input),
+    clientMutationId: input.clientMutationId,
+  }),
   updateUsername: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.updateUsername(input),
     clientMutationId: input.clientMutationId,
@@ -217,6 +221,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   acknowledgeWarning: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.acknowledgeWarning(),
+    clientMutationId: input.clientMutationId,
+  }),
+  sendModMessage: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.sendModMessage(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  acknowledgeModMessage: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.acknowledgeModMessage(),
     clientMutationId: input.clientMutationId,
   }),
   suspendUser: async (source, { input }, ctx) => ({
@@ -423,6 +435,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   reviewCommentFlag: async (source, { input }, ctx) => ({
     flag: await ctx.mutators.Actions.reviewCommentFlag(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  archiveStories: async (source, { input }, ctx) => ({
+    stories: await ctx.mutators.Stories.archiveStories(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  unarchiveStories: async (source, { input }, ctx) => ({
+    stories: await ctx.mutators.Stories.unarchiveStories(input),
     clientMutationId: input.clientMutationId,
   }),
 };

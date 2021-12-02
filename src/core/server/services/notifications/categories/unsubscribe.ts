@@ -1,11 +1,11 @@
 import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { TokenInvalidError, UserNotFoundError } from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser, User } from "coral-server/models/user";
@@ -82,7 +82,7 @@ export async function generateUnsubscribeURL(
 }
 
 export async function verifyUnsubscribeTokenString(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   signingConfig: JWTSigningConfig,
   tokenString: string,

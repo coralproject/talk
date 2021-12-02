@@ -27,6 +27,8 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         id: "story-0",
         url: "http://localhost/story",
         isClosed: false,
+        isArchived: false,
+        isArchiving: false,
         canModerate: false,
         settings: {
           mode: "COMMENTS",
@@ -65,6 +67,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         hasTraversalFocus: false,
       },
       settings: {
+        flattenReplies: false,
         disableCommenting: {
           enabled: false,
         },

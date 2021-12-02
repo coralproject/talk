@@ -1,3 +1,4 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 import {
   authMiddleware,
   cacheMiddleware,
@@ -53,6 +54,7 @@ export default function createNetwork(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   accessTokenProvider: AccessTokenProvider,
+  localeBundles: FluentBundle[],
   tokenRefresh?: TokenRefresh,
   clearCacheBefore?: Date
 ) {
@@ -62,7 +64,7 @@ export default function createNetwork(
       // to invalidate previous http cache. Usually used when the session changes
       // through login or logout.
       clearHTTPCacheMiddleware(clearCacheBefore),
-      customErrorMiddleware,
+      customErrorMiddleware(localeBundles),
       cacheMiddleware({
         size: 100, // max 100 requests
         ttl: 30 * 1000, // 30 seconds

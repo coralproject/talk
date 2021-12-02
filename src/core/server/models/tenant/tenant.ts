@@ -1,6 +1,5 @@
 import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
@@ -9,6 +8,7 @@ import TIME from "coral-common/time";
 import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
+import { MongoContext } from "coral-server/data/context";
 import {
   defaultRTEConfiguration,
   generateSigningSecret,
@@ -16,7 +16,6 @@ import {
   SigningSecretResource,
 } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
-import { tenants as collection } from "coral-server/services/mongodb/collections";
 
 import {
   GQLAnnouncement,
@@ -36,6 +35,8 @@ import {
  */
 export enum LEGACY_FEATURE_FLAGS {
   ENABLE_AMP = "ENABLE_AMP",
+  FLATTEN_REPLIES = "FLATTEN_REPLIES",
+  FOR_REVIEW = "FOR_REVIEW",
 }
 
 /**
@@ -139,7 +140,7 @@ export interface TenantComputedProperties {
  * @param input the customizable parts of the Tenant available during creation
  */
 export async function createTenant(
-  mongo: Db,
+  mongo: MongoContext,
   i18n: I18n,
   input: CreateTenantInput,
   now = new Date()
@@ -277,6 +278,7 @@ export async function createTenant(
     memberBios: false,
     rte: defaultRTEConfiguration,
     amp: false,
+    flattenReplies: false,
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -286,24 +288,27 @@ export async function createTenant(
   };
 
   // Insert the Tenant into the database.
-  await collection(mongo).insertOne(tenant);
+  await mongo.tenants().insertOne(tenant);
 
   return tenant;
 }
 
-export async function retrieveTenantByDomain(mongo: Db, domain: string) {
-  return collection(mongo).findOne({ domain });
+export async function retrieveTenantByDomain(
+  mongo: MongoContext,
+  domain: string
+) {
+  return mongo.tenants().findOne({ domain });
 }
 
-export async function retrieveTenant(mongo: Db, id: string) {
-  return collection(mongo).findOne({ id });
+export async function retrieveTenant(mongo: MongoContext, id: string) {
+  return mongo.tenants().findOne({ id });
 }
 
 export async function retrieveManyTenants(
-  mongo: Db,
+  mongo: MongoContext,
   ids: ReadonlyArray<string>
 ) {
-  const cursor = collection(mongo).find({
+  const cursor = mongo.tenants().find({
     id: {
       $in: ids,
     },
@@ -315,10 +320,10 @@ export async function retrieveManyTenants(
 }
 
 export async function retrieveManyTenantsByDomain(
-  mongo: Db,
+  mongo: MongoContext,
   domains: ReadonlyArray<string>
 ) {
-  const cursor = collection(mongo).find({
+  const cursor = mongo.tenants().find({
     domain: {
       $in: domains,
     },
@@ -331,18 +336,18 @@ export async function retrieveManyTenantsByDomain(
   );
 }
 
-export async function retrieveAllTenants(mongo: Db) {
-  return collection(mongo).find({}).toArray();
+export async function retrieveAllTenants(mongo: MongoContext) {
+  return mongo.tenants().find({}).toArray();
 }
 
-export async function countTenants(mongo: Db) {
-  return collection(mongo).find({}).count();
+export async function countTenants(mongo: MongoContext) {
+  return mongo.tenants().find({}).count();
 }
 
 export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
 
 export async function updateTenant(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   update: UpdateTenantInput
 ) {
@@ -355,7 +360,7 @@ export async function updateTenant(
   }
 
   // Get the tenant from the database.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
     { $set },
@@ -373,12 +378,12 @@ export async function updateTenant(
 }
 
 export async function enableTenantFeatureFlag(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   flag: GQLFEATURE_FLAG
 ) {
   // Update the Tenant.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       // Add the flag to the set of enabled flags.
@@ -400,12 +405,12 @@ export async function enableTenantFeatureFlag(
 }
 
 export async function disableTenantFeatureFlag(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   flag: GQLFEATURE_FLAG
 ) {
   // Update the Tenant.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       // Pull the flag from the set of enabled flags.
@@ -432,7 +437,7 @@ export interface CreateAnnouncementInput {
 }
 
 export async function createTenantAnnouncement(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   input: CreateAnnouncementInput,
   now = new Date()
@@ -443,7 +448,7 @@ export async function createTenantAnnouncement(
     createdAt: now,
   };
 
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $set: {
@@ -457,8 +462,11 @@ export async function createTenantAnnouncement(
   return result.value;
 }
 
-export async function deleteTenantAnnouncement(mongo: Db, id: string) {
-  const result = await collection(mongo).findOneAndUpdate(
+export async function deleteTenantAnnouncement(
+  mongo: MongoContext,
+  id: string
+) {
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $unset: {

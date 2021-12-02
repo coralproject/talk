@@ -353,6 +353,12 @@ export class EmailAlreadySetError extends CoralError {
   }
 }
 
+export class SSOProfileNotSetError extends CoralError {
+  constructor() {
+    super({ code: ERROR_CODES.SSO_PROFILE_NOT_SET });
+  }
+}
+
 export class LocalProfileNotSetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.LOCAL_PROFILE_NOT_SET });
@@ -493,6 +499,15 @@ export class CommentRevisionNotFoundError extends CoralError {
     super({
       code: ERROR_CODES.COMMENT_NOT_FOUND,
       context: { pub: { commentID, commentRevisionID } },
+    });
+  }
+}
+
+export class ParentCommentRejectedError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.PARENT_COMMENT_REJECTED,
+      context: { pub: { commentID } },
     });
   }
 }
@@ -881,5 +896,35 @@ export class ScrapeFailed extends CoralError {
         context: { pub: { url }, pvt: { cause } },
       });
     }
+  }
+}
+
+export class CannotCreateCommentOnArchivedStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY,
+      status: 400,
+      context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
+    });
+  }
+}
+
+export class CannotOpenAnArchivedStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_OPEN_AN_ARCHIVED_STORY,
+      status: 400,
+      context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
+    });
+  }
+}
+
+export class CannotMergeAnArchivedStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_MERGE_AN_ARCHIVED_STORY,
+      status: 400,
+      context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
+    });
   }
 }

@@ -46,6 +46,8 @@ comments-replyButton-reply = Antwoord
 comments-replyCommentForm-submit = Stuur
 comments-replyCommentForm-cancel = Kanselleer
 comments-replyCommentForm-rteLabel = Skryf 'n antwoord
+comments-replyCommentForm-rte =
+  .placeholder = { comments-replyCommentForm-rteLabel }
 comments-commentContainer-editButton = Redigeer
 comments-editCommentForm-saveChanges = Bêre veranderings
 comments-editCommentForm-cancel = Kanselleer
@@ -194,12 +196,6 @@ configure-premodLink-commentsContainingLinks =
   Modereer kommentare vooraf wat skakels insluit
 configure-premodLink-description =
   Moderators moet enige kommentaar wat 'n skakel insluit goedkeur voor dit gepubliseer kan word.
-configure-disableLiveUpdates-title = Skakel regstreekse opdatering af
-configure-disableLiveUpdates-description =
-  Wanneer afgeskakel, sal kommentare en antwoorde nie meer dadelik opdateer ná dit gestuur is nie.
-  Kommentators sal die blad moet verfris om nuwe kommentare te sien. Ons beveel hierdie aan onder buitengewone omstandighede
-  soos wanneer hoë verkeer na 'n storie die laai van nuwe kommentare stadiger maak.
-configure-disableLiveUpdates-disable = Deaktiveer
 configure-addMessage-title =
   Voeg 'n boodskap of vraag by
 configure-addMessage-description =

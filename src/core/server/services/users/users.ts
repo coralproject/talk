@@ -1,6 +1,5 @@
 import { intersection } from "lodash";
 import { DateTime } from "luxon";
-import { Db } from "mongodb";
 
 import {
   ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
@@ -11,12 +10,12 @@ import {
 } from "coral-common/constants";
 import { formatDate } from "coral-common/date";
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import {
   DuplicateEmailError,
   DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
-  InternalError,
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
@@ -34,17 +33,14 @@ import {
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { retrieveManySites } from "coral-server/models/site";
+import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
-  ensureFeatureFlag,
-  hasFeatureFlag,
-  linkUsersAvailable,
-  Tenant,
-} from "coral-server/models/tenant";
-import {
+  acknowledgeOwnModMessage,
   acknowledgeOwnWarning,
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
+  consolidateUserModMessageStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
   consolidateUserWarningStatus,
@@ -70,6 +66,7 @@ import {
   retrieveUser,
   retrieveUserWithEmail,
   scheduleDeletionDate,
+  sendModMessageUser,
   setUserEmail,
   setUserLastDownloadedAt,
   setUserLocalProfile,
@@ -85,6 +82,7 @@ import {
   updateUserNotificationSettings,
   updateUserPassword,
   updateUserRole,
+  updateUserSSOProfileID,
   updateUserUsername,
   User,
   UserModerationScopes,
@@ -104,7 +102,6 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
-  GQLFEATURE_FLAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -145,7 +142,8 @@ export interface FindOrCreateUserOptions {
 }
 
 export async function findOrCreate(
-  mongo: Db,
+  config: Config,
+  mongo: MongoContext,
   tenant: Tenant,
   input: FindOrCreateUser,
   options: FindOrCreateUserOptions,
@@ -174,7 +172,10 @@ export async function findOrCreate(
     // If this is an error related to a duplicate email, we might be in a
     // position where the user can link their accounts. This can only occur if
     // the tenant has both local and another social profile enabled.
-    if (err instanceof DuplicateEmailError && linkUsersAvailable(tenant)) {
+    if (
+      err instanceof DuplicateEmailError &&
+      linkUsersAvailable(config, tenant)
+    ) {
       // Pull the email address out of the input, and re-try creating the user
       // given that. We need to pull the verified property out because we don't
       // want to have that embedded in the `...rest` object.
@@ -202,7 +203,7 @@ export type CreateUser = FindOrCreateUserInput;
 export type CreateUserOptions = FindOrCreateUserOptions;
 
 export async function create(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   input: CreateUser,
   options: CreateUserOptions,
@@ -252,7 +253,7 @@ export async function create(
  * @param username the new username for the User
  */
 export async function setUsername(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   username: string
@@ -278,7 +279,7 @@ export async function setUsername(
  * @param email the new email for the User
  */
 export async function setEmail(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -314,7 +315,7 @@ export async function setEmail(
  * @param password the new password for the User
  */
 export async function setPassword(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   password: string
@@ -349,7 +350,7 @@ export async function setPassword(
  * @param newPassword the new password for the User
  */
 export async function updatePassword(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -418,7 +419,7 @@ export async function updatePassword(
 }
 
 export async function requestAccountDeletion(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -468,7 +469,7 @@ export async function requestAccountDeletion(
 }
 
 export async function cancelAccountDeletion(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User
@@ -507,7 +508,7 @@ export async function cancelAccountDeletion(
  * @param name name of the Token
  */
 export async function createToken(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   config: JWTSigningConfig,
   user: User,
@@ -547,7 +548,7 @@ export async function createToken(
  * @param id of the Token to be deactivated
  */
 export async function deactivateToken(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   id: string
@@ -560,6 +561,23 @@ export async function deactivateToken(
 }
 
 /**
+ * updateSSOProfileID will update the id on the user's SSOProfile
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the ID of the User we are updating
+ * @param ssoProfileID the ID to set on the User's SSOProfile
+ */
+export async function updateSSOProfileID(
+  mongo: MongoContext,
+  tenant: Tenant,
+  userID: string,
+  ssoProfileID: string
+) {
+  return updateUserSSOProfileID(mongo, tenant.id, userID, ssoProfileID);
+}
+
+/**
  * updateUsername will update the current users username.
  *
  * @param mongo mongo database to interact with
@@ -569,7 +587,7 @@ export async function deactivateToken(
  * @param username the username that we are setting on the User
  */
 export async function updateUsername(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -643,7 +661,7 @@ export async function updateUsername(
  * @param username the username that we are setting on the User
  */
 export async function updateUsernameByID(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   username: string,
@@ -662,7 +680,7 @@ export async function updateUsernameByID(
  * @param role the role that we are setting on the User
  */
 export async function updateRole(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: Pick<User, "id">,
   userID: string,
@@ -676,17 +694,11 @@ export async function updateRole(
 }
 
 export async function promoteUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   userID: string
 ) {
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-    throw new InternalError("feature flag not enabled", {
-      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
-    });
-  }
-
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -733,17 +745,11 @@ export async function promoteUser(
 }
 
 export async function demoteUser(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   userID: string
 ) {
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-    throw new InternalError("feature flag not enabled", {
-      flag: GQLFEATURE_FLAG.SITE_MODERATOR,
-    });
-  }
-
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -791,15 +797,12 @@ export async function demoteUser(
 }
 
 export async function updateModerationScopes(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: Pick<User, "id">,
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
-  // Ensure Tenant has site moderators enabled.
-  ensureFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
-
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
   }
@@ -892,7 +895,7 @@ function canUpdateEmailAddress(tenant: Tenant, user: User): boolean {
  * @param password the users password for confirmation
  */
 export async function updateEmail(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   mailer: MailerQueue,
   config: Config,
@@ -942,7 +945,7 @@ export async function updateEmail(
  * @param email the email address that we are setting on the User
  */
 export async function updateEmailByID(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   email: string
@@ -962,7 +965,7 @@ export async function updateEmailByID(
  * @param bio the bio that we are setting on the User
  */
 export async function updateBio(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   bio?: string
@@ -983,7 +986,7 @@ export async function updateBio(
  * @param avatar the avatar that we are setting on the User
  */
 export async function updateAvatar(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   avatar?: string
@@ -1002,7 +1005,7 @@ export async function updateAvatar(
  * @param now the current time that the note was created
  */
 export async function addModeratorNote(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1026,7 +1029,7 @@ export async function addModeratorNote(
  */
 
 export async function destroyModeratorNote(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   id: string,
@@ -1049,7 +1052,7 @@ export async function destroyModeratorNote(
  * @param now the current time that the ban took effect
  */
 export async function ban(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   rejector: RejectorQueue,
   tenant: Tenant,
@@ -1182,7 +1185,7 @@ export async function ban(
  * @param now the current time that the ban took effect
  */
 export async function premod(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1206,7 +1209,7 @@ export async function premod(
 }
 
 export async function removePremod(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1241,7 +1244,7 @@ export async function removePremod(
  * @param now the current time that the warning took effect
  */
 export async function warn(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1266,7 +1269,7 @@ export async function warn(
 }
 
 export async function removeWarning(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   moderator: User,
   userID: string,
@@ -1292,7 +1295,7 @@ export async function removeWarning(
 }
 
 export async function acknowledgeWarning(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   userID: string,
   now = new Date()
@@ -1312,6 +1315,68 @@ export async function acknowledgeWarning(
   // remove warning
   return acknowledgeOwnWarning(mongo, tenant.id, userID, now);
 }
+
+/**
+ * sendModMessage will send a moderation message to a specific user.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be messaged on
+ * @param moderator the User that is messaging the User
+ * @param userID the ID of the User being messaged
+ * @param now the current time that the message was sent
+ */
+export async function sendModMessage(
+  mongo: MongoContext,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  message: string,
+  now = new Date()
+) {
+  // Send moderation message to the user.
+  return sendModMessageUser(
+    mongo,
+    tenant.id,
+    userID,
+    moderator.id,
+    message,
+    now
+  );
+}
+
+/**
+ * acknowledgeModMessage will acknowledge that a mod message was seen by the user and
+ * set moderation messages to inactive
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be messaged on
+ * @param userID the ID of the User acknowledging the mod message
+ * @param now the current time that the message was acknowledged by the user
+ */
+export async function acknowledgeModMessage(
+  mongo: MongoContext,
+  tenant: Tenant,
+  userID: string,
+  now = new Date()
+) {
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  const modMessageStatus = consolidateUserModMessageStatus(
+    targetUser.status.modMessage
+  );
+  if (!modMessageStatus.active) {
+    // The user does not currently have a mod message sent to them, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // acknowledge the mod message
+  return acknowledgeOwnModMessage(mongo, tenant.id, userID, now);
+}
+
 /**
  * suspend will suspend a give user from interacting with Coral.
  *
@@ -1325,7 +1390,7 @@ export async function acknowledgeWarning(
  * @param now the current time that the suspension will take effect
  */
 export async function suspend(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
@@ -1391,7 +1456,7 @@ export async function suspend(
 }
 
 export async function removeSuspension(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   userID: string,
@@ -1420,7 +1485,7 @@ export async function removeSuspension(
 }
 
 export async function removeBan(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   userID: string,
@@ -1457,7 +1522,7 @@ export async function removeBan(
 }
 
 export async function ignore(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   userID: string,
@@ -1486,7 +1551,7 @@ export async function ignore(
 }
 
 export async function removeIgnore(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   userID: string
@@ -1508,7 +1573,7 @@ export async function removeIgnore(
 }
 
 export async function requestCommentsDownload(
-  mongo: Db,
+  mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
   config: Config,
@@ -1567,7 +1632,7 @@ export async function requestCommentsDownload(
 }
 
 export async function requestUserCommentsDownload(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   config: Config,
   signingConfig: JWTSigningConfig,
@@ -1586,7 +1651,7 @@ export async function requestUserCommentsDownload(
 }
 
 export async function updateNotificationSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   settings: NotificationSettingsInput
@@ -1595,7 +1660,7 @@ export async function updateNotificationSettings(
 }
 
 export async function updateMediaSettings(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   user: User,
   settings: UpdateUserMediaSettingsInput
@@ -1630,7 +1695,7 @@ export async function updateUserLastCommentID(
 }
 
 /**
- * retrieveUserLastComment will return the id (if set) of the comment that
+ * retrieveUserLastCommentNotArchived will return the id (if set) of the comment that
  * the user last wrote. This will return null if the user has not made a comment
  * within the CURRENT_REPEAT_POST_TIMESPAN.
  *
@@ -1639,8 +1704,8 @@ export async function updateUserLastCommentID(
  * @param tenant the Tenant to operate on
  * @param user the User that we're looking up the limit for
  */
-export async function retrieveUserLastComment(
-  mongo: Db,
+export async function retrieveUserLastCommentNotArchived(
+  mongo: MongoContext,
   redis: AugmentedRedis,
   tenant: Tenant,
   user: User
@@ -1650,7 +1715,7 @@ export async function retrieveUserLastComment(
     return null;
   }
 
-  return retrieveComment(mongo, tenant.id, id);
+  return retrieveComment(mongo.comments(), tenant.id, id);
 }
 
 export interface LinkUser {
@@ -1659,12 +1724,13 @@ export interface LinkUser {
 }
 
 export async function link(
-  mongo: Db,
+  config: Config,
+  mongo: MongoContext,
   tenant: Tenant,
   source: User,
   { email, password }: LinkUser
 ) {
-  if (!linkUsersAvailable(tenant)) {
+  if (!linkUsersAvailable(config, tenant)) {
     throw new Error("cannot link users, not available");
   }
 

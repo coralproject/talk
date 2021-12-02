@@ -1,9 +1,8 @@
 import { isEmpty } from "lodash";
-import { Db } from "mongodb";
 import uuid from "uuid/v4";
 
 import { dotize } from "coral-common/utils/dotize";
-import { tenants as collection } from "coral-server/services/mongodb/collections";
+import { MongoContext } from "coral-server/data/context";
 
 import { GQLCOMMENT_BODY_FORMAT } from "coral-server/graph/schema/__generated__/types";
 
@@ -16,14 +15,14 @@ import {
 import { retrieveTenant } from "./tenant";
 
 export async function rotateTenantExternalModerationPhaseSigningSecret(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   phaseID: string,
   inactiveAt: Date,
   now: Date
 ) {
   return rotateSigningSecret({
-    collection: collection(mongo),
+    collection: mongo.tenants(),
     filter: { id },
     path: "integrations.external.phases",
     id: phaseID,
@@ -41,7 +40,7 @@ export interface CreateTenantExternalModerationPhaseInput {
 }
 
 export async function createTenantExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   input: CreateTenantExternalModerationPhaseInput,
   now: Date
@@ -56,7 +55,7 @@ export async function createTenantExternalModerationPhase(
   };
 
   // Update the Tenant with this new phase.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     { $push: { "integrations.external.phases": phase } },
     {
@@ -92,7 +91,7 @@ export interface UpdateTenantExternalModerationPhaseInput {
 }
 
 export async function updateTenantExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   phaseID: string,
   update: UpdateTenantExternalModerationPhaseInput
@@ -109,7 +108,7 @@ export async function updateTenantExternalModerationPhase(
   }
 
   // Perform the actual update operation.
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     { $set },
     {
@@ -144,11 +143,11 @@ export async function updateTenantExternalModerationPhase(
 }
 
 export async function deleteTenantExternalModerationPhase(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   phaseID: string
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $pull: {
@@ -174,12 +173,12 @@ export async function deleteTenantExternalModerationPhase(
 }
 
 export async function deleteTenantExternalModerationPhaseSigningSecrets(
-  mongo: Db,
+  mongo: MongoContext,
   id: string,
   phaseID: string,
   kids: string[]
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
       $pull: {

@@ -7,7 +7,6 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
 import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
 import { ModerateNavigationContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";
@@ -57,21 +56,25 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
     subscribeToCommentLeft,
   ]);
 
+  const storyIsArchived = props.story?.isArchived || props.story?.isArchiving;
+
   if (!props.moderationQueues) {
     return <Navigation />;
   }
   return (
     <Navigation
-      unmoderatedCount={props.moderationQueues.unmoderated.count}
-      reportedCount={props.moderationQueues.reported.count}
-      pendingCount={props.moderationQueues.pending.count}
+      unmoderatedCount={
+        storyIsArchived ? 0 : props.moderationQueues.unmoderated.count
+      }
+      reportedCount={
+        storyIsArchived ? 0 : props.moderationQueues.reported.count
+      }
+      pendingCount={storyIsArchived ? 0 : props.moderationQueues.pending.count}
       storyID={props.story && props.story.id}
       siteID={props.siteID}
       section={props.section}
       mode={props.settings?.moderation}
-      enableForReview={props.settings?.featureFlags.includes(
-        GQLFEATURE_FLAG.FOR_REVIEW
-      )}
+      enableForReview={props.settings?.forReviewQueue}
     />
   );
 };
@@ -80,12 +83,14 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment ModerateNavigationContainer_story on Story {
       id
+      isArchiving
+      isArchived
     }
   `,
   settings: graphql`
     fragment ModerateNavigationContainer_settings on Settings {
       moderation
-      featureFlags
+      forReviewQueue
     }
   `,
   moderationQueues: graphql`

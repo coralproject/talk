@@ -1,4 +1,7 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 import { RRNLRequestError } from "react-relay-network-modern/es";
+
+import { getMessage } from "../i18n";
 
 /**
  * RelayNetworkRequestError wraps Request errors thrown by Relay Network Layer.
@@ -7,11 +10,21 @@ export default class RelayNetworkRequestError extends Error {
   // Keep origin of original server response.
   public origin: RRNLRequestError;
 
-  constructor(error: RRNLRequestError) {
-    let msg = "An unexpected network error occured, please try again later.";
+  constructor(error: RRNLRequestError, localeBundles: FluentBundle[]) {
+    let msg = getMessage(
+      localeBundles,
+      "framework-error-relayNetworkRequestError-anUnexpectedNetworkError",
+      "An unexpected network error occured, please try again later."
+    );
 
     if (error.res) {
-      msg += ` [Code: ${error.res.status.toString()}`;
+      const codePrefix = getMessage(
+        localeBundles,
+        "framework-error-relayNetworkRequestError-code",
+        "Code"
+      );
+
+      msg += ` [${codePrefix}: ${error.res.status.toString()}`;
       if (error.res.statusText) {
         msg += " " + error.res.statusText;
       }

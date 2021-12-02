@@ -36,7 +36,7 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const commentSeen = useCommentSeen(comment.id);
+  const commentSeen = useCommentSeen(viewer?.id, comment.id);
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
@@ -82,6 +82,7 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment AllCommentsTabCommentContainer_viewer on User {
+      id
       ...ReplyListContainer1_viewer
       ...CommentContainer_viewer
       ...IgnoredTombstoneOrHideContainer_viewer

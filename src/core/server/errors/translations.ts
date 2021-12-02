@@ -5,6 +5,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   COMMENT_BODY_TOO_SHORT: "error-commentBodyTooShort",
   COMMENT_NOT_FOUND: "error-commentNotFound",
   COMMENT_REVISION_NOT_FOUND: "error-commentRevisionNotFound",
+  PARENT_COMMENT_REJECTED: "error-parentCommentRejected",
   COMMENTING_DISABLED: "error-commentingDisabled",
   DUPLICATE_EMAIL: "error-duplicateEmail",
   DUPLICATE_STORY_ID: "error-duplicateStoryID",
@@ -17,6 +18,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   INTERNAL_ERROR: "error-internalError",
   LOCAL_PROFILE_ALREADY_SET: "error-localProfileAlreadySet",
   LOCAL_PROFILE_NOT_SET: "error-localProfileNotSet",
+  SSO_PROFILE_NOT_SET: "error-SSOProfileNotSet",
   NOT_FOUND: "error-notFound",
   PASSWORD_TOO_SHORT: "error-passwordTooShort",
   STORY_CLOSED: "error-storyClosed",
@@ -66,4 +68,8 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USER_BIO_TOO_LONG: "error-userBioTooLong",
   COMMENT_EDIT_WINDOW_EXPIRED: "error-commentEditWindowExpired",
   AUTHOR_ALREADY_HAS_RATED_STORY: "error-authorAlreadyHasRatedStory",
+  CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY:
+    "error-cannotCreateCommentOnArchivedStory",
+  CANNOT_OPEN_AN_ARCHIVED_STORY: "error-cannotOpenAnArchivedStory",
+  CANNOT_MERGE_AN_ARCHIVED_STORY: "error-cannotMergeAnArchivedStory",
 };

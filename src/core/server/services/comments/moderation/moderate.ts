@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-
+import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
   CommentRevisionNotFoundError,
@@ -16,18 +15,25 @@ import {
 } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 
-export type Moderate = CreateCommentModerationActionInput;
+export type Moderate = Omit<CreateCommentModerationActionInput, "storyID">;
 
 export default async function moderate(
-  mongo: Db,
+  mongo: MongoContext,
   tenant: Tenant,
   input: Moderate,
-  now: Date
+  now: Date,
+  isArchived = false
 ) {
   // TODO: wrap these operations in a transaction?
+  const commentsColl =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
 
   // Get the comment that we're moderating.
-  const comment = await retrieveComment(mongo, tenant.id, input.commentID);
+  const comment = await retrieveComment(
+    commentsColl,
+    tenant.id,
+    input.commentID
+  );
   if (!comment) {
     throw new CommentNotFoundError(input.commentID);
   }
@@ -61,7 +67,8 @@ export default async function moderate(
     tenant.id,
     input.commentID,
     input.commentRevisionID,
-    input.status
+    input.status,
+    isArchived
   );
   if (!result) {
     throw new CommentRevisionNotFoundError(
@@ -74,8 +81,12 @@ export default async function moderate(
   const action = await createCommentModerationAction(
     mongo,
     tenant.id,
-    input,
-    now
+    {
+      ...input,
+      storyID: comment.storyID,
+    },
+    now,
+    isArchived
   );
   if (!action) {
     // TODO: wrap in better error?

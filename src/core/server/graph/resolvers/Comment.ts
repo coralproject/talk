@@ -18,18 +18,13 @@ import {
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
-import { hasFeatureFlag } from "coral-server/models/tenant";
-import {
-  canModerate,
-  hasModeratorRole,
-} from "coral-server/models/user/helpers";
+import { canModerate } from "coral-server/models/user/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import {
   GQLComment,
   GQLCOMMENT_SORT,
   GQLCommentTypeResolver,
-  GQLFEATURE_FLAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
@@ -65,12 +60,6 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   canModerate: (c, input, ctx) => {
     if (!ctx.user) {
       return false;
-    }
-
-    // If the feature flag for site moderators is not turned on return based on
-    // the users role.
-    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.SITE_MODERATOR)) {
-      return hasModeratorRole(ctx.user);
     }
 
     return canModerate(ctx.user, { siteID: c.siteID });

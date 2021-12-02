@@ -1,7 +1,7 @@
 import Joi from "joi";
-import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { MongoContext } from "coral-server/data/context";
 import { validateSchema } from "coral-server/helpers";
 import { GoogleAuthIntegration } from "coral-server/models/settings";
 import {
@@ -17,7 +17,7 @@ import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 
 interface Options {
-  mongo: Db;
+  mongo: MongoContext;
   signingConfig: JWTSigningConfig;
   config: Config;
   integration: Required<GoogleAuthIntegration>;
@@ -37,14 +37,16 @@ interface GoogleUserProfile {
 }
 
 export class GoogleAuthenticator extends OAuth2Authenticator {
-  private readonly mongo: Db;
+  private readonly mongo: MongoContext;
+  private readonly config: Config;
   private readonly profileURL = "https://www.googleapis.com/oauth2/v3/userinfo";
   private readonly integration: Readonly<Required<GoogleAuthIntegration>>;
 
-  constructor({ integration, mongo, ...options }: Options) {
+  constructor({ integration, mongo, config, ...options }: Options) {
     super({
       ...options,
       ...integration,
+      config,
       authorizationURL: "https://accounts.google.com/o/oauth2/v2/auth",
       tokenURL: "https://www.googleapis.com/oauth2/v4/token",
       scope: "profile email",
@@ -52,6 +54,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
 
     this.integration = integration;
     this.mongo = mongo;
+    this.config = config;
   }
 
   private async getProfile(accessToken: string): Promise<GoogleUserProfile> {
@@ -115,6 +118,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
 
       // Create the user this time.
       user = await findOrCreate(
+        this.config,
         this.mongo,
         tenant,
         {
