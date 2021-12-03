@@ -87,7 +87,7 @@ export async function archiveStory(
   });
 
   logger.info("updating site counts for archive");
-  await updateSiteCounts(mongo, tenantID, id, commentCounts);
+  await updateSiteCounts(mongo, tenantID, targetStory.siteID, commentCounts);
   logger.info("updating shared counts for archive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
@@ -172,7 +172,7 @@ export async function unarchiveStory(
   });
 
   logger.info("updating site counts for unarchive");
-  await updateSiteCounts(mongo, tenantID, id, commentCounts);
+  await updateSiteCounts(mongo, tenantID, targetStory.siteID, commentCounts);
 
   logger.info("updating shared counts for unarchive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);

@@ -777,6 +777,7 @@ export async function markStoryForArchiving(
       tenantID,
       isArchiving: { $in: [null, false] },
       isArchived: { $in: [null, false] },
+      "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
     },
     getMarkStoryForArchivingSetParam(now),
     {
@@ -835,6 +836,7 @@ export async function retrieveLockedStoryToBeArchived(
       isArchived: { $in: [null, false] },
       startedUnarchivingAt: { $in: [null, false] },
       unarchivedAt: { $in: [null, false] },
+      "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
     },
     getMarkStoryForArchivingSetParam(now),
     { returnOriginal: false }
