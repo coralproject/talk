@@ -836,9 +836,10 @@ it("remove user ban from all sites", async () => {
       .props.onClick();
   });
 
-  const modal = within(userRow).getByLabelText("Are you sure you want to ban", {
-    exact: false,
-  });
+  const modal = within(userRow).getByLabelText(
+    "Are you sure you want to unban",
+    { exact: false }
+  );
 
   act(() => {
     within(modal).getByLabelText("No sites", { exact: false }).props.onChange();
