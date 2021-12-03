@@ -2,7 +2,6 @@ import {
   canModerate,
   isSiteModerationScoped,
 } from "coral-server/models/user/helpers";
-
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,

@@ -105,6 +105,11 @@ async function addCommentAction(
     throw new CommentNotFoundError(input.commentID);
   }
 
+  // Check that revision ID exists before we process the action
+  if (!oldComment.revisions.find((r) => r.id === input.commentRevisionID)) {
+    throw new CommentNotFoundError(input.commentID);
+  }
+
   // Grab some useful properties.
   const { storyID, siteID, section } = oldComment;
 
@@ -174,7 +179,7 @@ export async function removeCommentAction(
   redis: AugmentedRedis,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
-  input: Omit<RemoveActionInput, "commentRevisionID" | "reason">
+  input: Omit<RemoveActionInput, "reason">
 ): Promise<Readonly<Comment>> {
   // Get the Comment that we are leaving the Action on.
   const oldComment = await retrieveComment(
@@ -183,6 +188,11 @@ export async function removeCommentAction(
     input.commentID
   );
   if (!oldComment) {
+    throw new CommentNotFoundError(input.commentID);
+  }
+
+  // Check that revision ID exists before we process the action
+  if (!oldComment.revisions.find((r) => r.id === input.commentRevisionID)) {
     throw new CommentNotFoundError(input.commentID);
   }
 
@@ -291,7 +301,10 @@ export async function createReaction(
   return comment;
 }
 
-export type RemoveCommentReaction = Pick<RemoveActionInput, "commentID">;
+export type RemoveCommentReaction = Pick<
+  RemoveActionInput,
+  "commentID" | "commentRevisionID"
+>;
 
 export async function removeReaction(
   mongo: MongoContext,
@@ -304,6 +317,7 @@ export async function removeReaction(
   return removeCommentAction(mongo, redis, broker, tenant, {
     actionType: ACTION_TYPE.REACTION,
     commentID: input.commentID,
+    commentRevisionID: input.commentRevisionID,
     userID: author.id,
   });
 }
@@ -340,7 +354,10 @@ export async function createDontAgree(
   return comment;
 }
 
-export type RemoveCommentDontAgree = Pick<RemoveActionInput, "commentID">;
+export type RemoveCommentDontAgree = Pick<
+  RemoveActionInput,
+  "commentID" | "commentRevisionID"
+>;
 
 export async function removeDontAgree(
   mongo: MongoContext,
@@ -353,6 +370,7 @@ export async function removeDontAgree(
   return removeCommentAction(mongo, redis, broker, tenant, {
     actionType: ACTION_TYPE.DONT_AGREE,
     commentID: input.commentID,
+    commentRevisionID: input.commentRevisionID,
     userID: author.id,
   });
 }

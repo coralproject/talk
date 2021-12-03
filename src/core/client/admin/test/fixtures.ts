@@ -483,6 +483,17 @@ export const users = {
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
         recentCommentHistory,
+        moderatorNotes: [],
+        allComments: {
+          edges: [],
+          nodes: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            startCursor: null,
+            endCursor: null,
+          },
+        },
       },
       {
         id: "user-commenter-2",
@@ -686,6 +697,9 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_DETECTED_BANNED_WORD: 0,
         },
       },
+      reaction: {
+        total: 0,
+      },
     },
     metadata: {
       perspective: NULL_VALUE,
@@ -751,6 +765,9 @@ export const reportedComments = createFixtures<GQLComment>(
               COMMENT_REPORTED_SPAM: 2,
             },
           },
+          reaction: {
+            total: 1,
+          },
         },
         metadata: {
           perspective: {
@@ -779,6 +796,21 @@ export const reportedComments = createFixtures<GQLComment>(
           },
         ],
       },
+      reactions: {
+        edges: [
+          {
+            node: {
+              id: "comment-0-reaction-1",
+              reacter: {
+                userID: "user-commenter-1",
+                username: "Ngoc",
+              },
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      },
     },
     {
       id: "comment-1",
@@ -789,6 +821,9 @@ export const reportedComments = createFixtures<GQLComment>(
             reasons: {
               COMMENT_REPORTED_OFFENSIVE: 3,
             },
+          },
+          reaction: {
+            total: 0,
           },
         },
         metadata: {
@@ -835,6 +870,9 @@ export const reportedComments = createFixtures<GQLComment>(
               COMMENT_REPORTED_OFFENSIVE: 1,
             },
           },
+          reaction: {
+            total: 0,
+          },
         },
         metadata: {
           perspective: {
@@ -873,6 +911,9 @@ export const reportedComments = createFixtures<GQLComment>(
             reasons: {
               COMMENT_REPORTED_SPAM: 1,
             },
+          },
+          reaction: {
+            total: 0,
           },
         },
         metadata: {
