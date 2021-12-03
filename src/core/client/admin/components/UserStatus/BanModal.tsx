@@ -187,7 +187,7 @@ const BanModal: FunctionComponent<Props> = ({
             {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
-                  {!isSiteMod && (
+                  {!isSiteMod && updateType !== UpdateType.NO_SITES && (
                     <Field type="checkbox" name="rejectExistingComments">
                       {({ input }) => (
                         <Localized id="community-banModal-reject-existing">
@@ -198,15 +198,17 @@ const BanModal: FunctionComponent<Props> = ({
                       )}
                     </Field>
                   )}
-                  <Field type="checkbox" name="showMessage">
-                    {({ input }) => (
-                      <Localized id="community-banModal-customize">
-                        <CheckBox {...input} id="banModal-showMessage">
-                          Customize ban email message
-                        </CheckBox>
-                      </Localized>
-                    )}
-                  </Field>
+                  {updateType !== UpdateType.NO_SITES && (
+                    <Field type="checkbox" name="showMessage">
+                      {({ input }) => (
+                        <Localized id="community-banModal-customize">
+                          <CheckBox {...input} id="banModal-showMessage">
+                            Customize ban email message
+                          </CheckBox>
+                        </Localized>
+                      )}
+                    </Field>
+                  )}
                   <Field name="showMessage" subscription={{ value: true }}>
                     {({ input: { value } }) =>
                       value ? (
