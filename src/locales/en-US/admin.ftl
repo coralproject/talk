@@ -1230,10 +1230,16 @@ community-userStatus-changeButton =
 community-userStatus-premodUser = Always pre-moderate
 community-userStatus-removePremod = Remove pre-moderate
 
-community-banModal-areYouSure = Are you sure you want to ban <username></username>?
-community-banModal-consequence =
+community-banModal-allSites-title = Are you sure you want to ban <username></username>?
+community-banModal-specificSites-title = Are you sure you want to manage ban status of <username></username>?
+ommunity-banModal-noSites-title = Are you sure you want to unban <username></username>?
+community-banModal-allSites-consequence =
   Once banned, this user will no longer be able to comment, use
   reactions, or report comments.
+community-banModal-noSites-consequence =
+  Once unbanned, this user will be able to comment, use reactions, and report comments.
+community-banModal-specificSites-consequence =
+  This action will affect which sites on which the user is able to comment, use reactions, and report comments.
 community-banModal-cancel = Cancel
 community-banModal-updateBan = Save
 community-banModal-customize = Customize ban email message

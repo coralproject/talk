@@ -4,21 +4,12 @@ import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
-import { GQLUSER_ROLE } from "coral-framework/schema";
-import {
-  FieldSet,
-  Flex,
-  FormField,
-  HorizontalGutter,
-  Label,
-  RadioButton,
-} from "coral-ui/components/v2";
+import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
 
 import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import UserStatusSitesListSelectedSiteQuery from "./UserStatusSitesListSelectedSiteQuery";
 
-import { UpdateType } from "./BanModal";
 import styles from "./UserStatusSitesList.css";
 
 interface ScopeSite {
@@ -42,18 +33,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   bannedSites,
   banActive,
 }) => {
-  const viewerIsAdmin = viewerScopes.role === GQLUSER_ROLE.ADMIN;
-  const viewerIsOrgAdmin =
-    viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
-    !!(!viewerScopes.sites || viewerScopes.sites?.length === 0);
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
-  const viewerIsSiteMod =
-    viewerScopes.role === GQLUSER_ROLE.MODERATOR && viewerIsScoped;
-  const viewerIsSingleSiteMod = !!(
-    viewerIsSiteMod &&
-    viewerScopes.sites &&
-    viewerScopes.sites.length === 1
-  );
 
   const initiallyBanned = useCallback(
     (siteID: string) => bannedSites.some(({ id }) => id === siteID),
@@ -64,9 +44,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     bannedSites.map((bs) => bs.id)
   );
 
-  const { input: updateType } = useField<UpdateType>("updateType", {
-    initialValue: UpdateType.ALL_SITES,
-  });
   const { input: banSiteIDs } = useField<string[]>("banSiteIDs");
   const { input: unbanSiteIDs } = useField<string[]>("unbanSiteIDs");
 
@@ -134,76 +111,30 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
             </Localized>
           </div>
 
-          {(viewerIsAdmin ||
-            viewerIsOrgAdmin ||
-            (viewerIsScoped && !viewerIsSingleSiteMod)) && (
-            <Flex className={styles.sitesToggle} spacing={5}>
-              <FormField>
-                <Localized id="community-banModal-allSites">
-                  <RadioButton
-                    checked={updateType.value === UpdateType.ALL_SITES}
-                    onChange={() => updateType.onChange(UpdateType.ALL_SITES)}
-                    disabled={banActive}
-                  >
-                    All sites
-                  </RadioButton>
-                </Localized>
-              </FormField>
-              <FormField>
-                <Localized id="community-banModal-specificSites">
-                  <RadioButton
-                    checked={updateType.value === UpdateType.SPECIFIC_SITES}
-                    onChange={() =>
-                      updateType.onChange(UpdateType.SPECIFIC_SITES)
-                    }
-                  >
-                    Specific Sites
-                  </RadioButton>
-                </Localized>
-              </FormField>
-              {!viewerIsScoped && (
-                <FormField>
-                  <Localized id="community-banModal-noSites">
-                    <RadioButton
-                      checked={updateType.value === UpdateType.NO_SITES}
-                      onChange={() => updateType.onChange(UpdateType.NO_SITES)}
-                    >
-                      No Sites
-                    </RadioButton>
-                  </Localized>
-                </FormField>
-              )}
-            </Flex>
-          )}
+          <HorizontalGutter spacing={3} mt={5} mb={4}>
+            {candidateSites.map((siteID) => {
+              const checked =
+                banSiteIDs.value.includes(siteID) ||
+                (initiallyBanned(siteID) &&
+                  !unbanSiteIDs.value.includes(siteID));
 
-          {updateType.value === "SPECIFIC_SITES" && (
-            <>
-              <HorizontalGutter spacing={3} mt={5} mb={4}>
-                {candidateSites.map((siteID) => {
-                  const checked =
-                    banSiteIDs.value.includes(siteID) ||
-                    (initiallyBanned(siteID) &&
-                      !unbanSiteIDs.value.includes(siteID));
-
-                  return (
-                    <UserStatusSitesListSelectedSiteQuery
-                      key={siteID}
-                      siteID={siteID}
-                      checked={checked}
-                      onChange={onToggleSite}
-                      disabled={viewerIsScoped && initiallyBanned(siteID)}
-                    />
-                  );
-                })}
-              </HorizontalGutter>
-              <SiteSearch
-                onSelect={onAddSite}
-                showSiteSearchLabel={false}
-                showOnlyScopedSitesInSearchResults={true}
-                showAllSitesSearchFilterOption={false}
-              />
-            </>
-          )}
+              return (
+                <UserStatusSitesListSelectedSiteQuery
+                  key={siteID}
+                  siteID={siteID}
+                  checked={checked}
+                  onChange={onToggleSite}
+                  disabled={viewerIsScoped && initiallyBanned(siteID)}
+                />
+              );
+            })}
+          </HorizontalGutter>
+          <SiteSearch
+            onSelect={onAddSite}
+            showSiteSearchLabel={false}
+            showOnlyScopedSitesInSearchResults={true}
+            showAllSitesSearchFilterOption={false}
+          />
         </FieldSet>
       </IntersectionProvider>
     </>
