@@ -34,7 +34,7 @@ interface Props {
 }
 
 const singleSitesIsEnabled: Condition = (_value, values) =>
-  Boolean(values.moderation === GQLMODERATION_MODE.SINGLE_SITES);
+  Boolean(values.moderation === GQLMODERATION_MODE.SINGLE_SITES_PRE);
 
 const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
   disabled,
@@ -83,12 +83,12 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
           </RadioButton>
         )}
       </Field>
-      <Field name="moderation" type="radio" value="SINGLE_SITES">
+      <Field name="moderation" type="radio" value="SINGLE_SITES_PRE">
         {({ input }) => (
           <>
             <RadioButton
               {...input}
-              id={`${input.name}-SINGLE_SITES`}
+              id={`${input.name}-SINGLE_SITES_PRE`}
               disabled={disabled}
             >
               <Localized id="configure-moderation-singleSites">
@@ -98,7 +98,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
           </>
         )}
       </Field>
-      {moderationInput.value === GQLMODERATION_MODE.SINGLE_SITES && (
+      {moderationInput.value === GQLMODERATION_MODE.SINGLE_SITES_PRE && (
         <div className={styles.specificSites}>
           <HorizontalGutter spacing={3} mt={3} mb={3}>
             {premoderateAllCommentsSitesInput.value.map((siteID: string) => {

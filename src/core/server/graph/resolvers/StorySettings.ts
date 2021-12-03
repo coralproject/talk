@@ -19,7 +19,7 @@ export const StorySettings: Required<GQLStorySettingsTypeResolver<
     if (s.moderation) {
       return s.moderation;
     }
-    if (ctx.tenant.moderation === GQLMODERATION_MODE.SINGLE_SITES) {
+    if (ctx.tenant.moderation === GQLMODERATION_MODE.SINGLE_SITES_PRE) {
       return ctx.tenant.premoderateAllCommentsSites.includes(s.story.siteID)
         ? GQLMODERATION_MODE.PRE
         : GQLMODERATION_MODE.POST;

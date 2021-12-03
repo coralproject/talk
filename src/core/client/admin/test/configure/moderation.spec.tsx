@@ -127,7 +127,7 @@ it("change site wide pre-moderation to Single sites", async () => {
     Mutation: {
       updateSettings: ({ variables }) => {
         expectAndFail(variables.settings.moderation).toEqual(
-          GQLMODERATION_MODE.SINGLE_SITES
+          GQLMODERATION_MODE.SINGLE_SITES_PRE
         );
         expectAndFail(variables.settings.premoderateAllCommentsSites).toEqual([
           "site-1",
