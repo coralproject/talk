@@ -8,8 +8,8 @@ import React, {
 import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { hasError } from "coral-framework/lib/form";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   Condition,
   required,
