@@ -60,18 +60,21 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
     viewerScopes.sites.length === 1
   );
 
-  const singleSitesIsEnabled: Condition = (_value, values) => {
-    return values.showSingleSites;
+  const specificSitesIsEnabled: Condition = (_value, values) => {
+    return values.showSpecificSites;
   };
 
   const { input: selectedIDsInput, meta: selectedIDsInputMeta } = useField<
     string[]
   >("selectedIDs", {
-    validate: validateWhen(singleSitesIsEnabled, required),
+    validate: validateWhen(specificSitesIsEnabled, required),
   });
-  const { input: showSingleSitesInput } = useField<boolean>("showSingleSites", {
-    initialValue: !!(viewerIsScoped || viewerIsSingleSiteMod),
-  });
+  const { input: showSpecificSitesInput } = useField<boolean>(
+    "showSpecificSites",
+    {
+      initialValue: !!(viewerIsScoped || viewerIsSingleSiteMod),
+    }
+  );
 
   useEffect(() => {
     // Site mods should have all sites within scope selected by default
@@ -86,12 +89,12 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
       : []
   );
 
-  const onHideSingleSites = useCallback(() => {
-    showSingleSitesInput.onChange(false);
-  }, [showSingleSitesInput]);
-  const onShowSingleSites = useCallback(() => {
-    showSingleSitesInput.onChange(true);
-  }, [showSingleSitesInput]);
+  const onHideSpecificSites = useCallback(() => {
+    showSpecificSitesInput.onChange(false);
+  }, [showSpecificSitesInput]);
+  const onShowSpecificSites = useCallback(() => {
+    showSpecificSitesInput.onChange(true);
+  }, [showSpecificSitesInput]);
 
   const onRemoveSite = useCallback(
     (siteID: string) => {
@@ -147,8 +150,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
               <FormField>
                 <Localized id="community-banModal-allSites">
                   <RadioButton
-                    checked={!showSingleSitesInput.value}
-                    onChange={onHideSingleSites}
+                    checked={!showSpecificSitesInput.value}
+                    onChange={onHideSpecificSites}
                   >
                     All sites
                   </RadioButton>
@@ -157,8 +160,8 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
               <FormField>
                 <Localized id="community-banModal-specificSites">
                   <RadioButton
-                    checked={showSingleSitesInput.value}
-                    onChange={onShowSingleSites}
+                    checked={showSpecificSitesInput.value}
+                    onChange={onShowSpecificSites}
                   >
                     Specific Sites
                   </RadioButton>
@@ -167,7 +170,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
             </Flex>
           )}
 
-          {showSingleSitesInput.value && (
+          {showSpecificSitesInput.value && (
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
                 {candidateSites.map((siteID) => {
@@ -191,7 +194,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
                 />
               )}
               {hasError(selectedIDsInputMeta) ? (
-                <Localized id="singleSitesSelect-validation">
+                <Localized id="specificSitesSelect-validation">
                   <ValidationMessage className={styles.validationMessage}>
                     You must select at least one site.
                   </ValidationMessage>

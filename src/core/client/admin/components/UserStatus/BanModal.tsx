@@ -68,7 +68,7 @@ const BanModal: FunctionComponent<Props> = ({
     (input) => {
       try {
         let selectedIDs = input.selectedIDs || [];
-        const showSingleSites = input.showSingleSites;
+        const showSpecificSites = input.showSpecificSites;
 
         // single site mods can only ban for their
         // one assigned site, override anything else that
@@ -83,7 +83,7 @@ const BanModal: FunctionComponent<Props> = ({
 
         // if All sites is selected, then admins/org mods ban across
         // all sites, and site mods ban across all scoped sites
-        if (!showSingleSites) {
+        if (!showSpecificSites) {
           selectedIDs = !isSiteMod
             ? []
             : viewerScopes.sites?.map((site) => site.id);
