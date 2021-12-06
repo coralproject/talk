@@ -74,18 +74,16 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
   });
 
   useEffect(() => {
+    // Site mods should have all sites within scope selected by default
     if (viewerIsSiteMod) {
-      const sites = viewerScopes.sites?.map((site) => site.id);
-      selectedIDsInput.onChange(sites);
+      selectedIDsInput.onChange(viewerScopes.sites?.map((site) => site.id));
     }
   }, []);
 
   const [candidateSites, setCandidateSites] = useState<string[]>(
-    viewerIsSiteMod
-      ? viewerScopes.sites
-        ? viewerScopes.sites.map((site) => site.id)
-        : []
-      : selectedIDsInput.value
+    viewerIsSiteMod && viewerScopes.sites
+      ? viewerScopes.sites.map((site) => site.id)
+      : []
   );
 
   const onHideSingleSites = useCallback(() => {
