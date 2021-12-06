@@ -119,7 +119,7 @@ it("change pre-moderation to On for all comments for single-site tenants", async
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
-it("change site wide pre-moderation to Single sites", async () => {
+it("change site wide pre-moderation to Specific sites", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Query: {
       sites: () => siteConnection,
@@ -127,7 +127,7 @@ it("change site wide pre-moderation to Single sites", async () => {
     Mutation: {
       updateSettings: ({ variables }) => {
         expectAndFail(variables.settings.moderation).toEqual(
-          GQLMODERATION_MODE.SINGLE_SITES_PRE
+          GQLMODERATION_MODE.SPECIFIC_SITES_PRE
         );
         expectAndFail(variables.settings.premoderateAllCommentsSites).toEqual([
           "site-1",
@@ -152,7 +152,9 @@ it("change site wide pre-moderation to Single sites", async () => {
     }
   )[0];
 
-  const onField = within(preModerationContainer).getByLabelText("Single sites");
+  const onField = within(preModerationContainer).getByLabelText(
+    "Specific sites"
+  );
 
   // Let's enable it.
   act(() => onField.props.onChange(onField.props.value.toString()));

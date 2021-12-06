@@ -7,7 +7,7 @@ import {
 } from "coral-framework/helpers/getModerationLink";
 
 interface Props {
-  mode: "PRE" | "POST" | "SINGLE_SITES_PRE" | "%future added value" | null;
+  mode: "PRE" | "POST" | "SPECIFIC_SITES_PRE" | "%future added value" | null;
   pathOptions: Omit<Options, "queue">;
 }
 

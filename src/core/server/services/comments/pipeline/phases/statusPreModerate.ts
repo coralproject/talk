@@ -14,7 +14,7 @@ const testModerationMode = (
   settings: DeepPartial<GlobalModerationSettings>,
   siteID: string
 ) => {
-  return settings.moderation === GQLMODERATION_MODE.SINGLE_SITES_PRE
+  return settings.moderation === GQLMODERATION_MODE.SPECIFIC_SITES_PRE
     ? settings.premoderateAllCommentsSites?.includes(siteID)
     : settings.moderation === GQLMODERATION_MODE.PRE;
 };

@@ -33,8 +33,8 @@ interface Props {
   disabled: boolean;
 }
 
-const singleSitesIsEnabled: Condition = (_value, values) =>
-  Boolean(values.moderation === GQLMODERATION_MODE.SINGLE_SITES_PRE);
+const specificSitesIsEnabled: Condition = (_value, values) =>
+  Boolean(values.moderation === GQLMODERATION_MODE.SPECIFIC_SITES_PRE);
 
 const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
   disabled,
@@ -43,7 +43,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
     input: premoderateAllCommentsSitesInput,
     meta: premoderateAllCommentsSitesMeta,
   } = useField<string[]>("premoderateAllCommentsSites", {
-    validate: validateWhen(singleSitesIsEnabled, required),
+    validate: validateWhen(specificSitesIsEnabled, required),
   });
 
   const { input: moderationInput } = useField<string>("moderation");
@@ -83,23 +83,23 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
           </RadioButton>
         )}
       </Field>
-      <Field name="moderation" type="radio" value="SINGLE_SITES_PRE">
+      <Field name="moderation" type="radio" value="SPECIFIC_SITES_PRE">
         {({ input }) => (
           <>
             <RadioButton
               {...input}
-              id={`${input.name}-SINGLE_SITES_PRE`}
+              id={`${input.name}-SPECIFIC_SITES_PRE`}
               disabled={disabled}
             >
-              <Localized id="configure-moderation-singleSites">
-                <span>Single sites</span>
+              <Localized id="configure-moderation-specificSites">
+                <span>Specific sites</span>
               </Localized>
             </RadioButton>
           </>
         )}
       </Field>
-      {moderationInput.value === GQLMODERATION_MODE.SINGLE_SITES_PRE && (
-        <div className={styles.singleSites}>
+      {moderationInput.value === GQLMODERATION_MODE.SPECIFIC_SITES_PRE && (
+        <div className={styles.specificSites}>
           <HorizontalGutter spacing={3} mt={3} mb={3}>
             {premoderateAllCommentsSitesInput.value.map((siteID: string) => {
               return (
@@ -118,7 +118,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
             onSelect={onAddSite}
           />
           {hasError(premoderateAllCommentsSitesMeta) ? (
-            <Localized id="configure-moderation-singleSites-validation">
+            <Localized id="specificSitesSelect-validation">
               <ValidationMessage className={styles.validationMessage}>
                 You must select at least one site.
               </ValidationMessage>

@@ -31,8 +31,8 @@ class ConfigureRoute extends React.Component<Props, State> {
     form: FormApi
   ) => {
     // This ensures sites aren't saved to premoderateAllCommentsSites
-    // if the SINGLE_SITES_PRE moderation mode isn't selected
-    if (data.moderation !== GQLMODERATION_MODE.SINGLE_SITES_PRE) {
+    // if the SPECIFIC_SITES_PRE moderation mode isn't selected
+    if (data.moderation !== GQLMODERATION_MODE.SPECIFIC_SITES_PRE) {
       data.premoderateAllCommentsSites = [];
     }
     await this.props.updateSettings({ settings: data });

@@ -556,6 +556,7 @@ site-search-textField =
 site-search-textField =
   .placeholder = Search by site name
 site-search-none-found = No sites were found with that search
+specificSitesSelect-validation = You must select at least one site.
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
@@ -737,8 +738,7 @@ configure-moderation-preModeration-moderation =
   Pre-moderate all comments
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate all comments containing links
-configure-moderation-singleSites = Single sites
-configure-moderation-singleSites-validation = You must select at least one site.
+configure-moderation-specificSites = Specific sites
 configure-moderation-allSites = All sites
 
 configure-moderation-apiKey = API key
