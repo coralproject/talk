@@ -68,6 +68,7 @@ const BanModal: FunctionComponent<Props> = ({
     (input) => {
       try {
         let selectedIDs = input.selectedIDs || [];
+        const showSingleSites = input.showSingleSites;
 
         // single site mods can only ban for their
         // one assigned site, override anything else that
@@ -80,8 +81,12 @@ const BanModal: FunctionComponent<Props> = ({
           selectedIDs = [viewerScopes.sites[0].id];
         }
 
-        if (isSiteMod && (!selectedIDs || selectedIDs.length === 0)) {
-          return { [FORM_ERROR]: "At least one site must be selected" };
+        // if All sites is selected, then admins/org mods ban across
+        // all sites, and site mods ban across all scoped sites
+        if (!showSingleSites) {
+          selectedIDs = !isSiteMod
+            ? []
+            : viewerScopes.sites?.map((site) => site.id);
         }
 
         onConfirm(

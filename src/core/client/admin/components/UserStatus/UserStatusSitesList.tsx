@@ -1,10 +1,21 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { GQLUSER_ROLE } from "coral-framework/schema";
+import { hasError } from "coral-framework/lib/form";
+import {
+  Condition,
+  required,
+  validateWhen,
+} from "coral-framework/lib/validation";
 import {
   FieldSet,
   Flex,
@@ -12,6 +23,7 @@ import {
   HorizontalGutter,
   Label,
   RadioButton,
+  ValidationMessage,
 } from "coral-ui/components/v2";
 
 import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
@@ -48,18 +60,41 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
     viewerScopes.sites.length === 1
   );
 
-  const [showSites, setShowSites] = useState<boolean>(
-    !!(viewerIsScoped || viewerIsSingleSiteMod)
+  const singleSitesIsEnabled: Condition = (_value, values) => {
+    return values.showSingleSites;
+  };
+
+  const { input: selectedIDsInput, meta: selectedIDsInputMeta } = useField<
+    string[]
+  >("selectedIDs", {
+    validate: validateWhen(singleSitesIsEnabled, required),
+  });
+  const { input: showSingleSitesInput } = useField<boolean>("showSingleSites", {
+    initialValue: !!(viewerIsScoped || viewerIsSingleSiteMod),
+  });
+
+  useEffect(() => {
+    if (viewerIsSiteMod) {
+      const sites = viewerScopes.sites?.map((site) => site.id);
+      selectedIDsInput.onChange(sites);
+    }
+  }, []);
+
+  const [candidateSites, setCandidateSites] = useState<string[]>(
+    viewerIsSiteMod
+      ? viewerScopes.sites
+        ? viewerScopes.sites.map((site) => site.id)
+        : []
+      : selectedIDsInput.value
   );
 
-  const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
+  const onHideSingleSites = useCallback(() => {
+    showSingleSitesInput.onChange(false);
+  }, [showSingleSitesInput]);
+  const onShowSingleSites = useCallback(() => {
+    showSingleSitesInput.onChange(true);
+  }, [showSingleSitesInput]);
 
-  const onHideSites = useCallback(() => {
-    setShowSites(false);
-  }, [setShowSites]);
-  const onShowSites = useCallback(() => {
-    setShowSites(true);
-  }, [setShowSites]);
   const onRemoveSite = useCallback(
     (siteID: string) => {
       const changed = [...selectedIDsInput.value];
@@ -81,11 +116,20 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
       const index = changed.indexOf(siteID);
       if (index === -1) {
         changed.push(siteID);
+        if (!candidateSites.includes(siteID)) {
+          setCandidateSites([...candidateSites, siteID]);
+        }
       }
 
       selectedIDsInput.onChange(changed);
     },
     [selectedIDsInput]
+  );
+
+  const onToggleSite = useCallback(
+    (siteID: string, checked: boolean) =>
+      checked ? onRemoveSite(siteID) : onAddSite(siteID),
+    [onAddSite, onRemoveSite]
   );
 
   return (
@@ -104,14 +148,20 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
             <Flex className={styles.sitesToggle} spacing={5}>
               <FormField>
                 <Localized id="community-banModal-allSites">
-                  <RadioButton checked={!showSites} onChange={onHideSites}>
+                  <RadioButton
+                    checked={!showSingleSitesInput.value}
+                    onChange={onHideSingleSites}
+                  >
                     All sites
                   </RadioButton>
                 </Localized>
               </FormField>
               <FormField>
                 <Localized id="community-banModal-specificSites">
-                  <RadioButton checked={showSites} onChange={onShowSites}>
+                  <RadioButton
+                    checked={showSingleSitesInput.value}
+                    onChange={onShowSingleSites}
+                  >
                     Specific Sites
                   </RadioButton>
                 </Localized>
@@ -119,25 +169,36 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
             </Flex>
           )}
 
-          {showSites && (
+          {showSingleSitesInput.value && (
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
-                {selectedIDsInput.value.map((siteID) => {
+                {candidateSites.map((siteID) => {
+                  const checked = selectedIDsInput.value.includes(siteID);
                   return (
                     <UserStatusSitesListSelectedSiteQuery
                       key={siteID}
                       siteID={siteID}
-                      onChange={onRemoveSite}
+                      onChange={onToggleSite}
+                      checked={checked}
                     />
                   );
                 })}
               </HorizontalGutter>
-              <SiteSearch
-                onSelect={onAddSite}
-                showSiteSearchLabel={false}
-                showOnlyScopedSitesInSearchResults={true}
-                showAllSitesSearchFilterOption={false}
-              />
+              {!viewerIsSiteMod && (
+                <SiteSearch
+                  onSelect={onAddSite}
+                  showSiteSearchLabel={false}
+                  showOnlyScopedSitesInSearchResults={true}
+                  showAllSitesSearchFilterOption={false}
+                />
+              )}
+              {hasError(selectedIDsInputMeta) ? (
+                <Localized id="singleSitesSelect-validation">
+                  <ValidationMessage className={styles.validationMessage}>
+                    You must select at least one site.
+                  </ValidationMessage>
+                </Localized>
+              ) : null}
             </>
           )}
         </FieldSet>
