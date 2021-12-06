@@ -9,13 +9,13 @@ import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 import { hasError } from "coral-framework/lib/form";
 import {
   Condition,
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   FieldSet,
   Flex,
