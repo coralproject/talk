@@ -10,7 +10,6 @@ import {
   Dropdown,
   Popover,
 } from "coral-ui/components/v2";
-import { PropTypesOf } from "coral-ui/types";
 
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
 
@@ -28,7 +27,7 @@ interface Props {
   scoped?: boolean;
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
   moderationScopesEnabled?: boolean;
-  query: PropTypesOf<typeof SiteModeratorModal>["query"];
+  // query: PropTypesOf<typeof SiteModeratorModal>["query"];
 }
 
 const UserRoleChange: FunctionComponent<Props> = ({
@@ -39,7 +38,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
   onChangeModerationScopes,
   moderationScopes,
   moderationScopesEnabled = false,
-  query,
+  // query,
 }) => {
   // Setup state and callbacks for the popover.
   const [
@@ -98,7 +97,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
         <SiteModeratorModal
           username={username}
           open={isModalVisible}
-          query={query}
+          // query={query}
           selectedSiteIDs={selectedSiteIDs}
           onCancel={toggleModalVisibility}
           onFinish={onFinishModal}
