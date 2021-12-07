@@ -10,12 +10,6 @@
       {{ macros.preload(asset.src, "style", prefix = staticURI) }}
     {% endfor %}
   {% endif %}
-  {% if enableCustomCSS and tenant and tenant.customCSSURL %}
-    {{ macros.preload(tenant.customCSSURL, "style") }}
-  {% endif %}
-  {% if customCSSURL %}
-    {{ macros.preload(customCSSURL, "style") }}
-  {% endif %}
   {% if analytics and analytics.key and analytics.url and analytics.sdk %}
     {# If analytics is enabled and available, configure the rudderstack analytics to load #}
     <script type="text/javascript">
@@ -46,28 +40,18 @@
   {% endif %}
 
   {# Insert the staticURI via the configuration object during insertion. #}
-  <script type="application/json" id="config">
+  <script type="application/json" id="coral-static-config">
     {{ config | dump | safe }}
   </script>
 {% endblock %}
 
 {# Include all the styles from the entrypoint #}
-{% if entrypoint.css or enableCustomCSS %}
+{% if entrypoint.css %}
   {% block css %}
     {% if entrypoint.css %}
       {% for asset in entrypoint.css %}
         {{ macros.css(asset.src, asset.integrity, staticURI) }}
       {% endfor %}
-    {% endif %}
-
-    {# Custom CSS is included after the CSS block so that its overrides will apply #}
-    {% if enableCustomCSS %}
-      {% if tenant and tenant.customCSSURL %}
-        {{ macros.css(tenant.customCSSURL) }}
-      {% endif %}
-    {% endif %}
-    {% if customCSSURL %}
-      {{ macros.css(customCSSURL)}}
     {% endif %}
   {% endblock %}
 {% endif %}

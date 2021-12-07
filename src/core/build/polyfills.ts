@@ -1,6 +1,6 @@
 import polyfillNodeListForEach from "../client/framework/helpers/polyfillNodeListForEach";
 
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+import "core-js/features/regexp";
+import "core-js/features/promise";
 
 polyfillNodeListForEach();

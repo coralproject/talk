@@ -208,7 +208,7 @@ export class StreamEmbed {
     script.onload = () => {
       this.attach();
     };
-    script.src = "/assets/js/stream2.js";
+    script.src = `${this.config.rootURL}/assets/js/stream.js`;
     document.head.appendChild(script);
   }
 }

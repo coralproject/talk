@@ -459,7 +459,7 @@ export default function createWebpackConfig(
             {
               test: /\.js$/,
               include: /node_modules\//,
-              exclude: /node_modules\/(@babel|babel|core-js|regenerator-runtime)/,
+              exclude: /node_modules\/(@babel|babel|core-js|webpack\/|regenerator-runtime)/,
               use: [
                 {
                   loader: require.resolve("babel-loader"),
@@ -768,7 +768,7 @@ export default function createWebpackConfig(
         library: "CoralStream",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
-        filename: "assets/js/stream2.js",
+        filename: "assets/js/stream.js",
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,

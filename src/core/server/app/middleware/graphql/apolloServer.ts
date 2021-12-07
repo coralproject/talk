@@ -10,7 +10,9 @@ import {
   LoggerApolloServerPlugin,
   MetricsApolloServerPlugin,
 } from "coral-server/graph/plugins";
+import { retrieveSiteByOrigin } from "coral-server/models/site";
 import { Request, TenantCoralRequest } from "coral-server/types/express";
+import { CorsOptionsDelegate } from "cors";
 
 import { RedisCache } from "./cache/redis";
 
@@ -132,14 +134,37 @@ export const apolloGraphQLMiddleware = ({
     debug: false,
   });
 
-  // Get the GraphQL middleware.
+  // Check request coming from known origin.
+  const corsOptionsDelegate: CorsOptionsDelegate = async (
+    req: Request,
+    callback
+  ) => {
+    const originHeader = req.header("Origin");
+    const tenantID = req.coral.tenant?.id;
+    if (!originHeader || !tenantID) {
+      callback(null, { origin: false }); // disable CORS for this request
+      return;
+    }
+    let allow = false;
+    let err: Error | null = null;
+    try {
+      allow = Boolean(
+        await retrieveSiteByOrigin(options.mongo, tenantID, originHeader)
+      );
+    } catch (e) {
+      err = e;
+    }
+    callback(err, { origin: allow });
+  };
+
+  // Get the GraphQL miqddleware.
   return server.getMiddleware({
     // Disable the health check endpoint, Coral does not use this endpoint and
     // instead uses the /api/health endpoint.
     disableHealthCheck: true,
 
-    // Disable CORS, Coral does not allow cross origin requests.
-    cors: false,
+    // Enable CORS, only allow cross origin requests from known origins.
+    cors: corsOptionsDelegate,
 
     // Disable the body parser, we will add our own.
     bodyParserConfig: false,

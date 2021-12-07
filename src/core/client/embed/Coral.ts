@@ -37,6 +37,11 @@ export interface Config {
   graphQLSubscriptionURI?: string;
 }
 
+export function getStaticURI() {
+  // TODO (cvle)
+  return "/";
+}
+
 export function createStreamEmbed(config: Config): StreamEmbed {
   // Parse query params
   const query = parseQuery(location.search);
@@ -114,6 +119,6 @@ export function createStreamEmbed2(config: Config) {
       enableDeprecatedEvents: config.enableDeprecatedEvents,*/
     });
   };
-  script.src = "/assets/js/stream2.js";
+  script.src = "/assets/js/stream.js";
   document.head.appendChild(script);
 }
