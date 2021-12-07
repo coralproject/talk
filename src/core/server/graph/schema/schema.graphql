@@ -8143,6 +8143,35 @@ type UnarchiveStoriesPayload {
   stories: [Story!]!
 }
 
+input MarkCommentSeenInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story of the comment this is for.
+  """
+  storyID: String!
+
+  """
+  commentID is the comment to be marked as seen.
+  """
+  commentID: String!
+}
+
+type MarkCommentSeenPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  comment is the comment that has been marked as seen.
+  """
+  comment: Comment!
+}
+
 ##################
 ## Mutation
 ##################
@@ -8765,6 +8794,8 @@ type Mutation {
 
   unarchiveStories(input: UnarchiveStoriesInput!): UnarchiveStoriesPayload!
     @auth(roles: [ADMIN])
+
+  markCommentAsSeen(input: MarkCommentSeenInput!): MarkCommentSeenPayload!
 }
 
 ##################
