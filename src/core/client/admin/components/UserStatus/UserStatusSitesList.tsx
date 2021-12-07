@@ -64,11 +64,12 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
     return values.showSpecificSites;
   };
 
-  const { input: selectedIDsInput, meta: selectedIDsInputMeta } = useField<
-    string[]
-  >("selectedIDs", {
-    validate: validateWhen(specificSitesIsEnabled, required),
-  });
+  const { input: selectedIDsInput, meta: selectedIDsMeta } = useField<string[]>(
+    "selectedIDs",
+    {
+      validate: validateWhen(specificSitesIsEnabled, required),
+    }
+  );
   const { input: showSpecificSitesInput } = useField<boolean>(
     "showSpecificSites",
     {
@@ -193,7 +194,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
                   showAllSitesSearchFilterOption={false}
                 />
               )}
-              {hasError(selectedIDsInputMeta) ? (
+              {hasError(selectedIDsMeta) ? (
                 <Localized id="specificSitesSelect-validation">
                   <ValidationMessage className={styles.validationMessage}>
                     You must select at least one site.
