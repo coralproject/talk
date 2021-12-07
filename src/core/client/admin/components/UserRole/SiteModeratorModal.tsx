@@ -20,9 +20,9 @@ import {
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
+import SiteModeratorModalSites from "./SiteModeratorModalSites";
 
 import styles from "./SiteModeratorModal.css";
-import SiteModeratorModalSites from "./SiteModeratorModalSites";
 
 interface Props {
   username: string | null;
