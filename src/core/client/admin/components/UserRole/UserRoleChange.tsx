@@ -27,7 +27,6 @@ interface Props {
   scoped?: boolean;
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
   moderationScopesEnabled?: boolean;
-  // query: PropTypesOf<typeof SiteModeratorModal>["query"];
 }
 
 const UserRoleChange: FunctionComponent<Props> = ({
@@ -38,7 +37,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
   onChangeModerationScopes,
   moderationScopes,
   moderationScopesEnabled = false,
-  // query,
 }) => {
   // Setup state and callbacks for the popover.
   const [
@@ -97,7 +95,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
         <SiteModeratorModal
           username={username}
           open={isModalVisible}
-          // query={query}
           selectedSiteIDs={selectedSiteIDs}
           onCancel={toggleModalVisibility}
           onFinish={onFinishModal}
