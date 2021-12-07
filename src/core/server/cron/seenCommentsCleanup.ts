@@ -68,7 +68,7 @@ const cleanupSeenComments: ScheduledJobCommand<Options> = async ({
       }
     }
 
-    await executeBulkOperations<SeenComments>(mongo.seenComments(), batch);
+    executeBulkOperations<SeenComments>(mongo.seenComments(), batch);
   }
 };
 
