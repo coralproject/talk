@@ -68,7 +68,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
             onSubmit={onSubmit}
             initialValues={{ siteIDs: selectedSiteIDs }}
           >
-            {({ handleSubmit, submitError, submitting }) => {
+            {({ handleSubmit, submitError, submitting, values }) => {
               return (
                 <form onSubmit={handleSubmit}>
                   <HorizontalGutter spacing={3}>
@@ -97,7 +97,6 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                     <SiteModeratorModalSites
                       selectedSiteIDs={selectedSiteIDs}
                     />
-                    {/* <SiteModeratorModalSiteFieldContainer query={query} /> */}
                     <Flex justifyContent="flex-end" itemGutter="half">
                       <Localized id="community-siteModeratorModal-cancel">
                         <Button variant="flat" onClick={onCancel}>
@@ -107,7 +106,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                       <Localized id="community-siteModeratorModal-assign">
                         <Button
                           type="submit"
-                          disabled={submitting}
+                          disabled={submitting || values.siteIDs.length === 0}
                           ref={lastFocusableRef}
                         >
                           Assign
