@@ -58,7 +58,12 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   );
 
   return (
-    <Modal open={open} onClose={onCancel} disableScroll>
+    <Modal
+      open={open}
+      onClose={onCancel}
+      disableScroll
+      data-testid="site-moderator-modal"
+    >
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
           <Flex justifyContent="flex-end">
@@ -108,6 +113,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                           type="submit"
                           disabled={submitting || values.siteIDs.length === 0}
                           ref={lastFocusableRef}
+                          data-testid="site-moderator-modal-submitButton"
                         >
                           Assign
                         </Button>
