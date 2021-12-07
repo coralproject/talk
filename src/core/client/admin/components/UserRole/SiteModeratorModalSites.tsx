@@ -1,5 +1,8 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { useField } from "react-final-form";
+
+import { Label } from "coral-ui/components/v2";
 
 import SiteSearch from "../SiteSearch";
 import SiteModeratorModalSelectedSiteQuery from "./SiteModeratorModalSelectedSiteQuery";
@@ -52,6 +55,9 @@ const SiteModeratorModalSites: FunctionComponent<Props> = ({
 
   return (
     <>
+      <Localized id="community-siteModeratorModal-selectSites">
+        <Label>Select sites to moderate</Label>
+      </Localized>
       {candidateSites.map((siteID) => {
         const checked = siteIDsInput.value.includes(siteID);
         return (
