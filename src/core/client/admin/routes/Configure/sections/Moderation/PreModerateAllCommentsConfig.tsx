@@ -116,6 +116,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
             showAllSitesSearchFilterOption={false}
             showSiteSearchLabel={false}
             onSelect={onAddSite}
+            clearTextFieldValueAfterSelect={true}
           />
           {hasError(premoderateAllCommentsSitesMeta) ? (
             <Localized id="specificSitesSelect-validation">
