@@ -1,5 +1,5 @@
 import { RefreshAccessTokenCallback } from "../Coral";
-import { Decorator } from "./types";
+import { DecoratorLegacy } from "./types";
 
 /**
  * Listen to `getRefreshAccessToken` requests, calls the
@@ -8,7 +8,7 @@ import { Decorator } from "./types";
  */
 const withRefreshAccessToken = (
   refreshAccessToken: RefreshAccessTokenCallback | null = null
-): Decorator => (pym) => {
+): DecoratorLegacy => (pym) => {
   pym.onMessage("getRefreshAccessToken", () => {
     if (!refreshAccessToken) {
       // Answer with an empty token.

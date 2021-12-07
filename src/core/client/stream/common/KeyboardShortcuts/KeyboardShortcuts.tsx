@@ -10,7 +10,6 @@ import React, {
 import { Environment } from "react-relay";
 
 import { waitFor } from "coral-common/helpers";
-import { onPymMessage } from "coral-framework/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
@@ -255,7 +254,6 @@ const eventsOfInterest = [
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const {
-    pym,
     relayEnvironment,
     renderWindow,
     eventEmitter,
@@ -333,9 +331,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       reverse: boolean;
       source: "keyboard" | "mobileToolbar";
     }) => {
-      if (!pym) {
-        return;
-      }
       let stop: KeyStop | null = null;
       let traverseOptions: TraverseOptions | undefined;
 
@@ -387,7 +382,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
           .top +
         renderWindow.pageYOffset -
         150;
-      pym.scrollParentToChildPos(offset);
+      renderWindow.scrollTo({ top: offset });
 
       if (stop.isLoadMore) {
         let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
@@ -419,7 +414,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     [
       enabled,
       eventEmitter,
-      pym,
       relayEnvironment,
       renderWindow,
       setTraversalFocus,
@@ -429,10 +423,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
 
   const handleKeypress = useCallback(
     (event: React.KeyboardEvent | KeyboardEvent | string) => {
-      if (!pym) {
-        return;
-      }
-
       let data: KeyboardEventData;
       try {
         if (typeof event === "string") {
@@ -472,7 +462,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
         });
       }
     },
-    [pym, traverse, unmarkAll, zKeyEnabled]
+    [traverse, unmarkAll, zKeyEnabled]
   );
 
   const handleZKeyButton = useCallback(
@@ -505,18 +495,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
 
   // Subscribe to keypress events.
   useEffect(() => {
-    if (!pym) {
-      return;
-    }
-
-    const unsubscribe = onPymMessage(pym, "keypress", handleKeypress);
     renderWindow.addEventListener("keypress", handleKeypress);
 
     return () => {
-      unsubscribe();
       renderWindow.removeEventListener("keypress", handleKeypress);
     };
-  }, [handleKeypress, pym, renderWindow]);
+  }, [handleKeypress, renderWindow]);
 
   if (amp || toolbarClosed || !zKeyEnabled || !loggedIn) {
     return null;

@@ -2,8 +2,7 @@ import { EventEmitter2 } from "eventemitter2";
 
 import { RefreshAccessTokenCallback } from "./Coral";
 import {
-  Decorator,
-  withAutoHeight,
+  withAMPHeight,
   withEventEmitter,
   withLiveCommentCount,
   withSetCommentID,
@@ -62,6 +61,7 @@ export class StreamEmbed {
     this.streamEventEmitter = new EventEmitter2({
       wildcard: true,
       maxListeners: 1000,
+      delimiter: ".",
     });
 
     // Save a reference to the event emitter used by the application.
@@ -72,13 +72,16 @@ export class StreamEmbed {
       this.ready = true;
     });
 
-    // Create the decorators that will be used by the controller.
-    const decorators: ReadonlyArray<Decorator> = [
-      withAutoHeight(Boolean(config.amp)),
-      withSetCommentID,
-      withEventEmitter(this.streamEventEmitter, config.enableDeprecatedEvents),
-      withLiveCommentCount(this.streamEventEmitter),
-    ];
+    withSetCommentID(this.streamEventEmitter);
+    withLiveCommentCount(this.streamEventEmitter);
+    withEventEmitter(
+      this.streamEventEmitter,
+      this.embedEventEmitter,
+      config.enableDeprecatedEvents
+    );
+    if (config.amp) {
+      withAMPHeight(this.streamEventEmitter);
+    }
 
     // Detect if comment count injection is needed and add the count script.
     injectCountScriptIfNeeded(config.rootURL);
@@ -158,7 +161,7 @@ export class StreamEmbed {
       throw new Error("instance not mounted");
     }
 
-    if ((window as any).CoralStream?.attach) {
+    if ((!window as any).CoralStream?.attach) {
       throw new Error("CoralStream Script not loaded");
     }
     (window as any).CoralStream.remove(this.element);

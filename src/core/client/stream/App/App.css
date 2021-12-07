@@ -1,20 +1,3 @@
-/* Here we add global stylings for body and document */
-:global {
-  body {
-    margin: 0;
-    padding: 0;
-    background: var(--palette-background-body);
-
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-  }
-  input::-ms-clear, input::-ms-reveal {
-    display: none;
-  }
-}
-
 .disableTransitions {
   & * {
     transition: none !important;
@@ -23,6 +6,15 @@
 
 .root {
   width: 100%;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
 }
 
 .tabContent {

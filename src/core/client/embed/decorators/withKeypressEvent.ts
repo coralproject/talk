@@ -1,9 +1,9 @@
 import { KeyboardEventData } from "coral-stream/common/KeyboardShortcuts/KeyboardShortcuts";
 
 import onIntersectChange from "../onIntersectChange";
-import { Decorator } from "./types";
+import { DecoratorLegacy } from "./types";
 
-const withKeypressEvent: Decorator = (pym) => {
+const withKeypressEvent: DecoratorLegacy = (pym) => {
   const handleKeypress = (e: KeyboardEvent) => {
     // Ignore events that came from elements that accepts user input.
     if (e.target) {

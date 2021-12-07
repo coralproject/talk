@@ -42,10 +42,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
   const query = parseQuery(location.search);
   const embedEventEmitter = new EventEmitter2({
     wildcard: true,
-  });
-  const streamEventEmitter = new EventEmitter2({
-    wildcard: true,
-    maxListeners: 1000,
+    delimiter: ".",
   });
 
   if (config.events) {
@@ -59,7 +56,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     storyMode: config.storyMode || undefined,
     commentID: config.commentID || query.commentID,
     rootURL: config.rootURL || getLocationOrigin(window),
-    eventEmitter: streamEventEmitter,
+    eventEmitter: embedEventEmitter,
     accessToken: config.accessToken,
     customCSSURL: config.customCSSURL,
     refreshAccessToken: config.refreshAccessToken,
@@ -79,6 +76,7 @@ export function createStreamEmbed2(config: Config) {
   const streamEventEmitter = new EventEmitter2({
     wildcard: true,
     maxListeners: 1000,
+    delimiter: ".",
   });
 
   if (config.events) {

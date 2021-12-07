@@ -1,5 +1,5 @@
-export { Decorator, CleanupCallback } from "./types";
-export { default as withAutoHeight } from "./withAutoHeight";
+export { DecoratorLegacy as Decorator, CleanupCallback } from "./types";
+export { default as withAMPHeight } from "./withAMPHeight";
 export { default as withClickEvent } from "./withClickEvent";
 export { default as withConfig } from "./withConfig";
 export { default as withEventEmitter } from "./withEventEmitter";

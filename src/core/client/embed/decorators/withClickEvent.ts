@@ -1,6 +1,6 @@
-import { Decorator } from "./types";
+import { DecoratorLegacy } from "./types";
 
-const withClickEvent: Decorator = (pym) => {
+const withClickEvent: DecoratorLegacy = (pym) => {
   const handleClick = () => pym.sendMessage("click", "");
 
   // If the user clicks outside the embed, then tell the embed.

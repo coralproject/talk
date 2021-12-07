@@ -14,7 +14,6 @@ import { RestClient } from "coral-framework/lib/rest";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { TransitionControlData } from "coral-framework/testHelpers";
 import { UIContext } from "coral-ui/components/v2";
-import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
 import { ManagedSubscriptionClient } from "../network/createManagedSubscriptionClient";
 import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
@@ -69,12 +68,6 @@ export interface CoralContext {
 
   /** postMessage service */
   postMessage: PostMessageService;
-
-  /**
-   * A way to listen for clicks that are e.g. outside of the
-   * current frame for `ClickOutside`
-   */
-  registerClickFarAway?: ClickFarAwayRegister;
 
   /** A pym child that interacts with the pym parent. */
   pym?: PymChild;
@@ -136,7 +129,6 @@ function parseMarkup(str: string) {
 export function getUIContextPropsFromCoralContext(ctx: CoralContext) {
   return {
     timeagoFormatter: ctx.timeagoFormatter,
-    registerClickFarAway: ctx.registerClickFarAway,
     mediaQueryValues: ctx.mediaQueryValues,
     locales: ctx.locales,
     renderWindow: ctx.renderWindow,

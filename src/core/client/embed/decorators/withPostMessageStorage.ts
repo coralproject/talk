@@ -1,13 +1,13 @@
 import { createInMemoryStorage } from "coral-framework/lib/storage";
 
 import { prefixStorage } from "../utils";
-import { Decorator } from "./types";
+import { DecoratorLegacy } from "./types";
 
 const withPostMessageStorage = (
   storage: Storage | null,
   type: "localStorage" | "sessionStorage",
   prefix = "coral:"
-): Decorator => (pym, postMessage) => {
+): DecoratorLegacy => (pym, postMessage) => {
   const prefixedStorage = storage
     ? prefixStorage(storage, prefix)
     : createInMemoryStorage();

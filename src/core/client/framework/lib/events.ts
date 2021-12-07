@@ -72,8 +72,8 @@ export function createViewerNetworkEvent<
 >(name: string): ViewerNetworkEvent<T> {
   return {
     name,
-    nameSuccess: `${name}.success`,
-    nameError: `${name}.error`,
+    nameSuccess: `viewer.${name}.success`,
+    nameError: `viewer.${name}.error`,
     begin: ((eventEmitter, data) => {
       const ms = Date.now();
       return {
@@ -109,7 +109,7 @@ export function createViewerNetworkEvent<
  */
 export function createViewerEvent<T>(name: string): ViewerEvent<T> {
   return {
-    name,
+    name: `viewer.${name}`,
     emit: ((eventEmitter, data) => {
       eventEmitter.emit(`viewer.${name}`, data);
     }) as ViewerEvent<T>["emit"],

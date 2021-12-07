@@ -20,12 +20,6 @@ function extractBundleConfig() {
 }
 
 async function main() {
-  const { renderTarget } = parseQuery(location.search);
-  if (renderTarget) {
-    // TODO: (cvle) iframeless
-    throw new Error("Render targets not supported.");
-  }
-
   // Detect and extract the storyID and storyURL from the current page so we can
   // add it to the managed provider.
   const bundleConfig = extractBundleConfig();

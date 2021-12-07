@@ -37,7 +37,6 @@ const RefreshTokenHandler: FunctionComponent = () => {
     tokenRefreshProvider,
     eventEmitter,
     relayEnvironment,
-    pym,
   } = useCoralContext();
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const setAccessToken = useMutation(SetAccessTokenMutation);
@@ -87,7 +86,6 @@ const RefreshTokenHandler: FunctionComponent = () => {
     showAuthPopup,
     eventEmitter,
     relayEnvironment,
-    pym,
     setAccessToken,
   ]);
   return null;

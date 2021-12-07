@@ -1,1 +1,1 @@
-export { default, ClickFarAwayRegister } from "./ClickOutside";
+export { default } from "./ClickOutside";

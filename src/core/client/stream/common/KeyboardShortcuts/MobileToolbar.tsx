@@ -2,7 +2,6 @@ import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
 import CLASSES from "coral-stream/classes";
-import RenderTargetPortal from "coral-stream/renderTarget/RenderTargetPortal";
 import { Flex } from "coral-ui/components/v2";
 
 import styles from "./MobileToolbar.css";
@@ -16,16 +15,14 @@ const MobileToolbar: FunctionComponent<Props> = ({
   className,
   ...rest
 }) => (
-  <RenderTargetPortal target="footer">
-    <Flex justifyContent="center">
-      <div
-        className={cn(className, styles.root, CLASSES.mobileToolbar)}
-        {...rest}
-      >
-        {children}
-      </div>
-    </Flex>
-  </RenderTargetPortal>
+  <Flex justifyContent="center">
+    <div
+      className={cn(className, styles.root, CLASSES.mobileToolbar)}
+      {...rest}
+    >
+      {children}
+    </div>
+  </Flex>
 );
 
 export default MobileToolbar;

@@ -1,5 +1,5 @@
 import onIntersectChange from "../onIntersectChange";
-import { Decorator } from "./types";
+import { DecoratorLegacy } from "./types";
 
 interface RenderTargetOptions {
   inViewOnly: boolean;
@@ -12,6 +12,10 @@ const defaultStyle: Partial<CSSStyleDeclaration> = {
   position: "fixed",
   visibility: "hidden",
   pointerEvents: "none",
+  left: "0px",
+  bottom: "0px",
+  height: "52px",
+  width: "100%",
 };
 
 /**
@@ -88,7 +92,7 @@ function initRenderTargets(
  * @param url url to stream embed
  * @param id id of stream embed
  */
-const withRenderTargets = (url: string, id: string): Decorator => (pym) => {
+const withRenderTargets = (url: string, id: string): DecoratorLegacy => (pym) => {
   const frames = initRenderTargets(url, id);
   const targetsDisablingScroll: string[] = [];
   const needObserver = renderTargets.some(

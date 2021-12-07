@@ -40,7 +40,7 @@ it("Should call setCommentID in pym", async () => {
   const id = "comment2-id";
   const context = {
     pym: {
-      sendMessage: sinon.mock().once().withArgs("setCommentID", id),
+      sendMessage: sinon.mock().once().withArgs("stream.setCommentID", id),
     },
     window,
     renderWindow: window,
@@ -54,7 +54,7 @@ it("Should call setCommentID in pym", async () => {
 it("Should call setCommentID in pym with empty id", async () => {
   const context = {
     pym: {
-      sendMessage: sinon.mock().once().withArgs("setCommentID", ""),
+      sendMessage: sinon.mock().once().withArgs("stream.setCommentID", ""),
     },
     window,
     renderWindow: window,
