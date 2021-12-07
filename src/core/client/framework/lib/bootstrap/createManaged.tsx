@@ -3,7 +3,6 @@ import { FluentBundle } from "@fluent/bundle/compat";
 import { Localized } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
 import { noop } from "lodash";
-import { Child as PymChild } from "pym.js";
 import React, { Component, ComponentType } from "react";
 import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
@@ -81,9 +80,6 @@ interface CreateContextArguments {
 
   /** Access token that should be used instead of what's currently in storage */
   accessToken?: string;
-
-  /** A pym child that interacts with the pym parent. */
-  pym?: PymChild;
 
   /** Supports emitting and listening to events. */
   eventEmitter?: EventEmitter2;
@@ -368,7 +364,6 @@ export default async function createManaged({
   lang = document.documentElement.lang,
   initLocalState = noop,
   localesData,
-  pym,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 1000 }),
   bundle,
   bundleConfig = {},
@@ -455,7 +450,6 @@ export default async function createManaged({
     locales,
     localeBundles,
     timeagoFormatter,
-    pym,
     eventEmitter,
     rest: createRestClient(rootURL, clientID, accessTokenProvider),
     postMessage,

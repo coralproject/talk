@@ -76,7 +76,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   refreshViewer,
   settings,
 }) => {
-  const { pym, renderWindow } = useCoralContext();
+  const { renderWindow } = useCoralContext();
   const commentSeenEnabled = useCommentSeenEnabled();
 
   const [nudge, setNudge] = useState(true);
@@ -240,7 +240,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
 
   const jumpToComment = useCallback(() => {
     const commentID = jumpToCommentID;
-    if (!commentID || !pym) {
+    if (!commentID) {
       return;
     }
 
@@ -257,11 +257,11 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
           elem.getBoundingClientRect().top +
           renderWindow.pageYOffset -
           (commentSeenEnabled ? 150 : 0);
-        pym.scrollParentToChildPos(offset);
+        renderWindow.scrollTo({ top: offset });
         elem.focus();
       }
     }, 300);
-  }, [commentSeenEnabled, jumpToCommentID, onClose, pym, renderWindow]);
+  }, [commentSeenEnabled, jumpToCommentID, onClose, renderWindow]);
 
   if (!initialized) {
     return null;

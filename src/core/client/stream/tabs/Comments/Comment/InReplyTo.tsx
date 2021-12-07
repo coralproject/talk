@@ -21,7 +21,7 @@ const InReplyTo: FunctionComponent<Props> = ({
   parent,
   enableJumpToParent,
 }) => {
-  const { pym, renderWindow } = useCoralContext();
+  const { renderWindow } = useCoralContext();
 
   const navigateToParent = useCallback(() => {
     if (!parent) {
@@ -31,14 +31,14 @@ const InReplyTo: FunctionComponent<Props> = ({
     const elemID = computeCommentElementID(parent.id);
     const elem = renderWindow.document.getElementById(elemID);
     if (elem) {
-      void pym?.scrollParentToChildEl(elemID);
+      renderWindow.scrollTo({ top: elem.offsetTop });
       elem.focus();
     } else {
       globalErrorReporter.report(
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  }, [parent, pym, renderWindow.document]);
+  }, [parent, renderWindow]);
 
   const Username = () => (
     <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>

@@ -12,14 +12,18 @@ interface Props {
 }
 
 const AddACommentButton: FunctionComponent<Props> = ({ isQA = false }) => {
-  const { pym } = useCoralContext();
+  const { renderWindow } = useCoralContext();
   const onClick = useCallback(() => {
-    if (!pym) {
+    if (!renderWindow) {
       return;
     }
-
-    pym.scrollParentToChildEl(POST_COMMENT_FORM_ID);
-  }, [pym]);
+    const postCommentForm = renderWindow.document.getElementById(
+      POST_COMMENT_FORM_ID
+    );
+    if (postCommentForm) {
+      renderWindow.scrollTo({ top: postCommentForm.offsetTop });
+    }
+  }, [renderWindow]);
 
   return (
     <div className={styles.root}>
