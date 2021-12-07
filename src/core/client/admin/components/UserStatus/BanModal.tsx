@@ -100,11 +100,12 @@ const BanModal: FunctionComponent<Props> = ({
     userBanStatus?.active ? UpdateType.NO_SITES : UpdateType.ALL_SITES
   );
 
+  const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
+  const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
+
   const onFormSubmit = useCallback(
     (input) => {
       try {
-        const { banSiteIDs, unbanSiteIDs } = input;
-
         const inScope = (siteID: string) =>
           !isSiteMod || viewerScopes?.sites?.some(({ id }) => id === siteID);
 
@@ -128,7 +129,14 @@ const BanModal: FunctionComponent<Props> = ({
         return { [FORM_ERROR]: err.message };
       }
     },
-    [isSiteMod, onConfirm, viewerScopes.sites, updateType]
+    [
+      isSiteMod,
+      onConfirm,
+      viewerScopes.sites,
+      updateType,
+      banSiteIDs,
+      unbanSiteIDs,
+    ]
   );
 
   const initialSiteIDs = useMemo(() => {
@@ -270,14 +278,17 @@ const BanModal: FunctionComponent<Props> = ({
                     </Flex>
                   )}
 
-                  {moderationScopesEnabled &&
-                    updateType === UpdateType.SPECIFIC_SITES && (
-                      <UserStatusSitesList
-                        bannedSites={userBanStatus?.sites || []}
-                        viewerScopes={viewerScopes}
-                        banActive={userBanStatus?.active}
-                      />
-                    )}
+                  <UserStatusSitesList
+                    bannedSites={userBanStatus?.sites || []}
+                    viewerScopes={viewerScopes}
+                    banActive={userBanStatus?.active}
+                    banState={[banSiteIDs, setBanSiteIDs]}
+                    unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
+                    visible={
+                      !!moderationScopesEnabled &&
+                      updateType === UpdateType.SPECIFIC_SITES
+                    }
+                  />
 
                   {submitError && (
                     <CallOut
