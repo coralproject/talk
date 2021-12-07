@@ -45,7 +45,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   );
 
   const [candidateSites, setCandidateSites] = useState<string[]>(
-    bannedSites.map((bs) => bs.id)
+    viewerIsScoped && viewerScopes.sites
+      ? viewerScopes.sites.map((site) => site.id)
+      : bannedSites.map((bs) => bs.id)
   );
 
   const onUnbanFromSite = useCallback(
@@ -131,12 +133,14 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
               );
             })}
           </HorizontalGutter>
-          <SiteSearch
-            onSelect={onAddSite}
-            showSiteSearchLabel={false}
-            showOnlyScopedSitesInSearchResults={true}
-            showAllSitesSearchFilterOption={false}
-          />
+          {!viewerIsScoped && (
+            <SiteSearch
+              onSelect={onAddSite}
+              showSiteSearchLabel={false}
+              showOnlyScopedSitesInSearchResults={true}
+              showAllSitesSearchFilterOption={false}
+            />
+          )}
         </FieldSet>
       </IntersectionProvider>
     </>

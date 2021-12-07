@@ -116,6 +116,20 @@ const BanModal: FunctionComponent<Props> = ({
           inScope(siteID)
         );
 
+        if (
+          updateType === UpdateType.SPECIFIC_SITES &&
+          inScopeFilteredBans.length + inScopeFilteredUnbans.length === 0
+        ) {
+          return {
+            [FORM_ERROR]: (
+              <Localized id="specificSitesSelect-validation">
+                You must select at least one site from which to ban/unban the
+                user.
+              </Localized>
+            ),
+          };
+        }
+
         onConfirm(
           updateType,
           input.rejectExistingComments,
