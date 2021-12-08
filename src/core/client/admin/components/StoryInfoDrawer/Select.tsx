@@ -8,6 +8,7 @@ import {
   ClickOutside,
   Dropdown,
   DropdownButton,
+  Icon,
   Popover,
 } from "coral-ui/components/v2";
 
@@ -83,6 +84,7 @@ const Select: FunctionComponent<Props> = ({
               {current.value}
               {
                 <ButtonIcon size="lg">
+                {/*MARCUS: WHY IS NOT WORKING */}
                   {visible ? "arrow_drop_up" : "arrow_drop_down"}
                 </ButtonIcon>
               }

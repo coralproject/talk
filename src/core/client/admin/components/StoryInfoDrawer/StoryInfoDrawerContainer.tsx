@@ -4,10 +4,15 @@ import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
-import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
+import {
+  Flex,
+  HorizontalGutter,
+  Icon,
+  TextLink,
+  Timestamp,
+} from "coral-ui/components/v2";
 
 import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
-import { useDateTimeFormatter } from "coral-framework/hooks";
 
 import RescrapeStory from "./RescrapeStory";
 import styles from "./StoryInfoDrawerContainer.css";
@@ -19,22 +24,14 @@ export interface Props {
   story: StoryInfoDrawerContainer_story;
 }
 
-const MetaDataItem: FunctionComponent<{ result: [string, any] }> = ({
-  result: [key, val],
+const MetaDataItem: FunctionComponent<{ val: any; icon: any }> = ({
+  val,
+  icon,
 }) => {
-  const formatter = useDateTimeFormatter({
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
-  const formatted = key === "publishedAt" ? formatter(val) : val;
   return (
     <Flex direction="row" className={styles.metaDataItem}>
-      <div>{key}</div>
-      <div>{formatted}</div>
+      <div>{icon}</div>
+      <div>{val}</div>
     </Flex>
   );
 };
@@ -43,6 +40,8 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
   onClose,
 }) => {
+  const { author, publishedAt } = story.metadata || {};
+
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
@@ -70,11 +69,20 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             <span className={styles.sectionTitle}>Scraped Metadata</span>
           </Localized>
           <Flex className={styles.metaData} direction="column">
-            {Object.entries(story.metadata as object)
-              .filter(([, val]) => typeof val !== "function")
-              .map((result, idx) => (
-                <MetaDataItem key={idx} result={result} />
-              ))}
+            {author && (
+              <MetaDataItem
+                key="author"
+                val={author}
+                icon={<Icon size="sm">people</Icon>}
+              />
+            )}
+            {publishedAt && (
+              <MetaDataItem
+                key="publishedAt"
+                val={<Timestamp>{publishedAt}</Timestamp>}
+                icon={<Icon size="sm">calendar_today</Icon>}
+              />
+            )}
           </Flex>
           <RescrapeStory storyID={story.id} />
           <StorySettingsContainer

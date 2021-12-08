@@ -38,7 +38,6 @@
 }
 
 .metaDataItem > div {
-  min-width: 200px;
-  margin: var(--spacing-1) 0;
+  margin: 0 var(--spacing-2);
   padding: 0;
 }

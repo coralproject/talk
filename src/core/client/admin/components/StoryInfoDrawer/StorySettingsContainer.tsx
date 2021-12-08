@@ -112,7 +112,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                               disabled={submitting}
                             >
                               <div className={styles.checkboxText}>
-                                Pre Mode Links Enabled
+                                Pre Mod Links
                               </div>
                             </CheckBox>
                           </Localized>
