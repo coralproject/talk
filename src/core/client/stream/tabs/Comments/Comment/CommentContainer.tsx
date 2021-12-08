@@ -53,7 +53,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
-import { useCommentSeen, useCommentSeenEnabled } from "../commentSeen";
+import { useCommentSeen } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
@@ -64,6 +64,7 @@ import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import { isReplyFlattened } from "./flattenReplies";
 import IndentedComment from "./IndentedComment";
+import MarkCommentAsSeenMutation from "./MarkCommentAsSeenMutation";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
   ModerationRejectedTombstoneContainer,
@@ -145,16 +146,31 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
-  const commentSeenEnabled = useCommentSeenEnabled();
+  const commentSeenEnabled = !!(viewer && viewer.id);
   const seen = useCommentSeen(viewer?.id, comment.id);
   const setTraversalFocus = useMutation(SetTraversalFocus);
+  const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);
   const handleFocus = useCallback(() => {
+    if (commentSeenEnabled) {
+      void markCommentAsSeen({
+        commentID: comment.id,
+        storyID: story.id,
+      });
+    }
+
     void setTraversalFocus({
       commentID: comment.id,
       commentSeenEnabled,
       skipCommitSeen: seen,
     });
-  }, [comment.id, commentSeenEnabled, seen, setTraversalFocus]);
+  }, [
+    comment.id,
+    commentSeenEnabled,
+    markCommentAsSeen,
+    seen,
+    setTraversalFocus,
+    story.id,
+  ]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
