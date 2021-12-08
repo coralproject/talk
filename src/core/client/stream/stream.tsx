@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 /* eslint-disable no-restricted-globals */
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import ReactDOM from "react-dom";
 
 import { parseQuery } from "coral-common/utils";
@@ -38,6 +38,14 @@ function extractBundleConfig() {
   return { storyID, storyURL } as Record<string, string>;
 }
 
+/** injectLinkTag is set by the Index Component  */
+let injectLinkTag: (linkTag: HTMLLinkElement) => void;
+
+export function insertLinkTag(linkTag: HTMLLinkElement) {
+  // Inject link tag into Index Component
+  injectLinkTag(linkTag);
+}
+
 export async function attach(options: Options) {
   // Detect and extract the storyID and storyURL from the current page so we can
   // add it to the managed provider.
@@ -60,18 +68,35 @@ export async function attach(options: Options) {
     refreshAccessTokenPromise,
   });
 
-  const Index: FunctionComponent = () => (
-    <ShadowRoot.div>
-      <ManagedCoralContextProvider>
-        <div id="coral-app-container">
-          {options.cssAssets.map((asset) => (
-            <link key={asset} href={asset} rel="stylesheet" />
-          ))}
-          <AppContainer />
-        </div>
-      </ManagedCoralContextProvider>
-    </ShadowRoot.div>
-  );
+  const Index: FunctionComponent = () => {
+    const [injectedLinkTags, setInjectedLinkTags] = useState<HTMLLinkElement[]>(
+      []
+    );
+    // Set inject link tag method.
+    injectLinkTag = (linkTag: HTMLLinkElement) => {
+      setInjectedLinkTags([...injectedLinkTags, linkTag]);
+    };
+    return (
+      <ShadowRoot.div>
+        <ManagedCoralContextProvider>
+          <div id="coral-app-container">
+            {options.cssAssets.map((asset) => (
+              <link key={asset} href={asset} rel="stylesheet" />
+            ))}
+            {injectedLinkTags.map((linkTag) => (
+              <link
+                key={linkTag.href}
+                href={linkTag.href}
+                rel={linkTag.rel}
+                onLoad={linkTag.onload as any}
+              />
+            ))}
+            <AppContainer />
+          </div>
+        </ManagedCoralContextProvider>
+      </ShadowRoot.div>
+    );
+  };
 
   // eslint-disable-next-line no-restricted-globals
   ReactDOM.render(<Index />, options.element);
