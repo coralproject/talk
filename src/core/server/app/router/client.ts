@@ -68,6 +68,17 @@ export interface ClientTargetHandlerOptions {
   entrypoint: Entrypoint;
 
   /**
+   * enableCustomCSS will insert the custom CSS into the template if it is
+   * available on the Tenant.
+   */
+  enableCustomCSS?: boolean;
+  /**
+   * enableCustomCSSQuery will insert the custom CSS into the template if it is
+   * passed through in a query string
+   */
+  enableCustomCSSQuery?: boolean;
+
+  /**
    * cacheDuration is the cache duration that a given request should be cached
    * for.
    */
@@ -120,6 +131,8 @@ const clientHandler = ({
   analytics,
   staticConfig: config,
   entrypoint,
+  enableCustomCSS,
+  enableCustomCSSQuery,
   defaultLocale,
   template: viewTemplate = "client",
 }: ClientTargetHandlerOptions): RequestHandler => (req, res, next) => {
@@ -137,12 +150,14 @@ const clientHandler = ({
     analytics,
     staticURI: config.staticURI,
     entrypoint,
+    enableCustomCSS,
     locale,
     config: {
       ...config,
       featureFlags,
       tenantDomain: req.coral.tenant?.domain,
     },
+    customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
 };
 
@@ -206,6 +221,18 @@ export function mountClientRoutes(
       template: "amp",
     })
   );
+
+  /*
+  router.use(
+    "/embed/stream",
+    createClientTargetRouter({
+      mongo,
+      ...options,
+      enableCustomCSS: true,
+      enableCustomCSSQuery: true,
+      entrypoint: entrypoints.get("stream"),
+    })
+  );*/
 
   router.use(
     "/embed/auth",
