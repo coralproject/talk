@@ -7,6 +7,7 @@ import { useMutation } from "coral-framework/lib/relay";
 import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabMutation";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
+import { useShadowRoot } from "coral-stream/ShadowRoot";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -45,12 +46,13 @@ const CommentsLinks: FunctionComponent<Props> = ({
   showGoToProfile,
 }) => {
   const { renderWindow } = useCoralContext();
+  const shadowRoot = useShadowRoot();
   const onGoToArticleTop = useCallback(() => {
     renderWindow.scrollTo({ top: 0 });
   }, [renderWindow]);
   const onGoToCommentsTop = useCallback(() => {
-    scrollToBeginning(renderWindow);
-  }, [renderWindow]);
+    scrollToBeginning(shadowRoot, renderWindow);
+  }, [shadowRoot, renderWindow]);
 
   const setActiveTab = useMutation(SetActiveTabMutation);
 

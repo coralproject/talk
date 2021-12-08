@@ -5,6 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import CLASSES from "coral-stream/classes";
+import { useShadowRoot } from "coral-stream/ShadowRoot";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
@@ -22,6 +23,7 @@ const InReplyTo: FunctionComponent<Props> = ({
   enableJumpToParent,
 }) => {
   const { renderWindow } = useCoralContext();
+  const shadowRoot = useShadowRoot();
 
   const navigateToParent = useCallback(() => {
     if (!parent) {
@@ -29,7 +31,7 @@ const InReplyTo: FunctionComponent<Props> = ({
     }
 
     const elemID = computeCommentElementID(parent.id);
-    const elem = renderWindow.document.getElementById(elemID);
+    const elem = shadowRoot.getElementById(elemID);
     if (elem) {
       renderWindow.scrollTo({ top: elem.offsetTop });
       elem.focus();
@@ -38,7 +40,7 @@ const InReplyTo: FunctionComponent<Props> = ({
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  }, [parent, renderWindow]);
+  }, [parent, shadowRoot, renderWindow]);
 
   const Username = () => (
     <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>

@@ -11,16 +11,18 @@ import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createM
 import AppContainer from "./App";
 import { createInitLocalState } from "./local";
 import localesData from "./locales";
+import ShadowRoot from "./ShadowRoot";
 
 // Import css variables.
-import "coral-ui/theme/stream.css";
+import "coral-ui/theme/streamEmbed.css";
+import "coral-ui/theme/typography.css";
 
 interface Options {
   storyID?: string;
   storyURL?: string;
   storyMode?: string;
   commentID?: string;
-  customCSSURL?: string;
+  cssAssets: string[];
   accessToken?: string;
   version?: string;
   amp?: boolean;
@@ -59,9 +61,16 @@ export async function attach(options: Options) {
   });
 
   const Index: FunctionComponent = () => (
-    <ManagedCoralContextProvider>
-      <AppContainer />
-    </ManagedCoralContextProvider>
+    <ShadowRoot.div>
+      <ManagedCoralContextProvider>
+        <div id="coral-app-container">
+          {options.cssAssets.map((asset) => (
+            <link key={asset} href={asset} rel="stylesheet" />
+          ))}
+          <AppContainer />
+        </div>
+      </ManagedCoralContextProvider>
+    </ShadowRoot.div>
   );
 
   // eslint-disable-next-line no-restricted-globals

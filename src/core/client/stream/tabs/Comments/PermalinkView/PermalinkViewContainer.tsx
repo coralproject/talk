@@ -21,6 +21,7 @@ import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import { useShadowRoot } from "coral-stream/ShadowRoot";
 import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
 import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
@@ -48,6 +49,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
   const { renderWindow, eventEmitter, window } = useCoralContext();
+  const shadowRoot = useShadowRoot();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
@@ -70,8 +72,8 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
     if (!renderWindow) {
       return;
     }
-    setTimeout(() => scrollToBeginning(renderWindow), 100);
-  }, [renderWindow]);
+    setTimeout(() => scrollToBeginning(shadowRoot, renderWindow), 100);
+  }, [shadowRoot, renderWindow]);
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {

@@ -43,6 +43,8 @@ export class StreamEmbed {
   private clearAutoRender: OnIntersectCancellation | null = null;
   private config: StreamEmbedConfig;
   private element: HTMLElement;
+  private cssAssets: string[];
+  private jsAssets: string[];
 
   constructor(config: StreamEmbedConfig) {
     this.config = config;
@@ -51,6 +53,8 @@ export class StreamEmbed {
       throw new Error(`element ${config.id} was not found`);
     }
     this.element = findElement;
+    this.initCSSAssets();
+    this.initJSAssets();
 
     if (config.bodyClassName) {
       this.element.className = this.element.className
@@ -113,6 +117,31 @@ export class StreamEmbed {
         );
       }
     }
+  }
+
+  private initCSSAssets() {
+    this.cssAssets = [`${this.config.rootURL}/assets/css/stream.css`];
+    if (this.config.customCSSURL) {
+      this.cssAssets.push(this.config.customCSSURL);
+    }
+    this.cssAssets.forEach((asset) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.href = asset;
+      link.as = "style";
+      document.head.appendChild(link);
+    });
+  }
+
+  private initJSAssets() {
+    this.jsAssets = [`${this.config.rootURL}/assets/js/stream.js`];
+    this.jsAssets.forEach((asset) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.href = asset;
+      link.as = "script";
+      document.head.appendChild(link);
+    });
   }
 
   public on(eventName: string, callback: (data: any) => void) {
@@ -184,7 +213,7 @@ export class StreamEmbed {
       rootURL: this.config.rootURL,
       eventEmitter: this.streamEventEmitter,
       accessToken: this.config.accessToken,
-      customCSSURL: this.config.customCSSURL,
+      cssAssets: this.cssAssets,
       refreshAccessToken: this.config.refreshAccessToken,
       amp: this.config.amp,
       element: this.element,

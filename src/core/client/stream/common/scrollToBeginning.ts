@@ -1,5 +1,5 @@
-function scrollToBeginning(window: Window) {
-  const tab = window.document.getElementById("tab-COMMENTS");
+function scrollToBeginning(shadowRoot: ShadowRoot, window: Window) {
+  const tab = shadowRoot.getElementById("tab-COMMENTS");
   if (tab) {
     window.scrollTo({ top: tab.offsetTop });
   }

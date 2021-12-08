@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import bunyan from "bunyan";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
@@ -48,6 +49,15 @@ const reactProfilerAlias = {
   "scheduler/tracing": "scheduler/tracing-profiling",
 };
 
+function insertLinkTag(linkTag: HTMLLinkElement) {
+  const coralStream = (window as any).CoralStream;
+  if (coralStream && coralStream.insertLinkTag) {
+    coralStream.insertLinkTag(linkTag);
+  } else {
+    document.head.appendChild(linkTag);
+  }
+}
+
 export default function createWebpackConfig(
   config: Config,
   { appendPlugins = [], watch = false }: CreateWebpackOptions = {}
@@ -88,10 +98,6 @@ export default function createWebpackConfig(
    */
   const ifBuild = !watch ? (...nodes: any[]) => nodes : () => [];
 
-  const styleLoader = {
-    loader: require.resolve("style-loader"),
-  };
-
   const localesOptions = {
     pathToLocales: paths.appLocales,
 
@@ -123,6 +129,7 @@ export default function createWebpackConfig(
         chunkFilename: isProduction
           ? "assets/css/[id].[contenthash].css"
           : "assets/css/[id].[hash].css",
+        insert: insertLinkTag,
       }),
       isProduction &&
         new OptimizeCssnanoPlugin({
@@ -142,6 +149,11 @@ export default function createWebpackConfig(
       new CompressionPlugin({})
     ),
     ...ifWatch(
+      new MiniCssExtractPlugin({
+        filename: "assets/css/[name].css",
+        chunkFilename: "assets/css/[id].css",
+        insert: insertLinkTag,
+      }),
       // Add module names to factory functions so they appear in browser profiler.
       new webpack.NamedModulesPlugin(),
       // Watcher doesn't work well if you mistype casing in a path so we use
@@ -372,7 +384,7 @@ export default function createWebpackConfig(
             {
               test: /\.css\.ts$/,
               use: [
-                !watch ? MiniCssExtractPlugin.loader : styleLoader,
+                MiniCssExtractPlugin.loader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
@@ -469,15 +481,56 @@ export default function createWebpackConfig(
                 },
               ],
             },
+            // typography.css must be included in the light dom whereas the other css
+            // could be in the shadow dom. That's why we are treating it here separately.
+            {
+              test: /\/typography\.css$/,
+              use: [
+                {
+                  loader: require.resolve("style-loader"),
+                  options: {
+                    injectType: "linkTag",
+                    /* , insert: insertLinkTag */
+                  },
+                },
+                {
+                  loader: "file-loader",
+                  options: {
+                    name: "assets/css/[name].[hash].css",
+                  },
+                },
+                {
+                  loader: "extract-loader",
+                },
+                {
+                  loader: require.resolve("css-loader"),
+                  options: {
+                    modules: {
+                      localIdentName: "[name]-[local]-[contenthash]",
+                    },
+                    importLoaders: 1,
+                    sourceMap: !disableSourcemaps,
+                  },
+                },
+                {
+                  loader: require.resolve("postcss-loader"),
+                  options: {
+                    config: {
+                      path: paths.appPostCssConfig,
+                    },
+                    sourceMap: !disableSourcemaps,
+                  },
+                },
+              ],
+            },
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // When building we use a plugin to extract that CSS to a file, and
-            // in watch mode "style" loader enables hot editing of CSS.
+            // We use a plugin to extract that CSS to a file.
             {
               test: /\.css$/,
+              exclude: /\/typography\.css$/,
               use: [
-                !watch ? MiniCssExtractPlugin.loader : styleLoader,
+                MiniCssExtractPlugin.loader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
@@ -749,20 +802,32 @@ export default function createWebpackConfig(
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
-        // Ensure that we never split the main library into chunks.
         splitChunks: {
+          // Ensure that we never split the main library into chunks.
           chunks: "async",
+          /*
+          TODO: (cvle) remove if we don't need this.
+          cacheGroups: {
+            styles: {
+              name: "styles",
+              test: /\.css$/,
+              chunks: "async",
+              enforce: true,
+            },
+          },*/
         },
         // We can turn on sideEffects here as we don't use
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: false,
       },
-      entry: [
-        paths.appPolyfill,
-        ...ifBuild(paths.appPublicPath),
-        ...devServerEntries,
-        paths.appStreamBundle,
-      ],
+      entry: {
+        stream: [
+          paths.appPolyfill,
+          ...ifBuild(paths.appPublicPath),
+          ...devServerEntries,
+          paths.appStreamBundle,
+        ],
+      },
       output: {
         ...baseConfig.output,
         library: "CoralStream",

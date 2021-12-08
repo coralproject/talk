@@ -27,6 +27,7 @@ import {
   ShowAllRepliesEvent,
   UnmarkAllEvent,
 } from "coral-stream/events";
+import { useShadowRoot } from "coral-stream/ShadowRoot";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
 import {
@@ -87,19 +88,18 @@ const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) => {
   return true;
 };
 
-const getKeyStops = (window: Window) => {
+const getKeyStops = (shadowRoot: ShadowRoot) => {
   const stops: KeyStop[] = [];
-  window.document
+  shadowRoot
     .querySelectorAll<HTMLElement>("[data-key-stop]")
     .forEach((el) => stops.push(toKeyStop(el)));
   return stops;
 };
 
-const shouldDisableUnmarkAll = (window: Window) => {
+const shouldDisableUnmarkAll = (shadowRoot: ShadowRoot) => {
   return (
-    window.document.querySelector<HTMLElement>(
-      `.${CLASSES.comment.notSeen}`
-    ) === null
+    shadowRoot.querySelector<HTMLElement>(`.${CLASSES.comment.notSeen}`) ===
+    null
   );
 };
 
@@ -122,10 +122,13 @@ const getLastKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
   return null;
 };
 
-const getCurrentKeyStop = (window: Window, relayEnvironment: Environment) => {
+const getCurrentKeyStop = (
+  shadowRoot: ShadowRoot,
+  relayEnvironment: Environment
+) => {
   const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
     .commentWithTraversalFocus;
-  const currentCommentElement = window.document.getElementById(
+  const currentCommentElement = shadowRoot.getElementById(
     computeCommentElementID(currentCommentID)
   );
   if (!currentCommentElement) {
@@ -135,11 +138,11 @@ const getCurrentKeyStop = (window: Window, relayEnvironment: Environment) => {
 };
 
 const findNextKeyStop = (
-  window: Window,
+  shadowRoot: ShadowRoot,
   currentStop: KeyStop | null,
   options: TraverseOptions = {}
 ): KeyStop | null => {
-  const stops = getKeyStops(window);
+  const stops = getKeyStops(shadowRoot);
   if (stops.length === 0) {
     return null;
   }
@@ -174,11 +177,11 @@ const findNextKeyStop = (
 };
 
 const findPreviousKeyStop = (
-  window: Window,
+  shadowRoot: ShadowRoot,
   currentStop: KeyStop | null,
   options: TraverseOptions = {}
 ): KeyStop | null => {
-  const stops = getKeyStops(window);
+  const stops = getKeyStops(shadowRoot);
   if (stops.length === 0) {
     return null;
   }
@@ -219,12 +222,12 @@ const NextUnread = (
 );
 
 const getNextAction = (
-  window: Window,
+  shadowRoot: ShadowRoot,
   relayEnvironment: Environment,
   options: TraverseOptions = {}
 ) => {
-  const currentStop = getCurrentKeyStop(window, relayEnvironment);
-  const next = findNextKeyStop(window, currentStop, options);
+  const currentStop = getCurrentKeyStop(shadowRoot, relayEnvironment);
+  const next = findNextKeyStop(shadowRoot, currentStop, options);
   if (next) {
     if (next.isLoadMore) {
       return {
@@ -259,6 +262,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     eventEmitter,
     browserInfo,
   } = useCoralContext();
+  const shadowRoot = useShadowRoot();
   const [toolbarClosed, setToolbarClosed] = useInMemoryState(
     "keyboardShortcutMobileToolbarClosed",
     false
@@ -276,7 +280,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
   const updateButtonStates = useCallback(() => {
-    const nextAction = getNextAction(renderWindow, relayEnvironment, {
+    const nextAction = getNextAction(shadowRoot, relayEnvironment, {
       skipSeen: true,
     });
     if (!nextAction) {
@@ -294,7 +298,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     if (nextAction.disabled !== disableZAction) {
       setDisableZAction(nextAction.disabled);
     }
-    if (shouldDisableUnmarkAll(renderWindow) !== disableUnmarkAction) {
+    if (shouldDisableUnmarkAll(shadowRoot) !== disableUnmarkAction) {
       setDisableUnmarkAction(!disableUnmarkAction);
     }
   }, [
@@ -302,7 +306,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     disableZAction,
     nextZAction,
     relayEnvironment,
-    renderWindow,
+    shadowRoot,
   ]);
 
   const unmarkAll = useCallback(
@@ -340,15 +344,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
             skipSeen: true,
           };
         }
-        const currentStop = getCurrentKeyStop(renderWindow, relayEnvironment);
+        const currentStop = getCurrentKeyStop(shadowRoot, relayEnvironment);
         if (config.reverse) {
-          stop = findPreviousKeyStop(
-            renderWindow,
-            currentStop,
-            traverseOptions
-          );
+          stop = findPreviousKeyStop(shadowRoot, currentStop, traverseOptions);
         } else {
-          stop = findNextKeyStop(renderWindow, currentStop, traverseOptions);
+          stop = findNextKeyStop(shadowRoot, currentStop, traverseOptions);
         }
       }
 
@@ -378,19 +378,18 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
 
       const offset =
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        renderWindow.document.getElementById(stop.id)!.getBoundingClientRect()
-          .top +
+        shadowRoot.getElementById(stop.id)!.getBoundingClientRect().top +
         renderWindow.pageYOffset -
         150;
       renderWindow.scrollTo({ top: offset });
 
       if (stop.isLoadMore) {
-        let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
+        let prevOrNextStop = findPreviousKeyStop(shadowRoot, stop, {
           skipLoadMore: true,
           noCircle: true,
         });
         if (!prevOrNextStop) {
-          prevOrNextStop = findNextKeyStop(renderWindow, stop, {
+          prevOrNextStop = findNextKeyStop(shadowRoot, stop, {
             skipLoadMore: true,
             noCircle: true,
           });
@@ -415,6 +414,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       enabled,
       eventEmitter,
       relayEnvironment,
+      shadowRoot,
       renderWindow,
       setTraversalFocus,
       zKeyEnabled,
