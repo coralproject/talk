@@ -15,7 +15,6 @@
 .button {
   margin-right: var(--mini-unit);
   padding: var(--spacing-1);
-  margin-left: calc(-1 * var(--spacing-1));
 
   &:hover {
     background-color: var(--palette-grey-200);
