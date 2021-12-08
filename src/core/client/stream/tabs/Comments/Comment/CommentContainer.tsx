@@ -53,7 +53,6 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
-import { useCommentSeen } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
@@ -147,11 +146,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
   enableJumpToParent,
 }) => {
   const commentSeenEnabled = !!(viewer && viewer.id);
-  const seen = useCommentSeen(viewer?.id, comment.id);
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);
   const handleFocus = useCallback(() => {
-    if (commentSeenEnabled) {
+    if (commentSeenEnabled && !comment.seen) {
       void markCommentAsSeen({
         commentID: comment.id,
         storyID: story.id,
@@ -161,13 +159,13 @@ export const CommentContainer: FunctionComponent<Props> = ({
     void setTraversalFocus({
       commentID: comment.id,
       commentSeenEnabled,
-      skipCommitSeen: seen,
+      skipCommitSeen: !!comment.seen,
     });
   }, [
     comment.id,
+    comment.seen,
     commentSeenEnabled,
     markCommentAsSeen,
-    seen,
     setTraversalFocus,
     story.id,
   ]);
@@ -412,7 +410,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   // Boolean that indicates whether or not we want to
   // apply the "comment not seen class" for styling purposes.
   const shouldApplyNotSeenClass =
-    !seen &&
+    !comment.seen &&
     !highlight &&
     comment.lastViewerAction !== "CREATE" &&
     comment.lastViewerAction !== "EDIT";
@@ -435,10 +433,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
-      data-not-seen={seen || !commentSeenEnabled ? undefined : true}
+      data-not-seen={comment.seen || !commentSeenEnabled ? undefined : true}
       onFocus={handleFocus}
     >
-      {comment.seen ? <div>SEEN</div> : <div>UNSEEN</div>}
       {/* TODO: (cvle) Refactor at some point */}
       <Hidden id={`${commentElementID}-label`}>
         {indentLevel && (
