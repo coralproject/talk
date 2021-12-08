@@ -54,23 +54,26 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     (siteID: string) => {
       const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
       const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
+      const alreadyBanned = bannedSites.some(({ id }) => id === siteID);
+
       if (inBanIDs) {
         // remove from banSiteIDs
         setBanSiteIDs(banSiteIDs.filter((id) => id !== siteID));
       }
-      if (!inUnbanIDs) {
+      if (!inUnbanIDs && alreadyBanned) {
         // add to unbanSiteIDs
         setUnbanSiteIDs([...unbanSiteIDs, siteID]);
       }
     },
-    [banSiteIDs, unbanSiteIDs]
+    [banSiteIDs, unbanSiteIDs, bannedSites, setBanSiteIDs, setUnbanSiteIDs]
   );
 
   const onBanFromSite = useCallback(
     (siteID: string) => {
       const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
       const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
-      if (!inBanIDs) {
+      const alreadyBanned = bannedSites.some(({ id }) => id === siteID);
+      if (!inBanIDs && !alreadyBanned) {
         // add to banSiteIDs
         setBanSiteIDs([...banSiteIDs, siteID]);
       }
@@ -79,7 +82,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
         setUnbanSiteIDs(unbanSiteIDs.filter((id) => id !== siteID));
       }
     },
-    [banSiteIDs, unbanSiteIDs, setBanSiteIDs, setUnbanSiteIDs]
+    [banSiteIDs, unbanSiteIDs, setBanSiteIDs, setUnbanSiteIDs, bannedSites]
   );
 
   const onToggleSite = useCallback(
@@ -101,7 +104,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
       setCandidateSites([...candidateSites, id]);
       onToggleSite(id, true);
     },
-    [onToggleSite]
+    [onToggleSite, candidateSites]
   );
 
   return !visible ? (

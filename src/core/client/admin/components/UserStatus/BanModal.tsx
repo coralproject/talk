@@ -100,14 +100,17 @@ const BanModal: FunctionComponent<Props> = ({
     userBanStatus?.active ? UpdateType.NO_SITES : UpdateType.ALL_SITES
   );
 
-  const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
-  const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
+  const banIDsState = useState<string[]>([]);
+  const unbanIDsState = useState<string[]>([]);
 
   const onFormSubmit = useCallback(
     (input) => {
       try {
         const inScope = (siteID: string) =>
           !isSiteMod || viewerScopes?.sites?.some(({ id }) => id === siteID);
+
+        const [banSiteIDs] = banIDsState;
+        const [unbanSiteIDs] = unbanIDsState;
 
         const inScopeFilteredBans = banSiteIDs?.filter((siteID: string) =>
           inScope(siteID)
@@ -148,8 +151,8 @@ const BanModal: FunctionComponent<Props> = ({
       onConfirm,
       viewerScopes.sites,
       updateType,
-      banSiteIDs,
-      unbanSiteIDs,
+      banIDsState,
+      unbanIDsState,
     ]
   );
 
@@ -296,8 +299,8 @@ const BanModal: FunctionComponent<Props> = ({
                     bannedSites={userBanStatus?.sites || []}
                     viewerScopes={viewerScopes}
                     banActive={userBanStatus?.active}
-                    banState={[banSiteIDs, setBanSiteIDs]}
-                    unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
+                    banState={banIDsState}
+                    unbanState={unbanIDsState}
                     visible={
                       !!moderationScopesEnabled &&
                       updateType === UpdateType.SPECIFIC_SITES
