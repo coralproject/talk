@@ -20,7 +20,9 @@ const UpdateUserBanMutation = createMutation(
             user {
               id
               status {
+                current
                 ban {
+                  active
                   sites {
                     id
                   }

@@ -1848,6 +1848,9 @@ export async function siteBanUser(
       $addToSet: {
         "status.ban.siteIDs": { $each: siteIDs },
       },
+      $set: {
+        "status.ban.active": false,
+      },
     },
     {
       // False to return the updated document instead of the original
