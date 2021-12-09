@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { Field, Form } from "react-final-form";
 
-import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
 
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
@@ -23,6 +22,8 @@ import {
   Textarea,
 } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
+
+import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
@@ -286,17 +287,16 @@ const BanModal: FunctionComponent<Props> = ({
                     </Flex>
                   )}
 
-                  <UserStatusSitesList
-                    bannedSites={userBanStatus?.sites || []}
-                    viewerScopes={viewerScopes}
-                    banActive={userBanStatus?.active}
-                    banState={banIDsState}
-                    unbanState={unbanIDsState}
-                    visible={
-                      !!moderationScopesEnabled &&
-                      updateType === UpdateType.SPECIFIC_SITES
-                    }
-                  />
+                  {!!moderationScopesEnabled &&
+                    updateType === UpdateType.SPECIFIC_SITES && (
+                      <UserStatusSitesList
+                        bannedSites={userBanStatus?.sites || []}
+                        viewerScopes={viewerScopes}
+                        banActive={userBanStatus?.active}
+                        banState={banIDsState}
+                        unbanState={unbanIDsState}
+                      />
+                    )}
 
                   {submitError && (
                     <CallOut

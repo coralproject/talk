@@ -23,7 +23,6 @@ export interface Scopes {
 }
 
 interface Props {
-  visible: boolean;
   readonly banActive?: Readonly<boolean>;
   readonly bannedSites: ReadonlyArray<ScopeSite>;
   banState: [string[], (siteIDs: string[]) => void];
@@ -36,7 +35,6 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   bannedSites,
   banState: [banSiteIDs, setBanSiteIDs],
   unbanState: [unbanSiteIDs, setUnbanSiteIDs],
-  visible,
 }) => {
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
 
@@ -46,13 +44,16 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   );
 
   const [candidateSites, setCandidateSites] = useState<string[]>(() => {
+    let all = bannedSites
+      .map((bs) => bs.id)
+      .concat(banSiteIDs)
+      .concat(unbanSiteIDs);
+
     if (viewerIsScoped) {
-      const all = viewerScopes.sites!.concat(bannedSites);
-      const unique = dedupe(all, (site) => site.id);
-      return unique.map((bs) => bs.id);
+      all = all.concat(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
     }
 
-    return bannedSites.map((bs) => bs.id);
+    return dedupe(all);
   });
 
   const onUnbanFromSite = useCallback(
@@ -112,9 +113,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     [onToggleSite, candidateSites]
   );
 
-  return !visible ? (
-    <></>
-  ) : (
+  return (
     <>
       <IntersectionProvider>
         <FieldSet>
