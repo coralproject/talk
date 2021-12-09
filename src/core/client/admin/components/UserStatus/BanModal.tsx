@@ -107,22 +107,12 @@ const BanModal: FunctionComponent<Props> = ({
   const onFormSubmit = useCallback(
     (input) => {
       try {
-        const inScope = (siteID: string) =>
-          !isSiteMod || viewerScopes?.sites?.some(({ id }) => id === siteID);
-
         const [banSiteIDs] = banIDsState;
         const [unbanSiteIDs] = unbanIDsState;
 
-        const inScopeFilteredBans = banSiteIDs?.filter((siteID: string) =>
-          inScope(siteID)
-        );
-        const inScopeFilteredUnbans = unbanSiteIDs?.filter((siteID: string) =>
-          inScope(siteID)
-        );
-
         if (
           updateType === UpdateType.SPECIFIC_SITES &&
-          inScopeFilteredBans.length + inScopeFilteredUnbans.length === 0
+          banSiteIDs.length + unbanSiteIDs.length === 0
         ) {
           return {
             [FORM_ERROR]: (
@@ -137,8 +127,8 @@ const BanModal: FunctionComponent<Props> = ({
         onConfirm(
           updateType,
           input.rejectExistingComments,
-          inScopeFilteredBans,
-          inScopeFilteredUnbans,
+          banSiteIDs,
+          unbanSiteIDs,
           input.emailMessage
         );
 
