@@ -137,14 +137,7 @@ const BanModal: FunctionComponent<Props> = ({
         return { [FORM_ERROR]: err.message };
       }
     },
-    [
-      isSiteMod,
-      onConfirm,
-      viewerScopes.sites,
-      updateType,
-      banIDsState,
-      unbanIDsState,
-    ]
+    [onConfirm, updateType, banIDsState, unbanIDsState]
   );
 
   const {
