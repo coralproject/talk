@@ -33,13 +33,20 @@ export interface Config {
   bodyClassName?: string;
   customCSSURL?: string;
   amp?: boolean;
-
-  graphQLSubscriptionURI?: string;
 }
 
+let staticURI = "/";
+
+/** This is called by the stream bundle to get the public path. */
 export function getStaticURI() {
-  // TODO (cvle)
-  return "/";
+  return staticURI;
+}
+
+/** Set static url for webpack. Should be called as soon as we know it. */
+export function setStaticURI(uri: string) {
+  /* @ts-ignore */
+  __webpack_public_path__ = uri;
+  staticURI = uri;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -66,59 +73,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     customCSSURL: config.customCSSURL,
     refreshAccessToken: config.refreshAccessToken,
     amp: config.amp,
-    graphQLSubscriptionURI: config.graphQLSubscriptionURI,
     autoRender: config.autoRender,
     enableDeprecatedEvents: config.enableDeprecatedEvents,
   });
-}
-
-export function createStreamEmbed2(config: Config) {
-  // Parse query params
-  const query = parseQuery(location.search);
-  const embedEventEmitter = new EventEmitter2({
-    wildcard: true,
-  });
-  const streamEventEmitter = new EventEmitter2({
-    wildcard: true,
-    maxListeners: 1000,
-    delimiter: ".",
-  });
-
-  if (config.events) {
-    config.events(embedEventEmitter);
-  }
-
-  const id = config.id || "coral-embed-stream";
-  const element = document.getElementById(id);
-  if (!element) {
-    // eslint-disable-next-line no-console
-    console.error(`Element to render Coral Stream not found: ${id}`);
-    return;
-  }
-  if (config.bodyClassName) {
-    element.className = element.className
-      ? `${element.className} ${config.bodyClassName}`
-      : config.bodyClassName;
-  }
-  const script = document.createElement("script");
-  script.onload = function () {
-    (window as any).CoralStream.attach({
-      storyID: config.storyID || query.storyID,
-      storyURL: config.storyURL || query.storyURL || resolveStoryURL(window),
-      storyMode: config.storyMode || undefined,
-      commentID: config.commentID || query.commentID,
-      rootURL: config.rootURL || getLocationOrigin(window),
-      eventEmitter: streamEventEmitter,
-      accessToken: config.accessToken,
-      customCSSURL: config.customCSSURL,
-      refreshAccessToken: config.refreshAccessToken,
-      amp: config.amp,
-      element: document.getElementById(id),
-      graphQLSubscriptionURI: config.graphQLSubscriptionURI,
-      /* autoRender: config.autoRender,
-      enableDeprecatedEvents: config.enableDeprecatedEvents,*/
-    });
-  };
-  script.src = "/assets/js/stream.js";
-  document.head.appendChild(script);
 }

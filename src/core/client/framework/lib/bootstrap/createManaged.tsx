@@ -100,6 +100,9 @@ interface CreateContextArguments {
 
   /** A promise that returns the next acess token when expired */
   refreshAccessTokenPromise?: RefreshAccessTokenPromise;
+
+  /** Static Config from the server necessary to start the client*/
+  staticConfig?: StaticConfig | null;
 }
 
 /**
@@ -198,7 +201,8 @@ function createManagedCoralContextProvider(
   initLocalState: InitLocalState,
   localesData: LocalesData,
   ErrorBoundary?: React.ComponentType,
-  refreshAccessTokenPromise?: RefreshAccessTokenPromise
+  refreshAccessTokenPromise?: RefreshAccessTokenPromise,
+  staticConfig?: StaticConfig | null
 ) {
   const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
     {},
@@ -279,7 +283,7 @@ function createManagedCoralContextProvider(
         environment: newContext.relayEnvironment,
         context: newContext,
         auth,
-        staticConfig: getStaticConfig(window),
+        staticConfig,
       });
 
       // Update the subscription client access token.
@@ -383,7 +387,13 @@ export default async function createManaged({
   reporterFeedbackPrompt = false,
   graphQLSubscriptionURI,
   refreshAccessTokenPromise,
+  staticConfig = getStaticConfig(window),
 }: CreateContextArguments): Promise<ComponentType> {
+  if (!staticConfig) {
+    // eslint-disable-next-line no-console
+    console.warn("No static config found or provided");
+  }
+
   const tokenRefreshProvider = createTokenRefreshProvider();
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
@@ -392,7 +402,10 @@ export default async function createManaged({
   // Potentially inject react-axe for runtime a11y checks.
   await potentiallyInjectAxe(window.location.href, browserInfo);
 
-  const reporter = createReporter(window, { reporterFeedbackPrompt });
+  const reporter = createReporter(window, {
+    reporter: staticConfig?.reporter,
+    reporterFeedbackPrompt,
+  });
   // Set error reporter.
   if (reporter) {
     setGlobalErrorReporter(reporter);
@@ -423,8 +436,6 @@ export default async function createManaged({
 
   /** clientID is sent to the server with every request */
   const clientID = uuid();
-
-  const staticConfig = getStaticConfig(window);
 
   // websocketEndpoint points to our graphql server's live endpoint.
   graphQLSubscriptionURI =
@@ -496,6 +507,7 @@ export default async function createManaged({
     initLocalState,
     localesData,
     reporter?.ErrorBoundary,
-    refreshAccessTokenPromise
+    refreshAccessTokenPromise,
+    staticConfig
   );
 }

@@ -1,6 +1,7 @@
+import { EmbedBootstrapConfig } from "coral-common/config";
 import { EventEmitter2 } from "eventemitter2";
 
-import { RefreshAccessTokenCallback } from "./Coral";
+import { RefreshAccessTokenCallback, setStaticURI } from "./Coral";
 import {
   withAMPHeight,
   withEventEmitter,
@@ -43,8 +44,10 @@ export class StreamEmbed {
   private clearAutoRender: OnIntersectCancellation | null = null;
   private config: StreamEmbedConfig;
   private element: HTMLElement;
+  private boostrapConfig?: EmbedBootstrapConfig;
   private cssAssets: string[];
   private jsAssets: string[];
+  private onBootstrapConfigLoaded: Array<() => void> = [];
 
   constructor(config: StreamEmbedConfig) {
     this.config = config;
@@ -53,8 +56,9 @@ export class StreamEmbed {
       throw new Error(`element ${config.id} was not found`);
     }
     this.element = findElement;
-    this.initCSSAssets();
-    this.initJSAssets();
+
+    // Load bootstrap config from server.
+    this.loadBootstrapConfig();
 
     if (config.bodyClassName) {
       this.element.className = this.element.className
@@ -119,12 +123,57 @@ export class StreamEmbed {
     }
   }
 
-  private initCSSAssets() {
-    this.cssAssets = [`${this.config.rootURL}/assets/css/stream.css`];
-    if (this.config.customCSSURL) {
-      this.cssAssets.push(this.config.customCSSURL);
+  /** Queue calledback to be called after bootstrap config has loaded */
+  private runAfterBootstrapConfigLoaded(cb: () => void) {
+    this.onBootstrapConfigLoaded.push(cb);
+  }
+
+  /** This is called when BootstrapConfig ist Loaded */
+  private onBootstrapConfigLoad(config: EmbedBootstrapConfig) {
+    this.boostrapConfig = config;
+
+    // Set webpacks static uri.
+    setStaticURI(config.staticConfig.staticURI);
+
+    // Parse css and js assets and incorporate staticURI.
+    const prefix = config.staticConfig.staticURI
+      ? config.staticConfig.staticURI
+      : "";
+    this.cssAssets = [...config.assets.css].map((a) => prefix + a.src);
+    this.jsAssets = config.assets.js.map((a) => prefix + a.src);
+
+    // Preload assets
+    this.preloadCSSAssets();
+    this.preloadJSAssets();
+
+    // Call any pending callbacks that were waiting for the bootstrap config to be loaded.
+    if (this.onBootstrapConfigLoaded) {
+      this.onBootstrapConfigLoaded.forEach((cb) => cb());
+      this.onBootstrapConfigLoaded = [];
     }
-    this.cssAssets.forEach((asset) => {
+  }
+
+  /** Loads the boostrap config */
+  private loadBootstrapConfig() {
+    const req = new XMLHttpRequest();
+    const runOnBootstrapLoad = (config: EmbedBootstrapConfig) =>
+      this.onBootstrapConfigLoad(config);
+    req.addEventListener("load", function () {
+      if (this.status !== 200) {
+        throw new Error("Loading bootstrap config failed");
+      }
+      runOnBootstrapLoad(JSON.parse(this.responseText));
+    });
+    req.open("GET", `${this.config.rootURL}/embed/bootstrap`);
+    req.send();
+  }
+
+  private preloadCSSAssets() {
+    let assets = this.cssAssets;
+    if (this.config.customCSSURL) {
+      assets = assets.concat(this.config.customCSSURL);
+    }
+    assets.forEach((asset) => {
       const link = document.createElement("link");
       link.rel = "preload";
       link.href = asset;
@@ -133,8 +182,7 @@ export class StreamEmbed {
     });
   }
 
-  private initJSAssets() {
-    this.jsAssets = [`${this.config.rootURL}/assets/js/stream.js`];
+  private preloadJSAssets() {
     this.jsAssets.forEach((asset) => {
       const link = document.createElement("link");
       link.rel = "preload";
@@ -205,6 +253,9 @@ export class StreamEmbed {
     if (!(window as any).CoralStream?.attach) {
       throw new Error("CoralStream Script not loaded");
     }
+    if (!this.boostrapConfig) {
+      throw new Error("Bootstrap config not loaded");
+    }
     (window as any).CoralStream.attach({
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
@@ -218,10 +269,10 @@ export class StreamEmbed {
       amp: this.config.amp,
       element: this.element,
       graphQLSubscriptionURI: this.config.graphQLSubscriptionURI,
-      /* autoRender: config.autoRender,
-      enableDeprecatedEvents: config.enableDeprecatedEvents,*/
+      staticConfig: this.boostrapConfig.staticConfig,
+      customCSSURL: this.boostrapConfig.customCSSURL,
+      locale: this.boostrapConfig.locale,
     });
-    this._rendered = true;
   }
 
   public render() {
@@ -229,6 +280,18 @@ export class StreamEmbed {
     if (this._rendered) {
       return;
     }
+    // Boostrap config is still loading, we'll wait and then render.
+    if (!this.boostrapConfig) {
+      this.runAfterBootstrapConfigLoaded(() => {
+        this.render();
+      });
+      return;
+    }
+
+    // Mark as rendered.
+    this._rendered = true;
+
+    // Load script and attach stream.
     if ((window as any).CoralStream) {
       this.attach();
       return;
@@ -237,7 +300,15 @@ export class StreamEmbed {
     script.onload = () => {
       this.attach();
     };
-    script.src = `${this.config.rootURL}/assets/js/stream.js`;
+
+    // Find stream script from the js assets parsed from the bootstrap config.
+    const streamScript = this.jsAssets.find((s) =>
+      s.includes("assets/js/stream.js")
+    );
+    if (!streamScript) {
+      throw new Error("Stream script not found in manifest");
+    }
+    script.src = streamScript;
     document.head.appendChild(script);
   }
 }

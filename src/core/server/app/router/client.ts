@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 
-import { StaticConfig } from "coral-common/config";
+import { EmbedBootstrapConfig, StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
 import { cspSiteMiddleware } from "coral-server/app/middleware/csp";
@@ -210,7 +210,7 @@ const createEmbedBootstrapHandler: (
     return;
   }
 
-  res.json({
+  const data: EmbedBootstrapConfig = {
     locale,
     assets: {
       js: entrypoint.js.map(({ src }) => ({ src })) || [],
@@ -218,7 +218,9 @@ const createEmbedBootstrapHandler: (
     },
     customCSSURL: req.coral.tenant.customCSSURL,
     staticConfig,
-  });
+  };
+
+  res.json(data);
 };
 
 export async function mountClientRoutes(

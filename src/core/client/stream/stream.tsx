@@ -1,8 +1,10 @@
 import { EventEmitter2 } from "eventemitter2";
 /* eslint-disable no-restricted-globals */
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import ReactDOM from "react-dom";
 
+import { StaticConfig } from "coral-common/config";
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { parseQuery } from "coral-common/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
 import { createManaged } from "coral-framework/lib/bootstrap";
@@ -15,9 +17,11 @@ import ShadowRoot from "./ShadowRoot";
 
 // Import css variables.
 import "coral-ui/theme/streamEmbed.css";
+// Import typography.
 import "coral-ui/theme/typography.css";
 
 interface Options {
+  locale?: LanguageCode;
   storyID?: string;
   storyURL?: string;
   storyMode?: string;
@@ -31,6 +35,8 @@ interface Options {
   graphQLSubscriptionURI?: string;
   rootURL: string;
   eventEmitter: EventEmitter2;
+  staticConfig: StaticConfig;
+  customCSSURL?: string;
 }
 
 function extractBundleConfig() {
@@ -41,12 +47,20 @@ function extractBundleConfig() {
 /** injectLinkTag is set by the Index Component  */
 let injectLinkTag: (linkTag: HTMLLinkElement) => void;
 
+/**
+ * Insert link tag is called by css loaders like style-loader or mini-css-extract plugin.
+ *  See webpack config.
+ **/
 export function insertLinkTag(linkTag: HTMLLinkElement) {
   // Inject link tag into Index Component
   injectLinkTag(linkTag);
 }
 
 export async function attach(options: Options) {
+  if (options.staticConfig.staticURI) {
+    /* @ts-ignore */
+    __webpack_public_path__ = options.staticConfig.staticURI;
+  }
   // Detect and extract the storyID and storyURL from the current page so we can
   // add it to the managed provider.
   const bundleConfig = extractBundleConfig();
@@ -59,6 +73,7 @@ export async function attach(options: Options) {
 
   const ManagedCoralContextProvider = await createManaged({
     rootURL: options.rootURL,
+    lang: options.locale,
     graphQLSubscriptionURI: options.graphQLSubscriptionURI,
     initLocalState: createInitLocalState(options),
     localesData,
@@ -68,6 +83,15 @@ export async function attach(options: Options) {
     refreshAccessTokenPromise,
   });
 
+  // Amount of initial css files to be loaded.
+  let initialCSSFileNumber = options.cssAssets.length;
+  if (options.customCSSURL) {
+    initialCSSFileNumber++;
+  }
+
+  // Current amount of loaded css files.
+  let cssLoaded = 0;
+
   const Index: FunctionComponent = () => {
     const [injectedLinkTags, setInjectedLinkTags] = useState<HTMLLinkElement[]>(
       []
@@ -76,12 +100,28 @@ export async function attach(options: Options) {
     injectLinkTag = (linkTag: HTMLLinkElement) => {
       setInjectedLinkTags([...injectedLinkTags, linkTag]);
     };
+
+    // Determine whether css has finished loading, before rendering the stream to prevent
+    // flash of unstyled content.
+    const [isCSSLoaded, setIsCSSLoaded] = useState(false);
+    const handleCSSLoad = useCallback(() => {
+      cssLoaded++;
+      // When amount of css loaded equals initial css file number, mark as ready.
+      if (cssLoaded === initialCSSFileNumber) {
+        setIsCSSLoaded(true);
+      }
+    }, []);
     return (
       <ShadowRoot.div>
         <ManagedCoralContextProvider>
           <div id="coral-app-container">
             {options.cssAssets.map((asset) => (
-              <link key={asset} href={asset} rel="stylesheet" />
+              <link
+                key={asset}
+                href={asset}
+                onLoad={handleCSSLoad}
+                rel="stylesheet"
+              />
             ))}
             {injectedLinkTags.map((linkTag) => (
               <link
@@ -91,7 +131,14 @@ export async function attach(options: Options) {
                 onLoad={linkTag.onload as any}
               />
             ))}
-            <AppContainer />
+            {options.customCSSURL && (
+              <link
+                href={options.customCSSURL}
+                onLoad={handleCSSLoad}
+                rel="stylesheet"
+              />
+            )}
+            {isCSSLoaded && <AppContainer />}
           </div>
         </ManagedCoralContextProvider>
       </ShadowRoot.div>

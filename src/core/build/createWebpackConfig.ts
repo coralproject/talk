@@ -651,14 +651,14 @@ export default function createWebpackConfig(
         /* stream: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appStreamIndex,
         ],*/
         auth: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
@@ -666,21 +666,21 @@ export default function createWebpackConfig(
         install: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appInstallIndex,
         ],
         account: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appAccountIndex,
         ],
         admin: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appAdminIndex,
         ],
@@ -774,7 +774,7 @@ export default function createWebpackConfig(
       entry: {
         stream: [
           paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appStreamBundle,
         ],
