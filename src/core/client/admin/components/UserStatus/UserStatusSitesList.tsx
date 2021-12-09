@@ -22,9 +22,13 @@ export interface Scopes {
   sites?: ScopeSite[] | null;
 }
 
+export interface UserBanStatus {
+  sites: ReadonlyArray<ScopeSite> | null;
+  active: boolean | null;
+}
+
 interface Props {
-  readonly banActive?: Readonly<boolean>;
-  readonly bannedSites: ReadonlyArray<ScopeSite>;
+  readonly userBanStatus?: UserBanStatus;
   banState: [string[], (siteIDs: string[]) => void];
   unbanState: [string[], (siteIDs: string[]) => void];
   viewerScopes: Scopes;
@@ -32,19 +36,19 @@ interface Props {
 
 const UserStatusSitesList: FunctionComponent<Props> = ({
   viewerScopes,
-  bannedSites,
+  userBanStatus,
   banState: [banSiteIDs, setBanSiteIDs],
   unbanState: [unbanSiteIDs, setUnbanSiteIDs],
 }) => {
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
 
   const initiallyBanned = useCallback(
-    (siteID: string) => bannedSites.some(({ id }) => id === siteID),
-    [bannedSites]
+    (siteID: string) => !!userBanStatus?.sites?.some(({ id }) => id === siteID),
+    [userBanStatus]
   );
 
   const [candidateSites, setCandidateSites] = useState<string[]>(() => {
-    let all = bannedSites
+    let all = (userBanStatus?.sites || [])
       .map((bs) => bs.id)
       .concat(banSiteIDs)
       .concat(unbanSiteIDs);
@@ -60,7 +64,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     (siteID: string) => {
       const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
       const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
-      const alreadyBanned = bannedSites.some(({ id }) => id === siteID);
+      const alreadyBanned = !!userBanStatus?.sites?.some(
+        ({ id }) => id === siteID
+      );
 
       if (inBanIDs) {
         // remove from banSiteIDs
@@ -71,14 +77,16 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
         setUnbanSiteIDs([...unbanSiteIDs, siteID]);
       }
     },
-    [banSiteIDs, unbanSiteIDs, bannedSites, setBanSiteIDs, setUnbanSiteIDs]
+    [banSiteIDs, unbanSiteIDs, userBanStatus, setBanSiteIDs, setUnbanSiteIDs]
   );
 
   const onBanFromSite = useCallback(
     (siteID: string) => {
       const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
       const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
-      const alreadyBanned = bannedSites.some(({ id }) => id === siteID);
+      const alreadyBanned = !!userBanStatus?.sites?.some(
+        ({ id }) => id === siteID
+      );
       if (!inBanIDs && !alreadyBanned) {
         // add to banSiteIDs
         setBanSiteIDs([...banSiteIDs, siteID]);
@@ -88,7 +96,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
         setUnbanSiteIDs(unbanSiteIDs.filter((id) => id !== siteID));
       }
     },
-    [banSiteIDs, unbanSiteIDs, setBanSiteIDs, setUnbanSiteIDs, bannedSites]
+    [banSiteIDs, unbanSiteIDs, setBanSiteIDs, setUnbanSiteIDs, userBanStatus]
   );
 
   const onToggleSite = useCallback(

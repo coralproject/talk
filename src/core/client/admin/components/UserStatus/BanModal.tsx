@@ -290,9 +290,8 @@ const BanModal: FunctionComponent<Props> = ({
                   {!!moderationScopesEnabled &&
                     updateType === UpdateType.SPECIFIC_SITES && (
                       <UserStatusSitesList
-                        bannedSites={userBanStatus?.sites || []}
+                        userBanStatus={userBanStatus}
                         viewerScopes={viewerScopes}
-                        banActive={userBanStatus?.active}
                         banState={banIDsState}
                         unbanState={unbanIDsState}
                       />
