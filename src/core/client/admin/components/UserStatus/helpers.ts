@@ -29,3 +29,17 @@ export const getTextForUpdateType = (mode: UpdateType) => {
       };
   }
 };
+
+export const dedupe = <T>(items: T[], predicate?: (item: T) => T[keyof T]) => {
+  const seen = new Set();
+  return items.reduce((unique, current) => {
+    const val = predicate ? predicate(current) : current;
+    let u = unique;
+    if (!seen.has(val)) {
+      u = [...unique, current];
+    }
+    seen.add(val);
+
+    return u;
+  }, [] as T[]);
+};

@@ -7,6 +7,7 @@ import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
 
 import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
+import { dedupe } from "./helpers";
 import UserStatusSitesListSelectedSiteQuery from "./UserStatusSitesListSelectedSiteQuery";
 
 import styles from "./UserStatusSitesList.css";
@@ -44,11 +45,15 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     [bannedSites]
   );
 
-  const [candidateSites, setCandidateSites] = useState<string[]>(
-    viewerIsScoped && viewerScopes.sites
-      ? viewerScopes.sites.map((site) => site.id)
-      : bannedSites.map((bs) => bs.id)
-  );
+  const [candidateSites, setCandidateSites] = useState<string[]>(() => {
+    if (viewerIsScoped) {
+      const all = viewerScopes.sites!.concat(bannedSites);
+      const unique = dedupe(all, (site) => site.id);
+      return unique.map((bs) => bs.id);
+    }
+
+    return bannedSites.map((bs) => bs.id);
+  });
 
   const onUnbanFromSite = useCallback(
     (siteID: string) => {

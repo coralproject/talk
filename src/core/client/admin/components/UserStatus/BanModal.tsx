@@ -156,14 +156,6 @@ const BanModal: FunctionComponent<Props> = ({
     ]
   );
 
-  const initialSiteIDs = useMemo(() => {
-    if (isSiteMod) {
-      return viewerScopes.sites ? viewerScopes.sites : [];
-    }
-
-    return userBanStatus?.sites || [];
-  }, [isSiteMod, userBanStatus?.sites, viewerScopes.sites]);
-
   const {
     title,
     titleLocalizationId,
@@ -205,7 +197,6 @@ const BanModal: FunctionComponent<Props> = ({
               showMessage: false,
               rejectExistingComments: false,
               emailMessage: getDefaultMessage,
-              siteIDs: initialSiteIDs,
               selectedIDs: [],
             }}
           >
