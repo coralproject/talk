@@ -9,7 +9,7 @@
   font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-3);
   line-height: 0.67;
-  color: var(--palette-text-500);
+  color: var(--palette-grey-500);
 }
 
 .icon {
@@ -38,6 +38,17 @@
 }
 
 .metaDataItem > div {
-  margin: 0 var(--spacing-2);
+  margin-right: var(--spacing-2);
   padding: 0;
+}
+
+.archivedLabel {
+  margin: 0 var(--spacing-2) 0 0;
+  font-weight: var(--font-weight-primary-bold);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-2);
+}
+
+.storyLink {
+  font-weight: var(--font-weight-primary-regular);
 }

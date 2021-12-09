@@ -6,6 +6,10 @@
 }
 
 .toggleButton {
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: 0 var(--spacing-1);
   border: 1px solid var(--palette-grey-400);
+}
+
+.buttonText {
+  margin-right: var(--spacing-4);
 }

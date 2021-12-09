@@ -1385,6 +1385,8 @@ storyInfoDrawerSettings-premodLinksEnable = Pre Mod Links
 storyInfoDrawerSettings-moderation = Moderation
 storyInfoDrawerSettings-moderationMode-pre = Pre
 storyInfoDrawerSettings-moderationMode-post = Post
+storyInfoDrawer-storyStatus-archiving = Archiving
+storyInfoDrawer-storyStatus-archived = Archived
 
 
 ## Invite

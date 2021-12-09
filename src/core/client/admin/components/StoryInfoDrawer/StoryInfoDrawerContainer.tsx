@@ -58,12 +58,29 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
               </Localized>
             )}
           </h2>
-          <TextLink href={story.url}>{story.url}</TextLink>
+          <TextLink className={styles.storyLink} href={story.url}>
+            {story.url}
+          </TextLink>
           <Flex direction="row" alignItems="center" className={styles.status}>
-            <StoryStatus
-              storyID={story.id}
-              currentStatus={story.status as GQLSTORY_STATUS}
-            />
+            {story.isArchived || story.isArchiving ? (
+              <>
+                <span className={styles.archivedLabel}>Status:</span>
+                {story.isArchiving ? (
+                  <Localized id="storyInfoDrawer-storyStatus-archiving">
+                    Archiving
+                  </Localized>
+                ) : (
+                  <Localized id="storyInfoDrawer-storyStatus-archived">
+                    Archived
+                  </Localized>
+                )}
+              </>
+            ) : (
+              <StoryStatus
+                storyID={story.id}
+                currentStatus={story.status as GQLSTORY_STATUS}
+              />
+            )}
           </Flex>
           <Localized id="storyInfoDrawer-scrapedMetaData">
             <span className={styles.sectionTitle}>Scraped Metadata</span>
@@ -102,6 +119,8 @@ const enhanced = withFragmentContainer<Props>({
       url
       status
       scrapedAt
+      isArchived
+      isArchiving
       metadata {
         title
         author

@@ -8,7 +8,6 @@ import {
   ClickOutside,
   Dropdown,
   DropdownButton,
-  Icon,
   Popover,
 } from "coral-ui/components/v2";
 
@@ -43,6 +42,7 @@ const Select: FunctionComponent<Props> = ({
   onSelect,
 }) => {
   const [current, setCurrent] = useState(selected || options?.[0]);
+
   return (
     <>
       {label && <span className={styles.label}>{label}:</span>}
@@ -71,25 +71,27 @@ const Select: FunctionComponent<Props> = ({
         )}
       >
         {({ toggleVisibility, ref, visible }) => (
-          <Localized id={current.localizationID} attrs={{ "aria-label": true }}>
-            <Button
-              aria-label="Select action"
-              className={styles.toggleButton}
-              onClick={toggleVisibility}
-              ref={ref}
-              color="mono"
-              variant="text"
-              uppercase={false}
-            >
-              {current.value}
-              {
-                <ButtonIcon size="lg">
-                {/*MARCUS: WHY IS NOT WORKING */}
-                  {visible ? "arrow_drop_up" : "arrow_drop_down"}
-                </ButtonIcon>
-              }
-            </Button>
-          </Localized>
+          <Button
+            aria-label="Select action"
+            className={styles.toggleButton}
+            onClick={toggleVisibility}
+            ref={ref}
+            color="mono"
+            variant="text"
+            uppercase={false}
+          >
+            <span className={styles.buttonText}>
+              <Localized
+                id={current.localizationID}
+                attrs={{ "aria-label": true }}
+              >
+                {current.value}
+              </Localized>
+            </span>
+            <ButtonIcon size="lg">
+              {visible ? "arrow_drop_up" : "arrow_drop_down"}
+            </ButtonIcon>
+          </Button>
         )}
       </Popover>
     </>
