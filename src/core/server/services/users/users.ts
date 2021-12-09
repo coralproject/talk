@@ -1210,7 +1210,7 @@ export async function updateUserBan(
     banner.role !== GQLUSER_ROLE.MODERATOR
   ) {
     throw new UserForbiddenError(
-      "User not authorized to peform UpdateUserBan",
+      "User not authorized to perform UpdateUserBan",
       "userBan",
       "update",
       userID

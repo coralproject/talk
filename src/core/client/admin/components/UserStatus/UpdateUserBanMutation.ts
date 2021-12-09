@@ -13,6 +13,13 @@ let clientMutationId = 0;
 const UpdateUserBanMutation = createMutation(
   "updateUserBan",
   (environment: Environment, input: MutationInput<QueryTypes>) => {
+    const {
+      userID,
+      banSiteIDs,
+      unbanSiteIDs,
+      message,
+      rejectExistingComments,
+    } = input;
     return commitMutationPromiseNormalized(environment, {
       mutation: graphql`
         mutation UpdateUserBanMutation($input: UpdateUserBanInput!) {
@@ -34,7 +41,11 @@ const UpdateUserBanMutation = createMutation(
       `,
       variables: {
         input: {
-          ...input,
+          userID,
+          banSiteIDs,
+          unbanSiteIDs,
+          message,
+          rejectExistingComments,
           clientMutationId: (clientMutationId++).toString(),
         },
       },
