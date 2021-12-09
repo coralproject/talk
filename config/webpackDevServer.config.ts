@@ -67,31 +67,33 @@ export default function ({
     overlay: false,
     historyApiFallback: {
       disableDotRule: true,
-      rewrites: [
-        { from: /^\/account/, to: "/account.html" },
-        { from: /^\/admin/, to: "/admin.html" },
-        { from: /^\/embed\/stream/, to: "/stream.html" },
-        { from: /^\/embed\/auth$/, to: "/auth.html" },
-        { from: /^\/install/, to: "/install.html" },
-      ],
+      rewrites: [],
     },
     public: allowedHost,
     index: "embed.html",
-    proxy: {
-      // Proxy websocket connections.
-      "/api/graphql/live": {
+    proxy: [
+      {
+        context: "/api/graphql/live",
+        // Proxy websocket connections.
         target: `ws://localhost:${serverPort}`,
         ws: true,
       },
-      // Proxy to the graphql server.
-      "/api": {
+      {
+        context: (pathname) => {
+          const lc = pathname.toLocaleLowerCase();
+          return [
+            "/embed/auth",
+            "/embed/bootstrap",
+            "/admin",
+            "/account",
+            "/install",
+            "/api",
+            "/graphiql",
+          ].some((p) => p === lc || lc.startsWith(`${p}/`));
+        },
         target: `http://localhost:${serverPort}`,
       },
-      // Proxy to the GraphiQL route on the server.
-      "/graphiql": {
-        target: `http://localhost:${serverPort}`,
-      },
-    },
+    ],
     before(app, server) {
       // This lets us fetch source contents from webpack for the error overlay
       app.use(evalSourceMapMiddleware(server));

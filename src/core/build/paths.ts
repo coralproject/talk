@@ -25,27 +25,22 @@ export default {
   appThemeAdminCSS: resolveSrc("core/client/ui/theme/admin.css"),
   appThemeMixinsCSS: resolveSrc("core/client/ui/theme/mixins.css"),
 
-  appStreamHTML: resolveSrc("core/client/stream/index.html"),
   appStreamLocalesTemplate: resolveSrc("core/client/stream/locales.ts"),
   appStreamIndex: resolveSrc("core/client/stream/index.tsx"),
   appStreamBundle: resolveSrc("core/client/stream/stream.tsx"),
 
-  appAuthHTML: resolveSrc("core/client/auth/index.html"),
   appAuthLocalesTemplate: resolveSrc("core/client/auth/locales.ts"),
   appAuthIndex: resolveSrc("core/client/auth/index.tsx"),
 
   appCountHTML: resolveSrc("core/client/count/index.html"),
   appCountIndex: resolveSrc("core/client/count/index.ts"),
 
-  appInstallHTML: resolveSrc("core/client/install/index.html"),
   appInstallLocalesTemplate: resolveSrc("core/client/install/locales.ts"),
   appInstallIndex: resolveSrc("core/client/install/index.tsx"),
 
-  appAccountHTML: resolveSrc("core/client/account/index.html"),
   appAccountLocalesTemplate: resolveSrc("core/client/account/locales.ts"),
   appAccountIndex: resolveSrc("core/client/account/index.tsx"),
 
-  appAdminHTML: resolveSrc("core/client/admin/index.html"),
   appAdminLocalesTemplate: resolveSrc("core/client/admin/locales.ts"),
   appAdminIndex: resolveSrc("core/client/admin/index.tsx"),
 

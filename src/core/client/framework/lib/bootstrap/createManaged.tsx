@@ -171,6 +171,21 @@ function createRestClient(
   return new RestClient(`${rootURL}/api`, clientID, accessTokenProvider);
 }
 
+function determineLocales(localesData: LocalesData, lang: string) {
+  const locales = [localesData.fallbackLocale];
+  if (lang && lang !== localesData.fallbackLocale) {
+    // Use locale specified by the server.
+    locales.splice(0, 0, lang);
+  } else if (
+    localesData.defaultLocale &&
+    localesData.defaultLocale !== localesData.fallbackLocale
+  ) {
+    // Use default locale.
+    locales.splice(0, 0, localesData.defaultLocale);
+  }
+  return locales;
+}
+
 /**
  * Returns a managed CoralContextProvider, that includes given context
  * and handles context changes, e.g. when a user session changes.
@@ -182,7 +197,6 @@ function createManagedCoralContextProvider(
   clientID: string,
   initLocalState: InitLocalState,
   localesData: LocalesData,
-  localeBundles: FluentBundle[],
   ErrorBoundary?: React.ComponentType,
   refreshAccessTokenPromise?: RefreshAccessTokenPromise
 ) {
@@ -247,7 +261,7 @@ function createManagedCoralContextProvider(
         rootURL,
         subscriptionClient,
         clientID,
-        localeBundles,
+        this.state.context.localeBundles,
         this.state.context.tokenRefreshProvider,
         // Disable the cache on requests for the next 30 seconds.
         new Date(Date.now() + 30 * 1000)
@@ -280,11 +294,10 @@ function createManagedCoralContextProvider(
 
     // This is called when the locale should change.
     private changeLocale = async (locale: LanguageCode) => {
-      // Add fallback locale.
-      const locales = [localesData.fallbackLocale];
-      if (locale && locale !== localesData.fallbackLocale) {
-        locales.splice(0, 0, locale);
-      }
+      // Initialize i18n.
+      const locales = determineLocales(localesData, locale);
+      const localeBundles = await generateBundles(locales, localesData);
+
       const newContext = {
         ...this.state.context,
         locales,
@@ -393,17 +406,7 @@ export default async function createManaged({
   );
 
   // Initialize i18n.
-  const locales = [localesData.fallbackLocale];
-  if (lang && lang !== localesData.fallbackLocale) {
-    // Use locale specified by the server.
-    locales.splice(0, 0, lang);
-  } else if (
-    localesData.defaultLocale &&
-    localesData.defaultLocale !== localesData.fallbackLocale
-  ) {
-    // Use default locale.
-    locales.splice(0, 0, localesData.defaultLocale);
-  }
+  const locales = determineLocales(localesData, lang);
 
   if (process.env.NODE_ENV !== "production") {
     // eslint-disable-next-line no-console
@@ -492,7 +495,6 @@ export default async function createManaged({
     clientID,
     initLocalState,
     localesData,
-    localeBundles,
     reporter?.ErrorBoundary,
     refreshAccessTokenPromise
   );

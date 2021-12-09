@@ -270,13 +270,6 @@ const config = convict({
     default: ms("2 weeks"),
     env: "DISABLE_LIVE_UPDATES_TIMEOUT",
   },
-  disable_client_routes: {
-    doc:
-      "Disables mounting of client routes for developing with Webpack Dev Server",
-    format: Boolean,
-    default: false,
-    env: "DISABLE_CLIENT_ROUTES",
-  },
   disable_rate_limiters: {
     doc:
       "Disables the rate limiters in development. This will only work when also set to a development environment",

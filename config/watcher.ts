@@ -115,7 +115,7 @@ const config: Config = {
       paths: ["core/server/locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor(
-        "DISABLE_CLIENT_ROUTES=true npm run --silent start:development"
+        "WEBPACK=true npm run --silent start:development"
       ),
     },
     runServerLint: {

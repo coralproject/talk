@@ -691,50 +691,13 @@ export default function createWebpackConfig(
           // This is necessary to emit hot updates
           new webpack.HotModuleReplacementPlugin({
             multiStep: true,
-          }),
-          // Generates an `stream.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "stream.html",
-            template: paths.appStreamHTML,
-            chunks: ["stream"],
-            inject: "body",
-          }),
-          // Generates an `auth.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "auth.html",
-            template: paths.appAuthHTML,
-            chunks: ["auth"],
-            inject: "body",
-          }),
-          // Generates an `install.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "install.html",
-            template: paths.appInstallHTML,
-            chunks: ["install"],
-            inject: "body",
-          }),
-          // Generates an `account.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "account.html",
-            template: paths.appAccountHTML,
-            chunks: ["account"],
-            inject: "body",
-          }),
-          // Generates an `admin.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "admin.html",
-            template: paths.appAdminHTML,
-            chunks: ["admin"],
-            inject: "body",
           })
         ),
-        ...ifBuild(
-          new WebpackAssetsManifest({
-            output: "asset-manifest.json",
-            entrypoints: true,
-            integrity: true,
-          })
-        ),
+        new WebpackAssetsManifest({
+          output: "asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
       ]),
     },
     /* Webpack config for our embed */
@@ -788,13 +751,11 @@ export default function createWebpackConfig(
             inject: false,
           })
         ),
-        ...ifBuild(
-          new WebpackAssetsManifest({
-            output: "embed-asset-manifest.json",
-            entrypoints: true,
-            integrity: true,
-          })
-        ),
+        new WebpackAssetsManifest({
+          output: "embed-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
       ]),
     },
     /* Webpack config for our stream */
@@ -805,16 +766,6 @@ export default function createWebpackConfig(
         splitChunks: {
           // Ensure that we never split the main library into chunks.
           chunks: "async",
-          /*
-          TODO: (cvle) remove if we don't need this.
-          cacheGroups: {
-            styles: {
-              name: "styles",
-              test: /\.css$/,
-              chunks: "async",
-              enforce: true,
-            },
-          },*/
         },
         // We can turn on sideEffects here as we don't use
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
@@ -837,13 +788,11 @@ export default function createWebpackConfig(
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
-        ...ifBuild(
-          new WebpackAssetsManifest({
-            output: "stream-asset-manifest.json",
-            entrypoints: true,
-            integrity: true,
-          })
-        ),
+        new WebpackAssetsManifest({
+          output: "stream-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
       ]),
     },
     /* Webpack config for count */
@@ -876,13 +825,11 @@ export default function createWebpackConfig(
             inject: "body",
           })
         ),
-        ...ifBuild(
-          new WebpackAssetsManifest({
-            output: "count-asset-manifest.json",
-            entrypoints: true,
-            integrity: true,
-          })
-        ),
+        new WebpackAssetsManifest({
+          output: "count-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
       ]),
     },
   ];
