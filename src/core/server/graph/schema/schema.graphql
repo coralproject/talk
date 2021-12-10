@@ -5531,6 +5531,12 @@ input RemoveCommentReactionInput {
   commentID: ID!
 
   """
+  commentRevisionID is the Comment's revision ID that we want to remove a
+  reaction on.
+  """
+  commentRevisionID: ID!
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -5597,6 +5603,12 @@ input RemoveCommentDontAgreeInput {
   commentID is the Comment's ID that we want to remove a DontAgree on.
   """
   commentID: ID!
+
+  """
+  commentRevisionID is the Comment's revision ID that we want to remove a
+  reaction on.
+  """
+  commentRevisionID: ID!
 
   """
   clientMutationId is required for Relay support.

@@ -1,9 +1,20 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
+import { hasError } from "coral-framework/lib/form";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
+import {
+  Condition,
+  required,
+  validateWhen,
+} from "coral-framework/lib/validation";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   FieldSet,
@@ -12,6 +23,7 @@ import {
   HorizontalGutter,
   Label,
   RadioButton,
+  ValidationMessage,
 } from "coral-ui/components/v2";
 
 import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
@@ -48,18 +60,43 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
     viewerScopes.sites.length === 1
   );
 
-  const [showSites, setShowSites] = useState<boolean>(
-    !!(viewerIsScoped || viewerIsSingleSiteMod)
+  const specificSitesIsEnabled: Condition = (_value, values) => {
+    return values.showSpecificSites;
+  };
+
+  const { input: selectedIDsInput, meta: selectedIDsMeta } = useField<string[]>(
+    "selectedIDs",
+    {
+      validate: validateWhen(specificSitesIsEnabled, required),
+    }
+  );
+  const { input: showSpecificSitesInput } = useField<boolean>(
+    "showSpecificSites",
+    {
+      initialValue: !!(viewerIsScoped || viewerIsSingleSiteMod),
+    }
   );
 
-  const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
+  useEffect(() => {
+    // Site mods should have all sites within scope selected by default
+    if (viewerIsSiteMod) {
+      selectedIDsInput.onChange(viewerScopes.sites?.map((site) => site.id));
+    }
+  }, []);
 
-  const onHideSites = useCallback(() => {
-    setShowSites(false);
-  }, [setShowSites]);
-  const onShowSites = useCallback(() => {
-    setShowSites(true);
-  }, [setShowSites]);
+  const [candidateSites, setCandidateSites] = useState<string[]>(
+    viewerIsSiteMod && viewerScopes.sites
+      ? viewerScopes.sites.map((site) => site.id)
+      : []
+  );
+
+  const onHideSpecificSites = useCallback(() => {
+    showSpecificSitesInput.onChange(false);
+  }, [showSpecificSitesInput]);
+  const onShowSpecificSites = useCallback(() => {
+    showSpecificSitesInput.onChange(true);
+  }, [showSpecificSitesInput]);
+
   const onRemoveSite = useCallback(
     (siteID: string) => {
       const changed = [...selectedIDsInput.value];
@@ -81,11 +118,20 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
       const index = changed.indexOf(siteID);
       if (index === -1) {
         changed.push(siteID);
+        if (!candidateSites.includes(siteID)) {
+          setCandidateSites([...candidateSites, siteID]);
+        }
       }
 
       selectedIDsInput.onChange(changed);
     },
     [selectedIDsInput]
+  );
+
+  const onToggleSite = useCallback(
+    (siteID: string, checked: boolean) =>
+      checked ? onRemoveSite(siteID) : onAddSite(siteID),
+    [onAddSite, onRemoveSite]
   );
 
   return (
@@ -104,14 +150,20 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
             <Flex className={styles.sitesToggle} spacing={5}>
               <FormField>
                 <Localized id="community-banModal-allSites">
-                  <RadioButton checked={!showSites} onChange={onHideSites}>
+                  <RadioButton
+                    checked={!showSpecificSitesInput.value}
+                    onChange={onHideSpecificSites}
+                  >
                     All sites
                   </RadioButton>
                 </Localized>
               </FormField>
               <FormField>
                 <Localized id="community-banModal-specificSites">
-                  <RadioButton checked={showSites} onChange={onShowSites}>
+                  <RadioButton
+                    checked={showSpecificSitesInput.value}
+                    onChange={onShowSpecificSites}
+                  >
                     Specific Sites
                   </RadioButton>
                 </Localized>
@@ -119,26 +171,37 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
             </Flex>
           )}
 
-          {showSites && (
+          {showSpecificSitesInput.value && (
             <>
               <HorizontalGutter spacing={3} mt={5} mb={4}>
-                {selectedIDsInput.value.map((siteID) => {
+                {candidateSites.map((siteID) => {
+                  const checked = selectedIDsInput.value.includes(siteID);
                   return (
                     <UserStatusSitesListSelectedSiteQuery
                       key={siteID}
                       siteID={siteID}
-                      onChange={onRemoveSite}
+                      onChange={onToggleSite}
+                      checked={checked}
                     />
                   );
                 })}
               </HorizontalGutter>
-              <SiteSearch
-                onSelect={onAddSite}
-                showSiteSearchLabel={false}
-                showOnlyScopedSitesInSearchResults={true}
-                showAllSitesSearchFilterOption={false}
-                clearTextFieldValueAfterSelect={true}
-              />
+              {!viewerIsSiteMod && (
+                <SiteSearch
+                  onSelect={onAddSite}
+                  showSiteSearchLabel={false}
+                  showOnlyScopedSitesInSearchResults={true}
+                  showAllSitesSearchFilterOption={false}
+                  clearTextFieldValueAfterSelect={true}
+                />
+              )}
+              {hasError(selectedIDsMeta) ? (
+                <Localized id="specificSitesSelect-validation">
+                  <ValidationMessage className={styles.validationMessage}>
+                    You must select at least one site.
+                  </ValidationMessage>
+                </Localized>
+              ) : null}
             </>
           )}
         </FieldSet>
