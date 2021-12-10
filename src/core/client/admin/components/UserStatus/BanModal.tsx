@@ -1,12 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
-import { Form } from "react-final-form";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
+import { Field, Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 
@@ -21,7 +16,6 @@ import {
   RadioButton,
   Textarea,
 } from "coral-ui/components/v2";
-import { CallOut } from "coral-ui/components/v3";
 
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 
@@ -97,44 +91,22 @@ const BanModal: FunctionComponent<Props> = ({
     viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
     !!(!viewerScopes.sites || viewerScopes.sites?.length === 0);
 
-  const [updateType, setUpdateType] = useState<UpdateType>(
-    userBanStatus?.active ? UpdateType.NO_SITES : UpdateType.ALL_SITES
-  );
-
-  const banIDsState = useState<string[]>([]);
-  const unbanIDsState = useState<string[]>([]);
-  const [rejectExistingComments, setRejectExistingComments] = useState(false);
-  const [sendCustomMessage, setSendCustomMessage] = useState(false);
-  const [emailMessage, setEmailMessage] = useState<string | undefined>(
-    undefined
-  );
-
   const onFormSubmit = useCallback(
-    (input) => {
+    ({
+      updateType,
+      sendCustomMessage,
+      customMessage,
+      rejectExistingComments,
+      banSiteIDs,
+      unbanSiteIDs,
+    }) => {
       try {
-        const [banSiteIDs] = banIDsState;
-        const [unbanSiteIDs] = unbanIDsState;
-
-        if (
-          updateType === UpdateType.SPECIFIC_SITES &&
-          banSiteIDs.length + unbanSiteIDs.length === 0
-        ) {
-          return {
-            [FORM_ERROR]: (
-              <Localized id="specificSitesSelect-validation">
-                You must select at least one site from which to ban/unban the
-                user.
-              </Localized>
-            ),
-          };
-        }
-
         onConfirm(
           updateType,
           rejectExistingComments,
           banSiteIDs,
           unbanSiteIDs,
-          sendCustomMessage ? emailMessage : undefined
+          customMessage
         );
 
         return;
@@ -142,15 +114,8 @@ const BanModal: FunctionComponent<Props> = ({
         return { [FORM_ERROR]: err.message };
       }
     },
-    [onConfirm, updateType, banIDsState, unbanIDsState]
+    [onConfirm]
   );
-
-  const {
-    title,
-    titleLocalizationId,
-    consequence,
-    consequenceLocalizationId,
-  } = getTextForUpdateType(updateType);
 
   return (
     <ChangeStatusModal
@@ -159,158 +124,184 @@ const BanModal: FunctionComponent<Props> = ({
       aria-labelledby="banModal-title"
     >
       {({ lastFocusableRef }) => (
-        <HorizontalGutter spacing={3}>
-          <HorizontalGutter spacing={2}>
-            <Localized
-              id={titleLocalizationId}
-              strong={<ModalHeaderUsername />}
-              username={React.createElement(() => (
-                <strong>{username || <NotAvailable />}</strong>
-              ))}
-            >
-              <ModalHeader id="banModal-title">
-                {title + " "}
-                <ModalHeaderUsername>
-                  {username || <NotAvailable />}
-                </ModalHeaderUsername>
-                ?
-              </ModalHeader>
-            </Localized>
-            <Localized id={consequenceLocalizationId}>
-              <p className={styles.bodyText}>{consequence}</p>
-            </Localized>
-          </HorizontalGutter>
-          <Form
-            onSubmit={onFormSubmit}
-            initialValues={{
-              showMessage: false,
-              rejectExistingComments: false,
-              emailMessage: getDefaultMessage,
-              selectedIDs: [],
-            }}
-          >
-            {({ handleSubmit, submitError }) => (
-              <form onSubmit={handleSubmit}>
-                <HorizontalGutter spacing={3}>
-                  {!isSiteMod && updateType !== UpdateType.NO_SITES && (
-                    <Localized id="community-banModal-reject-existing">
-                      <CheckBox
-                        id="banModal-rejectExisting"
-                        checked={rejectExistingComments}
-                        onChange={(event) =>
-                          setRejectExistingComments(event.target.checked)
-                        }
-                      >
-                        Reject all comments by this user
-                      </CheckBox>
-                    </Localized>
-                  )}
-                  {updateType !== UpdateType.NO_SITES && (
-                    <Localized id="community-banModal-customize">
-                      <CheckBox
-                        id="banModal-showMessage"
-                        checked={sendCustomMessage}
-                        onChange={(event) =>
-                          setSendCustomMessage(event.target.checked)
-                        }
-                      >
-                        Customize ban email message
-                      </CheckBox>
-                    </Localized>
-                  )}
-                  {sendCustomMessage && updateType !== UpdateType.NO_SITES && (
-                    <Textarea
-                      id="banModal-message"
-                      className={styles.textArea}
-                      fullwidth
-                      value={emailMessage}
-                      onChange={(event) => {
-                        if (event.target.value) {
-                          setEmailMessage(event.target.value);
-                        }
-                      }}
-                    />
-                  )}
+        <Form
+          onSubmit={onFormSubmit}
+          initialValues={{
+            updateType:
+              userBanStatus?.sites?.length || userBanStatus?.active
+                ? UpdateType.SPECIFIC_SITES
+                : UpdateType.ALL_SITES,
+            sendCustomMessage: false,
+            rejectExistingComments: false,
+            customMessage: getDefaultMessage,
+            banSiteIDs: [],
+            unbanSiteIDs: [],
+          }}
+        >
+          {({
+            handleSubmit,
+            submitError,
+            values: { updateType, sendCustomMessage, banSiteIDs, unbanSiteIDs },
+          }) => {
+            const {
+              title,
+              titleLocalizationId,
+              consequence,
+              consequenceLocalizationId,
+            } = getTextForUpdateType(updateType);
 
-                  {(viewerIsAdmin ||
-                    viewerIsOrgAdmin ||
-                    (viewerIsScoped && !viewerIsSingleSiteMod)) && (
-                    <Flex className={styles.sitesToggle} spacing={5}>
-                      <FormField>
-                        <Localized id="community-banModal-allSites">
-                          <RadioButton
-                            checked={updateType === UpdateType.ALL_SITES}
-                            onChange={() => setUpdateType(UpdateType.ALL_SITES)}
-                            disabled={userBanStatus?.active}
-                          >
-                            All sites
-                          </RadioButton>
-                        </Localized>
-                      </FormField>
-                      <FormField>
-                        <Localized id="community-banModal-specificSites">
-                          <RadioButton
-                            checked={updateType === UpdateType.SPECIFIC_SITES}
-                            onChange={() =>
-                              setUpdateType(UpdateType.SPECIFIC_SITES)
-                            }
-                          >
-                            Specific Sites
-                          </RadioButton>
-                        </Localized>
-                      </FormField>
-                      {!viewerIsScoped && (
-                        <FormField>
-                          <Localized id="community-banModal-noSites">
-                            <RadioButton
-                              checked={updateType === UpdateType.NO_SITES}
-                              onChange={() =>
-                                setUpdateType(UpdateType.NO_SITES)
-                              }
-                            >
-                              No Sites
-                            </RadioButton>
+            const noSitesSelected =
+              (banSiteIDs as string[]).length +
+                (unbanSiteIDs as string).length ===
+              0;
+
+            return (
+              <HorizontalGutter spacing={3}>
+                <HorizontalGutter spacing={2}>
+                  <Localized
+                    id={titleLocalizationId}
+                    strong={<ModalHeaderUsername />}
+                    username={React.createElement(() => (
+                      <strong>{username || <NotAvailable />}</strong>
+                    ))}
+                  >
+                    <ModalHeader id="banModal-title">
+                      {title + " "}
+                      <ModalHeaderUsername>
+                        {username || <NotAvailable />}
+                      </ModalHeaderUsername>
+                      ?
+                    </ModalHeader>
+                  </Localized>
+                  <Localized id={consequenceLocalizationId}>
+                    <p className={styles.bodyText}>{consequence}</p>
+                  </Localized>
+                </HorizontalGutter>
+                <form onSubmit={handleSubmit}>
+                  <HorizontalGutter spacing={3}>
+                    {!isSiteMod && updateType !== UpdateType.NO_SITES && (
+                      <Field name="rejectExistingComments" type="checkbox">
+                        {({ input }) => (
+                          <Localized id="community-banModal-reject-existing">
+                            <CheckBox id="banModal-rejectExisting" {...input}>
+                              Reject all comments by this user
+                            </CheckBox>
                           </Localized>
-                        </FormField>
-                      )}
-                    </Flex>
-                  )}
-
-                  {!!moderationScopesEnabled &&
-                    updateType === UpdateType.SPECIFIC_SITES && (
-                      <UserStatusSitesList
-                        userBanStatus={userBanStatus}
-                        viewerScopes={viewerScopes}
-                        banState={banIDsState}
-                        unbanState={unbanIDsState}
-                      />
+                        )}
+                      </Field>
+                    )}
+                    {updateType !== UpdateType.NO_SITES && (
+                      <Field name="sendCustomMessage" type="checkbox">
+                        {({ input }) => (
+                          <Localized id="community-banModal-customize">
+                            <CheckBox id="banModal-showMessage" {...input}>
+                              Customize ban email message
+                            </CheckBox>
+                          </Localized>
+                        )}
+                      </Field>
+                    )}
+                    {sendCustomMessage && updateType !== UpdateType.NO_SITES && (
+                      <Field name="customMessage" type="text">
+                        {({ input }) => (
+                          <Textarea
+                            id="banModal-message"
+                            className={styles.textArea}
+                            fullwidth
+                            {...input}
+                          />
+                        )}
+                      </Field>
                     )}
 
-                  {submitError && (
-                    <CallOut
-                      color="error"
-                      title={submitError}
-                      titleWeight="semiBold"
-                    />
-                  )}
+                    {(viewerIsAdmin ||
+                      viewerIsOrgAdmin ||
+                      (viewerIsScoped && !viewerIsSingleSiteMod)) && (
+                      <Flex className={styles.sitesToggle} spacing={5}>
+                        <FormField>
+                          <Field
+                            name="updateType"
+                            type="radio"
+                            value={UpdateType.ALL_SITES}
+                          >
+                            {({ input }) => (
+                              <Localized id="community-banModal-allSites">
+                                <RadioButton
+                                  {...input}
+                                  disabled={userBanStatus?.active}
+                                >
+                                  All sites
+                                </RadioButton>
+                              </Localized>
+                            )}
+                          </Field>
+                        </FormField>
+                        <FormField>
+                          <Field
+                            name="updateType"
+                            type="radio"
+                            value={UpdateType.SPECIFIC_SITES}
+                          >
+                            {({ input }) => (
+                              <Localized id="community-banModal-specificSites">
+                                <RadioButton {...input}>
+                                  Specific Sites
+                                </RadioButton>
+                              </Localized>
+                            )}
+                          </Field>
+                        </FormField>
+                        {!viewerIsScoped && (
+                          <FormField>
+                            <Field
+                              name="updateType"
+                              type="radio"
+                              value={UpdateType.NO_SITES}
+                            >
+                              {({ input }) => (
+                                <Localized id="community-banModal-noSites">
+                                  <RadioButton {...input}>No Sites</RadioButton>
+                                </Localized>
+                              )}
+                            </Field>
+                          </FormField>
+                        )}
+                      </Flex>
+                    )}
 
-                  <Flex justifyContent="flex-end" itemGutter="half">
-                    <Localized id="community-banModal-cancel">
-                      <Button variant="flat" onClick={onClose}>
-                        Cancel
-                      </Button>
-                    </Localized>
-                    <Localized id="community-banModal-updateBan">
-                      <Button type="submit" ref={lastFocusableRef}>
-                        Save
-                      </Button>
-                    </Localized>
-                  </Flex>
-                </HorizontalGutter>
-              </form>
-            )}
-          </Form>
-        </HorizontalGutter>
+                    {!!moderationScopesEnabled &&
+                      updateType === UpdateType.SPECIFIC_SITES && (
+                        <UserStatusSitesList
+                          userBanStatus={userBanStatus}
+                          viewerScopes={viewerScopes}
+                        />
+                      )}
+
+                    <Flex justifyContent="flex-end" itemGutter="half">
+                      <Localized id="community-banModal-cancel">
+                        <Button variant="flat" onClick={onClose}>
+                          Cancel
+                        </Button>
+                      </Localized>
+                      <Localized id="community-banModal-updateBan">
+                        <Button
+                          type="submit"
+                          ref={lastFocusableRef}
+                          disabled={
+                            noSitesSelected &&
+                            updateType === UpdateType.SPECIFIC_SITES
+                          }
+                        >
+                          Save
+                        </Button>
+                      </Localized>
+                    </Flex>
+                  </HorizontalGutter>
+                </form>
+              </HorizontalGutter>
+            );
+          }}
+        </Form>
       )}
     </ChangeStatusModal>
   );

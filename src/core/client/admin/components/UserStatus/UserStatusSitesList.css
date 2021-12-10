@@ -1,3 +1,7 @@
 .header {
   margin-bottom: var(--spacing-3);
 }
+
+.validationMessage {
+  margin-top: var(--spacing-3);
+}

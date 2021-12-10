@@ -1,5 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -29,16 +30,12 @@ export interface UserBanStatus {
 
 interface Props {
   readonly userBanStatus?: UserBanStatus;
-  banState: [string[], (siteIDs: string[]) => void];
-  unbanState: [string[], (siteIDs: string[]) => void];
   viewerScopes: Scopes;
 }
 
 const UserStatusSitesList: FunctionComponent<Props> = ({
   viewerScopes,
   userBanStatus,
-  banState: [banSiteIDs, setBanSiteIDs],
-  unbanState: [unbanSiteIDs, setUnbanSiteIDs],
 }) => {
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
 
@@ -47,11 +44,15 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
     [userBanStatus]
   );
 
+  const { input: banSiteIDsInput } = useField<string[]>("banSiteIDs");
+
+  const { input: unbanSiteIDsInput } = useField<string[]>("unbanSiteIDs");
+
   const [candidateSites, setCandidateSites] = useState<string[]>(() => {
     let all = (userBanStatus?.sites || [])
       .map((bs) => bs.id)
-      .concat(banSiteIDs)
-      .concat(unbanSiteIDs);
+      .concat(banSiteIDsInput.value)
+      .concat(unbanSiteIDsInput.value);
 
     if (viewerIsScoped) {
       all = all.concat(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
@@ -62,46 +63,55 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
 
   const onUnbanFromSite = useCallback(
     (siteID: string) => {
-      const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
-      const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
+      const inBanIDs = banSiteIDsInput.value.indexOf(siteID) > -1;
+      const inUnbanIDs = unbanSiteIDsInput.value.indexOf(siteID) > -1;
       const alreadyBanned = !!userBanStatus?.sites?.some(
         ({ id }) => id === siteID
       );
 
       if (inBanIDs) {
         // remove from banSiteIDs
-        setBanSiteIDs(banSiteIDs.filter((id) => id !== siteID));
+        banSiteIDsInput.onChange(
+          banSiteIDsInput.value.filter((id) => id !== siteID)
+        );
       }
       if (!inUnbanIDs && alreadyBanned) {
         // add to unbanSiteIDs
-        setUnbanSiteIDs([...unbanSiteIDs, siteID]);
+        unbanSiteIDsInput.onChange([...unbanSiteIDsInput.value, siteID]);
       }
     },
-    [banSiteIDs, unbanSiteIDs, userBanStatus, setBanSiteIDs, setUnbanSiteIDs]
+    [banSiteIDsInput, unbanSiteIDsInput, userBanStatus]
   );
 
   const onBanFromSite = useCallback(
     (siteID: string) => {
-      const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
-      const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
+      const inBanIDs = banSiteIDsInput.value.indexOf(siteID) > -1;
+      const inUnbanIDs = unbanSiteIDsInput.value.indexOf(siteID) > -1;
       const alreadyBanned = !!userBanStatus?.sites?.some(
         ({ id }) => id === siteID
       );
       if (!inBanIDs && !alreadyBanned) {
         // add to banSiteIDs
-        setBanSiteIDs([...banSiteIDs, siteID]);
+        banSiteIDsInput.onChange([...banSiteIDsInput.value, siteID]);
       }
       if (inUnbanIDs) {
         // remove from unbanSiteIDs
-        setUnbanSiteIDs(unbanSiteIDs.filter((id) => id !== siteID));
+        unbanSiteIDsInput.onChange(
+          unbanSiteIDsInput.value.filter((id) => id !== siteID)
+        );
       }
     },
-    [banSiteIDs, unbanSiteIDs, setBanSiteIDs, setUnbanSiteIDs, userBanStatus]
+    [banSiteIDsInput, unbanSiteIDsInput, userBanStatus]
   );
 
   const onToggleSite = useCallback(
-    (siteID: string, ban: boolean) =>
-      ban ? onBanFromSite(siteID) : onUnbanFromSite(siteID),
+    (siteID: string, ban: boolean) => {
+      if (ban) {
+        onBanFromSite(siteID);
+      } else {
+        onUnbanFromSite(siteID);
+      }
+    },
     [onBanFromSite, onUnbanFromSite]
   );
 
@@ -133,9 +143,11 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
 
           <HorizontalGutter spacing={3} mt={5} mb={4}>
             {candidateSites.map((siteID) => {
+              const selectedForBan = banSiteIDsInput.value.includes(siteID);
+              const selectedForUnban = unbanSiteIDsInput.value.includes(siteID);
+              const alreadyBanned = initiallyBanned(siteID);
               const checked =
-                banSiteIDs.includes(siteID) ||
-                (initiallyBanned(siteID) && !unbanSiteIDs.includes(siteID));
+                selectedForBan || alreadyBanned && !selectedForUnban;
 
               return (
                 <UserStatusSitesListSelectedSiteQuery
