@@ -735,9 +735,11 @@ configure-moderation-preModeration-explanation =
   When pre-moderation is turned on, comments will not be published unless
   approved by a moderator.
 configure-moderation-preModeration-moderation =
-  Pre-moderate all comments sitewide
+  Pre-moderate all comments
 configure-moderation-preModeration-premodLinksEnable =
-  Pre-moderate comments containing links sitewide
+  Pre-moderate all comments containing links
+configure-moderation-specificSites = Specific sites
+configure-moderation-allSites = All sites
 
 configure-moderation-apiKey = API key
 
@@ -749,7 +751,7 @@ configure-moderation-akismet-explanation =
   If approved by a moderator, the comment will be published.
 
 configure-moderation-premModeration-premodSuspectWordsEnable =
-  Pre-moderate comments containing Suspect Words
+  Pre-moderate all comments containing Suspect Words
 configure-moderation-premModeration-premodSuspectWordsDescription =
   You can view and edit your Suspect Word list <wordListLink>here</wordListLink>
 

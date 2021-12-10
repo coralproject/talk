@@ -15,7 +15,7 @@ import { ModerationConfigContainer_settings as SettingsData } from "coral-admin/
 import AkismetConfig from "./AkismetConfig";
 import NewCommentersConfig from "./NewCommentersConfig";
 import PerspectiveConfig from "./PerspectiveConfig";
-import PreModerationConfig from "./PreModerationConfig";
+import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
 
 interface Props {
@@ -41,7 +41,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="double" data-testid="configure-moderationContainer">
-      <PreModerationConfig disabled={submitting} />
+      <PreModerationConfigContainer disabled={submitting} settings={settings} />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
       <NewCommentersConfig disabled={submitting} />
@@ -55,7 +55,8 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerationConfigContainer_settings on Settings {
       ...AkismetConfig_formValues @relay(mask: false)
       ...PerspectiveConfig_formValues @relay(mask: false)
-      ...PreModerationConfig_formValues @relay(mask: false)
+      ...PreModerationConfigContainer_formValues @relay(mask: false)
+      ...PreModerationConfigContainer_settings
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_settings @relay(mask: false)
     }

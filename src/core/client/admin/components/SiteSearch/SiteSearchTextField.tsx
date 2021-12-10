@@ -3,6 +3,8 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { Button, Flex, Icon, TextField } from "coral-ui/components/v2";
 
+import styles from "./SiteSearchTextField.css";
+
 interface Props {
   onSearch: (event: React.SyntheticEvent) => void;
   onClearSearch: () => void;
@@ -44,6 +46,7 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
       >
         <TextField
           color="regular"
+          className={styles.textField}
           data-testid="site-search-textField"
           placeholder="Search by site name"
           aria-label="Search by site name"

@@ -192,6 +192,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
                   showSiteSearchLabel={false}
                   showOnlyScopedSitesInSearchResults={true}
                   showAllSitesSearchFilterOption={false}
+                  clearTextFieldValueAfterSelect={true}
                 />
               )}
               {hasError(selectedIDsMeta) ? (

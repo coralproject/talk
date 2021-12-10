@@ -74,6 +74,7 @@ const SiteModeratorModalSites: FunctionComponent<Props> = ({
         showAllSitesSearchFilterOption={false}
         showOnlyScopedSitesInSearchResults={true}
         onSelect={onAddSite}
+        clearTextFieldValueAfterSelect={true}
       />
     </>
   );
