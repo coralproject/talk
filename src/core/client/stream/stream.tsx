@@ -37,6 +37,7 @@ interface Options {
   eventEmitter: EventEmitter2;
   staticConfig: StaticConfig;
   customCSSURL?: string;
+  containerClassName?: string;
 }
 
 function extractBundleConfig() {
@@ -46,6 +47,19 @@ function extractBundleConfig() {
 
 /** injectLinkTag is set by the Index Component  */
 let injectLinkTag: (linkTag: HTMLLinkElement) => void;
+
+// Style used to hide unstyled content (before css is loaded) but still lets browser
+// render the tree.
+const hideStyle: React.CSSProperties = {
+  position: "absolute",
+  width: "1px",
+  height: "1px",
+  padding: "0",
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  whiteSpace: "nowrap",
+  border: "0",
+};
 
 /**
  * Insert link tag is called by css loaders like style-loader or mini-css-extract plugin.
@@ -114,7 +128,11 @@ export async function attach(options: Options) {
     return (
       <ShadowRoot.div>
         <ManagedCoralContextProvider>
-          <div id="coral-app-container">
+          <div
+            id="coral-app-container"
+            className={options.containerClassName}
+            style={isCSSLoaded ? undefined : hideStyle}
+          >
             {options.cssAssets.map((asset) => (
               <link
                 key={asset}
@@ -138,7 +156,7 @@ export async function attach(options: Options) {
                 rel="stylesheet"
               />
             )}
-            {isCSSLoaded && <AppContainer />}
+            <AppContainer />
           </div>
         </ManagedCoralContextProvider>
       </ShadowRoot.div>

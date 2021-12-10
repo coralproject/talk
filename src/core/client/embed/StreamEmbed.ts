@@ -60,12 +60,6 @@ export class StreamEmbed {
     // Load bootstrap config from server.
     this.loadBootstrapConfig();
 
-    if (config.bodyClassName) {
-      this.element.className = this.element.className
-        ? `${this.element.className} ${config.bodyClassName}`
-        : config.bodyClassName;
-    }
-
     this.streamEventEmitter = new EventEmitter2({
       wildcard: true,
       maxListeners: 1000,
@@ -272,6 +266,7 @@ export class StreamEmbed {
       staticConfig: this.boostrapConfig.staticConfig,
       customCSSURL: this.boostrapConfig.customCSSURL,
       locale: this.boostrapConfig.locale,
+      bodyClassName: this.config.bodyClassName,
     });
   }
 
