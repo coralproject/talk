@@ -43,7 +43,7 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
 }) => {
   const enabled = config.get("enable_auto_archiving");
   if (!enabled) {
-    log.info("cancelling auto archive queueing operation as it is not enabled");
+    log.info("cancelling auto archive queuing operation as it is not enabled");
     return;
   }
 
@@ -53,7 +53,7 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
   for await (const tenant of tenantCache) {
     log = log.child({ tenantID: tenant.id }, true);
 
-    log.info("beginning queueing of archive jobs into redis");
+    log.info("beginning queuing of archive jobs into redis");
 
     const redisKey = `${REDIS_ARCHIVING_QUEUE_KEY}:${tenant.id}`;
     const now = new Date();
@@ -94,7 +94,7 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
 
     log.info(
       { attempted: stories.length, errored: errorCount },
-      "completed queueing archive jobs into redis"
+      "completed queuing archive jobs into redis"
     );
   }
 };
