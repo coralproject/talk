@@ -47,6 +47,8 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
   for await (const tenant of tenantCache) {
     log = log.child({ tenantID: tenant.id }, true);
 
+    log.info("beginning queueing of archive jobs into redis");
+
     const redisKey = `${REDIS_ARCHIVING_QUEUE_KEY}:${tenant.id}`;
     const now = new Date();
     const dateFilter = new Date(now.getTime() - age);
@@ -65,6 +67,7 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
     }
     const result = await transaction.exec();
 
+    let errorCount = 0;
     result.forEach((r, index) => {
       let storyID = "";
       if (index >= 0 && index < stories.length) {
@@ -73,13 +76,19 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
 
       r.forEach((sr: Error | null, any) => {
         const error = sr as Error;
-        if (error) {
+        if (error && error.message) {
           log.warn(
             { storyID, message: error.message },
             "error adding story to redis archive queue"
           );
+          errorCount++;
         }
       });
     });
+
+    log.info(
+      { attempted: stories.length, errored: errorCount },
+      "completed queueing archive jobs into redis"
+    );
   }
 };
