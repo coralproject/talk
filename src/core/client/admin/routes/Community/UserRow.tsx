@@ -18,7 +18,6 @@ interface Props {
     PropTypesOf<typeof UserStatus>["user"];
   viewer: PropTypesOf<typeof UserRole>["viewer"] &
     PropTypesOf<typeof UserStatus>["viewer"];
-  query: PropTypesOf<typeof UserRole>["query"];
   settings: PropTypesOf<typeof UserStatus>["settings"] &
     PropTypesOf<typeof UserRole>["settings"];
   onUsernameClicked?: (userID: string) => void;
@@ -35,7 +34,6 @@ const UserRow: FunctionComponent<Props> = ({
   onUsernameClicked,
   settings,
   deletedAt,
-  query,
 }) => {
   const usernameClicked = useCallback(() => {
     if (!onUsernameClicked) {
@@ -89,12 +87,7 @@ const UserRow: FunctionComponent<Props> = ({
       </TableCell>
       <TableCell className={styles.memberSinceColumn}>{memberSince}</TableCell>
       <TableCell className={styles.roleColumn}>
-        <UserRole
-          user={user}
-          viewer={viewer}
-          settings={settings}
-          query={query}
-        />
+        <UserRole user={user} viewer={viewer} settings={settings} />
       </TableCell>
       <TableCell className={styles.statusColumn}>
         <UserStatus user={user} settings={settings} viewer={viewer} fullWidth />

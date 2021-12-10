@@ -4,7 +4,6 @@ import { graphql } from "react-relay";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { UserRowContainer_query as QueryData } from "coral-admin/__generated__/UserRowContainer_query.graphql";
 import { UserRowContainer_settings as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
 import { UserRowContainer_user as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
 import { UserRowContainer_viewer as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
@@ -15,7 +14,6 @@ interface Props {
   user: UserData;
   viewer: ViewerData;
   settings: SettingsData;
-  query: QueryData;
   onUsernameClicked?: (userID: string) => void;
 }
 
@@ -33,7 +31,6 @@ const UserRowContainer: FunctionComponent<Props> = (props) => {
       user={props.user}
       settings={props.settings}
       viewer={props.viewer}
-      query={props.query}
       userID={props.user.id}
       username={props.user.username}
       email={props.user.email}
@@ -66,11 +63,6 @@ const enhanced = withFragmentContainer<Props>({
       email
       createdAt
       deletedAt
-    }
-  `,
-  query: graphql`
-    fragment UserRowContainer_query on Query {
-      ...UserRoleChangeContainer_query
     }
   `,
 })(UserRowContainer);
