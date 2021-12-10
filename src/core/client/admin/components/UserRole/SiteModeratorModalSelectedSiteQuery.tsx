@@ -5,7 +5,7 @@ import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CheckBox } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
-import { UserStatusSitesListSelectedSiteQuery as QueryTypes } from "coral-admin/__generated__/UserStatusSitesListSelectedSiteQuery.graphql";
+import { SiteModeratorModalSelectedSiteQuery as QueryTypes } from "coral-admin/__generated__/SiteModeratorModalSelectedSiteQuery.graphql";
 
 interface Props {
   siteID: string;
@@ -13,7 +13,7 @@ interface Props {
   checked: boolean;
 }
 
-const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
+const SiteModeratorModalSelectedSiteQuery: FunctionComponent<Props> = ({
   siteID,
   onChange,
   checked,
@@ -21,7 +21,7 @@ const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query UserStatusSitesListSelectedSiteQuery($siteID: ID!) {
+        query SiteModeratorModalSelectedSiteQuery($siteID: ID!) {
           site(id: $siteID) {
             name
           }
@@ -37,9 +37,9 @@ const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
         if (props && props.site) {
           return (
             <CheckBox
+              key={siteID}
               checked={checked}
               onChange={() => onChange(siteID, checked)}
-              data-testid="user-status-selected-site"
             >
               {props.site.name}
             </CheckBox>
@@ -52,4 +52,4 @@ const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
   );
 };
 
-export default UserStatusSitesListSelectedSiteQuery;
+export default SiteModeratorModalSelectedSiteQuery;

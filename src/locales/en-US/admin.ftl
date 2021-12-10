@@ -556,6 +556,7 @@ site-search-textField =
 site-search-textField =
   .placeholder = Search by site name
 site-search-none-found = No sites were found with that search
+specificSitesSelect-validation = You must select at least one site.
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
@@ -1161,7 +1162,7 @@ moderate-forReview-reportedSpam = Spam
 # Archive
 
 moderate-archived-queue-title = This story has been archived
-moderate-archived-queue-noModerationActions = 
+moderate-archived-queue-noModerationActions =
   No moderation actions can be made on the comments when a story is archived.
 moderate-archived-queue-toPerformTheseActions =
   To perform these actions, unarchive the story.
