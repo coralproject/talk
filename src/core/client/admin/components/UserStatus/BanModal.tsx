@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Field, Form } from "react-final-form";
+import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 
@@ -103,6 +103,11 @@ const BanModal: FunctionComponent<Props> = ({
 
   const banIDsState = useState<string[]>([]);
   const unbanIDsState = useState<string[]>([]);
+  const [rejectExistingComments, setRejectExistingComments] = useState(false);
+  const [sendCustomMessage, setSendCustomMessage] = useState(false);
+  const [emailMessage, setEmailMessage] = useState<string | undefined>(
+    undefined
+  );
 
   const onFormSubmit = useCallback(
     (input) => {
@@ -126,10 +131,10 @@ const BanModal: FunctionComponent<Props> = ({
 
         onConfirm(
           updateType,
-          input.rejectExistingComments,
+          rejectExistingComments,
           banSiteIDs,
           unbanSiteIDs,
-          input.emailMessage
+          sendCustomMessage ? emailMessage : undefined
         );
 
         return;
@@ -188,43 +193,44 @@ const BanModal: FunctionComponent<Props> = ({
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
                   {!isSiteMod && updateType !== UpdateType.NO_SITES && (
-                    <Field type="checkbox" name="rejectExistingComments">
-                      {({ input }) => (
-                        <Localized id="community-banModal-reject-existing">
-                          <CheckBox {...input} id="banModal-rejectExisting">
-                            Reject all comments by this user
-                          </CheckBox>
-                        </Localized>
-                      )}
-                    </Field>
+                    <Localized id="community-banModal-reject-existing">
+                      <CheckBox
+                        id="banModal-rejectExisting"
+                        checked={rejectExistingComments}
+                        onChange={(event) =>
+                          setRejectExistingComments(event.target.checked)
+                        }
+                      >
+                        Reject all comments by this user
+                      </CheckBox>
+                    </Localized>
                   )}
                   {updateType !== UpdateType.NO_SITES && (
-                    <Field type="checkbox" name="showMessage">
-                      {({ input }) => (
-                        <Localized id="community-banModal-customize">
-                          <CheckBox {...input} id="banModal-showMessage">
-                            Customize ban email message
-                          </CheckBox>
-                        </Localized>
-                      )}
-                    </Field>
+                    <Localized id="community-banModal-customize">
+                      <CheckBox
+                        id="banModal-showMessage"
+                        checked={sendCustomMessage}
+                        onChange={(event) =>
+                          setSendCustomMessage(event.target.checked)
+                        }
+                      >
+                        Customize ban email message
+                      </CheckBox>
+                    </Localized>
                   )}
-                  <Field name="showMessage" subscription={{ value: true }}>
-                    {({ input: { value } }) =>
-                      value ? (
-                        <Field name="emailMessage">
-                          {({ input }) => (
-                            <Textarea
-                              id="banModal-message"
-                              className={styles.textArea}
-                              fullwidth
-                              {...input}
-                            />
-                          )}
-                        </Field>
-                      ) : null
-                    }
-                  </Field>
+                  {sendCustomMessage && updateType !== UpdateType.NO_SITES && (
+                    <Textarea
+                      id="banModal-message"
+                      className={styles.textArea}
+                      fullwidth
+                      value={emailMessage}
+                      onChange={(event) => {
+                        if (event.target.value) {
+                          setEmailMessage(event.target.value);
+                        }
+                      }}
+                    />
+                  )}
 
                   {(viewerIsAdmin ||
                     viewerIsOrgAdmin ||
