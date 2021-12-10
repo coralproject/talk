@@ -1,9 +1,10 @@
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { retrieveLockedStoryToBeArchived } from "coral-server/models/story";
+import { forceMarkStoryForArchiving } from "coral-server/models/story";
 import { archiveStory } from "coral-server/services/archive";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
+import { REDIS_ARCHIVING_QUEUE_KEY } from "./fillArchivingQueue";
 
 import {
   ScheduledJob,
@@ -35,7 +36,7 @@ export function registerAutoArchiving(
 }
 
 const archiveStories: ScheduledJobCommand<Options> = async ({
-  log,
+  log: logger,
   mongo,
   redis,
   tenantCache,
@@ -43,30 +44,54 @@ const archiveStories: ScheduledJobCommand<Options> = async ({
 }) => {
   const enabled = config.get("enable_auto_archiving");
   if (!enabled) {
-    log.info("cancelling auto archiving operation as it is not enabled");
+    logger.info("cancelling auto archiving operation as it is not enabled");
     return;
   }
 
   const amount = config.get("auto_archiving_batch_size");
-  const age = config.get("auto_archive_older_than");
 
   for await (const tenant of tenantCache) {
-    log = log.child({ tenantID: tenant.id }, true);
+    const log = logger.child({ tenantID: tenant.id }, true);
 
+    const redisKey = `${REDIS_ARCHIVING_QUEUE_KEY}:${tenant.id}`;
     const now = new Date();
-    const dateFilter = new Date(now.getTime() - age);
 
     let count = 0;
     do {
-      const story = await retrieveLockedStoryToBeArchived(
+      const redisRecords = await redis.spop(redisKey, 1);
+      if (redisRecords.length === 0) {
+        log.info(
+          "stopping since there are no more stories to archive for this tenant"
+        );
+        break;
+      }
+
+      const redisRecord = redisRecords[0];
+      const split = redisRecord.split(":");
+      if (!split || split.length !== 2) {
+        log.warn(
+          { record: redisRecord },
+          "found malformed archive queue record"
+        );
+        break;
+      }
+
+      const tenantID = split[0];
+      const storyID = split[1];
+
+      const story = await forceMarkStoryForArchiving(
         mongo,
-        tenant.id,
-        dateFilter,
+        tenantID,
+        storyID,
         now
       );
 
       if (!story) {
-        break;
+        log.warn(
+          { storyID },
+          "auto archiving was unable to mark story for archiving"
+        );
+        continue;
       }
 
       log.info({ storyID: story.id }, "archiving story");
