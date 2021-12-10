@@ -16,12 +16,11 @@ import {
   HorizontalGutter,
   Modal,
 } from "coral-ui/components/v2";
-import { PropTypesOf } from "coral-ui/types";
 
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
-import SiteModeratorModalSiteFieldContainer from "./SiteModeratorModalSiteFieldContainer";
+import SiteModeratorModalSites from "./SiteModeratorModalSites";
 
 import styles from "./SiteModeratorModal.css";
 
@@ -31,7 +30,6 @@ interface Props {
   onCancel: () => void;
   onFinish: (siteIDs: string[]) => Promise<void>;
   selectedSiteIDs?: string[];
-  query: PropTypesOf<typeof SiteModeratorModalSiteFieldContainer>["query"];
 }
 
 const SiteModeratorModal: FunctionComponent<Props> = ({
@@ -40,7 +38,6 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   onFinish,
   onCancel,
   selectedSiteIDs = [],
-  query,
 }) => {
   const notAvailableTranslation = useCommonTranslation(
     COMMON_TRANSLATION.NOT_AVAILABLE
@@ -61,7 +58,12 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   );
 
   return (
-    <Modal open={open} onClose={onCancel} disableScroll>
+    <Modal
+      open={open}
+      onClose={onCancel}
+      disableScroll
+      data-testid="site-moderator-modal"
+    >
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
           <Flex justifyContent="flex-end">
@@ -71,50 +73,56 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
             onSubmit={onSubmit}
             initialValues={{ siteIDs: selectedSiteIDs }}
           >
-            {({ handleSubmit, submitError, submitting }) => (
-              <form onSubmit={handleSubmit}>
-                <HorizontalGutter spacing={3}>
-                  <Localized
-                    id="community-siteModeratorModal-assignSites"
-                    strong={<ModalHeaderUsername />}
-                    $username={username || notAvailableTranslation}
-                  >
-                    <ModalHeader>
-                      Assign sites for{" "}
-                      <ModalHeaderUsername>{username}</ModalHeaderUsername>
-                    </ModalHeader>
-                  </Localized>
-                  {submitError && (
-                    <CallOut color="error" fullWidth>
-                      {submitError}
-                    </CallOut>
-                  )}
-                  <Localized id="community-siteModeratorModal-assignSitesDescription">
-                    <ModalBodyText>
-                      Site moderators are permitted to make moderation decisions
-                      and issue suspensions on the sites they are assigned.
-                    </ModalBodyText>
-                  </Localized>
-                  <SiteModeratorModalSiteFieldContainer query={query} />
-                  <Flex justifyContent="flex-end" itemGutter="half">
-                    <Localized id="community-siteModeratorModal-cancel">
-                      <Button variant="flat" onClick={onCancel}>
-                        Cancel
-                      </Button>
+            {({ handleSubmit, submitError, submitting, values }) => {
+              return (
+                <form onSubmit={handleSubmit}>
+                  <HorizontalGutter spacing={3}>
+                    <Localized
+                      id="community-siteModeratorModal-assignSites"
+                      strong={<ModalHeaderUsername />}
+                      $username={username || notAvailableTranslation}
+                    >
+                      <ModalHeader>
+                        Assign sites for{" "}
+                        <ModalHeaderUsername>{username}</ModalHeaderUsername>
+                      </ModalHeader>
                     </Localized>
-                    <Localized id="community-siteModeratorModal-assign">
-                      <Button
-                        type="submit"
-                        disabled={submitting}
-                        ref={lastFocusableRef}
-                      >
-                        Assign
-                      </Button>
+                    {submitError && (
+                      <CallOut color="error" fullWidth>
+                        {submitError}
+                      </CallOut>
+                    )}
+                    <Localized id="community-siteModeratorModal-assignSitesDescription">
+                      <ModalBodyText>
+                        Site moderators are permitted to make moderation
+                        decisions and issue suspensions on the sites they are
+                        assigned.
+                      </ModalBodyText>
                     </Localized>
-                  </Flex>
-                </HorizontalGutter>
-              </form>
-            )}
+                    <SiteModeratorModalSites
+                      selectedSiteIDs={selectedSiteIDs}
+                    />
+                    <Flex justifyContent="flex-end" itemGutter="half">
+                      <Localized id="community-siteModeratorModal-cancel">
+                        <Button variant="flat" onClick={onCancel}>
+                          Cancel
+                        </Button>
+                      </Localized>
+                      <Localized id="community-siteModeratorModal-assign">
+                        <Button
+                          type="submit"
+                          disabled={submitting || values.siteIDs.length === 0}
+                          ref={lastFocusableRef}
+                          data-testid="site-moderator-modal-submitButton"
+                        >
+                          Assign
+                        </Button>
+                      </Localized>
+                    </Flex>
+                  </HorizontalGutter>
+                </form>
+              );
+            }}
           </Form>
         </Card>
       )}
