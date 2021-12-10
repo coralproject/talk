@@ -41,6 +41,12 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
   tenantCache,
   config,
 }) => {
+  const enabled = config.get("enable_auto_archiving");
+  if (!enabled) {
+    log.info("cancelling auto archive queueing operation as it is not enabled");
+    return;
+  }
+
   const batchSize = config.get("auto_archiving_batch_size");
   const age = config.get("auto_archive_older_than");
 
