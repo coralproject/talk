@@ -147,7 +147,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
               const selectedForUnban = unbanSiteIDsInput.value.includes(siteID);
               const alreadyBanned = initiallyBanned(siteID);
               const checked =
-                selectedForBan || (alreadyBanned && !selectedForUnban);
+                selectedForBan || alreadyBanned && !selectedForUnban;
 
               return (
                 <UserStatusSitesListSelectedSiteQuery

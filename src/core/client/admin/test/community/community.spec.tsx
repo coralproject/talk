@@ -697,12 +697,10 @@ it("bans user from all sites", async () => {
     within(modal).getByLabelText("All sites").props.onChange();
   });
 
-  /* eslint-disable */
-
   act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
-  // within(userRow).getByText("Banned", { exact: false });
+  within(userRow).getByText("Banned", { exact: false });
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });
 
@@ -838,17 +836,14 @@ it("remove user ban from all sites", async () => {
       .props.onClick();
   });
 
-  // This will be set to this value because the user is already banned
   const modal = within(userRow).getByLabelText(
-    "Are you sure you want to manage the ban status of",
+    "Are you sure you want to unban",
     { exact: false }
   );
 
   act(() => {
     within(modal).getByLabelText("No sites", { exact: false }).props.onChange();
   });
-
-  console.log(within(modal).toHTML());
 
   act(() => {
     within(modal).getByType("form").props.onSubmit();
