@@ -105,29 +105,12 @@ const BanModal: FunctionComponent<Props> = ({
   const [emailMessage, setEmailMessage] = useState<string>(getDefaultMessage);
   const [rejectComments, setRejectComments] = useState(false);
 
-  const banIDsState = useState<string[]>([]);
-  const unbanIDsState = useState<string[]>([]);
+  const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
+  const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
 
   const onFormSubmit = useCallback(
     (input) => {
       try {
-        const [banSiteIDs] = banIDsState;
-        const [unbanSiteIDs] = unbanIDsState;
-
-        if (
-          updateType === UpdateType.SPECIFIC_SITES &&
-          banSiteIDs.length + unbanSiteIDs.length === 0
-        ) {
-          return {
-            [FORM_ERROR]: (
-              <Localized id="specificSitesSelect-validation">
-                You must select at least one site from which to ban/unban the
-                user.
-              </Localized>
-            ),
-          };
-        }
-
         onConfirm(
           updateType,
           input.rejectExistingComments,
@@ -141,7 +124,15 @@ const BanModal: FunctionComponent<Props> = ({
         return { [FORM_ERROR]: err.message };
       }
     },
-    [onConfirm, updateType, banIDsState, unbanIDsState, emailMessage]
+    [
+      onConfirm,
+      updateType,
+      banSiteIDs,
+      unbanSiteIDs,
+      emailMessage,
+      customizeMessage,
+      getDefaultMessage,
+    ]
   );
 
   const {
@@ -150,6 +141,8 @@ const BanModal: FunctionComponent<Props> = ({
     consequence,
     consequenceLocalizationId,
   } = getTextForUpdateType(updateType);
+
+  const pendingSiteBanUpdates = banSiteIDs.length + unbanSiteIDs.length > 0;
 
   return (
     <ChangeStatusModal
@@ -276,8 +269,8 @@ const BanModal: FunctionComponent<Props> = ({
                       <UserStatusSitesList
                         userBanStatus={userBanStatus}
                         viewerScopes={viewerScopes}
-                        banState={banIDsState}
-                        unbanState={unbanIDsState}
+                        banState={[banSiteIDs, setBanSiteIDs]}
+                        unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
                       />
                     )}
 
@@ -296,7 +289,14 @@ const BanModal: FunctionComponent<Props> = ({
                       </Button>
                     </Localized>
                     <Localized id="community-banModal-updateBan">
-                      <Button type="submit" ref={lastFocusableRef}>
+                      <Button
+                        type="submit"
+                        ref={lastFocusableRef}
+                        disabled={
+                          updateType === UpdateType.SPECIFIC_SITES &&
+                          !pendingSiteBanUpdates
+                        }
+                      >
                         Save
                       </Button>
                     </Localized>

@@ -8,7 +8,7 @@ import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/Us
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
-import BanModal from "./BanModal";
+import BanModal, { UpdateType } from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
 import PremodModal from "./PremodModal";
@@ -167,7 +167,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const handleUpdateBan = useCallback(
     (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
       switch (updateType) {
-        case "ALL_SITES":
+        case UpdateType.ALL_SITES:
           void banUser({
             userID: user.id,
             message,
@@ -177,7 +177,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
               : [],
           });
           break;
-        case "SPECIFIC_SITES":
+        case UpdateType.SPECIFIC_SITES:
           void updateUserBan({
             userID: user.id,
             message,
@@ -186,14 +186,21 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
             unbanSiteIDs,
           });
           break;
-        case "NO_SITES":
+        case UpdateType.NO_SITES:
           void unbanUser({
             userID: user.id,
           });
       }
       setShowBanned(false);
     },
-    [updateUserBan, banUser, user.id]
+    [
+      banUser,
+      user.id,
+      viewerIsScoped,
+      viewer?.moderationScopes?.sites,
+      updateUserBan,
+      unbanUser,
+    ]
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
