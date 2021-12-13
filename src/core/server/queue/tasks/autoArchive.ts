@@ -96,5 +96,6 @@ export function createArchiverTask(
     jobProcessor: createJobProcessor(options),
     queue,
     jobIdGenerator: ({ tenantID, storyID }) => `${tenantID}:${storyID}`,
+    attempts: 1,
   });
 }
