@@ -18,7 +18,7 @@ export const getTextForUpdateType = (mode: UpdateType) => {
           "Once unbanned, this user will be able to comment, use reactions, and report comments.",
         consequenceLocalizationId: "community-banModal-noSites-consequence",
       };
-    case UpdateType.SPECIFIC_SITES:
+    default:
       return {
         title: "Are you sure you want to update ban status of",
         titleLocalizationId: "community-banModal-specificSites-title",
