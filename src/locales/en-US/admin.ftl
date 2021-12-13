@@ -1372,6 +1372,24 @@ stories-column-publishedCount = Published
 stories-status-popover =
   .description = A dropdown to change the story status
 
+storyInfoDrawer-rescrapeTriggered = Triggered
+storyInfoDrawer-triggerRescrape = Rescrape
+storyInfoDrawer-title = Story Details
+storyInfoDrawer-titleNotAvailable = Story title not available
+storyInfoDrawer-authorNotAvailable = Author not available
+storyInfoDrawer-publishDateNotAvailable = Publish date not available
+storyInfoDrawer-scrapedMetaData = Scraped metadata
+storyInfoDrawer-configure = Configure
+storyInfoDrawer-storyStatus-open = Open
+storyInfoDrawer-storyStatus-closed = Closed
+storyInfoDrawerSettings-premodLinksEnable = Pre Mod Links
+storyInfoDrawerSettings-moderation = Moderation
+storyInfoDrawerSettings-moderationMode-pre = Pre
+storyInfoDrawerSettings-moderationMode-post = Post
+storyInfoDrawer-storyStatus-archiving = Archiving
+storyInfoDrawer-storyStatus-archived = Archived
+
+
 ## Invite
 
 invite-youHaveBeenInvited = You've been invited to join { $organizationName }
