@@ -11,6 +11,7 @@ import {
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
+import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
 import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
 
@@ -63,18 +64,7 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           </TextLink>
           <Flex direction="row" alignItems="center" className={styles.status}>
             {story.isArchived || story.isArchiving ? (
-              <>
-                <span className={styles.archivedLabel}>Status:</span>
-                {story.isArchiving ? (
-                  <Localized id="storyInfoDrawer-storyStatus-archiving">
-                    Archiving
-                  </Localized>
-                ) : (
-                  <Localized id="storyInfoDrawer-storyStatus-archived">
-                    Archived
-                  </Localized>
-                )}
-              </>
+              <ArchivedMarker />
             ) : (
               <StoryStatus
                 storyID={story.id}
