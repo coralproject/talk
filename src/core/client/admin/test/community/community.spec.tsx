@@ -763,13 +763,21 @@ it("ban user with custom message", async () => {
   const toggleMessage = within(modal).getByID("banModal-showMessage");
 
   act(() => {
-    toggleMessage.props.onChange(true);
+    toggleMessage.props.onChange({
+      target: {
+        checked: true,
+      },
+    });
   });
 
   act(() => {
     within(modal)
       .getByID("banModal-message")
-      .props.onChange("YOU WERE BANNED FOR BREAKING THE RULES");
+      .props.onChange({
+        target: {
+          value: "YOU WERE BANNED FOR BREAKING THE RULES",
+        },
+      });
   });
 
   act(() => {
