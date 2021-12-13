@@ -556,6 +556,7 @@ site-search-textField =
 site-search-textField =
   .placeholder = Search by site name
 site-search-none-found = No sites were found with that search
+specificSitesSelect-validation = You must select at least one site.
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
