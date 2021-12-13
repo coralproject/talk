@@ -7,6 +7,7 @@ import { getModerationLink } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
   HorizontalGutter,
+  Icon,
   TableCell,
   TableRow,
   TextLink,
@@ -33,11 +34,11 @@ interface Props {
   pendingCount: number | null;
   totalCount: number;
   viewerCount: number | null;
-  onClick: () => void;
+  onOpenInfoDrawer: () => void;
 }
 
 const UserRow: FunctionComponent<Props> = (props) => (
-  <TableRow onClick={props.onClick}>
+  <TableRow>
     <TableCell className={styles.titleColumn}>
       <HorizontalGutter>
         <p>
@@ -51,6 +52,15 @@ const UserRow: FunctionComponent<Props> = (props) => (
           ) : (
             props.title || <NotAvailable />
           )}
+          <Icon
+            onClick={props.onOpenInfoDrawer}
+            className={styles.infoDrawerButton}
+            size="sm"
+            role="button"
+            aria-label="Open story info drawer"
+          >
+            open_in_new
+          </Icon>
         </p>
         {(props.author || props.publishDate || !!props.viewerCount) && (
           <p className={styles.meta}>

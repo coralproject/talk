@@ -13,7 +13,7 @@ interface Props {
   story: StoryData;
   viewer: ViewerData;
   multisite: boolean;
-  onClick: () => void;
+  onOpenInfoDrawer: () => void;
 }
 
 const StoryRowContainer: FunctionComponent<Props> = (props) => {
@@ -55,7 +55,7 @@ const StoryRowContainer: FunctionComponent<Props> = (props) => {
       pendingCount={props.story.moderationQueues.pending.count}
       publishDate={publishedAt}
       viewerCount={props.story.viewerCount}
-      onClick={props.onClick}
+      onOpenInfoDrawer={props.onOpenInfoDrawer}
     />
   );
 };

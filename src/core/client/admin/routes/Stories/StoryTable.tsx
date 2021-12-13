@@ -86,7 +86,7 @@ const StoryTable: FunctionComponent<Props> = (props) => {
                   story={u}
                   viewer={props.viewer!}
                   multisite={props.multisite}
-                  onClick={() => {
+                  onOpenInfoDrawer={() => {
                     setExpandedStoryID(u.id);
                     setStoryDrawerVisible(true);
                   }}
