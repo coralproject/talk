@@ -1,7 +1,7 @@
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { retrieveStoriesToBeArchived } from "coral-server/models/story";
-import { AugmentedRedis } from "coral-server/services/redis";
+import { ArchiverQueue } from "coral-server/queue/tasks/autoArchive";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
@@ -12,18 +12,17 @@ import {
 
 interface Options {
   mongo: MongoContext;
-  redis: AugmentedRedis;
   tenantCache: TenantCache;
+  archiverQueue: ArchiverQueue;
   config: Config;
 }
 
 export const NAME = "Fill Auto Archiving Queue";
-export const REDIS_ARCHIVING_QUEUE_KEY = "ARCHIVING_QUEUE";
 
 export function registerFillArchivingQueue(
   options: Options
 ): ScheduledJobGroup<Options> {
-  const cronSchedule = options.config.get("auto_archiving_queue_interval");
+  const cronSchedule = options.config.get("auto_archiving_interval");
 
   const job = new ScheduledJob(options, {
     name: `Scheduled ${NAME}`,
@@ -37,8 +36,8 @@ export function registerFillArchivingQueue(
 const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
   log,
   mongo,
-  redis,
   tenantCache,
+  archiverQueue,
   config,
 }) => {
   const enabled = config.get("enable_auto_archiving");
@@ -55,7 +54,6 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
 
     log.info("beginning queuing of archive jobs into redis");
 
-    const redisKey = `${REDIS_ARCHIVING_QUEUE_KEY}:${tenant.id}`;
     const now = new Date();
     const dateFilter = new Date(now.getTime() - age);
 
@@ -67,34 +65,10 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
       batchSize
     );
 
-    const transaction = redis.multi();
     for (const story of stories) {
-      transaction.sadd(redisKey, `${tenant.id}:${story.id}`);
+      await archiverQueue.add({ tenantID: tenant.id, storyID: story.id });
     }
-    const result = await transaction.exec();
 
-    let errorCount = 0;
-    result.forEach((r, index) => {
-      let storyID = "";
-      if (index >= 0 && index < stories.length) {
-        storyID = stories[index].id;
-      }
-
-      r.forEach((sr: Error | null, any) => {
-        const error = sr as Error;
-        if (error && error.message) {
-          log.warn(
-            { storyID, message: error.message },
-            "error adding story to redis archive queue"
-          );
-          errorCount++;
-        }
-      });
-    });
-
-    log.info(
-      { attempted: stories.length, errored: errorCount },
-      "completed queuing archive jobs into redis"
-    );
+    log.info({ count: stories.length }, "completed queuing archive jobs");
   }
 };

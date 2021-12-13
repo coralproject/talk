@@ -492,18 +492,11 @@ const config = convict({
     default: ms("120 days"),
     env: "AUTO_ARCHIVE_OLDER_THAN",
   },
-  auto_archiving_queue_interval: {
-    doc:
-      "The cron scheduling interval for how often auto archiving should run. Defaults to hourly.",
-    format: String,
-    default: "0,30 * * * *",
-    env: "AUTO_ARCHIVING_QUEUE_INTERVAL",
-  },
   auto_archiving_interval: {
     doc:
       "The cron scheduling interval for how often auto archiving should run.",
     format: String,
-    default: "15,45 * * * *",
+    default: "0,15,30,45 * * * *",
     env: "AUTO_ARCHIVING_INTERVAL",
   },
   auto_archiving_batch_size: {

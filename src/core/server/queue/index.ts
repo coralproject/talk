@@ -11,6 +11,7 @@ import {
 } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
+import { ArchiverQueue, createArchiverTask } from "./tasks/autoArchive";
 import { createMailerTask, MailerQueue } from "./tasks/mailer";
 import { createNotifierTask, NotifierQueue } from "./tasks/notifier";
 import { createRejectorTask, RejectorQueue } from "./tasks/rejector";
@@ -60,6 +61,7 @@ export interface TaskQueue {
   notifier: NotifierQueue;
   webhook: WebhookQueue;
   rejector: RejectorQueue;
+  archiver: ArchiverQueue;
 }
 
 export function createQueue(options: QueueOptions): TaskQueue {
@@ -79,6 +81,7 @@ export function createQueue(options: QueueOptions): TaskQueue {
   });
   const webhook = createWebhookTask(queueOptions, options);
   const rejector = createRejectorTask(queueOptions, options);
+  const archiver = createArchiverTask(queueOptions, options);
 
   // Return the tasks + client.
   return {
@@ -87,5 +90,6 @@ export function createQueue(options: QueueOptions): TaskQueue {
     notifier,
     webhook,
     rejector,
+    archiver,
   };
 }

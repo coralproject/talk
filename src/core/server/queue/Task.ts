@@ -21,6 +21,7 @@ interface TaskOptions<T, U = void> {
   queue: Queue.QueueOptions;
   timeout?: number;
   jobIdGenerator?: null | ((data: T) => number | string);
+  attempts?: number;
 }
 
 export default class Task<T extends TenantResource, U = any> {
@@ -37,6 +38,7 @@ export default class Task<T extends TenantResource, U = any> {
     jobIdGenerator = null,
     queue,
     timeout = 30000,
+    attempts = MAX_JOB_ATTEMPTS,
   }: TaskOptions<T, U>) {
     this.log = logger.child({ jobName }, true);
     this.queue = new Queue(jobName, queue);
@@ -55,7 +57,7 @@ export default class Task<T extends TenantResource, U = any> {
       },
 
       // Be default, try all jobs at least 5 times.
-      attempts: MAX_JOB_ATTEMPTS,
+      attempts,
     };
     this.idGenerator = jobIdGenerator;
     this.processor = jobProcessor;
