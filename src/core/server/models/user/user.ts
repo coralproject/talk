@@ -1903,6 +1903,7 @@ export async function banUser(
     createdBy,
     createdAt: now,
     message,
+    siteIDs: [],
   };
 
   // Try to update the user if the user isn't already banned.
@@ -1917,6 +1918,7 @@ export async function banUser(
     {
       $set: {
         "status.ban.active": true,
+        "status.ban.siteIDs": [],
       },
       $push: {
         "status.ban.history": banHistory,
