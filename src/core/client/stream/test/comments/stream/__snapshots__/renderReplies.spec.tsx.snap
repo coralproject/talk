@@ -47,7 +47,7 @@ exports[`renders reply list 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-indented Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
+            className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -373,7 +373,7 @@ exports[`renders reply list 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="CommentContainer-indented Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
+                  className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -693,7 +693,7 @@ exports[`renders reply list 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="CommentContainer-indented Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
+                  className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -1016,7 +1016,7 @@ exports[`renders reply list 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-indented Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
+            className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"

@@ -37,7 +37,7 @@ exports[`renders deepest comment with link 1`] = `
       className="coral coral-comment-collapse-toggle-indent Indent-root"
     >
       <div
-        className="CommentContainer-indented Indent-level3 coral coral-indent coral-indent-3 Indent-open Indent-openPadded"
+        className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level3 coral coral-indent coral-indent-3 Indent-open Indent-openPadded"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
