@@ -7,14 +7,14 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Environment } from "react-relay";
+import { Environment, graphql } from "react-relay";
 
 import { waitFor } from "coral-common/helpers";
 import { onPymMessage } from "coral-framework/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
-import { useMutation } from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import CLASSES from "coral-stream/classes";
@@ -38,6 +38,8 @@ import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnable
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
+
+import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
 import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";
@@ -267,6 +269,15 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   );
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
+  const [, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
+    fragment KeyboardShortcuts_local on Local {
+      keyboardShortcutsConfig {
+        key
+        source
+        reverse
+      }
+    }
+  `);
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
   const { commitSeen, enabled } = useContext(CommentSeenContext);
@@ -465,6 +476,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       }
 
       if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
+        setLocal({
+          keyboardShortcutsConfig: {
+            key: pressedKey,
+            reverse: Boolean(data.shiftKey),
+            source: "keyboard",
+          },
+        });
         traverse({
           key: pressedKey,
           reverse: Boolean(data.shiftKey),
@@ -475,10 +493,16 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     [pym, traverse, unmarkAll, zKeyEnabled]
   );
 
-  const handleZKeyButton = useCallback(
-    () => traverse({ key: "z", reverse: false, source: "mobileToolbar" }),
-    [traverse]
-  );
+  const handleZKeyButton = useCallback(() => {
+    setLocal({
+      keyboardShortcutsConfig: {
+        key: "z",
+        reverse: false,
+        source: "mobileToolbar",
+      },
+    });
+    traverse({ key: "z", reverse: false, source: "mobileToolbar" });
+  }, [traverse]);
 
   // Update button states after first render.
   useEffect(() => {
@@ -486,10 +510,33 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   }, [updateButtonStates]);
 
   // Update button states after certain events.
+  // Also traverse to next comment after load more / show all replies
   useEffect(() => {
-    const listener: ListenerFn = async (e) => {
+    const listener: ListenerFn = async (e, data) => {
       if (!eventsOfInterest.includes(e)) {
         return;
+      }
+
+      if (e === LoadMoreAllCommentsEvent.nameSuccess && pym) {
+        // Need to send new height to pym after more comments load in
+        // instead of waiting for polling to update it
+        pym.sendHeight();
+        // after more comments have loaded, we want to traverse
+        // to the next comment based on the configuration
+        if (data.success.keyboardShortcutsConfig) {
+          traverse(data.success.keyboardShortcutsConfig);
+        }
+      }
+
+      if (e === ShowAllRepliesEvent.nameSuccess && pym) {
+        // Need to send new height to pym after more replies load in
+        // instead of waiting for polling to update it
+        pym.sendHeight();
+        // after more replies have loaded, we want to traverse
+        // to the next comment based on the configuration
+        if (data.success.keyboardShortcutsConfig) {
+          traverse(data.success.keyboardShortcutsConfig);
+        }
       }
 
       // Wait until current renderpass finishes.

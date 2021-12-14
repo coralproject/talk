@@ -342,7 +342,13 @@ createComment.error
   ```ts
   {
       storyID: string;
-      success: {};
+      success: {
+          keyboardShortcutsConfig?: {
+              source: string;
+              key: string;
+              reverse: boolean;
+          } | undefined;
+      };
       error: {
           message: string;
           code?: string | undefined;
@@ -489,7 +495,13 @@ createComment.error
   ```ts
   {
       commentID: string;
-      success: {};
+      success: {
+          keyboardShortcutsConfig?: {
+              source: string;
+              key: string;
+              reverse: boolean;
+          } | undefined;
+      };
       error: {
           message: string;
           code?: string | undefined;

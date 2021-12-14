@@ -288,7 +288,13 @@ export const LoadMoreFeaturedCommentsEvent = createViewerNetworkEvent<{
  */
 export const LoadMoreAllCommentsEvent = createViewerNetworkEvent<{
   storyID: string;
-  success: {};
+  success: {
+    keyboardShortcutsConfig?: {
+      source: string;
+      key: string;
+      reverse: boolean;
+    };
+  };
   error: { message: string; code?: string };
 }>("loadMoreAllComments");
 
@@ -307,7 +313,13 @@ export const LoadMoreHistoryCommentsEvent = createViewerNetworkEvent<{
  */
 export const ShowAllRepliesEvent = createViewerNetworkEvent<{
   commentID: string;
-  success: {};
+  success: {
+    keyboardShortcutsConfig?: {
+      source: string;
+      key: string;
+      reverse: boolean;
+    };
+  };
   error: { message: string; code?: string };
 }>("showAllReplies");
 

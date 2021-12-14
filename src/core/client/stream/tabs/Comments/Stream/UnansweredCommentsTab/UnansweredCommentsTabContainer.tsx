@@ -40,10 +40,17 @@ interface Props {
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   props
 ) => {
-  const [{ commentsOrderBy }] = useLocal<UnansweredCommentsTabContainerLocal>(
+  const [{ commentsOrderBy, keyboardShortcutsConfig }] = useLocal<
+    UnansweredCommentsTabContainerLocal
+  >(
     graphql`
       fragment UnansweredCommentsTabContainerLocal on Local {
         commentsOrderBy
+        keyboardShortcutsConfig {
+          key
+          source
+          reverse
+        }
       }
     `
   );
@@ -102,7 +109,13 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
     try {
       await loadMore();
-      loadMoreEvent.success();
+      if (keyboardShortcutsConfig) {
+        loadMoreEvent.success({
+          keyboardShortcutsConfig,
+        });
+      } else {
+        loadMoreEvent.success({});
+      }
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console

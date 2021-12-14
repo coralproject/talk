@@ -69,16 +69,23 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   relay,
   tag,
 }) => {
-  const [{ commentsOrderBy, ratingFilter }, setLocal] = useLocal<
-    AllCommentsTabContainerLocal
-  >(
+  const [
+    { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
+    setLocal,
+  ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
         ratingFilter
         commentsOrderBy
+        keyboardShortcutsConfig {
+          key
+          source
+          reverse
+        }
       }
     `
   );
+
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
@@ -147,9 +154,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     null;
 
   const commentSeenEnabled = useCommentSeenEnabled();
-  const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const { window } = useCoralContext();
+
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
     try {
@@ -158,7 +166,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       window.document
         .getElementById(`comment-${lastComment?.node.id}`)
         ?.focus();
-      loadMoreEvent.success();
+      if (keyboardShortcutsConfig) {
+        loadMoreEvent.success({
+          keyboardShortcutsConfig,
+        });
+      } else {
+        loadMoreEvent.success({});
+      }
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
@@ -331,7 +345,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
+          count: { type: "Int", defaultValue: 5 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
           tag: { type: "TAG" }
