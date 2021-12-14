@@ -374,6 +374,7 @@ export const CreateCommentMutation = createMutation(
                       : null,
                   },
                   deleted: false,
+                  seen: true,
                 },
               },
               clientMutationId: (clientMutationId++).toString(),
