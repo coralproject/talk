@@ -8,11 +8,13 @@ import { TenantResource } from "coral-server/models/tenant";
 
 export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
 
-const MAX_JOB_ATTEMPTS = 5 as const;
+const DEFAULT_MAX_JOB_ATTEMPTS = 5 as const;
 export const isLastAttempt = (job: Job) => {
   // On the last attempt, the `attemptsMade` will be one less than the limit
   // as we have already _attempted_ `limit - 1` times.
-  return job.attemptsMade >= MAX_JOB_ATTEMPTS - 1;
+  return (
+    job.attemptsMade >= (job.opts.attempts ?? DEFAULT_MAX_JOB_ATTEMPTS) - 1
+  );
 };
 
 interface TaskOptions<T, U = void> {
@@ -38,7 +40,7 @@ export default class Task<T extends TenantResource, U = any> {
     jobIdGenerator = null,
     queue,
     timeout = 30000,
-    attempts = MAX_JOB_ATTEMPTS,
+    attempts = DEFAULT_MAX_JOB_ATTEMPTS,
   }: TaskOptions<T, U>) {
     this.log = logger.child({ jobName }, true);
     this.queue = new Queue(jobName, queue);
