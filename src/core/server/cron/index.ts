@@ -1,6 +1,6 @@
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { ArchiverQueue } from "coral-server/queue/tasks/autoArchive";
+import { ArchiverQueue } from "coral-server/queue/tasks/archiver";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";

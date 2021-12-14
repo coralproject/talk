@@ -11,7 +11,7 @@ import {
 } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
-import { ArchiverQueue, createArchiverTask } from "./tasks/autoArchive";
+import { ArchiverQueue, createArchiverTask } from "./tasks/archiver";
 import { createMailerTask, MailerQueue } from "./tasks/mailer";
 import { createNotifierTask, NotifierQueue } from "./tasks/notifier";
 import { createRejectorTask, RejectorQueue } from "./tasks/rejector";

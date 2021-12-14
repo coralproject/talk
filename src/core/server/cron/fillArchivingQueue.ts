@@ -1,7 +1,7 @@
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { retrieveStoriesToBeArchived } from "coral-server/models/story";
-import { ArchiverQueue } from "coral-server/queue/tasks/autoArchive";
+import { ArchiverQueue } from "coral-server/queue/tasks/archiver";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
