@@ -21,6 +21,8 @@ interface CommentHistoryProps {
 }
 
 const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
+  const archivingEnabled = true; // MARCUS TODO: RESOLVE THIS
+  const archivingThreshold = "TODO MONTHS"; // MARCUS TODO: resolve this
   return (
     <Localized
       id="profile-commentHistory-section"
@@ -85,6 +87,15 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
               >
                 Load More
               </Button>
+            </Localized>
+          )}
+          {archivingEnabled && (
+            <Localized id="profile-commentHistory-archived-copy">
+              <i>
+                This is all of your comments from the previous{" "}
+                {archivingThreshold}. To view the rest of your comments, please
+                contact us.
+              </i>
             </Localized>
           )}
         </HorizontalGutter>

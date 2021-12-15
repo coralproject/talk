@@ -41,6 +41,9 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
     lastUpdated
   );
 
+  const archivingEnabled = true; // MARCUS: RESOLVE
+  const archivingThreshold = "TODO months";
+
   return (
     <div>
       <Localized id="dashboard-today-heading">
@@ -54,9 +57,15 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.total.toString()}>
-            <Localized id="dashboard-alltime-new-comments">
-              All time total
-            </Localized>
+            {archivingEnabled ? (
+              <Localized id="dashboard-archived-new-comments">
+                <>{archivingThreshold} total</>
+              </Localized>
+            ) : (
+              <Localized id="dashboard-alltime-new-comments">
+                All time total
+              </Localized>
+            )}
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="close" loading={loading || totalLoading}>
@@ -84,9 +93,15 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
                 : "-.-- %"
             }
           >
-            <Localized id="dashboard-alltime-rejections">
-              All time average
-            </Localized>
+            {archivingEnabled ? (
+              <Localized id="dashboard-archived-rejections">
+                <>{archivingThreshold} average</>
+              </Localized>
+            ) : (
+              <Localized id="dashboard-alltime-rejections">
+                All time average
+              </Localized>
+            )}
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox
@@ -99,9 +114,15 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.staff.toString()}>
-            <Localized id="dashboard-alltime-staff-comments">
-              All time total
-            </Localized>
+            {archivingEnabled ? (
+              <Localized id="dashboard-archived-staff-comments">
+                <>{archivingThreshold} total</>
+              </Localized>
+            ) : (
+              <Localized id="dashboard-alltime-staff-comments">
+                All time total
+              </Localized>
+            )}
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="person_add" loading={loading || totalLoading}>
