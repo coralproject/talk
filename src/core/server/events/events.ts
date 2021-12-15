@@ -1,5 +1,6 @@
 import {
   CommentCreatedInput,
+  CommentEditedInput,
   CommentEnteredInput,
   CommentEnteredModerationQueueInput,
   CommentFeaturedInput,
@@ -136,3 +137,12 @@ export type StoryCreatedCoralEventPayload = CoralEventPayload<
 export const StoryCreatedCoralEvent = createCoralEvent<
   StoryCreatedCoralEventPayload
 >(CoralEventType.STORY_CREATED);
+
+export const CommentEditedCoralEvent = createCoralEvent<
+  CommentEditedCoralEventPayload
+>(CoralEventType.COMMENT_EDITED);
+
+export type CommentEditedCoralEventPayload = CoralEventPayload<
+  CoralEventType.COMMENT_EDITED,
+  CommentEditedInput
+>;

@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, MouseEventHandler } from "react";
 
 import Link from "./Link";
 import Navigation from "./Navigation";
+import SubLink from "./SubLink";
 
 const ConfigureLinks: FunctionComponent<{}> = () => {
   return (
@@ -18,6 +19,46 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
           Moderation
         </Link>
       </Localized>
+      <Link
+        exact
+        to={{ pathname: "/admin/configure/moderation", hash: "#Comments" }}
+      >
+        {({
+          href,
+          onClick,
+        }: {
+          href: string;
+          onClick: MouseEventHandler<HTMLButtonElement>;
+        }) => {
+          return (
+            <Localized id="configure-sideBarNavigation-moderation-comments">
+              <SubLink href={href} onClick={onClick}>
+                Comments
+              </SubLink>
+            </Localized>
+          );
+        }}
+      </Link>
+      <Link
+        exact
+        to={{ pathname: "/admin/configure/moderation", hash: "#Users" }}
+      >
+        {({
+          href,
+          onClick,
+        }: {
+          href: string;
+          onClick: MouseEventHandler<HTMLButtonElement>;
+        }) => {
+          return (
+            <Localized id="configure-sideBarNavigation-moderation-users">
+              <SubLink href={href} onClick={onClick}>
+                Users
+              </SubLink>
+            </Localized>
+          );
+        }}
+      </Link>
       <Localized id="configure-sideBarNavigation-moderationPhases">
         <Link to="/admin/configure/moderation/phases">Moderation Phases</Link>
       </Localized>

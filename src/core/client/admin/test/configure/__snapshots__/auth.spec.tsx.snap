@@ -53,6 +53,34 @@ exports[`renders configure auth 1`] = `
                 </a>
               </li>
               <li>
+                <button
+                  className="BaseButton-root SubLink-subLink"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Comments
+                </button>
+              </li>
+              <li>
+                <button
+                  className="BaseButton-root SubLink-subLink"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Users
+                </button>
+              </li>
+              <li>
                 <a
                   className="Link-link"
                   href="/admin/configure/moderation/phases"

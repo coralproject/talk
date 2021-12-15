@@ -59,6 +59,11 @@ export function createUserStatus(banned = false): GQLUserStatus {
       history: [],
       message: NULL_VALUE,
     },
+    modMessage: {
+      active: false,
+      history: [],
+      message: NULL_VALUE,
+    },
   };
 }
 
@@ -364,6 +369,7 @@ export function createSettings() {
       approvedCommentsThreshold: 2,
     },
     premoderateSuspectWords: false,
+    flattenReplies: false,
     auth: {
       integrations: {
         local: {

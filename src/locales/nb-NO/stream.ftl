@@ -266,10 +266,6 @@ comments-userBanPopover-description =
   Når en bruker først er blokkert vil han/hun ikke lenger
   kunne kommentere, reagere eller rapportere kommentarer.
   Denne kommentaren vil også bli avvist.
-comments-userBanPopover-scopedDescription =
-  Når en bruker først er blokkert fra {$sitename}, vil han/hun ikke lenger
-  kunne kommentere, reagere eller rapportere kommentarer.
-  Denne kommentaren vil også bli avvist.
 
 comments-userBanPopover-cancel = Avbryt
 comments-userBanPopover-ban = Blokker
@@ -713,21 +709,6 @@ configure-premodLink-commentsContainingLinks =
   Forhåndsmoderer kommentarer med lenker
 configure-premodLink-description =
   Moderatorer må godkjenne alle kommentarer som inneholder lenker før de blir publisert.
-
-configure-liveUpdates-title =
-configure-enableLiveUpdates-title = Aktiver direkte-oppdateringer
-configure-liveUpdates-description =
-configure-enableLiveUpdates-description =
-  Når denne er aktivert vil kommentarer bli vist umiddelbart etter at de er lagt inn, i stedet for å kreve en aktiv oppdatering av siden. Du kan slå av denne funksjonen om en artikkel får så mye trafikk at kommentarene laster tregt.
-configure-enableLiveUpdates-enable = Aktiver
-
-configure-disableLiveUpdates-title = Slå av direkte-oppdateringer
-configure-disableLiveUpdates-description =
-  Når denne er slått av vil ikke nye kommentarer lenger vises umiddelbart etter posting. Brukerne må oppdatere siden for å se nye kommentarer. Vi anbefaler dette om en artikkel skulle få så mye trafikk at kommentarene laster tregt.
-configure-disableLiveUpdates-disable = Slå av
-
-configure-liveUpdates-disabledSuccess = Direkte-oppdateringer er nå slått av
-configure-liveUpdates-enabledSuccess = Direkte-oppdateringer er nå aktivert
 
 configure-messageBox-title =
 configure-addMessage-title =

@@ -35,6 +35,8 @@ import {
  */
 export enum LEGACY_FEATURE_FLAGS {
   ENABLE_AMP = "ENABLE_AMP",
+  FLATTEN_REPLIES = "FLATTEN_REPLIES",
+  FOR_REVIEW = "FOR_REVIEW",
 }
 
 /**
@@ -276,6 +278,7 @@ export async function createTenant(
     memberBios: false,
     rte: defaultRTEConfiguration,
     amp: false,
+    flattenReplies: false,
   };
 
   // Create the new Tenant by merging it together with the defaults.

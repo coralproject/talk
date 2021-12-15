@@ -14,6 +14,7 @@ import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
 import { CommentCreatedPayload } from "./CommentCreatedPayload";
+import { CommentEditedPayload } from "./CommentEditedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentEnteredPayload } from "./CommentEnteredPayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
@@ -39,6 +40,8 @@ import { MediaConfiguration } from "./MediaConfiguration";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
 import { ModeratorNote } from "./ModeratorNote";
+import { ModMessageStatus } from "./ModMessageStatus";
+import { ModMessageStatusHistory } from "./ModMessageStatusHistory";
 import { Mutation } from "./Mutation";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
 import { PremodStatus } from "./PremodStatus";
@@ -113,6 +116,8 @@ const Resolvers: GQLResolver = {
   ModerationQueue,
   ModerationQueues,
   ModeratorNote,
+  ModMessageStatus,
+  ModMessageStatusHistory,
   Mutation,
   OIDCAuthIntegration,
   PremodStatus,
@@ -153,6 +158,7 @@ const Resolvers: GQLResolver = {
   YouTubeMediaConfiguration,
   LocalAuthIntegration,
   AuthenticationTargetFilter,
+  CommentEditedPayload,
 };
 
 export default Resolvers;

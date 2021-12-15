@@ -358,6 +358,19 @@ export type Settings = GlobalModerationSettings &
      * amp activates Accelerated Mobile Pages support.
      */
     amp?: boolean;
+
+    /**
+     * flattenReplies is whether the tenant wants replies to be hidden behind
+     * a "Show more of this conversation" link.
+     */
+    flattenReplies: boolean;
+
+    /**
+     * forReviewQueue is whether the tenant wants to enable the For Review
+     * moderation queue in the admin to review every flag that has been
+     * put on a comment by a user.
+     */
+    forReviewQueue?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

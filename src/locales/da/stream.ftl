@@ -224,10 +224,6 @@ configure-premodLink-title = Førmoderate kommentarer der indeholder links
 configure-premodLink-description =
   Moderatorer skal godkende enhver kommentar, der indeholder et link, inden den offentliggøres.
 
-configure-liveUpdates-title = Aktivér liveopdateringer til denne historie
-configure-liveUpdates-description =
-  Når det er aktiveret, vil der blive realtid indlæst og opdateret af kommentarer, når nye kommentarer og svar offentliggøres.
-
 configure-messageBox-title = Aktivér meddelelsesboks til denne stream
 configure-messageBox-description =
   Tilføj en besked øverst i kommentarfeltet for dine læsere. Brug dette til at stille et emne,

@@ -85,7 +85,7 @@ describe("withIndexedDBStorage", () => {
     (withIndexedDBStorage("coral") as any)(null, postMessage, new FDBFactory());
 
     // Wait for db to be initialized.
-    await waitFor(10);
+    await waitFor(50);
 
     postMessage.listeners["postMessageStorage.indexedDB.request"]({
       id: "0",
