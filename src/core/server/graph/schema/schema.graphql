@@ -7478,6 +7478,52 @@ type BanUserPayload {
   clientMutationId: String!
 }
 
+input UpdateUserBanInput {
+  """
+  userID is the id of the user whose ban status should be updated
+  """
+  userID: ID!
+
+  """
+  banSiteIDs are the ids of sites on which the user should be banned
+  """
+  banSiteIDs: [ID!]
+
+  """
+  unbanSiteIDs are the ids of sites on which the user should be unbanned
+  """
+  unbanSiteIDs: [ID!]
+
+  """
+  message is the message that should be sent to the user (if sites
+  have been added to their ban list)
+  """
+  message: String!
+
+  """
+  rejectExistingComments is whether existing comments should be rejected
+  on sites on which the user has been newly banned, if any.
+  """
+  rejectExistingComments: Boolean
+
+  """
+  clientMutationID is required for relay support
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserBanPayload {
+  """
+  user is the updated user
+  """
+  user: User!
+
+  """
+  clientMutationID is required for relay support
+  """
+  clientMutationId: String!
+}
+
 ##################
 # suspendUser
 ##################
@@ -8512,7 +8558,15 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  removeUserBan will remove an active ban from a User if they have one.
+  updateUserBan will ban a specified user from specified sites (if
+  not already banned from them) and unban a user from specified sites
+  (if currently banned from them)
+  """
+  updateUserBan(input: UpdateUserBanInput!): UpdateUserBanPayload!
+    @auth(roles: [ADMIN, MODERATOR], unscoped: false)
+
+  """
+  removeUserBan will remove an active ban from a User if they have one
   """
   removeUserBan(input: RemoveUserBanInput!): RemoveUserBanPayload!
     @auth(roles: [ADMIN, MODERATOR], unscoped: true)
