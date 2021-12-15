@@ -154,7 +154,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     null;
 
   const commentSeenEnabled = useCommentSeenEnabled();
-  const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const { window } = useCoralContext();
 
@@ -345,7 +345,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
+          count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
           tag: { type: "TAG" }
