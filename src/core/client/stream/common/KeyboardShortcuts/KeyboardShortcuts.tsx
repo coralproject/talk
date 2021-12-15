@@ -27,6 +27,7 @@ import {
   LoadMoreAllCommentsEvent,
   ShowAllRepliesEvent,
   UnmarkAllEvent,
+  ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
@@ -63,6 +64,7 @@ interface KeyStop {
   isLoadMore: boolean;
   element: HTMLElement;
   notSeen: boolean;
+  isViewNew: boolean;
 }
 
 interface TraverseOptions {
@@ -77,6 +79,7 @@ const toKeyStop = (element: HTMLElement): KeyStop => {
     id: element.id,
     isLoadMore: "isLoadMore" in element.dataset,
     notSeen: "notSeen" in element.dataset,
+    isViewNew: "isViewNew" in element.dataset,
   };
 };
 
@@ -252,7 +255,14 @@ const eventsOfInterest = [
   "subscription.subscribeToCommentEntered.data",
   ShowAllRepliesEvent.nameSuccess,
   LoadMoreAllCommentsEvent.nameSuccess,
+  ViewNewCommentsNetworkEvent.nameSuccess,
   COMMIT_SEEN_EVENT,
+];
+
+const loadMoreEvents = [
+  ShowAllRepliesEvent.nameSuccess,
+  LoadMoreAllCommentsEvent.nameSuccess,
+  ViewNewCommentsNetworkEvent.nameSuccess,
 ];
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
@@ -401,22 +411,24 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       pym.scrollParentToChildPos(offset);
 
       if (stop.isLoadMore) {
-        let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
-          skipLoadMore: true,
-          noCircle: true,
-        });
-        if (!prevOrNextStop) {
-          prevOrNextStop = findNextKeyStop(renderWindow, stop, {
+        if (!stop.isViewNew) {
+          let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
             skipLoadMore: true,
             noCircle: true,
           });
-        }
-        if (prevOrNextStop) {
-          void setTraversalFocus({
-            commentID: parseCommentElementID(prevOrNextStop.id),
-            commentSeenEnabled: enabled,
-          });
-          prevOrNextStop.element.focus();
+          if (!prevOrNextStop) {
+            prevOrNextStop = findNextKeyStop(renderWindow, stop, {
+              skipLoadMore: true,
+              noCircle: true,
+            });
+          }
+          if (prevOrNextStop) {
+            void setTraversalFocus({
+              commentID: parseCommentElementID(prevOrNextStop.id),
+              commentSeenEnabled: enabled,
+            });
+            prevOrNextStop.element.focus();
+          }
         }
         stop.element.click();
       } else {
@@ -517,25 +529,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
         return;
       }
 
-      if (e === LoadMoreAllCommentsEvent.nameSuccess && pym) {
-        // Need to send new height to pym after more comments load in
-        // instead of waiting for polling to update it
+      if (loadMoreEvents.includes(e) && pym) {
+        // Need to send new height to pym after more comments/replies load
+        // in instead of waiting for polling to update it
         pym.sendHeight();
-        // after more comments have loaded, we want to traverse
-        // to the next comment based on the configuration
-        if (data.success.keyboardShortcutsConfig) {
-          traverse(data.success.keyboardShortcutsConfig);
-        }
-      }
-
-      if (e === ShowAllRepliesEvent.nameSuccess && pym) {
-        // Need to send new height to pym after more replies load in
-        // instead of waiting for polling to update it
-        pym.sendHeight();
-        // after more replies have loaded, we want to traverse
-        // to the next comment based on the configuration
-        if (data.success.keyboardShortcutsConfig) {
-          traverse(data.success.keyboardShortcutsConfig);
+        // after more comments/replies have loaded, we want to traverse
+        // to the next comment/reply based on the configuration
+        if (data.keyboardShortcutsConfig) {
+          traverse(data.keyboardShortcutsConfig);
         }
       }
 

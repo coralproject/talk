@@ -106,16 +106,13 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
-    const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
+    const loadMoreEvent = beginLoadMoreEvent({
+      storyID: props.story.id,
+      keyboardShortcutsConfig,
+    });
     try {
       await loadMore();
-      if (keyboardShortcutsConfig) {
-        loadMoreEvent.success({
-          keyboardShortcutsConfig,
-        });
-      } else {
-        loadMoreEvent.success({});
-      }
+      loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
