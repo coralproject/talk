@@ -113,7 +113,7 @@ const BanModal: FunctionComponent<Props> = ({
       try {
         onConfirm(
           updateType,
-          input.rejectExistingComments,
+          rejectComments,
           banSiteIDs,
           unbanSiteIDs,
           customizeMessage ? emailMessage : getDefaultMessage
@@ -132,6 +132,7 @@ const BanModal: FunctionComponent<Props> = ({
       emailMessage,
       customizeMessage,
       getDefaultMessage,
+      rejectComments,
     ]
   );
 
