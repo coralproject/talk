@@ -284,6 +284,8 @@ export type Settings = GlobalModerationSettings &
     | "reaction"
     | "editCommentWindowLength"
     | "customCSSURL"
+    | "customFontsCSSURL"
+    | "disableDefaultFonts"
     | "communityGuidelines"
     | "createdAt"
     | "slack"

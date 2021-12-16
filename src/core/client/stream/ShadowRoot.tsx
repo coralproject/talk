@@ -11,7 +11,7 @@ export const useShadowRoot: () => ShadowRoot = () => {
     // eslint-disable-next-line no-restricted-globals
     return window.document;
   }
-  return (ReactShadow as any).useShadowRoot;
+  return (ReactShadow as any).useShadowRoot();
 };
 
 /**

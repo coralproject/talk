@@ -6,6 +6,7 @@
 
 .root {
   width: 100%;
+  background: var(--palette-background-body);
 
   /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;

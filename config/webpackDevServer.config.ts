@@ -1,8 +1,11 @@
+import fs from "fs";
+import path from "path";
 import errorOverlayMiddleware from "react-dev-utils/errorOverlayMiddleware";
 import evalSourceMapMiddleware from "react-dev-utils/evalSourceMapMiddleware";
 import ignoredFiles from "react-dev-utils/ignoredFiles";
 import noopServiceWorkerMiddleware from "react-dev-utils/noopServiceWorkerMiddleware";
 import { Configuration } from "webpack-dev-server";
+
 import paths from "./paths";
 
 interface WebpackDevServerConfig {
@@ -92,6 +95,17 @@ export default function ({
           ].some((p) => p === lc || lc.startsWith(`${p}/`));
         },
         target: `http://localhost:${serverPort}`,
+        onError: (err, req, res) => {
+          res.writeHead(500, {
+            "Content-Type": "text/html",
+          });
+          res.end(
+            fs.readFileSync(
+              path.join(__dirname, "webpackDevServerProxyError.html")
+            )
+          );
+          return;
+        },
       },
     ],
     before(app, server) {

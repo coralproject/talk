@@ -23,6 +23,8 @@ export interface StreamEmbedConfig {
   accessToken?: string;
   bodyClassName?: string;
   enableDeprecatedEvents?: boolean;
+  disableDefaultFonts?: boolean;
+  customFontsCSSURL?: string;
   customCSSURL?: string;
   refreshAccessToken?: RefreshAccessTokenCallback;
   amp?: boolean;
@@ -53,6 +55,9 @@ export class StreamEmbed {
   private cssAssets: string[];
   private jsAssets: string[];
   private onBootstrapConfigLoaded: Array<() => void> = [];
+  private customCSSURL?: string;
+  private customFontsCSSURL?: string;
+  private disableDefaultFonts?: boolean;
 
   constructor(config: StreamEmbedConfig) {
     this.config = config;
@@ -131,6 +136,14 @@ export class StreamEmbed {
   private onBootstrapConfigLoad(config: EmbedBootstrapConfig) {
     this.boostrapConfig = config;
 
+    this.customCSSURL =
+      this.config.customCSSURL || this.boostrapConfig.customCSSURL;
+    this.customFontsCSSURL =
+      this.config.customFontsCSSURL || this.boostrapConfig.customFontsCSSURL;
+    this.disableDefaultFonts =
+      this.config.disableDefaultFonts ||
+      this.boostrapConfig.disableDefaultFonts;
+
     // Set webpacks static uri.
     setStaticURI(config.staticConfig.staticURI);
 
@@ -169,10 +182,22 @@ export class StreamEmbed {
   }
 
   private preloadCSSAssets() {
-    let assets = this.cssAssets;
-    if (this.config.customCSSURL) {
-      assets = assets.concat(this.config.customCSSURL);
+    const assets: string[] = [];
+    if (
+      this.boostrapConfig &&
+      this.boostrapConfig.defaultFontsCSSURL &&
+      !this.disableDefaultFonts
+    ) {
+      assets.push(this.boostrapConfig.defaultFontsCSSURL);
     }
+    if (this.customFontsCSSURL) {
+      assets.push(this.customFontsCSSURL);
+    }
+    if (this.customCSSURL) {
+      assets.push(this.customCSSURL);
+    }
+    assets.push(...this.cssAssets);
+
     assets.forEach((asset) => {
       const link = document.createElement("link");
       link.rel = "preload";
@@ -270,7 +295,9 @@ export class StreamEmbed {
       element: this.element,
       graphQLSubscriptionURI: this.config.graphQLSubscriptionURI,
       staticConfig: this.boostrapConfig.staticConfig,
-      customCSSURL: this.boostrapConfig.customCSSURL,
+      customCSSURL: this.customCSSURL,
+      customFontsCSSURL: this.customFontsCSSURL,
+      disableDefaultFonts: this.disableDefaultFonts,
       locale: this.boostrapConfig.locale,
       bodyClassName: this.config.bodyClassName,
       // Add the version to the query string to ensure that every new version of

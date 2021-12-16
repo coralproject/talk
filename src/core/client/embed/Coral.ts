@@ -32,6 +32,8 @@ export interface Config {
   /** Allow setting className of body tag inside iframe */
   bodyClassName?: string;
   customCSSURL?: string;
+  customFontsCSSURL?: string;
+  disableDefaultFonts?: boolean;
   amp?: boolean;
 }
 
@@ -71,6 +73,8 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     eventEmitter: embedEventEmitter,
     accessToken: config.accessToken,
     customCSSURL: config.customCSSURL,
+    customFontsCSSURL: config.customFontsCSSURL,
+    disableDefaultFonts: config.disableDefaultFonts,
     refreshAccessToken: config.refreshAccessToken,
     amp: config.amp,
     autoRender: config.autoRender,

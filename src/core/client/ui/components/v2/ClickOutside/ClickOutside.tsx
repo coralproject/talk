@@ -22,9 +22,17 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
 
   public domNode: Element | null = null;
 
+  public handleRef = (e: Element | null) => {
+    this.domNode = e;
+  };
+
   public handleClick = (e: MouseEvent) => {
+    const path =
+      (e.composedPath && e.composedPath()) ||
+      // Supports older browsers.
+      (e as any).path;
     const { onClickOutside } = this.props;
-    if (!e || !this.domNode!.contains(e.target as HTMLInputElement)) {
+    if (this.domNode && !this.domNode.contains(path[0] as HTMLInputElement)) {
       // eslint-disable-next-line no-unused-expressions
       onClickOutside && onClickOutside(e);
     }
@@ -50,7 +58,7 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
   }
 
   public render() {
-    return this.props.children;
+    return <div ref={this.handleRef}>{this.props.children}</div>;
   }
 }
 

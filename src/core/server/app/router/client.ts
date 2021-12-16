@@ -12,9 +12,7 @@ import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFl
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import EntrypointLoaderFactory, {
-  EntrypointLoader,
-} from "../helpers/entrypointLoaderFactory";
+import ManifestLoader, { EntrypointLoader } from "../helpers/manifestLoader";
 
 export interface ClientTargetHandlerOptions {
   /**
@@ -72,11 +70,6 @@ export interface ClientTargetHandlerOptions {
    * available on the Tenant.
    */
   enableCustomCSS?: boolean;
-  /**
-   * enableCustomCSSQuery will insert the custom CSS into the template if it is
-   * passed through in a query string
-   */
-  enableCustomCSSQuery?: boolean;
 
   /**
    * cacheDuration is the cache duration that a given request should be cached
@@ -132,7 +125,6 @@ const clientHandler = ({
   staticConfig: config,
   entrypointLoader,
   enableCustomCSS,
-  enableCustomCSSQuery,
   defaultLocale,
   template: viewTemplate = "client",
 }: ClientTargetHandlerOptions): RequestHandler => async (req, res, next) => {
@@ -152,7 +144,7 @@ const clientHandler = ({
     return;
   }
   // Inject webpack dev server script.
-  if (process.env.WEBPACK === "true") {
+  if (process.env.WEBPACK_DEV_SERVER === "true") {
     entrypoint = {
       ...entrypoint,
       js: [...entrypoint.js, { src: `webpack-dev-server.js`, integrity: "" }],
@@ -170,31 +162,27 @@ const clientHandler = ({
       featureFlags,
       tenantDomain: req.coral.tenant?.domain,
     },
-    customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
 };
 
-function createEntrypointLoaderFactory(
-  config: Config,
-  manifestFilename: string
-) {
+function createManifestLoader(config: Config, manifestFilename: string) {
   const fromWebpackDevServerURL =
-    process.env.WEBPACK === "true"
+    process.env.WEBPACK_DEV_SERVER === "true"
       ? // Loading manifests from Webpack Dev Server
         `http://localhost:${config.get("dev_port")}`
       : null;
-  return new EntrypointLoaderFactory(manifestFilename, {
+  return new ManifestLoader(manifestFilename, {
     fromWebpackDevServerURL,
   });
 }
 
 const createEmbedBootstrapHandler: (
   defaultLocale: LanguageCode,
-  entrypointLoader: EntrypointLoader,
+  manifestLoader: ManifestLoader,
   staticConfig: StaticConfig
 ) => RequestHandler<TenantCoralRequest> = (
   defaultLocale,
-  entrypointLoader,
+  manifestLoader,
   staticConfig
 ) => async (req, res, next) => {
   // Grab the locale code from the tenant configuration, if available.
@@ -203,7 +191,13 @@ const createEmbedBootstrapHandler: (
     locale = req.coral.tenant.locale;
   }
 
-  const entrypoint = await entrypointLoader();
+  const streamEntrypointLoader = manifestLoader.createEntrypointLoader(
+    "stream"
+  );
+  const entrypoint = await streamEntrypointLoader();
+  const defaultFontsCSSURL = (await manifestLoader.load())[
+    "assets/css/typography.css"
+  ]?.src;
 
   if (!entrypoint) {
     next(new Error("Entrypoint not available"));
@@ -217,6 +211,9 @@ const createEmbedBootstrapHandler: (
       css: entrypoint.css.map(({ src }) => ({ src })) || [],
     },
     customCSSURL: req.coral.tenant.customCSSURL,
+    customFontsCSSURL: req.coral.tenant.customFontsCSSURL,
+    defaultFontsCSSURL,
+    disableDefaultFonts: Boolean(req.coral.tenant.disableDefaultFonts),
     staticConfig,
   };
 
@@ -227,15 +224,15 @@ export async function mountClientRoutes(
   router: Router,
   { tenantCache, mongo, ...options }: MountClientRouteOptions
 ) {
-  const entrypointLoaderFactory = createEntrypointLoaderFactory(
+  const manifestLoader = createManifestLoader(
     options.config,
     "asset-manifest.json"
   );
-  const embedEntrypointLoaderFactory = createEntrypointLoaderFactory(
+  const embedManifestLoader = createManifestLoader(
     options.config,
     "embed-asset-manifest.json"
   );
-  const streamEntrypointLoaderFactory = createEntrypointLoaderFactory(
+  const streamManifestLoader = createManifestLoader(
     options.config,
     "stream-asset-manifest.json"
   );
@@ -256,7 +253,7 @@ export async function mountClientRoutes(
       mongo,
       ...options,
       cacheDuration: false,
-      entrypointLoader: embedEntrypointLoaderFactory.create("main"),
+      entrypointLoader: embedManifestLoader.createEntrypointLoader("main"),
       template: "amp",
     })
   );
@@ -268,7 +265,7 @@ export async function mountClientRoutes(
       ...options,
       cacheDuration: false,
       disableFraming: true,
-      entrypointLoader: entrypointLoaderFactory.create("auth"),
+      entrypointLoader: manifestLoader.createEntrypointLoader("auth"),
     })
   );
 
@@ -279,7 +276,7 @@ export async function mountClientRoutes(
       ...options,
       cacheDuration: false,
       disableFraming: true,
-      entrypointLoader: entrypointLoaderFactory.create("account"),
+      entrypointLoader: manifestLoader.createEntrypointLoader("account"),
     })
   );
 
@@ -292,7 +289,7 @@ export async function mountClientRoutes(
       ...options,
       cacheDuration: false,
       disableFraming: true,
-      entrypointLoader: entrypointLoaderFactory.create("admin"),
+      entrypointLoader: manifestLoader.createEntrypointLoader("admin"),
     })
   );
 
@@ -308,7 +305,7 @@ export async function mountClientRoutes(
       ...options,
       cacheDuration: false,
       disableFraming: true,
-      entrypointLoader: entrypointLoaderFactory.create("install"),
+      entrypointLoader: manifestLoader.createEntrypointLoader("install"),
     })
   );
 
@@ -319,7 +316,7 @@ export async function mountClientRoutes(
     installedMiddleware(),
     createEmbedBootstrapHandler(
       options.defaultLocale,
-      streamEntrypointLoaderFactory.create("stream"),
+      streamManifestLoader,
       options.staticConfig
     )
   );

@@ -111,11 +111,11 @@ const config: Config = {
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor("npm run --silent start:development"),
     },
-    runServerWithoutClientRoutes: {
+    runServerWithWebpackDevServerSupport: {
       paths: ["core/server/locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor(
-        "WEBPACK=true npm run --silent start:development"
+        "WEBPACK_DEV_SERVER=true npm run --silent start:development"
       ),
     },
     runServerLint: {
@@ -148,7 +148,7 @@ const config: Config = {
       "runServerSyntaxCheck",
     ],
     client: [
-      "runServerWithoutClientRoutes",
+      "runServerWithWebpackDevServerSupport",
       "runServerLint",
       "runServerSyntaxCheck",
       "runWebpackDevServer",

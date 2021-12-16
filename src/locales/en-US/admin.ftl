@@ -834,6 +834,11 @@ configure-wordList-suspect-wordListDetailInstructions =
 configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-override =
   URL of a CSS stylesheet that will override default Embed Stream styles.
+configure-advanced-customCSS-stylesheetURL = Custom CSS Stylesheet URL
+configure-advanced-customCSS-fontsStylesheetURL = Custom CSS Style Sheet URL for Font Faces
+configure-advanced-customCSS-containsFontFace =
+  URL to a Custom CSS stylesheets that contains all @font-face
+  definitions needed by above Stylesheet.
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =

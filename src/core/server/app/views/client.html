@@ -10,11 +10,11 @@
       {{ macros.preload(asset.src, "style", prefix = staticURI) }}
     {% endfor %}
   {% endif %}
+  {% if enableCustomCSS and tenant and tenant.customFontsCSSURL %}
+    {{ macros.preload(tenant.customFontsCSSURL, "style") }}
+  {% endif %}
   {% if enableCustomCSS and tenant and tenant.customCSSURL %}
     {{ macros.preload(tenant.customCSSURL, "style") }}
-  {% endif %}
-  {% if customCSSURL %}
-    {{ macros.preload(customCSSURL, "style") }}
   {% endif %}
   {% if analytics and analytics.key and analytics.url and analytics.sdk %}
     {# If analytics is enabled and available, configure the rudderstack analytics to load #}
@@ -62,12 +62,12 @@
 
     {# Custom CSS is included after the CSS block so that its overrides will apply #}
     {% if enableCustomCSS %}
+      {% if tenant and tenant.customFontsCSSURL %}
+        {{ macros.css(tenant.customFontsCSSURL) }}
+      {% endif %}
       {% if tenant and tenant.customCSSURL %}
         {{ macros.css(tenant.customCSSURL) }}
       {% endif %}
-    {% endif %}
-    {% if customCSSURL %}
-      {{ macros.css(customCSSURL)}}
     {% endif %}
   {% endblock %}
 {% endif %}

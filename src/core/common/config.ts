@@ -66,6 +66,9 @@ export interface EmbedBootstrapConfig {
       src: string;
     }[];
   };
+  customFontsCSSURL: string | undefined;
   customCSSURL: string | undefined;
+  defaultFontsCSSURL: string | undefined;
+  disableDefaultFonts: boolean;
   staticConfig: StaticConfig;
 }
