@@ -455,11 +455,13 @@
   "bundlesize": [
     {
       "path": "./dist/static/assets/js/embed.js",
-      "maxSize": "17 kB"
+      "maxSize": "30 kB",
+      "maxSizeOld": "17 kB"
     },
     {
       "path": "./dist/static/assets/js/count.js",
-      "maxSize": "2 kB"
+      "maxSize": "10 kB",
+      "maxSizeOld": "2 kB"
     }
   ],
   "graphql-schema-linter": {

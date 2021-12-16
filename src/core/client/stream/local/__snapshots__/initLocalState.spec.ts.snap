@@ -12,9 +12,12 @@ exports[`init local state 1`] = `
   \\"client:root.local\\": {
     \\"__id\\": \\"client:root.local\\",
     \\"__typename\\": \\"Local\\",
-    \\"accessToken\\": null,
+    \\"accessToken\\": \\"eyJraWQiOiI5NmM4MDY2YS1kOTg3LTQyODItODNmOS1kYTUxNjc5N2Y5ZmMiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMWIyNjU5MS00ZTlhLTQzODgtYTdmZi1lMWJkYzVkOTdjY2UifQ==.\\",
     \\"accessTokenExp\\": null,
-    \\"accessTokenJTI\\": null,
+    \\"accessTokenJTI\\": \\"31b26591-4e9a-4388-a7ff-e1bdc5d97cce\\",
+    \\"storyID\\": \\"storyID\\",
+    \\"storyURL\\": \\"storyURL\\",
+    \\"commentID\\": \\"commentID\\",
     \\"commentsOrderBy\\": \\"CREATED_AT_DESC\\",
     \\"authPopup\\": {
       \\"__ref\\": \\"client:root.local.authPopup\\"
@@ -25,7 +28,9 @@ exports[`init local state 1`] = `
     \\"enableCommentSeen\\": false,
     \\"flattenReplies\\": false,
     \\"enableZKey\\": false,
-    \\"amp\\": false
+    \\"embedVersion\\": \\"version\\",
+    \\"amp\\": true,
+    \\"customCSSURL\\": \\"customCSSURL\\"
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",

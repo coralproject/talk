@@ -31,6 +31,11 @@ export interface StreamEmbedConfig {
 
 export class StreamEmbed {
   /**
+   * Every interval rounded to this value in ms will be passed when creating the
+   * stream embed iframe to ensure that it is loaded fresh.
+   */
+  private readonly requestExpiryInterval = 15 * 60 * 1000; // 15 minutes
+  /**
    * eventEmitter provides an interface to events emitted by Coral.
    */
   private readonly embedEventEmitter: EventEmitter2;
@@ -159,6 +164,7 @@ export class StreamEmbed {
       runOnBootstrapLoad(JSON.parse(this.responseText));
     });
     req.open("GET", `${this.config.rootURL}/embed/bootstrap`);
+    req.setRequestHeader("Content-Type", "application/json");
     req.send();
   }
 
@@ -267,6 +273,9 @@ export class StreamEmbed {
       customCSSURL: this.boostrapConfig.customCSSURL,
       locale: this.boostrapConfig.locale,
       bodyClassName: this.config.bodyClassName,
+      // Add the version to the query string to ensure that every new version of
+      // the stream will cause stream pages to cache bust.
+      version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
     });
   }
 
@@ -296,6 +305,16 @@ export class StreamEmbed {
       this.attach();
     };
 
+    // Add the current date rounded to the nearest `this.expiry` to ensure
+    // that we cache bust. We already send `Cache-Control: no-store` but
+    // sometimes mobile browsers will not make the HTTP request when using the
+    // back button. This can be removed when we can reliably provide multiple
+    // versions of files via storage solutions.
+
+    const ts =
+      Math.round(Date.now() / this.requestExpiryInterval) *
+      this.requestExpiryInterval;
+
     // Find stream script from the js assets parsed from the bootstrap config.
     const streamScript = this.jsAssets.find((s) =>
       s.includes("assets/js/stream.js")
@@ -303,7 +322,7 @@ export class StreamEmbed {
     if (!streamScript) {
       throw new Error("Stream script not found in manifest");
     }
-    script.src = streamScript;
+    script.src = `${streamScript}?ts=${ts}`;
     document.head.appendChild(script);
   }
 }

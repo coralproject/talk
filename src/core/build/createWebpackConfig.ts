@@ -776,7 +776,7 @@ export default function createWebpackConfig(
           paths.appPolyfill,
           paths.appPublicPath,
           ...devServerEntries,
-          paths.appStreamBundle,
+          paths.appStreamIndex,
         ],
       },
       output: {

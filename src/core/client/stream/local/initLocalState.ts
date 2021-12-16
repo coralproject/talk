@@ -1,5 +1,6 @@
 import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
+import { StaticConfig } from "coral-common/config";
 import { isStoryMode } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
 import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
@@ -22,23 +23,31 @@ interface ResolvedConfig {
 }
 
 async function resolveConfig(
-  environment: Environment
+  environment: Environment,
+  staticConfig?: StaticConfig | null
 ): Promise<ResolvedConfig> {
-  // Send a graphql query to server during development to get the feature flags.
-  // The reason is that we don't have static config during development.
-  const data = await fetchQuery<initLocalStateQuery>(
-    environment,
-    graphql`
-      query initLocalStateQuery {
-        settings {
-          flattenReplies
-          featureFlags
+  if (staticConfig) {
+    return staticConfig as ResolvedConfig;
+  }
+  if (process.env.NODE_ENV === "development") {
+    // Send a graphql query to server during development to get the feature flags.
+    // The reason is that we don't have static config during development.
+    const data = await fetchQuery<initLocalStateQuery>(
+      environment,
+      graphql`
+        query initLocalStateQuery {
+          settings {
+            flattenReplies
+            featureFlags
+          }
         }
-      }
-    `,
-    {}
-  );
-  return data.settings as ResolvedConfig;
+      `,
+      {}
+    );
+
+    return data.settings as ResolvedConfig;
+  }
+  return { featureFlags: [] };
 }
 
 interface Options {
@@ -57,7 +66,7 @@ interface Options {
  */
 export const createInitLocalState: (options: Options) => InitLocalState = (
   options
-) => async ({ environment, context, auth = null, ...rest }) => {
+) => async ({ environment, context, auth = null, staticConfig, ...rest }) => {
   if (options.accessToken) {
     // Access tokens passed via the config should not be persisted.
     auth = parseAccessToken(options.accessToken);
@@ -67,10 +76,14 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
     environment,
     context,
     auth,
+    staticConfig,
     ...rest,
   });
 
-  const { featureFlags, ...settings } = await resolveConfig(environment);
+  const { featureFlags, ...settings } = await resolveConfig(
+    environment,
+    staticConfig
+  );
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||

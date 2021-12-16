@@ -19,7 +19,7 @@ const withAMPHeight = (streamEventEmitter: EventEmitter2, polling = 100) => {
     cachedHeight = height;
   };
 
-  streamEventEmitter.on("height", (heightString: string) => {
+  streamEventEmitter.on("height", () => {
     updateHeight();
   });
 

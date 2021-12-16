@@ -1,7 +1,6 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 import { LocalizationProvider } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
-import { Child as PymChild } from "pym.js";
 import React, { FunctionComponent } from "react";
 import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
@@ -68,9 +67,6 @@ export interface CoralContext {
 
   /** postMessage service */
   postMessage: PostMessageService;
-
-  /** A pym child that interacts with the pym parent. */
-  pym?: PymChild;
 
   /** Browser detection. */
   browserInfo: BrowserInfo;
