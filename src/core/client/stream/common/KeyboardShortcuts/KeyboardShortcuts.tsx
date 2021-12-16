@@ -522,7 +522,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   }, [updateButtonStates]);
 
   // Update button states after certain events.
-  // Also traverse to next comment after load more / show all replies
+  // Also traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
     const listener: ListenerFn = async (e, data) => {
       if (!eventsOfInterest.includes(e)) {

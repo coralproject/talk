@@ -171,10 +171,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     });
     try {
       await loadMore();
-      // eslint-disable-next-line no-unused-expressions
-      window.document
-        .getElementById(`comment-${lastComment?.node.id}`)
-        ?.focus();
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
