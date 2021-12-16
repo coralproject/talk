@@ -103,24 +103,18 @@ export async function markSeenComments(
 export async function retrieveSeenCommentsForDeletion(
   mongo: MongoContext,
   tenantID: string,
-  now: Date,
-  olderThan: Date
-): Promise<SeenComments | null | undefined> {
-  const result = await mongo.seenComments().findOneAndUpdate(
-    {
+  olderThan: Date,
+  count: number
+): Promise<Readonly<SeenComments>[]> {
+  const result = await mongo
+    .seenComments()
+    .find({
       tenantID,
       isDeleting: { $in: [null, false] },
       lastSeenAt: { $lte: olderThan },
-    },
-    {
-      $set: {
-        isDeleting: true,
-      },
-    },
-    {
-      returnOriginal: false,
-    }
-  );
+    })
+    .limit(count)
+    .toArray();
 
-  return result.value as SeenComments;
+  return result;
 }

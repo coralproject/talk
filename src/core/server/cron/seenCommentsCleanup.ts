@@ -41,34 +41,37 @@ const cleanupSeenComments: ScheduledJobCommand<Options> = async ({
 
     const now = new Date();
     const age = config.get("expire_seen_comments_older_than");
+    const batchSize = config.get("seen_comments_cleanup_batch_size");
     const dateFilter = new Date(now.getTime() - age);
 
-    const batchSize = 500;
-    const batch = [];
+    const internalBatchSize = 500;
+    const numBatches = Math.ceil(batchSize / internalBatchSize);
 
-    const seenComments = await retrieveSeenCommentsForDeletion(
-      mongo,
-      tenant.id,
-      now,
-      dateFilter
-    );
+    log.info({ batchSize, age }, "beginning seen comments cleanup");
 
-    for (let i = 0; i < batchSize; i++) {
-      if (seenComments) {
-        batch.push({
-          deleteOne: {
-            filter: { tenantID: tenant.id, id: seenComments.id },
-          },
-        });
-      } else {
-        break;
+    for (let i = 0; i < numBatches; i++) {
+      const seenComments = await retrieveSeenCommentsForDeletion(
+        mongo,
+        tenant.id,
+        dateFilter,
+        internalBatchSize
+      );
+
+      if (seenComments.length === 0) {
+        return;
       }
+
+      log.info(
+        { count: seenComments.length, subBatch: i },
+        "deleting sub-batch of old seenComments records"
+      );
+
+      const deleteIDs = seenComments.map((s) => s.id);
+      const bulkDelete = mongo.seenComments().initializeUnorderedBulkOp();
+      bulkDelete.find({ tenantID: tenant.id, id: { $in: deleteIDs } }).remove();
+      await bulkDelete.execute();
     }
 
-    const bulkOp = mongo.seenComments().initializeUnorderedBulkOp();
-    for (const item of batch) {
-      bulkOp.insert(item);
-    }
-    await bulkOp.execute();
+    log.info("completed seen comments cleanup");
   }
 };

@@ -515,10 +515,17 @@ const config = convict({
   },
   seen_comments_cleanup_interval: {
     doc:
-      "The cron scheduling interval for how often seen comments cleanup should happen. Defaults to daily at 8 AM.",
+      "The cron scheduling interval for how often seen comments cleanup should happen.",
     format: String,
-    default: "0 8 * * *",
+    default: "0 * * *",
     env: "SEEN_COMMENTS_CLEANUP_INTERVAL",
+  },
+  seen_comments_cleanup_batch_size: {
+    doc:
+      "Determines how many comments are cleaned up every seen comments cleanup interval",
+    format: Number,
+    default: 1000,
+    env: "SEEN_COMMENTS_CLEANUP_BATCH_SIZE",
   },
   expire_seen_comments_older_than: {
     doc:
