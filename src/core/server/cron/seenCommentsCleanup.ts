@@ -1,9 +1,6 @@
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import {
-  retrieveSeenCommentsForDeletion,
-  SeenComments,
-} from "coral-server/models/seenComments/seenComments";
+import { retrieveSeenCommentsForDeletion } from "coral-server/models/seenComments/seenComments";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
@@ -68,13 +65,10 @@ const cleanupSeenComments: ScheduledJobCommand<Options> = async ({
       }
     }
 
-    executeBulkOperations<SeenComments>(mongo.seenComments(), batch);
+    const bulkOp = mongo.seenComments().initializeUnorderedBulkOp();
+    for (const item of batch) {
+      bulkOp.insert(item);
+    }
+    await bulkOp.execute();
   }
 };
-
-function executeBulkOperations<T>(
-  arg0: any,
-  batch: { deleteOne: { filter: { tenantID: any; id: string } } }[]
-) {
-  throw new Error("Function not implemented.");
-}
