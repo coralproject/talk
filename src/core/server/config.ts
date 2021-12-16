@@ -517,7 +517,7 @@ const config = convict({
     doc:
       "The cron scheduling interval for how often seen comments cleanup should happen.",
     format: String,
-    default: "0 * * *",
+    default: "0 * * * *",
     env: "SEEN_COMMENTS_CLEANUP_INTERVAL",
   },
   seen_comments_cleanup_batch_size: {
