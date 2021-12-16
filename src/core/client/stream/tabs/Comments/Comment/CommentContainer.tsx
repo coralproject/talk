@@ -410,12 +410,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
   // Boolean that indicates whether or not we want to
   // apply the "comment not seen class" for styling purposes.
   const shouldApplyNotSeenClass =
+    commentSeenEnabled &&
     !comment.seen &&
     !highlight &&
     comment.lastViewerAction !== "CREATE" &&
     comment.lastViewerAction !== "EDIT";
-
-  const shouldApplyFocusClass = comment.hasTraversalFocus && commentSeenEnabled;
 
   return (
     <div
@@ -433,7 +432,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
-      data-not-seen={comment.seen || !commentSeenEnabled ? undefined : true}
+      data-not-seen={commentSeenEnabled ? !comment.seen : false}
       onFocus={handleFocus}
     >
       {/* TODO: (cvle) Refactor at some point */}
@@ -511,8 +510,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
               indentLevel
             ),
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
-            [styles.traversalFocus]: shouldApplyFocusClass,
-            [CLASSES.comment.focus]: shouldApplyFocusClass,
+            [styles.traversalFocus]: comment.hasTraversalFocus,
+            [CLASSES.comment.focus]: comment.hasTraversalFocus,
           })}
           indentLevel={indentLevel}
           collapsed={collapsed}
