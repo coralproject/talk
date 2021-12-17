@@ -8,6 +8,7 @@ import logger from "coral-server/logger";
 
 import { createAPIRouter } from "./api";
 import { mountClientRoutes } from "./client";
+import { config } from "dotenv/types";
 
 export function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
@@ -24,8 +25,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
     attachGraphiQL(router, app);
   }
 
-  /* eslint-disable */
-  if (true) {
+  if (!options.disableClientRoutes) {
     // Prepare the client config to be injected on the page.
     const staticConfig: StaticConfig = {
       // When mounting client routes, we need to provide a staticURI even when
@@ -38,9 +38,6 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       flattenReplies: false,
       forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
     };
-
-    /* eslint-disable */
-    require("fs").writeFileSync("DETETE.json", JSON.stringify(staticConfig, null, 2));
 
     // If sentry is configured, then add it's config to the config.
     if (

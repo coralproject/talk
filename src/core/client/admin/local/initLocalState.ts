@@ -20,8 +20,6 @@ const initLocalState: InitLocalState = async ({
   staticConfig,
   ...rest
 }) => {
-  /* eslint-disable */
-  console.log({ staticConfig }, "admin initting local state");
   let redirectPath = await context.localStorage.getItem(
     ADMIN_REDIRECT_PATH_KEY
   );
@@ -84,7 +82,7 @@ const initLocalState: InitLocalState = async ({
     localRecord.setValue(
       staticConfig?.autoArchivingThreshold,
       "autoArchiveOlderThan"
-    )
+    );
   });
 };
 
