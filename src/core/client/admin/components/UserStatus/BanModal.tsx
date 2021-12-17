@@ -265,15 +265,16 @@ const BanModal: FunctionComponent<Props> = ({
                     </Flex>
                   )}
 
-                  {!!moderationScopesEnabled &&
-                    updateType === UpdateType.SPECIFIC_SITES && (
-                      <UserStatusSitesList
-                        userBanStatus={userBanStatus}
-                        viewerScopes={viewerScopes}
-                        banState={[banSiteIDs, setBanSiteIDs]}
-                        unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
-                      />
-                    )}
+                  {(viewerIsSingleSiteMod ||
+                    (!!moderationScopesEnabled &&
+                      updateType === UpdateType.SPECIFIC_SITES)) && (
+                    <UserStatusSitesList
+                      userBanStatus={userBanStatus}
+                      viewerScopes={viewerScopes}
+                      banState={[banSiteIDs, setBanSiteIDs]}
+                      unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
+                    />
+                  )}
 
                   {submitError && (
                     <CallOut
