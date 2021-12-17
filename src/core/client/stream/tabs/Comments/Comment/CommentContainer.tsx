@@ -350,10 +350,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
     !story.isArchiving &&
     !story.isArchived;
 
-  const flattenReplies = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.FLATTEN_REPLIES
-  );
-
   if (showEditDialog) {
     return (
       <div data-testid={`comment-${comment.id}`}>
@@ -382,7 +378,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   // Comment is not published after viewer rejected it.
   if (comment.lastViewerAction === "REJECT" && comment.status === "REJECTED") {
-    return <ModerationRejectedTombstoneContainer comment={comment} />;
+    return (
+      <ModerationRejectedTombstoneContainer
+        comment={comment}
+        settings={settings}
+      />
+    );
   }
 
   // Comment is not published after edit, so don't render it anymore.
@@ -492,7 +493,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
             [styles.flattenedPadding]: isReplyFlattened(
-              flattenReplies,
+              settings.flattenReplies,
               indentLevel
             ),
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
@@ -743,7 +744,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
             showJumpToComment={Boolean(
               indentLevel &&
                 indentLevel >= MAX_REPLY_INDENT_DEPTH - 1 &&
-                flattenReplies
+                settings.flattenReplies
             )}
           />
         )}
@@ -853,6 +854,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
       `,
       settings: graphql`
         fragment CommentContainer_settings on Settings {
+          flattenReplies
           disableCommenting {
             enabled
           }
@@ -861,6 +863,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           ...EditCommentFormContainer_settings
           ...MediaSectionContainer_settings
           ...ReactionButtonContainer_settings
+          ...ModerationRejectedTombstoneContainer_settings
           ...ReplyCommentFormContainer_settings
           ...ReportFlowContainer_settings
           ...UsernameWithPopoverContainer_settings

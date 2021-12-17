@@ -1,12 +1,13 @@
-import { hasFeatureFlag } from "coral-server/models/tenant";
-import { canModerate, roleIsStaff } from "coral-server/models/user/helpers";
+import {
+  canModerate,
+  isSiteModerationScoped,
+} from "coral-server/models/user/helpers";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
 import {
-  GQLFEATURE_FLAG,
   GQLTAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -27,14 +28,11 @@ function roleAsTag(role: GQLUSER_ROLE) {
 export const tagStaff: IntermediateModerationPhase = ({
   author,
   story,
-  tenant,
 }): IntermediatePhaseResult | void => {
-  const siteModEnabled = hasFeatureFlag(tenant, GQLFEATURE_FLAG.SITE_MODERATOR);
-  if (siteModEnabled && !canModerate(author, story)) {
-    return;
-  }
+  const isSiteMod = isSiteModerationScoped(author.moderationScopes);
+  const isModForSite = canModerate(author, story);
 
-  if (!roleIsStaff(author.role)) {
+  if (isSiteMod && !isModForSite) {
     return;
   }
 

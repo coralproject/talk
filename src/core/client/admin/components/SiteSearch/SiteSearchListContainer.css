@@ -1,0 +1,28 @@
+.list {
+  position: absolute;
+  z-index: $zindex-popover;
+
+  width: calc(35 * var(--mini-unit));
+  max-height: 120px;
+  overflow-y: auto;
+
+  padding-bottom: var(--spacing-1);
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: var(--spacing-1);
+
+  margin-bottom: var(--spacing-2);
+}
+
+.noneFound {
+  width: 100%;
+  padding-top: var(--spacing-2);
+
+  text-align: center;
+
+  color: var(--palette-text-900);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.375em;
+}

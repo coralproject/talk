@@ -311,6 +311,7 @@ configure-advanced-customCSS-override =
   URL til et CSS-stilark, der tilsidesætter standardindlejring af streams.
 
 configure-advanced-permittedDomains = Tilladte domæner
+
 configure-advanced-liveUpdates = Kommentar Stream Live-opdateringer
 configure-advanced-liveUpdates-explanation =
   Når det er aktiveret, vil der blive realtid indlæst og opdateret af kommentarer, når nye kommentarer og svar offentliggøres.

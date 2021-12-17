@@ -115,3 +115,22 @@ export function isAMPEnabled(tenant: Pick<Tenant, "featureFlags" | "amp">) {
   }
   return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.ENABLE_AMP);
 }
+
+export function areRepliesFlattened(
+  tenant: Pick<Tenant, "featureFlags" | "flattenReplies">
+) {
+  if (typeof tenant.flattenReplies === "boolean") {
+    return tenant.flattenReplies;
+  }
+
+  return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.FLATTEN_REPLIES);
+}
+
+export function isForReviewQueueEnabled(
+  tenant: Pick<Tenant, "featureFlags" | "forReviewQueue">
+) {
+  if (typeof tenant.forReviewQueue === "boolean") {
+    return tenant.forReviewQueue;
+  }
+  return hasFeatureFlag(tenant, LEGACY_FEATURE_FLAGS.FOR_REVIEW);
+}

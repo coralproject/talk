@@ -245,10 +245,6 @@ comments-userBanPopover-description =
   Once banned, this user will no longer be able
   to comment, use reactions, or report comments.
   This comment will also be rejected.
-comments-userBanPopover-scopedDescription =
-  Once banned from {$sitename}, this user will
-  no longer be able to comment, use reactions, or report
-  comments. This comment will also be rejected.
 comments-userBanPopover-cancel = Cancel
 comments-userBanPopover-ban = Ban
 
@@ -296,6 +292,9 @@ comments-mobileToolbar-closeButton =
   .aria-label = Close
 comments-mobileToolbar-unmarkAll = Unmark all
 comments-mobileToolbar-nextUnread = Next unread
+
+comments-replyChangedWarning-theCommentHasJust =
+  This comment has just been edited. The latest version is displayed above.
 
 ### Q&A
 
@@ -724,27 +723,6 @@ configure-premodLink-commentsContainingLinks =
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this story.
 
-configure-liveUpdates-title =
-configure-enableLiveUpdates-title = Enable live updates
-configure-liveUpdates-description =
-configure-enableLiveUpdates-description =
-  When enabled, the comments will be updated instantly as new comments and
-  replies are submitted, instead of requiring a page refresh. You can
-  disable this in the unusual situation of an article getting so much
-  traffic that the comments are loading slowly.
-configure-enableLiveUpdates-enable = Enable
-
-configure-disableLiveUpdates-title = Disable live updates
-configure-disableLiveUpdates-description =
-  When disabled, new comments and replies will no longer instantly update
-  as they are submitted. Commenters will need to refresh the page to see
-  new comments. We recommend this in the unusual situation of a story
-  getting so much traffic that the comments are loading slowly.
-configure-disableLiveUpdates-disable = Disable
-
-configure-liveUpdates-disabledSuccess = Live updates are now disabled
-configure-liveUpdates-enabledSuccess = Live updates are now enabled
-
 configure-messageBox-title =
 configure-addMessage-title =
   Add a message or question
@@ -857,6 +835,9 @@ warning-instructions =
 warning-acknowledge = Acknowledge
 
 warning-notice = Your account has been issued a warning. To continue participating please <a>review the warning message</a>.
+
+modMessage-heading = Your account has been sent a message by a moderator
+modMessage-acknowledge = Acknowledge
 
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)

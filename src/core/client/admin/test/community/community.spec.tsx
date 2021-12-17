@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import { v1 as uuid } from "uuid";
 
 import { pureMerge } from "coral-common/utils";
@@ -29,7 +30,9 @@ import {
   disabledLocalRegistration,
   emptyCommunityUsers,
   settings,
+  settingsWithMultisite,
   siteConnection,
+  sites,
   users,
 } from "../fixtures";
 
@@ -252,6 +255,103 @@ it("change user role", async () => {
   });
 
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+});
+
+it("change user role to Site Moderator and add sites to moderate", async () => {
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          role: GQLUSER_ROLE.MODERATOR,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          role: variables.role,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+      updateUserModerationScopes: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          moderationScopes: {
+            siteIDs: ["site-1"],
+          },
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          moderationScopes: {
+            scoped: true,
+            sites: [sites[0]],
+          },
+          role: GQLUSER_ROLE.MODERATOR,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+    Query: {
+      settings: () => settingsWithMultisite,
+      sites: () => siteConnection,
+    },
+  });
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change role").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+
+  act(() => {
+    within(popup)
+      .getByText("Site Moderator", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(container).getByTestID("site-moderator-modal");
+
+  // The submit button should be disabled until at least 1 site is selected
+  expect(
+    within(modal).getByTestID("site-moderator-modal-submitButton").props
+      .disabled
+  ).toBe(true);
+
+  const siteSearchField = within(modal).getByTestID("site-search-textField");
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Test" },
+    })
+  );
+
+  const siteSearchButton = within(modal).getByTestID("site-search-button");
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // Add site to add site moderator permissions for
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Test Site").props.onClick();
+  });
+
+  await act(async () => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+  expect(resolvers.Mutation!.updateUserModerationScopes!.called).toBe(true);
 });
 
 it("can't change role as a moderator", async () => {
@@ -820,6 +920,69 @@ it("remove user ban", async () => {
   expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
 });
 
+it("send user a moderation message", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      sendModMessage: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          message:
+            "Just wanted to send a friendly reminder about our comment guidelines.",
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            modMessage: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change user status").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  act(() => {
+    within(popup).getByText("Message", { selector: "button" }).props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Message", {
+    exact: false,
+  });
+
+  act(() => {
+    within(modal)
+      .getByTestID("modMessageModal-message")
+      .props.onChange(
+        "Just wanted to send a friendly reminder about our comment guidelines."
+      );
+  });
+
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+  // Sending the user a moderation message should not change their status
+  within(userRow).getByText("Active");
+  expect(resolvers.Mutation!.sendModMessage!.called).toBe(true);
+});
+
 it("invites user", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
@@ -855,4 +1018,132 @@ it("invites user", async () => {
   await wait(() => {
     expect(resolvers.Mutation!.inviteUsers!.called).toBe(true);
   });
+});
+
+it("ban user across specific sites", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settingsWithMultisite,
+      site: ({ variables, callCount }) => {
+        switch (callCount) {
+          case 0:
+            expectAndFail(variables.id).toBe("site-1");
+            return sites[0];
+          case 1:
+            expectAndFail(variables.id).toBe("site-2");
+            return sites[1];
+          default:
+            return siteConnection;
+        }
+      },
+    },
+    Mutation: {
+      banUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.BANNED),
+            ban: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change user status").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  act(() => {
+    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+  });
+  const modal = within(testRenderer.root).getByLabelText(
+    "Are you sure you want to ban",
+    {
+      exact: false,
+    }
+  );
+
+  act(() => {
+    within(modal).getByLabelText("Specific sites").props.onChange();
+  });
+
+  const siteSearchField = within(modal).getByTestID("site-search-textField");
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Test" },
+    })
+  );
+
+  const siteSearchButton = within(modal).getByTestID("site-search-button");
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // Add site to ban on
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Test Site").props.onClick();
+  });
+
+  const testSiteCheckbox = within(modal).getAllByTestID(
+    "user-status-selected-site"
+  );
+  expect(testSiteCheckbox).toHaveLength(1);
+  expect(testSiteCheckbox[0].props.checked).toEqual(true);
+
+  // Add another site to ban on
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Another" },
+    })
+  );
+
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Second Site").props.onClick();
+  });
+
+  expect(
+    within(modal).getAllByTestID("user-status-selected-site")
+  ).toHaveLength(2);
+
+  // Remove a site to ban on
+  act(() => {
+    within(modal)
+      .getAllByTestID("user-status-selected-site")[0]
+      .props.onChange();
+  });
+
+  // Submit ban and see that user is correctly banned across selected site
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+
+  within(userRow).getByText("Banned (1)");
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });

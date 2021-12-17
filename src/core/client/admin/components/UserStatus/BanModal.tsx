@@ -18,8 +18,7 @@ import { CallOut } from "coral-ui/components/v3";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import { Scopes } from "./UserStatusSitesListContainer";
-import UserStatusSitesListQuery from "./UserStatusSitesListQuery";
+import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
@@ -69,6 +68,7 @@ const BanModal: FunctionComponent<Props> = ({
     (input) => {
       try {
         let selectedIDs = input.selectedIDs || [];
+        const showSpecificSites = input.showSpecificSites;
 
         // single site mods can only ban for their
         // one assigned site, override anything else that
@@ -81,8 +81,12 @@ const BanModal: FunctionComponent<Props> = ({
           selectedIDs = [viewerScopes.sites[0].id];
         }
 
-        if (isSiteMod && (!selectedIDs || selectedIDs.length === 0)) {
-          return { [FORM_ERROR]: "At least one site must be selected" };
+        // if All sites is selected, then admins/org mods ban across
+        // all sites, and site mods ban across all scoped sites
+        if (!showSpecificSites) {
+          selectedIDs = !isSiteMod
+            ? []
+            : viewerScopes.sites?.map((site) => site.id);
         }
 
         onConfirm(
@@ -189,10 +193,7 @@ const BanModal: FunctionComponent<Props> = ({
                   </Field>
 
                   {moderationScopesEnabled && (
-                    <UserStatusSitesListQuery
-                      viewerScopes={viewerScopes}
-                      userScopes={userScopes}
-                    />
+                    <UserStatusSitesList viewerScopes={viewerScopes} />
                   )}
 
                   {submitError && (

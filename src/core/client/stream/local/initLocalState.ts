@@ -13,18 +13,23 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
+import { FEATURE_FLAG } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
 import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 
-async function determineFeatureFlags(
+interface ResolvedConfig {
+  readonly featureFlags: FEATURE_FLAG[];
+  readonly flattenReplies?: boolean | null;
+}
+
+async function resolveConfig(
   environment: Environment,
   staticConfig?: StaticConfig | null
-) {
-  const featureFlags = staticConfig?.featureFlags;
-  if (featureFlags) {
-    return featureFlags;
+): Promise<ResolvedConfig> {
+  if (staticConfig) {
+    return staticConfig as ResolvedConfig;
   }
   if (process.env.NODE_ENV === "development") {
     // Send a graphql query to server during development to get the feature flags.
@@ -34,15 +39,17 @@ async function determineFeatureFlags(
       graphql`
         query initLocalStateQuery {
           settings {
+            flattenReplies
             featureFlags
           }
         }
       `,
       {}
     );
-    return data.settings.featureFlags as string[];
+
+    return data.settings as ResolvedConfig;
   }
-  return [];
+  return { featureFlags: [] };
 }
 
 /**
@@ -75,7 +82,10 @@ const initLocalState: InitLocalState = async ({
     ...rest,
   });
 
-  const featureFlags = await determineFeatureFlags(environment, staticConfig);
+  const { featureFlags, ...settings } = await resolveConfig(
+    environment,
+    staticConfig
+  );
 
   const commentsOrderBy =
     (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -128,17 +138,14 @@ const initLocalState: InitLocalState = async ({
     // actual tab when we find out how many feature comments there are.
     localRecord.setValue("NONE", "commentsTab");
 
-    // Flatten replies
-    localRecord.setValue(
-      featureFlags.includes(GQLFEATURE_FLAG.FLATTEN_REPLIES),
-      "flattenReplies"
-    );
-
     // Enable comment seen
     localRecord.setValue(
       featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN),
       "enableCommentSeen"
     );
+
+    // Enable flatten replies
+    localRecord.setValue(!!settings.flattenReplies, "flattenReplies");
 
     // Enable z-key comment seen
     localRecord.setValue(

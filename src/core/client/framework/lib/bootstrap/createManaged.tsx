@@ -1,3 +1,4 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 /* eslint-disable no-restricted-globals */
 import { Localized } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
@@ -128,6 +129,7 @@ export const timeagoFormatter: Formatter = (value, unit, suffix) => {
 function createRelayEnvironment(
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
+  localeBundles: FluentBundle[],
   tokenRefreshProvider?: TokenRefreshProvider,
   clearCacheBefore?: Date
 ) {
@@ -146,6 +148,7 @@ function createRelayEnvironment(
       subscriptionClient,
       clientID,
       accessTokenProvider,
+      localeBundles,
       tokenRefreshProvider?.refreshToken,
       clearCacheBefore
     ),
@@ -172,6 +175,7 @@ function createManagedCoralContextProvider(
   clientID: string,
   initLocalState: InitLocalState,
   localesData: LocalesData,
+  localeBundles: FluentBundle[],
   ErrorBoundary?: React.ComponentType
 ) {
   const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
@@ -216,6 +220,7 @@ function createManagedCoralContextProvider(
       const { environment, accessTokenProvider } = createRelayEnvironment(
         subscriptionClient,
         clientID,
+        localeBundles,
         this.state.context.tokenRefreshProvider,
         // Disable the cache on requests for the next 30 seconds.
         new Date(Date.now() + 30 * 1000)
@@ -253,7 +258,6 @@ function createManagedCoralContextProvider(
       if (locale && locale !== localesData.fallbackLocale) {
         locales.splice(0, 0, locale);
       }
-      const localeBundles = await generateBundles(locales, localesData);
       const newContext = {
         ...this.state.context,
         locales,
@@ -430,6 +434,7 @@ export default async function createManaged({
   const { environment, accessTokenProvider } = createRelayEnvironment(
     subscriptionClient,
     clientID,
+    localeBundles,
     tokenRefreshProvider
   );
 
@@ -483,6 +488,7 @@ export default async function createManaged({
     clientID,
     initLocalState,
     localesData,
+    localeBundles,
     reporter?.ErrorBoundary
   );
 }

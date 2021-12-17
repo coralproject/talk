@@ -58,6 +58,16 @@ convict.addFormat({
   },
 });
 
+// Add a custom format for domain.
+convict.addFormat({
+  name: "domain",
+  validate: (domain: string) => {
+    if (domain) {
+      Joi.assert(domain, Joi.string().domain());
+    }
+  },
+});
+
 // Add a custom format for a list of comma seperated strings.
 convict.addFormat({
   name: "list",
@@ -455,6 +465,13 @@ const config = convict({
     default: ms("30s"),
     env: "MAILER_JOB_TIMEOUT",
   },
+  download_gdpr_comments_link_domain: {
+    doc:
+      "Specifies an alternative domain to be used for the download GDPR comments link sent out in emails. If set to default empty string, will use the tenant domain. Example: yourdomain.com",
+    format: "domain",
+    default: "",
+    env: "DOWNLOAD_GDPR_COMMENTS_LINK_DOMAIN",
+  },
   non_fingerprinted_cache_max_age: {
     doc: "Max age for the ",
     format: "ms",
@@ -477,7 +494,7 @@ const config = convict({
   },
   auto_archiving_interval: {
     doc:
-      "The cron scheduling interval for how often auto archiving should run. Defaults to hourly.",
+      "The cron scheduling interval for how often auto archiving should run.",
     format: String,
     default: "0,15,30,45 * * * *",
     env: "AUTO_ARCHIVING_INTERVAL",

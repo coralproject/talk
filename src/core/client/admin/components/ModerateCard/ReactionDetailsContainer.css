@@ -1,0 +1,30 @@
+.container {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.username {
+  color: var(--palette-text-900);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  line-height: 1.14;
+  padding-right: calc(0.5 * var(--mini-unit));
+}
+
+.button {
+  margin-right: var(--mini-unit);
+  padding: var(--spacing-1);
+
+  &:hover {
+    background-color: var(--palette-grey-200);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: var(--palette-grey-300);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+}

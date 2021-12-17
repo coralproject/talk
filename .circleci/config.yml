@@ -12,7 +12,7 @@ job_node_defaults: &job_node_defaults
   <<: *job_defaults
   working_directory: ~/coralproject/talk
   docker:
-    - image: circleci/node:12
+    - image: circleci/node:14
   environment:
     <<: *job_node_environment
 
@@ -27,6 +27,10 @@ jobs:
   npm_dependencies:
     <<: *job_node_defaults
     steps:
+      - run:
+          name: Install correct NPM version
+          command: sudo npm install -g npm@8.0.0
+          no_output_timeout: 10m
       - checkout
       - attach_workspace:
           at: ~/coralproject/talk
@@ -34,9 +38,9 @@ jobs:
           keys:
             # Find a cache corresponding to this specific package-lock.json
             # checksum when this file is changed, this key will fail.
-            - v1-dependency-cache-{{ checksum "package-lock.json" }}
+            - v2-dependency-cache-{{ checksum "package-lock.json" }}
             # Find the most recently generated cache used from any branch
-            - v1-dependency-cache-
+            - v2-dependency-cache-
       # Disabled as we don't want to use sudo to update packages
       # - run:
       #     name: Update NPM
@@ -54,7 +58,7 @@ jobs:
           command: npm ci
           no_output_timeout: 20m
       - save_cache:
-          key: v1-dependency-cache-{{ checksum "package-lock.json" }}
+          key: v2-dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
       - persist_to_workspace:
@@ -195,6 +199,27 @@ jobs:
           command: bash ./scripts/docker.sh deploy
           no_output_timeout: 30m
 
+  # push_to_gcr will build and push the Docker image.
+  push_to_gcr:
+    <<: *job_node_defaults
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - setup_remote_docker:
+          <<: *setup_remote_docker_defaults
+      - run:
+          name: Authenticate Google Cloud SDK for Docker
+          command: |
+            echo "${GCLOUD_SERVICE_KEY}" | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
+            gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
+            gcloud auth configure-docker --quiet
+      - run: 
+          name: Create and push the image to GCR
+          command: bash ./scripts/docker.sh deploy-commit
+          no_output_timeout: 30m
+
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
 filter_release: &filter_release
@@ -238,6 +263,17 @@ workflows:
           <<: *filter_develop
           requires:
             - npm_dependencies
+      - push_to_gcr:
+          <<: *filter_develop
+          filters:
+            branches:
+              only:
+                - develop
+          requires:
+            - lint
+            - unit_tests
+            - build
+
   build-test-deploy:
     jobs:
       - npm_dependencies:

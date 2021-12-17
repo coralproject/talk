@@ -1,7 +1,9 @@
 import { defaultRTEConfiguration } from "coral-server/models/settings";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import {
+  areRepliesFlattened,
   isAMPEnabled,
+  isForReviewQueueEnabled,
   retrieveAnnouncementIfEnabled,
   Tenant,
 } from "coral-server/models/tenant";
@@ -30,6 +32,10 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   memberBios: ({ memberBios = false }) => memberBios,
   premoderateSuspectWords: ({ premoderateSuspectWords = false }) =>
     premoderateSuspectWords,
+  premoderateAllCommentsSites: ({ premoderateAllCommentsSites = [] }) =>
+    premoderateAllCommentsSites,
   stories: ({ stories }) => stories,
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
+  flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),
+  forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
 };
