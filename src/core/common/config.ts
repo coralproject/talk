@@ -57,4 +57,15 @@ export interface StaticConfig {
    * teams can access the admin with their Coral local authentication.
    */
   forceAdminLocalAuth: boolean;
+
+  /**
+   * autoArchivingEnabled is whether the tenant has auto archiving enabled
+   */
+  autoArchivingEnabled: boolean;
+
+  /**
+   * autoArchivingThreshold is the age at which stories are auto-archived
+   * (if archiving is enabled)
+   */
+  autoArchivingThreshold?: number;
 }

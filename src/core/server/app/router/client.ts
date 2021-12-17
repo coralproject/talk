@@ -151,6 +151,8 @@ const clientHandler = ({
   res.render(viewTemplate, {
     analytics,
     staticURI: config.staticURI,
+    autoArchivingEnabaled: config.autoArchivingEnabled,
+    autoArchivingThreshold: config.autoArchivingThreshold,
     entrypoint,
     enableCustomCSS,
     locale,

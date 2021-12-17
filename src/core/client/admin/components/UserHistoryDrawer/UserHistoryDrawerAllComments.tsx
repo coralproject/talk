@@ -5,10 +5,12 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
 import {
   useLoadMore,
+  useLocal,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
+import { UserHistoryDrawerAllComments_local } from "coral-admin/__generated__/UserHistoryDrawerAllComments_local.graphql";
 import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
 import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
 import { UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
@@ -33,6 +35,15 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
 
+  const [{ autoArchivingEnabled, autoArchivingThreshold }] = useLocal<
+    UserHistoryDrawerAllComments_local
+  >(graphql`
+    fragment UserHistoryDrawerAllComments_local on Local {
+      autoArchivingEnabled
+      autoArchivingThreshold
+    }
+  `);
+
   const onLoadMore = useCallback(() => {
     if (!loadMore || isLoadingMore) {
       return;
@@ -43,9 +54,6 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
 
   const hasMore = relay.hasMore();
   const comments = user ? user.allComments.edges.map((edge) => edge.node) : [];
-
-  const archivingEnabled = true; // MARCUS: RESOLVE
-  const archivingThreshold = "TODO MONTHS";
 
   if (comments.length === 0) {
     return (
@@ -64,10 +72,11 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
 
   return (
     <>
-      {archivingEnabled && (
+      {autoArchivingEnabled && (
         <Localized id="userHistoryDrawer-comments-archiving-copy">
           <i>
-            All of this user’s comments from the previous {archivingThreshold}.
+            All of this user’s comments from the previous{" "}
+            {autoArchivingThreshold}. {/* TODO: format */}
           </i>
         </Localized>
       )}

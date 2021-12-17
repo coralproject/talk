@@ -159,6 +159,15 @@ const initLocalState: InitLocalState = async ({
     localRecord.setValue(config?.version, "embedVersion");
 
     localRecord.setValue(Boolean(config?.amp), "amp");
+
+    localRecord.setValue(
+      staticConfig?.autoArchivingEnabled,
+      "autoArchivingEnabled"
+    );
+    localRecord.setValue(
+      staticConfig?.autoArchivingThreshold,
+      "autoArchivingThreshold"
+    );
   });
 };
 
