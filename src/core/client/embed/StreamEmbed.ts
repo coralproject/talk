@@ -11,6 +11,15 @@ import {
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 
+/** When loading /embed/bootstrap retry x times */
+const LOAD_BOOTSTRAP_RETRY_ATTEMPTS =
+  process.env.NODE_ENV === "production" ? 3 : 20;
+/** Initial delay before a retry */
+const LOAD_BOOTSTRAP_RETRY_DELAY = 2000;
+/** Multiplier for each attempt more */
+const LOAD_BOOTSTRAP_RETRY_DELAY_MULTIPLIER =
+  process.env.NODE_ENV === "production" ? 2000 : 0;
+
 export interface StreamEmbedConfig {
   storyID?: string;
   storyURL?: string;
@@ -37,6 +46,16 @@ export class StreamEmbed {
    * stream embed iframe to ensure that it is loaded fresh.
    */
   private readonly requestExpiryInterval = 15 * 60 * 1000; // 15 minutes
+
+  // Add the current date rounded to the nearest `this.expiry` to ensure
+  // that we cache bust. We already send `Cache-Control: no-store` but
+  // sometimes mobile browsers will not make the HTTP request when using the
+  // back button. This can be removed when we can reliably provide multiple
+  // versions of files via storage solutions.
+  private readonly ts =
+    Math.round(Date.now() / this.requestExpiryInterval) *
+    this.requestExpiryInterval;
+
   /**
    * eventEmitter provides an interface to events emitted by Coral.
    */
@@ -151,8 +170,12 @@ export class StreamEmbed {
     const prefix = config.staticConfig.staticURI
       ? config.staticConfig.staticURI
       : "";
-    this.cssAssets = [...config.assets.css].map((a) => prefix + a.src);
-    this.jsAssets = config.assets.js.map((a) => prefix + a.src);
+    this.cssAssets = [...config.assets.css].map(
+      (a) => prefix + `${a.src}?ts=${this.ts}`
+    );
+    this.jsAssets = config.assets.js.map(
+      (a) => prefix + `${a.src}?ts=${this.ts}`
+    );
 
     // Preload assets
     this.preloadCSSAssets();
@@ -166,12 +189,20 @@ export class StreamEmbed {
   }
 
   /** Loads the boostrap config */
-  private loadBootstrapConfig() {
+  private loadBootstrapConfig(attempt = 0) {
+    const loadBootstrapConfigRef = (...args: any[]) =>
+      this.loadBootstrapConfig(...args);
     const req = new XMLHttpRequest();
     const runOnBootstrapLoad = (config: EmbedBootstrapConfig) =>
       this.onBootstrapConfigLoad(config);
     req.addEventListener("load", function () {
       if (this.status !== 200) {
+        if (attempt < LOAD_BOOTSTRAP_RETRY_ATTEMPTS) {
+          // Retry!
+          setTimeout(() => {
+            loadBootstrapConfigRef(attempt + 1);
+          }, LOAD_BOOTSTRAP_RETRY_DELAY + LOAD_BOOTSTRAP_RETRY_DELAY_MULTIPLIER * attempt);
+        }
         throw new Error("Loading bootstrap config failed");
       }
       runOnBootstrapLoad(JSON.parse(this.responseText));
@@ -332,16 +363,6 @@ export class StreamEmbed {
       this.attach();
     };
 
-    // Add the current date rounded to the nearest `this.expiry` to ensure
-    // that we cache bust. We already send `Cache-Control: no-store` but
-    // sometimes mobile browsers will not make the HTTP request when using the
-    // back button. This can be removed when we can reliably provide multiple
-    // versions of files via storage solutions.
-
-    const ts =
-      Math.round(Date.now() / this.requestExpiryInterval) *
-      this.requestExpiryInterval;
-
     // Find stream script from the js assets parsed from the bootstrap config.
     const streamScript = this.jsAssets.find((s) =>
       s.includes("assets/js/stream.js")
@@ -349,7 +370,7 @@ export class StreamEmbed {
     if (!streamScript) {
       throw new Error("Stream script not found in manifest");
     }
-    script.src = `${streamScript}?ts=${ts}`;
+    script.src = streamScript;
     document.head.appendChild(script);
   }
 }
