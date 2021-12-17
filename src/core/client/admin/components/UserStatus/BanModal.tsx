@@ -108,33 +108,30 @@ const BanModal: FunctionComponent<Props> = ({
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
 
-  const onFormSubmit = useCallback(
-    (input) => {
-      try {
-        onConfirm(
-          updateType,
-          rejectComments,
-          banSiteIDs,
-          unbanSiteIDs,
-          customizeMessage ? emailMessage : getDefaultMessage
-        );
+  const onFormSubmit = useCallback(() => {
+    try {
+      onConfirm(
+        updateType,
+        rejectComments,
+        banSiteIDs,
+        unbanSiteIDs,
+        customizeMessage ? emailMessage : getDefaultMessage
+      );
 
-        return;
-      } catch (err) {
-        return { [FORM_ERROR]: err.message };
-      }
-    },
-    [
-      onConfirm,
-      updateType,
-      banSiteIDs,
-      unbanSiteIDs,
-      emailMessage,
-      customizeMessage,
-      getDefaultMessage,
-      rejectComments,
-    ]
-  );
+      return;
+    } catch (err) {
+      return { [FORM_ERROR]: err.message };
+    }
+  }, [
+    onConfirm,
+    updateType,
+    banSiteIDs,
+    unbanSiteIDs,
+    emailMessage,
+    customizeMessage,
+    getDefaultMessage,
+    rejectComments,
+  ]);
 
   const {
     title,
@@ -173,15 +170,7 @@ const BanModal: FunctionComponent<Props> = ({
               <p className={styles.bodyText}>{consequence}</p>
             </Localized>
           </HorizontalGutter>
-          <Form
-            onSubmit={onFormSubmit}
-            initialValues={{
-              showMessage: false,
-              rejectExistingComments: false,
-              emailMessage: getDefaultMessage,
-              selectedIDs: [],
-            }}
-          >
+          <Form onSubmit={onFormSubmit}>
             {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
