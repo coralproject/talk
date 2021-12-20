@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, {
   FunctionComponent,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -107,6 +108,12 @@ const BanModal: FunctionComponent<Props> = ({
 
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (viewerIsSingleSiteMod) {
+      setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
+    }
+  }, [viewerIsSingleSiteMod]);
 
   const onFormSubmit = useCallback(() => {
     try {
