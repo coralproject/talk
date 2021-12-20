@@ -67,7 +67,9 @@ export class StreamEmbed {
 
   private ready = false;
   private _rendered = false;
+  private _assetsPreloaded = false;
   private clearAutoRender: OnIntersectCancellation | null = null;
+  private clearAutoPreload: OnIntersectCancellation | null = null;
   private config: StreamEmbedConfig;
   private element: HTMLElement;
   private boostrapConfig?: EmbedBootstrapConfig;
@@ -130,6 +132,24 @@ export class StreamEmbed {
         // user to the embed.
         this.render();
       } else {
+        // Preload assets when nearing embed.
+        this.clearAutoPreload = onIntersect(
+          this.element,
+          () => {
+            // Boostrap config is still loading, we'll wait and then preload.
+            if (!this.boostrapConfig) {
+              this.runAfterBootstrapConfigLoaded(() => {
+                this.preloadAssets();
+              });
+              return;
+            }
+            this.preloadAssets();
+          },
+          {
+            rootMargin: "1200px",
+            threshold: 1.0,
+          }
+        );
         // When the element is in view, then render the embed.
         this.clearAutoRender = onIntersect(
           this.element,
@@ -177,10 +197,6 @@ export class StreamEmbed {
       (a) => prefix + `${a.src}?ts=${this.ts}`
     );
 
-    // Preload assets
-    this.preloadCSSAssets();
-    this.preloadJSAssets();
-
     // Call any pending callbacks that were waiting for the bootstrap config to be loaded.
     if (this.onBootstrapConfigLoaded) {
       this.onBootstrapConfigLoaded.forEach((cb) => cb());
@@ -212,7 +228,22 @@ export class StreamEmbed {
     req.send();
   }
 
-  private preloadCSSAssets() {
+  private preloadAssets() {
+    if (this._assetsPreloaded) {
+      return;
+    }
+    this._assetsPreloaded = true;
+
+    if (this.clearAutoPreload) {
+      this.clearAutoPreload();
+      this.clearAutoPreload = null;
+    }
+
+    this._preloadCSSAssets();
+    this._preloadJSAssets();
+  }
+
+  private _preloadCSSAssets() {
     const assets: string[] = [];
     if (
       this.boostrapConfig &&
@@ -238,7 +269,7 @@ export class StreamEmbed {
     });
   }
 
-  private preloadJSAssets() {
+  private _preloadJSAssets() {
     this.jsAssets.forEach((asset) => {
       const link = document.createElement("link");
       link.rel = "preload";
@@ -349,6 +380,9 @@ export class StreamEmbed {
       });
       return;
     }
+
+    // Make sure we preload our assets if not already done.
+    this.preloadAssets();
 
     // Mark as rendered.
     this._rendered = true;
