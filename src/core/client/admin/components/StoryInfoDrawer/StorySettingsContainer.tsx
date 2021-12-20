@@ -32,7 +32,7 @@ export interface Props {
   settings: StorySettingsContainer_storySettings;
 }
 
-const localizedModMode = (mode: MODERATION_MODE): string | undefined => {
+const localizedModMode = (mode: MODERATION_MODE): string => {
   switch (mode) {
     case "PRE":
       return "storyInfoDrawerSettings-moderationMode-pre";
@@ -41,7 +41,7 @@ const localizedModMode = (mode: MODERATION_MODE): string | undefined => {
     case "%future added value":
       return "storyInfoDrawerSettings-moderationMode-future";
     default:
-      return undefined;
+      return "";
   }
 };
 
