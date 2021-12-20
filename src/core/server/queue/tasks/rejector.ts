@@ -45,17 +45,18 @@ function getBatch(
   connection?: Readonly<Connection<Readonly<Comment>>>,
   isArchived = false
 ) {
+  const connectionInput = {
+    orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+    first: 100,
+    after: connection ? connection.pageInfo.endCursor : undefined,
+  };
   if (siteIDs) {
     return retrieveCommentsBySitesUserConnection(
       mongo,
       tenantID,
       authorID,
       siteIDs,
-      {
-        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-        first: 100,
-        after: connection ? connection.pageInfo.endCursor : undefined,
-      },
+      connectionInput,
       isArchived
     );
   }
@@ -63,11 +64,7 @@ function getBatch(
     mongo,
     tenantID,
     authorID,
-    {
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      first: 100,
-      after: connection ? connection.pageInfo.endCursor : undefined,
-    },
+    connectionInput,
     isArchived
   );
 }
