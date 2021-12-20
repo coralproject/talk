@@ -30,7 +30,10 @@ export interface Config {
   enableDeprecatedEvents?: boolean;
 
   /** Allow setting className of body tag inside iframe */
+  containerClassName?: string;
+  /** @deprecated use new option: `containerClassName` */
   bodyClassName?: string;
+
   customCSSURL?: string;
   customFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
@@ -79,5 +82,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     amp: config.amp,
     autoRender: config.autoRender,
     enableDeprecatedEvents: config.enableDeprecatedEvents,
+    containerClassName: config.containerClassName || config.bodyClassName,
   });
 }

@@ -67,7 +67,7 @@ describe("Basic integration test", () => {
         Object {
           "accessToken": undefined,
           "amp": undefined,
-          "bodyClassName": undefined,
+          "containerClassName": undefined,
           "commentID": undefined,
           "cssAssets": Array [
             "http://localhost/assets/css/stream.css",

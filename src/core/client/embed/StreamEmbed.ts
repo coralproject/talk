@@ -30,7 +30,7 @@ export interface StreamEmbedConfig {
   id: string;
   rootURL: string;
   accessToken?: string;
-  bodyClassName?: string;
+  containerClassName?: string;
   enableDeprecatedEvents?: boolean;
   disableDefaultFonts?: boolean;
   customFontsCSSURL?: string;
@@ -330,7 +330,7 @@ export class StreamEmbed {
       customFontsCSSURL: this.customFontsCSSURL,
       disableDefaultFonts: this.disableDefaultFonts,
       locale: this.boostrapConfig.locale,
-      bodyClassName: this.config.bodyClassName,
+      containerClassName: this.config.containerClassName,
       // Add the version to the query string to ensure that every new version of
       // the stream will cause stream pages to cache bust.
       version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
