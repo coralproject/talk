@@ -23,7 +23,6 @@ import styles from "./UserTable.css";
 interface Props {
   viewer: PropTypesOf<typeof UserRowContainer>["viewer"] | null;
   settings: PropTypesOf<typeof UserRowContainer>["settings"] | null;
-  query: PropTypesOf<typeof UserRowContainer>["query"] | null;
   users: Array<{ id: string } & PropTypesOf<typeof UserRowContainer>["user"]>;
   onLoadMore: () => void;
   hasMore: boolean;
@@ -34,7 +33,6 @@ interface Props {
 const UserTable: FunctionComponent<Props> = ({
   viewer,
   settings,
-  query,
   ...props
 }) => {
   const [userDrawerUserID, setUserDrawerUserID] = useState<string | undefined>(
@@ -92,14 +90,12 @@ const UserTable: FunctionComponent<Props> = ({
           {!props.loading &&
             settings &&
             viewer &&
-            query &&
             props.users.map((user) => (
               <UserRowContainer
                 key={user.id}
                 user={user}
                 settings={settings}
                 viewer={viewer}
-                query={query}
                 onUsernameClicked={onShowUserDrawer}
               />
             ))}

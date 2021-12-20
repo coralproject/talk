@@ -154,6 +154,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
               showSiteSearchLabel={false}
               showOnlyScopedSitesInSearchResults={true}
               showAllSitesSearchFilterOption={false}
+              clearTextFieldValueAfterSelect={true}
             />
           )}
         </FieldSet>

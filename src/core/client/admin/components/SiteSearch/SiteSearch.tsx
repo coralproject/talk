@@ -23,6 +23,7 @@ interface Props {
   showOnlyScopedSitesInSearchResults: boolean;
   showSiteSearchLabel: boolean;
   showAllSitesSearchFilterOption: boolean;
+  clearTextFieldValueAfterSelect: boolean;
 }
 
 const SiteSearch: FunctionComponent<Props> = ({
@@ -30,6 +31,7 @@ const SiteSearch: FunctionComponent<Props> = ({
   showOnlyScopedSitesInSearchResults,
   showSiteSearchLabel,
   showAllSitesSearchFilterOption,
+  clearTextFieldValueAfterSelect,
 }) => {
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [searchTextFieldValue, setSearchTextFieldValue] = useState<string>("");
@@ -63,11 +65,20 @@ const SiteSearch: FunctionComponent<Props> = ({
       site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
     ) => {
       onSelect(site ? site.id : null);
-      setSearchTextFieldValue(site ? site.name : "");
+      if (clearTextFieldValueAfterSelect) {
+        setSearchTextFieldValue("");
+      } else {
+        setSearchTextFieldValue(site ? site.name : "");
+      }
       setActiveSiteID(site ? site.id : null);
       setIsSiteSearchListVisible(false);
     },
-    [onSelect, setSearchTextFieldValue, setIsSiteSearchListVisible]
+    [
+      onSelect,
+      setSearchTextFieldValue,
+      setIsSiteSearchListVisible,
+      clearTextFieldValueAfterSelect,
+    ]
   );
 
   useEffect(() => {
