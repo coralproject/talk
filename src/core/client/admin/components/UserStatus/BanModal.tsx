@@ -152,8 +152,6 @@ const BanModal: FunctionComponent<Props> = ({
     updateType === UpdateType.SPECIFIC_SITES ||
     (updateType === UpdateType.ALL_SITES && viewerIsSingleSiteMod);
   const disableForm = requiresSiteBanUpdates && !pendingSiteBanUpdates;
-  /* eslint-disable */
-  console.log({ updateType, viewerIsSingleSiteMod, disableForm });
 
   return (
     <ChangeStatusModal
