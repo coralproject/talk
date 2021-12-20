@@ -148,6 +148,12 @@ const BanModal: FunctionComponent<Props> = ({
   } = getTextForUpdateType(updateType);
 
   const pendingSiteBanUpdates = banSiteIDs.length + unbanSiteIDs.length > 0;
+  const requiresSiteBanUpdates =
+    updateType === UpdateType.SPECIFIC_SITES ||
+    (updateType === UpdateType.ALL_SITES && viewerIsSingleSiteMod);
+  const disableForm = requiresSiteBanUpdates && !pendingSiteBanUpdates;
+  /* eslint-disable */
+  console.log({ updateType, viewerIsSingleSiteMod, disableForm });
 
   return (
     <ChangeStatusModal
@@ -290,12 +296,7 @@ const BanModal: FunctionComponent<Props> = ({
                       <Button
                         type="submit"
                         ref={lastFocusableRef}
-                        disabled={
-                          ((updateType === UpdateType.ALL_SITES &&
-                            viewerIsSingleSiteMod) ||
-                            updateType === UpdateType.SPECIFIC_SITES) &&
-                          !pendingSiteBanUpdates
-                        }
+                        disabled={disableForm}
                       >
                         Save
                       </Button>
