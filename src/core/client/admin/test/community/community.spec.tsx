@@ -735,7 +735,7 @@ it("suspend user with custom message", async () => {
   expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
 });
 
-it("ban user", async () => {
+it("bans user from all sites", async () => {
   const user = users.commenters[0];
 
   const resolvers = createResolversStub<GQLResolver>({
@@ -755,6 +755,10 @@ it("ban user", async () => {
         };
       },
     },
+    Query: {
+      settings: () => settingsWithMultisite,
+      sites: () => siteConnection,
+    },
   });
 
   const { container, testRenderer } = await createTestRenderer({
@@ -769,12 +773,14 @@ it("ban user", async () => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
-  const popup = within(userRow).getByLabelText(
+  const dropdown = within(userRow).getByLabelText(
     "A dropdown to change the user status"
   );
 
   act(() => {
-    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+    within(dropdown)
+      .getByText("Manage ban", { selector: "button", exact: false })
+      .props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText(
@@ -785,9 +791,13 @@ it("ban user", async () => {
   );
 
   act(() => {
+    within(modal).getByLabelText("All sites").props.onChange();
+  });
+
+  act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
-  within(userRow).getByText("Banned");
+  within(userRow).getByText("Banned", { exact: false });
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });
 
@@ -812,6 +822,10 @@ it("ban user with custom message", async () => {
         };
       },
     },
+    Query: {
+      settings: () => settingsWithMultisite,
+      sites: () => siteConnection,
+    },
   });
 
   const { container, testRenderer } = await createTestRenderer({
@@ -826,12 +840,14 @@ it("ban user with custom message", async () => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
-  const popup = within(userRow).getByLabelText(
+  const dropdown = within(userRow).getByLabelText(
     "A dropdown to change the user status"
   );
 
   act(() => {
-    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+    within(dropdown)
+      .getByText("Manage ban", { selector: "button", exact: false })
+      .props.onClick();
   });
 
   const modal = within(testRenderer.root).getByLabelText(
@@ -844,23 +860,31 @@ it("ban user with custom message", async () => {
   const toggleMessage = within(modal).getByID("banModal-showMessage");
 
   act(() => {
-    toggleMessage.props.onChange(true);
+    toggleMessage.props.onChange({
+      target: {
+        checked: true,
+      },
+    });
   });
 
   act(() => {
     within(modal)
       .getByID("banModal-message")
-      .props.onChange("YOU WERE BANNED FOR BREAKING THE RULES");
+      .props.onChange({
+        target: {
+          value: "YOU WERE BANNED FOR BREAKING THE RULES",
+        },
+      });
   });
 
   act(() => {
     within(modal).getByType("form").props.onSubmit();
   });
-  within(userRow).getByText("Banned");
+  within(userRow).getByText("Banned", { exact: false });
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });
 
-it("remove user ban", async () => {
+it("remove user ban from all sites", async () => {
   const user = users.bannedCommenter;
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
@@ -882,6 +906,7 @@ it("remove user ban", async () => {
       },
     },
     Query: {
+      settings: () => settingsWithMultisite,
       users: () => ({
         edges: [
           {
@@ -906,14 +931,27 @@ it("remove user ban", async () => {
     within(userRow).getByLabelText("Change user status").props.onClick();
   });
 
-  const popup = within(userRow).getByLabelText(
+  const dropdown = within(userRow).getByLabelText(
     "A dropdown to change the user status"
   );
 
   act(() => {
-    within(popup)
-      .getByText("Remove ban", { selector: "button" })
+    within(dropdown)
+      .getByText("Manage Ban", { selector: "button", exact: false })
       .props.onClick();
+  });
+
+  const modal = within(userRow).getByLabelText(
+    "Are you sure you want to unban",
+    { exact: false }
+  );
+
+  act(() => {
+    within(modal).getByLabelText("No sites", { exact: false }).props.onChange();
+  });
+
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
   });
 
   within(userRow).getByText("Active");
@@ -1040,14 +1078,14 @@ it("ban user across specific sites", async () => {
       },
     },
     Mutation: {
-      banUser: ({ variables }) => {
+      updateUserBan: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: user.id,
         });
+
         const userRecord = pureMerge<typeof user>(user, {
           status: {
-            current: user.status.current.concat(GQLUSER_STATUS.BANNED),
-            ban: { active: true },
+            ban: { sites: [{ id: sites[1].id }] },
           },
         });
         return {
@@ -1074,7 +1112,9 @@ it("ban user across specific sites", async () => {
   );
 
   act(() => {
-    within(popup).getByText("Ban", { selector: "button" }).props.onClick();
+    within(popup)
+      .getByText("Manage Ban", { selector: "button", exact: false })
+      .props.onClick();
   });
   const modal = within(testRenderer.root).getByLabelText(
     "Are you sure you want to ban",
@@ -1140,10 +1180,10 @@ it("ban user across specific sites", async () => {
   });
 
   // Submit ban and see that user is correctly banned across selected site
-  act(() => {
+  await act(async () => {
     within(modal).getByType("form").props.onSubmit();
+    await waitForElement(() => within(userRow).getByText("Banned (1)"));
   });
 
-  within(userRow).getByText("Banned (1)");
-  expect(resolvers.Mutation!.banUser!.called).toBe(true);
+  expect(resolvers.Mutation!.updateUserBan!.called).toBe(true);
 });

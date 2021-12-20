@@ -16,13 +16,7 @@ interface Props {
 const UserStatusContainer: FunctionComponent<Props> = (props) => {
   return (
     <UserStatus
-      banned={
-        props.user.status.current.includes(GQLUSER_STATUS.BANNED) ||
-        !!(
-          props.user.status.ban?.sites &&
-          props.user.status.ban?.sites.length > 0
-        )
-      }
+      banned={props.user.status.current.includes(GQLUSER_STATUS.BANNED)}
       moderationScopesEnabled={props.moderationScopesEnabled}
       bannedSiteCount={props.user.status.ban?.sites?.length}
       suspended={props.user.status.current.includes(GQLUSER_STATUS.SUSPENDED)}

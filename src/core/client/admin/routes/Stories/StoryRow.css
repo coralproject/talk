@@ -35,3 +35,8 @@
 .boldColumn {
   font-weight: var(--font-weight-primary-semi-bold);
 }
+
+.infoDrawerButton {
+  margin-left: var(--spacing-1);
+  cursor: pointer;
+}
