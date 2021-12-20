@@ -279,6 +279,7 @@ export async function createTenant(
     rte: defaultRTEConfiguration,
     amp: false,
     flattenReplies: false,
+    disableDefaultFonts: false,
   };
 
   // Create the new Tenant by merging it together with the defaults.

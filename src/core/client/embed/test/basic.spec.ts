@@ -47,7 +47,7 @@ describe("Basic integration test", () => {
       CoralEmbedStream.render();
 
       expect(document.head.innerHTML).toMatchInlineSnapshot(
-        `"<link rel=\\"preload\\" href=\\"http://localhost/assets/css/stream.css\\"><link rel=\\"preload\\" href=\\"http://localhost/assets/js/stream.js\\"><script src=\\"http://localhost/assets/js/stream.js?ts=1589310900000\\"></script>"`
+        `"<link rel=\\"preload\\" href=\\"http://localhost/assets/css/stream.css?ts=1589310900000\\"><link rel=\\"preload\\" href=\\"http://localhost/assets/js/stream.js?ts=1589310900000\\"><script src=\\"http://localhost/assets/js/stream.js?ts=1589310900000\\"></script>"`
       );
 
       const scriptElement = document.head.querySelector("script");
@@ -67,12 +67,14 @@ describe("Basic integration test", () => {
         Object {
           "accessToken": undefined,
           "amp": undefined,
-          "containerClassName": undefined,
           "commentID": undefined,
+          "containerClassName": undefined,
           "cssAssets": Array [
-            "http://localhost/assets/css/stream.css",
+            "http://localhost/assets/css/stream.css?ts=1589310900000",
           ],
           "customCSSURL": undefined,
+          "customFontsCSSURL": undefined,
+          "disableDefaultFonts": undefined,
           "element": <div
             id="basic-integration-test-id"
           />,

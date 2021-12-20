@@ -175,6 +175,7 @@ export const createTenantFixture = (
     },
     amp: false,
     flattenReplies: false,
+    disableDefaultFonts: false,
   };
 
   return merge(fixture, defaults);

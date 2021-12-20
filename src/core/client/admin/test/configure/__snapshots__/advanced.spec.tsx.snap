@@ -197,11 +197,20 @@ exports[`renders configure advanced 1`] = `
                 <div
                   className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                 >
-                  <p
-                    className="FormFieldDescription-root"
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                   >
-                    URL of a CSS stylesheet that will override default Embed Stream styles.
-                  </p>
+                    <label
+                      className="Label-root"
+                    >
+                      Custom CSS Stylesheet URL
+                    </label>
+                    <p
+                      className="HelperText-root"
+                    >
+                      URL of a CSS stylesheet that will override default Embed Stream styles.
+                    </p>
+                  </div>
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
@@ -216,6 +225,49 @@ exports[`renders configure advanced 1`] = `
                         disabled={false}
                         id="configure-advanced-customCSSURL"
                         name="customCSSURL"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                  >
+                    <label
+                      className="Label-root"
+                    >
+                      Custom CSS Style Sheet URL for Font Faces
+                    </label>
+                    <p
+                      className="HelperText-root"
+                    >
+                      URL to a Custom CSS stylesheets that contains all @font-face
+definitions needed by above Stylesheet.
+                    </p>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                  >
+                    <div
+                      className="TextField-root TextField-fullWidth"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="configure-advanced-customFontsCSSURL"
+                        name="customFontsCSSURL"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
