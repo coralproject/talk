@@ -1099,6 +1099,14 @@ export async function ban(
       siteIDs,
       now
     );
+    if (rejectExistingComments) {
+      await rejector.add({
+        tenantID: tenant.id,
+        authorID: userID,
+        moderatorID: banner.id,
+        siteIDs,
+      });
+    }
   }
   // Otherwise, perform a regular ban
   else {
@@ -1111,12 +1119,12 @@ export async function ban(
     // Ban the user.
     user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
-    const supsensionStatus = consolidateUserSuspensionStatus(
+    const suspensionStatus = consolidateUserSuspensionStatus(
       targetUser.status.suspension
     );
 
     // remove suspension if present
-    if (supsensionStatus.active) {
+    if (suspensionStatus.active) {
       user = await removeActiveUserSuspensions(
         mongo,
         tenant.id,
@@ -1276,6 +1284,17 @@ export async function updateUserBan(
         idsToBan,
         now
       );
+
+      // if any new bans and rejectExistingCommments, reject existing comments
+      if (rejectExistingComments) {
+        await rejector.add({
+          tenantID: tenant.id,
+          authorID: targetUser.id,
+          moderatorID: banner.id,
+          siteIDs: idsToBan,
+        });
+      }
+
       newBans = true;
     }
   }
@@ -1296,14 +1315,6 @@ export async function updateUserBan(
         newUnbans
       );
     }
-  }
-  // if any new bans and rejectExistingCommments, reject existing comments
-  if (newBans && rejectExistingComments) {
-    await rejector.add({
-      tenantID: tenant.id,
-      authorID: targetUser.id,
-      moderatorID: banner.id,
-    });
   }
   // if any new bans, send email
   if (newBans && targetUser.email) {

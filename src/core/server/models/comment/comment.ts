@@ -606,6 +606,32 @@ export const retrieveAllCommentsUserConnection = (
   });
 
 /**
+ * retrieveCommentsBySitesUserConnection returns a Connection<Comment> for a given User's
+ * comments regardless of comment status, filtered by siteIDs.
+ *
+ * @param mongo database connection
+ * @param tenantID the Tenant's ID
+ * @param userID the User id for the comment to retrieve
+ * @param siteIDs the siteIDs to use to filter by Site id for the comments to retrieve
+ * @param input connection configuration
+ */
+export const retrieveCommentsBySitesUserConnection = (
+  collection: Collection<Readonly<Comment>>,
+  tenantID: string,
+  userID: string,
+  siteIDs: string[],
+  input: CommentConnectionInput
+) =>
+  retrieveCommentConnection(collection, tenantID, {
+    ...input,
+    filter: {
+      ...input.filter,
+      authorID: userID,
+      siteID: { $in: siteIDs },
+    },
+  });
+
+/**
  * retrieveRejectedCommentUserConnection returns a Connection<Comment> for a given User's
  * rejected comments.
  *

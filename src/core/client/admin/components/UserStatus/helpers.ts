@@ -9,6 +9,9 @@ export const getTextForUpdateType = (mode: UpdateType) => {
         consequence:
           "Once banned, this user will no longer be able to comment, use reactions, or report comments.",
         consequenceLocalizationId: "community-banModal-allSites-consequence",
+        rejectExistingCommentsLocalizationId:
+          "community-banModal-reject-existing",
+        rejectExistingCommentsMessage: "Reject all comments by this user",
       };
     case UpdateType.NO_SITES:
       return {
@@ -26,6 +29,9 @@ export const getTextForUpdateType = (mode: UpdateType) => {
           "This action will affect which sites on which the user is able to comment, use reactions, and report comments.",
         consequenceLocalizationId:
           "community-banModal-specificSites-consequence",
+        rejectExistingCommentsLocalizationId:
+          "community-banModal-reject-existing-specificSites",
+        rejectExistingCommentsMessage: "Reject all comments on these sites",
       };
   }
 };
