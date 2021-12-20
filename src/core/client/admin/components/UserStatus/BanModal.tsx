@@ -291,7 +291,9 @@ const BanModal: FunctionComponent<Props> = ({
                         type="submit"
                         ref={lastFocusableRef}
                         disabled={
-                          updateType === UpdateType.SPECIFIC_SITES &&
+                          ((updateType === UpdateType.ALL_SITES &&
+                            viewerIsSingleSiteMod) ||
+                            updateType === UpdateType.SPECIFIC_SITES) &&
                           !pendingSiteBanUpdates
                         }
                       >
