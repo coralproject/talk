@@ -149,7 +149,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
               <CardCloseButton onClick={onCancel} ref={firstFocusableRef} />
             </Flex>
             <Form onSubmit={onSubmit}>
-              {({ handleSubmit, submitError, submitting }) => (
+              {({ handleSubmit, submitError, submitting, values }) => (
                 <form onSubmit={handleSubmit}>
                   <HorizontalGutter spacing={3}>
                     {mode === "promote" ? (
@@ -235,7 +235,10 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                         <Localized id="community-siteModeratorModal-assign">
                           <Button
                             type="submit"
-                            disabled={submitting}
+                            disabled={
+                              submitting ||
+                              (values.siteIDs && values.siteIDs.length === 0)
+                            }
                             ref={lastFocusableRef}
                           >
                             Assign
@@ -246,7 +249,10 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                           <Button
                             type="submit"
                             color="alert"
-                            disabled={submitting}
+                            disabled={
+                              submitting ||
+                              (values.siteIDs && values.siteIDs.length === 0)
+                            }
                             ref={lastFocusableRef}
                           >
                             Remove
