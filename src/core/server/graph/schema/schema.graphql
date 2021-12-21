@@ -7305,7 +7305,7 @@ input DemoteUserInput {
   userID: ID!
 
   """
-  siteIDs are the IDs of the Sites on which the User should have their role promoted.
+  siteIDs are the IDs of the Sites on which the User should have their role demoted.
   """
   siteIDs: [String!]!
 
