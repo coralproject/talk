@@ -18,10 +18,14 @@ const SiteModeratorActionsSites: FunctionComponent<Props> = ({
   mode,
 }) => {
   const { input: siteIDsInput } = useField<string[]>("siteIDs");
-  const candidateSites = mode === "promote" ? viewerSites : userSites || [];
+  const userScopedSitesInViewerScope = userSites?.filter((s) =>
+    viewerSites.find(({ id }) => s.id === id)
+  );
+  const candidateSites =
+    mode === "promote" ? viewerSites : userScopedSitesInViewerScope || [];
 
   useEffect(() => {
-    siteIDsInput.onChange(userSites?.map((site) => site.id));
+    siteIDsInput.onChange(candidateSites.map((site) => site.id));
   }, []);
 
   const onAddSite = useCallback(
