@@ -269,6 +269,59 @@ it("can't change role as a moderator", async () => {
   expect(() => within(container).getByLabelText("Change role")).toThrow();
 });
 
+it("promote user role as a site moderator", async () => {
+  const siteModerator = users.moderators[1];
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => siteModerator,
+      settings: () => settingsWithMultisite,
+    },
+    Mutation: {
+      promoteUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          siteIDs: [sites[0].id],
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          moderationScopes: { sites: [sites[0]] },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change role").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to promote/demote a user to/from sites"
+  );
+
+  act(() => {
+    within(popup)
+      .getByText("Site Moderator", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(container).getByTestID("siteModeratorActions-modal");
+
+  act(() => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+  expect(resolvers.Mutation!.promoteUser!.called).toBe(true);
+});
+
 it("load more", async () => {
   const { container } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({

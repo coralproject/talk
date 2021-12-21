@@ -451,6 +451,17 @@ export const users = {
         role: GQLUSER_ROLE.MODERATOR,
         ignoreable: false,
       },
+      {
+        id: "site-moderator-1",
+        username: "Ginger",
+        email: "ginger@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
+        moderationScopes: {
+          scoped: true,
+          sites: [sites[0]],
+        },
+      },
     ],
     baseUser
   ),

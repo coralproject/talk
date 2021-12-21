@@ -142,7 +142,11 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   return (
     <>
-      <Modal open={isModalVisible} onClose={onCancel}>
+      <Modal
+        open={isModalVisible}
+        onClose={onCancel}
+        data-testid="siteModeratorActions-modal"
+      >
         {({ firstFocusableRef, lastFocusableRef }) => (
           <Card className={styles.modal}>
             <Flex justifyContent="flex-end">
