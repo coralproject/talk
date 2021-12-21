@@ -68,11 +68,7 @@ const SiteModeratorActionsSites: FunctionComponent<Props> = ({
           <ListGroupRow key={site.id}>
             <CheckBox
               checked={checked}
-              disabled={
-                mode === "promote"
-                  ? siteIsAlreadyIncludedInUserScopes
-                  : !siteIsAlreadyIncludedInUserScopes
-              }
+              disabled={mode === "promote" && siteIsAlreadyIncludedInUserScopes}
               onChange={() => {
                 onToggle(site.id, checked);
               }}
