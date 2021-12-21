@@ -7266,8 +7266,14 @@ type UpdateUserRolePayload {
 ##################
 
 input PromoteUserInput {
+  """
+  userID is the ID of the User that should have their role promoted.
+  """
   userID: ID!
 
+  """
+  siteIDs are the IDs of the Sites on which the User should have their role promoted.
+  """
   siteIDs: [String!]!
 
   """
@@ -7293,13 +7299,20 @@ type PromoteUserPayload {
 ##################
 
 input DemoteUserInput {
+  """
+  userID is the ID of the User that should have their role demoted.
+  """
   userID: ID!
+
+  """
+  siteIDs are the IDs of the Sites on which the User should have their role promoted.
+  """
+  siteIDs: [String!]!
 
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
-  siteIDs: [String!]!
 }
 
 type DemoteUserPayload {

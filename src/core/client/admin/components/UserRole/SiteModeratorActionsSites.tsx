@@ -61,14 +61,17 @@ const SiteModeratorActionsSites: FunctionComponent<Props> = ({
     <ListGroup>
       {candidateSites.map((site) => {
         const checked = siteIDsInput.value.includes(site.id);
+        const siteIsAlreadyIncludedInUserScopes = userSites
+          ?.map((s) => s.id)
+          .includes(site.id);
         return (
           <ListGroupRow key={site.id}>
             <CheckBox
               checked={checked}
               disabled={
                 mode === "promote"
-                  ? userSites?.map((s) => s.id).includes(site.id)
-                  : !userSites?.map((s) => s.id).includes(site.id)
+                  ? siteIsAlreadyIncludedInUserScopes
+                  : !siteIsAlreadyIncludedInUserScopes
               }
               onChange={() => {
                 onToggle(site.id, checked);

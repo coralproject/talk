@@ -219,13 +219,11 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                           </ModalBodyText>
                         </Localized>
                         <ListGroup>
-                          {uniqueUserSites.map((site) => {
-                            return (
-                              <ListGroupRow key={site.id}>
-                                <Typography>{site.name}</Typography>
-                              </ListGroupRow>
-                            );
-                          })}
+                          {uniqueUserSites.map((site) => (
+                            <ListGroupRow key={site.id}>
+                              <Typography>{site.name}</Typography>
+                            </ListGroupRow>
+                          ))}
                         </ListGroup>
                       </>
                     )}
