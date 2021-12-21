@@ -7268,6 +7268,8 @@ type UpdateUserRolePayload {
 input PromoteUserInput {
   userID: ID!
 
+  siteIDs: [String!]!
+
   """
   clientMutationId is required for Relay support.
   """
@@ -7297,6 +7299,7 @@ input DemoteUserInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+  siteIDs: [String!]!
 }
 
 type DemoteUserPayload {

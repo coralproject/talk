@@ -699,7 +699,8 @@ export async function promoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string
+  userID: string,
+  siteIDs: string[]
 ) {
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
@@ -730,7 +731,7 @@ export async function promoteUser(
     mongo,
     tenant.id,
     userID,
-    viewer.moderationScopes.siteIDs
+    siteIDs
   );
 
   // If the user isn't a site moderator now, make them one!
@@ -750,7 +751,8 @@ export async function demoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string
+  userID: string,
+  siteIDs: string[]
 ) {
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
@@ -781,7 +783,7 @@ export async function demoteUser(
     mongo,
     tenant.id,
     userID,
-    viewer.moderationScopes.siteIDs
+    siteIDs
   );
 
   // If the user doesn't have any more siteID's, demote the user role to a

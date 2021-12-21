@@ -37,6 +37,7 @@ import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import DemoteUserMutation from "./DemoteUserMutation";
 import PromoteUserMutation from "./PromoteUserMutation";
+import SiteModeratorActionsSites from "./SiteModeratorActionsSites";
 import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
 
@@ -75,25 +76,28 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
     toggleModalVisibility();
   }, [toggleModalVisibility]);
 
-  const onSubmit = useCallback(async () => {
-    try {
-      if (mode === "promote") {
-        await promoteUser({ userID: user.id });
-      } else if (mode === "demote") {
-        await demoteUser({ userID: user.id });
-      }
+  const onSubmit = useCallback(
+    async (input) => {
+      try {
+        if (mode === "promote") {
+          await promoteUser({ userID: user.id, siteIDs: input.siteIDs });
+        } else if (mode === "demote") {
+          await demoteUser({ userID: user.id, siteIDs: input.siteIDs });
+        }
 
-      setMode(null);
-      toggleModalVisibility();
+        setMode(null);
+        toggleModalVisibility();
 
-      return;
-    } catch (err) {
-      if (err instanceof InvalidRequestError) {
-        return err.invalidArgs;
+        return;
+      } catch (err) {
+        if (err instanceof InvalidRequestError) {
+          return err.invalidArgs;
+        }
+        return { [FORM_ERROR]: err.message };
       }
-      return { [FORM_ERROR]: err.message };
-    }
-  }, [demoteUser, mode, promoteUser, toggleModalVisibility, user.id]);
+    },
+    [demoteUser, mode, promoteUser, toggleModalVisibility, user.id]
+  );
 
   const viewerSites = viewer.moderationScopes?.sites || [];
   const userSites = user.moderationScopes?.sites || [];
@@ -198,13 +202,11 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                         </ModalBodyText>
                       </Localized>
                     )}
-                    <ListGroup>
-                      {viewerSites.map((site) => (
-                        <ListGroupRow key={site.id}>
-                          <Typography>{site.name}</Typography>
-                        </ListGroupRow>
-                      ))}
-                    </ListGroup>
+                    <SiteModeratorActionsSites
+                      viewerSites={viewerSites}
+                      userSites={userSites}
+                      mode={mode}
+                    />
                     {mode === "demote" && uniqueUserSites.length > 0 && (
                       <>
                         <Localized id="community-stillHaveSiteModeratorPrivileges">
@@ -213,11 +215,13 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                           </ModalBodyText>
                         </Localized>
                         <ListGroup>
-                          {uniqueUserSites.map((site) => (
-                            <ListGroupRow key={site.id}>
-                              <Typography>{site.name}</Typography>
-                            </ListGroupRow>
-                          ))}
+                          {uniqueUserSites.map((site) => {
+                            return (
+                              <ListGroupRow key={site.id}>
+                                <Typography>{site.name}</Typography>
+                              </ListGroupRow>
+                            );
+                          })}
                         </ListGroup>
                       </>
                     )}
