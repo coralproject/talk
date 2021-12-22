@@ -200,8 +200,8 @@ jobs:
           command: bash ./scripts/docker.sh deploy
           no_output_timeout: 30m
 
-  # push_to_gcr will build and push the Docker image.
-  push_to_gcr:
+  # build_and_push_to_gcr will build and push the Docker image to the Google Container Registry.
+  build_and_push_to_gcr:
     <<: *job_node_defaults
     docker:
       - image: google/cloud-sdk
@@ -218,7 +218,7 @@ jobs:
             gcloud auth configure-docker --quiet
       - run: 
           name: Create and push the image to GCR
-          command: bash ./scripts/docker.sh deploy-commit
+          command: bash ./scripts/docker.sh deploy-gcr
           no_output_timeout: 30m
 
 # filter_release will add the filters for a deploy job in a workflow to make it
@@ -264,12 +264,11 @@ workflows:
           <<: *filter_develop
           requires:
             - npm_dependencies
-      - push_to_gcr:
+      - build_and_push_to_gcr:
           <<: *filter_develop
-          filters:
-            branches:
-              only:
-                - develop
+          # filters:
+          #   branches:
+          #     only: /^release.*/
           requires:
             - lint
             - unit_tests
