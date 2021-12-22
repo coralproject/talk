@@ -77,11 +77,11 @@ const initLocalState: InitLocalState = async ({
 
     localRecord.setValue(
       staticConfig?.autoArchivingEnabled ?? false,
-      "enableAutoArchiving"
+      "autoArchivingEnabled"
     );
     localRecord.setValue(
       staticConfig?.autoArchivingThreshold,
-      "autoArchiveOlderThan"
+      "autoArchivingThreshold"
     );
   });
 };

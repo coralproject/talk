@@ -9,6 +9,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { Button, CallOut, Divider } from "coral-ui/components/v2";
+import { millisToDays } from "coral-ui/helpers";
 
 import { UserHistoryDrawerAllComments_local } from "coral-admin/__generated__/UserHistoryDrawerAllComments_local.graphql";
 import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
@@ -70,13 +71,20 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
     );
   }
 
+  const archivingThresholdDays = autoArchivingEnabled
+    ? millisToDays(autoArchivingThreshold as number)
+    : null;
+
   return (
     <>
       {autoArchivingEnabled && (
-        <Localized id="userHistoryDrawer-comments-archiving-copy">
+        <Localized
+          id="moderate-user-drawer-allComments-archived"
+          $days={archivingThresholdDays}
+        >
           <i>
             All of this user’s comments from the previous{" "}
-            {autoArchivingThreshold}. {/* TODO: format */}
+            {archivingThresholdDays}.
           </i>
         </Localized>
       )}

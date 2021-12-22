@@ -6,6 +6,7 @@ import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { millisToDays } from "coral-ui/helpers";
 
 import { CommentHistory_local } from "coral-stream/__generated__/CommentHistory_local.graphql";
 
@@ -33,6 +34,11 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
       autoArchivingThreshold
     }
   `);
+
+  const archivingThresholdDays = autoArchivingEnabled
+    ? millisToDays(autoArchivingThreshold as number)
+    : null;
+
   return (
     <Localized
       id="profile-commentHistory-section"
@@ -100,11 +106,14 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
             </Localized>
           )}
           {autoArchivingEnabled && (
-            <Localized id="profile-commentHistory-archived-copy">
+            <Localized
+              id="profile-commentHistory-archived-copy"
+              $days={archivingThresholdDays}
+            >
               <i>
                 This is all of your comments from the previous{" "}
-                {autoArchivingThreshold}. To view the rest of your comments,
-                please contact us. {/* TODO: format threshold */}
+                {archivingThresholdDays} days. To view the rest of your
+                comments, please contact us.
               </i>
             </Localized>
           )}

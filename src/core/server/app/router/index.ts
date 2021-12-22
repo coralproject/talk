@@ -8,7 +8,6 @@ import logger from "coral-server/logger";
 
 import { createAPIRouter } from "./api";
 import { mountClientRoutes } from "./client";
-import { config } from "dotenv/types";
 
 export function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
