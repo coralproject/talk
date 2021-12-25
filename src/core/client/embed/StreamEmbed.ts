@@ -1,4 +1,5 @@
 import { EmbedBootstrapConfig } from "coral-common/config";
+import { PolyfillConfig } from "coral-framework/helpers/injectConditionalPolyfills";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { EventEmitter2 } from "eventemitter2";
 
@@ -39,6 +40,7 @@ export interface StreamEmbedConfig {
   refreshAccessToken?: RefreshAccessTokenCallback;
   amp?: boolean;
   graphQLSubscriptionURI?: string;
+  polyfills?: PolyfillConfig;
 }
 
 export class StreamEmbed {
@@ -366,6 +368,7 @@ export class StreamEmbed {
       disableDefaultFonts: this.disableDefaultFonts,
       locale: this.boostrapConfig.locale,
       containerClassName: this.config.containerClassName,
+      polyfills: this.config.polyfills,
       // Add the version to the query string to ensure that every new version of
       // the stream will cause stream pages to cache bust.
       version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",

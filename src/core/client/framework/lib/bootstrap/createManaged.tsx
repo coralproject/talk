@@ -15,6 +15,7 @@ import {
   injectConditionalPolyfills,
   potentiallyInjectAxe,
 } from "coral-framework/helpers";
+import { PolyfillConfig } from "coral-framework/helpers/injectConditionalPolyfills";
 import polyfillIntlLocale from "coral-framework/helpers/polyfillIntlLocale";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import {
@@ -103,6 +104,9 @@ interface CreateContextArguments {
 
   /** Static Config from the server necessary to start the client*/
   staticConfig?: StaticConfig | null;
+
+  /** polyfills allow disbling individual polyfills */
+  polyfills?: PolyfillConfig;
 }
 
 /**
@@ -388,6 +392,7 @@ export default async function createManaged({
   graphQLSubscriptionURI,
   refreshAccessTokenPromise,
   staticConfig = getStaticConfig(window),
+  polyfills,
 }: CreateContextArguments): Promise<ComponentType> {
   if (!staticConfig) {
     // eslint-disable-next-line no-console
@@ -397,7 +402,7 @@ export default async function createManaged({
   const tokenRefreshProvider = createTokenRefreshProvider();
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
-  await injectConditionalPolyfills(window, browserInfo);
+  await injectConditionalPolyfills(window, browserInfo, polyfills);
 
   // Potentially inject react-axe for runtime a11y checks.
   await potentiallyInjectAxe(window.location.href, browserInfo);

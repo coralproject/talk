@@ -12,6 +12,7 @@ import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { parseQuery } from "coral-common/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
+import { PolyfillConfig } from "coral-framework/helpers/injectConditionalPolyfills";
 import { createManaged } from "coral-framework/lib/bootstrap";
 import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createManaged";
 
@@ -43,6 +44,7 @@ interface Options {
   customFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   containerClassName?: string;
+  polyfills?: PolyfillConfig;
 }
 
 function extractBundleConfig() {
@@ -100,6 +102,7 @@ export async function attach(options: Options) {
     bundleConfig,
     eventEmitter: options.eventEmitter,
     refreshAccessTokenPromise,
+    polyfills: options.polyfills,
   });
 
   // Amount of initial css files to be loaded.
