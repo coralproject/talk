@@ -108,6 +108,7 @@ describe("Basic integration test", () => {
           },
           "graphQLSubscriptionURI": undefined,
           "locale": undefined,
+          "polyfills": undefined,
           "refreshAccessToken": undefined,
           "rootURL": "http://localhost",
           "staticConfig": Object {},
