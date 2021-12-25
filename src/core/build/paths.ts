@@ -16,7 +16,6 @@ export default {
   appLoaders: resolveSrc("core/build/loaders"),
   appSrc: resolveSrc("."),
   appTsconfig: resolveSrc("core/client/tsconfig.json"),
-  appPolyfill: resolveSrc("core/build/polyfills.ts"),
   appPublicPath: resolveSrc("core/build/publicPath.js"),
   appLocales: resolveSrc("locales"),
   appThemeVariables: resolveSrc("core/client/ui/theme/variables.ts"),
@@ -44,7 +43,6 @@ export default {
   appAdminIndex: resolveSrc("core/client/admin/index.tsx"),
 
   appEmbedIndex: resolveSrc("core/client/embed/index.ts"),
-  appEmbedPolyfill: resolveSrc("core/client/embed/polyfills.ts"),
   appEmbedHTML: resolveSrc("core/client/embed/index.html"),
   appEmbedStoryHTML: resolveSrc("core/client/embed/story.html"),
   appEmbedStoryButtonHTML: resolveSrc("core/client/embed/storyButton.html"),

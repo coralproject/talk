@@ -102,26 +102,6 @@ export const useCoralContext = () => React.useContext(CoralReactContext);
  */
 export const CoralContextConsumer = CoralReactContext.Consumer;
 
-const parser = new DOMParser();
-
-function fallbackParseMarkup(str: string) {
-  // eslint-disable-next-line no-restricted-globals
-  const doc = document.implementation.createHTMLDocument("");
-  doc.documentElement.innerHTML = str;
-  return doc;
-}
-
-// Use this custom markup parser which works in IE11.
-function parseMarkup(str: string) {
-  const html = `<body>${str}</body>`;
-  let doc = parser.parseFromString(html, "text/html");
-  // occasionally parser.parseFromString will not return document.body synchronously on iOS
-  if (!doc.body) {
-    doc = fallbackParseMarkup(html);
-  }
-  return Array.from(doc.body.childNodes);
-}
-
 export function getUIContextPropsFromCoralContext(ctx: CoralContext) {
   return {
     timeagoFormatter: ctx.timeagoFormatter,
@@ -139,10 +119,7 @@ export const CoralContextProvider: FunctionComponent<{
   value: CoralContext;
 }> = ({ value, children }) => (
   <CoralReactContext.Provider value={value}>
-    <LocalizationProvider
-      bundles={value.localeBundles}
-      parseMarkup={parseMarkup}
-    >
+    <LocalizationProvider bundles={value.localeBundles}>
       <UIContext.Provider value={getUIContextPropsFromCoralContext(value)}>
         {children}
       </UIContext.Provider>

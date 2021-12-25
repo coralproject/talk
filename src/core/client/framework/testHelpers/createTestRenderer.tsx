@@ -125,12 +125,11 @@ export default function createTestRenderer<
     postMessage: new PostMessageService(window, "coral", window, "*"),
     browserInfo: params.browserInfo || {
       supports: {
-        cssVariables: true,
         intersectionObserver: true,
+        resizeObserver: true,
         fetch: true,
         intl: true,
         intlPluralRules: true,
-        proxyObject: true,
       },
       version: 10.0,
       ios: false,

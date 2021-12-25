@@ -1,4 +1,5 @@
 import { EmbedBootstrapConfig } from "coral-common/config";
+import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { EventEmitter2 } from "eventemitter2";
 
 import { RefreshAccessTokenCallback, setStaticURI } from "./Coral";
@@ -126,7 +127,10 @@ export class StreamEmbed {
     }
 
     if (config.autoRender) {
-      if (config.commentID) {
+      if (
+        config.commentID ||
+        !getBrowserInfo(window).supports.intersectionObserver
+      ) {
         // If we are going to auto-render this comment stream and we're on a
         // specific comment, render the stream now so we can auto-scroll the
         // user to the embed.

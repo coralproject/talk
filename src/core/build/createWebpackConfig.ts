@@ -656,34 +656,22 @@ export default function createWebpackConfig(
           paths.appStreamIndex,
         ],*/
         auth: [
-          // We ship polyfills by default
-          paths.appPolyfill,
           paths.appPublicPath,
           ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
         install: [
-          // We ship polyfills by default
-          paths.appPolyfill,
           paths.appPublicPath,
           ...devServerEntries,
           paths.appInstallIndex,
         ],
         account: [
-          // We ship polyfills by default
-          paths.appPolyfill,
           paths.appPublicPath,
           ...devServerEntries,
           paths.appAccountIndex,
         ],
-        admin: [
-          // We ship polyfills by default
-          paths.appPolyfill,
-          paths.appPublicPath,
-          ...devServerEntries,
-          paths.appAdminIndex,
-        ],
+        admin: [paths.appPublicPath, ...devServerEntries, paths.appAdminIndex],
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
@@ -713,7 +701,7 @@ export default function createWebpackConfig(
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: true,
       },
-      entry: [paths.appEmbedPolyfill, paths.appEmbedIndex],
+      entry: [paths.appEmbedIndex],
       output: {
         ...baseConfig.output,
         library: "Coral",
@@ -773,7 +761,6 @@ export default function createWebpackConfig(
       },
       entry: {
         stream: [
-          paths.appPolyfill,
           paths.appPublicPath,
           ...devServerEntries,
           paths.appStreamIndex,

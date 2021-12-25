@@ -3,7 +3,6 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { polyfillCSSVars } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   QueryRenderData,
@@ -21,13 +20,9 @@ const loadProfileContainer = () =>
   import("./ProfileContainer" /* webpackChunkName: "profile" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadAndPolyfill = once((window: Window) =>
+const proload = once((window: Window) =>
   setTimeout(() => {
-    void loadProfileContainer().then((x) => {
-      // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVars(window);
-      return x;
-    });
+    void loadProfileContainer();
   }, 0)
 );
 
@@ -45,7 +40,7 @@ export const render = (
     return <QueryError error={error} />;
   }
 
-  preloadAndPolyfill(window);
+  proload(window);
 
   if (props) {
     if (!props.viewer) {

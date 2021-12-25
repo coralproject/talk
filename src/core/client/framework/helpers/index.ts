@@ -9,7 +9,6 @@ export { default as getViewer } from "./getViewer";
 export { default as getViewerSourceID } from "./getViewerSourceID";
 export { default as injectConditionalPolyfills } from "./injectConditionalPolyfills";
 export { default as parseModerationOptions } from "./parseModerationOptions";
-export { default as polyfillCSSVars } from "./polyfillCSSVars";
 export { default as polyfillIntlLocale } from "./polyfillIntlLocale";
 export { default as potentiallyInjectAxe } from "./potentiallyInjectAxe";
 export { default as redirectOAuth2 } from "./redirectOAuth2";
