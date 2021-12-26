@@ -1,7 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 
 import { parseQuery } from "coral-common/utils";
-import { PolyfillConfig } from "coral-framework/helpers/injectConditionalPolyfills";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
@@ -39,9 +38,6 @@ export interface Config {
   customFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   amp?: boolean;
-
-  /** polyfills allow disabling individual polyfills */
-  polyfills?: PolyfillConfig;
 }
 
 let staticURI = "/";
@@ -87,6 +83,5 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     autoRender: config.autoRender,
     enableDeprecatedEvents: config.enableDeprecatedEvents,
     containerClassName: config.containerClassName || config.bodyClassName,
-    polyfills: config.polyfills,
   });
 }

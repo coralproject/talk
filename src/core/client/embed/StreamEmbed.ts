@@ -1,5 +1,4 @@
 import { EmbedBootstrapConfig } from "coral-common/config";
-import { PolyfillConfig } from "coral-framework/helpers/injectConditionalPolyfills";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { EventEmitter2 } from "eventemitter2";
 
@@ -40,7 +39,6 @@ export interface StreamEmbedConfig {
   refreshAccessToken?: RefreshAccessTokenCallback;
   amp?: boolean;
   graphQLSubscriptionURI?: string;
-  polyfills?: PolyfillConfig;
 }
 
 export class StreamEmbed {
@@ -327,10 +325,10 @@ export class StreamEmbed {
       throw new Error("instance not mounted");
     }
 
-    if ((!window as any).CoralStream?.attach) {
+    if (!window.CoralStream?.attach) {
       throw new Error("CoralStream Script not loaded");
     }
-    (window as any).CoralStream.remove(this.element);
+    void window.CoralStream.remove(this.element);
     this._rendered = false;
   }
 
@@ -339,13 +337,13 @@ export class StreamEmbed {
   }
 
   private attach() {
-    if (!(window as any).CoralStream?.attach) {
+    if (!window.CoralStream?.attach) {
       throw new Error("CoralStream Script not loaded");
     }
     if (!this.boostrapConfig) {
       throw new Error("Bootstrap config not loaded");
     }
-    (window as any).CoralStream.attach({
+    void window.CoralStream.attach({
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
       storyMode: this.config.storyMode,
@@ -364,7 +362,6 @@ export class StreamEmbed {
       disableDefaultFonts: this.disableDefaultFonts,
       locale: this.boostrapConfig.locale,
       containerClassName: this.config.containerClassName,
-      polyfills: this.config.polyfills,
       // Add the version to the query string to ensure that every new version of
       // the stream will cause stream pages to cache bust.
       version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
@@ -391,7 +388,7 @@ export class StreamEmbed {
     this._rendered = true;
 
     // Load script and attach stream.
-    if ((window as any).CoralStream) {
+    if (window.CoralStream) {
       this.attach();
       return;
     }

@@ -12,7 +12,6 @@ import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { parseQuery } from "coral-common/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
-import { PolyfillConfig } from "coral-framework/helpers/injectConditionalPolyfills";
 import { createManaged } from "coral-framework/lib/bootstrap";
 import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createManaged";
 
@@ -24,7 +23,7 @@ import ShadowRoot from "./ShadowRoot";
 // Import css variables.
 import "coral-ui/theme/streamEmbed.css";
 
-interface Options {
+export interface AttachOptions {
   locale?: LanguageCode;
   storyID?: string;
   storyURL?: string;
@@ -44,7 +43,6 @@ interface Options {
   customFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   containerClassName?: string;
-  polyfills?: PolyfillConfig;
 }
 
 function extractBundleConfig() {
@@ -70,14 +68,17 @@ const hideStyle: React.CSSProperties = {
 
 /**
  * Insert link tag is called by css loaders like style-loader or mini-css-extract plugin.
- *  See webpack config.
+ * See webpack config.
  **/
 export function insertLinkTag(linkTag: HTMLLinkElement) {
   // Inject link tag into Index Component
   injectLinkTag(linkTag);
 }
 
-export async function attach(options: Options) {
+/**
+ * Create and attach CoralStream to Element.
+ **/
+export async function attach(options: AttachOptions) {
   if (options.staticConfig.staticURI) {
     /* @ts-ignore */
     __webpack_public_path__ = options.staticConfig.staticURI;
@@ -102,7 +103,6 @@ export async function attach(options: Options) {
     bundleConfig,
     eventEmitter: options.eventEmitter,
     refreshAccessTokenPromise,
-    polyfills: options.polyfills,
   });
 
   // Amount of initial css files to be loaded.
@@ -200,6 +200,9 @@ export async function attach(options: Options) {
   ReactDOM.render(<Index />, options.element);
 }
 
+/**
+ * Remove will unmount Coral Stream.
+ **/
 export async function remove(element: HTMLElement) {
   ReactDOM.unmountComponentAtNode(element);
 }
