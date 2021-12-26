@@ -50,9 +50,9 @@ const reactProfilerAlias = {
 };
 
 function insertLinkTag(linkTag: HTMLLinkElement) {
-  const coral = (window as any).CoralStream;
-  if (coral && coral.insertLinkTag) {
-    coral.insertLinkTag(linkTag);
+  const coralStream = (window as any).CoralStream;
+  if (coralStream && coralStream.insertLinkTag) {
+    coralStream.insertLinkTag(linkTag);
   } else {
     document.head.appendChild(linkTag);
   }

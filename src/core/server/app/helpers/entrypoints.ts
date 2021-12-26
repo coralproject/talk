@@ -47,7 +47,8 @@ export default class Entrypoints {
 
         // Itterate over the src field for each of the files.
         for (const src of assets) {
-          // Search for the entry in the assets.
+          let integrity = "";
+          // Search for the entry with intgrity in the assets.
           for (const name in manifest) {
             if (
               name !== "entrypoints" &&
@@ -61,10 +62,12 @@ export default class Entrypoints {
 
             // Check to see if the asset is a match.
             if (asset.src === src) {
-              entrypoint[extension].push(asset);
+              integrity = asset.integrity;
               break;
             }
           }
+
+          entrypoint[extension].push({ src, integrity });
         }
 
         this.entrypoints.set(entry, entrypoint);
