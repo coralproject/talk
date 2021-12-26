@@ -91,6 +91,9 @@ export interface CoralContext {
 
   /** Controls router transitions (for tests) */
   transitionControl?: TransitionControlData;
+
+  /** rootURL to the Coral Server */
+  rootURL: string;
 }
 
 export const CoralReactContext = React.createContext<CoralContext>({} as any);

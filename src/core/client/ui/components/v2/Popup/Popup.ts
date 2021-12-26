@@ -13,9 +13,13 @@ interface WindowFeatures {
 interface PopupProps {
   open?: boolean;
   focus?: boolean;
+  /** onFocus event, does not work on cross origin popups! */
   onFocus?: (e: FocusEvent) => void;
+  /** onBlur event, does not work on cross origin popups! */
   onBlur?: (e: FocusEvent) => void;
+  /** onLoad event, does not work on cross origin popups! */
   onLoad?: (e: Event) => void;
+  /** onUnload event, does not work on cross origin popups! */
   onUnload?: (e: Event) => void;
   onClose?: () => void;
   href: string;
@@ -80,15 +84,13 @@ export class Popup extends Component<PopupProps> {
     };
 
     this.ref = this.props.window.open(
-      href,
+      "",
       title,
       reconcileFeatures(this.props.window, opts)
     );
 
     this.attemptSetCallbacks();
-
-    // For some reasons IE needs a timeout before setting the callbacks...
-    setTimeout(() => this.attemptSetCallbacks(), 1000);
+    this.ref!.location.href = href;
   }
 
   /**

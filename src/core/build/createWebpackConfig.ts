@@ -643,28 +643,15 @@ export default function createWebpackConfig(
     {
       ...baseConfig,
       entry: {
-        stream: [
-          paths.appPublicPath,
-          ...devServerEntries,
-          paths.appStreamIndex,
-        ],
+        stream: [...devServerEntries, paths.appStreamIndex],
         auth: [
-          paths.appPublicPath,
           ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
-        install: [
-          paths.appPublicPath,
-          ...devServerEntries,
-          paths.appInstallIndex,
-        ],
-        account: [
-          paths.appPublicPath,
-          ...devServerEntries,
-          paths.appAccountIndex,
-        ],
-        admin: [paths.appPublicPath, ...devServerEntries, paths.appAdminIndex],
+        install: [...devServerEntries, paths.appInstallIndex],
+        account: [...devServerEntries, paths.appAccountIndex],
+        admin: [...devServerEntries, paths.appAdminIndex],
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,

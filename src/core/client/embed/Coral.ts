@@ -1,8 +1,8 @@
 import { EventEmitter2 } from "eventemitter2";
 
 import { parseQuery } from "coral-common/utils";
+import { getCurrentScriptOrigin } from "coral-framework/helpers";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
-import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import { StreamEmbed } from "./StreamEmbed";
 
@@ -40,20 +40,6 @@ export interface Config {
   amp?: boolean;
 }
 
-let staticURI = "/";
-
-/** This is called by the stream bundle to get the public path. */
-export function getStaticURI() {
-  return staticURI;
-}
-
-/** Set static url for webpack. Should be called as soon as we know it. */
-export function setStaticURI(uri: string) {
-  /* @ts-ignore */
-  __webpack_public_path__ = uri;
-  staticURI = uri;
-}
-
 export function createStreamEmbed(config: Config): StreamEmbed {
   // Parse query params
   const query = parseQuery(location.search);
@@ -72,7 +58,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     storyURL: config.storyURL || query.storyURL || resolveStoryURL(window),
     storyMode: config.storyMode || undefined,
     commentID: config.commentID || query.commentID,
-    rootURL: config.rootURL || getLocationOrigin(window),
+    rootURL: config.rootURL || getCurrentScriptOrigin(),
     eventEmitter: embedEventEmitter,
     accessToken: config.accessToken,
     customCSSURL: config.customCSSURL,

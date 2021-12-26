@@ -1,3 +1,4 @@
+import cors from "cors";
 import express, { Router } from "express";
 
 import { EmbedBootstrapConfig, StaticConfig } from "coral-common/config";
@@ -8,6 +9,7 @@ import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
+import { TenantNotFoundError } from "coral-server/errors";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
@@ -153,7 +155,7 @@ const clientHandler = ({
 
   res.render(viewTemplate, {
     analytics,
-    staticURI: config.staticURI,
+    staticURI: config.staticURI || "/",
     entrypoint,
     enableCustomCSS,
     locale,
@@ -185,6 +187,11 @@ const createEmbedBootstrapHandler: (
   manifestLoader,
   staticConfig
 ) => async (req, res, next) => {
+  if (!req.coral.tenant) {
+    next(new TenantNotFoundError(req.hostname));
+    return;
+  }
+
   // Grab the locale code from the tenant configuration, if available.
   let locale: LanguageCode = defaultLocale;
   if (req.coral.tenant) {
@@ -308,8 +315,9 @@ export async function mountClientRoutes(
   // Handle the root path.
   router.get(
     "/embed/bootstrap",
-    // If we aren't already installed, redirect the user to the install page.
-    installedMiddleware(),
+    // Need cors here because we use an XMLHttpRequest to fetch this resource from
+    // the embed.
+    cors(),
     createEmbedBootstrapHandler(
       options.defaultLocale,
       manifestLoader,

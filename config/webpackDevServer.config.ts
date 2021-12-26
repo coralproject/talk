@@ -20,6 +20,12 @@ export default function ({
   publicPath,
 }: WebpackDevServerConfig): Configuration {
   return {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    },
     stats: {
       // https://github.com/TypeStrong/ts-loader#transpileonly-boolean-defaultfalse
       // Using transpilation only without typechecks gives warnings when we reexport types.

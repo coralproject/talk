@@ -153,6 +153,7 @@ export default function createTestRenderer<
     },
     window,
     renderWindow: window,
+    rootURL: "",
   };
 
   let testRenderer: ReactTestRenderer;

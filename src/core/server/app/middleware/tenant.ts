@@ -3,12 +3,18 @@ import { v1 as uuid } from "uuid";
 import { MongoContext } from "coral-server/data/context";
 import { TenantNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";
-import { retrieveSite, Site } from "coral-server/models/site";
+import {
+  retrieveSite,
+  retrieveSiteByOrigin,
+  Site,
+} from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { Request, RequestHandler } from "coral-server/types/express";
+
+import { getRequesterOrigin } from "../helpers";
 
 interface RequestQuery {
   parentUrl?: string | null;
@@ -140,19 +146,22 @@ async function retrieveSiteFromRequest(
   tenant: Tenant,
   req: Request
 ): Promise<Site | null> {
+  let site: Site | null = null;
   const query = parseQueryFromRequest(tenant, req);
-  if (!query) {
-    return null;
+  if (query) {
+    logger.debug({ query }, "parsed query from request");
+    site = await retrieveSiteFromQuery(mongo, tenant, query);
   }
-
-  logger.debug({ query }, "parsed query from request");
-
-  const site = await retrieveSiteFromQuery(mongo, tenant, query);
   if (!site) {
-    return null;
+    const requesterOrigin = getRequesterOrigin(req);
+    // We use the requester's origin, if the site cannot be found from the query.
+    if (requesterOrigin) {
+      site = await retrieveSiteByOrigin(mongo, tenant.id, requesterOrigin);
+    }
   }
-
-  logger.debug({ siteID: site.id }, "found associated site from request");
+  if (site) {
+    logger.debug({ siteID: site.id }, "found associated site from request");
+  }
 
   return site;
 }

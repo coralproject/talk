@@ -6,7 +6,11 @@ import { AppOptions } from "coral-server/app";
 import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { retrieveSite, Site } from "coral-server/models/site";
+import {
+  retrieveSite,
+  retrieveSiteByOrigin,
+  Site,
+} from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { isAMPEnabled, Tenant } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
@@ -19,7 +23,7 @@ interface RequestQuery {
   siteID?: string;
 }
 
-async function retrieveSiteFromEmbed(
+async function retrieveSiteFromQuery(
   mongo: MongoContext,
   req: Request,
   tenant: Tenant
@@ -93,7 +97,15 @@ async function retrieveOriginsFromRequest(
     return [];
   }
 
-  const site = await retrieveSiteFromEmbed(mongo, req, tenant);
+  let site = await retrieveSiteFromQuery(mongo, req, tenant);
+  if (!site) {
+    const requesterOrigin = getRequesterOrigin(req);
+    // We use the requester's origin, if the site cannot be found from the query.
+    if (requesterOrigin) {
+      site = await retrieveSiteByOrigin(mongo, tenant.id, requesterOrigin);
+    }
+  }
+
   if (!site || site.allowedOrigins.length === 0) {
     return [];
   }

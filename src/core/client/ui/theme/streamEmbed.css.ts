@@ -17,13 +17,13 @@ const flatKebabVariables = mapKeys(
 );
 
 const cssObject = {
-  ":global(#coral-app-container)": {
+  ":global(#coral)": {
     all: "initial",
     ...flatKebabVariables,
     "--mini-unit": "calc(1px * var(--mini-unit-small))",
   },
   [`@media (min-width: ${breakpoints.xs}px)`]: {
-    ":global(#coral-app-container)": {
+    ":global(#coral)": {
       "--mini-unit": "calc(1px * var(--mini-unit-large))",
     },
   },

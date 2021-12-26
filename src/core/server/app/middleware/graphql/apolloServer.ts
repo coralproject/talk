@@ -10,9 +10,8 @@ import {
   LoggerApolloServerPlugin,
   MetricsApolloServerPlugin,
 } from "coral-server/graph/plugins";
-import { retrieveSiteByOrigin } from "coral-server/models/site";
 import { Request, TenantCoralRequest } from "coral-server/types/express";
-import { CorsOptionsDelegate } from "cors";
+import { createCorsOptionsDelegate } from "../corsWhitelisted";
 
 import { RedisCache } from "./cache/redis";
 
@@ -135,27 +134,7 @@ export const apolloGraphQLMiddleware = ({
   });
 
   // Check request coming from known origin.
-  const corsOptionsDelegate: CorsOptionsDelegate = async (
-    req: Request,
-    callback
-  ) => {
-    const originHeader = req.header("Origin");
-    const tenantID = req.coral.tenant?.id;
-    if (!originHeader || !tenantID) {
-      callback(null, { origin: false }); // disable CORS for this request
-      return;
-    }
-    let allow = false;
-    let err: Error | null = null;
-    try {
-      allow = Boolean(
-        await retrieveSiteByOrigin(options.mongo, tenantID, originHeader)
-      );
-    } catch (e) {
-      err = e;
-    }
-    callback(err, { origin: allow });
-  };
+  const corsOptionsDelegate = createCorsOptionsDelegate(options.mongo);
 
   // Get the GraphQL miqddleware.
   return server.getMiddleware({

@@ -10,6 +10,7 @@ import { v1 as uuid } from "uuid";
 
 import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n";
+import ensureEndSlash from "coral-common/utils/ensureEndSlash";
 import getHost from "coral-common/utils/getHost";
 import {
   injectConditionalPolyfills,
@@ -65,6 +66,8 @@ export type InitLocalState = (dependencies: {
 }) => void | Promise<void>;
 
 export type RefreshAccessTokenPromise = () => Promise<string>;
+
+declare let __webpack_public_path__: string;
 interface CreateContextArguments {
   /** URL of the Coral server */
   rootURL?: string;
@@ -394,6 +397,9 @@ export default async function createManaged({
     console.warn("No static config found or provided");
   }
 
+  // Set Webpack Public Path.
+  __webpack_public_path__ = ensureEndSlash(staticConfig?.staticURI || rootURL);
+
   const tokenRefreshProvider = createTokenRefreshProvider();
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
@@ -482,6 +488,7 @@ export default async function createManaged({
     tokenRefreshProvider,
     window,
     renderWindow: window,
+    rootURL,
   };
 
   // Initialize local state.

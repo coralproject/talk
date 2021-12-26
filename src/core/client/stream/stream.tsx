@@ -79,10 +79,6 @@ export function insertLinkTag(linkTag: HTMLLinkElement) {
  * Create and attach CoralStream to Element.
  **/
 export async function attach(options: AttachOptions) {
-  if (options.staticConfig.staticURI) {
-    /* @ts-ignore */
-    __webpack_public_path__ = options.staticConfig.staticURI;
-  }
   // Detect and extract the storyID and storyURL from the current page so we can
   // add it to the managed provider.
   const bundleConfig = extractBundleConfig();
@@ -161,7 +157,7 @@ export async function attach(options: AttachOptions) {
         <ShadowRoot.div>
           <ManagedCoralContextProvider>
             <div
-              id="coral-app-container"
+              id="coral"
               className={options.containerClassName}
               style={isCSSLoaded ? undefined : hideStyle}
             >

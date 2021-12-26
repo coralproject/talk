@@ -28,7 +28,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
   const staticConfig: StaticConfig = {
     // When mounting client routes, we need to provide a staticURI even when
     // not provided to the default current domain relative "/".
-    staticURI: app.config.get("static_uri") || "/",
+    staticURI: app.config.get("static_uri"),
     graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
     featureFlags: [],
     forceAdminLocalAuth: app.config.get("force_admin_local_auth"),

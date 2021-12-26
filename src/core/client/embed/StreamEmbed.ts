@@ -1,8 +1,9 @@
 import { EmbedBootstrapConfig } from "coral-common/config";
+import ensureEndSlash from "coral-common/utils/ensureEndSlash";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { EventEmitter2 } from "eventemitter2";
 
-import { RefreshAccessTokenCallback, setStaticURI } from "./Coral";
+import { RefreshAccessTokenCallback } from "./Coral";
 import {
   withAMPHeight,
   withEventEmitter,
@@ -80,6 +81,7 @@ export class StreamEmbed {
   private customCSSURL?: string;
   private customFontsCSSURL?: string;
   private disableDefaultFonts?: boolean;
+  private defaultFontCSSURL?: string;
 
   constructor(config: StreamEmbedConfig) {
     this.config = config;
@@ -176,8 +178,8 @@ export class StreamEmbed {
   }
 
   /** This is called when BootstrapConfig ist Loaded */
-  private onBootstrapConfigLoad(config: EmbedBootstrapConfig) {
-    this.boostrapConfig = config;
+  private onBootstrapConfigLoad(bootstrapConfig: EmbedBootstrapConfig) {
+    this.boostrapConfig = bootstrapConfig;
 
     this.customCSSURL =
       this.config.customCSSURL || this.boostrapConfig.customCSSURL;
@@ -187,15 +189,15 @@ export class StreamEmbed {
       this.config.disableDefaultFonts ||
       this.boostrapConfig.disableDefaultFonts;
 
-    // Set webpacks static uri.
-    setStaticURI(config.staticConfig.staticURI);
-
     // Parse css and js assets and incorporate staticURI.
-    const prefix = config.staticConfig.staticURI
-      ? config.staticConfig.staticURI
-      : "";
-    this.cssAssets = config.assets.css.map((a) => prefix + `${a.src}`);
-    this.jsAssets = config.assets.js.map((a) => prefix + `${a.src}`);
+    const prefix = ensureEndSlash(
+      bootstrapConfig.staticConfig.staticURI || this.config.rootURL
+    );
+    if (bootstrapConfig.defaultFontsCSSURL) {
+      this.defaultFontCSSURL = prefix + bootstrapConfig.defaultFontsCSSURL;
+    }
+    this.cssAssets = bootstrapConfig.assets.css.map((a) => prefix + `${a.src}`);
+    this.jsAssets = bootstrapConfig.assets.js.map((a) => prefix + `${a.src}`);
 
     // Call any pending callbacks that were waiting for the bootstrap config to be loaded.
     if (this.onBootstrapConfigLoaded) {
@@ -224,7 +226,6 @@ export class StreamEmbed {
       runOnBootstrapLoad(JSON.parse(this.responseText));
     });
     req.open("GET", `${this.config.rootURL}/embed/bootstrap`);
-    req.setRequestHeader("Content-Type", "application/json");
     req.send();
   }
 
@@ -245,12 +246,8 @@ export class StreamEmbed {
 
   private _preloadCSSAssets() {
     const assets: string[] = [];
-    if (
-      this.boostrapConfig &&
-      this.boostrapConfig.defaultFontsCSSURL &&
-      !this.disableDefaultFonts
-    ) {
-      assets.push(this.boostrapConfig.defaultFontsCSSURL);
+    if (this.defaultFontCSSURL && !this.disableDefaultFonts) {
+      assets.push(this.defaultFontCSSURL);
     }
     if (this.customFontsCSSURL) {
       assets.push(this.customFontsCSSURL);

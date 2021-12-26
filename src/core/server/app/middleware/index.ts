@@ -13,3 +13,4 @@ export * from "./notFound";
 export * from "./role";
 export * from "./tenant";
 export * from "./userLimiter";
+export * from "./corsWhitelisted";

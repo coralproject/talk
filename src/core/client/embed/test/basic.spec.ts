@@ -32,8 +32,8 @@ describe("Basic integration test", () => {
         { "Content-Type": "application/json" },
         JSON.stringify({
           assets: {
-            css: [{ src: "http://localhost/assets/css/stream.css" }],
-            js: [{ src: "http://localhost/assets/js/stream.js" }],
+            css: [{ src: "assets/css/stream.css" }],
+            js: [{ src: "assets/js/stream.js" }],
           },
           staticConfig: {},
         }),

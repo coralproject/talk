@@ -1,4 +1,6 @@
+/* eslint-disable no-restricted-globals */
 import getOrigin from "coral-common/utils/getOrigin";
+import { ORIGIN_FALLBACK_ID } from "coral-framework/constants";
 
 /**
  * getCurrentScriptOrigin will try to find the script origin.
@@ -6,7 +8,7 @@ import getOrigin from "coral-common/utils/getOrigin";
  *
  * @param fallbackID id attached to a script tag to get its origin from for legacy browsrs.
  */
-function getCurrentScriptOrigin(fallbackID?: string) {
+function getCurrentScriptOrigin(fallbackID: string = ORIGIN_FALLBACK_ID) {
   // Find current script (modern browsers).
   let script = document.currentScript as HTMLScriptElement | null;
 
@@ -19,7 +21,7 @@ function getCurrentScriptOrigin(fallbackID?: string) {
     }
   }
   if (!script) {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV !== "production") {
       // In development just return top level origin.
       return window.location.origin;
     }

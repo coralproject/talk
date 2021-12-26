@@ -62,7 +62,10 @@ const createProxy = <T = any>(
  * components if you are looking into non-local-state,
  * make sure to make a comment about that.
  */
-export default function lookup<T = any>(environment: Environment, id: string) {
+export default function lookup<T = any>(
+  environment: Environment,
+  id: string
+): RecordSourceProxy<T> | null {
   const recordSource = environment.getStore().getSource().get(id);
   if (!recordSource) {
     return null;
