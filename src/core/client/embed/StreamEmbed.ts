@@ -120,7 +120,7 @@ export class StreamEmbed {
     }
 
     // Detect if comment count injection is needed and add the count script.
-    injectCountScriptIfNeeded(config.rootURL);
+    injectCountScriptIfNeeded(config.rootURL, this.ts);
 
     if (config.commentID) {
       // Delay emit of `showPermalink` event to allow user enough time to setup
@@ -196,12 +196,8 @@ export class StreamEmbed {
     const prefix = config.staticConfig.staticURI
       ? config.staticConfig.staticURI
       : "";
-    this.cssAssets = [...config.assets.css].map(
-      (a) => prefix + `${a.src}?ts=${this.ts}`
-    );
-    this.jsAssets = config.assets.js.map(
-      (a) => prefix + `${a.src}?ts=${this.ts}`
-    );
+    this.cssAssets = config.assets.css.map((a) => prefix + `${a.src}`);
+    this.jsAssets = config.assets.js.map((a) => prefix + `${a.src}`);
 
     // Call any pending callbacks that were waiting for the bootstrap config to be loaded.
     if (this.onBootstrapConfigLoaded) {
