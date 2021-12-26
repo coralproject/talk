@@ -121,16 +121,16 @@ export default function createWebpackConfig(
   };
 
   const additionalPlugins = [
+    new MiniCssExtractPlugin({
+      filename: isProduction
+        ? "assets/css/[name].[contenthash].css"
+        : "assets/css/[name].[hash].css",
+      chunkFilename: isProduction
+        ? "assets/css/[id].[contenthash].css"
+        : "assets/css/[id].[hash].css",
+      insert: insertLinkTag,
+    }),
     ...ifBuild(
-      new MiniCssExtractPlugin({
-        filename: isProduction
-          ? "assets/css/[name].[contenthash].css"
-          : "assets/css/[name].[hash].css",
-        chunkFilename: isProduction
-          ? "assets/css/[id].[contenthash].css"
-          : "assets/css/[id].[hash].css",
-        insert: insertLinkTag,
-      }),
       isProduction &&
         new OptimizeCssnanoPlugin({
           sourceMap: !disableSourcemaps,
@@ -149,11 +149,6 @@ export default function createWebpackConfig(
       new CompressionPlugin({})
     ),
     ...ifWatch(
-      new MiniCssExtractPlugin({
-        filename: "assets/css/[name].css",
-        chunkFilename: "assets/css/[id].css",
-        insert: insertLinkTag,
-      }),
       // Add module names to factory functions so they appear in browser profiler.
       new webpack.NamedModulesPlugin(),
       // Watcher doesn't work well if you mistype casing in a path so we use
