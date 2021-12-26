@@ -232,10 +232,6 @@ export async function mountClientRoutes(
     options.config,
     "embed-asset-manifest.json"
   );
-  const streamManifestLoader = createManifestLoader(
-    options.config,
-    "stream-asset-manifest.json"
-  );
 
   // Tenant identification middleware.
   router.use(
@@ -316,7 +312,7 @@ export async function mountClientRoutes(
     installedMiddleware(),
     createEmbedBootstrapHandler(
       options.defaultLocale,
-      streamManifestLoader,
+      manifestLoader,
       options.staticConfig
     )
   );

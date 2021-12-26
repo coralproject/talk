@@ -50,9 +50,9 @@ const reactProfilerAlias = {
 };
 
 function insertLinkTag(linkTag: HTMLLinkElement) {
-  const coralStream = (window as any).CoralStream;
-  if (coralStream && coralStream.insertLinkTag) {
-    coralStream.insertLinkTag(linkTag);
+  const coral = (window as any).CoralStream;
+  if (coral && coral.insertLinkTag) {
+    coral.insertLinkTag(linkTag);
   } else {
     document.head.appendChild(linkTag);
   }
@@ -648,13 +648,11 @@ export default function createWebpackConfig(
     {
       ...baseConfig,
       entry: {
-        /* stream: [
-          // We ship polyfills by default
-          paths.appPolyfill,
+        stream: [
           paths.appPublicPath,
           ...devServerEntries,
           paths.appStreamIndex,
-        ],*/
+        ],
         auth: [
           paths.appPublicPath,
           ...devServerEntries,
@@ -741,42 +739,6 @@ export default function createWebpackConfig(
         ),
         new WebpackAssetsManifest({
           output: "embed-asset-manifest.json",
-          entrypoints: true,
-          integrity: true,
-        }),
-      ]),
-    },
-    /* Webpack config for our stream */
-    {
-      ...baseConfig,
-      optimization: {
-        ...baseConfig.optimization,
-        splitChunks: {
-          // Ensure that we never split the main library into chunks.
-          chunks: "async",
-        },
-        // We can turn on sideEffects here as we don't use
-        // css here and don't run into: https://github.com/webpack/webpack/issues/7094
-        sideEffects: false,
-      },
-      entry: {
-        stream: [
-          paths.appPublicPath,
-          ...devServerEntries,
-          paths.appStreamIndex,
-        ],
-      },
-      output: {
-        ...baseConfig.output,
-        library: "CoralStream",
-        // don't hash the embed, cache-busting must be completed by the requester
-        // as this lives in a static template on the embed site.
-        filename: "assets/js/stream.js",
-      },
-      plugins: filterPlugins([
-        ...baseConfig.plugins!,
-        new WebpackAssetsManifest({
-          output: "stream-asset-manifest.json",
           entrypoints: true,
           integrity: true,
         }),

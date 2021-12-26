@@ -399,19 +399,18 @@ export class StreamEmbed {
       this.attach();
       return;
     }
-    const script = document.createElement("script");
-    script.onload = () => {
-      this.attach();
-    };
 
-    // Find stream script from the js assets parsed from the bootstrap config.
-    const streamScript = this.jsAssets.find((s) =>
-      s.includes("assets/js/stream.js")
-    );
-    if (!streamScript) {
-      throw new Error("Stream script not found in manifest");
-    }
-    script.src = streamScript;
-    document.head.appendChild(script);
+    let loaded = 0;
+    this.jsAssets.forEach((asset) => {
+      const script = document.createElement("script");
+      script.onload = () => {
+        loaded++;
+        if (loaded === this.jsAssets.length) {
+          this.attach();
+        }
+      };
+      script.src = asset;
+      document.head.appendChild(script);
+    });
   }
 }
