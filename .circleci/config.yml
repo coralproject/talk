@@ -268,7 +268,7 @@ workflows:
           filters:
             branches:
               only:
-                - /release-.*/
+                - /^release-.*/
           requires:
             - lint
             - unit_tests
