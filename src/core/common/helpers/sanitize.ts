@@ -5,7 +5,6 @@ import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
 // TODO: Reaching directly into coral-framework for the types. Maybe having
 // types in coral-common instead? 🤔
 import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
-// import { URL_REGEX } from ".";
 
 /** Tags that we remove before looking for suspect/banned words */
 export const WORDLIST_FORBID_TAGS = [
@@ -87,24 +86,26 @@ const MAILTO_PROTOCOL = "mailto:";
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
     const href = node.getAttribute("href");
-    let mailToWithMatchingInnerHtml = false;
     const innerHtml = node.innerHTML;
+
+    // Check for a mailto: link with corresponding inner html
+    let mailToWithMatchingInnerHtml = false;
     if (href) {
       const url = new URL(href);
-      // check for a mailto: link with corresponding inner html
       if (url.protocol === MAILTO_PROTOCOL) {
-        const hrefWithoutProtocol = href.replace(url.protocol, "");
-        if (hrefWithoutProtocol === innerHtml) {
+        if (href.replace(url.protocol, "") === innerHtml) {
           mailToWithMatchingInnerHtml = true;
         }
       }
     }
+
+    // When the anchor tag's inner html matches its href
     if ((href && href === innerHtml) || mailToWithMatchingInnerHtml) {
-      // Ensure we wrap all the links with the target + rel set.
+      // Ensure we wrap all the links with the target + rel set
       node.setAttribute("target", "_blank");
       node.setAttribute("rel", "noopener noreferrer");
     } else {
-      // Turn anchor into text corresponding to innerHTML.
+      // Otherwise, turn the anchor link into text corresponding to its inner html
       node.insertAdjacentText("beforebegin", node.innerHTML);
       node.parentNode!.removeChild(node);
     }
