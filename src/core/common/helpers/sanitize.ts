@@ -5,6 +5,7 @@ import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
 // TODO: Reaching directly into coral-framework for the types. Maybe having
 // types in coral-common instead? 🤔
 import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
+// import { URL_REGEX } from ".";
 
 /** Tags that we remove before looking for suspect/banned words */
 export const WORDLIST_FORBID_TAGS = [
@@ -78,13 +79,18 @@ export function convertGQLRTEConfigToRTEFeatures(
 
 /**
  * Ensure that each anchor tag is replaced with text that
- * corresponds to its inner html.
+ * corresponds to its inner html. If the tag's href matches
+ * its inner html, it remains as is.
  */
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
-    // Turn anchor into text corresponding to innerHTML.
-    node.insertAdjacentText("beforebegin", node.innerHTML);
-    node.parentNode!.removeChild(node);
+    const anchorHref = node.getAttribute("href");
+    const innerHtml = node.innerHTML;
+    if (!(anchorHref === innerHtml)) {
+      // Turn anchor into text corresponding to innerHTML.
+      node.insertAdjacentText("beforebegin", node.innerHTML);
+      node.parentNode!.removeChild(node);
+    }
   }
 };
 
