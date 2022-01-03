@@ -77,6 +77,8 @@ export function convertGQLRTEConfigToRTEFeatures(
   };
 }
 
+const MAILTO_PROTOCOL = "mailto:";
+
 /**
  * Ensure that each anchor tag is replaced with text that
  * corresponds to its inner html. If the tag's href matches
@@ -84,9 +86,24 @@ export function convertGQLRTEConfigToRTEFeatures(
  */
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
-    const anchorHref = node.getAttribute("href");
+    const href = node.getAttribute("href");
+    let mailToWithMatchingInnerHtml = false;
     const innerHtml = node.innerHTML;
-    if (!(anchorHref === innerHtml)) {
+    if (href) {
+      const url = new URL(href);
+      // check for a mailto: link with corresponding inner html
+      if (url.protocol === MAILTO_PROTOCOL) {
+        const hrefWithoutProtocol = href.replace(url.protocol, "");
+        if (hrefWithoutProtocol === innerHtml) {
+          mailToWithMatchingInnerHtml = true;
+        }
+      }
+    }
+    if ((href && href === innerHtml) || mailToWithMatchingInnerHtml) {
+      // Ensure we wrap all the links with the target + rel set.
+      node.setAttribute("target", "_blank");
+      node.setAttribute("rel", "noopener noreferrer");
+    } else {
       // Turn anchor into text corresponding to innerHTML.
       node.insertAdjacentText("beforebegin", node.innerHTML);
       node.parentNode!.removeChild(node);
