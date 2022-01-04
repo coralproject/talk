@@ -85,8 +85,12 @@ const MAILTO_PROTOCOL = "mailto:";
  */
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
-    const href = node.getAttribute("href");
-    const innerHtml = node.innerHTML;
+    let href = node.getAttribute("href");
+    let innerHtml = node.innerHTML;
+
+    // Account for whether trailing slashes are included or not
+    href = href?.endsWith("/") ? href : (href += "/");
+    innerHtml = innerHtml.endsWith("/") ? innerHtml : (innerHtml += "/");
 
     // Check for a mailto: link with corresponding inner html
     let mailToWithMatchingInnerHtml = false;
