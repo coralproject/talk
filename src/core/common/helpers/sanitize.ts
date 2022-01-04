@@ -88,19 +88,20 @@ const sanitizeAnchor = (node: Element) => {
     let href = node.getAttribute("href");
     let innerHtml = node.innerHTML;
 
-    // Account for whether trailing slashes are included or not
-    href = href?.endsWith("/") ? href : (href += "/");
-    innerHtml = innerHtml.endsWith("/") ? innerHtml : (innerHtml += "/");
-
-    // Check for a mailto: link with corresponding inner html
     let mailToWithMatchingInnerHtml = false;
     if (href) {
       const url = new URL(href);
+
+      // Check for a mailto: link with corresponding inner html
       if (url.protocol === MAILTO_PROTOCOL) {
         if (href.replace(url.protocol, "") === innerHtml) {
           mailToWithMatchingInnerHtml = true;
         }
       }
+
+      // Account for whether trailing slashes are included or not
+      href = href?.endsWith("/") ? href : (href += "/");
+      innerHtml = innerHtml.endsWith("/") ? innerHtml : (innerHtml += "/");
     }
 
     // When the anchor tag's inner html matches its href

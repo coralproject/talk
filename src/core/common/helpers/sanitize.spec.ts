@@ -141,6 +141,24 @@ it("does not replace anchor tags with their text if href does match inner html",
   `);
 });
 
+it("does not replace anchor tags with their text if href does match inner html and only one has a trailing slash", () => {
+  const sanitize = createSanitize(window as any);
+  const el = sanitize(
+    `
+    <div>
+      This is a link where href matches <a href="http://test.com/">http://test.com</a>.
+    </div>
+  `
+  );
+  expect(el.innerHTML).toMatchInlineSnapshot(`
+    "
+        <div>
+          This is a link where href matches <a href=\\"http://test.com/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">http://test.com</a>.
+        </div>
+      "
+  `);
+});
+
 it("allows bolded tags", () => {
   const sanitize = createSanitize(window as any, {
     features: {
