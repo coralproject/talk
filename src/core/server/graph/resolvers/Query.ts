@@ -1,7 +1,10 @@
 import { defaultTo } from "lodash";
 
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import { getExternalModerationPhase } from "coral-server/models/settings";
+import {
+  getEmailDomain,
+  getExternalModerationPhase,
+} from "coral-server/models/settings";
 import { getWebhookEndpoint } from "coral-server/models/tenant";
 
 import {
@@ -42,6 +45,10 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   externalModerationPhase: (source, { id }, ctx) =>
     ctx.tenant.integrations.external
       ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
+      : null,
+  emailDomain: (source, { id }, ctx) =>
+    ctx.tenant.emailDomains
+      ? getEmailDomain(ctx.tenant.emailDomains, id)
       : null,
   flags: (source, { first, after, orderBy, storyID, siteID, section }, ctx) =>
     ctx.loaders.CommentActions.forFilter({

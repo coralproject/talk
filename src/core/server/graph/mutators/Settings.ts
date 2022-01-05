@@ -3,6 +3,7 @@ import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFl
 import { Tenant } from "coral-server/models/tenant";
 import {
   createAnnouncement,
+  createEmailDomain,
   createExternalModerationPhase,
   createWebhookEndpoint,
   deactivateSSOSigningSecret,
@@ -13,6 +14,7 @@ import {
   disableExternalModerationPhase,
   disableFeatureFlag,
   disableWebhookEndpoint,
+  editEmailDomain,
   enableExternalModerationPhase,
   enableFeatureFlag,
   enableWebhookEndpoint,
@@ -27,6 +29,7 @@ import {
 
 import {
   GQLCreateAnnouncementInput,
+  GQLCreateEmailDomainInput,
   GQLCreateExternalModerationPhaseInput,
   GQLCreateWebhookEndpointInput,
   GQLDeactivateSSOSigningSecretInput,
@@ -35,6 +38,7 @@ import {
   GQLDeleteWebhookEndpointInput,
   GQLDisableExternalModerationPhaseInput,
   GQLDisableWebhookEndpointInput,
+  GQLEditEmailDomainInput,
   GQLEnableExternalModerationPhaseInput,
   GQLEnableWebhookEndpointInput,
   GQLFEATURE_FLAG,
@@ -118,6 +122,10 @@ export const Settings = ({
       input.inactiveIn,
       now
     ),
+  createEmailDomain: (input: WithoutMutationID<GQLCreateEmailDomainInput>) =>
+    createEmailDomain(mongo, redis, tenantCache, tenant, input),
+  editEmailDomain: (input: WithoutMutationID<GQLEditEmailDomainInput>) =>
+    editEmailDomain(mongo, redis, tenantCache, tenant, input),
   createExternalModerationPhase: (
     input: WithoutMutationID<GQLCreateExternalModerationPhaseInput>
   ) =>

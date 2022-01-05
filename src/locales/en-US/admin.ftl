@@ -810,6 +810,17 @@ configure-moderation-newCommenters-approvedCommentsThreshold-description =
   not have to be premoderated
 configure-moderation-newCommenters-comments = comments
 
+#### Email domain
+configure-moderation-emailDomains-header = Email domain
+configure-moderation-emailDomains-add = Add email domain
+configure-moderation-emailDomains-edit = Edit email domain
+configure-moderation-emailDomains-form-domainLabel = Domain
+configure-moderation-emailDomains-form-banAllUsers = Ban all users
+configure-moderation-emailDomains-form-alwaysPremod = Always pre-moderate comments
+configure-moderation-emailDomains-form-cancel = Cancel
+configure-moderation-emailDomains-form-addDomain = Add domain
+configure-moderation-emailDomains-form-editDomain = Edit domain
+configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases

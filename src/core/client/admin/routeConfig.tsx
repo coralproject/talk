@@ -26,6 +26,8 @@ import {
 } from "./routes/Configure/sections";
 import ModerationPhasesLayout from "./routes/Configure/sections/ModerationPhases/ModerationPhasesLayout";
 import { Sites } from "./routes/Configure/sections/Sites";
+import AddEmailDomainRoute from "./routes/Configure/sections/EmailDomains/AddEmailDomainRoute";
+import EditEmailDomainRoute from "./routes/Configure/sections/EmailDomains/EditEmailDomainRoute";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
 import WebhookEndpointsLayout from "./routes/Configure/sections/WebhookEndpoints/WebhookEndpointsLayout";
@@ -124,10 +126,17 @@ export default makeRouteConfig(
               path="organization"
               {...OrganizationConfigRoute.routeConfig}
             />
+            <Route path="moderation">
+              <Route path="/" {...ModerationConfigRoute.routeConfig} />
+              <Route path="/domains/add" {...AddEmailDomainRoute.routeConfig} />
+              <Route
+                path="/domains/:emailDomainID"
+                {...EditEmailDomainRoute.routeConfig}
+              />
+            </Route>
             <Route
-              exact
-              path="moderation"
-              {...ModerationConfigRoute.routeConfig}
+              path="configure/moderation/domains/add"
+              component={AddEmailDomainRoute}
             />
             <Route path="wordList" {...WordListConfigRoute.routeConfig} />
             <Route path="auth" {...AuthConfigRoute.routeConfig} />

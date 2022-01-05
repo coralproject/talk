@@ -281,6 +281,7 @@ export async function createTenant(
     rte: defaultRTEConfiguration,
     amp: false,
     flattenReplies: false,
+    emailDomains: [],
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -455,6 +456,66 @@ export async function createTenantAnnouncement(
     {
       $set: {
         announcement,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export interface CreateEmailDomainInput {
+  domain: string;
+  newUserModeration: string;
+}
+
+export async function createEmailDomainTenant(
+  mongo: MongoContext,
+  id: string,
+  input: CreateEmailDomainInput
+) {
+  const emailDomain = {
+    id: uuid(),
+    domain: input.domain,
+    newUserModeration: input.newUserModeration,
+  };
+
+  // KNOTE: check that this domain doesn't already exist in emailDomains
+  const result = await mongo.tenants().findOneAndUpdate(
+    { id },
+    {
+      $push: { emailDomains: emailDomain },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export interface EditEmailDomainInput {
+  id: string;
+  domain: string;
+  newUserModeration: string;
+}
+
+export async function editEmailDomainTenant(
+  mongo: MongoContext,
+  id: string,
+  input: EditEmailDomainInput
+) {
+  const result = await mongo.tenants().findOneAndUpdate(
+    {
+      id,
+      emailDomains: {
+        $elemMatch: { id: input.id },
+      },
+    },
+    {
+      $set: {
+        "emailDomains.$.domain": input.domain,
+        "emailDomains.$.newUserModeration": input.newUserModeration,
       },
     },
     {

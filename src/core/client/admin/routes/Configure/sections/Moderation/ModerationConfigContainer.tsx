@@ -17,6 +17,7 @@ import NewCommentersConfig from "./NewCommentersConfig";
 import PerspectiveConfig from "./PerspectiveConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
+import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
 
 interface Props {
   submitting: boolean;
@@ -46,6 +47,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       <AkismetConfig disabled={submitting} />
       <NewCommentersConfig disabled={submitting} />
       <RecentCommentHistoryConfig disabled={submitting} />
+      <EmailDomainConfigContainer settings={settings} />
     </HorizontalGutter>
   );
 };
@@ -59,6 +61,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PreModerationConfigContainer_settings
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_settings @relay(mask: false)
+      ...EmailDomainConfigContainer_settings
     }
   `,
 })(ModerationConfigContainer);

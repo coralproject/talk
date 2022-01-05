@@ -8,11 +8,15 @@ import { TenantInstalledAlreadyError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
   CreateAnnouncementInput,
+  CreateEmailDomainInput,
+  createEmailDomainTenant,
   createTenant,
   createTenantAnnouncement,
   CreateTenantInput,
   deleteTenantAnnouncement,
   disableTenantFeatureFlag,
+  EditEmailDomainInput,
+  editEmailDomainTenant,
   enableTenantFeatureFlag,
   Tenant,
   updateTenant,
@@ -285,4 +289,36 @@ export async function sendSMTPTest(
     });
   }
   return tenant;
+}
+
+export async function createEmailDomain(
+  mongo: MongoContext,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: CreateEmailDomainInput
+) {
+  const updated = await createEmailDomainTenant(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  // await cache.update(redis, updated);
+
+  return updated;
+}
+
+export async function editEmailDomain(
+  mongo: MongoContext,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: EditEmailDomainInput
+) {
+  const updated = await editEmailDomainTenant(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  // await cache.update(redis, updated);
+
+  return updated;
 }

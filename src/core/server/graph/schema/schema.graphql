@@ -577,6 +577,19 @@ enum MODERATION_MODE {
   SPECIFIC_SITES_PRE
 }
 
+enum NEW_USER_MODERATION {
+  """
+  New users who sign up with an email domain configured to this moderation
+  mode will be automatically banned
+  """
+  BANNED
+  """
+  New users who sign up with an email domain configured to this moderation
+  mode will be automatically always pre-moderated
+  """
+  ALWAYS_PREMOD
+}
+
 """
 WordList describes all the available wordLists.
 """
@@ -1746,6 +1759,25 @@ type NewCommentersConfiguration {
 }
 
 """
+EmailDomain specifies the features that apply to certain email domains
+"""
+type EmailDomain {
+  """
+  domain is the email domain after the @ symbol, ex. example.com
+  """
+  domain: String!
+  """
+  id is the identifier for the email domain
+  """
+  id: ID!
+  """
+  newUserModeration is how new users who sign up with this email domain
+  should be treated, ex. banned or always premoderated
+  """
+  newUserModeration: NEW_USER_MODERATION!
+}
+
+"""
 Announcement is an organization-wide announcement displayed above the stream
 for a set duration
 """
@@ -2078,6 +2110,12 @@ type Settings @cacheControl(maxAge: 30) {
   (European Directive 2000/31/CE).
   """
   forReviewQueue: Boolean!
+
+  """
+  emailDomains is for any special configuration by email domain for
+  new users, such as banning all users at a certain email domain
+  """
+  emailDomains: [EmailDomain!]!
 }
 
 ################################################################################
@@ -4279,6 +4317,11 @@ type Query {
     siteID: ID
     section: SectionFilter
   ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  emailDomain will return a specific emailDomain configuration if it exists.
+  """
+  emailDomain(id: ID!): EmailDomain @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -8068,6 +8111,81 @@ type UpdateStoryModePayload {
 }
 
 ##################
+## createEmailDomain
+##################
+
+input CreateEmailDomain {
+  """
+  domain is the email domain that was configured
+  """
+  domain: String!
+  """
+  newUserModeration is how new users on this domain should be moderated
+  """
+  newUserModeration: String!
+}
+
+input CreateEmailDomainInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  domain is the email domain that was configured
+  """
+  domain: String!
+  """
+  newUserModeration is how new users on this domain should be moderated
+  """
+  newUserModeration: String!
+}
+
+type CreateEmailDomainPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  settings is the Settings that the email domain configuration was created on.
+  """
+  settings: Settings!
+}
+
+##################
+## editEmailDomain
+##################
+
+input EditEmailDomainInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  id is the identifier for the email domain that was configured
+  """
+  id: String!
+  """
+  domain is the email domain that was configured
+  """
+  domain: String!
+  """
+  newUserModeration is how new users on this domain should be moderated
+  """
+  newUserModeration: String!
+}
+
+type EditEmailDomainPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  settings is the Settings that the email domain configuration was updated on.
+  """
+  settings: Settings!
+}
+
+##################
 ## createSite
 ##################
 
@@ -8721,6 +8839,18 @@ type Mutation {
   createSite(input: CreateSiteInput!): CreateSitePayload! @auth(roles: [ADMIN])
 
   updateSite(input: UpdateSiteInput!): UpdateSitePayload! @auth(roles: [ADMIN])
+
+  """
+  createEmailDomain creates an email domain configuration.
+  """
+  createEmailDomain(input: CreateEmailDomainInput!): CreateEmailDomainPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  editEmailDomain updates an email domain configuration.
+  """
+  editEmailDomain(input: EditEmailDomainInput!): EditEmailDomainPayload!
+    @auth(roles: [ADMIN])
 
   """
   createWebhookEndpoint will create a new WebhookEndpoint.
