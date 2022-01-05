@@ -8186,6 +8186,32 @@ type EditEmailDomainPayload {
 }
 
 ##################
+## deleteEmailDomain
+##################
+
+input DeleteEmailDomainInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  id is the identifier for the email domain that is to be deleted
+  """
+  id: String!
+}
+
+type DeleteEmailDomainPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  settings is the Settings from which the email domain configuration was deleted.
+  """
+  settings: Settings!
+}
+
+##################
 ## createSite
 ##################
 
@@ -8850,6 +8876,12 @@ type Mutation {
   editEmailDomain updates an email domain configuration.
   """
   editEmailDomain(input: EditEmailDomainInput!): EditEmailDomainPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  deleteEmailDomain deletes an email domain configuration.
+  """
+  deleteEmailDomain(input: DeleteEmailDomainInput!): DeleteEmailDomainPayload!
     @auth(roles: [ADMIN])
 
   """

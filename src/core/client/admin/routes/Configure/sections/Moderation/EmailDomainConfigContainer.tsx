@@ -1,6 +1,12 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import { useRouter } from "found";
+import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "relay-runtime";
 
+import { urls } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   ButtonIcon,
@@ -16,9 +22,8 @@ import {
 import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
+import DeleteEmailDomainMutation from "../EmailDomains/DeleteEmailDomainMutation";
 import Header from "../../Header";
-import { graphql } from "relay-runtime";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import styles from "./EmailDomainConfigContainer.css";
 
@@ -28,6 +33,29 @@ interface Props {
 
 const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
   const { emailDomains } = settings;
+  const { localeBundles } = useCoralContext();
+  const { router } = useRouter();
+  const deleteEmailDomain = useMutation(DeleteEmailDomainMutation);
+
+  const onDelete = useCallback(
+    async (domainId: string) => {
+      const message = getMessage(
+        localeBundles,
+        "configure-moderation-emailDomains-confirmDelete",
+        "Deleting this email domain will stop any new accounts created with it from being banned or always. Are you sure you want to continue?"
+      );
+
+      // eslint-disable-next-line no-restricted-globals
+      if (window.confirm(message)) {
+        // KNOTE: Actually delete the email domain
+        await deleteEmailDomain({ id: domainId });
+
+        // Send the user back to the webhook endpoints listing.
+        router.push(urls.admin.configureModeration);
+      }
+    },
+    [router]
+  );
 
   return (
     <ConfigBox
@@ -41,12 +69,15 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
       <Localized id="configure-moderation-emailDomains-description">
         <FormFieldDescription>
           Create rules to take action on accounts or comments based on the
-          account holder's email address domain.
+          account holder's email address domain. Action only applies to newly
+          created accounts.
         </FormFieldDescription>
       </Localized>
-      <Localized id="configure-moderation-emailDomains-form-addDomain">
+      <Localized
+        id="configure-moderation-emailDomains-form-addDomain"
+        icon={<ButtonIcon>add</ButtonIcon>}
+      >
         <Button to="/admin/configure/moderation/domains/add" iconLeft>
-          <ButtonIcon size="md">add</ButtonIcon>
           Add domain
         </Button>
       </Localized>
@@ -66,12 +97,13 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                   : "Reject comments";
               return (
                 <>
-                  <TableRow>
+                  <TableRow key={domain.id}>
                     <TableCell>{domain.domain}</TableCell>
                     <TableCell>
                       <Flex>
                         {actionText}
                         <Flex className={styles.buttons}>
+                          {/* KNOTE: These buttons need to be localized as well */}
                           <Button
                             variant="text"
                             iconLeft
@@ -80,7 +112,11 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                           >
                             <ButtonIcon size="md">edit</ButtonIcon>Edit
                           </Button>
-                          <Button variant="text" iconLeft>
+                          <Button
+                            variant="text"
+                            iconLeft
+                            onClick={() => onDelete(domain.id)}
+                          >
                             <ButtonIcon size="md">delete</ButtonIcon>Delete
                           </Button>
                         </Flex>

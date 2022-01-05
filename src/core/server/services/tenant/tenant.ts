@@ -13,6 +13,8 @@ import {
   createTenant,
   createTenantAnnouncement,
   CreateTenantInput,
+  DeleteEmailDomainInput,
+  deleteEmailDomainTenant,
   deleteTenantAnnouncement,
   disableTenantFeatureFlag,
   EditEmailDomainInput,
@@ -315,6 +317,22 @@ export async function editEmailDomain(
   input: EditEmailDomainInput
 ) {
   const updated = await editEmailDomainTenant(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  // await cache.update(redis, updated);
+
+  return updated;
+}
+
+export async function deleteEmailDomain(
+  mongo: MongoContext,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: DeleteEmailDomainInput
+) {
+  const updated = await deleteEmailDomainTenant(mongo, tenant.id, input);
   if (!updated) {
     throw new Error("tenant not found");
   }

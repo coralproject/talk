@@ -8,6 +8,7 @@ import {
   createWebhookEndpoint,
   deactivateSSOSigningSecret,
   deleteAnnouncement,
+  deleteEmailDomain,
   deleteExternalModerationPhase,
   deleteSSOSigningSecret,
   deleteWebhookEndpoint,
@@ -33,6 +34,7 @@ import {
   GQLCreateExternalModerationPhaseInput,
   GQLCreateWebhookEndpointInput,
   GQLDeactivateSSOSigningSecretInput,
+  GQLDeleteEmailDomainInput,
   GQLDeleteExternalModerationPhaseInput,
   GQLDeleteSSOSigningSecretInput,
   GQLDeleteWebhookEndpointInput,
@@ -126,6 +128,8 @@ export const Settings = ({
     createEmailDomain(mongo, redis, tenantCache, tenant, input),
   editEmailDomain: (input: WithoutMutationID<GQLEditEmailDomainInput>) =>
     editEmailDomain(mongo, redis, tenantCache, tenant, input),
+  deleteEmailDomain: (input: WithoutMutationID<GQLDeleteEmailDomainInput>) =>
+    deleteEmailDomain(mongo, redis, tenantCache, tenant, input),
   createExternalModerationPhase: (
     input: WithoutMutationID<GQLCreateExternalModerationPhaseInput>
   ) =>

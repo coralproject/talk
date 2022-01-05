@@ -12,6 +12,7 @@ import {
   CallOut,
   Flex,
   FormField,
+  FormFieldDescription,
   HorizontalGutter,
   Label,
   RadioButton,
@@ -62,6 +63,12 @@ const ConfigureEmailDomainForm: FunctionComponent<Props> = ({
                 {submitError}
               </CallOut>
             )}
+            <Localized id="configure-moderation-emailDomains-form-description-edit">
+              <FormFieldDescription>
+                Update the domain or action that should be taken when on every
+                new account using the specified domain.
+              </FormFieldDescription>
+            </Localized>
             <Field name="domain">
               {({ input, meta }) => (
                 <FormField>
@@ -124,7 +131,7 @@ const ConfigureEmailDomainForm: FunctionComponent<Props> = ({
                   type="submit"
                   size="large"
                 >
-                  Edit domain
+                  Update
                 </Button>
               </Localized>
             </Flex>

@@ -525,6 +525,29 @@ export async function editEmailDomainTenant(
   return result.value;
 }
 
+export interface DeleteEmailDomainInput {
+  id: string;
+}
+
+export async function deleteEmailDomainTenant(
+  mongo: MongoContext,
+  id: string,
+  input: DeleteEmailDomainInput
+) {
+  const result = await mongo.tenants().findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        emailDomains: { id: input.id },
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
 export async function deleteTenantAnnouncement(
   mongo: MongoContext,
   id: string

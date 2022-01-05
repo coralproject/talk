@@ -3,6 +3,7 @@ import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
+import { urls } from "coral-framework/helpers";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
@@ -11,6 +12,7 @@ import {
   CallOut,
   Flex,
   FormField,
+  FormFieldDescription,
   HorizontalGutter,
   Label,
   RadioButton,
@@ -18,7 +20,6 @@ import {
 } from "coral-ui/components/v2";
 
 import CreateEmailDomainMutation from "./CreateEmailDomainMutation";
-import { urls } from "coral-framework/helpers";
 
 interface Props {
   router: Router;
@@ -54,6 +55,12 @@ const AddEmailDomainForm: FunctionComponent<Props> = ({ router }) => {
                 {submitError}
               </CallOut>
             )}
+            <Localized id="configure-moderation-emailDomains-form-description-add">
+              <FormFieldDescription>
+                Add a domain and select the action that should be taken when on
+                every new account created using the specified domain.
+              </FormFieldDescription>
+            </Localized>
             <Field name="domain">
               {({ input, meta }) => (
                 <FormField>
@@ -76,7 +83,7 @@ const AddEmailDomainForm: FunctionComponent<Props> = ({ router }) => {
                 {({ input }) => (
                   <RadioButton {...input} id={`${input.name}-BANNED`}>
                     <Localized id="configure-moderation-emailDomains-form-banAllUsers">
-                      <span>Ban all users</span>
+                      <span>Ban all new commenter accounts</span>
                     </Localized>
                   </RadioButton>
                 )}

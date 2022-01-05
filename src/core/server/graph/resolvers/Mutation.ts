@@ -343,6 +343,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     settings: await ctx.mutators.Settings.editEmailDomain(input),
     clientMutationId,
   }),
+  deleteEmailDomain: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    settings: await ctx.mutators.Settings.deleteEmailDomain(input),
+    clientMutationId,
+  }),
   createWebhookEndpoint: async (
     source,
     { input: { clientMutationId, ...input } },
