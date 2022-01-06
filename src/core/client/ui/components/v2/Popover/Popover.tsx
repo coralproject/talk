@@ -11,7 +11,7 @@ import Arrow from "./Arrow";
 
 import styles from "./Popover.css";
 
-type Placement =
+export type Placement =
   | "top-start"
   | "top"
   | "top-end"
@@ -169,40 +169,42 @@ class Popover extends React.Component<PopoverProps> {
             positionFixed={positionFixed}
             modifiers={modifiers}
           >
-            {(props) => (
-              <div
-                id={id}
-                role="dialog"
-                aria-label={description}
-                aria-hidden={!visible}
-              >
-                {visible && (
-                  <div
-                    style={props.style}
-                    className={cn(popoverClassName, {
-                      [classes.colorDark]: dark,
-                    })}
-                    ref={props.ref}
-                  >
-                    {includeArrow && (
-                      <Arrow
-                        ref={props.arrowProps.ref}
-                        data-placement={props.placement}
-                        style={props.arrowProps.style}
-                        dark={dark}
-                      />
-                    )}
-                    {typeof body === "function"
-                      ? body({
-                          scheduleUpdate: props.scheduleUpdate,
-                          toggleVisibility: this.toggleVisibility,
-                          visible,
-                        })
-                      : body}
-                  </div>
-                )}
-              </div>
-            )}
+            {(props) => {
+              return (
+                <div
+                  id={id}
+                  role="dialog"
+                  aria-label={description}
+                  aria-hidden={!visible}
+                >
+                  {visible && (
+                    <div
+                      style={props.style}
+                      className={cn(popoverClassName, {
+                        [classes.colorDark]: dark,
+                      })}
+                      ref={props.ref}
+                    >
+                      {includeArrow && (
+                        <Arrow
+                          ref={props.arrowProps.ref}
+                          data-placement={props.placement}
+                          style={props.arrowProps.style}
+                          dark={dark}
+                        />
+                      )}
+                      {typeof body === "function"
+                        ? body({
+                            scheduleUpdate: props.scheduleUpdate,
+                            toggleVisibility: this.toggleVisibility,
+                            visible,
+                          })
+                        : body}
+                    </div>
+                  )}
+                </div>
+              );
+            }}
           </Popper>
         </Manager>
       </div>

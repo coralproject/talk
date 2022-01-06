@@ -8,7 +8,7 @@ import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/Us
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
-import BanModal from "./BanModal";
+import BanModal, { UpdateType } from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
 import PremodModal from "./PremodModal";
@@ -20,6 +20,7 @@ import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
 import SendModMessageMutation from "./SendModMessageMutation";
 import SuspendModal from "./SuspendModal";
 import SuspendUserMutation from "./SuspendUserMutation";
+import UpdateUserBanMutation from "./UpdateUserBanMutation";
 import UserStatusChange from "./UserStatusChange";
 import UserStatusContainer from "./UserStatusContainer";
 import WarnModal from "./WarnModal";
@@ -41,8 +42,9 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
   const banUser = useMutation(BanUserMutation);
+  const updateUserBan = useMutation(UpdateUserBanMutation);
+  const unbanUser = useMutation(RemoveUserBanMutation);
   const suspendUser = useMutation(SuspendUserMutation);
-  const removeUserBan = useMutation(RemoveUserBanMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
   const removeUserPremod = useMutation(RemoveUserPremodMutation);
@@ -61,6 +63,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   >(false);
 
   const moderationScopesEnabled = settings.multisite;
+  const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
 
   const handleModMessage = useCallback(() => {
     setShowModMessage(true);
@@ -99,22 +102,11 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     },
     [warnUser, user, setShowWarnSuccess]
   );
-  const handleBan = useCallback(() => {
-    if (user.status.ban.active) {
-      return;
-    }
-    setShowBanned(true);
-  }, [user, setShowBanned]);
-  const handleRemoveBan = useCallback(() => {
-    if (
-      !user.status.ban.active &&
-      (!user.status.ban.sites || user.status.ban.sites.length === 0)
-    ) {
-      return;
-    }
 
-    void removeUserBan({ userID: user.id });
-  }, [user, removeUserBan]);
+  const handleManageBan = useCallback(() => {
+    setShowBanned(true);
+  }, [setShowBanned]);
+
   const handleSuspend = useCallback(() => {
     if (user.status.suspension.active) {
       return;
@@ -172,17 +164,43 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     [user, suspendUser, setShowSuspendSuccess]
   );
 
-  const handleBanConfirm = useCallback(
-    (rejectExistingComments, message, siteIDs) => {
-      void banUser({
-        userID: user.id,
-        message,
-        rejectExistingComments,
-        siteIDs,
-      });
+  const handleUpdateBan = useCallback(
+    (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
+      switch (updateType) {
+        case UpdateType.ALL_SITES:
+          void banUser({
+            userID: user.id,
+            message,
+            rejectExistingComments,
+            siteIDs: viewerIsScoped
+              ? viewer?.moderationScopes?.sites?.map((s) => s.id)
+              : [],
+          });
+          break;
+        case UpdateType.SPECIFIC_SITES:
+          void updateUserBan({
+            userID: user.id,
+            message,
+            rejectExistingComments,
+            banSiteIDs,
+            unbanSiteIDs,
+          });
+          break;
+        case UpdateType.NO_SITES:
+          void unbanUser({
+            userID: user.id,
+          });
+      }
       setShowBanned(false);
     },
-    [banUser, user.id]
+    [
+      banUser,
+      user.id,
+      viewerIsScoped,
+      viewer?.moderationScopes?.sites,
+      updateUserBan,
+      unbanUser,
+    ]
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
@@ -197,20 +215,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   return (
     <>
       <UserStatusChange
-        onBan={handleBan}
-        onRemoveBan={!viewer.moderationScopes?.scoped && handleRemoveBan}
+        onManageBan={handleManageBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
         onPremod={handlePremod}
         onRemovePremod={handleRemovePremod}
-        banned={
-          user.status.ban.active ||
-          !!(
-            user.status.ban &&
-            user.status.ban.sites &&
-            user.status.ban?.sites?.length !== 0
-          )
-        }
+        viewerIsScoped={viewerIsScoped}
+        banned={user.status.ban.active}
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
         warned={user.status.warning.active}
@@ -255,23 +266,20 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onConfirm={handleSendModMessageConfirm}
         success={showSendModMessageSuccess}
       />
-      {
+      {showBanned && (
         <BanModal
           username={user.username}
-          open={showBanned}
+          open
           onClose={handleBanModalClose}
-          onConfirm={handleBanConfirm}
+          onConfirm={handleUpdateBan}
           moderationScopesEnabled={moderationScopesEnabled}
           viewerScopes={{
             role: viewer.role,
             sites: viewer.moderationScopes?.sites?.map((s) => s),
           }}
-          userScopes={{
-            role: user.role,
-            sites: user.status.ban.sites?.map((s) => s),
-          }}
+          userBanStatus={user.status.ban}
         />
-      }
+      )}
     </>
   );
 };

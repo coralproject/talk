@@ -9,14 +9,16 @@ import { UserStatusSitesListSelectedSiteQuery as QueryTypes } from "coral-admin/
 
 interface Props {
   siteID: string;
-  onChange: (id: string | null, checked: boolean) => void;
+  onChange: (id: string | null, on: boolean) => void;
   checked: boolean;
+  disabled?: boolean;
 }
 
 const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
   siteID,
   onChange,
   checked,
+  disabled = false,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -38,8 +40,9 @@ const UserStatusSitesListSelectedSiteQuery: FunctionComponent<Props> = ({
           return (
             <CheckBox
               checked={checked}
-              onChange={() => onChange(siteID, checked)}
+              onChange={() => onChange(siteID, !checked)}
               data-testid="user-status-selected-site"
+              disabled={disabled}
             >
               {props.site.name}
             </CheckBox>

@@ -200,6 +200,15 @@ exports[`renders empty stories 1`] = `
                   >
                     Finally a Cure for Cancer
                   </a>
+                  <i
+                    aria-hidden="true"
+                    aria-label="Open story info drawer"
+                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
+                    onClick={[Function]}
+                    role="button"
+                  >
+                    open_in_new
+                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
@@ -293,6 +302,15 @@ exports[`renders empty stories 1`] = `
                   >
                     First Colony on Mars
                   </a>
+                  <i
+                    aria-hidden="true"
+                    aria-label="Open story info drawer"
+                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
+                    onClick={[Function]}
+                    role="button"
+                  >
+                    open_in_new
+                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
@@ -576,6 +594,15 @@ exports[`renders stories 1`] = `
                   >
                     Finally a Cure for Cancer
                   </a>
+                  <i
+                    aria-hidden="true"
+                    aria-label="Open story info drawer"
+                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
+                    onClick={[Function]}
+                    role="button"
+                  >
+                    open_in_new
+                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
@@ -669,6 +696,15 @@ exports[`renders stories 1`] = `
                   >
                     First Colony on Mars
                   </a>
+                  <i
+                    aria-hidden="true"
+                    aria-label="Open story info drawer"
+                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
+                    onClick={[Function]}
+                    role="button"
+                  >
+                    open_in_new
+                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
