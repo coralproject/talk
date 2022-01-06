@@ -146,6 +146,8 @@ const clientHandler = ({
     req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
     [];
 
+  const flattenReplies = req.coral.tenant?.flattenReplies || false;
+
   res.render(viewTemplate, {
     analytics,
     staticURI: config.staticURI,
@@ -156,6 +158,7 @@ const clientHandler = ({
       ...config,
       featureFlags,
       tenantDomain: req.coral.tenant?.domain,
+      flattenReplies,
     },
     customCSSURL: enableCustomCSSQuery ? req.query.customCSSURL : null,
   });
