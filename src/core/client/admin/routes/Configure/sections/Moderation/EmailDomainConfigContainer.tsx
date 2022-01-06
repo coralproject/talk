@@ -3,7 +3,6 @@ import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "relay-runtime";
 
-import { urls } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -42,16 +41,12 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
       const message = getMessage(
         localeBundles,
         "configure-moderation-emailDomains-confirmDelete",
-        "Deleting this email domain will stop any new accounts created with it from being banned or always. Are you sure you want to continue?"
+        "Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?"
       );
 
       // eslint-disable-next-line no-restricted-globals
       if (window.confirm(message)) {
-        // KNOTE: Actually delete the email domain
         await deleteEmailDomain({ id: domainId });
-
-        // Send the user back to the webhook endpoints listing.
-        router.push(urls.admin.configureModeration);
       }
     },
     [router]
@@ -85,16 +80,30 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
         <Table fullWidth>
           <TableHead>
             <TableRow>
+              {/* KNOTE: These need to be localized as well */}
               <TableCell>Domain</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {emailDomains.map((domain) => {
-              const actionText =
+              const actionDetails =
                 domain.newUserModeration === "BANNED"
-                  ? "Ban user"
-                  : "Reject comments";
+                  ? {
+                      id:
+                        "configure-moderation-emailDomains-table-action-banned",
+                      message: "Ban all new commenter accounts",
+                    }
+                  : {
+                      id:
+                        "configure-moderation-emailDomains-table-action-alwaysPremod",
+                      message: "Always pre-moderate comments",
+                    };
+              const actionText = getMessage(
+                localeBundles,
+                actionDetails.id,
+                actionDetails.message
+              );
               return (
                 <>
                   <TableRow key={domain.id}>

@@ -6,7 +6,11 @@ import { Field, Form } from "react-final-form";
 import { urls } from "coral-framework/helpers";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
-import { required } from "coral-framework/lib/validation";
+import {
+  composeValidators,
+  required,
+  validateEmailDomain,
+} from "coral-framework/lib/validation";
 import {
   Button,
   ButtonIcon,
@@ -85,7 +89,10 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                 </FormFieldDescription>
               </Localized>
             )}
-            <Field name="domain" validate={required}>
+            <Field
+              name="domain"
+              validate={composeValidators(required, validateEmailDomain)}
+            >
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="configure-moderation-emailDomains-form-domainLabel">

@@ -24,6 +24,7 @@ framework-validation-usernameTooShort = Username must contain at least {$minLeng
 framework-validation-usernameTooLong = Usernames cannot be longer than {$maxLength} characters.
 framework-validation-invalidCharacters = Invalid characters. Try again.
 framework-validation-invalidEmail = Please enter a valid email address.
+framework-validation-invalidEmail = Please enter a valid email domain without the @. Ex. email.com.
 framework-validation-passwordTooShort = Password must contain at least {$minLength} characters.
 framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
 framework-validation-invalidURL = Invalid URL
@@ -137,6 +138,6 @@ framework-starRating =
 
 ### Relay Network Request Error
 
-framework-error-relayNetworkRequestError-anUnexpectedNetworkError = 
+framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
   An unexpected network error occurred, please try again later.
 framework-error-relayNetworkRequestError-code = Code

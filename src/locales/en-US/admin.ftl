@@ -821,7 +821,7 @@ configure-moderation-emailDomains-form-cancel = Cancel
 configure-moderation-emailDomains-form-addDomain = <icon>add</icon> Add domain
 configure-moderation-emailDomains-form-editDomain = Update
 configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
-configure-moderation-emailDomains-confirmDelete = Deleting this email domain will stop any new accounts created with it from being banned or always. Are you sure you want to continue?
+configure-moderation-emailDomains-confirmDelete = Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?
 configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
