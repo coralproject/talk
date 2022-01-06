@@ -7,7 +7,7 @@ import ConfigBox from "coral-admin/routes/Configure/ConfigBox";
 import Header from "coral-admin/routes/Configure/Header";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import AddEmailDomainForm from "./AddEmailDomainForm";
+import EmailDomainForm from "./EmailDomainForm";
 
 const AddEmailDomainRoute: FunctionComponent = () => {
   return (
@@ -19,7 +19,7 @@ const AddEmailDomainRoute: FunctionComponent = () => {
           </Localized>
         }
       >
-        <AddEmailDomainForm />
+        <EmailDomainForm />
       </ConfigBox>
     </HorizontalGutter>
   );

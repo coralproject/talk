@@ -6,7 +6,7 @@ import { Delay, Spinner } from "coral-ui/components/v2";
 
 import { EditEmailDomainRouteQueryResponse } from "coral-admin/__generated__/EditEmailDomainRouteQuery.graphql";
 
-import EditEmailDomainContainer from "./EditEmailDomainContainer";
+import EmailDomainContainer from "./EmailDomainContainer";
 
 interface Props {
   data: EditEmailDomainRouteQueryResponse | null;
@@ -21,14 +21,14 @@ const EditEmailDomainRoute: FunctionComponent<Props> = ({ data }) => {
     );
   }
 
-  return <EditEmailDomainContainer emailDomain={data.emailDomain} />;
+  return <EmailDomainContainer emailDomain={data.emailDomain} />;
 };
 
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query EditEmailDomainRouteQuery($emailDomainID: ID!) {
       emailDomain(id: $emailDomainID) {
-        ...EditEmailDomainContainer_emailDomain
+        ...EmailDomainContainer_emailDomain
       }
     }
   `,

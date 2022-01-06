@@ -59,7 +59,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
 
   return (
     <ConfigBox
-      id="Users"
+      id="emailDomain"
       title={
         <Localized id="configure-moderation-emailDomains-header">
           <Header container="legend">Email domain</Header>

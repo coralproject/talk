@@ -7,17 +7,15 @@ import Header from "coral-admin/routes/Configure/Header";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { EditEmailDomainContainer_emailDomain } from "coral-admin/__generated__/EditEmailDomainContainer_emailDomain.graphql";
+import { EmailDomainContainer_emailDomain } from "coral-admin/__generated__/EmailDomainContainer_emailDomain.graphql";
 
-import ConfigureEmailDomainForm from "./ConfigureEmailDomainForm";
+import EmailDomainForm from "./EmailDomainForm";
 
 interface Props {
-  emailDomain: EditEmailDomainContainer_emailDomain;
+  emailDomain: EmailDomainContainer_emailDomain;
 }
 
-const EditEmailDomainContainer: FunctionComponent<Props> = ({
-  emailDomain,
-}) => {
+const EmailDomainContainer: FunctionComponent<Props> = ({ emailDomain }) => {
   return (
     <HorizontalGutter size="double">
       <ConfigBox
@@ -27,7 +25,7 @@ const EditEmailDomainContainer: FunctionComponent<Props> = ({
           </Localized>
         }
       >
-        <ConfigureEmailDomainForm emailDomain={emailDomain} />
+        <EmailDomainForm emailDomain={emailDomain} />
       </ConfigBox>
     </HorizontalGutter>
   );
@@ -35,10 +33,12 @@ const EditEmailDomainContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   emailDomain: graphql`
-    fragment EditEmailDomainContainer_emailDomain on EmailDomain {
-      ...ConfigureEmailDomainForm_emailDomain
+    fragment EmailDomainContainer_emailDomain on EmailDomain {
+      domain
+      id
+      newUserModeration
     }
   `,
-})(EditEmailDomainContainer);
+})(EmailDomainContainer);
 
 export default enhanced;
