@@ -22,6 +22,9 @@ async function resolveConfig(
   environment: Environment,
   staticConfig?: StaticConfig | null
 ) {
+  if (staticConfig) {
+    return staticConfig;
+  }
   if (process.env.NODE_ENV === "development") {
     // Send a graphql query to server during development to get the settings.
     // The reason is that we don't have static config during development.
@@ -39,15 +42,11 @@ async function resolveConfig(
     );
 
     return data.settings;
-  } else {
-    if (staticConfig) {
-      return staticConfig;
-    }
-    return {
-      featureFlags: [],
-      flattenReplies: false,
-    };
   }
+  return {
+    featureFlags: [],
+    flattenReplies: false,
+  };
 }
 
 /**
