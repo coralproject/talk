@@ -18,15 +18,20 @@ import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQu
 import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 
+interface ResolvedConfig {
+  readonly featureFlags: string[];
+  readonly flattenReplies?: boolean | null;
+}
+
 async function resolveConfig(
   environment: Environment,
   staticConfig?: StaticConfig | null
-) {
+): Promise<ResolvedConfig> {
   if (staticConfig) {
-    return staticConfig;
+    return staticConfig as ResolvedConfig;
   }
   if (process.env.NODE_ENV === "development") {
-    // Send a graphql query to server during development to get the settings.
+    // Send a graphql query to server during development to get the needed settings.
     // The reason is that we don't have static config during development.
     const data = await fetchQuery<initLocalStateQuery>(
       environment,
@@ -41,7 +46,7 @@ async function resolveConfig(
       {}
     );
 
-    return data.settings;
+    return data.settings as ResolvedConfig;
   }
   return {
     featureFlags: [],
