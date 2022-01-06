@@ -47,6 +47,11 @@ export interface StaticConfig {
   featureFlags: string[];
 
   /**
+   * flattenReplies is whether or not flattenReplies is enabled on the tenant.
+   */
+  flattenReplies: boolean;
+
+  /**
    * forceAdminLocalAuth is whether local authentication is always available
    * for this Coral deployment. This is useful for ensuring that Coral service
    * teams can access the admin with their Coral local authentication.
