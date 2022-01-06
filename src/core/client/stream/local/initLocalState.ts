@@ -13,7 +13,6 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
-import { initLocalStateDevQuery } from "coral-stream/__generated__/initLocalStateDevQuery.graphql";
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
 import { COMMENTS_ORDER_BY } from "../constants";
@@ -26,10 +25,10 @@ async function determineSettings(
   if (process.env.NODE_ENV === "development") {
     // Send a graphql query to server during development to get the settings.
     // The reason is that we don't have static config during development.
-    const data = await fetchQuery<initLocalStateDevQuery>(
+    const data = await fetchQuery<initLocalStateQuery>(
       environment,
       graphql`
-        query initLocalStateDevQuery {
+        query initLocalStateQuery {
           settings {
             featureFlags
             flattenReplies
@@ -41,21 +40,9 @@ async function determineSettings(
 
     return data.settings;
   } else {
-    const data = await fetchQuery<initLocalStateQuery>(
-      environment,
-      graphql`
-        query initLocalStateQuery {
-          settings {
-            flattenReplies
-          }
-        }
-      `,
-      {}
-    );
-
     return {
       featureFlags: staticConfig?.featureFlags || [],
-      flattenReplies: data.settings.flattenReplies,
+      flattenReplies: staticConfig?.flattenReplies || false,
     };
   }
 }

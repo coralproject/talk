@@ -7,9 +7,6 @@ exports[`init local state 1`] = `
     \\"__typename\\": \\"__Root\\",
     \\"local\\": {
       \\"__ref\\": \\"client:root.local\\"
-    },
-    \\"settings\\": {
-      \\"__ref\\": \\"settings\\"
     }
   },
   \\"client:root.local\\": {
@@ -29,12 +26,6 @@ exports[`init local state 1`] = `
     \\"flattenReplies\\": false,
     \\"enableZKey\\": false,
     \\"amp\\": false
-  },
-  \\"settings\\": {
-    \\"__id\\": \\"settings\\",
-    \\"__typename\\": \\"Settings\\",
-    \\"flattenReplies\\": false,
-    \\"id\\": \\"settings\\"
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",
