@@ -8,6 +8,7 @@ import {
   createRelayEnvironment,
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
+import { settings } from "coral-stream/test/fixtures";
 
 import initLocalState from "./initLocalState";
 
@@ -19,6 +20,13 @@ beforeEach(() => {
   environment = createRelayEnvironment({
     source,
     initLocalState: false,
+    network: {
+      resolvers: {
+        Query: {
+          settings: () => settings,
+        },
+      },
+    },
   });
 });
 
