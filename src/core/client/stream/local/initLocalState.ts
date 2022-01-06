@@ -41,8 +41,6 @@ async function determineSettings(
 
     return data.settings;
   } else {
-    const featureFlags = staticConfig?.featureFlags;
-
     const data = await fetchQuery<initLocalStateQuery>(
       environment,
       graphql`
@@ -56,7 +54,7 @@ async function determineSettings(
     );
 
     return {
-      featureFlags: featureFlags || [],
+      featureFlags: staticConfig?.featureFlags || [],
       flattenReplies: data.settings.flattenReplies,
     };
   }
