@@ -18,7 +18,7 @@ import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQu
 import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 
-async function determineSettings(
+async function resolveConfig(
   environment: Environment,
   staticConfig?: StaticConfig | null
 ) {
@@ -30,8 +30,8 @@ async function determineSettings(
       graphql`
         query initLocalStateQuery {
           settings {
-            featureFlags
             flattenReplies
+            featureFlags
           }
         }
       `,
@@ -40,9 +40,12 @@ async function determineSettings(
 
     return data.settings;
   } else {
+    if (staticConfig) {
+      return staticConfig;
+    }
     return {
-      featureFlags: staticConfig?.featureFlags || [],
-      flattenReplies: staticConfig?.flattenReplies || false,
+      featureFlags: [],
+      flattenReplies: false,
     };
   }
 }
@@ -77,7 +80,7 @@ const initLocalState: InitLocalState = async ({
     ...rest,
   });
 
-  const { featureFlags, flattenReplies } = await determineSettings(
+  const { featureFlags, flattenReplies } = await resolveConfig(
     environment,
     staticConfig
   );
