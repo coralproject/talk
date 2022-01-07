@@ -9,6 +9,7 @@ import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
+import { DuplicateEmailDomainError } from "coral-server/errors";
 import {
   defaultRTEConfiguration,
   generateSigningSecret,
@@ -475,6 +476,17 @@ export async function createEmailDomainTenant(
   id: string,
   input: CreateEmailDomainInput
 ) {
+  // Search to see if this email domain has already been configured.
+  const duplicateDomain = await mongo.tenants().findOne({
+    id,
+    emailDomains: {
+      $elemMatch: { domain: input.domain },
+    },
+  });
+  if (duplicateDomain) {
+    throw new DuplicateEmailDomainError(input.domain);
+  }
+
   const emailDomain = {
     id: uuid(),
     domain: input.domain,

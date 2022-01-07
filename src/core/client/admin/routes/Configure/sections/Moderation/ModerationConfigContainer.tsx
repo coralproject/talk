@@ -13,11 +13,11 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { ModerationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
 
 import AkismetConfig from "./AkismetConfig";
+import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
 import NewCommentersConfig from "./NewCommentersConfig";
 import PerspectiveConfig from "./PerspectiveConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
-import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
 
 interface Props {
   submitting: boolean;

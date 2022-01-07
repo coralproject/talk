@@ -24,10 +24,10 @@ import {
   WebhookEndpointsConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
-import ModerationPhasesLayout from "./routes/Configure/sections/ModerationPhases/ModerationPhasesLayout";
-import { Sites } from "./routes/Configure/sections/Sites";
 import AddEmailDomainRoute from "./routes/Configure/sections/EmailDomains/AddEmailDomainRoute";
 import EditEmailDomainRoute from "./routes/Configure/sections/EmailDomains/EditEmailDomainRoute";
+import ModerationPhasesLayout from "./routes/Configure/sections/ModerationPhases/ModerationPhasesLayout";
+import { Sites } from "./routes/Configure/sections/Sites";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
 import WebhookEndpointsLayout from "./routes/Configure/sections/WebhookEndpoints/WebhookEndpointsLayout";

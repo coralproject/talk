@@ -322,6 +322,15 @@ export class DuplicateEmailError extends CoralError {
   }
 }
 
+export class DuplicateEmailDomainError extends CoralError {
+  constructor(emailDomain: string) {
+    super({
+      code: ERROR_CODES.DUPLICATE_EMAIL_DOMAIN,
+      context: { pvt: { emailDomain } },
+    });
+  }
+}
+
 export class UsernameAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.USERNAME_ALREADY_SET });

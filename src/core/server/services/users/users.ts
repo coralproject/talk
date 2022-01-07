@@ -112,7 +112,12 @@ import {
   generateAdminDownloadLink,
   generateDownloadLink,
 } from "./download/token";
-import { validateEmail, validatePassword, validateUsername } from "./helpers";
+import {
+  checkForNewUserModeration,
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "./helpers";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -237,6 +242,19 @@ export async function create(
   }
 
   const user = await createUser(mongo, tenant.id, input, now);
+
+  const newUserModeration = checkForNewUserModeration(
+    user,
+    tenant.emailDomains
+  );
+  if (newUserModeration) {
+    if (newUserModeration === "BANNED") {
+      await banUser(mongo, tenant.id, user.id, "system");
+    }
+    if (newUserModeration === "ALWAYS_PREMOD") {
+      await premodUser(mongo, tenant.id, user.id, "system");
+    }
+  }
 
   // TODO: (wyattjoh) emit that a user was created
 

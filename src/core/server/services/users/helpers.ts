@@ -72,3 +72,23 @@ export function validateEmail(email: string) {
     throw new EmailExceedsMaxLengthError(email.length, EMAIL_MAX_LENGTH);
   }
 }
+
+export function checkForNewUserModeration(
+  user: any,
+  emailDomains: { domain: string; id: string; newUserModeration: string }[]
+) {
+  const userEmail = user.email;
+  if (userEmail) {
+    const atSignIndex = userEmail.indexOf("@");
+    const userEmailDomain = userEmail.substring(atSignIndex + 1);
+    const matchingEmailDomain = emailDomains.filter(
+      (d) => d.domain === userEmailDomain
+    );
+    return (
+      matchingEmailDomain &&
+      matchingEmailDomain[0] &&
+      matchingEmailDomain[0].newUserModeration
+    );
+  }
+  return null;
+}

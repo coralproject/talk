@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { FORM_ERROR } from "final-form";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
@@ -52,8 +53,9 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
       }
       router.push(urls.admin.configureModeration + "#emailDomain");
     } catch (error) {
-      // KNOTE: Handle the error here
+      return { [FORM_ERROR]: error.message };
     }
+    return;
   }, []);
 
   return (

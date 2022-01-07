@@ -21,8 +21,8 @@ import {
 import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
-import DeleteEmailDomainMutation from "../EmailDomains/DeleteEmailDomainMutation";
 import Header from "../../Header";
+import DeleteEmailDomainMutation from "../EmailDomains/DeleteEmailDomainMutation";
 
 import styles from "./EmailDomainConfigContainer.css";
 
