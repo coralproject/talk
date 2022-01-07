@@ -15,6 +15,7 @@ exports[`renders reply list 1`] = `
       aria-labelledby="comment-comment-with-replies-label"
       className="CommentContainer-root coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
+      data-not-seen={false}
       data-testid="comment-comment-with-replies"
       id="comment-comment-with-replies"
       onFocus={[Function]}
@@ -47,7 +48,7 @@ exports[`renders reply list 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
+            className="CommentContainer-indented Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -341,6 +342,7 @@ exports[`renders reply list 1`] = `
             aria-labelledby="comment-comment-3-label"
             className="CommentContainer-root coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
+            data-not-seen={false}
             data-testid="comment-comment-3"
             id="comment-comment-3"
             onFocus={[Function]}
@@ -373,7 +375,7 @@ exports[`renders reply list 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
+                  className="CommentContainer-indented Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -661,6 +663,7 @@ exports[`renders reply list 1`] = `
             aria-labelledby="comment-comment-4-label"
             className="CommentContainer-root coral coral-comment coral coral-reacted-0"
             data-key-stop={true}
+            data-not-seen={false}
             data-testid="comment-comment-4"
             id="comment-comment-4"
             onFocus={[Function]}
@@ -693,7 +696,7 @@ exports[`renders reply list 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
+                  className="CommentContainer-indented Indent-level2 coral coral-indent coral-indent-2 Indent-open Indent-openPadded"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -984,6 +987,7 @@ exports[`renders reply list 1`] = `
       aria-labelledby="comment-comment-5-label"
       className="CommentContainer-root coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
+      data-not-seen={false}
       data-testid="comment-comment-5"
       id="comment-comment-5"
       onFocus={[Function]}
@@ -1016,7 +1020,7 @@ exports[`renders reply list 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-indented CommentContainer-notSeen coral-comment-notSeen Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
+            className="CommentContainer-indented Indent-level1 coral coral-indent coral-indent-1 Indent-open Indent-openPadded"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"

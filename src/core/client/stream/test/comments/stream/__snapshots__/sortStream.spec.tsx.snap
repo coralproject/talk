@@ -15,6 +15,7 @@ exports[`renders app with comment stream 1`] = `
       aria-labelledby="comment-comment-2-label"
       className="CommentContainer-root coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
+      data-not-seen={false}
       data-testid="comment-comment-2"
       id="comment-comment-2"
       onFocus={[Function]}
@@ -43,7 +44,7 @@ exports[`renders app with comment stream 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-notSeen coral-comment-notSeen coral coral-indent coral-indent-0 Indent-open"
+            className="coral coral-indent coral-indent-0 Indent-open"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -291,6 +292,7 @@ exports[`renders app with comment stream 1`] = `
       aria-labelledby="comment-comment-3-label"
       className="CommentContainer-root coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
+      data-not-seen={false}
       data-testid="comment-comment-3"
       id="comment-comment-3"
       onFocus={[Function]}
@@ -319,7 +321,7 @@ exports[`renders app with comment stream 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-notSeen coral-comment-notSeen coral coral-indent coral-indent-0 Indent-open"
+            className="coral coral-indent coral-indent-0 Indent-open"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
