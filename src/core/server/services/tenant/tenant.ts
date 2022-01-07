@@ -14,8 +14,8 @@ import {
   createTenantEmailDomain,
   CreateTenantInput,
   DeleteEmailDomainInput,
-  deleteTenantEmailDomain,
   deleteTenantAnnouncement,
+  deleteTenantEmailDomain,
   disableTenantFeatureFlag,
   enableTenantFeatureFlag,
   Tenant,
@@ -304,7 +304,7 @@ export async function createEmailDomain(
   if (!updated) {
     throw new Error("tenant not found");
   }
-  // await cache.update(redis, updated);
+  await cache.update(redis, updated);
 
   return updated;
 }
@@ -320,7 +320,7 @@ export async function updateEmailDomain(
   if (!updated) {
     throw new Error("tenant not found");
   }
-  // await cache.update(redis, updated);
+  await cache.update(redis, updated);
 
   return updated;
 }
@@ -336,7 +336,7 @@ export async function deleteEmailDomain(
   if (!updated) {
     throw new Error("tenant not found");
   }
-  // await cache.update(redis, updated);
+  await cache.update(redis, updated);
 
   return updated;
 }

@@ -279,7 +279,7 @@ export interface StoryConfiguration {
 export interface EmailDomain {
   id: string;
   domain: string;
-  newUserModeration: string;
+  newUserModeration: "BANNED" | "ALWAYS_PREMOD";
 }
 
 export type Settings = GlobalModerationSettings &

@@ -13,6 +13,7 @@ import {
   UsernameExceedsMaxLengthError,
   UsernameTooShortError,
 } from "coral-server/errors";
+import { User } from "coral-server/models/user";
 
 /**
  * validateUsername will validate that the username is valid. Current
@@ -74,21 +75,20 @@ export function validateEmail(email: string) {
 }
 
 export function checkForNewUserModeration(
-  user: any,
-  emailDomains: { domain: string; id: string; newUserModeration: string }[]
+  user: User,
+  emailDomains: {
+    domain: string;
+    id: string;
+    newUserModeration: "BANNED" | "ALWAYS_PREMOD";
+  }[]
 ) {
   const userEmail = user.email;
   if (userEmail) {
-    const atSignIndex = userEmail.indexOf("@");
-    const userEmailDomain = userEmail.substring(atSignIndex + 1);
-    const matchingEmailDomain = emailDomains.filter(
+    const userEmailDomain = userEmail.substring(userEmail.indexOf("@") + 1);
+    const matchingEmailDomain = emailDomains.find(
       (d) => d.domain === userEmailDomain
     );
-    return (
-      matchingEmailDomain &&
-      matchingEmailDomain[0] &&
-      matchingEmailDomain[0].newUserModeration
-    );
+    return matchingEmailDomain && matchingEmailDomain.newUserModeration;
   }
   return null;
 }
