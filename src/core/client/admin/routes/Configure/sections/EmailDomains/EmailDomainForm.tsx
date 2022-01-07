@@ -106,7 +106,6 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                     color={colorFromMeta(meta)}
                     fullWidth
                   />
-                  {/* KNOTE: Validate that domain is required, doesn't contain @, etc. */}
                   <ValidationMessage meta={meta} fullWidth />
                 </FormField>
               )}
