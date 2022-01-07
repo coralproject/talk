@@ -8152,10 +8152,10 @@ type CreateEmailDomainPayload {
 }
 
 ##################
-## editEmailDomain
+## updateEmailDomain
 ##################
 
-input EditEmailDomainInput {
+input UpdateEmailDomainInput {
   """
   clientMutationId is required for Relay support.
   """
@@ -8174,7 +8174,7 @@ input EditEmailDomainInput {
   newUserModeration: String!
 }
 
-type EditEmailDomainPayload {
+type UpdateEmailDomainPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -8873,9 +8873,9 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
-  editEmailDomain updates an email domain configuration.
+  updateEmailDomain updates an email domain configuration.
   """
-  editEmailDomain(input: EditEmailDomainInput!): EditEmailDomainPayload!
+  updateEmailDomain(input: UpdateEmailDomainInput!): UpdateEmailDomainPayload!
     @auth(roles: [ADMIN])
 
   """

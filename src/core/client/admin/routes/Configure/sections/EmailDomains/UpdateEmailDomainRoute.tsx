@@ -7,15 +7,15 @@ import Header from "coral-admin/routes/Configure/Header";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { Delay, HorizontalGutter, Spinner } from "coral-ui/components/v2";
 
-import { EditEmailDomainRouteQueryResponse } from "coral-admin/__generated__/EditEmailDomainRouteQuery.graphql";
+import { UpdateEmailDomainRouteQueryResponse } from "coral-admin/__generated__/UpdateEmailDomainRouteQuery.graphql";
 
 import EmailDomainForm from "./EmailDomainForm";
 
 interface Props {
-  data: EditEmailDomainRouteQueryResponse | null;
+  data: UpdateEmailDomainRouteQueryResponse | null;
 }
 
-const EditEmailDomainRoute: FunctionComponent<Props> = ({ data }) => {
+const UpdateEmailDomainRoute: FunctionComponent<Props> = ({ data }) => {
   if (!data || !data.emailDomain) {
     return (
       <Delay>
@@ -41,7 +41,7 @@ const EditEmailDomainRoute: FunctionComponent<Props> = ({ data }) => {
 
 const enhanced = withRouteConfig<Props>({
   query: graphql`
-    query EditEmailDomainRouteQuery($emailDomainID: ID!) {
+    query UpdateEmailDomainRouteQuery($emailDomainID: ID!) {
       emailDomain(id: $emailDomainID) {
         domain
         id
@@ -50,6 +50,6 @@ const enhanced = withRouteConfig<Props>({
     }
   `,
   cacheConfig: { force: true },
-})(EditEmailDomainRoute);
+})(UpdateEmailDomainRoute);
 
 export default enhanced;

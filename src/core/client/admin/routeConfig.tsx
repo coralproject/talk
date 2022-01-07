@@ -25,7 +25,7 @@ import {
   WordListConfigRoute,
 } from "./routes/Configure/sections";
 import AddEmailDomainRoute from "./routes/Configure/sections/EmailDomains/AddEmailDomainRoute";
-import EditEmailDomainRoute from "./routes/Configure/sections/EmailDomains/EditEmailDomainRoute";
+import UpdateEmailDomainRoute from "./routes/Configure/sections/EmailDomains/UpdateEmailDomainRoute";
 import ModerationPhasesLayout from "./routes/Configure/sections/ModerationPhases/ModerationPhasesLayout";
 import { Sites } from "./routes/Configure/sections/Sites";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
@@ -131,7 +131,7 @@ export default makeRouteConfig(
               <Route path="/domains/add" {...AddEmailDomainRoute.routeConfig} />
               <Route
                 path="/domains/:emailDomainID"
-                {...EditEmailDomainRoute.routeConfig}
+                {...UpdateEmailDomainRoute.routeConfig}
               />
             </Route>
             <Route

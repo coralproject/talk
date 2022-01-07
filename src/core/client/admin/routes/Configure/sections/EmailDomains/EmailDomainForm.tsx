@@ -26,7 +26,7 @@ import {
 } from "coral-ui/components/v2";
 
 import CreateEmailDomainMutation from "./CreateEmailDomainMutation";
-import EditEmailDomainMutation from "./EditEmailDomainMutation";
+import UpdateEmailDomainMutation from "./UpdateEmailDomainMutation";
 
 interface Props {
   router: Router;
@@ -36,11 +36,11 @@ interface Props {
 
 const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
   const create = useMutation(CreateEmailDomainMutation);
-  const edit = useMutation(EditEmailDomainMutation);
+  const update = useMutation(UpdateEmailDomainMutation);
   const onSubmit = useCallback(async (input) => {
     try {
       if (emailDomain) {
-        await edit({
+        await update({
           domain: input.domain,
           newUserModeration: input.newUserModeration,
           id: emailDomain.id,

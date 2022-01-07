@@ -335,12 +335,12 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     settings: await ctx.mutators.Settings.createEmailDomain(input),
     clientMutationId,
   }),
-  editEmailDomain: async (
+  updateEmailDomain: async (
     source,
     { input: { clientMutationId, ...input } },
     ctx
   ) => ({
-    settings: await ctx.mutators.Settings.editEmailDomain(input),
+    settings: await ctx.mutators.Settings.updateEmailDomain(input),
     clientMutationId,
   }),
   deleteEmailDomain: async (

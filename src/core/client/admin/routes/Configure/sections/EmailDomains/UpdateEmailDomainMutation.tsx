@@ -7,17 +7,17 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { EditEmailDomainMutation as MutationTypes } from "coral-admin/__generated__/EditEmailDomainMutation.graphql";
+import { UpdateEmailDomainMutation as MutationTypes } from "coral-admin/__generated__/UpdateEmailDomainMutation.graphql";
 
 let clientMutationId = 0;
 
-const EditEmailDomainMutation = createMutation(
-  "editEmailDomain",
+const UpdateEmailDomainMutation = createMutation(
+  "updateEmailDomain",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation EditEmailDomainMutation($input: EditEmailDomainInput!) {
-          editEmailDomain(input: $input) {
+        mutation UpdateEmailDomainMutation($input: UpdateEmailDomainInput!) {
+          updateEmailDomain(input: $input) {
             settings {
               emailDomains {
                 id
@@ -40,4 +40,4 @@ const EditEmailDomainMutation = createMutation(
     })
 );
 
-export default EditEmailDomainMutation;
+export default UpdateEmailDomainMutation;

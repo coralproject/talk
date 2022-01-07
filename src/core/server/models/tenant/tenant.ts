@@ -471,7 +471,7 @@ export interface CreateEmailDomainInput {
   newUserModeration: string;
 }
 
-export async function createEmailDomainTenant(
+export async function createTenantEmailDomain(
   mongo: MongoContext,
   id: string,
   input: CreateEmailDomainInput
@@ -506,16 +506,16 @@ export async function createEmailDomainTenant(
   return result.value;
 }
 
-export interface EditEmailDomainInput {
+export interface UpdateEmailDomainInput {
   id: string;
   domain: string;
   newUserModeration: string;
 }
 
-export async function editEmailDomainTenant(
+export async function updateTenantEmailDomain(
   mongo: MongoContext,
   id: string,
-  input: EditEmailDomainInput
+  input: UpdateEmailDomainInput
 ) {
   const result = await mongo.tenants().findOneAndUpdate(
     {
@@ -541,7 +541,7 @@ export interface DeleteEmailDomainInput {
   id: string;
 }
 
-export async function deleteEmailDomainTenant(
+export async function deleteTenantEmailDomain(
   mongo: MongoContext,
   id: string,
   input: DeleteEmailDomainInput

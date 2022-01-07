@@ -15,7 +15,6 @@ import {
   disableExternalModerationPhase,
   disableFeatureFlag,
   disableWebhookEndpoint,
-  editEmailDomain,
   enableExternalModerationPhase,
   enableFeatureFlag,
   enableWebhookEndpoint,
@@ -24,6 +23,7 @@ import {
   rotateWebhookEndpointSigningSecret,
   sendSMTPTest,
   update,
+  updateEmailDomain,
   updateExternalModerationPhase,
   updateWebhookEndpoint,
 } from "coral-server/services/tenant";
@@ -40,13 +40,13 @@ import {
   GQLDeleteWebhookEndpointInput,
   GQLDisableExternalModerationPhaseInput,
   GQLDisableWebhookEndpointInput,
-  GQLEditEmailDomainInput,
   GQLEnableExternalModerationPhaseInput,
   GQLEnableWebhookEndpointInput,
   GQLFEATURE_FLAG,
   GQLRotateExternalModerationPhaseSigningSecretInput,
   GQLRotateSSOSigningSecretInput,
   GQLRotateWebhookEndpointSigningSecretInput,
+  GQLUpdateEmailDomainInput,
   GQLUpdateExternalModerationPhaseInput,
   GQLUpdateSettingsInput,
   GQLUpdateWebhookEndpointInput,
@@ -126,8 +126,8 @@ export const Settings = ({
     ),
   createEmailDomain: (input: WithoutMutationID<GQLCreateEmailDomainInput>) =>
     createEmailDomain(mongo, redis, tenantCache, tenant, input),
-  editEmailDomain: (input: WithoutMutationID<GQLEditEmailDomainInput>) =>
-    editEmailDomain(mongo, redis, tenantCache, tenant, input),
+  updateEmailDomain: (input: WithoutMutationID<GQLUpdateEmailDomainInput>) =>
+    updateEmailDomain(mongo, redis, tenantCache, tenant, input),
   deleteEmailDomain: (input: WithoutMutationID<GQLDeleteEmailDomainInput>) =>
     deleteEmailDomain(mongo, redis, tenantCache, tenant, input),
   createExternalModerationPhase: (

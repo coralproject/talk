@@ -9,19 +9,19 @@ import logger from "coral-server/logger";
 import {
   CreateAnnouncementInput,
   CreateEmailDomainInput,
-  createEmailDomainTenant,
   createTenant,
   createTenantAnnouncement,
+  createTenantEmailDomain,
   CreateTenantInput,
   DeleteEmailDomainInput,
-  deleteEmailDomainTenant,
+  deleteTenantEmailDomain,
   deleteTenantAnnouncement,
   disableTenantFeatureFlag,
-  EditEmailDomainInput,
-  editEmailDomainTenant,
   enableTenantFeatureFlag,
   Tenant,
+  UpdateEmailDomainInput,
   updateTenant,
+  updateTenantEmailDomain,
 } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
@@ -300,7 +300,7 @@ export async function createEmailDomain(
   tenant: Tenant,
   input: CreateEmailDomainInput
 ) {
-  const updated = await createEmailDomainTenant(mongo, tenant.id, input);
+  const updated = await createTenantEmailDomain(mongo, tenant.id, input);
   if (!updated) {
     throw new Error("tenant not found");
   }
@@ -309,14 +309,14 @@ export async function createEmailDomain(
   return updated;
 }
 
-export async function editEmailDomain(
+export async function updateEmailDomain(
   mongo: MongoContext,
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
-  input: EditEmailDomainInput
+  input: UpdateEmailDomainInput
 ) {
-  const updated = await editEmailDomainTenant(mongo, tenant.id, input);
+  const updated = await updateTenantEmailDomain(mongo, tenant.id, input);
   if (!updated) {
     throw new Error("tenant not found");
   }
@@ -332,7 +332,7 @@ export async function deleteEmailDomain(
   tenant: Tenant,
   input: DeleteEmailDomainInput
 ) {
-  const updated = await deleteEmailDomainTenant(mongo, tenant.id, input);
+  const updated = await deleteTenantEmailDomain(mongo, tenant.id, input);
   if (!updated) {
     throw new Error("tenant not found");
   }
