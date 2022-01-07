@@ -80,9 +80,12 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
         <Table fullWidth>
           <TableHead>
             <TableRow>
-              {/* KNOTE: These need to be localized as well */}
-              <TableCell>Domain</TableCell>
-              <TableCell>Action</TableCell>
+              <Localized id="configure-moderation-emailDomains-table-domain">
+                <TableCell>Domain</TableCell>
+              </Localized>
+              <Localized id="configure-moderation-emailDomains-table-action">
+                <TableCell>Action</TableCell>
+              </Localized>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -112,22 +115,31 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                       <Flex>
                         {actionText}
                         <Flex className={styles.buttons}>
-                          {/* KNOTE: These buttons need to be localized as well */}
-                          <Button
-                            variant="text"
-                            iconLeft
-                            to={`/admin/configure/moderation/domains/${domain.id}`}
-                            className={styles.editButton}
+                          <Localized
+                            id="configure-moderation-emailDomains-table-edit"
+                            icon={<ButtonIcon>edit</ButtonIcon>}
                           >
-                            <ButtonIcon size="md">edit</ButtonIcon>Edit
-                          </Button>
-                          <Button
-                            variant="text"
-                            iconLeft
-                            onClick={() => onDelete(domain.id)}
+                            <Button
+                              variant="text"
+                              iconLeft
+                              to={`/admin/configure/moderation/domains/${domain.id}`}
+                              className={styles.editButton}
+                            >
+                              Edit
+                            </Button>
+                          </Localized>
+                          <Localized
+                            id="configure-moderation-emailDomains-table-delete"
+                            icon={<ButtonIcon>delete</ButtonIcon>}
                           >
-                            <ButtonIcon size="md">delete</ButtonIcon>Delete
-                          </Button>
+                            <Button
+                              variant="text"
+                              iconLeft
+                              onClick={() => onDelete(domain.id)}
+                            >
+                              Delete
+                            </Button>
+                          </Localized>
                         </Flex>
                       </Flex>
                     </TableCell>
