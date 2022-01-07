@@ -209,6 +209,11 @@ export async function findOrCreate(
 export type CreateUser = FindOrCreateUserInput;
 export type CreateUserOptions = FindOrCreateUserOptions;
 
+enum NEW_USER_MODERATION {
+  BANNED = "BANNED",
+  ALWAYS_PREMOD = "ALWAYS_PREMOD",
+}
+
 export async function create(
   mongo: MongoContext,
   tenant: Tenant,
@@ -248,10 +253,10 @@ export async function create(
     tenant.emailDomains
   );
   if (newUserModeration) {
-    if (newUserModeration === "BANNED") {
+    if (newUserModeration === NEW_USER_MODERATION.BANNED) {
       await banUser(mongo, tenant.id, user.id, "system");
     }
-    if (newUserModeration === "ALWAYS_PREMOD") {
+    if (newUserModeration === NEW_USER_MODERATION.ALWAYS_PREMOD) {
       await premodUser(mongo, tenant.id, user.id, "system");
     }
   }

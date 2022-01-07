@@ -9,7 +9,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 
 import EmailDomainForm from "./EmailDomainForm";
 
-const AddEmailDomainRoute: FunctionComponent = () => {
+const CreateEmailDomainRoute: FunctionComponent = () => {
   return (
     <HorizontalGutter size="double">
       <ConfigBox
@@ -27,6 +27,6 @@ const AddEmailDomainRoute: FunctionComponent = () => {
 
 const enhanced = withRouteConfig({
   cacheConfig: { force: true },
-})(AddEmailDomainRoute);
+})(CreateEmailDomainRoute);
 
 export default enhanced;

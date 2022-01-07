@@ -28,10 +28,19 @@ import {
 import CreateEmailDomainMutation from "./CreateEmailDomainMutation";
 import UpdateEmailDomainMutation from "./UpdateEmailDomainMutation";
 
+enum NEW_USER_MODERATION {
+  BANNED = "BANNED",
+  ALWAYS_PREMOD = "ALWAYS_PREMOD",
+}
+
 interface Props {
   router: Router;
   match: Match;
-  emailDomain?: { domain: string; id: string; newUserModeration: string };
+  emailDomain?: {
+    domain: string;
+    id: string;
+    newUserModeration: NEW_USER_MODERATION;
+  };
 }
 
 const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
@@ -65,7 +74,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
         domain: emailDomain ? emailDomain.domain : null,
         newUserModeration: emailDomain
           ? emailDomain.newUserModeration
-          : "BANNED",
+          : NEW_USER_MODERATION.BANNED,
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
@@ -97,7 +106,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <Localized id="configure-moderation-emailDomains-form-domainLabel">
+                  <Localized id="configure-moderation-emailDomains-form-label-domain">
                     <Label>Domain</Label>
                   </Localized>
                   <TextField
@@ -111,10 +120,19 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
               )}
             </Field>
             <>
-              <Label>Moderation action</Label>
-              <Field name="newUserModeration" type="radio" value="BANNED">
+              <Localized id="configure-moderation-emailDomains-form-label-moderationAction">
+                <Label>Moderation action</Label>
+              </Localized>
+              <Field
+                name="newUserModeration"
+                type="radio"
+                value={NEW_USER_MODERATION.BANNED}
+              >
                 {({ input }) => (
-                  <RadioButton {...input} id={`${input.name}-BANNED`}>
+                  <RadioButton
+                    {...input}
+                    id={`${input.name}-${NEW_USER_MODERATION.BANNED}`}
+                  >
                     <Localized id="configure-moderation-emailDomains-form-banAllUsers">
                       <span>Ban all users</span>
                     </Localized>
@@ -124,10 +142,13 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
               <Field
                 name="newUserModeration"
                 type="radio"
-                value="ALWAYS_PREMOD"
+                value={NEW_USER_MODERATION.ALWAYS_PREMOD}
               >
                 {({ input }) => (
-                  <RadioButton {...input} id={`${input.name}-ALWAYS_PREMOD`}>
+                  <RadioButton
+                    {...input}
+                    id={`${input.name}-${NEW_USER_MODERATION.ALWAYS_PREMOD}`}
+                  >
                     <Localized id="configure-moderation-emailDomains-form-alwaysPremod">
                       <span>Always pre-moderate comments</span>
                     </Localized>
