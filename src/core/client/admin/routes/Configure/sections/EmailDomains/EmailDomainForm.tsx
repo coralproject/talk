@@ -71,10 +71,9 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
     <Form
       onSubmit={onSubmit}
       initialValues={{
-        domain: emailDomain ? emailDomain.domain : null,
-        newUserModeration: emailDomain
-          ? emailDomain.newUserModeration
-          : NEW_USER_MODERATION.BANNED,
+        domain: emailDomain?.domain || null,
+        newUserModeration:
+          emailDomain?.newUserModeration || NEW_USER_MODERATION.BANNED,
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
