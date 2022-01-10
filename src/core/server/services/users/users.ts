@@ -253,11 +253,11 @@ export async function create(
     tenant.emailDomains
   );
   if (newUserModeration) {
-    if (newUserModeration === NEW_USER_MODERATION.BANNED) {
-      await banUser(mongo, tenant.id, user.id, "system");
+    if (newUserModeration === NEW_USER_MODERATION.BAN) {
+      await banUser(mongo, tenant.id, user.id);
     }
     if (newUserModeration === NEW_USER_MODERATION.ALWAYS_PREMOD) {
-      await premodUser(mongo, tenant.id, user.id, "system");
+      await premodUser(mongo, tenant.id, user.id);
     }
   }
 

@@ -2431,9 +2431,10 @@ type PremodStatusHistory {
   active: Boolean!
 
   """
-  createdBy is the user that flagged the commenter as pre-mod
+  createdBy is the user that flagged the commenter as pre-mod. If `null`, the then the given
+  User was banned by the system.
   """
-  createdBy: User!
+  createdBy: User
 
   """
   createdAt is the time the user was set to pre-mod

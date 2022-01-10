@@ -73,7 +73,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
       initialValues={{
         domain: emailDomain?.domain || null,
         newUserModeration:
-          emailDomain?.newUserModeration || NEW_USER_MODERATION.BANNED,
+          emailDomain?.newUserModeration || NEW_USER_MODERATION.BAN,
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
@@ -126,12 +126,12 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
               <Field
                 name="newUserModeration"
                 type="radio"
-                value={NEW_USER_MODERATION.BANNED}
+                value={NEW_USER_MODERATION.BAN}
               >
                 {({ input }) => (
                   <RadioButton
                     {...input}
-                    id={`${input.name}-${NEW_USER_MODERATION.BANNED}`}
+                    id={`${input.name}-${NEW_USER_MODERATION.BAN}`}
                   >
                     <Localized id="configure-moderation-emailDomains-banAllUsers">
                       <span>Ban all users</span>
