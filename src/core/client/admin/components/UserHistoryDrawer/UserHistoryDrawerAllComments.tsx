@@ -44,9 +44,6 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   const hasMore = relay.hasMore();
   const comments = user ? user.allComments.edges.map((edge) => edge.node) : [];
 
-  const archivingEnabled = true; // MARCUS: RESOLVE
-  const archivingThreshold = "TODO MONTHS";
-
   if (comments.length === 0) {
     return (
       <CallOut fullWidth>
@@ -64,13 +61,6 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
 
   return (
     <>
-      {archivingEnabled && (
-        <Localized id="userHistoryDrawer-comments-archiving-copy">
-          <i>
-            All of this user’s comments from the previous {archivingThreshold}.
-          </i>
-        </Localized>
-      )}
       {comments.map((c, index) => (
         <div key={c.id}>
           <ModerateCardContainer
