@@ -710,6 +710,17 @@ export async function promoteUser(
     throw new Error("viewer must be a site moderator");
   }
 
+  if (
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !siteIDs.every((siteID) =>
+      viewer.moderationScopes?.siteIDs?.includes(siteID)
+    )
+  ) {
+    throw new Error(
+      "viewer is not permitted to promote the user on these sites"
+    );
+  }
+
   const user = await retrieveUser(mongo, tenant.id, userID);
   if (!user) {
     throw new UserNotFoundError(userID);
@@ -760,6 +771,17 @@ export async function demoteUser(
 
   if (!isSiteModerationScoped(viewer.moderationScopes)) {
     throw new Error("viewer must be a site moderator");
+  }
+
+  if (
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !siteIDs.every((siteID) =>
+      viewer.moderationScopes?.siteIDs?.includes(siteID)
+    )
+  ) {
+    throw new Error(
+      "viewer is not permitted to demote the user on these sites"
+    );
   }
 
   const user = await retrieveUser(mongo, tenant.id, userID);
