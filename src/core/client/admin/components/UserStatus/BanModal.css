@@ -11,3 +11,7 @@ $ban-modal-text: var(--palette-text-500);
 .textArea {
   height: calc(12 * var(--mini-unit));
 }
+
+.sitesToggle {
+  margin-bottom: var(--spacing-3);
+}

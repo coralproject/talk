@@ -556,6 +556,7 @@ site-search-textField =
 site-search-textField =
   .placeholder = Search by site name
 site-search-none-found = No sites were found with that search
+specificSitesSelect-validation = You must select at least one site from which to ban/unban the user.
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
@@ -734,9 +735,11 @@ configure-moderation-preModeration-explanation =
   When pre-moderation is turned on, comments will not be published unless
   approved by a moderator.
 configure-moderation-preModeration-moderation =
-  Pre-moderate all comments sitewide
+  Pre-moderate all comments
 configure-moderation-preModeration-premodLinksEnable =
-  Pre-moderate comments containing links sitewide
+  Pre-moderate all comments containing links
+configure-moderation-specificSites = Specific sites
+configure-moderation-allSites = All sites
 
 configure-moderation-apiKey = API key
 
@@ -748,7 +751,7 @@ configure-moderation-akismet-explanation =
   If approved by a moderator, the comment will be published.
 
 configure-moderation-premModeration-premodSuspectWordsEnable =
-  Pre-moderate comments containing Suspect Words
+  Pre-moderate all comments containing Suspect Words
 configure-moderation-premModeration-premodSuspectWordsDescription =
   You can view and edit your Suspect Word list <wordListLink>here</wordListLink>
 
@@ -1161,7 +1164,7 @@ moderate-forReview-reportedSpam = Spam
 # Archive
 
 moderate-archived-queue-title = This story has been archived
-moderate-archived-queue-noModerationActions = 
+moderate-archived-queue-noModerationActions =
   No moderation actions can be made on the comments when a story is archived.
 moderate-archived-queue-toPerformTheseActions =
   To perform these actions, unarchive the story.
@@ -1220,10 +1223,7 @@ community-siteModeratorActions-popover =
 community-userStatus-popover =
   .description = A dropdown to change the user status
 
-community-userStatus-banUser = Ban User
-community-userStatus-ban = Ban
-community-userStatus-removeBan = Remove Ban
-community-userStatus-removeUserBan = Remove ban
+community-userStatus-manageBan = Manage Ban
 community-userStatus-suspendUser = Suspend User
 community-userStatus-suspend = Suspend
 community-userStatus-suspendEverywhere = Suspend everywhere
@@ -1235,12 +1235,18 @@ community-userStatus-changeButton =
 community-userStatus-premodUser = Always pre-moderate
 community-userStatus-removePremod = Remove pre-moderate
 
-community-banModal-areYouSure = Are you sure you want to ban <username></username>?
-community-banModal-consequence =
+community-banModal-allSites-title = Are you sure you want to ban <username></username>?
+community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
+community-banModal-noSites-title = Are you sure you want to unban <username></username>?
+community-banModal-allSites-consequence =
   Once banned, this user will no longer be able to comment, use
   reactions, or report comments.
+community-banModal-noSites-consequence =
+  Once unbanned, this user will be able to comment, use reactions, and report comments.
+community-banModal-specificSites-consequence =
+  This action will affect which sites on which the user is able to comment, use reactions, and report comments.
 community-banModal-cancel = Cancel
-community-banModal-banUser = Ban User
+community-banModal-updateBan = Save
 community-banModal-customize = Customize ban email message
 community-banModal-reject-existing = Reject all comments by this user
 
@@ -1370,6 +1376,24 @@ stories-column-publishedCount = Published
 
 stories-status-popover =
   .description = A dropdown to change the story status
+
+storyInfoDrawer-rescrapeTriggered = Triggered
+storyInfoDrawer-triggerRescrape = Rescrape
+storyInfoDrawer-title = Story Details
+storyInfoDrawer-titleNotAvailable = Story title not available
+storyInfoDrawer-authorNotAvailable = Author not available
+storyInfoDrawer-publishDateNotAvailable = Publish date not available
+storyInfoDrawer-scrapedMetaData = Scraped metadata
+storyInfoDrawer-configure = Configure
+storyInfoDrawer-storyStatus-open = Open
+storyInfoDrawer-storyStatus-closed = Closed
+storyInfoDrawerSettings-premodLinksEnable = Pre Mod Links
+storyInfoDrawerSettings-moderation = Moderation
+storyInfoDrawerSettings-moderationMode-pre = Pre
+storyInfoDrawerSettings-moderationMode-post = Post
+storyInfoDrawer-storyStatus-archiving = Archiving
+storyInfoDrawer-storyStatus-archived = Archived
+
 
 ## Invite
 

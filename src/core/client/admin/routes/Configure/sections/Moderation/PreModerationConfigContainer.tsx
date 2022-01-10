@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { formatBool, parseStringBool } from "coral-framework/lib/form";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   FieldSet,
   FormField,
@@ -11,21 +12,26 @@ import {
 } from "coral-ui/components/v2";
 import { Link } from "coral-ui/components/v3";
 
+import { PreModerationConfigContainer_settings } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
+
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import PreModerateAllCommentsConfig from "./PreModerateAllCommentsConfig";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment PreModerationConfig_formValues on Settings {
+  fragment PreModerationConfigContainer_formValues on Settings {
     moderation
     premodLinksEnable
     premoderateSuspectWords
+    premoderateAllCommentsSites
   }
 `;
 
 interface Props {
   disabled: boolean;
+  settings: PreModerationConfigContainer_settings;
 }
 
 const parse = (v: string) => {
@@ -36,7 +42,10 @@ const format = (v: "PRE" | "POST") => {
   return formatBool(v === "PRE");
 };
 
-const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
+const PreModerationConfigContainer: FunctionComponent<Props> = ({
+  disabled,
+  settings,
+}) => {
   return (
     <ConfigBox
       id="Comments"
@@ -55,19 +64,23 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
       </Localized>
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-preModeration-moderation">
-          <Label component="legend">Pre-moderate all comments sitewide</Label>
+          <Label component="legend">Pre-moderate all comments</Label>
         </Localized>
-        <OnOffField
-          name="moderation"
-          disabled={disabled}
-          parse={parse}
-          format={format}
-        />
+        {settings.multisite ? (
+          <PreModerateAllCommentsConfig disabled={disabled} />
+        ) : (
+          <OnOffField
+            name="moderation"
+            disabled={disabled}
+            parse={parse}
+            format={format}
+          />
+        )}
       </FormField>
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-preModeration-premodLinksEnable">
           <Label component="legend">
-            Pre-moderate comments containing links sitewide
+            Pre-moderate all comments containing links
           </Label>
         </Localized>
         <OnOffField name="premodLinksEnable" disabled={disabled} />
@@ -75,7 +88,7 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-premModeration-premodSuspectWordsEnable">
           <Label component="legend">
-            Pre-moderate comments containing Suspect Words
+            Pre-moderate all comments containing Suspect Words
           </Label>
         </Localized>
         <Localized
@@ -93,4 +106,12 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
   );
 };
 
-export default PreModerationConfig;
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment PreModerationConfigContainer_settings on Settings {
+      multisite
+    }
+  `,
+})(PreModerationConfigContainer);
+
+export default enhanced;

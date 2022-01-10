@@ -26,9 +26,11 @@ import {
   UserAlreadySuspendedError,
   UserBioTooLongError,
   UserCannotBeIgnoredError,
+  UserForbiddenError,
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
   UserNotFoundError,
+  ValidationError,
 } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
@@ -697,7 +699,8 @@ export async function promoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string
+  userID: string,
+  siteIDs: string[]
 ) {
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
@@ -705,6 +708,17 @@ export async function promoteUser(
 
   if (!isSiteModerationScoped(viewer.moderationScopes)) {
     throw new Error("viewer must be a site moderator");
+  }
+
+  if (
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !siteIDs.every((siteID) =>
+      viewer.moderationScopes?.siteIDs?.includes(siteID)
+    )
+  ) {
+    throw new Error(
+      "viewer is not permitted to promote the user on these sites"
+    );
   }
 
   const user = await retrieveUser(mongo, tenant.id, userID);
@@ -728,7 +742,7 @@ export async function promoteUser(
     mongo,
     tenant.id,
     userID,
-    viewer.moderationScopes.siteIDs
+    siteIDs
   );
 
   // If the user isn't a site moderator now, make them one!
@@ -748,7 +762,8 @@ export async function demoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string
+  userID: string,
+  siteIDs: string[]
 ) {
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
@@ -756,6 +771,17 @@ export async function demoteUser(
 
   if (!isSiteModerationScoped(viewer.moderationScopes)) {
     throw new Error("viewer must be a site moderator");
+  }
+
+  if (
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !siteIDs.every((siteID) =>
+      viewer.moderationScopes?.siteIDs?.includes(siteID)
+    )
+  ) {
+    throw new Error(
+      "viewer is not permitted to demote the user on these sites"
+    );
   }
 
   const user = await retrieveUser(mongo, tenant.id, userID);
@@ -779,7 +805,7 @@ export async function demoteUser(
     mongo,
     tenant.id,
     userID,
-    viewer.moderationScopes.siteIDs
+    siteIDs
   );
 
   // If the user doesn't have any more siteID's, demote the user role to a
@@ -1163,6 +1189,157 @@ export async function ban(
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: user.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
+        },
+      },
+    });
+  }
+
+  return user;
+}
+
+/**
+ * updateUserBan will ban or unban a specific user from interacting with Coral
+ * on specified sites.
+ *
+ * @param mongo mongo database to interact with
+ * @param mailer the mailer
+ * @param rejector the comment rejector queue
+ * @param tenant Tenant where the User will be banned on
+ * @param banner the User that is banning the User
+ * @param userID the ID of the User being banned
+ * @param message message to banned user
+ * @param rejectExistingComments whether all the authors previous comments should be rejected
+ * @param now the current time that the ban took effect
+ */
+export async function updateUserBan(
+  mongo: MongoContext,
+  mailer: MailerQueue,
+  rejector: RejectorQueue,
+  tenant: Tenant,
+  banner: User,
+  userID: string,
+  message: string,
+  rejectExistingComments: boolean,
+  banSiteIDs?: string[] | null,
+  unbanSiteIDs?: string[] | null,
+  now = new Date()
+) {
+  // Ensure valid role
+  if (
+    banner.role !== GQLUSER_ROLE.ADMIN &&
+    banner.role !== GQLUSER_ROLE.MODERATOR
+  ) {
+    throw new UserForbiddenError(
+      "User not authorized to perform UpdateUserBan",
+      "userBan",
+      "update",
+      userID
+    );
+  }
+  // if scoped, make sure sites are in scope
+  const scopedSites = banner.moderationScopes?.siteIDs;
+  if (scopedSites && scopedSites.length > 0) {
+    const notAllowedBans = banSiteIDs?.filter(
+      (siteID) => !scopedSites.includes(siteID)
+    );
+    if (notAllowedBans?.length) {
+      throw new UserForbiddenError(
+        "Site moderator not authorized to ban user on site",
+        "userBan",
+        "update"
+      );
+    }
+
+    const notAllowedUnbans = unbanSiteIDs?.filter(
+      (siteID) => !scopedSites.includes(siteID)
+    );
+    if (notAllowedUnbans?.length) {
+      throw new UserForbiddenError(
+        "Site moderator not authorized to unban user on site",
+        "userBan",
+        "update",
+        userID
+      );
+    }
+  }
+
+  // make sure banIds and unbanIDs dont overlap
+  if (banSiteIDs?.length && unbanSiteIDs?.length) {
+    const all = new Set([...banSiteIDs, ...unbanSiteIDs]);
+    if (all.size < banSiteIDs.length + unbanSiteIDs.length) {
+      throw new ValidationError(
+        new Error("Found duplicate site IDs in ban and unban lists")
+      );
+    }
+  }
+
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  let newBans = false;
+  let user: User = targetUser;
+  // ban user on banID sites not already banned on
+  if (banSiteIDs?.length) {
+    const idsToBan = banSiteIDs.filter(
+      (bsi) => !targetUser.status.ban.siteIDs?.includes(bsi)
+    );
+
+    if (idsToBan.length > 0) {
+      user = await siteBanUser(
+        mongo,
+        tenant.id,
+        userID,
+        banner.id,
+        message,
+        idsToBan,
+        now
+      );
+      newBans = true;
+    }
+  }
+
+  // unban user on unban ID sites if banned on them
+  if (unbanSiteIDs?.length) {
+    const newUnbans = unbanSiteIDs.filter((usi) =>
+      targetUser.status.ban.siteIDs?.includes(usi)
+    );
+
+    if (newUnbans.length > 0) {
+      user = await removeUserSiteBan(
+        mongo,
+        tenant.id,
+        userID,
+        banner.id,
+        now,
+        newUnbans
+      );
+    }
+  }
+  // if any new bans and rejectExistingCommments, reject existing comments
+  if (newBans && rejectExistingComments) {
+    await rejector.add({
+      tenantID: tenant.id,
+      authorID: targetUser.id,
+      moderatorID: banner.id,
+    });
+  }
+  // if any new bans, send email
+  if (newBans && targetUser.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: targetUser.email,
+      },
+      template: {
+        name: "account-notification/ban",
+        context: {
+          username: targetUser.username!,
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
