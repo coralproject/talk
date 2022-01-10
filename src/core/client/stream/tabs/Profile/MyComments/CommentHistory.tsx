@@ -1,13 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "relay-runtime";
 
-import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
-
-import { CommentHistory_local } from "coral-stream/__generated__/CommentHistory_local.graphql";
 
 import HistoryCommentContainer from "./HistoryCommentContainer";
 
@@ -25,14 +21,8 @@ interface CommentHistoryProps {
 }
 
 const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
-  const [{ autoArchivingEnabled, autoArchivingThreshold }] = useLocal<
-    CommentHistory_local
-  >(graphql`
-    fragment CommentHistory_local on Local {
-      autoArchivingEnabled
-      autoArchivingThreshold
-    }
-  `);
+  const archivingEnabled = true; // MARCUS TODO: RESOLVE THIS
+  const archivingThreshold = "TODO MONTHS"; // MARCUS TODO: resolve this
   return (
     <Localized
       id="profile-commentHistory-section"
@@ -99,12 +89,12 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
               </Button>
             </Localized>
           )}
-          {autoArchivingEnabled && (
+          {archivingEnabled && (
             <Localized id="profile-commentHistory-archived-copy">
               <i>
                 This is all of your comments from the previous{" "}
-                {autoArchivingThreshold}. To view the rest of your comments,
-                please contact us. {/* TODO: format threshold */}
+                {archivingThreshold}. To view the rest of your comments, please
+                contact us.
               </i>
             </Localized>
           )}

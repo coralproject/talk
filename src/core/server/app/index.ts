@@ -132,9 +132,6 @@ export async function createApp(options: AppOptions): Promise<Express> {
     })
   );
 
-  /* eslint-disable */
-  console.log(parent.routes)
-
   // Enable CORS headers for media assets, font's require them.
   parent.use("/assets/media", cors());
 

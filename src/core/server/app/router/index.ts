@@ -24,23 +24,17 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
     attachGraphiQL(router, app);
   }
 
-  /* eslint-disable */
-  if (true) {
+  if (!options.disableClientRoutes) {
     // Prepare the client config to be injected on the page.
     const staticConfig: StaticConfig = {
       // When mounting client routes, we need to provide a staticURI even when
       // not provided to the default current domain relative "/".
       staticURI: app.config.get("static_uri") || "/",
-      autoArchivingEnabled: app.config.get("enable_auto_archiving"),
-      autoArchivingThreshold: app.config.get("auto_archive_older_than"),
       graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
       featureFlags: [],
       flattenReplies: false,
       forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
     };
-
-    /* eslint-disable */
-    require("fs").writeFileSync("DETETE.json", JSON.stringify(staticConfig, null, 2));
 
     // If sentry is configured, then add it's config to the config.
     if (

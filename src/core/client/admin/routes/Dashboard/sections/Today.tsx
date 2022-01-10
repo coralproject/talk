@@ -1,9 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "relay-runtime";
 
 import { TodayMetricsJSON } from "coral-common/types/dashboard";
-import { useLocal } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";
 
@@ -13,8 +11,6 @@ import {
   TodayValue,
 } from "../components";
 import createDashboardFetch from "../createDashboardFetch";
-
-import { Today_local } from "coral-admin/__generated__/Today_local.graphql";
 
 import styles from "./Today.css";
 
@@ -34,14 +30,6 @@ interface Props {
 }
 
 const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
-  const [{ autoArchivingEnabled, autoArchivingThreshold }] = useLocal<
-    Today_local
-  >(graphql`
-    fragment Today_local on Local {
-      autoArchivingEnabled
-      autoArchivingThreshold
-    }
-  `);
   const [today, loading] = useImmediateFetch(
     TodayMetricsFetch,
     { siteID },
@@ -52,6 +40,9 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
     { siteID },
     lastUpdated
   );
+
+  const archivingEnabled = true; // MARCUS: RESOLVE
+  const archivingThreshold = "TODO months";
 
   return (
     <div>
@@ -66,9 +57,9 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.total.toString()}>
-            {autoArchivingEnabled ? (
+            {archivingEnabled ? (
               <Localized id="dashboard-archived-new-comments">
-                <>{autoArchivingThreshold} total</> {/* TODO: format */}
+                <>{archivingThreshold} total</>
               </Localized>
             ) : (
               <Localized id="dashboard-alltime-new-comments">
@@ -102,9 +93,9 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
                 : "-.-- %"
             }
           >
-            {autoArchivingEnabled ? (
+            {archivingEnabled ? (
               <Localized id="dashboard-archived-rejections">
-                <>{autoArchivingThreshold} average</> {/* TODO: format */}
+                <>{archivingThreshold} average</>
               </Localized>
             ) : (
               <Localized id="dashboard-alltime-rejections">
@@ -123,9 +114,9 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.staff.toString()}>
-            {autoArchivingEnabled ? (
+            {archivingEnabled ? (
               <Localized id="dashboard-archived-staff-comments">
-                <>{autoArchivingThreshold} total</> {/* TODO: format */}
+                <>{archivingThreshold} total</>
               </Localized>
             ) : (
               <Localized id="dashboard-alltime-staff-comments">
