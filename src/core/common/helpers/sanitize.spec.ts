@@ -89,6 +89,22 @@ it("sanitizes without features enabled", () => {
   `);
 });
 
+it("allows mailto links", () => {
+  const sanitize = createSanitize(window as any);
+  expect(sanitize('<a href="mailto:email@example.com">email@example.com</a>'))
+    .toMatchInlineSnapshot(`
+    <body>
+      <a
+        href="mailto:email@example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        email@example.com
+      </a>
+    </body>
+  `);
+});
+
 it("replaces anchor tags with their text", () => {
   const sanitize = createSanitize(window as any);
   const el = sanitize(
@@ -98,15 +114,49 @@ it("replaces anchor tags with their text", () => {
     </div>
   `
   );
-  expect(el.innerHTML).toMatchInlineSnapshot(
-    `
+  expect(el.innerHTML).toMatchInlineSnapshot(`
     "
         <div>
           This is a link. This is another link with no href in a comment.
         </div>
       "
+  `);
+});
+
+it("does not replace anchor tags with their text if href does match inner html", () => {
+  const sanitize = createSanitize(window as any);
+  const el = sanitize(
+    `
+    <div>
+      This is a link where href matches <a href="http://test.com">http://test.com</a>.
+    </div>
   `
   );
+  expect(el.innerHTML).toMatchInlineSnapshot(`
+    "
+        <div>
+          This is a link where href matches <a href=\\"http://test.com\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">http://test.com</a>.
+        </div>
+      "
+  `);
+});
+
+it("does not replace anchor tags with their text if href does match inner html and only one has a trailing slash", () => {
+  const sanitize = createSanitize(window as any);
+  const el = sanitize(
+    `
+    <div>
+      This is a link where href matches <a href="http://test.com/">http://test.com</a>.
+    </div>
+  `
+  );
+  expect(el.innerHTML).toMatchInlineSnapshot(`
+    "
+        <div>
+          This is a link where href matches <a href=\\"http://test.com/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">http://test.com</a>.
+        </div>
+      "
+  `);
 });
 
 it("allows bolded tags", () => {

@@ -57,7 +57,7 @@ deploy_branch() {
 
 deploy_commit() {
   SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -6)
-  SHORT_GIT_HASH="develop-${SHORT_GIT_HASH}"
+  SHORT_GIT_HASH="${CIRCLE_BRANCH}-${SHORT_GIT_HASH}"
   echo "==> tagging commit ${SHORT_GIT_HASH}"
   docker tag "coralproject/talk:latest" "${GCR_IMAGE_NAME}:${SHORT_GIT_HASH}"
 

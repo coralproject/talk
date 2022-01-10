@@ -36,6 +36,7 @@ export const createTenantFixture = (
       url: "https://www.org.org",
     },
     moderation: GQLMODERATION_MODE.POST,
+    premoderateAllCommentsSites: [],
 
     // Default to enabled.
     live: {

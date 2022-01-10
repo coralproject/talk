@@ -257,6 +257,103 @@ it("change user role", async () => {
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
+it("change user role to Site Moderator and add sites to moderate", async () => {
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          role: GQLUSER_ROLE.MODERATOR,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          role: variables.role,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+      updateUserModerationScopes: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          moderationScopes: {
+            siteIDs: ["site-1"],
+          },
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          moderationScopes: {
+            scoped: true,
+            sites: [sites[0]],
+          },
+          role: GQLUSER_ROLE.MODERATOR,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+    Query: {
+      settings: () => settingsWithMultisite,
+      sites: () => siteConnection,
+    },
+  });
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change role").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+
+  act(() => {
+    within(popup)
+      .getByText("Site Moderator", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(container).getByTestID("site-moderator-modal");
+
+  // The submit button should be disabled until at least 1 site is selected
+  expect(
+    within(modal).getByTestID("site-moderator-modal-submitButton").props
+      .disabled
+  ).toBe(true);
+
+  const siteSearchField = within(modal).getByTestID("site-search-textField");
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Test" },
+    })
+  );
+
+  const siteSearchButton = within(modal).getByTestID("site-search-button");
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // Add site to add site moderator permissions for
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Test Site").props.onClick();
+  });
+
+  await act(async () => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+  expect(resolvers.Mutation!.updateUserModerationScopes!.called).toBe(true);
+});
+
 it("can't change role as a moderator", async () => {
   const moderator = users.moderators[0];
   const { container } = await createTestRenderer({

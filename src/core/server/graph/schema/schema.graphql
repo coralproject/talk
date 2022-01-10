@@ -569,6 +569,12 @@ enum MODERATION_MODE {
   Comments posted while in `POST` will be visible immediately.
   """
   POST
+
+  """
+  Comments posted while in `SPECIFIC_SITES_PRE` mode will be labeled with
+  a `PREMOD` status if the site is included in premoderateAllCommentsSites.
+  """
+  SPECIFIC_SITES_PRE
 }
 
 """
@@ -1879,6 +1885,12 @@ type Settings @cacheControl(maxAge: 30) {
   moderation: MODERATION_MODE
     @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  """
+  premoderateAllCommentsSites are the sites that should have all comments
+  premoderated when moderation mode is SPECIFIC_SITES_PRE
+  """
+  premoderateAllCommentsSites: [ID!]!
 
   """
   communityGuidelines will be shown in the comments stream.
@@ -5288,6 +5300,12 @@ input SettingsInput {
   moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE
+
+  """
+  premoderateAllCommentsSites are the sites that should have all comments
+  premoderated when moderation mode is SPECIFIC_SITES_PRE
+  """
+  premoderateAllCommentsSites: [ID!]!
 
   """
   communityGuidelines will be shown in the comments stream.
