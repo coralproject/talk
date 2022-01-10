@@ -143,6 +143,7 @@ createComment.error
 - <a href="#viewConversation">viewConversation</a>
 - <a href="#viewFullDiscussion">viewFullDiscussion</a>
 - <a href="#viewNewComments">viewNewComments</a>
+- <a href="#viewNewCommentsNetwork">viewNewCommentsNetwork</a>
 
 ### Events
 - <a id="approveComment">**approveComment.success**, **approveComment.error**</a>: This event is emitted when the viewer approves a comment.
@@ -342,6 +343,11 @@ createComment.error
   ```ts
   {
       storyID: string;
+      keyboardShortcutsConfig: {
+          source: string;
+          key: string;
+          reverse: boolean;
+      } | null;
       success: {};
       error: {
           message: string;
@@ -489,6 +495,11 @@ createComment.error
   ```ts
   {
       commentID: string;
+      keyboardShortcutsConfig: {
+          source: string;
+          key: string;
+          reverse: boolean;
+      } | null;
       success: {};
       error: {
           message: string;
@@ -654,6 +665,22 @@ createComment.error
   {
       storyID: string;
       count: number;
+  }
+  ```
+- <a id="viewNewCommentsNetwork">**viewNewCommentsNetwork.success**, **viewNewCommentsNetwork.error**</a>: This event is emitted when the viewer reveals new live comments.
+  ```ts
+  {
+      storyID?: string | undefined;
+      keyboardShortcutsConfig: {
+          source: string;
+          key: string;
+          reverse: boolean;
+      } | null;
+      success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
   }
   ```
 <!-- END docs:events -->
