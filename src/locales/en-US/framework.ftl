@@ -76,7 +76,6 @@ framework-timeago =
     [ago] {framework-timeago-time} ago
     *[noSuffix] {framework-timeago-time}
   }
-framework-timespan = { $days } days
 
 ## Components
 
@@ -138,6 +137,6 @@ framework-starRating =
 
 ### Relay Network Request Error
 
-framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
+framework-error-relayNetworkRequestError-anUnexpectedNetworkError = 
   An unexpected network error occurred, please try again later.
 framework-error-relayNetworkRequestError-code = Code
