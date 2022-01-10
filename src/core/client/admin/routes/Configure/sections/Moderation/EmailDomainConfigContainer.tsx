@@ -77,7 +77,10 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
         </Button>
       </Localized>
       {emailDomains.length > 0 && (
-        <Table fullWidth>
+        <Table
+          fullWidth
+          data-testid="configuration-moderation-emailDomains-table"
+        >
           <TableHead>
             <TableRow>
               <Localized id="configure-moderation-emailDomains-table-domain">
@@ -91,15 +94,13 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
           <TableBody>
             {emailDomains.map((domain) => {
               const actionDetails =
-                domain.newUserModeration === "BANNED"
+                domain.newUserModeration === "BAN"
                   ? {
-                      id:
-                        "configure-moderation-emailDomains-table-action-banned",
+                      id: "configure-moderation-emailDomains-banAllUsers",
                       message: "Ban all new commenter accounts",
                     }
                   : {
-                      id:
-                        "configure-moderation-emailDomains-table-action-alwaysPremod",
+                      id: "configure-moderation-emailDomains-alwaysPremod",
                       message: "Always pre-moderate comments",
                     };
               const actionText = getMessage(
@@ -108,43 +109,42 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                 actionDetails.message
               );
               return (
-                <>
-                  <TableRow key={domain.id}>
-                    <TableCell>{domain.domain}</TableCell>
-                    <TableCell>
-                      <Flex>
-                        {actionText}
-                        <Flex className={styles.buttons}>
-                          <Localized
-                            id="configure-moderation-emailDomains-table-edit"
-                            icon={<ButtonIcon>edit</ButtonIcon>}
+                <TableRow key={domain.id}>
+                  <TableCell>{domain.domain}</TableCell>
+                  <TableCell>
+                    <Flex>
+                      {actionText}
+                      <Flex className={styles.buttons}>
+                        <Localized
+                          id="configure-moderation-emailDomains-table-edit"
+                          icon={<ButtonIcon>edit</ButtonIcon>}
+                        >
+                          <Button
+                            variant="text"
+                            iconLeft
+                            to={`/admin/configure/moderation/domains/${domain.id}`}
+                            className={styles.editButton}
                           >
-                            <Button
-                              variant="text"
-                              iconLeft
-                              to={`/admin/configure/moderation/domains/${domain.id}`}
-                              className={styles.editButton}
-                            >
-                              Edit
-                            </Button>
-                          </Localized>
-                          <Localized
-                            id="configure-moderation-emailDomains-table-delete"
-                            icon={<ButtonIcon>delete</ButtonIcon>}
+                            Edit
+                          </Button>
+                        </Localized>
+                        <Localized
+                          id="configure-moderation-emailDomains-table-delete"
+                          icon={<ButtonIcon>delete</ButtonIcon>}
+                        >
+                          <Button
+                            variant="text"
+                            iconLeft
+                            onClick={() => onDelete(domain.id)}
+                            data-testid={`domain-delete-${domain.id}`}
                           >
-                            <Button
-                              variant="text"
-                              iconLeft
-                              onClick={() => onDelete(domain.id)}
-                            >
-                              Delete
-                            </Button>
-                          </Localized>
-                        </Flex>
+                            Delete
+                          </Button>
+                        </Localized>
                       </Flex>
-                    </TableCell>
-                  </TableRow>
-                </>
+                    </Flex>
+                  </TableCell>
+                </TableRow>
               );
             })}
           </TableBody>

@@ -13,6 +13,7 @@ const CreateEmailDomainRoute: FunctionComponent = () => {
   return (
     <HorizontalGutter size="double">
       <ConfigBox
+        data-testid="configure-moderation-emailDomains-add"
         title={
           <Localized id="configure-moderation-emailDomains-add">
             <Header>Add email domain</Header>

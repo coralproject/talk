@@ -29,7 +29,7 @@ import CreateEmailDomainMutation from "./CreateEmailDomainMutation";
 import UpdateEmailDomainMutation from "./UpdateEmailDomainMutation";
 
 enum NEW_USER_MODERATION {
-  BANNED = "BANNED",
+  BAN = "BAN",
   ALWAYS_PREMOD = "ALWAYS_PREMOD",
 }
 
@@ -37,9 +37,9 @@ interface Props {
   router: Router;
   match: Match;
   emailDomain?: {
-    domain: string;
-    id: string;
-    newUserModeration: NEW_USER_MODERATION;
+    readonly domain: string;
+    readonly id: string;
+    readonly newUserModeration: "BAN" | "ALWAYS_PREMOD" | "%future added value";
   };
 }
 
@@ -113,6 +113,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                     placeholder="ex. email.com"
                     color={colorFromMeta(meta)}
                     fullWidth
+                    data-testid="configure-moderation-emailDomains-domainTextField"
                   />
                   <ValidationMessage meta={meta} fullWidth />
                 </FormField>
@@ -132,7 +133,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                     {...input}
                     id={`${input.name}-${NEW_USER_MODERATION.BANNED}`}
                   >
-                    <Localized id="configure-moderation-emailDomains-form-banAllUsers">
+                    <Localized id="configure-moderation-emailDomains-banAllUsers">
                       <span>Ban all users</span>
                     </Localized>
                   </RadioButton>
@@ -148,7 +149,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                     {...input}
                     id={`${input.name}-${NEW_USER_MODERATION.ALWAYS_PREMOD}`}
                   >
-                    <Localized id="configure-moderation-emailDomains-form-alwaysPremod">
+                    <Localized id="configure-moderation-emailDomains-alwaysPremod">
                       <span>Always pre-moderate comments</span>
                     </Localized>
                   </RadioButton>

@@ -1,4 +1,5 @@
 import { noop } from "lodash";
+import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLMODERATION_MODE, GQLResolver } from "coral-framework/schema";
@@ -31,7 +32,7 @@ async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {},
   settingsOverride?: any
 ) {
-  const { testRenderer } = create({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -62,6 +63,7 @@ async function createTestRenderer(
     configureContainer,
     moderationContainer,
     saveChangesButton,
+    context,
   };
 }
 
@@ -539,4 +541,81 @@ it("change perspective send feedback setting", async () => {
 
   // Should have successfully sent with server.
   expect(resolvers.Mutation!.updateSettings!.calledOnce).toBe(true);
+});
+
+it("navigates to correct route for adding email domains", async () => {
+  const {
+    moderationContainer,
+    context: { transitionControl },
+  } = await createTestRenderer();
+
+  // Prevent router transitions.
+  transitionControl.allowTransition = false;
+
+  const emailDomainConfig = within(moderationContainer).getByID("emailDomain");
+
+  expect(
+    within(emailDomainConfig).queryByTestID(
+      "configuration-moderation-emailDomains-table"
+    )
+  ).toBeNull();
+
+  const addDomainButton = within(emailDomainConfig).getByText("Add domain");
+  act(() => {
+    addDomainButton.props.onClick({ button: 0, preventDefault: noop });
+  });
+
+  // Expect a routing request was made to the right url.
+  await act(async () => {
+    await wait(() => {
+      expect(transitionControl.history[0].pathname).toBe(
+        "/admin/configure/moderation/domains/add"
+      );
+    });
+  });
+});
+
+it("deletes email domains from configuration", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () =>
+        pureMerge(settings, {
+          emailDomains: [
+            {
+              id: "1a60424a-c116-483a-b315-837a7fd5b496",
+              domain: "emailchanged.com",
+              newUserModeration: "BAN",
+            },
+          ],
+        }),
+    },
+    Mutation: {
+      deleteEmailDomain: ({ variables }) => {
+        expectAndFail(variables.id).toEqual(
+          "1a60424a-c116-483a-b315-837a7fd5b496"
+        );
+        return {
+          settings: pureMerge(settings, {
+            emailDomains: [],
+          }),
+        };
+      },
+    },
+  });
+  const origConfirm = window.confirm;
+  window.confirm = sinon.stub().returns(true);
+  const { moderationContainer } = await createTestRenderer({ resolvers });
+  const emailDomainConfig = within(moderationContainer).getByID("emailDomain");
+  const deleteDomainButton = within(emailDomainConfig).getByTestID(
+    "domain-delete-1a60424a-c116-483a-b315-837a7fd5b496"
+  );
+  await act(async () => deleteDomainButton.props.onClick());
+
+  await act(async () => {
+    await wait(() => {
+      expect(resolvers.Mutation!.deleteEmailDomain!.called).toBe(true);
+    });
+  });
+
+  window.confirm = origConfirm;
 });

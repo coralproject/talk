@@ -27,6 +27,7 @@ const UpdateEmailDomainRoute: FunctionComponent<Props> = ({ data }) => {
   return (
     <HorizontalGutter size="double">
       <ConfigBox
+        data-testid="configure-moderation-emailDomains-update"
         title={
           <Localized id="configure-moderation-emailDomains-edit">
             <Header>Edit email domain</Header>

@@ -36,6 +36,7 @@ framework-validation-usernamesDoNotMatch = Usernames do not match. Try again.
 framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try again.
 framework-validation-invalidWebhookEndpointEventSelection = Select at least one event to receive.
 framework-validation-media-url-invalid = Please enter a valid image URL (.png, .jpg, or .gif)
+framework-validation-invalidEmailDomain = Please enter a valid email domain without the @. Ex. email.com.
 
 framework-timeago-just-now = Just now
 

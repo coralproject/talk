@@ -210,7 +210,7 @@ export type CreateUser = FindOrCreateUserInput;
 export type CreateUserOptions = FindOrCreateUserOptions;
 
 enum NEW_USER_MODERATION {
-  BANNED = "BANNED",
+  BAN = "BAN",
   ALWAYS_PREMOD = "ALWAYS_PREMOD",
 }
 

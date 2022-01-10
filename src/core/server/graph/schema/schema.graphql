@@ -582,7 +582,7 @@ enum NEW_USER_MODERATION {
   New users who sign up with an email domain configured to this moderation
   mode will be automatically banned
   """
-  BANNED
+  BAN
   """
   New users who sign up with an email domain configured to this moderation
   mode will be automatically always pre-moderated
@@ -8122,7 +8122,7 @@ input CreateEmailDomain {
   """
   newUserModeration is how new users on this domain should be moderated
   """
-  newUserModeration: String!
+  newUserModeration: NEW_USER_MODERATION!
 }
 
 input CreateEmailDomainInput {
@@ -8137,7 +8137,7 @@ input CreateEmailDomainInput {
   """
   newUserModeration is how new users on this domain should be moderated
   """
-  newUserModeration: String!
+  newUserModeration: NEW_USER_MODERATION!
 }
 
 type CreateEmailDomainPayload {
@@ -8171,7 +8171,7 @@ input UpdateEmailDomainInput {
   """
   newUserModeration is how new users on this domain should be moderated
   """
-  newUserModeration: String!
+  newUserModeration: NEW_USER_MODERATION!
 }
 
 type UpdateEmailDomainPayload {
