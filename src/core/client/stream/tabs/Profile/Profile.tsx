@@ -144,6 +144,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
             settings={props.settings}
             viewer={props.viewer}
             story={props.story}
+            local={local}
           />
         </TabPane>
         <TabPane
