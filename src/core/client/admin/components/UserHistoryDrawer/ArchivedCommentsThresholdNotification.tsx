@@ -22,13 +22,12 @@ export const ArchivedCommentsThresholdNotification: FunctionComponent<Props> = (
 
   return (
     <Localized
-      id="profile-commentHistory-archived-thisIsAllYourComments"
+      id="moderate-user-drawer-all-comments-archiveThreshold-allOfThisUsers"
       $value={scaled}
       $unit={unit}
     >
       <div className={styles.text}>
-        This is all of your comments from the previous {scaled} {unit}. To view
-        the rest of your comments, please contact us.
+        All of this user’s comments from the previous {scaled} {unit}.
       </div>
     </Localized>
   );
