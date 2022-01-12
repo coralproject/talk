@@ -1,9 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
+import { reduceSeconds } from "coral-common/helpers";
+import TIME from "coral-common/time";
 import { TodayMetricsJSON } from "coral-common/types/dashboard";
+import { useLocal } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";
+
+import { TodayTotalsLocal } from "coral-admin/__generated__/TodayTotalsLocal.graphql";
 
 import {
   TodayCompareValue,
@@ -30,6 +36,22 @@ interface Props {
 }
 
 const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
+  const [{ archivingEnabled, autoArchiveOlderThanMs }] = useLocal<
+    TodayTotalsLocal
+  >(graphql`
+    fragment TodayTotalsLocal on Local {
+      archivingEnabled
+      autoArchiveOlderThanMs
+    }
+  `);
+
+  const seconds = Math.floor(autoArchiveOlderThanMs / 1000);
+  const { scaled, unit } = reduceSeconds(seconds, [
+    TIME.DAY,
+    TIME.HOUR,
+    TIME.MINUTE,
+  ]);
+
   const [today, loading] = useImmediateFetch(
     TodayMetricsFetch,
     { siteID },
@@ -49,14 +71,26 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
       <Flex justifyContent="space-between" spacing={3}>
         <TodayDashboardBox icon="forum" loading={loading || totalLoading}>
           <TodayValue value={today?.comments.total.toString()}>
-            <Localized id="dashboard-today-new-comments">
+            <Localized id="dashboard-today-new-comments-archived">
               New comments
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.total.toString()}>
-            <Localized id="dashboard-alltime-new-comments">
-              All time total
-            </Localized>
+            {archivingEnabled ? (
+              <Localized
+                id="dashboard-alltime-new-comments-archiveEnabled"
+                $value={scaled}
+                $unit={unit}
+              >
+                <span>
+                  {scaled} {unit} total
+                </span>
+              </Localized>
+            ) : (
+              <Localized id="dashboard-alltime-new-comments">
+                All time total
+              </Localized>
+            )}
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="close" loading={loading || totalLoading}>
@@ -84,9 +118,21 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
                 : "-.-- %"
             }
           >
-            <Localized id="dashboard-alltime-rejections">
-              All time average
-            </Localized>
+            {archivingEnabled ? (
+              <Localized
+                id="dashboard-alltime-rejections-archiveEnabled"
+                $value={scaled}
+                $unit={unit}
+              >
+                <span>
+                  {scaled} {unit} average
+                </span>
+              </Localized>
+            ) : (
+              <Localized id="dashboard-alltime-rejections">
+                All time average
+              </Localized>
+            )}
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox
@@ -99,9 +145,21 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.staff.toString()}>
-            <Localized id="dashboard-alltime-staff-comments">
-              All time total
-            </Localized>
+            {archivingEnabled ? (
+              <Localized
+                id="dashboard-alltime-staff-comments-archiveEnabled"
+                $value={scaled}
+                $unit={unit}
+              >
+                <span>
+                  {scaled} {unit} total
+                </span>
+              </Localized>
+            ) : (
+              <Localized id="dashboard-alltime-staff-comments">
+                All time total
+              </Localized>
+            )}
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox icon="person_add" loading={loading || totalLoading}>

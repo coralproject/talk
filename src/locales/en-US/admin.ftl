@@ -1574,10 +1574,103 @@ dashboard-heading-last-updated = Last updated:
 dashboard-today-heading = Today's activity
 dashboard-today-new-comments = New comments
 dashboard-alltime-new-comments = All time total
+dashboard-alltime-new-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } total
 dashboard-today-rejections = Rejection rate
 dashboard-alltime-rejections = All time average
+dashboard-alltime-rejections-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } average
 dashboard-today-staff-comments = Staff comments
 dashboard-alltime-staff-comments = All time total
+dashboard-alltime-staff-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } total
 dashboard-today-signups = New community members
 dashboard-alltime-signups = Total members
 dashboard-today-bans = Banned members
