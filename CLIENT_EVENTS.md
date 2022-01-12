@@ -622,7 +622,7 @@ createComment.error
       live?: {
           enabled?: boolean | null | undefined;
       } | null | undefined;
-      moderation?: "POST" | "PRE" | null | undefined;
+      moderation?: "POST" | "PRE" | "SPECIFIC_SITES_PRE" | null | undefined;
       premodLinksEnable?: boolean | null | undefined;
       messageBox?: {
           enabled?: boolean | null | undefined;

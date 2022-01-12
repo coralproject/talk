@@ -81,14 +81,14 @@ const BanModal: FunctionComponent<Props> = ({
 
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
 
-  const isSiteMod =
+  const viewerIsSiteMod =
     !!moderationScopesEnabled &&
     viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
     !!viewerScopes.sites &&
     viewerScopes.sites?.length > 0;
 
   const viewerIsSingleSiteMod = !!(
-    isSiteMod &&
+    viewerIsSiteMod &&
     viewerScopes.sites &&
     viewerScopes.sites.length === 1
   );
@@ -124,7 +124,6 @@ const BanModal: FunctionComponent<Props> = ({
         unbanSiteIDs,
         customizeMessage ? emailMessage : getDefaultMessage
       );
-
       return;
     } catch (err) {
       return { [FORM_ERROR]: err.message };
@@ -145,6 +144,8 @@ const BanModal: FunctionComponent<Props> = ({
     titleLocalizationId,
     consequence,
     consequenceLocalizationId,
+    rejectExistingCommentsLocalizationId,
+    rejectExistingCommentsMessage,
   } = getTextForUpdateType(updateType);
 
   const pendingSiteBanUpdates = banSiteIDs.length + unbanSiteIDs.length > 0;
@@ -185,8 +186,14 @@ const BanModal: FunctionComponent<Props> = ({
             {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
-                  {!isSiteMod && updateType !== UpdateType.NO_SITES && (
-                    <Localized id="community-banModal-reject-existing">
+                  {updateType !== UpdateType.NO_SITES && (
+                    <Localized
+                      id={
+                        viewerIsSingleSiteMod
+                          ? "community-banModal-reject-existing-singleSite"
+                          : rejectExistingCommentsLocalizationId!
+                      }
+                    >
                       <CheckBox
                         id="banModal-rejectExisting"
                         checked={rejectComments}
@@ -194,7 +201,9 @@ const BanModal: FunctionComponent<Props> = ({
                           setRejectComments(event.target.checked)
                         }
                       >
-                        Reject all comments by this user
+                        {viewerIsSingleSiteMod
+                          ? "Reject all comments on this site"
+                          : rejectExistingCommentsMessage}
                       </CheckBox>
                     </Localized>
                   )}

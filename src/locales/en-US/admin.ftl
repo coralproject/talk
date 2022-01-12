@@ -1249,6 +1249,8 @@ community-banModal-cancel = Cancel
 community-banModal-updateBan = Save
 community-banModal-customize = Customize ban email message
 community-banModal-reject-existing = Reject all comments by this user
+community-banModal-reject-existing-specificSites = Reject all comments on these sites
+community-banModal-reject-existing-singleSite = Reject all comments on this site
 
 community-banModal-noSites = No sites
 community-banModal-banFrom = Ban from
