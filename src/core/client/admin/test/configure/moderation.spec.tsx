@@ -583,7 +583,7 @@ it("deletes email domains from configuration", async () => {
           emailDomainModeration: [
             {
               id: "1a60424a-c116-483a-b315-837a7fd5b496",
-              domain: "emailchanged.com",
+              domain: "email.com",
               newUserModeration: "BAN",
             },
           ],

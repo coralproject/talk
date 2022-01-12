@@ -16,32 +16,26 @@ import { emailDomain, settings, users } from "../fixtures";
 const viewer = users.admins[0];
 
 async function createTestRenderer(
-  params: CreateTestRendererParams<GQLResolver> = {},
-  settingsOverride?: any
+  params: CreateTestRendererParams<GQLResolver> = {}
 ) {
   const { testRenderer } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
-          settings: () => (settingsOverride ? settingsOverride : settings),
+          settings: () => settings,
           viewer: () => viewer,
         },
       }),
       params.resolvers
     ),
-    initLocalState: (localRecord, source, environment) => {
-      if (params.initLocalState) {
-        params.initLocalState(localRecord, source, environment);
-      }
-    },
   });
   return {
     testRenderer,
   };
 }
 
-it("adds new email domains to ban and pre-moderate users on", async () => {
+it("adds email domains to ban new users on", async () => {
   replaceHistoryLocation(
     "http://localhost/admin/configure/moderation/domains/add"
   );
@@ -79,6 +73,7 @@ it("adds new email domains to ban and pre-moderate users on", async () => {
     form.props.onSubmit();
   });
 
+  // Check that expected validation errors are displayed
   expect(
     within(addEmailDomainConfig).getByText("This field is required.")
   ).toBeDefined();
@@ -97,6 +92,7 @@ it("adds new email domains to ban and pre-moderate users on", async () => {
 
   act(() => domainField.props.onChange("email.com"));
 
+  // Submit form with email domain
   act(() => {
     form.props.onSubmit();
   });
@@ -149,6 +145,7 @@ it("updates email domains to ban users on", async () => {
 
   const form = within(updateEmailDomainConfig).getByType("form");
 
+  // submits form with updated email domain
   act(() => {
     form.props.onSubmit();
   });

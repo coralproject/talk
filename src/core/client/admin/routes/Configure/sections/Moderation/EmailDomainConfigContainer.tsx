@@ -3,6 +3,7 @@ import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "relay-runtime";
 
+import { urls } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -69,7 +70,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
         </FormFieldDescription>
       </Localized>
       <Localized
-        id="configure-moderation-emailDomains-form-addDomain"
+        id="configure-moderation-emailDomains-addDomain"
         icon={<ButtonIcon>add</ButtonIcon>}
       >
         <Button to="/admin/configure/moderation/domains/add" iconLeft>
@@ -122,7 +123,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                           <Button
                             variant="text"
                             iconLeft
-                            to={`/admin/configure/moderation/domains/${domain.id}`}
+                            to={`${urls.admin.configureModeration}/domains/${domain.id}`}
                             className={styles.editButton}
                           >
                             Edit

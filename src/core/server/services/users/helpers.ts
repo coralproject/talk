@@ -80,7 +80,7 @@ export function validateEmail(email: string) {
  * to always pre-moderated by the system
  *
  * @param user user to be checked against email domains
- * @param emailDomains email domains configured with new user moderation settings
+ * @param emailDomainModeration email domains configured with new user moderation settings
  */
 export function checkForNewUserEmailDomainModeration(
   user: User,

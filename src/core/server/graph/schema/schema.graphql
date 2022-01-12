@@ -583,6 +583,7 @@ enum NEW_USER_MODERATION {
   mode will be automatically banned
   """
   BAN
+
   """
   New users who sign up with an email domain configured to this moderation
   mode will be automatically always pre-moderated
@@ -1766,10 +1767,12 @@ type EmailDomain {
   domain is the email domain after the @ symbol, ex. example.com
   """
   domain: String!
+
   """
   id is the identifier for the email domain
   """
   id: ID!
+
   """
   newUserModeration is how new users who sign up with this email domain
   should be treated, ex. banned or always premoderated
@@ -8121,6 +8124,7 @@ input CreateEmailDomain {
   domain is the email domain that was configured
   """
   domain: String!
+
   """
   newUserModeration is how new users on this domain should be moderated
   """
@@ -8132,10 +8136,12 @@ input CreateEmailDomainInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
   """
   domain is the email domain that was configured
   """
   domain: String!
+
   """
   newUserModeration is how new users on this domain should be moderated
   """
@@ -8147,6 +8153,7 @@ type CreateEmailDomainPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
   """
   settings is the Settings that the email domain configuration was created on.
   """
@@ -8162,14 +8169,17 @@ input UpdateEmailDomainInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
   """
   id is the identifier for the email domain that was configured
   """
   id: String!
+
   """
   domain is the email domain that was configured
   """
   domain: String!
+
   """
   newUserModeration is how new users on this domain should be moderated
   """
@@ -8181,6 +8191,7 @@ type UpdateEmailDomainPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
   """
   settings is the Settings that the email domain configuration was updated on.
   """
@@ -8196,6 +8207,7 @@ input DeleteEmailDomainInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
   """
   id is the identifier for the email domain that is to be deleted
   """
@@ -8207,6 +8219,7 @@ type DeleteEmailDomainPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
   """
   settings is the Settings from which the email domain configuration was deleted.
   """

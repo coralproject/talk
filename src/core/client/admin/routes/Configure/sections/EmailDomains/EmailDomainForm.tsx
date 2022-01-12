@@ -162,7 +162,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                   variant="outlined"
                   size="large"
                   color="mono"
-                  to="/admin/configure/moderation#emailDomain"
+                  to={`${urls.admin.configureModeration}#emailDomain`}
                 >
                   Cancel
                 </Button>
@@ -182,10 +182,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                   </Button>
                 </Localized>
               ) : (
-                <Localized
-                  id="configure-moderation-emailDomains-form-addDomain"
-                  icon={<ButtonIcon>add</ButtonIcon>}
-                >
+                <Localized id="configure-moderation-emailDomains-form-addDomain">
                   <Button
                     disabled={submitting}
                     iconLeft
