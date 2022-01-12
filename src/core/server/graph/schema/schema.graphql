@@ -2112,10 +2112,11 @@ type Settings @cacheControl(maxAge: 30) {
   forReviewQueue: Boolean!
 
   """
-  emailDomains is for any special configuration by email domain for
-  new users, such as banning all users at a certain email domain
+  emailDomainModeration is for any special configuration by email
+  domain for moderating accounts, such as banning or always
+  pre-moderating new users at a certain email domain
   """
-  emailDomains: [EmailDomain!]!
+  emailDomainModeration: [EmailDomain!]!
 }
 
 ################################################################################

@@ -84,16 +84,16 @@ export function validateEmail(email: string) {
  */
 export function checkForNewUserEmailDomainModeration(
   user: User,
-  emailDomains: {
+  emailDomainModeration: {
     domain: string;
     id: string;
     newUserModeration: "BAN" | "ALWAYS_PREMOD";
   }[]
 ) {
   const userEmail = user.email;
-  if (userEmail && emailDomains) {
+  if (userEmail && emailDomainModeration) {
     const userEmailDomain = userEmail.substring(userEmail.indexOf("@") + 1);
-    const matchingEmailDomain = emailDomains.find(
+    const matchingEmailDomain = emailDomainModeration.find(
       (d) => d.domain === userEmailDomain
     );
     return matchingEmailDomain && matchingEmailDomain.newUserModeration;

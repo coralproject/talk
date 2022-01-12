@@ -25,7 +25,7 @@ export interface GlobalModerationSettings {
   moderation: GQLMODERATION_MODE;
   premodLinksEnable: boolean;
   premoderateAllCommentsSites: string[];
-  emailDomains: EmailDomain[];
+  emailDomainModeration: EmailDomain[];
 }
 
 export type OIDCAuthIntegration = Omit<

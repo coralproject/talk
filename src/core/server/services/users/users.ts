@@ -250,10 +250,10 @@ export async function create(
 
   // Check the new user's email address against emailDomain configurations
   // to see if they should be set to banned or always pre-moderated
-  if (tenant.emailDomains) {
+  if (tenant.emailDomainModeration) {
     const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
       user,
-      tenant.emailDomains
+      tenant.emailDomainModeration
     );
     if (newUserEmailDomainModeration) {
       if (newUserEmailDomainModeration === NEW_USER_MODERATION.BAN) {

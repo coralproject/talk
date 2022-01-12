@@ -47,8 +47,8 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
       ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
       : null,
   emailDomain: (source, { id }, ctx) =>
-    ctx.tenant.emailDomains
-      ? getEmailDomain(ctx.tenant.emailDomains, id)
+    ctx.tenant.emailDomainModeration
+      ? getEmailDomain(ctx.tenant.emailDomainModeration, id)
       : null,
   flags: (source, { first, after, orderBy, storyID, siteID, section }, ctx) =>
     ctx.loaders.CommentActions.forFilter({

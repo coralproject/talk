@@ -580,7 +580,7 @@ it("deletes email domains from configuration", async () => {
     Query: {
       settings: () =>
         pureMerge(settings, {
-          emailDomains: [
+          emailDomainModeration: [
             {
               id: "1a60424a-c116-483a-b315-837a7fd5b496",
               domain: "emailchanged.com",
@@ -596,7 +596,7 @@ it("deletes email domains from configuration", async () => {
         );
         return {
           settings: pureMerge(settings, {
-            emailDomains: [],
+            emailDomainModeration: [],
           }),
         };
       },

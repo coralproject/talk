@@ -176,7 +176,7 @@ export const createTenantFixture = (
     },
     amp: false,
     flattenReplies: false,
-    emailDomains: [],
+    emailDomainModeration: [],
   };
 
   return merge(fixture, defaults);

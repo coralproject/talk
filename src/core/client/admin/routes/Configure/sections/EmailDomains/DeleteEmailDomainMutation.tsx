@@ -19,7 +19,7 @@ const DeleteEmailDomainMutation = createMutation(
         mutation DeleteEmailDomainMutation($input: DeleteEmailDomainInput!) {
           deleteEmailDomain(input: $input) {
             settings {
-              emailDomains {
+              emailDomainModeration {
                 id
                 domain
                 newUserModeration

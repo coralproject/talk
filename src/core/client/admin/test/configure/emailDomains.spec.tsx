@@ -52,7 +52,7 @@ it("adds new email domains to ban and pre-moderate users on", async () => {
         expectAndFail(variables.newUserModeration).toEqual("BAN");
         return {
           settings: pureMerge(settings, {
-            emailDomains: [
+            emailDomainModeration: [
               {
                 id: "1a60424a-c116-483a-b315-837a7fd5b496",
                 domain: "email.com",
@@ -122,7 +122,7 @@ it("updates email domains to ban users on", async () => {
         expectAndFail(variables.newUserModeration).toEqual("BAN");
         return {
           settings: pureMerge(settings, {
-            emailDomains: [
+            emailDomainModeration: [
               {
                 id: "1a60424a-c116-483a-b315-837a7fd5b496",
                 domain: "emailchanged.com",

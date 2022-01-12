@@ -16,8 +16,8 @@ export function getExternalModerationPhase(
 }
 
 export function getEmailDomain(
-  emailDomains: EmailDomain[],
+  emailDomainModeration: EmailDomain[],
   emailDomainId: string
 ) {
-  return emailDomains.find((d) => d.id === emailDomainId) || null;
+  return emailDomainModeration.find((d) => d.id === emailDomainId) || null;
 }

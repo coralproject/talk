@@ -31,7 +31,7 @@ interface Props {
 }
 
 const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
-  const { emailDomains } = settings;
+  const { emailDomainModeration } = settings;
   const { localeBundles } = useCoralContext();
   const { router } = useRouter();
   const deleteEmailDomain = useMutation(DeleteEmailDomainMutation);
@@ -76,7 +76,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
           Add domain
         </Button>
       </Localized>
-      {emailDomains.length > 0 && (
+      {emailDomainModeration.length > 0 && (
         <Table
           fullWidth
           data-testid="configuration-moderation-emailDomains-table"
@@ -92,7 +92,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {emailDomains.map((domain) => {
+            {emailDomainModeration.map((domain) => {
               const actionDetails =
                 domain.newUserModeration === "BAN"
                   ? {
@@ -157,7 +157,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment EmailDomainConfigContainer_settings on Settings {
-      emailDomains {
+      emailDomainModeration {
         domain
         id
         newUserModeration

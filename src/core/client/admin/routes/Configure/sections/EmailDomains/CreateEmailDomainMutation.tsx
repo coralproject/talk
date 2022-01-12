@@ -19,7 +19,7 @@ const CreateEmailDomainMutation = createMutation(
         mutation CreateEmailDomainMutation($input: CreateEmailDomainInput!) {
           createEmailDomain(input: $input) {
             settings {
-              emailDomains {
+              emailDomainModeration {
                 id
                 domain
                 newUserModeration
