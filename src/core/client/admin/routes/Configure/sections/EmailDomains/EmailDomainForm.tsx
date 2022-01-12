@@ -126,22 +126,6 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
               <Field
                 name="newUserModeration"
                 type="radio"
-                value={NEW_USER_MODERATION.BAN}
-              >
-                {({ input }) => (
-                  <RadioButton
-                    {...input}
-                    id={`${input.name}-${NEW_USER_MODERATION.BAN}`}
-                  >
-                    <Localized id="configure-moderation-emailDomains-banAllUsers">
-                      <span>Ban all users</span>
-                    </Localized>
-                  </RadioButton>
-                )}
-              </Field>
-              <Field
-                name="newUserModeration"
-                type="radio"
                 value={NEW_USER_MODERATION.ALWAYS_PREMOD}
               >
                 {({ input }) => (
@@ -151,6 +135,22 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                   >
                     <Localized id="configure-moderation-emailDomains-alwaysPremod">
                       <span>Always pre-moderate comments</span>
+                    </Localized>
+                  </RadioButton>
+                )}
+              </Field>
+              <Field
+                name="newUserModeration"
+                type="radio"
+                value={NEW_USER_MODERATION.BAN}
+              >
+                {({ input }) => (
+                  <RadioButton
+                    {...input}
+                    id={`${input.name}-${NEW_USER_MODERATION.BAN}`}
+                  >
+                    <Localized id="configure-moderation-emailDomains-banAllUsers">
+                      <span>Ban all users</span>
                     </Localized>
                   </RadioButton>
                 )}
