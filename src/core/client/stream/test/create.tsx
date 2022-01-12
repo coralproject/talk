@@ -32,6 +32,11 @@ export default function create(params: CreateTestRendererParams) {
         DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
         "autoArchiveOlderThanMs"
       );
+      localRecord.setValue(false, "archivingEnabled");
+      localRecord.setValue(
+        DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
+        "autoArchiveOlderThanMs"
+      );
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
