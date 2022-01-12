@@ -113,7 +113,7 @@ import {
   generateDownloadLink,
 } from "./download/token";
 import {
-  checkForNewUserModeration,
+  checkForNewUserEmailDomainModeration,
   validateEmail,
   validatePassword,
   validateUsername,
@@ -248,16 +248,20 @@ export async function create(
 
   const user = await createUser(mongo, tenant.id, input, now);
 
-  const newUserModeration = checkForNewUserModeration(
-    user,
-    tenant.emailDomains
-  );
-  if (newUserModeration) {
-    if (newUserModeration === NEW_USER_MODERATION.BAN) {
-      await banUser(mongo, tenant.id, user.id);
-    }
-    if (newUserModeration === NEW_USER_MODERATION.ALWAYS_PREMOD) {
-      await premodUser(mongo, tenant.id, user.id);
+  // Check the new user's email address against emailDomain configurations
+  // to see if they should be set to banned or always pre-moderated
+  if (tenant.emailDomains) {
+    const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
+      user,
+      tenant.emailDomains
+    );
+    if (newUserEmailDomainModeration) {
+      if (newUserEmailDomainModeration === NEW_USER_MODERATION.BAN) {
+        await banUser(mongo, tenant.id, user.id);
+      }
+      if (newUserEmailDomainModeration === NEW_USER_MODERATION.ALWAYS_PREMOD) {
+        await premodUser(mongo, tenant.id, user.id);
+      }
     }
   }
 

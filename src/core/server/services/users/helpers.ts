@@ -74,7 +74,15 @@ export function validateEmail(email: string) {
   }
 }
 
-export function checkForNewUserModeration(
+/**
+ * checkforNewUserEmailDomainModeration will check the new user's email address domain against
+ * configured email domains to see if the user should be automatically banned or set
+ * to always pre-moderated by the system
+ *
+ * @param user user to be checked against email domains
+ * @param emailDomains email domains configured with new user moderation settings
+ */
+export function checkForNewUserEmailDomainModeration(
   user: User,
   emailDomains: {
     domain: string;
@@ -83,7 +91,7 @@ export function checkForNewUserModeration(
   }[]
 ) {
   const userEmail = user.email;
-  if (userEmail) {
+  if (userEmail && emailDomains) {
     const userEmailDomain = userEmail.substring(userEmail.indexOf("@") + 1);
     const matchingEmailDomain = emailDomains.find(
       (d) => d.domain === userEmailDomain
