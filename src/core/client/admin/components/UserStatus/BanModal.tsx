@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, {
   FunctionComponent,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -108,6 +109,12 @@ const BanModal: FunctionComponent<Props> = ({
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
 
+  useEffect(() => {
+    if (viewerIsSingleSiteMod) {
+      setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
+    }
+  }, [viewerIsSingleSiteMod]);
+
   const onFormSubmit = useCallback(() => {
     try {
       onConfirm(
@@ -117,7 +124,6 @@ const BanModal: FunctionComponent<Props> = ({
         unbanSiteIDs,
         customizeMessage ? emailMessage : getDefaultMessage
       );
-
       return;
     } catch (err) {
       return { [FORM_ERROR]: err.message };
@@ -143,6 +149,10 @@ const BanModal: FunctionComponent<Props> = ({
   } = getTextForUpdateType(updateType);
 
   const pendingSiteBanUpdates = banSiteIDs.length + unbanSiteIDs.length > 0;
+  const requiresSiteBanUpdates =
+    updateType === UpdateType.SPECIFIC_SITES ||
+    (updateType === UpdateType.ALL_SITES && viewerIsSingleSiteMod);
+  const disableForm = requiresSiteBanUpdates && !pendingSiteBanUpdates;
 
   return (
     <ChangeStatusModal
@@ -172,15 +182,7 @@ const BanModal: FunctionComponent<Props> = ({
               <p className={styles.bodyText}>{consequence}</p>
             </Localized>
           </HorizontalGutter>
-          <Form
-            onSubmit={onFormSubmit}
-            initialValues={{
-              showMessage: false,
-              rejectExistingComments: false,
-              emailMessage: getDefaultMessage,
-              selectedIDs: [],
-            }}
-          >
+          <Form onSubmit={onFormSubmit}>
             {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
@@ -301,12 +303,7 @@ const BanModal: FunctionComponent<Props> = ({
                       <Button
                         type="submit"
                         ref={lastFocusableRef}
-                        disabled={
-                          ((updateType === UpdateType.ALL_SITES &&
-                            viewerIsSingleSiteMod) ||
-                            updateType === UpdateType.SPECIFIC_SITES) &&
-                          !pendingSiteBanUpdates
-                        }
+                        disabled={disableForm}
                       >
                         Save
                       </Button>

@@ -28,7 +28,10 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
-import { LoadMoreAllCommentsEvent } from "coral-stream/events";
+import {
+  LoadMoreAllCommentsEvent,
+  ViewNewCommentsNetworkEvent,
+} from "coral-stream/events";
 import {
   CommentEditedSubscription,
   CommentEnteredSubscription,
@@ -69,16 +72,23 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   relay,
   tag,
 }) => {
-  const [{ commentsOrderBy, ratingFilter }, setLocal] = useLocal<
-    AllCommentsTabContainerLocal
-  >(
+  const [
+    { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
+    setLocal,
+  ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
         ratingFilter
         commentsOrderBy
+        keyboardShortcutsConfig {
+          key
+          source
+          reverse
+        }
       }
     `
   );
+
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
@@ -149,15 +159,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
+  const beginViewNewCommentsEvent = useViewerNetworkEvent(
+    ViewNewCommentsNetworkEvent
+  );
   const { window } = useCoralContext();
+
   const loadMoreAndEmit = useCallback(async () => {
-    const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
+    const loadMoreEvent = beginLoadMoreEvent({
+      storyID: story.id,
+      keyboardShortcutsConfig,
+    });
     try {
       await loadMore();
-      // eslint-disable-next-line no-unused-expressions
-      window.document
-        .getElementById(`comment-${lastComment?.node.id}`)
-        ?.focus();
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
@@ -166,11 +179,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     }
   }, [loadMore, beginLoadMoreEvent, story.id, lastComment, window]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
-  const onViewMore = useCallback(() => viewMore({ storyID: story.id, tag }), [
-    story.id,
-    tag,
-    viewMore,
-  ]);
+  const onViewMore = useCallback(async () => {
+    const viewNewCommentsEvent = beginViewNewCommentsEvent({
+      storyID: story.id,
+      keyboardShortcutsConfig,
+    });
+    try {
+      await viewMore({ storyID: story.id, tag });
+      viewNewCommentsEvent.success();
+    } catch (error) {
+      viewNewCommentsEvent.error({ message: error.message, code: error.code });
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, [story.id, tag, viewMore, beginViewNewCommentsEvent]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
   // TODO: extract to separate function
@@ -224,6 +246,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             aria-controls="comments-allComments-log"
             data-key-stop
             data-is-load-more
+            data-is-view-new
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (

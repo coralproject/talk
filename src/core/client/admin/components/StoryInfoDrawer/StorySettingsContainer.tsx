@@ -5,15 +5,10 @@ import { Field, Form } from "react-final-form";
 import { graphql } from "relay-runtime";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { CheckBox } from "coral-ui/components/v2";
-
-import { StorySettingsContainer_storySettings } from "coral-admin/__generated__/StorySettingsContainer_storySettings.graphql";
 import ExpertSelectionQuery from "coral-stream/tabs/Configure/Q&A/ExpertSelectionQuery";
-
-import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
-
 import {
   Button,
+  CheckBox,
   Divider,
   Flex,
   Icon,
@@ -23,7 +18,10 @@ import {
   TabPane,
 } from "coral-ui/components/v2";
 
+import { StorySettingsContainer_storySettings } from "coral-admin/__generated__/StorySettingsContainer_storySettings.graphql";
+
 import { FinalFormSelect as Select } from "./Select";
+import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
 
 import styles from "./StorySettingsContainer.css";
 
@@ -42,6 +40,8 @@ const localizedModMode = (mode: MODERATION_MODE): string => {
       return "storyInfoDrawerSettings-moderationMode-post";
     case "%future added value":
       return "storyInfoDrawerSettings-moderationMode-future";
+    default:
+      return "";
   }
 };
 

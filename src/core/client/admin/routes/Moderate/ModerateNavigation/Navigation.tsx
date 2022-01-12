@@ -20,7 +20,7 @@ interface Props {
   section?: SectionFilter | null;
   router: Router;
   match: Match;
-  mode?: "PRE" | "POST" | "%future added value" | null;
+  mode?: "PRE" | "POST" | "SPECIFIC_SITES_PRE" | "%future added value" | null;
   enableForReview?: boolean;
 }
 

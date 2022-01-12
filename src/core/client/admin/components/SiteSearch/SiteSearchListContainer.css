@@ -2,7 +2,7 @@
   position: absolute;
   z-index: $zindex-popover;
 
-  width: calc(29 * var(--mini-unit));
+  width: calc(35 * var(--mini-unit));
   max-height: 120px;
   overflow-y: auto;
 
