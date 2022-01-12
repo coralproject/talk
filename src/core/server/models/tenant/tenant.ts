@@ -493,7 +493,6 @@ export async function createTenantEmailDomain(
     newUserModeration: input.newUserModeration,
   };
 
-  // KNOTE: check that this domain doesn't already exist in emailDomains
   const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {

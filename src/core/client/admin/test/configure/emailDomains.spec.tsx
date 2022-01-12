@@ -91,7 +91,7 @@ it("adds new email domains to ban and pre-moderate users on", async () => {
 
   expect(
     within(addEmailDomainConfig).getByText(
-      "Please enter a valid email domain without the @. Ex. email.com."
+      'Invalid email domain format. Please use "email.com"'
     )
   ).toBeDefined();
 

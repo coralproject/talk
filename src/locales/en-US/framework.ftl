@@ -24,7 +24,6 @@ framework-validation-usernameTooShort = Username must contain at least {$minLeng
 framework-validation-usernameTooLong = Usernames cannot be longer than {$maxLength} characters.
 framework-validation-invalidCharacters = Invalid characters. Try again.
 framework-validation-invalidEmail = Please enter a valid email address.
-framework-validation-invalidEmail = Please enter a valid email domain without the @. Ex. email.com.
 framework-validation-passwordTooShort = Password must contain at least {$minLength} characters.
 framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
 framework-validation-invalidURL = Invalid URL
@@ -36,7 +35,7 @@ framework-validation-usernamesDoNotMatch = Usernames do not match. Try again.
 framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try again.
 framework-validation-invalidWebhookEndpointEventSelection = Select at least one event to receive.
 framework-validation-media-url-invalid = Please enter a valid image URL (.png, .jpg, or .gif)
-framework-validation-invalidEmailDomain = Please enter a valid email domain without the @. Ex. email.com.
+framework-validation-invalidEmailDomain = Invalid email domain format. Please use "email.com"
 
 framework-timeago-just-now = Just now
 

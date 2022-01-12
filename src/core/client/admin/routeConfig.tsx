@@ -15,18 +15,18 @@ import {
   AuthConfigRoute,
   ConfigureExternalModerationPhaseRoute,
   ConfigureWebhookEndpointRoute,
+  CreateEmailDomainRoute,
   EmailConfigRoute,
   GeneralConfigRoute,
   ModerationConfigRoute,
   ModerationPhasesConfigRoute,
   OrganizationConfigRoute,
   SlackConfigRoute,
+  UpdateEmailDomainRoute,
   WebhookEndpointsConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
-import CreateEmailDomainRoute from "./routes/Configure/sections/EmailDomains/CreateEmailDomainRoute";
 import EmailDomainsLayout from "./routes/Configure/sections/EmailDomains/EmailDomainsLayout";
-import UpdateEmailDomainRoute from "./routes/Configure/sections/EmailDomains/UpdateEmailDomainRoute";
 import ModerationPhasesLayout from "./routes/Configure/sections/ModerationPhases/ModerationPhasesLayout";
 import { Sites } from "./routes/Configure/sections/Sites";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";

@@ -32,7 +32,7 @@ export const INVALID_EMAIL = () => (
 
 export const INVALID_EMAIL_DOMAIN = () => (
   <Localized id="framework-validation-invalidEmailDomain">
-    <span>Please enter a valid email domain without the @. Ex. email.com.</span>
+    <span>Invalid email domain format. Please use "email.com"</span>
   </Localized>
 );
 

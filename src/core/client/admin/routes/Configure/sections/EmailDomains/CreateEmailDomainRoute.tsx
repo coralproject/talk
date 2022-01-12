@@ -26,8 +26,6 @@ const CreateEmailDomainRoute: FunctionComponent = () => {
   );
 };
 
-const enhanced = withRouteConfig({
-  cacheConfig: { force: true },
-})(CreateEmailDomainRoute);
+const enhanced = withRouteConfig({})(CreateEmailDomainRoute);
 
 export default enhanced;
