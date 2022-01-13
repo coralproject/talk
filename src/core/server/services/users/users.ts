@@ -211,7 +211,7 @@ export type CreateUserOptions = FindOrCreateUserOptions;
 
 enum NEW_USER_MODERATION {
   BAN = "BAN",
-  ALWAYS_PREMOD = "ALWAYS_PREMOD",
+  PREMOD = "PREMOD",
 }
 
 export async function create(
@@ -259,7 +259,7 @@ export async function create(
       if (newUserEmailDomainModeration === NEW_USER_MODERATION.BAN) {
         await banUser(mongo, tenant.id, user.id);
       }
-      if (newUserEmailDomainModeration === NEW_USER_MODERATION.ALWAYS_PREMOD) {
+      if (newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD) {
         await premodUser(mongo, tenant.id, user.id);
       }
     }

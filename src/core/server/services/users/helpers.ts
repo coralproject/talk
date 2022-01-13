@@ -87,7 +87,7 @@ export function checkForNewUserEmailDomainModeration(
   emailDomainModeration: {
     domain: string;
     id: string;
-    newUserModeration: "BAN" | "ALWAYS_PREMOD";
+    newUserModeration: "BAN" | "PREMOD";
   }[]
 ) {
   const userEmail = user.email;

@@ -2228,9 +2228,10 @@ type BanStatusHistory {
   createdAt: Time!
 
   """
-  message is sent to banned user via email.
+  message is sent to banned user via email. If `null`, then no email was sent
+  (i.e. in the case of a system ban of a new user account).
   """
-  message: String!
+  message: String
 
   """
   sites are set when the ban was created to perform a site specific ban.
