@@ -30,7 +30,7 @@ import UpdateEmailDomainMutation from "./UpdateEmailDomainMutation";
 
 enum NEW_USER_MODERATION {
   BAN = "BAN",
-  ALWAYS_PREMOD = "ALWAYS_PREMOD",
+  PREMOD = "PREMOD",
 }
 
 interface Props {
@@ -39,7 +39,7 @@ interface Props {
   emailDomain?: {
     readonly domain: string;
     readonly id: string;
-    readonly newUserModeration: "BAN" | "ALWAYS_PREMOD" | "%future added value";
+    readonly newUserModeration: "BAN" | "PREMOD" | "%future added value";
   };
 }
 
@@ -126,12 +126,12 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
               <Field
                 name="newUserModeration"
                 type="radio"
-                value={NEW_USER_MODERATION.ALWAYS_PREMOD}
+                value={NEW_USER_MODERATION.PREMOD}
               >
                 {({ input }) => (
                   <RadioButton
                     {...input}
-                    id={`${input.name}-${NEW_USER_MODERATION.ALWAYS_PREMOD}`}
+                    id={`${input.name}-${NEW_USER_MODERATION.PREMOD}`}
                   >
                     <Localized id="configure-moderation-emailDomains-alwaysPremod">
                       <span>Always pre-moderate comments</span>

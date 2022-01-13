@@ -588,7 +588,7 @@ enum NEW_USER_MODERATION {
   New users who sign up with an email domain configured to this moderation
   mode will be automatically always pre-moderated
   """
-  ALWAYS_PREMOD
+  PREMOD
 }
 
 """

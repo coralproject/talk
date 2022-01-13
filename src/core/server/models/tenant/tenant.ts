@@ -468,7 +468,7 @@ export async function createTenantAnnouncement(
 
 export interface CreateEmailDomainInput {
   domain: string;
-  newUserModeration: "BAN" | "ALWAYS_PREMOD";
+  newUserModeration: "BAN" | "PREMOD";
 }
 
 export async function createTenantEmailDomain(
@@ -508,7 +508,7 @@ export async function createTenantEmailDomain(
 export interface UpdateEmailDomainInput {
   id: string;
   domain: string;
-  newUserModeration: "BAN" | "ALWAYS_PREMOD";
+  newUserModeration: "BAN" | "PREMOD";
 }
 
 export async function updateTenantEmailDomain(
