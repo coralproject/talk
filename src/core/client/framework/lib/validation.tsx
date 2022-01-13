@@ -81,7 +81,7 @@ export const validateEmail = createValidator(
 
 /**
  * validateEmailDomain is a Validator that checks that the value is an email domain without the @
- * and including at least one dot.
+ * at the beginning and including at least one dot.
  */
 export const validateEmailDomain = createValidator(
   (v) => !v || EMAIL_DOMAIN_REGEX.test(v),

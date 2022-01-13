@@ -14,7 +14,6 @@ import {
 } from "coral-framework/lib/validation";
 import {
   Button,
-  ButtonIcon,
   CallOut,
   Flex,
   FormField,
@@ -168,27 +167,14 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
                 </Button>
               </Localized>
               {emailDomain ? (
-                <Localized
-                  id="configure-moderation-emailDomains-form-editDomain"
-                  icon={<ButtonIcon>edit</ButtonIcon>}
-                >
-                  <Button
-                    disabled={submitting}
-                    iconLeft
-                    type="submit"
-                    size="large"
-                  >
+                <Localized id="configure-moderation-emailDomains-form-editDomain">
+                  <Button disabled={submitting} type="submit" size="large">
                     Update
                   </Button>
                 </Localized>
               ) : (
                 <Localized id="configure-moderation-emailDomains-form-addDomain">
-                  <Button
-                    disabled={submitting}
-                    iconLeft
-                    type="submit"
-                    size="large"
-                  >
+                  <Button disabled={submitting} type="submit" size="large">
                     Add domain
                   </Button>
                 </Localized>

@@ -2217,7 +2217,7 @@ type BanStatusHistory {
   active: Boolean!
 
   """
-  createdBy is the User that suspended the User. If `null`, the then the given
+  createdBy is the User that suspended the User. If `null`, then the given
   User was banned by the system.
   """
   createdBy: User
@@ -2436,8 +2436,8 @@ type PremodStatusHistory {
   active: Boolean!
 
   """
-  createdBy is the user that flagged the commenter as pre-mod. If `null`, the then the given
-  User was banned by the system.
+  createdBy is the user that flagged the commenter as pre-mod. If `null`, then the given
+  User was set to pre-mod by the system.
   """
   createdBy: User
 
