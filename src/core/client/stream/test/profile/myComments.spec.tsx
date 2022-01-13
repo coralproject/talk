@@ -1,6 +1,6 @@
-import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import {
   act,
   createSinonStub,
@@ -12,8 +12,11 @@ import {
 import { comments, settings, stories, viewerWithComments } from "../fixtures";
 import create from "./create";
 
-let testRenderer: ReactTestRenderer;
-beforeEach(() => {
+interface Options {
+  archivingEnabled: boolean;
+}
+
+const createTestRenderer = (options: Options = { archivingEnabled: false }) => {
   const meStub = {
     ...viewerWithComments,
     comments: createSinonStub(
@@ -71,18 +74,26 @@ beforeEach(() => {
     },
   };
 
-  ({ testRenderer } = create({
+  const { testRenderer } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
     initLocalState: (localRecord) => {
       localRecord.setValue("MY_COMMENTS", "profileTab");
       localRecord.setValue(stories[0].id, "storyID");
+      localRecord.setValue(options.archivingEnabled, "archivingEnabled");
+      localRecord.setValue(
+        DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
+        "autoArchiveOlderThanMs"
+      );
     },
-  }));
-});
+  });
+
+  return testRenderer;
+};
 
 it("renders profile", async () => {
+  const testRenderer = createTestRenderer();
   const commentHistory = await waitForElement(() =>
     within(testRenderer.root).getByTestID("profile-commentHistory")
   );
@@ -91,6 +102,7 @@ it("renders profile", async () => {
 });
 
 it("loads more comments", async () => {
+  const testRenderer = createTestRenderer();
   const commentHistory = await waitForElement(() =>
     within(testRenderer.root).getByTestID("profile-commentHistory")
   );
@@ -114,4 +126,28 @@ it("loads more comments", async () => {
   expect(within(commentHistory).getAllByTestID(/^historyComment-/).length).toBe(
     commentsBefore + 1
   );
+});
+
+it("shows archived notification when archiving enabled", async () => {
+  const testRenderer = createTestRenderer({ archivingEnabled: true });
+  const commentHistory = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("profile-commentHistory")
+  );
+
+  expect(
+    within(commentHistory).getByTestID("archivedComments-thresholdNotification")
+  ).toBeDefined();
+});
+
+it("doesn't show archived notification when archiving disabled", async () => {
+  const testRenderer = createTestRenderer({ archivingEnabled: false });
+  const commentHistory = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("profile-commentHistory")
+  );
+
+  expect(
+    within(commentHistory).queryByTestID(
+      "archivedComments-thresholdNotification"
+    )
+  ).toBeNull();
 });
