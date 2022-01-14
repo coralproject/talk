@@ -59,7 +59,7 @@ export interface StaticConfig {
   forceAdminLocalAuth: boolean;
 
   /**
-   * archivingEnabled will be true when the deployment has set a valid Mongo DB
+   * archivingEnabled will be true when the deployment has set a valid MongoDB
    * URI for MONGODB_ARCHIVE_URI.
    */
   archivingEnabled: boolean;
