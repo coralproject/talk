@@ -501,7 +501,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       <HorizontalGutter>
         <IndentedComment
           enableJumpToParent={enableJumpToParent}
-          classNameIndented={cn({
+          classNameIndented={cn(styles.indentedComment, {
             [styles.indented]: indentLevel && indentLevel > 0,
             [styles.commentSeenEnabled]: commentSeenEnabled,
             [styles.notSeen]: shouldApplyNotSeenClass,
