@@ -144,6 +144,11 @@ export interface Comment extends TenantResource {
    */
   deletedAt?: Date;
 
+  /**
+   * seen will return true if the current viewer has already seen this comment.
+   * Seen being defined as they have loaded the comment into their stream via
+   * pagination or the initial load of stream comments.
+   */
   seen?: boolean;
 }
 
