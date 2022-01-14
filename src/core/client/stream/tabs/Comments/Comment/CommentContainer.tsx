@@ -432,7 +432,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
-      data-not-seen={commentSeenEnabled ? !comment.seen : false}
+      data-not-seen={commentSeenEnabled && !comment.seen ? true : undefined}
       onFocus={handleFocus}
     >
       {/* TODO: (cvle) Refactor at some point */}

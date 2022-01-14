@@ -15,7 +15,6 @@ exports[`renders comment stream 1`] = `
       aria-labelledby="comment-comment-1-label"
       className="CommentContainer-root coral coral-comment coral coral-reacted-0"
       data-key-stop={true}
-      data-not-seen={false}
       data-testid="comment-comment-1"
       id="comment-comment-1"
       onFocus={[Function]}
