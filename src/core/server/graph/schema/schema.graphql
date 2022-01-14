@@ -569,6 +569,12 @@ enum MODERATION_MODE {
   Comments posted while in `POST` will be visible immediately.
   """
   POST
+
+  """
+  Comments posted while in `SPECIFIC_SITES_PRE` mode will be labeled with
+  a `PREMOD` status if the site is included in premoderateAllCommentsSites.
+  """
+  SPECIFIC_SITES_PRE
 }
 
 """
@@ -1879,6 +1885,12 @@ type Settings @cacheControl(maxAge: 30) {
   moderation: MODERATION_MODE
     @auth(roles: [ADMIN, MODERATOR])
     @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  """
+  premoderateAllCommentsSites are the sites that should have all comments
+  premoderated when moderation mode is SPECIFIC_SITES_PRE
+  """
+  premoderateAllCommentsSites: [ID!]!
 
   """
   communityGuidelines will be shown in the comments stream.
@@ -5295,6 +5307,12 @@ input SettingsInput {
   moderation: MODERATION_MODE
 
   """
+  premoderateAllCommentsSites are the sites that should have all comments
+  premoderated when moderation mode is SPECIFIC_SITES_PRE
+  """
+  premoderateAllCommentsSites: [ID!]!
+
+  """
   communityGuidelines will be shown in the comments stream.
   """
   communityGuidelines: SettingsCommunityGuidelinesInput
@@ -5518,6 +5536,12 @@ input RemoveCommentReactionInput {
   commentID: ID!
 
   """
+  commentRevisionID is the Comment's revision ID that we want to remove a
+  reaction on.
+  """
+  commentRevisionID: ID!
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -5584,6 +5608,12 @@ input RemoveCommentDontAgreeInput {
   commentID is the Comment's ID that we want to remove a DontAgree on.
   """
   commentID: ID!
+
+  """
+  commentRevisionID is the Comment's revision ID that we want to remove a
+  reaction on.
+  """
+  commentRevisionID: ID!
 
   """
   clientMutationId is required for Relay support.
@@ -7259,7 +7289,15 @@ type UpdateUserRolePayload {
 ##################
 
 input PromoteUserInput {
+  """
+  userID is the ID of the User that should have their role promoted.
+  """
   userID: ID!
+
+  """
+  siteIDs are the IDs of the Sites on which the User should have their role promoted.
+  """
+  siteIDs: [String!]!
 
   """
   clientMutationId is required for Relay support.
@@ -7284,7 +7322,15 @@ type PromoteUserPayload {
 ##################
 
 input DemoteUserInput {
+  """
+  userID is the ID of the User that should have their role demoted.
+  """
   userID: ID!
+
+  """
+  siteIDs are the IDs of the Sites on which the User should have their role demoted.
+  """
+  siteIDs: [String!]!
 
   """
   clientMutationId is required for Relay support.
@@ -7467,6 +7513,52 @@ type BanUserPayload {
 
   """
   clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input UpdateUserBanInput {
+  """
+  userID is the id of the user whose ban status should be updated
+  """
+  userID: ID!
+
+  """
+  banSiteIDs are the ids of sites on which the user should be banned
+  """
+  banSiteIDs: [ID!]
+
+  """
+  unbanSiteIDs are the ids of sites on which the user should be unbanned
+  """
+  unbanSiteIDs: [ID!]
+
+  """
+  message is the message that should be sent to the user (if sites
+  have been added to their ban list)
+  """
+  message: String!
+
+  """
+  rejectExistingComments is whether existing comments should be rejected
+  on sites on which the user has been newly banned, if any.
+  """
+  rejectExistingComments: Boolean
+
+  """
+  clientMutationID is required for relay support
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserBanPayload {
+  """
+  user is the updated user
+  """
+  user: User!
+
+  """
+  clientMutationID is required for relay support
   """
   clientMutationId: String!
 }
@@ -8534,7 +8626,15 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  removeUserBan will remove an active ban from a User if they have one.
+  updateUserBan will ban a specified user from specified sites (if
+  not already banned from them) and unban a user from specified sites
+  (if currently banned from them)
+  """
+  updateUserBan(input: UpdateUserBanInput!): UpdateUserBanPayload!
+    @auth(roles: [ADMIN, MODERATOR], unscoped: false)
+
+  """
+  removeUserBan will remove an active ban from a User if they have one
   """
   removeUserBan(input: RemoveUserBanInput!): RemoveUserBanPayload!
     @auth(roles: [ADMIN, MODERATOR], unscoped: true)

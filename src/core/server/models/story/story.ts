@@ -765,6 +765,26 @@ function getMarkStoryForArchivingSetParam(now: Date) {
   };
 }
 
+export async function forceMarkStoryForArchiving(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  now: Date
+) {
+  const result = await mongo.stories().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    getMarkStoryForArchivingSetParam(now),
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
+}
+
 export async function markStoryForArchiving(
   mongo: MongoContext,
   tenantID: string,
@@ -817,14 +837,16 @@ export async function markStoryForUnarchiving(
   return result.value;
 }
 
-export async function retrieveLockedStoryToBeArchived(
+export async function retrieveStoriesToBeArchived(
   mongo: MongoContext,
   tenantID: string,
   olderThan: Date,
-  now: Date
-): Promise<Readonly<Story> | null> {
-  const result = await mongo.stories().findOneAndUpdate(
-    {
+  now: Date,
+  count: number
+): Promise<Readonly<Story>[]> {
+  const result = await mongo
+    .stories()
+    .find({
       tenantID,
       $or: [
         { lastCommentedAt: { $lte: olderThan } },
@@ -837,12 +859,11 @@ export async function retrieveLockedStoryToBeArchived(
       startedUnarchivingAt: { $in: [null, false] },
       unarchivedAt: { $in: [null, false] },
       "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
-    },
-    getMarkStoryForArchivingSetParam(now),
-    { returnOriginal: false }
-  );
+    })
+    .limit(count)
+    .toArray();
 
-  return result.value || null;
+  return result;
 }
 
 export async function markStoryAsArchived(

@@ -1,18 +1,19 @@
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
+import { ArchiverQueue } from "coral-server/queue/tasks/archiver";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { registerAccountDeletion } from "./accountDeletion";
-import { registerAutoArchiving } from "./autoArchiving";
+import { registerFillArchivingQueue } from "./fillArchivingQueue";
 import { registerNotificationDigesting } from "./notificationDigesting";
 
 export interface ScheduledJobGroups {
   accountDeletion: ReturnType<typeof registerAccountDeletion>;
   notificationDigesting: ReturnType<typeof registerNotificationDigesting>;
-  autoArchiving: ReturnType<typeof registerAutoArchiving>;
+  autoArchivingQueue: ReturnType<typeof registerFillArchivingQueue>;
 }
 
 interface Options {
@@ -20,6 +21,7 @@ interface Options {
   redis: AugmentedRedis;
   config: Config;
   mailerQueue: MailerQueue;
+  archiverQueue: ArchiverQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
 }
@@ -30,7 +32,7 @@ export default function startScheduledTasks(
   const tasks: ScheduledJobGroups = {
     accountDeletion: registerAccountDeletion(options),
     notificationDigesting: registerNotificationDigesting(options),
-    autoArchiving: registerAutoArchiving(options),
+    autoArchivingQueue: registerFillArchivingQueue(options),
   };
 
   for (const { name, schedulers } of Object.values(tasks)) {

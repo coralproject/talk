@@ -5,7 +5,6 @@ import { Ability, can } from "coral-admin/permissions";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
-import { UserRoleChangeContainer_query } from "coral-admin/__generated__/UserRoleChangeContainer_query.graphql";
 import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
 import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
@@ -21,14 +20,12 @@ interface Props {
   viewer: UserRoleChangeContainer_viewer;
   user: UserRoleChangeContainer_user;
   settings: UserRoleChangeContainer_settings;
-  query: UserRoleChangeContainer_query;
 }
 
 const UserRoleChangeContainer: FunctionComponent<Props> = ({
   user,
   viewer,
   settings,
-  query,
 }) => {
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const updateUserModerationScopes = useMutation(
@@ -90,7 +87,6 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       scoped={user.moderationScopes?.scoped}
       moderationScopes={user.moderationScopes}
       moderationScopesEnabled={moderationScopesEnabled}
-      query={query}
     />
   );
 };
@@ -124,11 +120,6 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment UserRoleChangeContainer_settings on Settings {
       multisite
-    }
-  `,
-  query: graphql`
-    fragment UserRoleChangeContainer_query on Query {
-      ...SiteModeratorModalSiteFieldContainer_query
     }
   `,
 })(UserRoleChangeContainer);

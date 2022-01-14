@@ -13,6 +13,7 @@ import {
   retrieveCommentConnection as retrieveCommentConnectionModel,
   retrieveCommentParentsConnection as retrieveCommentParentsConnectionModel,
   retrieveCommentRepliesConnection as retrieveCommentRepliesConnectionModel,
+  retrieveCommentsBySitesUserConnection as retrieveCommentsBySitesUserConnectionModel,
   retrieveCommentStoryConnection as retrieveCommentStoryConnectionModel,
   retrieveCommentUserConnection as retrieveCommentUserConnectionModel,
   retrieveManyComments as retrieveManyCommentModels,
@@ -265,6 +266,7 @@ export function retrieveCommentUserConnection(
  *
  * @param mongo is the mongo context used to retrieve the comments.
  * @param tenantID is the filtering tenant id for this connection.
+ * @param userID is the filtering user id for this connection.
  * @param input is the filtered input to determine which comments to
  * include in the connection.
  * @param isArchived is whether this connection should retrieve from
@@ -283,6 +285,38 @@ export function retrieveAllCommentsUserConnection(
     collection,
     tenantID,
     userID,
+    input
+  );
+}
+
+/**
+ * retrieveCommentsBySitesUserConnection retrieves a comment connection for
+ * comments associated with a user filtered by site.
+ *
+ * @param mongo is the mongo context used to retrieve the comments.
+ * @param tenantID is the filtering tenant id for this connection.
+ * @param userID is the filtering user id for this connection.
+ * @param siteIDs is the filtering siteIDs for this connection.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
+export function retrieveCommentsBySitesUserConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  siteIDs: string[],
+  input: CommentConnectionInput,
+  isArchived?: boolean
+) {
+  const collection = getCollection(mongo, isArchived);
+  return retrieveCommentsBySitesUserConnectionModel(
+    collection,
+    tenantID,
+    userID,
+    siteIDs,
     input
   );
 }

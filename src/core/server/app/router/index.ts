@@ -32,6 +32,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       staticURI: app.config.get("static_uri") || "/",
       graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
       featureFlags: [],
+      flattenReplies: false,
       forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
     };
 
