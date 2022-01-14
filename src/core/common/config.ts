@@ -65,7 +65,7 @@ export interface StaticConfig {
   archivingEnabled: boolean;
 
   /**
-   * autoArchivingIntervalMs is the time in milliseconds that a story will
+   * autoArchiveOlderThanMs is the time in milliseconds that a story will
    * be kept before being auto-archived.
    */
   autoArchiveOlderThanMs: number;
