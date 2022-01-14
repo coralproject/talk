@@ -27,11 +27,6 @@ export default function create(params: CreateTestRendererParams) {
       localRecord.setValue(false, "enableCommentSeen");
       localRecord.setValue(false, "enableZKey");
       localRecord.setValue(false, "amp");
-      localRecord.setValue(true, "archivingEnabled");
-      localRecord.setValue(
-        DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
-        "autoArchiveOlderThanMs"
-      );
       localRecord.setValue(false, "archivingEnabled");
       localRecord.setValue(
         DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
