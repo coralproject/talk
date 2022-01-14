@@ -135,7 +135,12 @@ it("shows archived notification when archiving enabled", async () => {
   );
 
   expect(
-    within(commentHistory).getByTestID("archivedComments-thresholdNotification")
+    within(commentHistory).getByText(
+      "This is all of your comments from the previous",
+      {
+        exact: false,
+      }
+    )
   ).toBeDefined();
 });
 
@@ -146,8 +151,11 @@ it("doesn't show archived notification when archiving disabled", async () => {
   );
 
   expect(
-    within(commentHistory).queryByTestID(
-      "archivedComments-thresholdNotification"
+    within(commentHistory).queryByText(
+      "This is all of your comments from the previous",
+      {
+        exact: false,
+      }
     )
   ).toBeNull();
 });

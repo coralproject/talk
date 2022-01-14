@@ -26,10 +26,7 @@ export const ArchivedCommentsThresholdNotification: FunctionComponent<Props> = (
       $value={scaled}
       $unit={unit}
     >
-      <div
-        className={styles.text}
-        data-testid="archivedComments-thresholdNotification"
-      >
+      <div className={styles.text}>
         This is all of your comments from the previous {scaled} {unit}. To view
         the rest of your comments, please contact us.
       </div>
