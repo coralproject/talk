@@ -5,7 +5,6 @@ exports[`cancel edit 1`] = `
   aria-labelledby="comment-comment-with-replies-label"
   className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
-  data-not-seen={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
   onFocus={[Function]}
@@ -34,7 +33,7 @@ exports[`cancel edit 1`] = `
       className="coral coral-comment-collapse-toggle-indent Indent-root"
     >
       <div
-        className="CommentContainer-commentSeenEnabled CommentContainer-notSeen coral-comment-notSeen coral coral-indent coral-indent-0 Indent-open"
+        className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -968,7 +967,6 @@ exports[`edit a comment: render comment with edit button 1`] = `
   aria-labelledby="comment-comment-with-replies-label"
   className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
-  data-not-seen={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
   onFocus={[Function]}
@@ -997,7 +995,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
       className="coral coral-comment-collapse-toggle-indent Indent-root"
     >
       <div
-        className="CommentContainer-commentSeenEnabled CommentContainer-notSeen coral-comment-notSeen coral coral-indent coral-indent-0 Indent-open"
+        className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -1268,7 +1266,6 @@ exports[`edit a comment: server response 1`] = `
   aria-labelledby="comment-comment-with-replies-label"
   className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
-  data-not-seen={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
   onFocus={[Function]}
@@ -1297,7 +1294,7 @@ exports[`edit a comment: server response 1`] = `
       className="coral coral-comment-collapse-toggle-indent Indent-root"
     >
       <div
-        className="CommentContainer-commentSeenEnabled coral coral-indent coral-indent-0 Indent-open"
+        className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -1577,7 +1574,6 @@ exports[`shows expiry message: edit form closed 1`] = `
   aria-labelledby="comment-comment-with-replies-label"
   className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
-  data-not-seen={true}
   data-testid="comment-comment-with-replies"
   id="comment-comment-with-replies"
   onFocus={[Function]}
@@ -1606,7 +1602,7 @@ exports[`shows expiry message: edit form closed 1`] = `
       className="coral coral-comment-collapse-toggle-indent Indent-root"
     >
       <div
-        className="CommentContainer-commentSeenEnabled CommentContainer-notSeen coral-comment-notSeen coral coral-indent coral-indent-0 Indent-open"
+        className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"

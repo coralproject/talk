@@ -70,7 +70,7 @@ exports[`renders conversation thread 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="coral coral-indent coral-indent-0 Indent-open"
+                  className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -392,7 +392,7 @@ exports[`renders conversation thread 1`] = `
               className="coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
-                className="coral coral-indent coral-indent-0 Indent-open"
+                className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
                   className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -689,7 +689,7 @@ exports[`shows more of this conversation 1`] = `
                 className="coral coral-comment-collapse-toggle-indent Indent-root"
               >
                 <div
-                  className="coral coral-indent coral-indent-0 Indent-open"
+                  className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -989,7 +989,7 @@ exports[`shows more of this conversation 1`] = `
                   className="coral coral-comment-collapse-toggle-indent Indent-root"
                 >
                   <div
-                    className="coral coral-indent coral-indent-0 Indent-open"
+                    className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -1271,7 +1271,7 @@ exports[`shows more of this conversation 1`] = `
               className="coral coral-comment-collapse-toggle-indent Indent-root"
             >
               <div
-                className="coral coral-indent coral-indent-0 Indent-open"
+                className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
               >
                 <div
                   className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
