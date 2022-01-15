@@ -145,11 +145,14 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
-  const commentSeenEnabled = !!(viewer && viewer.id);
+  const commentSeenEnabled = settings.featureFlags.includes(
+    GQLFEATURE_FLAG.COMMENT_SEEN
+  );
+  const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);
   const handleFocus = useCallback(() => {
-    if (commentSeenEnabled && !comment.seen) {
+    if (canCommitCommentSeen && !comment.seen) {
       void markCommentAsSeen({
         commentID: comment.id,
         storyID: story.id,
@@ -158,13 +161,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
     void setTraversalFocus({
       commentID: comment.id,
-      commentSeenEnabled,
-      skipCommitSeen: !!comment.seen,
+      commentSeenEnabled: canCommitCommentSeen,
     });
   }, [
     comment.id,
     comment.seen,
-    commentSeenEnabled,
+    canCommitCommentSeen,
     markCommentAsSeen,
     setTraversalFocus,
     story.id,
@@ -410,7 +412,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   // Boolean that indicates whether or not we want to
   // apply the "comment not seen class" for styling purposes.
   const shouldApplyNotSeenClass =
-    commentSeenEnabled &&
+    canCommitCommentSeen &&
     !comment.seen &&
     !highlight &&
     comment.lastViewerAction !== "CREATE" &&
@@ -432,7 +434,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
-      data-not-seen={commentSeenEnabled && !comment.seen ? true : undefined}
+      data-not-seen={canCommitCommentSeen && !comment.seen ? true : undefined}
       onFocus={handleFocus}
     >
       {/* TODO: (cvle) Refactor at some point */}
@@ -503,7 +505,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           enableJumpToParent={enableJumpToParent}
           classNameIndented={cn(styles.indentedComment, {
             [styles.indented]: indentLevel && indentLevel > 0,
-            [styles.commentSeenEnabled]: commentSeenEnabled,
+            [styles.commentSeenEnabled]: canCommitCommentSeen,
             [styles.notSeen]: shouldApplyNotSeenClass,
             [styles.flattenedPadding]: isReplyFlattened(
               settings.flattenReplies,

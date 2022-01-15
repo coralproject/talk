@@ -1,6 +1,7 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -10,6 +11,11 @@ import {
   MarkCommentAsSeenMutation,
   MarkCommentSeenInput,
 } from "coral-stream/__generated__/MarkCommentAsSeenMutation.graphql";
+
+import {
+  COMMIT_SEEN_EVENT,
+  CommitSeenEventData,
+} from "../commentSeen/CommentSeenContext";
 
 const mutation = graphql`
   mutation MarkCommentAsSeenMutation($input: MarkCommentSeenInput!) {
@@ -27,7 +33,11 @@ type Input = Omit<MarkCommentSeenInput, "clientMutationId">;
 
 const enhanced = createMutation(
   "markCommentAsSeen",
-  async (environment: Environment, input: Input) => {
+  async (
+    environment: Environment,
+    input: Input,
+    { eventEmitter }: CoralContext
+  ) => {
     let clientMutationId = 0;
     const result = await commitMutationPromiseNormalized<
       MarkCommentAsSeenMutation
@@ -50,6 +60,11 @@ const enhanced = createMutation(
         },
       },
     });
+
+    eventEmitter.emit(COMMIT_SEEN_EVENT, {
+      commentID: input.commentID,
+    } as CommitSeenEventData);
+
     return result;
   }
 );
