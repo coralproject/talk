@@ -4,6 +4,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import ReactDOM from "react-dom";
@@ -14,11 +15,12 @@ import { parseQuery } from "coral-common/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
 import { createManaged } from "coral-framework/lib/bootstrap";
 import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createManaged";
+import ReactShadowRoot, { CSSAsset } from "coral-ui/shadow/ReactShadowRoot";
 
 import AppContainer from "./App";
 import { createInitLocalState } from "./local";
 import localesData from "./locales";
-import ShadowRoot from "./ShadowRoot";
+import { EmotionShadowRoot } from "./shadow";
 
 // Import css variables.
 import "coral-ui/theme/streamEmbed.css";
@@ -117,14 +119,6 @@ export async function attach(options: AttachOptions) {
   let cssLoaded = 0;
 
   const Index: FunctionComponent = () => {
-    const [injectedLinkTags, setInjectedLinkTags] = useState<HTMLLinkElement[]>(
-      []
-    );
-    // Set inject link tag method.
-    injectLinkTag = (linkTag: HTMLLinkElement) => {
-      setInjectedLinkTags([...injectedLinkTags, linkTag]);
-    };
-
     // Determine whether css has finished loading, before rendering the stream to prevent
     // flash of unstyled content.
     const [isCSSLoaded, setIsCSSLoaded] = useState(false);
@@ -135,6 +129,38 @@ export async function attach(options: AttachOptions) {
         setIsCSSLoaded(true);
       }
     }, []);
+
+    // CSS assets to be loaded inside of the shadow dom.
+    const [shadowCSSAssets, setShadowCSSAssets] = useState<CSSAsset[]>(
+      options.cssAssets.map((asset) => ({ href: asset, onLoad: handleCSSLoad }))
+    );
+
+    // CSS assets to be loaded inside of the shadow dom but after all other css assets.
+    const customShadowCSSAssets: CSSAsset[] = useMemo(() => {
+      if (options.customCSSURL) {
+        return [
+          {
+            href: options.customCSSURL,
+            onLoad: handleCSSLoad,
+          },
+        ];
+      }
+      return [];
+    }, [handleCSSLoad]);
+
+    // Set inject link tag method which is indirectly called by webpack.
+    injectLinkTag = (linkTag: HTMLLinkElement) => {
+      if (linkTag.rel !== "stylesheet") {
+        throw new Error(
+          `We currently don't support rel=${linkTag.rel}. This should not happen.`
+        );
+      }
+      setShadowCSSAssets((assets) => [
+        ...assets,
+        { href: linkTag.href, onLoad: handleCSSLoad },
+      ]);
+    };
+
     useEffect(() => {
       if (options.disableDefaultFonts) {
         return;
@@ -147,47 +173,25 @@ export async function attach(options: AttachOptions) {
     }, [handleCSSLoad]);
     return (
       <>
-        {options.customFontsCSSURL && (
+        {// Fonts must be loaded outside of the shadow dom.
+        options.customFontsCSSURL && (
           <link
             href={options.customFontsCSSURL}
             onLoad={handleCSSLoad}
             rel="stylesheet"
           />
         )}
-        <ShadowRoot.div>
+        <ReactShadowRoot
+          Root={EmotionShadowRoot}
+          cssAssets={shadowCSSAssets}
+          customCSSAssets={customShadowCSSAssets}
+          containerClassName={options.containerClassName}
+          style={isCSSLoaded ? undefined : hideStyle}
+        >
           <ManagedCoralContextProvider>
-            <div
-              id="coral"
-              className={options.containerClassName}
-              style={isCSSLoaded ? undefined : hideStyle}
-            >
-              {options.cssAssets.map((asset) => (
-                <link
-                  key={asset}
-                  href={asset}
-                  onLoad={handleCSSLoad}
-                  rel="stylesheet"
-                />
-              ))}
-              {injectedLinkTags.map((linkTag) => (
-                <link
-                  key={linkTag.href}
-                  href={linkTag.href}
-                  rel={linkTag.rel}
-                  onLoad={linkTag.onload as any}
-                />
-              ))}
-              {options.customCSSURL && (
-                <link
-                  href={options.customCSSURL}
-                  onLoad={handleCSSLoad}
-                  rel="stylesheet"
-                />
-              )}
-              <AppContainer />
-            </div>
+            <AppContainer />
           </ManagedCoralContextProvider>
-        </ShadowRoot.div>
+        </ReactShadowRoot>
       </>
     );
   };

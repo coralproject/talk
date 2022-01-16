@@ -24,9 +24,9 @@ import {
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
-import { useShadowRoot } from "coral-stream/ShadowRoot";
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
+import { useShadowRootOrDocument } from "coral-ui/shadow";
 
 import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
 import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
@@ -78,7 +78,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
   const { renderWindow } = useCoralContext();
-  const shadowRoot = useShadowRoot();
+  const root = useShadowRootOrDocument();
   const commentSeenEnabled = useCommentSeenEnabled();
 
   const [nudge, setNudge] = useState(true);
@@ -252,7 +252,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
 
     const elementID = computeCommentElementID(commentID);
     setTimeout(() => {
-      const elem = shadowRoot.getElementById(elementID);
+      const elem = root.getElementById(elementID);
       if (elem) {
         const offset =
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
@@ -263,7 +263,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
         elem.focus();
       }
     }, 300);
-  }, [commentSeenEnabled, jumpToCommentID, onClose, renderWindow, shadowRoot]);
+  }, [commentSeenEnabled, jumpToCommentID, onClose, renderWindow, root]);
 
   if (!initialized) {
     return null;

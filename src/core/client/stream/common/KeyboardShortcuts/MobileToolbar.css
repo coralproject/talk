@@ -9,7 +9,7 @@
   background: var(--palette-primary-500);
   color: white;
 
-  @media (min-width: $breakpoints-mobile-max) {
+  :global(.coral-width-gte-mobileMax) & {
     border-radius: 4px 4px 0 0;
   }
 }

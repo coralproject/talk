@@ -5,9 +5,9 @@ import React, { FunctionComponent, useCallback } from "react";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import CLASSES from "coral-stream/classes";
-import { useShadowRoot } from "coral-stream/ShadowRoot";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { useShadowRootOrDocument } from "coral-ui/shadow";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 
@@ -23,7 +23,7 @@ const InReplyTo: FunctionComponent<Props> = ({
   enableJumpToParent,
 }) => {
   const { renderWindow } = useCoralContext();
-  const shadowRoot = useShadowRoot();
+  const root = useShadowRootOrDocument();
 
   const navigateToParent = useCallback(() => {
     if (!parent) {
@@ -31,7 +31,7 @@ const InReplyTo: FunctionComponent<Props> = ({
     }
 
     const elemID = computeCommentElementID(parent.id);
-    const elem = shadowRoot.getElementById(elemID);
+    const elem = root.getElementById(elemID);
     if (elem) {
       renderWindow.scrollTo({ top: elem.offsetTop });
       elem.focus();
@@ -40,7 +40,7 @@ const InReplyTo: FunctionComponent<Props> = ({
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  }, [parent, shadowRoot, renderWindow]);
+  }, [parent, root, renderWindow]);
 
   const Username = () => (
     <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>

@@ -7,6 +7,13 @@ import logger from "coral-server/logger";
 
 import Entrypoints, { Entrypoint, RawEntrypoint } from "./entrypoints";
 
+/**
+ * Sometimes webpack produces an invalid manifest with empty entrypoints.
+ * We retry whenever we encounter this and usually webpack fixes this.
+ * This is a hardlimit on how many retires we should do.
+ **/
+const INVALID_MANIFEST_MAX_RETRIES = 10;
+
 export interface Asset {
   src: string;
   integrity: string;
@@ -58,12 +65,12 @@ function loadManifestFromFile(manifestFilename: string): Manifest | null {
   }
   return null;
 }
-
 export default class ManifestLoader {
   private manifestFilename: string;
   private manifest: Manifest | null = null;
   private entrypoints: Entrypoints | null = null;
   private options: ManifestLoaderOptions;
+  private invalidManifestCounter = 0;
 
   constructor(manifestFilename: string, options: ManifestLoaderOptions = {}) {
     this.manifestFilename = manifestFilename;
@@ -105,8 +112,14 @@ export default class ManifestLoader {
           !manifest.entrypoints ||
           !manifest.entrypoints[Object.keys(manifest.entrypoints)[0]].js
         ) {
+          this.invalidManifestCounter++;
+          if (this.invalidManifestCounter > INVALID_MANIFEST_MAX_RETRIES) {
+            throw new Error(`Invalid manifest while loading '${url}'`);
+          }
           return null;
         }
+        // We got a valid manifest, reset counter.
+        this.invalidManifestCounter = 0;
         const firstEntrypoint = Object.keys(manifest.entrypoints)[0];
         if (!firstEntrypoint || !manifest.entrypoints[firstEntrypoint].js) {
           // No entrypoint found or no js entry for first entrypoint, probably not ready -> retry!

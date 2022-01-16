@@ -6,14 +6,6 @@ import * as ReactShadow from "react-shadow";
 const cache = new WeakMap();
 const createProxy = (ReactShadow as any).createProxy;
 
-export const useShadowRoot: () => ShadowRoot = () => {
-  if (process.env.NODE_ENV === "test") {
-    // eslint-disable-next-line no-restricted-globals
-    return window.document;
-  }
-  return (ReactShadow as any).useShadowRoot();
-};
-
 /**
  * Creates a ReactShadow proxy with telling emotions to insert its styles into the shadow root
  * This is only needed because of @giphy/react-components

@@ -2,9 +2,9 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
-import { useShadowRoot } from "coral-stream/ShadowRoot";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
+import { useShadowRootOrDocument } from "coral-ui/shadow";
 
 import styles from "./AddACommentButton.css";
 
@@ -14,16 +14,16 @@ interface Props {
 
 const AddACommentButton: FunctionComponent<Props> = ({ isQA = false }) => {
   const { renderWindow } = useCoralContext();
-  const shadowRoot = useShadowRoot();
+  const root = useShadowRootOrDocument();
   const onClick = useCallback(() => {
     if (!renderWindow) {
       return;
     }
-    const postCommentForm = shadowRoot.getElementById(POST_COMMENT_FORM_ID);
+    const postCommentForm = root.getElementById(POST_COMMENT_FORM_ID);
     if (postCommentForm) {
       renderWindow.scrollTo({ top: postCommentForm.offsetTop });
     }
-  }, [renderWindow, shadowRoot]);
+  }, [renderWindow, root]);
 
   return (
     <div className={styles.root}>

@@ -28,13 +28,13 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { useShadowRoot } from "coral-stream/ShadowRoot";
 import {
   CommentEditedSubscription,
   CommentEnteredSubscription,
 } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
+import { useShadowRootOrDocument } from "coral-ui/shadow";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
@@ -149,20 +149,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
-  const shadowRoot = useShadowRoot();
+  const root = useShadowRootOrDocument();
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
     try {
       await loadMore();
       // eslint-disable-next-line no-unused-expressions
-      shadowRoot.getElementById(`comment-${lastComment?.node.id}`)?.focus();
+      root.getElementById(`comment-${lastComment?.node.id}`)?.focus();
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, story.id, lastComment, shadowRoot]);
+  }, [loadMore, beginLoadMoreEvent, story.id, lastComment, root]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const onViewMore = useCallback(() => viewMore({ storyID: story.id, tag }), [
     story.id,

@@ -27,7 +27,6 @@ import {
   ShowAllRepliesEvent,
   UnmarkAllEvent,
 } from "coral-stream/events";
-import { useShadowRoot } from "coral-stream/ShadowRoot";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
 import {
@@ -38,6 +37,7 @@ import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnable
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
+import { useShadowRootOrDocument } from "coral-ui/shadow";
 
 import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";
@@ -88,18 +88,17 @@ const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) => {
   return true;
 };
 
-const getKeyStops = (shadowRoot: ShadowRoot) => {
+const getKeyStops = (root: ShadowRoot | Document) => {
   const stops: KeyStop[] = [];
-  shadowRoot
+  root
     .querySelectorAll<HTMLElement>("[data-key-stop]")
     .forEach((el) => stops.push(toKeyStop(el)));
   return stops;
 };
 
-const shouldDisableUnmarkAll = (shadowRoot: ShadowRoot) => {
+const shouldDisableUnmarkAll = (root: ShadowRoot | Document) => {
   return (
-    shadowRoot.querySelector<HTMLElement>(`.${CLASSES.comment.notSeen}`) ===
-    null
+    root.querySelector<HTMLElement>(`.${CLASSES.comment.notSeen}`) === null
   );
 };
 
@@ -123,12 +122,12 @@ const getLastKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
 };
 
 const getCurrentKeyStop = (
-  shadowRoot: ShadowRoot,
+  root: ShadowRoot | Document,
   relayEnvironment: Environment
 ) => {
   const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
     .commentWithTraversalFocus;
-  const currentCommentElement = shadowRoot.getElementById(
+  const currentCommentElement = root.getElementById(
     computeCommentElementID(currentCommentID)
   );
   if (!currentCommentElement) {
@@ -138,11 +137,11 @@ const getCurrentKeyStop = (
 };
 
 const findNextKeyStop = (
-  shadowRoot: ShadowRoot,
+  root: ShadowRoot | Document,
   currentStop: KeyStop | null,
   options: TraverseOptions = {}
 ): KeyStop | null => {
-  const stops = getKeyStops(shadowRoot);
+  const stops = getKeyStops(root);
   if (stops.length === 0) {
     return null;
   }
@@ -177,11 +176,11 @@ const findNextKeyStop = (
 };
 
 const findPreviousKeyStop = (
-  shadowRoot: ShadowRoot,
+  root: ShadowRoot | Document,
   currentStop: KeyStop | null,
   options: TraverseOptions = {}
 ): KeyStop | null => {
-  const stops = getKeyStops(shadowRoot);
+  const stops = getKeyStops(root);
   if (stops.length === 0) {
     return null;
   }
@@ -222,12 +221,12 @@ const NextUnread = (
 );
 
 const getNextAction = (
-  shadowRoot: ShadowRoot,
+  root: ShadowRoot | Document,
   relayEnvironment: Environment,
   options: TraverseOptions = {}
 ) => {
-  const currentStop = getCurrentKeyStop(shadowRoot, relayEnvironment);
-  const next = findNextKeyStop(shadowRoot, currentStop, options);
+  const currentStop = getCurrentKeyStop(root, relayEnvironment);
+  const next = findNextKeyStop(root, currentStop, options);
   if (next) {
     if (next.isLoadMore) {
       return {
@@ -262,7 +261,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     eventEmitter,
     browserInfo,
   } = useCoralContext();
-  const shadowRoot = useShadowRoot();
+  const root = useShadowRootOrDocument();
   const [toolbarClosed, setToolbarClosed] = useInMemoryState(
     "keyboardShortcutMobileToolbarClosed",
     false
@@ -280,7 +279,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
   const updateButtonStates = useCallback(() => {
-    const nextAction = getNextAction(shadowRoot, relayEnvironment, {
+    const nextAction = getNextAction(root, relayEnvironment, {
       skipSeen: true,
     });
     if (!nextAction) {
@@ -298,7 +297,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     if (nextAction.disabled !== disableZAction) {
       setDisableZAction(nextAction.disabled);
     }
-    if (shouldDisableUnmarkAll(shadowRoot) !== disableUnmarkAction) {
+    if (shouldDisableUnmarkAll(root) !== disableUnmarkAction) {
       setDisableUnmarkAction(!disableUnmarkAction);
     }
   }, [
@@ -306,7 +305,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     disableZAction,
     nextZAction,
     relayEnvironment,
-    shadowRoot,
+    root,
   ]);
 
   const unmarkAll = useCallback(
@@ -344,11 +343,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
             skipSeen: true,
           };
         }
-        const currentStop = getCurrentKeyStop(shadowRoot, relayEnvironment);
+        const currentStop = getCurrentKeyStop(root, relayEnvironment);
         if (config.reverse) {
-          stop = findPreviousKeyStop(shadowRoot, currentStop, traverseOptions);
+          stop = findPreviousKeyStop(root, currentStop, traverseOptions);
         } else {
-          stop = findNextKeyStop(shadowRoot, currentStop, traverseOptions);
+          stop = findNextKeyStop(root, currentStop, traverseOptions);
         }
       }
 
@@ -378,18 +377,18 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
 
       const offset =
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        shadowRoot.getElementById(stop.id)!.getBoundingClientRect().top +
+        root.getElementById(stop.id)!.getBoundingClientRect().top +
         renderWindow.pageYOffset -
         150;
       renderWindow.scrollTo({ top: offset });
 
       if (stop.isLoadMore) {
-        let prevOrNextStop = findPreviousKeyStop(shadowRoot, stop, {
+        let prevOrNextStop = findPreviousKeyStop(root, stop, {
           skipLoadMore: true,
           noCircle: true,
         });
         if (!prevOrNextStop) {
-          prevOrNextStop = findNextKeyStop(shadowRoot, stop, {
+          prevOrNextStop = findNextKeyStop(root, stop, {
             skipLoadMore: true,
             noCircle: true,
           });
@@ -414,7 +413,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       enabled,
       eventEmitter,
       relayEnvironment,
-      shadowRoot,
+      root,
       renderWindow,
       setTraversalFocus,
       zKeyEnabled,
