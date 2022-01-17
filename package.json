@@ -471,8 +471,8 @@
     "iOS >= 10",
     "Safari >= 10",
     "Edge >= 79",
-    "Firefox >= 68",
-    "Chrome >= 56",
+    "Firefox >= 63",
+    "Chrome >= 54",
     "not OperaMini all",
     "not dead"
   ]
