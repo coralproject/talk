@@ -25,23 +25,16 @@
       const CoralStreamEmbed = Coral.createStreamEmbed({
         id: "coralStreamEmbed",
         rootURL: "http://localhost:8080",
-        events: function(events) {
-          events.onAny(function(eventName, data) {
-            console.log(eventName, data);
-          });
-        },
         /**
-         *
-         *  You can listen to events using the example below.
+         *  You can listen to events.
          *  The argument passed is the event emitter from
          *  https://github.com/asyncly/EventEmitter2
-         *
-         *  events: function(events) {
-         *    events.onAny(function(eventName, data) {
-         *      console.log(eventName, data);
-         *    });
-         *  },
          */
+        events: function(events) {
+          events.onAny(function(eventName, data) {
+            console.debug(eventName, data);
+          });
+        },
       });
       window.CoralStreamEmbed = CoralStreamEmbed;
       CoralStreamEmbed.render();
