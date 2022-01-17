@@ -28,8 +28,14 @@ interface Props {
 
 /** Props for the `ReactShadowRootDerived` Component */
 interface DerivedProps {
-  /** If set, the `onLoad` on the CSS Assets will be called */
+  /** If set, the `onLoad` on the CSS Assets will be called, you usually don't want that. */
   callOnLoad?: boolean;
+  /**
+   * Tell that this is used for a modal. Certain styles will be applied to
+   * match this use case that are necessary to have correct breakpoints.
+   * Defaults to true, as our main usecase for derived shadow doms are modals.
+   */
+  modal?: boolean;
 }
 
 const ShadowRootDerivedPropsContext = createContext<Props>({});
@@ -59,10 +65,11 @@ export const ReactShadowRootDerived: FunctionComponent<DerivedProps> = (
   const customCSSAssets = derivedProps.customCSSAssets || [];
   const style = useMemo(
     () => ({
+      display: "block",
+      width: props.modal === false ? undefined : "100vw",
       ...derivedProps.style,
-      display: derivedProps.style?.display || "block",
     }),
-    [derivedProps.style]
+    [derivedProps.style, props.modal]
   );
   return (
     <ReactShadow.div>
@@ -105,7 +112,7 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
   }
   return (
     <ShadowRootDerivedPropsContext.Provider value={props}>
-      <ReactShadowRootDerived callOnLoad>
+      <ReactShadowRootDerived callOnLoad modal={false}>
         {props.children}
       </ReactShadowRootDerived>
     </ShadowRootDerivedPropsContext.Provider>

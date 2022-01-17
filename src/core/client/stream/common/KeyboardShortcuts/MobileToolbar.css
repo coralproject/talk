@@ -7,6 +7,7 @@
   width: 100%;
 }
 .bar {
+  width: 100%;
   max-width: $breakpoints-mobile-max;
   background: var(--palette-primary-500);
   color: white;
