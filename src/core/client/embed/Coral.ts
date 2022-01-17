@@ -52,6 +52,13 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     config.events(embedEventEmitter);
   }
 
+  if (config.bodyClassName) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "Coral: `bodyClassName` has been deprecated. Use `containerClassName` instead."
+    );
+  }
+
   return new StreamEmbed({
     id: config.id || "coral-embed-stream",
     storyID: config.storyID || query.storyID,
