@@ -5,6 +5,8 @@
   bottom: 0;
   height: 52px;
   width: 100%;
+}
+.bar {
   max-width: $breakpoints-mobile-max;
   background: var(--palette-primary-500);
   color: white;

@@ -1,7 +1,6 @@
 import breakpoints from "coral-ui/theme/breakpoints";
 import { useEffect, useState } from "react";
 
-import { getShadowRootWidth } from "./";
 import onShadowRootWidthChange from "./onShadowRootWidthChange";
 import useShadowRoot from "./useShadowRoot";
 
@@ -58,8 +57,5 @@ export default function useShadowRootBreakpointClasses() {
   if (className !== null) {
     return className;
   }
-  if (!shadowRoot) {
-    return "";
-  }
-  return convWidth2ClassName(getShadowRootWidth(shadowRoot));
+  return "";
 }

@@ -65,8 +65,12 @@ export default function onShadowRootWidthChange(
     // We start the match checker loop.
     startShadowRootWidthObserver(shadowRoot);
   }
-  const array = ShadowRootWidthObserverMap.get(shadowRoot)!.callbacks;
+  const value = ShadowRootWidthObserverMap.get(shadowRoot)!;
+  const array = value.callbacks;
   array.push(callback);
+
+  // Call with initial width.
+  callback(value.width);
 
   return () => {
     const index = array.indexOf(callback);

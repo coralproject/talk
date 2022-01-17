@@ -1,4 +1,8 @@
-export { default as ShadowRoot, CSSAsset } from "./ReactShadowRoot";
+export {
+  default as ReactShadowRoot,
+  ReactShadowRootDerived,
+  CSSAsset,
+} from "./ReactShadowRoot";
 export { default as useShadowRoot } from "./useShadowRoot";
 export { default as useShadowRootOrDocument } from "./useShadowRootOrDocument";
 export { default as getShadowRootWidth } from "./getShadowRootWidth";
