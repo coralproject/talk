@@ -11,7 +11,7 @@ import { useShadowRoot } from ".";
 import useShadowRootBreakpointClasses from "./useShadowRootBreakpointClasses";
 export interface CSSAsset {
   href: string;
-  onLoad?: () => void;
+  onLoad?: React.ReactEventHandler<HTMLLinkElement>;
 }
 
 interface Props {

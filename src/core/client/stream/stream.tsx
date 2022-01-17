@@ -157,7 +157,15 @@ export async function attach(options: AttachOptions) {
       }
       setShadowCSSAssets((assets) => [
         ...assets,
-        { href: linkTag.href, onLoad: handleCSSLoad },
+        {
+          href: linkTag.href,
+          onLoad: (event) => {
+            if (linkTag.onload) {
+              linkTag.onload(event.nativeEvent);
+            }
+            handleCSSLoad();
+          },
+        },
       ]);
     };
 
