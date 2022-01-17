@@ -110,7 +110,7 @@ export default class ManifestLoader {
         const manifest: Manifest = await res.json();
         if (
           !manifest.entrypoints ||
-          !manifest.entrypoints[Object.keys(manifest.entrypoints)[0]].js
+          !manifest.entrypoints[Object.keys(manifest.entrypoints)[0]].assets.js
         ) {
           this.invalidManifestCounter++;
           if (this.invalidManifestCounter > INVALID_MANIFEST_MAX_RETRIES) {
@@ -121,7 +121,10 @@ export default class ManifestLoader {
         // We got a valid manifest, reset counter.
         this.invalidManifestCounter = 0;
         const firstEntrypoint = Object.keys(manifest.entrypoints)[0];
-        if (!firstEntrypoint || !manifest.entrypoints[firstEntrypoint].js) {
+        if (
+          !firstEntrypoint ||
+          !manifest.entrypoints[firstEntrypoint].assets.js
+        ) {
           // No entrypoint found or no js entry for first entrypoint, probably not ready -> retry!
           return null;
         }
