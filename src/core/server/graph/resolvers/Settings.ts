@@ -32,6 +32,8 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   memberBios: ({ memberBios = false }) => memberBios,
   premoderateSuspectWords: ({ premoderateSuspectWords = false }) =>
     premoderateSuspectWords,
+  premoderateAllCommentsSites: ({ premoderateAllCommentsSites = [] }) =>
+    premoderateAllCommentsSites,
   stories: ({ stories }) => stories,
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
   flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),

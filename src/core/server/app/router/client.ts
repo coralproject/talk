@@ -153,6 +153,8 @@ const clientHandler = ({
     };
   }
 
+  const flattenReplies = req.coral.tenant?.flattenReplies || false;
+
   res.render(viewTemplate, {
     analytics,
     staticURI: config.staticURI || "/",
@@ -163,6 +165,7 @@ const clientHandler = ({
       ...config,
       featureFlags,
       tenantDomain: req.coral.tenant?.domain,
+      flattenReplies,
     },
   });
 };

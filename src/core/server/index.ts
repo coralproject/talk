@@ -311,6 +311,7 @@ class Server {
       this.tasks.notifier.process();
       this.tasks.webhook.process();
       this.tasks.rejector.process();
+      this.tasks.archiver.process();
 
       // Start up the cron job processors.
       this.scheduledTasks = startScheduledTasks({
@@ -318,6 +319,7 @@ class Server {
         redis: this.redis,
         config: this.config,
         mailerQueue: this.tasks.mailer,
+        archiverQueue: this.tasks.archiver,
         tenantCache: this.tenantCache,
         signingConfig: this.signingConfig,
       });

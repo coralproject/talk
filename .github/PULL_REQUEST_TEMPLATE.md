@@ -38,6 +38,14 @@ simply write "None".
 
 -->
 
+## Does this PR introduce any new environment variables or feature flags? 
+
+<!-- 
+
+In this section, note any new environment variables or feature flags introduced. Ensure you add them to internal documentation when your PR is merged. 
+
+-->
+
 ## How do I test this PR?
 
 <!--

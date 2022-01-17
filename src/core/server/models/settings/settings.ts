@@ -24,6 +24,7 @@ export interface GlobalModerationSettings {
   live: LiveConfiguration;
   moderation: GQLMODERATION_MODE;
   premodLinksEnable: boolean;
+  premoderateAllCommentsSites: string[];
 }
 
 export type OIDCAuthIntegration = Omit<

@@ -487,7 +487,7 @@ const config = convict({
   },
   auto_archiving_interval: {
     doc:
-      "The cron scheduling interval for how often auto archiving should run. Defaults to hourly.",
+      "The cron scheduling interval for how often auto archiving should run.",
     format: String,
     default: "0,15,30,45 * * * *",
     env: "AUTO_ARCHIVING_INTERVAL",

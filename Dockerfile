@@ -3,6 +3,8 @@ FROM node:14-alpine
 # Install build dependancies.
 RUN apk --no-cache add git python3
 
+RUN npm install -g npm@8.0.0
+
 # Create app directory.
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

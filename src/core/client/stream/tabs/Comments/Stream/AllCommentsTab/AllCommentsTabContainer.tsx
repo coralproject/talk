@@ -27,14 +27,16 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
-import { LoadMoreAllCommentsEvent } from "coral-stream/events";
+import {
+  LoadMoreAllCommentsEvent,
+  ViewNewCommentsNetworkEvent,
+} from "coral-stream/events";
 import {
   CommentEditedSubscription,
   CommentEnteredSubscription,
 } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
-import { useShadowRootOrDocument } from "coral-ui/shadow";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
@@ -69,16 +71,23 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   relay,
   tag,
 }) => {
-  const [{ commentsOrderBy, ratingFilter }, setLocal] = useLocal<
-    AllCommentsTabContainerLocal
-  >(
+  const [
+    { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
+    setLocal,
+  ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
         ratingFilter
         commentsOrderBy
+        keyboardShortcutsConfig {
+          key
+          source
+          reverse
+        }
       }
     `
   );
+
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
@@ -141,33 +150,47 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [setLocal]
   );
 
-  const lastComment =
-    (story.comments.edges.length &&
-      story.comments.edges[story.comments.edges.length - 1]) ||
-    null;
-
   const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
-  const root = useShadowRootOrDocument();
+  const beginViewNewCommentsEvent = useViewerNetworkEvent(
+    ViewNewCommentsNetworkEvent
+  );
+
   const loadMoreAndEmit = useCallback(async () => {
-    const loadMoreEvent = beginLoadMoreEvent({ storyID: story.id });
+    const loadMoreEvent = beginLoadMoreEvent({
+      storyID: story.id,
+      keyboardShortcutsConfig,
+    });
     try {
       await loadMore();
-      // eslint-disable-next-line no-unused-expressions
-      root.getElementById(`comment-${lastComment?.node.id}`)?.focus();
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, story.id, lastComment, root]);
+  }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
-  const onViewMore = useCallback(() => viewMore({ storyID: story.id, tag }), [
+  const onViewMore = useCallback(async () => {
+    const viewNewCommentsEvent = beginViewNewCommentsEvent({
+      storyID: story.id,
+      keyboardShortcutsConfig,
+    });
+    try {
+      await viewMore({ storyID: story.id, tag });
+      viewNewCommentsEvent.success();
+    } catch (error) {
+      viewNewCommentsEvent.error({ message: error.message, code: error.code });
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, [
+    beginViewNewCommentsEvent,
     story.id,
-    tag,
+    keyboardShortcutsConfig,
     viewMore,
+    tag,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
@@ -222,6 +245,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             aria-controls="comments-allComments-log"
             data-key-stop
             data-is-load-more
+            data-is-view-new
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (

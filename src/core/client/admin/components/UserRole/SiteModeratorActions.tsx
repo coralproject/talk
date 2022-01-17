@@ -37,6 +37,7 @@ import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import DemoteUserMutation from "./DemoteUserMutation";
 import PromoteUserMutation from "./PromoteUserMutation";
+import SiteModeratorActionsSites from "./SiteModeratorActionsSites";
 import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
 
@@ -75,25 +76,28 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
     toggleModalVisibility();
   }, [toggleModalVisibility]);
 
-  const onSubmit = useCallback(async () => {
-    try {
-      if (mode === "promote") {
-        await promoteUser({ userID: user.id });
-      } else if (mode === "demote") {
-        await demoteUser({ userID: user.id });
-      }
+  const onSubmit = useCallback(
+    async (input) => {
+      try {
+        if (mode === "promote") {
+          await promoteUser({ userID: user.id, siteIDs: input.siteIDs });
+        } else if (mode === "demote") {
+          await demoteUser({ userID: user.id, siteIDs: input.siteIDs });
+        }
 
-      setMode(null);
-      toggleModalVisibility();
+        setMode(null);
+        toggleModalVisibility();
 
-      return;
-    } catch (err) {
-      if (err instanceof InvalidRequestError) {
-        return err.invalidArgs;
+        return;
+      } catch (err) {
+        if (err instanceof InvalidRequestError) {
+          return err.invalidArgs;
+        }
+        return { [FORM_ERROR]: err.message };
       }
-      return { [FORM_ERROR]: err.message };
-    }
-  }, [demoteUser, mode, promoteUser, toggleModalVisibility, user.id]);
+    },
+    [demoteUser, mode, promoteUser, toggleModalVisibility, user.id]
+  );
 
   const viewerSites = viewer.moderationScopes?.sites || [];
   const userSites = user.moderationScopes?.sites || [];
@@ -138,14 +142,18 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   return (
     <>
-      <Modal open={isModalVisible} onClose={onCancel}>
+      <Modal
+        open={isModalVisible}
+        onClose={onCancel}
+        data-testid="siteModeratorActions-modal"
+      >
         {({ firstFocusableRef, lastFocusableRef }) => (
           <Card className={styles.modal}>
             <Flex justifyContent="flex-end">
               <CardCloseButton onClick={onCancel} ref={firstFocusableRef} />
             </Flex>
             <Form onSubmit={onSubmit}>
-              {({ handleSubmit, submitError, submitting }) => (
+              {({ handleSubmit, submitError, submitting, values }) => (
                 <form onSubmit={handleSubmit}>
                   <HorizontalGutter spacing={3}>
                     {mode === "promote" ? (
@@ -198,13 +206,11 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                         </ModalBodyText>
                       </Localized>
                     )}
-                    <ListGroup>
-                      {viewerSites.map((site) => (
-                        <ListGroupRow key={site.id}>
-                          <Typography>{site.name}</Typography>
-                        </ListGroupRow>
-                      ))}
-                    </ListGroup>
+                    <SiteModeratorActionsSites
+                      viewerSites={viewerSites}
+                      userSites={userSites}
+                      mode={mode}
+                    />
                     {mode === "demote" && uniqueUserSites.length > 0 && (
                       <>
                         <Localized id="community-stillHaveSiteModeratorPrivileges">
@@ -231,7 +237,10 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                         <Localized id="community-siteModeratorModal-assign">
                           <Button
                             type="submit"
-                            disabled={submitting}
+                            disabled={
+                              submitting ||
+                              (values.siteIDs && values.siteIDs.length === 0)
+                            }
                             ref={lastFocusableRef}
                           >
                             Assign
@@ -242,7 +251,10 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                           <Button
                             type="submit"
                             color="alert"
-                            disabled={submitting}
+                            disabled={
+                              submitting ||
+                              (values.siteIDs && values.siteIDs.length === 0)
+                            }
                             ref={lastFocusableRef}
                           >
                             Remove

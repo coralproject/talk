@@ -38,6 +38,7 @@ import {
   updatePassword,
   updateRole,
   updateSSOProfileID,
+  updateUserBan,
   updateUsername,
   updateUsernameByID,
   warn,
@@ -77,6 +78,7 @@ import {
   GQLUpdatePasswordInput,
   GQLUpdateSSOProfileIDInput,
   GQLUpdateUserAvatarInput,
+  GQLUpdateUserBanInput,
   GQLUpdateUserEmailInput,
   GQLUpdateUserMediaSettingsInput,
   GQLUpdateUserModerationScopesInput,
@@ -242,9 +244,9 @@ export const Users = (ctx: GraphContext) => ({
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
   promote: async (input: GQLPromoteUserInput) =>
-    promoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
+    promoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.siteIDs),
   demote: async (input: GQLDemoteUserInput) =>
-    demoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
+    demoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.siteIDs),
   updateUserModerationScopes: async (
     input: GQLUpdateUserModerationScopesInput
   ) =>
@@ -288,6 +290,26 @@ export const Users = (ctx: GraphContext) => ({
       message,
       rejectExistingComments,
       siteIDs,
+      ctx.now
+    ),
+  updateUserBan: async ({
+    userID,
+    message,
+    rejectExistingComments = false,
+    banSiteIDs,
+    unbanSiteIDs,
+  }: GQLUpdateUserBanInput) => async () =>
+    updateUserBan(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.rejectorQueue,
+      ctx.tenant,
+      ctx.user!,
+      userID,
+      message,
+      rejectExistingComments,
+      banSiteIDs,
+      unbanSiteIDs,
       ctx.now
     ),
   warn: async (input: GQLWarnUserInput) =>

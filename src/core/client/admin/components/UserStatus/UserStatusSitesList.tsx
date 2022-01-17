@@ -1,21 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
-import { GQLUSER_ROLE } from "coral-framework/schema";
-import {
-  FieldSet,
-  Flex,
-  FormField,
-  HorizontalGutter,
-  Label,
-  RadioButton,
-} from "coral-ui/components/v2";
+import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
 
 import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
+import { dedupe } from "./helpers";
 import UserStatusSitesListSelectedSiteQuery from "./UserStatusSitesListSelectedSiteQuery";
 
 import styles from "./UserStatusSitesList.css";
@@ -30,62 +22,103 @@ export interface Scopes {
   sites?: ScopeSite[] | null;
 }
 
+export interface UserBanStatus {
+  sites: ReadonlyArray<ScopeSite> | null;
+  active: boolean | null;
+}
+
 interface Props {
+  readonly userBanStatus?: UserBanStatus;
+  banState: [string[], (siteIDs: string[]) => void];
+  unbanState: [string[], (siteIDs: string[]) => void];
   viewerScopes: Scopes;
 }
 
-const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
-  const viewerIsAdmin = viewerScopes.role === GQLUSER_ROLE.ADMIN;
-  const viewerIsOrgAdmin =
-    viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
-    !!(!viewerScopes.sites || viewerScopes.sites?.length === 0);
+const UserStatusSitesList: FunctionComponent<Props> = ({
+  viewerScopes,
+  userBanStatus,
+  banState: [banSiteIDs, setBanSiteIDs],
+  unbanState: [unbanSiteIDs, setUnbanSiteIDs],
+}) => {
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
-  const viewerIsSiteMod =
-    viewerScopes.role === GQLUSER_ROLE.MODERATOR && viewerIsScoped;
-  const viewerIsSingleSiteMod = !!(
-    viewerIsSiteMod &&
-    viewerScopes.sites &&
-    viewerScopes.sites.length === 1
+
+  const initiallyBanned = useCallback(
+    (siteID: string) => !!userBanStatus?.sites?.some(({ id }) => id === siteID),
+    [userBanStatus]
   );
 
-  const [showSites, setShowSites] = useState<boolean>(
-    !!(viewerIsScoped || viewerIsSingleSiteMod)
-  );
+  const [candidateSites, setCandidateSites] = useState<string[]>(() => {
+    let all = (userBanStatus?.sites || [])
+      .map((bs) => bs.id)
+      .concat(banSiteIDs)
+      .concat(unbanSiteIDs);
 
-  const { input: selectedIDsInput } = useField<string[]>("selectedIDs");
+    if (viewerIsScoped) {
+      all = all.concat(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
+    }
 
-  const onHideSites = useCallback(() => {
-    setShowSites(false);
-  }, [setShowSites]);
-  const onShowSites = useCallback(() => {
-    setShowSites(true);
-  }, [setShowSites]);
-  const onRemoveSite = useCallback(
+    return dedupe(all);
+  });
+
+  const onUnbanFromSite = useCallback(
     (siteID: string) => {
-      const changed = [...selectedIDsInput.value];
+      const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
+      const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
+      const alreadyBanned = !!userBanStatus?.sites?.some(
+        ({ id }) => id === siteID
+      );
 
-      const index = changed.indexOf(siteID);
-      if (index >= 0) {
-        changed.splice(index, 1);
+      if (inBanIDs) {
+        // remove from banSiteIDs
+        setBanSiteIDs(banSiteIDs.filter((id) => id !== siteID));
       }
-
-      selectedIDsInput.onChange(changed);
+      if (!inUnbanIDs && alreadyBanned) {
+        // add to unbanSiteIDs
+        setUnbanSiteIDs([...unbanSiteIDs, siteID]);
+      }
     },
-    [selectedIDsInput]
+    [banSiteIDs, unbanSiteIDs, userBanStatus, setBanSiteIDs, setUnbanSiteIDs]
+  );
+
+  const onBanFromSite = useCallback(
+    (siteID: string) => {
+      const inBanIDs = banSiteIDs.indexOf(siteID) > -1;
+      const inUnbanIDs = unbanSiteIDs.indexOf(siteID) > -1;
+      const alreadyBanned = !!userBanStatus?.sites?.some(
+        ({ id }) => id === siteID
+      );
+      if (!inBanIDs && !alreadyBanned) {
+        // add to banSiteIDs
+        setBanSiteIDs([...banSiteIDs, siteID]);
+      }
+      if (inUnbanIDs) {
+        // remove from unbanSiteIDs
+        setUnbanSiteIDs(unbanSiteIDs.filter((id) => id !== siteID));
+      }
+    },
+    [banSiteIDs, unbanSiteIDs, setBanSiteIDs, setUnbanSiteIDs, userBanStatus]
+  );
+
+  const onToggleSite = useCallback(
+    (siteID: string, ban: boolean) =>
+      ban ? onBanFromSite(siteID) : onUnbanFromSite(siteID),
+    [onBanFromSite, onUnbanFromSite]
   );
 
   const onAddSite = useCallback(
-    (siteID: string) => {
-      const changed = [...selectedIDsInput.value];
-
-      const index = changed.indexOf(siteID);
-      if (index === -1) {
-        changed.push(siteID);
+    (id: string | null) => {
+      if (!id) {
+        return;
       }
 
-      selectedIDsInput.onChange(changed);
+      if (candidateSites.includes(id)) {
+        return;
+      }
+
+      setCandidateSites([...candidateSites, id]);
+      onToggleSite(id, true);
     },
-    [selectedIDsInput]
+    [onToggleSite, candidateSites]
   );
 
   return (
@@ -98,47 +131,31 @@ const UserStatusSitesList: FunctionComponent<Props> = ({ viewerScopes }) => {
             </Localized>
           </div>
 
-          {(viewerIsAdmin ||
-            viewerIsOrgAdmin ||
-            (viewerIsScoped && !viewerIsSingleSiteMod)) && (
-            <Flex className={styles.sitesToggle} spacing={5}>
-              <FormField>
-                <Localized id="community-banModal-allSites">
-                  <RadioButton checked={!showSites} onChange={onHideSites}>
-                    All sites
-                  </RadioButton>
-                </Localized>
-              </FormField>
-              <FormField>
-                <Localized id="community-banModal-specificSites">
-                  <RadioButton checked={showSites} onChange={onShowSites}>
-                    Specific Sites
-                  </RadioButton>
-                </Localized>
-              </FormField>
-            </Flex>
-          )}
+          <HorizontalGutter spacing={3} mt={5} mb={4}>
+            {candidateSites.map((siteID) => {
+              const checked =
+                banSiteIDs.includes(siteID) ||
+                (initiallyBanned(siteID) && !unbanSiteIDs.includes(siteID));
 
-          {showSites && (
-            <>
-              <HorizontalGutter spacing={3} mt={5} mb={4}>
-                {selectedIDsInput.value.map((siteID) => {
-                  return (
-                    <UserStatusSitesListSelectedSiteQuery
-                      key={siteID}
-                      siteID={siteID}
-                      onChange={onRemoveSite}
-                    />
-                  );
-                })}
-              </HorizontalGutter>
-              <SiteSearch
-                onSelect={onAddSite}
-                showSiteSearchLabel={false}
-                showOnlyScopedSitesInSearchResults={true}
-                showAllSitesSearchFilterOption={false}
-              />
-            </>
+              return (
+                <UserStatusSitesListSelectedSiteQuery
+                  key={siteID}
+                  siteID={siteID}
+                  checked={checked}
+                  onChange={onToggleSite}
+                  disabled={viewerIsScoped && initiallyBanned(siteID)}
+                />
+              );
+            })}
+          </HorizontalGutter>
+          {!viewerIsScoped && (
+            <SiteSearch
+              onSelect={onAddSite}
+              showSiteSearchLabel={false}
+              showOnlyScopedSitesInSearchResults={true}
+              showAllSitesSearchFilterOption={false}
+              clearTextFieldValueAfterSelect={true}
+            />
           )}
         </FieldSet>
       </IntersectionProvider>

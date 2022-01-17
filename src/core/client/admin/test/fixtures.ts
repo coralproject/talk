@@ -34,6 +34,7 @@ import { NULL_VALUE } from "coral-test/helpers/fixture";
 export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
+  premoderateAllCommentsSites: [],
   premodLinksEnable: false,
   locale: "en-US",
   live: {
@@ -451,6 +452,28 @@ export const users = {
         role: GQLUSER_ROLE.MODERATOR,
         ignoreable: false,
       },
+      {
+        id: "site-moderator-1",
+        username: "Ginger",
+        email: "ginger@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
+        moderationScopes: {
+          scoped: true,
+          sites: [sites[0]],
+        },
+      },
+      {
+        id: "site-moderator-2",
+        username: "Audrey",
+        email: "audrey@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
+        moderationScopes: {
+          scoped: true,
+          sites: [sites[0]],
+        },
+      },
     ],
     baseUser
   ),
@@ -483,6 +506,17 @@ export const users = {
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
         recentCommentHistory,
+        moderatorNotes: [],
+        allComments: {
+          edges: [],
+          nodes: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            startCursor: null,
+            endCursor: null,
+          },
+        },
       },
       {
         id: "user-commenter-2",
@@ -686,6 +720,9 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_DETECTED_BANNED_WORD: 0,
         },
       },
+      reaction: {
+        total: 0,
+      },
     },
     metadata: {
       perspective: NULL_VALUE,
@@ -751,6 +788,9 @@ export const reportedComments = createFixtures<GQLComment>(
               COMMENT_REPORTED_SPAM: 2,
             },
           },
+          reaction: {
+            total: 1,
+          },
         },
         metadata: {
           perspective: {
@@ -779,6 +819,21 @@ export const reportedComments = createFixtures<GQLComment>(
           },
         ],
       },
+      reactions: {
+        edges: [
+          {
+            node: {
+              id: "comment-0-reaction-1",
+              reacter: {
+                userID: "user-commenter-1",
+                username: "Ngoc",
+              },
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      },
     },
     {
       id: "comment-1",
@@ -789,6 +844,9 @@ export const reportedComments = createFixtures<GQLComment>(
             reasons: {
               COMMENT_REPORTED_OFFENSIVE: 3,
             },
+          },
+          reaction: {
+            total: 0,
           },
         },
         metadata: {
@@ -835,6 +893,9 @@ export const reportedComments = createFixtures<GQLComment>(
               COMMENT_REPORTED_OFFENSIVE: 1,
             },
           },
+          reaction: {
+            total: 0,
+          },
         },
         metadata: {
           perspective: {
@@ -873,6 +934,9 @@ export const reportedComments = createFixtures<GQLComment>(
             reasons: {
               COMMENT_REPORTED_SPAM: 1,
             },
+          },
+          reaction: {
+            total: 0,
           },
         },
         metadata: {
@@ -1010,6 +1074,8 @@ export const communityUsers = createFixture<GQLUsersConnection>({
   edges: [
     { node: users.admins[0], cursor: users.admins[0].createdAt },
     { node: users.moderators[0], cursor: users.moderators[0].createdAt },
+    { node: users.moderators[1], cursor: users.moderators[1].createdAt },
+    { node: users.moderators[2], cursor: users.moderators[2].createdAt },
     { node: users.staff[0], cursor: users.staff[0].createdAt },
     { node: users.commenters[0], cursor: users.commenters[0].createdAt },
   ],

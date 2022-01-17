@@ -1,0 +1,8 @@
+.root {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  width: 646px;
+  height: 100%;
+}
