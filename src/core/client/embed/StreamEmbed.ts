@@ -13,11 +13,19 @@ import {
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 
+/** Margin before reaching Coral embed where we start autorendering */
+const AUTORENDER_ROOT_MARGIN = "100px";
+
+/** Margin before reaching Coral embed where we start preloading */
+const PRELOAD_ROOT_MARGIN = "1200px";
+
 /** When loading /embed/bootstrap retry x times */
 const LOAD_BOOTSTRAP_RETRY_ATTEMPTS =
   process.env.NODE_ENV === "production" ? 3 : 20;
+
 /** Initial delay before a retry */
 const LOAD_BOOTSTRAP_RETRY_DELAY = 2000;
+
 /** Multiplier for each attempt more */
 const LOAD_BOOTSTRAP_RETRY_DELAY_MULTIPLIER =
   process.env.NODE_ENV === "production" ? 2000 : 0;
@@ -41,7 +49,6 @@ export interface StreamEmbedConfig {
   amp?: boolean;
   graphQLSubscriptionURI?: string;
 }
-
 export class StreamEmbed {
   /**
    * Every interval rounded to this value in ms will be passed when creating the
@@ -152,7 +159,7 @@ export class StreamEmbed {
             this.preloadAssets();
           },
           {
-            rootMargin: "1200px",
+            rootMargin: PRELOAD_ROOT_MARGIN,
             threshold: 1.0,
           }
         );
@@ -164,7 +171,7 @@ export class StreamEmbed {
             this.render();
           },
           {
-            rootMargin: "100px",
+            rootMargin: AUTORENDER_ROOT_MARGIN,
             threshold: 1.0,
           }
         );
