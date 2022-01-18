@@ -516,11 +516,12 @@ export async function updateTenantEmailDomain(
   id: string,
   input: UpdateEmailDomainInput
 ) {
-  // Search to see if this email domain has already been configured.
+  // Search to see if this email domain has already been configured
+  // for an email domain with a different id.
   const duplicateDomain = await mongo.tenants().findOne({
     id,
     emailDomainModeration: {
-      $elemMatch: { domain: input.domain },
+      $elemMatch: { domain: input.domain, id: { $ne: input.id } },
     },
   });
   if (duplicateDomain) {
