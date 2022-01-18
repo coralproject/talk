@@ -11,14 +11,33 @@ import {
 
 export const statusPreModerateNewCommenter = async ({
   tenant,
+  story,
   author,
 }: Pick<
   ModerationPhaseContext,
-  "author" | "tenant" | "now" | "mongo"
+  "author" | "tenant" | "now" | "mongo" | "story"
 >): Promise<IntermediatePhaseResult | void> => {
-  // If pre-moderation is disabled for new commenters, then do nothing!
-  if (!tenant.newCommenters.premodEnabled) {
-    return;
+  if (tenant.newCommenters.moderation) {
+    // If specific sites pre-moderation mode is enabled, check if this is a
+    // site set to pre-moderate all new users
+    if (tenant.newCommenters.moderation.mode === "SPECIFIC_SITES_PRE") {
+      // KNOTE: Should have a check here that this exists just in case?
+      // If premodSites doesn't include this site id, then do nothing!
+      if (!tenant.newCommenters.moderation.premodSites.includes(story.siteID)) {
+        return;
+      }
+    } else {
+      // If pre-moderation is set to POST for new commenters, then do nothing!
+      if (tenant.newCommenters.moderation.mode === "POST") {
+        return;
+      }
+    }
+    // If newCommenters.moderation doesn't exist, check the deprecated premodEnabled
+    // If pre-moderation is disabled for new commenters here, then do nothing!
+  } else {
+    if (!tenant.newCommenters.premodEnabled) {
+      return;
+    }
   }
 
   // If the threshold is equal to or less than zero, then there's nothing to do!
