@@ -4,6 +4,7 @@ import {
   ADMIN_REDIRECT_PATH_KEY,
   MOD_QUEUE_SORT_ORDER,
 } from "coral-admin/constants";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { clearHash, getParamsFromHash } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
 import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
@@ -60,6 +61,10 @@ const initLocalState: InitLocalState = async ({
     MOD_QUEUE_SORT_ORDER
   );
 
+  const archivingEnabled = staticConfig?.archivingEnabled || false;
+  const autoArchiveOlderThanMs =
+    staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN;
+
   commitLocalUpdate(environment, (s) => {
     const localRecord = s.get(LOCAL_ID)!;
 
@@ -74,6 +79,9 @@ const initLocalState: InitLocalState = async ({
       staticConfig?.forceAdminLocalAuth ?? false,
       "forceAdminLocalAuth"
     );
+
+    localRecord.setValue(archivingEnabled, "archivingEnabled");
+    localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
   });
 };
 

@@ -5,6 +5,7 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 
+import { ArchivedCommentsThresholdNotification } from "./ArchivedCommentsThresholdNotification";
 import HistoryCommentContainer from "./HistoryCommentContainer";
 
 import styles from "./CommentHistory.css";
@@ -18,6 +19,9 @@ interface CommentHistoryProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   disableLoadMore?: boolean;
+
+  archivingEnabled: boolean;
+  autoArchiveOlderThanMs: number;
 }
 
 const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
@@ -86,6 +90,11 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
                 Load More
               </Button>
             </Localized>
+          )}
+          {props.archivingEnabled && (
+            <ArchivedCommentsThresholdNotification
+              archivingThresholdMs={props.autoArchiveOlderThanMs}
+            />
           )}
         </HorizontalGutter>
       </section>

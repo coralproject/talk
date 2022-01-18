@@ -1,3 +1,4 @@
+import ms from "ms";
 import TIME from "./time";
 
 /**
@@ -101,3 +102,5 @@ export const SARCASM_CLASSNAME = "coral-rte-sarcasm";
 export const MAX_BIO_LENGTH = 100;
 
 export const REDIRECT_TO_PARAM = "redirectTo";
+
+export const DEFAULT_AUTO_ARCHIVE_OLDER_THAN = ms("120 days");

@@ -11,7 +11,9 @@ exports[`get access token from url 1`] = `
   \\"authView\\": \\"SIGN_IN\\",
   \\"authError\\": null,
   \\"moderationQueueSort\\": \\"CREATED_AT_DESC\\",
-  \\"forceAdminLocalAuth\\": false
+  \\"forceAdminLocalAuth\\": false,
+  \\"archivingEnabled\\": false,
+  \\"autoArchiveOlderThanMs\\": 10368000000
 }"
 `;
 
@@ -34,7 +36,9 @@ exports[`init local state 1`] = `
     \\"authView\\": \\"SIGN_IN\\",
     \\"authError\\": null,
     \\"moderationQueueSort\\": \\"CREATED_AT_DESC\\",
-    \\"forceAdminLocalAuth\\": false
+    \\"forceAdminLocalAuth\\": false,
+    \\"archivingEnabled\\": false,
+    \\"autoArchiveOlderThanMs\\": 10368000000
   }
 }"
 `;

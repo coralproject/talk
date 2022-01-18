@@ -25,7 +25,9 @@ exports[`init local state 1`] = `
     \\"enableCommentSeen\\": false,
     \\"flattenReplies\\": false,
     \\"enableZKey\\": false,
-    \\"amp\\": false
+    \\"amp\\": false,
+    \\"archivingEnabled\\": false,
+    \\"autoArchiveOlderThanMs\\": 10368000000
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",
