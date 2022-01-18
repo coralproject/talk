@@ -93,9 +93,14 @@ export function checkForNewUserEmailDomainModeration(
   const userEmail = user.email;
   if (userEmail && emailDomainModeration) {
     const userEmailDomain = userEmail.substring(userEmail.indexOf("@") + 1);
-    const matchingEmailDomain = emailDomainModeration.find(
-      (d) => d.domain === userEmailDomain
-    );
+    const matchingEmailDomain = emailDomainModeration.find((d) => {
+      const domainIndex = userEmailDomain.indexOf(d.domain);
+      if (domainIndex !== -1) {
+        // either matches the userEmailDomain or is a subdomain of it
+        return domainIndex === 0 || userEmailDomain[domainIndex - 1] === ".";
+      }
+      return false;
+    });
     return matchingEmailDomain && matchingEmailDomain.newUserModeration;
   }
   return null;
