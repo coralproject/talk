@@ -69,12 +69,18 @@ export interface AccountFeatures {
   downloadComments: boolean;
 }
 
+export interface NewCommentersPremodConfig {
+  mode: GQLMODERATION_MODE;
+  premodSites: string[];
+}
+
 /**
  * NewCommentersConfiguration is the configuration for how new commenters comments are treated.
  */
 export interface NewCommentersConfiguration {
   premodEnabled: boolean;
   approvedCommentsThreshold: number;
+  moderation: NewCommentersPremodConfig;
 }
 
 export interface StaffConfiguration {

@@ -1737,12 +1737,33 @@ type NewCommentersConfiguration {
   enough approved comments
   """
   premodEnabled: Boolean!
+    @deprecated(
+      reason: "Use moderation instead for whether premod is enabled and on which sites"
+    )
 
   """
   approvedCommentsThreshold is the number of comments a user must have approved before their
   comments do not require premoderation
   """
   approvedCommentsThreshold: Int!
+
+  """
+  moderation is the configuration for pre-moderation for new commenters' comments until
+  they have enough approved comments. It stores whether it is PRE, POST, or PRE only for
+  specific sites
+  KNOTE: Should this be named something like premodConfig instead?
+  """
+  moderation: NewCommentersPremodConfig
+}
+
+"""
+NewCommentersPremodConfig specifies the configuration for pre-moderation for new commenters' comments until
+they have enough approved comments. It stores whether it is PRE, POST, or PRE only for
+specific sites
+"""
+type NewCommentersPremodConfig {
+  mode: MODERATION_MODE
+  premodSites: [String!]!
 }
 
 """
@@ -5250,6 +5271,11 @@ input MediaConfigurationInput {
   giphy: GiphyMediaConfigurationInput
 }
 
+input NewCommentersPremodConfigInput {
+  mode: MODERATION_MODE
+  premodSites: [String!]
+}
+
 """
 NewCommenterConfigurationInput specifies the features that apply to new commenters
 """
@@ -5265,6 +5291,8 @@ input NewCommentersConfigurationInput {
   comments do not require premoderation
   """
   approvedCommentsThreshold: Int
+
+  moderation: NewCommentersPremodConfigInput
 }
 
 """

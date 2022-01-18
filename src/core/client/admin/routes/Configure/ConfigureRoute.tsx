@@ -30,10 +30,21 @@ class ConfigureRoute extends React.Component<Props, State> {
     data: Parameters<Props["updateSettings"]>[0]["settings"],
     form: FormApi
   ) => {
+    // KNOTE: Move this into a separate function?
     // This ensures sites aren't saved to premoderateAllCommentsSites
     // if the SPECIFIC_SITES_PRE moderation mode isn't selected
     if (data.moderation !== GQLMODERATION_MODE.SPECIFIC_SITES_PRE) {
       data.premoderateAllCommentsSites = [];
+    }
+    // This ensures sites aren't saved to premodSites for newCommenters
+    // if the SPECIFIC_SITES_PRE moderation mode isn't selected
+    if (
+      data.newCommenters &&
+      data.newCommenters.moderation &&
+      data.newCommenters.moderation.mode !==
+        GQLMODERATION_MODE.SPECIFIC_SITES_PRE
+    ) {
+      data.newCommenters.moderation.premodSites = [];
     }
     await this.props.updateSettings({ settings: data });
     const localeFieldState = form.getFieldState("locale");

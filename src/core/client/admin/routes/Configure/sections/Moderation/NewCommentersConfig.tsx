@@ -4,6 +4,7 @@ import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { parseInteger, ValidationMessage } from "coral-framework/lib/form";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -21,15 +22,19 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 
+import { NewCommentersConfig_settings } from "coral-admin/__generated__/NewCommentersConfig_settings.graphql";
+
 import styles from "./NewCommentersConfig.css";
+import NewCommentersScopeConfig from "./NewCommentersScopeConfig";
 
 interface Props {
   disabled: boolean;
+  settings: NewCommentersConfig_settings;
 }
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment NewCommentersConfigContainer_settings on Settings {
+  fragment NewCommentersConfigContainer_formValues on Settings {
     newCommenters {
       premodEnabled
       approvedCommentsThreshold
@@ -37,7 +42,10 @@ graphql`
   }
 `;
 
-const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
+const NewCommentersConfig: FunctionComponent<Props> = ({
+  disabled,
+  settings,
+}) => {
   return (
     <ConfigBox
       id="Users"
@@ -57,7 +65,11 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
         <Localized id="configure-moderation-newCommenters-enable">
           <Label component="legend">Enable new commenter approval</Label>
         </Localized>
-        <OnOffField name="newCommenters.premodEnabled" disabled={disabled} />
+        {settings.multisite ? (
+          <NewCommentersScopeConfig disabled={disabled} />
+        ) : (
+          <OnOffField name="newCommenters.premodEnabled" disabled={disabled} />
+        )}
       </FormField>
       <FormField>
         <Localized id="configure-moderation-newCommenters-approvedCommentsThreshold">
@@ -99,4 +111,18 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
   );
 };
 
-export default NewCommentersConfig;
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment NewCommentersConfig_settings on Settings {
+      multisite
+      newCommenters {
+        moderation {
+          mode
+          premodSites
+        }
+      }
+    }
+  `,
+})(NewCommentersConfig);
+
+export default enhanced;

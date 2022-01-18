@@ -44,7 +44,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       <PreModerationConfigContainer disabled={submitting} settings={settings} />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
-      <NewCommentersConfig disabled={submitting} />
+      <NewCommentersConfig disabled={submitting} settings={settings} />
       <RecentCommentHistoryConfig disabled={submitting} />
     </HorizontalGutter>
   );
@@ -58,7 +58,9 @@ const enhanced = withFragmentContainer<Props>({
       ...PreModerationConfigContainer_formValues @relay(mask: false)
       ...PreModerationConfigContainer_settings
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
-      ...NewCommentersConfigContainer_settings @relay(mask: false)
+      ...NewCommentersConfigContainer_formValues @relay(mask: false)
+      ...NewCommentersConfig_settings
+      ...NewCommentersScopeConfig_formValues @relay(mask: false)
     }
   `,
 })(ModerationConfigContainer);

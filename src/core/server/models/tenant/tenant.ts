@@ -271,6 +271,10 @@ export async function createTenant(
     newCommenters: {
       premodEnabled: false,
       approvedCommentsThreshold: 2,
+      moderation: {
+        mode: GQLMODERATION_MODE.POST,
+        premodSites: [],
+      },
     },
     premoderateSuspectWords: false,
     createdAt: now,
