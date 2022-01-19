@@ -101,7 +101,7 @@ it("change pre-moderation to On for all comments for single-site tenants", async
   act(() => onField.props.onChange(onField.props.value.toString()));
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -188,7 +188,7 @@ it("change site wide pre-moderation to Specific sites", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -236,7 +236,7 @@ it("change site wide link pre-moderation", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -296,7 +296,7 @@ it("change akismet settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   expect(
@@ -313,7 +313,7 @@ it("change akismet settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -389,7 +389,7 @@ it("change perspective settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   expect(
@@ -431,7 +431,7 @@ it("change perspective settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -453,7 +453,7 @@ it("change perspective settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -524,7 +524,7 @@ it("change perspective send feedback setting", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Wait for submission to be finished

@@ -13,7 +13,7 @@ import {
 
 import SpecificSitesSelectedQuery from "./SpecificSitesSelectedQuery";
 
-import styles from "./AllSpecificSitesOffField.css";
+import styles from "./AllSpecificOffSitesField.css";
 
 interface Props {
   disabled: boolean;
@@ -23,7 +23,7 @@ interface Props {
   specificSitesMeta: FieldMetaState<string[]>;
 }
 
-const AllSpecificSitesOffField: FunctionComponent<Props> = ({
+const AllSpecificOffSitesField: FunctionComponent<Props> = ({
   disabled,
   fieldOptionName,
   moderationModeInput,
@@ -126,4 +126,4 @@ const AllSpecificSitesOffField: FunctionComponent<Props> = ({
   );
 };
 
-export default AllSpecificSitesOffField;
+export default AllSpecificOffSitesField;

@@ -5,7 +5,6 @@ import { LanguageCode } from "coral-common/helpers/i18n";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import { SubmitHookHandler } from "coral-framework/lib/form";
 import { MutationProp, withMutation } from "coral-framework/lib/relay";
-import { GQLMODERATION_MODE } from "coral-framework/schema";
 
 import Configure from "./Configure";
 import NavigationWarningContainer from "./NavigationWarningContainer";
@@ -26,39 +25,11 @@ class ConfigureRoute extends React.Component<Props, State> {
     dirty: false,
   };
 
-  private cleanData = async (
-    data: Parameters<Props["updateSettings"]>[0]["settings"]
-  ) => {
-    // This ensures sites aren't saved to premoderateAllCommentsSites
-    // if the SPECIFIC_SITES_PRE moderation mode isn't selected
-    if (
-      data.moderation &&
-      data.premoderateAllCommentsSites &&
-      data.moderation !== GQLMODERATION_MODE.SPECIFIC_SITES_PRE
-    ) {
-      data.premoderateAllCommentsSites = [];
-    }
-    // This ensures sites aren't saved to premodSites for newCommenters
-    // if the SPECIFIC_SITES_PRE moderation mode isn't selected
-    if (
-      data.newCommenters &&
-      data.newCommenters.moderation &&
-      data.newCommenters.moderation.mode &&
-      data.newCommenters.moderation.premodSites &&
-      data.newCommenters.moderation.mode !==
-        GQLMODERATION_MODE.SPECIFIC_SITES_PRE
-    ) {
-      data.newCommenters.moderation.premodSites = [];
-    }
-    return data;
-  };
-
   private handleExecute = async (
     data: Parameters<Props["updateSettings"]>[0]["settings"],
     form: FormApi
   ) => {
-    const cleanedData = await this.cleanData(data);
-    await this.props.updateSettings({ settings: cleanedData });
+    await this.props.updateSettings({ settings: data });
     const localeFieldState = form.getFieldState("locale");
     if (localeFieldState && localeFieldState.dirty) {
       await this.props.changeLocale(data.locale as LanguageCode);

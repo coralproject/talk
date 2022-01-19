@@ -38,6 +38,10 @@ graphql`
     newCommenters {
       premodEnabled
       approvedCommentsThreshold
+      moderation {
+        mode
+        premodSites
+      }
     }
   }
 `;
@@ -115,12 +119,6 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment NewCommentersConfig_settings on Settings {
       multisite
-      newCommenters {
-        moderation {
-          mode
-          premodSites
-        }
-      }
     }
   `,
 })(NewCommentersConfig);

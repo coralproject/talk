@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import { useField } from "react-final-form";
-import { graphql } from "react-relay";
 
 import {
   Condition,
@@ -9,19 +8,7 @@ import {
 } from "coral-framework/lib/validation";
 import { GQLMODERATION_MODE } from "coral-framework/schema";
 
-import AllSpecificSitesOffField from "./AllSpecificSitesOffField";
-
-// eslint-disable-next-line no-unused-expressions
-graphql`
-  fragment NewCommentersScopeConfig_formValues on Settings {
-    newCommenters {
-      moderation {
-        mode
-        premodSites
-      }
-    }
-  }
-`;
+import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 
 interface Props {
   disabled: boolean;
@@ -47,7 +34,7 @@ const NewCommentersScopeConfig: FunctionComponent<Props> = ({ disabled }) => {
   });
 
   return (
-    <AllSpecificSitesOffField
+    <AllSpecificOffSitesField
       disabled={disabled}
       fieldOptionName="newCommenters.moderation.mode"
       moderationModeInput={newCommentersModerationModeInput}
