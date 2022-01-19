@@ -22,18 +22,20 @@ import styles from "./AllSpecificOffSitesField.css";
 
 interface Props {
   disabled: boolean;
-  moderationFieldName: string;
+  moderationModeFieldName: string;
   specificSitesFieldName: string;
   specificSitesIsEnabledCondition: Condition<any, any>;
 }
 
 const AllSpecificOffSitesField: FunctionComponent<Props> = ({
   disabled,
-  moderationFieldName,
+  moderationModeFieldName,
   specificSitesFieldName,
   specificSitesIsEnabledCondition,
 }) => {
-  const { input: moderationModeInput } = useField<string>(moderationFieldName);
+  const { input: moderationModeInput } = useField<string>(
+    moderationModeFieldName
+  );
   const { input: specificSitesInput, meta: specificSitesMeta } = useField<
     string[]
   >(specificSitesFieldName, {
@@ -65,7 +67,7 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Field name={`${moderationFieldName}`} type="radio" value="PRE">
+      <Field name={`${moderationModeFieldName}`} type="radio" value="PRE">
         {({ input }) => (
           <RadioButton {...input} id={`${input.name}-PRE`} disabled={disabled}>
             <Localized id="configure-moderation-allSites">
@@ -75,7 +77,7 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
         )}
       </Field>
       <Field
-        name={`${moderationFieldName}`}
+        name={`${moderationModeFieldName}`}
         type="radio"
         value="SPECIFIC_SITES_PRE"
       >
@@ -122,7 +124,7 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
           ) : null}
         </div>
       )}
-      <Field name={`${moderationFieldName}`} type="radio" value="POST">
+      <Field name={`${moderationModeFieldName}`} type="radio" value="POST">
         {({ input }) => (
           <RadioButton {...input} id={`${input.name}-POST`} disabled={disabled}>
             <Localized id="configure-onOffField-off">

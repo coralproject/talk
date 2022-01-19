@@ -74,7 +74,7 @@ const PreModerationConfigContainer: FunctionComponent<Props> = ({
         {settings.multisite ? (
           <AllSpecificOffSitesField
             disabled={disabled}
-            moderationFieldName="moderation"
+            moderationModeFieldName="moderation"
             specificSitesFieldName="premoderateAllCommentsSites"
             specificSitesIsEnabledCondition={specificSitesIsEnabled}
           />

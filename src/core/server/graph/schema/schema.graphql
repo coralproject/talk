@@ -1751,7 +1751,6 @@ type NewCommentersConfiguration {
   moderation is the configuration for pre-moderation for new commenters' comments until
   they have enough approved comments. It stores whether it is PRE, POST, or PRE only for
   specific sites
-  KNOTE: Should this be named something like premodConfig instead?
   """
   moderation: NewCommentersPremodConfig
 }

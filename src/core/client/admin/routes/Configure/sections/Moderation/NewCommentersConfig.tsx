@@ -95,7 +95,7 @@ const NewCommentersConfig: FunctionComponent<Props> = ({
         {settings.multisite ? (
           <AllSpecificOffSitesField
             disabled={disabled}
-            moderationFieldName="newCommenters.moderation.mode"
+            moderationModeFieldName="newCommenters.moderation.mode"
             specificSitesFieldName="newCommenters.moderation.premodSites"
             specificSitesIsEnabledCondition={specificSitesIsEnabled}
           />

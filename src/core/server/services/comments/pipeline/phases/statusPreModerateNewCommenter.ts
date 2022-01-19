@@ -17,13 +17,15 @@ export const statusPreModerateNewCommenter = async ({
   ModerationPhaseContext,
   "author" | "tenant" | "now" | "mongo" | "story"
 >): Promise<IntermediatePhaseResult | void> => {
-  if (tenant.newCommenters.moderation) {
+  if (tenant.newCommenters.moderation && tenant.newCommenters.moderation.mode) {
     // If specific sites pre-moderation mode is enabled, check if this is a
     // site set to pre-moderate all new users
     if (tenant.newCommenters.moderation.mode === "SPECIFIC_SITES_PRE") {
-      // KNOTE: Should have a check here that this exists just in case?
       // If premodSites doesn't include this site id, then do nothing!
-      if (!tenant.newCommenters.moderation.premodSites.includes(story.siteID)) {
+      if (
+        tenant.newCommenters.moderation.premodSites &&
+        !tenant.newCommenters.moderation.premodSites.includes(story.siteID)
+      ) {
         return;
       }
     } else {
