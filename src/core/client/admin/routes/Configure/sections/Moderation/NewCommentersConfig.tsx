@@ -3,7 +3,12 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { parseInteger, ValidationMessage } from "coral-framework/lib/form";
+import {
+  formatBool,
+  parseInteger,
+  parseStringBool,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -46,6 +51,14 @@ graphql`
   }
 `;
 
+const parse = (v: string) => {
+  return parseStringBool(v) ? "PRE" : "POST";
+};
+
+const format = (v: "PRE" | "POST") => {
+  return formatBool(v === "PRE");
+};
+
 const NewCommentersConfig: FunctionComponent<Props> = ({
   disabled,
   settings,
@@ -72,7 +85,12 @@ const NewCommentersConfig: FunctionComponent<Props> = ({
         {settings.multisite ? (
           <NewCommentersScopeConfig disabled={disabled} />
         ) : (
-          <OnOffField name="newCommenters.premodEnabled" disabled={disabled} />
+          <OnOffField
+            name="newCommenters.moderation.mode"
+            disabled={disabled}
+            parse={parse}
+            format={format}
+          />
         )}
       </FormField>
       <FormField>

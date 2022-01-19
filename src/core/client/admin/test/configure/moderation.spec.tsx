@@ -331,7 +331,7 @@ it("change akismet settings", async () => {
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
-it("change new commenter approval settings", async () => {
+it("change new commenter approval settings on multisite tenant", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Query: {
       sites: () => siteConnection,
@@ -461,6 +461,61 @@ it("change new commenter approval settings", async () => {
   await act(async () => {
     await wait(() => {
       expect(specificSitesOption.props.disabled).toBe(false);
+    });
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+});
+
+it("change new commenter approval settings on single site tenant", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      sites: () => siteConnection,
+    },
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.newCommenters).toEqual({
+          approvedCommentsThreshold: 2,
+          moderation: {
+            mode: "PRE",
+            premodSites: [],
+          },
+          premodEnabled: false,
+        });
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
+
+  const enableNewCommenterApproval = within(
+    moderationContainer
+  ).getByText("Enable new commenter approval", { selector: "fieldset" });
+
+  // Change pre-moderation to on for all new commenters
+  const onOption = within(enableNewCommenterApproval).getByLabelText("On");
+  act(() => onOption.props.onChange(onOption.props.value.toString()));
+
+  const form = findParentWithType(enableNewCommenterApproval, "form")!;
+
+  // Send form
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(onOption.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(onOption.props.disabled).toBe(false);
     });
   });
 
