@@ -1,9 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
-import { Field, FieldInputProps, FieldMetaState } from "react-final-form";
+import { Field, useField } from "react-final-form";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { hasError } from "coral-framework/lib/form";
+import {
+  Condition,
+  required,
+  validateWhen,
+} from "coral-framework/lib/validation";
 import { GQLMODERATION_MODE } from "coral-framework/schema";
 import {
   HorizontalGutter,
@@ -17,19 +22,23 @@ import styles from "./AllSpecificOffSitesField.css";
 
 interface Props {
   disabled: boolean;
-  fieldOptionName: string;
-  moderationModeInput: FieldInputProps<string, HTMLElement>;
-  specificSitesInput: FieldInputProps<string[], HTMLElement>;
-  specificSitesMeta: FieldMetaState<string[]>;
+  moderationFieldName: string;
+  specificSitesFieldName: string;
+  specificSitesIsEnabledCondition: Condition<any, any>;
 }
 
 const AllSpecificOffSitesField: FunctionComponent<Props> = ({
   disabled,
-  fieldOptionName,
-  moderationModeInput,
-  specificSitesInput,
-  specificSitesMeta,
+  moderationFieldName,
+  specificSitesFieldName,
+  specificSitesIsEnabledCondition,
 }) => {
+  const { input: moderationModeInput } = useField<string>(moderationFieldName);
+  const { input: specificSitesInput, meta: specificSitesMeta } = useField<
+    string[]
+  >(specificSitesFieldName, {
+    validate: validateWhen(specificSitesIsEnabledCondition, required),
+  });
   const onAddSite = useCallback(
     (siteID: string) => {
       const changed = [...specificSitesInput.value];
@@ -56,7 +65,7 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Field name={`${fieldOptionName}`} type="radio" value="PRE">
+      <Field name={`${moderationFieldName}`} type="radio" value="PRE">
         {({ input }) => (
           <RadioButton {...input} id={`${input.name}-PRE`} disabled={disabled}>
             <Localized id="configure-moderation-allSites">
@@ -66,7 +75,7 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
         )}
       </Field>
       <Field
-        name={`${fieldOptionName}`}
+        name={`${moderationFieldName}`}
         type="radio"
         value="SPECIFIC_SITES_PRE"
       >
@@ -113,7 +122,7 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
           ) : null}
         </div>
       )}
-      <Field name={`${fieldOptionName}`} type="radio" value="POST">
+      <Field name={`${moderationFieldName}`} type="radio" value="POST">
         {({ input }) => (
           <RadioButton {...input} id={`${input.name}-POST`} disabled={disabled}>
             <Localized id="configure-onOffField-off">

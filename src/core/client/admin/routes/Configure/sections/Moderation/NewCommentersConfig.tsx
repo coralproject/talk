@@ -12,9 +12,11 @@ import {
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
+  Condition,
   required,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
+import { GQLMODERATION_MODE } from "coral-framework/schema";
 import {
   FieldSet,
   FormField,
@@ -23,6 +25,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
+import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
@@ -30,7 +33,6 @@ import OnOffField from "../../OnOffField";
 import { NewCommentersConfig_settings } from "coral-admin/__generated__/NewCommentersConfig_settings.graphql";
 
 import styles from "./NewCommentersConfig.css";
-import NewCommentersScopeConfig from "./NewCommentersScopeConfig";
 
 interface Props {
   disabled: boolean;
@@ -59,6 +61,14 @@ const format = (v: "PRE" | "POST") => {
   return formatBool(v === "PRE");
 };
 
+const specificSitesIsEnabled: Condition = (_value, values) => {
+  return Boolean(
+    values.newCommenters.moderation &&
+      values.newCommenters.moderation.mode ===
+        GQLMODERATION_MODE.SPECIFIC_SITES_PRE
+  );
+};
+
 const NewCommentersConfig: FunctionComponent<Props> = ({
   disabled,
   settings,
@@ -83,7 +93,12 @@ const NewCommentersConfig: FunctionComponent<Props> = ({
           <Label component="legend">Enable new commenter approval</Label>
         </Localized>
         {settings.multisite ? (
-          <NewCommentersScopeConfig disabled={disabled} />
+          <AllSpecificOffSitesField
+            disabled={disabled}
+            moderationFieldName="newCommenters.moderation.mode"
+            specificSitesFieldName="newCommenters.moderation.premodSites"
+            specificSitesIsEnabledCondition={specificSitesIsEnabled}
+          />
         ) : (
           <OnOffField
             name="newCommenters.moderation.mode"

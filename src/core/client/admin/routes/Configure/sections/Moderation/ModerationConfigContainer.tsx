@@ -60,7 +60,6 @@ const enhanced = withFragmentContainer<Props>({
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_formValues @relay(mask: false)
       ...NewCommentersConfig_settings
-      # ...NewCommentersScopeConfig_formValues @relay(mask: false)
     }
   `,
 })(ModerationConfigContainer);
