@@ -25,10 +25,10 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 
 import { NewCommentersConfig_settings } from "coral-admin/__generated__/NewCommentersConfig_settings.graphql";
 

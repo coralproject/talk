@@ -16,10 +16,10 @@ import { Link } from "coral-ui/components/v3";
 
 import { PreModerationConfigContainer_settings } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
 
-import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
