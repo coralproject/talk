@@ -420,7 +420,7 @@ exports[`renders comment stream 1`] = `
                       className="coral coral-comment-collapse-toggle-indent Indent-root"
                     >
                       <div
-                        className="coral coral-indent coral-indent-0 Indent-open"
+                        className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -696,7 +696,7 @@ exports[`renders comment stream 1`] = `
                       className="coral coral-comment-collapse-toggle-indent Indent-root"
                     >
                       <div
-                        className="coral coral-indent coral-indent-0 Indent-open"
+                        className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
                       >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"

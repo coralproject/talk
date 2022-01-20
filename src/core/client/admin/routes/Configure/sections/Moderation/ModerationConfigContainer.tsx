@@ -13,6 +13,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { ModerationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
 
 import AkismetConfig from "./AkismetConfig";
+import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
 import NewCommentersConfig from "./NewCommentersConfig";
 import PerspectiveConfig from "./PerspectiveConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
@@ -46,6 +47,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       <AkismetConfig disabled={submitting} />
       <NewCommentersConfig disabled={submitting} />
       <RecentCommentHistoryConfig disabled={submitting} />
+      <EmailDomainConfigContainer settings={settings} />
     </HorizontalGutter>
   );
 };
@@ -59,6 +61,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PreModerationConfigContainer_settings
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_settings @relay(mask: false)
+      ...EmailDomainConfigContainer_settings
     }
   `,
 })(ModerationConfigContainer);

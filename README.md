@@ -1,9 +1,3 @@
-✨🧑🏾‍💻👩🏻‍💻👨🏿‍💻🧑🏾‍💻👩🏽‍💻✨
-
-**Vox Media is hiring a Full-Stack Engineer to help build Coral, [Learn more and apply now.](https://boards.greenhouse.io/voxmedia/jobs/2956407?gh_jid=2956407)**
-
-✨👩🏻‍💻👨🏽‍💻🧑🏾‍💻👩🏼‍💻👨🏻‍💻✨
-
 <p align="center">
   <a href="https://coralproject.net" target="_blank"><img width="250" src="https://docs.coralproject.net/img/coralproject_by_voxmedia.svg" alt="Coral by Vox Media" /></a>
 </p>

@@ -99,4 +99,7 @@ extend type Local {
   commentWithTraversalFocus: String
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
+
+  archivingEnabled: Boolean!
+  autoArchiveOlderThanMs: Int!
 }

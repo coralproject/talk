@@ -8,6 +8,7 @@ import { Ability } from "./permissions";
 import { createAuthCheckRoute } from "./routes/AuthCheck";
 import CommunityRoute from "./routes/Community";
 import ConfigureRoute from "./routes/Configure";
+import InnerFormLayout from "./routes/Configure/InnerFormLayout";
 import {
   AddExternalModerationPhaseRoute,
   AddWebhookEndpointRoute,
@@ -15,20 +16,19 @@ import {
   AuthConfigRoute,
   ConfigureExternalModerationPhaseRoute,
   ConfigureWebhookEndpointRoute,
+  CreateEmailDomainRoute,
   EmailConfigRoute,
   GeneralConfigRoute,
   ModerationConfigRoute,
   ModerationPhasesConfigRoute,
   OrganizationConfigRoute,
   SlackConfigRoute,
+  UpdateEmailDomainRoute,
   WebhookEndpointsConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
-import ModerationPhasesLayout from "./routes/Configure/sections/ModerationPhases/ModerationPhasesLayout";
-import { Sites } from "./routes/Configure/sections/Sites";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
-import WebhookEndpointsLayout from "./routes/Configure/sections/WebhookEndpoints/WebhookEndpointsLayout";
 import DashboardRoute from "./routes/Dashboard";
 import SiteDashboardRoute from "./routes/Dashboard/SiteDashboardRoute";
 import ForgotPasswordRoute from "./routes/ForgotPassword";
@@ -136,9 +136,16 @@ export default makeRouteConfig(
             <Route path="slack" {...SlackConfigRoute.routeConfig} />
           </Route>
           <Route
-            path="configure/moderation/phases"
-            Component={ModerationPhasesLayout}
+            path="configure/moderation/domains"
+            Component={InnerFormLayout}
           >
+            <Route path="add" {...CreateEmailDomainRoute.routeConfig} />
+            <Route
+              path=":emailDomainID"
+              {...UpdateEmailDomainRoute.routeConfig}
+            />
+          </Route>
+          <Route path="configure/moderation/phases" Component={InnerFormLayout}>
             <Route path="/" {...ModerationPhasesConfigRoute.routeConfig} />
             <Route path="add" Component={AddExternalModerationPhaseRoute} />
             <Route
@@ -146,7 +153,7 @@ export default makeRouteConfig(
               {...ConfigureExternalModerationPhaseRoute.routeConfig}
             />
           </Route>
-          <Route path="configure/webhooks" Component={WebhookEndpointsLayout}>
+          <Route path="configure/webhooks" Component={InnerFormLayout}>
             <Route path="/" {...WebhookEndpointsConfigRoute.routeConfig} />
             <Route path="add" {...AddWebhookEndpointRoute.routeConfig} />
             <Route
@@ -154,7 +161,10 @@ export default makeRouteConfig(
               {...ConfigureWebhookEndpointRoute.routeConfig}
             />
           </Route>
-          <Route path="configure/organization/sites" Component={Sites}>
+          <Route
+            path="configure/organization/sites"
+            Component={InnerFormLayout}
+          >
             <Redirect from="/" to="/admin/configure/organization/sites/new" />
             <Route path="new" {...AddSiteRoute.routeConfig} />
             <Route path=":siteID" {...SiteRoute.routeConfig} />

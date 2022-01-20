@@ -27,6 +27,7 @@ import {
   retrieveManyComments,
   retrieveRejectedCommentUserConnection,
 } from "coral-server/services/comments";
+import { markSeen } from "coral-server/services/seenComments";
 
 import {
   CommentToParentsArgs,
@@ -150,6 +151,34 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
 
     return null;
   };
+};
+
+const markCommentsAsSeen = async (
+  ctx: GraphContext,
+  storyID: string,
+  commentIDs: string[]
+) => {
+  if (!ctx.user) {
+    return;
+  }
+
+  // cache the prior result before we overwrite it so
+  // sequential loader calls after this retrieve the cached
+  // results
+  await ctx.loaders.SeenComments.find.load({
+    storyID,
+    userID: ctx.user.id,
+  });
+
+  // mark these comments as seen for next time
+  await markSeen(
+    ctx.mongo,
+    ctx.tenant.id,
+    storyID,
+    ctx.user.id,
+    commentIDs,
+    ctx.now
+  );
 };
 
 /**
@@ -303,7 +332,7 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    return retrieveCommentStoryConnection(
+    const connection = await retrieveCommentStoryConnection(
       ctx.mongo,
       ctx.tenant.id,
       storyID,
@@ -321,6 +350,13 @@ export default (ctx: GraphContext) => ({
       },
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
+
+    if (ctx.user) {
+      const commentIDs = connection.edges.map((e) => e.node.id);
+      await markCommentsAsSeen(ctx, storyID, commentIDs);
+    }
+
+    return connection;
   },
   forParent: async (
     storyID: string,
@@ -332,7 +368,7 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    return retrieveCommentRepliesConnection(
+    const connection = await retrieveCommentRepliesConnection(
       ctx.mongo,
       ctx.tenant.id,
       storyID,
@@ -347,6 +383,13 @@ export default (ctx: GraphContext) => ({
       },
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
+
+    if (ctx.user) {
+      const commentIDs = connection.edges.map((e) => e.node.id);
+      await markCommentsAsSeen(ctx, storyID, commentIDs);
+    }
+
+    return connection;
   },
   parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
     const story = await ctx.loaders.Stories.story.load(comment.storyID);

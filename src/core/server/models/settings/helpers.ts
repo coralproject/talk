@@ -1,4 +1,5 @@
 import {
+  EmailDomain,
   ExternalModerationExternalIntegration,
   ExternalModerationPhase,
 } from "./settings";
@@ -12,4 +13,11 @@ export function getExternalModerationPhase(
   phaseID: string
 ) {
   return integration.phases.find((p) => p.id === phaseID) || null;
+}
+
+export function getEmailDomain(
+  emailDomainModeration: EmailDomain[],
+  emailDomainId: string
+) {
+  return emailDomainModeration.find((d) => d.id === emailDomainId) || null;
 }

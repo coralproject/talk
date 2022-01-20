@@ -25,6 +25,7 @@ export interface GlobalModerationSettings {
   moderation: GQLMODERATION_MODE;
   premodLinksEnable: boolean;
   premoderateAllCommentsSites: string[];
+  emailDomainModeration: EmailDomain[];
 }
 
 export type OIDCAuthIntegration = Omit<
@@ -273,6 +274,12 @@ export interface StoryConfiguration {
    * disableLazy when true, will only allow lookups of stories created via the API.
    */
   disableLazy: boolean;
+}
+
+export interface EmailDomain {
+  id: string;
+  domain: string;
+  newUserModeration: "BAN" | "PREMOD";
 }
 
 export type Settings = GlobalModerationSettings &

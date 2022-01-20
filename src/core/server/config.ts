@@ -5,6 +5,7 @@ import { compact } from "lodash";
 import { parseConnectionString } from "mongodb-core";
 import ms from "ms";
 
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { LOCALES } from "coral-common/helpers/i18n/locales";
 import { ensureEndSlash } from "coral-common/utils";
 
@@ -482,7 +483,7 @@ const config = convict({
     doc:
       "If stories are older than this age, they will be auto archived if auto archiving is enabled.",
     format: "ms",
-    default: ms("120 days"),
+    default: DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
     env: "AUTO_ARCHIVE_OLDER_THAN",
   },
   auto_archiving_interval: {

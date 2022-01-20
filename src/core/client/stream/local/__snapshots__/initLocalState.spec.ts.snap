@@ -30,7 +30,9 @@ exports[`init local state 1`] = `
     \\"enableZKey\\": false,
     \\"embedVersion\\": \\"version\\",
     \\"amp\\": true,
-    \\"customCSSURL\\": \\"customCSSURL\\"
+    \\"customCSSURL\\": \\"customCSSURL\\",
+    \\"archivingEnabled\\": false,
+    \\"autoArchiveOlderThanMs\\": 10368000000
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",

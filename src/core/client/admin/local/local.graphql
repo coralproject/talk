@@ -34,4 +34,7 @@ extend type Local {
   siteID: String
   moderationQueueSort: COMMENT_SORT
   forceAdminLocalAuth: Boolean!
+
+  archivingEnabled: Boolean!
+  autoArchiveOlderThanMs: Int!
 }

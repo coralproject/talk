@@ -2,11 +2,16 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  useLocal,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLSTORY_STATUS } from "coral-framework/schema";
 
 import { StoryActionsContainer_story } from "coral-admin/__generated__/StoryActionsContainer_story.graphql";
 import { StoryActionsContainer_viewer } from "coral-admin/__generated__/StoryActionsContainer_viewer.graphql";
+import { StoryActionsContainerLocal } from "coral-admin/__generated__/StoryActionsContainerLocal.graphql";
 
 import ArchiveStoriesMutation from "./ArchiveStoriesMutation";
 import CloseStoryMutation from "./CloseStoryMutation";
@@ -26,6 +31,12 @@ const StoryActionsContainer: FunctionComponent<Props> = (props) => {
   const openStory = useMutation(OpenStoryMutation);
   const archiveStories = useMutation(ArchiveStoriesMutation);
   const unarchiveStories = useMutation(UnarchiveStoriesMutation);
+
+  const [{ archivingEnabled }] = useLocal<StoryActionsContainerLocal>(graphql`
+    fragment StoryActionsContainerLocal on Local {
+      archivingEnabled
+    }
+  `);
 
   const onRescrape = useCallback(() => {
     void rescrape({ id: props.story.id });
@@ -60,12 +71,14 @@ const StoryActionsContainer: FunctionComponent<Props> = (props) => {
         !props.story.isArchiving
       }
       canArchive={
+        archivingEnabled &&
         viewCanArchive &&
         !props.story.isArchiving &&
         !props.story.isArchived &&
         props.story.settings?.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS
       }
       canUnarchive={
+        archivingEnabled &&
         props.story.status === GQLSTORY_STATUS.CLOSED &&
         viewCanArchive &&
         !props.story.isArchiving &&

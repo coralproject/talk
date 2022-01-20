@@ -7,6 +7,7 @@ export default {
     webhooks: "/admin/configure/webhooks",
     addWebhookEndpoint: "/admin/configure/webhooks/add",
     configureWebhookEndpoint: "/admin/configure/webhooks/endpoint",
+    configureModeration: "/admin/configure/moderation",
   },
   embed: {
     stream: "/embed/stream",

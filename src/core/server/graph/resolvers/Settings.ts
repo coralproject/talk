@@ -40,4 +40,6 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
   disableDefaultFonts: ({ disableDefaultFonts }) =>
     Boolean(disableDefaultFonts),
+  emailDomainModeration: ({ emailDomainModeration = [] }) =>
+    emailDomainModeration,
 };

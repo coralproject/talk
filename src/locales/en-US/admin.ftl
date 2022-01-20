@@ -810,6 +810,26 @@ configure-moderation-newCommenters-approvedCommentsThreshold-description =
   not have to be premoderated
 configure-moderation-newCommenters-comments = comments
 
+#### Email domain
+configure-moderation-emailDomains-header = Email domain
+configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
+configure-moderation-emailDomains-add = Add email domain
+configure-moderation-emailDomains-edit = Edit email domain
+configure-moderation-emailDomains-addDomain = <icon>add</icon> Add domain
+configure-moderation-emailDomains-table-domain = Domain
+configure-moderation-emailDomains-table-action = Action
+configure-moderation-emailDomains-table-edit = <icon>edit</icon> Edit
+configure-moderation-emailDomains-table-delete = <icon>delete</icon> Delete
+configure-moderation-emailDomains-form-label-domain = Domain
+configure-moderation-emailDomains-form-label-moderationAction = Moderation action
+configure-moderation-emailDomains-banAllUsers = Ban all new commenter accounts
+configure-moderation-emailDomains-alwaysPremod = Always pre-moderate comments
+configure-moderation-emailDomains-form-cancel = Cancel
+configure-moderation-emailDomains-form-addDomain = Add domain
+configure-moderation-emailDomains-form-editDomain = Update
+configure-moderation-emailDomains-confirmDelete = Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?
+configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
+configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
@@ -1137,6 +1157,39 @@ moderate-user-drawer-notes-field =
 moderate-user-drawer-notes-button = Add note
 moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
+
+moderate-user-drawer-all-comments-archiveThreshold-allOfThisUsers =
+  All of this user’s comments from the previous { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  }.
 
 # For Review Queue
 
@@ -1546,10 +1599,103 @@ dashboard-heading-last-updated = Last updated:
 dashboard-today-heading = Today's activity
 dashboard-today-new-comments = New comments
 dashboard-alltime-new-comments = All time total
+dashboard-alltime-new-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } total
 dashboard-today-rejections = Rejection rate
 dashboard-alltime-rejections = All time average
+dashboard-alltime-rejections-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } average
 dashboard-today-staff-comments = Staff comments
 dashboard-alltime-staff-comments = All time total
+dashboard-alltime-staff-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } total
 dashboard-today-signups = New community members
 dashboard-alltime-signups = Total members
 dashboard-today-bans = Banned members

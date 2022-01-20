@@ -12,6 +12,7 @@ import {
 } from "coral-server/services/comments/actions";
 import { CreateCommentMediaInput } from "coral-server/services/comments/media";
 import { publishCommentFeatured } from "coral-server/services/events";
+import { markSeen } from "coral-server/services/seenComments";
 import {
   approveComment,
   createComment,
@@ -27,6 +28,7 @@ import {
   GQLCreateCommentReplyInput,
   GQLEditCommentInput,
   GQLFeatureCommentInput,
+  GQLMarkCommentSeenInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
   GQLTAG,
@@ -217,5 +219,22 @@ export const Comments = (ctx: GraphContext) => ({
     await validateUserModerationScopes(ctx, ctx.user!, { commentID });
 
     return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
+  },
+  markAsSeen: async ({
+    commentID,
+    storyID,
+  }: WithoutMutationID<GQLMarkCommentSeenInput>) => {
+    if (ctx.user) {
+      await markSeen(
+        ctx.mongo,
+        ctx.tenant.id,
+        storyID,
+        ctx.user?.id,
+        [commentID],
+        ctx.now
+      );
+    }
+
+    return ctx.loaders.Comments.comment.load(commentID);
   },
 });

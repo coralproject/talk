@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 import {
+  EMAIL_DOMAIN_REGEX,
   EMAIL_REGEX,
   PASSWORD_MIN_LENGTH,
   URL_REGEX,
@@ -17,6 +18,7 @@ import {
   EMAILS_DO_NOT_MATCH,
   INVALID_CHARACTERS,
   INVALID_EMAIL,
+  INVALID_EMAIL_DOMAIN,
   INVALID_MEDIA_URL,
   INVALID_URL,
   INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION,
@@ -75,6 +77,15 @@ export const required = createValidator(
 export const validateEmail = createValidator(
   (v) => !v || EMAIL_REGEX.test(v),
   INVALID_EMAIL()
+);
+
+/**
+ * validateEmailDomain is a Validator that checks that the value is an email domain without the @
+ * at the beginning and including at least one dot.
+ */
+export const validateEmailDomain = createValidator(
+  (v) => !v || EMAIL_DOMAIN_REGEX.test(v),
+  INVALID_EMAIL_DOMAIN()
 );
 
 /**

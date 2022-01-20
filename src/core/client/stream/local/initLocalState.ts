@@ -1,6 +1,7 @@
 import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
 import { StaticConfig } from "coral-common/config";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { isStoryMode } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
 import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
@@ -156,5 +157,11 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
     localRecord.setValue(Boolean(options?.amp), "amp");
 
     localRecord.setValue(options?.customCSSURL, "customCSSURL");
+
+    const archivingEnabled = staticConfig?.archivingEnabled || false;
+    const autoArchiveOlderThanMs =
+      staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN;
+    localRecord.setValue(archivingEnabled, "archivingEnabled");
+    localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
   });
 };
