@@ -3675,6 +3675,11 @@ type Comment @cacheControl(maxAge: 5) {
   rating is the optional rating that is attached to the Comment.
   """
   rating: Int
+
+  """
+  seen determines whether a comment has been seen by the user already.
+  """
+  seen: Boolean
 }
 
 type PageInfo {
@@ -7333,7 +7338,15 @@ type UpdateUserRolePayload {
 ##################
 
 input PromoteUserInput {
+  """
+  userID is the ID of the User that should have their role promoted.
+  """
   userID: ID!
+
+  """
+  siteIDs are the IDs of the Sites on which the User should have their role promoted.
+  """
+  siteIDs: [String!]!
 
   """
   clientMutationId is required for Relay support.
@@ -7358,7 +7371,15 @@ type PromoteUserPayload {
 ##################
 
 input DemoteUserInput {
+  """
+  userID is the ID of the User that should have their role demoted.
+  """
   userID: ID!
+
+  """
+  siteIDs are the IDs of the Sites on which the User should have their role demoted.
+  """
+  siteIDs: [String!]!
 
   """
   clientMutationId is required for Relay support.
@@ -8374,6 +8395,35 @@ type UnarchiveStoriesPayload {
   stories: [Story!]!
 }
 
+input MarkCommentSeenInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story of the comment this is for.
+  """
+  storyID: String!
+
+  """
+  commentID is the comment to be marked as seen.
+  """
+  commentID: String!
+}
+
+type MarkCommentSeenPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  comment is the comment that has been marked as seen.
+  """
+  comment: Comment!
+}
+
 ##################
 ## Mutation
 ##################
@@ -9022,6 +9072,8 @@ type Mutation {
 
   unarchiveStories(input: UnarchiveStoriesInput!): UnarchiveStoriesPayload!
     @auth(roles: [ADMIN])
+
+  markCommentAsSeen(input: MarkCommentSeenInput!): MarkCommentSeenPayload!
 }
 
 ##################

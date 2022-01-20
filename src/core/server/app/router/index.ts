@@ -4,6 +4,7 @@ import { StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
 import { RouterOptions } from "coral-server/app/router/types";
+import { isArchivingEnabled } from "coral-server/data/context";
 import logger from "coral-server/logger";
 
 import { createAPIRouter } from "./api";
@@ -32,7 +33,10 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       staticURI: app.config.get("static_uri") || "/",
       graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
       featureFlags: [],
+      flattenReplies: false,
       forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
+      archivingEnabled: isArchivingEnabled(app.config),
+      autoArchiveOlderThanMs: app.config.get("auto_archive_older_than"),
     };
 
     // If sentry is configured, then add it's config to the config.

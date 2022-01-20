@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, {
   FunctionComponent,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -80,14 +81,14 @@ const BanModal: FunctionComponent<Props> = ({
 
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
 
-  const isSiteMod =
+  const viewerIsSiteMod =
     !!moderationScopesEnabled &&
     viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
     !!viewerScopes.sites &&
     viewerScopes.sites?.length > 0;
 
   const viewerIsSingleSiteMod = !!(
-    isSiteMod &&
+    viewerIsSiteMod &&
     viewerScopes.sites &&
     viewerScopes.sites.length === 1
   );
@@ -108,41 +109,50 @@ const BanModal: FunctionComponent<Props> = ({
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
 
-  const onFormSubmit = useCallback(
-    (input) => {
-      try {
-        onConfirm(
-          updateType,
-          input.rejectExistingComments,
-          banSiteIDs,
-          unbanSiteIDs,
-          customizeMessage ? emailMessage : getDefaultMessage
-        );
+  useEffect(() => {
+    if (viewerIsSingleSiteMod) {
+      setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
+    }
+  }, [viewerIsSingleSiteMod]);
 
-        return;
-      } catch (err) {
-        return { [FORM_ERROR]: err.message };
-      }
-    },
-    [
-      onConfirm,
-      updateType,
-      banSiteIDs,
-      unbanSiteIDs,
-      emailMessage,
-      customizeMessage,
-      getDefaultMessage,
-    ]
-  );
+  const onFormSubmit = useCallback(() => {
+    try {
+      onConfirm(
+        updateType,
+        rejectComments,
+        banSiteIDs,
+        unbanSiteIDs,
+        customizeMessage ? emailMessage : getDefaultMessage
+      );
+      return;
+    } catch (err) {
+      return { [FORM_ERROR]: err.message };
+    }
+  }, [
+    onConfirm,
+    updateType,
+    banSiteIDs,
+    unbanSiteIDs,
+    emailMessage,
+    customizeMessage,
+    getDefaultMessage,
+    rejectComments,
+  ]);
 
   const {
     title,
     titleLocalizationId,
     consequence,
     consequenceLocalizationId,
+    rejectExistingCommentsLocalizationId,
+    rejectExistingCommentsMessage,
   } = getTextForUpdateType(updateType);
 
   const pendingSiteBanUpdates = banSiteIDs.length + unbanSiteIDs.length > 0;
+  const requiresSiteBanUpdates =
+    updateType === UpdateType.SPECIFIC_SITES ||
+    (updateType === UpdateType.ALL_SITES && viewerIsSingleSiteMod);
+  const disableForm = requiresSiteBanUpdates && !pendingSiteBanUpdates;
 
   return (
     <ChangeStatusModal
@@ -172,20 +182,18 @@ const BanModal: FunctionComponent<Props> = ({
               <p className={styles.bodyText}>{consequence}</p>
             </Localized>
           </HorizontalGutter>
-          <Form
-            onSubmit={onFormSubmit}
-            initialValues={{
-              showMessage: false,
-              rejectExistingComments: false,
-              emailMessage: getDefaultMessage,
-              selectedIDs: [],
-            }}
-          >
+          <Form onSubmit={onFormSubmit}>
             {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
-                  {!isSiteMod && updateType !== UpdateType.NO_SITES && (
-                    <Localized id="community-banModal-reject-existing">
+                  {updateType !== UpdateType.NO_SITES && (
+                    <Localized
+                      id={
+                        viewerIsSingleSiteMod
+                          ? "community-banModal-reject-existing-singleSite"
+                          : rejectExistingCommentsLocalizationId!
+                      }
+                    >
                       <CheckBox
                         id="banModal-rejectExisting"
                         checked={rejectComments}
@@ -193,7 +201,9 @@ const BanModal: FunctionComponent<Props> = ({
                           setRejectComments(event.target.checked)
                         }
                       >
-                        Reject all comments by this user
+                        {viewerIsSingleSiteMod
+                          ? "Reject all comments on this site"
+                          : rejectExistingCommentsMessage}
                       </CheckBox>
                     </Localized>
                   )}
@@ -264,15 +274,16 @@ const BanModal: FunctionComponent<Props> = ({
                     </Flex>
                   )}
 
-                  {!!moderationScopesEnabled &&
-                    updateType === UpdateType.SPECIFIC_SITES && (
-                      <UserStatusSitesList
-                        userBanStatus={userBanStatus}
-                        viewerScopes={viewerScopes}
-                        banState={[banSiteIDs, setBanSiteIDs]}
-                        unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
-                      />
-                    )}
+                  {(viewerIsSingleSiteMod ||
+                    (!!moderationScopesEnabled &&
+                      updateType === UpdateType.SPECIFIC_SITES)) && (
+                    <UserStatusSitesList
+                      userBanStatus={userBanStatus}
+                      viewerScopes={viewerScopes}
+                      banState={[banSiteIDs, setBanSiteIDs]}
+                      unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
+                    />
+                  )}
 
                   {submitError && (
                     <CallOut
@@ -292,10 +303,7 @@ const BanModal: FunctionComponent<Props> = ({
                       <Button
                         type="submit"
                         ref={lastFocusableRef}
-                        disabled={
-                          updateType === UpdateType.SPECIFIC_SITES &&
-                          !pendingSiteBanUpdates
-                        }
+                        disabled={disableForm}
                       >
                         Save
                       </Button>

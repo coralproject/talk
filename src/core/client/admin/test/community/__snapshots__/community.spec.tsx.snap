@@ -425,6 +425,184 @@ exports[`renders community 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
+                Ginger
+              </button>
+            </td>
+            <td
+              className="TableCell-root UserRow-emailColumn TableCell-body"
+            >
+              <a
+                className="TextLink-root"
+                href="mailto:ginger@test.com"
+              >
+                ginger@test.com
+              </a>
+            </td>
+            <td
+              className="TableCell-root UserRow-memberSinceColumn TableCell-body"
+            >
+              07/06/18, 06:24 PM
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change role"
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
+                  data-variant="text"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="UserRoleText-root"
+                  >
+                    Moderator
+                  </span>
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </i>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-label="A dropdown to change the user role"
+                  id="community-roleChange"
+                  role="dialog"
+                />
+              </div>
+            </td>
+            <td
+              className="TableCell-root UserRow-statusColumn TableCell-body"
+            >
+              <div
+                className="UserStatus-root UserStatus-success"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
+                >
+                  <div>
+                    Active
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root UserRow-usernameColumn TableCell-body"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
+                data-variant="text"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Audrey
+              </button>
+            </td>
+            <td
+              className="TableCell-root UserRow-emailColumn TableCell-body"
+            >
+              <a
+                className="TextLink-root"
+                href="mailto:audrey@test.com"
+              >
+                audrey@test.com
+              </a>
+            </td>
+            <td
+              className="TableCell-root UserRow-memberSinceColumn TableCell-body"
+            >
+              07/06/18, 06:24 PM
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change role"
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
+                  data-variant="text"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="UserRoleText-root"
+                  >
+                    Moderator
+                  </span>
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </i>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-label="A dropdown to change the user role"
+                  id="community-roleChange"
+                  role="dialog"
+                />
+              </div>
+            </td>
+            <td
+              className="TableCell-root UserRow-statusColumn TableCell-body"
+            >
+              <div
+                className="UserStatus-root UserStatus-success"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
+                >
+                  <div>
+                    Active
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root UserRow-usernameColumn TableCell-body"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
+                data-variant="text"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
                 Huy
               </button>
             </td>

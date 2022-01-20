@@ -726,7 +726,8 @@ export async function promoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string
+  userID: string,
+  siteIDs: string[]
 ) {
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
@@ -734,6 +735,17 @@ export async function promoteUser(
 
   if (!isSiteModerationScoped(viewer.moderationScopes)) {
     throw new Error("viewer must be a site moderator");
+  }
+
+  if (
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !siteIDs.every((siteID) =>
+      viewer.moderationScopes?.siteIDs?.includes(siteID)
+    )
+  ) {
+    throw new Error(
+      "viewer is not permitted to promote the user on these sites"
+    );
   }
 
   const user = await retrieveUser(mongo, tenant.id, userID);
@@ -757,7 +769,7 @@ export async function promoteUser(
     mongo,
     tenant.id,
     userID,
-    viewer.moderationScopes.siteIDs
+    siteIDs
   );
 
   // If the user isn't a site moderator now, make them one!
@@ -777,7 +789,8 @@ export async function demoteUser(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
-  userID: string
+  userID: string,
+  siteIDs: string[]
 ) {
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
@@ -785,6 +798,17 @@ export async function demoteUser(
 
   if (!isSiteModerationScoped(viewer.moderationScopes)) {
     throw new Error("viewer must be a site moderator");
+  }
+
+  if (
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !siteIDs.every((siteID) =>
+      viewer.moderationScopes?.siteIDs?.includes(siteID)
+    )
+  ) {
+    throw new Error(
+      "viewer is not permitted to demote the user on these sites"
+    );
   }
 
   const user = await retrieveUser(mongo, tenant.id, userID);
@@ -808,7 +832,7 @@ export async function demoteUser(
     mongo,
     tenant.id,
     userID,
-    viewer.moderationScopes.siteIDs
+    siteIDs
   );
 
   // If the user doesn't have any more siteID's, demote the user role to a
@@ -1126,6 +1150,14 @@ export async function ban(
       siteIDs,
       now
     );
+    if (rejectExistingComments) {
+      await rejector.add({
+        tenantID: tenant.id,
+        authorID: userID,
+        moderatorID: banner.id,
+        siteIDs,
+      });
+    }
   }
   // Otherwise, perform a regular ban
   else {
@@ -1138,12 +1170,12 @@ export async function ban(
     // Ban the user.
     user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
-    const supsensionStatus = consolidateUserSuspensionStatus(
+    const suspensionStatus = consolidateUserSuspensionStatus(
       targetUser.status.suspension
     );
 
     // remove suspension if present
-    if (supsensionStatus.active) {
+    if (suspensionStatus.active) {
       user = await removeActiveUserSuspensions(
         mongo,
         tenant.id,
@@ -1303,6 +1335,17 @@ export async function updateUserBan(
         idsToBan,
         now
       );
+
+      // if any new bans and rejectExistingCommments, reject existing comments
+      if (rejectExistingComments) {
+        await rejector.add({
+          tenantID: tenant.id,
+          authorID: targetUser.id,
+          moderatorID: banner.id,
+          siteIDs: idsToBan,
+        });
+      }
+
       newBans = true;
     }
   }
@@ -1323,14 +1366,6 @@ export async function updateUserBan(
         newUnbans
       );
     }
-  }
-  // if any new bans and rejectExistingCommments, reject existing comments
-  if (newBans && rejectExistingComments) {
-    await rejector.add({
-      tenantID: tenant.id,
-      authorID: targetUser.id,
-      moderatorID: banner.id,
-    });
   }
   // if any new bans, send email
   if (newBans && targetUser.email) {

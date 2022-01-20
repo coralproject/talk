@@ -2,6 +2,7 @@ import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { removeFragmentRefs } from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-framework/types";
 
@@ -17,6 +18,8 @@ it("renders correctly", () => {
     onLoadMore: noop,
     hasMore: false,
     disableLoadMore: false,
+    archivingEnabled: false,
+    autoArchiveOlderThanMs: DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
   };
   const renderer = createRenderer();
   renderer.render(<CommentHistoryN {...props} />);
@@ -32,6 +35,8 @@ describe("has more", () => {
       onLoadMore: noop,
       hasMore: true,
       disableLoadMore: false,
+      archivingEnabled: false,
+      autoArchiveOlderThanMs: DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
     };
     const renderer = createRenderer();
     renderer.render(<CommentHistoryN {...props} />);
@@ -45,6 +50,8 @@ describe("has more", () => {
       onLoadMore: noop,
       hasMore: true,
       disableLoadMore: true,
+      archivingEnabled: false,
+      autoArchiveOlderThanMs: DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
     };
     const renderer = createRenderer();
     renderer.render(<CommentHistoryN {...props} />);

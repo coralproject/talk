@@ -76,15 +76,44 @@ export function convertGQLRTEConfigToRTEFeatures(
   };
 }
 
+const MAILTO_PROTOCOL = "mailto:";
+
 /**
  * Ensure that each anchor tag is replaced with text that
- * corresponds to its inner html.
+ * corresponds to its inner html. If the tag's href matches
+ * its inner html, it remains as is.
  */
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
-    // Turn anchor into text corresponding to innerHTML.
-    node.insertAdjacentText("beforebegin", node.innerHTML);
-    node.parentNode!.removeChild(node);
+    let href = node.getAttribute("href");
+    let innerHtml = node.innerHTML;
+
+    let mailToWithMatchingInnerHtml = false;
+    if (href) {
+      const url = new URL(href);
+
+      // Check for a mailto: link with corresponding inner html
+      if (url.protocol === MAILTO_PROTOCOL) {
+        if (href.replace(url.protocol, "") === innerHtml) {
+          mailToWithMatchingInnerHtml = true;
+        }
+      }
+
+      // Account for whether trailing slashes are included or not
+      href = href?.endsWith("/") ? href : (href += "/");
+      innerHtml = innerHtml.endsWith("/") ? innerHtml : (innerHtml += "/");
+    }
+
+    // When the anchor tag's inner html matches its href
+    if ((href && href === innerHtml) || mailToWithMatchingInnerHtml) {
+      // Ensure we wrap all the links with the target + rel set
+      node.setAttribute("target", "_blank");
+      node.setAttribute("rel", "noopener noreferrer");
+    } else {
+      // Otherwise, turn the anchor link into text corresponding to its inner html
+      node.insertAdjacentText("beforebegin", node.innerHTML);
+      node.parentNode!.removeChild(node);
+    }
   }
 };
 

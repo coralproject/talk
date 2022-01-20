@@ -10,6 +10,7 @@ import Task, { JobProcessor } from "coral-server/queue/Task";
 import {
   moderate,
   retrieveAllCommentsUserConnection,
+  retrieveCommentsBySitesUserConnection,
 } from "coral-server/services/comments";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -33,24 +34,37 @@ export interface RejectorData {
   authorID: string;
   moderatorID: string;
   tenantID: string;
+  siteIDs?: string[];
 }
 
 function getBatch(
   mongo: MongoContext,
   tenantID: string,
   authorID: string,
+  siteIDs?: string[],
   connection?: Readonly<Connection<Readonly<Comment>>>,
   isArchived = false
 ) {
+  const connectionInput = {
+    orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+    first: 100,
+    after: connection ? connection.pageInfo.endCursor : undefined,
+  };
+  if (siteIDs) {
+    return retrieveCommentsBySitesUserConnection(
+      mongo,
+      tenantID,
+      authorID,
+      siteIDs,
+      connectionInput,
+      isArchived
+    );
+  }
   return retrieveAllCommentsUserConnection(
     mongo,
     tenantID,
     authorID,
-    {
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      first: 100,
-      after: connection ? connection.pageInfo.endCursor : undefined,
-    },
+    connectionInput,
     isArchived
   );
 }
@@ -60,13 +74,21 @@ const rejectArchivedComments = async (
   redis: AugmentedRedis,
   tenant: Readonly<Tenant>,
   authorID: string,
-  moderatorID: string
+  moderatorID: string,
+  siteIDs?: string[]
 ) => {
   // Get the current time.
   const now = new Date();
 
   // Find all comments written by the author that should be rejected.
-  let connection = await getBatch(mongo, tenant.id, authorID, undefined, true);
+  let connection = await getBatch(
+    mongo,
+    tenant.id,
+    authorID,
+    siteIDs,
+    undefined,
+    true
+  );
   while (connection.nodes.length > 0) {
     for (const comment of connection.nodes) {
       // Get the latest revision of the comment.
@@ -105,7 +127,14 @@ const rejectArchivedComments = async (
       break;
     }
     // Load the next page.
-    connection = await getBatch(mongo, tenant.id, authorID, connection, true);
+    connection = await getBatch(
+      mongo,
+      tenant.id,
+      authorID,
+      siteIDs,
+      connection,
+      true
+    );
   }
 };
 
@@ -114,13 +143,14 @@ const rejectLiveComments = async (
   redis: AugmentedRedis,
   tenant: Readonly<Tenant>,
   authorID: string,
-  moderatorID: string
+  moderatorID: string,
+  siteIDs?: string[]
 ) => {
   // Get the current time.
   const now = new Date();
 
   // Find all comments written by the author that should be rejected.
-  let connection = await getBatch(mongo, tenant.id, authorID);
+  let connection = await getBatch(mongo, tenant.id, authorID, siteIDs);
   while (connection.nodes.length > 0) {
     for (const comment of connection.nodes) {
       // Get the latest revision of the comment.
@@ -141,7 +171,13 @@ const rejectLiveComments = async (
       break;
     }
     // Load the next page.
-    connection = await getBatch(mongo, tenant.id, authorID, connection);
+    connection = await getBatch(
+      mongo,
+      tenant.id,
+      authorID,
+      siteIDs,
+      connection
+    );
   }
 };
 
@@ -151,7 +187,7 @@ const createJobProcessor = ({
   tenantCache,
 }: RejectorProcessorOptions): JobProcessor<RejectorData> => async (job) => {
   // Pull out the job data.
-  const { authorID, moderatorID, tenantID } = job.data;
+  const { authorID, moderatorID, tenantID, siteIDs } = job.data;
   const log = logger.child(
     {
       jobID: job.id,
@@ -159,6 +195,7 @@ const createJobProcessor = ({
       authorID,
       moderatorID,
       tenantID,
+      siteIDs,
     },
     true
   );
@@ -174,9 +211,23 @@ const createJobProcessor = ({
     return;
   }
 
-  await rejectLiveComments(mongo, redis, tenant, authorID, moderatorID);
+  await rejectLiveComments(
+    mongo,
+    redis,
+    tenant,
+    authorID,
+    moderatorID,
+    siteIDs
+  );
   if (mongo.archive) {
-    await rejectArchivedComments(mongo, redis, tenant, authorID, moderatorID);
+    await rejectArchivedComments(
+      mongo,
+      redis,
+      tenant,
+      authorID,
+      moderatorID,
+      siteIDs
+    );
   }
 
   // Compute the end time.

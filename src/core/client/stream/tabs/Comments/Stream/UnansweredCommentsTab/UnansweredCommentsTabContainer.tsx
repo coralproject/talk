@@ -40,10 +40,17 @@ interface Props {
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   props
 ) => {
-  const [{ commentsOrderBy }] = useLocal<UnansweredCommentsTabContainerLocal>(
+  const [{ commentsOrderBy, keyboardShortcutsConfig }] = useLocal<
+    UnansweredCommentsTabContainerLocal
+  >(
     graphql`
       fragment UnansweredCommentsTabContainerLocal on Local {
         commentsOrderBy
+        keyboardShortcutsConfig {
+          key
+          source
+          reverse
+        }
       }
     `
   );
@@ -99,7 +106,10 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
-    const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
+    const loadMoreEvent = beginLoadMoreEvent({
+      storyID: props.story.id,
+      keyboardShortcutsConfig,
+    });
     try {
       await loadMore();
       loadMoreEvent.success();

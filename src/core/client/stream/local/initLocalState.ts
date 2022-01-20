@@ -1,6 +1,7 @@
 import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
 import { StaticConfig } from "coral-common/config";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { parseQuery } from "coral-common/utils";
 import { isStoryMode } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
@@ -13,14 +14,13 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
-import { FEATURE_FLAG } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { initLocalStateQuery } from "coral-stream/__generated__/initLocalStateQuery.graphql";
 
 import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 
 interface ResolvedConfig {
-  readonly featureFlags: FEATURE_FLAG[];
+  readonly featureFlags: string[];
   readonly flattenReplies?: boolean | null;
 }
 
@@ -32,7 +32,7 @@ async function resolveConfig(
     return staticConfig as ResolvedConfig;
   }
   if (process.env.NODE_ENV === "development") {
-    // Send a graphql query to server during development to get the feature flags.
+    // Send a graphql query to server during development to get the needed settings.
     // The reason is that we don't have static config during development.
     const data = await fetchQuery<initLocalStateQuery>(
       environment,
@@ -49,7 +49,10 @@ async function resolveConfig(
 
     return data.settings as ResolvedConfig;
   }
-  return { featureFlags: [] };
+  return {
+    featureFlags: [],
+    flattenReplies: false,
+  };
 }
 
 /**
@@ -82,7 +85,7 @@ const initLocalState: InitLocalState = async ({
     ...rest,
   });
 
-  const { featureFlags, ...settings } = await resolveConfig(
+  const { featureFlags, flattenReplies } = await resolveConfig(
     environment,
     staticConfig
   );
@@ -145,7 +148,7 @@ const initLocalState: InitLocalState = async ({
     );
 
     // Enable flatten replies
-    localRecord.setValue(!!settings.flattenReplies, "flattenReplies");
+    localRecord.setValue(!!flattenReplies, "flattenReplies");
 
     // Enable z-key comment seen
     localRecord.setValue(
@@ -157,6 +160,12 @@ const initLocalState: InitLocalState = async ({
     localRecord.setValue(config?.version, "embedVersion");
 
     localRecord.setValue(Boolean(config?.amp), "amp");
+
+    const archivingEnabled = staticConfig?.archivingEnabled || false;
+    const autoArchiveOlderThanMs =
+      staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN;
+    localRecord.setValue(archivingEnabled, "archivingEnabled");
+    localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
   });
 };
 

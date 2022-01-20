@@ -405,6 +405,7 @@ async function commit(
                   pageInfo: { endCursor: null, hasNextPage: false },
                 },
                 deleted: false,
+                seen: true,
               },
             },
             clientMutationId: (clientMutationId++).toString(),

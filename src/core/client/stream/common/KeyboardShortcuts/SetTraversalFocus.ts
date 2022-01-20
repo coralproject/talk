@@ -1,23 +1,13 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutation, LOCAL_ID } from "coral-framework/lib/relay";
-import {
-  COMMIT_SEEN_EVENT,
-  CommitSeenEventData,
-} from "coral-stream/tabs/Comments/commentSeen/CommentSeenContext";
 
 export interface Input {
   commentID: string;
   commentSeenEnabled: boolean;
-  skipCommitSeen?: boolean;
 }
 
-export async function commit(
-  environment: Environment,
-  input: Input,
-  context: CoralContext
-) {
+export async function commit(environment: Environment, input: Input) {
   return commitLocalUpdate(environment, (store) => {
     const localRecord = store.get(LOCAL_ID);
     if (!localRecord) {
@@ -42,11 +32,6 @@ export async function commit(
     if (nextComment) {
       if (input.commentSeenEnabled) {
         nextComment.setValue(true, "hasTraversalFocus");
-        if (!input.skipCommitSeen) {
-          context.eventEmitter.emit(COMMIT_SEEN_EVENT, {
-            commentID: input.commentID,
-          } as CommitSeenEventData);
-        }
       }
       localRecord.setValue(input.commentID, "commentWithTraversalFocus");
     }

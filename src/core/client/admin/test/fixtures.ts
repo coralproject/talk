@@ -454,6 +454,28 @@ export const users = {
         role: GQLUSER_ROLE.MODERATOR,
         ignoreable: false,
       },
+      {
+        id: "site-moderator-1",
+        username: "Ginger",
+        email: "ginger@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
+        moderationScopes: {
+          scoped: true,
+          sites: [sites[0]],
+        },
+      },
+      {
+        id: "site-moderator-2",
+        username: "Audrey",
+        email: "audrey@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
+        moderationScopes: {
+          scoped: true,
+          sites: [sites[0]],
+        },
+      },
     ],
     baseUser
   ),
@@ -1054,6 +1076,8 @@ export const communityUsers = createFixture<GQLUsersConnection>({
   edges: [
     { node: users.admins[0], cursor: users.admins[0].createdAt },
     { node: users.moderators[0], cursor: users.moderators[0].createdAt },
+    { node: users.moderators[1], cursor: users.moderators[1].createdAt },
+    { node: users.moderators[2], cursor: users.moderators[2].createdAt },
     { node: users.staff[0], cursor: users.staff[0].createdAt },
     { node: users.commenters[0], cursor: users.commenters[0].createdAt },
   ],

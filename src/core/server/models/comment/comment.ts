@@ -143,6 +143,13 @@ export interface Comment extends TenantResource {
    * undefined, this Comment is not deleted.
    */
   deletedAt?: Date;
+
+  /**
+   * seen will return true if the current viewer has already seen this comment.
+   * Seen being defined as they have loaded the comment into their stream via
+   * pagination or the initial load of stream comments.
+   */
+  seen?: boolean;
 }
 
 export type CreateCommentInput = Omit<
@@ -602,6 +609,32 @@ export const retrieveAllCommentsUserConnection = (
     filter: {
       ...input.filter,
       authorID: userID,
+    },
+  });
+
+/**
+ * retrieveCommentsBySitesUserConnection returns a Connection<Comment> for a given User's
+ * comments regardless of comment status, filtered by siteIDs.
+ *
+ * @param mongo database connection
+ * @param tenantID the Tenant's ID
+ * @param userID the User id for the comment to retrieve
+ * @param siteIDs the siteIDs to use to filter by Site id for the comments to retrieve
+ * @param input connection configuration
+ */
+export const retrieveCommentsBySitesUserConnection = (
+  collection: Collection<Readonly<Comment>>,
+  tenantID: string,
+  userID: string,
+  siteIDs: string[],
+  input: CommentConnectionInput
+) =>
+  retrieveCommentConnection(collection, tenantID, {
+    ...input,
+    filter: {
+      ...input.filter,
+      authorID: userID,
+      siteID: { $in: siteIDs },
     },
   });
 
