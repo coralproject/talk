@@ -13,8 +13,8 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { ModerationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
 
 import AkismetConfig from "./AkismetConfig";
-import NewCommentersConfigContainer from "./NewCommentersConfigContainer";
 import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
+import NewCommentersConfigContainer from "./NewCommentersConfigContainer";
 import PerspectiveConfig from "./PerspectiveConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
