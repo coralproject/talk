@@ -67,9 +67,17 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Field name={`${moderationModeFieldName}`} type="radio" value="PRE">
+      <Field
+        name={`${moderationModeFieldName}`}
+        type="radio"
+        value={GQLMODERATION_MODE.PRE}
+      >
         {({ input }) => (
-          <RadioButton {...input} id={`${input.name}-PRE`} disabled={disabled}>
+          <RadioButton
+            {...input}
+            id={`${input.name}-${GQLMODERATION_MODE.PRE}`}
+            disabled={disabled}
+          >
             <Localized id="configure-moderation-allSites">
               <span>All sites</span>
             </Localized>
@@ -79,13 +87,13 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
       <Field
         name={`${moderationModeFieldName}`}
         type="radio"
-        value="SPECIFIC_SITES_PRE"
+        value={GQLMODERATION_MODE.SPECIFIC_SITES_PRE}
       >
         {({ input }) => (
           <>
             <RadioButton
               {...input}
-              id={`${input.name}-SPECIFIC_SITES_PRE`}
+              id={`${input.name}-${GQLMODERATION_MODE.SPECIFIC_SITES_PRE}`}
               disabled={disabled}
             >
               <Localized id="configure-moderation-specificSites">
@@ -124,9 +132,17 @@ const AllSpecificOffSitesField: FunctionComponent<Props> = ({
           ) : null}
         </div>
       )}
-      <Field name={`${moderationModeFieldName}`} type="radio" value="POST">
+      <Field
+        name={`${moderationModeFieldName}`}
+        type="radio"
+        value={GQLMODERATION_MODE.POST}
+      >
         {({ input }) => (
-          <RadioButton {...input} id={`${input.name}-POST`} disabled={disabled}>
+          <RadioButton
+            {...input}
+            id={`${input.name}-${GQLMODERATION_MODE.POST}`}
+            disabled={disabled}
+          >
             <Localized id="configure-onOffField-off">
               <span>Off</span>
             </Localized>
