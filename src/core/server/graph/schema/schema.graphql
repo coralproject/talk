@@ -3631,6 +3631,11 @@ type Comment @cacheControl(maxAge: 5) {
   rating is the optional rating that is attached to the Comment.
   """
   rating: Int
+
+  """
+  seen determines whether a comment has been seen by the user already.
+  """
+  seen: Boolean
 }
 
 type PageInfo {
@@ -8230,6 +8235,35 @@ type UnarchiveStoriesPayload {
   stories: [Story!]!
 }
 
+input MarkCommentSeenInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story of the comment this is for.
+  """
+  storyID: String!
+
+  """
+  commentID is the comment to be marked as seen.
+  """
+  commentID: String!
+}
+
+type MarkCommentSeenPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  comment is the comment that has been marked as seen.
+  """
+  comment: Comment!
+}
+
 ##################
 ## Mutation
 ##################
@@ -8860,6 +8894,8 @@ type Mutation {
 
   unarchiveStories(input: UnarchiveStoriesInput!): UnarchiveStoriesPayload!
     @auth(roles: [ADMIN])
+
+  markCommentAsSeen(input: MarkCommentSeenInput!): MarkCommentSeenPayload!
 }
 
 ##################

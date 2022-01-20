@@ -5,6 +5,7 @@ import { createCollection } from "coral-server/models/helpers";
 import { Invite } from "coral-server/models/invite";
 import { MigrationRecord } from "coral-server/models/migration";
 import { PersistedQuery } from "coral-server/models/queries";
+import { SeenComments } from "coral-server/models/seenComments/seenComments";
 import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -38,6 +39,8 @@ export const archivedCommentModerationActions = createCollection<
   CommentModerationAction
 >("archivedCommentModerationActions");
 
+export const seenComments = createCollection<SeenComments>("seenComments");
+
 export const queries = createCollection<PersistedQuery>("queries");
 
 export const migrations = createCollection<MigrationRecord>("migrations");
@@ -56,6 +59,7 @@ const collections = {
   archivedComments,
   archivedCommentActions,
   archivedCommentModerationActions,
+  seenComments,
 };
 
 export default collections;
