@@ -4,6 +4,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
+  useLocal,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { LoadMoreHistoryCommentsEvent } from "coral-stream/events";
@@ -11,6 +12,7 @@ import { LoadMoreHistoryCommentsEvent } from "coral-stream/events";
 import { CommentHistoryContainer_settings as SettingsData } from "coral-stream/__generated__/CommentHistoryContainer_settings.graphql";
 import { CommentHistoryContainer_story as StoryData } from "coral-stream/__generated__/CommentHistoryContainer_story.graphql";
 import { CommentHistoryContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentHistoryContainer_viewer.graphql";
+import { CommentHistoryContainerLocal } from "coral-stream/__generated__/CommentHistoryContainerLocal.graphql";
 import { CommentHistoryContainerPaginationQueryVariables } from "coral-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
 
 import CommentHistory from "./CommentHistory";
@@ -22,8 +24,21 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-export const CommentHistoryContainer: FunctionComponent<Props> = (props) => {
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+export const CommentHistoryContainer: FunctionComponent<Props> = ({
+  relay,
+  viewer,
+  story,
+  settings,
+}) => {
+  const [{ archivingEnabled, autoArchiveOlderThanMs }] = useLocal<
+    CommentHistoryContainerLocal
+  >(graphql`
+    fragment CommentHistoryContainerLocal on Local {
+      archivingEnabled
+      autoArchiveOlderThanMs
+    }
+  `);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const beginLoadMoreEvent = useViewerNetworkEvent(
     LoadMoreHistoryCommentsEvent
   );
@@ -38,16 +53,20 @@ export const CommentHistoryContainer: FunctionComponent<Props> = (props) => {
       console.error(error);
     }
   }, [loadMore, beginLoadMoreEvent]);
-  const comments = props.viewer.comments.edges.map((edge) => edge.node);
+  const comments = viewer.comments.edges.map((edge) => edge.node);
   return (
-    <CommentHistory
-      story={props.story}
-      settings={props.settings}
-      comments={comments}
-      onLoadMore={loadMoreAndEmit}
-      hasMore={props.relay.hasMore()}
-      disableLoadMore={isLoadingMore}
-    />
+    <>
+      <CommentHistory
+        story={story}
+        settings={settings}
+        comments={comments}
+        onLoadMore={loadMoreAndEmit}
+        hasMore={relay.hasMore()}
+        disableLoadMore={isLoadingMore}
+        archivingEnabled={archivingEnabled}
+        autoArchiveOlderThanMs={autoArchiveOlderThanMs}
+      />
+    </>
   );
 };
 

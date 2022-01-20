@@ -118,6 +118,15 @@ export class MongoContextImpl implements MongoContext {
   }
 }
 
+export function isArchivingEnabled(config: Config): boolean {
+  const mongoURI = config.get("mongodb");
+  const archiveURI = config.get("mongodb_archive");
+
+  return (
+    archiveURI !== config.default("mongodb_archive") && archiveURI !== mongoURI
+  );
+}
+
 export async function createMongoContext(
   config: Config
 ): Promise<MongoContext> {
