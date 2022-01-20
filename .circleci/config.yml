@@ -272,7 +272,6 @@ workflows:
             branches:
               only:
                 - develop
-                # Testing Docker builds on this branch
                 - CPSRE-353-dlc
           requires:
             - lint
