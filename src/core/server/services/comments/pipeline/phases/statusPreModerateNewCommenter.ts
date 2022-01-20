@@ -7,6 +7,7 @@ import {
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
+  GQLMODERATION_MODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 export const statusPreModerateNewCommenter = async ({
@@ -20,7 +21,10 @@ export const statusPreModerateNewCommenter = async ({
   if (tenant.newCommenters.moderation && tenant.newCommenters.moderation.mode) {
     // If specific sites pre-moderation mode is enabled, check if this is a
     // site set to pre-moderate all new users
-    if (tenant.newCommenters.moderation.mode === "SPECIFIC_SITES_PRE") {
+    if (
+      tenant.newCommenters.moderation.mode ===
+      GQLMODERATION_MODE.SPECIFIC_SITES_PRE
+    ) {
       // If premodSites doesn't include this site id, then do nothing!
       if (
         tenant.newCommenters.moderation.premodSites &&
@@ -29,8 +33,8 @@ export const statusPreModerateNewCommenter = async ({
         return;
       }
     } else {
-      // If pre-moderation is set to POST for new commenters, then do nothing!
-      if (tenant.newCommenters.moderation.mode === "POST") {
+      // If pre-moderation mode is set to POST for new commenters, then do nothing!
+      if (tenant.newCommenters.moderation.mode === GQLMODERATION_MODE.POST) {
         return;
       }
     }

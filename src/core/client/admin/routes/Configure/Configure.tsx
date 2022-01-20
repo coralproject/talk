@@ -25,6 +25,7 @@ interface Props {
 interface FormStateValues {
   moderation: GQLMODERATION_MODE;
   newCommenters: GQLNewCommentersConfiguration;
+  premoderateAllCommentsSites: string[];
 }
 
 const Configure: FunctionComponent<Props> = ({
@@ -34,19 +35,26 @@ const Configure: FunctionComponent<Props> = ({
 }) => {
   const cleanData: Mutator = useCallback((_, state, { changeValue }) => {
     if (state.lastFormState) {
-      const { moderation, newCommenters } = state.lastFormState
-        .values as FormStateValues;
+      const { moderation, newCommenters, premoderateAllCommentsSites } = state
+        .lastFormState.values as FormStateValues;
       // This ensures sites aren't saved to premoderateAllCommentsSites
       // if the SPECIFIC_SITES_PRE moderation mode isn't selected
-      if (moderation && moderation !== GQLMODERATION_MODE.SPECIFIC_SITES_PRE) {
+      if (
+        moderation &&
+        moderation !== GQLMODERATION_MODE.SPECIFIC_SITES_PRE &&
+        premoderateAllCommentsSites
+      ) {
         changeValue(state, "premoderateAllCommentsSites", () => []);
       }
       // This ensures sites aren't saved to premodSites for newCommenters
       // if the SPECIFIC_SITES_PRE moderation mode isn't selected
       if (
+        newCommenters &&
         newCommenters.moderation &&
         newCommenters.moderation.mode &&
-        newCommenters.moderation.mode !== GQLMODERATION_MODE.SPECIFIC_SITES_PRE
+        newCommenters.moderation.mode !==
+          GQLMODERATION_MODE.SPECIFIC_SITES_PRE &&
+        newCommenters.moderation.premodSites
       ) {
         changeValue(state, "newCommenters.moderation.premodSites", () => []);
       }
