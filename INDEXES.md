@@ -34,7 +34,7 @@ db.commentActions.createIndex({ tenantID: 1, id: 1 });
 db.commentActions.createIndex({ tenantID: 1, actionType: 1, commentID: 1, userID: 1 });
 db.commentActions.createIndex({ tenantID: 1, actionType: 1, commentID: 1, createdAt: -1 });
 db.commentActions.createIndex({ commentID: 1, tenantID: 1, createdAt: 1 });
-db.commentActions.createIndex({ tenantID:1, userID:1, commentID:1});
+db.commentActions.createIndex({ tenantID:1, userID:1, commentID:1 });
 db.commentActions.createIndex({ tenantID: 1, siteID: 1 });
 ```
 
@@ -68,17 +68,17 @@ db.comments.createIndex({ authorID: 1, tenantID: 1, createdAt: 1 });
 db.comments.createIndex({ siteID: 1, tenantID: 1, createdAt: 1 });
 db.comments.createIndex({ siteID: 1, tenantID: 1, status: 1, createdAt: 1 });
 db.comments.createIndex({ status: 1, tenantID: 1, createdAt: 1 });
-db.comments.createIndex({storyID: 1,parentID: 1,tenantID: 1,status: 1,'actionCounts.REACTION': -1,createdAt: -1});
+db.comments.createIndex({ storyID: 1,parentID: 1,tenantID: 1,status: 1,'actionCounts.REACTION': -1,createdAt: -1 });
 db.comments.createIndex({ storyID: 1, tenantID: 1, createdAt: 1 });
-db.comments.createIndex({ storyID: 1,tenantID: 1,status: 1,childCount: -1,createdAt: -1});
+db.comments.createIndex({ storyID: 1,tenantID: 1,status: 1,childCount: -1,createdAt: -1 });
 db.comments.createIndex({ storyID: 1, tenantID: 1, 'tags.type': 1, createdAt: 1 });
 db.comments.createIndex({ tenantID: 1, storyID: 1, 'tags.type': 1, status: 1 }, { partialFilterExpression: { 'tags.type': { '$exists': true } } });
-db.comments.createIndex({tenantID: 1,storyID: 1,parentID: 1,status: 1,childCount: -1,createdAt: -1});
+db.comments.createIndex({ tenantID: 1,storyID: 1,parentID: 1,status: 1,childCount: -1,createdAt: -1 });
 db.comments.createIndex({ tenantID: 1, status: 1, createdAt: 1 }, { partialFilterExpression: { 'actionCounts.FLAG': { '$gt': 0 } } });
 ```
 
 ```
-db.comments.createIndex({ storyID: 1,tenantID: 1,'tags.type': 1,'actionCounts.REACTION': -1,createdAt: -1});
+db.comments.createIndex({ storyID: 1,tenantID: 1,'tags.type': 1,'actionCounts.REACTION': -1,createdAt: -1 });
 ```
   - NOTE: is this a partial filter index?
 
