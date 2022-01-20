@@ -26,6 +26,7 @@ import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
 import { EditInfo } from "./EditInfo";
+import { EmailDomain } from "./EmailDomain";
 import { ExternalMediaConfiguration } from "./ExternalMediaConfiguration";
 import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
@@ -90,6 +91,7 @@ const Resolvers: GQLResolver = {
   Comment,
   CommentCounts,
   CommentCreatedPayload,
+  CommentEditedPayload,
   CommentEnteredModerationQueuePayload,
   CommentEnteredPayload,
   CommentLeftModerationQueuePayload,
@@ -102,6 +104,7 @@ const Resolvers: GQLResolver = {
   Cursor,
   DisableCommenting,
   EditInfo,
+  EmailDomain,
   ExternalMediaConfiguration,
   ExternalModerationPhase,
   FacebookAuthIntegration,
@@ -158,7 +161,6 @@ const Resolvers: GQLResolver = {
   YouTubeMediaConfiguration,
   LocalAuthIntegration,
   AuthenticationTargetFilter,
-  CommentEditedPayload,
 };
 
 export default Resolvers;

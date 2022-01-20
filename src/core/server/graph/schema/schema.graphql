@@ -577,6 +577,20 @@ enum MODERATION_MODE {
   SPECIFIC_SITES_PRE
 }
 
+enum NEW_USER_MODERATION {
+  """
+  New users who sign up with an email domain configured to this moderation
+  mode will be automatically banned
+  """
+  BAN
+
+  """
+  New users who sign up with an email domain configured to this moderation
+  mode will be automatically always pre-moderated
+  """
+  PREMOD
+}
+
 """
 WordList describes all the available wordLists.
 """
@@ -1746,6 +1760,27 @@ type NewCommentersConfiguration {
 }
 
 """
+EmailDomain specifies the features that apply to certain email domains
+"""
+type EmailDomain {
+  """
+  domain is the email domain after the @ symbol, ex. example.com
+  """
+  domain: String!
+
+  """
+  id is the identifier for the email domain
+  """
+  id: ID!
+
+  """
+  newUserModeration is how new users who sign up with this email domain
+  should be treated, ex. banned or always premoderated
+  """
+  newUserModeration: NEW_USER_MODERATION!
+}
+
+"""
 Announcement is an organization-wide announcement displayed above the stream
 for a set duration
 """
@@ -2078,6 +2113,13 @@ type Settings @cacheControl(maxAge: 30) {
   (European Directive 2000/31/CE).
   """
   forReviewQueue: Boolean!
+
+  """
+  emailDomainModeration is for any special configuration by email
+  domain for moderating accounts, such as banning or always
+  pre-moderating new users at a certain email domain
+  """
+  emailDomainModeration: [EmailDomain!]!
 }
 
 ################################################################################
@@ -2175,7 +2217,7 @@ type BanStatusHistory {
   active: Boolean!
 
   """
-  createdBy is the User that suspended the User. If `null`, the then the given
+  createdBy is the User that suspended the User. If `null`, then the given
   User was banned by the system.
   """
   createdBy: User
@@ -2186,9 +2228,10 @@ type BanStatusHistory {
   createdAt: Time!
 
   """
-  message is sent to banned user via email.
+  message is sent to banned user via email. If `null`, then no email was sent
+  (i.e. in the case of a system ban of a new user account).
   """
-  message: String!
+  message: String
 
   """
   sites are set when the ban was created to perform a site specific ban.
@@ -2393,9 +2436,10 @@ type PremodStatusHistory {
   active: Boolean!
 
   """
-  createdBy is the user that flagged the commenter as pre-mod
+  createdBy is the user that flagged the commenter as pre-mod. If `null`, then the given
+  User was set to pre-mod by the system.
   """
-  createdBy: User!
+  createdBy: User
 
   """
   createdAt is the time the user was set to pre-mod
@@ -4284,6 +4328,11 @@ type Query {
     siteID: ID
     section: SectionFilter
   ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  emailDomain will return a specific emailDomain configuration if it exists.
+  """
+  emailDomain(id: ID!): EmailDomain @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -8089,6 +8138,117 @@ type UpdateStoryModePayload {
 }
 
 ##################
+## createEmailDomain
+##################
+
+input CreateEmailDomain {
+  """
+  domain is the email domain that was configured
+  """
+  domain: String!
+
+  """
+  newUserModeration is how new users on this domain should be moderated
+  """
+  newUserModeration: NEW_USER_MODERATION!
+}
+
+input CreateEmailDomainInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  domain is the email domain that was configured
+  """
+  domain: String!
+
+  """
+  newUserModeration is how new users on this domain should be moderated
+  """
+  newUserModeration: NEW_USER_MODERATION!
+}
+
+type CreateEmailDomainPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the email domain configuration was created on.
+  """
+  settings: Settings!
+}
+
+##################
+## updateEmailDomain
+##################
+
+input UpdateEmailDomainInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the identifier for the email domain that was configured
+  """
+  id: String!
+
+  """
+  domain is the email domain that was configured
+  """
+  domain: String!
+
+  """
+  newUserModeration is how new users on this domain should be moderated
+  """
+  newUserModeration: NEW_USER_MODERATION!
+}
+
+type UpdateEmailDomainPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the email domain configuration was updated on.
+  """
+  settings: Settings!
+}
+
+##################
+## deleteEmailDomain
+##################
+
+input DeleteEmailDomainInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the identifier for the email domain that is to be deleted
+  """
+  id: String!
+}
+
+type DeleteEmailDomainPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings from which the email domain configuration was deleted.
+  """
+  settings: Settings!
+}
+
+##################
 ## createSite
 ##################
 
@@ -8771,6 +8931,24 @@ type Mutation {
   createSite(input: CreateSiteInput!): CreateSitePayload! @auth(roles: [ADMIN])
 
   updateSite(input: UpdateSiteInput!): UpdateSitePayload! @auth(roles: [ADMIN])
+
+  """
+  createEmailDomain creates an email domain configuration.
+  """
+  createEmailDomain(input: CreateEmailDomainInput!): CreateEmailDomainPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  updateEmailDomain updates an email domain configuration.
+  """
+  updateEmailDomain(input: UpdateEmailDomainInput!): UpdateEmailDomainPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  deleteEmailDomain deletes an email domain configuration.
+  """
+  deleteEmailDomain(input: DeleteEmailDomainInput!): DeleteEmailDomainPayload!
+    @auth(roles: [ADMIN])
 
   """
   createWebhookEndpoint will create a new WebhookEndpoint.

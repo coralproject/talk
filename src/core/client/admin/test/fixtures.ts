@@ -14,6 +14,7 @@ import {
   GQLFlagsConnection,
   GQLMODERATION_MODE,
   GQLModerationQueues,
+  GQLNEW_USER_MODERATION,
   GQLSettings,
   GQLSite,
   GQLSitesConnection,
@@ -215,6 +216,7 @@ export const settings = createFixture<GQLSettings>({
   amp: false,
   flattenReplies: false,
   forReviewQueue: false,
+  emailDomainModeration: [],
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(
@@ -1139,4 +1141,10 @@ export const siteConnection = createFixture<GQLSitesConnection>({
     { node: sites[1], cursor: sites[1].createdAt },
   ],
   pageInfo: { endCursor: null, hasNextPage: false },
+});
+
+export const emailDomain = createFixture({
+  id: "1a60424a-c116-483a-b315-837a7fd5b496",
+  domain: "email.com",
+  newUserModeration: GQLNEW_USER_MODERATION.BAN,
 });

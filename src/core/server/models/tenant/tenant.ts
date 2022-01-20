@@ -9,6 +9,7 @@ import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
+import { DuplicateEmailDomainError } from "coral-server/errors";
 import {
   defaultRTEConfiguration,
   generateSigningSecret,
@@ -281,6 +282,7 @@ export async function createTenant(
     rte: defaultRTEConfiguration,
     amp: false,
     flattenReplies: false,
+    emailDomainModeration: [],
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -455,6 +457,111 @@ export async function createTenantAnnouncement(
     {
       $set: {
         announcement,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export interface CreateEmailDomainInput {
+  domain: string;
+  newUserModeration: "BAN" | "PREMOD";
+}
+
+export async function createTenantEmailDomain(
+  mongo: MongoContext,
+  id: string,
+  input: CreateEmailDomainInput
+) {
+  // Search to see if this email domain has already been configured.
+  const duplicateDomain = await mongo.tenants().findOne({
+    id,
+    emailDomainModeration: {
+      $elemMatch: { domain: input.domain },
+    },
+  });
+  if (duplicateDomain) {
+    throw new DuplicateEmailDomainError(input.domain);
+  }
+
+  const emailDomain = {
+    id: uuid(),
+    domain: input.domain,
+    newUserModeration: input.newUserModeration,
+  };
+
+  const result = await mongo.tenants().findOneAndUpdate(
+    { id },
+    {
+      $push: { emailDomainModeration: emailDomain },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export interface UpdateEmailDomainInput {
+  id: string;
+  domain: string;
+  newUserModeration: "BAN" | "PREMOD";
+}
+
+export async function updateTenantEmailDomain(
+  mongo: MongoContext,
+  id: string,
+  input: UpdateEmailDomainInput
+) {
+  // Search to see if this email domain has already been configured
+  // for an email domain with a different id.
+  const duplicateDomain = await mongo.tenants().findOne({
+    id,
+    emailDomainModeration: {
+      $elemMatch: { domain: input.domain, id: { $ne: input.id } },
+    },
+  });
+  if (duplicateDomain) {
+    throw new DuplicateEmailDomainError(input.domain);
+  }
+
+  const result = await mongo.tenants().findOneAndUpdate(
+    {
+      id,
+      emailDomainModeration: {
+        $elemMatch: { id: input.id },
+      },
+    },
+    {
+      $set: {
+        "emailDomainModeration.$.domain": input.domain,
+        "emailDomainModeration.$.newUserModeration": input.newUserModeration,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export interface DeleteEmailDomainInput {
+  id: string;
+}
+
+export async function deleteTenantEmailDomain(
+  mongo: MongoContext,
+  id: string,
+  input: DeleteEmailDomainInput
+) {
+  const result = await mongo.tenants().findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        emailDomainModeration: { id: input.id },
       },
     },
     {

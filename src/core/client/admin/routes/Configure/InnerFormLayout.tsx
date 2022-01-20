@@ -2,16 +2,16 @@ import React, { FunctionComponent } from "react";
 
 import MainLayout from "coral-admin/components/MainLayout";
 
-import ConfigureLinks from "../../ConfigureLinks";
-import Layout from "../../Layout";
-import Main from "../../Main";
-import SideBar from "../../SideBar";
+import ConfigureLinks from "./ConfigureLinks";
+import Layout from "./Layout";
+import Main from "./Main";
+import SideBar from "./SideBar";
 
 interface Props {
   children: React.ReactElement;
 }
 
-const ModerationPhasesLayout: FunctionComponent<Props> = (props) => {
+const InnerFormLayout: FunctionComponent<Props> = (props) => {
   return (
     <MainLayout>
       <Layout>
@@ -24,4 +24,4 @@ const ModerationPhasesLayout: FunctionComponent<Props> = (props) => {
   );
 };
 
-export default ModerationPhasesLayout;
+export default InnerFormLayout;

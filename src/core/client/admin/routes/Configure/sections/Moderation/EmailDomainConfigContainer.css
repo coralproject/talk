@@ -1,0 +1,7 @@
+.buttons {
+  margin-left: auto;
+}
+
+.editButton {
+  padding-right: var(--spacing-2);
+}

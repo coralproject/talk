@@ -1706,7 +1706,7 @@ export async function premodUser(
   mongo: MongoContext,
   tenantID: string,
   id: string,
-  createdBy: string,
+  createdBy?: string,
   now = new Date()
 ) {
   // Create the new ban.
@@ -1892,7 +1892,7 @@ export async function banUser(
   mongo: MongoContext,
   tenantID: string,
   id: string,
-  createdBy: string,
+  createdBy?: string,
   message?: string,
   now = new Date()
 ) {

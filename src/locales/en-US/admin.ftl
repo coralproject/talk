@@ -810,6 +810,26 @@ configure-moderation-newCommenters-approvedCommentsThreshold-description =
   not have to be premoderated
 configure-moderation-newCommenters-comments = comments
 
+#### Email domain
+configure-moderation-emailDomains-header = Email domain
+configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
+configure-moderation-emailDomains-add = Add email domain
+configure-moderation-emailDomains-edit = Edit email domain
+configure-moderation-emailDomains-addDomain = <icon>add</icon> Add domain
+configure-moderation-emailDomains-table-domain = Domain
+configure-moderation-emailDomains-table-action = Action
+configure-moderation-emailDomains-table-edit = <icon>edit</icon> Edit
+configure-moderation-emailDomains-table-delete = <icon>delete</icon> Delete
+configure-moderation-emailDomains-form-label-domain = Domain
+configure-moderation-emailDomains-form-label-moderationAction = Moderation action
+configure-moderation-emailDomains-banAllUsers = Ban all new commenter accounts
+configure-moderation-emailDomains-alwaysPremod = Always pre-moderate comments
+configure-moderation-emailDomains-form-cancel = Cancel
+configure-moderation-emailDomains-form-addDomain = Add domain
+configure-moderation-emailDomains-form-editDomain = Update
+configure-moderation-emailDomains-confirmDelete = Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?
+configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
+configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases

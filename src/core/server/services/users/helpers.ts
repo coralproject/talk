@@ -13,6 +13,7 @@ import {
   UsernameExceedsMaxLengthError,
   UsernameTooShortError,
 } from "coral-server/errors";
+import { User } from "coral-server/models/user";
 
 /**
  * validateUsername will validate that the username is valid. Current
@@ -71,4 +72,39 @@ export function validateEmail(email: string) {
   if (email.length > EMAIL_MAX_LENGTH) {
     throw new EmailExceedsMaxLengthError(email.length, EMAIL_MAX_LENGTH);
   }
+}
+
+/**
+ * checkforNewUserEmailDomainModeration will check the new user's email address domain against
+ * configured email domains to see if the user should be automatically banned or set
+ * to always pre-moderated by the system
+ *
+ * @param user user to be checked against email domains
+ * @param emailDomainModeration email domains configured with new user moderation settings
+ */
+export function checkForNewUserEmailDomainModeration(
+  user: User,
+  emailDomainModeration: {
+    domain: string;
+    id: string;
+    newUserModeration: "BAN" | "PREMOD";
+  }[]
+) {
+  const userEmail = user.email;
+  if (userEmail && emailDomainModeration) {
+    const userEmailDomain = userEmail.substring(userEmail.indexOf("@") + 1);
+    const matchingEmailDomain = emailDomainModeration.find((d) => {
+      const domainMatchIndex = userEmailDomain.indexOf(d.domain);
+      if (domainMatchIndex !== -1) {
+        // either matches the userEmailDomain or is a subdomain of it
+        return (
+          domainMatchIndex === 0 ||
+          userEmailDomain[domainMatchIndex - 1] === "."
+        );
+      }
+      return false;
+    });
+    return matchingEmailDomain && matchingEmailDomain.newUserModeration;
+  }
+  return null;
 }
