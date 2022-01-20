@@ -13,20 +13,15 @@ WORKDIR /usr/src/app
 RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com/ && \
     git config --global url."https://".insteadOf ssh://
 
-# Setup the environment
-ENV NODE_ENV production
-ENV PORT 5000
-EXPOSE 5000
-
 ##### Docker layers change more frequently after this step 
+
+# Bundle application source.
+COPY . /usr/src/app
 
 # Store the current git revision.
 ARG REVISION_HASH
 RUN mkdir -p dist/core/common/__generated__ && \
   echo "{\"revision\": \"${REVISION_HASH}\"}" > dist/core/common/__generated__/revision.json
-
-# Bundle application source.
-COPY . /usr/src/app
 
 # Run all application code and dependancy setup as a non-root user:
 # SEE: https://github.com/nodejs/docker-node/blob/a2eb9f80b0fd224503ee2678867096c9e19a51c2/docs/BestPractices.md#non-root-user
@@ -37,6 +32,11 @@ USER node
 RUN npm ci && \
   npm run build && \
   npm prune --production
+
+# Setup the environment
+ENV NODE_ENV production
+ENV PORT 5000
+EXPOSE 5000
 
 # Run the node process directly instead of using `npm run start`:
 # SEE: https://github.com/nodejs/docker-node/blob/a2eb9f80b0fd224503ee2678867096c9e19a51c2/docs/BestPractices.md#cmd

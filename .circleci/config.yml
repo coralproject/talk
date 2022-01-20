@@ -274,8 +274,6 @@ workflows:
                 - develop
                 - CPSRE-353-dlc
           requires:
-            - lint
-            - unit_tests
             - build
 
   build-test-deploy:
