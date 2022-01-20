@@ -37,11 +37,11 @@ interface Props {
 }
 
 const parse = (v: string) => {
-  return parseStringBool(v) ? "PRE" : "POST";
+  return parseStringBool(v) ? GQLMODERATION_MODE.PRE : GQLMODERATION_MODE.POST;
 };
 
-const format = (v: "PRE" | "POST") => {
-  return formatBool(v === "PRE");
+const format = (v: GQLMODERATION_MODE.PRE | GQLMODERATION_MODE.POST) => {
+  return formatBool(v === GQLMODERATION_MODE.PRE);
 };
 
 const specificSitesIsEnabled: Condition = (_value, values) =>

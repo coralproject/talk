@@ -30,13 +30,13 @@ import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 
-import { NewCommentersConfig_settings } from "coral-admin/__generated__/NewCommentersConfig_settings.graphql";
+import { NewCommentersConfigContainer_settings } from "coral-admin/__generated__/NewCommentersConfigContainer_settings.graphql";
 
-import styles from "./NewCommentersConfig.css";
+import styles from "./NewCommentersConfigContainer.css";
 
 interface Props {
   disabled: boolean;
-  settings: NewCommentersConfig_settings;
+  settings: NewCommentersConfigContainer_settings;
 }
 
 // eslint-disable-next-line no-unused-expressions
@@ -54,22 +54,23 @@ graphql`
 `;
 
 const parse = (v: string) => {
-  return parseStringBool(v) ? "PRE" : "POST";
+  return parseStringBool(v) ? GQLMODERATION_MODE.PRE : GQLMODERATION_MODE.POST;
 };
 
-const format = (v: "PRE" | "POST") => {
-  return formatBool(v === "PRE");
+const format = (v: GQLMODERATION_MODE.PRE | GQLMODERATION_MODE.POST) => {
+  return formatBool(v === GQLMODERATION_MODE.PRE);
 };
 
 const specificSitesIsEnabled: Condition = (_value, values) => {
   return Boolean(
     values.newCommenters.moderation &&
+      values.newCommenters.moderation.mode &&
       values.newCommenters.moderation.mode ===
         GQLMODERATION_MODE.SPECIFIC_SITES_PRE
   );
 };
 
-const NewCommentersConfig: FunctionComponent<Props> = ({
+const NewCommentersConfigContainer: FunctionComponent<Props> = ({
   disabled,
   settings,
 }) => {
@@ -150,10 +151,10 @@ const NewCommentersConfig: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment NewCommentersConfig_settings on Settings {
+    fragment NewCommentersConfigContainer_settings on Settings {
       multisite
     }
   `,
-})(NewCommentersConfig);
+})(NewCommentersConfigContainer);
 
 export default enhanced;

@@ -1748,19 +1748,20 @@ type NewCommentersConfiguration {
   approvedCommentsThreshold: Int!
 
   """
-  moderation is the configuration for pre-moderation for new commenters' comments until
-  they have enough approved comments. It stores whether it is PRE, POST, or PRE only for
-  specific sites
+  moderation is the configuration for moderation for new commenters' comments until
+  they have enough approved comments. It stores whether it is PRE, POST, or SPECIFIC_SITES_PRE
+  for pre-moderation only on specific sites, and in this case, which specific sites.
   """
-  moderation: NewCommentersPremodConfig
+  moderation: NewCommentersModerationConfig
 }
 
 """
-NewCommentersPremodConfig specifies the configuration for pre-moderation for new commenters' comments until
-they have enough approved comments. It stores whether it is PRE, POST, or PRE only for
-specific sites
+NewCommentersModerationConfig specifies the configuration for moderation for new
+commenters' comments until they have enough approved comments. It stores whether it
+is PRE, POST, or SPECIFIC_SITES_PRE for pre-moderation only on specific sites, and
+in this case, which specific sites.
 """
-type NewCommentersPremodConfig {
+type NewCommentersModerationConfig {
   mode: MODERATION_MODE
   premodSites: [String!]!
 }
@@ -5270,13 +5271,26 @@ input MediaConfigurationInput {
   giphy: GiphyMediaConfigurationInput
 }
 
-input NewCommentersPremodConfigInput {
+"""
+NewCommentersModerationConfigInput specifies the moderation configuration for
+new commenters' comments.
+"""
+input NewCommentersModerationConfigInput {
+  """
+  mode is whether new commenters' comments should be moderated PRE, POST, or
+  SPECIFIC_SITES_PRE (pre-moderated for specific sites)
+  """
   mode: MODERATION_MODE
+
+  """
+  premodSites is the specific sites that new commenters' comments should be
+  pre-moderated on if the SPECIFIC_SITES_PRE moderation mode is set
+  """
   premodSites: [String!]
 }
 
 """
-NewCommenterConfigurationInput specifies the features that apply to new commenters
+NewCommentersConfigurationInput specifies the features that apply to new commenters
 """
 input NewCommentersConfigurationInput {
   """
@@ -5291,7 +5305,13 @@ input NewCommentersConfigurationInput {
   """
   approvedCommentsThreshold: Int
 
-  moderation: NewCommentersPremodConfigInput
+  """
+  moderation is the configuration for pre-moderation for new commenters' comments until
+  they have enough approved comments. It stores whether it is PRE, POST, or
+  SPECIFIC_SITES_PRE for pre-moderation only on specific sites, and in this case, which
+  specific sites.
+  """
+  moderation: NewCommentersModerationConfigInput
 }
 
 """

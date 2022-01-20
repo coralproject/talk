@@ -1211,7 +1211,7 @@ for moderator approval before publication.
                       autoCapitalize="off"
                       autoComplete="off"
                       autoCorrect="off"
-                      className="TextField-input NewCommentersConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                      className="TextField-input NewCommentersConfigContainer-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
                       disabled={false}
                       name="newCommenters.approvedCommentsThreshold"
                       onBlur={[Function]}
