@@ -57,4 +57,16 @@ export interface StaticConfig {
    * teams can access the admin with their Coral local authentication.
    */
   forceAdminLocalAuth: boolean;
+
+  /**
+   * archivingEnabled will be true when the deployment has set a valid MongoDB
+   * URI for MONGODB_ARCHIVE_URI.
+   */
+  archivingEnabled: boolean;
+
+  /**
+   * autoArchiveOlderThanMs is the time in milliseconds that a story will
+   * be kept before being auto-archived.
+   */
+  autoArchiveOlderThanMs: number;
 }

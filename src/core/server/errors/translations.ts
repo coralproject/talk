@@ -8,6 +8,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   PARENT_COMMENT_REJECTED: "error-parentCommentRejected",
   COMMENTING_DISABLED: "error-commentingDisabled",
   DUPLICATE_EMAIL: "error-duplicateEmail",
+  DUPLICATE_EMAIL_DOMAIN: "error-duplicateEmailDomain",
   DUPLICATE_STORY_ID: "error-duplicateStoryID",
   DUPLICATE_STORY_URL: "error-duplicateStoryURL",
   DUPLICATE_USER: "error-duplicateUser",

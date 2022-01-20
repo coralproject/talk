@@ -3,10 +3,12 @@ import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFl
 import { Tenant } from "coral-server/models/tenant";
 import {
   createAnnouncement,
+  createEmailDomain,
   createExternalModerationPhase,
   createWebhookEndpoint,
   deactivateSSOSigningSecret,
   deleteAnnouncement,
+  deleteEmailDomain,
   deleteExternalModerationPhase,
   deleteSSOSigningSecret,
   deleteWebhookEndpoint,
@@ -21,15 +23,18 @@ import {
   rotateWebhookEndpointSigningSecret,
   sendSMTPTest,
   update,
+  updateEmailDomain,
   updateExternalModerationPhase,
   updateWebhookEndpoint,
 } from "coral-server/services/tenant";
 
 import {
   GQLCreateAnnouncementInput,
+  GQLCreateEmailDomainInput,
   GQLCreateExternalModerationPhaseInput,
   GQLCreateWebhookEndpointInput,
   GQLDeactivateSSOSigningSecretInput,
+  GQLDeleteEmailDomainInput,
   GQLDeleteExternalModerationPhaseInput,
   GQLDeleteSSOSigningSecretInput,
   GQLDeleteWebhookEndpointInput,
@@ -41,6 +46,7 @@ import {
   GQLRotateExternalModerationPhaseSigningSecretInput,
   GQLRotateSSOSigningSecretInput,
   GQLRotateWebhookEndpointSigningSecretInput,
+  GQLUpdateEmailDomainInput,
   GQLUpdateExternalModerationPhaseInput,
   GQLUpdateSettingsInput,
   GQLUpdateWebhookEndpointInput,
@@ -118,6 +124,12 @@ export const Settings = ({
       input.inactiveIn,
       now
     ),
+  createEmailDomain: (input: WithoutMutationID<GQLCreateEmailDomainInput>) =>
+    createEmailDomain(mongo, redis, tenantCache, tenant, input),
+  updateEmailDomain: (input: WithoutMutationID<GQLUpdateEmailDomainInput>) =>
+    updateEmailDomain(mongo, redis, tenantCache, tenant, input),
+  deleteEmailDomain: (input: WithoutMutationID<GQLDeleteEmailDomainInput>) =>
+    deleteEmailDomain(mongo, redis, tenantCache, tenant, input),
   createExternalModerationPhase: (
     input: WithoutMutationID<GQLCreateExternalModerationPhaseInput>
   ) =>

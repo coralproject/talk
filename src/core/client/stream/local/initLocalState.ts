@@ -1,6 +1,7 @@
 import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
 import { StaticConfig } from "coral-common/config";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { parseQuery } from "coral-common/utils";
 import { isStoryMode } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
@@ -159,6 +160,12 @@ const initLocalState: InitLocalState = async ({
     localRecord.setValue(config?.version, "embedVersion");
 
     localRecord.setValue(Boolean(config?.amp), "amp");
+
+    const archivingEnabled = staticConfig?.archivingEnabled || false;
+    const autoArchiveOlderThanMs =
+      staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN;
+    localRecord.setValue(archivingEnabled, "archivingEnabled");
+    localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
   });
 };
 

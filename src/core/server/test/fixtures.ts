@@ -180,6 +180,7 @@ export const createTenantFixture = (
     },
     amp: false,
     flattenReplies: false,
+    emailDomainModeration: [],
   };
 
   return merge(fixture, defaults);

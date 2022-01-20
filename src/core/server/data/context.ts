@@ -8,6 +8,7 @@ import { createCollection } from "coral-server/models/helpers";
 import { Invite } from "coral-server/models/invite";
 import { MigrationRecord } from "coral-server/models/migration";
 import { PersistedQuery } from "coral-server/models/queries";
+import { SeenComments } from "coral-server/models/seenComments/seenComments";
 import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -33,6 +34,7 @@ export interface MongoContext {
   archivedCommentModerationActions(): Collection<
     Readonly<CommentModerationAction>
   >;
+  seenComments(): Collection<Readonly<SeenComments>>;
 }
 
 export class MongoContextImpl implements MongoContext {
@@ -78,6 +80,9 @@ export class MongoContextImpl implements MongoContext {
   public migrations(): Collection<Readonly<MigrationRecord>> {
     return createCollection<MigrationRecord>("migrations")(this.live);
   }
+  public seenComments(): Collection<Readonly<SeenComments>> {
+    return createCollection<SeenComments>("seenComments")(this.live);
+  }
   public archivedComments(): Collection<Readonly<Comment>> {
     if (!this.archive) {
       throw new Error(
@@ -111,6 +116,15 @@ export class MongoContextImpl implements MongoContext {
       "archivedCommentModerationActions"
     )(this.archive);
   }
+}
+
+export function isArchivingEnabled(config: Config): boolean {
+  const mongoURI = config.get("mongodb");
+  const archiveURI = config.get("mongodb_archive");
+
+  return (
+    archiveURI !== config.default("mongodb_archive") && archiveURI !== mongoURI
+  );
 }
 
 export async function createMongoContext(

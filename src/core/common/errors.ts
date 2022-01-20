@@ -94,6 +94,12 @@ export enum ERROR_CODES {
   DUPLICATE_EMAIL = "DUPLICATE_EMAIL",
 
   /**
+   * DUPLICATE_EMAIL_DOMAIN is returned when a user attempts to add configuration
+   * for an email domain already configured on the tenant.
+   */
+  DUPLICATE_EMAIL_DOMAIN = "DUPLICATE_EMAIL_DOMAIN",
+
+  /**
    * LOCAL_PROFILE_ALREADY_SET is returned when the user attempts to associate a
    * local profile when the user already has one.
    */

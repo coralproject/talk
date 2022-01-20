@@ -112,7 +112,12 @@ import {
   generateAdminDownloadLink,
   generateDownloadLink,
 } from "./download/token";
-import { validateEmail, validatePassword, validateUsername } from "./helpers";
+import {
+  checkForNewUserEmailDomainModeration,
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "./helpers";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -204,6 +209,11 @@ export async function findOrCreate(
 export type CreateUser = FindOrCreateUserInput;
 export type CreateUserOptions = FindOrCreateUserOptions;
 
+enum NEW_USER_MODERATION {
+  BAN = "BAN",
+  PREMOD = "PREMOD",
+}
+
 export async function create(
   mongo: MongoContext,
   tenant: Tenant,
@@ -237,6 +247,23 @@ export async function create(
   }
 
   const user = await createUser(mongo, tenant.id, input, now);
+
+  // Check the new user's email address against emailDomain configurations
+  // to see if they should be set to banned or always pre-moderated
+  if (tenant.emailDomainModeration) {
+    const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
+      user,
+      tenant.emailDomainModeration
+    );
+    if (newUserEmailDomainModeration) {
+      if (newUserEmailDomainModeration === NEW_USER_MODERATION.BAN) {
+        await banUser(mongo, tenant.id, user.id);
+      }
+      if (newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD) {
+        await premodUser(mongo, tenant.id, user.id);
+      }
+    }
+  }
 
   // TODO: (wyattjoh) emit that a user was created
 
