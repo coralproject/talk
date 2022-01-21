@@ -20,6 +20,7 @@ setup_remote_docker_defaults: &setup_remote_docker_defaults
   # This is pinned to 19 to resolve a problem described here:
   # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
   version: 19.03.13
+  docker_layer_caching: true
 
 version: 2.1
 jobs:
@@ -270,8 +271,6 @@ workflows:
               only:
                 - /^release-.*/
           requires:
-            - lint
-            - unit_tests
             - build
 
   build-test-deploy:
