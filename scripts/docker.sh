@@ -72,8 +72,17 @@ then
   ARGS="--build-arg REVISION_HASH=${CIRCLE_SHA1}"
 fi
 
-# build the repo, including the onbuild tagged versions.
-docker build -t coralproject/talk:latest ${ARGS} -f Dockerfile .
+# build prod version if this is a real deploy
+if [ "$1" = "deploy" ]
+then
+  docker build -t coralproject/talk:latest ${ARGS} -f docker/prod/Dockerfile .
+fi
+
+# build the quick dev copy version if this is just a circle CI commit build
+if [ "$1" = "deploy-commit" ]
+then
+  docker build -t coralproject/talk:latest ${ARGS} -f docker/dev/Dockerfile .
+fi
 
 if [ "$1" = "deploy" ]
 then
