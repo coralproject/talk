@@ -8404,12 +8404,12 @@ input MarkCommentSeenInput {
   """
   storyID is the story of the comment this is for.
   """
-  storyID: String!
+  storyID: ID!
 
   """
   commentID is the comment to be marked as seen.
   """
-  commentID: String!
+  commentIDs: [ID!]!
 }
 
 type MarkCommentSeenPayload {
@@ -8421,7 +8421,7 @@ type MarkCommentSeenPayload {
   """
   comment is the comment that has been marked as seen.
   """
-  comment: Comment!
+  comments: [Comment!]!
 }
 
 ##################

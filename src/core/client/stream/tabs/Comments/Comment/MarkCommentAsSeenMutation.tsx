@@ -12,15 +12,12 @@ import {
   MarkCommentSeenInput,
 } from "coral-stream/__generated__/MarkCommentAsSeenMutation.graphql";
 
-import {
-  COMMIT_SEEN_EVENT,
-  CommitSeenEventData,
-} from "../commentSeen/CommentSeenContext";
+import { COMMIT_SEEN_EVENT, CommitSeenEventData } from "../commentSeen/";
 
 const mutation = graphql`
   mutation MarkCommentAsSeenMutation($input: MarkCommentSeenInput!) {
     markCommentAsSeen(input: $input) {
-      comment {
+      comments {
         id
         seen
       }
@@ -46,14 +43,14 @@ const enhanced = createMutation(
       variables: {
         input: {
           storyID: input.storyID,
-          commentID: input.commentID,
+          commentIDs: input.commentIDs,
           clientMutationId: clientMutationId.toString(),
         },
       },
       optimisticResponse: {
         markCommentAsSeen: {
-          comment: {
-            id: input.commentID,
+          comments: {
+            id: input.commentIDs[0],
             seen: true,
           },
           clientMutationId: (clientMutationId++).toString(),

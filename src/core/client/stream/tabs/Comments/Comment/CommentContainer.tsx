@@ -53,6 +53,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
+import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
@@ -145,16 +146,14 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
-  const commentSeenEnabled = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.COMMENT_SEEN
-  );
+  const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);
   const handleFocus = useCallback(() => {
     if (canCommitCommentSeen && !comment.seen) {
       void markCommentAsSeen({
-        commentID: comment.id,
+        commentIDs: [comment.id],
         storyID: story.id,
       });
     }

@@ -221,7 +221,7 @@ export const Comments = (ctx: GraphContext) => ({
     return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
   },
   markAsSeen: async ({
-    commentID,
+    commentIDs,
     storyID,
   }: WithoutMutationID<GQLMarkCommentSeenInput>) => {
     if (ctx.user) {
@@ -230,11 +230,11 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.tenant.id,
         storyID,
         ctx.user?.id,
-        [commentID],
+        commentIDs,
         ctx.now
       );
     }
 
-    return ctx.loaders.Comments.comment.load(commentID);
+    return ctx.loaders.Comments.comment.loadMany(commentIDs);
   },
 });
