@@ -73,9 +73,12 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   max-width: 100%;
 }
 
-.commentSeenEnabled {
+.indentedCommentRoot {
   padding-top: 9px;
   padding-bottom: 7px;
+}
+
+.commentSeenEnabled {
   padding-left: 2px;
   padding-right: 2px;
   transition: background 600ms ease-out;
