@@ -62,6 +62,7 @@ const ReplyListN = removeFragmentRefs(ReplyList);
 //   const wrapper = shallow(<ReplyListN {...props} />);
 //   expect(wrapper).toMatchSnapshot();
 // });
+it("dummy", () => {});
 
 describe("when there is more", async () => {
   await initLocalState({ environment, context: context as any });
