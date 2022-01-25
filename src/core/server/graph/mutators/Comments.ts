@@ -235,6 +235,8 @@ export const Comments = (ctx: GraphContext) => ({
       );
     }
 
-    return ctx.loaders.Comments.comment.loadMany(commentIDs);
+    const comments =
+      (await ctx.loaders.Comments.comment.loadMany(commentIDs)) ?? [];
+    return comments;
   },
 });

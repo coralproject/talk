@@ -49,18 +49,22 @@ const enhanced = createMutation(
       },
       optimisticResponse: {
         markCommentAsSeen: {
-          comments: {
-            id: input.commentIDs[0],
-            seen: true,
-          },
+          comments: [
+            {
+              id: input.commentIDs[0],
+              seen: true,
+            },
+          ],
           clientMutationId: (clientMutationId++).toString(),
         },
       },
     });
 
-    eventEmitter.emit(COMMIT_SEEN_EVENT, {
-      commentID: input.commentID,
-    } as CommitSeenEventData);
+    if (input.commentIDs && input.commentIDs.length > 0) {
+      eventEmitter.emit(COMMIT_SEEN_EVENT, {
+        commentIDs: input.commentIDs,
+      } as CommitSeenEventData);
+    }
 
     return result;
   }

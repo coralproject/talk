@@ -340,7 +340,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
       );
       const commentIDs: string[] = [];
       notSeenComments.forEach((c) => {
-        const id = c.getAttribute("id");
+        const id = c.getAttribute("id")?.replace("comment-", "");
         if (id) {
           commentIDs.push(id);
         }
