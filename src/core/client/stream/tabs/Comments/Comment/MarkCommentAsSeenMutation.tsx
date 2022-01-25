@@ -49,12 +49,9 @@ const enhanced = createMutation(
       },
       optimisticResponse: {
         markCommentAsSeen: {
-          comments: [
-            {
-              id: input.commentIDs[0],
-              seen: true,
-            },
-          ],
+          comments: input.commentIDs.map((id) => {
+            return { id, seen: true };
+          }),
           clientMutationId: (clientMutationId++).toString(),
         },
       },
