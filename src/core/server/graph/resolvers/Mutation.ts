@@ -473,7 +473,7 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     stories: await ctx.mutators.Stories.unarchiveStories(input),
     clientMutationId: input.clientMutationId,
   }),
-  markCommentAsSeen: async (source, { input }, ctx) => ({
+  markCommentsAsSeen: async (source, { input }, ctx) => ({
     comments: await ctx.mutators.Comments.markAsSeen(input),
     clientMutationId: input.clientMutationId,
   }),

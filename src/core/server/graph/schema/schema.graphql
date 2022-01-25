@@ -8395,7 +8395,7 @@ type UnarchiveStoriesPayload {
   stories: [Story!]!
 }
 
-input MarkCommentSeenInput {
+input MarkCommentsAsSeenInput {
   """
   clientMutationId is required for Relay support.
   """
@@ -8412,7 +8412,7 @@ input MarkCommentSeenInput {
   commentIDs: [ID!]!
 }
 
-type MarkCommentSeenPayload {
+type MarkCommentsAsSeenPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -9073,7 +9073,12 @@ type Mutation {
   unarchiveStories(input: UnarchiveStoriesInput!): UnarchiveStoriesPayload!
     @auth(roles: [ADMIN])
 
-  markCommentAsSeen(input: MarkCommentSeenInput!): MarkCommentSeenPayload!
+  """
+  markCommentsAsSeen will set the seen state to true for the commentIDs provided.
+  Seen state is stored per user, per story. It will do nothing if the request is
+  not issued with a valid logged in user token.
+  """
+  markCommentsAsSeen(input: MarkCommentsAsSeenInput!): MarkCommentsAsSeenPayload!
 }
 
 ##################

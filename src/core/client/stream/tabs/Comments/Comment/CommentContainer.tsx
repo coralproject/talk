@@ -149,10 +149,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const setTraversalFocus = useMutation(SetTraversalFocus);
-  const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);
+  const markCommentsAsSeen = useMutation(MarkCommentAsSeenMutation);
   const handleFocus = useCallback(() => {
     if (canCommitCommentSeen && !comment.seen) {
-      void markCommentAsSeen({
+      void markCommentsAsSeen({
         commentIDs: [comment.id],
         storyID: story.id,
       });
@@ -166,7 +166,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.id,
     comment.seen,
     canCommitCommentSeen,
-    markCommentAsSeen,
+    markCommentsAsSeen,
     setTraversalFocus,
     story.id,
   ]);

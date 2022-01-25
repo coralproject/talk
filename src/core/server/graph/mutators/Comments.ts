@@ -28,7 +28,7 @@ import {
   GQLCreateCommentReplyInput,
   GQLEditCommentInput,
   GQLFeatureCommentInput,
-  GQLMarkCommentSeenInput,
+  GQLMarkCommentsAsSeenInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
   GQLTAG,
@@ -223,7 +223,7 @@ export const Comments = (ctx: GraphContext) => ({
   markAsSeen: async ({
     commentIDs,
     storyID,
-  }: WithoutMutationID<GQLMarkCommentSeenInput>) => {
+  }: WithoutMutationID<GQLMarkCommentsAsSeenInput>) => {
     if (ctx.user) {
       await markSeen(
         ctx.mongo,
