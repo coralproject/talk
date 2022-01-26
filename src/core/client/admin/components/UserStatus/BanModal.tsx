@@ -109,6 +109,10 @@ const BanModal: FunctionComponent<Props> = ({
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
 
+  const userHasAnyBan = !!(
+    userBanStatus?.active || userBanStatus?.sites?.length
+  );
+
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
       setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
@@ -257,7 +261,7 @@ const BanModal: FunctionComponent<Props> = ({
                           </RadioButton>
                         </Localized>
                       </FormField>
-                      {!viewerIsScoped && (
+                      {!viewerIsScoped && userHasAnyBan && (
                         <FormField>
                           <Localized id="community-banModal-noSites">
                             <RadioButton
