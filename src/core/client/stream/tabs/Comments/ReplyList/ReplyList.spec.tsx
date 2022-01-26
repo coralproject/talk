@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
-import { Environment, RecordSource } from "relay-runtime";
+import { RecordSource } from "relay-runtime";
 import sinon, { SinonSpy } from "sinon";
 
 import {
@@ -9,11 +9,9 @@ import {
   removeFragmentRefs,
 } from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-framework/types";
-import { initLocalState } from "coral-stream/local";
 
 import ReplyList from "./ReplyList";
 
-let environment: Environment;
 const source = new RecordSource();
 
 const context = {
@@ -57,7 +55,6 @@ it("renders correctly", async () => {
 });
 
 describe("when there is more", async () => {
-  await initLocalState({ environment, context: context as any });
   const props: PropTypesOf<typeof ReplyListN> = {
     story: { id: "story-id" },
     comment: { id: "comment-id" },
