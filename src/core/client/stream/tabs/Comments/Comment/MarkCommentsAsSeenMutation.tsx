@@ -8,8 +8,8 @@ import {
 } from "coral-framework/lib/relay";
 
 import {
-  MarkCommentsAsSeenMutation,
   MarkCommentsAsSeenInput,
+  MarkCommentsAsSeenMutation,
 } from "coral-stream/__generated__/MarkCommentsAsSeenMutation.graphql";
 
 import { COMMIT_SEEN_EVENT, CommitSeenEventData } from "../commentSeen";
