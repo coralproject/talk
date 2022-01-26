@@ -8,14 +8,14 @@ import {
 } from "coral-framework/lib/relay";
 
 import {
-  MarkCommentAsSeenMutation,
+  MarkCommentsAsSeenMutation,
   MarkCommentsAsSeenInput,
-} from "coral-stream/__generated__/MarkCommentAsSeenMutation.graphql";
+} from "coral-stream/__generated__/MarkCommentsAsSeenMutation.graphql";
 
-import { COMMIT_SEEN_EVENT, CommitSeenEventData } from "../commentSeen/";
+import { COMMIT_SEEN_EVENT, CommitSeenEventData } from "../commentSeen";
 
 const mutation = graphql`
-  mutation MarkCommentAsSeenMutation($input: MarkCommentsAsSeenInput!) {
+  mutation MarkCommentsAsSeenMutation($input: MarkCommentsAsSeenInput!) {
     markCommentsAsSeen(input: $input) {
       comments {
         id
@@ -37,7 +37,7 @@ const enhanced = createMutation(
   ) => {
     let clientMutationId = 0;
     const result = await commitMutationPromiseNormalized<
-      MarkCommentAsSeenMutation
+      MarkCommentsAsSeenMutation
     >(environment, {
       mutation,
       variables: {

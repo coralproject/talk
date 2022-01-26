@@ -29,7 +29,7 @@ import {
   ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
-import MarkCommentAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentAsSeenMutation";
+import MarkCommentAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
 import {
   COMMIT_SEEN_EVENT,
