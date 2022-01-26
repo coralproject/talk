@@ -64,7 +64,7 @@ import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import { isReplyFlattened } from "./flattenReplies";
 import IndentedComment from "./IndentedComment";
-import MarkCommentAsSeenMutation from "./MarkCommentsAsSeenMutation";
+import MarkCommentsAsSeenMutation from "./MarkCommentsAsSeenMutation";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
   ModerationRejectedTombstoneContainer,
@@ -149,7 +149,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const setTraversalFocus = useMutation(SetTraversalFocus);
-  const markCommentsAsSeen = useMutation(MarkCommentAsSeenMutation);
+  const markCommentsAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const handleFocus = useCallback(() => {
     if (canCommitCommentSeen && !comment.seen) {
       void markCommentsAsSeen({

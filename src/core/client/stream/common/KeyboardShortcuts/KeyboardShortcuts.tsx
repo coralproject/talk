@@ -29,7 +29,7 @@ import {
   ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
-import MarkCommentAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
+import MarkCommentsAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
 import {
   COMMIT_SEEN_EVENT,
@@ -280,7 +280,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
   );
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
-  const markSeen = useMutation(MarkCommentAsSeenMutation);
+  const markSeen = useMutation(MarkCommentsAsSeenMutation);
   const [, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
     fragment KeyboardShortcuts_local on Local {
       keyboardShortcutsConfig {
