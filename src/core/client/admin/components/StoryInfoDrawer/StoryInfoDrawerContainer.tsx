@@ -4,13 +4,7 @@ import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
-import {
-  Flex,
-  HorizontalGutter,
-  Icon,
-  TextLink,
-  Timestamp,
-} from "coral-ui/components/v2";
+import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
 import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
@@ -25,24 +19,10 @@ export interface Props {
   story: StoryInfoDrawerContainer_story;
 }
 
-const MetaDataItem: FunctionComponent<{ val: any; icon: any }> = ({
-  val,
-  icon,
-}) => {
-  return (
-    <Flex direction="row" className={styles.metaDataItem}>
-      <div>{icon}</div>
-      <div>{val}</div>
-    </Flex>
-  );
-};
-
 const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
   onClose,
 }) => {
-  const { author, publishedAt } = story.metadata || {};
-
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
@@ -69,25 +49,6 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
               <StoryStatus
                 storyID={story.id}
                 currentStatus={story.status as GQLSTORY_STATUS}
-              />
-            )}
-          </Flex>
-          <Localized id="storyInfoDrawer-scrapedMetaData">
-            <span className={styles.sectionTitle}>Scraped Metadata</span>
-          </Localized>
-          <Flex className={styles.metaData} direction="column">
-            {author && (
-              <MetaDataItem
-                key="author"
-                val={author}
-                icon={<Icon size="sm">people</Icon>}
-              />
-            )}
-            {publishedAt && (
-              <MetaDataItem
-                key="publishedAt"
-                val={<Timestamp>{publishedAt}</Timestamp>}
-                icon={<Icon size="sm">calendar_today</Icon>}
               />
             )}
           </Flex>
