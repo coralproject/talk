@@ -16,6 +16,7 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
+import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import CLASSES from "coral-stream/classes";
 import {
   CloseMobileToolbarEvent,
@@ -452,6 +453,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
         } else {
           if (event.target) {
             const el = event.target as HTMLElement;
+
             if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
               return;
             }
@@ -467,6 +469,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       }
 
       if (data.ctrlKey || data.metaKey || data.altKey) {
+        return;
+      }
+
+      // Ignore when we are not intersecting.
+      if ("host" in root && !isElementIntersecting(root.host, renderWindow)) {
         return;
       }
 
@@ -491,7 +498,20 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
         });
       }
     },
-    [traverse, unmarkAll, zKeyEnabled]
+    [renderWindow, root, setLocal, traverse, unmarkAll, zKeyEnabled]
+  );
+
+  const handleWindowKeypress = useCallback(
+    (event: React.KeyboardEvent | KeyboardEvent) => {
+      // Ignore events inside shadow dom.
+      if ("host" in root) {
+        if (event.target === root.host) {
+          return;
+        }
+      }
+      return handleKeypress(event);
+    },
+    [handleKeypress, root]
   );
 
   const handleZKeyButton = useCallback(() => {
@@ -503,7 +523,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       },
     });
     traverse({ key: "z", reverse: false, source: "mobileToolbar" });
-  }, [traverse]);
+  }, [setLocal, traverse]);
 
   // Update button states after first render.
   useEffect(() => {
@@ -541,16 +561,18 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, updateButtonStates]);
+  }, [eventEmitter, traverse, updateButtonStates]);
 
   // Subscribe to keypress events.
   useEffect(() => {
-    renderWindow.addEventListener("keypress", handleKeypress);
+    renderWindow.addEventListener("keypress", handleWindowKeypress);
+    root.addEventListener("keypress", handleKeypress as any);
 
     return () => {
-      renderWindow.removeEventListener("keypress", handleKeypress);
+      renderWindow.removeEventListener("keypress", handleWindowKeypress);
+      root.removeEventListener("keypress", handleKeypress as any);
     };
-  }, [handleKeypress, renderWindow]);
+  }, [handleKeypress, handleWindowKeypress, renderWindow, root]);
 
   if (amp || toolbarClosed || !zKeyEnabled || !loggedIn) {
     return null;

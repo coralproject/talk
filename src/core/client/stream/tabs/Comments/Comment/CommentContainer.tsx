@@ -6,6 +6,7 @@ import React, {
   FunctionComponent,
   MouseEvent,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
@@ -53,6 +54,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
+import { CommentSeenContext } from "../commentSeen/CommentSeenContext";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
@@ -145,9 +147,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
-  const commentSeenEnabled = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.COMMENT_SEEN
-  );
+  const { enabled: commentSeenEnabled } = useContext(CommentSeenContext);
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);

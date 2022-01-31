@@ -12,7 +12,11 @@ import { MongoContext } from "coral-server/data/context";
 import { TenantNotFoundError } from "coral-server/errors";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import { TenantCache } from "coral-server/services/tenant/cache";
-import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import {
+  Request,
+  RequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 
 import ManifestLoader, { EntrypointLoader } from "../helpers/manifestLoader";
 
@@ -122,9 +126,23 @@ interface MountClientRouteOptions {
   mongo: MongoContext;
 }
 
+/** populate static config with request dependend data */
+const populateStaticConfig = (staticConfig: StaticConfig, req: Request) => {
+  const featureFlags =
+    req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
+    [];
+  const flattenReplies = req.coral.tenant?.flattenReplies || false;
+  return {
+    ...staticConfig,
+    featureFlags,
+    tenantDomain: req.coral.tenant?.domain,
+    flattenReplies,
+  };
+};
+
 const clientHandler = ({
   analytics,
-  staticConfig: config,
+  staticConfig,
   entrypointLoader,
   enableCustomCSS,
   defaultLocale,
@@ -135,10 +153,6 @@ const clientHandler = ({
   if (req.coral.tenant) {
     locale = req.coral.tenant.locale;
   }
-
-  const featureFlags =
-    req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
-    [];
 
   let entrypoint = await entrypointLoader();
   if (!entrypoint) {
@@ -153,20 +167,13 @@ const clientHandler = ({
     };
   }
 
-  const flattenReplies = req.coral.tenant?.flattenReplies || false;
-
   res.render(viewTemplate, {
     analytics,
-    staticURI: config.staticURI || "/",
+    staticURI: staticConfig.staticURI || "/",
     entrypoint,
     enableCustomCSS,
     locale,
-    config: {
-      ...config,
-      featureFlags,
-      tenantDomain: req.coral.tenant?.domain,
-      flattenReplies,
-    },
+    config: populateStaticConfig(staticConfig, req),
   });
 };
 
@@ -224,7 +231,7 @@ const createEmbedBootstrapHandler: (
     customFontsCSSURL: req.coral.tenant.customFontsCSSURL,
     defaultFontsCSSURL,
     disableDefaultFonts: Boolean(req.coral.tenant.disableDefaultFonts),
-    staticConfig,
+    staticConfig: populateStaticConfig(staticConfig, req),
   };
 
   res.json(data);
