@@ -4,7 +4,7 @@ import withAMPHeight from "./withAMPHeight";
 it("should listen to height", () => {
   const fakeEventEmitter = {
     on: Sinon.stub().callsFake((type: string, callback: () => void) => {
-      expect(type).toBe("height");
+      expect(type).toBe("heightChange");
       callback();
     }),
   };
