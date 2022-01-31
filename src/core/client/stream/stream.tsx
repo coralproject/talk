@@ -101,6 +101,7 @@ export async function attach(options: AttachOptions) {
     bundleConfig,
     eventEmitter: options.eventEmitter,
     refreshAccessTokenPromise,
+    staticConfig: options.staticConfig,
   });
 
   // Amount of initial css files to be loaded.
