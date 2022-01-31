@@ -539,11 +539,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       }
 
       if (loadMoreEvents.includes(e)) {
-        // Need to send new height to pym after more comments/replies load
-        // in instead of waiting for polling to update it
-
-        // TODO: (@cvle) pym no longer exist, we usually don't need this. However we might need a mechanism like this for amp?
-        // pym.sendHeight();
+        // Announce height change to embed to allow
+        // immediately updating amp iframe height
+        // instead of waiting for polling to update it
+        eventEmitter.emit("heightChange");
 
         // after more comments/replies have loaded, we want to traverse
         // to the next comment/reply based on the configuration
