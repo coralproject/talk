@@ -2,7 +2,6 @@ import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import { Environment, RecordSource } from "relay-runtime";
 
-import { parseQuery } from "coral-common/utils";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import { createRelayEnvironment } from "coral-framework/testHelpers";
 
@@ -39,7 +38,6 @@ it("Sets comment id", () => {
   };
   createRenderer().render(<OnEmbedSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
-  expect(parseQuery(location.search).commentID).toEqual(id);
 });
 
 it("Sets comment id to null when empty", () => {
@@ -56,5 +54,4 @@ it("Sets comment id to null when empty", () => {
   };
   createRenderer().render(<OnEmbedSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
-  expect(parseQuery(location.search).commentID).toBeUndefined();
 });

@@ -99,8 +99,10 @@ describe("Basic integration test", () => {
               "ready": Object {
                 "_listeners": [Function],
               },
-              "setCommentID": Object {
-                "_listeners": [Function],
+              "stream": Object {
+                "setCommentID": Object {
+                  "_listeners": [Function],
+                },
               },
             },
             "verboseMemoryLeak": false,
@@ -118,11 +120,12 @@ describe("Basic integration test", () => {
         }
       `);
     } finally {
-      server.restore();
       restoreConsole();
+      server.restore();
     }
   });
   it("should use canonical link", () => {
+    const restoreConsole = mockConsole();
     const server = fakeServer.create();
     try {
       server.respondImmediately = true;
@@ -145,6 +148,9 @@ describe("Basic integration test", () => {
       const CoralEmbedStream = Coral.createStreamEmbed({
         id: "basic-integration-test-id",
       });
+      expect(console.warn).not.toHaveBeenCalled();
+      expect(console.error).not.toHaveBeenCalled();
+      restoreConsole();
       CoralEmbedStream.render();
 
       const scriptElement = document.head.querySelector("script");
@@ -162,6 +168,7 @@ describe("Basic integration test", () => {
       expect(attachStub.called).toBe(true);
       expect(args && args.storyURL).toBe("http://localhost/canonical");
     } finally {
+      restoreConsole();
       server.restore();
     }
   });
@@ -181,6 +188,10 @@ describe("Basic integration test", () => {
           staticConfig: {},
         }),
       ]);
+      const link = document.createElement("link");
+      link.rel = "canonical";
+      link.href = "http://localhost/canonical";
+      document.head.appendChild(link);
       const CoralEmbedStream = Coral.createStreamEmbed({
         id: "basic-integration-test-id",
       });

@@ -245,13 +245,13 @@ exports[`renders configure advanced 1`] = `
                     <label
                       className="Label-root"
                     >
-                      Custom CSS Style Sheet URL for Font Faces
+                      Custom CSS Stylesheet URL for Font Faces
                     </label>
                     <p
                       className="HelperText-root"
                     >
-                      URL to a Custom CSS stylesheets that contains all @font-face
-definitions needed by above Stylesheet.
+                      URL to a custom CSS stylesheet that contains all @font-face
+definitions needed by above stylesheet.
                     </p>
                   </div>
                   <div
