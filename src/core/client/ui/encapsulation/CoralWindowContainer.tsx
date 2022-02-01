@@ -8,8 +8,9 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 /**
- * Coral Container for an App rendered into regular DOM.
- * Sets `id="coral"` and adds breakpoint classNames.
+ * Coral Entrypoint Container rendered into regular DOM.
+ * It's basically a div that sets `id="coral"`
+ * and adds breakpoint classNames.
  */
 const CoralWindowContainer: FunctionComponent<Props> = ({
   forwardRef,
