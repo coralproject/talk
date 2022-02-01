@@ -3,7 +3,6 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -20,7 +19,7 @@ const loadProfileContainer = () =>
   import("./ProfileContainer" /* webpackChunkName: "profile" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const proload = once((window: Window) =>
+const preload = once(() =>
   setTimeout(() => {
     void loadProfileContainer();
   }, 0)
@@ -32,15 +31,12 @@ interface Props {
   local: Local;
 }
 
-export const render = (
-  { error, props }: QueryRenderData<QueryTypes>,
-  window: Window
-) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  proload(window);
+  preload();
 
   if (props) {
     if (!props.viewer) {
@@ -80,7 +76,6 @@ export const render = (
 const ProfileQuery: FunctionComponent<Props> = ({
   local: { storyID, storyURL },
 }) => {
-  const { window } = useCoralContext();
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <QueryRenderer<QueryTypes>
@@ -105,7 +100,7 @@ const ProfileQuery: FunctionComponent<Props> = ({
         if (handleIncompleteAccount(data)) {
           return null;
         }
-        return render(data, window);
+        return render(data);
       }}
     />
   );

@@ -29,7 +29,7 @@ export interface Config {
   refreshAccessToken?: RefreshAccessTokenCallback;
   enableDeprecatedEvents?: boolean;
 
-  /** Allow setting className of body tag inside iframe */
+  /** Allow setting className of container inside iframe */
   containerClassName?: string;
   /** @deprecated use new option: `containerClassName` */
   bodyClassName?: string;

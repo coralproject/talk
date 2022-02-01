@@ -408,7 +408,7 @@ export default async function createManaged({
   // Potentially inject react-axe for runtime a11y checks.
   await potentiallyInjectAxe(window.location.href, browserInfo);
 
-  const reporter = createReporter(window, {
+  const reporter = createReporter({
     reporter: staticConfig?.reporter,
     reporterFeedbackPrompt,
   });

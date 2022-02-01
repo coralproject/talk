@@ -22,10 +22,10 @@ function createDevelopmentReporter() {
   });
 }
 
-function createReporter(
-  window: Window,
-  { reporter, reporterFeedbackPrompt = false }: Config = {}
-): ErrorReporter | undefined {
+function createReporter({
+  reporter,
+  reporterFeedbackPrompt = false,
+}: Config = {}): ErrorReporter | undefined {
   // If no reporter is configured, we don't have to do anything, or
   // use a custom reporter during development.
   if (!reporter) {

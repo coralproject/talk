@@ -12,7 +12,7 @@ const withSetCommentID = (
   streamEventEmitter: EventEmitter2
 ): CleanupCallback => {
   // Add the permalink comment id to the query.
-  streamEventEmitter.on("setCommentID", (id: string) => {
+  streamEventEmitter.on("stream.setCommentID", (id: string) => {
     const search = stringifyQuery({
       ...parseQuery(location.search),
       commentID: id || undefined,
@@ -28,7 +28,7 @@ const withSetCommentID = (
   // Send new commentID when history state changes.
   const sendSetCommentID = (e: Event) => {
     const commentID = getCurrentCommentID();
-    streamEventEmitter.emit("setCommentID", commentID || "");
+    streamEventEmitter.emit("embed.setCommentID", commentID || "");
   };
   window.addEventListener("popstate", sendSetCommentID);
 

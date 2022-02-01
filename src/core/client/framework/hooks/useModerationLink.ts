@@ -4,8 +4,7 @@ import getModerationLink, {
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 /**
- * usePrevious is a react hook that will return the
- * previous value.
+ * useModerationLink is a react hook that returns an url to moderation.
  */
 export default function useModerationLink<T>(options: Options): string {
   const { rootURL } = useCoralContext();

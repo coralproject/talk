@@ -10,7 +10,7 @@ import Entrypoints, { Entrypoint, RawEntrypoint } from "./entrypoints";
 /**
  * Sometimes webpack produces an invalid manifest with empty entrypoints.
  * We retry whenever we encounter this and usually webpack fixes this.
- * This is a hardlimit on how many retires we should do.
+ * This is a hardlimit on how many retries we should do.
  **/
 const INVALID_MANIFEST_MAX_RETRIES = 10;
 

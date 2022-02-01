@@ -37,7 +37,7 @@ Options object for `createStreamEmbed`:
 - `storyURL` - [string] _(optional)_: URL for the story. May alternately specify via `storyID` or allow Coral to scrape and determine automatically.
 - `accessToken` - [string] _(optional)_: Access token to log in a user via [SSO](/sso).
 - `refreshAccessToken` - [function] _(optional)_: Callback to obtain a new access token when the current one has expired. A parameter `nextAccessToken` is passed as the first argument that should be called with the next access token.
-- `containerClassName` - [string] _(optional)_: HTML class name to add to the container of the stream embed iframe for CSS targeting.
+- `containerClassName` - [string] _(optional)_: HTML class name to add to the container of the stream embed for CSS targeting.
 - `customCSSURL` - [string] _(optional)_: URL for a custom stylesheet to be included for this stream. To configure a custom stylesheet for _all_ streams, see advanced configuration options in the admin.
 - `customFontsCSSURL` - [string] _(optional)_: URL for a custom stylesheet with font-face definitions to be included for this stream. To configure a custom stylesheet for _all_ streams, see advanced configuration options in the admin.
 - `autoRender` - [boolean] _(optional)_: Render the comment stream automatically when the element is scrolled into the viewport

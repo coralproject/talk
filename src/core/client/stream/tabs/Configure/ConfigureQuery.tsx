@@ -3,7 +3,6 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -19,7 +18,7 @@ const loadConfigureContainer = () =>
   import("./ConfigureContainer" /* webpackChunkName: "configure" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preload = once((window: Window) =>
+const preload = once(() =>
   setTimeout(() => {
     void loadConfigureContainer();
   }, 0)
@@ -31,15 +30,12 @@ interface Props {
   local: Local;
 }
 
-export const render = (
-  { error, props }: QueryRenderData<QueryTypes>,
-  window: Window
-) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  preload(window);
+  preload();
 
   if (props) {
     if (!props.viewer) {
@@ -77,7 +73,6 @@ export const render = (
 const ConfigureQuery: FunctionComponent<Props> = ({
   local: { storyID, storyURL },
 }) => {
-  const { window } = useCoralContext();
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -98,7 +93,7 @@ const ConfigureQuery: FunctionComponent<Props> = ({
         storyURL,
       }}
       render={(data) => {
-        return render(data, window);
+        return render(data);
       }}
     />
   );

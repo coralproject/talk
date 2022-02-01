@@ -136,7 +136,7 @@ export const apolloGraphQLMiddleware = ({
   // Check request coming from known origin.
   const corsOptionsDelegate = createCorsOptionsDelegate(options.mongo);
 
-  // Get the GraphQL miqddleware.
+  // Get the GraphQL middleware.
   return server.getMiddleware({
     // Disable the health check endpoint, Coral does not use this endpoint and
     // instead uses the /api/health endpoint.

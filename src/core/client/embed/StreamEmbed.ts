@@ -81,7 +81,7 @@ export class StreamEmbed {
   private clearAutoPreload: OnIntersectCancellation | null = null;
   private config: StreamEmbedConfig;
   private element: HTMLElement;
-  private boostrapConfig?: EmbedBootstrapConfig;
+  private bootstrapConfig?: EmbedBootstrapConfig;
   private cssAssets: string[];
   private jsAssets: string[];
   private onBootstrapConfigLoaded: Array<() => void> = [];
@@ -150,7 +150,7 @@ export class StreamEmbed {
           this.element,
           () => {
             // Boostrap config is still loading, we'll wait and then preload.
-            if (!this.boostrapConfig) {
+            if (!this.bootstrapConfig) {
               this.runAfterBootstrapConfigLoaded(() => {
                 this.preloadAssets();
               });
@@ -186,22 +186,22 @@ export class StreamEmbed {
 
   /** This is called when BootstrapConfig ist Loaded */
   private onBootstrapConfigLoad(bootstrapConfig: EmbedBootstrapConfig) {
-    this.boostrapConfig = bootstrapConfig;
+    this.bootstrapConfig = bootstrapConfig;
 
     this.customCSSURL =
-      this.config.customCSSURL || this.boostrapConfig.customCSSURL;
+      this.config.customCSSURL || this.bootstrapConfig.customCSSURL;
     this.customFontsCSSURL =
-      this.config.customFontsCSSURL || this.boostrapConfig.customFontsCSSURL;
+      this.config.customFontsCSSURL || this.bootstrapConfig.customFontsCSSURL;
     this.disableDefaultFonts =
       this.config.disableDefaultFonts ||
-      this.boostrapConfig.disableDefaultFonts;
+      this.bootstrapConfig.disableDefaultFonts;
 
     // Parse css and js assets and incorporate staticURI.
     const prefix = ensureEndSlash(
       bootstrapConfig.staticConfig.staticURI || this.config.rootURL
     );
     if (bootstrapConfig.defaultFontsCSSURL) {
-      this.defaultFontCSSURL = prefix + bootstrapConfig.defaultFontsCSSURL;
+      this.defaultFontCSSURL = prefix + `${bootstrapConfig.defaultFontsCSSURL}`;
     }
     this.cssAssets = bootstrapConfig.assets.css.map((a) => prefix + `${a.src}`);
     this.jsAssets = bootstrapConfig.assets.js.map((a) => prefix + `${a.src}`);
@@ -344,7 +344,7 @@ export class StreamEmbed {
     if (!window.CoralStream?.attach) {
       throw new Error("CoralStream Script not loaded");
     }
-    if (!this.boostrapConfig) {
+    if (!this.bootstrapConfig) {
       throw new Error("Bootstrap config not loaded");
     }
     void window.CoralStream.attach({
@@ -360,11 +360,11 @@ export class StreamEmbed {
       amp: this.config.amp,
       element: this.element,
       graphQLSubscriptionURI: this.config.graphQLSubscriptionURI,
-      staticConfig: this.boostrapConfig.staticConfig,
+      staticConfig: this.bootstrapConfig.staticConfig,
       customCSSURL: this.customCSSURL,
       customFontsCSSURL: this.customFontsCSSURL,
       disableDefaultFonts: this.disableDefaultFonts,
-      locale: this.boostrapConfig.locale,
+      locale: this.bootstrapConfig.locale,
       containerClassName: this.config.containerClassName,
       // Add the version to the query string to ensure that every new version of
       // the stream will cause stream pages to cache bust.
@@ -378,7 +378,7 @@ export class StreamEmbed {
       return;
     }
     // Boostrap config is still loading, we'll wait and then render.
-    if (!this.boostrapConfig) {
+    if (!this.bootstrapConfig) {
       this.runAfterBootstrapConfigLoaded(() => {
         this.render();
       });

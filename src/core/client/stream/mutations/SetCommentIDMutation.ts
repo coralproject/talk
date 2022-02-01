@@ -19,7 +19,7 @@ export async function commit(
 
     if (eventEmitter) {
       // This sets the comment id on the parent url.
-      eventEmitter.emit("setCommentID", input.id || "");
+      eventEmitter.emit("stream.setCommentID", input.id || "");
     }
   });
 }

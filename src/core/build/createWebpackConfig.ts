@@ -485,7 +485,6 @@ export default function createWebpackConfig(
                   loader: require.resolve("style-loader"),
                   options: {
                     injectType: "linkTag",
-                    /* , insert: insertLinkTag */
                   },
                 },
                 {

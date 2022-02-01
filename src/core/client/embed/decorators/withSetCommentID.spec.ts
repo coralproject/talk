@@ -8,7 +8,7 @@ it("should add commentID", () => {
   const previousState = window.history.state;
   const fakeStreamEventEmitter = {
     on: (eventName: string, callback: (id: string) => void) => {
-      if (eventName === "setCommentID") {
+      if (eventName === "stream.setCommentID") {
         callback("comment-id");
       }
     },
@@ -29,7 +29,7 @@ it("should remove commentID", () => {
   );
   const fakeStreamEventEmitter = {
     on: (eventName: string, callback: () => void) => {
-      if (eventName === "setCommentID") {
+      if (eventName === "stream.setCommentID") {
         callback();
       }
     },
@@ -50,7 +50,7 @@ it("should send commentID over eventEmitter when history changes", () => {
   );
   const fakeEventEmitter = {
     on: sinon.stub(),
-    emit: sinon.mock().once().withArgs("setCommentID", "comment-id"),
+    emit: sinon.mock().once().withArgs("embed.setCommentID", "comment-id"),
   };
   const cleanup = withSetCommentID(fakeEventEmitter as any);
   simulant.fire(window as any, "popstate");

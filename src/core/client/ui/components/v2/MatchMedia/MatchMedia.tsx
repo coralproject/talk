@@ -129,7 +129,7 @@ function useShadowRootMediaMatcher(
   }, [shadowRoot, minWidth, maxWidth]);
 
   const minWidthChanged = prevMinWidth !== null && prevMinWidth !== minWidth;
-  const maxWidthChanged = prevMaxWidth !== null && prevMaxWidth !== minWidth;
+  const maxWidthChanged = prevMaxWidth !== null && prevMaxWidth !== maxWidth;
   const queryChanged = minWidthChanged || maxWidthChanged;
 
   if (resultRef.current === undefined || queryChanged) {

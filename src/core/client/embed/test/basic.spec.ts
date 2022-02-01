@@ -165,7 +165,7 @@ describe("Basic integration test", () => {
       server.restore();
     }
   });
-  it("should remove iframe", () => {
+  it("should remove embed", () => {
     const server = fakeServer.create();
     try {
       server.respondImmediately = true;

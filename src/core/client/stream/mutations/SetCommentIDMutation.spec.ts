@@ -39,7 +39,7 @@ it("Should call setCommentID in eventEmitter", async () => {
   const id = "comment2-id";
   const context = {
     eventEmitter: {
-      emit: sinon.mock().once().withArgs("setCommentID", id),
+      emit: sinon.mock().once().withArgs("stream.setCommentID", id),
     },
     window,
     renderWindow: window,
@@ -53,7 +53,7 @@ it("Should call setCommentID in eventEmitter", async () => {
 it("Should call setCommentID in eventEmitter with empty id", async () => {
   const context = {
     eventEmitter: {
-      emit: sinon.mock().once().withArgs("setCommentID", ""),
+      emit: sinon.mock().once().withArgs("stream.setCommentID", ""),
     },
     window,
     renderWindow: window,
