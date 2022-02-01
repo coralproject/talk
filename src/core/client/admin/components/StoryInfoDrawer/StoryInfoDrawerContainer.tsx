@@ -7,8 +7,11 @@ import { GQLSTORY_STATUS } from "coral-framework/schema";
 import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
+import { StoryInfoDrawerContainer_settings } from "coral-admin/__generated__/StoryInfoDrawerContainer_settings.graphql";
 import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
+import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
+import ModerateStoryButton from "./ModerateStoryButton";
 import RescrapeStory from "./RescrapeStory";
 import styles from "./StoryInfoDrawerContainer.css";
 import StorySettingsContainer from "./StorySettingsContainer";
@@ -17,10 +20,14 @@ import StoryStatus from "./StoryStatus";
 export interface Props {
   onClose: () => void;
   story: StoryInfoDrawerContainer_story;
+  viewer: StoryInfoDrawerContainer_viewer;
+  settings: StoryInfoDrawerContainer_settings;
 }
 
 const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
+  viewer,
+  settings,
   onClose,
 }) => {
   return (
@@ -51,6 +58,11 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
                 currentStatus={story.status as GQLSTORY_STATUS}
               />
             )}
+            <ModerateStoryButton
+              story={story}
+              settings={settings}
+              viewer={viewer}
+            />
           </Flex>
           <RescrapeStory storyID={story.id} />
           <StorySettingsContainer
@@ -77,9 +89,20 @@ const enhanced = withFragmentContainer<Props>({
         author
         publishedAt
       }
+      ...ModerateStoryButton_story
       settings {
         ...StorySettingsContainer_storySettings
       }
+    }
+  `,
+  viewer: graphql`
+    fragment StoryInfoDrawerContainer_viewer on User {
+      ...ModerateStoryButton_viewer
+    }
+  `,
+  settings: graphql`
+    fragment StoryInfoDrawerContainer_settings on Settings {
+      ...ModerateStoryButton_settings
     }
   `,
 })(StoryInfoDrawerContainer);

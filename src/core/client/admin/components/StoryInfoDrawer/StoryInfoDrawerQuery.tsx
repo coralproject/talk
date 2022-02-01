@@ -25,12 +25,22 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
           story(id: $storyID) {
             ...StoryInfoDrawerContainer_story
           }
+          settings {
+            ...StoryInfoDrawerContainer_settings
+          }
+          viewer {
+            ...StoryInfoDrawerContainer_viewer
+          }
         }
       `}
       variables={{ storyID }}
       render={({ props, error }: QueryRenderData<QueryTypes>) => {
         if (error) {
           return <QueryError error={error} />;
+        }
+
+        if (!props?.viewer) {
+          return <h1>TODO NO VIEWER?!</h1>;
         }
 
         if (!props || !props.story) {
@@ -42,7 +52,12 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
         }
 
         return (
-          <StoryInfoDrawerContainer onClose={onClose} story={props.story} />
+          <StoryInfoDrawerContainer
+            onClose={onClose}
+            story={props.story}
+            settings={props.settings}
+            viewer={props.viewer}
+          />
         );
       }}
     />

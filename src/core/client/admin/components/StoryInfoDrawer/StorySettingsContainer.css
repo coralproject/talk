@@ -21,8 +21,13 @@
 }
 
 .setting {
-  padding: var(--spacing-3) 0;
+  padding: var(--spacing-1) 0;
   align-items: center;
+}
+
+.submit {
+  width: 100px;
+  margin-top: var(--spacing-1);
 }
 
 .setting > input {
