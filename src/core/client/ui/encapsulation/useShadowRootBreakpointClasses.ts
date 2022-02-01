@@ -1,36 +1,8 @@
-import breakpoints from "coral-ui/theme/breakpoints";
 import { useEffect, useState } from "react";
 
+import convWidth2ClassName from "../helpers/convWidth2ClassName";
 import onShadowRootWidthChange from "./onShadowRootWidthChange";
 import useShadowRoot from "./useShadowRoot";
-
-function convWidth2ClassName(width: number | null) {
-  if (width === null) {
-    return "";
-  }
-  // Not yet fully loaded.
-  if (width < 10) {
-    return "";
-  }
-  const result: string[] = [];
-  const keys = Object.keys(breakpoints);
-  keys.forEach((key: keyof typeof breakpoints) => {
-    const bpWidth = breakpoints[key];
-    if (width > bpWidth) {
-      result.push(`coral-width-gt-${key}`);
-    }
-    if (width >= bpWidth) {
-      result.push(`coral-width-gte-${key}`);
-    }
-    if (width < bpWidth) {
-      result.push(`coral-width-lt-${key}`);
-    }
-    if (width <= bpWidth) {
-      result.push(`coral-width-lte-${key}`);
-    }
-  });
-  return result.join(" ");
-}
 
 /**
  * Return classNames that represents current breakpoint status

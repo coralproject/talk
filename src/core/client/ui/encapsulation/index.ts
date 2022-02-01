@@ -6,4 +6,10 @@ export {
   default as onShadowRootWidthChange,
   ShadowRootWidthChangeCallback,
 } from "./onShadowRootWidthChange";
-export { default as useShadowRootBreakpointClasses } from "./useShadowRootBreakpointClasses";
+export { default as ReactShadowRoot } from "./ReactShadowRoot";
+export {
+  default as EncapsulationContext,
+  useEncapsulationContext,
+  CSSAsset,
+} from "./EncapsulationContext";
+export { default as CoralWindowContainer } from "./CoralWindowContainer";

@@ -17,10 +17,7 @@ export default {
   appSrc: resolveSrc("."),
   appTsconfig: resolveSrc("core/client/tsconfig.json"),
   appLocales: resolveSrc("locales"),
-  appThemeVariables: resolveSrc("core/client/ui/theme/variables.ts"),
   appSassLikeVariables: resolveSrc("core/client/ui/theme/sassLikeVariables.ts"),
-  appThemeStreamCSS: resolveSrc("core/client/ui/theme/stream.css"),
-  appThemeAdminCSS: resolveSrc("core/client/ui/theme/admin.css"),
   appThemeMixinsCSS: resolveSrc("core/client/ui/theme/mixins.css"),
 
   appStreamLocalesTemplate: resolveSrc("core/client/stream/locales.ts"),

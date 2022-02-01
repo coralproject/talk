@@ -7,7 +7,7 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 import CLASSES from "coral-stream/classes";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
-import { useShadowRootOrDocument } from "coral-ui/shadow";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 

@@ -17,3 +17,4 @@ export { default as startsWith } from "./startsWith";
 export { default as stringifyQuery } from "./stringifyQuery";
 export { default as roundRating } from "./roundRating";
 export { default as getFirstResolvingPromise } from "./getFirstResolvingPromise";
+export { default as waitAndRequestIdleCallback } from "./waitAndRequestIdleCallback";

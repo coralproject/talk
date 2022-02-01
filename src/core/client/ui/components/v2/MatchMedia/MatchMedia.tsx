@@ -9,11 +9,11 @@ import Responsive, { MediaQueryMatchers } from "react-responsive";
 
 import usePrevious from "coral-framework/hooks/usePrevious";
 import { UIContext } from "coral-ui/components/v2";
-import { useShadowRoot } from "coral-ui/shadow";
-import getShadowRootWidth from "coral-ui/shadow/getShadowRootWidth";
+import { useShadowRoot } from "coral-ui/encapsulation";
+import getShadowRootWidth from "coral-ui/encapsulation/getShadowRootWidth";
 import onShadowRootWidthChange, {
   ShadowRootWidthChangeCallback,
-} from "coral-ui/shadow/onShadowRootWidthChange";
+} from "coral-ui/encapsulation/onShadowRootWidthChange";
 import breakpoints from "coral-ui/theme/breakpoints";
 import { PropTypesOf } from "coral-ui/types";
 

@@ -4,7 +4,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
-import { useShadowRootOrDocument } from "coral-ui/shadow";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import styles from "./AddACommentButton.css";
 

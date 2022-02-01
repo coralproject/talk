@@ -7,14 +7,17 @@ import React, {
 } from "react";
 import ReactDOM from "react-dom";
 
+import waitAndRequestIdleCallback from "coral-common/utils/waitAndRequestIdleCallback";
 import {
   CoralReactContext,
   useCoralContext,
 } from "coral-framework/lib/bootstrap";
 import { getUIContextPropsFromCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { UIContext } from "coral-ui/components/v2";
+import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
+import { useEncapsulationContext } from "coral-ui/encapsulation/EncapsulationContext";
 
-import { useEncapsulationContext } from "./EncapsulationContext";
+const HEIGHT_POLLING_INTERVAL = 200;
 
 interface TargetPortalProps {
   target: Element;
@@ -86,7 +89,10 @@ const IframeEncapsulation: FunctionComponent<IframePortalProps> = (props) => {
     if (ref) {
       const callback = () => {
         setHeight(ref.getBoundingClientRect().height);
-        pollingTimeoutRef.current = setTimeout(callback, 100);
+        pollingTimeoutRef.current = waitAndRequestIdleCallback(
+          callback,
+          HEIGHT_POLLING_INTERVAL
+        );
       };
       callback();
     }
@@ -103,8 +109,7 @@ const IframeEncapsulation: FunctionComponent<IframePortalProps> = (props) => {
       ></iframe>
       {target && (
         <TargetPortal target={target}>
-          <div
-            id="coral"
+          <CoralWindowContainer
             className={encapsulation.containerClassName}
             style={encapsulation.style}
             ref={handleContainerRef}
@@ -119,7 +124,7 @@ const IframeEncapsulation: FunctionComponent<IframePortalProps> = (props) => {
               <link key={asset.href} href={asset.href} rel="stylesheet" />
             ))}
             {props.children}
-          </div>
+          </CoralWindowContainer>
         </TargetPortal>
       )}
     </>

@@ -25,7 +25,7 @@ import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
 import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
-import { useShadowRootOrDocument } from "coral-ui/shadow";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { PermalinkViewContainer_comment as CommentData } from "coral-stream/__generated__/PermalinkViewContainer_comment.graphql";
 import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__generated__/PermalinkViewContainer_settings.graphql";

@@ -1,21 +1,9 @@
-import cn from "classnames";
 import React, { FunctionComponent, useMemo } from "react";
 import DefaultReactShadow from "react-shadow";
 
-import useShadowRoot from "coral-ui/shadow/useShadowRoot";
-import useShadowRootBreakpointClasses from "coral-ui/shadow/useShadowRootBreakpointClasses";
-
+import CoralShadowRootContainer from "./CoralShadowRootContainer";
 import { useEncapsulationContext } from "./EncapsulationContext";
-
-/**
- * Div with applied breakpoint classNames.
- */
-const DivWithBreakpointClasses: FunctionComponent<React.HTMLAttributes<
-  HTMLDivElement
->> = (props) => {
-  const className = useShadowRootBreakpointClasses();
-  return <div {...props} className={cn(props.className, className)} />;
-};
+import useShadowRoot from "./useShadowRoot";
 
 interface Props {
   /**
@@ -75,8 +63,7 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
           />
         ))}
       <ReactShadow.div>
-        <DivWithBreakpointClasses
-          id="coral"
+        <CoralShadowRootContainer
           className={encapsulation.containerClassName}
           style={style}
         >
@@ -97,7 +84,7 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
             />
           ))}
           {props.children}
-        </DivWithBreakpointClasses>
+        </CoralShadowRootContainer>
       </ReactShadow.div>
     </>
   );

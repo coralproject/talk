@@ -8,7 +8,7 @@ import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabM
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
-import { useShadowRootOrDocument } from "coral-ui/shadow";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./CommentsLinks.css";

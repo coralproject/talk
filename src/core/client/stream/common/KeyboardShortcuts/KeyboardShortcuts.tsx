@@ -39,7 +39,7 @@ import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnable
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
-import { useShadowRootOrDocument } from "coral-ui/shadow";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 

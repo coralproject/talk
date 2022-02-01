@@ -26,7 +26,7 @@ import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
-import { useShadowRootOrDocument } from "coral-ui/shadow";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
 import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
