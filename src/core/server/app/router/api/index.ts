@@ -65,6 +65,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Configure the GraphQL route middleware.
   router.use(
     "/graphql",
+    corsWhitelisted(app.mongo),
     authenticate(options.passport),
     jsonMiddleware(app.config.get("max_request_size")),
     persistedQueryMiddleware(app)
