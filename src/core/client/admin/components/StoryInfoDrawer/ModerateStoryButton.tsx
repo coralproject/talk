@@ -1,12 +1,11 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { Button } from "coral-ui/components/v3/Button/Button";
 import { getModerationLink } from "coral-framework/helpers";
-import { withFragmentContainer, useLocal } from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
+import { Button } from "coral-ui/components/v3/Button/Button";
 
 import { ModerateStoryButton_local } from "coral-admin/__generated__/ModerateStoryButton_local.graphql";
 import { ModerateStoryButton_settings } from "coral-admin/__generated__/ModerateStoryButton_settings.graphql";
@@ -24,7 +23,7 @@ export interface Props {
 const ModerateStoryButton: FunctionComponent<Props> = ({
   settings,
   story: { id, isArchived, isArchiving, canModerate },
-  viewer
+  viewer,
 }) => {
   const [{ accessToken }] = useLocal<ModerateStoryButton_local>(graphql`
     fragment ModerateStoryButton_local on Local {
@@ -69,7 +68,7 @@ const ModerateStoryButton: FunctionComponent<Props> = ({
       </Button>
     </Localized>
   );
-}
+};
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
@@ -98,7 +97,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerateStoryButton_viewer on User {
       role
     }
-  `
+  `,
 })(ModerateStoryButton);
 
 export default enhanced;
