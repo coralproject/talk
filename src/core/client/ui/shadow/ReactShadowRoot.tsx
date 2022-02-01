@@ -23,11 +23,19 @@ interface Props {
   cssAssets?: CSSAsset[];
   /** CSS assets to be added at the end */
   customCSSAssets?: CSSAsset[];
+  /** Fonts CSS assets to be added to the light dom */
+  fontsCSSAssets?: CSSAsset[];
   /**
    * Apply styling to the container. One usecase is to hide the container before CSS
    * is loaded to avoid unstyled content
    */
   style?: React.CSSProperties;
+}
+
+const ShadowRootDerivedPropsContext = createContext<Props>({});
+
+export function useShadowRootDerivedProps() {
+  return useContext(ShadowRootDerivedPropsContext);
 }
 
 /** Props for the `ReactShadowRootDerived` Component */
@@ -41,8 +49,6 @@ interface DerivedProps {
    */
   modal?: boolean;
 }
-
-const ShadowRootDerivedPropsContext = createContext<Props>({});
 
 /**
  * Div with applied breakpoint classNames.
@@ -63,7 +69,7 @@ const DivWithBreakpointClasses: FunctionComponent<React.HTMLAttributes<
 export const ReactShadowRootDerived: FunctionComponent<DerivedProps> = (
   props
 ) => {
-  const derivedProps = useContext(ShadowRootDerivedPropsContext);
+  const derivedProps = useShadowRootDerivedProps();
   const ReactShadow = derivedProps.Root || DefaultReactShadow;
   const cssAssets = derivedProps.cssAssets || [];
   const customCSSAssets = derivedProps.customCSSAssets || [];
@@ -116,6 +122,15 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
   }
   return (
     <ShadowRootDerivedPropsContext.Provider value={props}>
+      {props.fontsCSSAssets &&
+        props.fontsCSSAssets.map((asset) => (
+          <link
+            key={asset.href}
+            href={asset.href}
+            onLoad={asset.onLoad}
+            rel="stylesheet"
+          />
+        ))}
       <ReactShadowRootDerived callOnLoad modal={false}>
         {props.children}
       </ReactShadowRootDerived>

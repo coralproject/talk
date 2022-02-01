@@ -43,6 +43,7 @@ export interface AttachOptions {
   staticConfig: StaticConfig;
   customCSSURL?: string;
   customFontsCSSURL?: string;
+  defaultFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   containerClassName?: string;
 }
@@ -106,10 +107,14 @@ export async function attach(options: AttachOptions) {
 
   // Amount of initial css files to be loaded.
   let initialCSSFileNumber = options.cssAssets.length;
+
   if (options.customCSSURL) {
     initialCSSFileNumber++;
   }
   if (options.customFontsCSSURL) {
+    initialCSSFileNumber++;
+  }
+  if (options.defaultFontsCSSURL) {
     initialCSSFileNumber++;
   }
   if (!options.disableDefaultFonts) {
@@ -135,6 +140,24 @@ export async function attach(options: AttachOptions) {
     const [shadowCSSAssets, setShadowCSSAssets] = useState<CSSAsset[]>(
       options.cssAssets.map((asset) => ({ href: asset, onLoad: handleCSSLoad }))
     );
+
+    // CSS assets to be loaded inside of the shadow dom but after all other css assets.
+    const fontsCSSAssets: CSSAsset[] = useMemo(() => {
+      const assets: CSSAsset[] = [];
+      if (options.defaultFontsCSSURL) {
+        assets.push({
+          href: options.defaultFontsCSSURL,
+          onLoad: handleCSSLoad,
+        });
+      }
+      if (options.customFontsCSSURL) {
+        assets.push({
+          href: options.customFontsCSSURL,
+          onLoad: handleCSSLoad,
+        });
+      }
+      return assets;
+    }, [handleCSSLoad]);
 
     // CSS assets to be loaded inside of the shadow dom but after all other css assets.
     const customShadowCSSAssets: CSSAsset[] = useMemo(() => {
@@ -182,18 +205,11 @@ export async function attach(options: AttachOptions) {
     }, [handleCSSLoad]);
     return (
       <>
-        {// Fonts must be loaded outside of the shadow dom.
-        options.customFontsCSSURL && (
-          <link
-            href={options.customFontsCSSURL}
-            onLoad={handleCSSLoad}
-            rel="stylesheet"
-          />
-        )}
         <ReactShadowRoot
           Root={EmotionShadowRoot}
           cssAssets={shadowCSSAssets}
           customCSSAssets={customShadowCSSAssets}
+          fontsCSSAssets={fontsCSSAssets}
           containerClassName={options.containerClassName}
           style={isCSSLoaded ? undefined : hideStyle}
         >

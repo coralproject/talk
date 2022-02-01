@@ -369,6 +369,7 @@ export class StreamEmbed {
       // Add the version to the query string to ensure that every new version of
       // the stream will cause stream pages to cache bust.
       version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
+      defaultFontsCSSURL: this.bootstrapConfig.defaultFontsCSSURL,
     });
   }
 

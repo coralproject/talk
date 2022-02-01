@@ -74,6 +74,7 @@ describe("Basic integration test", () => {
           ],
           "customCSSURL": undefined,
           "customFontsCSSURL": undefined,
+          "defaultFontsCSSURL": undefined,
           "disableDefaultFonts": undefined,
           "element": <div
             id="basic-integration-test-id"
