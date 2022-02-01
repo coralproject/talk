@@ -23,6 +23,10 @@ interface Props {
   cssAssets?: CSSAsset[];
   /** CSS assets to be added at the end */
   customCSSAssets?: CSSAsset[];
+  /**
+   * Apply styling to the container. One usecase is to hide the container before CSS
+   * is loaded to avoid unstyled content
+   */
   style?: React.CSSProperties;
 }
 
