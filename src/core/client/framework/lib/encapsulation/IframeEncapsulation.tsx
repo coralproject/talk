@@ -2,6 +2,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import ReactDOM from "react-dom";
@@ -12,7 +13,8 @@ import {
 } from "coral-framework/lib/bootstrap";
 import { getUIContextPropsFromCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { UIContext } from "coral-ui/components/v2";
-import { useShadowRootDerivedProps } from "coral-ui/shadow/ReactShadowRoot";
+
+import { useEncapsulationContext } from "./EncapsulationContext";
 
 interface TargetPortalProps {
   target: Element;
@@ -48,11 +50,14 @@ interface IframePortalProps {
   children?: React.ReactNode;
 }
 
-const IframePortal: FunctionComponent<IframePortalProps> = (props) => {
-  const derivedProps = useShadowRootDerivedProps();
-  const cssAssets = derivedProps.cssAssets || [];
-  const fontsCSSAssets = derivedProps.fontsCSSAssets || [];
-  const customCSSAssets = derivedProps.customCSSAssets || [];
+/**
+ * Sets up Iframe encapsulation.
+ */
+const IframeEncapsulation: FunctionComponent<IframePortalProps> = (props) => {
+  const encapsulation = useEncapsulationContext();
+  const cssAssets = encapsulation.cssAssets || [];
+  const fontsCSSAssets = encapsulation.fontsCSSAssets || [];
+  const customCSSAssets = encapsulation.customCSSAssets || [];
   const [target, setTarget] = useState<Element | null>(null);
   const handleRef = useCallback((ref: HTMLIFrameElement | null) => {
     if (ref) {
@@ -70,6 +75,22 @@ const IframePortal: FunctionComponent<IframePortalProps> = (props) => {
       }
     }
   }, []);
+
+  const [height, setHeight] = useState(0);
+  const pollingTimeoutRef = useRef<any>(null);
+  const handleContainerRef = (ref: HTMLDivElement | null) => {
+    if (pollingTimeoutRef.current) {
+      clearTimeout(pollingTimeoutRef.current);
+      pollingTimeoutRef.current = null;
+    }
+    if (ref) {
+      const callback = () => {
+        setHeight(ref.getBoundingClientRect().height);
+        pollingTimeoutRef.current = setTimeout(callback, 100);
+      };
+      callback();
+    }
+  };
   return (
     <>
       <iframe
@@ -78,13 +99,15 @@ const IframePortal: FunctionComponent<IframePortalProps> = (props) => {
         ref={handleRef}
         frameBorder={0}
         width="100%"
+        height={height}
       ></iframe>
       {target && (
         <TargetPortal target={target}>
           <div
             id="coral"
-            className={derivedProps.containerClassName}
-            style={derivedProps.style}
+            className={encapsulation.containerClassName}
+            style={encapsulation.style}
+            ref={handleContainerRef}
           >
             {fontsCSSAssets.map((asset) => (
               <link key={asset.href} href={asset.href} rel="stylesheet" />
@@ -103,4 +126,4 @@ const IframePortal: FunctionComponent<IframePortalProps> = (props) => {
   );
 };
 
-export default IframePortal;
+export default IframeEncapsulation;

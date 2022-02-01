@@ -19,12 +19,11 @@ import React, {
 
 import { createSanitize } from "coral-common/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
+import IframeEncapsulation from "coral-framework/lib/encapsulation/IframeEncapsulation";
 import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components/v2";
-import { useInsideShadowRoot } from "coral-ui/shadow";
 import { PropTypesOf } from "coral-ui/types";
 
-import IframePortal from "./IframePortal";
 import RTEButton from "./RTEButton";
 import Sarcasm from "./Sarcasm";
 
@@ -180,7 +179,6 @@ const RTE: FunctionComponent<Props> = (props) => {
   } = props;
 
   const { window } = useCoralContext();
-  const insideShadowRoot = useInsideShadowRoot();
   const sanitizeToDOMFragment = useMemo(() => {
     return createSanitizeToDOMFragment(window, features);
   }, [features, window]);
@@ -315,11 +313,11 @@ const RTE: FunctionComponent<Props> = (props) => {
     </div>
   );
 
-  // Test environment doesn't have a shadow root.
-  if (!insideShadowRoot) {
+  // Don't make things harder in test env.
+  if (process.env.NODE_ENV === "test") {
     return elementTree;
   }
-  return <IframePortal>{elementTree}</IframePortal>;
+  return <IframeEncapsulation>{elementTree}</IframeEncapsulation>;
 };
 
 export default RTE;

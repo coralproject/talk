@@ -88,7 +88,7 @@ export class StreamEmbed {
   private customCSSURL?: string;
   private customFontsCSSURL?: string;
   private disableDefaultFonts?: boolean;
-  private defaultFontCSSURL?: string;
+  private defaultFontsCSSURL?: string;
 
   constructor(config: StreamEmbedConfig) {
     this.config = config;
@@ -201,7 +201,8 @@ export class StreamEmbed {
       bootstrapConfig.staticConfig.staticURI || this.config.rootURL
     );
     if (bootstrapConfig.defaultFontsCSSURL) {
-      this.defaultFontCSSURL = prefix + `${bootstrapConfig.defaultFontsCSSURL}`;
+      this.defaultFontsCSSURL =
+        prefix + `${bootstrapConfig.defaultFontsCSSURL}`;
     }
     this.cssAssets = bootstrapConfig.assets.css.map((a) => prefix + `${a.src}`);
     this.jsAssets = bootstrapConfig.assets.js.map((a) => prefix + `${a.src}`);
@@ -253,8 +254,8 @@ export class StreamEmbed {
 
   private _preloadCSSAssets() {
     const assets: string[] = [];
-    if (this.defaultFontCSSURL && !this.disableDefaultFonts) {
-      assets.push(this.defaultFontCSSURL);
+    if (this.defaultFontsCSSURL && !this.disableDefaultFonts) {
+      assets.push(this.defaultFontsCSSURL);
     }
     if (this.customFontsCSSURL) {
       assets.push(this.customFontsCSSURL);
@@ -369,7 +370,7 @@ export class StreamEmbed {
       // Add the version to the query string to ensure that every new version of
       // the stream will cause stream pages to cache bust.
       version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
-      defaultFontsCSSURL: this.bootstrapConfig.defaultFontsCSSURL,
+      defaultFontsCSSURL: this.defaultFontsCSSURL,
     });
   }
 

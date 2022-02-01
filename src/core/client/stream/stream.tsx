@@ -15,7 +15,11 @@ import { parseQuery } from "coral-common/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
 import { createManaged } from "coral-framework/lib/bootstrap";
 import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createManaged";
-import ReactShadowRoot, { CSSAsset } from "coral-ui/shadow/ReactShadowRoot";
+import {
+  CSSAsset,
+  EncapsulationContext,
+  ReactShadowRoot,
+} from "coral-framework/lib/encapsulation";
 
 import AppContainer from "./App";
 import { createInitLocalState } from "./local";
@@ -203,21 +207,27 @@ export async function attach(options: AttachOptions) {
         handleCSSLoad();
       });
     }, [handleCSSLoad]);
+
+    const encapsulationContext = useMemo(
+      () => ({
+        ReactShadowRoot: EmotionShadowRoot,
+        containerClassName: options.containerClassName,
+        cssAssets: shadowCSSAssets,
+        customCSSAssets: customShadowCSSAssets,
+        fontsCSSAssets,
+        style: isCSSLoaded ? undefined : hideStyle,
+      }),
+      [shadowCSSAssets, customShadowCSSAssets, fontsCSSAssets, isCSSLoaded]
+    );
+
     return (
-      <>
-        <ReactShadowRoot
-          Root={EmotionShadowRoot}
-          cssAssets={shadowCSSAssets}
-          customCSSAssets={customShadowCSSAssets}
-          fontsCSSAssets={fontsCSSAssets}
-          containerClassName={options.containerClassName}
-          style={isCSSLoaded ? undefined : hideStyle}
-        >
+      <EncapsulationContext.Provider value={encapsulationContext}>
+        <ReactShadowRoot loadFonts>
           <ManagedCoralContextProvider>
             <AppContainer />
           </ManagedCoralContextProvider>
         </ReactShadowRoot>
-      </>
+      </EncapsulationContext.Provider>
     );
   };
 
