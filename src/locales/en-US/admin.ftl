@@ -1433,7 +1433,7 @@ stories-status-popover =
   .description = A dropdown to change the story status
 
 storyInfoDrawer-rescrapeTriggered = Triggered
-storyInfoDrawer-triggerRescrape = Rescrape Story Metadata
+storyInfoDrawer-triggerRescrape = Rescrape Metadata
 storyInfoDrawer-title = Story Details
 storyInfoDrawer-titleNotAvailable = Story title not available
 storyInfoDrawer-authorNotAvailable = Author not available
@@ -1442,7 +1442,7 @@ storyInfoDrawer-scrapedMetaData = Scraped metadata
 storyInfoDrawer-configure = Configure
 storyInfoDrawer-storyStatus-open = Open
 storyInfoDrawer-storyStatus-closed = Closed
-storyInfoDrawer-moderateStory = Moderate Story
+storyInfoDrawer-moderateStory = Moderate
 storyInfoDrawerSettings-premodLinksEnable = Pre-moderate comments containing links
 storyInfoDrawerSettings-premodCommentsEnable = Pre-moderate all comments
 storyInfoDrawerSettings-moderation = Moderation

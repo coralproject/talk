@@ -12,7 +12,7 @@ import { ModerateStoryButton_settings } from "coral-admin/__generated__/Moderate
 import { ModerateStoryButton_story } from "coral-admin/__generated__/ModerateStoryButton_story.graphql";
 import { ModerateStoryButton_viewer } from "coral-admin/__generated__/ModerateStoryButton_viewer.graphql";
 
-import * as styles from "./ModerateStoryButton.css";
+import styles from "./ModerateStoryButton.css";
 
 export interface Props {
   settings: ModerateStoryButton_settings;

@@ -35,7 +35,7 @@ const ScrapeStory: FunctionComponent<Props> = ({ storyID }) => {
           </Localized>
         ) : (
           <Localized id="storyInfoDrawer-triggerRescrape">
-            Rescrape Story Metadata
+            Rescrape Metadata
           </Localized>
         )}
       </Button>

@@ -32,6 +32,10 @@ export interface Props {
   settings: StorySettingsContainer_storySettings;
 }
 
+const parsePremod = (b: boolean): MODERATION_MODE => (b ? "PRE" : "POST");
+
+const formatPremod = (mode: MODERATION_MODE) => mode === "PRE";
+
 const StorySettingsContainer: FunctionComponent<Props> = ({
   storyID,
   settings: initialSettings,
@@ -50,10 +54,6 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
   ) => {
     const updatedSettings = { ...values };
 
-    if (typeof values.premoderateComments === "boolean") {
-      updatedSettings.moderation = values.premoderateComments ? "PRE" : "POST";
-      delete updatedSettings.premoderateComments;
-    }
     const res = await updateSettings({
       id: storyID,
       settings: updatedSettings,
@@ -97,9 +97,11 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                     <Flex direction="row" className={styles.setting}>
                       {/* PREMOD ALL COMMENTS ENABLED */}
                       <Field
-                        name="premoderateComments"
+                        name="moderation"
+                        parse={parsePremod}
+                        format={formatPremod}
                         type="checkbox"
-                        initialValue={moderation === "PRE"}
+                        initialValue={moderation}
                       >
                         {({ input }) => (
                           <Localized id="storyInfoDrawerSettings-premodCommentsEnable">
@@ -139,7 +141,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                       </Field>
                     </Flex>
 
-                    {/* SAVE/SUBMIT */}
+                    {/* UPDATE */}
                     <Button
                       className={styles.submit}
                       variant="outlined"

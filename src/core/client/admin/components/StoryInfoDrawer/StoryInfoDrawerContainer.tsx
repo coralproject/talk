@@ -13,12 +13,12 @@ import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/Story
 
 import ModerateStoryButton from "./ModerateStoryButton";
 import RescrapeStory from "./RescrapeStory";
-import styles from "./StoryInfoDrawerContainer.css";
 import StorySettingsContainer from "./StorySettingsContainer";
 import StoryStatus from "./StoryStatus";
 
+import styles from "./StoryInfoDrawerContainer.css";
+
 export interface Props {
-  onClose: () => void;
   story: StoryInfoDrawerContainer_story;
   viewer: StoryInfoDrawerContainer_viewer;
   settings: StoryInfoDrawerContainer_settings;
@@ -28,7 +28,6 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
   viewer,
   settings,
-  onClose,
 }) => {
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
