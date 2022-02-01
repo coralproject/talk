@@ -151,7 +151,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                         (submitSucceeded && !dirtySinceLastSubmit)
                       }
                     >
-                      Save
+                      Update
                     </Button>
 
                     {mode === "QA" && (
