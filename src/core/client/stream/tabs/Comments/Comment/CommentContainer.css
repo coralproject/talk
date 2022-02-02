@@ -73,7 +73,7 @@ $commenterActionEditColorActive: var(--palette-primary-300);
   max-width: 100%;
 }
 
-.indentedComment {
+.indentedCommentRoot {
   padding-top: 9px;
   padding-bottom: 7px;
 }

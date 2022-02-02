@@ -3,7 +3,6 @@ import { ListenerFn } from "eventemitter2";
 import React, {
   FunctionComponent,
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from "react";
@@ -30,11 +29,12 @@ import {
   ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
+import MarkCommentsAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
 import {
-  CommentSeenContext,
   COMMIT_SEEN_EVENT,
-} from "coral-stream/tabs/Comments/commentSeen/CommentSeenContext";
+  useCommentSeenEnabled,
+} from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
@@ -49,6 +49,7 @@ import styles from "./KeyboardShortcuts.css";
 
 interface Props {
   loggedIn: boolean;
+  storyID: string;
 }
 
 export interface KeyboardEventData {
@@ -265,7 +266,7 @@ const loadMoreEvents = [
   ViewNewCommentsNetworkEvent.nameSuccess,
 ];
 
-const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
+const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
   const {
     pym,
     relayEnvironment,
@@ -279,6 +280,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   );
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
+  const markSeen = useMutation(MarkCommentsAsSeenMutation);
   const [, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
     fragment KeyboardShortcuts_local on Local {
       keyboardShortcutsConfig {
@@ -290,7 +292,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   `);
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
-  const { commitSeen, enabled } = useContext(CommentSeenContext);
+  const commentSeenEnabled = useCommentSeenEnabled();
 
   const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(
     NextUnread
@@ -331,12 +333,25 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
       UnmarkAllEvent.emit(eventEmitter, { source: config.source });
-      commitSeen();
+
+      // eslint-disable-next-line no-restricted-globals
+      const notSeenComments = window.document.querySelectorAll<HTMLElement>(
+        "[data-not-seen=true]"
+      );
+      const commentIDs: string[] = [];
+      notSeenComments.forEach((c) => {
+        const id = c.getAttribute("id")?.replace("comment-", "");
+        if (id) {
+          commentIDs.push(id);
+        }
+      });
+
+      void markSeen({ storyID, commentIDs });
       if (!disableUnmarkAction) {
         setDisableUnmarkAction(true);
       }
     },
-    [commitSeen, disableUnmarkAction, eventEmitter]
+    [disableUnmarkAction, eventEmitter, markSeen, storyID]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
@@ -425,7 +440,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
           if (prevOrNextStop) {
             void setTraversalFocus({
               commentID: parseCommentElementID(prevOrNextStop.id),
-              commentSeenEnabled: enabled,
+              commentSeenEnabled,
             });
             prevOrNextStop.element.focus();
           }
@@ -434,13 +449,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       } else {
         void setTraversalFocus({
           commentID: parseCommentElementID(stop.id),
-          commentSeenEnabled: enabled,
+          commentSeenEnabled,
         });
         stop.element.focus();
       }
     },
     [
-      enabled,
+      commentSeenEnabled,
       eventEmitter,
       pym,
       relayEnvironment,

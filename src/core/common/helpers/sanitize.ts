@@ -108,7 +108,7 @@ const sanitizeAnchor = (node: Element) => {
     if ((href && href === innerHtml) || mailToWithMatchingInnerHtml) {
       // Ensure we wrap all the links with the target + rel set
       node.setAttribute("target", "_blank");
-      node.setAttribute("rel", "noopener noreferrer");
+      node.setAttribute("rel", "noopener noreferrer ugc");
     } else {
       // Otherwise, turn the anchor link into text corresponding to its inner html
       node.insertAdjacentText("beforebegin", node.innerHTML);

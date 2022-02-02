@@ -98,8 +98,16 @@ const BanModal: FunctionComponent<Props> = ({
     viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
     !!(!viewerScopes.sites || viewerScopes.sites?.length === 0);
 
+  const userIsBlanketBanned = !!userBanStatus?.active;
+  const userIsSingleSiteBanned = !!userBanStatus?.sites?.length;
+  const userHasAnyBan = userIsBlanketBanned || userIsSingleSiteBanned;
+
   const [updateType, setUpdateType] = useState<UpdateType>(
-    userBanStatus?.active ? UpdateType.NO_SITES : UpdateType.ALL_SITES
+    userIsBlanketBanned
+      ? UpdateType.NO_SITES
+      : userIsSingleSiteBanned
+      ? UpdateType.SPECIFIC_SITES
+      : UpdateType.ALL_SITES
   );
 
   const [customizeMessage, setCustomizeMessage] = useState(false);
@@ -257,7 +265,7 @@ const BanModal: FunctionComponent<Props> = ({
                           </RadioButton>
                         </Localized>
                       </FormField>
-                      {!viewerIsScoped && (
+                      {!viewerIsScoped && userHasAnyBan && (
                         <FormField>
                           <Localized id="community-banModal-noSites">
                             <RadioButton
