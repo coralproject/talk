@@ -756,5 +756,26 @@ export default function createWebpackConfig(
         }),
       ]),
     },
+    /* Webpack config for frame bundle */
+    {
+      ...baseConfig,
+      optimization: {
+        ...baseConfig.optimization,
+        // We can turn on sideEffects here as we don't use
+        // css here and don't run into: https://github.com/webpack/webpack/issues/7094
+        sideEffects: true,
+      },
+      entry: {
+        frame: [paths.appFrameIndex],
+      },
+      plugins: filterPlugins([
+        ...baseConfig.plugins!,
+        new WebpackAssetsManifest({
+          output: "frame-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
+      ]),
+    },
   ];
 }

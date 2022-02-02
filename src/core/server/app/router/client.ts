@@ -18,7 +18,10 @@ import {
   TenantCoralRequest,
 } from "coral-server/types/express";
 
-import ManifestLoader, { EntrypointLoader } from "../helpers/manifestLoader";
+import ManifestLoader, {
+  createManifestLoader,
+  EntrypointLoader,
+} from "../helpers/manifestLoader";
 
 export interface ClientTargetHandlerOptions {
   /**
@@ -154,17 +157,10 @@ const clientHandler = ({
     locale = req.coral.tenant.locale;
   }
 
-  let entrypoint = await entrypointLoader();
+  const entrypoint = await entrypointLoader();
   if (!entrypoint) {
     next(new Error("Entrypoint not available"));
     return;
-  }
-  // Inject webpack dev server script.
-  if (process.env.WEBPACK_DEV_SERVER === "true") {
-    entrypoint = {
-      ...entrypoint,
-      js: [...entrypoint.js, { src: `webpack-dev-server.js`, integrity: "" }],
-    };
   }
 
   res.render(viewTemplate, {
@@ -176,17 +172,6 @@ const clientHandler = ({
     config: populateStaticConfig(staticConfig, req),
   });
 };
-
-function createManifestLoader(config: Config, manifestFilename: string) {
-  const fromWebpackDevServerURL =
-    process.env.WEBPACK_DEV_SERVER === "true"
-      ? // Loading manifests from Webpack Dev Server
-        `http://localhost:${config.get("dev_port")}`
-      : null;
-  return new ManifestLoader(manifestFilename, {
-    fromWebpackDevServerURL,
-  });
-}
 
 const createEmbedBootstrapHandler: (
   defaultLocale: LanguageCode,

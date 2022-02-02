@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import path from "path";
 
 import { waitFor } from "coral-common/helpers";
+import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 
 import Entrypoints, { Entrypoint, RawEntrypoint } from "./entrypoints";
@@ -33,6 +34,9 @@ export type Manifest = {
 interface ManifestLoaderOptions {
   /** If set, load manifest from webpack dev server instead */
   fromWebpackDevServerURL?: string | null;
+
+  /** If set, inject the dev server bundle into entrypoint */
+  injectWebpackDevServerBundle?: boolean;
 }
 
 export type EntrypointLoader = () => Promise<Readonly<Entrypoint> | null>;
@@ -155,7 +159,18 @@ export default class ManifestLoader {
   public createEntrypointLoader(name: string): EntrypointLoader {
     if (this.options.fromWebpackDevServerURL) {
       return async () => {
-        return new Entrypoints(await this.load()).get(name);
+        let entrypoint = new Entrypoints(await this.load()).get(name);
+        // Inject webpack dev server script.
+        if (entrypoint && this.options.injectWebpackDevServerBundle) {
+          entrypoint = {
+            ...entrypoint,
+            js: [
+              ...entrypoint.js,
+              { src: `webpack-dev-server.js`, integrity: "" },
+            ],
+          };
+        }
+        return entrypoint;
       };
     }
     // Used cached manifest loaded from file instead.
@@ -165,4 +180,16 @@ export default class ManifestLoader {
     }
     throw new Error(`Failed to load entrypoint ${name}`);
   }
+}
+
+export function createManifestLoader(config: Config, manifestFilename: string) {
+  const fromWebpackDevServerURL =
+    process.env.WEBPACK_DEV_SERVER === "true"
+      ? // Loading manifests from Webpack Dev Server
+        `http://localhost:${config.get("dev_port")}`
+      : null;
+  return new ManifestLoader(manifestFilename, {
+    fromWebpackDevServerURL,
+    injectWebpackDevServerBundle: process.env.WEBPACK_DEV_SERVER === "true",
+  });
 }
