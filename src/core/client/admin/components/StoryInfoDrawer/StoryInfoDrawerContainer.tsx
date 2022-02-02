@@ -48,26 +48,34 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           <TextLink className={styles.storyLink} href={story.url}>
             {story.url}
           </TextLink>
-          <Flex direction="row" alignItems="center" className={styles.status}>
-            {story.isArchived || story.isArchiving ? (
+          {story.isArchived || story.isArchiving ? (
+            <Flex className={styles.status}>
               <ArchivedMarker />
-            ) : (
-              <StoryStatus
+            </Flex>
+          ) : (
+            <>
+              <Flex
+                direction="row"
+                alignItems="center"
+                className={styles.status}
+              >
+                <StoryStatus
+                  storyID={story.id}
+                  currentStatus={story.status as GQLSTORY_STATUS}
+                />
+                <ModerateStoryButton
+                  story={story}
+                  settings={settings}
+                  viewer={viewer}
+                />
+              </Flex>
+              <RescrapeStory storyID={story.id} />
+              <StorySettingsContainer
+                settings={story.settings}
                 storyID={story.id}
-                currentStatus={story.status as GQLSTORY_STATUS}
               />
-            )}
-            <ModerateStoryButton
-              story={story}
-              settings={settings}
-              viewer={viewer}
-            />
-          </Flex>
-          <RescrapeStory storyID={story.id} />
-          <StorySettingsContainer
-            settings={story.settings}
-            storyID={story.id}
-          />
+            </>
+          )}
         </Flex>
       </Flex>
     </HorizontalGutter>

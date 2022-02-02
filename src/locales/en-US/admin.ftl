@@ -4,6 +4,7 @@
 general-notAvailable = Not available
 general-none = None
 general-noTextContent = No text content
+general-archived = Archived
 
 ## Story Status
 storyStatus-open = Open
@@ -1448,6 +1449,7 @@ storyInfoDrawerSettings-premodCommentsEnable = Pre-moderate all comments
 storyInfoDrawerSettings-moderation = Moderation
 storyInfoDrawerSettings-moderationMode-pre = Pre
 storyInfoDrawerSettings-moderationMode-post = Post
+storyInfoDrawerSettings-update = Update
 storyInfoDrawer-storyStatus-archiving = Archiving
 storyInfoDrawer-storyStatus-archived = Archived
 

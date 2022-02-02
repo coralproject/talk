@@ -142,20 +142,21 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                     </Flex>
 
                     {/* UPDATE */}
-                    <Button
-                      className={styles.submit}
-                      variant="outlined"
-                      color="primary"
-                      type="submit"
-                      disabled={
-                        submitting ||
-                        !dirty ||
-                        (submitSucceeded && !dirtySinceLastSubmit)
-                      }
-                    >
-                      Update
-                    </Button>
-
+                    <Localized id="storyInfoDrawerSettings-update">
+                      <Button
+                        className={styles.submit}
+                        variant="outlined"
+                        color="primary"
+                        type="submit"
+                        disabled={
+                          submitting ||
+                          !dirty ||
+                          (submitSucceeded && !dirtySinceLastSubmit)
+                        }
+                      >
+                        Update
+                      </Button>
+                    </Localized>
                     {mode === "QA" && (
                       <>
                         <Divider />
