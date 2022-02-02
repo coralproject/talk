@@ -51,8 +51,8 @@ export interface StreamEmbedConfig {
 }
 export class StreamEmbed {
   /**
-   * Every interval rounded to this value in ms will be passed when creating the
-   * stream embed iframe to ensure that it is loaded fresh.
+   * Every interval rounded to this value in ms will be passed when loading
+   * the count script ensure that it is loaded fresh.
    */
   private readonly requestExpiryInterval = 15 * 60 * 1000; // 15 minutes
 

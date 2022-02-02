@@ -19,5 +19,4 @@ export { default as urls } from "./urls";
 export { default as supportedBrowsersRegExp } from "./supportedBrowsersRegExp";
 export { default as isStoryMode } from "./isStoryMode";
 export { default as coerceStoryMode } from "./coerceStoryMode";
-export { default as getAriaPoliteMacOSWorkaround } from "./getAriaPoliteMacOSWorkaround";
 export { default as getCurrentScriptOrigin } from "./getCurrentScriptOrigin";

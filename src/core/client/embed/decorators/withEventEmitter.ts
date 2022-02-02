@@ -7,7 +7,7 @@ const withEventEmitter = (
   embedEventEmitter: EventEmitter2,
   enableDeprecatedEvents = false
 ) => {
-  // Pass events from iframe to the event emitter.
+  // Pass events from stream to the embedEventEmitter.
   streamEventEmitter.onAny(function (eventName: string, value: string) {
     let emitEventName = "";
     if (["ready"].includes(eventName)) {

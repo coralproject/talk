@@ -113,7 +113,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
     (rte: CoralRTE | null) => {
       rteRef.current = rte;
       if (rteRef && autofocus) {
-        // Delay focus a bit until iframe had a change to resize.
+        // Delay focus a bit until iframe had a chance to resize.
         setTimeout(
           () => rteRef && rteRef.current && rteRef.current.focus(),
           100

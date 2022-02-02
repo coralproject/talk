@@ -17,7 +17,6 @@ import { Request, RequestHandler } from "coral-server/types/express";
 import { getRequesterOrigin } from "../helpers";
 
 interface RequestQuery {
-  parentUrl?: string | null;
   storyURL?: string | null;
   storyID?: string | null;
   siteID?: string | null;
@@ -36,12 +35,7 @@ function parseQueryFromRequest(
 ): RequestQuery | null {
   // Check to see if the parameters are available on the query. If they are,
   // return it.
-  if (
-    req.query.parentUrl ||
-    req.query.storyURL ||
-    req.query.storyID ||
-    req.query.siteID
-  ) {
+  if (req.query.storyURL || req.query.storyID || req.query.siteID) {
     return req.query;
   }
 
@@ -81,7 +75,6 @@ function parseQueryFromRequest(
     siteID: parsed.searchParams.get("siteID"),
     storyURL: parsed.searchParams.get("storyURL"),
     storyID: parsed.searchParams.get("storyID"),
-    parentUrl: parsed.searchParams.get("parentUrl"),
   };
 
   return query;
@@ -97,7 +90,7 @@ function parseQueryFromRequest(
 async function retrieveSiteFromQuery(
   mongo: MongoContext,
   tenant: Tenant,
-  { storyURL, storyID, parentUrl, siteID }: RequestQuery
+  { storyURL, storyID, siteID }: RequestQuery
 ): Promise<Site | null> {
   // If the siteID is available, use that.
   if (siteID) {
@@ -122,13 +115,6 @@ async function retrieveSiteFromQuery(
     // If the site can't be found based on it's allowed origins and the story
     // URL (which is a allowed list), then we know it isn't allowed.
     return retrieveSite(mongo, tenant.id, story.siteID);
-  }
-
-  // As the last fallback, if the storyURL and storyID cannot be found, then pym
-  // does provide us with a parentUrl that's the URL of the page embedding
-  // Coral. We'll try to find the site based on this URL.
-  if (parentUrl) {
-    return findSiteByURL(mongo, tenant.id, parentUrl);
   }
 
   return null;
