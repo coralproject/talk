@@ -1,3 +1,5 @@
+import { globalErrorReporter } from "coral-framework/lib/errors";
+
 import getContentBoxSize from "../helpers/getContentBoxSize";
 import getShadowRootWidth from "./getShadowRootWidth";
 
@@ -24,6 +26,15 @@ const createObserve = (shadowRoot: ShadowRoot): ResizeObserverCallback => (
   }
   const entry = entries[0];
   const contentBoxSize = getContentBoxSize(entry);
+
+  if (contentBoxSize === null) {
+    // eslint-disable-next-line no-console
+    console.warn("ResizeObserver contains invalid `contentBoxSize`", entries);
+    globalErrorReporter.report(
+      `ResizeObserver contains invalid contentBoxSize`
+    );
+    return;
+  }
 
   const newWidth = contentBoxSize.inlineSize;
 
