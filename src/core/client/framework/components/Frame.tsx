@@ -19,13 +19,16 @@ export interface FrameHeightMessage {
 const iframeStyle = { display: "block" };
 
 const Frame: FunctionComponent<Props> = ({ id, src, sandbox, title }) => {
-  const { postMessage } = useCoralContext();
+  const { postMessage, rootURL } = useCoralContext();
   const [height, setHeight] = useState(0);
   const frameID = useMemo(
     () => (id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`),
     [id]
   );
-  const url = modifyQuery(src, { frameID });
+  const url = useMemo(() => {
+    return modifyQuery(`${rootURL}${src}`, { frameID });
+  }, [frameID, rootURL, src]);
+
   const sandboxStr = sandbox ? "allow-same-origin allow-scripts" : undefined;
 
   useEffect(() => {
