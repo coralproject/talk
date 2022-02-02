@@ -12,7 +12,7 @@ job_node_defaults: &job_node_defaults
   <<: *job_defaults
   working_directory: ~/coralproject/talk
   docker:
-    - image: circleci/node:14
+    - image: cimg/node:14.18.2
   environment:
     <<: *job_node_environment
 
@@ -270,6 +270,7 @@ workflows:
             branches:
               only:
                 - /^release-.*/
+                - CPSRE-376-deprecate-circle-imgs
           requires:
             - lint
             - unit_tests
