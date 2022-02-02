@@ -142,23 +142,17 @@ export async function attach(options: AttachOptions) {
 
     // CSS assets to be loaded inside of the shadow dom.
     const [shadowCSSAssets, setShadowCSSAssets] = useState<CSSAsset[]>(
-      options.cssAssets.map((asset) => ({ href: asset, onLoad: handleCSSLoad }))
+      options.cssAssets.map((asset) => new CSSAsset(asset, handleCSSLoad))
     );
 
     // CSS assets to be loaded inside of the shadow dom but after all other css assets.
     const fontsCSSAssets: CSSAsset[] = useMemo(() => {
       const assets: CSSAsset[] = [];
       if (options.defaultFontsCSSURL) {
-        assets.push({
-          href: options.defaultFontsCSSURL,
-          onLoad: handleCSSLoad,
-        });
+        assets.push(new CSSAsset(options.defaultFontsCSSURL, handleCSSLoad));
       }
       if (options.customFontsCSSURL) {
-        assets.push({
-          href: options.customFontsCSSURL,
-          onLoad: handleCSSLoad,
-        });
+        assets.push(new CSSAsset(options.customFontsCSSURL, handleCSSLoad));
       }
       return assets;
     }, [handleCSSLoad]);
@@ -166,12 +160,7 @@ export async function attach(options: AttachOptions) {
     // CSS assets to be loaded inside of the shadow dom but after all other css assets.
     const customShadowCSSAssets: CSSAsset[] = useMemo(() => {
       if (options.customCSSURL) {
-        return [
-          {
-            href: options.customCSSURL,
-            onLoad: handleCSSLoad,
-          },
-        ];
+        return [new CSSAsset(options.customCSSURL, handleCSSLoad)];
       }
       return [];
     }, [handleCSSLoad]);
@@ -185,15 +174,12 @@ export async function attach(options: AttachOptions) {
       }
       setShadowCSSAssets((assets) => [
         ...assets,
-        {
-          href: linkTag.href,
-          onLoad: (event) => {
-            if (linkTag.onload) {
-              linkTag.onload(event.nativeEvent);
-            }
-            handleCSSLoad();
-          },
-        },
+        new CSSAsset(linkTag.href, (event) => {
+          if (linkTag.onload) {
+            linkTag.onload(event.nativeEvent);
+          }
+          handleCSSLoad();
+        }),
       ]);
     };
 

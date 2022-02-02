@@ -1,10 +1,7 @@
 import { createContext, useContext } from "react";
 import DefaultReactShadow from "react-shadow";
 
-export interface CSSAsset {
-  href: string;
-  onLoad?: React.ReactEventHandler<HTMLLinkElement>;
-}
+import CSSAsset from "./CSSAsset";
 
 export interface EncapsulationContextProps {
   /** ReactShadowRoot prop allows you to pass a different instance of `react-shadow` */

@@ -53,6 +53,8 @@ interface IframePortalProps {
   children?: React.ReactNode;
 }
 
+const iframeStyle = { display: "block" };
+
 /**
  * Sets up Iframe encapsulation.
  */
@@ -106,6 +108,7 @@ const IframeEncapsulation: FunctionComponent<IframePortalProps> = (props) => {
         frameBorder={0}
         width="100%"
         height={height}
+        style={iframeStyle}
       ></iframe>
       {target && (
         <TargetPortal target={target}>
