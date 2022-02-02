@@ -646,6 +646,11 @@ export default function createWebpackConfig(
         account: [...devServerEntries, paths.appAccountIndex],
         admin: [...devServerEntries, paths.appAdminIndex],
       },
+      output: {
+        ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralWebpackJsonp",
+      },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
         ...ifWatch(
@@ -677,6 +682,8 @@ export default function createWebpackConfig(
       entry: [paths.appEmbedIndex],
       output: {
         ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralEmbedWebpackJsonp",
         library: "Coral",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
@@ -735,6 +742,8 @@ export default function createWebpackConfig(
       entry: [paths.appCountIndex],
       output: {
         ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralCountWebpackJsonp",
         // don't hash the count, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
         filename: "assets/js/count.js",
@@ -768,6 +777,11 @@ export default function createWebpackConfig(
         // We can turn on sideEffects here as we don't use
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: true,
+      },
+      output: {
+        ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralFrameWebpackJsonp",
       },
       entry: {
         frame: [paths.appFrameIndex],
