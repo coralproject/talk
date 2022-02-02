@@ -9,11 +9,15 @@ import logger from "coral-server/logger";
 import Entrypoints, { Entrypoint, RawEntrypoint } from "./entrypoints";
 
 /**
- * Sometimes webpack produces an invalid manifest with empty entrypoints.
- * We retry whenever we encounter this and usually webpack fixes this.
- * This is a hardlimit on how many retries we should do.
+ * Sometimes webpack-assets-manifest creates an invalid manifest, probably
+ * due to hot module replacement issues, which is fixed in newer 5.x versions.
+ * However we can't upgrade yet as the 5.x versions require webpack 5.
+ *
+ * TODO: (cvle) Unsure if we need this. Does `webpack-assets-manifest` always
+ * eventually create a valid manifest? Needs more investigation. Setting it to
+ * a high number for now.
  **/
-const INVALID_MANIFEST_MAX_RETRIES = 10;
+const INVALID_MANIFEST_MAX_RETRIES = 9999;
 
 export interface Asset {
   src: string;
