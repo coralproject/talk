@@ -9,7 +9,7 @@ exports[`renders comment stream with load more button 1`] = `
   role="log"
 >
   <div
-    className="Box-root HorizontalGutter-root AllCommentsTabCommentContainer-borderedCommentSeen HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root AllCommentsTabCommentContainer-borderedCommentNotSeen HorizontalGutter-full"
   >
     <div
       aria-labelledby="comment-comment-0-label"
@@ -43,7 +43,7 @@ exports[`renders comment stream with load more button 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
+            className="CommentContainer-indentedCommentRoot coral coral-indent coral-indent-0 Indent-open"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -319,7 +319,7 @@ exports[`renders comment stream with load more button 1`] = `
           className="coral coral-comment-collapse-toggle-indent Indent-root"
         >
           <div
-            className="CommentContainer-indentedComment coral coral-indent coral-indent-0 Indent-open"
+            className="CommentContainer-indentedCommentRoot coral coral-indent coral-indent-0 Indent-open"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"

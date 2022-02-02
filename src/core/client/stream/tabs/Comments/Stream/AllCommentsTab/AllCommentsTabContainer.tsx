@@ -227,7 +227,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <KeyboardShortcuts loggedIn={!!viewer} />
+      <KeyboardShortcuts loggedIn={!!viewer} storyID={story.id} />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
           rating={ratingFilter}

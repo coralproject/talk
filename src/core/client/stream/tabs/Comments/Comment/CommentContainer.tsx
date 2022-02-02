@@ -6,7 +6,6 @@ import React, {
   FunctionComponent,
   MouseEvent,
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from "react";
@@ -54,7 +53,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
-import { CommentSeenContext } from "../commentSeen/CommentSeenContext";
+import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
@@ -65,7 +64,7 @@ import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import { isReplyFlattened } from "./flattenReplies";
 import IndentedComment from "./IndentedComment";
-import MarkCommentAsSeenMutation from "./MarkCommentAsSeenMutation";
+import MarkCommentsAsSeenMutation from "./MarkCommentsAsSeenMutation";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
   ModerationRejectedTombstoneContainer,
@@ -147,14 +146,14 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
-  const { enabled: commentSeenEnabled } = useContext(CommentSeenContext);
+  const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const setTraversalFocus = useMutation(SetTraversalFocus);
-  const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);
+  const markCommentsAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const handleFocus = useCallback(() => {
     if (canCommitCommentSeen && !comment.seen) {
-      void markCommentAsSeen({
-        commentID: comment.id,
+      void markCommentsAsSeen({
+        commentIDs: [comment.id],
         storyID: story.id,
       });
     }
@@ -167,7 +166,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.id,
     comment.seen,
     canCommitCommentSeen,
-    markCommentAsSeen,
+    markCommentsAsSeen,
     setTraversalFocus,
     story.id,
   ]);
@@ -503,7 +502,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       <HorizontalGutter>
         <IndentedComment
           enableJumpToParent={enableJumpToParent}
-          classNameIndented={cn(styles.indentedComment, {
+          classNameIndented={cn(styles.indentedCommentRoot, {
             [styles.indented]: indentLevel && indentLevel > 0,
             [styles.commentSeenEnabled]: canCommitCommentSeen,
             [styles.notSeen]: shouldApplyNotSeenClass,
