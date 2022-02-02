@@ -1,4 +1,4 @@
-import { globalErrorReporter } from "coral-framework/lib/errors";
+import { globalErrorReporter } from "coral-framework/lib/errors/reporter/globalErrorReporter";
 
 import getContentBoxSize from "../helpers/getContentBoxSize";
 import getShadowRootWidth from "./getShadowRootWidth";
