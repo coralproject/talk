@@ -20,7 +20,7 @@ function getCurrentScriptOrigin(fallbackID: string = ORIGIN_FALLBACK_ID) {
       script = document.querySelector(`.${fallbackID}`);
     }
   }
-  if (!script) {
+  if (!script || !script.src) {
     if (process.env.NODE_ENV !== "production") {
       // In development just return top level origin.
       return window.location.origin;
