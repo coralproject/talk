@@ -32,6 +32,7 @@ const ModerateStoryButton: FunctionComponent<Props> = ({
   `);
 
   const href = useMemo(() => {
+    // TODO: (marcushaddon) this weil; need to be updated once shadow dom is merged!
     let link = getModerationLink({ storyID: id });
     if (
       accessToken &&
