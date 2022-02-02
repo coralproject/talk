@@ -362,12 +362,17 @@ function resolveGraphQLSubscriptionURI(
   }
 
   let host = getHost(rootURL);
-  if (staticConfig?.tenantDomain) {
-    host = staticConfig.tenantDomain;
-    if (location.port !== "80" && location.port !== "443") {
-      host += `:${location.port}`;
+
+  // TODO: (cvle) Remove following block, when nginx proxy workaround is no longer necessary.
+  if (process.env.NODE_ENV !== "development") {
+    if (staticConfig?.tenantDomain) {
+      host = staticConfig.tenantDomain;
+      if (location.port !== "80" && location.port !== "443") {
+        host += `:${location.port}`;
+      }
     }
   }
+  //
 
   return `${
     location.protocol === "https:" ? "wss" : "ws"
