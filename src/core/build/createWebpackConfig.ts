@@ -761,6 +761,10 @@ export default function createWebpackConfig(
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
+        // Ensure that we never split the main library into chunks.
+        splitChunks: {
+          chunks: "async",
+        },
         // We can turn on sideEffects here as we don't use
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: true,
