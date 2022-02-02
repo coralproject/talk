@@ -46,6 +46,14 @@ In this section, note any new environment variables or feature flags introduced.
 
 -->
 
+## If any indexes were added, were they added to `INDEXES.md`?
+
+<!--
+
+In this section, check the `INDEXES.md` at the root of the repo and make sure you have added and commited any index changes necessary for this PR to be deployed. If you added any entries, indicate `Yes`in this section and list the index entries you added here.
+
+-->
+
 ## How do I test this PR?
 
 <!--
