@@ -10,13 +10,17 @@ import paths from "./paths";
 
 interface WebpackDevServerConfig {
   allowedHost: any;
+  /** The port of the Coral server */
   serverPort: number;
+  /** The port of the Webpack Dev server */
+  devPort: number;
   publicPath: string;
 }
 
 export default function ({
   allowedHost,
   serverPort,
+  devPort,
   publicPath,
 }: WebpackDevServerConfig): Configuration {
   return {
@@ -80,6 +84,7 @@ export default function ({
     },
     public: allowedHost,
     index: "embed.html",
+    sockPort: devPort,
     proxy: [
       {
         context: "/api/graphql/live",
