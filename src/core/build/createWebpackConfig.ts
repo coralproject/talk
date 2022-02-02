@@ -482,12 +482,6 @@ export default function createWebpackConfig(
               test: /\/typography\.css$/,
               use: [
                 {
-                  loader: require.resolve("style-loader"),
-                  options: {
-                    injectType: "linkTag",
-                  },
-                },
-                {
                   loader: "file-loader",
                   options: {
                     name: "assets/css/[name].[hash].css",

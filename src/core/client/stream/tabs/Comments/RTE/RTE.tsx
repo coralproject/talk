@@ -14,6 +14,7 @@ import React, {
   FocusEvent,
   FunctionComponent,
   Ref,
+  useEffect,
   useMemo,
 } from "react";
 
@@ -153,6 +154,9 @@ interface Props {
   toolbarButtons?: React.ReactElement | null;
 
   onWillPaste?: (event: PasteEvent) => void;
+
+  /** onLoad is called when the RTE has been loaded */
+  onLoad?: () => void;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -175,6 +179,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     features,
     onWillPaste,
     onKeyPress,
+    onLoad,
     ...rest
   } = props;
 
@@ -314,10 +319,24 @@ const RTE: FunctionComponent<Props> = (props) => {
   );
 
   // Don't make things harder in test env.
+  useEffect(() => {
+    if (process.env.NODE_ENV === "test") {
+      if (props.onLoad) {
+        props.onLoad();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (process.env.NODE_ENV === "test") {
     return elementTree;
   }
-  return <IframeEncapsulation>{elementTree}</IframeEncapsulation>;
+  //
+
+  return (
+    <IframeEncapsulation onLoad={props.onLoad}>
+      {elementTree}
+    </IframeEncapsulation>
+  );
 };
 
 export default RTE;

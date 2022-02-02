@@ -7,11 +7,17 @@ import { once } from "lodash";
 export default class CSSAsset {
   private _href: string;
   private _onLoad?: React.ReactEventHandler<HTMLLinkElement>;
+  private _onError?: React.ReactEventHandler<HTMLLinkElement>;
 
-  constructor(href: string, onLoad?: React.ReactEventHandler<HTMLLinkElement>) {
+  constructor(
+    href: string,
+    onLoad?: React.ReactEventHandler<HTMLLinkElement>,
+    onError?: (href: string) => void
+  ) {
     this._href = href;
-    // Make sure onLoad is ever only called once.
+    // Make sure event handlers are ever only called once.
     this._onLoad = onLoad && once(onLoad);
+    this._onError = onError && once(() => onError(href));
   }
 
   public get href() {
@@ -19,5 +25,8 @@ export default class CSSAsset {
   }
   public get onLoad() {
     return this._onLoad;
+  }
+  public get onError() {
+    return this._onError;
   }
 }

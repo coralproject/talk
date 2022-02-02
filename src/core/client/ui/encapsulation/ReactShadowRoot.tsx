@@ -2,6 +2,7 @@ import React, { FunctionComponent, useMemo } from "react";
 import DefaultReactShadow from "react-shadow";
 
 import CoralShadowRootContainer from "./CoralShadowRootContainer";
+import CSSAsset from "./CSSAsset";
 import { useEncapsulationContext } from "./EncapsulationContext";
 import useShadowRoot from "./useShadowRoot";
 
@@ -26,6 +27,8 @@ interface Props {
   children?: React.ReactNode;
 }
 
+const emptyArray: CSSAsset[] = [];
+
 /**
  * Sets up Shadow DOM encapsulation.
  */
@@ -38,8 +41,14 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
     );
   }
   const ReactShadow = encapsulation.ReactShadowRoot || DefaultReactShadow;
-  const cssAssets = encapsulation.cssAssets || [];
-  const customCSSAssets = encapsulation.customCSSAssets || [];
+  const assets = useMemo(
+    () => [
+      ...(encapsulation.cssAssets || emptyArray),
+      ...(encapsulation.customCSSAssets || emptyArray),
+    ],
+    [encapsulation.cssAssets, encapsulation.customCSSAssets]
+  );
+
   const style = useMemo(
     () => ({
       display: "block",
@@ -59,6 +68,7 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
             key={asset.href}
             href={asset.href}
             onLoad={asset.onLoad}
+            onError={asset.onError}
             rel="stylesheet"
           />
         ))}
@@ -67,19 +77,12 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
           className={encapsulation.containerClassName}
           style={style}
         >
-          {cssAssets.map((asset) => (
+          {assets.map((asset) => (
             <link
               key={asset.href}
               href={asset.href}
               onLoad={asset.onLoad}
-              rel="stylesheet"
-            />
-          ))}
-          {customCSSAssets.map((asset) => (
-            <link
-              key={asset.href}
-              href={asset.href}
-              onLoad={asset.onLoad}
+              onError={asset.onError}
               rel="stylesheet"
             />
           ))}

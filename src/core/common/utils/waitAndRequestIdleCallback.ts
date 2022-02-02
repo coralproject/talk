@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-type Cancel = () => void;
+export type Cancel = () => void;
 
 /**
  * This function waits given number of ms and
