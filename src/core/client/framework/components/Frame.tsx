@@ -50,6 +50,7 @@ const Frame: FunctionComponent<Props> = ({ id, src, sandbox, title }) => {
         src={url}
         height={height}
         sandbox={sandboxStr}
+        scrolling="no"
       />
     </div>
   );

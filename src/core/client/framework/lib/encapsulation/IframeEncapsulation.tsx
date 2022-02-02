@@ -161,6 +161,7 @@ const IframeEncapsulation: FunctionComponent<IframeEncapsulationProps> = ({
         frameBorder={0}
         width="100%"
         height={height || 0}
+        scrolling="no"
         style={iframeStyle}
       ></iframe>
       {target && (
