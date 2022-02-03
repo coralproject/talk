@@ -9,9 +9,11 @@ function waitAndRequestIdleCallback(
   callback: () => void,
   wait: number
 ): Cancel {
+  const supportsIdleCallbacks =
+    (window as any).requestIdleCallback && (window as any).cancelIdleCallback;
   let idleCallbackHandle = 0;
   const timeout = setTimeout(() => {
-    if ("requestIdleCallback" in window) {
+    if (supportsIdleCallbacks) {
       idleCallbackHandle = (window as any).requestIdleCallback(callback);
       return;
     }
@@ -19,7 +21,7 @@ function waitAndRequestIdleCallback(
   }, wait);
   return () => {
     clearTimeout(timeout);
-    if (idleCallbackHandle) {
+    if (supportsIdleCallbacks) {
       (window as any).cancelIdleCallback(idleCallbackHandle);
     }
   };
