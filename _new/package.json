@@ -1,0 +1,25 @@
+{
+  "name": "coral-new",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "graphql-codegen": "graphql-codegen",
+    "generate:gql-schema": "graphql-codegen --config codegen-schema.yml",
+    "generate:gql-stream": "graphql-codegen --config codegen-stream.yml"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^16.3.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "2.5.0",
+    "@graphql-codegen/typescript-react-apollo": "3.2.5",
+    "@graphql-codegen/typescript-operations": "2.2.4",
+    "@graphql-codegen/typescript": "2.4.3",
+    "@graphql-codegen/typescript-document-nodes": "2.2.3",
+    "@graphql-codegen/typescript-resolvers": "2.5.0"
+  }
+}

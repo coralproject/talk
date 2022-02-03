@@ -1,0 +1,13 @@
+overwrite: true
+schema: 
+  - "../src/core/server/graph/schema/schema.graphql"
+  - "../src/core/client/framework/lib/relay/local.graphql"
+  - "../src/core/client/stream/local/local.graphql"
+  - "../src/core/client/admin/local/local.graphql"
+documents: "../src/core/client/**/*.tsx"
+generates:
+  src/__generated__/stream.types.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
