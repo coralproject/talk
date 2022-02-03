@@ -8,6 +8,7 @@ import CLASSES from "coral-stream/classes";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
+import getElementWindowTopOffset from "coral-ui/helpers/getElementWindowTopOffset";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 
@@ -33,7 +34,9 @@ const InReplyTo: FunctionComponent<Props> = ({
     const elemID = computeCommentElementID(parent.id);
     const elem = root.getElementById(elemID);
     if (elem) {
-      renderWindow.scrollTo({ top: elem.offsetTop });
+      renderWindow.scrollTo({
+        top: getElementWindowTopOffset(renderWindow, elem),
+      });
       elem.focus();
     } else {
       globalErrorReporter.report(

@@ -5,6 +5,7 @@ import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
+import getElementWindowTopOffset from "coral-ui/helpers/getElementWindowTopOffset";
 
 import styles from "./AddACommentButton.css";
 
@@ -21,7 +22,9 @@ const AddACommentButton: FunctionComponent<Props> = ({ isQA = false }) => {
     }
     const postCommentForm = root.getElementById(POST_COMMENT_FORM_ID);
     if (postCommentForm) {
-      renderWindow.scrollTo({ top: postCommentForm.offsetTop });
+      renderWindow.scrollTo({
+        top: getElementWindowTopOffset(renderWindow, postCommentForm),
+      });
     }
   }, [renderWindow, root]);
 
