@@ -82,8 +82,8 @@ export default function onShadowRootWidthChange(
       array.splice(index, 1);
       if (array.length === 0) {
         value.resizeObserver.unobserve(shadowRoot.firstChild! as Element);
+        ShadowRootWidthObserverMap.delete(shadowRoot);
       }
     }
-    ShadowRootWidthObserverMap.delete(shadowRoot);
   };
 }
