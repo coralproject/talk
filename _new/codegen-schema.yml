@@ -6,4 +6,5 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-resolvers"
-      - "typescript-react-apollo"
+config:
+  namingConvention: keep
