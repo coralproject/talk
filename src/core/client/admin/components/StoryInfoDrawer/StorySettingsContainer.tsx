@@ -48,9 +48,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
   const updateSettings = useMutation(UpdateStorySettingsMutation);
 
   const onSubmit = async (
-    values: Partial<StorySettingsContainer_storySettings> & {
-      premoderateComments?: boolean;
-    }
+    values: Partial<StorySettingsContainer_storySettings>
   ) => {
     const updatedSettings = { ...values };
 
