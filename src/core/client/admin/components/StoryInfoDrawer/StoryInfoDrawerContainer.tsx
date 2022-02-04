@@ -14,7 +14,9 @@ import {
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
 import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
+import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
+import ArchiveStory from "./ArchiveStory";
 import RescrapeStory from "./RescrapeStory";
 import styles from "./StoryInfoDrawerContainer.css";
 import StorySettingsContainer from "./StorySettingsContainer";
@@ -23,6 +25,7 @@ import StoryStatus from "./StoryStatus";
 export interface Props {
   onClose: () => void;
   story: StoryInfoDrawerContainer_story;
+  viewer: StoryInfoDrawerContainer_viewer;
 }
 
 const MetaDataItem: FunctionComponent<{ val: any; icon: any }> = ({
@@ -39,6 +42,7 @@ const MetaDataItem: FunctionComponent<{ val: any; icon: any }> = ({
 
 const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
+  viewer,
   onClose,
 }) => {
   const { author, publishedAt } = story.metadata || {};
@@ -92,6 +96,7 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             )}
           </Flex>
           <RescrapeStory storyID={story.id} />
+          <ArchiveStory story={story} viewer={viewer} />
           <StorySettingsContainer
             settings={story.settings}
             storyID={story.id}
@@ -117,8 +122,14 @@ const enhanced = withFragmentContainer<Props>({
         publishedAt
       }
       settings {
+        mode
         ...StorySettingsContainer_storySettings
       }
+    }
+  `,
+  viewer: graphql`
+    fragment StoryInfoDrawerContainer_viewer on User {
+      role
     }
   `,
 })(StoryInfoDrawerContainer);
