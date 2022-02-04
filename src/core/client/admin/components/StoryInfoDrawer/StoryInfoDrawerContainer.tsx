@@ -74,6 +74,7 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
                 )}
               </Flex>
               <RescrapeStory storyID={story.id} />
+              {viewer && <ArchiveStory story={story} viewer={viewer} />}
               <StorySettingsContainer
                 settings={story.settings}
                 storyID={story.id}
