@@ -9,7 +9,7 @@ export type LanguageCode =
   | "pt-BR"
   | "es"
   | "de"
-  | "tr"
+  | "tr-TR"
   | "hu"
   | "id-ID"
   | "it-IT"
@@ -36,7 +36,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   "pt-BR": "Português brasileiro",
   es: "Español",
   de: "Deutsch",
-  tr: "Türkçe",
+  "tr-TR": "Türkçe",
   hu: "Magyar",
   "id-ID": "Indonesian",
   "it-IT": "Italiana",
