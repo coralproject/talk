@@ -4,10 +4,16 @@
  */
 export type LanguageCode =
   | "af-ZA"
+  | "ar-AE"
   | "en-US"
   | "pt-BR"
   | "es"
   | "de"
+  | "tr"
+  | "hu"
+  | "id-ID"
+  | "it-IT"
+  | "ja-JP"
   | "de-CH"
   | "nl-NL"
   | "da"
@@ -25,10 +31,16 @@ export type LanguageCode =
  */
 export const LOCALES_MAP: Record<LanguageCode, string> = {
   "af-ZA": "Afrikaans",
+  "ar-AE": "عربى",
   "en-US": "English",
   "pt-BR": "Português brasileiro",
   es: "Español",
   de: "Deutsch",
+  tr: "Türkçe",
+  hu: "Magyar",
+  "id-ID": "Indonesian",
+  "it-IT": "Italiana",
+  "ja-JP": "日本",
   "de-CH": "Deutsch-Schweiz",
   "nl-NL": "Nederlands",
   da: "Dansk",

@@ -1,0 +1,8 @@
+
+ui-brandName = { -product-name } 
+
+ui-callout-closeButton = 
+
+  .aria-label = Tutup 
+
+ui-tabAriaPrefix = Tab:
