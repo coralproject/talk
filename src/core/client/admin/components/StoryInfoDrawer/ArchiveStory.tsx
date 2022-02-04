@@ -1,27 +1,28 @@
 /* eslint-disable */
 import { graphql } from "relay-runtime";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { Ability, can } from "coral-admin/permissions";
-import { useLocal, useMutation } from "coral-framework/lib/relay";
+import { useLocal, useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLSTORY_STATUS } from "coral-framework/schema";
 import { Button } from "coral-ui/components/v3";
 
 import { ArchiveStory_local } from "coral-admin/__generated__/ArchiveStory_local.graphql";
-import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
-import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
+import { ArchiveStory_story } from "coral-admin/__generated__/ArchiveStory_story.graphql";
+import { ArchiveStory_viewer } from "coral-admin/__generated__/ArchiveStory_viewer.graphql";
 
 import ArchiveStoriesMutation from "./ArchiveStoriesMutation";
 import UnarchiveStoriesMutation from "./UnarchiveStoriesMutation";
 import { Localized } from "@fluent/react/compat";
 
+import styles from "./ArchiveStory.css";
+
 export interface Props {
-  story: StoryInfoDrawerContainer_story;
-  viewer: StoryInfoDrawerContainer_viewer;
+  story: ArchiveStory_story;
+  viewer: ArchiveStory_viewer;
 }
 
 const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
-  debugger;
   const archiveStory = useMutation(ArchiveStoriesMutation);
   const unarchiveStory = useMutation(UnarchiveStoriesMutation);
 
@@ -30,6 +31,14 @@ const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
       archivingEnabled
     }
   `);
+
+  const [archiveTriggered, setArchiveTriggered] = useState(false);
+
+  const handleArchive = useCallback(() => {
+    setArchiveTriggered(true);
+    archiveStory({ storyIDs: [story.id]});
+  }, [story]);
+  const handleUnarchive = useCallback(() => unarchiveStory({ storyIDs: [story.id]}), [story]);
 
   const viewCanArchive = can(viewer, Ability.ARCHIVE_STORY);
 
@@ -53,7 +62,9 @@ const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
     return (
       <Localized id="archiveStory-archive">
         <Button
-
+          className={styles.button}
+          disabled={archiveTriggered}
+          onClick={handleArchive}
         >
           Archive
         </Button>
@@ -62,7 +73,10 @@ const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
   } else if (canUnarchive) {
     return (
       <Localized id="archiveStory-unarchive">
-        <Button>
+        <Button
+          className={styles.button}
+          onClick={handleUnarchive}
+        >
           Unarchive
         </Button>
       </Localized>
@@ -72,4 +86,24 @@ const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
   return null;
 };
 
-export default ArchiveStory;
+const enhanced = withFragmentContainer<Props>({
+  story: graphql`
+    fragment ArchiveStory_story on Story {
+      id
+      isArchiving
+      isArchived
+      isClosed
+      status
+      settings {
+        mode
+      }
+    }
+  `,
+  viewer: graphql`
+    fragment ArchiveStory_viewer on User {
+      role
+    }
+  `,
+})(ArchiveStory);
+
+export default enhanced;

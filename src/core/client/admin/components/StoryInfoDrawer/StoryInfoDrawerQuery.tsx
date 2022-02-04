@@ -25,6 +25,9 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
           story(id: $storyID) {
             ...StoryInfoDrawerContainer_story
           }
+          viewer {
+            ...StoryInfoDrawerContainer_viewer
+          }
         }
       `}
       variables={{ storyID }}
@@ -42,7 +45,11 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
         }
 
         return (
-          <StoryInfoDrawerContainer onClose={onClose} story={props.story} />
+          <StoryInfoDrawerContainer
+            viewer={props.viewer}
+            onClose={onClose}
+            story={props.story}
+          />
         );
       }}
     />

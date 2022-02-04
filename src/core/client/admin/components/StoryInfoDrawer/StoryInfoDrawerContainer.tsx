@@ -25,7 +25,7 @@ import StoryStatus from "./StoryStatus";
 export interface Props {
   onClose: () => void;
   story: StoryInfoDrawerContainer_story;
-  viewer: StoryInfoDrawerContainer_viewer;
+  viewer: StoryInfoDrawerContainer_viewer | null;
 }
 
 const MetaDataItem: FunctionComponent<{ val: any; icon: any }> = ({
@@ -68,7 +68,10 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           </TextLink>
           <Flex direction="row" alignItems="center" className={styles.status}>
             {story.isArchived || story.isArchiving ? (
-              <ArchivedMarker />
+              <>
+                <ArchivedMarker />
+                {viewer && <ArchiveStory story={story} viewer={viewer} />}
+              </>
             ) : (
               <StoryStatus
                 storyID={story.id}
@@ -96,7 +99,7 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             )}
           </Flex>
           <RescrapeStory storyID={story.id} />
-          <ArchiveStory story={story} viewer={viewer} />
+          {viewer && <ArchiveStory story={story} viewer={viewer} />}
           <StorySettingsContainer
             settings={story.settings}
             storyID={story.id}
@@ -122,14 +125,14 @@ const enhanced = withFragmentContainer<Props>({
         publishedAt
       }
       settings {
-        mode
         ...StorySettingsContainer_storySettings
       }
+      ...ArchiveStory_story
     }
   `,
   viewer: graphql`
     fragment StoryInfoDrawerContainer_viewer on User {
-      role
+      ...ArchiveStory_viewer
     }
   `,
 })(StoryInfoDrawerContainer);
