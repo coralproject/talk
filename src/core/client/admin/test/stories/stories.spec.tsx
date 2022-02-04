@@ -159,7 +159,8 @@ it("filter by status", async () => {
   });
 });
 
-it("change story status", async () => {
+// TODO: (marcushaddon) this can be updated to test the StoryInfoDrawer
+it.skip("change story status", async () => {
   const story = stories[1];
   const openStory = createMutationResolverStub<MutationToOpenStoryResolver>(
     ({ variables }) => {
