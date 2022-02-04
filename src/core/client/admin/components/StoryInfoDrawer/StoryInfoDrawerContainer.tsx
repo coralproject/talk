@@ -50,9 +50,11 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             {story.url}
           </TextLink>
           {story.isArchived || story.isArchiving ? (
-            <Flex className={styles.status}>
-              <ArchivedMarker />
-              {viewer && <ArchiveStory story={story} viewer={viewer} />}
+            <Flex direction="column" className={styles.status}>
+              <Flex direction="column" className={styles.archived}>
+                <ArchivedMarker />
+                {viewer && <ArchiveStory story={story} viewer={viewer} />}
+              </Flex>
             </Flex>
           ) : (
             <>

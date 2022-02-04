@@ -1,4 +1,4 @@
 .button {
-  width: 150px;
-  margin: var(--spacing-1) 0;
+  width: 100px;
+  margin: var(--spacing-2) 0;
 }
