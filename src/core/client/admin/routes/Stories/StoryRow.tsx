@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
@@ -6,6 +7,7 @@ import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
+  Button,
   ButtonIcon,
   HorizontalGutter,
   TableCell,
@@ -97,9 +99,17 @@ const UserRow: FunctionComponent<Props> = (props) => (
     </TableCell>
     <TableCell className={styles.actionsColumn}>
       {!props.readOnly && (
-        <ButtonIcon onClick={props.onOpenInfoDrawer} size="lg">
-          more_horiz
-        </ButtonIcon>
+        <Localized id="stories-openInfoDrawer" attrs={{ "aria-label": true }}>
+          <Button
+            aria-label="Open Info Drawer"
+            onClick={props.onOpenInfoDrawer}
+            color="mono"
+            variant="text"
+            uppercase={false}
+          >
+            {<ButtonIcon size="lg">more_horiz</ButtonIcon>}
+          </Button>
+        </Localized>
       )}
     </TableCell>
   </TableRow>

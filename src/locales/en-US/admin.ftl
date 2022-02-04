@@ -561,8 +561,8 @@ specificSitesSelect-validation = You must select at least one site from which to
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
 
-stories-actionsButton =
-  .aria-label = Select action
+stories-openInfoDrawer =
+  .aria-label = Open Info Drawer
 stories-actions-popover =
   .description = A dropdown to select story actions
 stories-actions-rescrape = Re-scrape
