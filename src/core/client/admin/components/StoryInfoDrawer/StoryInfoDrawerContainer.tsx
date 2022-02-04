@@ -11,7 +11,7 @@ import { StoryInfoDrawerContainer_settings } from "coral-admin/__generated__/Sto
 import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
 import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
-import ArchiveStory from "./ArchiveStory";
+import ArchiveStoryActionsContainer from "./ArchiveStoryActionsContainer";
 import ModerateStoryButton from "./ModerateStoryButton";
 import RescrapeStory from "./RescrapeStory";
 import StorySettingsContainer from "./StorySettingsContainer";
@@ -53,7 +53,9 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             <Flex direction="column" className={styles.status}>
               <Flex direction="column" className={styles.archived}>
                 <ArchivedMarker />
-                {viewer && <ArchiveStory story={story} viewer={viewer} />}
+                {viewer && (
+                  <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+                )}
               </Flex>
             </Flex>
           ) : (
@@ -76,7 +78,9 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
                 )}
               </Flex>
               <RescrapeStory storyID={story.id} />
-              {viewer && <ArchiveStory story={story} viewer={viewer} />}
+              {viewer && (
+                <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+              )}
               <StorySettingsContainer
                 settings={story.settings}
                 storyID={story.id}
@@ -107,12 +111,12 @@ const enhanced = withFragmentContainer<Props>({
       settings {
         ...StorySettingsContainer_storySettings
       }
-      ...ArchiveStory_story
+      ...ArchiveStoryActionsContainer_story
     }
   `,
   viewer: graphql`
     fragment StoryInfoDrawerContainer_viewer on User {
-      ...ArchiveStory_viewer
+      ...ArchiveStoryActionsContainer_viewer
       ...ModerateStoryButton_viewer
     }
   `,

@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "relay-runtime";
 
@@ -10,27 +11,31 @@ import {
 import { GQLSTORY_MODE, GQLSTORY_STATUS } from "coral-framework/schema";
 import { Button } from "coral-ui/components/v3";
 
-import { ArchiveStory_local } from "coral-admin/__generated__/ArchiveStory_local.graphql";
-import { ArchiveStory_story } from "coral-admin/__generated__/ArchiveStory_story.graphql";
-import { ArchiveStory_viewer } from "coral-admin/__generated__/ArchiveStory_viewer.graphql";
+import { ArchiveStoryActionsContainer_local } from "coral-admin/__generated__/ArchiveStoryActionsContainer_local.graphql";
+import { ArchiveStoryActionsContainer_story } from "coral-admin/__generated__/ArchiveStoryActionsContainer_story.graphql";
+import { ArchiveStoryActionsContainer_viewer } from "coral-admin/__generated__/ArchiveStoryActionsContainer_viewer.graphql";
 
-import { Localized } from "@fluent/react/compat";
 import ArchiveStoriesMutation from "./ArchiveStoriesMutation";
 import UnarchiveStoriesMutation from "./UnarchiveStoriesMutation";
 
-import styles from "./ArchiveStory.css";
+import styles from "./ArchiveStoryActionsContainer.css";
 
 export interface Props {
-  story: ArchiveStory_story;
-  viewer: ArchiveStory_viewer;
+  story: ArchiveStoryActionsContainer_story;
+  viewer: ArchiveStoryActionsContainer_viewer;
 }
 
-const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
+const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
+  story,
+  viewer,
+}) => {
   const archiveStory = useMutation(ArchiveStoriesMutation);
   const unarchiveStory = useMutation(UnarchiveStoriesMutation);
 
-  const [{ archivingEnabled }] = useLocal<ArchiveStory_local>(graphql`
-    fragment ArchiveStory_local on Local {
+  const [{ archivingEnabled }] = useLocal<
+    ArchiveStoryActionsContainer_local
+  >(graphql`
+    fragment ArchiveStoryActionsContainer_local on Local {
       archivingEnabled
     }
   `);
@@ -90,7 +95,7 @@ const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
 
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
-    fragment ArchiveStory_story on Story {
+    fragment ArchiveStoryActionsContainer_story on Story {
       id
       isArchiving
       isArchived
@@ -102,10 +107,10 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   viewer: graphql`
-    fragment ArchiveStory_viewer on User {
+    fragment ArchiveStoryActionsContainer_viewer on User {
       role
     }
   `,
-})(ArchiveStory);
+})(ArchiveStoryActionsContainer);
 
 export default enhanced;
