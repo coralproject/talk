@@ -5,13 +5,11 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { StoryRowContainer_story as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
-import { StoryRowContainer_viewer as ViewerData } from "coral-admin/__generated__/StoryRowContainer_viewer.graphql";
 
 import StoryRow from "./StoryRow";
 
 interface Props {
   story: StoryData;
-  viewer: ViewerData;
   multisite: boolean;
   onOpenInfoDrawer: () => void;
 }
@@ -46,7 +44,6 @@ const StoryRowContainer: FunctionComponent<Props> = (props) => {
       title={title}
       author={author}
       story={props.story}
-      viewer={props.viewer}
       siteName={props.story.site.name}
       siteID={props.story.site.id}
       multisite={props.multisite}
@@ -61,12 +58,6 @@ const StoryRowContainer: FunctionComponent<Props> = (props) => {
 };
 
 const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment StoryRowContainer_viewer on User {
-      id
-      ...StoryActionsContainer_viewer
-    }
-  `,
   story: graphql`
     fragment StoryRowContainer_story on Story {
       id
@@ -93,7 +84,6 @@ const enhanced = withFragmentContainer<Props>({
       }
       canModerate
       isClosed
-      ...StoryActionsContainer_story
       ...StoryStatusContainer_story
     }
   `,

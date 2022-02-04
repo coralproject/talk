@@ -100,9 +100,6 @@ const enhanced = withPaginationContainer<
           searchFilter: { type: "String" }
           siteID: { type: "ID" }
         ) {
-        viewer {
-          ...StoryRowContainer_viewer
-        }
         settings {
           multisite
         }
