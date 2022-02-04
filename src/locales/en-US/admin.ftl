@@ -4,6 +4,7 @@
 general-notAvailable = Not available
 general-none = None
 general-noTextContent = No text content
+general-archived = Archived
 
 ## Story Status
 storyStatus-open = Open
@@ -1433,7 +1434,7 @@ stories-status-popover =
   .description = A dropdown to change the story status
 
 storyInfoDrawer-rescrapeTriggered = Triggered
-storyInfoDrawer-triggerRescrape = Rescrape
+storyInfoDrawer-triggerRescrape = Rescrape Metadata
 storyInfoDrawer-title = Story Details
 storyInfoDrawer-titleNotAvailable = Story title not available
 storyInfoDrawer-authorNotAvailable = Author not available
@@ -1442,10 +1443,13 @@ storyInfoDrawer-scrapedMetaData = Scraped metadata
 storyInfoDrawer-configure = Configure
 storyInfoDrawer-storyStatus-open = Open
 storyInfoDrawer-storyStatus-closed = Closed
-storyInfoDrawerSettings-premodLinksEnable = Pre Mod Links
+storyInfoDrawer-moderateStory = Moderate
+storyInfoDrawerSettings-premodLinksEnable = Pre-moderate comments containing links
+storyInfoDrawerSettings-premodCommentsEnable = Pre-moderate all comments
 storyInfoDrawerSettings-moderation = Moderation
 storyInfoDrawerSettings-moderationMode-pre = Pre
 storyInfoDrawerSettings-moderationMode-post = Post
+storyInfoDrawerSettings-update = Update
 storyInfoDrawer-storyStatus-archiving = Archiving
 storyInfoDrawer-storyStatus-archived = Archived
 

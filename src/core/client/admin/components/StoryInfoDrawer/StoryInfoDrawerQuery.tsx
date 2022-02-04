@@ -11,19 +11,18 @@ import { StoryInfoDrawerQuery as QueryTypes } from "coral-admin/__generated__/St
 
 export interface Props {
   storyID: string;
-  onClose: () => void;
 }
 
-const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
-  storyID,
-  onClose,
-}) => {
+const StoryInfoDrawerQuery: FunctionComponent<Props> = ({ storyID }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
         query StoryInfoDrawerQuery($storyID: ID!) {
           story(id: $storyID) {
             ...StoryInfoDrawerContainer_story
+          }
+          settings {
+            ...StoryInfoDrawerContainer_settings
           }
           viewer {
             ...StoryInfoDrawerContainer_viewer
@@ -36,7 +35,7 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
           return <QueryError error={error} />;
         }
 
-        if (!props || !props.story) {
+        if (!props || !props.story || !props.viewer) {
           return (
             <div>
               <Spinner />
@@ -46,9 +45,9 @@ const StoryInfoDrawerQuery: FunctionComponent<Props> = ({
 
         return (
           <StoryInfoDrawerContainer
-            viewer={props.viewer}
-            onClose={onClose}
             story={props.story}
+            settings={props.settings}
+            viewer={props.viewer}
           />
         );
       }}
