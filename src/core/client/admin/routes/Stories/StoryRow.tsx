@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
@@ -6,14 +7,14 @@ import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
+  Button,
+  ButtonIcon,
   HorizontalGutter,
-  Icon,
   TableCell,
   TableRow,
   TextLink,
 } from "coral-ui/components/v2";
 
-import StoryActionsContainer from "./StoryActions";
 import StoryStatusContainer from "./StoryStatus";
 
 import styles from "./StoryRow.css";
@@ -24,9 +25,7 @@ interface Props {
   author: string | null;
   readOnly: boolean;
   publishDate: string | null;
-  story: PropTypesOf<typeof StoryActionsContainer>["story"] &
-    PropTypesOf<typeof StoryStatusContainer>["story"];
-  viewer: PropTypesOf<typeof StoryActionsContainer>["viewer"];
+  story: PropTypesOf<typeof StoryStatusContainer>["story"];
   siteName: string;
   siteID: string;
   multisite: boolean;
@@ -52,15 +51,6 @@ const UserRow: FunctionComponent<Props> = (props) => (
           ) : (
             props.title || <NotAvailable />
           )}
-          <Icon
-            onClick={props.onOpenInfoDrawer}
-            className={styles.infoDrawerButton}
-            size="sm"
-            role="button"
-            aria-label="Open story info drawer"
-          >
-            open_in_new
-          </Icon>
         </p>
         {(props.author || props.publishDate || !!props.viewerCount) && (
           <p className={styles.meta}>
@@ -109,7 +99,17 @@ const UserRow: FunctionComponent<Props> = (props) => (
     </TableCell>
     <TableCell className={styles.actionsColumn}>
       {!props.readOnly && (
-        <StoryActionsContainer story={props.story} viewer={props.viewer} />
+        <Localized id="stories-openInfoDrawer" attrs={{ "aria-label": true }}>
+          <Button
+            aria-label="Open Info Drawer"
+            onClick={props.onOpenInfoDrawer}
+            color="mono"
+            variant="text"
+            uppercase={false}
+          >
+            {<ButtonIcon size="lg">more_horiz</ButtonIcon>}
+          </Button>
+        </Localized>
       )}
     </TableCell>
   </TableRow>

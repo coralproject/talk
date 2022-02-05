@@ -68,7 +68,6 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
           )}
         </Flex>
         <StoryTable
-          viewer={props.query && props.query.viewer}
           loading={!props.query || isRefetching}
           stories={stories}
           onLoadMore={loadMore}
@@ -100,9 +99,6 @@ const enhanced = withPaginationContainer<
           searchFilter: { type: "String" }
           siteID: { type: "ID" }
         ) {
-        viewer {
-          ...StoryRowContainer_viewer
-        }
         settings {
           multisite
         }

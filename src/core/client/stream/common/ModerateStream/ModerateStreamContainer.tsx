@@ -7,8 +7,8 @@ import {
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
-import { Ability, can } from "coral-stream/permissions";
 import { Button } from "coral-ui/components/v3";
 
 import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
