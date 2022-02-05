@@ -68,7 +68,6 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
           )}
         </Flex>
         <StoryTable
-          viewer={props.query && props.query.viewer}
           loading={!props.query || isRefetching}
           stories={stories}
           onLoadMore={loadMore}
