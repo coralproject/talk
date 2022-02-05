@@ -2,8 +2,8 @@
 
 ## Comments Tab
 
-comments-postCommentForm-submit = Posten
+comments-postCommentForm-submit = Kommentar absenden
 comments-stream-loadMore = Mehr laden
 comments-replyList-showAll = Alle anzeigen
 
-comments-commentForm-submit = Posten
+comments-commentForm-submit = Absenden
