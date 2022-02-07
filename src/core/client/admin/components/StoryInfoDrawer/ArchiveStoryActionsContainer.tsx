@@ -76,7 +76,7 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
           onClick={handleArchive}
           color="error"
         >
-          Archive
+          Archive Story
         </Button>
       </Localized>
     );
@@ -84,7 +84,7 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
     return (
       <Localized id="stories-actions-unarchive">
         <Button className={styles.button} onClick={handleUnarchive}>
-          Unarchive
+          Unarchive Story
         </Button>
       </Localized>
     );
