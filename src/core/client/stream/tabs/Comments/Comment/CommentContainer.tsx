@@ -17,6 +17,7 @@ import { useToggleState } from "coral-framework/hooks";
 import { withContext } from "coral-framework/lib/bootstrap";
 import { MutationProp, useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
+import { Ability, can } from "coral-framework/permissions";
 import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
@@ -37,7 +38,6 @@ import {
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { Ability, can } from "coral-stream/permissions";
 import {
   Button,
   Flex,
@@ -53,7 +53,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
-import { useCommentSeen, useCommentSeenEnabled } from "../commentSeen";
+import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
@@ -64,6 +64,7 @@ import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import { isReplyFlattened } from "./flattenReplies";
 import IndentedComment from "./IndentedComment";
+import MarkCommentsAsSeenMutation from "./MarkCommentsAsSeenMutation";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
   ModerationRejectedTombstoneContainer,
@@ -146,15 +147,29 @@ export const CommentContainer: FunctionComponent<Props> = ({
   enableJumpToParent,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const seen = useCommentSeen(viewer?.id, comment.id);
+  const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const setTraversalFocus = useMutation(SetTraversalFocus);
+  const markCommentsAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const handleFocus = useCallback(() => {
+    if (canCommitCommentSeen && !comment.seen) {
+      void markCommentsAsSeen({
+        commentIDs: [comment.id],
+        storyID: story.id,
+      });
+    }
+
     void setTraversalFocus({
       commentID: comment.id,
-      commentSeenEnabled,
-      skipCommitSeen: seen,
+      commentSeenEnabled: canCommitCommentSeen,
     });
-  }, [comment.id, commentSeenEnabled, seen, setTraversalFocus]);
+  }, [
+    comment.id,
+    comment.seen,
+    canCommitCommentSeen,
+    markCommentsAsSeen,
+    setTraversalFocus,
+    story.id,
+  ]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [
@@ -396,12 +411,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
   // Boolean that indicates whether or not we want to
   // apply the "comment not seen class" for styling purposes.
   const shouldApplyNotSeenClass =
-    !seen &&
+    canCommitCommentSeen &&
+    !comment.seen &&
     !highlight &&
     comment.lastViewerAction !== "CREATE" &&
     comment.lastViewerAction !== "EDIT";
-
-  const shouldApplyFocusClass = comment.hasTraversalFocus && commentSeenEnabled;
 
   return (
     <div
@@ -419,7 +433,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       data-testid={commentElementID}
       // Added for keyboard shortcut support.
       data-key-stop
-      data-not-seen={seen || !commentSeenEnabled ? undefined : true}
+      data-not-seen={canCommitCommentSeen && !comment.seen ? true : undefined}
       onFocus={handleFocus}
     >
       {/* TODO: (cvle) Refactor at some point */}
@@ -488,17 +502,17 @@ export const CommentContainer: FunctionComponent<Props> = ({
       <HorizontalGutter>
         <IndentedComment
           enableJumpToParent={enableJumpToParent}
-          classNameIndented={cn({
+          classNameIndented={cn(styles.indentedCommentRoot, {
             [styles.indented]: indentLevel && indentLevel > 0,
-            [styles.commentSeenEnabled]: commentSeenEnabled,
+            [styles.commentSeenEnabled]: canCommitCommentSeen,
             [styles.notSeen]: shouldApplyNotSeenClass,
             [styles.flattenedPadding]: isReplyFlattened(
               settings.flattenReplies,
               indentLevel
             ),
             [CLASSES.comment.notSeen]: shouldApplyNotSeenClass,
-            [styles.traversalFocus]: shouldApplyFocusClass,
-            [CLASSES.comment.focus]: shouldApplyFocusClass,
+            [styles.traversalFocus]: comment.hasTraversalFocus,
+            [CLASSES.comment.focus]: comment.hasTraversalFocus,
           })}
           indentLevel={indentLevel}
           collapsed={collapsed}
@@ -838,6 +852,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             flag
           }
           hasTraversalFocus
+          seen
           ...CaretContainer_comment
           ...EditCommentFormContainer_comment
           ...MediaSectionContainer_comment

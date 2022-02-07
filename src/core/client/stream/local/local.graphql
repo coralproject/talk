@@ -44,6 +44,12 @@ type AuthPopup {
   view: VIEW
 }
 
+type KeyboardShortcutsConfig {
+  source: String!
+  key: String!
+  reverse: Boolean!
+}
+
 extend type Comment {
   # pending is true during the optimistic response.
   pending: Boolean
@@ -90,4 +96,9 @@ extend type Local {
 
   # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
   commentWithTraversalFocus: String
+  # Current keyboard shortcuts config that the user last used to go through comments
+  keyboardShortcutsConfig: KeyboardShortcutsConfig
+
+  archivingEnabled: Boolean!
+  autoArchiveOlderThanMs: Int!
 }

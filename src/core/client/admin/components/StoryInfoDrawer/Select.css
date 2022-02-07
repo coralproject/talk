@@ -1,0 +1,15 @@
+.label {
+  margin: 0 var(--spacing-2) 0 0;
+  font-weight: var(--font-weight-primary-bold);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-2);
+}
+
+.toggleButton {
+  padding: 0 var(--spacing-1);
+  border: 1px solid var(--palette-grey-400);
+}
+
+.buttonText {
+  margin-right: var(--spacing-4);
+}

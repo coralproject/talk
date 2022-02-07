@@ -14,19 +14,7 @@ import {
 import styles from "./UserStatusChange.css";
 
 interface Props {
-  /**
-   * onBan when set to false disables the controls associated with banning a
-   * user. Otherwise the provided function is called when the control is
-   * clicked.
-   */
-  onBan: false | (() => void);
-
-  /**
-   * onRemoveBan when set to false disables the controls associated with
-   * banning a user. Otherwise the provided function is called when the control
-   * is clicked.
-   */
-  onRemoveBan: false | (() => void);
+  onManageBan: () => void;
 
   onSuspend: () => void;
   onRemoveSuspension: () => void;
@@ -43,11 +31,11 @@ interface Props {
   fullWidth?: boolean;
   bordered?: boolean;
   moderationScopesEnabled?: boolean;
+  viewerIsScoped?: boolean;
 }
 
 const UserStatusChange: FunctionComponent<Props> = ({
-  onBan,
-  onRemoveBan,
+  onManageBan,
   onSuspend,
   onRemoveSuspension,
   onPremod,
@@ -63,6 +51,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
   fullWidth = true,
   bordered = false,
   moderationScopesEnabled = false,
+  viewerIsScoped = false,
 }) => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
@@ -72,37 +61,20 @@ const UserStatusChange: FunctionComponent<Props> = ({
       body={({ toggleVisibility }) => (
         <ClickOutside onClickOutside={toggleVisibility}>
           <Dropdown>
-            {banned ? (
-              <Localized id="community-userStatus-removeUserBan">
+            {
+              <Localized id="community-userStatus-manageBan">
                 <DropdownButton
                   className={styles.dropdownButton}
-                  disabled={!onRemoveBan}
+                  disabled={banned && viewerIsScoped}
                   onClick={() => {
-                    if (onRemoveBan) {
-                      onRemoveBan();
-                      toggleVisibility();
-                    }
+                    onManageBan();
+                    toggleVisibility();
                   }}
                 >
-                  Remove ban
+                  Manage Ban
                 </DropdownButton>
               </Localized>
-            ) : (
-              <Localized id="community-userStatus-ban">
-                <DropdownButton
-                  className={styles.dropdownButton}
-                  disabled={!onBan}
-                  onClick={() => {
-                    if (onBan) {
-                      onBan();
-                      toggleVisibility();
-                    }
-                  }}
-                >
-                  Ban
-                </DropdownButton>
-              </Localized>
-            )}
+            }
             {suspended ? (
               <Localized id="community-userStatus-removeUserSuspension">
                 <DropdownButton

@@ -288,9 +288,30 @@ export const LoadMoreFeaturedCommentsEvent = createViewerNetworkEvent<{
  */
 export const LoadMoreAllCommentsEvent = createViewerNetworkEvent<{
   storyID: string;
+  keyboardShortcutsConfig: {
+    source: string;
+    key: string;
+    reverse: boolean;
+  } | null;
   success: {};
   error: { message: string; code?: string };
 }>("loadMoreAllComments");
+
+/**
+ *
+ * This event is emitted when the viewer reveals
+ * new live comments.
+ */
+export const ViewNewCommentsNetworkEvent = createViewerNetworkEvent<{
+  storyID?: string;
+  keyboardShortcutsConfig: {
+    source: string;
+    key: string;
+    reverse: boolean;
+  } | null;
+  success: {};
+  error: { message: string; code?: string };
+}>("viewNewCommentsNetwork");
 
 /**
  * This event is emitted when the viewer loads more
@@ -307,6 +328,11 @@ export const LoadMoreHistoryCommentsEvent = createViewerNetworkEvent<{
  */
 export const ShowAllRepliesEvent = createViewerNetworkEvent<{
   commentID: string;
+  keyboardShortcutsConfig: {
+    source: string;
+    key: string;
+    reverse: boolean;
+  } | null;
   success: {};
   error: { message: string; code?: string };
 }>("showAllReplies");

@@ -4,6 +4,7 @@
 general-notAvailable = Not available
 general-none = None
 general-noTextContent = No text content
+general-archived = Archived
 
 ## Story Status
 storyStatus-open = Open
@@ -556,13 +557,13 @@ site-search-textField =
 site-search-textField =
   .placeholder = Search by site name
 site-search-none-found = No sites were found with that search
-specificSitesSelect-validation = You must select at least one site.
+specificSitesSelect-validation = You must select at least one site from which to ban/unban the user.
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
 
-stories-actionsButton =
-  .aria-label = Select action
+stories-openInfoDrawer =
+  .aria-label = Open Info Drawer
 stories-actions-popover =
   .description = A dropdown to select story actions
 stories-actions-rescrape = Re-scrape
@@ -810,6 +811,26 @@ configure-moderation-newCommenters-approvedCommentsThreshold-description =
   not have to be premoderated
 configure-moderation-newCommenters-comments = comments
 
+#### Email domain
+configure-moderation-emailDomains-header = Email domain
+configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
+configure-moderation-emailDomains-add = Add email domain
+configure-moderation-emailDomains-edit = Edit email domain
+configure-moderation-emailDomains-addDomain = <icon>add</icon> Add domain
+configure-moderation-emailDomains-table-domain = Domain
+configure-moderation-emailDomains-table-action = Action
+configure-moderation-emailDomains-table-edit = <icon>edit</icon> Edit
+configure-moderation-emailDomains-table-delete = <icon>delete</icon> Delete
+configure-moderation-emailDomains-form-label-domain = Domain
+configure-moderation-emailDomains-form-label-moderationAction = Moderation action
+configure-moderation-emailDomains-banAllUsers = Ban all new commenter accounts
+configure-moderation-emailDomains-alwaysPremod = Always pre-moderate comments
+configure-moderation-emailDomains-form-cancel = Cancel
+configure-moderation-emailDomains-form-addDomain = Add domain
+configure-moderation-emailDomains-form-editDomain = Update
+configure-moderation-emailDomains-confirmDelete = Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?
+configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
+configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
@@ -1133,6 +1154,39 @@ moderate-user-drawer-notes-button = Add note
 moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
+moderate-user-drawer-all-comments-archiveThreshold-allOfThisUsers =
+  All of this user’s comments from the previous { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  }.
+
 # For Review Queue
 
 moderate-forReview-reviewedButton =
@@ -1223,10 +1277,7 @@ community-siteModeratorActions-popover =
 community-userStatus-popover =
   .description = A dropdown to change the user status
 
-community-userStatus-banUser = Ban User
-community-userStatus-ban = Ban
-community-userStatus-removeBan = Remove Ban
-community-userStatus-removeUserBan = Remove ban
+community-userStatus-manageBan = Manage Ban
 community-userStatus-suspendUser = Suspend User
 community-userStatus-suspend = Suspend
 community-userStatus-suspendEverywhere = Suspend everywhere
@@ -1238,14 +1289,22 @@ community-userStatus-changeButton =
 community-userStatus-premodUser = Always pre-moderate
 community-userStatus-removePremod = Remove pre-moderate
 
-community-banModal-areYouSure = Are you sure you want to ban <username></username>?
-community-banModal-consequence =
+community-banModal-allSites-title = Are you sure you want to ban <username></username>?
+community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
+community-banModal-noSites-title = Are you sure you want to unban <username></username>?
+community-banModal-allSites-consequence =
   Once banned, this user will no longer be able to comment, use
   reactions, or report comments.
+community-banModal-noSites-consequence =
+  Once unbanned, this user will be able to comment, use reactions, and report comments.
+community-banModal-specificSites-consequence =
+  This action will affect which sites on which the user is able to comment, use reactions, and report comments.
 community-banModal-cancel = Cancel
-community-banModal-banUser = Ban User
+community-banModal-updateBan = Save
 community-banModal-customize = Customize ban email message
 community-banModal-reject-existing = Reject all comments by this user
+community-banModal-reject-existing-specificSites = Reject all comments on these sites
+community-banModal-reject-existing-singleSite = Reject all comments on this site
 
 community-banModal-noSites = No sites
 community-banModal-banFrom = Ban from
@@ -1373,6 +1432,27 @@ stories-column-publishedCount = Published
 
 stories-status-popover =
   .description = A dropdown to change the story status
+
+storyInfoDrawer-rescrapeTriggered = Triggered
+storyInfoDrawer-triggerRescrape = Rescrape Metadata
+storyInfoDrawer-title = Story Details
+storyInfoDrawer-titleNotAvailable = Story title not available
+storyInfoDrawer-authorNotAvailable = Author not available
+storyInfoDrawer-publishDateNotAvailable = Publish date not available
+storyInfoDrawer-scrapedMetaData = Scraped metadata
+storyInfoDrawer-configure = Configure
+storyInfoDrawer-storyStatus-open = Open
+storyInfoDrawer-storyStatus-closed = Closed
+storyInfoDrawer-moderateStory = Moderate
+storyInfoDrawerSettings-premodLinksEnable = Pre-moderate comments containing links
+storyInfoDrawerSettings-premodCommentsEnable = Pre-moderate all comments
+storyInfoDrawerSettings-moderation = Moderation
+storyInfoDrawerSettings-moderationMode-pre = Pre
+storyInfoDrawerSettings-moderationMode-post = Post
+storyInfoDrawerSettings-update = Update
+storyInfoDrawer-storyStatus-archiving = Archiving
+storyInfoDrawer-storyStatus-archived = Archived
+
 
 ## Invite
 
@@ -1518,10 +1598,103 @@ dashboard-heading-last-updated = Last updated:
 dashboard-today-heading = Today's activity
 dashboard-today-new-comments = New comments
 dashboard-alltime-new-comments = All time total
+dashboard-alltime-new-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } total
 dashboard-today-rejections = Rejection rate
 dashboard-alltime-rejections = All time average
+dashboard-alltime-rejections-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } average
 dashboard-today-staff-comments = Staff comments
 dashboard-alltime-staff-comments = All time total
+dashboard-alltime-staff-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  } total
 dashboard-today-signups = New community members
 dashboard-alltime-signups = Total members
 dashboard-today-bans = Banned members

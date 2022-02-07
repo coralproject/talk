@@ -13,7 +13,7 @@ import { AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated_
 
 import CollapsableComment from "../../Comment/CollapsableComment";
 import CommentContainer from "../../Comment/CommentContainer";
-import { useCommentSeen, useCommentSeenEnabled } from "../../commentSeen";
+import { useCommentSeenEnabled } from "../../commentSeen";
 import DeletedTombstoneContainer from "../../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import ReplyListContainer from "../../ReplyList/ReplyListContainer";
@@ -36,7 +36,8 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const commentSeenEnabled = useCommentSeenEnabled();
-  const commentSeen = useCommentSeen(viewer?.id, comment.id);
+  const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
+  const commentSeen = canCommitCommentSeen && comment.seen;
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
@@ -104,6 +105,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment AllCommentsTabCommentContainer_comment on Comment {
       id
       enteredLive
+      seen
       ...CommentContainer_comment
       ...ReplyListContainer1_comment
       ...IgnoredTombstoneOrHideContainer_comment

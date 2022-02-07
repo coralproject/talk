@@ -3,7 +3,10 @@ import { EventEmitter2 } from "eventemitter2";
 import { noop } from "lodash";
 import React from "react";
 
-import { removeFragmentRefs } from "coral-framework/testHelpers";
+import {
+  createRelayEnvironment,
+  removeFragmentRefs,
+} from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-framework/types";
 
 import ReplyList from "./ReplyList";
@@ -11,9 +14,11 @@ import { ReplyListContainer } from "./ReplyListContainer";
 
 // Remove relay refs so we can stub the props.
 const ReplyListContainerN = removeFragmentRefs(ReplyListContainer);
-
 /* Mock useContext */
-const context = { eventEmitter: new EventEmitter2() };
+const context = {
+  eventEmitter: new EventEmitter2(),
+  relayEnvironment: createRelayEnvironment({}),
+};
 jest.spyOn(React, "useContext").mockImplementation(() => context);
 
 it("renders correctly", () => {

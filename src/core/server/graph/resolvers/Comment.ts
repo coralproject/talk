@@ -155,4 +155,20 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     }
     return getURLWithCommentID(story.url, id);
   },
+  seen: async ({ storyID, id }, input, ctx) => {
+    if (!ctx.user) {
+      return false;
+    }
+
+    const seenComments = await ctx.loaders.SeenComments.find.load({
+      storyID,
+      userID: ctx.user.id,
+    });
+    if (!seenComments) {
+      return false;
+    }
+
+    const seen = seenComments.comments.has(id);
+    return seen;
+  },
 };

@@ -179,6 +179,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.updateEmail(input),
     clientMutationId: input.clientMutationId,
   }),
+  updateUserBan: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.updateUserBan(input),
+    clientMutationId: input.clientMutationId,
+  }),
   updateUserEmail: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.updateUserEmail(input),
     clientMutationId: input.clientMutationId,
@@ -323,6 +327,30 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     story: await ctx.mutators.Stories.removeStoryExpert(input),
     clientMutationId: input.clientMutationId,
   }),
+  createEmailDomain: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    settings: await ctx.mutators.Settings.createEmailDomain(input),
+    clientMutationId,
+  }),
+  updateEmailDomain: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    settings: await ctx.mutators.Settings.updateEmailDomain(input),
+    clientMutationId,
+  }),
+  deleteEmailDomain: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    settings: await ctx.mutators.Settings.deleteEmailDomain(input),
+    clientMutationId,
+  }),
   createWebhookEndpoint: async (
     source,
     { input: { clientMutationId, ...input } },
@@ -443,6 +471,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   unarchiveStories: async (source, { input }, ctx) => ({
     stories: await ctx.mutators.Stories.unarchiveStories(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  markCommentsAsSeen: async (source, { input }, ctx) => ({
+    comments: await ctx.mutators.Comments.markAsSeen(input),
     clientMutationId: input.clientMutationId,
   }),
 };

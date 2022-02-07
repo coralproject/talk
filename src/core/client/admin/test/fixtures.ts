@@ -14,6 +14,7 @@ import {
   GQLFlagsConnection,
   GQLMODERATION_MODE,
   GQLModerationQueues,
+  GQLNEW_USER_MODERATION,
   GQLSettings,
   GQLSite,
   GQLSitesConnection,
@@ -215,6 +216,7 @@ export const settings = createFixture<GQLSettings>({
   amp: false,
   flattenReplies: false,
   forReviewQueue: false,
+  emailDomainModeration: [],
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(
@@ -451,6 +453,28 @@ export const users = {
         email: "lukas@test.com",
         role: GQLUSER_ROLE.MODERATOR,
         ignoreable: false,
+      },
+      {
+        id: "site-moderator-1",
+        username: "Ginger",
+        email: "ginger@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
+        moderationScopes: {
+          scoped: true,
+          sites: [sites[0]],
+        },
+      },
+      {
+        id: "site-moderator-2",
+        username: "Audrey",
+        email: "audrey@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
+        moderationScopes: {
+          scoped: true,
+          sites: [sites[0]],
+        },
       },
     ],
     baseUser
@@ -1052,6 +1076,8 @@ export const communityUsers = createFixture<GQLUsersConnection>({
   edges: [
     { node: users.admins[0], cursor: users.admins[0].createdAt },
     { node: users.moderators[0], cursor: users.moderators[0].createdAt },
+    { node: users.moderators[1], cursor: users.moderators[1].createdAt },
+    { node: users.moderators[2], cursor: users.moderators[2].createdAt },
     { node: users.staff[0], cursor: users.staff[0].createdAt },
     { node: users.commenters[0], cursor: users.commenters[0].createdAt },
   ],
@@ -1115,4 +1141,10 @@ export const siteConnection = createFixture<GQLSitesConnection>({
     { node: sites[1], cursor: sites[1].createdAt },
   ],
   pageInfo: { endCursor: null, hasNextPage: false },
+});
+
+export const emailDomain = createFixture({
+  id: "1a60424a-c116-483a-b315-837a7fd5b496",
+  domain: "email.com",
+  newUserModeration: GQLNEW_USER_MODERATION.BAN,
 });

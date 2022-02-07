@@ -1,16 +1,34 @@
 import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { RecordSource } from "relay-runtime";
 import sinon, { SinonSpy } from "sinon";
 
-import { removeFragmentRefs } from "coral-framework/testHelpers";
+import {
+  createRelayEnvironment,
+  removeFragmentRefs,
+} from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-framework/types";
 
 import ReplyList from "./ReplyList";
 
-const ReplyListN = removeFragmentRefs(ReplyList);
+const source = new RecordSource();
 
-it("renders correctly", () => {
+const context = {
+  localStorage: window.localStorage,
+  sessionStorage: window.sessionStorage,
+  window,
+  renderWindow: window,
+  relayEnvironment: createRelayEnvironment({
+    source,
+    initLocalState: true,
+  }),
+};
+
+const ReplyListN = removeFragmentRefs(ReplyList);
+jest.spyOn(React, "useContext").mockImplementation(() => context);
+
+it("renders correctly", async () => {
   const props: PropTypesOf<typeof ReplyListN> = {
     story: { id: "story-id" },
     comment: { id: "comment-id" },
@@ -36,7 +54,7 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-describe("when there is more", () => {
+describe("when there is more", async () => {
   const props: PropTypesOf<typeof ReplyListN> = {
     story: { id: "story-id" },
     comment: { id: "comment-id" },

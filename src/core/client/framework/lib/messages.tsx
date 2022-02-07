@@ -30,6 +30,12 @@ export const INVALID_EMAIL = () => (
   </Localized>
 );
 
+export const INVALID_EMAIL_DOMAIN = () => (
+  <Localized id="framework-validation-invalidEmailDomain">
+    <span>Invalid email domain format. Please use "email.com"</span>
+  </Localized>
+);
+
 export const INVALID_CHARACTERS = () => (
   <Localized id="framework-validation-invalidCharacters">
     <span>Invalid characters. Try again.</span>

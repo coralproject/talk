@@ -15,7 +15,6 @@ import {
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
-import ArchivedMarker from "coral-stream/common/ArchivedMarker/ArchivedMarker";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
   COMMENTS_ORDER_BY,
@@ -36,6 +35,7 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components/v2";
+import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 import { PropTypesOf } from "coral-ui/types";
 
 import { StreamContainer_settings } from "coral-stream/__generated__/StreamContainer_settings.graphql";
@@ -47,7 +47,6 @@ import {
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
-import { CommentSeenProvider } from "../commentSeen";
 import AddACommentButton from "./AddACommentButton";
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
@@ -232,7 +231,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   ]);
 
   return (
-    <CommentSeenProvider storyID={props.story.id} viewerID={props.viewer?.id}>
+    <>
       <StoryClosedTimeoutContainer story={props.story} />
       <PreviousCountSpyContainer
         story={props.story}
@@ -564,7 +563,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           </TabContent>
         </HorizontalGutter>
       </HorizontalGutter>
-    </CommentSeenProvider>
+    </>
   );
 };
 

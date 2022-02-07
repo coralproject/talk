@@ -3,18 +3,17 @@ import { ListenerFn } from "eventemitter2";
 import React, {
   FunctionComponent,
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from "react";
-import { Environment } from "react-relay";
+import { Environment, graphql } from "react-relay";
 
 import { waitFor } from "coral-common/helpers";
 import { onPymMessage } from "coral-framework/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
-import { useMutation } from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import CLASSES from "coral-stream/classes";
@@ -27,17 +26,21 @@ import {
   LoadMoreAllCommentsEvent,
   ShowAllRepliesEvent,
   UnmarkAllEvent,
+  ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
+import MarkCommentsAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
 import {
-  CommentSeenContext,
   COMMIT_SEEN_EVENT,
-} from "coral-stream/tabs/Comments/commentSeen/CommentSeenContext";
+  useCommentSeenEnabled,
+} from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
+
+import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
 import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";
@@ -46,6 +49,7 @@ import styles from "./KeyboardShortcuts.css";
 
 interface Props {
   loggedIn: boolean;
+  storyID: string;
 }
 
 export interface KeyboardEventData {
@@ -61,6 +65,7 @@ interface KeyStop {
   isLoadMore: boolean;
   element: HTMLElement;
   notSeen: boolean;
+  isViewNew: boolean;
 }
 
 interface TraverseOptions {
@@ -75,6 +80,7 @@ const toKeyStop = (element: HTMLElement): KeyStop => {
     id: element.id,
     isLoadMore: "isLoadMore" in element.dataset,
     notSeen: "notSeen" in element.dataset,
+    isViewNew: "isViewNew" in element.dataset,
   };
 };
 
@@ -250,10 +256,17 @@ const eventsOfInterest = [
   "subscription.subscribeToCommentEntered.data",
   ShowAllRepliesEvent.nameSuccess,
   LoadMoreAllCommentsEvent.nameSuccess,
+  ViewNewCommentsNetworkEvent.nameSuccess,
   COMMIT_SEEN_EVENT,
 ];
 
-const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
+const loadMoreEvents = [
+  ShowAllRepliesEvent.nameSuccess,
+  LoadMoreAllCommentsEvent.nameSuccess,
+  ViewNewCommentsNetworkEvent.nameSuccess,
+];
+
+const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
   const {
     pym,
     relayEnvironment,
@@ -267,9 +280,19 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   );
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
+  const markSeen = useMutation(MarkCommentsAsSeenMutation);
+  const [, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
+    fragment KeyboardShortcuts_local on Local {
+      keyboardShortcutsConfig {
+        key
+        source
+        reverse
+      }
+    }
+  `);
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
-  const { commitSeen, enabled } = useContext(CommentSeenContext);
+  const commentSeenEnabled = useCommentSeenEnabled();
 
   const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(
     NextUnread
@@ -310,12 +333,25 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
       UnmarkAllEvent.emit(eventEmitter, { source: config.source });
-      commitSeen();
+
+      // eslint-disable-next-line no-restricted-globals
+      const notSeenComments = window.document.querySelectorAll<HTMLElement>(
+        "[data-not-seen=true]"
+      );
+      const commentIDs: string[] = [];
+      notSeenComments.forEach((c) => {
+        const id = c.getAttribute("id")?.replace("comment-", "");
+        if (id) {
+          commentIDs.push(id);
+        }
+      });
+
+      void markSeen({ storyID, commentIDs });
       if (!disableUnmarkAction) {
         setDisableUnmarkAction(true);
       }
     },
-    [commitSeen, disableUnmarkAction, eventEmitter]
+    [disableUnmarkAction, eventEmitter, markSeen, storyID]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
@@ -390,34 +426,36 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       pym.scrollParentToChildPos(offset);
 
       if (stop.isLoadMore) {
-        let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
-          skipLoadMore: true,
-          noCircle: true,
-        });
-        if (!prevOrNextStop) {
-          prevOrNextStop = findNextKeyStop(renderWindow, stop, {
+        if (!stop.isViewNew) {
+          let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
             skipLoadMore: true,
             noCircle: true,
           });
-        }
-        if (prevOrNextStop) {
-          void setTraversalFocus({
-            commentID: parseCommentElementID(prevOrNextStop.id),
-            commentSeenEnabled: enabled,
-          });
-          prevOrNextStop.element.focus();
+          if (!prevOrNextStop) {
+            prevOrNextStop = findNextKeyStop(renderWindow, stop, {
+              skipLoadMore: true,
+              noCircle: true,
+            });
+          }
+          if (prevOrNextStop) {
+            void setTraversalFocus({
+              commentID: parseCommentElementID(prevOrNextStop.id),
+              commentSeenEnabled,
+            });
+            prevOrNextStop.element.focus();
+          }
         }
         stop.element.click();
       } else {
         void setTraversalFocus({
           commentID: parseCommentElementID(stop.id),
-          commentSeenEnabled: enabled,
+          commentSeenEnabled,
         });
         stop.element.focus();
       }
     },
     [
-      enabled,
+      commentSeenEnabled,
       eventEmitter,
       pym,
       relayEnvironment,
@@ -465,6 +503,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
       }
 
       if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
+        setLocal({
+          keyboardShortcutsConfig: {
+            key: pressedKey,
+            reverse: Boolean(data.shiftKey),
+            source: "keyboard",
+          },
+        });
         traverse({
           key: pressedKey,
           reverse: Boolean(data.shiftKey),
@@ -475,10 +520,16 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
     [pym, traverse, unmarkAll, zKeyEnabled]
   );
 
-  const handleZKeyButton = useCallback(
-    () => traverse({ key: "z", reverse: false, source: "mobileToolbar" }),
-    [traverse]
-  );
+  const handleZKeyButton = useCallback(() => {
+    setLocal({
+      keyboardShortcutsConfig: {
+        key: "z",
+        reverse: false,
+        source: "mobileToolbar",
+      },
+    });
+    traverse({ key: "z", reverse: false, source: "mobileToolbar" });
+  }, [traverse]);
 
   // Update button states after first render.
   useEffect(() => {
@@ -486,10 +537,22 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn }) => {
   }, [updateButtonStates]);
 
   // Update button states after certain events.
+  // Also traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
-    const listener: ListenerFn = async (e) => {
+    const listener: ListenerFn = async (e, data) => {
       if (!eventsOfInterest.includes(e)) {
         return;
+      }
+
+      if (loadMoreEvents.includes(e) && pym) {
+        // Need to send new height to pym after more comments/replies load
+        // in instead of waiting for polling to update it
+        pym.sendHeight();
+        // after more comments/replies have loaded, we want to traverse
+        // to the next comment/reply based on the configuration
+        if (data.keyboardShortcutsConfig) {
+          traverse(data.keyboardShortcutsConfig);
+        }
       }
 
       // Wait until current renderpass finishes.
