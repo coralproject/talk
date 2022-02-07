@@ -77,7 +77,7 @@ const ArchiveStory: FunctionComponent<Props> = ({ story, viewer }) => {
     );
   } else if (canUnarchive) {
     return (
-      <Localized id="archiveStory-unarchive">
+      <Localized id="storyActions-archive">
         <Button className={styles.button} onClick={handleUnarchive}>
           Unarchive
         </Button>
