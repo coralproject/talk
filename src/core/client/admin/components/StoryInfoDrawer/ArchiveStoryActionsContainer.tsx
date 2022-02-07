@@ -69,7 +69,7 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
 
   if (canArchive) {
     return (
-      <Localized id="archiveStory-archive">
+      <Localized id="story-actions-archive">
         <Button
           className={styles.button}
           disabled={archiveTriggered}
@@ -82,7 +82,7 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
     );
   } else if (canUnarchive) {
     return (
-      <Localized id="archiveStory-unarchive">
+      <Localized id="story-actions-unarchive">
         <Button className={styles.button} onClick={handleUnarchive}>
           Unarchive
         </Button>
