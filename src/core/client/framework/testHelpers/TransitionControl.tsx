@@ -1,19 +1,9 @@
-import {
-  Location,
-  LocationDescriptorObject,
-  Match,
-  Router,
-  withRouter,
-} from "found";
+import { Location, LocationDescriptorObject, useRouter } from "found";
 import React, { useEffect } from "react";
 
 import { withContext } from "coral-framework/lib/bootstrap";
 
 interface Props {
-  /** router is injected by `withRouter` HOC */
-  router: Router;
-  /** match is injected by `withRouter` HOC */
-  match: Match;
   /** transitionControl is injected by `withContext` HOC */
   transitionControl: TransitionControlData | undefined;
 }
@@ -29,8 +19,9 @@ export interface TransitionControlData {
 }
 
 const TransitionControl: React.FunctionComponent<Props> = (props) => {
+  const { router } = useRouter();
   useEffect(() => {
-    return props.router.addNavigationListener((location) => {
+    return router.addNavigationListener((location) => {
       if (props.transitionControl && location) {
         // location should be never null unless using `beforeUnload`
         // https://github.com/4Catalyzer/farce#navigation-listeners.
@@ -41,12 +32,12 @@ const TransitionControl: React.FunctionComponent<Props> = (props) => {
       }
       return;
     });
-  }, [props.router, props.transitionControl]);
+  }, [router, props.transitionControl]);
   return null;
 };
 
 const enhanced = withContext(({ transitionControl }) => ({
   transitionControl,
-}))(withRouter(TransitionControl));
+}))(TransitionControl);
 
 export default enhanced;
