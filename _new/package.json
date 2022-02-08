@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "graphql-codegen": "graphql-codegen",
-    "generate:gql-schema": "graphql-codegen --config codegen-schema.yml",
-    "generate:gql-stream": "graphql-codegen --config codegen-stream.yml"
+    "generate:schema": "graphql-codegen --config codegen-schema.yml",
+    "generate:stream": "graphql-codegen --config codegen-stream.yml"
   },
   "keywords": [],
   "author": "",
