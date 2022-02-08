@@ -1,71 +1,55 @@
-import { FormApi } from "final-form";
-import React from "react";
+import React, { FunctionComponent, useState } from "react";
 import { graphql } from "react-relay";
 
-import { withForm } from "coral-framework/lib/form";
-import {
-  FetchProp,
-  withFetch,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
-import { OmitRefType } from "coral-framework/types";
+import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 
-import { OIDCConfig_formValues } from "coral-admin/__generated__/OIDCConfig_formValues.graphql";
 import { OIDCConfigContainer_auth as AuthData } from "coral-admin/__generated__/OIDCConfigContainer_auth.graphql";
 
 import DiscoverOIDCConfigurationFetch from "./DiscoverOIDCConfigurationFetch";
 import OIDCConfig from "./OIDCConfig";
+import { useForm } from "react-final-form";
 
 interface Props {
   auth: AuthData;
   disabled?: boolean;
-  discoverOIDCConfiguration: FetchProp<typeof DiscoverOIDCConfigurationFetch>;
-  form: FormApi<{
-    auth: OmitRefType<AuthData> & OmitRefType<OIDCConfig_formValues>;
-  }>;
 }
 
-interface State {
-  awaitingResponse: boolean;
-}
+const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
+  const [awaitingResponse, setAwaitingResponse] = useState(false);
+  const discoverOIDCConfiguration = useFetch(DiscoverOIDCConfigurationFetch);
+  const form = useForm();
 
-class OIDCConfigContainer extends React.Component<Props, State> {
-  public state = {
-    awaitingResponse: false,
-  };
-
-  private handleDiscover = async () => {
-    const issuer = this.props.form.getState().values.auth.integrations.oidc
-      .issuer;
+  async function handleDiscover() {
+    const issuer = form.getState().values.auth.integrations.oidc.issuer;
     if (!issuer) {
       return;
     }
-    this.setState({ awaitingResponse: true });
+    setAwaitingResponse(true);
     try {
       const {
         discoverOIDCConfiguration: config,
-      } = await this.props.discoverOIDCConfiguration({
+      } = await discoverOIDCConfiguration({
         issuer,
       });
       if (config) {
         if (config.issuer) {
-          this.props.form.change(
+          form.change(
             // TODO: @(cvle) Types in final-form are not accurate...
             "auth.integrations.oidc.issuer" as any,
             config.issuer
           );
         }
-        this.props.form.change(
+        form.change(
           // TODO: @(cvle) Types in final-form are not accurate...
           "auth.integrations.oidc.authorizationURL" as any,
           config.authorizationURL
         );
-        this.props.form.change(
+        form.change(
           // TODO: @(cvle) Types in final-form are not accurate...
           "auth.integrations.oidc.jwksURI" as any,
           config.jwksURI
         );
-        this.props.form.change(
+        form.change(
           // TODO: @(cvle) Types in final-form are not accurate...
           "auth.integrations.oidc.tokenURL" as any,
           config.tokenURL
@@ -76,36 +60,29 @@ class OIDCConfigContainer extends React.Component<Props, State> {
       // eslint-disable-next-line no-console
       console.warn(error);
     }
-    this.setState({ awaitingResponse: false });
-  };
-
-  public render() {
-    const { disabled, auth } = this.props;
-    return (
-      <OIDCConfig
-        disabled={disabled}
-        callbackURL={auth.integrations.oidc.callbackURL}
-        onDiscover={this.handleDiscover}
-        disableForDiscover={this.state.awaitingResponse}
-      />
-    );
+    setAwaitingResponse(false);
   }
-}
 
-const enhanced = withForm(
-  withFetch(DiscoverOIDCConfigurationFetch)(
-    withFragmentContainer<Props>({
-      auth: graphql`
-        fragment OIDCConfigContainer_auth on Auth {
-          integrations {
-            oidc {
-              callbackURL
-            }
-          }
+  return (
+    <OIDCConfig
+      disabled={disabled}
+      callbackURL={auth.integrations.oidc.callbackURL}
+      onDiscover={handleDiscover}
+      disableForDiscover={awaitingResponse}
+    />
+  );
+};
+
+const enhanced = withFragmentContainer<Props>({
+  auth: graphql`
+    fragment OIDCConfigContainer_auth on Auth {
+      integrations {
+        oidc {
+          callbackURL
         }
-      `,
-    })(OIDCConfigContainer)
-  )
-);
+      }
+    }
+  `,
+})(OIDCConfigContainer);
 
 export default enhanced;
