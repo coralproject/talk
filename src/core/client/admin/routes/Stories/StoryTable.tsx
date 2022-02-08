@@ -20,7 +20,6 @@ import StoryRowContainer from "./StoryRowContainer";
 import styles from "./StoryTable.css";
 
 interface Props {
-  viewer: PropTypesOf<typeof StoryRowContainer>["viewer"] | null;
   stories: Array<
     { id: string } & PropTypesOf<typeof StoryRowContainer>["story"]
   >;
@@ -84,7 +83,6 @@ const StoryTable: FunctionComponent<Props> = (props) => {
                 <StoryRowContainer
                   key={u.id}
                   story={u}
-                  viewer={props.viewer!}
                   multisite={props.multisite}
                   onOpenInfoDrawer={() => {
                     setExpandedStoryID(u.id);
