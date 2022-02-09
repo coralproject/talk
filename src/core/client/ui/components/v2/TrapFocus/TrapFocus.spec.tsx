@@ -3,6 +3,7 @@ import { noop } from "lodash";
 import React from "react";
 import { create } from "react-test-renderer";
 import sinon from "sinon";
+import UIContext, { UIContextProps } from "../UIContext";
 
 import { PropTypesOf } from "coral-ui/types";
 
@@ -18,6 +19,9 @@ const FakeFocusable: any = class FakeFocusable extends React.Component {
 const createNodeMock = () => ({
   focus: noop,
 });
+const context: UIContextProps = {
+  renderWindow: window,
+};
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof TrapFocus> = {
@@ -27,28 +31,42 @@ it("renders correctly", () => {
         <span>child2</span>
       </>
     ),
-    window,
   };
-  const renderer = create(<TrapFocus {...props} />, { createNodeMock });
+  const renderer = create(
+    <UIContext.Provider value={context}>
+      <TrapFocus {...props} />
+    </UIContext.Provider>,
+    { createNodeMock }
+  );
   expect(renderer.toJSON()).toMatchSnapshot();
 });
 
-it("autofocus", () => {
+it.only("autofocus", () => {
   const autoFocus = sinon.stub();
-  create(<TrapFocus window={window} />, {
-    createNodeMock: (el) => ({
-      focus: el.props.tabIndex === -1 ? autoFocus : noop,
-    }),
-  });
+  create(
+    <UIContext.Provider value={context}>
+      <TrapFocus />
+    </UIContext.Provider>,
+    {
+      createNodeMock: (el) => ({
+        focus: el.props.tabIndex === -1 ? autoFocus : noop,
+      }),
+    }
+  );
   expect(autoFocus.called).toBe(true);
 });
 
 it("return focus to last active element", () => {
   expect(document.activeElement).toBe(document.body);
   const bodyMock = sinon.mock(document.body);
-  const testRenderer = create(<TrapFocus window={window} />, {
-    createNodeMock,
-  });
+  const testRenderer = create(
+    <UIContext.Provider value={context}>
+      <TrapFocus />
+    </UIContext.Provider>,
+    {
+      createNodeMock,
+    }
+  );
   bodyMock.expects("focus");
   testRenderer.unmount();
   bodyMock.verify();
@@ -64,9 +82,13 @@ it("Change focus to `lastFocusable` when focus reaches beginning", () => {
         <FakeFocusable ref={lastFocusableRef} />
       </>
     ),
-    window,
   };
-  const renderer = create(<TrapFocus {...props} />, { createNodeMock });
+  const renderer = create(
+    <UIContext.Provider value={context}>
+      <TrapFocus {...props} />
+    </UIContext.Provider>,
+    { createNodeMock }
+  );
   renderer.root.findAllByProps({ tabIndex: 0 })[0].props.onFocus();
   expect(
     renderer.root.findAllByType(FakeFocusable)[0].instance.focus.called
@@ -86,9 +108,13 @@ it("Change focus to `firstFocusable` when focus reaches end", () => {
         <FakeFocusable ref={lastFocusableRef} />
       </>
     ),
-    window,
   };
-  const renderer = create(<TrapFocus {...props} />, { createNodeMock });
+  const renderer = create(
+    <UIContext.Provider value={context}>
+      <TrapFocus {...props} />
+    </UIContext.Provider>,
+    { createNodeMock }
+  );
   renderer.root.findAllByProps({ tabIndex: 0 })[1].props.onFocus();
   expect(
     renderer.root.findAllByType(FakeFocusable)[0].instance.focus.called
