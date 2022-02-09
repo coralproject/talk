@@ -4,7 +4,13 @@ generates:
   src/__generated__/schema.types.ts:
     plugins:
       - "typescript"
-      - "typescript-operations"
       - "typescript-resolvers"
 config:
   namingConvention: keep
+  customResolverFn: |
+    (
+      parent: TParent,
+      args: TArgs,
+      context: TContext,
+      info: GraphQLResolveInfo
+    ) => Promise<TResult> | TResult | any

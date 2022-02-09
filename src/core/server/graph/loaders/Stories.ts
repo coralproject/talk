@@ -37,6 +37,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { createManyBatchLoadFn } from "./util";
+import { QuerystoryArgs } from "coral-new/__generated__/schema.types";
 
 const statusFilter = (
   closeCommenting: CloseCommenting,
@@ -194,7 +195,7 @@ export default (ctx: GraphContext) => ({
     }
   ),
   find: new DataLoader(
-    createManyBatchLoadFn((input: FindStory) =>
+    createManyBatchLoadFn((input: FindStory | QuerystoryArgs) =>
       find(ctx.mongo, ctx.tenant, input).then(primeStory(ctx))
     ),
     {

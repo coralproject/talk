@@ -30,6 +30,7 @@ import {
   RelatedCommentCounts,
   updateRelatedCommentCounts,
 } from "../comment/counts";
+import { QuerystoryArgs } from "coral-new/__generated__/schema.types";
 
 export * from "./helpers";
 
@@ -190,7 +191,7 @@ export interface FindStoryInput {
 export async function findStory(
   mongo: MongoContext,
   tenantID: string,
-  { id, url }: FindStoryInput
+  { id, url }: FindStoryInput | QuerystoryArgs
 ) {
   if (id) {
     return retrieveStory(mongo, tenantID, id);

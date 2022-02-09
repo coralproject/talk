@@ -62,12 +62,13 @@ import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
 
+import { QuerystoryArgs } from "coral-new/__generated__/schema.types";
 import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
 } from "coral-server/graph/schema/__generated__/types";
 
-export type FindStory = FindStoryInput;
+export type FindStory = FindStoryInput | QuerystoryArgs;
 
 export async function find(
   mongo: MongoContext,

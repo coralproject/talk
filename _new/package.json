@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "graphql-codegen": "graphql-codegen",
+    "generate:apollo": "apollo codegen:generate output --localSchemaFile=schema.graphql --target=typescript",
     "generate:schema": "graphql-codegen --config codegen-schema.yml",
     "generate:stream": "graphql-codegen --config codegen-stream.yml"
   },
@@ -16,10 +17,13 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.5.0",
-    "@graphql-codegen/typescript-react-apollo": "3.2.5",
-    "@graphql-codegen/typescript-operations": "2.2.4",
     "@graphql-codegen/typescript": "2.4.3",
     "@graphql-codegen/typescript-document-nodes": "2.2.3",
-    "@graphql-codegen/typescript-resolvers": "2.5.0"
+    "@graphql-codegen/typescript-generic-sdk": "^2.3.2",
+    "@graphql-codegen/typescript-operations": "2.2.4",
+    "@graphql-codegen/typescript-react-apollo": "3.2.5",
+    "@graphql-codegen/typescript-resolvers": "2.5.0",
+    "@types/graphql": "^14.5.0",
+    "apollo": "^2.33.9"
   }
 }
