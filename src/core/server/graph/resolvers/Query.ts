@@ -8,15 +8,22 @@ import {
 import { getWebhookEndpoint } from "coral-server/models/tenant";
 
 import {
+  Query as QueryResolverType,
+  QueryResolvers,
+} from "coral-new/__generated__/schema.types";
+import {
   GQLCOMMENT_FLAG_REPORTED_REASON,
   GQLCOMMENT_SORT,
-  GQLQueryTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "../context";
 import { moderationQueuesResolver } from "./ModerationQueues";
 import { setCacheHintWhenTruthy } from "./util";
 
-export const Query: Required<GQLQueryTypeResolver<void>> = {
+export const Query: Required<QueryResolvers<
+  GraphContext,
+  QueryResolverType
+>> = {
   story: (source, args, ctx) => ctx.loaders.Stories.find.load(args),
   stream: (source, args, ctx) =>
     ctx.tenant.stories.disableLazy
