@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import SimpleMDE from "simplemde";
 
-import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { useGetMessage } from "coral-framework/lib/i18n";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./MarkdownEditor.css";
@@ -45,7 +45,6 @@ export const defaultToolbar: ToolbarItem[] = [
 interface Props {
   id?: string;
   name?: string;
-  getMessage: GetMessage;
   onChange: (value: string) => void;
   value: string;
   toolbar?: ToolbarItem[];
@@ -54,12 +53,12 @@ interface Props {
 const MarkdownEditor: FunctionComponent<Props> = ({
   id,
   name,
-  getMessage,
   onChange,
   value,
   toolbar,
   ...rest
 }) => {
+  const getMessage = useGetMessage();
   const toolbarNew = [
     {
       name: "bold",
@@ -245,11 +244,11 @@ const MarkdownEditor: FunctionComponent<Props> = ({
   );
 };
 
-let enhanced = withGetMessage(MarkdownEditor);
+let markdownEditor = MarkdownEditor;
 
 if (process.env.NODE_ENV === "test") {
   // Replace with simple texteditor because it won't work in a jsdom environment.
-  enhanced = (function MarkdownEditorTest({ onChange, ...rest }) {
+  markdownEditor = (function MarkdownEditorTest({ onChange, ...rest }) {
     return (
       <div className={styles.wrapper}>
         <textarea
@@ -262,7 +261,7 @@ if (process.env.NODE_ENV === "test") {
         />
       </div>
     );
-  } as React.FunctionComponent<PropTypesOf<typeof enhanced>>) as any;
+  } as React.FunctionComponent<PropTypesOf<typeof markdownEditor>>) as any;
 }
 
-export default enhanced;
+export default markdownEditor;
