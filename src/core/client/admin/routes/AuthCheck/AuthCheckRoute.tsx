@@ -1,5 +1,10 @@
 import { useRouter } from "found";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
@@ -39,29 +44,15 @@ function createAuthCheckRoute(check: CheckParams) {
     const [wasLoggedIn, setWasLoggedIn] = useState(false);
     const setRedirectPathMutation = useMutation(SetRedirectPathMutation);
 
-    useEffect(() => {
-      void redirectIfNotLoggedIn();
-    }, []);
-
-    useEffect(() => {
-      if (data && data.viewer) {
-        setWasLoggedIn(true);
-      }
-      void redirectIfNotLoggedIn();
-      if (data && !data.viewer) {
-        setWasLoggedIn(false);
-      }
-    }, [data]);
-
-    function shouldRedirectTo() {
+    const shouldRedirectTo = useCallback(() => {
       if (!data || (data.viewer && data.viewer.email)) {
         return false;
       }
       return true;
-    }
+    }, [data]);
 
-    function hasAccess() {
-      const { viewer } = data;
+    const hasAccess = useCallback(() => {
+      const { viewer } = data || null;
       if (viewer) {
         if (
           (check.role && !roleIsAtLeast(viewer.role, check.role)) ||
@@ -72,9 +63,9 @@ function createAuthCheckRoute(check: CheckParams) {
         return true;
       }
       return false;
-    }
+    }, [data]);
 
-    async function redirectIfNotLoggedIn() {
+    const redirectIfNotLoggedIn = useCallback(async () => {
       if (!shouldRedirectTo()) {
         return;
       }
@@ -86,7 +77,27 @@ function createAuthCheckRoute(check: CheckParams) {
         });
       }
       router.replace("/admin/login");
-    }
+    }, [
+      router,
+      match.location,
+      setRedirectPathMutation,
+      shouldRedirectTo,
+      wasLoggedIn,
+    ]);
+
+    useEffect(() => {
+      void redirectIfNotLoggedIn();
+    }, [redirectIfNotLoggedIn]);
+
+    useEffect(() => {
+      if (data && data.viewer) {
+        setWasLoggedIn(true);
+      }
+      void redirectIfNotLoggedIn();
+      if (data && !data.viewer) {
+        setWasLoggedIn(false);
+      }
+    }, [data, redirectIfNotLoggedIn]);
 
     if (error) {
       return <NetworkError />;

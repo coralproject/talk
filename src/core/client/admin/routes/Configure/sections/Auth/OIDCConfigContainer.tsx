@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
+import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
@@ -7,7 +8,6 @@ import { OIDCConfigContainer_auth as AuthData } from "coral-admin/__generated__/
 
 import DiscoverOIDCConfigurationFetch from "./DiscoverOIDCConfigurationFetch";
 import OIDCConfig from "./OIDCConfig";
-import { useForm } from "react-final-form";
 
 interface Props {
   auth: AuthData;
@@ -19,7 +19,7 @@ const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
   const discoverOIDCConfiguration = useFetch(DiscoverOIDCConfigurationFetch);
   const form = useForm();
 
-  async function handleDiscover() {
+  const handleDiscover = useCallback(async () => {
     const issuer = form.getState().values.auth.integrations.oidc.issuer;
     if (!issuer) {
       return;
@@ -61,7 +61,7 @@ const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
       console.warn(error);
     }
     setAwaitingResponse(false);
-  }
+  }, [discoverOIDCConfiguration, form]);
 
   return (
     <OIDCConfig
