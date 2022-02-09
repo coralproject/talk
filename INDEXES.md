@@ -13,9 +13,9 @@ db.seenComments.createIndex({ tenantID: 1, storyID: 1, userID: 1 });
 db.seenComments.createIndex({ lastSeenAt: 1 }, { expireAfterSeconds: 604800 });
 ```
 
-  - These indexes manage the seenComments collection to provide persistence of a user's seen comments from device to device.
+  - These indexes manage the `seenComments` collection to provide persistence of a user's seen comments from device to device.
   - This is a special set of indexes because the second index is a TTL index.
-    - It specifies when old seenComments collections will "expire" and be gracefully deleted.
+    - It specifies when old `seenComments` documents will "expire" and be gracefully deleted.
     - The above `expireAfterSeconds` default of `604800` is 7 days.
 
 ## 2022-01-17
