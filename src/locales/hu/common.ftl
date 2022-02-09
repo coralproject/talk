@@ -10,7 +10,7 @@ common-embedNotFound = A kért tartalom nem elérhető. Lehet, hogy törölték.
 common-embedInvalid = The URL for this external media is invalid.
 common-networkError = Hálózati hiba. Kérjük, frissítse az oldalt, és próbálja meg újra.
 common-embedInternalError = Belső hibát észleltünk a média betöltése közben
-.common-embedTypeNotSupported = Nem támogatott média.
+common-embedTypeNotSupported = Nem támogatott média.
 
 common-experimentalTag =Kísérleti
 common-experimentalTag-tooltip-title = Kísérleti funkciók
