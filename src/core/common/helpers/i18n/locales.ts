@@ -23,7 +23,8 @@ export type LanguageCode =
   | "sv"
   | "pl"
   | "ru"
-  | "nb-NO";
+  | "nb-NO"
+  | "zh-CN";
 
 /**
  * LOCALES_MAP contains a map of language codes associated with their
@@ -51,6 +52,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   pl: "Polski",
   ru: "Русский",
   "nb-NO": "Norsk Bokmål",
+  "zh-CN": "中国人",
 };
 
 /**
