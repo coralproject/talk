@@ -102,8 +102,6 @@ comments-postComment-gifSearch-search =
   .aria-label = 検索
 comments-postComment-gifSearch-loading = 読み込み中...
 comments-postComment-gifSearch-no-results = {$query} の結果が見つかりません
-comments-postComment-gifSearch-powered-by-giphy =
-  .alt = Powered by giphy
 
 comments-postComment-pasteImage = 画像のURLを貼り付ける
 comments-postComment-insertImage = 挿入
@@ -230,9 +228,6 @@ comments-userPopover-memberSince = { DATETIME($timestamp, year: "numeric", month
 comments-userPopover-ignore = 無視する
 
 comments-userIgnorePopover-ignoreUser = {$username} を無視しますか？
-comments-userIgnorePopover-description =
-  When you ignore a commenter, all comments they wrote on the site will be hidden from you.
- You can undo this later from My Profile.
 comments-userIgnorePopover-ignore = 無視する
 comments-userIgnorePopover-cancel = キャンセル
 
@@ -286,9 +281,6 @@ comments-mobileToolbar-closeButton =
   .aria-label = 閉じる
 comments-mobileToolbar-unmarkAll = 全てのマークを外す
 comments-mobileToolbar-nextUnread = 次の未読コメント
-
-comments-replyChangedWarning-theCommentHasJust =
-  This comment has just been edited. The latest version is displayed above.
 
 ### Q&A
 
