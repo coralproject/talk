@@ -208,8 +208,6 @@ comments-showConversationLink-readMore = Read More of this Conversation >
 comments-conversationThread-showMoreOfThisConversation =
   Mostra di più di questa conversazione
 
-comments-permalinkView-currentViewing =
-comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   Stai visualizzando una singola conversazione
 comments-inReplyTo = In risposta a <Username></Username>
@@ -258,7 +256,6 @@ comments-moderationDropdown-reject = Rifiuta
 comments-moderationDropdown-rejected = Rifiutato
 comments-moderationDropdown-ban = Banna utente
 comments-moderationDropdown-banned = Bannato
-comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Vista moderazione
 comments-moderationDropdown-moderateStory = Modera storia
 comments-moderationDropdown-caretButton =
@@ -558,7 +555,7 @@ profile-account-deleteAccount-pages-downloadCommentsPath =
 profile-account-deleteAccount-pages-confirmHeader = Confermare la cancellazione dell'account?
 profile-account-deleteAccount-pages-confirmSubHeader = Sei sicuro?
 profile-account-deleteAccount-pages-confirmDescHeader =
- Sei sicuro di voler cancellare il tuo account?
+  Sei sicuro di voler cancellare il tuo account?
 profile-account-deleteAccount-confirmDescContent =
   Per confermare che vuoi cancellare il tuo account, digita la seguente
   frase nella casella di testo sottostante:
@@ -588,7 +585,6 @@ profile-account-changePassword-change = Cambia
 
 ## Notifications
 profile-notificationsTab = Notifiche
-profile-account-notifications-emailNotifications = Notifiche e-Mail 
 profile-account-notifications-emailNotifications = Notifiche e-Mail
 profile-account-notifications-receiveWhen = Ricevi motifiche e-mail quando:
 profile-account-notifications-onReply = Il mio commento riceve una risposta
@@ -703,29 +699,23 @@ discussions-discussionsQuery-errorLoadingProfile = Errore nel caricamento del pr
 discussions-discussionsQuery-storyNotFound = Storia non trovata
 
 ## Comment Stream
-configure-stream-title =
 configure-stream-title-configureThisStream =
   Configurare questo flusso
-configure-stream-apply =
 configure-stream-update = Aggiorna
 configure-stream-streamHasBeenUpdated =
- Questo flusso è stato aggiornato
+  Questo flusso è stato aggiornato
 
-configure-premod-title =
 configure-premod-premoderateAllComments = Pre-moderare tutti i commenti
 configure-premod-description =
   I moderatori devono approvare qualsiasi commento prima che sia pubblicato su questa storia.
 
-configure-premodLink-title =
 configure-premodLink-commentsContainingLinks =
   Commenti pre-moderati contenenti link
 configure-premodLink-description =
   I moderatori devono approvare ogni commento che contiene un link prima che sia pubblicato su questa storia.
 
-configure-messageBox-title =
 configure-addMessage-title =
   Aggiungi un messaggio o una domanda
-configure-messageBox-description =
 configure-addMessage-description =
   Aggiungi un messaggio in cima alla casella dei commenti per i tuoi lettori. Usa questo
   per porre un argomento, fare una domanda o fare annunci relativi a questa
@@ -749,7 +739,6 @@ configure-messageBox-iconChatBubble = Chat bubble
 configure-messageBox-noIcon = Nessuna icona
 configure-messageBox-writeAMessage = Scrivi un messaggio
 
-configure-closeStream-title =
 configure-closeStream-closeCommentStream =
   Chiudi il flusso dei commenti
 configure-closeStream-description =
@@ -763,16 +752,13 @@ configure-openStream-title = Flusso aperto
 configure-openStream-description =
   Questo flusso di commenti è attualmente chiuso. Aprendo questo flusso di commenti
   nuovi commenti possono essere inviati e visualizzati.
-configure-openStream-openStream = Flusso aperto 
+configure-openStream-openStream = Flusso aperto
 configure-openStream-theStreamIsNowClosed = Il flusso è ora chiuso
-
-configure-moderateThisStream =
 
 qa-experimentalTag-tooltip-content =
   Il formato Q&A è attualmente in fase di sviluppo attivo. Per favore contattate
   con qualsiasi feedback o richiesta.
 
-configure-enableQA-title =
 configure-enableQA-switchToQA =
   Passa al formato Q&A
 configure-enableQA-description =
@@ -814,10 +800,8 @@ comments-tombstone-deleted =
 comments-tombstone-rejected =
   Questo commentatore è stato rimosso da un moderatore per aver violato le linee guida della nostra community.
 
-suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
   Il tuo account è stato temporaneamente sospeso dai commenti
-suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   In conformità con le linee guida della comunità di { $organization } il tuo
   account è stato temporaneamente sospeso. Mentre sei sospeso non potrai

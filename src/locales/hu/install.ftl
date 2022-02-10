@@ -21,10 +21,10 @@ install-addOrganization-description =
   Kérjük, adja meg a szervezet nevét és a honlapjára vonatkozó információkat. Ha szervezetéhez több weboldal is tartozik, akkor a telepítő befejezése után a Coral Adminból adhatja hozzá őket.
 install-addOrganization-orgName = Szervezet neve
 install-addOrganization-orgNameTextField =
-   .placeholder = Szervezet neve
+  .placeholder = Szervezet neve
 install-addSite-siteName = Webhely neve
 install-addSite-siteNameTextField =
-   .placeholder = Webhely neve
+  .placeholder = Webhely neve
 install-addSite-siteNameDescription =
   A webhely neve meg fog jelenni a Coral által a közösség és a szervezet tagjainak küldött e-mailekben.
 install-addOrganization-orgEmail = Szervezet kapcsolattartó e-mail címe

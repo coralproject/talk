@@ -24,7 +24,6 @@ resetPassword-missingResetToken = Sembra che manchi il Token per il reset
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation =
 confirmEmail-confirmYourEmailAddress =
   Conferma il tuo indirizzo e-mail
 confirmEmail-confirmEmail = Conferma e-mail
@@ -39,7 +38,7 @@ confirmEmail-youMayClose =
 
 download-landingPage-title = Download la tua cronologia di commenti
 download-landingPage-description =
-  La tua cronologia di commenti verrà scaricata come file .zip. Dopo che avrai estratto la cronologia dei commenti, avrai un file di valore separato (o .csv) che potrai importare sul tuo foglio di lavoro. 
+  La tua cronologia di commenti verrà scaricata come file .zip. Dopo che avrai estratto la cronologia dei commenti, avrai un file di valore separato (o .csv) che potrai importare sul tuo foglio di lavoro.
 download-landingPage-contentsDescription =
   Per ognuno dei tuoi commenti, sono incluse le seguenti informazioni:
 download-landingPage-contentsDate =
@@ -50,14 +49,10 @@ download-landingPage-contentsText =
   Il testo del commento
 download-landingPage-contentsStoryUrl =
   L’URL dell’articolo o della storia dove appare il commento
-download-landingPage-downloadComments =
 download-landingPage-download = Download
 download-landingPage-sorry = Il tuo link download non è valido.
 
 ## Unsubscribe
-
-unsubscribe-confirm =
-unsubscribe-successfullyUnsubscribed =
 
 unsubscribe-unsubscribeFromEmails = Cancellarsi dagli avvisi via e-mail
 unsubscribe-oopsSorry = Oops Sorry!

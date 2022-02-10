@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Anmelden,</title><subtitle>um an der Unterhaltung teilzunehmen<subtitle>
+  <title>Anmelden,</title><subtitle>um an der Unterhaltung teilzunehmen</subtitle>
 
 signIn-signInWithEmail = Mit E-Mail-Adresse anmelden
 signIn-signInWithFacebook = Mit Facebook anmelden

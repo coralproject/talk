@@ -24,7 +24,6 @@ resetPassword-missingResetToken = リセットの手順にミスがあったよ�
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation =
 confirmEmail-confirmYourEmailAddress =
   メールアドレスを確認してください
 confirmEmail-confirmEmail = メールアドレスを確認l
@@ -50,14 +49,10 @@ download-landingPage-contentsText =
   コメントの文鳥
 download-landingPage-contentsStoryUrl =
   コメントを投稿した記事のURL
-download-landingPage-downloadComments =
 download-landingPage-download = ダウンロード
 download-landingPage-sorry = ダウンロードリンクは無効です
 
 ## Unsubscribe
-
-unsubscribe-confirm =
-unsubscribe-successfullyUnsubscribed =
 
 unsubscribe-unsubscribeFromEmails = メールでの通知設定を解除する
 unsubscribe-oopsSorry = 申し訳ありません

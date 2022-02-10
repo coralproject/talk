@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Accedi</title><subtitle>per unirti alla conversazione<subtitle>
+  <title>Accedi</title><subtitle>per unirti alla conversazione</subtitle>
 
 signIn-signInWithEmail = Accedi con l’e-mail
 signIn-signInWithFacebook = Accedi con Facebook
@@ -60,7 +60,7 @@ forgotPassword-sendEmailButton = Invia e-mail
 
 forgotPassword-emailAddressLabel = Indirizzo e-mail
 forgotPassword-emailAddressTextField =
-  .placeholder = Indirizzo e-mail 
+  .placeholder = Indirizzo e-mail
 forgotPassword-gotBackToSignIn = Torna alla pagina accedi
 
 forgotPassword-enterEmailAndGetALink =
@@ -78,7 +78,7 @@ forgotPassword-checkEmail-closeButton = Chiudi
 
 linkAccount-linkAccountHeader = Link account
 linkAccount-alreadyAssociated =
-  L’e-mail <strong>{ $email }</strong> è 
+  L’e-mail <strong>{ $email }</strong> è
   Già associate ad un account. Se vuoi collegarli, inserisci la tua password.
 linkAccount-passwordLabel = Password
 linkAccount-passwordTextField =
@@ -93,7 +93,6 @@ resetPassword-resetPasswordButton = Reset password
 
 ## Create Username
 
-createUsername-createUsernameHeader =
 createUsername-createAUsername = Crea un username
 createUsername-whatItIs =
   Il tuo nome utente è un identificatore che apparirà su tutti i tuoi commenti.
@@ -120,7 +119,6 @@ addEmailAddress-addEmailAddressButton =
   Aggiungi indirizzo e-mail
 
 ## Create Password
-createPassword-createPasswordHeader =
 createPassword-createAPassword = Crea password
 createPassword-whatItIs =
   Per proteggersi da modifiche non autorizzate all'account,

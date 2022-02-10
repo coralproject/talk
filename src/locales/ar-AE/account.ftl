@@ -26,7 +26,6 @@ resetPassword-missingResetToken = يبدو أن رمز إعادة التعيين
 
 ## Email Confirmation
 
-## confirmEmail-emailConfirmation =
 confirmEmail-confirmYourEmailAddress =
   الرجاء تأكيد عنوان البريد الإلكتروني
 confirmEmail-confirmEmail = تأكيد البريد الإلكتروني
@@ -52,20 +51,15 @@ download-landingPage-contentsText =
   نص التعليق
 download-landingPage-contentsStoryUrl =
   رابط المقال أو الخبر الذي يظهر فيه التعليق
-## download-landingPage-downloadComments =
 download-landingPage-download = تحميل
 download-landingPage-sorry = رابط التحميل غير صالح.
 
 ## Unsubscribe
 
-## unsubscribe-confirm =
-## unsubscribe-successfullyUnsubscribed =
-
 unsubscribe-unsubscribeFromEmails = إلغاء التنبيهات عبر البريد الإلكتروني
 unsubscribe-oopsSorry = نأسف لذلك!
 unsubscribe-clickToConfirm =
   انقر هنا لتأكيد رغبتك بإلغاء الاشتراك بجميع التنبيهات.
-unsubscribe-submit-unsubscribe = Unsubscribe
 unsubscribe-unsubscribedSuccessfully =
   تم إلغاء التنبيهات عبر البريد الإلكتروني بنجاح
 unsubscribe-youMayNowClose =

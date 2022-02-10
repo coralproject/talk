@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Jelentkezz be</title><subtitle>a beszélgetéshez való csatlakozáshoz<subtitle>
+  <title>Jelentkezz be</title><subtitle>a beszélgetéshez való csatlakozáshoz</subtitle>
 
 signIn-signInWithEmail = Belépés e-mail címmel
 signIn-signInWithFacebook = Belépés Facebook fiókkal
@@ -93,7 +93,6 @@ resetPassword-resetPasswordButton = Jelszó visszaállítása
 
 ## Create Username
 
-## createUsername-createUsernameHeader =
 createUsername-createAUsername = Felhasználónév létrehozása
 createUsername-whatItIs =
   A felhasználóneved az összes hozzászólásodnál meg fog jelenni.
@@ -120,7 +119,6 @@ addEmailAddress-addEmailAddressButton =
   E-mail cím hozzáadása
 
 ## Create Password
-## createPassword-createPasswordHeader =
 createPassword-createAPassword = Jelszó létrehozása
 createPassword-whatItIs =
   Hogy megvédjünk az illetéktelen hozzáférésetől, arra kérünk,

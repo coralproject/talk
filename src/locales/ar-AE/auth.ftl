@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>قم بتسجيل الدخول</title><subtitle>للانضمام إلى المناقشة<subtitle>
+  <title>قم بتسجيل الدخول</title><subtitle>للانضمام إلى المناقشة</subtitle>
 
 signIn-signInWithEmail = تسجيل الدخول عبر البريد الإلكتروني
 signIn-signInWithFacebook = تسجيل الدخول عبر فيسبوك
@@ -92,7 +92,6 @@ resetPassword-resetPasswordButton = إعادة تعيين كلمة المرور
 
 ## Create Username
 
-createUsername-createUsernameHeader =
 createUsername-createAUsername = إنشاء اسم مستخدم
 createUsername-whatItIs =
   اسم المستخدم الخاص بك سيظهر في جميع تعليقاتك.
@@ -117,7 +116,6 @@ addEmailAddress-addEmailAddressButton =
   إضافة عنوان بريد إلكتروني.
 
 ## Create Password
-createPassword-createPasswordHeader =
 createPassword-createAPassword = إنشاء كلمة مرور
 createPassword-whatItIs =
   من أجل الحماية من أية تغييرات غير مسموحة على حسابك، نطلب من المستخدمين إنشاء كلمة مرور.

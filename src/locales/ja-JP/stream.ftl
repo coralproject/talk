@@ -50,7 +50,7 @@ comments-featuredTab = 特集
 comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-watchers =
   { $count  ->
-    [one] 現在1人のユーザーがこのディスカッションを閲覧中 
+    [one] 現在1人のユーザーがこのディスカッションを閲覧中
     *[other] 現在 { SHORT_NUMBER($count) } 人のユーザーがこのディスカッションを閲覧中
   }
 
@@ -207,8 +207,6 @@ comments-showConversationLink-readMore = この会話をもっと見る>
 comments-conversationThread-showMoreOfThisConversation =
   このコメントをもっと見る
 
-comments-permalinkView-currentViewing =
-comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   現在ひとつの会話を表示しています。
 comments-inReplyTo = <Username></Username> に返信する
@@ -255,7 +253,6 @@ comments-moderationDropdown-reject = 排除
 comments-moderationDropdown-rejected = 排除済み
 comments-moderationDropdown-ban = 禁止ユーザー
 comments-moderationDropdown-banned = 禁止済み
-comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = モデレーションビュー
 comments-moderationDropdown-moderateStory = モデレートストーリー
 comments-moderationDropdown-caretButton =
@@ -429,7 +426,7 @@ profile-accountDeletion-cancelAccountDeletion =
 profile-commentHistory-section =
   .aria-label = コメント履歴
 profile-historyComment-commentLabel =
-  { $storyTitle } にコメントする<RelativeTime></RelativeTime> 
+  { $storyTitle } にコメントする<RelativeTime></RelativeTime>
 profile-historyComment-viewConversation = コメントを見る
 profile-historyComment-replies = 返信 {$replyCount}
 profile-historyComment-commentHistory = コメント履歴
@@ -453,8 +450,8 @@ profile-preferences-mediaPreferences-preferencesUpdated =
 ### Account
 profile-account-ignoredCommenters = 無視されたコメント投稿者
 profile-account-ignoredCommenters-description =
-  コメント投稿者のユーザー名をクリックして“無視”を選択すると、コメント投稿者を無視できます。 
-  あなたが誰かを無視すると、彼らのコメントはすべてあなたから隠されます。 
+  コメント投稿者のユーザー名をクリックして“無視”を選択すると、コメント投稿者を無視できます。
+  あなたが誰かを無視すると、彼らのコメントはすべてあなたから隠されます。
   無視したコメント投稿者は、引き続きあなたのコメントを見ることができます。
 profile-account-ignoredCommenters-empty = 現時点では誰も“無視”していません
 profile-account-ignoredCommenters-stopIgnoring = 無視をやめる
@@ -477,7 +474,7 @@ profile-account-changePassword-password = パスワード
 profile-account-download-comments-title = コメント履歴をダウンロード
 profile-account-download-comments-description =
   コメント履歴をダウンロードするためのリンクが記載されたメールが届きます。
-   <strong> 14日ごとに1つのダウンロード</ strong>をリクエストできます。
+   <strong> 14日ごとに1つのダウンロード</strong>をリクエストできます。
 profile-account-download-comments-request =
   コメント履歴をリクエスト
 profile-account-download-comments-request-icon =
@@ -486,7 +483,7 @@ profile-account-download-comments-recentRequest =
   最新のリクエスト： { $timeStamp }
 profile-account-download-comments-yourMostRecentRequest =
   最近のリクエストは過去14日以内でした。
-  次は {$ timeStamp} 以降にコメント履歴のダウンロードをリクエストできます。
+  次は {$timeStamp} 以降にコメント履歴のダウンロードをリクエストできます。
 profile-account-download-comments-requested =
   リクエストが送信されました。{ framework-timeago-time } で別のリクエストを送信できます。
 profile-account-download-comments-requestSubmitted =
@@ -505,7 +502,7 @@ profile-account-deleteAccount-requestDelete = アカウント消去をリクエ�
 
 profile-account-deleteAccount-cancelDelete-description =
    アカウントの削除リクエストは既に送信されました。
-   アカウントは {$ date} に削除されます。
+   アカウントは {$date} に削除されます。
    それまでの間は、削除リクエストをキャンセルすることができます。
 profile-account-deleteAccount-cancelDelete = アカウント削除リクエストをキャンセル
 
@@ -627,7 +624,7 @@ comments-archivedReportPopover-reportThisComment = このコメントを報告�
 comments-archivedReportPopover-doesThisComment =
   このコメントはコミュニティのガイドラインに違反していますか？
   攻撃的なコメントですか？　それともスパムですか？
-  <a> {$ orgName} </a>のモデレートチームに、このコメントへのリンクと簡単な説明を記載したメールを送信してください。
+  <a> {$orgName} </a>のモデレートチームに、このコメントへのリンクと簡単な説明を記載したメールを送信してください。
 comments-archivedReportPopover-needALink =
   このコメントへのリンクが必要ですか？
 comments-archivedReportPopover-copyLink = リンクをコピーする
@@ -668,7 +665,7 @@ profile-changeUsername-edit = 編集
 profile-changeUsername-change = 変更
 profile-changeUsername-heading = ユーザー名を編集
 profile-changeUsername-heading-changeYourUsername = ユーザー名を変更
-profile-changeUsername-desc = すべてのコメントに表示されるユーザー名を変更します。 <strong>ユーザー名は{framework-timeago-time}ごとに1回変更できます。</ strong>
+profile-changeUsername-desc = すべてのコメントに表示されるユーザー名を変更します。 <strong>ユーザー名は{framework-timeago-time}ごとに1回変更できます。</strong>
 profile-changeUsername-desc-text = すべてのコメントに表示されるユーザー名を変更します。ユーザー名は{framework-timeago-time}ごとに1回変更できます。
 profile-changeUsername-current = 現在のユーザー名
 profile-changeUsername-newUsername-label = 新しいユーザー名
@@ -676,15 +673,15 @@ profile-changeUsername-confirmNewUsername-label = 新しいユーザー名を確
 profile-changeUsername-cancel = キャンセル
 profile-changeUsername-save = 保存
 profile-changeUsername-saveChanges = 変更を保存
-profile-changeUsername-recentChange = ユーザー名が変更されました。 {$ nextUpdate}でユーザー名を再度変更できます。
+profile-changeUsername-recentChange = ユーザー名が変更されました。 {$nextUpdate}でユーザー名を再度変更できます。
 profile-changeUsername-youChangedYourUsernameWithin =
-  {framework-timeago-time}内にユーザー名を変更しました。 {$ nextUpdate}でユーザー名を再度変更できます。
+  {framework-timeago-time}内にユーザー名を変更しました。 {$nextUpdate}でユーザー名を再度変更できます。
 profile-changeUsername-close = 閉じる
 
 ## Discussions tab
 
 discussions-mostActiveDiscussions = 最も活発な議論
-discussions-mostActiveDiscussions-subhead =  {$ siteName}における直近24時間のコメント数ランキング
+discussions-mostActiveDiscussions-subhead =  {$siteName}における直近24時間のコメント数ランキング
 discussions-mostActiveDiscussions-empty = ディスカッションに参加していません
 discussions-myOngoingDiscussions = 進行中のディスカッション
 discussions-myOngoingDiscussions-subhead = { $orgName } で最もコメントした場所
@@ -693,31 +690,25 @@ discussions-discussionsQuery-errorLoadingProfile = プロフィールの読み�
 discussions-discussionsQuery-storyNotFound = ストーリーが見つかりません
 
 ## Comment Stream
-configure-stream-title =
 configure-stream-title-configureThisStream =
   このストリームを構成する
-configure-stream-apply =
 configure-stream-update = アップデート
 configure-stream-streamHasBeenUpdated =
   このストリームはアップデートされました
 
-configure-premod-title =
 configure-premod-premoderateAllComments = 全てのコメントを予備的にモデレートする
 configure-premod-description =
   モデレータは、このコメントを公開する前に、コメントを承認する必要があります。
 
-configure-premodLink-title =
 configure-premodLink-commentsContainingLinks =
   リンクを含む予備的なモデレートコメント
 configure-premodLink-description =
   モデレーターは、このストーリーを公開する前に、リンクを含むコメントを承認する必要があります。
 
-configure-messageBox-title =
 configure-addMessage-title =
    Add a message or question
-configure-messageBox-description =
 configure-addMessage-description =
-  読者向けのコメントボックスの上部にメッセージを追加します。 
+  読者向けのコメントボックスの上部にメッセージを追加します。
   これを使用して、トピックを提起したり、質問したり、
   このストーリーに関連する発表を行ったりします。
 configure-addMessage-addMessage = メッセージを追加
@@ -739,7 +730,6 @@ configure-messageBox-iconChatBubble = チャットバブル
 configure-messageBox-noIcon = アイコンがありません
 configure-messageBox-writeAMessage = メッセージを書く
 
-configure-closeStream-title =
 configure-closeStream-closeCommentStream =
   コメントストリームを閉じる
 configure-closeStream-description =
@@ -755,12 +745,9 @@ configure-openStream-description =
 configure-openStream-openStream = ストリームを開く
 configure-openStream-theStreamIsNowClosed = このストリームは現在閉じられています
 
-configure-moderateThisStream =
-
 qa-experimentalTag-tooltip-content =
   Q＆Aフォーマットは現在開発が行なわれています。
  フィードバックやご要望がございましたら、お問い合わせください。
-configure-enableQA-title =
 configure-enableQA-switchToQA =
   Q&Aフォーマットを切り替える
 configure-enableQA-description =
@@ -786,29 +773,26 @@ configure-experts-filter-description =
   このページでのみ、登録ユーザーによるコメントにエキスパートバッジを追加します。
  新規ユーザーは、最初にサインアップしてページのコメントを開き、アカウントを作成する必要があります。
 configure-experts-search-none-found = そのメールアドレスまたはユーザー名のユーザーは見つかりませんでした
-configure-experts-
 configure-experts-remove-button = 削除
 configure-experts-load-more = もっと読み込む
 configure-experts-none-yet = 現在、このQ＆Aのエキスパートはいません。
 configure-experts-search-title = エキスパートを検索する
 configure-experts-assigned-title = エキスパート
 configure-experts-noLongerAnExpert = 今はエキスパートではありません
-comments-tombstone-ignore = {$ username}を無視したため、このコメントは非表示になっています
+comments-tombstone-ignore = {$username}を無視したため、このコメントは非表示になっています
 comments-tombstone-showComment = コメントを見る
 comments-tombstone-deleted =
   このコメントは利用できなくなりました。 コメント投稿者は自分のアカウントを削除しました。
 comments-tombstone-rejected =
   このコメント投稿者は、コミュニティガイドラインに違反したため、モデレーターによって削除されました。
 
-suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
   あなたのアカウントのコメントが一時的に停止されました
-suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
- {$ Organisation}のコミュニティガイドラインに従い、アカウントは一時的に停止されています。
+ {$Organisation}のコミュニティガイドラインに従い、アカウントは一時的に停止されています。
  一時停止中は、コメントしたり、リアクションを使用したり、コメントを報告したりすることはできません。
 suspendInfo-until-pleaseRejoinThe =
-  {$ until}で会話に再度参加してください
+  {$until}で会話に再度参加してください
 
 warning-heading = アカウントに警告が発行されました
 warning-explanation =
@@ -827,7 +811,7 @@ profile-changeEmail-edit = 編集
 profile-changeEmail-change = 変更
 profile-changeEmail-please-verify = あなたのメールアドレスを確認してください
 profile-changeEmail-please-verify-details =
-   アカウントを確認するためのメールが{$ email}に送信されました。
+   アカウントを確認するためのメールが{$email}に送信されました。
   アカウントへのサインインや通知の受信に使用する前に、
   新しいメールアドレスを確認する必要があります。
 profile-changeEmail-resend = 確認を再送
@@ -872,7 +856,7 @@ ratingsAndReviews-basedOnRatings = { $count ->
 ratingsAndReviews-allReviewsFilter = 全てのレビュー
 ratingsAndReviews-starReviewsFilter = { $rating ->
   [1] 星1
-  *[other] 星 { $rating } 
+  *[other] 星 { $rating }
 }
 
 comments-addAReviewForm-rteLabel = レビューを追加（オプション）

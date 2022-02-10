@@ -23,7 +23,6 @@ resetPassword-missingResetToken = Hiányzik a visszaállításhoz szükséges zs
 
 confirmEmail-emailConfirmation = e-mail megerősítése
 confirmEmail-confirmYourEmailAddress = erősítse meg az e-mail címét
-  Confirm your email address
 confirmEmail-confirmEmail = e-mail megerősítése
 confirmEmail-pleaseClickToConfirm = Kattintson az alábbi gombra az e-mail címének megerősítéséhez.
 confirmEmail-oopsSorry = Hoppá, bocsánat!
@@ -39,7 +38,7 @@ download-landingPage-description =
   Miután a kommenttörténetedet kicsomagoltuk, egy vesszővel elválasztott értékű (vagy .csv) fájlt kapsz, amelyet könnyen importálhatsz a kedvenc táblázatkezelő alkalmazásodba.
 
 download-landingPage-contentsDescription =
- Minden egyes kommenthez a következő információkat csatoljuk:
+  Minden egyes kommenthez a következő információkat csatoljuk:
 download-landingPage-contentsDate =
   Mikor írtad a kommentet
 download-landingPage-contentsUrl =

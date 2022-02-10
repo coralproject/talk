@@ -77,7 +77,7 @@ comments-bannedInfo-bannedFromCommenting = Akun Anda telah dilarang untuk berkom
 comments-bannedInfo-violatedCommunityGuidelines =
   Seseorang yang memiliki akses ke akun Anda telah melanggar pedoman komunitas kami.
   Akibatnya, akun Anda telah diblokir. Anda tidak akan
-  lagi dapat berkomentar, menggunakan reaksi atau melaporkan komentar. Jika Anda 
+  lagi dapat berkomentar, menggunakan reaksi atau melaporkan komentar. Jika Anda
   berfikir ini telah dilakukan karena kesalahan, silakan hubungi tim komunitas kami.
 
 comments-noCommentsAtAll = Tidak ada komentar dalam cerita ini.
@@ -208,8 +208,6 @@ comments-showConversationLink-readMore = Baca Selengkapnya dari Percakapan ini >
 comments-conversationThread-showMoreOfThisConversation =
   Tampilkan Lebih Banyak dari Percakapan Ini
 
-comments-permalinkView-currentViewing =
-comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   Anda sedang melihat satu percakapan
 comments-inReplyTo = Sebagai balasan untuk <Username></Username>
@@ -258,7 +256,6 @@ comments-moderationDropdown-reject = Menolak
 comments-moderationDropdown-rejected = Ditolak
 comments-moderationDropdown-ban = Larang Pengguna
 comments-moderationDropdown-banned = Dilarang
-comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Tampilan moderasi
 comments-moderationDropdown-moderateStory = Cerita singkat
 comments-moderationDropdown-caretButton =
@@ -429,918 +426,799 @@ profile-accountDeletion-cancelAccountDeletion =
 
 ### Riwayat Komentar
 profile-commentHistory-section =
-### Comment History 
+### Comment History
 
-profile-commentHistory-section = 
+profile-commentHistory-section =
+  .aria-label = Riwayat Komentar
 
-  .aria-label = Riwayat Komentar 
+profile-historyComment-commentLabel =
+  Komentar<RelativeTime></RelativeTime> on { $storyTitle }
 
-profile-historyComment-commentLabel = 
+profile-historyComment-viewConversation = Lihat Perbincangan
 
-  Komentar<RelativeTime></RelativeTime> on { $storyTitle } 
+profile-historyComment-replies = Balasan {$replyCount}
 
-profile-historyComment-viewConversation = Lihat Perbincangan 
+profile-historyComment-commentHistory = Riwayat Komentar
 
-profile-historyComment-replies = Balasan {$replyCount} 
+profile-historyComment-story = Cerita: {$title}
 
-profile-historyComment-commentHistory = Riwayat Komentar 
+profile-historyComment-comment-on = Komentar di:
 
-profile-historyComment-story = Cerita: {$title} 
+profile-profileQuery-errorLoadingProfile = Loading profil eror
 
-profile-historyComment-comment-on = Komentar di: 
+profile-profileQuery-storyNotFound = Cerita tidak ditemukan
 
-profile-profileQuery-errorLoadingProfile = Loading profil eror 
+profile-commentHistory-loadMore = Lebih Banyak
 
-profile-profileQuery-storyNotFound = Cerita tidak ditemukan 
+profile-commentHistory-empty = Anda belum menulis komentar
 
-profile-commentHistory-loadMore = Lebih Banyak 
+profile-commentHistory-empty-subheading = Riwayat komentar Anda akan muncul di sini
 
-profile-commentHistory-empty = Anda belum menulis komentar 
 
-profile-commentHistory-empty-subheading = Riwayat komentar Anda akan muncul di sini 
 
- 
+### Preferences
 
-### Preferences 
 
+profile-preferences-mediaPreferences = Preferensi Media
 
-profile-preferences-mediaPreferences = Preferensi Media 
+profile-preferences-mediaPreferences-alwaysShow = Selalu tampilkan GIFs, Tweets, YouTube, dll.
 
-profile-preferences-mediaPreferences-alwaysShow = Selalu tampilkan GIFs, Tweets, YouTube, dll. 
+profile-preferences-mediaPreferences-thisMayMake = Ini akan membuat komentar lebih lambat muncul
 
-profile-preferences-mediaPreferences-thisMayMake = Ini akan membuat komentar lebih lambat muncul 
+profile-preferences-mediaPreferences-update = Update
 
-profile-preferences-mediaPreferences-update = Update 
+profile-preferences-mediaPreferences-preferencesUpdated =
+  Preferensi media Anda sudah diperbarui
 
-profile-preferences-mediaPreferences-preferencesUpdated = 
 
-  Preferensi media Anda sudah diperbarui 
 
- 
+### Account
 
-### Account 
+profile-account-ignoredCommenters = Komentar yang diabaikan
 
-profile-account-ignoredCommenters = Komentar yang diabaikan 
+profile-account-ignoredCommenters-description =
+  Anda dapat mengabaikan komentar dari pengguna lain dengan mengklik username mereka dan memilih Abaikan. Saat Anda mengabaikan seseorang, seluruh komentar mereka akan disembunyikan. Sementara komentar Anda masih bisa dilihat oleh mereka yang Anda abaikan.
 
-profile-account-ignoredCommenters-description = 
+profile-account-ignoredCommenters-empty = Anda tidak mengabaikan siapapun
 
-  Anda dapat mengabaikan komentar dari pengguna lain dengan mengklik username mereka dan memilih Abaikan. Saat Anda mengabaikan seseorang, seluruh komentar mereka akan disembunyikan. Sementara komentar Anda masih bisa dilihat oleh mereka yang Anda abaikan. 
+profile-account-ignoredCommenters-stopIgnoring = Berhenti mengabaikan
 
-profile-account-ignoredCommenters-empty = Anda tidak mengabaikan siapapun 
+profile-account-ignoredCommenters-youAreNoLonger =
+  Anda tidak lagi mengabaikan komentar
 
-profile-account-ignoredCommenters-stopIgnoring = Berhenti mengabaikan 
+profile-account-ignoredCommenters-manage = Atur
 
-profile-account-ignoredCommenters-youAreNoLonger = 
+profile-account-ignoredCommenters-cancel = Batal
 
-  Anda tidak lagi mengabaikan komentar 
+profile-account-ignoredCommenters-close = Tutup
 
-profile-account-ignoredCommenters-manage = Atur 
 
-profile-account-ignoredCommenters-cancel = Batal 
 
-profile-account-ignoredCommenters-close = Tutup 
+profile-account-changePassword-cancel = Batal
 
- 
+profile-account-changePassword = Ubah Password
 
-profile-account-changePassword-cancel = Batal 
+profile-account-changePassword-oldPassword = Password Lama
 
-profile-account-changePassword = Ubah Password 
+profile-account-changePassword-forgotPassword = Lupa password Anda?
 
-profile-account-changePassword-oldPassword = Password Lama 
+profile-account-changePassword-newPassword = Password Baru
 
-profile-account-changePassword-forgotPassword = Lupa password Anda? 
+profile-account-changePassword-button = Ubah Password
 
-profile-account-changePassword-newPassword = Password Baru 
+profile-account-changePassword-updated =
+  Password Anda sudah diperbarui
 
-profile-account-changePassword-button = Ubah Password 
+profile-account-changePassword-password = Password
 
-profile-account-changePassword-updated = 
 
-  Password Anda sudah diperbarui 
 
-profile-account-changePassword-password = Password 
+profile-account-download-comments-title = Unduh riwayat komentar saya
 
- 
+profile-account-download-comments-description =
+  Anda akan menerima email dengan link untuk mengunduh riwayat komentar Anda
 
-profile-account-download-comments-title = Unduh riwayat komentar saya 
+  You can make <strong>one download request every 14 days.</strong>
 
-profile-account-download-comments-description = 
+profile-account-download-comments-request =
+  Permintaan riwayat komentar
 
-  Anda akan menerima email dengan link untuk mengunduh riwayat komentar Anda 
+profile-account-download-comments-request-icon =
+  .title = Permintaan riwayat komentar
 
-  You can make <strong>one download request every 14 days.</strong> 
+profile-account-download-comments-recentRequest =
+  Permintaan terbaru Anda: { $timeStamp }
 
-profile-account-download-comments-request = 
+profile-account-download-comments-yourMostRecentRequest =
+  Permintaan terbaru Anda dalam 14 hari terakhir. Anda boleh melakukan permintaan mengunduh komentar lagi di: { $timeStamp }
 
-  Permintaan riwayat komentar 
+profile-account-download-comments-requested =
+  Permintaan diterima. Anda bisa mengirim permintaan lain pada { framework-timeago-time }.
 
-profile-account-download-comments-request-icon = 
+profile-account-download-comments-requestSubmitted =
+  Permintaan Anda telah diterima. Anda bisa mengirim permintaan untuk mengunduh riwayat komentar lagi pada { framework-timeago-time }.
 
-  .title = Permintaan riwayat komentar 
+profile-account-download-comments-error =
+  Kami tidak dapat menyelesaikan permintaan unduhan Anda.
 
-profile-account-download-comments-recentRequest = 
+profile-account-download-comments-request-button = Permintaan
 
-  Permintaan terbaru Anda: { $timeStamp } 
 
-profile-account-download-comments-yourMostRecentRequest = 
 
-  Permintaan terbaru Anda dalam 14 hari terakhir. Anda boleh melakukan permintaan mengunduh komentar lagi di: { $timeStamp } 
+## Delete Account
 
-profile-account-download-comments-requested = 
 
-  Permintaan diterima. Anda bisa mengirim permintaan lain pada { framework-timeago-time }. 
 
-profile-account-download-comments-requestSubmitted = 
+profile-account-deleteAccount-title = Hapus Akun Saya
 
-  Permintaan Anda telah diterima. Anda bisa mengirim permintaan untuk mengunduh riwayat komentar lagi pada { framework-timeago-time }. 
+profile-account-deleteAccount-deleteMyAccount = Hapus Akun Saya
 
-profile-account-download-comments-error = 
+profile-account-deleteAccount-description =
+  Menghapus akun Anda akan secara permanen menghapus profil dan komentar Anda dari situs ini.
 
-  Kami tidak dapat menyelesaikan permintaan unduhan Anda. 
+profile-account-deleteAccount-requestDelete = Permintaan penghapusan akun
 
-profile-account-download-comments-request-button = Permintaan 
 
- 
 
-## Delete Account 
+profile-account-deleteAccount-cancelDelete-description =
+  Anda telah mengirim permintaan penghapusan akun Anda.
 
+  Akun Anda akan dihapus pada { $date }.
 
+  Anda diperbolehkan membatalkan permintaan penghapusan akun hingga waktu tersebut.
 
-profile-account-deleteAccount-title = Hapus Akun Saya 
+profile-account-deleteAccount-cancelDelete = Batalkan permintaan penghapusan akun
 
-profile-account-deleteAccount-deleteMyAccount = Hapus Akun Saya 
 
-profile-account-deleteAccount-description = 
 
-  Menghapus akun Anda akan secara permanen menghapus profil dan komentar Anda dari situs ini. 
+profile-account-deleteAccount-request = Permintaan
 
-profile-account-deleteAccount-requestDelete = Permintaan penghapusan akun 
+profile-account-deleteAccount-cancel = Batal
 
- 
+profile-account-deleteAccount-pages-deleteButton = Hapus akun saya
 
-profile-account-deleteAccount-cancelDelete-description = 
+profile-account-deleteAccount-pages-cancel = Batal
 
-  Anda telah mengirim permintaan penghapusan akun Anda. 
+profile-account-deleteAccount-pages-proceed = Lanjutkan
 
-  Akun Anda akan dihapus pada { $date }. 
+profile-account-deleteAccount-pages-done = Selesai
 
-  Anda diperbolehkan membatalkan permintaan penghapusan akun hingga waktu tersebut. 
+profile-account-deleteAccount-pages-phrase =
+  .aria-label = Frasa
 
-profile-account-deleteAccount-cancelDelete = Batalkan permintaan penghapusan akun 
 
- 
 
-profile-account-deleteAccount-request = Permintaan 
+profile-account-deleteAccount-pages-sharedHeader = Hapus akun saya
 
-profile-account-deleteAccount-cancel = Batal 
 
-profile-account-deleteAccount-pages-deleteButton = Hapus akun saya 
 
-profile-account-deleteAccount-pages-cancel = Batal 
+profile-account-deleteAccount-pages-descriptionHeader = Hapus akun saya?
 
-profile-account-deleteAccount-pages-proceed = Lanjutkan 
+profile-account-deleteAccount-pages-descriptionText =
+  Anda mencoba untuk menghapus akun Anda. Ini berarti:
 
-profile-account-deleteAccount-pages-done = Selesai 
+profile-account-deleteAccount-pages-allCommentsRemoved =
+  Semua komentar Anda akan dihapus dari situs ini
 
-profile-account-deleteAccount-pages-phrase = 
+profile-account-deleteAccount-pages-allCommentsDeleted =
+  Semua komentar Anda akan dihapus dari database kami
 
-  .aria-label = Frasa 
+profile-account-deleteAccount-pages-emailRemoved =
+  Email Anda akan dihapus dari sistem kami
 
- 
 
-profile-account-deleteAccount-pages-sharedHeader = Hapus akun saya 
 
- 
+profile-account-deleteAccount-pages-whenHeader = Hapus akun saya: Kapan?
 
-profile-account-deleteAccount-pages-descriptionHeader = Hapus akun saya? 
+profile-account-deleteAccount-pages-whenSubHeader = Kapan?
 
-profile-account-deleteAccount-pages-descriptionText = 
+profile-account-deleteAccount-pages-whenSec1Header =
+  Kapan akun saya akan dihapus?
 
-  Anda mencoba untuk menghapus akun Anda. Ini berarti: 
+profile-account-deleteAccount-pages-whenSec1Content =
+  Akun Anda akan dihapus 24 jam setelah permintaan penghapusan akun dilakukan.
 
-profile-account-deleteAccount-pages-allCommentsRemoved = 
+profile-account-deleteAccount-pages-whenSec2Header =
+  Apakah saya masih bisa membuat komentar sampai akun saya dihapus?
 
-  Semua komentar Anda akan dihapus dari situs ini 
+profile-account-deleteAccount-pages-whenSec2Content =
+  Tidak. Setelah Anda meminta akun dihapus, Anda tidak bisa lagi mengirim, membalas komentar atau memilih reaksi.
 
-profile-account-deleteAccount-pages-allCommentsDeleted = 
 
-  Semua komentar Anda akan dihapus dari database kami 
 
-profile-account-deleteAccount-pages-emailRemoved = 
+profile-account-deleteAccount-pages-downloadCommentHeader = Unduh komentar saya?
 
-  Email Anda akan dihapus dari sistem kami 
+profile-account-deleteAccount-pages-downloadSubHeader = Unduh komentar saya
 
- 
+profile-account-deleteAccount-pages-downloadCommentsDesc =
+  Sebelum akun Anda dihapus, kami sarankan Anda mengunduh riawayat komentar Anda. Setelah akun Anda dihapus, Anda tidak bisa mengajukan pengunduhan riwayat komentar.
 
-profile-account-deleteAccount-pages-whenHeader = Hapus akun saya: Kapan? 
+profile-account-deleteAccount-pages-downloadCommentsPath =
+  Profil Saya > Unduh Riwayat Komentar Saya
 
-profile-account-deleteAccount-pages-whenSubHeader = Kapan? 
 
-profile-account-deleteAccount-pages-whenSec1Header = 
 
-  Kapan akun saya akan dihapus? 
+profile-account-deleteAccount-pages-confirmHeader = Konfirmasi penghapusan akun?
 
-profile-account-deleteAccount-pages-whenSec1Content = 
+profile-account-deleteAccount-pages-confirmSubHeader = Anda yakin?
 
-  Akun Anda akan dihapus 24 jam setelah permintaan penghapusan akun dilakukan. 
+profile-account-deleteAccount-pages-confirmDescHeader =
+  Are you sure you want to delete your account?
 
-profile-account-deleteAccount-pages-whenSec2Header = 
+profile-account-deleteAccount-confirmDescContent =
+  Untuk mengonfirmasi penghapusan Akun tolong ketik frasa ini di text box:
 
-  Apakah saya masih bisa membuat komentar sampai akun saya dihapus? 
+profile-account-deleteAccount-pages-confirmPhraseLabel =
+  Untuk konfirmasi, ketik frasa di bawah ini:
 
-profile-account-deleteAccount-pages-whenSec2Content = 
+profile-account-deleteAccount-pages-confirmPasswordLabel =
+  Masukan password Anda:
 
-  Tidak. Setelah Anda meminta akun dihapus, Anda tidak bisa lagi mengirim, membalas komentar atau memilih reaksi. 
 
- 
 
-profile-account-deleteAccount-pages-downloadCommentHeader = Unduh komentar saya? 
+profile-account-deleteAccount-pages-completeHeader = Penghapusan akun telah diminta
 
-profile-account-deleteAccount-pages-downloadSubHeader = Unduh komentar saya 
+profile-account-deleteAccount-pages-completeSubHeader = Permintaan telah diterima
 
-profile-account-deleteAccount-pages-downloadCommentsDesc = 
+profile-account-deleteAccount-pages-completeDescript =
+  Permintaan Anda telah diterima dan tautan konfirmasi telah dikirim ke email yang disambungkan ke akun Anda.
 
-  Sebelum akun Anda dihapus, kami sarankan Anda mengunduh riawayat komentar Anda. Setelah akun Anda dihapus, Anda tidak bisa mengajukan pengunduhan riwayat komentar. 
+profile-account-deleteAccount-pages-completeTimeHeader =
+  Akun Anda akan dihapus pada: { $tanggal}
 
-profile-account-deleteAccount-pages-downloadCommentsPath = 
+profile-account-deleteAccount-pages-completeChangeYourMindHeader = Anda berubah pikiran?
 
-  Profil Saya > Unduh Riwayat Komentar Saya 
+profile-account-deleteAccount-pages-completeSignIntoYourAccount =
+  Langsung masuk ke akun Anda lagi sebelum tanggal yang ditentukan dan pilih
 
- 
+  <strong>Batalkan permintaan penghapusan akun</strong>.
 
-profile-account-deleteAccount-pages-confirmHeader = Konfirmasi penghapusan akun? 
+profile-account-deleteAccount-pages-completeTellUsWhy = Beritahu kami kenapa.
 
-profile-account-deleteAccount-pages-confirmSubHeader = Anda yakin? 
+profile-account-deleteAccount-pages-completeWhyDeleteAccount =
+  Kami ingin tahu mengapa Anda memilih untuk menghapus akun Anda. Kirimkan feedback Anda mengenai sistem komentar kami dengan mengirim email { $email }.
 
-profile-account-deleteAccount-pages-confirmDescHeader = 
+profile-account-changePassword-edit = Edit
 
-  Are you sure you want to delete your account? 
+profile-account-changePassword-change = Ubah
 
-profile-account-deleteAccount-confirmDescContent = 
 
-  Untuk mengonfirmasi penghapusan Akun tolong ketik frasa ini di text box: 
 
-profile-account-deleteAccount-pages-confirmPhraseLabel = 
 
-  Untuk konfirmasi, ketik frasa di bawah ini: 
 
-profile-account-deleteAccount-pages-confirmPasswordLabel = 
+## Notifications
 
-  Masukan password Anda: 
+profile-notificationsTab = Notifikasi
 
- 
+profile-account-notifications-emailNotifications = Notifikasi E-Mail
 
-profile-account-deleteAccount-pages-completeHeader = Penghapusan akun telah diminta 
+profile-account-notifications-emailNotifications = Notifikasi Email
 
-profile-account-deleteAccount-pages-completeSubHeader = Permintaan telah diterima 
+profile-account-notifications-receiveWhen = Terima notifikasi kapan:
 
-profile-account-deleteAccount-pages-completeDescript = 
+profile-account-notifications-onReply = Komentar saya mendapatkan balasan
 
-  Permintaan Anda telah diterima dan tautan konfirmasi telah dikirim ke email yang disambungkan ke akun Anda. 
+profile-account-notifications-onFeatured = Komentar saya ditampilkan
 
-profile-account-deleteAccount-pages-completeTimeHeader = 
+profile-account-notifications-onStaffReplies = Staf membalas komentar saya
 
-  Akun Anda akan dihapus pada: { $tanggal} 
+profile-account-notifications-onModeration = Komentar saya yang pending telah direview
 
-profile-account-deleteAccount-pages-completeChangeYourMindHeader = Anda berubah pikiran? 
+profile-account-notifications-sendNotifications = Kirim Notifikasi:
 
-profile-account-deleteAccount-pages-completeSignIntoYourAccount = 
+profile-account-notifications-sendNotifications-immediately = Segera
 
-  Langsung masuk ke akun Anda lagi sebelum tanggal yang ditentukan dan pilih 
+profile-account-notifications-sendNotifications-daily = Harian
 
-  <strong>Batalkan permintaan penghapusan akun</strong>. 
+profile-account-notifications-sendNotifications-hourly = Per jam
 
-profile-account-deleteAccount-pages-completeTellUsWhy = Beritahu kami kenapa. 
+profile-account-notifications-updated = Setelan notifikasi Anda telah diperbarui
 
-profile-account-deleteAccount-pages-completeWhyDeleteAccount = 
+profile-account-notifications-button = Perbarui Setelan Notifikasi
 
-  Kami ingin tahu mengapa Anda memilih untuk menghapus akun Anda. Kirimkan feedback Anda mengenai sistem komentar kami dengan mengirim email { $email }. 
+profile-account-notifications-button-update = Perbarui
 
-profile-account-changePassword-edit = Edit 
 
-profile-account-changePassword-change = Ubah 
 
- 
+## Report Comment Popover
 
- 
+comments-reportPopover =
+  .description = Dialog untuk melaporkan komentar
 
-## Notifications 
+comments-reportPopover-reportThisComment = Laporkan Komentar Ini
 
-profile-notificationsTab = Notifikasi 
+comments-reportPopover-whyAreYouReporting = Mengapa Anda melaporkan komentar ini?
 
-profile-account-notifications-emailNotifications = Notifikasi E-Mail 
 
-profile-account-notifications-emailNotifications = Notifikasi Email 
 
-profile-account-notifications-receiveWhen = Terima notifikasi kapan: 
+comments-reportPopover-reasonOffensive = Komentar ini ofensif
 
-profile-account-notifications-onReply = Komentar saya mendapatkan balasan 
+comments-reportPopover-reasonAbusive = Komentator kasar
 
-profile-account-notifications-onFeatured = Komentar saya ditampilkan 
+comments-reportPopover-reasonIDisagree = Saya tidak setuju dengan komentar ini
 
-profile-account-notifications-onStaffReplies = Staf membalas komentar saya 
+comments-reportPopover-reasonSpam = Ini terlihat seperti iklan atau marketing
 
-profile-account-notifications-onModeration = Komentar saya yang pending telah direview 
+comments-reportPopover-reasonOther = Lainnya
 
-profile-account-notifications-sendNotifications = Kirim Notifikasi: 
 
-profile-account-notifications-sendNotifications-immediately = Segera 
 
-profile-account-notifications-sendNotifications-daily = Harian 
+comments-reportPopover-additionalInformation =
+  Informasi tambahan <optional>Lainnya</optional>
 
-profile-account-notifications-sendNotifications-hourly = Per jam 
+comments-reportPopover-pleaseLeaveAdditionalInformation =
+  Tolong tinggalkan informasi lebih yang mungkin berguna untuk moderator kami.
 
-profile-account-notifications-updated = Setelan notifikasi Anda telah diperbarui 
 
-profile-account-notifications-button = Perbarui Setelan Notifikasi 
 
-profile-account-notifications-button-update = Perbarui 
+comments-reportPopover-maxCharacters = Max. { $maxCharacters } Karakter
 
- 
+comments-reportPopover-restrictToMaxCharacters = Harap batasi laporan Anda mengenai { $maxCharacters } karakter
 
-## Report Comment Popover 
+comments-reportPopover-cancel = Batal
 
-comments-reportPopover = 
+comments-reportPopover-submit = Kirimkan
 
-  .description = Dialog untuk melaporkan komentar 
 
-comments-reportPopover-reportThisComment = Laporkan Komentar Ini 
 
-comments-reportPopover-whyAreYouReporting = Mengapa Anda melaporkan komentar ini? 
+comments-reportPopover-thankYou = Terima kasih!
 
- 
+comments-reportPopover-receivedMessage =
+  Kami telah menerima pesan Anda. Laporan dari anggota seperti Anda membantu kami menjaga komunitas ini.
 
-comments-reportPopover-reasonOffensive = Komentar ini ofensif 
 
-comments-reportPopover-reasonAbusive = Komentator kasar 
 
-comments-reportPopover-reasonIDisagree = Saya tidak setuju dengan komentar ini 
+comments-reportPopover-dismiss = Dismiss
 
-comments-reportPopover-reasonSpam = Ini terlihat seperti iklan atau marketing 
 
-comments-reportPopover-reasonOther = Lainnya 
 
- 
+## Archived Report Comment Popover
 
-comments-reportPopover-additionalInformation = 
 
-  Informasi tambahan <optional>Lainnya</optional> 
 
-comments-reportPopover-pleaseLeaveAdditionalInformation = 
+comments-archivedReportPopover-reportThisComment = Laporkan Komentar Ini
 
-  Tolong tinggalkan informasi lebih yang mungkin berguna untuk moderator kami. 
+comments-archivedReportPopover-doesThisComment =
+  Apakah komentar ini melanggar pedoman komunitas kami? Komentar ini kasar atau spam?
 
- 
+  Kirimkan email ke tim moderasi kami di <a>{ $orgName }</a> beserta link komentar ini dan penjelasan jelasnya.
 
-comments-reportPopover-maxCharacters = Max. { $maxCharacters } Karakter 
+comments-archivedReportPopover-needALink =
+  Butuh tautan untuk komentar ini?
 
-comments-reportPopover-restrictToMaxCharacters = Harap batasi laporan Anda mengenai { $maxCharacters } karakter 
+comments-archivedReportPopover-copyLink = Salin tautan
 
-comments-reportPopover-cancel = Batal 
 
-comments-reportPopover-submit = Kirimkan 
 
- 
+comments-archivedReportPopover-emailSubject = Laporkan komentar
 
-comments-reportPopover-thankYou = Terima kasih! 
+comments-archivedReportPopover-emailBody =
+  Saya ingin melaporkan komentar berikut:
 
-comments-reportPopover-receivedMessage = 
+  %0A
 
-  Kami telah menerima pesan Anda. Laporan dari anggota seperti Anda membantu kami menjaga komunitas ini. 
+  { $permalinkURL }
 
- 
+  %0A
 
-comments-reportPopover-dismiss = Dismiss 
+  %0A
 
- 
+  Untuk alasan di bawah ini:
 
-## Archived Report Comment Popover 
 
 
+## Submit Status
 
-comments-archivedReportPopover-reportThisComment = Laporkan Komentar Ini 
+comments-submitStatus-dismiss = Tutup
 
-comments-archivedReportPopover-doesThisComment = 
+comments-submitStatus-submittedAndWillBeReviewed =
+  Komentar Anda telah kami terima dan akan direview oleh moderator
 
-  Apakah komentar ini melanggar pedoman komunitas kami? Komentar ini kasar atau spam? 
+comments-submitStatus-submittedAndRejected =
+  Komentar ini telah ditolak karena melanggar pedoman kami
 
-  Kirimkan email ke tim moderasi kami di <a>{ $orgName }</a> beserta link komentar ini dan penjelasan jelasnya. 
 
-comments-archivedReportPopover-needALink = 
 
-  Butuh tautan untuk komentar ini? 
+# Configure
 
-comments-archivedReportPopover-copyLink = Salin tautan 
+configure-configureQuery-errorLoadingProfile = Loading setelan bermasalah
 
- 
+configure-configureQuery-storyNotFound = Cerita tak ditemukan
 
-comments-archivedReportPopover-emailSubject = Laporkan komentar 
 
-comments-archivedReportPopover-emailBody = 
 
-  Saya ingin melaporkan komentar berikut: 
+## Archive
 
-  %0A 
+configure-archived-title = Aliran komentar ini telah diarsipkan
 
-  { $permalinkURL } 
+configure-archived-onArchivedStream =
+  Pada arsip aliran komentar, tidak ada komentar baru, reaksi atau laporan
 
-  %0A 
+  Yang dikirimkan. Komentar juga tidak bisa dimoderasi.
 
-  %0A 
+configure-archived-toAllowTheseActions =
+  Untuk memperbolehkan aksi ini, aliran tidak boleh diarsipkan.
 
-  Untuk alasan di bawah ini: 
+configure-archived-unarchiveStream = Jangan arsipkan aliran
 
- 
 
-## Submit Status 
 
-comments-submitStatus-dismiss = Tutup 
+## Change username
 
-comments-submitStatus-submittedAndWillBeReviewed = 
+profile-changeUsername-username = Username
 
-  Komentar Anda telah kami terima dan akan direview oleh moderator 
+profile-changeUsername-success = Username Anda berhasil diperbarui
 
-comments-submitStatus-submittedAndRejected = 
+profile-changeUsername-edit = Edit
 
-  Komentar ini telah ditolak karena melanggar pedoman kami 
+profile-changeUsername-change = Ubah
 
- 
+profile-changeUsername-heading = Edit username Anda
 
-# Configure 
+profile-changeUsername-heading-changeYourUsername = Ubah username Anda
 
-configure-configureQuery-errorLoadingProfile = Loading setelan bermasalah 
+profile-changeUsername-desc = Ubah username yang akan tampil di komentar baru dan lama Anda. <strong>Username hanya bisa diubah sekali dalam { framework-timeago-time }.</strong>
 
-configure-configureQuery-storyNotFound = Cerita tak ditemukan 
+profile-changeUsername-desc-text = Ubah username yang akan tampil di komentar baru dan lama Anda. Username hanya bisa diubah sekali dalam { framework-timeago-time }.
 
- 
+profile-changeUsername-current = Username saat ini
 
-## Archive 
+profile-changeUsername-newUsername-label = Username baru
 
-configure-archived-title = Aliran komentar ini telah diarsipkan 
+profile-changeUsername-confirmNewUsername-label = Konfirmasi username baru
 
-configure-archived-onArchivedStream = 
+profile-changeUsername-cancel = Batal
 
-  Pada arsip aliran komentar, tidak ada komentar baru, reaksi atau laporan 
+profile-changeUsername-save = Simpan
 
-  Yang dikirimkan. Komentar juga tidak bisa dimoderasi. 
+profile-changeUsername-saveChanges = Simpan perubahan
 
-configure-archived-toAllowTheseActions = 
+profile-changeUsername-recentChange = Username Anda sudah pernah diubah. Anda baru bisa mengubah username lagi pada { $nextUpdate }.
 
-  Untuk memperbolehkan aksi ini, aliran tidak boleh diarsipkan. 
+profile-changeUsername-youChangedYourUsernameWithin =
+  Anda telah mengubah username dalam { framework-timeago-time }. Anda baru bisa mengubah username lagi pada: { $nextUpdate }.
 
-configure-archived-unarchiveStream = Jangan arsipkan aliran 
+profile-changeUsername-close = Tutup
 
- 
 
-## Change username 
 
-profile-changeUsername-username = Username 
+## Discussions tab
 
-profile-changeUsername-success = Username Anda berhasil diperbarui 
 
-profile-changeUsername-edit = Edit 
 
-profile-changeUsername-change = Ubah 
+discussions-mostActiveDiscussions = Diskusi paling aktif
 
-profile-changeUsername-heading = Edit username Anda 
+discussions-mostActiveDiscussions-subhead = Ditentukan berdasarkan komen terbanyak yang diterima dalam 24 jam terakhir di { $siteName }
 
-profile-changeUsername-heading-changeYourUsername = Ubah username Anda 
+discussions-mostActiveDiscussions-empty = Anda belum berpartisipasi dalam diskusi apapun
 
-profile-changeUsername-desc = Ubah username yang akan tampil di komentar baru dan lama Anda. <strong>Username hanya bisa diubah sekali dalam { framework-timeago-time }.</strong> 
+discussions-myOngoingDiscussions = Diskusi saya yang sedang berjalan
 
-profile-changeUsername-desc-text = Ubah username yang akan tampil di komentar baru dan lama Anda. Username hanya bisa diubah sekali dalam { framework-timeago-time }. 
+discussions-myOngoingDiscussions-subhead = Di mana Anda telah berkomentar { $orgName }
 
-profile-changeUsername-current = Username saat ini 
+discussions-viewFullHistory = Lihat riwayat komentar selengkapnya
 
-profile-changeUsername-newUsername-label = Username baru 
+discussions-discussionsQuery-errorLoadingProfile = Loading profil bermasalah
 
-profile-changeUsername-confirmNewUsername-label = Konfirmasi username baru 
+discussions-discussionsQuery-storyNotFound = Cerita tidak ditemukan
 
-profile-changeUsername-cancel = Batal 
 
-profile-changeUsername-save = Simpan 
 
-profile-changeUsername-saveChanges = Simpan perubahan 
+## Comment Stream
 
-profile-changeUsername-recentChange = Username Anda sudah pernah diubah. Anda baru bisa mengubah username lagi pada { $nextUpdate }. 
+configure-stream-title-configureThisStream =
+  Konfigurasi aliran ini
 
-profile-changeUsername-youChangedYourUsernameWithin = 
+configure-stream-update = Perbarui
 
-  Anda telah mengubah username dalam { framework-timeago-time }. Anda baru bisa mengubah username lagi pada: { $nextUpdate }. 
+configure-stream-streamHasBeenUpdated =
+  Aliran ini sudah diperbarui
 
-profile-changeUsername-close = Tutup 
 
- 
 
-## Discussions tab 
+configure-premod-premoderateAllComments = Pra-moderasi seluruh komentar
 
- 
+configure-premod-description =
+  Moderator harus menyetujui komentar apapun sebelum dipublikasikan di cerita ini.
 
-discussions-mostActiveDiscussions = Diskusi paling aktif 
 
-discussions-mostActiveDiscussions-subhead = Ditentukan berdasarkan komen terbanyak yang diterima dalam 24 jam terakhir di { $siteName } 
 
-discussions-mostActiveDiscussions-empty = Anda belum berpartisipasi dalam diskusi apapun 
+configure-premodLink-commentsContainingLinks =
+  Pra-moderasi komentar yang mengandung tautan
 
-discussions-myOngoingDiscussions = Diskusi saya yang sedang berjalan 
+configure-premodLink-description =
+  Moderator harus menyetejui komentar apapun yang mengandung tautan sebelum dipublikasikan di cerita ini.
 
-discussions-myOngoingDiscussions-subhead = Di mana Anda telah berkomentar { $orgName } 
 
-discussions-viewFullHistory = Lihat riwayat komentar selengkapnya 
 
-discussions-discussionsQuery-errorLoadingProfile = Loading profil bermasalah 
+configure-addMessage-title =
+  Tambahkan pesan atau pertanyaan
 
-discussions-discussionsQuery-storyNotFound = Cerita tidak ditemukan 
+configure-addMessage-description =
+  Tambahkan pesan ke bagian paling atas komentar untuk pembaca Anda. Gunakan ini untuk mengunggah topik, menanyakan pertanyaan atau membuat pengumuman terkait cerita ini.
 
- 
+configure-addMessage-addMessage = Tambahkan pesan
 
-## Comment Stream 
+configure-addMessage-removed = Pesan telah dihapus
 
-configure-stream-title = 
+config-addMessage-messageHasBeenAdded =
+  Pesan ini telah ditambahkan ke box komentar
 
-configure-stream-title-configureThisStream = 
+configure-addMessage-remove = Hapus
 
-  Konfigurasi aliran ini 
+configure-addMessage-submitUpdate = Perbarui
 
-configure-stream-apply = 
+configure-addMessage-cancel = Batal
 
-configure-stream-update = Perbarui 
+configure-addMessage-submitAdd = Tambahkan pesan
 
-configure-stream-streamHasBeenUpdated = 
 
-  Aliran ini sudah diperbarui 
 
- 
+configure-messageBox-preview = Pratinjau
 
-configure-premod-title = 
+configure-messageBox-selectAnIcon = Pilih ikon
 
-configure-premod-premoderateAllComments = Pra-moderasi seluruh komentar 
+configure-messageBox-iconConversation = Perbincangan
 
-configure-premod-description = 
+configure-messageBox-iconDate = Tanggal
 
-  Moderator harus menyetujui komentar apapun sebelum dipublikasikan di cerita ini. 
+configure-messageBox-iconHelp = Bantuan
 
- 
+configure-messageBox-iconWarning = Peringatan
 
-configure-premodLink-title = 
+configure-messageBox-iconChatBubble = Gelembung Chat
 
-configure-premodLink-commentsContainingLinks = 
+configure-messageBox-noIcon = Tidak ada ikon
 
-  Pra-moderasi komentar yang mengandung tautan 
+configure-messageBox-writeAMessage = Tulis pesan
 
-configure-premodLink-description = 
 
-  Moderator harus menyetejui komentar apapun yang mengandung tautan sebelum dipublikasikan di cerita ini. 
 
- 
+configure-closeStream-closeCommentStream =
+  Tutup aliran komentar
 
-configure-messageBox-title = 
+configure-closeStream-description =
+  Aliran komentar ini sedang terbuka. Dengan menutup aliran komentar ini, tidak akan ada komentar baru yang diterima dan seluruh komentar yang telah dikirim akan tetap terlihat.
 
-configure-addMessage-title = 
+configure-closeStream-closeStream = Tutup Aliran
 
-  Tambahkan pesan atau pertanyaan 
+configure-closeStream-theStreamIsNowOpen = Aliran sekarang terbuka
 
-configure-messageBox-description = 
 
-configure-addMessage-description = 
 
-  Tambahkan pesan ke bagian paling atas komentar untuk pembaca Anda. Gunakan ini untuk mengunggah topik, menanyakan pertanyaan atau membuat pengumuman terkait cerita ini. 
+configure-openStream-title = Buka Aliran
 
-configure-addMessage-addMessage = Tambahkan pesan 
+configure-openStream-description =
+  Aliran komentar ini sedang tertutup. Dengan membuka aliran komentar ini, komentar baru akan diterima dan terlihat.
 
-configure-addMessage-removed = Pesan telah dihapus 
+configure-openStream-openStream = Buka Aliran
 
-config-addMessage-messageHasBeenAdded = 
+configure-openStream-theStreamIsNowClosed = Aliran ini sekarang tertutup
 
-  Pesan ini telah ditambahkan ke box komentar 
 
-configure-addMessage-remove = Hapus 
 
-configure-addMessage-submitUpdate = Perbarui 
+qa-experimentalTag-tooltip-content =
+  Format Q&A sedang dalam pengembangan aktif. Silahkan hubungi kami jika ada masukan atau permintaan.
 
-configure-addMessage-cancel = Batal 
 
-configure-addMessage-submitAdd = Tambahkan pesan 
 
- 
+configure-enableQA-switchToQA =
+  Beralih ke format Q&A
 
-configure-messageBox-preview = Pratinjau 
+configure-enableQA-description =
+  Format Q&A memperbolehkan anggota komunitas untuk mengirim pertanyaan untuk dijawab oleh para ahli.
 
-configure-messageBox-selectAnIcon = Pilih ikon 
+configure-enableQA-enableQA = Beralih ke Q&A
 
-configure-messageBox-iconConversation = Perbincangan 
+configure-enableQA-streamIsNowComments =
+  Aliran ini sekarang dalam format komentar
 
-configure-messageBox-iconDate = Tanggal 
 
-configure-messageBox-iconHelp = Bantuan 
 
-configure-messageBox-iconWarning = Peringatan 
+configure-disableQA-title = Configure this Q&A
 
-configure-messageBox-iconChatBubble = Gelembung Chat 
+configure-disableQA-description =
+  Format Q&A memperbolehkan anggota komunitas untuk mengirim pertanyaan yang akan dijawab oleh para ahli.
 
-configure-messageBox-noIcon = Tidak ada ikon 
+configure-disableQA-disableQA = Beralih ke Komentar
 
-configure-messageBox-writeAMessage = Tulis pesan 
+configure-disableQA-streamIsNowQA =
+  Aliran ini sekarang dalam format Q&A
 
- 
 
-configure-closeStream-title = 
 
-configure-closeStream-closeCommentStream = 
+configure-experts-title = Tambahkan Ahli
 
-  Tutup aliran komentar 
+configure-experts-filter-searchField =
+  .placeholder = Cari melalui email atau username
+  .aria-label = Cari melalui email atau username
 
-configure-closeStream-description = 
+configure-experts-filter-searchButton =
+  .aria-label = Cari
 
-  Aliran komentar ini sedang terbuka. Dengan menutup aliran komentar ini, tidak akan ada komentar baru yang diterima dan seluruh komentar yang telah dikirim akan tetap terlihat. 
+configure-experts-filter-description =
+  Tambahkan Expert Badge ke komentar dari pengguna yang terdaftar, hanya di halaman ini. Pengguna baru harus mendaftar terlebih dulu dan membuka komentar untuk membuat akun.
 
-configure-closeStream-closeStream = Tutup Aliran 
+configure-experts-search-none-found = Tidak ada pengguna yang ditemukan melalui email atau username
 
-configure-closeStream-theStreamIsNowOpen = Aliran sekarang terbuka 
+configure-experts-remove-button = Hapus
 
- 
+configure-experts-load-more = Lebih Banyak
 
-configure-openStream-title = Buka Aliran 
+configure-experts-none-yet = Untuk saat ini tidak ada ahli dalam Q&A ini.
 
-configure-openStream-description = 
+configure-experts-search-title = Cari seorang ahli
 
-  Aliran komentar ini sedang tertutup. Dengan membuka aliran komentar ini, komentar baru akan diterima dan terlihat. 
+configure-experts-assigned-title = Ahli
 
-configure-openStream-openStream = Buka Aliran 
+configure-experts-noLongerAnExpert = sudah bukan lagi seorang ahli
 
-configure-openStream-theStreamIsNowClosed = Aliran ini sekarang tertutup 
+comments-tombstone-ignore = Komentar ini disembunyikan karena Anda mengabaikan {$username}
 
- 
+comments-tombstone-showComment = Tampilkan komentar
 
-configure-moderateThisStream = 
+comments-tombstone-deleted =
+  Komentar ini tak lagi tersedia. Komentator telah menghapus akunnya.
 
- 
+comments-tombstone-rejected =
+  Komentator ini telah dihapus oleh moderator karena melanggar pedoman komunitas kami.
 
-qa-experimentalTag-tooltip-content = 
 
-  Format Q&A sedang dalam pengembangan aktif. Silahkan hubungi kami jika ada masukan atau permintaan. 
 
- 
+suspendInfo-heading-yourAccountHasBeen =
+  Akun Anda untuk sementara ditangguhkan dan tidak bisa mengirim komentar
 
-configure-enableQA-title = 
+suspendInfo-description-inAccordanceWith =
+  Sesuai dengan pedoman komunitas { $organization }'s akun Anda untuk sementara ditangguhkan. Pada saat dalam masa penangguhan, Anda tidak bisa memberikan komentar, menggunakan reaksi atau melaporkan komentar.
 
-configure-enableQA-switchToQA = 
+suspendInfo-until-pleaseRejoinThe =
+  Tolong kembali bergabung di perbincangan { $until }
 
-  Beralih ke format Q&A 
 
-configure-enableQA-description = 
 
-  Format Q&A memperbolehkan anggota komunitas untuk mengirim pertanyaan untuk dijawab oleh para ahli. 
+warning-heading = Akun Anda telah diberikan peringatan
 
-configure-enableQA-enableQA = Beralih ke Q&A 
+warning-explanation =
+  Sesuai dengan pedoman komunitas kami akun Anda telah diberikan peringatan.
 
-configure-enableQA-streamIsNowComments = 
+warning-instructions =
+  Untuk terus berpartisipasi dalam diskusi, dimohon menekan tombol “Acknowledge” di bawah ini.
 
-  Aliran ini sekarang dalam format komentar 
+warning-acknowledge = Acknowledge
 
- 
 
-configure-disableQA-title = Configure this Q&A 
 
-configure-disableQA-description = 
+warning-notice = Akun ada telah diberikan peringatan. Untuk terus berpartisipasi, dimohon untuk <a>meninjau pesan peringatan</a>.
 
-  Format Q&A memperbolehkan anggota komunitas untuk mengirim pertanyaan yang akan dijawab oleh para ahli. 
 
-configure-disableQA-disableQA = Beralih ke Komentar 
 
-configure-disableQA-streamIsNowQA = 
+modMessage-heading = Moderator mengirim pesan ke akun Anda
 
-  Aliran ini sekarang dalam format Q&A 
+modMessage-acknowledge = Acknowledge
 
- 
 
-configure-experts-title = Tambahkan Ahli 
 
-configure-experts-filter-searchField = 
+profile-changeEmail-unverified = (Tidak terverivikasi)
 
-  .placeholder = Cari melalui email atau username 
+profile-changeEmail-current = (saat ini)
 
-  .aria-label = Cari melalui email atau username 
+profile-changeEmail-edit = Edit
 
-configure-experts-filter-searchButton = 
+profile-changeEmail-change = Ubah
 
-  .aria-label = Cari 
+profile-changeEmail-please-verify = Verifikasi email Anda
 
-configure-experts-filter-description = 
+profile-changeEmail-please-verify-details =
+  Kami telah mengirimkan email ke { $email } untuk verifikasi akun Anda.
 
-  Tambahkan Expert Badge ke komentar dari pengguna yang terdaftar, hanya di halaman ini. Pengguna baru harus mendaftar terlebih dulu dan membuka komentar untuk membuat akun. 
+  Anda harus melakukan verifikasi email baru Anda sebelum digunakan
 
-configure-experts-search-none-found = Tidak ada pengguna yang ditemukan melalui email atau username 
+  Masuk ke akun Anda atau menerima notifikasi.
 
-configure-experts- 
+profile-changeEmail-resend = Kirim ulang verifikasi
 
-configure-experts-remove-button = Hapus 
+profile-changeEmail-heading = Edit email Anda
 
-configure-experts-load-more = Lebih Banyak 
+profile-changeEmail-changeYourEmailAddress =
+  Ubah email Anda
 
-configure-experts-none-yet = Untuk saat ini tidak ada ahli dalam Q&A ini. 
+profile-changeEmail-desc = Ubah email yang Anda gunakan untuk masuk dan menerima komunikasi terkait akun Anda.
 
-configure-experts-search-title = Cari seorang ahli 
+profile-changeEmail-newEmail-label = Email baru
 
-configure-experts-assigned-title = Ahli 
+profile-changeEmail-password = Password
 
-configure-experts-noLongerAnExpert = sudah bukan lagi seorang ahli 
+profile-changeEmail-password-input =
+  .placeholder = Password
 
-comments-tombstone-ignore = Komentar ini disembunyikan karena Anda mengabaikan {$username} 
+profile-changeEmail-cancel = Batal
 
-comments-tombstone-showComment = Tampilkan komentar 
+profile-changeEmail-submit = Simpan
 
-comments-tombstone-deleted = 
+profile-changeEmail-saveChanges = Simpan Perubahan
 
-  Komentar ini tak lagi tersedia. Komentator telah menghapus akunnya. 
+profile-changeEmail-email = Email
 
-comments-tombstone-rejected = 
+profile-changeEmail-title = Alamat email
 
-  Komentator ini telah dihapus oleh moderator karena melanggar pedoman komunitas kami. 
+profile-changeEmail-success = Email Anda telah sukses diperbarui
 
- 
 
-suspendInfo-heading = 
 
-suspendInfo-heading-yourAccountHasBeen = 
+## Ratings and Reviews
 
-  Akun Anda untuk sementara ditangguhkan dan tidak bisa mengirim komentar 
 
-suspendInfo-info = 
+ratingsAndReviews-postCommentForm-section =
+  .aria-label = Kirim sebuah review atau Tanyakan Sesuatu
 
-suspendInfo-description-inAccordanceWith = 
+ratingsAndReviews-reviewsTab = Review
 
-  Sesuai dengan pedoman komunitas { $organization }'s akun Anda untuk sementara ditangguhkan. Pada saat dalam masa penangguhan, Anda tidak bisa memberikan komentar, menggunakan reaksi atau melaporkan komentar. 
+ratingsAndReviews-questionsTab = Pertanyaan
 
-suspendInfo-until-pleaseRejoinThe = 
+ratingsAndReviews-noReviewsAtAll = Tidak ada review.
 
-  Tolong kembali bergabung di perbincangan { $until } 
+ratingsAndReviews-noQuestionsAtAll = Tidak ada pertanyaan.
 
- 
+ratingsAndReviews-noReviewsYet = Belum ada review. Mengapa Anda tidak menulis satu?
 
-warning-heading = Akun Anda telah diberikan peringatan 
+ratingsAndReviews-noQuestionsYet = Belum ada pertanyaan. Mengapa Anda tidak menanyakan sesuatu?
 
-warning-explanation = 
+ratingsAndReviews-selectARating = Pilih nilai
 
-  Sesuai dengan pedoman komunitas kami akun Anda telah diberikan peringatan. 
+ratingsAndReviews-youRatedThis = Anda telah menilai ini
 
-warning-instructions = 
+ratingsAndReviews-showReview = Tampilkan review
+  .title = { ratingsAndReviews-showReview }
 
-  Untuk terus berpartisipasi dalam diskusi, dimohon menekan tombol “Acknowledge” di bawah ini. 
+ratingsAndReviews-rateAndReview = Nilai dan Review
 
-warning-acknowledge = Acknowledge 
+ratingsAndReviews-askAQuestion = Tanyakan Sesuatu
 
- 
+ratingsAndReviews-basedOnRatings =
+  { $count ->
+    [0] No ratings yet
+    [1] Based on 1 rating
+    *[other] Based on { SHORT_NUMBER($count) } ratings
+  }
 
-warning-notice = Akun ada telah diberikan peringatan. Untuk terus berpartisipasi, dimohon untuk <a>meninjau pesan peringatan</a>. 
 
- 
 
-modMessage-heading = Moderator mengirim pesan ke akun Anda 
+ratingsAndReviews-allReviewsFilter = Semua reviews
 
-modMessage-acknowledge = Acknowledge 
+ratingsAndReviews-starReviewsFilter =
+  { $rating ->
+    [1] 1 Star
+    *[other] { $rating } Stars
+  }
 
- 
 
-profile-changeEmail-unverified = (Tidak terverivikasi) 
 
-profile-changeEmail-current = (saat ini) 
+comments-addAReviewForm-rteLabel = Tambahkan review (opsional)
 
-profile-changeEmail-edit = Edit 
 
-profile-changeEmail-change = Ubah 
 
-profile-changeEmail-please-verify = Verifikasi email Anda 
+comments-addAReviewForm-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
 
-profile-changeEmail-please-verify-details = 
 
-  Kami telah mengirimkan email ke { $email } untuk verifikasi akun Anda. 
 
-  Anda harus melakukan verifikasi email baru Anda sebelum digunakan 
+comments-addAReviewFormFake-rte =
+  .placeholder = { comments-addAReviewForm-rteLabel }
 
-  Masuk ke akun Anda atau menerima notifikasi. 
 
-profile-changeEmail-resend = Kirim ulang verifikasi 
 
-profile-changeEmail-heading = Edit email Anda 
+stream-footer-links-top-of-article = Artikel teratas
+  .title = Menuju artikel teratas
 
-profile-changeEmail-changeYourEmailAddress = 
+stream-footer-links-top-of-comments = Komentar teratas
+  .title = Menuju komentar teratas
 
-  Ubah email Anda 
+stream-footer-links-profile = Profil & Balasan
+  .title = Menuju profil dan balasan
 
-profile-changeEmail-desc = Ubah email yang Anda gunakan untuk masuk dan menerima komunikasi terkait akun Anda. 
+stream-footer-links-discussions = Lebih banyak diskusi
+  .title = Menuju lebih banyak diskusi
 
-profile-changeEmail-newEmail-label = Email baru 
+stream-footer-navigation =
+  .aria-label = Komentar Footer
 
-profile-changeEmail-password = Password 
-
-profile-changeEmail-password-input = 
-
-  .placeholder = Password 
-
-profile-changeEmail-cancel = Batal 
-
-profile-changeEmail-submit = Simpan 
-
-profile-changeEmail-saveChanges = Simpan Perubahan 
-
-profile-changeEmail-email = Email 
-
-profile-changeEmail-title = Alamat email 
-
-profile-changeEmail-success = Email Anda telah sukses diperbarui 
-
- 
-
-## Ratings and Reviews 
-
-
-ratingsAndReviews-postCommentForm-section = 
-
-  .aria-label = Kirim sebuah review atau Tanyakan Sesuatu 
-
- 
-
-ratingsAndReviews-reviewsTab = Review 
-
-ratingsAndReviews-questionsTab = Pertanyaan 
-
-ratingsAndReviews-noReviewsAtAll = Tidak ada review. 
-
-ratingsAndReviews-noQuestionsAtAll = Tidak ada pertanyaan. 
-
-ratingsAndReviews-noReviewsYet = Belum ada review. Mengapa Anda tidak menulis satu? 
-
-ratingsAndReviews-noQuestionsYet = Belum ada pertanyaan. Mengapa Anda tidak menanyakan sesuatu? 
-
-ratingsAndReviews-selectARating = Pilih nilai 
-
-ratingsAndReviews-youRatedThis = Anda telah menilai ini 
-
-ratingsAndReviews-showReview = Tampilkan review 
-
-  .title = { ratingsAndReviews-showReview } 
-
-ratingsAndReviews-rateAndReview = Nilai dan Review 
-
-ratingsAndReviews-askAQuestion = Tanyakan Sesuatu 
-
-ratingsAndReviews-basedOnRatings = { $count -> 
-
-  [0] No ratings yet 
-
-  [1] Based on 1 rating 
-
-  *[other] Based on { SHORT_NUMBER($count) } ratings 
-
-} 
-
- 
-
-ratingsAndReviews-allReviewsFilter = Semua reviews 
-
-ratingsAndReviews-starReviewsFilter = { $rating -> 
-
-  [1] 1 Star 
-
-  *[other] { $rating } Stars 
-
-} 
-
- 
-
-comments-addAReviewForm-rteLabel = Tambahkan review (opsional) 
-
- 
-
-comments-addAReviewForm-rte = 
-
-  .placeholder = { comments-addAReviewForm-rteLabel } 
-
- 
-
-comments-addAReviewFormFake-rte = 
-
-  .placeholder = { comments-addAReviewForm-rteLabel } 
-
- 
-
-stream-footer-links-top-of-article = Artikel teratas 
-
-  .title = Menuju artikel teratas 
-
-stream-footer-links-top-of-comments = Komentar teratas 
-
-  .title = Menuju komentar teratas 
-
-stream-footer-links-profile = Profil & Balasan 
-
-  .title = Menuju profil dan balasan 
-
-stream-footer-links-discussions = Lebih banyak diskusi 
-
-  .title = Menuju lebih banyak diskusi 
-
-stream-footer-navigation = 
-
-  .aria-label = Komentar Footer 

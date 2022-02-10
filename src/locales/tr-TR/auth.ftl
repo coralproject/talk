@@ -22,7 +22,7 @@ general-confirmEmailAddressTextField =
 
 ## Sign In
 
-signIn-signInToJoinHeader = <subtitle>Yorum yapmak için<subtitle> <title>üye girişi yapın</title>
+signIn-signInToJoinHeader = <subtitle>Yorum yapmak için</subtitle> <title>üye girişi yapın</title>
 signIn-signInWithEmail = e-posta adresinizle giriş yapın
 signIn-signInWithFacebook = Facebook ile giriş yapın
 signIn-signInWithGoogle = Google giriş yapın
@@ -37,7 +37,7 @@ signIn-noAccountSignUp = Henüz üye olmadınız mı? <textlink>Üye olmak için
 
 ## Sign Up
 
-signUp-signUpToJoinHeader = <subtitle>Yorum yapmak için<subtitle> <title>üye olun</title>
+signUp-signUpToJoinHeader = <subtitle>Yorum yapmak için</subtitle> <title>üye olun</title>
 signUp-signUpWithEmail = E-posta ile üye olun
 signUp-signUpWithFacebook = Facebook ile üye olun
 signUp-signUpWithGoogle = Google ile üye olun
@@ -79,7 +79,6 @@ resetPassword-resetPasswordButton = Şifreyi sıfırla
 
 ## Create Username
 
-createUsername-createUsernameHeader =
 createUsername-createAUsername = Kullanıcı adı oluştur
 createUsername-whatItIs = Kullanıcı adınız, tüm yorumlarınızda görünecek kimliğiniz olacak.
 createUsername-createUsernameButton = Kullanıcı adı oluştur
@@ -98,7 +97,6 @@ addEmailAddress-sendNotifications = Almak istediğiniz yorumlarda, bildirim alı
 addEmailAddress-addEmailAddressButton = E-posta adresi ekle
 
 ## Create Password
-createPassword-createPasswordHeader =
 createPassword-createAPassword = Şifre oluştur
 createPassword-whatItIs = Hesabınızda yetkisiz değişikliklere karşı korunmanız için,kullanıcıların bir şifre oluşturmasını istiyoruz.
 createPassword-createPasswordButton = Şifre oluştur

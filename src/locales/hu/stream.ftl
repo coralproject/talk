@@ -207,8 +207,6 @@ comments-showConversationLink-readMore = Még több hozzászólás elolvasása e
 comments-conversationThread-showMoreOfThisConversation =
   Még több mutatása ebből a beszélgetésből
 
-## comments-permalinkView-currentViewing =
-## comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   Jelenleg egyetlen beszélgetést tekinteszt meg
 comments-inReplyTo = Válasz <Username></Username> felhasználónak
@@ -302,8 +300,6 @@ qa-answeredTab = Megválaszolt
 qa-unansweredTab = Megválaszolatlan
 qa-allCommentsTab = Összes
 
-qa-answered-answerLabel =
-  Answer from {$username} <RelativeTime></RelativeTime>
 qa-answered-gotoConversation = Tovább a beszélgetéshez
 qa-answered-replies = Válaszok
 
@@ -331,11 +327,6 @@ qa-expert-tag = Szakértő
 qa-reaction-vote = Szavazás
 qa-reaction-voted = Szavazott
 
-qa-reaction-aria-vote =
-  .aria-label = {$count ->
-    [0] Vote for comment by {$username}
-    *[other] Vote ({$count}) for comment by {$username}
-  }
 qa-reaction-aria-voted =
   .aria-label = {$count ->
     [0] {$username} kommentjére szavazott
@@ -477,7 +468,7 @@ profile-account-download-comments-request-icon =
 profile-account-download-comments-recentRequest =
   A legutóbbi lekérése: { $timeStamp }
 profile-account-download-comments-yourMostRecentRequest =
- A legutóbbi kérvénye 14 napon belül volt. Legközelebb { $timeStamp } napon kérvényezheti újból a letöltést
+  A legutóbbi kérvénye 14 napon belül volt. Legközelebb { $timeStamp } napon kérvényezheti újból a letöltést
 profile-account-download-comments-requested =
   Kérés elküldve. Legközelebb { framework-timeago-time }. kérvényezheti újból a letöltést.
 profile-account-download-comments-requestSubmitted =
@@ -622,7 +613,7 @@ comments-archivedReportPopover-copyLink = Link másolása
 
 comments-archivedReportPopover-emailSubject = Hozzászólás jelentése
 comments-archivedReportPopover-emailBody =
- Ezt a hozzászólást jelenteni szeretném:
+  Ezt a hozzászólást jelenteni szeretném:
   %0A
   { $permalinkURL }
   %0A
@@ -682,29 +673,20 @@ discussions-discussionsQuery-errorLoadingProfile = Hiba a profil betöltésekor
 discussions-discussionsQuery-storyNotFound = A sztori nem található
 
 ## Comment Stream
-## configure-stream-title =
 configure-stream-title-configureThisStream =
   A stream konfigurálása
-## configure-stream-apply =
 configure-stream-update = Update
 configure-stream-streamHasBeenUpdated =
   A stream frissítve
 
-## configure-premod-title =
-configure-premod-premoderateAllComments = Pre-moderate all comments
 configure-premod-description =
   A moderátoroknak engedélyeznie kell a kommenteket, mielőtt nyilvánosan megjelennének.
 
-## configure-premodLink-title =
-configure-premodLink-commentsContainingLinks =
-  Pre-moderate comments containing links
 configure-premodLink-description =
   A moderátoroknak engedélyezniük kell a linket tartalmazó kommenteket, mielőtt nyilvánosan megjelennének.
 
-## configure-messageBox-title =
 configure-addMessage-title =
   Üzenet vagy kérdés hozzáadása
-## configure-messageBox-description =
 configure-addMessage-description =
   Adj hozzá egy üzenetet a kommentmező tetejére az olvasók számára. Használd ezt témafelvetéshez, hogy kérdést tegyen fel, vagy üzenetet írjon a sztorival kapcsolatosan.
 configure-addMessage-addMessage = Üzenet hozzáadása
@@ -726,11 +708,10 @@ configure-messageBox-iconChatBubble = Chatbuborék
 configure-messageBox-noIcon = Nincs ikon
 configure-messageBox-writeAMessage = Üzenet írása
 
-## configure-closeStream-title =
 configure-closeStream-closeCommentStream =
   Kommentáram bezárása
 configure-closeStream-description =
- A kommentáram jelenleg nyitott. Ha bezárod a kommentáramot, akkor nem lehet új kommentet hozzáadni, de a már megjelent kommentek megmaradnak.
+  A kommentáram jelenleg nyitott. Ha bezárod a kommentáramot, akkor nem lehet új kommentet hozzáadni, de a már megjelent kommentek megmaradnak.
 configure-closeStream-closeStream = Stream bezárása
 configure-closeStream-theStreamIsNowOpen = A stream jelenleg nyitott.
 
@@ -740,24 +721,18 @@ configure-openStream-description =
 configure-openStream-openStream = Stream megnyitása
 configure-openStream-theStreamIsNowClosed = A stream jelenleg zárt.
 
-## configure-moderateThisStream =
-
 qa-experimentalTag-tooltip-content =
   A kérdezz-felelek formátum jelenleg fejlesztés alatt áll. Kérünk, lépj kapcsolatba velünk visszajelzésekért vagy kérelmekért.
 
-## configure-enableQA-title =
 configure-enableQA-switchToQA =
   Váltás kérdezz-felelek formátumra.
 configure-enableQA-description =
   A kérdezz-felelek formátum lehetőséget ad a közösség tagjainak arra, hogy szakértőktől kapjanak választ a kérdésükre.
-configure-enableQA-enableQA = Switch to Q&A
 configure-enableQA-streamIsNowComments =
   A stream jelenleg komment formátumban van.
 
-configure-disableQA-title = Configure this Q&A
 configure-disableQA-description =
- A kérdezz-felelek formátum lehetőséget ad a közösség tagjainak arra, hogy szakértőktől kapjanak választ a kérdésükre.
-configure-disableQA-disableQA = Switch to Comments
+  A kérdezz-felelek formátum lehetőséget ad a közösség tagjainak arra, hogy szakértőktől kapjanak választ a kérdésükre.
 configure-disableQA-streamIsNowQA =
   A stream jelenleg kérdezz-felelek formátumban van.
 
@@ -770,7 +745,6 @@ configure-experts-filter-searchButton =
 configure-experts-filter-description =
   Hozzáad egy szakértői jelvényt, de csak ezen az oldalon. Az új felhasználóknak regisztrálniuk kell, hogy megnyissák a kommentek az oldalon, hogy létrehozzák a felhasználói fiókjukat.
 configure-experts-search-none-found = Nem találtunk felhasználót ilyen email vagy felhasználónév alatt.
-## configure-experts-
 configure-experts-remove-button = Eltávolítás
 configure-experts-load-more = Több betöltése
 configure-experts-none-yet = Jelenleg nincsenek szakértők ebben a kérdezz-felelekben.
@@ -784,10 +758,8 @@ comments-tombstone-deleted =
 comments-tombstone-rejected =
   Ezt a kommentelőt egy moderátor eltávolította a közösségi irányelvek megsértése miatt.
 
-## suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
   A fiókodat átmenetileg felfüggesztették, nem kommentelhetsz.
-## suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   A { $organization } közösségi irányelveinek megfelelően átmenetileg felfüggesztett téged. Ezen időszak alatt nem kommentelhetsz, nem reagálhatsz és nem jelenthetsz kommenteket.
 suspendInfo-until-pleaseRejoinThe =

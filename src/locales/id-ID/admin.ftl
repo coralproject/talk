@@ -40,25 +40,16 @@ role-plural-staff = Staf
 role-plural-commenter = Para komentator
 
 comments-react =
-
-.aria-label = {$count ->
-
-[0] {$reaction} komentar oleh {$username}
-
-*[other] {$reaction} ({$count}) komentar oleh {$username}
-
-}
+  .aria-label = {$count ->
+    [0] {$reaction} komentar oleh {$username}
+    *[other] {$reaction} ({$count}) komentar oleh {$username}
+  }
 
 comments-reacted =
-
 .aria-label = {$count ->
-
-[0] {$reaction} komentar oleh {$username}
-
-[one] {$reaction} komentar oleh {$username}
-
-*[other] {$reaction} ({$count}) komentar oleh {$username}
-
+  [0] {$reaction} komentar oleh {$username}
+  [one] {$reaction} komentar oleh {$username}
+  *[other] {$reaction} ({$count}) komentar oleh {$username}
 }
 
 ## User Statuses
@@ -106,8 +97,7 @@ userMenu-viewLatestRelease = Lihat rilis terbaru
 userMenu-reportBug = Laporkan bug atau berikan umpan balik
 
 userMenu-popover = Popover
-
-.description = Dialog menu pengguna dengan tautan dan tindakan terkait
+  .description = Dialog menu pengguna dengan tautan dan tindakan terkait
 
 ## Restricted
 
@@ -129,15 +119,11 @@ login-signInTo = Masuk ke
 
 login-signIn-enterAccountDetailsBelow = Masukkan detail akun Anda di bawah ini
 
-login-emailAddressLabel =  
- 
 login-emailAddressTextField = Alamat email
 
 .placeholder = Alamat email
 
 login-signIn-passwordLabel = Kata sandi
-
-login-signIn-passwordTextField =
 
 .placeholder = Kata sandi
 
@@ -158,7 +144,7 @@ login-signInWithOIDC = Masuk dengan { $name }
 createUsername-createUsernameHeader = Buat nama akun
 
 createUsername-whatItIs =
- Nama akun Anda adalah pengenal yang akan muncul di semua komentar Anda. 
+  Nama akun Anda adalah pengenal yang akan muncul di semua komentar Anda.
 
 createUsername-createUsernameButton = Buat nama akun
 
@@ -167,8 +153,7 @@ createUsername-usernameLabel = Nama akun
 createUsername-usernameDescription = Anda bisa memakai “_” dan “.” Spasi tidak diizinkan
 
 createUsername-usernameTextField =
-
-.placeholder = Nama akun
+  .placeholder = Nama akun
 
 # Add Email Address
 
@@ -177,38 +162,35 @@ addEmailAddress-addEmailAddressHeader = Tambah alamat email
 addEmailAddress-emailAddressLabel = Alamat email
 
 addEmailAddress-emailAddressTextField =
-
-.placeholder = Alamat surel
+  .placeholder = Alamat surel
 
 addEmailAddress-confirmEmailAddressLabel = Konfirmasi alamat email
 
 addEmailAddress-confirmEmailAddressTextField =
-
-.placeholder = Konfirmasi alamat email
+  .placeholder = Konfirmasi alamat email
 
 addEmailAddress-whatItIs =
- Untuk keamanan tambahan Anda, kami mengharuskan pengguna untuk menambahkan alamat email ke akun mereka.
+  Untuk keamanan tambahan Anda, kami mengharuskan pengguna untuk menambahkan alamat email ke akun mereka.
 
 addEmailAddress-addEmailAddressButton =
- Tambahkan alamat email
+  Tambahkan alamat email
 
 # Create Password
 
 createPassword-createPasswordHeader = Buat kata sandi
 
 createPassword-whatItIs =
- Untuk melindungi dari perubahan tidak sah pada akun Anda, kami mengharuskan pengguna untuk membuat kata sandi.
+  Untuk melindungi dari perubahan tidak sah pada akun Anda, kami mengharuskan pengguna untuk membuat kata sandi.
 
 createPassword-createPasswordButton =
- Buat kata sandi
+  Buat kata sandi
 
 createPassword-passwordLabel = Kata sandi
 
 createPassword-passwordDescription = Harus minimal {$minLength} karakter
 
 createPassword-passwordTextField =
-
-.placeholder = Kata sandi
+  .placeholder = Kata sandi
 
 # Forgot Password
 
@@ -218,18 +200,17 @@ forgotPassword-checkEmailHeader = Periksa email Anda
 
 forgotPassword-gotBackToSignIn = Kembali untuk masuk ke halaman
 
-forgotPassword-checkEmail-receiveEmail = 
- Jika ada akun yang terkait dengan <strong>{ $email }</strong>,
- Anda akan menerima email dengan tautan untuk membuat kata sandi baru.
+forgotPassword-checkEmail-receiveEmail =
+  Jika ada akun yang terkait dengan <strong>{ $email }</strong>,
+  Anda akan menerima email dengan tautan untuk membuat kata sandi baru.
 
 forgotPassword-enterEmailAndGetALink =
- Masukkan alamat email Anda di bawah ini dan kami akan mengirimkan tautan kepada Anda untuk mengatur ulang kata sandi Anda.
+  Masukkan alamat email Anda di bawah ini dan kami akan mengirimkan tautan kepada Anda untuk mengatur ulang kata sandi Anda.
 
 forgotPassword-emailAddressLabel = Alamat email
 
 forgotPassword-emailAddressTextField =
-
-.placeholder = Alamat email
+  .placeholder = Alamat email
 
 forgotPassword-sendEmailButton = Mengirim email
 
@@ -238,14 +219,13 @@ forgotPassword-sendEmailButton = Mengirim email
 linkAccount-linkAccountHeader = Tautkan akun
 
 linkAccount-alreadyAssociated =
- Surel <strong>{ $email }</strong> sudah terkait dengan akun. Jika Anda ingin
- tautan ini masukkan kata sandi Anda.
+  Surel <strong>{ $email }</strong> sudah terkait dengan akun. Jika Anda ingin
+  tautan ini masukkan kata sandi Anda.
 
 linkAccount-passwordLabel = Kata sandi
 
 linkAccount-passwordTextField =
-
-.label = Kata sandi
+  .label = Kata sandi
 
 linkAccount-linkAccountButton = Tautkan akun
 
@@ -254,9 +234,9 @@ linkAccount-useDifferentEmail = Gunakan alamat email berbeda
 ## Configure
 
 configure-experimentalFeature = Fitur eksperimental
- 	
+
 configure-unsavedInputWarning =
- Anda memiliki perubahan yang belum disimpan. Apakah Anda yakin ingin melanjutkan? 
+  Anda memiliki perubahan yang belum disimpan. Apakah Anda yakin ingin melanjutkan?
 
 configure-sideBarNavigation-general = Umum
 
@@ -276,7 +256,7 @@ configure-sideBarNavigation-advanced = Canggih
 
 configure-sideBarNavigation-email = Email
 
-configure-sideBarNavigation-bannedAndSuspectWords = Kata-kata terlarang dan mencurigakan 
+configure-sideBarNavigation-bannedAndSuspectWords = Kata-kata terlarang dan mencurigakan
 
 configure-sideBarNavigation-slack = Kendur
 
@@ -297,24 +277,23 @@ configure-radioButton-dontAllow = Tidak mengizinkan
 ### Moderation Phases
 
 configure-moderationPhases-generatedAt = KUNCI DIHASILKAN PADA:
-
-{ DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 
 configure-moderationPhases-phaseNotFound = Fase moderasi eksternal tidak ditemukan
 
 configure-moderationPhases-experimentalFeature =
- Fitur fase moderasi kebiasaan saat ini sedang dalam pengembangan aktif. 
- Silakan <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
+  Fitur fase moderasi kebiasaan saat ini sedang dalam pengembangan aktif.
+  Silakan <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
 
 configure-moderationPhases-header-title = Fase moderasi
 
-configure-moderationPhases-description = 
- Konfigurasikan fase moderasi eksternal untuk mengotomatiskan beberapa moderasi
- tindakan. Permintaan moderasi akan dikodekan dan disahkan oleh JSON. Untuk 
- mempelajari lebih lanjut tentang permintaan moderasi, kunjungi kami <externalLink>docs</externalLink>.
+configure-moderationPhases-description =
+  Konfigurasikan fase moderasi eksternal untuk mengotomatiskan beberapa moderasi
+  tindakan. Permintaan moderasi akan dikodekan dan disahkan oleh JSON. Untuk
+  mempelajari lebih lanjut tentang permintaan moderasi, kunjungi kami <externalLink>docs</externalLink>.
 
 configure-moderationPhases-addExternalModerationPhaseButton =
- Tambahkan fase moderasi eksternal 
+  Tambahkan fase moderasi eksternal
 
 configure-moderationPhases-moderationPhases = Fase moderasi
 
@@ -323,7 +302,7 @@ configure-moderationPhases-name = Nama
 configure-moderationPhases-status = Keadaan
 
 configure-moderationPhases-noExternalModerationPhases =
- Tidak ada fase moderasi eksternal yang dikonfigurasi, tambahkan satu di atas.
+  Tidak ada fase moderasi eksternal yang dikonfigurasi, tambahkan satu di atas.
 configure-moderationPhases-enabledModerationPhase = Diaktifkan
 
 configure-moderationPhases-disableModerationPhase = Nonaktifkan
@@ -336,39 +315,39 @@ configure-moderationPhases-updateExternalModerationPhaseButton = Detail pembarua
 
 configure-moderationPhases-cancelButton = Batal
 
-configure-moderationPhases-format = Format isi komentar 
+configure-moderationPhases-format = Format isi komentar
 
 configure-moderationPhases-endpointURL = Panggil balik URL
 
 configure-moderationPhases-timeout = Waktu habis
 
 configure-moderationPhases-timeout-details =
- Waktu saat Coral akan menunggu respons moderasi Anda dalam milidetik.
- 
+  Waktu saat Coral akan menunggu respons moderasi Anda dalam milidetik.
+
 configure-moderationPhases-format-details =
- Format yang akan digunakan Coral mengirimkan isi komentar. Secara baku, Coral akan
- mengirim komentar dalam format kode HTML asli. Jika “Teks Biasa (Plain Text)” dipilih, 
- maka versi HTML strip akan dikirim sebagai gantinya.
+  Format yang akan digunakan Coral mengirimkan isi komentar. Secara baku, Coral akan
+  mengirim komentar dalam format kode HTML asli. Jika “Teks Biasa (Plain Text)” dipilih,
+  maka versi HTML strip akan dikirim sebagai gantinya.
 
 configure-moderationPhases-format-html = HTML
 
 configure-moderationPhases-format-plain = Teks biasa
 
 configure-moderationPhases-endpointURL-details =
- URL yang diminta moderasi Coral akan di-KIRIM-kan. URL yang disediakan
- harus merespons dalam batas waktu yang ditentukan atau keputusan moderasi
- tindakan akan dilewati.
+  URL yang diminta moderasi Coral akan di-KIRIM-kan. URL yang disediakan
+  harus merespons dalam batas waktu yang ditentukan atau keputusan moderasi
+  tindakan akan dilewati.
 
 configure-moderationPhases-configureExternalModerationPhase =
- Konfigurasikan fase moderasi eksternal
-configure-moderationPhases-phaseDetails = Detail fase 
+  Konfigurasikan fase moderasi eksternal
+configure-moderationPhases-phaseDetails = Detail fase
 
 configure-moderationPhases-status = Keadaan
 
 configure-moderationPhases-signingSecret = Kode rahasia masuk
 
 configure-moderationPhases-signingSecretDescription =
- Kode rahasia masuk berikut digunakan untuk menandatangani muatan permintaan yang dikirim ke URL. Untuk mempelajari lebih lanjut tentang permohonan panggilan balik, kunjungi kami <externalLink>docs</externalLink>.
+  Kode rahasia masuk berikut digunakan untuk menandatangani muatan permintaan yang dikirim ke URL. Untuk mempelajari lebih lanjut tentang permohonan panggilan balik, kunjungi kami <externalLink>docs</externalLink>.
 
 configure-moderationPhases-phaseStatus = Fase keadaan
 
@@ -377,93 +356,88 @@ configure-moderationPhases-status = Keadaan
 configure-moderationPhases-signingSecret = Kode rahasia masuk
 
 configure-moderationPhases-signingSecretDescription =
- Kode rahasia masuk berikut digunakan untuk permintaan muatan yang dikirim ke URL.
- Untuk mempelajari lebih lanjut tentang cara panggilan balik, kunjungi kami <externalLink>docs</externalLink>.
+  Kode rahasia masuk berikut digunakan untuk permintaan muatan yang dikirim ke URL.
+  Untuk mempelajari lebih lanjut tentang cara panggilan balik, kunjungi kami <externalLink>docs</externalLink>.
 
 configure-moderationPhases-dangerZone = Area berbahaya
 
 configure-moderationPhases-rotateSigningSecret = Putar kode rahasia masuk
 
 configure-moderationPhases-rotateSigningSecretDescription =
- Memutar kode rahasia masuk membuat Anda lebih aman dalam mengganti kode rahasia masuk yang dipakai untuk produksi dengan penundaan.
+  Memutar kode rahasia masuk membuat Anda lebih aman dalam mengganti kode rahasia masuk yang dipakai untuk produksi dengan penundaan.
 
 configure-moderationPhases-rotateSigningSecretButton = Putar kode rahasia masuk
 
 configure-moderationPhases-disableExternalModerationPhase =
- Nonaktifkan fase moderasi eksternal
+  Nonaktifkan fase moderasi eksternal
 
-configure-moderationPhases-disableExternalModerationPhaseDescription = 
- Fase moderasi eksternal ini diaktifkan saat ini. Dengan menonaktifkan, tidak ada 
- kueri moderasi baru yang akan dikirim ke URL yang disediakan.
+configure-moderationPhases-disableExternalModerationPhaseDescription =
+  Fase moderasi eksternal ini diaktifkan saat ini. Dengan menonaktifkan, tidak ada
+  kueri moderasi baru yang akan dikirim ke URL yang disediakan.
 
-configure-moderationPhases-disableExternalModerationPhaseButton = Fase nonaktif 
+configure-moderationPhases-disableExternalModerationPhaseButton = Fase nonaktif
 configure-moderationPhases-enableExternalModerationPhase =
- Aktifkan fase moderasi eksternal
+  Aktifkan fase moderasi eksternal
 
 configure-moderationPhases-enableExternalModerationPhaseDescription =
- Fase moderasi eksternal saat ini nonaktif. Dengan diaktifkan, kueri moderasi baru akan dikirim ke URL yang tersedia.
+  Fase moderasi eksternal saat ini nonaktif. Dengan diaktifkan, kueri moderasi baru akan dikirim ke URL yang tersedia.
 
 configure-moderationPhases-enableExternalModerationPhaseButton = Fase aktif
 
 configure-moderationPhases-deleteExternalModerationPhase =
- Hapus fase moderasi eksternal
+  Hapus fase moderasi eksternal
 
 configure-moderationPhases-deleteExternalModerationPhaseDescription =
- Menghapus fase moderasi eksternal ini akan menghentikan setiap kueri moderasi baru agar tidak terkirim ke URL dan akan menghapus semua setelan terkait.
+  Menghapus fase moderasi eksternal ini akan menghentikan setiap kueri moderasi baru agar tidak terkirim ke URL dan akan menghapus semua setelan terkait.
 
 configure-moderationPhases-deleteExternalModerationPhaseButton = Fase menghapus
 
 configure-moderationPhases-rotateSigningSecret = Putar kode rahasia masuk
 
 configure-moderationPhases-rotateSigningSecretHelper =
- Setelah kadaluwarsa, tanda tangan tidak akan lagi dibuat dengan rahasia lama.
+  Setelah kadaluwarsa, tanda tangan tidak akan lagi dibuat dengan rahasia lama.
 
 configure-moderationPhases-expiresOldSecret =
- Rahasia lama tidak berlaku
+  Rahasia lama tidak berlaku
 
 configure-moderationPhases-expiresOldSecretImmediately =
- Segera
+  Segera
 
 configure-moderationPhases-expiresOldSecretHoursFromNow =
-
-{ $hours ->
-
-[1] 1 jam
-
-*[other] { $hours } jam
-
-} dari sekarang
+  { $hours ->
+    [1] 1 jam
+    *[other] { $hours } jam
+  } dari sekarang
 
 configure-moderationPhases-rotateSigningSecretSuccessUseNewSecret =
- Fase moderasi eksternal kode rahasia masuk telah diputar. Pastikan pembaruan integrasi Anda untuk memakai rahasia baru di bawah ini.
+  Fase moderasi eksternal kode rahasia masuk telah diputar. Pastikan pembaruan integrasi Anda untuk memakai rahasia baru di bawah ini.
 
 configure-moderationPhases-confirmDisable =
- Menonaktifkan fase moderasi eksternal akan menghentikan setiap kueri moderasi baru 
- agar tak terkirim ke URL ini. Anda yakin ingin melanjutkan?
+  Menonaktifkan fase moderasi eksternal akan menghentikan setiap kueri moderasi baru
+  agar tak terkirim ke URL ini. Anda yakin ingin melanjutkan?
 
 configure-moderationPhases-confirmEnable =
- Mengaktifkan fase moderasi eksternal akan memulai mengirim kueri moderasi ke URL ini.
- Anda yakin ingin melanjutkan?
+  Mengaktifkan fase moderasi eksternal akan memulai mengirim kueri moderasi ke URL ini.
+  Anda yakin ingin melanjutkan?
 
 configure-moderationPhases-confirmDelete =
- Menghapus fase moderasi eksternal ini akan menghentikan setiap kueri moderasi baru agar tidak terkirim ke URL dan menghapus semua setelan. Anda yakin ingin melanjutkan? 
+  Menghapus fase moderasi eksternal ini akan menghentikan setiap kueri moderasi baru agar tidak terkirim ke URL dan menghapus semua setelan. Anda yakin ingin melanjutkan?
 
 ### Webhooks
 
 configure-webhooks-generatedAt = KUNCI DIHASILKAN PADA:
-
-{ DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 
 configure-webhooks-experimentalFeature =
- Fitur panggilan balik saat ini dalam pengembangan aktif. Acara mungkin ditambahkan atau dibuang. Silakan <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
+  Fitur panggilan balik saat ini dalam pengembangan aktif. Acara mungkin ditambahkan atau dibuang. Silakan <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
 
 configure-webhooks-webhookEndpointNotFound = Titik akhir panggilan balik tidak ditemukan
 
 configure-webhooks-header-title = Konfigurasikan titik akhir panggilan balik
 
 configure-webhooks-description =
- Konfigurasikan titik akhir untuk mengirim acara ketika peristiwa terjadi di dalam
- Coral. Peristiwa ini akan dikodekan dan disetujui oleh JSON. Untuk mempelajari lebih lanjut tentang pengesahan panggilan balik, kunjungi kami <externalLink>Webhook Guide</externalLink>.
+  Konfigurasikan titik akhir untuk mengirim acara ketika peristiwa terjadi di dalam
+  Coral. Peristiwa ini akan dikodekan dan disetujui oleh JSON. Untuk mempelajari lebih lanjut tentang pengesahan panggilan balik, kunjungi kami <externalLink>Webhook Guide</externalLink>.
 
 configure-webhooks-addEndpoint = Tambahkan titik akhir panggilan balik
 
@@ -492,70 +466,66 @@ configure-webhooks-eventsToSend = Acara segera dikirim
 configure-webhooks-clearEventsToSend = Jelas
 
 configure-webhooks-eventsToSendDescription =
- Ini acara-acara yang terdaftar dalam titik akhir kusus. Kunjungi kami <externalLink>Webhook Guide</externalLink> untuk skema acara-acara ini.
- Setiap acara yang cocok dengan yang berikut ini akan dikirim ke titik akhir jika:
- diaktifkan:
+  Ini acara-acara yang terdaftar dalam titik akhir kusus. Kunjungi kami <externalLink>Webhook Guide</externalLink> untuk skema acara-acara ini.
+  Setiap acara yang cocok dengan yang berikut ini akan dikirim ke titik akhir jika:
+  diaktifkan:
 
 configure-webhooks-allEvents =
- Titik akhir akan menerima semua acara, termasuk yang ditambahkan di masa mendatang.
+  Titik akhir akan menerima semua acara, termasuk yang ditambahkan di masa mendatang.
 
 configure-webhooks-selectedEvents =
-
-{ $count } { $count ->
-
-[1] event
-
-*[other] events
-
-} selected.
+  { $count } { $count ->
+    [1] event
+    *[other] events
+  } selected.
 
 configure-webhooks-selectAnEvent =
- Pilih acara di atas atau <button>receive all events</button>.
+  Pilih acara di atas atau <button>receive all events</button>.
 
 configure-webhooks-configureWebhookEndpoint = Konfigurasikan titik akhir panggilan balik
 
 configure-webhooks-confirmEnable =
- Mengaktifkan titik akhir panggilan balik akan mulai mengirim acara ke URL ini. Apakah Anda yakin ingin melanjutkan?
+  Mengaktifkan titik akhir panggilan balik akan mulai mengirim acara ke URL ini. Apakah Anda yakin ingin melanjutkan?
 
 configure-webhooks-confirmDisable =
- Menonaktifkan titik akhir panggilan balik ini akan menghentikan pengiriman acara baru ke URL ini. Apakah Anda yakin ingin melanjutkan? 
+  Menonaktifkan titik akhir panggilan balik ini akan menghentikan pengiriman acara baru ke URL ini. Apakah Anda yakin ingin melanjutkan?
 
 configure-webhooks-confirmDelete =
- atas semua acara baru agar tidak dikirim ke URL ini, dan hapus semua setelan terkait dengan titik akhir panggilan ini. Apakah Anda yakin ingin melanjutkan?
+  atas semua acara baru agar tidak dikirim ke URL ini, dan hapus semua setelan terkait dengan titik akhir panggilan ini. Apakah Anda yakin ingin melanjutkan?
 
 configure-webhooks-dangerZone = Zona berbahaya
 
 configure-webhooks-rotateSigningSecret = Putar kode masuk rahasia
 
 configure-webhooks-rotateSigningSecretDescription =
- Memutar kode masuk rahasia akan memungkinkan Anda mengganti kode masuk rahasia dengan aman yang akan digunakan dalam produksi dengan penundaan.
+  Memutar kode masuk rahasia akan memungkinkan Anda mengganti kode masuk rahasia dengan aman yang akan digunakan dalam produksi dengan penundaan.
 
 configure-webhooks-rotateSigningSecretButton = Putar kode masuk rahasia
 
 configure-webhooks-rotateSigningSecretHelper =
- Setelah kadaluwarsa, tanda masuk tidak akan lagi dibuat dengan rahasia lama.
+  Setelah kadaluwarsa, tanda masuk tidak akan lagi dibuat dengan rahasia lama.
 
 configure-webhooks-rotateSigningSecretSuccessUseNewSecret =
- Titik akhir panggilan balik kode masuk rahasia sudah diputar. Pastikan Anda memperbarui integrasi Anda untuk memakai rahasia baru di bawah ini..
+  Titik akhir panggilan balik kode masuk rahasia sudah diputar. Pastikan Anda memperbarui integrasi Anda untuk memakai rahasia baru di bawah ini..
 configure-webhooks-disableEndpoint = Titik akhir nonaktif
 
 configure-webhooks-disableEndpointDescription =
- Titik akhir ini saat ini diaktifkan. Dengan menonaktifkan titik akhir ini, tidak ada acara baru
- akan dikirim ke URL yang disediakan.
+  Titik akhir ini saat ini diaktifkan. Dengan menonaktifkan titik akhir ini, tidak ada acara baru
+  akan dikirim ke URL yang disediakan.
 
 configure-webhooks-disableEndpointButton = Titik akhir nonaktif
 
 configure-webhooks-enableEndpoint = Titik poin aktif
 
 configure-webhooks-enableEndpointDescription =
- Saat ini titik akhir nonaktif. Dengan mengaktifkan titik akhir, acara baru akan dikirim ke URL yang tersedia.
+  Saat ini titik akhir nonaktif. Dengan mengaktifkan titik akhir, acara baru akan dikirim ke URL yang tersedia.
 
 configure-webhooks-enableEndpointButton = Titik poin aktif
 
 configure-webhooks-deleteEndpoint = Titik akhir dihapus
 
 configure-webhooks-deleteEndpointDescription =
- Menghapus titik akhir akan mencegah acara baru dikirim ke URL yang tersedia.
+  Menghapus titik akhir akan mencegah acara baru dikirim ke URL yang tersedia.
 
 configure-webhooks-deleteEndpointButton = Titik akhir dihapus
 
@@ -565,19 +535,15 @@ configure-webhooks-signingSecret = Kode masuk rahasia
 
 configure-webhooks-signingSecretDescription = Kode masuk rahasia berikut digunakan untuk pengesahan muatan permintaan yang dikirim ke URL. Untuk mempelajari lebih lanjut tentang pengesahan panggilan masuk, kunjungi kami <externalLink>Webhook Guide</externalLink>.
 
-configure-webhooks-expiresOldSecret = Rahasia lama kadaluwarsa 
+configure-webhooks-expiresOldSecret = Rahasia lama kadaluwarsa
 
 configure-webhooks-expiresOldSecretImmediately = Segera
 
 configure-webhooks-expiresOldSecretHoursFromNow =
-
-{ $hours ->
-
-[1] 1 hour
-
-*[other] { $hours } hours
-
-} dari sekarang
+  { $hours ->
+    [1] 1 hour
+    *[other] { $hours } hours
+  } dari sekarang
 
 configure-webhooks-detailsButton = Detail <icon>keyboard_arrow_right</icon>
 
@@ -586,59 +552,59 @@ configure-webhooks-detailsButton = Detail <icon>keyboard_arrow_right</icon>
 configure-general-guidelines-title = Ringkasan pedoman komunitas
 
 configure-general-guidelines-explanation =
- Ini akan muncul di atas komentar di seluruh situs. Anda dapat memformat teks menggunakan Markdown. Informasi lebih lanjut tentang cara menggunakan Markdown ada di sini: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
+  Ini akan muncul di atas komentar di seluruh situs. Anda dapat memformat teks menggunakan Markdown. Informasi lebih lanjut tentang cara menggunakan Markdown ada di sini: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 
 configure-general-guidelines-showCommunityGuidelines = Tampilkan ringkasan pedoman komunitas
- Translation Task
+  Translation Task
 
 ### General
 configure-general-guidelines-title = Ringkasan pedoman komunitas
 configure-general-guidelines-explanation =
- Ini akan muncul di atas komentar di seluruh situs.
- Anda dapat memformat teks menggunakan Markdown.
- Informasi lebih lanjut tentang cara menggunakan Markdown
- here: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
+  Ini akan muncul di atas komentar di seluruh situs.
+  Anda dapat memformat teks menggunakan Markdown.
+  Informasi lebih lanjut tentang cara menggunakan Markdown
+  here: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Tampilkan ringkasan pedoman komunitas
 
 #### Bio
 configure-general-memberBio-title = Biodata Anggota
 configure-general-memberBio-explanation =
- Izinkan pemberi komentar menambahkan bio ke profil mereka. Catatan: Ini dapat meningkatkan beban kerja moderator karena biodata anggota dapat dilaporkan.
+  Izinkan pemberi komentar menambahkan bio ke profil mereka. Catatan: Ini dapat meningkatkan beban kerja moderator karena biodata anggota dapat dilaporkan.
 configure-general-memberBio-label = Izinkan biodata anggota
 
 #### Locale
 configure-general-locale-language = Bahasa
 configure-general-locale-chooseLanguage = Pilih bahasa untuk komunitas Coral Anda.
 configure-general-locale-invalidLanguage =
- Bahasa <lang></lang> yang dipilih sebelumnya tidak ada lagi. Pilih bahasa lain.
+  Bahasa <lang></lang> yang dipilih sebelumnya tidak ada lagi. Pilih bahasa lain.
 
 #### Sitewide Commenting
 configure-general-sitewideCommenting-title = Komentar di seluruh situs
 
 configure-general-sitewideCommenting-explanation =
- Buka atau tutup komentar untuk komentar baru di seluruh situs.
- Ketika komentar baru dimatikan, komentar baru tidak bisa
- dikirimkan, tetapi komentar yang ada dapat terus diterima
- reaksi, dilaporkan, dan dibagikan.
+  Buka atau tutup komentar untuk komentar baru di seluruh situs.
+  Ketika komentar baru dimatikan, komentar baru tidak bisa
+  dikirimkan, tetapi komentar yang ada dapat terus diterima
+  reaksi, dilaporkan, dan dibagikan.
 
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
- Aktifkan komentar baru di seluruh situs
+  Aktifkan komentar baru di seluruh situs
 
 configure-general-sitewideCommenting-onCommentStreamsOpened =
- Aktif - Komentar dibuka untuk komentar baru
+  Aktif - Komentar dibuka untuk komentar baru
 
 configure-general-sitewideCommenting-offCommentStreamsClosed =
- Nonaktif - Komentar ditutup untuk komentar baru
+  Nonaktif - Komentar ditutup untuk komentar baru
 
 configure-general-sitewideCommenting-message = Pesan komentar tertutup di seluruh situs
 
 configure-general-sitewideCommenting-messageExplanation =
- Tulis pesan yang akan ditampilkan saat komentar ditutup di seluruh situs
+  Tulis pesan yang akan ditampilkan saat komentar ditutup di seluruh situs
 
 #### Embed Links
 configure-general-embedLinks-title = Media yang disematkan
 
-configure-general-embedLinks-desc = Izinkan komentar untuk menambahkan video YouTube, Tweet, atau GIF dari perpustakaan GIPHY ke akhir komentar 
+configure-general-embedLinks-desc = Izinkan komentar untuk menambahkan video YouTube, Tweet, atau GIF dari perpustakaan GIPHY ke akhir komentar
 
 configure-general-embedLinks-enableTwitterEmbeds = Izinkan penyematan Twitter
 
@@ -674,7 +640,7 @@ configure-general-embedLinks-giphyMaxRating-r-desc = Bahasa yang kasar, sindiran
 
 configure-general-embedLinks-configuration = Konfigurasi
 configure-general-embedLinks-configuration-desc =
- Untuk informasi tambahan tentang API GIPHY, silakan kunjungi: <externalLink>https://developers.giphy.com/docs/api</externalLink>
+  Untuk informasi tambahan tentang API GIPHY, silakan kunjungi: <externalLink>https://developers.giphy.com/docs/api</externalLink>
 configure-general-embedLinks-giphyAPIKey = Kunci GIPHY API
 
 
@@ -682,14 +648,14 @@ configure-general-embedLinks-giphyAPIKey = Kunci GIPHY API
 
 configure-general-announcements-title = Pengumuman komunitas
 configure-general-announcements-description =
- Tambahkan pengumuman sementara yang akan muncul di bagian atas semua komentar organisasi Anda untuk jangka waktu tertentu.
+  Tambahkan pengumuman sementara yang akan muncul di bagian atas semua komentar organisasi Anda untuk jangka waktu tertentu.
 configure-general-announcements-delete = Hapus pengumuman
 configure-general-announcements-add = Tambah pengumuman
 configure-general-announcements-start = Mulai pengumuman
 configure-general-announcements-cancel = Batalkan
 configure-general-announcements-current-label = Pengumuman saat ini
 configure-general-announcements-current-duration =
- Pengumuman ini akan otomatis berakhir pada: { $timestamp }
+  Pengumuman ini akan otomatis berakhir pada: { $timestamp }
 configure-general-announcements-duration = Tunjukkan pengumuman ini untuk
 
 #### Closing Comment Streams
@@ -702,22 +668,22 @@ configure-general-closingCommentStreams-closeCommentsAfter = Tutup komentar sete
 configure-general-commentLength-title = Panjang komentar
 configure-general-commentLength-maxCommentLength = Panjang komentar maksimum
 configure-general-commentLength-setLimit =
- Tetapkan persyaratan panjang komentar minimum dan maksimum.
- Ruang kosong di awal dan akhir komentar akan dipangkas.
+  Tetapkan persyaratan panjang komentar minimum dan maksimum.
+  Ruang kosong di awal dan akhir komentar akan dipangkas.
 configure-general-commentLength-limitCommentLength = Batasi panjang komentar
 configure-general-commentLength-minCommentLength = Panjang komentar minimum
 configure-general-commentLength-characters = Karakter
 configure-general-commentLength-textField =
-.placeholder = Tidak terbatas
+  .placeholder = Tidak terbatas
 configure-general-commentLength-validateLongerThanMin =
- Harap masukkan nomor yang lebih panjang dari panjang minimum
+  Harap masukkan nomor yang lebih panjang dari panjang minimum
 
 #### Comment Editing
 configure-general-commentEditing-title = Edit komentar
 configure-general-commentEditing-explanation =
- Tetapkan batas berapa lama pemberi komentar harus mengedit komentar di seluruh situs.
- Komentar yang diedit ditandai sebagai (Diedit) pada aliran komentar dan
- panel moderasi.
+  Tetapkan batas berapa lama pemberi komentar harus mengedit komentar di seluruh situs.
+  Komentar yang diedit ditandai sebagai (Diedit) pada aliran komentar dan
+  panel moderasi.
 configure-general-commentEditing-commentEditTimeFrame = Jangka waktu edit komentar
 configure-general-commentEditing-seconds = Detik
 
@@ -725,7 +691,7 @@ configure-general-commentEditing-seconds = Detik
 configure-general-flattenReplies-title = Ratakan balasan
 configure-general-flattenReplies-enabled = Ratakan balasan diaktifkan
 configure-general-flattenReplies-explanation =
- Ubah bagaimana tingkat balasan ditampilkan. Saat diaktifkan, balasan ke komentar bisa naik hingga empat tingkat sebelum tidak lagi diindentasi di halaman. Saat dinonaktifkan, setelah kedalaman empat balasan, sisa percakapan ditampilkan dalam tampilan khusus yang jauh dari komentar lainnya.
+  Ubah bagaimana tingkat balasan ditampilkan. Saat diaktifkan, balasan ke komentar bisa naik hingga empat tingkat sebelum tidak lagi diindentasi di halaman. Saat dinonaktifkan, setelah kedalaman empat balasan, sisa percakapan ditampilkan dalam tampilan khusus yang jauh dari komentar lainnya.
 
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Pesan aliran komentar ditutup
@@ -735,19 +701,19 @@ configure-general-closedStreamMessage-explanation = Tulis pesan ketika cerita di
 configure-organization-name = Nama Organisasi
 configure-organization-sites = Situs
 configure-organization-nameExplanation =
- Nama organisasi Anda akan muncul di email yang dikirim oleh { -product-name } ke komunitas dan anggota organisasi Anda.
+  Nama organisasi Anda akan muncul di email yang dikirim oleh { -product-name } ke komunitas dan anggota organisasi Anda.
 configure-organization-sites-explanation =
- Tambahkan situs baru ke organisasi Anda atau edit detail situs yang ada.
+  Tambahkan situs baru ke organisasi Anda atau edit detail situs yang ada.
 configure-organization-sites-add-site = <icon>add</icon> Tambah situs
 configure-organization-email = Email organisasi
 configure-organization-emailExplanation =
- Alamat email ini akan digunakan seperti dalam email dan di seluruh platform
- bagi anggota masyarakat yang ingin berhubungan dengan organisasi harus
- memiliki pertanyaan tentang status akun mereka atau
- pertanyaan moderasi.
+  Alamat email ini akan digunakan seperti dalam email dan di seluruh platform
+  bagi anggota masyarakat yang ingin berhubungan dengan organisasi harus
+  memiliki pertanyaan tentang status akun mereka atau
+  pertanyaan moderasi.
 configure-organization-url = URL Organisasi
 configure-organization-urlExplanation =
- URL organisasi Anda akan muncul di email yang dikirim oleh { -product-name } ke komunitas dan anggota organisasi Anda.
+  URL organisasi Anda akan muncul di email yang dikirim oleh { -product-name } ke komunitas dan anggota organisasi Anda.
 
 ### Sites
 configure-sites-site-details = Detail <icon>keyboard_arrow_right</icon>
@@ -779,11 +745,11 @@ site-table-siteName = Nama Situs
 stories-filter-sites = Situs
 
 site-search-searchButton =
-.aria-label = Cari
+  .aria-label = Cari
 site-search-textField =
-.aria-label = Cari berdasarkan nama situs
+  .aria-label = Cari berdasarkan nama situs
 site-search-textField =
-.placeholder = Cari berdasarkan nama situs
+  .placeholder = Cari berdasarkan nama situs
 site-search-none-found = Tidak ada situs yang ditemukan
 specificSitesSelect-validation = Anda harus memilih setidaknya satu situs.
 
@@ -791,9 +757,9 @@ stories-column-actions = Tindakan
 stories-column-rescrape = Mengikis ulang
 
 stories-actionsButton =
-.aria-label = Pilih Tindakan
+  .aria-label = Pilih Tindakan
 stories-actions-popover =
-.description = Dropdown untuk pilih berita
+  .description = Dropdown untuk pilih berita
 stories-actions-rescrape = Muat Ulang
 stories-actions-close = Tutup Berita
 stories-actions-open = Buka Berita
@@ -812,11 +778,11 @@ configure-email = Pengaturan Email
 configure-email-configBoxEnabled = Diaktifkan
 configure-email-fromNameLabel = Dari nama
 configure-email-fromNameDescription =
- Beri nama seperti yang akan muncul di semua email keluar
- Name as it will appear on all outgoing emails
+  Beri nama seperti yang akan muncul di semua email keluar
+  Name as it will appear on all outgoing emails
 configure-email-fromEmailLabel = Dari alamat email
 configure-email-fromEmailDescription =
- Alamat email yang akan digunakan untuk mengirim pesan
+  Alamat email yang akan digunakan untuk mengirim pesan
 configure-email-smtpHostLabel = SMTP host
 configure-email-smtpHostDescription = (ex. smtp.sendgrid.net)
 configure-email-smtpPortLabel = SMTP port
@@ -838,25 +804,25 @@ configure-auth-targetFilterCommentStream = Aliran Komentar
 configure-auth-redirectURI = Arahkan Ulang URI
 configure-auth-registration = Pendaftaran
 configure-auth-registrationDescription =
- Izinkan pengguna yang belum pernah mendaftar sebelumnya dengan autentikasi ini
- untuk mendaftar ke akun baru.
+  Izinkan pengguna yang belum pernah mendaftar sebelumnya dengan autentikasi ini
+  untuk mendaftar ke akun baru.
 configure-auth-registrationCheckBox = Izinkan Pendaftaran
 configure-auth-pleaseEnableAuthForAdmin =
- Harap aktifkan setidaknya satu integrasi autentikasi untuk Admin { -product-name }
+  Harap aktifkan setidaknya satu integrasi autentikasi untuk Admin { -product-name }
 configure-auth-confirmNoAuthForCommentStream =
- Tidak ada integrasi autentikasi yang diaktifkan untuk Aliran Komentar.
- Apakah Anda benar-benar ingin melanjutkan?
+  Tidak ada integrasi autentikasi yang diaktifkan untuk Aliran Komentar.
+  Apakah Anda benar-benar ingin melanjutkan?
 
 configure-auth-facebook-loginWith = Masuk dengan Facebook
 configure-auth-facebook-toEnableIntegration =
- Untuk mengaktifkan integrasi dengan Autentikasi Facebook,
- Anda perlu membuat dan menyiapkan aplikasi web. Untuk informasi lanjut kunjungi: <Link></Link>.
+  Untuk mengaktifkan integrasi dengan Autentikasi Facebook,
+  Anda perlu membuat dan menyiapkan aplikasi web. Untuk informasi lanjut kunjungi: <Link></Link>.
 configure-auth-facebook-useLoginOn = Gunakan login Facebook di
 
 configure-auth-google-loginWith = Masuk dengan Google
 configure-auth-google-toEnableIntegration =
- Untuk mengaktifkan integrasi dengan Autentikasi Google, Anda perlu
- untuk membuat dan mengatur aplikasi web. Untuk informasi lebih lanjut kunjungi: <Link></Link>.
+  Untuk mengaktifkan integrasi dengan Autentikasi Google, Anda perlu
+  untuk membuat dan mengatur aplikasi web. Untuk informasi lebih lanjut kunjungi: <Link></Link>.
 configure-auth-google-useLoginOn = Gunakan login Google di
 
 configure-auth-sso-loginWith = Masuk dengan Single Sign On
@@ -864,24 +830,24 @@ configure-auth-sso-useLoginOn = Use Single Sign On login on
 configure-auth-sso-key = Kunci
 configure-auth-sso-regenerate = Diperbarui
 configure-auth-sso-regenerateAt = KUNCI DIPERBARUI DI:
- { TANGGAL WAKTU($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+  { TANGGAL WAKTU($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-auth-sso-regenerateHonoredWarning =
- Saat membuat ulang kunci, token yang ditandatangani dengan kunci sebelumnya akan diberikan selama 30 hari.
+  Saat membuat ulang kunci, token yang ditandatangani dengan kunci sebelumnya akan diberikan selama 30 hari.
 
 configure-auth-sso-description =
- Untuk mengaktifkan integrasi dengan sistem autentikasi yang ada,
- Anda perlu membuat Token JWT untuk terhubung. Anda bisa belajar
- lebih lanjut tentang membuat Token JWT dengan <IntroLink>this introduction</IntroLink>. 
- Lihat <DocLink>documentation</DocLink> kami untuk informasi tambahan single sign on.
+  Untuk mengaktifkan integrasi dengan sistem autentikasi yang ada,
+  Anda perlu membuat Token JWT untuk terhubung. Anda bisa belajar
+  lebih lanjut tentang membuat Token JWT dengan <IntroLink>this introduction</IntroLink>.
+  Lihat <DocLink>documentation</DocLink> kami untuk informasi tambahan single sign on.
 
 configure-auth-sso-rotate-keys = Kunci
 configure-auth-sso-rotate-keyID = ID Kunci
 configure-auth-sso-rotate-secret = Rahasia
 configure-auth-sso-rotate-copySecret =
-.aria-label = Salin Rahasia
+  .aria-label = Salin Rahasia
 
 configure-auth-sso-rotate-date =
-{ TANGGAL WAKTU ($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+  { TANGGAL WAKTU ($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-auth-sso-rotate-activeSince = Aktif Sejak
 configure-auth-sso-rotate-inactiveAt = Tidak Aktif pada
 configure-auth-sso-rotate-inactiveSince = Tidak Aktif Sejak
@@ -893,13 +859,13 @@ configure-auth-sso-rotate-statusExpired = Kedaluwarsa
 configure-auth-sso-rotate-statusUnknown = Tidak Dikenal
 
 configure-auth-sso-rotate-expiringTooltip =
- Kunci SSO akan kedaluwarsa saat dijadwalkan untuk rotasi.
+  Kunci SSO akan kedaluwarsa saat dijadwalkan untuk rotasi.
 configure-auth-sso-rotate-expiringTooltip-toggleButton =
-.aria-label = Alihkan visibilitas tooltip yang kedaluwarsa
+  .aria-label = Alihkan visibilitas tooltip yang kedaluwarsa
 configure-auth-sso-rotate-expiredTooltip =
- Kunci SSO akan kedaluwarsa jika sudah tidak digunakan lagi.
+  Kunci SSO akan kedaluwarsa jika sudah tidak digunakan lagi.
 configure-auth-sso-rotate-expiredTooltip-toggleButton =
- Alihkan visibilitas tooltip yang kedaluwarsa
+  Alihkan visibilitas tooltip yang kedaluwarsa
 
 configure-auth-sso-rotate-rotate = Rotasi
 configure-auth-sso-rotate-deactivateNow = Nonaktifkan Sekarang
@@ -911,24 +877,24 @@ configure-auth-sso-rotate-1day = 1 hari dari sekarang
 configure-auth-sso-rotate-1week = 1 minggu dari sekarang
 configure-auth-sso-rotate-30days = 30 hari dari sekarang
 configure-auth-sso-rotate-dropdown-description =
-.description = Dropdown untuk memutar kunci SSO
+  .description = Dropdown untuk memutar kunci SSO
 
 configure-auth-local-loginWith = Masuk dengan autentikasi email
 configure-auth-local-useLoginOn = Gunakan login autentikasi email aktif
 configure-auth-local-forceAdminLocalAuth =
- Autentikasi lokal admin telah diaktifkan secara permanen.
- Hal ini untuk memastikan bahwa tim layanan Coral dapat mengakses panel administrasi.
+  Autentikasi lokal admin telah diaktifkan secara permanen.
+  Hal ini untuk memastikan bahwa tim layanan Coral dapat mengakses panel administrasi.
 
 configure-auth-oidc-loginWith = Masuk dengan OpenID Connect
 configure-auth-oidc-toLearnMore = Untuk mempelajari lebih lanjut: <Link></Link>
 configure-auth-oidc-providerName = Nama Penyedia
 configure-auth-oidc-providerNameDescription =
- Penyedia integrasi OpenID Connect. Ini akan digunakan ketika nama penyedia
- perlu ditampilkan, misal “Masuk dengan &lt;Facebook&gt;”.
+  Penyedia integrasi OpenID Connect. Ini akan digunakan ketika nama penyedia
+  perlu ditampilkan, misal “Masuk dengan &lt;Facebook&gt;”.
 configure-auth-oidc-issuer = Penerbit
 configure-auth-oidc-issuerDescription =
- Setelah memasukkan informasi Penerbit Anda, klik tombol Temukan untuk melengkapi { -nama-produk } 
- bidang yang tersisa. Anda juga dapat memasukkan informasi secara manual.
+  Setelah memasukkan informasi Penerbit Anda, klik tombol Temukan untuk melengkapi { -nama-produk }
+  bidang yang tersisa. Anda juga dapat memasukkan informasi secara manual.
 configure-auth-oidc-authorizationURL = URL Otorisasi
 configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
@@ -944,18 +910,18 @@ configure-auth-settings-session-duration-label = Durasi Sesi
 configure-moderation-recentCommentHistory-title = Riwayat
 configure-moderation-recentCommentHistory-timeFrame = Periode waktu riwayat komentar terbaru
 configure-moderation-recentCommentHistory-timeFrame-description =
- Jumlah waktu untuk menghitung tingkat penolakan komentator.
+  Jumlah waktu untuk menghitung tingkat penolakan komentator.
 configure-moderation-recentCommentHistory-enabled = Filter riwayat
 configure-moderation-recentCommentHistory-enabled-description =
- Mencegah pelanggar berulang dari menerbitkan komentar tanpa persetujuan.
- Ketika tingkat penolakan komentator di atas ambang batas, komentar mereka 
- dikirim ke Menunggu persetujuan moderator. Ini tidak
- berlaku untuk komentar Staf.
+  Mencegah pelanggar berulang dari menerbitkan komentar tanpa persetujuan.
+  Ketika tingkat penolakan komentator di atas ambang batas, komentar mereka
+  dikirim ke Menunggu persetujuan moderator. Ini tidak
+  berlaku untuk komentar Staf.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Ambang batas tingkat penolakan
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
- Komentar yang ditolak (komentar yang ditolak + komentar yang dipublikasikan)
- selama jangka waktu di atas, sebagai persentase. Ini tidak termasuk
- komentar menunggu untuk toksisitas, spam atau pra-moderasi.
+  Komentar yang ditolak (komentar yang ditolak + komentar yang dipublikasikan)
+  selama jangka waktu di atas, sebagai persentase. Ini tidak termasuk
+  komentar menunggu untuk toksisitas, spam atau pra-moderasi.
 
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pra-moderasi
@@ -1320,7 +1286,7 @@ moderate-user-drawer-suspension =
       *[other] seconds
     }
     [minute] { $value ->
-[1] minute
+      [1] minute
       *[other] minutes
     }
     [hour] { $value ->
@@ -1422,8 +1388,8 @@ community-changeRoleButton =
 
 community-assignMySites = Tetapkan situs saya
 community-removeMySites = Hapus situs saya
-community-stillHaveSiteModeratorPrivileges = Mereka akan tetap memiliki hak istimewa Moderator Situs untuk: 
-community-userNoLongerPermitted = Pengguna tidak akan lagi diizinkan membuat keputusan moderasi atau menetapkan penangguhan pada: 
+community-stillHaveSiteModeratorPrivileges = Mereka akan tetap memiliki hak istimewa Moderator Situs untuk:
+community-userNoLongerPermitted = Pengguna tidak akan lagi diizinkan membuat keputusan moderasi atau menetapkan penangguhan pada:
 community-assignThisUser = Tetapkan pengguna ini ke
 community-assignYourSitesTo = Tetapkan situs Anda ke <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Moderator situs diizinkan membuat keputusan moderasi dan mengeluarkan penangguhan di situs yang ditugaskan kepada mereka.
@@ -1474,7 +1440,7 @@ community-userStatus-removePremod = Hapus pra-moderat
 community-banModal-areYouSure = Apakah Anda yakin ingin melarang <username></username>?
 community-banModal-consequence =
   Setelah dilarang, pengguna ini tidak akan dapat lagi berkomentar, menggunakan reaksi, atau
- melaporkan komentar.
+  melaporkan komentar.
 community-banModal-cancel = Batalkan
 community-banModal-banUser = Larang Pengguna
 community-banModal-customize = Sesuaikan pesan email larangan
@@ -1532,7 +1498,7 @@ community-invite-sendInvitations = Kirim undangan
 community-invite-role-staff =
   <strong>peran Staf:</strong> Menerima lencana “Staf”, dan komentar secara otomatis disetujui. Tidak dapat memoderasi atau mengubah setiap konfigurasi { -product-name }.
 community-invite-role-moderator =
- <strong>peran Moderator:</strong> Menerima lencana “Staf”, dan komentar secara otomatis disetujui. Memiliki hak moderasi penuh (menyetujui, menolak dan menampilkan komentar). Dapat mengonfigurasi artikel individu tetapi tidak ada hak mengonfigurasi selurus situs.
+  <strong>peran Moderator:</strong> Menerima lencana “Staf”, dan komentar secara otomatis disetujui. Memiliki hak moderasi penuh (menyetujui, menolak dan menampilkan komentar). Dapat mengonfigurasi artikel individu tetapi tidak ada hak mengonfigurasi selurus situs.
 community-invite-role-admin =
   <strong>peran Admin:</strong> Menerima lencana “Staf”, dan komentar secara otomatis disetujui. Memiliki hak moderasi penuh (menyetujui, menolak dan menampilkan komentar). Dapat mengonfigurasi artikel individu dan memiliki hak istimewa mengonfigurasi selurus situs.
 community-invite-invitationsSent = Undangan Anda telah terkirim!
@@ -1627,14 +1593,6 @@ invite-goToOrganization = Pergi ke { $organizationName }
 invite-tokenNotFound =
   Tautan yang ditentukan tidak sah, periksa untuk melihat jika itu disalin dengan benar.
 
-userDetails-banned-on = <strong>banned-on</strong> { $timestamp }
-userDetails-banned-by = <strong>by</strong> { $username }
-userDetails-suspended-by = <strong>suspended-by</strong> { $username }
-userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
-userDetails-suspension-end = <strong>End:</strong> { $timestamp }
-
-userDetails-warned-on = <strong>warned-on</strong> { $timestamp }
-userDetails-warned-by = <strong>by</strong> { $username }
 userDetails-warned-explanation = Pengguna tidak menanggapi peringatan.
 
 configure-general-reactions-title = Reaksi
@@ -1707,7 +1665,7 @@ configure-advanced-stories-scraping-detail = Mengaktifkan metadata cerita otomat
 configure-advanced-stories-proxy = Mengekstrak proxy url
 configure-advanced-stories-proxy-detail =
   Saat diizinkan, izinkan permintaan mengekstrak untuk menggunakan proxy yang disediakan. Semua permintaan akan diteruskan melalui proxy yang sesuai sebagaimana diuraikan oleh <externalLink>npm proxy-agent</externalLink> paket.
-configure-advanced-stories-custom-user-agent = Header Agen Pengguna Pengekstrak Kustom 
+configure-advanced-stories-custom-user-agent = Header Agen Pengguna Pengekstrak Kustom
 configure-advanced-stories-custom-user-agent-detail =
   Jika ditentukan, ganti header <code>User-Agent</code> yang dikirim dengan masing-masing permintaan pengekstrak.
 

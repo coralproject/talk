@@ -45,7 +45,7 @@ install-addSite-siteURLTextField =
   .placeholder = 組織のURL
 install-addSite-siteURLDescription =
   このURLは、Coralからコミュニティメンバーに送信されるメールに表示されます。
-install-addOrganization-orgURLDescription = URLには必ず<strong> http：// </ strong>または<strong> https：// </ strong>を含めてください
+install-addOrganization-orgURLDescription = URLには必ず<strong> http：// </strong>または<strong> https：// </strong>を含めてください
 install-createYourAccount-stepTitle = 管理アカウントを作成する
 install-createYourAccount-title = 管理アカウントを作成する
 install-createYourAccount-email = Eメールアドレス

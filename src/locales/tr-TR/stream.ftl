@@ -197,8 +197,6 @@ comments-editedMarker-edited = Düzenlendi
 comments-showConversationLink-readMore = Bu tartışmadan daha fazlasını oku >
 comments-conversationThread-showMoreOfThisConversation = Bu tartışmadan daha fazlasını göster
 
-comments-permalinkView-currentViewing =
-comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing = Şu anda tek bir tartışmayı görüntülüyorsunuz.
 comments-inReplyTo = Cevap verilen kişi <Username></Username>
 comments-replyingTo = <Username></Username> kullanıcısına cevap veriyorsunuz
@@ -240,7 +238,6 @@ comments-moderationDropdown-reject = Reddet
 comments-moderationDropdown-rejected = Reddedildi
 comments-moderationDropdown-ban = Kullanıcıyı yasakla
 comments-moderationDropdown-banned = Yasaklandı
-comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Moderasyon görüntüsü
 comments-moderationDropdown-moderateStory = Bu içeriği denetle
 comments-moderationDropdown-caretButton =
@@ -603,21 +600,15 @@ discussions-discussionsQuery-errorLoadingProfile = Profil yüklenirken sorun olu
 discussions-discussionsQuery-storyNotFound = Haber bulunamadı
 
 ## Comment Stream
-configure-stream-title =
 configure-stream-title-configureThisStream = Akışı yapılandır
-configure-stream-apply =
 configure-stream-update = Güncelle
 configure-stream-streamHasBeenUpdated = Bu akış güncellendi
 
-configure-premod-title =
 configure-premod-premoderateAllComments = Tüm yorumları önceden denetle
 configure-premod-description = Moderatörler, bu habere yapılan tüm yorumları yayınlanmadan önce kontrol eder
-configure-premodLink-title =
 configure-premodLink-commentsContainingLinks = Bağlantı içeren yorumları önce denetleyin
 configure-premodLink-description = Moderatörler, bağlantı içeren herhangi bir yorumu onaylamalıdır.
-configure-messageBox-title =
 configure-addMessage-title = Bir mesaj ya da soru ekleyin
-configure-messageBox-description =
 configure-addMessage-description = Okuyucularınız için yorum kutusunun üstüne bir mesaj ekleyin. Bunu bir konu oluşturmak, bir soru sormak veya o haberle ilgili duyurular yapmak için kullanın.
 configure-addMessage-addMessage = Mesaj ekleyin
 configure-addMessage-removed = Mesaj kaldırıldı
@@ -637,7 +628,6 @@ configure-messageBox-iconChatBubble = Sohbet balonu
 configure-messageBox-noIcon = Simge yok
 configure-messageBox-writeAMessage = Mesaj yaz
 
-configure-closeStream-title =
 configure-closeStream-closeCommentStream = Yorum akışını kapat
 configure-closeStream-description = Bu yorum akışı şu anda açık. Bu yorum akışını kapattığınızda, yeni yorum gönderilemez ve önceden gönderilen tüm yorumlar görüntülenmeye devam eder.
 configure-closeStream-closeStream = Akışı kapat
@@ -651,14 +641,13 @@ configure-openStream-theStreamIsNowClosed = Akış kapalı
 configure-moderateThisStream =
 
 qa-experimentalTag-tooltip-content = Soru-&Cevap formatı şu anda etkin geliştirme aşamasındadır. Herhangi bir geri bildirim veya istek için lütfen bizimle iletişime geçin.
-configure-enableQA-title =
 configure-enableQA-switchToQA = Soru-&Cevap formatına geçiş yap
 configure-enableQA-description = Soru&Cevap formatı, topluluk üyelerinin seçilen uzmanların yanıtlaması için sorular göndermelerine olanak tanır.
 configure-enableQA-enableQA = Soru-&Cevap'geçiş yap
 configure-enableQA-streamIsNowComments = Bu akış, yorum formatına geçirildi
 
 configure-disableQA-title = Bu soru&cevap’I yapılandır
-configure-disableQA-description = Soru&Cevap formatı, topluluk üyelerinin seçilen uzmanların yanıtlaması için sorular göndermelerine olanak tanır.configure-disableQA-disableQA = Switch to Comments
+configure-disableQA-description = Soru&Cevap formatı, topluluk üyelerinin seçilen uzmanların yanıtlaması için sorular göndermelerine olanak tanır.
 configure-disableQA-streamIsNowQA = Bu akış artık Soru&Cevap biçiminde
 
 configure-experts-title = Uzman ekle
@@ -669,7 +658,6 @@ configure-experts-filter-searchButton =
   .aria-label = Ara
 configure-experts-filter-description = Yalnızca bu sayfada kayıtlı kullanıcıların yorumlarına bir Uzman Rozeti ekler. Yeni kullanıcılar, hesaplarını oluşturmak için önce kaydolmalı ve bir sayfadaki yorumları açmalıdır.
 configure-experts-search-none-found = Bu e-posta veya kullanıcı adıyla hiçbir kullanıcı bulunamadı
-configure-experts- =
 configure-experts-remove-button = Kaldır
 configure-experts-load-more = Daha fazla göster
 configure-experts-none-yet = Bu Soru&Cevap için şu anda bir uzman bulunmuyor.
@@ -681,9 +669,7 @@ comments-tombstone-showComment = Yorumu göster
 comments-tombstone-deleted = Yorum yapan kullanıcı hesabını sildi
 comments-tombstone-rejected = Bu yorumcu, topluluk kurallarımızı ihlal ettiği için site yönetimi tarafından kaldırıldı.
 
-suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen = Hesabınız geçici olarak yorum yapmaktan askıya alındı
-suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
   { $organization }'ın topluluk kurallarına uygun olarak hesabınız geçici olarak askıya alındı. Askıya alınmış durumdayken yorum yapamayacak, tepkileri kullanamayacak veya yorumları bildiremeyeceksiniz.
 suspendInfo-until-pleaseRejoinThe = Lütfen sohbete { $until } tarihinde yeniden katılın

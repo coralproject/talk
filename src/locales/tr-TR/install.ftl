@@ -59,9 +59,9 @@ install-createYourAccount-confirmPasswordTextField =
 install-permittedDomains-stepTitle = İzin verilen Domain adresleri
 install-permittedDomains-title = İzin verilen site adresleri
 install-permittedDomains-description-with-scheme =
-{ -product-name } yorum akışlarınızın yerleştirilmesine izin verilen site adresleri
-   (ör. http://localhost:3000, https://staging.domain.com,
-   https://domain.com).
+  { -product-name } yorum akışlarınızın yerleştirilmesine izin verilen site adresleri
+  (ör. http://localhost:3000, https://staging.domain.com,
+  https://domain.com).
 install-permittedDomains-permittedDomains = İzin verilen adresler
 install-permittedDomains-permittedDomainsTextField =
   .placeholder = Alan adları

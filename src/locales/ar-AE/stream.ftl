@@ -188,9 +188,6 @@ comments-commentContainer-commentLabel =
   تعليق من { $username } <RelativeTime></RelativeTime>
 comments-commentContainer-editButton = تعديل
 
-comments-commentContainer-avatar =
-  .alt = Avatar for { $username }
-
 comments-editCommentForm-saveChanges = حفظ التغييرات
 comments-editCommentForm-cancel = إلغاء
 comments-editCommentForm-close = إغلاق
@@ -204,8 +201,6 @@ comments-showConversationLink-readMore = اقرأ المزيد من هذه ال�
 comments-conversationThread-showMoreOfThisConversation =
   إظهار المزيد من هذه المحادثة
 
-comments-permalinkView-currentViewing =
-comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   أنت تشاهد حالياً محادثة واحدة
 comments-inReplyTo = ردّ على <Username></Username>
@@ -299,8 +294,6 @@ qa-answeredTab = تمت الإجابة
 qa-unansweredTab = من دون إجابة
 qa-allCommentsTab = الكل
 
-qa-answered-answerLabel =
-  Answer from {$username} <RelativeTime></RelativeTime>
 qa-answered-gotoConversation = الانتقال إلى المحادثة
 qa-answered-replies = الردود
 
@@ -385,8 +378,6 @@ comments-embedLinks-hide-external = إخفاء الصورة
 
 
 ### Featured Comments
-comments-featured-label =
-  Featured Comment from {$username} <RelativeTime></RelativeTime>
 comments-featured-gotoConversation = الانتقال إلى المحادثة
 comments-featured-replies = الردود
 
@@ -680,27 +671,21 @@ discussions-discussionsQuery-errorLoadingProfile = خطأ في تحميل الم
 discussions-discussionsQuery-storyNotFound = مقال غير موجود
 
 ## Comment Stream
-configure-stream-title =
 configure-stream-title-configureThisStream =
   تعديل
-configure-stream-apply =
 configure-stream-update = تحديث
 configure-stream-streamHasBeenUpdated =
   تم التعديل
 
-configure-premod-title =
 configure-premod-premoderateAllComments = وضع كامل التعليقات في وضع قبل الإشراف
 configure-premod-description =
   يجب أن يوافق المشرفون على أي تعليق قبل نشره على هذا المقال.
-configure-premodLink-title =
 configure-premodLink-commentsContainingLinks =
   تعليقات ما قبل الإشراف تحتوي على روابط
 configure-premodLink-description =
   يجب أن يوافق المشرفون على أي تعليق يضم روابط قبل نشره على هذا المقال.
-configure-messageBox-title =
 configure-addMessage-title =
   إضافة رسالة أو سؤال
-configure-messageBox-description =
 configure-addMessage-description =
   إضافة رسالة إلى صندوق التعليقات لقرائك. استعمال هذا لنشر موضوع أو طرح سؤال أو تقديم إعلان يتعلق بالمقال.
 configure-addMessage-addMessage = إضافة رسالة
@@ -722,7 +707,6 @@ configure-messageBox-iconChatBubble = صندوق الحوار
 configure-messageBox-noIcon = لا أيقونة
 configure-messageBox-writeAMessage = كتابة رسالة
 
-configure-closeStream-title =
 configure-closeStream-closeCommentStream =
   إغلاق التعليقات
 configure-closeStream-description =
@@ -732,26 +716,19 @@ configure-closeStream-theStreamIsNowOpen = السلسلة الآن مفتوحة
 
 configure-openStream-title = سلسلة مفتوحة
 configure-openStream-description =
-  This comment stream is currently closed. By opening this comment
-  stream new comments may be submitted and displayed.
   هذه السلسلة مغلقة حالياً. عند فتحها، يمكن تقديم وعرض التعليقات الجديدة
 configure-openStream-openStream = فتح السلسلة
 configure-openStream-theStreamIsNowClosed = هذه السلسلة مغلقة حالياً
 
-configure-moderateThisStream =
-
 qa-experimentalTag-tooltip-content =
   قسم الأسئلة والأجوبة قيد التطوير حالياً. الرجاء التواصل معنا حيال أي رأي أو طلب.
 
-configure-enableQA-title =
 configure-enableQA-switchToQA =
   الانتقال إلى صيغة الأسئلة والأجوبة
 configure-enableQA-description =
   صيغة الأسئلة والأجوبة تسمح لأعضاء المجتمع بطرح الأسئلة على خبيرٍ مختار للإجابة.
-configure-enableQA-enableQA = Switch to Q&A
 configure-enableQA-streamIsNowComments =
   السلسلة الآن في صيغة التعليقات
-configure-disableQA-title = Configure this Q&A
 configure-disableQA-description =
   صيغة الأسئلة والأجوبة تسمح لأعضاء المجتمع بطرح الأسئلة على خبيرٍ مختار للإجابة.
 configure-disableQA-disableQA = الانتقال إلى التعليقات
@@ -767,7 +744,6 @@ configure-experts-filter-searchButton =
 configure-experts-filter-description =
   إضافة شارة خبير للتعليقات من قبل مستخدمين مسجلين، فقط في هذه الصفحة. على المستخدمين الجدد تسجيل الدخول وفتح التعليقات لإنشاء حساباتهم.
 configure-experts-search-none-found = لم يتم إيجاد مستخدمين بهذا البريد الإلكتروني أو اسم المستخدم
-configure-experts-
 configure-experts-remove-button = إزالة
 configure-experts-load-more = تحميل المزيد
 configure-experts-none-yet = لا يوجد حالياً أي خبراء في قسم الأسئلة والأجوبة هذا.
@@ -781,10 +757,8 @@ comments-tombstone-deleted =
 comments-tombstone-rejected =
   تم حذف هذا المعلق من قبل المشرف لانتهاكه معايير مجتمعنا.
 
-suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
   تم إيقاف حسابك عن التعليق لفترة مؤقتة
-suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
  وفقاً لمعايير مجتمع { $organization }تم حظر حسابك مؤقتاً. أثناء فترة الحظر لن تتمكن من التعليق، التفاعل أو إعادة فتح التعليقات.
 
@@ -794,8 +768,6 @@ suspendInfo-until-pleaseRejoinThe =
 warning-heading = حسابك تلقى تنبيهاً
 warning-explanation =
  وفقاً لمعايير مجتمعنا تلقى حسابك تنبيهاً.
-warning-instructions =
-  To continue participating in discussions, please press the "Acknowledge" button below.
 warning-acknowledge = إقرار
 
 warning-notice =تلقى حسابك تنبيهاً. لمواصلة المشاركة الرجاء <a>مراجعة رسالة التنبيه</a>.
@@ -866,7 +838,7 @@ comments-addAReviewFormFake-rte =
 
 stream-footer-links-top-of-article = بداية المقال
   .title = انتقال إلى بداية المقال
-stream-footer-links-top-of-comments = Top of comments
+stream-footer-links-top-of-comments =
   .title = انتقال إلى بداية التعليقات
 stream-footer-links-profile = الملف الشخصي & الردود
   .title = انتقال إلى الملف الشخصي والردود

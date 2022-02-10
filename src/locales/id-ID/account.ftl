@@ -17,17 +17,17 @@ resetPassword-passwordLabel = Kata sandi
 
 resetPassword-passwordDescription = Harus minimal {$minLength} karakter
 
-resetPassword-passwordTextField = 
-.placeholder = Kata sandi
+resetPassword-passwordTextField =
+  .placeholder = Kata sandi
 
 resetPassword-successfullyReset = Kata sandi berhasil diperbaiki
 
-resetPassword-youMayClose = Anda bisa menutup laman ini dan masuk ke akun dengan kata sandi baru Anda. 
+resetPassword-youMayClose = Anda bisa menutup laman ini dan masuk ke akun dengan kata sandi baru Anda.
 
 resetPassword-oopsSorry = Ups Maaf!
 
 resetPassword-missingResetToken = Token perbaikan sepertinya hilang.
- 
+
 ## Email Confirmation
 
 confirmEmail-emailConfirmation = Konfirmasi email
@@ -52,7 +52,7 @@ download-landingPage-title = Unduh riwayat komentar Anda
 
 download-landingPage-description = Riwayat komentar Anda akan diunduh ke dalam file zip. Setelah riwayat komentar Anda di-unzipped, Anda akan mendapatkan tanda koma untuk memisahkan file (atau .csv) agar Anda bisa mudah memasukannya ke dalam aplikasi lembar kerja favorit Anda.
 
-download-landingPage-contentsDescription = Untuk setiap komentar Anda, termasuk informasi berikut: 
+download-landingPage-contentsDescription = Untuk setiap komentar Anda, termasuk informasi berikut:
 
 download-landingPage-contentsDate = Saat Anda menulis komentar
 

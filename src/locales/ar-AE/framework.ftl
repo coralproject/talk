@@ -71,12 +71,6 @@ framework-timeago-time =
     *[other] وحدة غير معروفة
   }
 
-framework-timeago =
-  { $suffix ->
-    [ago] {framework-timeago-time} ago
-    *[noSuffix] {framework-timeago-time}
-  }
-
 ## Components
 
 ### Copy Button

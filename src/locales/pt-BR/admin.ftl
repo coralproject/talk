@@ -790,7 +790,7 @@ configure-wordList-suspect-bannedWordsAndPhrases = Palavras e Frases Suspeitas
 configure-wordList-suspect-explanation =
   Comentários contendo uma palavra ou frase na Lista de Palavras Suspeitas
   são <strong> colocados na Fila de Reportados para revisão de moderadores e são
-  publicado (se os comentários não forem pré-moderados). </ strong>
+  publicado (se os comentários não forem pré-moderados). </strong>
 configure-wordList-suspect-explanationSuspectWordsList =
   Comentários contendo uma palavra ou frase na Lista de Palavras Suspeitas são
   <strong>enviados para a fila Pendente para revisão do moderador and não são

@@ -94,7 +94,6 @@ resetPassword-resetPasswordButton = Rパスワードをリセット
 
 ## Create Username
 
-createUsername-createUsernameHeader =
 createUsername-createAUsername = ユーザー名を作成
 createUsername-whatItIs =
   このユーザー名は、投稿したコメント全てに表示されます。
@@ -121,7 +120,6 @@ addEmailAddress-addEmailAddressButton =
   Eメールアドレスを追加する
 
 ## Create Password
-createPassword-createPasswordHeader =
 createPassword-createAPassword = パスワードを作成する
 createPassword-whatItIs =
   アカウントへの不正な変更から保護するために、

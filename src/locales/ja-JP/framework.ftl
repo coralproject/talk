@@ -131,12 +131,12 @@ framework-durationField-unit =
 
 framework-starRating =
   .aria-label = { $value ->
-    [1] 星1 
-    *[other] 星 {$value} 
+    [1] 星1
+    *[other] 星 {$value}
   }
 
 ### Relay Network Request Error
 
-framework-error-relayNetworkRequestError-anUnexpectedNetworkError = 
+framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
  予期しないネットワークエラーが発生しています。後ほど改めてお試しください。
 framework-error-relayNetworkRequestError-code = コード

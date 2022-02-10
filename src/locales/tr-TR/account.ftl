@@ -20,7 +20,6 @@ resetPassword-missingResetToken = Sıfırlama kodu eksik görünüyor.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation =
 confirmEmail-confirmYourEmailAddress = E-posta adresini doğrula
 confirmEmail-confirmEmail = E-postanı doğrula
 confirmEmail-pleaseClickToConfirm = E-posta adresini doğrulamak için aşağıdaki linke tıkla
@@ -38,14 +37,10 @@ download-landingPage-contentsDate = Yorumu yazdığınız tarih
 download-landingPage-contentsUrl = Yorum linki
 download-landingPage-contentsText = Yorumunuz
 download-landingPage-contentsStoryUrl = Yorumun göründüğü sayfanın linki
-download-landingPage-downloadComments =
 download-landingPage-download = İndir
 download-landingPage-sorry = İndirme linki geçersiz
 
 ## Unsubscribe
-
-unsubscribe-confirm =
-unsubscribe-successfullyUnsubscribed =
 
 unsubscribe-unsubscribeFromEmails = Tüm e-posta bildirimleri aboneliğini sonlandır.
 unsubscribe-oopsSorry = Oops!

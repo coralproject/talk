@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Sign in</title><subtitle>to join the conversation<subtitle>
+  <title>Sign in</title><subtitle>to join the conversation</subtitle>
 
 signIn-signInWithEmail = Masuk dengan Email
 signIn-signInWithFacebook = Masuk dengan Facebook
@@ -94,7 +94,6 @@ resetPassword-resetPasswordButton = Reset kata kunci
 
 ## Create Username
 
-createUsername-createUsernameHeader =
 createUsername-createAUsername = Buat nama pengguna
 createUsername-whatItIs =
   Nama pengguna Anda sebagai pengenal yang akan muncul di semua komentar Anda.
@@ -121,7 +120,6 @@ addEmailAddress-addEmailAddressButton =
   Tambahkann alamat email
 
 ## Create Password
-createPassword-createPasswordHeader =
 createPassword-createAPassword = Buat kata kunci
 createPassword-whatItIs =
   Untuk melindungi dari perubahan tidak diotorisasi terhadap akun Anda,

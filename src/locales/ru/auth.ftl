@@ -7,7 +7,7 @@ general-usernameLabel = Имя пользователя
 general-usernameDescription = Вы можете использовать знаки “_” и “.” Пробелы также допустимы
 general-usernameTextField =
   .placeholder = Имя пользователя
-general-emailAddressLabel = Email 
+general-emailAddressLabel = Email
 general-emailAddressTextField =
   .placeholder = Email
 general-passwordLabel = Пароль
@@ -16,14 +16,14 @@ general-passwordTextField =
   .placeholder = Пароль
 general-confirmPasswordTextField =
   .placeholder = Подтвердите пароль
-general-confirmEmailAddressLabel = Подтвердите адрес email 
+general-confirmEmailAddressLabel = Подтвердите адрес email
 general-confirmEmailAddressTextField =
   .placeholder = Подтвердите адрес email
 
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Sign in</title><subtitle>to join the conversation<subtitle>
+  <title>Sign in</title><subtitle>to join the conversation</subtitle>
 
 signIn-signInWithEmail = Войти с помощью Email
 signIn-signInWithFacebook = Войти с помощью Facebook

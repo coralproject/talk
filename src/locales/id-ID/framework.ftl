@@ -71,12 +71,6 @@ framework-timeago-time =
     *[other] unit tak diketahui
   }
 
-framework-timeago =
-  { $suffix ->
-    [ago] {framework-timeago-time} ago
-    *[noSuffix] {framework-timeago-time}
-  }
-
 ## Components
 
 ### Copy Button
@@ -137,6 +131,6 @@ framework-starRating =
 
 ### Kesalahan Permintaan Jaringan Relay
 
-framework-error-relayNetworkRequestError-anUnexpectedNetworkError = 
+framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
   Terjadi kesalahan jaringan yang tidak terduga, coba lagi nanti.
 framework-error-relayNetworkRequestError-code = Kode
