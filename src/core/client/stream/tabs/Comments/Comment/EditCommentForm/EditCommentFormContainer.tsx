@@ -1,16 +1,12 @@
 import { CoralRTE } from "@coralproject/rte";
 import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
-import React, { Component } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { graphql } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
-import { withContext } from "coral-framework/lib/bootstrap";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import {
-  FetchProp,
-  withFetch,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 
 import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
@@ -36,15 +32,6 @@ interface Props {
   settings: SettingsData;
   story: StoryData;
   onClose?: () => void;
-  autofocus: boolean;
-  refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
-}
-
-interface State {
-  initialValues?: EditCommentFormProps["initialValues"];
-  initialized: boolean;
-  expired: boolean;
-  submitStatus: SubmitStatus | null;
 }
 
 function getMediaFromComment(comment: CommentData) {
@@ -78,77 +65,76 @@ function getMediaFromComment(comment: CommentData) {
   }
 }
 
-export class EditCommentFormContainer extends Component<Props, State> {
-  private expiredTimer?: LongTimeout;
-  private intitialValues = {
-    body: this.props.comment.body || "",
-    media: getMediaFromComment(this.props.comment),
+export const EditCommentFormContainer: FunctionComponent<Props> = ({
+  editComment,
+  comment,
+  settings,
+  story,
+  onClose,
+}) => {
+  const { browserInfo } = useCoralContext();
+  const refreshSettingsFetch = useFetch(RefreshSettingsFetch);
+  const [expired, setExpired] = useState(
+    !!comment.editing.editableUntil &&
+      !isBeforeDate(comment.editing.editableUntil)
+  );
+  const [submitStatus, setSubmitStatus] = useState<null | SubmitStatus>(null);
+  const initialValues = {
+    body: comment.body || "",
+    media: getMediaFromComment(comment),
   };
-
-  public state: State = {
-    initialized: false,
-    expired:
-      !!this.props.comment.editing.editableUntil &&
-      !isBeforeDate(this.props.comment.editing.editableUntil),
-    submitStatus: null,
-  };
-
-  constructor(props: Props) {
-    super(props);
-    this.expiredTimer = this.updateWhenExpired();
-  }
-
-  public componentWillUnmount() {
-    if (this.expiredTimer) {
-      clearLongTimeout(this.expiredTimer);
-    }
-  }
-
-  private updateWhenExpired() {
-    const ms =
-      new Date(this.props.comment.editing.editableUntil!).getTime() -
-      Date.now();
+  const updateWhenExpired = () => {
+    const ms = new Date(comment.editing.editableUntil!).getTime() - Date.now();
     if (ms > 0) {
-      return setLongTimeout(() => this.setState({ expired: true }), ms);
+      return setLongTimeout(() => setExpired(true), ms);
     }
     return;
-  }
+  };
 
-  private handleRTERef = (rte: CoralRTE | null) => {
-    if (rte && this.props.autofocus) {
+  const expiredTimer: LongTimeout | undefined = updateWhenExpired();
+
+  useEffect(() => {
+    return () => {
+      if (expiredTimer) {
+        clearLongTimeout(expiredTimer);
+      }
+    };
+  }, []);
+
+  const handleRTERef = (rte: CoralRTE | null) => {
+    // Disable autofocus on ios and enable for the rest.
+    const autofocus = !browserInfo.ios;
+    if (rte && autofocus) {
       rte.focus();
     }
   };
 
-  private handleOnCancelOrClose = () => {
-    if (this.props.onClose) {
-      this.props.onClose();
+  const handleOnCancelOrClose = () => {
+    if (onClose) {
+      onClose();
     }
   };
 
-  private handleOnSubmit: EditCommentFormProps["onSubmit"] = async (
-    input,
-    form
-  ) => {
+  const handleOnSubmit: EditCommentFormProps["onSubmit"] = async (input) => {
     try {
-      const submitStatus = getSubmitStatus(
-        await this.props.editComment({
-          commentID: this.props.comment.id,
+      const editSubmitStatus = getSubmitStatus(
+        await editComment({
+          commentID: comment.id,
           body: input.body,
           media: input.media,
         })
       );
-      if (submitStatus !== "RETRY") {
-        if (submitStatus === "APPROVED" && this.props.onClose) {
-          this.props.onClose();
+      if (editSubmitStatus !== "RETRY") {
+        if (editSubmitStatus === "APPROVED" && onClose) {
+          onClose();
           return;
         }
       }
-      this.setState({ submitStatus });
+      setSubmitStatus(editSubmitStatus);
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
-          await this.props.refreshSettings({ storyID: this.props.story.id });
+          await refreshSettingsFetch({ storyID: story.id });
         }
         return error.invalidArgs;
       }
@@ -158,131 +144,114 @@ export class EditCommentFormContainer extends Component<Props, State> {
     return;
   };
 
-  public render() {
-    if (this.state.submitStatus && this.state.submitStatus !== "RETRY") {
-      return (
-        <ReplyEditSubmitStatus
-          status={this.state.submitStatus}
-          onDismiss={this.handleOnCancelOrClose}
-          buttonClassName={CLASSES.editComment.dismiss}
-          inReviewClassName={CLASSES.editComment.inReview}
-        />
-      );
-    }
+  if (submitStatus && submitStatus !== "RETRY") {
     return (
-      <EditCommentForm
-        siteID={this.props.comment.site.id}
-        id={this.props.comment.id}
-        rteConfig={this.props.settings.rte}
-        onSubmit={this.handleOnSubmit}
-        initialValues={this.intitialValues}
-        onCancel={this.handleOnCancelOrClose}
-        onClose={this.handleOnCancelOrClose}
-        rteRef={this.handleRTERef}
-        author={this.props.comment.author}
-        createdAt={this.props.comment.createdAt}
-        editableUntil={this.props.comment.editing.editableUntil!}
-        expired={this.state.expired}
-        mediaConfig={this.props.settings.media}
-        min={
-          (this.props.settings.charCount.enabled &&
-            this.props.settings.charCount.min) ||
-          null
-        }
-        max={
-          (this.props.settings.charCount.enabled &&
-            this.props.settings.charCount.max) ||
-          null
-        }
+      <ReplyEditSubmitStatus
+        status={submitStatus}
+        onDismiss={handleOnCancelOrClose}
+        buttonClassName={CLASSES.editComment.dismiss}
+        inReviewClassName={CLASSES.editComment.inReview}
       />
     );
   }
-}
+  return (
+    <EditCommentForm
+      siteID={comment.site.id}
+      id={comment.id}
+      rteConfig={settings.rte}
+      onSubmit={handleOnSubmit}
+      initialValues={initialValues}
+      onCancel={handleOnCancelOrClose}
+      onClose={handleOnCancelOrClose}
+      rteRef={handleRTERef}
+      author={comment.author}
+      createdAt={comment.createdAt}
+      editableUntil={comment.editing.editableUntil!}
+      expired={expired}
+      mediaConfig={settings.media}
+      min={(settings.charCount.enabled && settings.charCount.min) || null}
+      max={(settings.charCount.enabled && settings.charCount.max) || null}
+    />
+  );
+};
 
-const enhanced = withContext(({ browserInfo }) => ({
-  // Disable autofocus on ios and enable for the rest.
-  autofocus: !browserInfo.ios,
-}))(
-  withFetch(RefreshSettingsFetch)(
-    withEditCommentMutation(
-      withFragmentContainer<Props>({
-        comment: graphql`
-          fragment EditCommentFormContainer_comment on Comment {
-            id
-            body
-            createdAt
-            revision {
-              id
-              media {
-                __typename
-                ... on GiphyMedia {
-                  url
-                  title
-                  width
-                  height
-                  still
-                  video
-                }
-                ... on TwitterMedia {
-                  url
-                  width
-                }
-                ... on YouTubeMedia {
-                  url
-                  width
-                  height
-                }
-                ... on ExternalMedia {
-                  url
-                }
-              }
+const enhanced = withEditCommentMutation(
+  withFragmentContainer<Props>({
+    comment: graphql`
+      fragment EditCommentFormContainer_comment on Comment {
+        id
+        body
+        createdAt
+        revision {
+          id
+          media {
+            __typename
+            ... on GiphyMedia {
+              url
+              title
+              width
+              height
+              still
+              video
             }
-            author {
-              username
+            ... on TwitterMedia {
+              url
+              width
             }
-            editing {
-              editableUntil
+            ... on YouTubeMedia {
+              url
+              width
+              height
             }
-            site {
-              id
+            ... on ExternalMedia {
+              url
             }
           }
-        `,
-        story: graphql`
-          fragment EditCommentFormContainer_story on Story {
-            id
+        }
+        author {
+          username
+        }
+        editing {
+          editableUntil
+        }
+        site {
+          id
+        }
+      }
+    `,
+    story: graphql`
+      fragment EditCommentFormContainer_story on Story {
+        id
+      }
+    `,
+    settings: graphql`
+      fragment EditCommentFormContainer_settings on Settings {
+        charCount {
+          enabled
+          min
+          max
+        }
+        media {
+          twitter {
+            enabled
           }
-        `,
-        settings: graphql`
-          fragment EditCommentFormContainer_settings on Settings {
-            charCount {
-              enabled
-              min
-              max
-            }
-            media {
-              twitter {
-                enabled
-              }
-              youtube {
-                enabled
-              }
-              giphy {
-                enabled
-                key
-                maxRating
-              }
-              external {
-                enabled
-              }
-            }
-            rte {
-              ...RTEContainer_config
-            }
+          youtube {
+            enabled
           }
-        `,
-      })(EditCommentFormContainer)
-    )
-  )
+          giphy {
+            enabled
+            key
+            maxRating
+          }
+          external {
+            enabled
+          }
+        }
+        rte {
+          ...RTEContainer_config
+        }
+      }
+    `,
+  })(EditCommentFormContainer)
 );
 export default enhanced;
