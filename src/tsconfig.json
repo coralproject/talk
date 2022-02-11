@@ -15,7 +15,7 @@
     "paths": {
       "coral-server/*": ["./core/server/*"],
       "coral-common/*": ["./core/common/*"],
-      "coral-new/*": ["./../_new/src/*"]
+      "coral-types/*": ["./../_types/src/*"]
     }
   },
   "include": ["./**/*"],

@@ -1,20 +1,27 @@
 {
-  "name": "coral-new",
+  "name": "coral-types",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "graphql-codegen": "graphql-codegen",
+    "generate": "npm run generate:schema && npm run generate:stream && npm run generate:admin && npm run generate:relay",
     "generate:apollo": "apollo codegen:generate output --localSchemaFile=schema.graphql --target=typescript",
     "generate:schema": "graphql-codegen --config codegen-schema.yml",
     "generate:stream": "graphql-codegen --config codegen-stream.yml",
-    "generate:admin": "graphql-codegen --config codegen-admin.yml"
+    "generate:admin": "graphql-codegen --config codegen-admin.yml",
+    "generate:relay": "npm run relay:combine && npm run relay",
+    "relay:combine": "node scripts/combineSchemaForStream.js && node scripts/combineSchemaForAdmin.js",
+    "relay": "relay-compiler --schema src/__generated__/combined.stream.graphql --src ../src/core/client/stream/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "graphql": "^16.3.0"
+    "graphql": "^16.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-relay": "^13.1.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.5.0",
@@ -24,7 +31,10 @@
     "@graphql-codegen/typescript-operations": "2.2.4",
     "@graphql-codegen/typescript-react-apollo": "3.2.5",
     "@graphql-codegen/typescript-resolvers": "2.5.0",
+    "@graphql-tools/merge": "^8.2.2",
+    "@graphql-tools/schema": "^8.3.1",
     "@types/graphql": "^14.5.0",
-    "apollo": "^2.33.9"
+    "apollo": "^2.33.9",
+    "babel-plugin-relay": "^13.1.1"
   }
 }

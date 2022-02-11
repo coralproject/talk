@@ -29,6 +29,7 @@ import {
 } from "coral-server/services/stories";
 import { scraper } from "coral-server/services/stories/scraper";
 
+import { QuerystoryArgs } from "coral-new/__generated__/schema.types";
 import {
   GQLSTORY_STATUS,
   QueryToStoriesArgs,
@@ -37,7 +38,6 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { createManyBatchLoadFn } from "./util";
-import { QuerystoryArgs } from "coral-new/__generated__/schema.types";
 
 const statusFilter = (
   closeCommenting: CloseCommenting,

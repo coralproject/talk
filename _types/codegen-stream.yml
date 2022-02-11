@@ -2,9 +2,9 @@ overwrite: true
 schema: 
   - "../src/core/server/graph/schema/schema.graphql"
   - "../src/core/client/framework/lib/relay/local.graphql"
-  - "../src/core/client/admin/local/local.graphql"
+  - "../src/core/client/stream/local/local.graphql"
 generates:
-  src/__generated__/admin.types.tsx:
+  src/__generated__/stream.types.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
