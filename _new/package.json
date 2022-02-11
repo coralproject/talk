@@ -7,7 +7,8 @@
     "graphql-codegen": "graphql-codegen",
     "generate:apollo": "apollo codegen:generate output --localSchemaFile=schema.graphql --target=typescript",
     "generate:schema": "graphql-codegen --config codegen-schema.yml",
-    "generate:stream": "graphql-codegen --config codegen-stream.yml"
+    "generate:stream": "graphql-codegen --config codegen-stream.yml",
+    "generate:admin": "graphql-codegen --config codegen-admin.yml"
   },
   "keywords": [],
   "author": "",
