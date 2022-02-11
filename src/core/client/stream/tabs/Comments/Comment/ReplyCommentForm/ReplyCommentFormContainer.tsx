@@ -11,13 +11,12 @@ import React, {
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { useCoralContext, withContext } from "coral-framework/lib/bootstrap";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
-import { PromisifiedStorage } from "coral-framework/lib/storage";
 import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
@@ -48,27 +47,25 @@ import ReplyEditedWarningContainer from "./ReplyEditedWarningContainer";
 
 interface Props {
   createCommentReply: CreateCommentReplyMutation;
-  sessionStorage: PromisifiedStorage;
   comment: CommentData;
   settings: SettingsData;
   story: StoryData;
   onClose?: () => void;
-  autofocus: boolean;
   localReply?: boolean;
   showJumpToComment?: boolean;
 }
 
 const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   comment,
-  sessionStorage,
-  autofocus,
   onClose,
   createCommentReply,
   story,
   localReply,
   settings,
 }) => {
-  const { pym, renderWindow } = useCoralContext();
+  const { pym, renderWindow, sessionStorage, browserInfo } = useCoralContext();
+  // Disable autofocus on ios and enable for the rest.
+  const autofocus = !browserInfo.ios;
   const commentSeenEnabled = useCommentSeenEnabled();
   const refreshSettings = useFetch(RefreshSettingsFetch);
   const refreshViewer = useFetch(RefreshViewerFetch);
@@ -321,70 +318,64 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
-  sessionStorage,
-  // Disable autofocus on ios and enable for the rest.
-  autofocus: !browserInfo.ios,
-}))(
-  withCreateCommentReplyMutation(
-    withFragmentContainer<Props>({
-      settings: graphql`
-        fragment ReplyCommentFormContainer_settings on Settings {
-          charCount {
+const enhanced = withCreateCommentReplyMutation(
+  withFragmentContainer<Props>({
+    settings: graphql`
+      fragment ReplyCommentFormContainer_settings on Settings {
+        charCount {
+          enabled
+          min
+          max
+        }
+        disableCommenting {
+          enabled
+          message
+        }
+        closeCommenting {
+          message
+        }
+        media {
+          twitter {
             enabled
-            min
-            max
           }
-          disableCommenting {
+          youtube {
             enabled
-            message
           }
-          closeCommenting {
-            message
+          giphy {
+            enabled
+            key
+            maxRating
           }
-          media {
-            twitter {
-              enabled
-            }
-            youtube {
-              enabled
-            }
-            giphy {
-              enabled
-              key
-              maxRating
-            }
-            external {
-              enabled
-            }
-          }
-          rte {
-            ...RTEContainer_config
+          external {
+            enabled
           }
         }
-      `,
-      story: graphql`
-        fragment ReplyCommentFormContainer_story on Story {
+        rte {
+          ...RTEContainer_config
+        }
+      }
+    `,
+    story: graphql`
+      fragment ReplyCommentFormContainer_story on Story {
+        id
+        isClosed
+      }
+    `,
+    comment: graphql`
+      fragment ReplyCommentFormContainer_comment on Comment {
+        id
+        site {
           id
-          isClosed
         }
-      `,
-      comment: graphql`
-        fragment ReplyCommentFormContainer_comment on Comment {
+        author {
+          username
+        }
+        revision {
           id
-          site {
-            id
-          }
-          author {
-            username
-          }
-          revision {
-            id
-          }
-          ...ReplyEditedWarningContainer_comment
         }
-      `,
-    })(ReplyCommentFormContainer)
-  )
+        ...ReplyEditedWarningContainer_comment
+      }
+    `,
+  })(ReplyCommentFormContainer)
 );
 export default enhanced;
