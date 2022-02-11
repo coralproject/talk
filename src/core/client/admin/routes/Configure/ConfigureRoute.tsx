@@ -1,5 +1,5 @@
 import { FormApi, FormState } from "final-form";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { LanguageCode } from "coral-common/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -38,11 +38,12 @@ const ConfigureRoute: FunctionComponent<Props> = ({ children }) => {
     form.initialize(data);
   };
 
-  const handleChange = ({ dirty }: FormState<any>) => {
-    if (dirty !== dirtyState) {
+  const handleChange = useCallback(
+    ({ dirty }: FormState<any>) => {
       setDirtyState(dirty);
-    }
-  };
+    },
+    [setDirtyState]
+  );
 
   return (
     <>
