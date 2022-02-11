@@ -28,7 +28,6 @@ export {
   createFetch,
   FetchVariables,
   FetchProp,
-  withFetch,
   useFetch,
 } from "./fetch";
 export { default as useRefetch } from "./useRefetch";
