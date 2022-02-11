@@ -2149,6 +2149,7 @@ type Settings @cacheControl(maxAge: 30) {
 
 enum USER_ROLE {
   COMMENTER
+  MEMBER
   STAFF
   MODERATOR
   ADMIN
