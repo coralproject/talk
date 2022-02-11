@@ -1,12 +1,7 @@
 import { Location, LocationDescriptorObject, useRouter } from "found";
 import React, { useEffect } from "react";
 
-import { withContext } from "coral-framework/lib/bootstrap";
-
-interface Props {
-  /** transitionControl is injected by `withContext` HOC */
-  transitionControl: TransitionControlData | undefined;
-}
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 /**
  * TransitionControlData allows controlling router transition.
@@ -18,26 +13,23 @@ export interface TransitionControlData {
   history: Array<Location | LocationDescriptorObject>;
 }
 
-const TransitionControl: React.FunctionComponent<Props> = (props) => {
+const TransitionControl: React.FunctionComponent = (props) => {
   const { router } = useRouter();
+  const { transitionControl } = useCoralContext();
   useEffect(() => {
     return router.addNavigationListener((location) => {
-      if (props.transitionControl && location) {
+      if (transitionControl && location) {
         // location should be never null unless using `beforeUnload`
         // https://github.com/4Catalyzer/farce#navigation-listeners.
-        props.transitionControl.history.push(location);
-        if (!props.transitionControl.allowTransition) {
+        transitionControl.history.push(location);
+        if (!transitionControl.allowTransition) {
           return false;
         }
       }
       return;
     });
-  }, [router, props.transitionControl]);
+  }, [router, transitionControl]);
   return null;
 };
 
-const enhanced = withContext(({ transitionControl }) => ({
-  transitionControl,
-}))(TransitionControl);
-
-export default enhanced;
+export default TransitionControl;
