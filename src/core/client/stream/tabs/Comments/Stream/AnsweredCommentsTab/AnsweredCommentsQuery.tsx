@@ -70,7 +70,7 @@ const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
         query AnsweredCommentsQuery(
           $storyID: ID
           $storyURL: String
-          $commentsOrderBy: COMMENT_SORT
+          $commentsOrderBy: COMMENT_SORT!
         ) {
           viewer {
             ...AnsweredCommentsContainer_viewer

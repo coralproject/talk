@@ -16,7 +16,7 @@ interface Props {
 const ExpertSelectionQuery: FunctionComponent<Props> = ({ storyID }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query ExpertSelectionQuery($storyID: ID) {
+      query ExpertSelectionQuery($storyID: ID!) {
         ...ExpertSelectionContainer_query @arguments(storyID: $storyID)
       }
     `}
