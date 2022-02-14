@@ -88,7 +88,7 @@ export interface NewCommentersConfiguration {
   moderation: NewCommentersModerationConfig;
 }
 
-export interface StaffConfiguration {
+export interface BadgeConfiguration {
   staffLabel?: string;
   // MIGRATE: plan to migrate this to `staffLabel` in 7.0.0.
   label: string;
@@ -365,7 +365,7 @@ export type Settings = GlobalModerationSettings &
     /**
      * staff configures the labels for staff members in comment stream.
      */
-    staff: StaffConfiguration;
+    badges: BadgeConfiguration;
 
     /**
      * stories stores the configuration around stories.

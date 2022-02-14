@@ -23,7 +23,7 @@ import styles from "./StaffConfig.css";
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment StaffConfig_formValues on Settings {
-    staff {
+    badges {
       staffLabel
       adminLabel
       moderatorLabel

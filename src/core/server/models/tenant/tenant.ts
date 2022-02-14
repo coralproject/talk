@@ -28,7 +28,7 @@ import {
 
 import {
   getDefaultReactionConfiguration,
-  getDefaultStaffConfiguration,
+  getDefaultBadgeConfiguration,
 } from "./helpers";
 
 /**
@@ -256,7 +256,7 @@ export async function createTenant(
       },
     },
     reaction: getDefaultReactionConfiguration(bundle),
-    staff: getDefaultStaffConfiguration(bundle),
+    staff: getDefaultBadgeConfiguration(bundle),
     stories: {
       scraping: {
         enabled: true,

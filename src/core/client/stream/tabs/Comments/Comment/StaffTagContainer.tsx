@@ -45,7 +45,7 @@ const StaffTagContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment StaffTagContainer_settings on Settings {
-      staff {
+      badges {
         staffLabel
         adminLabel
         moderatorLabel
