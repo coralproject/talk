@@ -125,6 +125,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
     ((user.role === GQLUSER_ROLE.MODERATOR &&
       !!user.moderationScopes?.scoped) ||
       user.role === GQLUSER_ROLE.STAFF ||
+      user.role === GQLUSER_ROLE.MEMBER ||
       user.role === GQLUSER_ROLE.COMMENTER) &&
     uniqueViewerSites.length > 0;
 

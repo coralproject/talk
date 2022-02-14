@@ -14,7 +14,7 @@ const UserRoleText: FunctionComponent<Props> = (props) => (
     container={
       <span
         className={cn(styles.root, {
-          [styles.commenter]: props.children === GQLUSER_ROLE.COMMENTER,
+          [styles.commenter]: props.children === GQLUSER_ROLE.COMMENTER, // MARCUS
         })}
       />
     }

@@ -18,11 +18,13 @@ role-moderator = Moderator
 role-siteModerator = Site Moderator
 role-organizationModerator = Organization Moderator
 role-staff = Staff
+role-member = Member
 role-commenter = Commenter
 
 role-plural-admin = Admins
 role-plural-moderator = Moderators
 role-plural-staff = Staff
+role-plural-member = Members
 role-plural-commenter = Commenters
 
 comments-react =

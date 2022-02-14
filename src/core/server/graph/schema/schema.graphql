@@ -2745,6 +2745,25 @@ type UserModerationScopes {
 }
 
 """
+UserMembershipScopes describes the scopes of membership. These only apply when
+the user has a MEMBER role.
+"""
+type UserMembershipScopes {
+  """
+  scoped returns true when the user has a scoped membership, and is not a member
+  organization wide.
+  """
+  scoped: Boolean!
+
+  """
+  sites (when not null) list the sites that the user is a member of
+  When null, it means that the user is a member of all sites within the organization.
+  """
+  sites: [Site!]
+
+}
+
+"""
 User is someone that leaves Comments, and logs in.
 """
 type User {
@@ -3000,6 +3019,12 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  membershiptScopes describes the scopes for membership. These only apply when
+  the user has a MEMBER role.
+  """
+  membershipScopes: UserMembershipScopes
 
   """
   ssoURL is the url for managing sso account

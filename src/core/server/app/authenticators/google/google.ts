@@ -122,7 +122,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
         this.mongo,
         tenant,
         {
-          role: GQLUSER_ROLE.COMMENTER,
+          role: GQLUSER_ROLE.COMMENTER, // MARCUS: pretty sure this is still correct
           email,
           emailVerified: false,
           avatar: picture,
