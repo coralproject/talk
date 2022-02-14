@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "relay-runtime";
 
+import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 
 import AddEmailAddress from "./views/AddEmailAddress";
@@ -7,6 +9,8 @@ import CreatePasswordContainer from "./views/CreatePassword";
 import CreateUsernameContainer from "./views/CreateUsername";
 import LinkAccountContainer from "./views/LinkAccount";
 import SignInContainer from "./views/SignIn";
+
+import { LoginRouteLocal } from "coral-admin/__generated__/LoginRouteLocal.graphql";
 
 export type View =
   | "SIGN_UP"
@@ -19,13 +23,12 @@ export type View =
   | "%future added value";
 
 interface Props {
-  view: View;
   auth: PropTypesOf<typeof SignInContainer>["auth"];
   viewer: PropTypesOf<typeof LinkAccountContainer>["viewer"];
 }
 
 const renderView = (
-  view: Props["view"],
+  view: string | null,
   auth: Props["auth"],
   viewer: Props["viewer"]
 ) => {
@@ -45,8 +48,13 @@ const renderView = (
   }
 };
 
-const Login: FunctionComponent<Props> = ({ view, auth, viewer }) => (
-  <div>{renderView(view, auth, viewer)}</div>
-);
+const Login: FunctionComponent<Props> = ({ auth, viewer }) => {
+  const [{ authView: view }] = useLocal<LoginRouteLocal>(graphql`
+    fragment LoginRouteLocal on Local {
+      authView
+    }
+  `);
+  return <div>{renderView(view, auth, viewer)}</div>;
+};
 
 export default Login;
