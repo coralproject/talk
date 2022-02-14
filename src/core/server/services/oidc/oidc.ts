@@ -202,7 +202,7 @@ export async function findOrCreateOIDCUser(
     tenant,
     {
       username,
-      role: GQLUSER_ROLE.COMMENTER,
+      role: GQLUSER_ROLE.COMMENTER, // MARCUS: pretty sure this is still correct
       email,
       emailVerified: email_verified,
       avatar: picture,

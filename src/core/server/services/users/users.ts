@@ -729,6 +729,7 @@ export async function promoteUser(
   userID: string,
   siteIDs: string[]
 ) {
+  // MARCUS: TODO - see if this needs updating
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -842,7 +843,7 @@ export async function demoteUser(
       mongo,
       tenant.id,
       user.id,
-      GQLUSER_ROLE.COMMENTER
+      GQLUSER_ROLE.COMMENTER // MARCUS: this will need an extra check
     );
   }
 
