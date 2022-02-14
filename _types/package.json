@@ -10,9 +10,11 @@
     "generate:schema": "graphql-codegen --config codegen-schema.yml",
     "generate:stream": "graphql-codegen --config codegen-stream.yml",
     "generate:admin": "graphql-codegen --config codegen-admin.yml",
-    "generate:relay": "npm run relay:combine && npm run relay",
+    "generate:relay": "npm run relay:combine && npm run relay:client && npm run relay:admin",
+    "relayc": "relay-compiler",
     "relay:combine": "node scripts/combineSchemaForStream.js && node scripts/combineSchemaForAdmin.js",
-    "relay": "relay-compiler --schema src/__generated__/combined.stream.graphql --src ../src/core/client/stream/"
+    "relay:client": "npm run relayc --config ./relay.stream.config.json",
+    "relay:admin": "npm run relayc --config ./relay.admin.config.json"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +37,7 @@
     "@graphql-tools/schema": "^8.3.1",
     "@types/graphql": "^14.5.0",
     "apollo": "^2.33.9",
-    "babel-plugin-relay": "^13.1.1"
+    "babel-plugin-relay": "^13.1.1",
+    "relay-compiler": "^13.1.1"
   }
 }
