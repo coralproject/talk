@@ -6,7 +6,6 @@
   "scripts": {
     "graphql-codegen": "graphql-codegen",
     "generate": "npm run generate:schema && npm run generate:stream && npm run generate:admin && npm run generate:relay",
-    "generate:apollo": "apollo codegen:generate output --localSchemaFile=schema.graphql --target=typescript",
     "generate:schema": "graphql-codegen --config codegen-schema.yml",
     "generate:stream": "graphql-codegen --config codegen-stream.yml",
     "generate:admin": "graphql-codegen --config codegen-admin.yml",
@@ -36,7 +35,6 @@
     "@graphql-tools/merge": "^8.2.2",
     "@graphql-tools/schema": "^8.3.1",
     "@types/graphql": "^14.5.0",
-    "apollo": "^2.33.9",
     "babel-plugin-relay": "^13.1.1",
     "relay-compiler": "^13.1.1"
   }
