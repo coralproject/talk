@@ -12,7 +12,7 @@ import {
   createMockRejector,
 } from "coral-server/test/mocks";
 
-import { updateUserBan } from "./users";
+import { updateRole, updateUserBan } from "./users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
@@ -248,5 +248,49 @@ describe("updateUserBan", () => {
 
     expect(rejectRes.id).toEqual(unbannedUser.id);
     expect(rejector.add).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("updateRole", () => {
+  afterEach(jest.clearAllMocks);
+
+  const mongo = createMockMongoContex();
+  const tenant = createTenantFixture();
+  const tenantID = tenant.id;
+
+  const commenterA = createUserFixture({
+    tenantID,
+    role: GQLUSER_ROLE.COMMENTER,
+  });
+
+  it("doesn't allow users to update their own roles", async () => {
+    await expect(async () => {
+      await updateRole(
+        mongo,
+        tenant,
+        commenterA,
+        commenterA.id,
+        GQLUSER_ROLE.MODERATOR
+      );
+    }).rejects.toThrow(Error);
+  });
+
+  // TODO (marcushaddon): here for if we open role update to < admin
+  it.skip("doesn't allow non-admins to udpate roles", async () => {
+    const { COMMENTER, MEMBER, MODERATOR, STAFF, ADMIN } = GQLUSER_ROLE;
+
+    for (const promoterRole of [COMMENTER, MEMBER, MODERATOR, STAFF]) {
+      for (const promotionRole of [MEMBER, MODERATOR, STAFF, ADMIN]) {
+        await expect(async () => {
+          await updateRole(
+            mongo,
+            tenant,
+            createUserFixture({ role: promoterRole, tenantID }),
+            commenterA.id,
+            promotionRole
+          );
+        }).rejects.toThrow();
+      }
+    }
   });
 });

@@ -60,7 +60,7 @@ import { SigningSecret } from "./SigningSecret";
 import { Site } from "./Site";
 import { SlackConfiguration } from "./SlackConfiguration";
 import { SSOAuthIntegration } from "./SSOAuthIntegration";
-import { StaffConfiguration } from "./StaffConfig";
+import { BadgeConfiguration } from "./StaffConfig";
 import { Story } from "./Story";
 import { StoryRatings } from "./StoryRatings";
 import { StoryScrapingConfiguration } from "./StoryScrapingConfiguration";
@@ -138,7 +138,7 @@ const Resolvers: GQLResolver = {
   Site,
   SlackConfiguration,
   SSOAuthIntegration,
-  StaffConfiguration,
+  BadgeConfiguration,
   Story,
   StoryRatings,
   StoryScrapingConfiguration,

@@ -1657,10 +1657,10 @@ type CommenterAccountFeatures {
 }
 
 """
-StaffConfiguration specifies the configuration for the staff badges assigned to
+BadgeConfiguration specifies the configuration for the staff badges assigned to
 users with any role above COMMENTER.
 """
-type StaffConfiguration {
+type BadgeConfiguration {
   """
   label is the string used when displaying the STAFF badge to users.
   """
@@ -2031,7 +2031,7 @@ type Settings @cacheControl(maxAge: 30) {
   staff specifies the configuration for the staff badges assigned to users with
   any role above COMMENTER.
   """
-  staff: StaffConfiguration!
+  badges: BadgeConfiguration!
 
   """
   accountFeatures stores the configuration for commenter account features.
@@ -5187,10 +5187,10 @@ input ReactionConfigurationInput {
 }
 
 """
-StaffConfigurationInput specifies the configuration for the staff badges
+BadgeConfigurationInput specifies the configuration for the staff badges
 assigned to users with any role above COMMENTER.
 """
-input StaffConfigurationInput {
+input BadgeConfigurationInput {
   """
   staffLabel is the string used when displaying the STAFF badge to users.
   """
@@ -5470,7 +5470,7 @@ input SettingsInput {
   staff specifies the configuration for the staff badges assigned to users with
   any role above COMMENTER.
   """
-  staff: StaffConfigurationInput
+  badges: BadgeConfigurationInput
 
   """
   accountFeatures specifies the configuration for accounts.
