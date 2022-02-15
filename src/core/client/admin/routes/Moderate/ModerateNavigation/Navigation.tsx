@@ -32,6 +32,7 @@ const Navigation: FunctionComponent<Props> = ({
   mode,
   enableForReview,
 }) => {
+  const { match, router } = useRouter();
   const moderationLinks = useMemo(() => {
     return [
       getModerationLink({ queue: "reported", storyID, siteID, section }),
@@ -42,8 +43,6 @@ const Navigation: FunctionComponent<Props> = ({
       getModerationLink({ queue: "review", storyID, siteID, section }),
     ];
   }, [storyID, siteID, section]);
-
-  const { match, router } = useRouter();
 
   useEffect(() => {
     key(HOTKEYS.SWITCH_QUEUE, () => {
