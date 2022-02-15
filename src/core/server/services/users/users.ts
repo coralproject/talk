@@ -240,10 +240,16 @@ export async function processAutomaticBanPremodForNewUser(
     return;
   }
 
-  if (newUserEmailDomainModeration === NEW_USER_MODERATION.BAN) {
+  if (
+    newUserEmailDomainModeration === NEW_USER_MODERATION.BAN &&
+    !user.status.ban.active
+  ) {
     await banUser(mongo, tenant.id, user.id);
   }
-  if (newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD) {
+  if (
+    newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD &&
+    !user.status.premod.active
+  ) {
     await premodUser(mongo, tenant.id, user.id);
   }
 }
