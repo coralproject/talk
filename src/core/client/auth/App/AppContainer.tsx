@@ -1,26 +1,21 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { AppContainer_auth as AuthData } from "coral-auth/__generated__/AppContainer_auth.graphql";
 import { AppContainer_viewer as UserData } from "coral-auth/__generated__/AppContainer_viewer.graphql";
-import { AppContainerLocal } from "coral-auth/__generated__/AppContainerLocal.graphql";
 
 import AccountCompletionContainer from "./AccountCompletion";
-import App from "./App";
+import App, { View } from "./App";
 
 interface Props {
   auth: AuthData;
   viewer: UserData | null;
+  view: View;
 }
 
-const AppContainer: FunctionComponent<Props> = ({ auth, viewer }) => {
-  const [{ view }] = useLocal<AppContainerLocal>(graphql`
-    fragment AppContainerLocal on Local {
-      view
-    }
-  `);
+const AppContainer: FunctionComponent<Props> = ({ auth, viewer, view }) => {
   // If we're dealing with a password reset, we can't possibly worry about
   // account completion (because they are not logged in, or have already
   // completed their account), so disregard here, and just return the App.
