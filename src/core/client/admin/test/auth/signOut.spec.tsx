@@ -3,6 +3,7 @@ import sinon, { SinonStub } from "sinon";
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -69,7 +70,9 @@ it("logs out", async () => {
     })
   );
 
-  userMenu.props.onClick();
+  act(() => {
+    userMenu.props.onClick();
+  });
 
   const signOutButton = await waitForElement(() =>
     within(testRenderer.root).getByText("Sign Out", { selector: "button" })
