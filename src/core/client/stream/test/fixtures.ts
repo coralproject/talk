@@ -94,7 +94,7 @@ export const settings = createFixture<GQLSettings>({
       },
     },
   },
-  staff: {
+  badges: {
     label: "Staff",
     adminLabel: "Staff",
     moderatorLabel: "Staff",

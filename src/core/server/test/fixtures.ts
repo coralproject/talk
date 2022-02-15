@@ -141,7 +141,7 @@ export const createTenantFixture = (
       sortLabel: "Most Respected",
       icon: "thumbs_up",
     },
-    staff: {
+    badges: {
       label: "Staff",
       adminLabel: "Staff",
       staffLabel: "Staff",

@@ -27,6 +27,7 @@ graphql`
       staffLabel
       adminLabel
       moderatorLabel
+      memberLabel
     }
   }
 `;

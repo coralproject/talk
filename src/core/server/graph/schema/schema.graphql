@@ -1667,6 +1667,11 @@ type BadgeConfiguration {
   label: String! @deprecated(reason: "deprecated in favour of staffLabel")
 
   """
+  memberLabel is the string used when displaying the MEMBER badge to users.
+  """
+  memberLabel: String!
+
+  """
   staffLabel is the string used when displaying the STAFF badge to users.
   """
   staffLabel: String!
@@ -3460,6 +3465,11 @@ enum TAG {
   MODERATOR
 
   """
+  MEMBER is used when a Comment is written by a User that has the Member role.
+  """
+  MEMBER
+
+  """
   FEATURED is used when a Comment is marked as such by a staff member.
   """
   FEATURED
@@ -5205,6 +5215,11 @@ input BadgeConfigurationInput {
   moderatorLabel is the string used when displaying the MODERATOR badge to users.
   """
   moderatorLabel: String
+
+  """
+  memberLabel is the string used when displaying the MEMBER badget to users.
+  """
+  memberLabel: String
 }
 
 """

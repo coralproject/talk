@@ -8,4 +8,5 @@ export const BadgeConfiguration: GQLBadgeConfigurationTypeResolver<settings.Badg
   adminLabel: (config) => config.adminLabel || config.label,
   moderatorLabel: (config) => config.moderatorLabel || config.label,
   staffLabel: (config) => config.staffLabel || config.label,
+  memberLabel: (config) => config.memberLabel || config.label,
 };

@@ -27,8 +27,8 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
-  getDefaultReactionConfiguration,
   getDefaultBadgeConfiguration,
+  getDefaultReactionConfiguration,
 } from "./helpers";
 
 /**
@@ -256,7 +256,7 @@ export async function createTenant(
       },
     },
     reaction: getDefaultReactionConfiguration(bundle),
-    staff: getDefaultBadgeConfiguration(bundle),
+    badges: getDefaultBadgeConfiguration(bundle),
     stories: {
       scraping: {
         enabled: true,
