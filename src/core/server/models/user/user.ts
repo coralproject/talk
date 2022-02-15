@@ -454,6 +454,14 @@ export interface UserModerationScopes {
   siteIDs?: string[];
 }
 
+export interface UserMembershipScopes {
+  /**
+   * siteIDs is the array of ID's for sites on which this user is a member.
+   * If not present (and user has role of MEMBER), user is a member on all sites.
+   */
+  siteIDs?: string[];
+}
+
 /**
  * User is someone that leaves Comments, and logs in.
  */
@@ -528,6 +536,12 @@ export interface User extends TenantResource {
    * the user has a MODERATOR role.
    */
   moderationScopes?: UserModerationScopes;
+
+  /**
+   * membershipScopes describes the scopes of membership. These only apply when
+   * the user has a MEMBER role.
+   */
+  membershipScopes?: UserMembershipScopes;
 
   /**
    * notifications stores the notification settings for the given User.
