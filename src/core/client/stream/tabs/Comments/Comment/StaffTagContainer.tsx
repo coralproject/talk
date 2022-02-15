@@ -25,17 +25,22 @@ const StaffTagContainer: FunctionComponent<Props> = ({
     <>
       {tags.includes("ADMIN") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.staff.adminLabel}
+          {settings.badges.adminLabel}
         </Tag>
       )}
       {tags.includes("MODERATOR") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.staff.moderatorLabel}
+          {settings.badges.moderatorLabel}
         </Tag>
       )}
       {tags.includes("STAFF") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.staff.staffLabel}
+          {settings.badges.staffLabel}
+        </Tag>
+      )}
+      {tags.includes("MEMBER") && (
+        <Tag className={cn(className, styles.tag)}>
+          {settings.badges.memberLabel}
         </Tag>
       )}
     </>
@@ -49,6 +54,7 @@ const enhanced = withFragmentContainer<Props>({
         staffLabel
         adminLabel
         moderatorLabel
+        memberLabel
       }
     }
   `,

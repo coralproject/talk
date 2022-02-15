@@ -94,6 +94,7 @@ export interface BadgeConfiguration {
   label: string;
   adminLabel?: string;
   moderatorLabel?: string;
+  memberLabel?: string;
 }
 
 /**

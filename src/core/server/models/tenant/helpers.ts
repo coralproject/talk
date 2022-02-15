@@ -26,7 +26,7 @@ export const getDefaultReactionConfiguration = (
 
 export const getDefaultBadgeConfiguration = (
   bundle: FluentBundle
-): Tenant["staff"] => ({
+): Tenant["badges"] => ({
   label: translate(bundle, "Staff", "staff-label"),
   adminLabel: translate(bundle, "Staff", "staff-label"),
   staffLabel: translate(bundle, "Staff", "staff-label"),

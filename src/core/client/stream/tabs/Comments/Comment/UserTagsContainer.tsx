@@ -30,6 +30,10 @@ function tagStrings(comment: UserTagsContainer_comment): GQLTAG_RL[] {
   return comment.tags.map((t) => t.code);
 }
 
+function hasMemberTag(comment: UserTagsContainer_comment) {
+  return comment.tags.some((t) => t.code === GQLTAG.MEMBER);
+}
+
 function hasStaffTag(comment: UserTagsContainer_comment) {
   return (
     intersection(
@@ -53,7 +57,8 @@ function hasExpertTag(
 export function commentHasTags(story: any, comment: any) {
   const staffTag = hasStaffTag(comment);
   const expertTag = hasExpertTag(story, comment);
-  const hasTags = staffTag || expertTag;
+  const memberTag = hasMemberTag(comment);
+  const hasTags = staffTag || expertTag || memberTag;
 
   return hasTags;
 }
@@ -66,6 +71,7 @@ const UserTagsContainer: FunctionComponent<Props> = ({
 }) => {
   const staffTag = hasStaffTag(comment);
   const expertTag = hasExpertTag(story, comment);
+  const memberTag = hasMemberTag(comment);
   const hasTags = commentHasTags(story, comment);
 
   if (!hasTags) {
@@ -84,13 +90,14 @@ const UserTagsContainer: FunctionComponent<Props> = ({
           </Flex>
         </Tag>
       )}
-      {staffTag && (
-        <StaffTagContainer
-          settings={settings}
-          tags={tagStrings(comment)}
-          className={className}
-        />
-      )}
+      {staffTag ||
+        (memberTag && (
+          <StaffTagContainer
+            settings={settings}
+            tags={tagStrings(comment)}
+            className={className}
+          />
+        ))}
     </Flex>
   );
 };
