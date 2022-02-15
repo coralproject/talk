@@ -1,21 +1,28 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
+import { RecordSource } from "relay-runtime";
 
-import { removeFragmentRefs } from "coral-framework/testHelpers";
+import {
+  createRelayEnvironment,
+  removeFragmentRefs,
+} from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-framework/types";
 
 import { UserBoxContainer } from "./UserBoxContainer";
 
 // Remove relay refs so we can stub the props.
+const source = new RecordSource();
 const UserBoxContainerN = removeFragmentRefs(UserBoxContainer);
+const context = {
+  relayEnvironment: createRelayEnvironment({
+    source,
+    initLocalState: true,
+  }),
+};
+jest.spyOn(React, "useContext").mockImplementation(() => context);
 
 it("renders fully", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
-    local: {
-      accessToken: "access-token",
-      accessTokenJTI: "JTI",
-      accessTokenExp: 1562172094,
-    },
     viewer: null,
     settings: {
       auth: {
@@ -53,8 +60,6 @@ it("renders fully", () => {
     },
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // eslint-disable-next-line no-empty
-    signOut: async () => {},
   };
   const renderer = createRenderer();
   renderer.render(<UserBoxContainerN {...props} />);
@@ -63,11 +68,6 @@ it("renders fully", () => {
 
 it("renders without logout button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
-    local: {
-      accessToken: "access-token",
-      accessTokenJTI: null,
-      accessTokenExp: null,
-    },
     viewer: null,
     settings: {
       auth: {
@@ -105,8 +105,6 @@ it("renders without logout button", () => {
     },
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // eslint-disable-next-line no-empty
-    signOut: async () => {},
   };
   const renderer = createRenderer();
   renderer.render(<UserBoxContainerN {...props} />);
@@ -115,11 +113,6 @@ it("renders without logout button", () => {
 
 it("renders sso only", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
-    local: {
-      accessToken: "access-token",
-      accessTokenJTI: "JTI",
-      accessTokenExp: 1562172094,
-    },
     viewer: null,
     settings: {
       auth: {
@@ -157,8 +150,6 @@ it("renders sso only", () => {
     },
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // eslint-disable-next-line no-empty
-    signOut: async () => {},
   };
   const renderer = createRenderer();
   renderer.render(<UserBoxContainerN {...props} />);
@@ -167,11 +158,6 @@ it("renders sso only", () => {
 
 it("renders sso only without logout button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
-    local: {
-      accessToken: "access-token",
-      accessTokenJTI: "JTI",
-      accessTokenExp: 1562172094,
-    },
     viewer: null,
     settings: {
       auth: {
@@ -209,8 +195,6 @@ it("renders sso only without logout button", () => {
     },
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // eslint-disable-next-line no-empty
-    signOut: async () => {},
   };
   const renderer = createRenderer();
   renderer.render(<UserBoxContainerN {...props} />);
@@ -219,11 +203,6 @@ it("renders sso only without logout button", () => {
 
 it("renders without register button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
-    local: {
-      accessToken: "access-token",
-      accessTokenJTI: "JTI",
-      accessTokenExp: 1562172094,
-    },
     viewer: null,
     settings: {
       auth: {
@@ -261,8 +240,6 @@ it("renders without register button", () => {
     },
     // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // eslint-disable-next-line no-empty
-    signOut: async () => {},
   };
   const renderer = createRenderer();
   renderer.render(<UserBoxContainerN {...props} />);

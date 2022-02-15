@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import {
+  MutationProp,
   useLocal,
   useMutation,
   withFragmentContainer,
@@ -13,16 +14,24 @@ import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated_
 import { UserBoxContainerLocal } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
 
 import { supportsRegister, weControlAuth } from "../authControl";
-import AuthPopup, { ShowAuthPopupMutation } from "../AuthPopup";
+import AuthPopup, {
+  ShowAuthPopupMutation,
+  withShowAuthPopupMutation,
+} from "../AuthPopup";
 import UserBoxAuthenticated from "./UserBoxAuthenticated";
 import UserBoxUnauthenticated from "./UserBoxUnauthenticated";
 
 interface Props {
   viewer: ViewerData | null;
   settings: SettingsData;
+  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
 }
 
-const UserBoxContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
+export const UserBoxContainer: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+  showAuthPopup,
+}) => {
   const [{ accessToken, accessTokenJTI, accessTokenExp }] = useLocal<
     UserBoxContainerLocal
   >(graphql`
@@ -32,7 +41,6 @@ const UserBoxContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
       accessTokenExp
     }
   `);
-  const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const signOut = useMutation(SignOutMutation);
   const handleSignIn = () => showAuthPopup({ view: "SIGN_IN" });
   const handleRegister = () => showAuthPopup({ view: "SIGN_UP" });
@@ -67,17 +75,19 @@ const UserBoxContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment UserBoxContainer_viewer on User {
-      username
-    }
-  `,
-  settings: graphql`
-    fragment UserBoxContainer_settings on Settings {
-      ...authControl_settings @relay(mask: false)
-    }
-  `,
-})(UserBoxContainer);
+const enhanced = withShowAuthPopupMutation(
+  withFragmentContainer<Props>({
+    viewer: graphql`
+      fragment UserBoxContainer_viewer on User {
+        username
+      }
+    `,
+    settings: graphql`
+      fragment UserBoxContainer_settings on Settings {
+        ...authControl_settings @relay(mask: false)
+      }
+    `,
+  })(UserBoxContainer)
+);
 
 export default enhanced;
