@@ -87,7 +87,7 @@ function createAuthCheckRoute(check: CheckParams) {
 
     useEffect(() => {
       void redirectIfNotLoggedIn();
-    }, [redirectIfNotLoggedIn]);
+    }, []);
 
     useEffect(() => {
       if (data && data.viewer) {

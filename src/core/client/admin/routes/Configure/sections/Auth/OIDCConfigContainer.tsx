@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
@@ -19,7 +19,7 @@ const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
   const discoverOIDCConfiguration = useFetch(DiscoverOIDCConfigurationFetch);
   const form = useForm();
 
-  const handleDiscover = useCallback(async () => {
+  const handleDiscover = async () => {
     const issuer = form.getState().values.auth.integrations.oidc.issuer;
     if (!issuer) {
       return;
@@ -61,7 +61,7 @@ const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
       console.warn(error);
     }
     setAwaitingResponse(false);
-  }, [discoverOIDCConfiguration, form]);
+  };
 
   return (
     <OIDCConfig

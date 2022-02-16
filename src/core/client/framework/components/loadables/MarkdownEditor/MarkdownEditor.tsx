@@ -2,7 +2,6 @@ import cn from "classnames";
 import React, {
   ChangeEvent,
   FunctionComponent,
-  useCallback,
   useEffect,
   useState,
 } from "react";
@@ -59,7 +58,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
   ...rest
 }) => {
   const getMessage = useGetMessage();
-  const toolbarNew = [
+  const toolbarDefault = [
     {
       name: "bold",
       action: SimpleMDE.toggleBold,
@@ -167,7 +166,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
     spellChecker: false,
 
     // filter out any toolbar items not included in props.toolbar array
-    toolbar: toolbarNew
+    toolbar: toolbarDefault
       .filter((item) => {
         if (typeof item === "string") {
           return true;
@@ -183,11 +182,11 @@ const MarkdownEditor: FunctionComponent<Props> = ({
   const [textarea, setTextarea] = useState<HTMLTextAreaElement | null>(null);
   const [editor, setEditor] = useState<SimpleMDE | null>(null);
 
-  const onRef = useCallback((ref: HTMLTextAreaElement) => {
+  const onRef = (ref: HTMLTextAreaElement) => {
     if (ref) {
       setTextarea(ref);
     }
-  }, []);
+  };
 
   useEffect(() => {
     if (textarea) {
@@ -204,12 +203,15 @@ const MarkdownEditor: FunctionComponent<Props> = ({
       });
       setEditor(editorSetup);
     }
+  }, [textarea]);
+
+  useEffect(() => {
     return () => {
       if (editor) {
         editor.toTextArea();
       }
     };
-  }, [textarea]);
+  }, []);
 
   useEffect(() => {
     if (editor) {
@@ -228,14 +230,11 @@ const MarkdownEditor: FunctionComponent<Props> = ({
   }, [id, name, getMessage, onChange, value, toolbar, editor]);
 
   // This is for accessibility purposes.
-  const onTextAreaChange = useCallback(
-    (e: ChangeEvent<HTMLTextAreaElement>) => {
-      if (onChange) {
-        onChange(e.target.value);
-      }
-    },
-    [onChange]
-  );
+  const onTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (onChange) {
+      onChange(e.target.value);
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
