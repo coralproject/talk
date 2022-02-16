@@ -7388,6 +7388,42 @@ type UpdateUserModerationScopesPayload {
   clientMutationId: String!
 }
 
+############################
+# updateUserMembershipScopes
+############################
+input MembershipScopesInput {
+  """
+  siteIDs are the ids of the sites on which to scope a user's membership to.
+  """
+  siteIDs: [ID!]
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input UpdateUserMembershipScopesInput {
+  """
+  userID is the id of the user whos membership scopes are to be updated.
+  """
+  userID: ID!
+
+  membershipScopes: MembershipScopesInput!
+}
+
+type UpdateUserMembershipScopesPayload {
+  """
+  user is the possible udpated user.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 # updateUserRole
 ##################
@@ -8866,6 +8902,15 @@ type Mutation {
   updateUserModerationScopes(
     input: UpdateUserModerationScopesInput!
   ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
+
+  """
+  updateUserMembershipScopes will update the membership scopes for a given user.
+  This is used to limit the sites on which a user is a member given that they also
+  have the member role.
+  """
+  updateUserMembershipScopes(
+    input: UpdateUserMembershipScopesInput!
+  ): UpdateUserMembershipScopesPayload! @auth(roles: [ADMIN]) # TODO (marcushaddon): confirm this!
 
   """
   banUser will ban a specific User from interacting with Comments.

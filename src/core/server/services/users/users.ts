@@ -80,6 +80,7 @@ import {
   updateUserEmail,
   updateUserMediaSettings,
   UpdateUserMediaSettingsInput,
+  updateUserMembershipScopes,
   updateUserModerationScopes,
   updateUserNotificationSettings,
   updateUserPassword,
@@ -923,6 +924,26 @@ export async function updateModerationScopes(
   }
 
   return updateUserModerationScopes(mongo, tenant.id, userID, moderationScopes);
+}
+
+/**
+ * updateMembershipScopes updates the sites on which a user has membership
+ * assuming they have the member role.
+ */
+export async function updateMembershipScopes(
+  mongo: MongoContext,
+  tenant: Tenant,
+  viewer: User,
+  userID: string,
+  membershipScopes: string[]
+) {
+  const sites = await retrieveManySites(mongo, tenant.id, membershipScopes);
+  if (sites.some((s) => s === null)) {
+    throw new Error("Some of the provided site ids did not exist");
+  }
+
+  // TODO: this is where we would enforce site mod access
+  return updateUserMembershipScopes(mongo, tenant.id, userID, membershipScopes);
 }
 
 /**
