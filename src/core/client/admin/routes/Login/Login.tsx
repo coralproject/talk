@@ -28,7 +28,7 @@ interface Props {
 }
 
 const renderView = (
-  view: string | null,
+  view: View | null,
   auth: Props["auth"],
   viewer: Props["viewer"]
 ) => {

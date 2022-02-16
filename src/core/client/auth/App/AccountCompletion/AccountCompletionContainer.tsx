@@ -103,6 +103,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
     if (!view || currentView === view) {
       return;
     }
+
     setView({ view });
   }, [currentView, setView, view]);
 

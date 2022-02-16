@@ -1,6 +1,5 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
-import { RecordSource } from "relay-runtime";
 
 import {
   createRelayEnvironment,
@@ -11,13 +10,9 @@ import { PropTypesOf } from "coral-framework/types";
 import { UserBoxContainer } from "./UserBoxContainer";
 
 // Remove relay refs so we can stub the props.
-const source = new RecordSource();
 const UserBoxContainerN = removeFragmentRefs(UserBoxContainer);
 const context = {
-  relayEnvironment: createRelayEnvironment({
-    source,
-    initLocalState: true,
-  }),
+  relayEnvironment: createRelayEnvironment({}),
 };
 jest.spyOn(React, "useContext").mockImplementation(() => context);
 
