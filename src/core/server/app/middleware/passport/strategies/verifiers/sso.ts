@@ -34,7 +34,10 @@ import {
   verifyJWT,
 } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
-import { findOrCreate } from "coral-server/services/users";
+import {
+  findOrCreate,
+  processAutomaticBanPremodForNewUser,
+} from "coral-server/services/users";
 
 import {
   GQLSSOAuthIntegration,
@@ -200,6 +203,13 @@ export async function findOrCreateSSOUser(
       );
     }
   }
+
+  // Check the user's email address against emailDomain configurations
+  // to see if they should be set to banned or always pre-moderated.
+  // We do this here, because if a bad actor obtains access to a user and
+  // updates their old email to a new bad domain email, we will catch that
+  // new bad domain here.
+  await processAutomaticBanPremodForNewUser(mongo, tenant, user);
 
   return user;
 }
