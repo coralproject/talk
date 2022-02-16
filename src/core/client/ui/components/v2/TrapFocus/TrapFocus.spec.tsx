@@ -38,6 +38,8 @@ it("renders correctly", () => {
   expect(renderer.toJSON()).toMatchSnapshot();
 });
 
+// kabeaty: focus seems to be working as expected
+// not sure why this test is failing now
 it.skip("autofocus", () => {
   const autoFocus = sinon.stub();
   create(<TrapFocus />, {
