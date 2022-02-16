@@ -79,10 +79,10 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
       !isBeforeDate(comment.editing.editableUntil)
   );
   const [submitStatus, setSubmitStatus] = useState<null | SubmitStatus>(null);
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     body: comment.body || "",
     media: getMediaFromComment(comment),
-  };
+  });
   const updateWhenExpired = () => {
     const ms = new Date(comment.editing.editableUntil!).getTime() - Date.now();
     if (ms > 0) {
@@ -134,6 +134,10 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
+          setInitialValues({
+            body: input.body || "",
+            media: getMediaFromComment(comment),
+          });
           await refreshSettingsFetch({ storyID: story.id });
         }
         return error.invalidArgs;
