@@ -5,7 +5,7 @@ import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CheckBox } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
-import { SiteModeratorModalSelectedSiteQuery as QueryTypes } from "coral-admin/__generated__/SiteModeratorModalSelectedSiteQuery.graphql";
+import { SiteRoleModalSelectedSiteQuery as QueryTypes } from "coral-admin/__generated__/SiteRoleModalSelectedSiteQuery.graphql";
 
 interface Props {
   siteID: string;
@@ -13,7 +13,7 @@ interface Props {
   checked: boolean;
 }
 
-const SiteModeratorModalSelectedSiteQuery: FunctionComponent<Props> = ({
+const SiteRoleModalSelectedSiteQuery: FunctionComponent<Props> = ({
   siteID,
   onChange,
   checked,
@@ -21,7 +21,7 @@ const SiteModeratorModalSelectedSiteQuery: FunctionComponent<Props> = ({
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query SiteModeratorModalSelectedSiteQuery($siteID: ID!) {
+        query SiteRoleModalSelectedSiteQuery($siteID: ID!) {
           site(id: $siteID) {
             name
           }
@@ -52,4 +52,4 @@ const SiteModeratorModalSelectedSiteQuery: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteModeratorModalSelectedSiteQuery;
+export default SiteRoleModalSelectedSiteQuery;

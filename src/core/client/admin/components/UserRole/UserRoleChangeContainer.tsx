@@ -10,7 +10,7 @@ import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRole
 import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 
 import ButtonPadding from "../ButtonPadding";
-import SiteModeratorActions from "./SiteModeratorActions";
+import SiteRoleActions from "./SiteRoleActions";
 import UpdateUserModerationScopesMutation from "./UpdateUserModerationScopesMutation";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 import UserRoleChange from "./UserRoleChange";
@@ -52,6 +52,14 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     [updateUserModerationScopes, user.id]
   );
 
+  const handleOnChangeMembershipScopes = useCallback(
+    async (siteIDs: string[]) => {
+      /* eslint-disable */
+      console.log(siteIDs, "CHANGED MEMBERSHIP");
+    },
+    []
+  );
+
   const canChangeRole =
     viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
 
@@ -63,7 +71,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     !!viewer.moderationScopes?.scoped;
 
   if (canPromoteDemote) {
-    return <SiteModeratorActions viewer={viewer} user={user} />;
+    return <SiteRoleActions viewer={viewer} user={user} />;
   }
 
   if (!canChangeRole) {
@@ -83,9 +91,11 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       username={user.username}
       onChangeRole={handleOnChangeRole}
       onChangeModerationScopes={handleOnChangeModerationScopes}
+      onChangeMembershipScopes={handleOnChangeMembershipScopes}
       role={user.role}
       scoped={user.moderationScopes?.scoped}
       moderationScopes={user.moderationScopes}
+      membershipScopes={user.membershipScopes}
       moderationScopesEnabled={moderationScopesEnabled}
     />
   );
@@ -99,7 +109,7 @@ const enhanced = withFragmentContainer<Props>({
       moderationScopes {
         scoped
       }
-      ...SiteModeratorActions_viewer
+      ...SiteRoleActions_viewer
     }
   `,
   user: graphql`
@@ -114,7 +124,14 @@ const enhanced = withFragmentContainer<Props>({
           name
         }
       }
-      ...SiteModeratorActions_user
+      membershipScopes {
+        scoped
+        sites {
+          id
+          name
+        }
+      }
+      ...SiteRoleActions_user
     }
   `,
   settings: graphql`

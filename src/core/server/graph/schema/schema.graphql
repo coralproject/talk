@@ -2054,7 +2054,7 @@ type Settings @cacheControl(maxAge: 30) {
   reaction: ReactionConfiguration!
 
   """
-  staff specifies the configuration for the staff badges assigned to users with
+  badges specifies the configuration for the user badges assigned to users with
   any role above COMMENTER.
   """
   badges: BadgeConfiguration!
@@ -5529,7 +5529,7 @@ input SettingsInput {
   reaction: ReactionConfigurationInput
 
   """
-  staff specifies the configuration for the staff badges assigned to users with
+  badges specifies the configuration for user badges assigned to users with
   any role above COMMENTER.
   """
   badges: BadgeConfigurationInput

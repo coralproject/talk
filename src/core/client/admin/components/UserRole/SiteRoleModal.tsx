@@ -20,9 +20,9 @@ import {
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
-import SiteModeratorModalSites from "./SiteModeratorModalSites";
+import SiteRoleModalSites from "./SiteRoleModalSites";
 
-import styles from "./SiteModeratorModal.css";
+import styles from "./SiteRoleModal.css";
 
 interface Props {
   username: string | null;
@@ -32,7 +32,7 @@ interface Props {
   selectedSiteIDs?: string[];
 }
 
-const SiteModeratorModal: FunctionComponent<Props> = ({
+const SiteRoleModal: FunctionComponent<Props> = ({
   username,
   open,
   onFinish,
@@ -62,7 +62,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
       open={open}
       onClose={onCancel}
       disableScroll
-      data-testid="site-moderator-modal"
+      data-testid="site-role-modal"
     >
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
@@ -78,7 +78,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                 <form onSubmit={handleSubmit}>
                   <HorizontalGutter spacing={3}>
                     <Localized
-                      id="community-siteModeratorModal-assignSites"
+                      id="community-SiteRoleModal-assignSites"
                       strong={<ModalHeaderUsername />}
                       $username={username || notAvailableTranslation}
                     >
@@ -92,23 +92,21 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                         {submitError}
                       </CallOut>
                     )}
-                    <Localized id="community-siteModeratorModal-assignSitesDescription">
+                    <Localized id="community-SiteRoleModal-assignSitesDescription">
                       <ModalBodyText>
                         Site moderators are permitted to make moderation
                         decisions and issue suspensions on the sites they are
                         assigned.
                       </ModalBodyText>
                     </Localized>
-                    <SiteModeratorModalSites
-                      selectedSiteIDs={selectedSiteIDs}
-                    />
+                    <SiteRoleModalSites selectedSiteIDs={selectedSiteIDs} />
                     <Flex justifyContent="flex-end" itemGutter="half">
-                      <Localized id="community-siteModeratorModal-cancel">
+                      <Localized id="community-SiteRoleModal-cancel">
                         <Button variant="flat" onClick={onCancel}>
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="community-siteModeratorModal-assign">
+                      <Localized id="community-SiteRoleModal-assign">
                         <Button
                           type="submit"
                           disabled={submitting || values.siteIDs.length === 0}
@@ -130,4 +128,4 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteModeratorModal;
+export default SiteRoleModal;

@@ -5,15 +5,13 @@ import { useField } from "react-final-form";
 import { Label } from "coral-ui/components/v2";
 
 import SiteSearch from "../SiteSearch";
-import SiteModeratorModalSelectedSiteQuery from "./SiteModeratorModalSelectedSiteQuery";
+import SiteRoleModalSelectedSiteQuery from "./SiteRoleModalSelectedSiteQuery";
 
 interface Props {
   selectedSiteIDs?: string[];
 }
 
-const SiteModeratorModalSites: FunctionComponent<Props> = ({
-  selectedSiteIDs,
-}) => {
+const SiteRoleModalSites: FunctionComponent<Props> = ({ selectedSiteIDs }) => {
   const [candidateSites, setCandidateSites] = useState<string[]>(
     selectedSiteIDs || []
   );
@@ -55,13 +53,13 @@ const SiteModeratorModalSites: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Localized id="community-siteModeratorModal-selectSites">
+      <Localized id="community-SiteRoleModal-selectSites">
         <Label>Select sites to moderate</Label>
       </Localized>
       {candidateSites.map((siteID) => {
         const checked = siteIDsInput.value.includes(siteID);
         return (
-          <SiteModeratorModalSelectedSiteQuery
+          <SiteRoleModalSelectedSiteQuery
             key={siteID}
             siteID={siteID}
             checked={checked}
@@ -80,4 +78,4 @@ const SiteModeratorModalSites: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteModeratorModalSites;
+export default SiteRoleModalSites;
