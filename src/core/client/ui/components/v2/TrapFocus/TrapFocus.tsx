@@ -1,12 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, {
-  FunctionComponent,
-  RefObject,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import { useUIContext } from "..";
+import React, { FunctionComponent, RefObject, useEffect, useRef } from "react";
+
+import { useUIContext } from "coral-ui/components/v2/UIContext";
 
 interface RenderProps {
   firstFocusableRef: RefObject<any>;
@@ -25,30 +20,44 @@ function isRenderProp(
   return typeof children === "function";
 }
 
-export const TrapFocus: FunctionComponent<TrapFocusProps> = ({ children }) => {
+const TrapFocus: FunctionComponent<TrapFocusProps> = ({ children }) => {
   const { renderWindow } = useUIContext();
-  const fallbackRef: React.RefObject<any> = React.createRef<any>();
-  const firstFocusableRef: React.RefObject<any> = React.createRef<any>();
-  const lastFocusableRef: React.RefObject<any> = React.createRef<any>();
-  const [previousActiveElement] = useState<any>(
-    renderWindow.document.activeElement
-  );
+  const fallbackRef = useRef<HTMLDivElement>(null);
+  const firstFocusableRef = useRef<HTMLElement>(null);
+  const lastFocusableRef = useRef<HTMLElement>(null);
+  const previousActiveElement: any | null = renderWindow.document.activeElement;
 
-  const focusBegin = useCallback(() => {
-    (firstFocusableRef.current || fallbackRef.current).focus();
-  }, [firstFocusableRef, fallbackRef]);
-  const focusEnd = useCallback(() => {
-    (lastFocusableRef.current || fallbackRef.current).focus();
-  }, [lastFocusableRef, fallbackRef]);
+  // Trap keyboard focus inside the dropdown until a value has been chosen.
+  const focusBegin = () => {
+    if (firstFocusableRef.current) {
+      firstFocusableRef.current.focus();
+    } else {
+      if (fallbackRef.current) {
+        fallbackRef.current.focus();
+      }
+    }
+  };
+
+  const focusEnd = () => {
+    if (lastFocusableRef.current) {
+      lastFocusableRef.current.focus();
+    } else {
+      if (fallbackRef.current) {
+        fallbackRef.current.focus();
+      }
+    }
+  };
 
   useEffect(() => {
-    fallbackRef.current.focus();
+    if (fallbackRef.current) {
+      fallbackRef.current.focus();
+    }
     return () => {
       if (previousActiveElement && previousActiveElement.focus) {
         previousActiveElement.focus();
       }
     };
-  }, [fallbackRef, previousActiveElement]);
+  }, []);
 
   return (
     <>
