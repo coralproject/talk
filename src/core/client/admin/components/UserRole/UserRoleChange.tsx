@@ -57,11 +57,18 @@ const UserRoleChange: FunctionComponent<Props> = ({
     async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
       await onChangeRole(r);
 
-      if (moderationScopesEnabled) {
+      if (r === GQLUSER_ROLE.MEMBER) {
+        await onChangeMembershipScopes(siteIDs);
+      } else if (r === GQLUSER_ROLE.MODERATOR && moderationScopesEnabled) {
         await onChangeModerationScopes(siteIDs);
       }
     },
-    [onChangeRole, onChangeModerationScopes, moderationScopesEnabled]
+    [
+      onChangeMembershipScopes,
+      onChangeRole,
+      onChangeModerationScopes,
+      moderationScopesEnabled,
+    ]
   );
   const onClick = useCallback(
     (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => async () => {
@@ -89,7 +96,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
       // Set the user as new role and then update the siteIDs.
       await handleChangeRole(newRole, siteIDs);
 
-      // Close the modal.
+      // Close the modal. TODO (marcushaddon): eitehr add if/then or reduce to one modal
       setSiteModerationModalVisibility(false);
     },
     [setSiteModerationModalVisibility, handleChangeRole]

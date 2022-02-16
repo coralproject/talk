@@ -72,6 +72,7 @@ import { Tag } from "./Tag";
 import { TwitterMediaConfiguration } from "./TwitterMediaConfiguration";
 import { User } from "./User";
 import { UserMediaSettings } from "./UserMediaSettings";
+import { UserMembershipScopes } from "./UserMembershipScopes";
 import { UserModerationScopes } from "./UserModerationScopes";
 import { UsernameHistory } from "./UsernameHistory";
 import { UsernameStatus } from "./UsernameStatus";
@@ -151,6 +152,7 @@ const Resolvers: GQLResolver = {
   TwitterMediaConfiguration,
   User,
   UserMediaSettings,
+  UserMembershipScopes,
   UserModerationScopes,
   UsernameHistory,
   UsernameStatus,
