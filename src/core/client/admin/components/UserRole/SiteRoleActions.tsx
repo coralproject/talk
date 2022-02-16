@@ -29,26 +29,26 @@ import {
   Typography,
 } from "coral-ui/components/v2";
 
-import { SiteModeratorActions_user } from "coral-admin/__generated__/SiteModeratorActions_user.graphql";
-import { SiteModeratorActions_viewer } from "coral-admin/__generated__/SiteModeratorActions_viewer.graphql";
+import { SiteRoleActions_user } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
+import { SiteRoleActions_viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
 
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import DemoteUserMutation from "./DemoteUserMutation";
 import PromoteUserMutation from "./PromoteUserMutation";
-import SiteModeratorActionsSites from "./SiteModeratorActionsSites";
+import SiteRoleActionsSites from "./SiteRoleActionsSites";
 import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
 
-import styles from "./SiteModeratorActions.css";
+import styles from "./SiteRoleActions.css";
 
 interface Props {
-  viewer: SiteModeratorActions_viewer;
-  user: SiteModeratorActions_user;
+  viewer: SiteRoleActions_viewer;
+  user: SiteRoleActions_user;
 }
 
-const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
+const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   const promoteUser = useMutation(PromoteUserMutation);
   const demoteUser = useMutation(DemoteUserMutation);
   const notAvailableTranslation = useCommonTranslation(
@@ -146,7 +146,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
       <Modal
         open={isModalVisible}
         onClose={onCancel}
-        data-testid="siteModeratorActions-modal"
+        data-testid="SiteRoleActions-modal"
       >
         {({ firstFocusableRef, lastFocusableRef }) => (
           <Card className={styles.modal}>
@@ -171,7 +171,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                         </ModalHeader>
                       </Localized>
                     ) : (
-                      <Localized id="community-removeSiteModeratorPermissions">
+                      <Localized id="community-removeSiteRolePermissions">
                         <ModalHeader>
                           Remove Site Moderator permissions
                         </ModalHeader>
@@ -184,7 +184,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     )}
                     {mode === "promote" ? (
                       <>
-                        <Localized id="community-siteModeratorsArePermitted">
+                        <Localized id="community-SiteRolesArePermitted">
                           <ModalBodyText>
                             Site moderators are permitted to make moderation
                             decisions and issue suspensions on the sites they
@@ -207,14 +207,14 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                         </ModalBodyText>
                       </Localized>
                     )}
-                    <SiteModeratorActionsSites
+                    <SiteRoleActionsSites
                       viewerSites={viewerSites}
                       userSites={userSites}
                       mode={mode}
                     />
                     {mode === "demote" && uniqueUserSites.length > 0 && (
                       <>
-                        <Localized id="community-stillHaveSiteModeratorPrivileges">
+                        <Localized id="community-stillHaveSiteRolePrivileges">
                           <ModalBodyText>
                             They will still have Site Moderator privileges for:
                           </ModalBodyText>
@@ -229,13 +229,13 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                       </>
                     )}
                     <Flex justifyContent="flex-end" itemGutter="half">
-                      <Localized id="community-siteModeratorModal-cancel">
+                      <Localized id="community-SiteRoleModal-cancel">
                         <Button variant="flat" onClick={onCancel}>
                           Cancel
                         </Button>
                       </Localized>
                       {mode === "promote" ? (
-                        <Localized id="community-siteModeratorModal-assign">
+                        <Localized id="community-SiteRoleModal-assign">
                           <Button
                             type="submit"
                             disabled={
@@ -248,7 +248,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                           </Button>
                         </Localized>
                       ) : (
-                        <Localized id="community-siteModeratorModal-remove">
+                        <Localized id="community-SiteRoleModal-remove">
                           <Button
                             type="submit"
                             color="alert"
@@ -271,11 +271,11 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
         )}
       </Modal>
       <Localized
-        id="community-siteModeratorActions-popover"
+        id="community-SiteRoleActions-popover"
         attrs={{ description: true }}
       >
         <Popover
-          id="community-siteModeratorActions"
+          id="community-SiteRoleActions"
           placement="bottom-start"
           description="A dropdown to promote/demote a user to/from sites"
           visible={isPopoverVisible}
@@ -342,7 +342,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment SiteModeratorActions_viewer on User {
+    fragment SiteRoleActions_viewer on User {
       id
       moderationScopes {
         sites {
@@ -353,7 +353,7 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   user: graphql`
-    fragment SiteModeratorActions_user on User {
+    fragment SiteRoleActions_user on User {
       id
       username
       role
@@ -366,6 +366,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(SiteModeratorActions);
+})(SiteRoleActions);
 
 export default enhanced;

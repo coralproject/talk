@@ -12,7 +12,7 @@ interface Props {
   mode: string | null;
 }
 
-const SiteModeratorActionsSites: FunctionComponent<Props> = ({
+const SiteRoleActionsSites: FunctionComponent<Props> = ({
   viewerSites,
   userSites,
   mode,
@@ -82,4 +82,4 @@ const SiteModeratorActionsSites: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteModeratorActionsSites;
+export default SiteRoleActionsSites;
