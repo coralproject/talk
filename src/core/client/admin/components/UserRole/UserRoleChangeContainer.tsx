@@ -11,6 +11,7 @@ import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRo
 
 import ButtonPadding from "../ButtonPadding";
 import SiteRoleActions from "./SiteRoleActions";
+import UpdateUserMembershipScopesMutation from "./UpdateUserMembershipMutation";
 import UpdateUserModerationScopesMutation from "./UpdateUserModerationScopesMutation";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 import UserRoleChange from "./UserRoleChange";
@@ -30,6 +31,9 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const updateUserModerationScopes = useMutation(
     UpdateUserModerationScopesMutation
+  );
+  const updateUserMembershipScopes = useMutation(
+    UpdateUserMembershipScopesMutation
   );
   const handleOnChangeRole = useCallback(
     async (role: GQLUSER_ROLE_RL) => {
@@ -54,10 +58,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   const handleOnChangeMembershipScopes = useCallback(
     async (siteIDs: string[]) => {
-      /* eslint-disable */
-      console.log(siteIDs, "CHANGED MEMBERSHIP");
+      await updateUserMembershipScopes({
+        userID: user.id,
+        membershipScopes: { siteIDs },
+      });
     },
-    []
+    [updateUserMembershipScopes]
   );
 
   const canChangeRole =
