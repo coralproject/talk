@@ -214,16 +214,16 @@ enum NEW_USER_MODERATION {
   PREMOD = "PREMOD",
 }
 
-/**
- * processAutomaticBanPremodForNewUser checks whether we have
- * enabled emailDomainModeration and if so, checks to see if the
- * user is within the domain list and bans or premods them accordingly.
- *
- * @param mongo is the mongo context used to update the user status if their domain is in the ban/preMod list
- * @param tenant is the current tenant for this user
- * @param user is the user we are checking their email domain on
- */
-export async function processAutomaticBanPremodForNewUser(
+export async function processAutomaticBanAndPremodForNewUser(
+  mongo: MongoContext,
+  tenant: Tenant,
+  user: User
+) {
+  await processAutomaticBanForUser(mongo, tenant, user);
+  await processAutomaticPremodForUser(mongo, tenant, user);
+}
+
+export async function processAutomaticBanForUser(
   mongo: MongoContext,
   tenant: Tenant,
   user: User
@@ -246,6 +246,25 @@ export async function processAutomaticBanPremodForNewUser(
   ) {
     await banUser(mongo, tenant.id, user.id);
   }
+}
+
+export async function processAutomaticPremodForUser(
+  mongo: MongoContext,
+  tenant: Tenant,
+  user: User
+) {
+  if (!tenant.emailDomainModeration) {
+    return;
+  }
+
+  const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
+    user,
+    tenant.emailDomainModeration
+  );
+  if (!newUserEmailDomainModeration) {
+    return;
+  }
+
   if (
     newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD &&
     !user.status.premod.active
@@ -289,8 +308,8 @@ export async function create(
   const user = await createUser(mongo, tenant.id, input, now);
 
   // Check the new user's email address against emailDomain configurations
-  // to see if they should be set to banned or always pre-moderated
-  await processAutomaticBanPremodForNewUser(mongo, tenant, user);
+  // to see if they should be banned or premodded
+  await processAutomaticBanAndPremodForNewUser(mongo, tenant, user);
 
   // TODO: (wyattjoh) emit that a user was created
 
