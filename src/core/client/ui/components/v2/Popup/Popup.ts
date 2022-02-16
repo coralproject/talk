@@ -53,18 +53,19 @@ function reconcileFeatures(
     .join(",");
 }
 
+const defaultFeatures: WindowFeatures = {
+  resizable: 0,
+  menubar: 0,
+  width: 350,
+  height: 450,
+  centered: true,
+};
+
 const Popup: FunctionComponent<PopupProps> = (props) => {
   let ref: Window | null = null;
   let detectCloseInterval: any = null;
   let resetCallbackInterval: any = null;
   const { renderWindow } = useUIContext();
-  const defaultFeatures: WindowFeatures = {
-    resizable: 0,
-    menubar: 0,
-    width: 350,
-    height: 450,
-    centered: true,
-  };
   const previousOpen = usePrevious(props.open);
   const previousFocus = usePrevious(props.focus);
   const previousHref = usePrevious(props.href);
