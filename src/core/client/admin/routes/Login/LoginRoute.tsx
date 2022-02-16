@@ -1,3 +1,4 @@
+import { RouteProps } from "found";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -7,7 +8,6 @@ import { LoginRouteQueryResponse } from "coral-admin/__generated__/LoginRouteQue
 
 import AccountCompletionContainer from "./AccountCompletionContainer";
 import Login from "./Login";
-import { RouteProps } from "found";
 
 interface Props {
   data: LoginRouteQueryResponse;

@@ -84,10 +84,10 @@ const Popover: FunctionComponent<PopoverProps> = ({
   const includeArrow =
     !modifiers || !modifiers.arrow || modifiers.arrow.enabled;
   const popoverClassName = cn(classes.popover, {
-    [classes.top]: placement!.startsWith("top"),
-    [classes.left]: placement!.startsWith("left"),
-    [classes.right]: placement!.startsWith("right"),
-    [classes.bottom]: placement!.startsWith("bottom"),
+    [classes.top]: placement.startsWith("top"),
+    [classes.left]: placement.startsWith("left"),
+    [classes.right]: placement.startsWith("right"),
+    [classes.bottom]: placement.startsWith("bottom"),
   });
 
   const toggleVisibility = (() => {

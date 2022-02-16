@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
+import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { DeepNullable, DeepPartial } from "coral-common/types";
@@ -23,7 +24,6 @@ import { AuthConfigContainer_settings as SettingsData } from "coral-admin/__gene
 import AccountFeaturesConfig from "./AccountFeaturesConfig";
 import AuthIntegrationsConfig from "./AuthIntegrationsConfig";
 import SessionConfig from "./SessionConfig";
-import { useForm } from "react-final-form";
 
 export type FormProps = DeepNullable<
   Pick<GQLSettings, "auth" | "accountFeatures">
