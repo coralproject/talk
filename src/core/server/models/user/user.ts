@@ -960,6 +960,25 @@ export async function updateUserModerationScopes(
   return result.value;
 }
 
+export async function updateUserMembershipScopes(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  membershipScopes: string[]
+) {
+  const result = await mongo.users().findOneAndUpdate(
+    { id, tenantID },
+    { $set: { membershipScopes } },
+    { returnOriginal: false }
+  );
+
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return result.value;
+}
+
 export async function verifyUserPassword(
   user: Pick<User, "profiles">,
   password: string,

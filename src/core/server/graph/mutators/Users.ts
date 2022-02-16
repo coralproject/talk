@@ -33,6 +33,7 @@ import {
   updateEmail,
   updateEmailByID,
   updateMediaSettings,
+  updateMembershipScopes,
   updateModerationScopes,
   updateNotificationSettings,
   updatePassword,
@@ -81,6 +82,7 @@ import {
   GQLUpdateUserBanInput,
   GQLUpdateUserEmailInput,
   GQLUpdateUserMediaSettingsInput,
+  GQLUpdateUserMembershipScopesInput,
   GQLUpdateUserModerationScopesInput,
   GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
@@ -256,6 +258,16 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!,
       input.userID,
       input.moderationScopes
+    ),
+  updateUserMembershipScopes: async (
+    input: GQLUpdateUserMembershipScopesInput
+  ) =>
+    updateMembershipScopes(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.membershipScopes
     ),
   createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
     addModeratorNote(
