@@ -217,7 +217,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
         editor.value(value);
       }
     }
-  }, [value]);
+  }, [value, editor]);
 
   useEffect(() => {
     // Workaround empty render issue.
