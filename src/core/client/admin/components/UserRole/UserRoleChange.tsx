@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 import { useToggleState } from "coral-framework/hooks";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
@@ -78,28 +83,16 @@ const UserRoleChange: FunctionComponent<Props> = ({
     [handleChangeRole, togglePopoverVisibility]
   );
 
-  // Setup state and callbacks for the site moderator modal.
-  const [
-    siteModerationModalVisibile,
-    setSiteModerationModalVisibility,
-    toggleSiteModerationModalVisibility,
-  ] = useToggleState();
-
-  const [
-    siteMembershipModalVisible,
-    setSiteMembershipModalVisibility,
-    toggleSiteMembershiptModalVisibility,
-  ] = useToggleState();
+  const [siteRole, setSiteRole] = useState<GQLUSER_ROLE | null>(null);
 
   const onFinishModal = useCallback(
-    async (newRole: GQLUSER_ROLE, siteIDs: string[]) => {
+    async (siteIDs: string[]) => {
       // Set the user as new role and then update the siteIDs.
-      await handleChangeRole(newRole, siteIDs);
+      await handleChangeRole(siteRole!, siteIDs);
 
-      // Close the modal. TODO (marcushaddon): eitehr add if/then or reduce to one modal
-      setSiteModerationModalVisibility(false);
+      setSiteRole(null);
     },
-    [setSiteModerationModalVisibility, handleChangeRole]
+    [siteRole, handleChangeRole]
   );
 
   const selectedModerationSiteIDs = useMemo(
@@ -112,27 +105,22 @@ const UserRoleChange: FunctionComponent<Props> = ({
     [membershipScopes]
   );
 
+  const showSiteRoleModal = !!siteRole;
+  const siteRoleSitIDs =
+    siteRole === GQLUSER_ROLE.MODERATOR
+      ? selectedModerationSiteIDs
+      : siteRole === GQLUSER_ROLE.MEMBER
+      ? selectedMembershipSiteIDs
+      : [];
+
   return (
     <>
-      {moderationScopesEnabled && (
-        <SiteRoleModal
-          username={username}
-          open={siteModerationModalVisibile}
-          selectedSiteIDs={selectedModerationSiteIDs}
-          onCancel={toggleSiteModerationModalVisibility}
-          onFinish={(siteIDs: string[]) =>
-            onFinishModal(GQLUSER_ROLE.MODERATOR, siteIDs)
-          }
-        />
-      )}
       <SiteRoleModal
         username={username}
-        open={siteMembershipModalVisible}
-        selectedSiteIDs={selectedMembershipSiteIDs}
-        onCancel={toggleSiteMembershiptModalVisibility}
-        onFinish={(siteIDs: string[]) =>
-          onFinishModal(GQLUSER_ROLE.MEMBER, siteIDs)
-        }
+        open={showSiteRoleModal}
+        selectedSiteIDs={siteRoleSitIDs}
+        onCancel={() => setSiteRole(null)}
+        onFinish={(siteIDs: string[]) => onFinishModal(siteIDs)}
       />
       <Localized id="community-role-popover" attrs={{ description: true }}>
         <Popover
@@ -155,7 +143,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   moderationScopesEnabled={moderationScopesEnabled}
                   scoped
                   onClick={() => {
-                    setSiteMembershipModalVisibility(true);
+                    setSiteRole(GQLUSER_ROLE.MEMBER);
                     setPopoverVisibility(false);
                   }}
                 />
@@ -172,7 +160,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                     scoped
                     moderationScopesEnabled
                     onClick={() => {
-                      setSiteModerationModalVisibility(true);
+                      setSiteRole(GQLUSER_ROLE.MODERATOR);
                       setPopoverVisibility(false);
                     }}
                   />
