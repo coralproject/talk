@@ -964,13 +964,15 @@ export async function updateUserMembershipScopes(
   mongo: MongoContext,
   tenantID: string,
   userID: string,
-  membershipScopes: string[]
+  siteIDs: string[]
 ) {
-  const result = await mongo.users().findOneAndUpdate(
-    { id, tenantID },
-    { $set: { membershipScopes } },
-    { returnOriginal: false }
-  );
+  const result = await mongo
+    .users()
+    .findOneAndUpdate(
+      { id: userID, tenantID },
+      { $set: { membershipScopes: { siteIDs } } },
+      { returnOriginal: false }
+    );
 
   if (!result.value) {
     throw new UserNotFoundError(userID);

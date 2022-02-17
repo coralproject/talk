@@ -11,7 +11,7 @@ import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRo
 
 import ButtonPadding from "../ButtonPadding";
 import SiteRoleActions from "./SiteRoleActions";
-import UpdateUserMembershipScopesMutation from "./UpdateUserMembershipMutation";
+import UpdateUserMembershipScopesMutation from "./UpdateUserMembershipScopesMutation";
 import UpdateUserModerationScopesMutation from "./UpdateUserModerationScopesMutation";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 import UserRoleChange from "./UserRoleChange";
@@ -60,10 +60,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     async (siteIDs: string[]) => {
       await updateUserMembershipScopes({
         userID: user.id,
-        membershipScopes: { siteIDs },
+        membershipScopes: {
+          siteIDs,
+        },
       });
     },
-    [updateUserMembershipScopes]
+    [updateUserMembershipScopes, user.id]
   );
 
   const canChangeRole =

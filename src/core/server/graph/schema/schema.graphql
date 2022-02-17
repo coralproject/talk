@@ -7348,12 +7348,7 @@ input MembershipScopesInput {
   """
   siteIDs are the ids of the sites on which to scope a user's membership to.
   """
-  siteIDs: [ID!]
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
+  siteIDs: [ID!]!
 }
 
 input UpdateUserMembershipScopesInput {
@@ -7362,7 +7357,15 @@ input UpdateUserMembershipScopesInput {
   """
   userID: ID!
 
+  """
+  membershipScopes represent the scopes of the user's membership.
+  """
   membershipScopes: MembershipScopesInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
 }
 
 type UpdateUserMembershipScopesPayload {
