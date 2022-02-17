@@ -267,7 +267,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.tenant,
       ctx.user!,
       input.userID,
-      input.membershipScopes
+      input.membershipScopes.siteIDs
     ),
   createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
     addModeratorNote(
