@@ -7,8 +7,46 @@ exports[`renders permalink view with unknown story 1`] = `
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
 >
-  <div>
-    Story not found
+  <div
+    className="CallOut-root CallOut-error CallOut-leftBorder"
+  >
+    <div
+      className="CallOut-container"
+    >
+      <div
+        className="CallOut-content"
+      >
+        <div
+          className="CallOut-title CallOut-titleMargin CallOut-titleBold"
+        >
+          <span>
+            An error has occurred
+          </span>
+        </div>
+        <div
+          className="CallOut-body"
+        >
+          
+          <div
+            className="QueryError-heading"
+          >
+            Message
+          </div>
+          <div
+            aria-live="polite"
+            className="QueryError-section"
+          >
+            Cannot return null for non-nullable field BadgeConfiguration.memberLabel.
+
+GraphQL request:944:5
+943 |     moderatorLabel
+944 |     memberLabel
+    |     ^
+945 |   }
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 `;
