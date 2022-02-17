@@ -36,7 +36,8 @@ import {
 import { AugmentedRedis } from "coral-server/services/redis";
 import {
   findOrCreate,
-  processAutomaticBanPremodForNewUser,
+  processAutomaticBanForUser,
+  processAutomaticPremodForUser,
 } from "coral-server/services/users";
 
 import {
@@ -175,6 +176,8 @@ export async function findOrCreateSSOUser(
       { skipUsernameValidation: true },
       now
     );
+
+    await processAutomaticPremodForUser(mongo, tenant, user);
   } else if (iat && needsSSOUpdate(decodedToken.user, user)) {
     // Get the SSO Profile.
     const profile = getSSOProfile(user);
@@ -209,7 +212,7 @@ export async function findOrCreateSSOUser(
   // We do this here, because if a bad actor obtains access to a user and
   // updates their old email to a new bad domain email, we will catch that
   // new bad domain here.
-  await processAutomaticBanPremodForNewUser(mongo, tenant, user);
+  await processAutomaticBanForUser(mongo, tenant, user);
 
   return user;
 }
