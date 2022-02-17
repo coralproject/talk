@@ -30,7 +30,8 @@ interface Props {
   onChangeModerationScopes: (siteIDs: string[]) => Promise<void>;
   onChangeMembershipScopes: (siteIDs: string[]) => Promise<void>;
   role: GQLUSER_ROLE_RL;
-  scoped?: boolean;
+  moderationScoped?: boolean;
+  membershipScoped?: boolean;
   moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
   membershipScopes: UserRoleChangeContainer_user["membershipScopes"];
   moderationScopesEnabled?: boolean;
@@ -39,7 +40,8 @@ interface Props {
 const UserRoleChange: FunctionComponent<Props> = ({
   username,
   role,
-  scoped,
+  membershipScoped,
+  moderationScoped,
   onChangeRole,
   onChangeModerationScopes,
   moderationScopes,
@@ -138,9 +140,16 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   onClick={onClick(GQLUSER_ROLE.COMMENTER)}
                 />
                 <UserRoleChangeButton
-                  active={role === GQLUSER_ROLE.MEMBER}
+                  active={!membershipScoped && role === GQLUSER_ROLE.MEMBER}
                   role={GQLUSER_ROLE.MEMBER}
                   moderationScopesEnabled={moderationScopesEnabled}
+                  scoped // TODO (marcushaddon): hmm
+                  onClick={onClick(GQLUSER_ROLE.MEMBER)}
+                />
+                <UserRoleChangeButton
+                  active={membershipScoped && role === GQLUSER_ROLE.MEMBER}
+                  role={GQLUSER_ROLE.MEMBER}
+                  moderationScopesEnabled={moderationScopesEnabled} // TODO (marcushaddon): hmm
                   scoped
                   onClick={() => {
                     setSiteRole(GQLUSER_ROLE.MEMBER);
@@ -155,7 +164,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 />
                 {moderationScopesEnabled && (
                   <UserRoleChangeButton
-                    active={scoped && role === GQLUSER_ROLE.MODERATOR}
+                    active={moderationScoped && role === GQLUSER_ROLE.MODERATOR}
                     role={GQLUSER_ROLE.MODERATOR}
                     scoped
                     moderationScopesEnabled
@@ -168,7 +177,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 <UserRoleChangeButton
                   active={
                     (!moderationScopesEnabled ||
-                      (moderationScopesEnabled && !scoped)) &&
+                      (moderationScopesEnabled && !moderationScoped)) &&
                     role === GQLUSER_ROLE.MODERATOR
                   }
                   role={GQLUSER_ROLE.MODERATOR}
@@ -202,7 +211,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
               >
                 <UserRoleText
                   moderationScopesEnabled={moderationScopesEnabled}
-                  scoped={scoped}
+                  scoped={moderationScoped}
                   role={role}
                 />
                 <ButtonIcon size="lg">
