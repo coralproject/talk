@@ -65,6 +65,7 @@ export const settings = createFixture<GQLSettings>({
     staffLabel: "Staff",
     moderatorLabel: "Staff",
     adminLabel: "Staff",
+    memberLabel: "Member",
   },
   memberBios: true,
   reaction: {
