@@ -53,7 +53,7 @@ const SiteRoleModalSites: FunctionComponent<Props> = ({ selectedSiteIDs }) => {
 
   return (
     <>
-      <Localized id="community-SiteRoleModal-selectSites">
+      <Localized id="community-siteRoleModal-selectSites">
         <Label>Select sites to moderate</Label>
       </Localized>
       {candidateSites.map((siteID) => {
