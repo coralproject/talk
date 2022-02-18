@@ -78,7 +78,7 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                 <form onSubmit={handleSubmit}>
                   <HorizontalGutter spacing={3}>
                     <Localized
-                      id="community-SiteRoleModal-assignSites"
+                      id="community-siteRoleModal-assignSites"
                       strong={<ModalHeaderUsername />}
                       $username={username || notAvailableTranslation}
                     >
@@ -92,7 +92,7 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                         {submitError}
                       </CallOut>
                     )}
-                    <Localized id="community-SiteRoleModal-assignSitesDescription">
+                    <Localized id="community-siteRoleModal-assignSitesDescription">
                       <ModalBodyText>
                         Site moderators are permitted to make moderation
                         decisions and issue suspensions on the sites they are
@@ -101,12 +101,12 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                     </Localized>
                     <SiteRoleModalSites selectedSiteIDs={selectedSiteIDs} />
                     <Flex justifyContent="flex-end" itemGutter="half">
-                      <Localized id="community-SiteRoleModal-cancel">
+                      <Localized id="community-siteRoleModal-cancel">
                         <Button variant="flat" onClick={onCancel}>
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="community-SiteRoleModal-assign">
+                      <Localized id="community-siteRoleModal-assign">
                         <Button
                           type="submit"
                           disabled={submitting || values.siteIDs.length === 0}

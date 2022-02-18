@@ -184,7 +184,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     )}
                     {mode === "promote" ? (
                       <>
-                        <Localized id="community-SiteRolesArePermitted">
+                        <Localized id="community-siteRolesArePermitted">
                           <ModalBodyText>
                             Site moderators are permitted to make moderation
                             decisions and issue suspensions on the sites they
@@ -229,13 +229,13 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                       </>
                     )}
                     <Flex justifyContent="flex-end" itemGutter="half">
-                      <Localized id="community-SiteRoleModal-cancel">
+                      <Localized id="community-siteRoleModal-cancel">
                         <Button variant="flat" onClick={onCancel}>
                           Cancel
                         </Button>
                       </Localized>
                       {mode === "promote" ? (
-                        <Localized id="community-SiteRoleModal-assign">
+                        <Localized id="community-siteRoleModal-assign">
                           <Button
                             type="submit"
                             disabled={
@@ -248,7 +248,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                           </Button>
                         </Localized>
                       ) : (
-                        <Localized id="community-SiteRoleModal-remove">
+                        <Localized id="community-siteRoleModal-remove">
                           <Button
                             type="submit"
                             color="alert"
@@ -271,11 +271,11 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
         )}
       </Modal>
       <Localized
-        id="community-SiteRoleActions-popover"
+        id="community-siteRoleActions-popover"
         attrs={{ description: true }}
       >
         <Popover
-          id="community-SiteRoleActions"
+          id="community-siteRoleActions"
           placement="bottom-start"
           description="A dropdown to promote/demote a user to/from sites"
           visible={isPopoverVisible}
