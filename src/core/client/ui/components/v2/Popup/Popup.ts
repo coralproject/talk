@@ -208,7 +208,7 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
   };
 
   useEffect(() => {
-    if (props.open && !ref) {
+    if (props.open && !ref && !previousOpen) {
       openWindow(props);
     }
     if (previousOpen && !props.open) {
