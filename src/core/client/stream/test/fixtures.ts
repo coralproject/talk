@@ -99,6 +99,7 @@ export const settings = createFixture<GQLSettings>({
     adminLabel: "Staff",
     moderatorLabel: "Staff",
     staffLabel: "Staff",
+    memberLabel: "Member",
   },
   reaction: {
     icon: "thumb_up",

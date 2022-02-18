@@ -1274,7 +1274,7 @@ community-column-status = Status
 community-role-popover =
   .description = A dropdown to change the user role
 
-community-siteModeratorActions-popover =
+community-siteRoleActions-popover =
   .description = A dropdown to promote/demote a user to/from sites
 
 community-userStatus-popover =
