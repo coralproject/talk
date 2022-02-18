@@ -140,13 +140,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   onClick={onClick(GQLUSER_ROLE.COMMENTER)}
                 />
                 <UserRoleChangeButton
-                  active={!membershipScoped && role === GQLUSER_ROLE.MEMBER}
-                  role={GQLUSER_ROLE.MEMBER}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  scoped // TODO (marcushaddon): hmm
-                  onClick={onClick(GQLUSER_ROLE.MEMBER)}
-                />
-                <UserRoleChangeButton
                   active={membershipScoped && role === GQLUSER_ROLE.MEMBER}
                   role={GQLUSER_ROLE.MEMBER}
                   moderationScopesEnabled={moderationScopesEnabled} // TODO (marcushaddon): hmm
@@ -155,6 +148,13 @@ const UserRoleChange: FunctionComponent<Props> = ({
                     setSiteRole(GQLUSER_ROLE.MEMBER);
                     setPopoverVisibility(false);
                   }}
+                />
+                <UserRoleChangeButton
+                  active={!membershipScoped && role === GQLUSER_ROLE.MEMBER}
+                  role={GQLUSER_ROLE.MEMBER}
+                  moderationScopesEnabled
+                  scoped={false} // TODO (marcushaddon): hmm
+                  onClick={onClick(GQLUSER_ROLE.MEMBER)}
                 />
                 <UserRoleChangeButton
                   active={role === GQLUSER_ROLE.STAFF}
@@ -211,7 +211,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
               >
                 <UserRoleText
                   moderationScopesEnabled={moderationScopesEnabled}
-                  scoped={moderationScoped}
+                  scoped={moderationScoped || membershipScoped}
                   role={role}
                 />
                 <ButtonIcon size="lg">
