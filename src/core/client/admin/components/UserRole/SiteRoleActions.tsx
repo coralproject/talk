@@ -184,7 +184,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     )}
                     {mode === "promote" ? (
                       <>
-                        <Localized id="community-siteRolesArePermitted">
+                        <Localized id="community-siteModeratorsArePermitted">
                           <ModalBodyText>
                             Site moderators are permitted to make moderation
                             decisions and issue suspensions on the sites they
