@@ -146,7 +146,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
       <Modal
         open={isModalVisible}
         onClose={onCancel}
-        data-testid="SiteRoleActions-modal"
+        data-testid="siteRoleActions-modal"
       >
         {({ firstFocusableRef, lastFocusableRef }) => (
           <Card className={styles.modal}>

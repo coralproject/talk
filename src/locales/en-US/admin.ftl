@@ -1253,7 +1253,7 @@ community-userNoLongerPermitted = User will no longer be permitted to make moder
 community-assignThisUser = Assign this user to
 community-assignYourSitesTo = Assign your sites to <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
-community-removeSiteModeratorPermissions = Remove Site Moderator permissions
+community-removeSiteRolePermissions = Remove Site Moderator permissions
 
 community-filter-optGroupAudience =
   .label = Audience

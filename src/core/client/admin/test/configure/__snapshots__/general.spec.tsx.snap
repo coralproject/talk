@@ -1649,14 +1649,14 @@ appears on the comment stream and in the admin interface.
                         <input
                           className="TextField-input TextField-colorRegular"
                           disabled={false}
-                          id="staff.adminLabel"
-                          name="staff.adminLabel"
+                          id="badges.adminLabel"
+                          name="badges.adminLabel"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
                           placeholder="E.g. Staff"
                           type="text"
-                          value=""
+                          value="Staff"
                         />
                       </div>
                     </div>
@@ -1669,7 +1669,11 @@ appears on the comment stream and in the admin interface.
                     >
                       Preview
                     </p>
-                    
+                    <span
+                      className="Tag-root Tag-colorGrey Tag-uppercase"
+                    >
+                      Staff
+                    </span>
                   </div>
                 </div>
                 <div
@@ -1692,14 +1696,14 @@ appears on the comment stream and in the admin interface.
                         <input
                           className="TextField-input TextField-colorRegular"
                           disabled={false}
-                          id="staff.moderatorLabel"
-                          name="staff.moderatorLabel"
+                          id="badges.moderatorLabel"
+                          name="badges.moderatorLabel"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
                           placeholder="E.g. Staff"
                           type="text"
-                          value=""
+                          value="Staff"
                         />
                       </div>
                     </div>
@@ -1712,7 +1716,11 @@ appears on the comment stream and in the admin interface.
                     >
                       Preview
                     </p>
-                    
+                    <span
+                      className="Tag-root Tag-colorGrey Tag-uppercase"
+                    >
+                      Staff
+                    </span>
                   </div>
                 </div>
                 <div
@@ -1735,14 +1743,14 @@ appears on the comment stream and in the admin interface.
                         <input
                           className="TextField-input TextField-colorRegular"
                           disabled={false}
-                          id="staff.staffLabel"
-                          name="staff.staffLabel"
+                          id="badges.staffLabel"
+                          name="badges.staffLabel"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
                           placeholder="E.g. Staff"
                           type="text"
-                          value=""
+                          value="Staff"
                         />
                       </div>
                     </div>
@@ -1755,7 +1763,58 @@ appears on the comment stream and in the admin interface.
                     >
                       Preview
                     </p>
-                    
+                    <span
+                      className="Tag-root Tag-colorGrey Tag-uppercase"
+                    >
+                      Staff
+                    </span>
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                  >
+                    <label
+                      className="Label-root"
+                    >
+                      Staff member badge text
+                    </label>
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                    >
+                      <div
+                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="badges.memberLabel"
+                          name="badges.memberLabel"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Staff"
+                          type="text"
+                          value="Member"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <p
+                      className="Label-root"
+                    >
+                      Preview
+                    </p>
+                    <span
+                      className="Tag-root Tag-colorGrey Tag-uppercase"
+                    >
+                      Member
+                    </span>
                   </div>
                 </div>
               </fieldset>

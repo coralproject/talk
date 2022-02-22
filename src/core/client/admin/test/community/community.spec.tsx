@@ -319,12 +319,11 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
       .props.onClick();
   });
 
-  const modal = within(container).getByTestID("site-moderator-modal");
+  const modal = within(container).getByTestID("site-role-modal");
 
   // The submit button should be disabled until at least 1 site is selected
   expect(
-    within(modal).getByTestID("site-moderator-modal-submitButton").props
-      .disabled
+    within(modal).getByTestID("site-role-modal-submitButton").props.disabled
   ).toBe(true);
 
   const siteSearchField = within(modal).getByTestID("site-search-textField");
@@ -411,7 +410,7 @@ it("promote user role as a site moderator", async () => {
       .props.onClick();
   });
 
-  const modal = within(container).getByTestID("siteModeratorActions-modal");
+  const modal = within(container).getByTestID("siteRoleActions-modal");
 
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
@@ -468,7 +467,7 @@ it("demote user role as a site moderator", async () => {
       .props.onClick();
   });
 
-  const modal = within(container).getByTestID("siteModeratorActions-modal");
+  const modal = within(container).getByTestID("siteRoleActions-modal");
 
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
