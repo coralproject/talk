@@ -49,7 +49,7 @@ import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
-import AllCommentsTabCommentVirtual from "./AllCommentsTabVirtual";
+import AllCommentsTabCommentVirtual from "./AllCommentsTabCommentVirtual";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
