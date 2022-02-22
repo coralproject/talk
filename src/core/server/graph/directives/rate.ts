@@ -1,4 +1,4 @@
-import { DirectiveResolverFn } from "@graphql-tools/utils";
+import { DirectiveResolverFn } from "apollo-server-express";
 import { DateTime } from "luxon";
 
 import { RateLimitExceeded } from "coral-server/errors";
