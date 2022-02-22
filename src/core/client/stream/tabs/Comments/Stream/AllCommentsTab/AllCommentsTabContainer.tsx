@@ -283,8 +283,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             isLoadingMore={isLoadingMore}
             loadMoreAndEmit={loadMoreAndEmit}
             hasMore={hasMore}
-            // alternateOldestViewEnabled={alternateOldestViewEnabled}
-            // showGoToDiscussions={showGoToDiscussions}
           />
         )}
         {!alternateOldestViewEnabled && (
