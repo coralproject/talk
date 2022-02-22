@@ -24,7 +24,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Sign In</title><subtitle>to join the conversation<subtitle>
+  <title>Sign In</title><subtitle>to join the conversation</subtitle>
 
 signIn-signInWithEmail = Inicie sesión con correo
 signIn-signInWithFacebook = Inicie sesión con Facebook
@@ -55,7 +55,7 @@ signUp-accountAvailableSignIn = ¿Ya tienes una cuenta? <textlink>Iniciar sesió
 
 forgotPassword-forgotPasswordHeader = ¿Se te olvidó tu contraseña?
 forgotPassword-enterEmailAndGetALink =
-  Ingrese su dirección de correo electrónico a continuación y 
+  Ingrese su dirección de correo electrónico a continuación y
   le enviaremos un enlace para restablecer su contraseña.
 
 forgotPassword-sendEmailButton = Enviar correo electrónico
@@ -93,7 +93,7 @@ createUsername-createUsernameButton = Crear nombre de usuario
 addEmailAddress-addEmailAddressHeader = Agregar una dirección de correo electrónico
 
 addEmailAddress-whatItIs =
-  Para su seguridad, requerimos que los usuarios agreguen 
+  Para su seguridad, requerimos que los usuarios agreguen
   una dirección de correo electrónico a sus cuentas.
   Su dirección de correo electrónico se utilizará para:
 
@@ -113,7 +113,7 @@ addEmailAddress-addEmailAddressButton =
 ## Create Password
 createPassword-createPasswordHeader = Crear contraseña
 createPassword-whatItIs =
-  Para protegerse contra cambios no autorizados en su cuenta, 
+  Para protegerse contra cambios no autorizados en su cuenta,
   requerimos que los usuarios creen una contraseña.
 createPassword-createPasswordButton =
   Crear contraseña

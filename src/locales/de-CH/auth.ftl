@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Anmelden</title><subtitle>um an der Diskussion teilzunehmen<subtitle>
+  <title>Anmelden</title><subtitle>um an der Diskussion teilzunehmen</subtitle>
 
 signIn-signInWithEmail = Mit Email anmelden
 signIn-signInWithFacebook = Mit Facebook anmelden
@@ -70,7 +70,7 @@ forgotPassword-enterEmailAndGetALink =
 
 # Check Email
 
-forgotPassword-checkEmail-checkEmailHeader = 
+forgotPassword-checkEmail-checkEmailHeader =
   Bitte überprüfe deine Email
 forgotPassword-checkEmail-receiveEmail =
   Wenn ein Account mit <email></email> existiert, wirst du eine
