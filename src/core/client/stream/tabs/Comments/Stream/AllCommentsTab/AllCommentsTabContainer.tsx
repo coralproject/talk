@@ -44,12 +44,9 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
-// import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
-// import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
-// import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
@@ -271,59 +268,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         alternateOldestViewEnabled={alternateOldestViewEnabled}
         showGoToDiscussions={showGoToDiscussions}
       />
-      {/* <HorizontalGutter
-        id="comments-allComments-log"
-        data-testid="comments-allComments-log"
-        size="oneAndAHalf"
-        role="log"
-        aria-live="off"
-        spacing={commentSeenEnabled ? 0 : undefined}
-      >
-        {story.comments.edges.length <= 0 && (
-          <NoComments
-            mode={story.settings.mode}
-            isClosed={story.isClosed}
-            tag={tag}
-          />
-        )}
-        {story.comments.edges.length > 0 &&
-          story.comments.edges.map(({ node: comment }, index) => (
-            <AllCommentsTabCommentContainer
-              key={comment.id}
-              viewer={viewer}
-              comment={comment}
-              story={story}
-              settings={settings}
-              isLast={index === story.comments.edges.length - 1}
-            />
-          ))}
-        {hasMore && (
-          <Localized id="comments-loadMore">
-            <Button
-              key={`comments-loadMore-${story.comments.edges.length}`}
-              id="comments-loadMore"
-              onClick={loadMoreAndEmit}
-              color="secondary"
-              variant="outlined"
-              fullWidth
-              disabled={isLoadingMore}
-              aria-controls="comments-allComments-log"
-              className={CLASSES.allCommentsTabPane.loadMoreButton}
-              // Added for keyboard shortcut support.
-              data-key-stop
-              data-is-load-more
-            >
-              Load More
-            </Button>
-          </Localized>
-        )}
-        {!alternateOldestViewEnabled && (
-          <CommentsLinks
-            showGoToDiscussions={showGoToDiscussions}
-            showGoToProfile={!!viewer}
-          />
-        )}
-      </HorizontalGutter> */}
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
           <IntersectionProvider>

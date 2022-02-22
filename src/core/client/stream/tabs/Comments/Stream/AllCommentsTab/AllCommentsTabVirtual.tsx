@@ -1,9 +1,6 @@
-// import { Localized } from "@fluent/react/compat";
-// import CLASSES from "coral-stream/classes";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
-// import { Button } from "coral-ui/components/v3";
 import React, { FunctionComponent } from "react";
 import { Virtuoso } from "react-virtuoso";
 import CommentsLinks from "../CommentsLinks";
@@ -38,39 +35,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         style={{ height: 600 }}
         data={comments}
         overscan={20}
-        // components={{
-        //   Footer: () => {
-        //     return (
-        //       <div
-        //         style={{
-        //           padding: "1rem",
-        //           textAlign: "center",
-        //         }}
-        //       >
-        //         {hasMore && (
-        //           <Localized id="comments-loadMore">
-        //             <Button
-        //               key={`comments-loadMore-${story.comments.edges.length}`}
-        //               id="comments-loadMore"
-        //               onClick={loadMoreAndEmit}
-        //               color="secondary"
-        //               variant="outlined"
-        //               fullWidth
-        //               disabled={isLoadingMore}
-        //               aria-controls="comments-allComments-log"
-        //               className={CLASSES.allCommentsTabPane.loadMoreButton}
-        //               // Added for keyboard shortcut support.
-        //               data-key-stop
-        //               data-is-load-more
-        //             >
-        //               Load More
-        //             </Button>
-        //           </Localized>
-        //         )}
-        //       </div>
-        //     );
-        //   },
-        // }}
         endReached={() => {
           if (hasMore && !isLoadingMore) {
             loadMoreAndEmit();
