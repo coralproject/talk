@@ -1,5 +1,5 @@
 {
-  "schema": "./src/core/server/graph/schema/schema.graphql",
+  "schema": "__generated__/combined.install.graphql",
   "src": "./src/core/client/install",
   "artifactDirectory": "./src/core/client/install/__generated__",
   "language": "typescript",

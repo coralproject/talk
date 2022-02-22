@@ -1,5 +1,5 @@
 {
-  "schema": "./src/core/server/graph/schema/schema.graphql",
+  "schema": "__generated__/combined.auth.graphql",
   "src": "./src/core/client/auth",
   "artifactDirectory": "./src/core/client/auth/__generated__",
   "language": "typescript",
