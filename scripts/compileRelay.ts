@@ -38,8 +38,6 @@ if (schemaConfig.length > 1) {
   process.exit(1);
 }
 
-const schema = schemaConfig[0];
-
 if (!program.bundle) {
   // eslint-disable-next-line no-console
   console.error("bundle not provided");
@@ -52,24 +50,8 @@ if (!config.projects) {
   process.exit(1);
 }
 
-const args = [
-  "--language",
-  "typescript",
-  "--no-watchman",
-  "--customScalars.Time=String",
-  "--customScalars.Cursor=unknown",
-  "--customScalars.Locale=string",
-  "--src",
-  CLIENT_ROOT,
-  "--include",
-  `./framework/**`,
-  "--include",
-  `./${program.bundle}/**`,
-  "--artifactDirectory",
-  `${CLIENT_ROOT}/${program.bundle}/__generated__`,
-  "--schema",
-  schema,
-];
+const configFileName = `relay-${program.bundle}.config.json`;
+const args = ["--config", configFileName];
 
 // Set the persisted query path.
 const persist = program.persist
@@ -79,8 +61,19 @@ if (persist) {
   args.push("--persist-output", persist);
 }
 
-spawn.sync("relay-compiler", args, { stdio: "inherit" });
+// Create the artifact directory if it doesn't exist
+const rawConfig = fs.readFileSync(configFileName).toString();
+const jsonConfig = JSON.parse(rawConfig);
+if (!fs.existsSync(jsonConfig.artifactDirectory)) {
+  fs.mkdirSync(jsonConfig.artifactDirectory);
+}
 
+// Run the relay compiler
+spawn.sync(`npm run relay`, args, {
+  stdio: "inherit",
+});
+
+// Create persisted queries directory
 if (persist) {
   if (fs.existsSync(persist)) {
     // Create the new filename.

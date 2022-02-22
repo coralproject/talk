@@ -1,0 +1,11 @@
+{
+  "schema": "./src/core/server/graph/schema/schema.graphql",
+  "src": "./src/core/client/account",
+  "artifactDirectory": "./src/core/client/account/__generated__",
+  "language": "typescript",
+  "customScalars": {
+    "Time": "String",
+    "Cursor": "unknown",
+    "Locale": "string"
+  }
+}
