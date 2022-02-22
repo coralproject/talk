@@ -67,7 +67,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
         query UnansweredCommentsTabQuery(
           $storyID: ID
           $storyURL: String
-          $commentsOrderBy: COMMENT_SORT
+          $commentsOrderBy: COMMENT_SORT!
           $flattenReplies: Boolean!
         ) {
           viewer {

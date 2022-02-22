@@ -90,7 +90,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         query AllCommentsTabQuery(
           $storyID: ID
           $storyURL: String
-          $commentsOrderBy: COMMENT_SORT
+          $commentsOrderBy: COMMENT_SORT!
           $tag: TAG
           $storyMode: STORY_MODE
           $flattenReplies: Boolean!
