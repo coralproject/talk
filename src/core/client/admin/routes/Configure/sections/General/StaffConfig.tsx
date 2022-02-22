@@ -51,7 +51,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
         appears on the comment stream and in the admin interface.
       </FormFieldDescription>
     </Localized>
-    <Field name="staff.adminLabel" validate={required}>
+    <Field name="badges.adminLabel" validate={required}>
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>
@@ -80,7 +80,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Flex>
       )}
     </Field>
-    <Field name="staff.moderatorLabel" validate={required}>
+    <Field name="badges.moderatorLabel" validate={required}>
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>
@@ -109,7 +109,36 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Flex>
       )}
     </Field>
-    <Field name="staff.staffLabel" validate={required}>
+    <Field name="badges.staffLabel" validate={required}>
+      {({ input, meta }) => (
+        <Flex itemGutter="double">
+          <FormField>
+            <Localized id="configure-general-staff-member-label">
+              <Label>Staff member badge text</Label>
+            </Localized>
+            <Localized id="configure-general-staff-input">
+              <TextFieldWithValidation
+                {...input}
+                className={styles.textInput}
+                id={input.name}
+                type="text"
+                fullWidth
+                placeholder="E.g. Staff"
+                disabled={disabled}
+                meta={meta}
+              />
+            </Localized>
+          </FormField>
+          <HorizontalGutter>
+            <Localized id="configure-general-staff-preview">
+              <Label component="p">Preview</Label>
+            </Localized>
+            {input.value && <Tag>{input.value}</Tag>}
+          </HorizontalGutter>
+        </Flex>
+      )}
+    </Field>
+    <Field name="badges.memberLabel" validate={required}>
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>

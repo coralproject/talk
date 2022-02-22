@@ -111,7 +111,7 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                           type="submit"
                           disabled={submitting || values.siteIDs.length === 0}
                           ref={lastFocusableRef}
-                          data-testid="site-moderator-modal-submitButton"
+                          data-testid="site-role-modal-submitButton"
                         >
                           Assign
                         </Button>
