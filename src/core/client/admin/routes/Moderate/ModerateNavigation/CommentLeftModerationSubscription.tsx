@@ -6,19 +6,16 @@ import {
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 
-import { ModerationCountsSubscription } from "coral-admin/__generated__/ModerationCountsSubscription.graphql";
+import { CommentLeftModerationSubscription } from "coral-admin/__generated__/CommentLeftModerationSubscription.graphql";
 
-const ModerationCountsSubscription = createSubscription(
+const CommentLeftModerationSubscription = createSubscription(
   "subscribeToCounts",
   (
     environment: Environment,
-    variables: SubscriptionVariables<ModerationCountsSubscription>
+    variables: SubscriptionVariables<CommentLeftModerationSubscription>
   ) => ({
     subscription: graphql`
-      subscription ModerationCountsSubscription($storyID: ID) {
-        commentEnteredModerationQueue(storyID: $storyID) {
-          queue
-        }
+      subscription CommentLeftModerationSubscription($storyID: ID) {
         commentLeftModerationQueue(storyID: $storyID) {
           queue
         }
@@ -29,12 +26,8 @@ const ModerationCountsSubscription = createSubscription(
       let queue: string;
       let change: number;
 
-      const enteredRoot = store.getRootField("commentEnteredModerationQueue");
       const leftRoot = store.getRootField("commentLeftModerationQueue");
-      if (enteredRoot) {
-        queue = enteredRoot.getValue("queue") as string;
-        change = +1;
-      } else if (leftRoot) {
+      if (leftRoot) {
         queue = leftRoot.getValue("queue") as string;
         change = -1;
       } else {
@@ -61,4 +54,4 @@ const ModerationCountsSubscription = createSubscription(
   })
 );
 
-export default ModerationCountsSubscription;
+export default CommentLeftModerationSubscription;

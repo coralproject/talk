@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 
+import { execSync } from "child_process";
 import program from "commander";
-import spawn from "cross-spawn";
 import fs from "fs-extra";
 import { loadConfigSync } from "graphql-config";
 
@@ -69,7 +69,7 @@ if (!fs.existsSync(jsonConfig.artifactDirectory)) {
 }
 
 // Run the relay compiler
-spawn.sync(`npm run relay`, args, {
+execSync(`npm run relay --config ${configFileName}`, {
   stdio: "inherit",
 });
 

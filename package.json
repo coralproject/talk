@@ -33,6 +33,8 @@
     "docz": "docz",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
+    "generate:combineSchema": "npm-run-all --parallel generate:combineSchema:*",
+    "generate:combineSchema:admin": "node ./scripts/combineSchema/admin.js",
     "relay": "relay-compiler",
     "generate:relay-persist": "npm-run-all --parallel 'generate:relay:* -- --persist'",
     "generate:relay:account": "ts-node --transpile-only ./scripts/compileRelay --bundle account",
