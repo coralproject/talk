@@ -147,6 +147,7 @@
     "proxy-agent": "^3.1.1",
     "querystringify": "^2.1.1",
     "re2": "^1.16.0",
+    "react-virtuoso": "^2.7.1",
     "source-map-support": "^0.5.16",
     "stack-utils": "^2.0.1",
     "striptags": "^3.1.1",

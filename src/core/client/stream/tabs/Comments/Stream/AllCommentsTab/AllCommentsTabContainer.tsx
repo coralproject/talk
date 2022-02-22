@@ -44,16 +44,17 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
-import { useCommentSeenEnabled } from "../../commentSeen";
+// import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
-import NoComments from "../NoComments";
+// import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
-import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
+// import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
+import AllCommentsTabCommentVirtual from "./AllCommentsTabVirtual";
 
 interface Props {
   story: AllCommentsTabContainer_story;
@@ -150,7 +151,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [setLocal]
   );
 
-  const commentSeenEnabled = useCommentSeenEnabled();
+  // const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
@@ -260,7 +261,17 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           </Button>
         </Box>
       )}
-      <HorizontalGutter
+      <AllCommentsTabCommentVirtual
+        settings={settings}
+        viewer={viewer}
+        story={story}
+        isLoadingMore={isLoadingMore}
+        loadMoreAndEmit={loadMoreAndEmit}
+        hasMore={hasMore}
+        alternateOldestViewEnabled={alternateOldestViewEnabled}
+        showGoToDiscussions={showGoToDiscussions}
+      />
+      {/* <HorizontalGutter
         id="comments-allComments-log"
         data-testid="comments-allComments-log"
         size="oneAndAHalf"
@@ -312,7 +323,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             showGoToProfile={!!viewer}
           />
         )}
-      </HorizontalGutter>
+      </HorizontalGutter> */}
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
           <IntersectionProvider>
@@ -386,12 +397,14 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
+              seen
               ...AllCommentsTabCommentContainer_comment
             }
           }
           edges {
             node {
               id
+              seen
               ...AllCommentsTabCommentContainer_comment
             }
           }
