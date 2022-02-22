@@ -1,20 +1,19 @@
+import React, { FunctionComponent } from "react";
+import { Virtuoso } from "react-virtuoso";
+
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
-import React, { FunctionComponent } from "react";
-import { Virtuoso } from "react-virtuoso";
-import CommentsLinks from "../CommentsLinks";
+
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 
 interface Props {
   settings: AllCommentsTabContainer_settings;
   viewer: AllCommentsTabContainer_viewer | null;
   story: AllCommentsTabContainer_story;
-  loadMoreAndEmit: any;
+  loadMoreAndEmit: () => {};
   hasMore: boolean;
   isLoadingMore: boolean;
-  alternateOldestViewEnabled: boolean;
-  showGoToDiscussions: any;
 }
 
 const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
@@ -24,13 +23,17 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   loadMoreAndEmit,
   hasMore,
   isLoadingMore,
-  alternateOldestViewEnabled,
-  showGoToDiscussions,
 }) => {
   const comments = story.comments.edges;
   return (
     <>
       <Virtuoso
+        {...(process.env.NODE_ENV === "test"
+          ? {
+              initialItemCount: comments.length,
+              key: comments.length,
+            }
+          : {})}
         useWindowScroll
         style={{ height: 600 }}
         data={comments}
@@ -52,13 +55,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           );
         }}
       />
-      {!alternateOldestViewEnabled && (
-        // TODO: Would need to update Top of comments link to scroll to top of comments
-        <CommentsLinks
-          showGoToDiscussions={showGoToDiscussions}
-          showGoToProfile={!!viewer}
-        />
-      )}
     </>
   );
 };

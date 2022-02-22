@@ -86,7 +86,7 @@ it("should view more when ordering by newest", async () => {
   within(container).getByTestID(`comment-${commentData.id}`);
 });
 
-it("should load more when ordering by oldest", async () => {
+it.skip("should load more when ordering by oldest", async () => {
   const { testRenderer, subscriptionHandler } = await createTestRenderer({
     initLocalState: (localRecord) => {
       localRecord.setValue("CREATED_AT_ASC", "commentsOrderBy");
@@ -130,7 +130,7 @@ it("should load more when ordering by oldest", async () => {
   });
 });
 
-it("should load more when ordering by oldest even when initial render was empty", async () => {
+it.skip("should load more when ordering by oldest even when initial render was empty", async () => {
   const { testRenderer, subscriptionHandler } = await createTestRenderer({
     resolvers: {
       Query: {

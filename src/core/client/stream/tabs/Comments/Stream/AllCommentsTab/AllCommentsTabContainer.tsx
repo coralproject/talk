@@ -44,14 +44,16 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
+import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
+import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
+import AllCommentsTabCommentVirtual from "./AllCommentsTabVirtual";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
-import AllCommentsTabCommentVirtual from "./AllCommentsTabVirtual";
 
 interface Props {
   story: AllCommentsTabContainer_story;
@@ -148,6 +150,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [setLocal]
   );
 
+  const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
@@ -257,16 +260,41 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           </Button>
         </Box>
       )}
-      <AllCommentsTabCommentVirtual
-        settings={settings}
-        viewer={viewer}
-        story={story}
-        isLoadingMore={isLoadingMore}
-        loadMoreAndEmit={loadMoreAndEmit}
-        hasMore={hasMore}
-        alternateOldestViewEnabled={alternateOldestViewEnabled}
-        showGoToDiscussions={showGoToDiscussions}
-      />
+      <HorizontalGutter
+        id="comments-allComments-log"
+        data-testid="comments-allComments-log"
+        size="oneAndAHalf"
+        role="log"
+        aria-live="off"
+        spacing={commentSeenEnabled ? 0 : undefined}
+      >
+        {story.comments.edges.length <= 0 && (
+          <NoComments
+            mode={story.settings.mode}
+            isClosed={story.isClosed}
+            tag={tag}
+          />
+        )}
+        {story.comments.edges.length > 0 && (
+          <AllCommentsTabCommentVirtual
+            settings={settings}
+            viewer={viewer}
+            story={story}
+            isLoadingMore={isLoadingMore}
+            loadMoreAndEmit={loadMoreAndEmit}
+            hasMore={hasMore}
+            // alternateOldestViewEnabled={alternateOldestViewEnabled}
+            // showGoToDiscussions={showGoToDiscussions}
+          />
+        )}
+        {!alternateOldestViewEnabled && (
+          // TODO: Would need to update Top of comments link to scroll to top of comments
+          <CommentsLinks
+            showGoToDiscussions={showGoToDiscussions}
+            showGoToProfile={!!viewer}
+          />
+        )}
+      </HorizontalGutter>
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
           <IntersectionProvider>
