@@ -148,7 +148,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [setLocal]
   );
 
-  // const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
@@ -341,14 +340,12 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
-              seen
               ...AllCommentsTabCommentContainer_comment
             }
           }
           edges {
             node {
               id
-              seen
               ...AllCommentsTabCommentContainer_comment
             }
           }
