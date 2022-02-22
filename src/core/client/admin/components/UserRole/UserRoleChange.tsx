@@ -153,7 +153,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   active={!membershipScoped && role === GQLUSER_ROLE.MEMBER}
                   role={GQLUSER_ROLE.MEMBER}
                   moderationScopesEnabled
-                  scoped={false} // TODO (marcushaddon): hmm
+                  scoped={false}
                   onClick={onClick(GQLUSER_ROLE.MEMBER)}
                 />
                 <UserRoleChangeButton
