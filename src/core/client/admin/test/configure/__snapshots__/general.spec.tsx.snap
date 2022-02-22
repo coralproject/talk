@@ -1577,7 +1577,7 @@ each other's comments.
                 <legend
                   className="Header-root"
                 >
-                  Staff member badge
+                  Member badges
                 </legend>
               </div>
               <div />
@@ -1591,8 +1591,8 @@ each other's comments.
                 <p
                   className="FormFieldDescription-root"
                 >
-                  Show a custom badge for staff members of your organization. This badge
-appears on the comment stream and in the admin interface.
+                  Show a custom badge for users with specified roles. This badge appears
+on the comment stream and in the admin interface.
                 </p>
                 <div
                   className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
@@ -1744,7 +1744,7 @@ appears on the comment stream and in the admin interface.
                     <label
                       className="Label-root"
                     >
-                      Staff member badge text
+                      Member badge text
                     </label>
                     <div
                       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"

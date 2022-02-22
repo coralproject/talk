@@ -161,7 +161,7 @@ export async function findOrCreateSSOUser(
       {
         id,
         username,
-        role: role || GQLUSER_ROLE.COMMENTER, // MARCUS: pretty sure this is correct, but confirm
+        role: role || GQLUSER_ROLE.COMMENTER,
         ssoURL: url,
         avatar,
         badges,

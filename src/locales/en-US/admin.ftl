@@ -1505,23 +1505,24 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
-configure-general-staff-title = Staff member badge
-configure-general-staff-explanation =
-  Show a custom badge for staff members of your organization. This badge
-  appears on the comment stream and in the admin interface.
-configure-general-staff-label = Badge text
-configure-general-staff-input =
+configure-general-badges-title = Member badges
+configure-general-badges-explanation =
+  Show a custom badge for users with specified roles. This badge appears
+  on the comment stream and in the admin interface.
+configure-general-badges-label = Badge text
+configure-general-badges-staff-member-input =
   .placeholder = E.g. Staff
-configure-general-staff-moderator-input =
+configure-general-badges-moderator-input =
   .placeholder = E.g. Moderator
-configure-general-staff-admin-input =
+configure-general-badges-admin-input =
   .placeholder = E.g. Admin
-configure-general-staff-preview = Preview
-configure-general-staff-moderator-preview = Preview
-configure-general-staff-admin-preview = Preview
-configure-general-staff-member-label = Staff member badge text
-configure-general-staff-admin-label = Admin badge text
-configure-general-staff-moderator-label = Moderator badge text
+configure-general-badges-member-input =
+  .placeholder = E.g. Member
+configure-general-badges-preview = Preview
+configure-general-badges-staff-member-label = Staff member badge text
+configure-general-badges-admin-label = Admin badge text
+configure-general-badges-moderator-label = Moderator badge text
+configure-general-badges-member-label = Member badge text
 
 configure-general-rte-title = Rich-text comments
 configure-general-rte-express = Give your community more ways to express themselves beyond plain text with rich-text formatting.

@@ -158,7 +158,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
         this.mongo,
         tenant,
         {
-          role: GQLUSER_ROLE.COMMENTER, // MARCUS: pretty sure this is still correct
+          role: GQLUSER_ROLE.COMMENTER,
           email,
           emailVerified: false,
           avatar: picture?.data.url,
