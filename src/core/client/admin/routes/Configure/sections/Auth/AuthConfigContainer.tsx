@@ -22,7 +22,7 @@ import { GQLSettings } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/AuthConfigContainer_auth.graphql";
-import { AuthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
+import { AuthConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
 
 import AccountFeaturesConfig from "./AccountFeaturesConfig";
 import AuthIntegrationsConfig from "./AuthIntegrationsConfig";

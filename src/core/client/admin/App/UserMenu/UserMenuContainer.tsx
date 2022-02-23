@@ -7,7 +7,7 @@ import {
   withSignOutMutation,
 } from "coral-framework/mutations";
 
-import { UserMenuContainer_viewer as ViewerData } from "coral-admin/__generated__/UserMenuContainer_viewer.graphql";
+import { UserMenuContainer_viewer$data as ViewerData } from "coral-admin/__generated__/UserMenuContainer_viewer.graphql";
 
 import UserMenu from "./UserMenu";
 

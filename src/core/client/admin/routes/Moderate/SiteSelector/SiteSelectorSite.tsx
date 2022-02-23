@@ -6,7 +6,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SiteSelectorSite_site } from "coral-admin/__generated__/SiteSelectorSite_site.graphql";
+import { SiteSelectorSite_site$data as SiteSelectorSite_site } from "coral-admin/__generated__/SiteSelectorSite_site.graphql";
 
 import styles from "./SiteSelectorSite.css";
 

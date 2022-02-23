@@ -5,9 +5,9 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { BaseButton, ClickOutside, Popover } from "coral-ui/components/v2";
 
-import { UsernameWithPopoverContainer_comment } from "coral-stream/__generated__/UsernameWithPopoverContainer_comment.graphql";
-import { UsernameWithPopoverContainer_settings } from "coral-stream/__generated__/UsernameWithPopoverContainer_settings.graphql";
-import { UsernameWithPopoverContainer_viewer } from "coral-stream/__generated__/UsernameWithPopoverContainer_viewer.graphql";
+import { UsernameWithPopoverContainer_comment$data as UsernameWithPopoverContainer_comment } from "coral-stream/__generated__/UsernameWithPopoverContainer_comment.graphql";
+import { UsernameWithPopoverContainer_settings$data as UsernameWithPopoverContainer_settings } from "coral-stream/__generated__/UsernameWithPopoverContainer_settings.graphql";
+import { UsernameWithPopoverContainer_viewer$data as UsernameWithPopoverContainer_viewer } from "coral-stream/__generated__/UsernameWithPopoverContainer_viewer.graphql";
 
 import UserPopoverContainer from "../UserPopover";
 import Username from "./Username";

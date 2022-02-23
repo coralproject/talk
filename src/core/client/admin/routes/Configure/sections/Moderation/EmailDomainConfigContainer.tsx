@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
+import { EmailDomainConfigContainer_settings$data as EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

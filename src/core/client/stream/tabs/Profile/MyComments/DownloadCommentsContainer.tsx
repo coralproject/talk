@@ -12,7 +12,7 @@ import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
+import { DownloadCommentsContainer_viewer$data as DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 
 import RequestCommentsDownloadMutation from "../Settings/RequestCommentsDownloadMutation";
 

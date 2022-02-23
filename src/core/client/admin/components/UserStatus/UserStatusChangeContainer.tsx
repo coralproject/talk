@@ -4,9 +4,9 @@ import { graphql } from "react-relay";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
-import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
-import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
-import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
+import { UserStatusChangeContainer_settings$data as UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
+import { UserStatusChangeContainer_user$data as UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_viewer$data as UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import BanModal, { UpdateType } from "./BanModal";
 import BanUserMutation from "./BanUserMutation";

@@ -7,8 +7,8 @@ import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { HorizontalRule, Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { QAConfigContainer_settings } from "coral-stream/__generated__/QAConfigContainer_settings.graphql";
-import { QAConfigContainer_story } from "coral-stream/__generated__/QAConfigContainer_story.graphql";
+import { QAConfigContainer_settings$data as QAConfigContainer_settings } from "coral-stream/__generated__/QAConfigContainer_settings.graphql";
+import { QAConfigContainer_story$data as QAConfigContainer_story } from "coral-stream/__generated__/QAConfigContainer_story.graphql";
 
 import DisableQA from "./DisableQA";
 import EnableQA from "./EnableQA";

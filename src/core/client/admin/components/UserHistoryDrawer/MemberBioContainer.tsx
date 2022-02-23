@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { MemberBioContainer_user } from "coral-admin/__generated__/MemberBioContainer_user.graphql";
+import { MemberBioContainer_user$data as MemberBioContainer_user } from "coral-admin/__generated__/MemberBioContainer_user.graphql";
 
 import styles from "./MemberBioContainer.css";
 

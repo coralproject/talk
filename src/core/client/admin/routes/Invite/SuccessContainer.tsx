@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SuccessContainer_settings } from "coral-admin/__generated__/SuccessContainer_settings.graphql";
+import { SuccessContainer_settings$data as SuccessContainer_settings } from "coral-admin/__generated__/SuccessContainer_settings.graphql";
 
 import Success from "./Success";
 

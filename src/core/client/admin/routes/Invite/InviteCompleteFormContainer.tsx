@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
+import { InviteCompleteFormContainer_settings$data as InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
 
 import InviteCompleteForm from "./InviteCompleteForm";
 

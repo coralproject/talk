@@ -28,9 +28,9 @@ import WarningError from "coral-stream/common/WarningError";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
-import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
-import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
+import { PostCommentFormContainer_settings$data as PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
+import { PostCommentFormContainer_story$data as PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
+import { PostCommentFormContainer_viewer$data as PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
 import {
   COMMENT_SORT,
   COMMENTS_TAB,

@@ -8,9 +8,9 @@ import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
-import { ModerationRejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_comment.graphql";
-import { ModerationRejectedTombstoneContainer_local } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_local.graphql";
-import { ModerationRejectedTombstoneContainer_settings as SettingsData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_settings.graphql";
+import { ModerationRejectedTombstoneContainer_comment$data as CommentData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_comment.graphql";
+import { ModerationRejectedTombstoneContainer_local$data as ModerationRejectedTombstoneContainer_local } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_local.graphql";
+import { ModerationRejectedTombstoneContainer_settings$data as SettingsData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_settings.graphql";
 
 import styles from "./ModerationRejectedTombstoneContainer.css";
 

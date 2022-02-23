@@ -48,10 +48,10 @@ import {
 } from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
 
-import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
-import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
-import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
-import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
+import { CommentContainer_comment$data as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_settings$data as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
+import { CommentContainer_story$data as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
+import { CommentContainer_viewer$data as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
 import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";

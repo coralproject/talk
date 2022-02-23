@@ -11,8 +11,8 @@ import {
 } from "coral-stream/common/Media";
 import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
-import { MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
-import { MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
+import { MediaSectionContainer_comment$data as MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
+import { MediaSectionContainer_settings$data as MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
 
 import styles from "./MediaSectionContainer.css";
 

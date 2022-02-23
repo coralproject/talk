@@ -13,9 +13,9 @@ import {
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 
-import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
-import { EditCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
-import { EditCommentFormContainer_story as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
+import { EditCommentFormContainer_comment$data as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
+import { EditCommentFormContainer_settings$data as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
+import { EditCommentFormContainer_story$data as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
 
 import {
   getSubmitStatus,

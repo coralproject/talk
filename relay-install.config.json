@@ -4,7 +4,7 @@
   "artifactDirectory": "./src/core/client/install/__generated__",
   "language": "typescript",
   "customScalars": {
-    "Time": "String",
+    "Time": "string",
     "Cursor": "unknown",
     "Locale": "string"
   }

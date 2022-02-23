@@ -6,8 +6,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
-import { PreviousCountSpyContainer_settings } from "coral-stream/__generated__/PreviousCountSpyContainer_settings.graphql";
-import { PreviousCountSpyContainer_story } from "coral-stream/__generated__/PreviousCountSpyContainer_story.graphql";
+import { PreviousCountSpyContainer_settings$data as PreviousCountSpyContainer_settings } from "coral-stream/__generated__/PreviousCountSpyContainer_settings.graphql";
+import { PreviousCountSpyContainer_story$data as PreviousCountSpyContainer_story } from "coral-stream/__generated__/PreviousCountSpyContainer_story.graphql";
 
 interface Props {
   story: PreviousCountSpyContainer_story;

@@ -29,8 +29,8 @@ import {
   COMMENT_STATUS,
   ModerateCardContainer_comment,
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
-import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
-import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
+import { ModerateCardContainer_settings$data as ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_viewer$data as ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 
 import RemoveUserBanMutation from "../UserStatus/RemoveUserBanMutation";

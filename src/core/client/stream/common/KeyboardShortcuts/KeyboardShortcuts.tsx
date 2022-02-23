@@ -40,7 +40,7 @@ import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 
-import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
+import { KeyboardShortcuts_local$data as KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
 import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";

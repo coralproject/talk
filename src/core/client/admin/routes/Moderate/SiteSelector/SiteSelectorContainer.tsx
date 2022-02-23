@@ -8,8 +8,8 @@ import {
 } from "coral-framework/lib/relay";
 
 import { SiteSelectorContainer_query } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
-import { SiteSelectorContainer_viewer } from "coral-admin/__generated__/SiteSelectorContainer_viewer.graphql";
-import { SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
+import { SiteSelectorContainer_viewer$data as SiteSelectorContainer_viewer } from "coral-admin/__generated__/SiteSelectorContainer_viewer.graphql";
+import { SiteSelectorContainerPaginationQuery$variables as SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
 
 import SiteSelector from "./SiteSelector";
 

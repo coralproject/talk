@@ -5,7 +5,7 @@ import withFragmentContainer from "coral-framework/lib/relay/withFragmentContain
 import CLASSES from "coral-stream/classes";
 import { Tag } from "coral-ui/components/v2";
 
-import { UserBadgesContainer_user as UserData } from "coral-admin/__generated__/UserBadgesContainer_user.graphql";
+import { UserBadgesContainer_user$data as UserData } from "coral-admin/__generated__/UserBadgesContainer_user.graphql";
 
 interface Props {
   user: UserData;

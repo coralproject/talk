@@ -15,11 +15,11 @@ import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
 
-import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
-import { ModerationActionsContainer_local } from "coral-stream/__generated__/ModerationActionsContainer_local.graphql";
-import { ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
-import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
-import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
+import { ModerationActionsContainer_comment$data as ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
+import { ModerationActionsContainer_local$data as ModerationActionsContainer_local } from "coral-stream/__generated__/ModerationActionsContainer_local.graphql";
+import { ModerationActionsContainer_settings$data as ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
+import { ModerationActionsContainer_story$data as ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
+import { ModerationActionsContainer_viewer$data as ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";

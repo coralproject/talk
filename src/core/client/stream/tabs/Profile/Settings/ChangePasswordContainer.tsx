@@ -11,7 +11,7 @@ import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import SetAuthPopupStateMutation from "coral-stream/common/AuthPopup/SetAuthPopupStateMutation";
 import { Popup } from "coral-ui/components/v2";
 
-import { ChangePasswordContainer_settings } from "coral-stream/__generated__/ChangePasswordContainer_settings.graphql";
+import { ChangePasswordContainer_settings$data as ChangePasswordContainer_settings } from "coral-stream/__generated__/ChangePasswordContainer_settings.graphql";
 import { ChangePasswordContainerLocal } from "coral-stream/__generated__/ChangePasswordContainerLocal.graphql";
 
 import ChangePassword from "./ChangePassword";

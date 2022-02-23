@@ -21,10 +21,10 @@ import {
   TextLink,
 } from "coral-ui/components/v2";
 
-import { AnsweredCommentContainer_comment as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
-import { AnsweredCommentContainer_settings as SettingsData } from "coral-stream/__generated__/AnsweredCommentContainer_settings.graphql";
-import { AnsweredCommentContainer_story as StoryData } from "coral-stream/__generated__/AnsweredCommentContainer_story.graphql";
-import { AnsweredCommentContainer_viewer as ViewerData } from "coral-stream/__generated__/AnsweredCommentContainer_viewer.graphql";
+import { AnsweredCommentContainer_comment$data as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
+import { AnsweredCommentContainer_settings$data as SettingsData } from "coral-stream/__generated__/AnsweredCommentContainer_settings.graphql";
+import { AnsweredCommentContainer_story$data as StoryData } from "coral-stream/__generated__/AnsweredCommentContainer_story.graphql";
+import { AnsweredCommentContainer_viewer$data as ViewerData } from "coral-stream/__generated__/AnsweredCommentContainer_viewer.graphql";
 
 import { CommentContainer, UserTagsContainer } from "../../Comment";
 import MediaSectionContainer from "../../Comment/MediaSection/MediaSectionContainer";

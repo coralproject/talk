@@ -10,8 +10,8 @@ import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountD
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
-import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
+import { DeleteAccountContainer_settings$data as DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
+import { DeleteAccountContainer_viewer$data as DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
 import DeleteAccountModal from "./DeleteAccountModal";
 

@@ -6,7 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { ReplyEditedWarningContainer_comment } from "coral-stream/__generated__/ReplyEditedWarningContainer_comment.graphql";
+import { ReplyEditedWarningContainer_comment$data as ReplyEditedWarningContainer_comment } from "coral-stream/__generated__/ReplyEditedWarningContainer_comment.graphql";
 
 import styles from "./ReplyEditedWarningContainer.css";
 

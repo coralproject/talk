@@ -7,7 +7,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 
-import { OrganizationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
+import { OrganizationConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
 
 import OrganizationContactEmailConfig from "./OrganizationContactEmailConfig";
 import OrganizationNameConfig from "./OrganizationNameConfig";

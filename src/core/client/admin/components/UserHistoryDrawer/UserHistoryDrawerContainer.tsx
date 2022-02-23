@@ -16,9 +16,9 @@ import {
   TooltipButton,
 } from "coral-ui/components/v2";
 
-import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
-import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
-import { UserHistoryDrawerContainer_viewer } from "coral-admin/__generated__/UserHistoryDrawerContainer_viewer.graphql";
+import { UserHistoryDrawerContainer_settings$data as UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
+import { UserHistoryDrawerContainer_user$data as UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
+import { UserHistoryDrawerContainer_viewer$data as UserHistoryDrawerContainer_viewer } from "coral-admin/__generated__/UserHistoryDrawerContainer_viewer.graphql";
 
 import MemberBioContainer from "./MemberBioContainer";
 import RecentHistoryContainer from "./RecentHistoryContainer";

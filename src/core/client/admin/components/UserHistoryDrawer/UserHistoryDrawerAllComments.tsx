@@ -10,11 +10,11 @@ import {
 } from "coral-framework/lib/relay";
 import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
-import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
-import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
-import { UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
+import { UserHistoryDrawerAllComments_settings$data as UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
+import { UserHistoryDrawerAllComments_user$data as UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
+import { UserHistoryDrawerAllComments_viewer$data as UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
 import { UserHistoryDrawerAllCommentsLocal } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsLocal.graphql";
-import { UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
+import { UserHistoryDrawerAllCommentsPaginationQuery$variables as UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
 
 import { ArchivedCommentsThresholdNotification } from "./ArchivedCommentsThresholdNotification";
 

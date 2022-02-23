@@ -36,8 +36,8 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
-import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
-import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
+import { ChangeUsernameContainer_settings$data as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
+import { ChangeUsernameContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 
 import UpdateUsernameMutation from "./UpdateUsernameMutation";
 

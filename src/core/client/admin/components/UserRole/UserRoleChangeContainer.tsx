@@ -5,9 +5,9 @@ import { Ability, can } from "coral-admin/permissions";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
-import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
-import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
-import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
+import { UserRoleChangeContainer_settings$data as UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
+import { UserRoleChangeContainer_user$data as UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
+import { UserRoleChangeContainer_viewer$data as UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 
 import ButtonPadding from "../ButtonPadding";
 import SiteModeratorActions from "./SiteModeratorActions";

@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { UsernameContainer_comment } from "coral-stream/__generated__/UsernameContainer_comment.graphql";
+import { UsernameContainer_comment$data as UsernameContainer_comment } from "coral-stream/__generated__/UsernameContainer_comment.graphql";
 
 import Username from "./Username";
 

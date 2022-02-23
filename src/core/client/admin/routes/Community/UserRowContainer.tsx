@@ -4,9 +4,9 @@ import { graphql } from "react-relay";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { UserRowContainer_settings as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
-import { UserRowContainer_user as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
-import { UserRowContainer_viewer as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
+import { UserRowContainer_settings$data as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
+import { UserRowContainer_user$data as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
+import { UserRowContainer_viewer$data as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
 
 import UserRow from "./UserRow";
 

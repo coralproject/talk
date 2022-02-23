@@ -19,11 +19,11 @@ import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Su
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { UnansweredCommentsTabContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabContainer_settings.graphql";
-import { UnansweredCommentsTabContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabContainer_story.graphql";
-import { UnansweredCommentsTabContainer_viewer } from "coral-stream/__generated__/UnansweredCommentsTabContainer_viewer.graphql";
+import { UnansweredCommentsTabContainer_settings$data as UnansweredCommentsTabContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabContainer_settings.graphql";
+import { UnansweredCommentsTabContainer_story$data as UnansweredCommentsTabContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabContainer_story.graphql";
+import { UnansweredCommentsTabContainer_viewer$data as UnansweredCommentsTabContainer_viewer } from "coral-stream/__generated__/UnansweredCommentsTabContainer_viewer.graphql";
 import { UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/UnansweredCommentsTabContainerLocal.graphql";
-import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
+import { UnansweredCommentsTabContainerPaginationQuery$variables as UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
 
 import NoComments from "../NoComments";
 import UnansweredCommentsTabCommentContainer from "./UnansweredCommentsTabCommentContainer";

@@ -14,7 +14,7 @@ import {
   withSignOutMutation,
 } from "coral-framework/mutations";
 
-import { RestrictedContainer_viewer as ViewerData } from "coral-admin/__generated__/RestrictedContainer_viewer.graphql";
+import { RestrictedContainer_viewer$data as ViewerData } from "coral-admin/__generated__/RestrictedContainer_viewer.graphql";
 
 import Restricted from "./Restricted";
 

@@ -18,7 +18,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { DashboardContainer_query as QueryData } from "coral-admin/__generated__/DashboardContainer_query.graphql";
-import { DashboardContainerPaginationQueryVariables } from "coral-admin/__generated__/DashboardContainerPaginationQuery.graphql";
+import { DashboardContainerPaginationQuery$variables as DashboardContainerPaginationQueryVariables } from "coral-admin/__generated__/DashboardContainerPaginationQuery.graphql";
 
 import SiteDashboardTimestamp from "./components/SiteDashboardTimestamp";
 import Dashboard from "./Dashboard";

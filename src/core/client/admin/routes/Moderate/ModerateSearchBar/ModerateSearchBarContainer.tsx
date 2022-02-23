@@ -22,8 +22,8 @@ import {
   ListBoxOptionElement,
 } from "coral-ui/hooks/useComboBox";
 
-import { ModerateSearchBarContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateSearchBarContainer_settings.graphql";
-import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
+import { ModerateSearchBarContainer_settings$data as SettingsData } from "coral-admin/__generated__/ModerateSearchBarContainer_settings.graphql";
+import { ModerateSearchBarContainer_story$data as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 import { SearchStoryFetchQueryResponse } from "coral-admin/__generated__/SearchStoryFetchQuery.graphql";
 
 import Bar from "./Bar";

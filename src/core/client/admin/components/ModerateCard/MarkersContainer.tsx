@@ -10,8 +10,8 @@ import {
   MarkerCount,
 } from "coral-ui/components/v2";
 
-import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
-import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
+import { MarkersContainer_comment$data as MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
+import { MarkersContainer_settings$data as MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
 
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";

@@ -7,7 +7,7 @@ import Timestamp from "coral-stream/common/Timestamp";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
-import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_comment$data as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";

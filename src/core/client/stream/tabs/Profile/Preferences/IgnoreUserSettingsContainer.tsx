@@ -12,7 +12,7 @@ import { ShowIgnoreUserdDialogEvent } from "coral-stream/events";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { IgnoreUserSettingsContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
+import { IgnoreUserSettingsContainer_viewer$data as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
 
 import IgnoreUserListItem from "./IgnoreUserListItem";
 import RemoveUserIgnoreMutation from "./RemoveUserIgnoreMutation";

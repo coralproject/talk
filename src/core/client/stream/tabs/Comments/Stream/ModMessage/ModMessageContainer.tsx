@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ModMessageContainer_viewer } from "coral-stream/__generated__/ModMessageContainer_viewer.graphql";
+import { ModMessageContainer_viewer$data as ModMessageContainer_viewer } from "coral-stream/__generated__/ModMessageContainer_viewer.graphql";
 
 import AcknowledgeModMessageMutation from "./AcknowledgeModMessageMutation";
 import ModMessage from "./ModMessage";

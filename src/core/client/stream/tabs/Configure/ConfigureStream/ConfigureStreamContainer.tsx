@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { SubmitHookHandler } from "coral-framework/lib/form";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ConfigureStreamContainer_story as StoryData } from "coral-stream/__generated__/ConfigureStreamContainer_story.graphql";
+import { ConfigureStreamContainer_story$data as StoryData } from "coral-stream/__generated__/ConfigureStreamContainer_story.graphql";
 
 import ConfigureStream from "./ConfigureStream";
 import {

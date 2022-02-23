@@ -12,10 +12,10 @@ import CLASSES from "coral-stream/classes";
 import { ShowModerationPopoverEvent } from "coral-stream/events";
 import { Dropdown } from "coral-ui/components/v2";
 
-import { ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
-import { ModerationDropdownContainer_settings } from "coral-stream/__generated__/ModerationDropdownContainer_settings.graphql";
-import { ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
-import { ModerationDropdownContainer_viewer } from "coral-stream/__generated__/ModerationDropdownContainer_viewer.graphql";
+import { ModerationDropdownContainer_comment$data as ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
+import { ModerationDropdownContainer_settings$data as ModerationDropdownContainer_settings } from "coral-stream/__generated__/ModerationDropdownContainer_settings.graphql";
+import { ModerationDropdownContainer_story$data as ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
+import { ModerationDropdownContainer_viewer$data as ModerationDropdownContainer_viewer } from "coral-stream/__generated__/ModerationDropdownContainer_viewer.graphql";
 
 import UserBanPopoverContainer from "../UserBanPopover/UserBanPopoverContainer";
 import ModerationActionsContainer from "./ModerationActionsContainer";

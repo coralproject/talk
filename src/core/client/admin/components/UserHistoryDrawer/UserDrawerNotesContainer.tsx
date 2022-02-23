@@ -14,8 +14,8 @@ import {
   Textarea,
 } from "coral-ui/components/v2";
 
-import { UserDrawerNotesContainer_user as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
-import { UserDrawerNotesContainer_viewer as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
+import { UserDrawerNotesContainer_user$data as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
+import { UserDrawerNotesContainer_viewer$data as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
 
 import CreateModeratorNoteMutation from "./CreateModeratorNoteMutation";
 import DeleteModeratorNoteMutation from "./DeleteModeratorNoteMutation";

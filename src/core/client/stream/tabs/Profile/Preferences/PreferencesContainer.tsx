@@ -4,8 +4,8 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { PreferencesContainer_settings } from "coral-stream/__generated__/PreferencesContainer_settings.graphql";
-import { PreferencesContainer_viewer } from "coral-stream/__generated__/PreferencesContainer_viewer.graphql";
+import { PreferencesContainer_settings$data as PreferencesContainer_settings } from "coral-stream/__generated__/PreferencesContainer_settings.graphql";
+import { PreferencesContainer_viewer$data as PreferencesContainer_viewer } from "coral-stream/__generated__/PreferencesContainer_viewer.graphql";
 
 import BioContainer from "./BioContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";

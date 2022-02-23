@@ -7,7 +7,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { MostActiveDiscussionsContainer_site } from "coral-stream/__generated__/MostActiveDiscussionsContainer_site.graphql";
+import { MostActiveDiscussionsContainer_site$data as MostActiveDiscussionsContainer_site } from "coral-stream/__generated__/MostActiveDiscussionsContainer_site.graphql";
 
 import DiscussionsHeader from "./DiscussionsHeader";
 import StoryRowContainer from "./StoryRowContainer";

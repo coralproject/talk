@@ -8,7 +8,7 @@ import CLASSES from "coral-stream/classes";
 import { Box, Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { UserIgnorePopoverContainer_user as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
+import { UserIgnorePopoverContainer_user$data as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
 
 import IgnoreUserMutation from "./IgnoreUserMutation";
 

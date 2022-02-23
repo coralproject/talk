@@ -11,9 +11,9 @@ import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
-import { DiscussionsContainer_settings } from "coral-stream/__generated__/DiscussionsContainer_settings.graphql";
-import { DiscussionsContainer_story } from "coral-stream/__generated__/DiscussionsContainer_story.graphql";
-import { DiscussionsContainer_viewer } from "coral-stream/__generated__/DiscussionsContainer_viewer.graphql";
+import { DiscussionsContainer_settings$data as DiscussionsContainer_settings } from "coral-stream/__generated__/DiscussionsContainer_settings.graphql";
+import { DiscussionsContainer_story$data as DiscussionsContainer_story } from "coral-stream/__generated__/DiscussionsContainer_story.graphql";
+import { DiscussionsContainer_viewer$data as DiscussionsContainer_viewer } from "coral-stream/__generated__/DiscussionsContainer_viewer.graphql";
 
 import { commit } from "../../App/SetActiveTabMutation";
 import MostActiveDiscussionsContainer from "./MostActiveDiscussionsContainer";

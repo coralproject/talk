@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import Subheader from "coral-admin/routes/Configure/Subheader";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { EndpointDetails_settings } from "coral-admin/__generated__/EndpointDetails_settings.graphql";
+import { EndpointDetails_settings$data as EndpointDetails_settings } from "coral-admin/__generated__/EndpointDetails_settings.graphql";
 import { EndpointDetails_webhookEndpoint } from "coral-admin/__generated__/EndpointDetails_webhookEndpoint.graphql";
 
 import ConfigureWebhookEndpointForm from "../ConfigureWebhookEndpointForm";

@@ -7,7 +7,7 @@ import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 import { Button } from "coral-ui/components/v3/Button/Button";
 
-import { ArchivedConfigurationContainer_story } from "coral-stream/__generated__/ArchivedConfigurationContainer_story.graphql";
+import { ArchivedConfigurationContainer_story$data as ArchivedConfigurationContainer_story } from "coral-stream/__generated__/ArchivedConfigurationContainer_story.graphql";
 
 import UnarchiveStoriesMutation from "./UnarchiveStoriesMutation";
 

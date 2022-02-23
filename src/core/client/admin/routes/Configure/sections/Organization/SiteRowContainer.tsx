@@ -6,7 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Button, Flex, Icon } from "coral-ui/components/v2";
 import { TableCell, TableRow } from "coral-ui/components/v2/Table";
 
-import { SiteRowContainer_site } from "coral-admin/__generated__/SiteRowContainer_site.graphql";
+import { SiteRowContainer_site$data as SiteRowContainer_site } from "coral-admin/__generated__/SiteRowContainer_site.graphql";
 
 interface Props {
   site: SiteRowContainer_site;

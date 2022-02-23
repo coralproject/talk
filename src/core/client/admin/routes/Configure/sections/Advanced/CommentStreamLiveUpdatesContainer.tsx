@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { CommentStreamLiveUpdatesContainer_settings } from "coral-admin/__generated__/CommentStreamLiveUpdatesContainer_settings.graphql";
+import { CommentStreamLiveUpdatesContainer_settings$data as CommentStreamLiveUpdatesContainer_settings } from "coral-admin/__generated__/CommentStreamLiveUpdatesContainer_settings.graphql";
 
 import CommentStreamLiveUpdates from "./CommentStreamLiveUpdates";
 

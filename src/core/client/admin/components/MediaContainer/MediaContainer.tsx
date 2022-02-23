@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
+import { MediaContainer_comment$data as MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
 import ExternalMedia from "./ExternalMedia";
 import GiphyMedia from "./GiphyMedia";

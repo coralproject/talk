@@ -15,8 +15,8 @@ import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { ViewersWatchingContainer_settings } from "coral-stream/__generated__/ViewersWatchingContainer_settings.graphql";
-import { ViewersWatchingContainer_story } from "coral-stream/__generated__/ViewersWatchingContainer_story.graphql";
+import { ViewersWatchingContainer_settings$data as ViewersWatchingContainer_settings } from "coral-stream/__generated__/ViewersWatchingContainer_settings.graphql";
+import { ViewersWatchingContainer_story$data as ViewersWatchingContainer_story } from "coral-stream/__generated__/ViewersWatchingContainer_story.graphql";
 
 import RefreshStoryViewerCount from "./RefreshStoryViewerCount";
 

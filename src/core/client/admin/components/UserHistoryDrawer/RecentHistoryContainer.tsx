@@ -4,8 +4,8 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 
-import { RecentHistoryContainer_settings } from "coral-admin/__generated__/RecentHistoryContainer_settings.graphql";
-import { RecentHistoryContainer_user } from "coral-admin/__generated__/RecentHistoryContainer_user.graphql";
+import { RecentHistoryContainer_settings$data as RecentHistoryContainer_settings } from "coral-admin/__generated__/RecentHistoryContainer_settings.graphql";
+import { RecentHistoryContainer_user$data as RecentHistoryContainer_user } from "coral-admin/__generated__/RecentHistoryContainer_user.graphql";
 
 import RecentHistory from "./RecentHistory";
 

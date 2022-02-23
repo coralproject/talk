@@ -29,7 +29,7 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
-import { LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
+import { LinkAccountContainer_viewer$data as LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
 import { LinkAccountContainerLocal } from "coral-auth/__generated__/LinkAccountContainerLocal.graphql";
 
 import LinkAccountMutation from "./LinkAccountMutation";

@@ -3,8 +3,8 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "coral-framework/lib/relay";
 
-import { DecisionHistoryContainer_viewer as ViewerData } from "coral-admin/__generated__/DecisionHistoryContainer_viewer.graphql";
-import { DecisionHistoryContainerPaginationQueryVariables } from "coral-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
+import { DecisionHistoryContainer_viewer$data as ViewerData } from "coral-admin/__generated__/DecisionHistoryContainer_viewer.graphql";
+import { DecisionHistoryContainerPaginationQuery$variables as DecisionHistoryContainerPaginationQueryVariables } from "coral-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
 
 import DecisionHistory from "./DecisionHistory";
 

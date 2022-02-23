@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { StoryStatusContainer_story } from "coral-admin/__generated__/StoryStatusContainer_story.graphql";
+import { StoryStatusContainer_story$data as StoryStatusContainer_story } from "coral-admin/__generated__/StoryStatusContainer_story.graphql";
 
 import StoryStatusText from "./StoryStatusText";
 

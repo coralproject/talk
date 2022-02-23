@@ -6,10 +6,10 @@ import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { UnansweredCommentsTabCommentContainer_comment } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_comment.graphql";
-import { UnansweredCommentsTabCommentContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_settings.graphql";
-import { UnansweredCommentsTabCommentContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_story.graphql";
-import { UnansweredCommentsTabCommentContainer_viewer } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_viewer.graphql";
+import { UnansweredCommentsTabCommentContainer_comment$data as UnansweredCommentsTabCommentContainer_comment } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_comment.graphql";
+import { UnansweredCommentsTabCommentContainer_settings$data as UnansweredCommentsTabCommentContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_settings.graphql";
+import { UnansweredCommentsTabCommentContainer_story$data as UnansweredCommentsTabCommentContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_story.graphql";
+import { UnansweredCommentsTabCommentContainer_viewer$data as UnansweredCommentsTabCommentContainer_viewer } from "coral-stream/__generated__/UnansweredCommentsTabCommentContainer_viewer.graphql";
 
 import CollapsableComment from "../../Comment/CollapsableComment";
 import CommentContainer from "../../Comment/CommentContainer";

@@ -24,7 +24,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import { ConfigureWebhookEndpointForm_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_settings.graphql";
+import { ConfigureWebhookEndpointForm_settings$data as ConfigureWebhookEndpointForm_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_settings.graphql";
 import { ConfigureWebhookEndpointForm_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_webhookEndpoint.graphql";
 
 import CreateWebhookEndpointMutation from "./CreateWebhookEndpointMutation";

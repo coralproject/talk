@@ -6,10 +6,10 @@ import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { AllCommentsTabCommentContainer_comment } from "coral-stream/__generated__/AllCommentsTabCommentContainer_comment.graphql";
-import { AllCommentsTabCommentContainer_settings } from "coral-stream/__generated__/AllCommentsTabCommentContainer_settings.graphql";
-import { AllCommentsTabCommentContainer_story } from "coral-stream/__generated__/AllCommentsTabCommentContainer_story.graphql";
-import { AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated__/AllCommentsTabCommentContainer_viewer.graphql";
+import { AllCommentsTabCommentContainer_comment$data as AllCommentsTabCommentContainer_comment } from "coral-stream/__generated__/AllCommentsTabCommentContainer_comment.graphql";
+import { AllCommentsTabCommentContainer_settings$data as AllCommentsTabCommentContainer_settings } from "coral-stream/__generated__/AllCommentsTabCommentContainer_settings.graphql";
+import { AllCommentsTabCommentContainer_story$data as AllCommentsTabCommentContainer_story } from "coral-stream/__generated__/AllCommentsTabCommentContainer_story.graphql";
+import { AllCommentsTabCommentContainer_viewer$data as AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated__/AllCommentsTabCommentContainer_viewer.graphql";
 
 import CollapsableComment from "../../Comment/CollapsableComment";
 import CommentContainer from "../../Comment/CommentContainer";

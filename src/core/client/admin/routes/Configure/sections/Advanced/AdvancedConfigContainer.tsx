@@ -8,7 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
+import { AdvancedConfigContainer_settings$data as AdvancedConfigContainer_settings } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
 
 import AMPConfig from "./AMPConfig";
 import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContainer";

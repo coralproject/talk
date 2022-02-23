@@ -10,9 +10,9 @@ import { useViewerEvent } from "coral-framework/lib/events";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ShowUserPopoverEvent } from "coral-stream/events";
 
-import { UserPopoverContainer_settings } from "coral-stream/__generated__/UserPopoverContainer_settings.graphql";
-import { UserPopoverContainer_user as UserData } from "coral-stream/__generated__/UserPopoverContainer_user.graphql";
-import { UserPopoverContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverContainer_viewer.graphql";
+import { UserPopoverContainer_settings$data as UserPopoverContainer_settings } from "coral-stream/__generated__/UserPopoverContainer_settings.graphql";
+import { UserPopoverContainer_user$data as UserData } from "coral-stream/__generated__/UserPopoverContainer_user.graphql";
+import { UserPopoverContainer_viewer$data as ViewerData } from "coral-stream/__generated__/UserPopoverContainer_viewer.graphql";
 
 import UserIgnorePopoverContainer from "../UserIgnorePopover/UserIgnorePopoverContainer";
 import UserPopoverOverviewContainer from "./UserPopoverOverviewContainer";

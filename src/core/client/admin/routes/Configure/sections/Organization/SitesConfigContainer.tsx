@@ -8,7 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 
 import { SitesConfigContainer_query as QueryData } from "coral-admin/__generated__/SitesConfigContainer_query.graphql";
-import { SitesConfigContainerPaginationQueryVariables } from "coral-admin/__generated__/SitesConfigContainerPaginationQuery.graphql";
+import { SitesConfigContainerPaginationQuery$variables as SitesConfigContainerPaginationQueryVariables } from "coral-admin/__generated__/SitesConfigContainerPaginationQuery.graphql";
 
 import SitesConfig from "./SitesConfig";
 

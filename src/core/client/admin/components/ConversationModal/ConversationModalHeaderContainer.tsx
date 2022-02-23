@@ -7,7 +7,7 @@ import { getModerationLink } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Button, HorizontalGutter, ModalHeader } from "coral-ui/components/v2";
 
-import { ConversationModalHeaderContainer_comment } from "coral-admin/__generated__/ConversationModalHeaderContainer_comment.graphql";
+import { ConversationModalHeaderContainer_comment$data as ConversationModalHeaderContainer_comment } from "coral-admin/__generated__/ConversationModalHeaderContainer_comment.graphql";
 
 import styles from "./ConversationModalHeaderContainer.css";
 

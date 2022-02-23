@@ -7,10 +7,10 @@ import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import { Button } from "coral-ui/components/v3/Button/Button";
 
-import { ModerateStoryButton_local } from "coral-admin/__generated__/ModerateStoryButton_local.graphql";
-import { ModerateStoryButton_settings } from "coral-admin/__generated__/ModerateStoryButton_settings.graphql";
-import { ModerateStoryButton_story } from "coral-admin/__generated__/ModerateStoryButton_story.graphql";
-import { ModerateStoryButton_viewer } from "coral-admin/__generated__/ModerateStoryButton_viewer.graphql";
+import { ModerateStoryButton_local$data as ModerateStoryButton_local } from "coral-admin/__generated__/ModerateStoryButton_local.graphql";
+import { ModerateStoryButton_settings$data as ModerateStoryButton_settings } from "coral-admin/__generated__/ModerateStoryButton_settings.graphql";
+import { ModerateStoryButton_story$data as ModerateStoryButton_story } from "coral-admin/__generated__/ModerateStoryButton_story.graphql";
+import { ModerateStoryButton_viewer$data as ModerateStoryButton_viewer } from "coral-admin/__generated__/ModerateStoryButton_viewer.graphql";
 
 import styles from "./ModerateStoryButton.css";
 

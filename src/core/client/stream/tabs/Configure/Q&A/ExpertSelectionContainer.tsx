@@ -19,7 +19,7 @@ import { Flex, Icon, TextField } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ExpertSelectionContainer_query as QueryData } from "coral-stream/__generated__/ExpertSelectionContainer_query.graphql";
-import { ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/__generated__/ExpertSelectionContainerPaginationQuery.graphql";
+import { ExpertSelectionContainerPaginationQuery$variables as ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/__generated__/ExpertSelectionContainerPaginationQuery.graphql";
 
 import AddExpertMutation from "./AddExpertMutation";
 import ExpertListItem from "./ExpertListItem";

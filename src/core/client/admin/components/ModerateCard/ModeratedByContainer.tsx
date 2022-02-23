@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { BaseButton } from "coral-ui/components/v2";
 
-import { ModeratedByContainer_comment } from "coral-admin/__generated__/ModeratedByContainer_comment.graphql";
+import { ModeratedByContainer_comment$data as ModeratedByContainer_comment } from "coral-admin/__generated__/ModeratedByContainer_comment.graphql";
 
 import styles from "./ModeratedByContainer.css";
 
