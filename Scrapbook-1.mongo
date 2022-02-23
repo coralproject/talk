@@ -1,1 +1,0 @@
-db.users.count({ badges: { "$exists": true }})
