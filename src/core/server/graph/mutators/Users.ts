@@ -10,11 +10,11 @@ import {
   cancelAccountDeletion,
   createToken,
   deactivateToken,
-  demoteUser,
+  demoteModerator,
   destroyModeratorNote,
   ignore,
   premod,
-  promoteUser,
+  promoteModerator,
   removeBan,
   removeIgnore,
   removePremod,
@@ -55,11 +55,11 @@ import {
   GQLDeactivateTokenInput,
   GQLDeleteModeratorNoteInput,
   GQLDeleteUserAccountInput,
-  GQLDemoteUserInput,
+  GQLDemoteModeratorInput,
   GQLIgnoreUserInput,
   GQLInviteUsersInput,
   GQLPremodUserInput,
-  GQLPromoteUserInput,
+  GQLPromoteModeratorInput,
   GQLRemovePremodUserInput,
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
@@ -245,10 +245,22 @@ export const Users = (ctx: GraphContext) => ({
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
-  promote: async (input: GQLPromoteUserInput) =>
-    promoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.siteIDs),
-  demote: async (input: GQLDemoteUserInput) =>
-    demoteUser(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.siteIDs),
+  promoteModerator: async (input: GQLPromoteModeratorInput) =>
+    promoteModerator(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.siteIDs
+    ),
+  demoteModerator: async (input: GQLDemoteModeratorInput) =>
+    demoteModerator(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.siteIDs
+    ),
   updateUserModerationScopes: async (
     input: GQLUpdateUserModerationScopesInput
   ) =>

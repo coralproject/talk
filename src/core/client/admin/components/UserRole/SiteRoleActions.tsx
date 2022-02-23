@@ -35,8 +35,8 @@ import { SiteRoleActions_viewer } from "coral-admin/__generated__/SiteRoleAction
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
-import DemoteUserMutation from "./DemoteUserMutation";
-import PromoteUserMutation from "./PromoteUserMutation";
+import DemoteModeratorMutation from "./DemoteModeratorMutation";
+import PromoteModeratorMutation from "./PromoteModeratorMutation";
 import SiteRoleActionsSites from "./SiteRoleActionsSites";
 import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
@@ -49,8 +49,8 @@ interface Props {
 }
 
 const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
-  const promoteUser = useMutation(PromoteUserMutation);
-  const demoteUser = useMutation(DemoteUserMutation);
+  const promoteModerator = useMutation(PromoteModeratorMutation);
+  const demoteModerator = useMutation(DemoteModeratorMutation);
   const notAvailableTranslation = useCommonTranslation(
     COMMON_TRANSLATION.NOT_AVAILABLE
   );
@@ -80,9 +80,9 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     async (input) => {
       try {
         if (mode === "promote") {
-          await promoteUser({ userID: user.id, siteIDs: input.siteIDs });
+          await promoteModerator({ userID: user.id, siteIDs: input.siteIDs });
         } else if (mode === "demote") {
-          await demoteUser({ userID: user.id, siteIDs: input.siteIDs });
+          await demoteModerator({ userID: user.id, siteIDs: input.siteIDs });
         }
 
         setMode(null);
@@ -96,7 +96,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
         return { [FORM_ERROR]: err.message };
       }
     },
-    [demoteUser, mode, promoteUser, toggleModalVisibility, user.id]
+    [demoteModerator, mode, promoteModerator, toggleModalVisibility, user.id]
   );
 
   const viewerSites = viewer.moderationScopes?.sites || [];

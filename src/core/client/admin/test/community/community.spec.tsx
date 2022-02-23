@@ -374,7 +374,7 @@ it("promote user role as a site moderator", async () => {
       settings: () => settingsWithMultisite,
     },
     Mutation: {
-      promoteUser: ({ variables }) => {
+      promoteModerator: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: user.id,
           siteIDs: [sites[0].id],
@@ -415,7 +415,7 @@ it("promote user role as a site moderator", async () => {
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
   });
-  expect(resolvers.Mutation!.promoteUser!.called).toBe(true);
+  expect(resolvers.Mutation!.promoteModerator!.called).toBe(true);
 });
 
 it("demote user role as a site moderator", async () => {
@@ -428,7 +428,7 @@ it("demote user role as a site moderator", async () => {
       settings: () => settingsWithMultisite,
     },
     Mutation: {
-      demoteUser: ({ variables }) => {
+      demoteModerator: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: siteModeratorUser.id,
           siteIDs: [sites[0].id],
@@ -472,7 +472,7 @@ it("demote user role as a site moderator", async () => {
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
   });
-  expect(resolvers.Mutation!.demoteUser!.called).toBe(true);
+  expect(resolvers.Mutation!.demoteModerator!.called).toBe(true);
 });
 
 it("load more", async () => {

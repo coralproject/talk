@@ -49,14 +49,6 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
       badges || ((settings as any).staff as BadgeConfiguration);
 
     // TODO: migrate
-    // if (!badges) {
-    //   void ctx.mutators.Sites.update({
-    //     id,
-    //     clientMutationId: "-1",
-    //     site: {
-    //     },
-    //   });
-    // }
 
     return badgeConfig;
   },
