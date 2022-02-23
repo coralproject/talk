@@ -938,6 +938,62 @@ export async function pullUserSiteModerationScopes(
   return result.value;
 }
 
+export async function mergeUserMembershipScopes(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  membershipScopes: string[]
+) {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $addToSet: {
+        "membershipScopes.siteIDs": membershipScopes,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return result.value;
+}
+
+export async function pullUserMembershipScopes(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  membershipScopes: string[]
+) {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $pull: {
+        "membershipScopes.siteIDs": { $in: membershipScopes },
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return result.value;
+}
+
 export async function updateUserModerationScopes(
   mongo: MongoContext,
   tenantID: string,

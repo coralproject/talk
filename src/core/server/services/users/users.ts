@@ -55,9 +55,11 @@ import {
   FindOrCreateUserInput,
   ignoreUser,
   linkUsers,
+  mergeUserMembershipScopes,
   mergeUserSiteModerationScopes,
   NotificationSettingsInput,
   premodUser,
+  pullUserMembershipScopes,
   pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
   removeUserBan,
@@ -896,6 +898,31 @@ export async function demoteModerator(
   return updated;
 }
 
+function ensureValidMembershipUpdate(
+  viewer: User,
+  user: User,
+  siteIDs: string[]
+) {
+  if (user.role !== GQLUSER_ROLE.MEMBER) {
+    throw new Error("User is not a member.");
+  }
+
+  const viewerIsScoped = !!viewer.moderationScopes?.siteIDs?.length;
+  if (viewerIsScoped) {
+    const outOfScopeSiteIDs = siteIDs.filter(
+      (id) => !viewer.moderationScopes?.siteIDs?.includes(id)
+    );
+    if (outOfScopeSiteIDs.length > 0) {
+      throw new UserForbiddenError(
+        "Site IDs out of viewer's moderation scopes.",
+        user.id,
+        "promoteMember",
+        viewer.id
+      );
+    }
+  }
+}
+
 export async function promoteMember(
   mongo: MongoContext,
   tenant: Tenant,
@@ -904,6 +931,21 @@ export async function promoteMember(
   siteIDs: string[]
 ) {
   // TODO (marcus): ensure target is member, not promoting self, either admin, staff(?) org mod, or site mod + sites in scope
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  ensureValidMembershipUpdate(viewer, user, siteIDs);
+
+  const updated = await mergeUserMembershipScopes(
+    mongo,
+    tenant.id,
+    userID,
+    siteIDs
+  );
+
+  return updated;
 }
 
 export async function demoteMember(
@@ -914,6 +956,21 @@ export async function demoteMember(
   siteIDs: string[]
 ) {
   // TODO (marcus): ensure target is member, either admin, staff(?), org mod, or site mod + sites in scope
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  ensureValidMembershipUpdate(viewer, user, siteIDs);
+
+  const updated = await pullUserMembershipScopes(
+    mongo,
+    tenant.id,
+    userID,
+    siteIDs
+  );
+
+  return updated;
 }
 
 export async function updateModerationScopes(
