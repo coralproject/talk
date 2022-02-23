@@ -191,6 +191,7 @@ export default function createWebpackConfig(
       sideEffects: false,
       splitChunks: {
         chunks: config.get("disableChunkSplitting") ? "async" : "all",
+        maxSize: 200000,
       },
       minimize: minimize || treeShake,
       minimizer: [
