@@ -33,6 +33,7 @@ export default function getLocalFragmentSelector(
       argumentDefinitions: [],
     },
     variables: {},
+    isWithinUnmatchedTypeRefinement: false,
   };
 
   return selector;

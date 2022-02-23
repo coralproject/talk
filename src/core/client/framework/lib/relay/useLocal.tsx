@@ -4,7 +4,6 @@ import {
   GraphQLTaggedNode,
   RecordProxy,
 } from "relay-runtime";
-import { ReaderClientExtension } from "relay-runtime/lib/util/ReaderNode";
 
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { OmitFragments } from "coral-framework/testHelpers/removeFragmentRefs";
@@ -108,11 +107,7 @@ function useLocal<T>(
         if (isAdvancedUpdater(update)) {
           update(record);
         } else {
-          applySimplified(
-            record,
-            (selector.node.selections[0] as ReaderClientExtension).selections,
-            update
-          );
+          applySimplified(record, selector.node.selections, update);
         }
       });
       return;
