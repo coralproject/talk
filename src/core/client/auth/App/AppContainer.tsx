@@ -8,7 +8,7 @@ import {
 
 import { AppContainer_auth as AuthData } from "coral-auth/__generated__/AppContainer_auth.graphql";
 import { AppContainer_viewer$data as UserData } from "coral-auth/__generated__/AppContainer_viewer.graphql";
-import { AppContainerLocal as Local } from "coral-auth/__generated__/AppContainerLocal.graphql";
+import { AppContainerLocal$data as Local } from "coral-auth/__generated__/AppContainerLocal.graphql";
 
 import AccountCompletionContainer from "./AccountCompletion";
 import App from "./App";

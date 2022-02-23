@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { withLocalStateContainer } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 
-import { LoginRouteLocal as LocalData } from "coral-admin/__generated__/LoginRouteLocal.graphql";
+import { LoginRouteLocal$data as LocalData } from "coral-admin/__generated__/LoginRouteLocal.graphql";
 import { LoginRouteQueryResponse } from "coral-admin/__generated__/LoginRouteQuery.graphql";
 
 import AccountCompletionContainer from "./AccountCompletionContainer";

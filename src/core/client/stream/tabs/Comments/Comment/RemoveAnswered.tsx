@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { Button } from "coral-ui/components/v2";
 
-import { RemoveAnsweredLocal } from "coral-stream/__generated__/RemoveAnsweredLocal.graphql";
+import { RemoveAnsweredLocal$data as RemoveAnsweredLocal } from "coral-stream/__generated__/RemoveAnsweredLocal.graphql";
 
 import { RemoveAnsweredMutation } from "./RemoveAnsweredMutation";
 

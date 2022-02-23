@@ -9,7 +9,7 @@ import {
 } from "recompose";
 
 import { resolveModuleObject } from "./helpers";
-import { FragmentKeysNoLocal } from "./types";
+import { FragmentKeysNoLocal$data as FragmentKeysNoLocal } from "./types";
 
 /**
  * withFragmentContainer is a curried version of `createFragmentContainers`

@@ -11,7 +11,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
-import { UnansweredCommentsTabQueryLocal as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
+import { UnansweredCommentsTabQueryLocal$data as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
 
 import { useStaticFlattenReplies } from "../../helpers";
 import SpinnerWhileRendering from "../AllCommentsTab/SpinnerWhileRendering";

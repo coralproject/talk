@@ -13,7 +13,7 @@ import {
 
 import { AccountCompletionContainer_auth } from "coral-admin/__generated__/AccountCompletionContainer_auth.graphql";
 import { AccountCompletionContainer_viewer$data as AccountCompletionContainer_viewer } from "coral-admin/__generated__/AccountCompletionContainer_viewer.graphql";
-import { AccountCompletionContainerLocal } from "coral-admin/__generated__/AccountCompletionContainerLocal.graphql";
+import { AccountCompletionContainerLocal$data as AccountCompletionContainerLocal } from "coral-admin/__generated__/AccountCompletionContainerLocal.graphql";
 
 import CompleteAccountMutation from "./CompleteAccountMutation";
 import SetAuthViewMutation, { View } from "./SetAuthViewMutation";

@@ -24,7 +24,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { ForReviewQueueRoute_query } from "coral-admin/__generated__/ForReviewQueueRoute_query.graphql";
-import { ForReviewQueueRouteLocal } from "coral-admin/__generated__/ForReviewQueueRouteLocal.graphql";
+import { ForReviewQueueRouteLocal$data as ForReviewQueueRouteLocal } from "coral-admin/__generated__/ForReviewQueueRouteLocal.graphql";
 import {
   ForReviewQueueRoutePaginationQueryVariables,
   SectionFilter,

@@ -11,7 +11,7 @@ import {
 import { PageInfo, Variables } from "relay-runtime";
 
 import { resolveModule, resolveModuleObject } from "./helpers";
-import { FragmentKeysNoLocal } from "./types";
+import { FragmentKeysNoLocal$data as FragmentKeysNoLocal } from "./types";
 
 interface ConnectionData {
   edges?: ReadonlyArray<any> | null;

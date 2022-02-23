@@ -43,7 +43,7 @@ import { StreamContainer_story$data as StreamContainer_story } from "coral-strea
 import { StreamContainer_viewer$data as StreamContainer_viewer } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
 import {
   COMMENTS_TAB,
-  StreamContainerLocal,
+  StreamContainerLocal$data as StreamContainerLocal,
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";

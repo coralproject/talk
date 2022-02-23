@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { Option, SelectField } from "coral-ui/components/v2";
 
-import { QueueSortLocal } from "coral-admin/__generated__/QueueSortLocal.graphql";
+import { QueueSortLocal$data as QueueSortLocal } from "coral-admin/__generated__/QueueSortLocal.graphql";
 
 import { ChangeQueueSortMutation } from "./ChangeQueueSortMutation";
 

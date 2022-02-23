@@ -17,7 +17,7 @@ import {
 } from "coral-framework/lib/relay";
 
 import { SignInContainer_auth } from "coral-auth/__generated__/SignInContainer_auth.graphql";
-import { SignInContainerLocal } from "coral-auth/__generated__/SignInContainerLocal.graphql";
+import { SignInContainerLocal$data as SignInContainerLocal } from "coral-auth/__generated__/SignInContainerLocal.graphql";
 
 import {
   ClearErrorMutation,

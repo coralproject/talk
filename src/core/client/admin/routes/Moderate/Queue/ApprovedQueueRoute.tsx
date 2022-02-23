@@ -14,7 +14,7 @@ import {
 import { createRouteConfig } from "coral-framework/lib/router";
 
 import { ApprovedQueueRoute_query } from "coral-admin/__generated__/ApprovedQueueRoute_query.graphql";
-import { ApprovedQueueRouteLocal } from "coral-admin/__generated__/ApprovedQueueRouteLocal.graphql";
+import { ApprovedQueueRouteLocal$data as ApprovedQueueRouteLocal } from "coral-admin/__generated__/ApprovedQueueRouteLocal.graphql";
 import {
   ApprovedQueueRoutePaginationQueryVariables,
   SectionFilter,

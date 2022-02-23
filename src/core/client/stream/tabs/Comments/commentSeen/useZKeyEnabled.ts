@@ -1,7 +1,7 @@
-import { useLocal } from "coral-framework/lib/relay";
+import { useLocal$data as useLocal } from "coral-framework/lib/relay";
 import { graphql } from "react-relay";
 
-import { useZKeyEnabledLocal } from "coral-stream/__generated__/useZKeyEnabledLocal.graphql";
+import { useZKeyEnabledLocal$data as useZKeyEnabledLocal } from "coral-stream/__generated__/useZKeyEnabledLocal.graphql";
 
 /**
  * Returns true when the comment seen feature is enabled.

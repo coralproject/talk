@@ -14,7 +14,7 @@ import { Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/ConfigureQuery.graphql";
-import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
+import { ConfigureQueryLocal$data as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
 
 const loadConfigureContainer = () =>
   import("./ConfigureContainer" /* webpackChunkName: "configure" */);

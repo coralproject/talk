@@ -1,6 +1,6 @@
 import { graphql } from "react-relay";
 
-import { useLocal } from "coral-framework/lib/relay";
+import { useLocal$data as useLocal } from "coral-framework/lib/relay";
 
 import { useAMP } from "coral-stream/__generated__/useAMP.graphql";
 

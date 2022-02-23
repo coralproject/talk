@@ -15,7 +15,7 @@ import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
-import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
+import { ProfileQueryLocal$data as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
 
 const loadProfileContainer = () =>
   import("./ProfileContainer" /* webpackChunkName: "profile" */);

@@ -11,7 +11,7 @@ import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { TabBarContainer_settings$data as TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story$data as TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainer_viewer$data as TabBarContainer_viewer } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
-import { TabBarContainerLocal } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
+import { TabBarContainerLocal$data as TabBarContainerLocal } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
 
 import {
   SetActiveTabInput,

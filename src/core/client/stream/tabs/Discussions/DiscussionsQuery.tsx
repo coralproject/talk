@@ -15,7 +15,7 @@ import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { DiscussionsQuery as QueryTypes } from "coral-stream/__generated__/DiscussionsQuery.graphql";
-import { DiscussionsQueryLocal as Local } from "coral-stream/__generated__/DiscussionsQueryLocal.graphql";
+import { DiscussionsQueryLocal$data as Local } from "coral-stream/__generated__/DiscussionsQueryLocal.graphql";
 
 const loadDiscussionsContainer = () =>
   import("./DiscussionsContainer" /* webpackChunkName: "profile" */);

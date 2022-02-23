@@ -8,7 +8,7 @@ import {
 import { QueryError } from "coral-ui/components/v3";
 
 import { TabBarQuery as QueryTypes } from "coral-stream/__generated__/TabBarQuery.graphql";
-import { TabBarQueryLocal as Local } from "coral-stream/__generated__/TabBarQueryLocal.graphql";
+import { TabBarQueryLocal$data as Local } from "coral-stream/__generated__/TabBarQueryLocal.graphql";
 
 import ErrorReporterSetUserContainer from "./ErrorReporterSetUserContainer";
 import TabBarContainer from "./TabBarContainer";

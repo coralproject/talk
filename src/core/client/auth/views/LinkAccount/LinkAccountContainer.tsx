@@ -30,7 +30,7 @@ import {
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import { LinkAccountContainer_viewer$data as LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
-import { LinkAccountContainerLocal } from "coral-auth/__generated__/LinkAccountContainerLocal.graphql";
+import { LinkAccountContainerLocal$data as LinkAccountContainerLocal } from "coral-auth/__generated__/LinkAccountContainerLocal.graphql";
 
 import LinkAccountMutation from "./LinkAccountMutation";
 
@@ -71,7 +71,7 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [linkAccount]
+    [duplicateEmail, linkAccount]
   );
   const changeEmail = useCallback(() => {
     setView({ view: "ADD_EMAIL_ADDRESS" });

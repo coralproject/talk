@@ -14,7 +14,7 @@ import {
 import { createRouteConfig } from "coral-framework/lib/router";
 
 import { RejectedQueueRoute_query } from "coral-admin/__generated__/RejectedQueueRoute_query.graphql";
-import { RejectedQueueRouteLocal } from "coral-admin/__generated__/RejectedQueueRouteLocal.graphql";
+import { RejectedQueueRouteLocal$data as RejectedQueueRouteLocal } from "coral-admin/__generated__/RejectedQueueRouteLocal.graphql";
 import {
   RejectedQueueRoutePaginationQueryVariables,
   SectionFilter,

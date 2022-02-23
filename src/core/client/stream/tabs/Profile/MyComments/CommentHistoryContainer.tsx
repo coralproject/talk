@@ -12,7 +12,7 @@ import { LoadMoreHistoryCommentsEvent } from "coral-stream/events";
 import { CommentHistoryContainer_settings$data as SettingsData } from "coral-stream/__generated__/CommentHistoryContainer_settings.graphql";
 import { CommentHistoryContainer_story$data as StoryData } from "coral-stream/__generated__/CommentHistoryContainer_story.graphql";
 import { CommentHistoryContainer_viewer$data as ViewerData } from "coral-stream/__generated__/CommentHistoryContainer_viewer.graphql";
-import { CommentHistoryContainerLocal } from "coral-stream/__generated__/CommentHistoryContainerLocal.graphql";
+import { CommentHistoryContainerLocal$data as CommentHistoryContainerLocal } from "coral-stream/__generated__/CommentHistoryContainerLocal.graphql";
 import { CommentHistoryContainerPaginationQuery$variables as CommentHistoryContainerPaginationQueryVariables } from "coral-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
 
 import CommentHistory from "./CommentHistory";

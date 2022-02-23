@@ -14,7 +14,7 @@ import { Button } from "coral-ui/components/v3";
 import { ModerateStreamContainer_settings$data as ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
 import { ModerateStreamContainer_story$data as ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
 import { ModerateStreamContainer_viewer$data as ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
-import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
+import { ModerateStreamContainerLocal$data as ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
 
 interface Props {
   local: ModerateStreamContainerLocal;

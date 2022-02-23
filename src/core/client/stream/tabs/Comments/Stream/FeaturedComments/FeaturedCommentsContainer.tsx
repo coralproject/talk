@@ -29,7 +29,7 @@ import { Button } from "coral-ui/components/v3";
 import { FeaturedCommentsContainer_settings$data as SettingsData } from "coral-stream/__generated__/FeaturedCommentsContainer_settings.graphql";
 import { FeaturedCommentsContainer_story$data as StoryData } from "coral-stream/__generated__/FeaturedCommentsContainer_story.graphql";
 import { FeaturedCommentsContainer_viewer$data as ViewerData } from "coral-stream/__generated__/FeaturedCommentsContainer_viewer.graphql";
-import { FeaturedCommentsContainerLocal } from "coral-stream/__generated__/FeaturedCommentsContainerLocal.graphql";
+import { FeaturedCommentsContainerLocal$data as FeaturedCommentsContainerLocal } from "coral-stream/__generated__/FeaturedCommentsContainerLocal.graphql";
 import { FeaturedCommentsContainerPaginationQuery$variables as FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 

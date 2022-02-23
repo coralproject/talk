@@ -1,5 +1,5 @@
 import { waitForLocalState } from "coral-framework/lib/relay";
-import { waitTillAuthPopupIsClosedLocal } from "coral-stream/__generated__/waitTillAuthPopupIsClosedLocal.graphql";
+import { waitTillAuthPopupIsClosedLocal$data as waitTillAuthPopupIsClosedLocal } from "coral-stream/__generated__/waitTillAuthPopupIsClosedLocal.graphql";
 import { Environment, graphql } from "react-relay";
 
 async function waitTillAuthPopupIsClosed(environment: Environment) {

@@ -14,7 +14,7 @@ import { QueryError } from "coral-ui/components/v3";
 
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";
-import { StreamQueryLocal as Local } from "coral-stream/__generated__/StreamQueryLocal.graphql";
+import { StreamQueryLocal$data as Local } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 
 import { AllCommentsTabQuery } from "./AllCommentsTab";
 import StreamContainer from "./StreamContainer";

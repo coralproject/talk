@@ -22,7 +22,7 @@ import { Button } from "coral-ui/components/v3";
 import { UnansweredCommentsTabContainer_settings$data as UnansweredCommentsTabContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabContainer_settings.graphql";
 import { UnansweredCommentsTabContainer_story$data as UnansweredCommentsTabContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabContainer_story.graphql";
 import { UnansweredCommentsTabContainer_viewer$data as UnansweredCommentsTabContainer_viewer } from "coral-stream/__generated__/UnansweredCommentsTabContainer_viewer.graphql";
-import { UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/UnansweredCommentsTabContainerLocal.graphql";
+import { UnansweredCommentsTabContainerLocal$data as UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/UnansweredCommentsTabContainerLocal.graphql";
 import { UnansweredCommentsTabContainerPaginationQuery$variables as UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
 
 import NoComments from "../NoComments";
@@ -118,7 +118,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, props.story.id]);
+  }, [beginLoadMoreEvent, props.story.id, keyboardShortcutsConfig, loadMore]);
   const viewMore = useMutation(UnansweredCommentsTabViewNewMutation);
   const onViewMore = useCallback(() => viewMore({ storyID: props.story.id }), [
     props.story.id,

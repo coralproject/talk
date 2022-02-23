@@ -11,7 +11,7 @@ import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsQuery.graphql";
-import { FeaturedCommentsQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
+import { FeaturedCommentsQueryLocal$data as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
 
 import FeaturedCommentsContainer from "./FeaturedCommentsContainer";
 

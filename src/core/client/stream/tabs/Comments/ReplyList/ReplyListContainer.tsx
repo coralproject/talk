@@ -46,7 +46,7 @@ import { ReplyListContainerLastFlattened_settings$data as ReplyListContainerLast
 import { ReplyListContainerLastFlattened_story$data as ReplyListContainerLastFlattened_story } from "coral-stream/__generated__/ReplyListContainerLastFlattened_story.graphql";
 import { ReplyListContainerLastFlattened_viewer$data as ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated__/ReplyListContainerLastFlattened_viewer.graphql";
 import { ReplyListContainerLastFlattenedPaginationQuery$variables as ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
-import { ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
+import { ReplyListContainerLocal$data as ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
 
 import { isPublished, useStaticFlattenReplies } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
@@ -233,7 +233,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [showAll, beginShowAllEvent, props.comment.id]);
+  }, [beginShowAllEvent, props.comment.id, keyboardShortcutsConfig, showAll]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
@@ -255,7 +255,13 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [props.comment.id, props.story.id, viewNew, beginViewNewCommentsEvent]);
+  }, [
+    beginViewNewCommentsEvent,
+    props.story.id,
+    props.comment.id,
+    keyboardShortcutsConfig,
+    viewNew,
+  ]);
 
   if (!("replies" in props.comment)) {
     return null;

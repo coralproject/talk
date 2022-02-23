@@ -10,7 +10,7 @@ import {
 } from "recompose";
 
 import { resolveModule } from "./helpers";
-import { FragmentKeysNoLocal } from "./types";
+import { FragmentKeysNoLocal$data as FragmentKeysNoLocal } from "./types";
 
 /**
  * withRefetchContainer is a curried version of `createRefetchContainers`

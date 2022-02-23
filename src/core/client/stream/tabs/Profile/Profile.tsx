@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { useLocal } from "coral-framework/lib/relay";
+import { useLocal$data as useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
@@ -18,7 +18,7 @@ import {
   TabPane,
 } from "coral-ui/components/v2";
 
-import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
+import { ProfileLocal$data as ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
 import MyCommentsContainer from "./MyComments";

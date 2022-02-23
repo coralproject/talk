@@ -26,7 +26,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { LinkAccountContainer_viewer$data as LinkAccountContainer_viewer } from "coral-admin/__generated__/LinkAccountContainer_viewer.graphql";
-import { LinkAccountContainerLocal } from "coral-admin/__generated__/LinkAccountContainerLocal.graphql";
+import { LinkAccountContainerLocal$data as LinkAccountContainerLocal } from "coral-admin/__generated__/LinkAccountContainerLocal.graphql";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
 import SetAuthViewMutation from "../../SetAuthViewMutation";

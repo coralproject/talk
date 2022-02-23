@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { useLocal } from "coral-framework/lib/relay";
+import { useLocal$data as useLocal } from "coral-framework/lib/relay";
 
-import { CommentsPaneLocal } from "coral-stream/__generated__/CommentsPaneLocal.graphql";
+import { CommentsPaneLocal$data as CommentsPaneLocal } from "coral-stream/__generated__/CommentsPaneLocal.graphql";
 
 import PermalinkView from "./PermalinkView";
 import Stream from "./Stream";
