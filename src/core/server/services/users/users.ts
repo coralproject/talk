@@ -843,11 +843,31 @@ export async function demoteModerator(
       mongo,
       tenant.id,
       user.id,
-      GQLUSER_ROLE.COMMENTER // MARCUS: this will need an extra check
+      GQLUSER_ROLE.COMMENTER
     );
   }
 
   return updated;
+}
+
+export async function promoteMember(
+  mongo: MongoContext,
+  tenant: Tenant,
+  viewer: User,
+  userID: string,
+  siteIDs: string[]
+) {
+  // TODO (marcus): ensure target is member, not promoting self, either admin, staff(?) org mod, or site mod + sites in scope
+}
+
+export async function demoteMember(
+  mongo: MongoContext,
+  tenant: Tenant,
+  viewer: User,
+  userID: string,
+  siteIDs: string[]
+) {
+  // TODO (marcus): ensure target is member, either admin, staff(?), org mod, or site mod + sites in scope
 }
 
 export async function updateModerationScopes(
