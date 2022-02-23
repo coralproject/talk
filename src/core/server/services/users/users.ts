@@ -941,7 +941,6 @@ export async function updateMembershipScopes(
     throw new Error("Some of the provided site ids did not exist");
   }
 
-  // TODO: this is where we would enforce site mod access
   return updateUserMembershipScopes(mongo, tenant.id, userID, membershipScopes);
 }
 
