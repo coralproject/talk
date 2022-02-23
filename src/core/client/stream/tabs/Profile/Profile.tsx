@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { useLocal$data as useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";

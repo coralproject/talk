@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
-import { useLocal$data as useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import Popup from "coral-ui/components/v2/Popup";
 
 import { AuthPopup_local$data as AuthPopup_local } from "coral-stream/__generated__/AuthPopup_local.graphql";

@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { reduceSeconds } from "coral-common/helpers";
 import TIME from "coral-common/time";
 import { TodayMetricsJSON } from "coral-common/types/dashboard";
-import { useLocal$data as useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";
 

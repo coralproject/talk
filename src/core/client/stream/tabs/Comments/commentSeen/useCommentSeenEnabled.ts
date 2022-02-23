@@ -1,4 +1,4 @@
-import { useLocal$data as useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { graphql } from "react-relay";
 
 import { useCommentSeenEnabledLocal$data as useCommentSeenEnabledLocal } from "coral-stream/__generated__/useCommentSeenEnabledLocal.graphql";

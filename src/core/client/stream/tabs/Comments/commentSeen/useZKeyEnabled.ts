@@ -1,4 +1,4 @@
-import { useLocal$data as useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { graphql } from "react-relay";
 
 import { useZKeyEnabledLocal$data as useZKeyEnabledLocal } from "coral-stream/__generated__/useZKeyEnabledLocal.graphql";
