@@ -723,14 +723,13 @@ export async function updateRole(
   return updateUserRole(mongo, tenant.id, userID, role);
 }
 
-export async function promoteUser(
+export async function promoteModerator(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
   userID: string,
   siteIDs: string[]
 ) {
-  // MARCUS: TODO - see if this needs updating
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -787,7 +786,7 @@ export async function promoteUser(
   return updated;
 }
 
-export async function demoteUser(
+export async function demoteModerator(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,

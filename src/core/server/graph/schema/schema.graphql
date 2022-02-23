@@ -7414,10 +7414,10 @@ type UpdateUserRolePayload {
 }
 
 ##################
-# promoteUser
+# promoteModerator
 ##################
 
-input PromoteUserInput {
+input PromoteModeratorInput {
   """
   userID is the ID of the User that should have their role promoted.
   """
@@ -7434,7 +7434,7 @@ input PromoteUserInput {
   clientMutationId: String!
 }
 
-type PromoteUserPayload {
+type PromoteModeratorPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -7447,17 +7447,17 @@ type PromoteUserPayload {
 }
 
 ##################
-# demoteUser
+# demoteModerator
 ##################
 
-input DemoteUserInput {
+input DemoteModeratorInput {
   """
-  userID is the ID of the User that should have their role demoted.
+  userID is the ID of the User that should have their moderator role demoted.
   """
   userID: ID!
 
   """
-  siteIDs are the IDs of the Sites on which the User should have their role demoted.
+  siteIDs are the IDs of the Sites on which the User should have their moderator role demoted.
   """
   siteIDs: [String!]!
 
@@ -7467,7 +7467,7 @@ input DemoteUserInput {
   clientMutationId: String!
 }
 
-type DemoteUserPayload {
+type DemoteModeratorPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -8835,19 +8835,19 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
-  promoteUser will allow the viewer to add one or many scopes that applies to
+  promoteModerator will allow the viewer to add one or many scopes that applies to
   the viewer. If the target user was not already a site moderator, their role is
   set to site moderator.
   """
-  promoteUser(input: PromoteUserInput!): PromoteUserPayload!
+  promoteModerator(input: PromoteModeratorInput!): PromoteModeratorPayload!
     @auth(roles: [MODERATOR])
 
   """
-  demoteUser will allow the viewer to remove one or many scopes that applies to
+  demoteModerator will allow the viewer to remove one or many scopes that applies to
   the viewer and the target user. If the target user does not have any remaining
   scopes, they are set to commenter.
   """
-  demoteUser(input: DemoteUserInput!): DemoteUserPayload!
+  demoteModerator(input: DemoteModeratorInput!): DemoteModeratorPayload!
     @auth(roles: [MODERATOR])
 
   """
@@ -8866,7 +8866,7 @@ type Mutation {
   """
   updateUserMembershipScopes(
     input: UpdateUserMembershipScopesInput!
-  ): UpdateUserMembershipScopesPayload! @auth(roles: [ADMIN]) # TODO (marcushaddon): confirm this!
+  ): UpdateUserMembershipScopesPayload! @auth(roles: [ADMIN])
 
   """
   banUser will ban a specific User from interacting with Comments.
