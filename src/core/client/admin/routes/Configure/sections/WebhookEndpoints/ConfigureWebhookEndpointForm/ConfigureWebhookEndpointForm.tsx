@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
@@ -33,8 +33,6 @@ import UpdateWebhookEndpointMutation from "./UpdateWebhookEndpointMutation";
 
 interface Props {
   onCancel?: () => void;
-  router: Router;
-  match: Match;
   webhookEndpoint: ConfigureWebhookEndpointForm_webhookEndpoint | null;
   settings: ConfigureWebhookEndpointForm_settings;
 }
@@ -43,10 +41,10 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
   onCancel,
   settings,
   webhookEndpoint,
-  router,
 }) => {
   const create = useMutation(CreateWebhookEndpointMutation);
   const update = useMutation(UpdateWebhookEndpointMutation);
+  const { router } = useRouter();
   const onSubmit = useCallback(
     async (values) => {
       try {
@@ -138,22 +136,20 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withRouter(
-  withFragmentContainer<Props>({
-    webhookEndpoint: graphql`
-      fragment ConfigureWebhookEndpointForm_webhookEndpoint on WebhookEndpoint {
-        id
-        url
-        events
-        all
-      }
-    `,
-    settings: graphql`
-      fragment ConfigureWebhookEndpointForm_settings on Settings {
-        ...EventsSelectField_settings
-      }
-    `,
-  })(ConfigureWebhookEndpointForm)
-);
+const enhanced = withFragmentContainer<Props>({
+  webhookEndpoint: graphql`
+    fragment ConfigureWebhookEndpointForm_webhookEndpoint on WebhookEndpoint {
+      id
+      url
+      events
+      all
+    }
+  `,
+  settings: graphql`
+    fragment ConfigureWebhookEndpointForm_settings on Settings {
+      ...EventsSelectField_settings
+    }
+  `,
+})(ConfigureWebhookEndpointForm);
 
 export default enhanced;

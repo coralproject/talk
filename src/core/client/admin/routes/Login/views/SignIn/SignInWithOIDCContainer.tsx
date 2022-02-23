@@ -7,7 +7,7 @@ import { redirectOAuth2 } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SignInWithOIDCContainer_auth as AuthData } from "coral-admin/__generated__/SignInWithOIDCContainer_auth.graphql";
+import { SignInWithOIDCContainer_auth$data as AuthData } from "coral-admin/__generated__/SignInWithOIDCContainer_auth.graphql";
 
 interface Props {
   auth: AuthData;

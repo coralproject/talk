@@ -6,7 +6,7 @@ import OIDCButton from "coral-framework/components/OIDCButton";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SignInWithOIDCContainer_auth as AuthData } from "coral-auth/__generated__/SignInWithOIDCContainer_auth.graphql";
+import { SignInWithOIDCContainer_auth$data as AuthData } from "coral-auth/__generated__/SignInWithOIDCContainer_auth.graphql";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 interface Props {

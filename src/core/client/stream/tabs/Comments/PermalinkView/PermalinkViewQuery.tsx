@@ -5,21 +5,17 @@ import { graphql } from "react-relay";
 import {
   QueryRenderData,
   QueryRenderer,
-  withLocalStateContainer,
+  useLocal,
 } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
-import { PermalinkViewQueryLocal$data as Local } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
+import { PermalinkViewQueryLocal$data as PermalinkViewQueryLocal } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
 import { useStaticFlattenReplies } from "../helpers";
 import PermalinkViewContainer from "./PermalinkViewContainer";
-
-interface Props {
-  local: Local;
-}
 
 export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
@@ -49,11 +45,18 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const PermalinkViewQuery: FunctionComponent<Props> = ({
-  local: { commentID, storyID, storyURL },
-}) => {
+const PermalinkViewQuery: FunctionComponent = () => {
   const handleIncompleteAccount = useHandleIncompleteAccount();
   const flattenReplies = useStaticFlattenReplies();
+  const [{ storyID, storyURL, commentID }] = useLocal<
+    PermalinkViewQueryLocal
+  >(graphql`
+    fragment PermalinkViewQueryLocal on Local {
+      storyID
+      storyURL
+      commentID
+    }
+  `);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -93,14 +96,4 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment PermalinkViewQueryLocal on Local {
-      storyID
-      commentID
-      storyURL
-    }
-  `
-)(PermalinkViewQuery);
-
-export default enhanced;
+export default PermalinkViewQuery;

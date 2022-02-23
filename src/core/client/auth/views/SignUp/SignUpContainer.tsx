@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import { SetViewMutation } from "coral-auth/mutations";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SignUpContainer_auth as AuthData } from "coral-auth/__generated__/SignUpContainer_auth.graphql";
+import { SignUpContainer_auth$data as AuthData } from "coral-auth/__generated__/SignUpContainer_auth.graphql";
 
 import SignUp from "./SignUp";
 

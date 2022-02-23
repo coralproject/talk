@@ -6,7 +6,7 @@ import GoogleButton from "coral-framework/components/GoogleButton";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SignUpWithGoogleContainer_auth as AuthData } from "coral-auth/__generated__/SignUpWithGoogleContainer_auth.graphql";
+import { SignUpWithGoogleContainer_auth$data as AuthData } from "coral-auth/__generated__/SignUpWithGoogleContainer_auth.graphql";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 interface Props {

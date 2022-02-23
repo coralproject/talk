@@ -1,10 +1,7 @@
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import {
-  withFragmentContainer,
-  withLocalStateContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 
@@ -24,17 +21,20 @@ interface Props {
   story: TabBarContainer_story | null;
   settings: TabBarContainer_settings | null;
   viewer: TabBarContainer_viewer | null;
-  local: TabBarContainerLocal;
   setActiveTab: SetActiveTabMutation;
 }
 
 export const TabBarContainer: FunctionComponent<Props> = ({
-  local: { activeTab },
   viewer,
   story,
   settings,
   setActiveTab,
 }) => {
+  const [{ activeTab }] = useLocal<TabBarContainerLocal>(graphql`
+    fragment TabBarContainerLocal on Local {
+      activeTab
+    }
+  `);
   const handleSetActiveTab = useCallback(
     (tab: SetActiveTabInput["tab"]) => {
       void setActiveTab({ tab });
@@ -72,34 +72,26 @@ export const TabBarContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withSetActiveTabMutation(
-  withLocalStateContainer(
-    graphql`
-      fragment TabBarContainerLocal on Local {
-        activeTab
+  withFragmentContainer<Props>({
+    viewer: graphql`
+      fragment TabBarContainer_viewer on User {
+        role
       }
-    `
-  )(
-    withFragmentContainer<Props>({
-      viewer: graphql`
-        fragment TabBarContainer_viewer on User {
-          role
+    `,
+    story: graphql`
+      fragment TabBarContainer_story on Story {
+        canModerate
+        settings {
+          mode
         }
-      `,
-      story: graphql`
-        fragment TabBarContainer_story on Story {
-          canModerate
-          settings {
-            mode
-          }
-        }
-      `,
-      settings: graphql`
-        fragment TabBarContainer_settings on Settings {
-          featureFlags
-        }
-      `,
-    })(TabBarContainer)
-  )
+      }
+    `,
+    settings: graphql`
+      fragment TabBarContainer_settings on Settings {
+        featureFlags
+      }
+    `,
+  })(TabBarContainer)
 );
 
 export default enhanced;

@@ -16,7 +16,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 
-import { SignInContainer_auth } from "coral-auth/__generated__/SignInContainer_auth.graphql";
+import { SignInContainer_auth$data as SignInContainer_auth } from "coral-auth/__generated__/SignInContainer_auth.graphql";
 import { SignInContainerLocal$data as SignInContainerLocal } from "coral-auth/__generated__/SignInContainerLocal.graphql";
 
 import {

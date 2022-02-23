@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { FacebookConfigContainer_auth as AuthData } from "coral-admin/__generated__/FacebookConfigContainer_auth.graphql";
+import { FacebookConfigContainer_auth$data as AuthData } from "coral-admin/__generated__/FacebookConfigContainer_auth.graphql";
 
 import FacebookConfig from "./FacebookConfig";
 

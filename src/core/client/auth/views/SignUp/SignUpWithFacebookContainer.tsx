@@ -6,7 +6,7 @@ import FacebookButton from "coral-framework/components/FacebookButton";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SignUpWithFacebookContainer_auth as AuthData } from "coral-auth/__generated__/SignUpWithFacebookContainer_auth.graphql";
+import { SignUpWithFacebookContainer_auth$data as AuthData } from "coral-auth/__generated__/SignUpWithFacebookContainer_auth.graphql";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 interface Props {

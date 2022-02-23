@@ -7,7 +7,7 @@ import { redirectOAuth2 } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { SignInWithFacebookContainer_auth as AuthData } from "coral-auth/__generated__/SignInWithFacebookContainer_auth.graphql";
+import { SignInWithFacebookContainer_auth$data as AuthData } from "coral-auth/__generated__/SignInWithFacebookContainer_auth.graphql";
 
 interface Props {
   auth: AuthData;
