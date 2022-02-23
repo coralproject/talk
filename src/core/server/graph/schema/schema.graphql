@@ -7527,6 +7527,72 @@ type DemoteModeratorPayload {
 }
 
 ##################
+# promoteMember
+##################
+
+input PromoteMemberInput {
+    """
+  userID is the ID of the User that should have their member role promoted.
+  """
+  userID: ID!
+
+  """
+  siteIDs are the IDs of the Sites on which the User should have their member role promoted.
+  """
+  siteIDs: [String!]!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type PromoteMemberPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
+# demoteMember
+##################
+
+input DemoteMemberInput {
+    """
+  userID is the ID of the User that should have their member role demoted.
+  """
+  userID: ID!
+
+  """
+  siteIDs are the IDs of the Sites on which the User should have their member role demoted.
+  """
+  siteIDs: [String!]!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DemoteMemberPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+}
+
+##################
 # warnUser
 ##################
 input WarnUserInput {
@@ -8895,6 +8961,21 @@ type Mutation {
   scopes, they are set to commenter.
   """
   demoteModerator(input: DemoteModeratorInput!): DemoteModeratorPayload!
+    @auth(roles: [MODERATOR])
+
+  """
+  promoteMember will allow the viewer to add one or many scopes that applies to
+  the viewer.
+  """
+  promoteMember(input: PromoteModeratorInput!): PromoteModeratorPayload!
+    @auth(roles: [MODERATOR])
+
+  """
+  demoteMember will allow the viewer to remove one or many scopes that applies to
+  the viewer and the target user. If the target user does not have any remaining
+  scopes, they are set to commenter.
+  """
+  demoteMember(input: DemoteModeratorInput!): DemoteModeratorPayload!
     @auth(roles: [MODERATOR])
 
   """
