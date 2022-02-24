@@ -221,6 +221,27 @@ jobs:
           command: bash ./scripts/docker.sh deploy-commit
           no_output_timeout: 30m
 
+  # push_to_gcr will build and push the Docker image.
+  push_develop_to_gcr:
+    <<: *job_node_defaults
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - setup_remote_docker:
+          <<: *setup_remote_docker_defaults
+      - run:
+          name: Authenticate Google Cloud SDK for Docker
+          command: |
+            echo "${GCLOUD_SERVICE_KEY}" | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
+            gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
+            gcloud auth configure-docker --quiet
+      - run:
+          name: Create and push the image to GCR
+          command: bash ./scripts/docker.sh deploy_latest_develop_commit
+          no_output_timeout: 30m
+
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
 filter_release: &filter_release
@@ -270,6 +291,16 @@ workflows:
             branches:
               only:
                 - /^release-.*/
+          requires:
+            - lint
+            - unit_tests
+            - build
+      - push_develop_to_gcr:
+          <<: *filter_develop
+          filters:
+            branches:
+              only:
+                - develop
           requires:
             - lint
             - unit_tests
