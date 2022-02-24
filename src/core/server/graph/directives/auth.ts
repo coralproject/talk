@@ -1,5 +1,5 @@
-import { DirectiveResolverFn } from "@graphql-tools/utils";
 import { CacheScope } from "apollo-cache-control";
+import { DirectiveResolverFn } from "apollo-server-express";
 import { memoize } from "lodash";
 
 import { setCacheHint } from "coral-common/graphql";

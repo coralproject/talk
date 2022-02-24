@@ -1,4 +1,4 @@
-import { SchemaDirectiveVisitor } from "@graphql-tools/utils";
+import { SchemaDirectiveVisitor } from "apollo-server-express";
 import {
   defaultFieldResolver,
   GraphQLArgument,
