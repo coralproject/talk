@@ -8,7 +8,7 @@ import {
   withSignOutMutation,
 } from "coral-framework/mutations";
 
-import { NavigationContainer_viewer as ViewerData } from "coral-admin/__generated__/NavigationContainer_viewer.graphql";
+import { NavigationContainer_viewer$data as ViewerData } from "coral-admin/__generated__/NavigationContainer_viewer.graphql";
 
 import Navigation from "./Navigation";
 

@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { GQLSTORY_MODE } from "coral-framework/schema";
-import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_comment$data as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";

@@ -4,8 +4,8 @@ import { graphql } from "react-relay";
 import { Ability, can } from "coral-admin/permissions";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { InviteUsersContainer_settings } from "coral-admin/__generated__/InviteUsersContainer_settings.graphql";
-import { InviteUsersContainer_viewer } from "coral-admin/__generated__/InviteUsersContainer_viewer.graphql";
+import { InviteUsersContainer_settings$data as InviteUsersContainer_settings } from "coral-admin/__generated__/InviteUsersContainer_settings.graphql";
+import { InviteUsersContainer_viewer$data as InviteUsersContainer_viewer } from "coral-admin/__generated__/InviteUsersContainer_viewer.graphql";
 
 import InviteUsers from "./InviteUsers";
 

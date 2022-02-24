@@ -12,7 +12,7 @@ import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
-import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
+import { StoryTableContainerPaginationQuery$variables as StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
 
 import StoryTable from "./StoryTable";
 import StoryTableFilter from "./StoryTableFilter";

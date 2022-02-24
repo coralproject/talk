@@ -27,9 +27,9 @@ import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
-import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
-import { ReplyCommentFormContainer_story as StoryData } from "coral-stream/__generated__/ReplyCommentFormContainer_story.graphql";
+import { ReplyCommentFormContainer_comment$data as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
+import { ReplyCommentFormContainer_settings$data as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
+import { ReplyCommentFormContainer_story$data as StoryData } from "coral-stream/__generated__/ReplyCommentFormContainer_story.graphql";
 
 import { useCommentSeenEnabled } from "../../commentSeen";
 import {

@@ -6,7 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { AddMessageContainer_story } from "coral-stream/__generated__/AddMessageContainer_story.graphql";
+import { AddMessageContainer_story$data as AddMessageContainer_story } from "coral-stream/__generated__/AddMessageContainer_story.graphql";
 
 import AddMessageClosed from "./AddMessageClosed";
 import AddMessageOpen from "./AddMessageOpen";

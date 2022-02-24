@@ -11,9 +11,9 @@ import {
 import { GQLSTORY_MODE, GQLSTORY_STATUS } from "coral-framework/schema";
 import { Button } from "coral-ui/components/v3";
 
-import { ArchiveStoryActionsContainer_local } from "coral-admin/__generated__/ArchiveStoryActionsContainer_local.graphql";
-import { ArchiveStoryActionsContainer_story } from "coral-admin/__generated__/ArchiveStoryActionsContainer_story.graphql";
-import { ArchiveStoryActionsContainer_viewer } from "coral-admin/__generated__/ArchiveStoryActionsContainer_viewer.graphql";
+import { ArchiveStoryActionsContainer_local$data as ArchiveStoryActionsContainer_local } from "coral-admin/__generated__/ArchiveStoryActionsContainer_local.graphql";
+import { ArchiveStoryActionsContainer_story$data as ArchiveStoryActionsContainer_story } from "coral-admin/__generated__/ArchiveStoryActionsContainer_story.graphql";
+import { ArchiveStoryActionsContainer_viewer$data as ArchiveStoryActionsContainer_viewer } from "coral-admin/__generated__/ArchiveStoryActionsContainer_viewer.graphql";
 
 import ArchiveStoriesMutation from "./ArchiveStoriesMutation";
 import UnarchiveStoriesMutation from "./UnarchiveStoriesMutation";

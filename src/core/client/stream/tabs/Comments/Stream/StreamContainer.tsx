@@ -38,9 +38,9 @@ import {
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 import { PropTypesOf } from "coral-ui/types";
 
-import { StreamContainer_settings } from "coral-stream/__generated__/StreamContainer_settings.graphql";
-import { StreamContainer_story } from "coral-stream/__generated__/StreamContainer_story.graphql";
-import { StreamContainer_viewer } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
+import { StreamContainer_settings$data as StreamContainer_settings } from "coral-stream/__generated__/StreamContainer_settings.graphql";
+import { StreamContainer_story$data as StreamContainer_story } from "coral-stream/__generated__/StreamContainer_story.graphql";
+import { StreamContainer_viewer$data as StreamContainer_viewer } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
 import {
   COMMENTS_TAB,
   StreamContainerLocal,

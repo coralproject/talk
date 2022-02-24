@@ -4,9 +4,9 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalRule } from "coral-ui/components/v2";
 
-import { MyCommentsContainer_settings } from "coral-stream/__generated__/MyCommentsContainer_settings.graphql";
-import { MyCommentsContainer_story } from "coral-stream/__generated__/MyCommentsContainer_story.graphql";
-import { MyCommentsContainer_viewer } from "coral-stream/__generated__/MyCommentsContainer_viewer.graphql";
+import { MyCommentsContainer_settings$data as MyCommentsContainer_settings } from "coral-stream/__generated__/MyCommentsContainer_settings.graphql";
+import { MyCommentsContainer_story$data as MyCommentsContainer_story } from "coral-stream/__generated__/MyCommentsContainer_story.graphql";
+import { MyCommentsContainer_viewer$data as MyCommentsContainer_viewer } from "coral-stream/__generated__/MyCommentsContainer_viewer.graphql";
 
 import CommentHistoryContainer from "./CommentHistoryContainer";
 import DownloadCommentsContainer from "./DownloadCommentsContainer";

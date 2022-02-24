@@ -12,8 +12,8 @@ import {
   Timestamp,
 } from "coral-ui/components/v2";
 
-import { ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
-import { ConversationModalCommentContainer_settings } from "coral-admin/__generated__/ConversationModalCommentContainer_settings.graphql";
+import { ConversationModalCommentContainer_comment$data as ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
+import { ConversationModalCommentContainer_settings$data as ConversationModalCommentContainer_settings } from "coral-admin/__generated__/ConversationModalCommentContainer_settings.graphql";
 
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import { Circle, Line } from "../Timeline";

@@ -14,7 +14,7 @@ import {
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { UserTableContainer_query as QueryData } from "coral-admin/__generated__/UserTableContainer_query.graphql";
-import { UserTableContainerPaginationQueryVariables } from "coral-admin/__generated__/UserTableContainerPaginationQuery.graphql";
+import { UserTableContainerPaginationQuery$variables as UserTableContainerPaginationQueryVariables } from "coral-admin/__generated__/UserTableContainerPaginationQuery.graphql";
 
 import UserTable from "./UserTable";
 import UserTableFilter from "./UserTableFilter";

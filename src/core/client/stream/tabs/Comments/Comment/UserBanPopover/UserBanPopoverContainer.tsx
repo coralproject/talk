@@ -9,8 +9,8 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex } from "coral-ui/components/v2";
 
-import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
-import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
+import { UserBanPopoverContainer_comment$data as UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
+import { UserBanPopoverContainer_story$data as UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 
 import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
 import BanUserMutation from "./BanUserMutation";

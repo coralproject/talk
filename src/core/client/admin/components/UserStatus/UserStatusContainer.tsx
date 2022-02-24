@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_STATUS } from "coral-framework/schema";
 
-import { UserStatusContainer_user } from "coral-admin/__generated__/UserStatusContainer_user.graphql";
+import { UserStatusContainer_user$data as UserStatusContainer_user } from "coral-admin/__generated__/UserStatusContainer_user.graphql";
 
 import UserStatus from "./UserStatus";
 

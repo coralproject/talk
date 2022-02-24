@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { WebhookEndpointsConfigContainer_settings } from "coral-admin/__generated__/WebhookEndpointsConfigContainer_settings.graphql";
+import { WebhookEndpointsConfigContainer_settings$data as WebhookEndpointsConfigContainer_settings } from "coral-admin/__generated__/WebhookEndpointsConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

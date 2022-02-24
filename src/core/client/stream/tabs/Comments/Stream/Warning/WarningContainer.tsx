@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 
-import { WarningContainer_viewer } from "coral-stream/__generated__/WarningContainer_viewer.graphql";
+import { WarningContainer_viewer$data as WarningContainer_viewer } from "coral-stream/__generated__/WarningContainer_viewer.graphql";
 
 import AcknowledgeWarningMutation from "./AcknowledgeWarningMutation";
 import Warning from "./Warning";

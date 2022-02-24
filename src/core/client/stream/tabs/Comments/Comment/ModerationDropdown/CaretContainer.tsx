@@ -12,10 +12,10 @@ import {
   Popover,
 } from "coral-ui/components/v2";
 
-import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
-import { CaretContainer_settings } from "coral-stream/__generated__/CaretContainer_settings.graphql";
-import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
-import { CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
+import { CaretContainer_comment$data as CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
+import { CaretContainer_settings$data as CaretContainer_settings } from "coral-stream/__generated__/CaretContainer_settings.graphql";
+import { CaretContainer_story$data as CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
+import { CaretContainer_viewer$data as CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
 
 import ModerationDropdownContainer from "./ModerationDropdownContainer";
 

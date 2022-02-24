@@ -13,7 +13,7 @@ import {
   Popover,
 } from "coral-ui/components/v2";
 
-import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
+import { UserStatusDetailsContainer_user$data as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
 
 import styles from "./UserStatusDetailsContainer.css";
 

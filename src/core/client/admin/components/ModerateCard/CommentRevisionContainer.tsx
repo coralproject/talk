@@ -8,7 +8,7 @@ import GiphyMedia from "../MediaContainer/GiphyMedia";
 import TwitterMedia from "../MediaContainer/TwitterMedia";
 import YouTubeMedia from "../MediaContainer/YouTubeMedia";
 
-import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
+import { CommentRevisionContainer_comment$data as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
 
 import { CommentContent } from "../Comment";
 

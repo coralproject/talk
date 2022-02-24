@@ -23,10 +23,10 @@ import {
 } from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
 
-import { FeaturedCommentContainer_comment as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
-import { FeaturedCommentContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentContainer_settings.graphql";
-import { FeaturedCommentContainer_story as StoryData } from "coral-stream/__generated__/FeaturedCommentContainer_story.graphql";
-import { FeaturedCommentContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentContainer_viewer.graphql";
+import { FeaturedCommentContainer_comment$data as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
+import { FeaturedCommentContainer_settings$data as SettingsData } from "coral-stream/__generated__/FeaturedCommentContainer_settings.graphql";
+import { FeaturedCommentContainer_story$data as StoryData } from "coral-stream/__generated__/FeaturedCommentContainer_story.graphql";
+import { FeaturedCommentContainer_viewer$data as ViewerData } from "coral-stream/__generated__/FeaturedCommentContainer_viewer.graphql";
 
 import { UserTagsContainer } from "../../Comment";
 import MediaSectionContainer from "../../Comment/MediaSection";

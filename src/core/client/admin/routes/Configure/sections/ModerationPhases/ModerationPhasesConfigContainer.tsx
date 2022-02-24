@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { ModerationPhasesConfigContainer_settings } from "coral-admin/__generated__/ModerationPhasesConfigContainer_settings.graphql";
+import { ModerationPhasesConfigContainer_settings$data as ModerationPhasesConfigContainer_settings } from "coral-admin/__generated__/ModerationPhasesConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

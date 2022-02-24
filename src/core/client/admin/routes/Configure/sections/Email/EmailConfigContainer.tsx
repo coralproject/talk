@@ -14,7 +14,7 @@ import { GQLSettings } from "coral-framework/schema";
 import { AppNotification, Button, CallOut, Flex } from "coral-ui/components/v2";
 
 import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";
-import { EmailConfigContainer_viewer } from "coral-admin/__generated__/EmailConfigContainer_viewer.graphql";
+import { EmailConfigContainer_viewer$data as EmailConfigContainer_viewer } from "coral-admin/__generated__/EmailConfigContainer_viewer.graphql";
 
 import Header from "../../Header";
 import ConfigBoxWithToggleField from "../Auth/ConfigBoxWithToggleField";

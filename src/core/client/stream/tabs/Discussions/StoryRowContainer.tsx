@@ -11,7 +11,7 @@ import {
   RelativeTime,
 } from "coral-ui/components/v2";
 
-import { StoryRowContainer_story } from "coral-stream/__generated__/StoryRowContainer_story.graphql";
+import { StoryRowContainer_story$data as StoryRowContainer_story } from "coral-stream/__generated__/StoryRowContainer_story.graphql";
 
 import styles from "./StoryRowContainer.css";
 

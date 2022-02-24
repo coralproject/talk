@@ -5,7 +5,7 @@ import { urls } from "coral-framework/helpers";
 import { useLocal } from "coral-framework/lib/relay";
 import Popup from "coral-ui/components/v2/Popup";
 
-import { AuthPopup_local } from "coral-stream/__generated__/AuthPopup_local.graphql";
+import { AuthPopup_local$data as AuthPopup_local } from "coral-stream/__generated__/AuthPopup_local.graphql";
 
 const AuthPopup: FunctionComponent = () => {
   const [local, setLocal] = useLocal<AuthPopup_local>(graphql`

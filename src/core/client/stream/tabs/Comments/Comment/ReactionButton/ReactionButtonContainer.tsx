@@ -12,9 +12,9 @@ import {
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 
-import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
-import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
-import { ReactionButtonContainer_viewer as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
+import { ReactionButtonContainer_comment$data as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
+import { ReactionButtonContainer_settings$data as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
+import { ReactionButtonContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 
 import { shouldTriggerViewerRefresh } from "../../helpers";
 import RefreshViewerFetch from "../../RefreshViewerFetch";

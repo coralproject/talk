@@ -11,9 +11,9 @@ import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
 import { Button } from "coral-ui/components/v3";
 
-import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
-import { ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
-import { ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
+import { ModerateStreamContainer_settings$data as ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
+import { ModerateStreamContainer_story$data as ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
+import { ModerateStreamContainer_viewer$data as ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
 import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
 
 interface Props {

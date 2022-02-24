@@ -9,8 +9,8 @@ import {
 } from "coral-framework/lib/relay";
 
 import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
-import { ModerateNavigationContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";
-import { ModerateNavigationContainer_story as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
+import { ModerateNavigationContainer_settings$data as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";
+import { ModerateNavigationContainer_story$data as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
 
 import ModerateCountsCommentEnteredSubscription from "./ModerateCountsCommentEnteredSubscription";
 import ModerateCountsCommentLeftSubscription from "./ModerateCountsCommentLeftSubscription";

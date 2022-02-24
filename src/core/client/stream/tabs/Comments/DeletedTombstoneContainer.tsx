@@ -6,7 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Tombstone } from "coral-ui/components/v3";
 
-import { DeletedTombstoneContainer_comment } from "coral-stream/__generated__/DeletedTombstoneContainer_comment.graphql";
+import { DeletedTombstoneContainer_comment$data as DeletedTombstoneContainer_comment } from "coral-stream/__generated__/DeletedTombstoneContainer_comment.graphql";
 
 interface Props {
   comment: DeletedTombstoneContainer_comment;

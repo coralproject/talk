@@ -25,10 +25,10 @@ import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Su
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { PermalinkViewContainer_comment as CommentData } from "coral-stream/__generated__/PermalinkViewContainer_comment.graphql";
-import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__generated__/PermalinkViewContainer_settings.graphql";
-import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
-import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
+import { PermalinkViewContainer_comment$data as CommentData } from "coral-stream/__generated__/PermalinkViewContainer_comment.graphql";
+import { PermalinkViewContainer_settings$data as SettingsData } from "coral-stream/__generated__/PermalinkViewContainer_settings.graphql";
+import { PermalinkViewContainer_story$data as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
+import { PermalinkViewContainer_viewer$data as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
 
 import { isPublished } from "../helpers";
 import ConversationThreadContainer from "./ConversationThreadContainer";

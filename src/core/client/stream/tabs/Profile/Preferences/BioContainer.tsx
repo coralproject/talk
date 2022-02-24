@@ -22,8 +22,8 @@ import {
   ValidationMessage,
 } from "coral-ui/components/v3";
 
-import { BioContainer_settings } from "coral-stream/__generated__/BioContainer_settings.graphql";
-import { BioContainer_viewer } from "coral-stream/__generated__/BioContainer_viewer.graphql";
+import { BioContainer_settings$data as BioContainer_settings } from "coral-stream/__generated__/BioContainer_settings.graphql";
+import { BioContainer_viewer$data as BioContainer_viewer } from "coral-stream/__generated__/BioContainer_viewer.graphql";
 
 import RemainingCharactersContainer from "../../Comments/RemainingCharacters";
 import UpdateBioMutation from "./UpdateBioMutation";

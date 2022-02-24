@@ -13,10 +13,10 @@ import { LoadMoreFeaturedCommentsEvent } from "coral-stream/events";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { AnsweredCommentsContainer_settings as SettingsData } from "coral-stream/__generated__/AnsweredCommentsContainer_settings.graphql";
-import { AnsweredCommentsContainer_story as StoryData } from "coral-stream/__generated__/AnsweredCommentsContainer_story.graphql";
-import { AnsweredCommentsContainer_viewer as ViewerData } from "coral-stream/__generated__/AnsweredCommentsContainer_viewer.graphql";
-import { AnsweredCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/AnsweredCommentsContainerPaginationQuery.graphql";
+import { AnsweredCommentsContainer_settings$data as SettingsData } from "coral-stream/__generated__/AnsweredCommentsContainer_settings.graphql";
+import { AnsweredCommentsContainer_story$data as StoryData } from "coral-stream/__generated__/AnsweredCommentsContainer_story.graphql";
+import { AnsweredCommentsContainer_viewer$data as ViewerData } from "coral-stream/__generated__/AnsweredCommentsContainer_viewer.graphql";
+import { AnsweredCommentsContainerPaginationQuery$variables as AnsweredCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/AnsweredCommentsContainerPaginationQuery.graphql";
 
 import AnsweredCommentContainer from "./AnsweredCommentContainer";
 

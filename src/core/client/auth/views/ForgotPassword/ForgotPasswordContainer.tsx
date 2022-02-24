@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ForgotPasswordContainer_viewer } from "coral-auth/__generated__/ForgotPasswordContainer_viewer.graphql";
+import { ForgotPasswordContainer_viewer$data as ForgotPasswordContainer_viewer } from "coral-auth/__generated__/ForgotPasswordContainer_viewer.graphql";
 
 import CheckEmail from "./CheckEmail";
 import ForgotPasswordForm from "./ForgotPasswordForm";

@@ -7,9 +7,9 @@ import { GQLSTORY_STATUS } from "coral-framework/schema";
 import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
-import { StoryInfoDrawerContainer_settings } from "coral-admin/__generated__/StoryInfoDrawerContainer_settings.graphql";
-import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
-import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
+import { StoryInfoDrawerContainer_settings$data as StoryInfoDrawerContainer_settings } from "coral-admin/__generated__/StoryInfoDrawerContainer_settings.graphql";
+import { StoryInfoDrawerContainer_story$data as StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
+import { StoryInfoDrawerContainer_viewer$data as StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
 import ArchiveStoryActionsContainer from "./ArchiveStoryActionsContainer";
 import ModerateStoryButton from "./ModerateStoryButton";

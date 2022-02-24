@@ -29,8 +29,8 @@ import {
   Typography,
 } from "coral-ui/components/v2";
 
-import { SiteModeratorActions_user } from "coral-admin/__generated__/SiteModeratorActions_user.graphql";
-import { SiteModeratorActions_viewer } from "coral-admin/__generated__/SiteModeratorActions_viewer.graphql";
+import { SiteModeratorActions_user$data as SiteModeratorActions_user } from "coral-admin/__generated__/SiteModeratorActions_user.graphql";
+import { SiteModeratorActions_viewer$data as SiteModeratorActions_viewer } from "coral-admin/__generated__/SiteModeratorActions_viewer.graphql";
 
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";

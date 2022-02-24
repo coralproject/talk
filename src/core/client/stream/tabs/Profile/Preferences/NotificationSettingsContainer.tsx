@@ -21,7 +21,7 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { NotificationSettingsContainer_viewer } from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
+import { NotificationSettingsContainer_viewer$data as NotificationSettingsContainer_viewer } from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
 
 import UpdateNotificationSettingsMutation from "./UpdateNotificationSettingsMutation";
 

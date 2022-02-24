@@ -8,7 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { WordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/WordListConfigContainer_settings.graphql";
+import { WordListConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/WordListConfigContainer_settings.graphql";
 
 import BannedWordListConfig from "./BannedWordListConfig";
 import SuspectWordListConfig from "./SuspectWordListConfig";

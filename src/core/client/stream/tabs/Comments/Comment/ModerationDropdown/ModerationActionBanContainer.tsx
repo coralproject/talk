@@ -7,7 +7,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { DropdownButton, Icon, Spinner } from "coral-ui/components/v2";
 
-import { ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
+import { ModerationActionBanContainer_user$data as ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
 
 import styles from "./ModerationActionBanContainer.css";
 

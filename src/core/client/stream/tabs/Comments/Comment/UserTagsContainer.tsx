@@ -7,9 +7,9 @@ import withFragmentContainer from "coral-framework/lib/relay/withFragmentContain
 import { GQLSTORY_MODE, GQLTAG, GQLTAG_RL } from "coral-framework/schema";
 import { Flex, Icon, Tag } from "coral-ui/components/v2";
 
-import { UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
-import { UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
-import { UserTagsContainer_story } from "coral-stream/__generated__/UserTagsContainer_story.graphql";
+import { UserTagsContainer_comment$data as UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
+import { UserTagsContainer_settings$data as UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
+import { UserTagsContainer_story$data as UserTagsContainer_story } from "coral-stream/__generated__/UserTagsContainer_story.graphql";
 
 import StaffTagContainer from "./StaffTagContainer";
 

@@ -14,8 +14,8 @@ import CLASSES from "coral-stream/classes";
 import { Flex } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
-import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
-import { IgnoredTombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
+import { IgnoredTombstoneOrHideContainer_comment$data as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
+import { IgnoredTombstoneOrHideContainer_viewer$data as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
 
 import styles from "./IgnoredTombstoneOrHideContainer.css";
 

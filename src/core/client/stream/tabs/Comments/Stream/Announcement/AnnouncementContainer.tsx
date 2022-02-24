@@ -10,7 +10,7 @@ import { ANNOUNCEMENT_DISMISSED_KEY } from "coral-framework/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { AnnouncementContainer_settings as SettingsData } from "coral-stream/__generated__/AnnouncementContainer_settings.graphql";
+import { AnnouncementContainer_settings$data as SettingsData } from "coral-stream/__generated__/AnnouncementContainer_settings.graphql";
 
 import Announcement from "./Announcement";
 

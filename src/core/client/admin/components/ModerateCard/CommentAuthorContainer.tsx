@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Tag } from "coral-ui/components/v2";
 
-import { CommentAuthorContainer_comment as CommentData } from "coral-admin/__generated__/CommentAuthorContainer_comment.graphql";
+import { CommentAuthorContainer_comment$data as CommentData } from "coral-admin/__generated__/CommentAuthorContainer_comment.graphql";
 
 import styles from "./CommentAuthorContainer.css";
 

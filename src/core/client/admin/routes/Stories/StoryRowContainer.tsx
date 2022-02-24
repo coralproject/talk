@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { StoryRowContainer_story as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
+import { StoryRowContainer_story$data as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
 
 import StoryRow from "./StoryRow";
 

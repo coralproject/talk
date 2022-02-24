@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Label } from "coral-ui/components/v2";
 
-import { SSOSigningSecretRotationContainer_settings } from "coral-admin/__generated__/SSOSigningSecretRotationContainer_settings.graphql";
+import { SSOSigningSecretRotationContainer_settings$data as SSOSigningSecretRotationContainer_settings } from "coral-admin/__generated__/SSOSigningSecretRotationContainer_settings.graphql";
 
 import SSOSigningSecretCard, {
   SSOSigningSecretDates,

@@ -8,9 +8,9 @@ import CLASSES from "coral-stream/classes";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { UserPopoverOverviewContainer_settings } from "coral-stream/__generated__/UserPopoverOverviewContainer_settings.graphql";
-import { UserPopoverOverviewContainer_user as UserData } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
-import { UserPopoverOverviewContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
+import { UserPopoverOverviewContainer_settings$data as UserPopoverOverviewContainer_settings } from "coral-stream/__generated__/UserPopoverOverviewContainer_settings.graphql";
+import { UserPopoverOverviewContainer_user$data as UserData } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
+import { UserPopoverOverviewContainer_viewer$data as ViewerData } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
 
 import Username from "../Username";
 

@@ -13,8 +13,8 @@ import {
 import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
-import { ReportButton_viewer } from "coral-stream/__generated__/ReportButton_viewer.graphql";
+import { ReportButton_comment$data as ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
+import { ReportButton_viewer$data as ReportButton_viewer } from "coral-stream/__generated__/ReportButton_viewer.graphql";
 
 import styles from "./ReportButton.css";
 

@@ -20,8 +20,8 @@ import {
   Label,
 } from "coral-ui/components/v2";
 
-import { EditSiteForm_settings as SettingsData } from "coral-admin/__generated__/EditSiteForm_settings.graphql";
-import { EditSiteForm_site as SiteData } from "coral-admin/__generated__/EditSiteForm_site.graphql";
+import { EditSiteForm_settings$data as SettingsData } from "coral-admin/__generated__/EditSiteForm_settings.graphql";
+import { EditSiteForm_site$data as SiteData } from "coral-admin/__generated__/EditSiteForm_site.graphql";
 
 import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";

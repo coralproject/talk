@@ -12,7 +12,7 @@ import {
 } from "coral-ui/components/v2";
 import { Link } from "coral-ui/components/v3";
 
-import { PreModerationConfigContainer_settings } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
+import { PreModerationConfigContainer_settings$data as PreModerationConfigContainer_settings } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

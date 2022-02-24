@@ -10,7 +10,7 @@ import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountD
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
+import { DeletionRequestCalloutContainer_viewer$data as DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
 
 import styles from "./DeletionRequestCalloutContainer.css";
 

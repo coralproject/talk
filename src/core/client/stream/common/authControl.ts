@@ -9,7 +9,7 @@ import { graphql } from "react-relay";
 
 import { NoFragmentRefs } from "coral-framework/testHelpers";
 
-import { authControl_settings } from "coral-stream/__generated__/authControl_settings.graphql";
+import { authControl_settings$data as authControl_settings } from "coral-stream/__generated__/authControl_settings.graphql";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`

@@ -4,10 +4,10 @@ import { graphql } from "react-relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { PropTypesOf } from "coral-framework/types";
 
-import { LocalReplyListContainer_comment } from "coral-stream/__generated__/LocalReplyListContainer_comment.graphql";
-import { LocalReplyListContainer_settings } from "coral-stream/__generated__/LocalReplyListContainer_settings.graphql";
-import { LocalReplyListContainer_story } from "coral-stream/__generated__/LocalReplyListContainer_story.graphql";
-import { LocalReplyListContainer_viewer } from "coral-stream/__generated__/LocalReplyListContainer_viewer.graphql";
+import { LocalReplyListContainer_comment$data as LocalReplyListContainer_comment } from "coral-stream/__generated__/LocalReplyListContainer_comment.graphql";
+import { LocalReplyListContainer_settings$data as LocalReplyListContainer_settings } from "coral-stream/__generated__/LocalReplyListContainer_settings.graphql";
+import { LocalReplyListContainer_story$data as LocalReplyListContainer_story } from "coral-stream/__generated__/LocalReplyListContainer_story.graphql";
+import { LocalReplyListContainer_viewer$data as LocalReplyListContainer_viewer } from "coral-stream/__generated__/LocalReplyListContainer_viewer.graphql";
 
 import ReplyList from "./ReplyList";
 

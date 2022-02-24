@@ -6,9 +6,9 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 
-import { HistoryCommentContainer_comment as CommentData } from "coral-stream/__generated__/HistoryCommentContainer_comment.graphql";
-import { HistoryCommentContainer_settings as SettingsData } from "coral-stream/__generated__/HistoryCommentContainer_settings.graphql";
-import { HistoryCommentContainer_story as StoryData } from "coral-stream/__generated__/HistoryCommentContainer_story.graphql";
+import { HistoryCommentContainer_comment$data as CommentData } from "coral-stream/__generated__/HistoryCommentContainer_comment.graphql";
+import { HistoryCommentContainer_settings$data as SettingsData } from "coral-stream/__generated__/HistoryCommentContainer_settings.graphql";
+import { HistoryCommentContainer_story$data as StoryData } from "coral-stream/__generated__/HistoryCommentContainer_story.graphql";
 
 import MediaSectionContainer from "../../Comments/Comment/MediaSection";
 import HistoryComment from "./HistoryComment";

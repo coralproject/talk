@@ -12,7 +12,7 @@ import {
   COMMENT_FLAG_REASON,
   COMMENT_STATUS,
 } from "coral-admin/__generated__/AutomatedActionsContainer_comment.graphql";
-import { AutomatedActionsContainer_settings } from "coral-admin/__generated__/AutomatedActionsContainer_settings.graphql";
+import { AutomatedActionsContainer_settings$data as AutomatedActionsContainer_settings } from "coral-admin/__generated__/AutomatedActionsContainer_settings.graphql";
 
 import FlagDetailsCategory from "./FlagDetailsCategory";
 import ToxicityLabel from "./ToxicityLabel";

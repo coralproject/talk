@@ -10,7 +10,7 @@ import {
 import { BaseButton, Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { ReactionDetailsContainer_comment } from "coral-admin/__generated__/ReactionDetailsContainer_comment.graphql";
+import { ReactionDetailsContainer_comment$data as ReactionDetailsContainer_comment } from "coral-admin/__generated__/ReactionDetailsContainer_comment.graphql";
 import { ReactionDetailsContainerPaginationQuery } from "coral-admin/__generated__/ReactionDetailsContainerPaginationQuery.graphql";
 
 import styles from "./ReactionDetailsContainer.css";

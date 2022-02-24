@@ -6,7 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLTAG_RL } from "coral-framework/schema";
 import { Tag } from "coral-ui/components/v2";
 
-import { StaffTagContainer_settings } from "coral-stream/__generated__/StaffTagContainer_settings.graphql";
+import { StaffTagContainer_settings$data as StaffTagContainer_settings } from "coral-stream/__generated__/StaffTagContainer_settings.graphql";
 
 import styles from "./StaffTagContainer.css";
 

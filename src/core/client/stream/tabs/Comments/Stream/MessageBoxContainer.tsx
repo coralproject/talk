@@ -8,7 +8,7 @@ import {
   MessageBoxIcon,
 } from "coral-stream/common/MessageBox";
 
-import { MessageBoxContainer_story as StoryData } from "coral-stream/__generated__/MessageBoxContainer_story.graphql";
+import { MessageBoxContainer_story$data as StoryData } from "coral-stream/__generated__/MessageBoxContainer_story.graphql";
 
 import styles from "./MessageBoxContainer.css";
 

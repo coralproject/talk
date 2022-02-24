@@ -3,9 +3,9 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ReportFlowContainer_comment } from "coral-stream/__generated__/ReportFlowContainer_comment.graphql";
-import { ReportFlowContainer_settings } from "coral-stream/__generated__/ReportFlowContainer_settings.graphql";
-import { ReportFlowContainer_viewer } from "coral-stream/__generated__/ReportFlowContainer_viewer.graphql";
+import { ReportFlowContainer_comment$data as ReportFlowContainer_comment } from "coral-stream/__generated__/ReportFlowContainer_comment.graphql";
+import { ReportFlowContainer_settings$data as ReportFlowContainer_settings } from "coral-stream/__generated__/ReportFlowContainer_settings.graphql";
+import { ReportFlowContainer_viewer$data as ReportFlowContainer_viewer } from "coral-stream/__generated__/ReportFlowContainer_viewer.graphql";
 
 import ReportCommentFormContainer from "./ReportCommentFormContainer";
 

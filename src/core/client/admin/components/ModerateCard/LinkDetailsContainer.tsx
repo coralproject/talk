@@ -9,8 +9,8 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { getLocationOrigin } from "coral-framework/utils";
 import { Icon } from "coral-ui/components/v2";
 
-import { LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
-import { LinkDetailsContainer_settings } from "coral-admin/__generated__/LinkDetailsContainer_settings.graphql";
+import { LinkDetailsContainer_comment$data as LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
+import { LinkDetailsContainer_settings$data as LinkDetailsContainer_settings } from "coral-admin/__generated__/LinkDetailsContainer_settings.graphql";
 
 import styles from "./LinkDetailsContainer.css";
 

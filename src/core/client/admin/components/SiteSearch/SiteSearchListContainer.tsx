@@ -9,7 +9,7 @@ import {
 import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
 import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
-import { SiteSearchListContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListContainerPaginationQuery.graphql";
+import { SiteSearchListContainerPaginationQuery$variables as SiteSearchListContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListContainerPaginationQuery.graphql";
 
 import AutoLoadMore from "../AutoLoadMore";
 import SiteFilterOption from "./SiteFilterOption";

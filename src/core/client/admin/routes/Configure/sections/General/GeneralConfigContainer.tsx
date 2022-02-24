@@ -8,7 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
+import { GeneralConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 
 import AnnouncementConfigContainer from "./AnnouncementConfigContainer";
 import ClosedStreamMessageConfig from "./ClosedStreamMessageConfig";

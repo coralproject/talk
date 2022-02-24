@@ -14,7 +14,7 @@ import {
   HorizontalGutter,
 } from "coral-ui/components/v2";
 
-import { SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
+import { SlackConfigContainer_settings$data as SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

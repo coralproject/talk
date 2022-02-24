@@ -4,9 +4,9 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ProfileContainer_settings as SettingsData } from "coral-stream/__generated__/ProfileContainer_settings.graphql";
-import { ProfileContainer_story as StoryData } from "coral-stream/__generated__/ProfileContainer_story.graphql";
-import { ProfileContainer_viewer as ViewerData } from "coral-stream/__generated__/ProfileContainer_viewer.graphql";
+import { ProfileContainer_settings$data as SettingsData } from "coral-stream/__generated__/ProfileContainer_settings.graphql";
+import { ProfileContainer_story$data as StoryData } from "coral-stream/__generated__/ProfileContainer_story.graphql";
+import { ProfileContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ProfileContainer_viewer.graphql";
 
 import Profile from "./Profile";
 

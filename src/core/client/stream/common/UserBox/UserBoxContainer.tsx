@@ -9,8 +9,8 @@ import {
 } from "coral-framework/lib/relay";
 import { SignOutMutation } from "coral-stream/mutations";
 
-import { UserBoxContainer_settings as SettingsData } from "coral-stream/__generated__/UserBoxContainer_settings.graphql";
-import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated__/UserBoxContainer_viewer.graphql";
+import { UserBoxContainer_settings$data as SettingsData } from "coral-stream/__generated__/UserBoxContainer_settings.graphql";
+import { UserBoxContainer_viewer$data as ViewerData } from "coral-stream/__generated__/UserBoxContainer_viewer.graphql";
 import { UserBoxContainerLocal as Local } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
 
 import { supportsRegister, weControlAuth } from "../authControl";

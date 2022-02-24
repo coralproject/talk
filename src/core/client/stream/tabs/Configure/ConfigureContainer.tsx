@@ -3,9 +3,9 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ConfigureContainer_settings as SettingsData } from "coral-stream/__generated__/ConfigureContainer_settings.graphql";
-import { ConfigureContainer_story as StoryData } from "coral-stream/__generated__/ConfigureContainer_story.graphql";
-import { ConfigureContainer_viewer as ViewerData } from "coral-stream/__generated__/ConfigureContainer_viewer.graphql";
+import { ConfigureContainer_settings$data as SettingsData } from "coral-stream/__generated__/ConfigureContainer_settings.graphql";
+import { ConfigureContainer_story$data as StoryData } from "coral-stream/__generated__/ConfigureContainer_story.graphql";
+import { ConfigureContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ConfigureContainer_viewer.graphql";
 
 import Configure from "./Configure";
 

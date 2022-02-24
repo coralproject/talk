@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
+import { UserDrawerAccountHistory_user$data as UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 
 import AccountHistoryAction, {
   HistoryActionProps,

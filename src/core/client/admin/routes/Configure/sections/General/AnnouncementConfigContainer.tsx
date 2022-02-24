@@ -10,7 +10,7 @@ import {
   FormFieldDescription,
 } from "coral-ui/components/v2";
 
-import { AnnouncementConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AnnouncementConfigContainer_settings.graphql";
+import { AnnouncementConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/AnnouncementConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { createTimeoutAt } from "coral-common/utils";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 
-import { StoryClosedTimeoutContainer_story as StoryData } from "coral-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";
+import { StoryClosedTimeoutContainer_story$data as StoryData } from "coral-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";
 
 import SetStoryClosedMutation from "./SetStoryClosedMutation";
 

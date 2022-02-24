@@ -42,8 +42,8 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
-import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
-import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
+import { ChangeEmailContainer_settings$data as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
+import { ChangeEmailContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 
 import UpdateEmailMutation from "./UpdateEmailMutation";
 

@@ -6,7 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { OpenOrCloseStreamContainer_story as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
+import { OpenOrCloseStreamContainer_story$data as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
 
 import {
   CloseStoryMutation,

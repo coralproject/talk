@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { StoryRatingContainer_story } from "coral-stream/__generated__/StoryRatingContainer_story.graphql";
+import { StoryRatingContainer_story$data as StoryRatingContainer_story } from "coral-stream/__generated__/StoryRatingContainer_story.graphql";
 
 import StoryRating from "./StoryRating";
 

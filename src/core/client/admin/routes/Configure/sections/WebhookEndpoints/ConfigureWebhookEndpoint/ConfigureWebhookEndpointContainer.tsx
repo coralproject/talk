@@ -7,7 +7,7 @@ import Header from "coral-admin/routes/Configure/Header";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { ConfigureWebhookEndpointContainer_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_settings.graphql";
+import { ConfigureWebhookEndpointContainer_settings$data as ConfigureWebhookEndpointContainer_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_settings.graphql";
 import { ConfigureWebhookEndpointContainer_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_webhookEndpoint.graphql";
 
 import ExperimentalWebhooksCallOut from "../ExperimentalWebhooksCallOut";

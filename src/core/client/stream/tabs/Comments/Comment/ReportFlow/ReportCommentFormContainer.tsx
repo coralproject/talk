@@ -14,8 +14,8 @@ import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
-import { ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
+import { ReportCommentFormContainer_comment$data as ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
+import { ReportCommentFormContainer_settings$data as ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
 
 import { shouldTriggerViewerRefresh } from "../../helpers";
 import RefreshViewerFetch from "../../RefreshViewerFetch";

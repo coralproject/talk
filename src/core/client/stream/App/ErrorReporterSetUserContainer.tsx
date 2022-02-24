@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ErrorReporterSetUserContainer_viewer } from "coral-stream/__generated__/ErrorReporterSetUserContainer_viewer.graphql";
+import { ErrorReporterSetUserContainer_viewer$data as ErrorReporterSetUserContainer_viewer } from "coral-stream/__generated__/ErrorReporterSetUserContainer_viewer.graphql";
 
 interface Props {
   viewer: ErrorReporterSetUserContainer_viewer | null;
