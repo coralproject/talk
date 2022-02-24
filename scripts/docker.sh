@@ -67,10 +67,10 @@ deploy_commit() {
 
 deploy_latest_develop_commit() {
   LATEST_TAG="develop-latest"
-  echo "==> tagging develop-latest"
+  echo "==> tagging ${GCR_IMAGE_NAME}:${LATEST_TAG}"
   docker tag "coralproject/talk:latest" "${GCR_IMAGE_NAME}:${LATEST_TAG}"
 
-  echo "==> pushing develop-latest"
+  echo "==> pushing ${GCR_IMAGE_NAME}:${LATEST_TAG}"
   docker push "${GCR_IMAGE_NAME}:${LATEST_TAG}"
 }
 
