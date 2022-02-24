@@ -1,12 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Form } from "react-final-form";
 import { graphql } from "react-relay";
 
-import useCommonTranslation, {
-  COMMON_TRANSLATION,
-} from "coral-admin/helpers/useCommonTranslation";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -14,30 +10,18 @@ import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
   ButtonIcon,
-  CallOut,
-  Card,
-  CardCloseButton,
   ClickOutside,
   Dropdown,
   DropdownButton,
-  Flex,
-  HorizontalGutter,
-  ListGroup,
-  ListGroupRow,
-  Modal,
   Popover,
-  Typography,
 } from "coral-ui/components/v2";
 
 import { SiteRoleActions_user } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
 import { SiteRoleActions_viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
 
-import ModalBodyText from "../ModalBodyText";
-import ModalHeader from "../ModalHeader";
-import ModalHeaderUsername from "../ModalHeaderUsername";
 import DemoteModeratorMutation from "./DemoteModeratorMutation";
 import PromoteModeratorMutation from "./PromoteModeratorMutation";
-import SiteRoleActionsSites from "./SiteRoleActionsSites";
+import SiteRoleActionsModal from "./SiteRoleActionsModal";
 import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
 
@@ -51,9 +35,6 @@ interface Props {
 const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   const promoteModerator = useMutation(PromoteModeratorMutation);
   const demoteModerator = useMutation(DemoteModeratorMutation);
-  const notAvailableTranslation = useCommonTranslation(
-    COMMON_TRANSLATION.NOT_AVAILABLE
-  );
 
   const [mode, setMode] = useState<"promote" | "demote" | null>(null);
   const [isModalVisible, , toggleModalVisibility] = useToggleState();
@@ -76,6 +57,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     toggleModalVisibility();
   }, [toggleModalVisibility]);
 
+  // TODO (marcushaddon): accept promote/demote callbacks, canPromo as props
   const onSubmit = useCallback(
     async (input) => {
       try {
@@ -107,21 +89,16 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     (s) => !userSites.find(({ id }) => s.id === id)
   );
 
-  // These are sites that only the user has and the viewer does not.
-  const uniqueUserSites = userSites.filter(
-    (s) => !viewerSites.find(({ id }) => s.id === id)
-  );
-
   // If the user is a site moderator and some of the sites on the user are the
   // same as the sites on the viewer, then we can demote this user.
-  const canDemote =
+  const canDemoteModerator =
     user.role === GQLUSER_ROLE.MODERATOR &&
     !!user.moderationScopes?.scoped &&
     userSites.some((s) => viewerSites.find(({ id }) => s.id === id));
 
   // If the user is a site moderator, staff, or commenter and some of the sites
   // on the viewer are not on the user, then we can promote this user.
-  const canPromote =
+  const canPromoteModerator =
     ((user.role === GQLUSER_ROLE.MODERATOR &&
       !!user.moderationScopes?.scoped) ||
       user.role === GQLUSER_ROLE.STAFF ||
@@ -129,7 +106,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
       user.role === GQLUSER_ROLE.COMMENTER) &&
     uniqueViewerSites.length > 0;
 
-  const canPerformActions = canPromote || canDemote;
+  const canPerformActions = canPromoteModerator || canDemoteModerator;
 
   if (!canPerformActions) {
     return (
@@ -143,133 +120,15 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   return (
     <>
-      <Modal
+      {/* SiteRoleActionsModal! */}
+      <SiteRoleActionsModal
         open={isModalVisible}
-        onClose={onCancel}
-        data-testid="siteRoleActions-modal"
-      >
-        {({ firstFocusableRef, lastFocusableRef }) => (
-          <Card className={styles.modal}>
-            <Flex justifyContent="flex-end">
-              <CardCloseButton onClick={onCancel} ref={firstFocusableRef} />
-            </Flex>
-            <Form onSubmit={onSubmit}>
-              {({ handleSubmit, submitError, submitting, values }) => (
-                <form onSubmit={handleSubmit}>
-                  <HorizontalGutter spacing={3}>
-                    {mode === "promote" ? (
-                      <Localized
-                        id="community-assignYourSitesTo"
-                        strong={<ModalHeaderUsername />}
-                        $username={user.username || notAvailableTranslation}
-                      >
-                        <ModalHeader>
-                          Assign your sites to{" "}
-                          <ModalHeaderUsername>
-                            {user.username}
-                          </ModalHeaderUsername>
-                        </ModalHeader>
-                      </Localized>
-                    ) : (
-                      <Localized id="community-removeSiteRolePermissions">
-                        <ModalHeader>
-                          Remove Site Moderator permissions
-                        </ModalHeader>
-                      </Localized>
-                    )}
-                    {submitError && (
-                      <CallOut color="error" fullWidth>
-                        {submitError}
-                      </CallOut>
-                    )}
-                    {mode === "promote" ? (
-                      <>
-                        <Localized id="community-siteModeratorsArePermitted">
-                          <ModalBodyText>
-                            Site moderators are permitted to make moderation
-                            decisions and issue suspensions on the sites they
-                            are assigned.
-                          </ModalBodyText>
-                        </Localized>
-                        <ModalBodyText>
-                          <Localized id="community-assignThisUser">
-                            <Typography variant="bodyCopyBold">
-                              Assign this user to
-                            </Typography>
-                          </Localized>
-                        </ModalBodyText>
-                      </>
-                    ) : (
-                      <Localized id="community-userNoLongerPermitted">
-                        <ModalBodyText>
-                          User will no longer be permitted to make moderation
-                          decisions or assign suspensions on:
-                        </ModalBodyText>
-                      </Localized>
-                    )}
-                    <SiteRoleActionsSites
-                      viewerSites={viewerSites}
-                      userSites={userSites}
-                      mode={mode}
-                    />
-                    {mode === "demote" && uniqueUserSites.length > 0 && (
-                      <>
-                        <Localized id="community-stillHaveSiteRolePrivileges">
-                          <ModalBodyText>
-                            They will still have Site Moderator privileges for:
-                          </ModalBodyText>
-                        </Localized>
-                        <ListGroup>
-                          {uniqueUserSites.map((site) => (
-                            <ListGroupRow key={site.id}>
-                              <Typography>{site.name}</Typography>
-                            </ListGroupRow>
-                          ))}
-                        </ListGroup>
-                      </>
-                    )}
-                    <Flex justifyContent="flex-end" itemGutter="half">
-                      <Localized id="community-siteRoleModal-cancel">
-                        <Button variant="flat" onClick={onCancel}>
-                          Cancel
-                        </Button>
-                      </Localized>
-                      {mode === "promote" ? (
-                        <Localized id="community-siteRoleModal-assign">
-                          <Button
-                            type="submit"
-                            disabled={
-                              submitting ||
-                              (values.siteIDs && values.siteIDs.length === 0)
-                            }
-                            ref={lastFocusableRef}
-                          >
-                            Assign
-                          </Button>
-                        </Localized>
-                      ) : (
-                        <Localized id="community-siteRoleModal-remove">
-                          <Button
-                            type="submit"
-                            color="alert"
-                            disabled={
-                              submitting ||
-                              (values.siteIDs && values.siteIDs.length === 0)
-                            }
-                            ref={lastFocusableRef}
-                          >
-                            Remove
-                          </Button>
-                        </Localized>
-                      )}
-                    </Flex>
-                  </HorizontalGutter>
-                </form>
-              )}
-            </Form>
-          </Card>
-        )}
-      </Modal>
+        mode={mode}
+        user={user}
+        viewer={viewer}
+        onSubmit={onSubmit}
+        onCancel={onCancel}
+      />
       <Localized
         id="community-siteRoleActions-popover"
         attrs={{ description: true }}
@@ -282,7 +141,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           body={
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
-                {canPromote &&
+                {canPromoteModerator &&
                   (user.role === GQLUSER_ROLE.MODERATOR ? (
                     <Localized id="community-assignMySites">
                       <DropdownButton onClick={onPromote}>
@@ -297,7 +156,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                       onClick={onPromote}
                     />
                   ))}
-                {canDemote && (
+                {canDemoteModerator && (
                   <Localized id="community-removeMySites">
                     <DropdownButton onClick={onDemote}>
                       Remove my sites
@@ -350,6 +209,7 @@ const enhanced = withFragmentContainer<Props>({
           name
         }
       }
+      ...SiteRoleActionsModal_viewer
     }
   `,
   user: graphql`
@@ -357,6 +217,12 @@ const enhanced = withFragmentContainer<Props>({
       id
       username
       role
+      membershipScopes {
+        sites {
+          id
+          name
+        }
+      }
       moderationScopes {
         scoped
         sites {
@@ -364,6 +230,7 @@ const enhanced = withFragmentContainer<Props>({
           name
         }
       }
+      ...SiteRoleActionsModal_user
     }
   `,
 })(SiteRoleActions);
