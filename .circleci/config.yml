@@ -221,7 +221,7 @@ jobs:
           command: bash ./scripts/docker.sh deploy-commit
           no_output_timeout: 30m
 
-  # push_to_gcr will build and push the Docker image.
+  # push_develop_to_gcr will build and push the Docker image.
   push_develop_to_gcr:
     <<: *job_node_defaults
     docker:
