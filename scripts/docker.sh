@@ -65,7 +65,7 @@ deploy_commit() {
   docker push "${GCR_IMAGE_NAME}:${SHORT_GIT_HASH}"
 }
 
-deploy_latest_develop_commit() {
+deploy_develop_commit() {
   LATEST_TAG="develop-latest"
   echo "==> tagging ${GCR_IMAGE_NAME}:${LATEST_TAG}"
   docker tag "coralproject/talk:latest" "${GCR_IMAGE_NAME}:${LATEST_TAG}"
@@ -113,5 +113,13 @@ then
   if [[ -n "${CIRCLE_SHA1}" && -n "${GCR_IMAGE_NAME}" ]]
   then
     deploy_commit
+  fi
+fi
+
+if [ "$1" = "deploy-develop-commit" ]
+then
+  if [[ -n "${CIRCLE_SHA1}" && -n "${GCR_IMAGE_NAME}" ]]
+  then
+    deploy_develop_commit
   fi
 fi

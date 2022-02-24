@@ -239,7 +239,7 @@ jobs:
             gcloud auth configure-docker --quiet
       - run:
           name: Create and push the image to GCR
-          command: bash ./scripts/docker.sh deploy_latest_develop_commit
+          command: bash ./scripts/docker.sh deploy-develop-commit
           no_output_timeout: 30m
 
 # filter_release will add the filters for a deploy job in a workflow to make it
