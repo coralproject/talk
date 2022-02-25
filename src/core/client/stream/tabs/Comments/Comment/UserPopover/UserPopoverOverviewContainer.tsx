@@ -1,26 +1,25 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { UserPopoverOverviewContainer_settings$data as UserPopoverOverviewContainer_settings } from "coral-stream/__generated__/UserPopoverOverviewContainer_settings.graphql";
-import { UserPopoverOverviewContainer_user$data as UserData } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
-import { UserPopoverOverviewContainer_viewer$data as ViewerData } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
+import { UserPopoverOverviewContainer_settings$key } from "coral-stream/__generated__/UserPopoverOverviewContainer_settings.graphql";
+import { UserPopoverOverviewContainer_user$key } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
+import { UserPopoverOverviewContainer_viewer$key } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
 
 import Username from "../Username";
 
 import styles from "./UserPopoverOverviewContainer.css";
 
 interface Props {
-  user: UserData;
-  viewer: ViewerData | null;
+  user: UserPopoverOverviewContainer_user$key;
+  viewer: UserPopoverOverviewContainer_viewer$key | null;
   onIgnore: React.EventHandler<React.MouseEvent>;
-  settings: UserPopoverOverviewContainer_settings;
+  settings: UserPopoverOverviewContainer_settings$key;
 }
 
 export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
@@ -29,11 +28,43 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
   onIgnore,
   settings,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment UserPopoverOverviewContainer_viewer on User {
+        id
+        ignoredUsers {
+          id
+        }
+      }
+    `,
+    viewer
+  );
+  const userData = useFragment(
+    graphql`
+      fragment UserPopoverOverviewContainer_user on User {
+        id
+        username
+        createdAt
+        ignoreable
+        bio
+      }
+    `,
+    user
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment UserPopoverOverviewContainer_settings on Settings {
+        memberBios
+      }
+    `,
+    settings
+  );
+
   const canIgnore =
-    viewer &&
-    viewer.id !== user.id &&
-    viewer.ignoredUsers.every((u) => u.id !== user.id) &&
-    user.ignoreable;
+    viewerData &&
+    viewerData.id !== userData.id &&
+    viewerData.ignoredUsers.every((u) => u.id !== userData.id) &&
+    userData.ignoreable;
   return (
     <HorizontalGutter
       spacing={3}
@@ -44,18 +75,18 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
           <Username
             className={cn(styles.username, CLASSES.userPopover.username)}
           >
-            {user.username}
+            {userData.username}
           </Username>
         </div>
         <Localized
           id="comments-userPopover-memberSince"
-          $timestamp={new Date(user.createdAt)}
+          $timestamp={new Date(userData.createdAt)}
         >
           <div className={styles.memberSince}>
-            Member since: {user.createdAt}
+            Member since: {userData.createdAt}
           </div>
         </Localized>
-        {settings.memberBios && user.bio && <div>{user.bio}</div>}
+        {settingsData.memberBios && userData.bio && <div>{userData.bio}</div>}
       </HorizontalGutter>
       {canIgnore && (
         <Flex justifyContent="flex-end">
@@ -78,29 +109,4 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment UserPopoverOverviewContainer_viewer on User {
-      id
-      ignoredUsers {
-        id
-      }
-    }
-  `,
-  user: graphql`
-    fragment UserPopoverOverviewContainer_user on User {
-      id
-      username
-      createdAt
-      ignoreable
-      bio
-    }
-  `,
-  settings: graphql`
-    fragment UserPopoverOverviewContainer_settings on Settings {
-      memberBios
-    }
-  `,
-})(UserPopoverOverviewContainer);
-
-export default enhanced;
+export default UserPopoverOverviewContainer;
