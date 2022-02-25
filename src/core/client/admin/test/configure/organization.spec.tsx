@@ -1,16 +1,16 @@
+import { screen, within } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import userEvent from "@testing-library/user-event";
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  wait,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
 import create from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { settings, siteConnection, users } from "../fixtures";
 
 beforeEach(() => {
@@ -22,7 +22,7 @@ const viewer = users.admins[0];
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer } = create({
+  const { context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -40,27 +40,10 @@ async function createTestRenderer(
       }
     },
   });
-  const configureContainer = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("configure-container")
-  );
-  const organizationContainer = await waitForElement(() =>
-    within(configureContainer).getByTestID("configure-organizationContainer")
-  );
-  const saveChangesButton = within(configureContainer).getByTestID(
-    "configure-sideBar-saveChanges"
-  );
   return {
-    testRenderer,
-    configureContainer,
-    organizationContainer,
-    saveChangesButton,
+    context,
   };
 }
-
-it("renders configure organization", async () => {
-  const { configureContainer } = await createTestRenderer();
-  expect(within(configureContainer).toJSON()).toMatchSnapshot();
-});
 
 it("change organization name", async () => {
   const resolvers = createResolversStub<GQLResolver>({
@@ -75,50 +58,39 @@ it("change organization name", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    organizationContainer,
-    saveChangesButton,
-  } = await createTestRenderer({ resolvers });
+  const { context } = await createTestRenderer({ resolvers });
 
-  const organizationNameField = within(organizationContainer).getByLabelText(
-    "Organization name"
-  );
+  customRenderAppWithContext(context);
 
-  // Let's change some organization name.
-  act(() => organizationNameField.props.onChange(""));
-
-  // Send form
-  act(() => {
-    within(configureContainer).getByType("form").props.onSubmit();
+  const organizationNameField = await screen.findByRole("textbox", {
+    name: /Organization name/i,
   });
 
-  // Should show validation error.
-  within(organizationContainer).getByText("This field is required.");
+  userEvent.clear(organizationNameField);
 
-  // Let's change to some valid organization name.
-  act(() => organizationNameField.props.onChange("Coral Test"));
+  const saveChangesButton = screen.getByRole("button", {
+    name: /Save Changes/i,
+  });
 
-  // Should not show validation error.
+  // shows validation error when form submitted without required name field
+  userEvent.click(saveChangesButton);
+  const organizationContainer = screen.getByTestId(
+    "configure-organizationContainer"
+  );
+  expect(
+    within(organizationContainer).getByText("This field is required.")
+  ).toBeDefined();
+
+  // successfully submits with no validation error with required name field
+  userEvent.type(organizationNameField, "Coral Test");
   expect(
     within(organizationContainer).queryByText("This field is required.")
   ).toBeNull();
-
-  // Send form
-  act(() => {
-    within(configureContainer).getByType("form").props.onSubmit();
-  });
+  userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(organizationNameField.props.disabled).toBe(true);
-
-  // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(organizationNameField.props.disabled).toBe(false);
-    });
-  });
+  expect(saveChangesButton).toBeDisabled();
+  expect(organizationNameField).toBeDisabled();
 
   // Should have successfully sent with server.
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
