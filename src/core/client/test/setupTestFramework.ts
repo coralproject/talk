@@ -1,3 +1,4 @@
+import "@testing-library/jest-dom";
 import { toHaveNoViolations } from "jest-axe";
 
 import expectAndFail from "./expectAndFail";

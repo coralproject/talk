@@ -5,7 +5,6 @@ import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { CoralContextProvider } from "coral-framework/lib/bootstrap";
 import { act } from "coral-framework/testHelpers";
 
-import { SubscriptionHandlerReadOnly } from "./createSubscriptionHandler";
 import createTestContext, {
   CreateTestRendererParams,
 } from "./createTestContext";
@@ -36,6 +35,6 @@ export default function createTestRenderer<
   return {
     context,
     testRenderer: testRenderer!,
-    subscriptionHandler: subscriptionHandler as SubscriptionHandlerReadOnly,
+    subscriptionHandler,
   };
 }

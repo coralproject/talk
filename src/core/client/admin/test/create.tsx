@@ -1,4 +1,5 @@
 import React from "react";
+import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
 import App from "coral-admin/App";
 import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
@@ -8,7 +9,6 @@ import {
   createTestRenderer,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
-import { RecordProxy, RecordSourceProxy, Environment } from "relay-runtime";
 
 const initLocalState = (
   localRecord: RecordProxy<{}>,
