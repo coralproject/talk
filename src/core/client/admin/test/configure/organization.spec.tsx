@@ -9,7 +9,7 @@ import {
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { settings, siteConnection, users } from "../fixtures";
 
@@ -22,7 +22,7 @@ const viewer = users.admins[0];
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { context } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -40,9 +40,7 @@ async function createTestRenderer(
       }
     },
   });
-  return {
-    context,
-  };
+  return context;
 }
 
 it("change organization name", async () => {
@@ -58,7 +56,7 @@ it("change organization name", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer({ resolvers });
+  const context = await createTestRenderer({ resolvers });
 
   customRenderAppWithContext(context);
 

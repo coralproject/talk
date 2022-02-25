@@ -1,7 +1,7 @@
 import createQueryResolverStub, {
   QueryResolverCallback,
 } from "./createQueryResolverStub";
-import { Resolver, Resolvers, TestResolvers } from "./createTestRenderer";
+import { Resolver, Resolvers, TestResolvers } from "./createTestContext";
 
 type ValueOrCallbackRecursive<T> = {
   [P in keyof T]?: ValueOrCallbackRecursive<T[P]> | (() => void);
