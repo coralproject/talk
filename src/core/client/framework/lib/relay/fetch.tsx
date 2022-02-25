@@ -1,12 +1,6 @@
 import { isUndefined } from "lodash";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchQuery as relayFetchQuery } from "react-relay";
-import {
-  compose,
-  hoistStatics,
-  InferableComponentEnhancer,
-  wrapDisplayName,
-} from "recompose";
 import {
   CacheConfig,
   Environment,
@@ -14,7 +8,7 @@ import {
   Variables,
 } from "relay-runtime";
 
-import { CoralContext, useCoralContext, withContext } from "../bootstrap";
+import { CoralContext, useCoralContext } from "../bootstrap";
 
 export interface Fetch<N, V, R> {
   name: N;
@@ -117,47 +111,4 @@ export function useImmediateFetch<V extends {}, R>(
   }, Object.values(variables).concat(isUndefined(refetch) ? [] : [refetch]));
 
   return [state.data, state.loading];
-}
-
-/**
- * withFetch creates a HOC that injects the fetch as
- * a property.
- *
- * @deprecated use `useFetch` instead
- */
-export function withFetch<N extends string, V, R>(
-  fetch: Fetch<N, V, R>
-): InferableComponentEnhancer<{ [P in N]: FetchProp<typeof fetch> }> {
-  return compose(
-    withContext((context) => ({ context })),
-    hoistStatics((BaseComponent: React.ComponentType<any>) => {
-      class WithFetch extends React.Component<{
-        context: CoralContext;
-      }> {
-        public static displayName = wrapDisplayName(BaseComponent, "withFetch");
-
-        private fetch = (variables: V) => {
-          // TODO: (cvle) Naming of these events are deprecated.
-          this.props.context.eventEmitter.emit(
-            `fetch.${fetch.name}`,
-            variables
-          );
-          return fetch.fetch(
-            this.props.context.relayEnvironment,
-            variables,
-            this.props.context
-          );
-        };
-
-        public render() {
-          const { context: _, ...rest } = this.props;
-          const inject = {
-            [fetch.name]: this.fetch,
-          };
-          return <BaseComponent {...rest} {...inject} />;
-        }
-      }
-      return WithFetch as React.ComponentClass<any>;
-    })
-  ) as any;
 }
