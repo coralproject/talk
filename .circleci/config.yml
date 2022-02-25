@@ -301,7 +301,6 @@ workflows:
             branches:
               only:
                 - develop
-                - develop-tagging
           requires:
             - lint
             - unit_tests
