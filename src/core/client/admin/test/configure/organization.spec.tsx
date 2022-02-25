@@ -62,18 +62,16 @@ it("change organization name", async () => {
   const organizationNameField = await screen.findByRole("textbox", {
     name: /Organization name/i,
   });
-
-  userEvent.clear(organizationNameField);
-
   const saveChangesButton = screen.getByRole("button", {
     name: /Save Changes/i,
   });
-
-  // shows validation error when form submitted without required name field
-  userEvent.click(saveChangesButton);
   const organizationContainer = screen.getByTestId(
     "configure-organizationContainer"
   );
+
+  // shows validation error when form submitted without required name field
+  userEvent.clear(organizationNameField);
+  userEvent.click(saveChangesButton);
   expect(
     within(organizationContainer).getByText("This field is required.")
   ).toBeDefined();
