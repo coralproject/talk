@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import React from "react";
 
-import App from "coral-admin/App";
+import App from "coral-account/App";
 import {
   CoralContext,
   CoralContextProvider,
