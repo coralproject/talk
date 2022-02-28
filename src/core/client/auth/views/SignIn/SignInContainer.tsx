@@ -4,19 +4,15 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 
-import { SignInContainer_auth } from "coral-auth/__generated__/SignInContainer_auth.graphql";
+import { SignInContainer_auth$key as SignInContainer_auth } from "coral-auth/__generated__/SignInContainer_auth.graphql";
 import { SignInContainerLocal } from "coral-auth/__generated__/SignInContainerLocal.graphql";
 
 import {
@@ -38,6 +34,46 @@ function isEnabled(integration: {
 }
 
 const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
+  const authData = useFragment(
+    graphql`
+      fragment SignInContainer_auth on Auth {
+        ...SignInWithOIDCContainer_auth
+        ...SignInWithGoogleContainer_auth
+        ...SignInWithFacebookContainer_auth
+        integrations {
+          local {
+            enabled
+            targetFilter {
+              stream
+            }
+          }
+          facebook {
+            enabled
+            redirectURL
+            targetFilter {
+              stream
+            }
+          }
+          google {
+            enabled
+            redirectURL
+            targetFilter {
+              stream
+            }
+          }
+          oidc {
+            enabled
+            redirectURL
+            targetFilter {
+              stream
+            }
+          }
+        }
+      }
+    `,
+    auth
+  );
+
   const setView = useMutation(SetViewMutation);
   const { window } = useCoralContext();
 
@@ -60,14 +96,14 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
 
   const {
     integrations: { local, facebook, google, oidc },
-  } = auth;
+  } = authData;
 
   useEffect(() => {
     return () => {
       // Clear the error when we unmount.
       void clearError();
     };
-  }, [clearError, auth]);
+  }, [clearError, authData]);
 
   // Compute the redirectURL if supported.
   const redirectURL = useMemo(() => {
@@ -116,7 +152,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
   return (
     <SignIn
       error={error}
-      auth={auth}
+      auth={authData}
       onGotoSignUp={goToSignUp}
       emailEnabled={isEnabled(local)}
       facebookEnabled={isEnabled(facebook)}
@@ -127,45 +163,6 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
   );
 };
 
-const enhanced = withClearErrorMutation(
-  withFragmentContainer<Props>({
-    auth: graphql`
-      fragment SignInContainer_auth on Auth {
-        ...SignInWithOIDCContainer_auth
-        ...SignInWithGoogleContainer_auth
-        ...SignInWithFacebookContainer_auth
-        integrations {
-          local {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          facebook {
-            enabled
-            redirectURL
-            targetFilter {
-              stream
-            }
-          }
-          google {
-            enabled
-            redirectURL
-            targetFilter {
-              stream
-            }
-          }
-          oidc {
-            enabled
-            redirectURL
-            targetFilter {
-              stream
-            }
-          }
-        }
-      }
-    `,
-  })(SignInContainer)
-);
+const enhanced = withClearErrorMutation(SignInContainer);
 
 export default enhanced;

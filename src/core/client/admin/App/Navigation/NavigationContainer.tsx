@@ -1,14 +1,13 @@
-import React from "react";
-import { graphql } from "react-relay";
+import React, { FunctionComponent } from "react";
+import { graphql, useFragment } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   SignOutMutation,
   withSignOutMutation,
 } from "coral-framework/mutations";
 
-import { NavigationContainer_viewer$data as ViewerData } from "coral-admin/__generated__/NavigationContainer_viewer.graphql";
+import { NavigationContainer_viewer$key as ViewerData } from "coral-admin/__generated__/NavigationContainer_viewer.graphql";
 
 import Navigation from "./Navigation";
 
@@ -17,30 +16,26 @@ interface Props {
   viewer: ViewerData | null;
 }
 
-class NavigationContainer extends React.Component<Props> {
-  public render() {
-    return (
-      <Navigation
-        showDashboard={
-          !!this.props.viewer && can(this.props.viewer, Ability.VIEW_STATISTICS)
-        }
-        showConfigure={
-          !!this.props.viewer &&
-          can(this.props.viewer, Ability.CHANGE_CONFIGURATION)
-        }
-      />
-    );
-  }
-}
-
-const enhanced = withSignOutMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
+const NavigationContainer: FunctionComponent<Props> = ({ signOut, viewer }) => {
+  const viewerData = useFragment(
+    graphql`
       fragment NavigationContainer_viewer on User {
         role
       }
     `,
-  })(NavigationContainer)
-);
+    viewer
+  );
+
+  return (
+    <Navigation
+      showDashboard={!!viewerData && can(viewerData, Ability.VIEW_STATISTICS)}
+      showConfigure={
+        !!viewerData && can(viewerData, Ability.CHANGE_CONFIGURATION)
+      }
+    />
+  );
+};
+
+const enhanced = withSignOutMutation(NavigationContainer);
 
 export default enhanced;
