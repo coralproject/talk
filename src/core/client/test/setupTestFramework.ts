@@ -7,6 +7,8 @@ import expectAndFail from "./expectAndFail";
 import "jest-mock-console/dist/setupTestFramework";
 import "./setupConsole";
 
+(global as any).CSS = { supports: jest.fn() };
+
 // Expose a version of expect that will fail tests immediately
 // when assertion fails. This works even inside of an try-catch block
 // to get around: https://github.com/facebook/jest/issues/3917
