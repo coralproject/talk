@@ -1,4 +1,4 @@
-import { RouterState, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useEffect, useMemo, useRef } from "react";
 import { graphql } from "react-relay";
 
@@ -18,7 +18,7 @@ import { AccountCompletionContainerLocal } from "coral-admin/__generated__/Accou
 import CompleteAccountMutation from "./CompleteAccountMutation";
 import SetAuthViewMutation, { View } from "./SetAuthViewMutation";
 
-interface Props extends RouterState {
+interface Props {
   auth: AccountCompletionContainer_auth;
   viewer: AccountCompletionContainer_viewer | null;
 }
@@ -27,13 +27,13 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   auth,
   viewer,
   children,
-  router,
 }) => {
   const completed = useRef<boolean>(false);
   const completeAccount = useMutation(CompleteAccountMutation);
   const setAuthView = useMutation(SetAuthViewMutation);
   const setRedirectPath = useMutation(SetRedirectPathMutation);
   const { window } = useCoralContext();
+  const { router } = useRouter();
 
   const [
     {
@@ -187,6 +187,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(withRouter(AccountCompletionContainer));
+})(AccountCompletionContainer);
 
 export default enhanced;

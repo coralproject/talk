@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { Match, Router, withRouter } from "found";
+import { Router, useRouter } from "found";
 import React, {
   KeyboardEvent,
   MouseEvent,
@@ -35,8 +35,6 @@ import SearchStoryFetch from "./SearchStoryFetch";
 import SeeAllOption from "./SeeAllOption";
 
 interface Props {
-  router: Router;
-  match: Match;
   story: ModerationQueuesData | null;
   settings: SettingsData | null;
   allStories: boolean;
@@ -283,7 +281,8 @@ function useSearchOptions(
 }
 
 const ModerateSearchBarContainer: React.FunctionComponent<Props> = (props) => {
-  const linkNavHandler = useLinkNavHandler(props.router);
+  const { router } = useRouter();
+  const linkNavHandler = useLinkNavHandler(router);
   const contextOptions: PropTypesOf<typeof Bar>["options"] = props.allStories
     ? getContextOptionsWhenModeratingAll(
         linkNavHandler,
@@ -368,29 +367,27 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withRouter(
-  withFragmentContainer<Props>({
-    settings: graphql`
-      fragment ModerateSearchBarContainer_settings on Settings {
-        multisite
-        featureFlags
-      }
-    `,
-    story: graphql`
-      fragment ModerateSearchBarContainer_story on Story {
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment ModerateSearchBarContainer_settings on Settings {
+      multisite
+      featureFlags
+    }
+  `,
+  story: graphql`
+    fragment ModerateSearchBarContainer_story on Story {
+      id
+      site {
+        name
         id
-        site {
-          name
-          id
-        }
-        metadata {
-          title
-          author
-          section
-        }
       }
-    `,
-  })(ModerateSearchBarContainer)
-);
+      metadata {
+        title
+        author
+        section
+      }
+    }
+  `,
+})(ModerateSearchBarContainer);
 
 export default enhanced;
