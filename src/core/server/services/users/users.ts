@@ -903,10 +903,6 @@ function ensureValidMembershipUpdate(
   user: User,
   siteIDs: string[]
 ) {
-  if (user.role !== GQLUSER_ROLE.MEMBER) {
-    throw new Error("User is not a member.");
-  }
-
   const viewerIsScoped = !!viewer.moderationScopes?.siteIDs?.length;
   if (viewerIsScoped) {
     const outOfScopeSiteIDs = siteIDs.filter(
@@ -930,20 +926,36 @@ export async function promoteMember(
   userID: string,
   siteIDs: string[]
 ) {
-  // TODO (marcus): ensure target is member, not promoting self, either admin, staff(?) org mod, or site mod + sites in scope
   const user = await retrieveUser(mongo, tenant.id, userID);
   if (!user) {
     throw new UserNotFoundError(userID);
   }
 
   ensureValidMembershipUpdate(viewer, user, siteIDs);
+  const isPromotion =
+    user.role === GQLUSER_ROLE.COMMENTER ||
+    user.role === GQLUSER_ROLE.STAFF || // TODO (marcushaddon): confirm we can 'promote' from staff -> member?
+    user.role === GQLUSER_ROLE.MEMBER;
 
-  const updated = await mergeUserMembershipScopes(
+  if (!isPromotion) {
+    throw new Error("Invalid member promotion");
+  }
+
+  let updated = await mergeUserMembershipScopes(
     mongo,
     tenant.id,
     userID,
     siteIDs
   );
+
+  if (updated.role !== GQLUSER_ROLE.MEMBER) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      updated.id,
+      GQLUSER_ROLE.MEMBER
+    );
+  }
 
   return updated;
 }
@@ -955,7 +967,6 @@ export async function demoteMember(
   userID: string,
   siteIDs: string[]
 ) {
-  // TODO (marcus): ensure target is member, either admin, staff(?), org mod, or site mod + sites in scope
   const user = await retrieveUser(mongo, tenant.id, userID);
   if (!user) {
     throw new UserNotFoundError(userID);
@@ -963,12 +974,21 @@ export async function demoteMember(
 
   ensureValidMembershipUpdate(viewer, user, siteIDs);
 
-  const updated = await pullUserMembershipScopes(
+  let updated = await pullUserMembershipScopes(
     mongo,
     tenant.id,
     userID,
     siteIDs
   );
+
+  if (!updated.membershipScopes?.siteIDs?.length) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      updated.id,
+      GQLUSER_ROLE.COMMENTER
+    );
+  }
 
   return updated;
 }

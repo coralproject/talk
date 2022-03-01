@@ -19,7 +19,6 @@ role-siteModerator = Site Moderator
 role-organizationModerator = Organization Moderator
 role-staff = Staff
 role-member = Member
-role-siteMember = Site Member
 role-commenter = Commenter
 
 role-plural-admin = Admins
@@ -1246,14 +1245,18 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Change role
 
-community-assignMySites = Assign my sites
-community-removeMySites = Remove my sites
+community-assignMySitesToModerator = Assign my sites to moderator
+community-removeMySitesFromModerator = Remove my sites from moderator
+community-assignMySitesToMember = Assign my sites to member
+community-removeMySitesFromMember = Remove my sites from member
 community-stillHaveSiteModeratorPrivileges = They will still have Site Moderator privileges for:
+community-stillHAveMemberPriviledges = They will still have Member priviledges for:
 community-userNoLongerPermitted = User will no longer be permitted to make moderation decisions or assign suspensions on:
 community-assignThisUser = Assign this user to
 community-assignYourSitesTo = Assign your sites to <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
-community-removeSiteRolePermissions = Remove Site Moderator permissions
+community-removeSiteModeratorPermissions = Remove Site Moderator permissions
+community-removeMemberPermissions = Remove Member permissions
 
 community-filter-optGroupAudience =
   .label = Audience

@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  // useEffect,
+  useMemo,
+} from "react";
 import { useField } from "react-final-form";
 
 import { CheckBox, ListGroup, ListGroupRow } from "coral-ui/components/v2";
@@ -21,12 +26,16 @@ const SiteRoleActionsSites: FunctionComponent<Props> = ({
   const userScopedSitesInViewerScope = userSites?.filter((s) =>
     viewerSites.find(({ id }) => s.id === id)
   );
-  const candidateSites =
-    mode === "promote" ? viewerSites : userScopedSitesInViewerScope || [];
+  const candidateSites = useMemo(
+    () =>
+      mode === "promote" ? viewerSites : userScopedSitesInViewerScope || [],
+    []
+  );
 
-  useEffect(() => {
-    siteIDsInput.onChange(candidateSites.map((site) => site.id));
-  }, []);
+  // TODO (marcushaddon): causing an infinite render loop
+  // useEffect(() => {
+  //   siteIDsInput.onChange(candidateSites.map((site) => site.id));
+  // }, [siteIDsInput, candidateSites]);
 
   const onAddSite = useCallback(
     (siteID: string) => {
@@ -64,6 +73,7 @@ const SiteRoleActionsSites: FunctionComponent<Props> = ({
         const siteIsAlreadyIncludedInUserScopes = userSites
           ?.map((s) => s.id)
           .includes(site.id);
+
         return (
           <ListGroupRow key={site.id}>
             <CheckBox
