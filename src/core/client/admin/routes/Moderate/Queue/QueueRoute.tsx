@@ -23,9 +23,9 @@ import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.gra
 import { QueueRoute_settings$data as QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
 import { QueueRoute_viewer$data as QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
 import { QueueRouteLocal } from "coral-admin/__generated__/QueueRouteLocal.graphql";
-import { QueueRoutePaginationPendingQuery$variables as QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
-import { QueueRoutePaginationReportedQuery$variables as QueueRoutePaginationReportedQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationReportedQuery.graphql";
-import { QueueRoutePaginationUnmoderatedQuery$variables as QueueRoutePaginationUnmoderatedQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationUnmoderatedQuery.graphql";
+import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
+import { QueueRoutePaginationReportedQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationReportedQuery.graphql";
+import { QueueRoutePaginationUnmoderatedQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationUnmoderatedQuery.graphql";
 
 import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
@@ -34,12 +34,15 @@ import QueueCommentEnteredSubscription from "./QueueCommentEnteredSubscription";
 import QueueCommentLeftSubscription from "./QueueCommentLeftSubscription";
 import QueueViewNewMutation from "./QueueViewNewMutation";
 
-interface Props {
-  isLoading: boolean;
-  queueName: GQLMODERATION_QUEUE;
+interface RootPaginationProps {
   queue: QueueRoute_queue | null;
   settings: QueueRoute_settings | null;
   viewer: QueueRoute_viewer | null;
+}
+
+interface Props extends RootPaginationProps {
+  isLoading: boolean;
+  queueName: GQLMODERATION_QUEUE;
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string | null;
@@ -260,8 +263,10 @@ const createQueueRoute = (
     },
   })(
     withPaginationContainer<
-      Props,
-      QueueRoutePaginationPendingQueryVariables,
+      RootPaginationProps,
+      | QueueRoutePaginationPendingQueryVariables
+      | QueueRoutePaginationReportedQueryVariables
+      | QueueRoutePaginationUnmoderatedQueryVariables,
       FragmentVariables
     >(
       {

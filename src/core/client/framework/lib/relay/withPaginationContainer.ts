@@ -1,9 +1,9 @@
 import {
   createPaginationContainer,
-  FragmentOrRegularProp,
   GraphQLTaggedNode,
   RelayPaginationProp,
 } from "react-relay";
+import { FragmentOrRegularProp } from "react-relay/ReactRelayTypes";
 import {
   InferableComponentEnhancerWithProps,
   wrapDisplayName,
