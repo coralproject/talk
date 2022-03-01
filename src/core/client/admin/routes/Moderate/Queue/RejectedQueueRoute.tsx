@@ -24,8 +24,11 @@ import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
 
-interface Props {
+interface RootPaginationProps {
   query: RejectedQueueRoute_query;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   storyID?: string | null;
   siteID?: string | null;
@@ -107,7 +110,7 @@ export const RejectedQueueRoute: FunctionComponent<Props> = (props) => {
 type FragmentVariables = RejectedQueueRoutePaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   RejectedQueueRoutePaginationQueryVariables,
   FragmentVariables
 >(

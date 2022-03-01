@@ -18,7 +18,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { DashboardContainer_query as QueryData } from "coral-admin/__generated__/DashboardContainer_query.graphql";
-import { DashboardContainerPaginationQuery$variables as DashboardContainerPaginationQueryVariables } from "coral-admin/__generated__/DashboardContainerPaginationQuery.graphql";
+import { DashboardContainerPaginationQueryVariables } from "coral-admin/__generated__/DashboardContainerPaginationQuery.graphql";
 
 import SiteDashboardTimestamp from "./components/SiteDashboardTimestamp";
 import Dashboard from "./Dashboard";
@@ -31,8 +31,11 @@ interface Site {
   id: string;
 }
 
-interface Props {
+interface RootPaginationProps {
   query: QueryData | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   site?: Site | null;
 }
@@ -99,7 +102,7 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
 type FragmentVariables = DashboardContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   DashboardContainerPaginationQueryVariables,
   FragmentVariables
 >(

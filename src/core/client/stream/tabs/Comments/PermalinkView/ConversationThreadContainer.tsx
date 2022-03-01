@@ -20,7 +20,7 @@ import { ConversationThreadContainer_comment$data as ConversationThreadContainer
 import { ConversationThreadContainer_settings$data as ConversationThreadContainer_settings } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
 import { ConversationThreadContainer_story$data as ConversationThreadContainer_story } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
 import { ConversationThreadContainer_viewer$data as ConversationThreadContainer_viewer } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
-import { ConversationThreadContainerPaginationQuery$variables as ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
+import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
 import RejectedTombstoneContainer from "./RejectedTombstoneContainer";
@@ -28,11 +28,14 @@ import { Circle, Line } from "./Timeline";
 
 import styles from "./ConversationThreadContainer.css";
 
-interface Props {
-  comment: ConversationThreadContainer_comment;
+interface RootPaginationProps {
   story: ConversationThreadContainer_story;
   settings: ConversationThreadContainer_settings;
+  comment: ConversationThreadContainer_comment;
   viewer: ConversationThreadContainer_viewer | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
 }
 
@@ -236,7 +239,7 @@ interface FragmentVariables {
 }
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   ConversationThreadContainerPaginationQueryVariables,
   FragmentVariables
 >(

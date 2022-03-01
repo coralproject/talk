@@ -30,7 +30,7 @@ import { FeaturedCommentsContainer_settings$data as SettingsData } from "coral-s
 import { FeaturedCommentsContainer_story$data as StoryData } from "coral-stream/__generated__/FeaturedCommentsContainer_story.graphql";
 import { FeaturedCommentsContainer_viewer$data as ViewerData } from "coral-stream/__generated__/FeaturedCommentsContainer_viewer.graphql";
 import { FeaturedCommentsContainerLocal } from "coral-stream/__generated__/FeaturedCommentsContainerLocal.graphql";
-import { FeaturedCommentsContainerPaginationQuery$variables as FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
+import { FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 
 import CommentsLinks from "../CommentsLinks";
@@ -40,10 +40,13 @@ import FeaturedCommentContainer from "./FeaturedCommentContainer";
 
 import styles from "./FeaturedCommentsContainer.css";
 
-interface Props {
+interface RootPaginationProps {
   story: StoryData;
   settings: SettingsData;
   viewer: ViewerData | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
 }
 
@@ -193,7 +196,7 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   FeaturedCommentsContainerPaginationQueryVariables,
   FragmentVariables
 >(

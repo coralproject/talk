@@ -23,16 +23,19 @@ import { UnansweredCommentsTabContainer_settings$data as UnansweredCommentsTabCo
 import { UnansweredCommentsTabContainer_story$data as UnansweredCommentsTabContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabContainer_story.graphql";
 import { UnansweredCommentsTabContainer_viewer$data as UnansweredCommentsTabContainer_viewer } from "coral-stream/__generated__/UnansweredCommentsTabContainer_viewer.graphql";
 import { UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/UnansweredCommentsTabContainerLocal.graphql";
-import { UnansweredCommentsTabContainerPaginationQuery$variables as UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
+import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
 
 import NoComments from "../NoComments";
 import UnansweredCommentsTabCommentContainer from "./UnansweredCommentsTabCommentContainer";
 import UnansweredCommentsTabViewNewMutation from "./UnansweredCommentsTabViewNewMutation";
 
-interface Props {
+interface RootPaginationProps {
   story: UnansweredCommentsTabContainer_story;
   settings: UnansweredCommentsTabContainer_settings;
   viewer: UnansweredCommentsTabContainer_viewer | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   flattenReplies: boolean;
 }
@@ -195,7 +198,7 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   UnansweredCommentsTabContainerPaginationQueryVariables,
   FragmentVariables
 >(

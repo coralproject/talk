@@ -4,12 +4,15 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { withPaginationContainer } from "coral-framework/lib/relay";
 
 import { DecisionHistoryContainer_viewer$data as ViewerData } from "coral-admin/__generated__/DecisionHistoryContainer_viewer.graphql";
-import { DecisionHistoryContainerPaginationQuery$variables as DecisionHistoryContainerPaginationQueryVariables } from "coral-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
+import { DecisionHistoryContainerPaginationQueryVariables } from "coral-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
 
 import DecisionHistory from "./DecisionHistory";
 
-interface DecisionHistoryContainerProps {
+interface RootPaginationProps {
   viewer: ViewerData;
+}
+
+interface DecisionHistoryContainerProps extends RootPaginationProps {
   relay: RelayPaginationProp;
   onClosePopover: () => void;
 }
@@ -58,7 +61,7 @@ export class DecisionHistoryContainer extends React.Component<
 type FragmentVariables = DecisionHistoryContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  DecisionHistoryContainerProps,
+  RootPaginationProps,
   DecisionHistoryContainerPaginationQueryVariables,
   FragmentVariables
 >(

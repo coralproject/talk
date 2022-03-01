@@ -13,14 +13,17 @@ import { CommentHistoryContainer_settings$data as SettingsData } from "coral-str
 import { CommentHistoryContainer_story$data as StoryData } from "coral-stream/__generated__/CommentHistoryContainer_story.graphql";
 import { CommentHistoryContainer_viewer$data as ViewerData } from "coral-stream/__generated__/CommentHistoryContainer_viewer.graphql";
 import { CommentHistoryContainerLocal } from "coral-stream/__generated__/CommentHistoryContainerLocal.graphql";
-import { CommentHistoryContainerPaginationQuery$variables as CommentHistoryContainerPaginationQueryVariables } from "coral-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
+import { CommentHistoryContainerPaginationQueryVariables } from "coral-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
 
 import CommentHistory from "./CommentHistory";
 
-interface Props {
+interface RootPaginationProps {
   viewer: ViewerData;
   story: StoryData;
   settings: SettingsData;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
 }
 
@@ -74,7 +77,7 @@ export const CommentHistoryContainer: FunctionComponent<Props> = ({
 type FragmentVariables = CommentHistoryContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   CommentHistoryContainerPaginationQueryVariables,
   FragmentVariables
 >(

@@ -9,15 +9,18 @@ import {
 import { Card, Flex, Spinner } from "coral-ui/components/v2";
 
 import { SiteSearchListContainer_query } from "coral-admin/__generated__/SiteSearchListContainer_query.graphql";
-import { SiteSearchListContainerPaginationQuery$variables as SiteSearchListContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListContainerPaginationQuery.graphql";
+import { SiteSearchListContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSearchListContainerPaginationQuery.graphql";
 
 import AutoLoadMore from "../AutoLoadMore";
 import SiteFilterOption from "./SiteFilterOption";
 
 import styles from "./SiteSearchListContainer.css";
 
-interface Props {
+interface RootPaginationProps {
   query: SiteSearchListContainer_query;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   onSelect: (
     site: SiteSearchListContainer_query["sites"]["edges"][0]["node"] | null
@@ -96,7 +99,7 @@ const SiteSearchListContainer: FunctionComponent<Props> = ({
 type FragmentVariables = SiteSearchListContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   SiteSearchListContainerPaginationQueryVariables,
   FragmentVariables
 >(

@@ -15,17 +15,20 @@ import {
 
 import { ConversationModalContainer_comment$data as ConversationModalContainer_comment } from "coral-admin/__generated__/ConversationModalContainer_comment.graphql";
 import { ConversationModalContainer_settings$data as ConversationModalContainer_settings } from "coral-admin/__generated__/ConversationModalContainer_settings.graphql";
-import { ConversationModalContainerPaginationQuery$variables as ConversationModalContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalContainerPaginationQuery.graphql";
+import { ConversationModalContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalContainerPaginationQuery.graphql";
 
 import { Circle } from "../Timeline";
 import ConversationModalComment from "./ConversationModalCommentContainer";
 
 import styles from "./ConversationModalContainer.css";
 
-interface Props {
-  relay: RelayPaginationProp;
+interface RootPaginationProps {
   comment: ConversationModalContainer_comment;
   settings: ConversationModalContainer_settings;
+}
+
+interface Props extends RootPaginationProps {
+  relay: RelayPaginationProp;
   onClose: () => void;
   onUsernameClicked: (id?: string) => void;
 }
@@ -84,7 +87,7 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
 type FragmentVariables = ConversationModalContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   ConversationModalContainerPaginationQueryVariables,
   FragmentVariables
 >(

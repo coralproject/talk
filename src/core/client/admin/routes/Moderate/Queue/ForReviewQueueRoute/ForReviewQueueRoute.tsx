@@ -35,8 +35,11 @@ import ForReviewQueueRowContainer from "./ForReviewQueueRowContainer";
 
 import styles from "./ForReviewQueueRoute.css";
 
-interface Props {
+interface RootPaginationProps {
   query: ForReviewQueueRoute_query;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   storyID?: string | null;
   siteID?: string | null;
@@ -145,7 +148,7 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
 type FragmentVariables = ForReviewQueueRoutePaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   ForReviewQueueRoutePaginationQueryVariables,
   FragmentVariables
 >(

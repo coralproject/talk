@@ -16,14 +16,17 @@ import { Button } from "coral-ui/components/v3";
 import { AnsweredCommentsContainer_settings$data as SettingsData } from "coral-stream/__generated__/AnsweredCommentsContainer_settings.graphql";
 import { AnsweredCommentsContainer_story$data as StoryData } from "coral-stream/__generated__/AnsweredCommentsContainer_story.graphql";
 import { AnsweredCommentsContainer_viewer$data as ViewerData } from "coral-stream/__generated__/AnsweredCommentsContainer_viewer.graphql";
-import { AnsweredCommentsContainerPaginationQuery$variables as AnsweredCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/AnsweredCommentsContainerPaginationQuery.graphql";
+import { AnsweredCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/AnsweredCommentsContainerPaginationQuery.graphql";
 
 import AnsweredCommentContainer from "./AnsweredCommentContainer";
 
-interface Props {
+interface RootPaginationProps {
   story: StoryData;
   settings: SettingsData;
   viewer: ViewerData | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
 }
 
@@ -88,7 +91,7 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   AnsweredCommentsContainerPaginationQueryVariables,
   FragmentVariables
 >(

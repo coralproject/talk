@@ -12,16 +12,19 @@ import { Button, CallOut, Divider } from "coral-ui/components/v2";
 import { UserHistoryDrawerRejectedComments_settings$data as UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
 import { UserHistoryDrawerRejectedComments_user$data as UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
 import { UserHistoryDrawerRejectedComments_viewer$data as UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
-import { UserHistoryDrawerRejectedCommentsPaginationQuery$variables as UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
+import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
 
 import styles from "./UserHistoryDrawerRejectedComments.css";
 
 const danglingLogic = () => false;
 
-interface Props {
+interface RootPaginationProps {
   viewer: UserHistoryDrawerRejectedComments_viewer;
   user: UserHistoryDrawerRejectedComments_user;
   settings: UserHistoryDrawerRejectedComments_settings;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
 }
 
@@ -92,7 +95,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
 type FragmentVariables = UserHistoryDrawerRejectedCommentsPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   UserHistoryDrawerRejectedCommentsPaginationQueryVariables,
   FragmentVariables
 >(

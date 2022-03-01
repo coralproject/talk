@@ -43,7 +43,7 @@ import { AllCommentsTabContainer_settings$data as AllCommentsTabContainer_settin
 import { AllCommentsTabContainer_story$data as AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer$data as AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
-import { AllCommentsTabContainerPaginationQuery$variables as AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
+import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
 import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
@@ -56,10 +56,13 @@ import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
 
-interface Props {
+interface RootPaginationProps {
   story: AllCommentsTabContainer_story;
   settings: AllCommentsTabContainer_settings;
   viewer: AllCommentsTabContainer_viewer | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   flattenReplies: boolean;
   tag?: GQLTAG;
@@ -346,7 +349,7 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   AllCommentsTabContainerPaginationQueryVariables,
   FragmentVariables
 >(

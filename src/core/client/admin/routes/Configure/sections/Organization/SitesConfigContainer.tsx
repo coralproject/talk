@@ -8,12 +8,15 @@ import {
 } from "coral-framework/lib/relay";
 
 import { SitesConfigContainer_query as QueryData } from "coral-admin/__generated__/SitesConfigContainer_query.graphql";
-import { SitesConfigContainerPaginationQuery$variables as SitesConfigContainerPaginationQueryVariables } from "coral-admin/__generated__/SitesConfigContainerPaginationQuery.graphql";
+import { SitesConfigContainerPaginationQueryVariables } from "coral-admin/__generated__/SitesConfigContainerPaginationQuery.graphql";
 
 import SitesConfig from "./SitesConfig";
 
-interface Props {
+interface RootPaginationProps {
   query: QueryData | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
 }
 const SitesConfigContainer: React.FunctionComponent<Props> = (props) => {
@@ -39,7 +42,7 @@ const SitesConfigContainer: React.FunctionComponent<Props> = (props) => {
 type FragmentVariables = SitesConfigContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   SitesConfigContainerPaginationQueryVariables,
   FragmentVariables
 >(

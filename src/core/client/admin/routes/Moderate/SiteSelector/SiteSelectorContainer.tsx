@@ -9,13 +9,16 @@ import {
 
 import { SiteSelectorContainer_query } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
 import { SiteSelectorContainer_viewer$data as SiteSelectorContainer_viewer } from "coral-admin/__generated__/SiteSelectorContainer_viewer.graphql";
-import { SiteSelectorContainerPaginationQuery$variables as SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
+import { SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
 
 import SiteSelector from "./SiteSelector";
 
-interface Props {
+interface RootPaginationProps {
   query: SiteSelectorContainer_query | null;
   viewer: SiteSelectorContainer_viewer | null;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   queueName: QUEUE_NAME | undefined;
   siteID: string | null;
@@ -63,7 +66,7 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
 type FragmentVariables = SiteSelectorContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   SiteSelectorContainerPaginationQueryVariables,
   FragmentVariables
 >(

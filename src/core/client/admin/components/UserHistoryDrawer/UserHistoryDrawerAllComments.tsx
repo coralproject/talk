@@ -14,16 +14,19 @@ import { UserHistoryDrawerAllComments_settings$data as UserHistoryDrawerAllComme
 import { UserHistoryDrawerAllComments_user$data as UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
 import { UserHistoryDrawerAllComments_viewer$data as UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
 import { UserHistoryDrawerAllCommentsLocal } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsLocal.graphql";
-import { UserHistoryDrawerAllCommentsPaginationQuery$variables as UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
+import { UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
 
 import { ArchivedCommentsThresholdNotification } from "./ArchivedCommentsThresholdNotification";
 
 import styles from "./UserHistoryDrawerAllComments.css";
 
-interface Props {
+interface RootPaginationProps {
   user: UserHistoryDrawerAllComments_user;
   settings: UserHistoryDrawerAllComments_settings;
   viewer: UserHistoryDrawerAllComments_viewer;
+}
+
+interface Props extends RootPaginationProps {
   relay: RelayPaginationProp;
   setUserID?: (id: string) => void;
 }
@@ -109,7 +112,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
 type FragmentVariables = UserHistoryDrawerAllCommentsPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   UserHistoryDrawerAllCommentsPaginationQueryVariables,
   FragmentVariables
 >(

@@ -12,14 +12,17 @@ import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
-import { StoryTableContainerPaginationQuery$variables as StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
+import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
 
 import StoryTable from "./StoryTable";
 import StoryTableFilter from "./StoryTableFilter";
 
-interface Props {
-  initialSearchFilter?: string;
+interface RootPaginationProps {
   query: QueryData | null;
+}
+
+interface Props extends RootPaginationProps {
+  initialSearchFilter?: string;
   relay: RelayPaginationProp;
 }
 
@@ -85,7 +88,7 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
 type FragmentVariables = StoryTableContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   StoryTableContainerPaginationQueryVariables,
   FragmentVariables
 >(

@@ -15,16 +15,19 @@ import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConversationModalRepliesContainer_comment$data as ConversationModalRepliesContainer_comment } from "coral-admin/__generated__/ConversationModalRepliesContainer_comment.graphql";
 import { ConversationModalRepliesContainer_settings$data as ConversationModalRepliesContainer_settings } from "coral-admin/__generated__/ConversationModalRepliesContainer_settings.graphql";
-import { ConversationModalRepliesContainerPaginationQuery$variables as ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
+import { ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
 
 import ConversationModalCommentContainer from "./ConversationModalCommentContainer";
 
 import styles from "./ConversationModalRepliesContainer.css";
 
-interface Props {
-  relay: RelayPaginationProp;
+interface RootPaginationProps {
   comment: ConversationModalRepliesContainer_comment;
   settings: ConversationModalRepliesContainer_settings;
+}
+
+interface Props extends RootPaginationProps {
+  relay: RelayPaginationProp;
   onClose: () => void;
   onUsernameClicked: (id?: string) => void;
 }
@@ -88,7 +91,7 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootPaginationProps,
   ConversationModalRepliesContainerPaginationQueryVariables,
   FragmentVariables
 >(
