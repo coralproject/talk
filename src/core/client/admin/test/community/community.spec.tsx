@@ -410,11 +410,12 @@ it("promote user role as a site moderator", async () => {
       .props.onClick();
   });
 
-  const modal = within(container).getByTestID("siteRoleActions-modal");
+  const modal = within(container).getByTestID("siteModeratorActions-modal");
 
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
   });
+  // TODO (marcushaddon): fix failing test
   expect(resolvers.Mutation!.promoteModerator!.called).toBe(true);
 });
 
@@ -463,15 +464,16 @@ it("demote user role as a site moderator", async () => {
 
   act(() => {
     within(popup)
-      .getByText("Remove my sites", { selector: "button" })
+      .getByText("Remove my sites from moderator", { selector: "button" })
       .props.onClick();
   });
 
-  const modal = within(container).getByTestID("siteRoleActions-modal");
+  const modal = within(container).getByTestID("siteModeratorActions-modal");
 
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
   });
+  // TODO (marcushaddon): fix failing test
   expect(resolvers.Mutation!.demoteModerator!.called).toBe(true);
 });
 

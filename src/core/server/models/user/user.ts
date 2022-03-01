@@ -951,7 +951,7 @@ export async function mergeUserMembershipScopes(
     },
     {
       $addToSet: {
-        "membershipScopes.siteIDs": membershipScopes,
+        "membershipScopes.siteIDs": { $each: membershipScopes },
       },
     },
     {

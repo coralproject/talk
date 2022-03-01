@@ -30,13 +30,6 @@ const TranslatedRole: React.FunctionComponent<Props> = (props) => {
         </Localized>
       );
     case GQLUSER_ROLE.MEMBER:
-      if (props.scoped) {
-        return (
-          <Localized id="role-siteMember">
-            {createElement(props.container!, "Site Member")}
-          </Localized>
-        );
-      }
       return (
         <Localized id="role-member">
           {createElement(props.container!, "Member")}
