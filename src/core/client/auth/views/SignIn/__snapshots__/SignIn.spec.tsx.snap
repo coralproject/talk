@@ -84,13 +84,13 @@ exports[`renders correctly 1`] = `
     <SignInContainer />
     <OrSeparator />
     <ForwardRef(forwardRef)>
-      <Relay(SignInWithFacebookContainer)
+      <SignInWithFacebookContainer
         auth={Object {}}
       />
-      <Relay(SignInWithGoogleContainer)
+      <SignInWithGoogleContainer
         auth={Object {}}
       />
-      <Relay(SignInWithOIDCContainer)
+      <SignInWithOIDCContainer
         auth={Object {}}
       />
     </ForwardRef(forwardRef)>
@@ -191,13 +191,13 @@ exports[`renders error 1`] = `
     <SignInContainer />
     <OrSeparator />
     <ForwardRef(forwardRef)>
-      <Relay(SignInWithFacebookContainer)
+      <SignInWithFacebookContainer
         auth={Object {}}
       />
-      <Relay(SignInWithGoogleContainer)
+      <SignInWithGoogleContainer
         auth={Object {}}
       />
-      <Relay(SignInWithOIDCContainer)
+      <SignInWithOIDCContainer
         auth={Object {}}
       />
     </ForwardRef(forwardRef)>
@@ -245,13 +245,13 @@ exports[`renders without email login 1`] = `
     data-testid="signIn-main"
   >
     <ForwardRef(forwardRef)>
-      <Relay(SignInWithFacebookContainer)
+      <SignInWithFacebookContainer
         auth={Object {}}
       />
-      <Relay(SignInWithGoogleContainer)
+      <SignInWithGoogleContainer
         auth={Object {}}
       />
-      <Relay(SignInWithOIDCContainer)
+      <SignInWithOIDCContainer
         auth={Object {}}
       />
     </ForwardRef(forwardRef)>

@@ -7,7 +7,7 @@ exports[`renders correctly 1`] = `
   <Title />
   <Main>
     <DecisionList>
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "1",
@@ -15,7 +15,7 @@ exports[`renders correctly 1`] = `
         }
         onClosePopover={[Function]}
       />
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "2",
@@ -23,7 +23,7 @@ exports[`renders correctly 1`] = `
         }
         onClosePopover={[Function]}
       />
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "3",
@@ -43,7 +43,7 @@ exports[`renders disable load more 1`] = `
   <Title />
   <Main>
     <DecisionList>
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "1",
@@ -51,7 +51,7 @@ exports[`renders disable load more 1`] = `
         }
         onClosePopover={[Function]}
       />
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "2",
@@ -59,7 +59,7 @@ exports[`renders disable load more 1`] = `
         }
         onClosePopover={[Function]}
       />
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "3",
@@ -96,7 +96,7 @@ exports[`renders hasMore 1`] = `
   <Title />
   <Main>
     <DecisionList>
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "1",
@@ -104,7 +104,7 @@ exports[`renders hasMore 1`] = `
         }
         onClosePopover={[Function]}
       />
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "2",
@@ -112,7 +112,7 @@ exports[`renders hasMore 1`] = `
         }
         onClosePopover={[Function]}
       />
-      <Relay(DecisionHistoryItemContainer)
+      <DecisionHistoryItemContainer
         action={
           Object {
             "id": "3",

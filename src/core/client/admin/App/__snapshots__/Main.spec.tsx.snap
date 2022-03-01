@@ -16,7 +16,7 @@ exports[`renders correctly 1`] = `
       >
         <withPropsOnChange(LogoHorizontal) />
       </div>
-      <withContext(createMutationContainer(Relay(NavigationContainer)))
+      <withContext(createMutationContainer(NavigationContainer))
         viewer={Object {}}
       />
     </withPropsOnChange(Begin)>
