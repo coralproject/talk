@@ -68,7 +68,9 @@ it("render moderation view link", async () => {
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
+  act(() => {
+    caretButton.props.onClick();
+  });
   const link = within(comment).getByText("Moderation view", {
     selector: "a",
     exact: false,
@@ -82,7 +84,9 @@ it("render moderate story link", async () => {
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
+  act(() => {
+    caretButton.props.onClick();
+  });
   const link = within(comment).getByText("Moderate story", {
     selector: "a",
     exact: false,
@@ -181,7 +185,9 @@ it("approve comment", async () => {
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
+  act(() => {
+    caretButton.props.onClick();
+  });
   const approveButton = within(comment).getByText("Approve", {
     selector: "button",
   });
@@ -213,7 +219,9 @@ it("reject comment", async () => {
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
+  act(() => {
+    caretButton.props.onClick();
+  });
   const rejectButton = within(comment).getByText("Reject", {
     selector: "button",
   });
@@ -278,7 +286,9 @@ it("ban user", async () => {
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
+  act(() => {
+    caretButton.props.onClick();
+  });
 
   await act(async () => {
     const banButton = await waitForElement(() => {
@@ -320,7 +330,9 @@ it("cancel ban user", async () => {
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
+  act(() => {
+    caretButton.props.onClick();
+  });
 
   await act(async () => {
     const banButton = await waitForElement(() => {

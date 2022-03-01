@@ -12,7 +12,7 @@ job_node_defaults: &job_node_defaults
   <<: *job_defaults
   working_directory: ~/coralproject/talk
   docker:
-    - image: circleci/node:14
+    - image: cimg/node:14.18.2
   environment:
     <<: *job_node_environment
 
@@ -20,6 +20,7 @@ setup_remote_docker_defaults: &setup_remote_docker_defaults
   # This is pinned to 19 to resolve a problem described here:
   # https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/24
   version: 19.03.13
+  docker_layer_caching: true
 
 version: 2.1
 jobs:
@@ -220,6 +221,27 @@ jobs:
           command: bash ./scripts/docker.sh deploy-commit
           no_output_timeout: 30m
 
+  # push_develop_to_gcr will build and push the Docker image.
+  push_develop_to_gcr:
+    <<: *job_node_defaults
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - setup_remote_docker:
+          <<: *setup_remote_docker_defaults
+      - run:
+          name: Authenticate Google Cloud SDK for Docker
+          command: |
+            echo "${GCLOUD_SERVICE_KEY}" | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
+            gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
+            gcloud auth configure-docker --quiet
+      - run:
+          name: Create and push the image to GCR
+          command: bash ./scripts/docker.sh deploy-develop-commit
+          no_output_timeout: 30m
+
 # filter_release will add the filters for a deploy job in a workflow to make it
 # only execute on a deploy related job.
 filter_release: &filter_release
@@ -269,6 +291,16 @@ workflows:
             branches:
               only:
                 - /^release-.*/
+          requires:
+            - lint
+            - unit_tests
+            - build
+      - push_develop_to_gcr:
+          <<: *filter_develop
+          filters:
+            branches:
+              only:
+                - develop
           requires:
             - lint
             - unit_tests

@@ -28,7 +28,7 @@ import {
   GQLCreateCommentReplyInput,
   GQLEditCommentInput,
   GQLFeatureCommentInput,
-  GQLMarkCommentSeenInput,
+  GQLMarkCommentsAsSeenInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
   GQLTAG,
@@ -221,20 +221,22 @@ export const Comments = (ctx: GraphContext) => ({
     return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
   },
   markAsSeen: async ({
-    commentID,
+    commentIDs,
     storyID,
-  }: WithoutMutationID<GQLMarkCommentSeenInput>) => {
+  }: WithoutMutationID<GQLMarkCommentsAsSeenInput>) => {
     if (ctx.user) {
       await markSeen(
         ctx.mongo,
         ctx.tenant.id,
         storyID,
         ctx.user?.id,
-        [commentID],
+        commentIDs,
         ctx.now
       );
     }
 
-    return ctx.loaders.Comments.comment.load(commentID);
+    const comments =
+      (await ctx.loaders.Comments.comment.loadMany(commentIDs)) ?? [];
+    return comments;
   },
 });

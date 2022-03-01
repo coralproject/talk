@@ -25,6 +25,10 @@
   margin: var(--spacing-4) 0;
 }
 
+.archived {
+  width: 100px;
+}
+
 .publishInfoSection {
   margin: var(--spacing-2) 0;
 }

@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
@@ -15,15 +15,13 @@ import { ConfigureWebhookEndpointForm } from "../ConfigureWebhookEndpointForm";
 import ExperimentalWebhooksCallOut from "../ExperimentalWebhooksCallOut";
 
 interface Props {
-  router: Router;
-  match: Match;
   settings: AddWebhookEndpointContainer_settings;
 }
 
 const AddWebhookEndpointContainer: FunctionComponent<Props> = ({
   settings,
-  router,
 }) => {
+  const { router } = useRouter();
   const onCancel = useCallback(() => {
     router.push(urls.admin.webhooks);
   }, [router]);
@@ -48,14 +46,12 @@ const AddWebhookEndpointContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withRouter(
-  withFragmentContainer<Props>({
-    settings: graphql`
-      fragment AddWebhookEndpointContainer_settings on Settings {
-        ...ConfigureWebhookEndpointForm_settings
-      }
-    `,
-  })(AddWebhookEndpointContainer)
-);
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment AddWebhookEndpointContainer_settings on Settings {
+      ...ConfigureWebhookEndpointForm_settings
+    }
+  `,
+})(AddWebhookEndpointContainer);
 
 export default enhanced;

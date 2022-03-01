@@ -11,7 +11,7 @@ import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 
-import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { useGetMessage } from "coral-framework/lib/i18n";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
@@ -53,8 +53,6 @@ interface Props {
     unbanSiteIDs?: string[] | null | undefined,
     message?: string
   ) => void;
-  getMessage: GetMessage;
-
   moderationScopesEnabled?: boolean | null;
   viewerScopes: Scopes;
 }
@@ -64,11 +62,11 @@ const BanModal: FunctionComponent<Props> = ({
   onClose,
   onConfirm,
   username,
-  getMessage,
   moderationScopesEnabled,
   viewerScopes,
   userBanStatus,
 }) => {
+  const getMessage = useGetMessage();
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
       "common-banEmailTemplate",
@@ -98,8 +96,16 @@ const BanModal: FunctionComponent<Props> = ({
     viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
     !!(!viewerScopes.sites || viewerScopes.sites?.length === 0);
 
+  const userIsBlanketBanned = !!userBanStatus?.active;
+  const userIsSingleSiteBanned = !!userBanStatus?.sites?.length;
+  const userHasAnyBan = userIsBlanketBanned || userIsSingleSiteBanned;
+
   const [updateType, setUpdateType] = useState<UpdateType>(
-    userBanStatus?.active ? UpdateType.NO_SITES : UpdateType.ALL_SITES
+    userIsBlanketBanned
+      ? UpdateType.NO_SITES
+      : userIsSingleSiteBanned
+      ? UpdateType.SPECIFIC_SITES
+      : UpdateType.ALL_SITES
   );
 
   const [customizeMessage, setCustomizeMessage] = useState(false);
@@ -257,7 +263,7 @@ const BanModal: FunctionComponent<Props> = ({
                           </RadioButton>
                         </Localized>
                       </FormField>
-                      {!viewerIsScoped && (
+                      {!viewerIsScoped && userHasAnyBan && (
                         <FormField>
                           <Localized id="community-banModal-noSites">
                             <RadioButton
@@ -319,6 +325,4 @@ const BanModal: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withGetMessage(BanModal);
-
-export default enhanced;
+export default BanModal;

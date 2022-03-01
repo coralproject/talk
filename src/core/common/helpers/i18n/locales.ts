@@ -4,10 +4,16 @@
  */
 export type LanguageCode =
   | "af-ZA"
+  | "ar-AE"
   | "en-US"
   | "pt-BR"
   | "es"
   | "de"
+  | "tr-TR"
+  | "hu"
+  | "id-ID"
+  | "it-IT"
+  | "ja-JP"
   | "de-CH"
   | "nl-NL"
   | "da"
@@ -17,7 +23,8 @@ export type LanguageCode =
   | "sv"
   | "pl"
   | "ru"
-  | "nb-NO";
+  | "nb-NO"
+  | "zh-CN";
 
 /**
  * LOCALES_MAP contains a map of language codes associated with their
@@ -25,10 +32,16 @@ export type LanguageCode =
  */
 export const LOCALES_MAP: Record<LanguageCode, string> = {
   "af-ZA": "Afrikaans",
+  "ar-AE": "عربى",
   "en-US": "English",
   "pt-BR": "Português brasileiro",
   es: "Español",
   de: "Deutsch",
+  "tr-TR": "Türkçe",
+  hu: "Magyar",
+  "id-ID": "Indonesian",
+  "it-IT": "Italiana",
+  "ja-JP": "日本",
   "de-CH": "Deutsch-Schweiz",
   "nl-NL": "Nederlands",
   da: "Dansk",
@@ -39,6 +52,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   pl: "Polski",
   ru: "Русский",
   "nb-NO": "Norsk Bokmål",
+  "zh-CN": "中国人",
 };
 
 /**

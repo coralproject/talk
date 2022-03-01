@@ -27,6 +27,7 @@ import {
   pushChildCommentIDOntoParent,
 } from "coral-server/models/comment";
 import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
+import { markSeenComments } from "coral-server/models/seenComments/seenComments";
 import { retrieveSite } from "coral-server/models/site";
 import {
   isUserStoryExpert,
@@ -340,6 +341,14 @@ export default async function create(
       comment,
       story,
       author,
+      now
+    ),
+    markSeenComments(
+      mongo,
+      tenant.id,
+      comment.storyID,
+      author.id,
+      [comment.id],
       now
     ),
   ]);

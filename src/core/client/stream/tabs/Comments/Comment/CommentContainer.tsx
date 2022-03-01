@@ -1,6 +1,5 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { EventEmitter2 } from "eventemitter2";
 import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
 import React, {
   FunctionComponent,
@@ -14,9 +13,10 @@ import { graphql } from "react-relay";
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useToggleState } from "coral-framework/hooks";
-import { withContext } from "coral-framework/lib/bootstrap";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { MutationProp, useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
+import { Ability, can } from "coral-framework/permissions";
 import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
@@ -37,7 +37,6 @@ import {
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { Ability, can } from "coral-stream/permissions";
 import {
   Button,
   Flex,
@@ -53,6 +52,7 @@ import { CommentContainer_settings as SettingsData } from "coral-stream/__genera
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
+import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
@@ -63,7 +63,7 @@ import EditCommentFormContainer from "./EditCommentForm";
 import FeaturedTag from "./FeaturedTag";
 import { isReplyFlattened } from "./flattenReplies";
 import IndentedComment from "./IndentedComment";
-import MarkCommentAsSeenMutation from "./MarkCommentAsSeenMutation";
+import MarkCommentsAsSeenMutation from "./MarkCommentsAsSeenMutation";
 import MediaSectionContainer from "./MediaSection/MediaSectionContainer";
 import CaretContainer, {
   ModerationRejectedTombstoneContainer,
@@ -86,7 +86,6 @@ interface Props {
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
-  eventEmitter: EventEmitter2;
   indentLevel?: number;
   showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   /**
@@ -139,22 +138,20 @@ export const CommentContainer: FunctionComponent<Props> = ({
   hideReportButton,
   story,
   toggleCollapsed,
-  eventEmitter,
   viewer,
   showAuthPopup,
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
-  const commentSeenEnabled = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.COMMENT_SEEN
-  );
+  const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
+  const { eventEmitter } = useCoralContext();
   const setTraversalFocus = useMutation(SetTraversalFocus);
-  const markCommentAsSeen = useMutation(MarkCommentAsSeenMutation);
+  const markCommentsAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const handleFocus = useCallback(() => {
     if (canCommitCommentSeen && !comment.seen) {
-      void markCommentAsSeen({
-        commentID: comment.id,
+      void markCommentsAsSeen({
+        commentIDs: [comment.id],
         storyID: story.id,
       });
     }
@@ -167,7 +164,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.id,
     comment.seen,
     canCommitCommentSeen,
-    markCommentAsSeen,
+    markCommentsAsSeen,
     setTraversalFocus,
     story.id,
   ]);
@@ -503,7 +500,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       <HorizontalGutter>
         <IndentedComment
           enableJumpToParent={enableJumpToParent}
-          classNameIndented={cn(styles.indentedComment, {
+          classNameIndented={cn(styles.indentedCommentRoot, {
             [styles.indented]: indentLevel && indentLevel > 0,
             [styles.commentSeenEnabled]: canCommitCommentSeen,
             [styles.notSeen]: shouldApplyNotSeenClass,
@@ -771,124 +768,122 @@ export const CommentContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
-  withShowAuthPopupMutation(
-    withFragmentContainer<Props>({
-      viewer: graphql`
-        fragment CommentContainer_viewer on User {
+const enhanced = withShowAuthPopupMutation(
+  withFragmentContainer<Props>({
+    viewer: graphql`
+      fragment CommentContainer_viewer on User {
+        id
+        status {
+          current
+        }
+        ignoredUsers {
           id
-          status {
-            current
-          }
-          ignoredUsers {
-            id
-          }
+        }
+        badges
+        role
+        scheduledDeletionDate
+        mediaSettings {
+          unfurlEmbeds
+        }
+        ...UsernameWithPopoverContainer_viewer
+        ...ReactionButtonContainer_viewer
+        ...ReportFlowContainer_viewer
+        ...ReportButton_viewer
+        ...CaretContainer_viewer
+      }
+    `,
+    story: graphql`
+      fragment CommentContainer_story on Story {
+        id
+        url
+        isClosed
+        canModerate
+        settings {
+          mode
+        }
+        isArchiving
+        isArchived
+        ...CaretContainer_story
+        ...EditCommentFormContainer_story
+        ...PermalinkButtonContainer_story
+        ...ReplyCommentFormContainer_story
+        ...UserTagsContainer_story
+      }
+    `,
+    comment: graphql`
+      fragment CommentContainer_comment on Comment {
+        id
+        author {
+          id
+          username
+          avatar
           badges
-          role
-          scheduledDeletionDate
-          mediaSettings {
-            unfurlEmbeds
-          }
-          ...UsernameWithPopoverContainer_viewer
-          ...ReactionButtonContainer_viewer
-          ...ReportFlowContainer_viewer
-          ...ReportButton_viewer
-          ...CaretContainer_viewer
         }
-      `,
-      story: graphql`
-        fragment CommentContainer_story on Story {
-          id
-          url
-          isClosed
-          canModerate
-          settings {
-            mode
-          }
-          isArchiving
-          isArchived
-          ...CaretContainer_story
-          ...EditCommentFormContainer_story
-          ...PermalinkButtonContainer_story
-          ...ReplyCommentFormContainer_story
-          ...UserTagsContainer_story
-        }
-      `,
-      comment: graphql`
-        fragment CommentContainer_comment on Comment {
+        parent {
           id
           author {
-            id
             username
-            avatar
-            badges
           }
-          parent {
-            id
-            author {
-              username
-            }
-          }
-          body
-          createdAt
-          status
-          rating
-          editing {
-            edited
-            editableUntil
-          }
-          tags {
-            code
-          }
-          pending
-          lastViewerAction
-          deleted
-          actionCounts {
-            reaction {
-              total
-            }
-          }
-          viewerActionPresence {
-            dontAgree
-            flag
-          }
-          hasTraversalFocus
-          seen
-          ...CaretContainer_comment
-          ...EditCommentFormContainer_comment
-          ...MediaSectionContainer_comment
-          ...ReactionButtonContainer_comment
-          ...ModerationRejectedTombstoneContainer_comment
-          ...ReplyCommentFormContainer_comment
-          ...ReportButton_comment
-          ...ReportFlowContainer_comment
-          ...UsernameContainer_comment
-          ...UsernameWithPopoverContainer_comment
-          ...UserTagsContainer_comment
-          ...ArchivedReportFlowContainer_comment
         }
-      `,
-      settings: graphql`
-        fragment CommentContainer_settings on Settings {
-          flattenReplies
-          disableCommenting {
-            enabled
-          }
-          featureFlags
-          ...CaretContainer_settings
-          ...EditCommentFormContainer_settings
-          ...MediaSectionContainer_settings
-          ...ReactionButtonContainer_settings
-          ...ModerationRejectedTombstoneContainer_settings
-          ...ReplyCommentFormContainer_settings
-          ...ReportFlowContainer_settings
-          ...UsernameWithPopoverContainer_settings
-          ...UserTagsContainer_settings
-          ...ArchivedReportFlowContainer_settings
+        body
+        createdAt
+        status
+        rating
+        editing {
+          edited
+          editableUntil
         }
-      `,
-    })(CommentContainer)
-  )
+        tags {
+          code
+        }
+        pending
+        lastViewerAction
+        deleted
+        actionCounts {
+          reaction {
+            total
+          }
+        }
+        viewerActionPresence {
+          dontAgree
+          flag
+        }
+        hasTraversalFocus
+        seen
+        ...CaretContainer_comment
+        ...EditCommentFormContainer_comment
+        ...MediaSectionContainer_comment
+        ...ReactionButtonContainer_comment
+        ...ModerationRejectedTombstoneContainer_comment
+        ...ReplyCommentFormContainer_comment
+        ...ReportButton_comment
+        ...ReportFlowContainer_comment
+        ...UsernameContainer_comment
+        ...UsernameWithPopoverContainer_comment
+        ...UserTagsContainer_comment
+        ...ArchivedReportFlowContainer_comment
+      }
+    `,
+    settings: graphql`
+      fragment CommentContainer_settings on Settings {
+        flattenReplies
+        disableCommenting {
+          enabled
+        }
+        featureFlags
+        ...CaretContainer_settings
+        ...EditCommentFormContainer_settings
+        ...MediaSectionContainer_settings
+        ...ReactionButtonContainer_settings
+        ...ModerationRejectedTombstoneContainer_settings
+        ...ReplyCommentFormContainer_settings
+        ...ReportFlowContainer_settings
+        ...UsernameWithPopoverContainer_settings
+        ...UserTagsContainer_settings
+        ...ArchivedReportFlowContainer_settings
+      }
+    `,
+  })(CommentContainer)
 );
 
 export type CommentContainerProps = PropTypesOf<typeof enhanced>;
