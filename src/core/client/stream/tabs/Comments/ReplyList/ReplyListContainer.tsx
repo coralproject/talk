@@ -26,17 +26,17 @@ import { ReplyListContainer1_comment$data as ReplyListContainer1_comment } from 
 import { ReplyListContainer1_settings$data as ReplyListContainer1_settings } from "coral-stream/__generated__/ReplyListContainer1_settings.graphql";
 import { ReplyListContainer1_story$data as ReplyListContainer1_story } from "coral-stream/__generated__/ReplyListContainer1_story.graphql";
 import { ReplyListContainer1_viewer$data as ReplyListContainer1_viewer } from "coral-stream/__generated__/ReplyListContainer1_viewer.graphql";
-import { ReplyListContainer1PaginationQuery$variables as ReplyListContainer1PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
+import { ReplyListContainer1PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
 import { ReplyListContainer2_comment$data as ReplyListContainer2_comment } from "coral-stream/__generated__/ReplyListContainer2_comment.graphql";
 import { ReplyListContainer2_settings$data as ReplyListContainer2_settings } from "coral-stream/__generated__/ReplyListContainer2_settings.graphql";
 import { ReplyListContainer2_story$data as ReplyListContainer2_story } from "coral-stream/__generated__/ReplyListContainer2_story.graphql";
 import { ReplyListContainer2_viewer$data as ReplyListContainer2_viewer } from "coral-stream/__generated__/ReplyListContainer2_viewer.graphql";
-import { ReplyListContainer2PaginationQuery$variables as ReplyListContainer2PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer2PaginationQuery.graphql";
+import { ReplyListContainer2PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer2PaginationQuery.graphql";
 import { ReplyListContainer3_comment$data as ReplyListContainer3_comment } from "coral-stream/__generated__/ReplyListContainer3_comment.graphql";
 import { ReplyListContainer3_settings$data as ReplyListContainer3_settings } from "coral-stream/__generated__/ReplyListContainer3_settings.graphql";
 import { ReplyListContainer3_story$data as ReplyListContainer3_story } from "coral-stream/__generated__/ReplyListContainer3_story.graphql";
 import { ReplyListContainer3_viewer$data as ReplyListContainer3_viewer } from "coral-stream/__generated__/ReplyListContainer3_viewer.graphql";
-import { ReplyListContainer3PaginationQuery$variables as ReplyListContainer3PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer3PaginationQuery.graphql";
+import { ReplyListContainer3PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer3PaginationQuery.graphql";
 import { ReplyListContainerLast_comment$data as ReplyListContainerLast_comment } from "coral-stream/__generated__/ReplyListContainerLast_comment.graphql";
 import { ReplyListContainerLast_settings$data as ReplyListContainerLast_settings } from "coral-stream/__generated__/ReplyListContainerLast_settings.graphql";
 import { ReplyListContainerLast_story$data as ReplyListContainerLast_story } from "coral-stream/__generated__/ReplyListContainerLast_story.graphql";
@@ -45,7 +45,7 @@ import { ReplyListContainerLastFlattened_comment$data as ReplyListContainerLastF
 import { ReplyListContainerLastFlattened_settings$data as ReplyListContainerLastFlattened_settings } from "coral-stream/__generated__/ReplyListContainerLastFlattened_settings.graphql";
 import { ReplyListContainerLastFlattened_story$data as ReplyListContainerLastFlattened_story } from "coral-stream/__generated__/ReplyListContainerLastFlattened_story.graphql";
 import { ReplyListContainerLastFlattened_viewer$data as ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated__/ReplyListContainerLastFlattened_viewer.graphql";
-import { ReplyListContainerLastFlattenedPaginationQuery$variables as ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
+import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 import { ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
 
 import { isPublished, useStaticFlattenReplies } from "../helpers";
@@ -58,7 +58,8 @@ type Viewer =
   | ReplyListContainer1_viewer
   | ReplyListContainer2_viewer
   | ReplyListContainer3_viewer
-  | ReplyListContainerLastFlattened_viewer;
+  | ReplyListContainerLastFlattened_viewer
+  | ReplyListContainerLast_viewer;
 
 type Comment =
   | ReplyListContainer1_comment
@@ -87,11 +88,15 @@ type PaginationQuery =
 /**
  * BaseProps of the ReplyListContainer(s)
  */
-interface BaseProps {
+
+export interface BasePaginationProps {
   viewer: Viewer | null;
   story: Story;
   comment: Comment;
   settings: Settings;
+}
+
+interface BaseProps extends BasePaginationProps {
   relay: RelayPaginationProp;
   indentLevel?: number;
 
@@ -116,7 +121,9 @@ interface BaseProps {
  * Essentially marking fragments to accept `any` and excluding `relay` property.
  */
 type NextReplyListProps = { [P in FragmentKeys<BaseProps>]: any } &
-  Pick<BaseProps, Exclude<keyof BaseProps, FragmentKeys<BaseProps> | "relay">>;
+  Pick<BaseProps, Exclude<keyof BaseProps, FragmentKeys<BaseProps>>> & {
+    indentLevel: number;
+  };
 
 /**
  * These props are injected by HOCs defined in `createReplyListContainer`.
@@ -233,7 +240,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [showAll, beginShowAllEvent, props.comment.id]);
+  }, [beginShowAllEvent, props.comment.id, keyboardShortcutsConfig, showAll]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
@@ -255,7 +262,13 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [props.comment.id, props.story.id, viewNew, beginViewNewCommentsEvent]);
+  }, [
+    beginViewNewCommentsEvent,
+    props.story.id,
+    props.comment.id,
+    keyboardShortcutsConfig,
+    viewNew,
+  ]);
 
   if (!("replies" in props.comment)) {
     return null;
@@ -301,6 +314,11 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                     disableHideIgnoredTombstone={
                       props.disableHideIgnoredTombstone
                     }
+                    relay={props.relay}
+                    liveDirectRepliesInsertion={
+                      props.liveDirectRepliesInsertion
+                    }
+                    showRemoveAnswered={props.showRemoveAnswered}
                   />
                 ),
                 showConversationLink:
@@ -365,24 +383,28 @@ function createReplyListContainer(options: {
     NextReplyListComponent,
     flattenReplies: useStaticFlattenReplies(),
   }))(
-    withPaginationContainer<Props, PaginationQuery, FragmentVariables>(
-      fragments,
-      {
-        getConnectionFromProps(props) {
-          return props.comment && props.comment.replies;
-        },
-        getVariables(props, { count, cursor }, fragmentVariables) {
-          return {
-            count,
-            cursor,
-            orderBy: fragmentVariables.orderBy,
-            commentID: props.comment.id,
-            flattenReplies: props.flattenReplies,
-          };
-        },
-        query,
-      }
-    )(ReplyListContainer)
+    withPaginationContainer<
+      BasePaginationProps,
+      PaginationQuery,
+      FragmentVariables
+    >(fragments, {
+      getConnectionFromProps(props) {
+        return props.comment && props.comment.replies;
+      },
+      getVariables(props, { count, cursor }, fragmentVariables) {
+        return {
+          count,
+          cursor,
+          orderBy: fragmentVariables.orderBy,
+          commentID: props.comment.id,
+          // this is okay cause the props here are in fact Props, but the
+          // withPaginationContainer function only accepts the pagination
+          // prop definitions from the BasePaginationProps
+          flattenReplies: (props as Props).flattenReplies,
+        };
+      },
+      query,
+    })(ReplyListContainer)
   );
   return enhanced;
 }
@@ -457,7 +479,7 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
  */
 const ReplyListContainerLast = createRelayFragmentContainer<
   Overwrite<
-    BaseProps,
+    NextReplyListProps,
     {
       viewer: ReplyListContainerLast_viewer | null;
       story: ReplyListContainerLast_story;
@@ -503,7 +525,7 @@ const ReplyListContainerLast = createRelayFragmentContainer<
 );
 
 const ReplyListContainer3 = createReplyListContainer({
-  NextReplyListComponent: ReplyListContainerLast,
+  NextReplyListComponent: ReplyListContainerLast as any,
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer3_viewer on User {
@@ -567,7 +589,7 @@ const ReplyListContainer3 = createReplyListContainer({
 });
 
 const ReplyListContainer2 = createReplyListContainer({
-  NextReplyListComponent: ReplyListContainer3,
+  NextReplyListComponent: ReplyListContainer3 as any,
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer2_viewer on User {
@@ -631,7 +653,7 @@ const ReplyListContainer2 = createReplyListContainer({
 });
 
 const ReplyListContainer1 = createReplyListContainer({
-  NextReplyListComponent: ReplyListContainer2,
+  NextReplyListComponent: ReplyListContainer2 as any,
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer1_viewer on User {
