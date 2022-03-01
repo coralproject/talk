@@ -1,3 +1,5 @@
+import { noop } from "lodash";
+
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
@@ -96,7 +98,9 @@ it("change banned and suspect words", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer).getByType("form").props.onSubmit();
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.

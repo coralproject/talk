@@ -5,7 +5,6 @@ import { LanguageCode } from "coral-common/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { SubmitHookHandler } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
-import { GQLMODERATION_MODE } from "coral-framework/schema";
 
 import Configure from "./Configure";
 import NavigationWarningContainer from "./NavigationWarningContainer";
@@ -25,11 +24,6 @@ const ConfigureRoute: FunctionComponent<Props> = ({ children }) => {
     data: UpdateSettingsInput["settings"],
     form: FormApi
   ) => {
-    // This ensures sites aren't saved to premoderateAllCommentsSites
-    // if the SPECIFIC_SITES_PRE moderation mode isn't selected
-    if (data.moderation !== GQLMODERATION_MODE.SPECIFIC_SITES_PRE) {
-      data.premoderateAllCommentsSites = [];
-    }
     await updateSettings({ settings: data });
     const localeFieldState = form.getFieldState("locale");
     if (localeFieldState && localeFieldState.dirty) {
