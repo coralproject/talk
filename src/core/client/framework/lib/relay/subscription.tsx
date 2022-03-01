@@ -4,6 +4,7 @@ import {
   Disposable,
   Environment,
   GraphQLSubscriptionConfig,
+  OperationType,
   requestSubscription as requestSubscriptionRelay,
 } from "relay-runtime";
 
@@ -74,9 +75,8 @@ export function createSubscription<N extends string, V>(
   };
 }
 
-export function requestSubscription<TSubscriptionPayload>(
+export function requestSubscription<TSubscriptionPayload extends OperationType>(
   environment: Environment,
-  // tslint:disable-next-line no-unnecessary-generics
   config: GraphQLSubscriptionConfig<TSubscriptionPayload>
 ): Disposable {
   return requestSubscriptionRelay(environment, {
