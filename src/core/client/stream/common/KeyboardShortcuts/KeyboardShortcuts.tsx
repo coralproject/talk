@@ -483,12 +483,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     } else {
       // TODO: Make sure this only runs a maximum number of times so can't
       // get into an infinite run
-      const rootCommentExists = setInterval(() => {
+      const rootCommentElementExists = setInterval(() => {
         const rootCommentElement = root.getElementById(
           computeCommentElementID(local.nextUnseenComment!.id)
         );
-        if (rootCommentElement !== null) {
-          clearInterval(rootCommentExists);
+        if (rootCommentElement !== undefined && rootCommentElement !== null) {
+          clearInterval(rootCommentElementExists);
           if (rootCommentElement) {
             const rootKeyStop = toKeyStop(rootCommentElement);
             const nextKeyStop = findNextKeyStop(root, rootKeyStop, {

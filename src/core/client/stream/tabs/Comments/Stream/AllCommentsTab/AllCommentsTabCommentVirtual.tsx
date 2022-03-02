@@ -124,6 +124,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         if (!hasMore) {
           // this means that we've looked through all comments, if we've
           // found no next comment and there are also no more comments to load
+          // share this with the keyboard shortcuts?
           setLookedThroughAllCommentsForNextUnseen(true);
         }
       }
