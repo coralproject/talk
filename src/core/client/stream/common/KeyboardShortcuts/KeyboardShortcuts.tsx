@@ -386,6 +386,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           };
         }
         const currentStop = getCurrentKeyStop(root, relayEnvironment);
+
         if (config.reverse) {
           stop = findPreviousKeyStop(root, currentStop, traverseOptions);
         } else {
@@ -480,32 +481,40 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         commentIDs: [local.nextUnseenComment!.id],
       });
     } else {
-      const rootCommentElement = root.getElementById(
-        computeCommentElementID(local.nextUnseenComment!.id)
-      );
-      if (rootCommentElement) {
-        const rootKeyStop = toKeyStop(rootCommentElement);
-        const nextKeyStop = findNextKeyStop(root, rootKeyStop, {
-          skipSeen: true,
-        });
-        if (nextKeyStop) {
-          if (nextKeyStop.isLoadMore) {
-            nextKeyStop.element.click();
-          } else {
-            const offset =
-              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-              root.getElementById(nextKeyStop.id)!.getBoundingClientRect().top +
-              renderWindow.pageYOffset -
-              150;
-            setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
-            void setTraversalFocus({
-              commentID: parseCommentElementID(nextKeyStop.id),
-              commentSeenEnabled,
+      // TODO: Make sure this only runs a maximum number of times so can't
+      // get into an infinite run
+      const rootCommentExists = setInterval(() => {
+        const rootCommentElement = root.getElementById(
+          computeCommentElementID(local.nextUnseenComment!.id)
+        );
+        if (rootCommentElement !== null) {
+          clearInterval(rootCommentExists);
+          if (rootCommentElement) {
+            const rootKeyStop = toKeyStop(rootCommentElement);
+            const nextKeyStop = findNextKeyStop(root, rootKeyStop, {
+              skipSeen: true,
             });
-            nextKeyStop.element.focus();
+            if (nextKeyStop) {
+              if (nextKeyStop.isLoadMore) {
+                nextKeyStop.element.click();
+              } else {
+                const offset =
+                  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                  root.getElementById(nextKeyStop.id)!.getBoundingClientRect()
+                    .top +
+                  renderWindow.pageYOffset -
+                  150;
+                setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
+                void setTraversalFocus({
+                  commentID: parseCommentElementID(nextKeyStop.id),
+                  commentSeenEnabled,
+                });
+                nextKeyStop.element.focus();
+              }
+            }
           }
         }
-      }
+      }, 100);
     }
   }, [
     commentSeenEnabled,
@@ -654,7 +663,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     }
   }, [
     setLocal,
-    traverse,
     currentScrollRef,
     local.nextUnseenComment,
     currentVirtuosoIndex,
