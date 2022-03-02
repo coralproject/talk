@@ -1252,6 +1252,7 @@ community-removeMySitesFromMember = Remove my sites from member
 community-stillHaveSiteModeratorPrivileges = They will still have Site Moderator privileges for:
 community-stillHAveMemberPriviledges = They will still have Member priviledges for:
 community-userNoLongerPermitted = User will no longer be permitted to make moderation decisions or assign suspensions on:
+community-memberNoLongerPermitted = User will no longer receive Member priviledges on:
 community-assignThisUser = Assign this user to
 community-assignYourSitesTo = Assign your sites to <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.

@@ -2054,6 +2054,12 @@ type Settings @cacheControl(maxAge: 30) {
   reaction: ReactionConfiguration!
 
   """
+  staff specifies the configuration for the user badges assigned to users with
+  any role above COMMENTER
+  """
+  staff: BadgeConfiguration! @deprecated(reason: "Use badges instead")
+
+  """
   badges specifies the configuration for the user badges assigned to users with
   any role above COMMENTER.
   """

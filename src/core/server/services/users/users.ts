@@ -934,7 +934,7 @@ export async function promoteMember(
   ensureValidMembershipUpdate(viewer, user, siteIDs);
   const isPromotion =
     user.role === GQLUSER_ROLE.COMMENTER ||
-    user.role === GQLUSER_ROLE.STAFF || // TODO (marcushaddon): confirm we can 'promote' from staff -> member?
+    user.role === GQLUSER_ROLE.STAFF ||
     user.role === GQLUSER_ROLE.MEMBER;
 
   if (!isPromotion) {
