@@ -1,3 +1,4 @@
+import { pureMerge } from "coral-common/utils";
 jest.mock("coral-server/models/user");
 
 import { UserForbiddenError, ValidationError } from "coral-server/errors";
@@ -15,13 +16,14 @@ import {
 import { updateRole, updateUserBan } from "./users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import { demoteMember, promoteMember } from ".";
 
 describe("updateUserBan", () => {
   afterEach(jest.clearAllMocks);
 
   const mailer = createMockMailer();
   const rejector = createMockRejector();
-  const mongo = createMockMongoContex();
+  const { ctx: mongo } = createMockMongoContex();
   const tenant = createTenantFixture();
   const tenantID = tenant.id;
   const badUser = createUserFixture();
@@ -254,7 +256,7 @@ describe("updateUserBan", () => {
 describe("updateRole", () => {
   afterEach(jest.clearAllMocks);
 
-  const mongo = createMockMongoContex();
+  const { ctx: mongo } = createMockMongoContex();
   const tenant = createTenantFixture();
   const tenantID = tenant.id;
 
@@ -274,23 +276,145 @@ describe("updateRole", () => {
       );
     }).rejects.toThrow(Error);
   });
+});
 
-  // TODO (marcushaddon): here for if we open role update to < admin
-  it.skip("doesn't allow non-admins to udpate roles", async () => {
-    const { COMMENTER, MEMBER, MODERATOR, STAFF, ADMIN } = GQLUSER_ROLE;
+describe("promote/demoteMember", () => {
+  afterEach(jest.clearAllMocks);
 
-    for (const promoterRole of [COMMENTER, MEMBER, MODERATOR, STAFF]) {
-      for (const promotionRole of [MEMBER, MODERATOR, STAFF, ADMIN]) {
-        await expect(async () => {
-          await updateRole(
-            mongo,
-            tenant,
-            createUserFixture({ role: promoterRole, tenantID }),
-            commenterA.id,
-            promotionRole
-          );
-        }).rejects.toThrow();
-      }
+  const { ctx: mongo } = createMockMongoContex();
+  const tenant = createTenantFixture();
+  const tenantID = tenant.id;
+  const siteA = createSiteFixture({ tenantID });
+  const siteB = createSiteFixture({ tenantID });
+  const siteC = createSiteFixture({ tenantID });
+
+  const siteABMod = createUserFixture({
+    role: GQLUSER_ROLE.MODERATOR,
+    moderationScopes: {
+      siteIDs: [siteA.id, siteB.id],
+    },
+  });
+  const siteCMod = createUserFixture({
+    tenantID,
+    role: GQLUSER_ROLE.MODERATOR,
+    moderationScopes: {
+      siteIDs: [siteC.id],
+    },
+  });
+  const member = createUserFixture({
+    tenantID,
+    role: GQLUSER_ROLE.MEMBER,
+  });
+  const promotedMember = createUserFixture({
+    tenantID,
+    role: GQLUSER_ROLE.MEMBER,
+    membershipScopes: { siteIDs: [siteA.id, siteB.id] },
+  });
+  const siteAMember = createUserFixture({
+    tenantID,
+    role: GQLUSER_ROLE.MEMBER,
+    membershipScopes: { siteIDs: [siteA.id] },
+  });
+
+  const users = [siteABMod, siteCMod, member, promotedMember, siteAMember];
+
+  /* eslint-disable-next-line */
+  require("coral-server/models/user").pullUserMembershipScopes.mockImplementation(
+    (_mongo: any, _tenantID: any, userID: any, scopes: string[]) => {
+      const user = users.find((u) => u.id === userID);
+
+      return {
+        ...user,
+        membershipScopes: {
+          siteIDs: user!.membershipScopes!.siteIDs!.filter(
+            (id) => !scopes.includes(id)
+          ),
+        },
+      };
     }
+  );
+
+  /* eslint-disable-next-line */
+  require("coral-server/models/user").updateUserRole.mockImplementation(
+    (_mongo: any, _tenantID: any, userID: string, role: GQLUSER_ROLE) => {
+      const user = users.find((u) => u.id === userID);
+
+      return {
+        ...user,
+        role,
+      };
+    }
+  );
+
+  /* eslint-disable-next-line */
+  require("coral-server/models/user").pullUserMembershipScopes.mockImplementation(
+    (_mongo: any, _tenantID: any, userID: string, scopes: string[]) => {
+      const user = users.find((u) => u.id === userID);
+      return {
+        ...user,
+        membershipScopes: {
+          siteIDs: user!.membershipScopes!.siteIDs!.filter(
+            (id) => !scopes.includes(id)
+          ),
+        },
+      };
+    }
+  );
+
+  it("allows site mods to grant member priviledges in their scope", async () => {
+    /* eslint-disable-next-line */
+    require("coral-server/models/user").mergeUserMembershipScopes.mockImplementation(
+      (_mongo: any, _tenantID: any, userID: string, scopes: string[]) => {
+        const user = users.find((u) => u.id === userID);
+
+        return pureMerge(user, {
+          membershipScopes: { siteIDs: scopes },
+        });
+      }
+    );
+
+    for (const siteID of siteABMod.moderationScopes!.siteIDs!) {
+      const res = await promoteMember(mongo, tenant, siteABMod, member.id, [
+        siteID,
+      ]);
+
+      expect(res.membershipScopes!.siteIDs!.includes(siteID)).toBeTruthy();
+    }
+  });
+
+  it("allows site mods to revoke membership priviledges within their scope", async () => {
+    for (const siteID of siteABMod.moderationScopes!.siteIDs!) {
+      const res = await demoteMember(
+        mongo,
+        tenant,
+        siteABMod,
+        promotedMember.id,
+        [siteID]
+      );
+
+      expect(res.membershipScopes?.siteIDs).not.toContain(siteID);
+    }
+  });
+
+  it("revokes memnber role if no scopes left", async () => {
+    const res = await demoteMember(mongo, tenant, siteABMod, siteAMember.id, [
+      siteA.id,
+    ]);
+
+    expect(res.role).toEqual(GQLUSER_ROLE.COMMENTER);
+  });
+
+  it("doesnt allow site mods to promote/demote users to/from sites out of their scope", async () => {
+    await expect(async () => {
+      void (await promoteMember(mongo, tenant, siteABMod, siteAMember.id, [
+        siteC.id,
+      ]));
+    }).rejects.toThrow(UserForbiddenError);
+
+    await expect(async () => {
+      await demoteMember(mongo, tenant, siteCMod, promotedMember.id, [
+        siteA.id,
+      ]);
+    }).rejects.toThrow(UserForbiddenError);
   });
 });

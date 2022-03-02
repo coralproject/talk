@@ -1,7 +1,4 @@
-import {
-  BadgeConfiguration,
-  defaultRTEConfiguration,
-} from "coral-server/models/settings";
+import { defaultRTEConfiguration } from "coral-server/models/settings";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import {
   areRepliesFlattened,
@@ -43,12 +40,8 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
-  badges: ({ badges, id, ...settings }, args, ctx) => {
-    // TODO (marcushaddon): check for deprecated 'staff' field
-    const badgeConfig =
-      badges || ((settings as any).staff as BadgeConfiguration);
-
-    // TODO: migrate
+  badges: ({ badges, staff }, args, ctx) => {
+    const badgeConfig = badges || staff;
 
     return badgeConfig;
   },

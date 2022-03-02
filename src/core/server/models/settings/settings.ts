@@ -354,9 +354,14 @@ export type Settings = GlobalModerationSettings &
     media?: Omit<GQLMediaConfiguration, "external">;
 
     /**
-     * staff configures the labels for staff members in comment stream.
+     * badges configures the labels for any member with role above COMMENTER.
      */
     badges: BadgeConfiguration;
+
+    /**
+     * DEPRECATED: for backwards compatibility for badges field
+     */
+    staff?: BadgeConfiguration;
 
     /**
      * stories stores the configuration around stories.

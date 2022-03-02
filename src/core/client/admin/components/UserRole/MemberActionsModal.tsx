@@ -109,7 +109,7 @@ const SiteRoleActionsModal: FunctionComponent<Props> = ({
                       </ModalBodyText>
                     </>
                   ) : (
-                    <Localized id="community-moderatorNoLongerPermitted">
+                    <Localized id="community-memberNoLongerPermitted">
                       <ModalBodyText>
                         User will no longer recieve Member priviledges on:
                       </ModalBodyText>
