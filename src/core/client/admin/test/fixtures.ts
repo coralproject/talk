@@ -196,6 +196,10 @@ export const settings = createFixture<GQLSettings>({
   newCommenters: {
     premodEnabled: false,
     approvedCommentsThreshold: 2,
+    moderation: {
+      mode: GQLMODERATION_MODE.POST,
+      premodSites: [],
+    },
   },
   premoderateSuspectWords: false,
   media: {

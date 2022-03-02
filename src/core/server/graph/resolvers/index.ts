@@ -44,6 +44,7 @@ import { ModeratorNote } from "./ModeratorNote";
 import { ModMessageStatus } from "./ModMessageStatus";
 import { ModMessageStatusHistory } from "./ModMessageStatusHistory";
 import { Mutation } from "./Mutation";
+import { NewCommentersConfiguration } from "./NewCommentersConfiguration";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
 import { PremodStatus } from "./PremodStatus";
 import { PremodStatusHistory } from "./PremodStatusHistory";
@@ -123,6 +124,7 @@ const Resolvers: GQLResolver = {
   ModMessageStatus,
   ModMessageStatusHistory,
   Mutation,
+  NewCommentersConfiguration,
   OIDCAuthIntegration,
   PremodStatus,
   PremodStatusHistory,

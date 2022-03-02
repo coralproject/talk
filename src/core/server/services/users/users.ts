@@ -217,6 +217,65 @@ enum NEW_USER_MODERATION {
   PREMOD = "PREMOD",
 }
 
+export async function processAutomaticBanAndPremodForNewUser(
+  mongo: MongoContext,
+  tenant: Tenant,
+  user: User
+) {
+  await processAutomaticBanForUser(mongo, tenant, user);
+  await processAutomaticPremodForUser(mongo, tenant, user);
+}
+
+export async function processAutomaticBanForUser(
+  mongo: MongoContext,
+  tenant: Tenant,
+  user: User
+) {
+  if (!tenant.emailDomainModeration) {
+    return;
+  }
+
+  const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
+    user,
+    tenant.emailDomainModeration
+  );
+  if (!newUserEmailDomainModeration) {
+    return;
+  }
+
+  if (
+    newUserEmailDomainModeration === NEW_USER_MODERATION.BAN &&
+    !user.status.ban.active
+  ) {
+    await banUser(mongo, tenant.id, user.id);
+  }
+}
+
+export async function processAutomaticPremodForUser(
+  mongo: MongoContext,
+  tenant: Tenant,
+  user: User
+) {
+  if (!tenant.emailDomainModeration) {
+    return;
+  }
+
+  const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
+    user,
+    tenant.emailDomainModeration
+  );
+  if (!newUserEmailDomainModeration) {
+    return;
+  }
+
+  if (
+    newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD &&
+    !user.status.premod.active
+  ) {
+    await premodUser(mongo, tenant.id, user.id);
+  }
+}
+
 export async function create(
   mongo: MongoContext,
   tenant: Tenant,
@@ -252,21 +311,8 @@ export async function create(
   const user = await createUser(mongo, tenant.id, input, now);
 
   // Check the new user's email address against emailDomain configurations
-  // to see if they should be set to banned or always pre-moderated
-  if (tenant.emailDomainModeration) {
-    const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
-      user,
-      tenant.emailDomainModeration
-    );
-    if (newUserEmailDomainModeration) {
-      if (newUserEmailDomainModeration === NEW_USER_MODERATION.BAN) {
-        await banUser(mongo, tenant.id, user.id);
-      }
-      if (newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD) {
-        await premodUser(mongo, tenant.id, user.id);
-      }
-    }
-  }
+  // to see if they should be banned or premodded
+  await processAutomaticBanAndPremodForNewUser(mongo, tenant, user);
 
   // TODO: (wyattjoh) emit that a user was created
 

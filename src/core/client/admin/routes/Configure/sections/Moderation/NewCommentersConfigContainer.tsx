@@ -3,12 +3,20 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { parseInteger, ValidationMessage } from "coral-framework/lib/form";
+import {
+  formatBool,
+  parseInteger,
+  parseStringBool,
+  ValidationMessage,
+} from "coral-framework/lib/form";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
+  Condition,
   required,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
+import { GQLMODERATION_MODE } from "coral-framework/schema";
 import {
   FieldSet,
   FormField,
@@ -20,24 +28,52 @@ import {
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 
-import styles from "./NewCommentersConfig.css";
+import { NewCommentersConfigContainer_settings } from "coral-admin/__generated__/NewCommentersConfigContainer_settings.graphql";
+
+import styles from "./NewCommentersConfigContainer.css";
 
 interface Props {
   disabled: boolean;
+  settings: NewCommentersConfigContainer_settings;
 }
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment NewCommentersConfigContainer_settings on Settings {
+  fragment NewCommentersConfigContainer_formValues on Settings {
     newCommenters {
       premodEnabled
       approvedCommentsThreshold
+      moderation {
+        mode
+        premodSites
+      }
     }
   }
 `;
 
-const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
+const parse = (v: string) => {
+  return parseStringBool(v) ? GQLMODERATION_MODE.PRE : GQLMODERATION_MODE.POST;
+};
+
+const format = (v: GQLMODERATION_MODE.PRE | GQLMODERATION_MODE.POST) => {
+  return formatBool(v === GQLMODERATION_MODE.PRE);
+};
+
+const specificSitesIsEnabled: Condition = (_value, values) => {
+  return Boolean(
+    values.newCommenters.moderation &&
+      values.newCommenters.moderation.mode &&
+      values.newCommenters.moderation.mode ===
+        GQLMODERATION_MODE.SPECIFIC_SITES_PRE
+  );
+};
+
+const NewCommentersConfigContainer: FunctionComponent<Props> = ({
+  disabled,
+  settings,
+}) => {
   return (
     <ConfigBox
       id="Users"
@@ -57,7 +93,21 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
         <Localized id="configure-moderation-newCommenters-enable">
           <Label component="legend">Enable new commenter approval</Label>
         </Localized>
-        <OnOffField name="newCommenters.premodEnabled" disabled={disabled} />
+        {settings.multisite ? (
+          <AllSpecificOffSitesField
+            disabled={disabled}
+            moderationModeFieldName="newCommenters.moderation.mode"
+            specificSitesFieldName="newCommenters.moderation.premodSites"
+            specificSitesIsEnabledCondition={specificSitesIsEnabled}
+          />
+        ) : (
+          <OnOffField
+            name="newCommenters.moderation.mode"
+            disabled={disabled}
+            parse={parse}
+            format={format}
+          />
+        )}
       </FormField>
       <FormField>
         <Localized id="configure-moderation-newCommenters-approvedCommentsThreshold">
@@ -99,4 +149,12 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
   );
 };
 
-export default NewCommentersConfig;
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment NewCommentersConfigContainer_settings on Settings {
+      multisite
+    }
+  `,
+})(NewCommentersConfigContainer);
+
+export default enhanced;
