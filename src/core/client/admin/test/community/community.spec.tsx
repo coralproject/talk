@@ -415,7 +415,6 @@ it("promote user role as a site moderator", async () => {
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
   });
-  // TODO (marcushaddon): fix failing test
   expect(resolvers.Mutation!.promoteModerator!.called).toBe(true);
 });
 
@@ -473,7 +472,6 @@ it("demote user role as a site moderator", async () => {
   await act(async () => {
     within(modal).getByType("form").props.onSubmit();
   });
-  // TODO (marcushaddon): fix failing test
   expect(resolvers.Mutation!.demoteModerator!.called).toBe(true);
 });
 

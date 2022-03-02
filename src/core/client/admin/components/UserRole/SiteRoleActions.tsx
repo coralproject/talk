@@ -185,7 +185,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           open={isModalVisible}
           mode={mode}
           username={user.username}
-          siteRoleScopes={user.moderationScopes}
+          siteRoleScopes={user.membershipScopes}
           viewer={viewer}
           onSubmit={onSubmit(promoteMember, demoteMember)}
           onCancel={onCancel}
