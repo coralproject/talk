@@ -472,6 +472,22 @@ export const retrieveCommentRepliesConnection = (
   });
 };
 
+export async function retrieveCommentAllChildCommentsConnectionModel(
+  collection: Collection<Readonly<Comment>>,
+  tenantID: string,
+  comment: Comment,
+  input: CommentConnectionInput
+): Promise<Readonly<Connection<Readonly<Comment>>>> {
+  const filter = {
+    ancestorIDs: { $in: [comment.id] },
+  };
+
+  return retrieveCommentStoryConnection(collection, tenantID, comment.storyID, {
+    ...input,
+    filter,
+  });
+}
+
 /**
  * retrieveCommentParentsConnection will return a comment connection used to
  * represent the parents of a given comment.

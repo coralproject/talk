@@ -51,6 +51,7 @@ import styles from "./KeyboardShortcuts.css";
 interface Props {
   loggedIn: boolean;
   storyID: string;
+  currentScrollRef: any;
 }
 
 export interface KeyboardEventData {
@@ -262,13 +263,11 @@ const eventsOfInterest = [
   COMMIT_SEEN_EVENT,
 ];
 
-const loadMoreEvents = [
-  ShowAllRepliesEvent.nameSuccess,
-  LoadMoreAllCommentsEvent.nameSuccess,
-  ViewNewCommentsNetworkEvent.nameSuccess,
-];
-
-const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
+const KeyboardShortcuts: FunctionComponent<Props> = ({
+  loggedIn,
+  storyID,
+  currentScrollRef,
+}) => {
   const {
     relayEnvironment,
     renderWindow,
@@ -283,12 +282,18 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markSeen = useMutation(MarkCommentsAsSeenMutation);
-  const [, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
+  const [local, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
     fragment KeyboardShortcuts_local on Local {
+      commentWithTraversalFocus
       keyboardShortcutsConfig {
         key
         source
         reverse
+      }
+      nextUnseenComment {
+        id
+        virtuosoIndex
+        isRoot
       }
     }
   `);
@@ -459,6 +464,59 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     ]
   );
 
+  const [currentVirtuosoIndex, setCurrentVirtuosoIndex] = useState<
+    number | null | undefined
+  >(null);
+
+  const setFocus = useCallback(() => {
+    if (local.nextUnseenComment?.isRoot) {
+      void setTraversalFocus({
+        commentID: local.nextUnseenComment!.id,
+        commentSeenEnabled,
+      });
+      // or find stop element and focus
+      void markSeen({
+        storyID,
+        commentIDs: [local.nextUnseenComment!.id],
+      });
+    } else {
+      const rootCommentElement = root.getElementById(
+        computeCommentElementID(local.nextUnseenComment!.id)
+      );
+      if (rootCommentElement) {
+        const rootKeyStop = toKeyStop(rootCommentElement);
+        const nextKeyStop = findNextKeyStop(root, rootKeyStop, {
+          skipSeen: true,
+        });
+        if (nextKeyStop) {
+          if (nextKeyStop.isLoadMore) {
+            nextKeyStop.element.click();
+          } else {
+            const offset =
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+              root.getElementById(nextKeyStop.id)!.getBoundingClientRect().top +
+              renderWindow.pageYOffset -
+              150;
+            setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
+            void setTraversalFocus({
+              commentID: parseCommentElementID(nextKeyStop.id),
+              commentSeenEnabled,
+            });
+            nextKeyStop.element.focus();
+          }
+        }
+      }
+    }
+  }, [
+    commentSeenEnabled,
+    local.nextUnseenComment,
+    markSeen,
+    renderWindow,
+    root,
+    setTraversalFocus,
+    storyID,
+  ]);
+
   const handleKeypress = useCallback(
     (event: React.KeyboardEvent | KeyboardEvent | string) => {
       let data: KeyboardEventData;
@@ -498,7 +556,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         return;
       }
 
-      if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
+      if (pressedKey === "c") {
         setLocal({
           keyboardShortcutsConfig: {
             key: pressedKey,
@@ -512,8 +570,47 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
           source: "keyboard",
         });
       }
+      if (pressedKey === "z" && zKeyEnabled) {
+        setLocal({
+          keyboardShortcutsConfig: {
+            key: pressedKey,
+            reverse: Boolean(data.shiftKey),
+            source: "keyboard",
+          },
+        });
+        if (local.nextUnseenComment) {
+          JumpToNextUnseenCommentEvent.emit(eventEmitter, {
+            source: "keyboard",
+          });
+          // only need to scroll into view if it's not already the current virtuoso index
+          if (currentVirtuosoIndex !== local.nextUnseenComment.virtuosoIndex) {
+            currentScrollRef.current.scrollIntoView({
+              index: local.nextUnseenComment?.virtuosoIndex,
+              behavior: "auto",
+              done: () => {
+                setCurrentVirtuosoIndex(local.nextUnseenComment?.virtuosoIndex);
+                setFocus();
+              },
+            });
+          } else {
+            setFocus();
+          }
+        }
+      }
     },
-    [renderWindow, root, setLocal, traverse, unmarkAll, zKeyEnabled]
+    [
+      renderWindow,
+      root,
+      setLocal,
+      traverse,
+      unmarkAll,
+      zKeyEnabled,
+      currentScrollRef,
+      local.nextUnseenComment,
+      currentVirtuosoIndex,
+      setFocus,
+      eventEmitter,
+    ]
   );
 
   const handleWindowKeypress = useCallback(
@@ -537,8 +634,33 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         source: "mobileToolbar",
       },
     });
-    traverse({ key: "z", reverse: false, source: "mobileToolbar" });
-  }, [setLocal, traverse]);
+    if (local.nextUnseenComment) {
+      JumpToNextUnseenCommentEvent.emit(eventEmitter, {
+        source: "mobileToolbar",
+      });
+      // only need to scroll into view if it's not already the current virtuoso index
+      if (currentVirtuosoIndex !== local.nextUnseenComment.virtuosoIndex) {
+        currentScrollRef.current.scrollIntoView({
+          index: local.nextUnseenComment?.virtuosoIndex,
+          behavior: "auto",
+          done: () => {
+            setCurrentVirtuosoIndex(local.nextUnseenComment?.virtuosoIndex);
+            setFocus();
+          },
+        });
+      } else {
+        setFocus();
+      }
+    }
+  }, [
+    setLocal,
+    traverse,
+    currentScrollRef,
+    local.nextUnseenComment,
+    currentVirtuosoIndex,
+    eventEmitter,
+    setFocus,
+  ]);
 
   // Update button states after first render.
   useEffect(() => {
@@ -553,7 +675,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         return;
       }
 
-      if (loadMoreEvents.includes(e)) {
+      if (e === ShowAllRepliesEvent.nameSuccess) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
         // instead of waiting for polling to update it

@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -90,6 +91,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
+
+  const currentScrollRef = useRef(null);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
@@ -227,7 +230,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <KeyboardShortcuts loggedIn={!!viewer} storyID={story.id} />
+      <KeyboardShortcuts
+        loggedIn={!!viewer}
+        storyID={story.id}
+        currentScrollRef={currentScrollRef}
+      />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
           rating={ratingFilter}
@@ -283,6 +290,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             isLoadingMore={isLoadingMore}
             loadMoreAndEmit={loadMoreAndEmit}
             hasMore={hasMore}
+            currentScrollRef={currentScrollRef}
           />
         )}
         {!alternateOldestViewEnabled && (
@@ -366,12 +374,22 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
+              seen
               ...AllCommentsTabCommentContainer_comment
             }
           }
           edges {
             node {
               id
+              seen
+              allChildComments {
+                edges {
+                  node {
+                    id
+                    seen
+                  }
+                }
+              }
               ...AllCommentsTabCommentContainer_comment
             }
           }

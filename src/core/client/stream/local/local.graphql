@@ -50,6 +50,12 @@ type KeyboardShortcutsConfig {
   reverse: Boolean!
 }
 
+type UnseenComment {
+  id: String!
+  virtuosoIndex: Int!
+  isRoot: Boolean!
+}
+
 extend type Comment {
   # pending is true during the optimistic response.
   pending: Boolean
@@ -97,6 +103,8 @@ extend type Local {
 
   # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
   commentWithTraversalFocus: String
+  nextUnseenComment: UnseenComment
+  previousUnseenComment: UnseenComment
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 

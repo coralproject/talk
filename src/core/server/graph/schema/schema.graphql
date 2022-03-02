@@ -3587,6 +3587,11 @@ type Comment @cacheControl(maxAge: 5) {
   """
   parentCount: Int!
 
+  allChildComments(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
+  ): CommentsConnection!
+
   """
   depth is the number of levels that a given comment is deep.
   """
@@ -9102,7 +9107,9 @@ type Mutation {
   Seen state is stored per user, per story. It will do nothing if the request is
   not issued with a valid logged in user token.
   """
-  markCommentsAsSeen(input: MarkCommentsAsSeenInput!): MarkCommentsAsSeenPayload!
+  markCommentsAsSeen(
+    input: MarkCommentsAsSeenInput!
+  ): MarkCommentsAsSeenPayload!
 }
 
 ##################

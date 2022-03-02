@@ -10,6 +10,7 @@ import {
   removeCommentTag,
   retrieveAllCommentsUserConnection as retrieveAllCommentsUserConnectionModel,
   retrieveComment as retrieveCommentModel,
+  retrieveCommentAllChildCommentsConnectionModel,
   retrieveCommentConnection as retrieveCommentConnectionModel,
   retrieveCommentParentsConnection as retrieveCommentParentsConnectionModel,
   retrieveCommentRepliesConnection as retrieveCommentRepliesConnectionModel,
@@ -434,5 +435,22 @@ export function retrieveCommentParentsConnection(
     tenantID,
     comment,
     paginationParameters
+  );
+}
+
+export function retrieveCommentAllChildCommentsConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  comment: Comment,
+  input: any,
+  isArchived?: boolean
+) {
+  const collection =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+  return retrieveCommentAllChildCommentsConnectionModel(
+    collection,
+    tenantID,
+    comment,
+    input
   );
 }
