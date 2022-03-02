@@ -1,7 +1,7 @@
 import React, {
   FunctionComponent,
   useCallback,
-  // useEffect,
+  useEffect,
   useMemo,
 } from "react";
 import { useField } from "react-final-form";
@@ -32,10 +32,9 @@ const SiteRoleActionsSites: FunctionComponent<Props> = ({
     []
   );
 
-  // TODO (marcushaddon): causing an infinite render loop
-  // useEffect(() => {
-  //   siteIDsInput.onChange(candidateSites.map((site) => site.id));
-  // }, [siteIDsInput, candidateSites]);
+  useEffect(() => {
+    siteIDsInput.onChange(candidateSites.map((site) => site.id));
+  }, [candidateSites]);
 
   const onAddSite = useCallback(
     (siteID: string) => {
