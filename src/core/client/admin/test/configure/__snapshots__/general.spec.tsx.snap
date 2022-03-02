@@ -221,6 +221,11 @@ exports[`renders configure general 1`] = `
                         Afrikaans
                       </option>
                       <option
+                        value="ar-AE"
+                      >
+                        عربى
+                      </option>
+                      <option
                         value="en-US"
                       >
                         English
@@ -239,6 +244,31 @@ exports[`renders configure general 1`] = `
                         value="de"
                       >
                         Deutsch
+                      </option>
+                      <option
+                        value="tr-TR"
+                      >
+                        Türkçe
+                      </option>
+                      <option
+                        value="hu"
+                      >
+                        Magyar
+                      </option>
+                      <option
+                        value="id-ID"
+                      >
+                        Indonesian
+                      </option>
+                      <option
+                        value="it-IT"
+                      >
+                        Italiana
+                      </option>
+                      <option
+                        value="ja-JP"
+                      >
+                        日本
                       </option>
                       <option
                         value="de-CH"
@@ -289,6 +319,11 @@ exports[`renders configure general 1`] = `
                         value="nb-NO"
                       >
                         Norsk Bokmål
+                      </option>
+                      <option
+                        value="zh-CN"
+                      >
+                        中国人
                       </option>
                     </select>
                     <span

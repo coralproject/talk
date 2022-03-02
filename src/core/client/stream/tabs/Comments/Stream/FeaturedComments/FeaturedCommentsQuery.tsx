@@ -5,18 +5,17 @@ import { graphql } from "react-relay";
 import {
   QueryRenderData,
   QueryRenderer,
-  withLocalStateContainer,
+  useLocal,
 } from "coral-framework/lib/relay";
 import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsQuery.graphql";
-import { FeaturedCommentsQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
+import { FeaturedCommentsQueryLocal } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
 
 import FeaturedCommentsContainer from "./FeaturedCommentsContainer";
 
 interface Props {
-  local: Local;
   preload?: boolean;
 }
 
@@ -61,9 +60,15 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
 };
 
 const FeaturedCommentsQuery: FunctionComponent<Props> = (props) => {
-  const {
-    local: { storyID, storyURL, commentsOrderBy },
-  } = props;
+  const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
+    FeaturedCommentsQueryLocal
+  >(graphql`
+    fragment FeaturedCommentsQueryLocal on Local {
+      storyID
+      storyURL
+      commentsOrderBy
+    }
+  `);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -94,14 +99,4 @@ const FeaturedCommentsQuery: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment FeaturedCommentsQueryLocal on Local {
-      storyID
-      storyURL
-      commentsOrderBy
-    }
-  `
-)(FeaturedCommentsQuery);
-
-export default enhanced;
+export default FeaturedCommentsQuery;

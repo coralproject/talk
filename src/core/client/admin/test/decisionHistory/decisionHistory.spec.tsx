@@ -4,6 +4,7 @@ import {
   UserToCommentModerationActionHistoryResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -93,7 +94,9 @@ async function createTestRendererAndOpenPopover() {
   const toggle = testRenderer.root.findByProps({
     "data-testid": "decisionHistory-toggle",
   })!;
-  toggle.props.onClick();
+  act(() => {
+    toggle.props.onClick();
+  });
   return testRenderer;
 }
 

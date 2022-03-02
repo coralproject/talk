@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import key from "keymaster";
 import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
@@ -18,8 +18,6 @@ interface Props {
   storyID?: string | null;
   siteID?: string | null;
   section?: SectionFilter | null;
-  router: Router;
-  match: Match;
   mode?: "PRE" | "POST" | "SPECIFIC_SITES_PRE" | "%future added value" | null;
   enableForReview?: boolean;
 }
@@ -31,11 +29,10 @@ const Navigation: FunctionComponent<Props> = ({
   storyID,
   siteID,
   section,
-  router,
-  match,
   mode,
   enableForReview,
 }) => {
+  const { match, router } = useRouter();
   const moderationLinks = useMemo(() => {
     return [
       getModerationLink({ queue: "reported", storyID, siteID, section }),
@@ -148,4 +145,4 @@ const Navigation: FunctionComponent<Props> = ({
   );
 };
 
-export default withRouter(Navigation);
+export default Navigation;

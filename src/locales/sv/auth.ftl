@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Registrera dig</title><subtitle>för att delta i konversationen<subtitle>
+  <title>Registrera dig</title><subtitle>för att delta i konversationen</subtitle>
 
 signIn-signInWithEmail = Logga in med din e-postadress
 signIn-signInWithFacebook = Logga in med Facebook
@@ -83,15 +83,15 @@ resetPassword-resetPasswordButton = Nollställ lösenord
 
 createUsername-createUsernameHeader = Ange ditt användarnamn
 createUsername-whatItIs =
-  Ditt användarnamn är unikt och kommer synas i anslutning till alla dina 
-  kommentarer.  
+  Ditt användarnamn är unikt och kommer synas i anslutning till alla dina
+  kommentarer.
 createUsername-createUsernameButton = Skapa användarnamn
 
 ## Add Email Address
 addEmailAddress-addEmailAddressHeader = Lägg till e-postadress
 
 addEmailAddress-whatItIs =
-  Av säkerhetsskäl behöver vi din e-postadress. 
+  Av säkerhetsskäl behöver vi din e-postadress.
   Den kommer användas till:
 
 addEmailAddress-receiveUpdates =

@@ -4,7 +4,7 @@
 general-orSeparator = Of
 
 general-usernameLabel = Gebruikersnaam
-general-usernameDescription = Je mag ‚??_‚?ù en ‚??.‚?ù gebruiken. Spaties zijn niet toegestaan.
+general-usernameDescription = Je mag ÔøΩ??_ÔøΩ?ÔøΩ en ÔøΩ??.ÔøΩ?ÔøΩ gebruiken. Spaties zijn niet toegestaan.
 general-usernameTextField =
   .placeholder = Gebruikersnaam
 general-emailAddressLabel = E-mail Adres
@@ -23,16 +23,16 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Meld je aan</title><subtitle>om deel te nemen aan de discussie<subtitle>
+  <title>Meld je aan</title><subtitle>om deel te nemen aan de discussie</subtitle>
 
 signIn-signInWithEmail = Aanmelden met e-mail
 signIn-signInWithFacebook = Meld je aan via Facebook
 signIn-signInWithGoogle = Meld je aan via Google
 signIn-signInWithOIDC = Meld je aan als { $name }
 
-signIn-passwordLabel = Wachtwoord 
+signIn-passwordLabel = Wachtwoord
 signIn-passwordTextField =
-  .placeholder = Wachtwoord 
+  .placeholder = Wachtwoord
 
 signIn-forgotYourPassword = Wachtwoord vergeten?
 

@@ -4,7 +4,7 @@ exports[`renders correctly 1`] = `
 <div
   data-testid="moderate-container"
 >
-  <withRouter(Relay(ModerateSearchBarContainer))
+  <Relay(ModerateSearchBarContainer)
     allStories={true}
     sectionSelector={
       <Relay(SectionSelectorContainer)
