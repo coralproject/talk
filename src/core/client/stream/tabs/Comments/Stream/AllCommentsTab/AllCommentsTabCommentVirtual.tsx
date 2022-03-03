@@ -170,9 +170,43 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             />
           );
         }}
+        components={{ ScrollSeekPlaceholder }}
+        scrollSeekConfiguration={{
+          enter: (velocity) => {
+            const shouldEnter = Math.abs(velocity) >= 100;
+            return shouldEnter;
+          },
+          exit: (velocity) => {
+            const shouldExit = Math.abs(velocity) === 0;
+            return shouldExit;
+          },
+        }}
       />
     </>
   );
 };
+
+const ScrollSeekPlaceholder = ({
+  height,
+  index,
+}: {
+  height: any;
+  index: any;
+}) => (
+  <div
+    style={{
+      height,
+      boxSizing: "border-box",
+      overflow: "hidden",
+    }}
+  >
+    <div
+      style={{
+        background: index % 2 ? "gray" : "lightgray",
+        height,
+      }}
+    ></div>
+  </div>
+);
 
 export default AllCommentsTabCommentVirtual;

@@ -594,6 +594,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           // only need to scroll into view if it's not already the current virtuoso index
           if (currentVirtuosoIndex !== local.nextUnseenComment.virtuosoIndex) {
             currentScrollRef.current.scrollIntoView({
+              align: "center",
               index: local.nextUnseenComment?.virtuosoIndex,
               behavior: "auto",
               done: () => {
