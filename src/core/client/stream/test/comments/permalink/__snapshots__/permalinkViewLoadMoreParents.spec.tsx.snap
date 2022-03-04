@@ -123,7 +123,13 @@ exports[`renders conversation thread 1`] = `
                             >
                               <div
                                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                              />
+                              >
+                                <span
+                                  className="Tag-root coral coral-userTag coral-comment-userTag BadgeTagContainer-tag Tag-colorGrey Tag-uppercase"
+                                >
+                                  Staff
+                                </span>
+                              </div>
                             </div>
                             <button
                               className="BaseButton-root Timestamp-root"
@@ -736,7 +742,13 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <div
                                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                              />
+                              >
+                                <span
+                                  className="Tag-root coral coral-userTag coral-comment-userTag BadgeTagContainer-tag Tag-colorGrey Tag-uppercase"
+                                >
+                                  Staff
+                                </span>
+                              </div>
                             </div>
                             <button
                               className="BaseButton-root Timestamp-root"

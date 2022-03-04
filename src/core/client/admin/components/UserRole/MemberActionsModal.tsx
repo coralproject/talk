@@ -27,7 +27,7 @@ import SiteRoleActionsSites from "./SiteRoleActionsSites";
 import { SiteRoleActions_user as User } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
 import { SiteRoleActions_viewer as Viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
 
-import styles from "./SiteRoleActionsModal.css";
+import styles from "./MemberActionsModal.css";
 
 export interface Props {
   open?: boolean;
@@ -39,7 +39,7 @@ export interface Props {
   viewer: Viewer;
 }
 
-const SiteRoleActionsModal: FunctionComponent<Props> = ({
+const MemberActionsModal: FunctionComponent<Props> = ({
   open,
   onCancel,
   onSubmit,
@@ -96,8 +96,8 @@ const SiteRoleActionsModal: FunctionComponent<Props> = ({
                     <>
                       <Localized id="community-membersArePermitted">
                         <ModalBodyText>
-                          Site moderators are permitted to recieve a badge on
-                          the sites they are assigned.
+                          Members are permitted to receive a badge on the sites
+                          they are assigned.
                         </ModalBodyText>
                       </Localized>
                       <ModalBodyText>
@@ -111,7 +111,7 @@ const SiteRoleActionsModal: FunctionComponent<Props> = ({
                   ) : (
                     <Localized id="community-memberNoLongerPermitted">
                       <ModalBodyText>
-                        User will no longer recieve Member priviledges on:
+                        User will no longer receive Member privileges on:
                       </ModalBodyText>
                     </Localized>
                   )}
@@ -181,4 +181,4 @@ const SiteRoleActionsModal: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteRoleActionsModal;
+export default MemberActionsModal;

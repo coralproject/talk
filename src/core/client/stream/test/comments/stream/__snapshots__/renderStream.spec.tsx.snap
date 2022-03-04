@@ -767,7 +767,13 @@ exports[`renders comment stream 1`] = `
                                   >
                                     <div
                                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
-                                    />
+                                    >
+                                      <span
+                                        className="Tag-root coral coral-userTag coral-comment-userTag BadgeTagContainer-tag Tag-colorGrey Tag-uppercase"
+                                      >
+                                        Staff
+                                      </span>
+                                    </div>
                                   </div>
                                   <button
                                     className="BaseButton-root Timestamp-root"

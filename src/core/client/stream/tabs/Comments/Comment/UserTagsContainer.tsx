@@ -11,7 +11,7 @@ import { UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsCo
 import { UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
 import { UserTagsContainer_story } from "coral-stream/__generated__/UserTagsContainer_story.graphql";
 
-import StaffTagContainer from "./StaffTagContainer";
+import BadgeTagContainer from "./BadgeTagContainer";
 
 import styles from "./UserTagsContainer.css";
 
@@ -90,14 +90,13 @@ const UserTagsContainer: FunctionComponent<Props> = ({
           </Flex>
         </Tag>
       )}
-      {staffTag ||
-        (memberTag && (
-          <StaffTagContainer
-            settings={settings}
-            tags={tagStrings(comment)}
-            className={className}
-          />
-        ))}
+      {(staffTag || memberTag) && (
+        <BadgeTagContainer
+          settings={settings}
+          tags={tagStrings(comment)}
+          className={className}
+        />
+      )}
     </Flex>
   );
 };
@@ -119,7 +118,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment UserTagsContainer_settings on Settings {
-      ...StaffTagContainer_settings
+      ...BadgeTagContainer_settings
     }
   `,
 })(UserTagsContainer);

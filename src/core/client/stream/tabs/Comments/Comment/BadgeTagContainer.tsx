@@ -6,17 +6,17 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLTAG_RL } from "coral-framework/schema";
 import { Tag } from "coral-ui/components/v2";
 
-import { StaffTagContainer_settings } from "coral-stream/__generated__/StaffTagContainer_settings.graphql";
+import { BadgeTagContainer_settings } from "coral-stream/__generated__/BadgeTagContainer_settings.graphql";
 
-import styles from "./StaffTagContainer.css";
+import styles from "./BadgeTagContainer.css";
 
 interface Props {
-  settings: StaffTagContainer_settings;
+  settings: BadgeTagContainer_settings;
   tags: GQLTAG_RL[];
   className?: string;
 }
 
-const StaffTagContainer: FunctionComponent<Props> = ({
+const BadgeTagContainer: FunctionComponent<Props> = ({
   settings,
   tags,
   className,
@@ -49,7 +49,7 @@ const StaffTagContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment StaffTagContainer_settings on Settings {
+    fragment BadgeTagContainer_settings on Settings {
       badges {
         staffLabel
         adminLabel
@@ -58,6 +58,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(StaffTagContainer);
+})(BadgeTagContainer);
 
 export default enhanced;

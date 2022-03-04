@@ -31,6 +31,7 @@ export const getDefaultBadgeConfiguration = (
   adminLabel: translate(bundle, "Staff", "staff-label"),
   staffLabel: translate(bundle, "Staff", "staff-label"),
   moderatorLabel: translate(bundle, "Staff", "staff-label"),
+  memberLabel: translate(bundle, "Member", "member-label"),
 });
 
 /**

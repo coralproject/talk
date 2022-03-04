@@ -27,7 +27,7 @@ import SiteRoleActionsSites from "./SiteRoleActionsSites";
 import { SiteRoleActions_user as User } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
 import { SiteRoleActions_viewer as Viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
 
-import styles from "./SiteRoleActionsModal.css";
+import styles from "./SiteModeratorActionsModal.css";
 
 export interface Props {
   open?: boolean;
@@ -39,7 +39,7 @@ export interface Props {
   viewer: Viewer;
 }
 
-const SiteRoleActionsModal: FunctionComponent<Props> = ({
+const SiteModeratorActionsModal: FunctionComponent<Props> = ({
   open,
   onCancel,
   onSubmit,
@@ -190,4 +190,4 @@ const SiteRoleActionsModal: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteRoleActionsModal;
+export default SiteModeratorActionsModal;
