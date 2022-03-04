@@ -36,7 +36,7 @@ import {
   users,
 } from "../fixtures";
 
-const viewer = users.admins[0];
+const adminViewer = users.admins[0];
 
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/community");
@@ -55,7 +55,7 @@ const createTestRenderer = async (
             expectAndFail(variables.role).toBeFalsy();
             return communityUsers;
           },
-          viewer: () => viewer,
+          viewer: () => adminViewer,
           sites: () => siteConnection,
         },
       }),
@@ -210,7 +210,7 @@ it("filter by role", async () => {
 it("can't change viewer role", async () => {
   const { container } = await createTestRenderer();
 
-  const viewerRow = within(container).getByText(viewer.username!, {
+  const viewerRow = within(container).getByText(adminViewer.username!, {
     selector: "tr",
   });
   expect(() => within(viewerRow).getByLabelText("Change role")).toThrow();
@@ -353,6 +353,100 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
   expect(resolvers.Mutation!.updateUserModerationScopes!.called).toBe(true);
 });
 
+it("change user role to Member and add sites to membership scopes", async () => {
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          role: GQLUSER_ROLE.MEMBER,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          role: variables.role,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+      updateUserMembershipScopes: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          membershipScopes: {
+            siteIDs: ["site-1"],
+          },
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          membershipScopes: {
+            scoped: true,
+            sites: [sites[0]],
+          },
+          role: GQLUSER_ROLE.MEMBER,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+    Query: {
+      settings: () => settingsWithMultisite,
+      sites: () => siteConnection,
+    },
+  });
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  act(() => {
+    within(userRow).getByLabelText("Change role").props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+
+  act(() => {
+    within(popup).getByText("Member", { selector: "button" }).props.onClick();
+  });
+
+  const modal = within(container).getByTestID("site-role-modal");
+
+  // The submit button should be disabled until at least 1 site is selected
+  expect(
+    within(modal).getByTestID("site-role-modal-submitButton").props.disabled
+  ).toBe(true);
+
+  const siteSearchField = within(modal).getByTestID("site-search-textField");
+
+  act(() =>
+    siteSearchField.props.onChange({
+      target: { value: "Test" },
+    })
+  );
+
+  const siteSearchButton = within(modal).getByTestID("site-search-button");
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // Add site to add site moderator permissions for
+  await act(async () => {
+    await waitForElement(() => within(modal).getByTestID("site-search-list"));
+    within(modal).getByText("Test Site").props.onClick();
+  });
+
+  await act(async () => {
+    within(modal).getByType("form").props.onSubmit();
+  });
+
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+  expect(resolvers.Mutation!.updateUserMembershipScopes!.called).toBe(true);
+});
+
 it("can't change role as a moderator", async () => {
   const moderator = users.moderators[0];
   const { container } = await createTestRenderer({
@@ -485,8 +579,8 @@ it("load more", async () => {
               return {
                 edges: [
                   {
-                    node: viewer,
-                    cursor: viewer.createdAt,
+                    node: adminViewer,
+                    cursor: adminViewer.createdAt,
                   },
                   {
                     node: users.commenters[0],
