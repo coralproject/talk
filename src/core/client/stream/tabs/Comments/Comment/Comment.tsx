@@ -7,7 +7,7 @@ import Timestamp from "coral-stream/common/Timestamp";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
-import { CommentContainer_comment$data as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_comment } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
@@ -24,7 +24,7 @@ export interface CommentProps {
   footer?: React.ReactNode;
   showEditedMarker?: boolean;
   highlight?: boolean;
-  readonly parent: CommentData["parent"];
+  readonly parent: CommentContainer_comment["parent"];
   tags?: React.ReactNode | null;
   badges?: React.ReactNode | null;
   collapsed?: boolean;

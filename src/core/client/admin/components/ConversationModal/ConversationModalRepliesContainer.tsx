@@ -13,8 +13,8 @@ import {
 } from "coral-framework/lib/relay";
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
-import { ConversationModalRepliesContainer_comment$data as ConversationModalRepliesContainer_comment } from "coral-admin/__generated__/ConversationModalRepliesContainer_comment.graphql";
-import { ConversationModalRepliesContainer_settings$data as ConversationModalRepliesContainer_settings } from "coral-admin/__generated__/ConversationModalRepliesContainer_settings.graphql";
+import { ConversationModalRepliesContainer_comment } from "coral-admin/__generated__/ConversationModalRepliesContainer_comment.graphql";
+import { ConversationModalRepliesContainer_settings } from "coral-admin/__generated__/ConversationModalRepliesContainer_settings.graphql";
 import { ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
 
 import ConversationModalCommentContainer from "./ConversationModalCommentContainer";

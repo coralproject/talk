@@ -23,11 +23,11 @@ import {
 } from "coral-ui/hooks/useComboBox";
 
 import {
-  ModerateSearchBarContainer_settings$data as SettingsData,
+  ModerateSearchBarContainer_settings,
   ModerateSearchBarContainer_settings$key,
 } from "coral-admin/__generated__/ModerateSearchBarContainer_settings.graphql";
 import {
-  ModerateSearchBarContainer_story$data as ModerationQueuesData,
+  ModerateSearchBarContainer_story,
   ModerateSearchBarContainer_story$key,
 } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 import { SearchStoryFetchQueryResponse } from "coral-admin/__generated__/SearchStoryFetchQuery.graphql";
@@ -82,12 +82,14 @@ function getStoryDetails(
   {
     multisite,
     featureFlags,
-  }: SettingsData | SearchStoryFetchQueryResponse["settings"],
+  }:
+    | ModerateSearchBarContainer_settings
+    | SearchStoryFetchQueryResponse["settings"],
   {
     site,
     metadata,
   }:
-    | ModerationQueuesData
+    | ModerateSearchBarContainer_story
     | SearchStoryFetchQueryResponse["stories"]["edges"][0]["node"]
 ) {
   return (
@@ -133,8 +135,8 @@ function getContextOptionsWhenModeratingAll(
 
 function getContextOptionsWhenModeratingStory(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
-  settings: SettingsData | null,
-  story: ModerationQueuesData | null,
+  settings: ModerateSearchBarContainer_settings | null,
+  story: ModerateSearchBarContainer_story | null,
   siteID: string | null,
   queue: QUEUE_NAME | undefined
 ): SearchBarOptions {
@@ -184,7 +186,7 @@ interface SearchParams {
  */
 function useSearchOptions(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
-  story: ModerationQueuesData | null,
+  story: ModerateSearchBarContainer_story | null,
   siteID: string | null,
   queue: QUEUE_NAME | undefined
 ): [SearchBarOptions, OnSearchCallback] {

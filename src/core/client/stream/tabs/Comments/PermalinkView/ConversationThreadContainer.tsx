@@ -16,10 +16,10 @@ import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalR
 import { Counter, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { ConversationThreadContainer_comment$data as ConversationThreadContainer_comment } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
-import { ConversationThreadContainer_settings$data as ConversationThreadContainer_settings } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
-import { ConversationThreadContainer_story$data as ConversationThreadContainer_story } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
-import { ConversationThreadContainer_viewer$data as ConversationThreadContainer_viewer } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
+import { ConversationThreadContainer_comment } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
+import { ConversationThreadContainer_settings } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
+import { ConversationThreadContainer_story } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
+import { ConversationThreadContainer_viewer } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";

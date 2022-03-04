@@ -20,8 +20,8 @@ import { GQLCOMMENT_SORT, GQLMODERATION_QUEUE } from "coral-framework/schema";
 import { Spinner } from "coral-ui/components/v2";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
-import { QueueRoute_settings$data as QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
-import { QueueRoute_viewer$data as QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
+import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
+import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
 import { QueueRouteLocal } from "coral-admin/__generated__/QueueRouteLocal.graphql";
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 import { QueueRoutePaginationReportedQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationReportedQuery.graphql";

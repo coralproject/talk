@@ -8,12 +8,12 @@ import CLASSES from "coral-stream/classes";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
-import { CommentContainer_comment$data as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_comment } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 
 import styles from "./InReplyTo.css";
 
 interface Props {
-  parent: CommentData["parent"];
+  parent: CommentContainer_comment["parent"];
   enableJumpToParent: boolean;
 }
 

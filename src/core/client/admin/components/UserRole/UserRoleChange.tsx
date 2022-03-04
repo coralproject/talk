@@ -11,7 +11,7 @@ import {
   Popover,
 } from "coral-ui/components/v2";
 
-import { UserRoleChangeContainer_user$data as UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
+import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
 
 import SiteModeratorModal from "./SiteModeratorModal";
 import UserRoleChangeButton from "./UserRoleChangeButton";

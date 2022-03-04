@@ -13,8 +13,8 @@ import {
   HorizontalGutter,
 } from "coral-ui/components/v2";
 
-import { ConversationModalContainer_comment$data as ConversationModalContainer_comment } from "coral-admin/__generated__/ConversationModalContainer_comment.graphql";
-import { ConversationModalContainer_settings$data as ConversationModalContainer_settings } from "coral-admin/__generated__/ConversationModalContainer_settings.graphql";
+import { ConversationModalContainer_comment } from "coral-admin/__generated__/ConversationModalContainer_comment.graphql";
+import { ConversationModalContainer_settings } from "coral-admin/__generated__/ConversationModalContainer_settings.graphql";
 import { ConversationModalContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalContainerPaginationQuery.graphql";
 
 import { Circle } from "../Timeline";

@@ -6,7 +6,8 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Environment, graphql } from "react-relay";
+import { graphql } from "react-relay";
+import RelayModernEnvironment from "relay-runtime/lib/store/RelayModernEnvironment";
 
 import { waitFor } from "coral-common/helpers";
 import { onPymMessage } from "coral-framework/helpers";
@@ -40,7 +41,7 @@ import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 
-import { KeyboardShortcuts_local$data as KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
+import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
 import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";
@@ -129,7 +130,10 @@ const getLastKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
   return null;
 };
 
-const getCurrentKeyStop = (window: Window, relayEnvironment: Environment) => {
+const getCurrentKeyStop = (
+  window: Window,
+  relayEnvironment: RelayModernEnvironment
+) => {
   const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
     .commentWithTraversalFocus;
   const currentCommentElement = window.document.getElementById(
@@ -227,7 +231,7 @@ const NextUnread = (
 
 const getNextAction = (
   window: Window,
-  relayEnvironment: Environment,
+  relayEnvironment: RelayModernEnvironment,
   options: TraverseOptions = {}
 ) => {
   const currentStop = getCurrentKeyStop(window, relayEnvironment);
@@ -517,7 +521,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         });
       }
     },
-    [pym, traverse, unmarkAll, zKeyEnabled]
+    [pym, setLocal, traverse, unmarkAll, zKeyEnabled]
   );
 
   const handleZKeyButton = useCallback(() => {
@@ -529,7 +533,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
       },
     });
     traverse({ key: "z", reverse: false, source: "mobileToolbar" });
-  }, [traverse]);
+  }, [setLocal, traverse]);
 
   // Update button states after first render.
   useEffect(() => {
@@ -564,7 +568,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, updateButtonStates]);
+  }, [eventEmitter, pym, traverse, updateButtonStates]);
 
   // Subscribe to keypress events.
   useEffect(() => {

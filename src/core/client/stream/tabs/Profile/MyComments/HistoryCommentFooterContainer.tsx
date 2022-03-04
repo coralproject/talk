@@ -13,8 +13,8 @@ import {
 import CLASSES from "coral-stream/classes";
 import { BaseButton, ButtonIcon, Flex, Icon } from "coral-ui/components/v2";
 
-import { HistoryCommentFooterContainer_comment$data as HistoryCommentFooterContainer_comment } from "coral-stream/__generated__/HistoryCommentFooterContainer_comment.graphql";
-import { HistoryCommentFooterContainer_settings$data as HistoryCommentFooterContainer_settings } from "coral-stream/__generated__/HistoryCommentFooterContainer_settings.graphql";
+import { HistoryCommentFooterContainer_comment } from "coral-stream/__generated__/HistoryCommentFooterContainer_comment.graphql";
+import { HistoryCommentFooterContainer_settings } from "coral-stream/__generated__/HistoryCommentFooterContainer_settings.graphql";
 import { HistoryCommentFooterContainerPaginationQuery } from "coral-stream/__generated__/HistoryCommentFooterContainerPaginationQuery.graphql";
 
 import styles from "./HistoryCommentFooterContainer.css";

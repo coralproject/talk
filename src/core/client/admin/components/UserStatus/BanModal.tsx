@@ -24,7 +24,7 @@ import {
 } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { UserStatusChangeContainer_user$data as UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
@@ -119,7 +119,7 @@ const BanModal: FunctionComponent<Props> = ({
     if (viewerIsSingleSiteMod) {
       setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
     }
-  }, [viewerIsSingleSiteMod]);
+  }, [viewerIsSingleSiteMod, viewerScopes.sites]);
 
   const onFormSubmit = useCallback(() => {
     try {

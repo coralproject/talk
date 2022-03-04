@@ -8,7 +8,6 @@ import React, {
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useLive } from "coral-framework/hooks";
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
@@ -39,9 +38,9 @@ import {
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { AllCommentsTabContainer_settings$data as AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
-import { AllCommentsTabContainer_story$data as AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
-import { AllCommentsTabContainer_viewer$data as AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
+import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
+import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
+import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
@@ -154,18 +153,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [setLocal]
   );
 
-  const lastComment =
-    (story.comments.edges.length &&
-      story.comments.edges[story.comments.edges.length - 1]) ||
-    null;
-
   const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
     ViewNewCommentsNetworkEvent
   );
-  const { window } = useCoralContext();
 
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({
@@ -180,7 +173,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, story.id, lastComment, window]);
+  }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const onViewMore = useCallback(async () => {
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
@@ -195,7 +188,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [story.id, tag, viewMore, beginViewNewCommentsEvent]);
+  }, [
+    beginViewNewCommentsEvent,
+    story.id,
+    keyboardShortcutsConfig,
+    viewMore,
+    tag,
+  ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
   // TODO: extract to separate function

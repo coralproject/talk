@@ -9,9 +9,9 @@ import {
 } from "coral-framework/lib/relay";
 import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
-import { UserHistoryDrawerRejectedComments_settings$data as UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
-import { UserHistoryDrawerRejectedComments_user$data as UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
-import { UserHistoryDrawerRejectedComments_viewer$data as UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
+import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
+import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
+import { UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
 import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
 
 import styles from "./UserHistoryDrawerRejectedComments.css";
@@ -42,7 +42,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
     }
 
     void loadMore();
-  }, [loadMore]);
+  }, [isLoadingMore, loadMore]);
 
   const hasMore = relay.hasMore();
   const comments = user
