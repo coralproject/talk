@@ -11,6 +11,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 
 import AnnouncementConfigContainer from "./AnnouncementConfigContainer";
+import BadgeConfig from "./BadgeConfig";
 import ClosedStreamMessageConfig from "./ClosedStreamMessageConfig";
 import ClosingCommentStreamsConfig from "./ClosingCommentStreamsConfig";
 import CommentEditingConfig from "./CommentEditingConfig";
@@ -23,7 +24,6 @@ import MemberBioConfig from "./MemberBioConfig";
 import ReactionConfigContainer from "./ReactionConfigContainer";
 import RTEConfig from "./RTEConfig";
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
-import StaffConfig from "./StaffConfig";
 
 import styles from "./GeneralConfigContainer.css";
 
@@ -55,7 +55,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <ClosingCommentStreamsConfig disabled={submitting} />
       <ClosedStreamMessageConfig disabled={submitting} />
       <ReactionConfigContainer disabled={submitting} settings={settings} />
-      <StaffConfig disabled={submitting} />
+      <BadgeConfig disabled={submitting} />
       <MemberBioConfig disabled={submitting} />
       <MediaLinksConfig disabled={submitting} />
     </HorizontalGutter>
@@ -75,7 +75,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ClosingCommentStreamsConfig_formValues @relay(mask: false)
       ...SitewideCommentingConfig_formValues @relay(mask: false)
       ...ReactionConfig_formValues @relay(mask: false)
-      ...StaffConfig_formValues @relay(mask: false)
+      ...BadgeConfig_formValues @relay(mask: false)
       ...RTEConfig_formValues @relay(mask: false)
       ...MediaLinksConfig_formValues @relay(mask: false)
       ...MemberBioConfig_formValues @relay(mask: false)

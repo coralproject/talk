@@ -361,7 +361,7 @@ describe("promote/demoteMember", () => {
     }
   );
 
-  it("allows site mods to grant member priviledges in their scope", async () => {
+  it("allows site mods to grant member privileges in their scope", async () => {
     /* eslint-disable-next-line */
     require("coral-server/models/user").mergeUserMembershipScopes.mockImplementation(
       (_mongo: any, _tenantID: any, userID: string, scopes: string[]) => {
@@ -382,7 +382,7 @@ describe("promote/demoteMember", () => {
     }
   });
 
-  it("allows site mods to revoke membership priviledges within their scope", async () => {
+  it("allows site mods to revoke membership privileges within their scope", async () => {
     for (const siteID of siteABMod.moderationScopes!.siteIDs!) {
       const res = await demoteMember(
         mongo,

@@ -18,11 +18,11 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
-import styles from "./StaffConfig.css";
+import styles from "./BadgeConfig.css";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment StaffConfig_formValues on Settings {
+  fragment BadgeConfig_formValues on Settings {
     badges {
       staffLabel
       adminLabel
@@ -58,14 +58,17 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
             <Localized id="configure-general-badges-admin-label">
               <Label>Admin badge text</Label>
             </Localized>
-            <Localized id="configure-general-badges-admin-input">
+            <Localized
+              id="configure-general-badges-admin-input"
+              attrs={{ placeholder: true }}
+            >
               <TextFieldWithValidation
                 {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 fullWidth
-                placeholder="E.g. Staff"
+                placeholder="E.g. Admin"
                 disabled={disabled}
                 meta={meta}
               />
@@ -87,14 +90,17 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
             <Localized id="configure-general-badges-moderator-label">
               <Label>Moderator badge text</Label>
             </Localized>
-            <Localized id="configure-general-badges-moderator-input">
+            <Localized
+              id="configure-general-badges-moderator-input"
+              attrs={{ placeholder: true }}
+            >
               <TextFieldWithValidation
                 {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 fullWidth
-                placeholder="E.g. Staff"
+                placeholder="E.g. Moderator"
                 disabled={disabled}
                 meta={meta}
               />
@@ -116,7 +122,10 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
             <Localized id="configure-general-badges-staff-member-label">
               <Label>Staff member badge text</Label>
             </Localized>
-            <Localized id="configure-general-badges-staff-member-input">
+            <Localized
+              id="configure-general-badges-staff-member-input"
+              attrs={{ placeholder: true }}
+            >
               <TextFieldWithValidation
                 {...input}
                 className={styles.textInput}
@@ -145,14 +154,17 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
             <Localized id="configure-general-badges-member-label">
               <Label>Member badge text</Label>
             </Localized>
-            <Localized id="configure-general-badges-member-input">
+            <Localized
+              id="configure-general-badges-member-input"
+              attrs={{ placeholder: true }}
+            >
               <TextFieldWithValidation
                 {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 fullWidth
-                placeholder="E.g. Staff"
+                placeholder="E.g. Member"
                 disabled={disabled}
                 meta={meta}
               />

@@ -1250,12 +1250,13 @@ community-removeMySitesFromModerator = Remove my sites from moderator
 community-assignMySitesToMember = Assign my sites to member
 community-removeMySitesFromMember = Remove my sites from member
 community-stillHaveSiteModeratorPrivileges = They will still have Site Moderator privileges for:
-community-stillHAveMemberPriviledges = They will still have Member priviledges for:
+community-stillHaveMemberPrivileges = They will still have Member privileges for:
 community-userNoLongerPermitted = User will no longer be permitted to make moderation decisions or assign suspensions on:
-community-memberNoLongerPermitted = User will no longer receive Member priviledges on:
+community-memberNoLongerPermitted = User will no longer receive Member privileges on:
 community-assignThisUser = Assign this user to
 community-assignYourSitesTo = Assign your sites to <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
+community-membersArePermitted = Members are permitted to receive a badge on the sites they are assigned.
 community-removeSiteModeratorPermissions = Remove Site Moderator permissions
 community-removeMemberPermissions = Remove Member permissions
 

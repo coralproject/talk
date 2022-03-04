@@ -1644,7 +1644,7 @@ on the comment stream and in the admin interface.
                       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                        className="TextField-root TextField-fullWidth BadgeConfig-textInput"
                       >
                         <input
                           className="TextField-input TextField-colorRegular"
@@ -1654,7 +1654,7 @@ on the comment stream and in the admin interface.
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          placeholder="E.g. Staff"
+                          placeholder="E.g. Admin"
                           type="text"
                           value="Staff"
                         />
@@ -1691,7 +1691,7 @@ on the comment stream and in the admin interface.
                       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                        className="TextField-root TextField-fullWidth BadgeConfig-textInput"
                       >
                         <input
                           className="TextField-input TextField-colorRegular"
@@ -1701,7 +1701,7 @@ on the comment stream and in the admin interface.
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          placeholder="E.g. Staff"
+                          placeholder="E.g. Moderator"
                           type="text"
                           value="Staff"
                         />
@@ -1738,7 +1738,7 @@ on the comment stream and in the admin interface.
                       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                        className="TextField-root TextField-fullWidth BadgeConfig-textInput"
                       >
                         <input
                           className="TextField-input TextField-colorRegular"
@@ -1785,7 +1785,7 @@ on the comment stream and in the admin interface.
                       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                        className="TextField-root TextField-fullWidth BadgeConfig-textInput"
                       >
                         <input
                           className="TextField-input TextField-colorRegular"
@@ -1795,7 +1795,7 @@ on the comment stream and in the admin interface.
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          placeholder="E.g. Staff"
+                          placeholder="E.g. Member"
                           type="text"
                           value="Member"
                         />
