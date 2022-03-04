@@ -361,7 +361,7 @@ const enhanced = withPaginationContainer<
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
-        storyID: props.storyID,
+        storyID: (props as Props).storyID,
         count,
         cursor,
         roleFilter: fragmentVariables.roleFilter,

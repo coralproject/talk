@@ -279,7 +279,7 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: props.story.id,
         tag: GQLTAG.UNANSWERED,
-        flattenReplies: props.flattenReplies,
+        flattenReplies: (props as Props).flattenReplies,
       };
     },
     query: graphql`

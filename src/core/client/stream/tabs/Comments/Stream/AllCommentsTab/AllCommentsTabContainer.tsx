@@ -437,11 +437,7 @@ const enhanced = withPaginationContainer<
     getConnectionFromProps({ story }) {
       return story && story.comments;
     },
-    getVariables(
-      { story, flattenReplies },
-      { count, cursor },
-      fragmentVariables
-    ) {
+    getVariables(props, { count, cursor }, fragmentVariables) {
       return {
         count,
         cursor,
@@ -450,8 +446,8 @@ const enhanced = withPaginationContainer<
         ratingFilter: fragmentVariables.ratingFilter,
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
-        storyID: story.id,
-        flattenReplies,
+        storyID: props.story.id,
+        flattenReplies: (props as Props).flattenReplies,
       };
     },
     query: graphql`
