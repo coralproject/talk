@@ -5541,6 +5541,12 @@ input SettingsInput {
   badges: BadgeConfigurationInput
 
   """
+  DEPRECATED: staff specifies the configuration for user badges assigned to users with
+  any role above COMMENTER.
+  """
+  staff: BadgeConfigurationInput
+
+  """
   accountFeatures specifies the configuration for accounts.
   """
   accountFeatures: CommenterAccountFeaturesInput

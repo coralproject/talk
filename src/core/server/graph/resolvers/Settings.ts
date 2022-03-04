@@ -45,4 +45,10 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
 
     return badgeConfig;
   },
+  staff: ({ staff, badges }, args, ctx) => {
+    // Default to new badges config if present
+    const deprecated = badges || staff;
+
+    return deprecated;
+  },
 };
