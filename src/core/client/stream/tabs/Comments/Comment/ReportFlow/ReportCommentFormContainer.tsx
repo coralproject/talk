@@ -1,21 +1,17 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import {
-  useFetch,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useFetch, useMutation } from "coral-framework/lib/relay";
 import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { ReportCommentFormContainer_comment$data as ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
-import { ReportCommentFormContainer_settings$data as ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
+import { ReportCommentFormContainer_comment$key as ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
+import { ReportCommentFormContainer_settings$key as ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
 
 import { shouldTriggerViewerRefresh } from "../../helpers";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
@@ -34,6 +30,26 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
   settings,
   onClose,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ReportCommentFormContainer_comment on Comment {
+        id
+        revision {
+          id
+        }
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ReportCommentFormContainer_settings on Settings {
+        memberBios
+      }
+    `,
+    settings
+  );
+
   const [done, setDone] = useState(false);
   const dontAgreeMutation = useMutation(CreateCommentDisagreeMutation);
   const flagMutation = useMutation(CreateCommentFlagMutation);
@@ -43,16 +59,16 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
       try {
         if (input.reason === "DISAGREE") {
           await dontAgreeMutation({
-            commentID: comment.id,
+            commentID: commentData.id,
             // revision is guaranteed since we are able to interact with it
-            commentRevisionID: comment.revision!.id,
+            commentRevisionID: commentData.revision!.id,
             additionalDetails: input.additionalDetails,
           });
         } else {
           await flagMutation({
-            commentID: comment.id,
+            commentID: commentData.id,
             // revision is guaranteed since we are able to interact with it
-            commentRevisionID: comment.revision!.id,
+            commentRevisionID: commentData.revision!.id,
             reason: input.reason,
             additionalDetails: input.additionalDetails,
           });
@@ -79,8 +95,8 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
       return undefined;
     },
     [
-      comment.id,
-      comment.revision,
+      commentData.id,
+      commentData.revision,
       dontAgreeMutation,
       flagMutation,
       refreshViewer,
@@ -90,11 +106,11 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
   if (!done) {
     return (
       <ReportCommentForm
-        id={comment.id}
+        id={commentData.id}
         data-testid="report-comment-form"
         onSubmit={onSubmit}
         onCancel={onClose}
-        biosEnabled={settings.memberBios}
+        biosEnabled={settingsData.memberBios}
       />
     );
   }
@@ -117,20 +133,4 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ReportCommentFormContainer_comment on Comment {
-      id
-      revision {
-        id
-      }
-    }
-  `,
-  settings: graphql`
-    fragment ReportCommentFormContainer_settings on Settings {
-      memberBios
-    }
-  `,
-})(ReportCommentFormContainer);
-
-export default enhanced;
+export default ReportCommentFormContainer;

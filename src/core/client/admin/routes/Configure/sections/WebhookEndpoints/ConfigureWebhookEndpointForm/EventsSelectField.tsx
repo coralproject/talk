@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { useField } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { ValidationMessage } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { validateWebhookEventSelection } from "coral-framework/lib/validation";
 import {
   Button,
@@ -21,7 +20,7 @@ import {
 } from "coral-ui/components/v2";
 
 import {
-  EventsSelectField_settings,
+  EventsSelectField_settings$key as EventsSelectField_settings,
   WEBHOOK_EVENT_NAME,
 } from "coral-admin/__generated__/EventsSelectField_settings.graphql";
 
@@ -32,6 +31,15 @@ interface Props {
 }
 
 const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment EventsSelectField_settings on Settings {
+        webhookEvents
+      }
+    `,
+    settings
+  );
+
   const { input: all } = useField<boolean>("all");
   const { input: events, meta } = useField<WEBHOOK_EVENT_NAME[]>("events", {
     validate: validateWebhookEventSelection,
@@ -94,7 +102,7 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
         </FormFieldDescription>
       </Localized>
       <ListGroup className={styles.list}>
-        {settings.webhookEvents.map((event) => {
+        {settingsData.webhookEvents.map((event) => {
           const selectedIndex = events.value.indexOf(event);
           return (
             <ListGroupRow key={event}>
@@ -142,12 +150,4 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment EventsSelectField_settings on Settings {
-      webhookEvents
-    }
-  `,
-})(EventsSelectField);
-
-export default enhanced;
+export default EventsSelectField;

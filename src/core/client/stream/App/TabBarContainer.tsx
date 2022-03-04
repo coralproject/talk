@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useCallback, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 
-import { TabBarContainer_settings$data as TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
-import { TabBarContainer_story$data as TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
-import { TabBarContainer_viewer$data as TabBarContainer_viewer } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
+import { TabBarContainer_settings$key as TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
+import { TabBarContainer_story$key as TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
+import { TabBarContainer_viewer$key as TabBarContainer_viewer } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
 import { TabBarContainerLocal } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
 
 import {
@@ -30,6 +30,34 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   settings,
   setActiveTab,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment TabBarContainer_viewer on User {
+        role
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment TabBarContainer_settings on Settings {
+        featureFlags
+      }
+    `,
+    settings
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment TabBarContainer_story on Story {
+        canModerate
+        settings {
+          mode
+        }
+      }
+    `,
+    story
+  );
+
   const [{ activeTab }] = useLocal<TabBarContainerLocal>(graphql`
     fragment TabBarContainerLocal on Local {
       activeTab
@@ -44,26 +72,26 @@ export const TabBarContainer: FunctionComponent<Props> = ({
 
   const showDiscussionsTab = useMemo(
     () =>
-      !!viewer &&
-      !!settings &&
-      settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
-    [viewer, settings]
+      !!viewerData &&
+      !!settingsData &&
+      settingsData.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
+    [viewerData, settingsData]
   );
 
   const showConfigureTab = useMemo(
     () =>
-      !!viewer &&
-      !!story &&
-      story.canModerate &&
-      can(viewer, Ability.CHANGE_STORY_CONFIGURATION),
-    [viewer, story]
+      !!viewerData &&
+      !!storyData &&
+      storyData.canModerate &&
+      can(viewerData, Ability.CHANGE_STORY_CONFIGURATION),
+    [viewerData, storyData]
   );
 
   return (
     <TabBar
-      mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
+      mode={storyData ? storyData.settings.mode : GQLSTORY_MODE.COMMENTS}
       activeTab={activeTab}
-      showProfileTab={!!viewer}
+      showProfileTab={!!viewerData}
       showDiscussionsTab={showDiscussionsTab}
       showConfigureTab={showConfigureTab}
       onTabClick={handleSetActiveTab}
@@ -71,27 +99,6 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withSetActiveTabMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
-      fragment TabBarContainer_viewer on User {
-        role
-      }
-    `,
-    story: graphql`
-      fragment TabBarContainer_story on Story {
-        canModerate
-        settings {
-          mode
-        }
-      }
-    `,
-    settings: graphql`
-      fragment TabBarContainer_settings on Settings {
-        featureFlags
-      }
-    `,
-  })(TabBarContainer)
-);
+const enhanced = withSetActiveTabMutation(TabBarContainer);
 
 export default enhanced;

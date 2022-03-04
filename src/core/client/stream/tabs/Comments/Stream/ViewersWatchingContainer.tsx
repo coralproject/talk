@@ -5,18 +5,18 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useLive, useVisibilityState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useInView } from "coral-framework/lib/intersection";
-import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { ViewersWatchingContainer_settings$data as ViewersWatchingContainer_settings } from "coral-stream/__generated__/ViewersWatchingContainer_settings.graphql";
-import { ViewersWatchingContainer_story$data as ViewersWatchingContainer_story } from "coral-stream/__generated__/ViewersWatchingContainer_story.graphql";
+import { ViewersWatchingContainer_settings$key as ViewersWatchingContainer_settings } from "coral-stream/__generated__/ViewersWatchingContainer_settings.graphql";
+import { ViewersWatchingContainer_story$key as ViewersWatchingContainer_story } from "coral-stream/__generated__/ViewersWatchingContainer_story.graphql";
 
 import RefreshStoryViewerCount from "./RefreshStoryViewerCount";
 
@@ -35,11 +35,37 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
   story,
   settings,
 }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment ViewersWatchingContainer_story on Story {
+        id
+        viewerCount
+        isClosed
+        settings {
+          live {
+            enabled
+          }
+        }
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ViewersWatchingContainer_settings on Settings {
+        disableCommenting {
+          enabled
+        }
+      }
+    `,
+    settings
+  );
+
   const { window } = useCoralContext();
   const { inView, intersectionRef } = useInView();
   const [lastRefreshed, setLastRefreshed] = useState<number>(Date.now());
   const [refreshed, setRefreshed] = useState(false);
-  const live = useLive({ story, settings });
+  const live = useLive({ story: storyData, settings: settingsData });
   const visible = useVisibilityState();
   const refreshStoryViewerCount = useFetch(RefreshStoryViewerCount);
 
@@ -47,7 +73,7 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
   const refresh = useCallback(async () => {
     try {
       // Refresh the viewer count!
-      await refreshStoryViewerCount({ storyID: story.id });
+      await refreshStoryViewerCount({ storyID: storyData.id });
 
       // Mark that we've refreshed (so we remove the extra +1).
       setRefreshed(true);
@@ -59,10 +85,10 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
       // couldn not refresh the story viewer count
       globalErrorReporter.report(err);
     }
-  }, [refreshStoryViewerCount, story.id]);
+  }, [refreshStoryViewerCount, storyData.id]);
 
   // available will be true when the viewer count is available.
-  const available = story.viewerCount !== null;
+  const available = storyData.viewerCount !== null;
 
   useEffect(() => {
     // If we aren't live, or there isn't a live count available (like if the
@@ -99,17 +125,18 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
     };
   }, [
     live,
-    story.id,
+    storyData.id,
     refreshStoryViewerCount,
     visible,
     available,
     inView,
     lastRefreshed,
     refresh,
+    window,
   ]);
 
   // If we aren't live or the viewer count isn't available, then return nothing!
-  if (!live || story.viewerCount === null) {
+  if (!live || storyData.viewerCount === null) {
     return null;
   }
 
@@ -118,10 +145,10 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
     ? // If we have refreshed the count, we will use the viewer count as is, but
       // if the count is zero, it should be one because at least this one user
       // is viewing.
-      story.viewerCount || 1
+      storyData.viewerCount || 1
     : // If we haven't refreshed, we should probably add one here because the
       // count is queried before the websocket subscription is created.
-      story.viewerCount + 1;
+      storyData.viewerCount + 1;
 
   return (
     <div ref={intersectionRef}>
@@ -144,26 +171,4 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment ViewersWatchingContainer_story on Story {
-      id
-      viewerCount
-      isClosed
-      settings {
-        live {
-          enabled
-        }
-      }
-    }
-  `,
-  settings: graphql`
-    fragment ViewersWatchingContainer_settings on Settings {
-      disableCommenting {
-        enabled
-      }
-    }
-  `,
-})(ViewersWatchingContainer);
-
-export default enhanced;
+export default ViewersWatchingContainer;

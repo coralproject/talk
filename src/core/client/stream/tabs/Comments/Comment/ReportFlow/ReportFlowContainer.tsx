@@ -1,11 +1,9 @@
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { ReportFlowContainer_comment$data as ReportFlowContainer_comment } from "coral-stream/__generated__/ReportFlowContainer_comment.graphql";
-import { ReportFlowContainer_settings$data as ReportFlowContainer_settings } from "coral-stream/__generated__/ReportFlowContainer_settings.graphql";
-import { ReportFlowContainer_viewer$data as ReportFlowContainer_viewer } from "coral-stream/__generated__/ReportFlowContainer_viewer.graphql";
+import { ReportFlowContainer_comment$key as ReportFlowContainer_comment } from "coral-stream/__generated__/ReportFlowContainer_comment.graphql";
+import { ReportFlowContainer_settings$key as ReportFlowContainer_settings } from "coral-stream/__generated__/ReportFlowContainer_settings.graphql";
+import { ReportFlowContainer_viewer$key as ReportFlowContainer_viewer } from "coral-stream/__generated__/ReportFlowContainer_viewer.graphql";
 
 import ReportCommentFormContainer from "./ReportCommentFormContainer";
 
@@ -22,43 +20,51 @@ const ReportFlowContainer: FunctionComponent<Props> = ({
   onClose,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ReportFlowContainer_settings on Settings {
+        ...ReportCommentFormContainer_settings
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment ReportFlowContainer_viewer on User {
+        id
+      }
+    `,
+    viewer
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment ReportFlowContainer_comment on Comment {
+        ...ReportCommentFormContainer_comment
+        id
+        viewerActionPresence {
+          dontAgree
+          flag
+        }
+      }
+    `,
+    comment
+  );
+
   const onFormClose = useCallback(() => {
     onClose();
   }, [onClose]);
-  if (!viewer) {
+
+  if (!viewerData) {
     return null;
   }
 
   return (
     <ReportCommentFormContainer
-      comment={comment}
+      comment={commentData}
       onClose={onFormClose}
-      settings={settings}
+      settings={settingsData}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ReportFlowContainer_settings on Settings {
-      ...ReportCommentFormContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment ReportFlowContainer_viewer on User {
-      id
-    }
-  `,
-  comment: graphql`
-    fragment ReportFlowContainer_comment on Comment {
-      ...ReportCommentFormContainer_comment
-      id
-      viewerActionPresence {
-        dontAgree
-        flag
-      }
-    }
-  `,
-})(ReportFlowContainer);
-
-export default enhanced;
+export default ReportFlowContainer;

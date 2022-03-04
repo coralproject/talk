@@ -1,14 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { HorizontalRule, Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { QAConfigContainer_settings$data as QAConfigContainer_settings } from "coral-stream/__generated__/QAConfigContainer_settings.graphql";
-import { QAConfigContainer_story$data as QAConfigContainer_story } from "coral-stream/__generated__/QAConfigContainer_story.graphql";
+import { QAConfigContainer_settings$key as QAConfigContainer_settings } from "coral-stream/__generated__/QAConfigContainer_settings.graphql";
+import { QAConfigContainer_story$key as QAConfigContainer_story } from "coral-stream/__generated__/QAConfigContainer_story.graphql";
 
 import DisableQA from "./DisableQA";
 import EnableQA from "./EnableQA";
@@ -22,6 +22,26 @@ interface Props {
 }
 
 const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment QAConfigContainer_story on Story {
+        id
+        settings {
+          mode
+        }
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment QAConfigContainer_settings on Settings {
+        featureFlags
+      }
+    `,
+    settings
+  );
+
   const [waiting, setWaiting] = useState(false);
   const updateStoryMode = useMutation(UpdateStoryModeMutation);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -29,26 +49,29 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
   const handleOnClick = useCallback(async () => {
     if (!waiting) {
       setWaiting(true);
-      if (story.settings.mode === GQLSTORY_MODE.COMMENTS) {
-        await updateStoryMode({ storyID: story.id, mode: GQLSTORY_MODE.QA });
+      if (storyData.settings.mode === GQLSTORY_MODE.COMMENTS) {
+        await updateStoryMode({
+          storyID: storyData.id,
+          mode: GQLSTORY_MODE.QA,
+        });
       } else {
         await updateStoryMode({
-          storyID: story.id,
+          storyID: storyData.id,
           mode: GQLSTORY_MODE.COMMENTS,
         });
       }
       setWaiting(false);
       setShowSuccess(true);
     }
-  }, [waiting, setWaiting, story, updateStoryMode, setShowSuccess]);
+  }, [waiting, setWaiting, storyData, updateStoryMode, setShowSuccess]);
   const closeSuccess = useCallback(() => {
     setShowSuccess(false);
   }, [setShowSuccess]);
 
-  const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+  const isQA = storyData.settings.mode === GQLSTORY_MODE.QA;
 
   // Check if we're allowed to show Q&A based on feature flags
-  if (!settings.featureFlags.includes(GQLFEATURE_FLAG.ENABLE_QA)) {
+  if (!settingsData.featureFlags.includes(GQLFEATURE_FLAG.ENABLE_QA)) {
     return null;
   }
 
@@ -56,7 +79,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
     <section aria-labelledby="configure-disableQA-title">
       <HorizontalRule />
       <DisableQA
-        storyID={story.id}
+        storyID={storyData.id}
         onClick={handleOnClick}
         disableButton={waiting}
       />
@@ -107,19 +130,4 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment QAConfigContainer_story on Story {
-      id
-      settings {
-        mode
-      }
-    }
-  `,
-  settings: graphql`
-    fragment QAConfigContainer_settings on Settings {
-      featureFlags
-    }
-  `,
-})(QAConfigContainer);
-export default enhanced;
+export default QAConfigContainer;

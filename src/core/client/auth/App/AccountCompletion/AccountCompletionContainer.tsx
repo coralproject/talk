@@ -1,16 +1,12 @@
 import React, { FunctionComponent, useEffect, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { SetViewMutation } from "coral-auth/mutations";
 import { View } from "coral-auth/mutations/SetViewMutation";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 
-import { AccountCompletionContainer_auth } from "coral-auth/__generated__/AccountCompletionContainer_auth.graphql";
-import { AccountCompletionContainer_viewer$data as AccountCompletionContainer_viewer } from "coral-auth/__generated__/AccountCompletionContainer_viewer.graphql";
+import { AccountCompletionContainer_auth$key as AccountCompletionContainer_auth } from "coral-auth/__generated__/AccountCompletionContainer_auth.graphql";
+import { AccountCompletionContainer_viewer$key as AccountCompletionContainer_viewer } from "coral-auth/__generated__/AccountCompletionContainer_viewer.graphql";
 import { AccountCompletionContainerLocal } from "coral-auth/__generated__/AccountCompletionContainerLocal.graphql";
 
 import CompleteAccountMutation from "./CompleteAccountMutation";
@@ -25,6 +21,35 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   auth,
   children,
 }) => {
+  const authData = useFragment(
+    graphql`
+      fragment AccountCompletionContainer_auth on Auth {
+        integrations {
+          local {
+            enabled
+            targetFilter {
+              stream
+            }
+          }
+        }
+      }
+    `,
+    auth
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment AccountCompletionContainer_viewer on User {
+        username
+        email
+        duplicateEmail
+        profiles {
+          __typename
+        }
+      }
+    `,
+    viewer
+  );
+
   const completeAccount = useMutation(CompleteAccountMutation);
   const setView = useMutation(SetViewMutation);
 
@@ -39,19 +64,19 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   `);
 
   const localProfileEnabled =
-    auth.integrations.local.enabled &&
-    auth.integrations.local.targetFilter.stream;
+    authData.integrations.local.enabled &&
+    authData.integrations.local.targetFilter.stream;
 
-  const hasUsername = !!viewer?.username;
-  const hasEmail = !!viewer?.email;
-  const hasLocalProfile = !!viewer?.profiles.some(
+  const hasUsername = !!viewerData?.username;
+  const hasEmail = !!viewerData?.email;
+  const hasLocalProfile = !!viewerData?.profiles.some(
     (p) => p.__typename === "LocalProfile"
   );
 
   const view: View | false = useMemo(() => {
     // We aren't logged in or we don't have the token, so just stick with the
     // current view.
-    if (!viewer || !accessToken) {
+    if (!viewerData || !accessToken) {
       return currentView as View;
     }
 
@@ -59,7 +84,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
     // the account.
     if (!hasEmail) {
       if (
-        (duplicateEmail || viewer.duplicateEmail) &&
+        (duplicateEmail || viewerData.duplicateEmail) &&
         // User with a duplicate email might choose to use
         // a different email address instead of linking.
         currentView !== "ADD_EMAIL_ADDRESS"
@@ -95,7 +120,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
     hasLocalProfile,
     hasUsername,
     localProfileEnabled,
-    viewer,
+    viewerData,
   ]);
 
   // If the view is different than the current view, then set the view!
@@ -116,29 +141,4 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   return <>{children}</>;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  auth: graphql`
-    fragment AccountCompletionContainer_auth on Auth {
-      integrations {
-        local {
-          enabled
-          targetFilter {
-            stream
-          }
-        }
-      }
-    }
-  `,
-  viewer: graphql`
-    fragment AccountCompletionContainer_viewer on User {
-      username
-      email
-      duplicateEmail
-      profiles {
-        __typename
-      }
-    }
-  `,
-})(AccountCompletionContainer);
-
-export default enhanced;
+export default AccountCompletionContainer;

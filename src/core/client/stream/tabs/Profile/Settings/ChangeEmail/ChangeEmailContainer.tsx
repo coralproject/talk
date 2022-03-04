@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 import { Environment } from "relay-runtime";
 
 import { PasswordField } from "coral-framework/components";
@@ -16,12 +16,7 @@ import getAuthenticationIntegrations from "coral-framework/helpers/getAuthentica
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { streamColorFromMeta } from "coral-framework/lib/form";
-import {
-  createFetch,
-  useFetch,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { createFetch, useFetch, useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -42,8 +37,8 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
-import { ChangeEmailContainer_settings$data as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
-import { ChangeEmailContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
+import { ChangeEmailContainer_settings$key as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
+import { ChangeEmailContainer_viewer$key as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 
 import UpdateEmailMutation from "./UpdateEmailMutation";
 
@@ -85,6 +80,60 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment ChangeEmailContainer_viewer on User {
+        email
+        emailVerified
+        profiles {
+          __typename
+        }
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ChangeEmailContainer_settings on Settings {
+        auth {
+          integrations {
+            local {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            google {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            oidc {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            sso {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            facebook {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   const emitShowEvent = useViewerEvent(ShowEditEmailDialogEvent);
   const updateEmail = useMutation(UpdateEmailMutation);
 
@@ -95,14 +144,14 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
   const resend = useCallback(async () => {
     await makeFetchCall();
     setConfirmationResent(true);
-  }, [fetcher]);
+  }, [makeFetchCall]);
 
   const toggleEditForm = useCallback(() => {
     if (!showEditForm) {
       emitShowEvent();
     }
     setShowEditForm(!showEditForm);
-  }, [setShowEditForm, showEditForm]);
+  }, [emitShowEvent, showEditForm]);
   const onSubmit = useCallback(
     async (input: FormProps, form: FormApi) => {
       try {
@@ -134,17 +183,19 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
 
   const canChangeEmail = useMemo(() => {
     if (
-      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
+      !viewerData.profiles.find(
+        (profile) => profile.__typename === "LocalProfile"
+      )
     ) {
       return false;
     }
-    const enabled = getAuthenticationIntegrations(settings.auth, "stream");
+    const enabled = getAuthenticationIntegrations(settingsData.auth, "stream");
 
     return (
       enabled.includes("local") ||
       !(enabled.length === 1 && enabled[0] === "sso")
     );
-  }, [viewer, settings]);
+  }, [viewerData, settingsData]);
 
   const preventSubmit = (
     formState: Pick<
@@ -191,9 +242,9 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
               CLASSES.myEmail.form.currentEmail
             )}
           >
-            {viewer.email}
+            {viewerData.email}
           </div>{" "}
-          {!viewer.emailVerified && !showEditForm && (
+          {!viewerData.emailVerified && !showEditForm && (
             <Localized id="profile-changeEmail-unverified">
               <div
                 className={cn(
@@ -219,7 +270,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
           )}
         </Flex>
       </div>
-      {!viewer.emailVerified && !showEditForm && (
+      {!viewerData.emailVerified && !showEditForm && (
         <div
           className={cn(styles.verifyContainer, CLASSES.verifyEmail.container)}
         >
@@ -253,13 +304,13 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                   </div>
                   <Localized
                     id="profile-changeEmail-please-verify-details"
-                    $email={viewer.email}
+                    $email={viewerData.email}
                   >
                     <div>
-                      An email has been sent to {viewer.email} to verify your
-                      account. You must verify your new email address before it
-                      can be used for signing into your account or for email
-                      notifications.
+                      An email has been sent to {viewerData.email} to verify
+                      your account. You must verify your new email address
+                      before it can be used for signing into your account or for
+                      email notifications.
                     </div>
                   </Localized>
                 </div>
@@ -477,54 +528,4 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment ChangeEmailContainer_viewer on User {
-      email
-      emailVerified
-      profiles {
-        __typename
-      }
-    }
-  `,
-  settings: graphql`
-    fragment ChangeEmailContainer_settings on Settings {
-      auth {
-        integrations {
-          local {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          google {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          oidc {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          sso {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          facebook {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-        }
-      }
-    }
-  `,
-})(ChangeEmailContainer);
-
-export default enhanced;
+export default ChangeEmailContainer;

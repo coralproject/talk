@@ -1,30 +1,71 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Timestamp } from "coral-ui/components/v2";
+
+import { CommentRevisionContainer_comment$key as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
+
+import { CommentContent } from "../Comment";
 import ExternalMedia from "../MediaContainer/ExternalMedia";
 import GiphyMedia from "../MediaContainer/GiphyMedia";
 import TwitterMedia from "../MediaContainer/TwitterMedia";
 import YouTubeMedia from "../MediaContainer/YouTubeMedia";
-
-import { CommentRevisionContainer_comment$data as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
-
-import { CommentContent } from "../Comment";
 
 interface Props {
   comment: CommentData;
 }
 
 const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment CommentRevisionContainer_comment on Comment {
+        id
+        site {
+          id
+        }
+        revision {
+          id
+        }
+        revisionHistory {
+          id
+          body
+          createdAt
+          media {
+            __typename
+            ... on GiphyMedia {
+              url
+              title
+              width
+              height
+              still
+              video
+            }
+            ... on TwitterMedia {
+              url
+            }
+            ... on YouTubeMedia {
+              url
+              still
+              title
+            }
+            ... on ExternalMedia {
+              url
+            }
+          }
+        }
+      }
+    `,
+    comment
+  );
+
   return (
     <HorizontalGutter>
-      {comment.revisionHistory
+      {commentData.revisionHistory
         .concat()
         .reverse()
         .filter((c) =>
-          comment && comment.revision && comment.revision.id
-            ? comment.revision.id !== c.id
+          commentData && commentData.revision && commentData.revision.id
+            ? commentData.revision.id !== c.id
             : true
         )
         .map((c) => (
@@ -42,23 +83,23 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
             )}
             {c.media && c.media.__typename === "ExternalMedia" && (
               <ExternalMedia
-                id={comment.id}
+                id={commentData.id}
                 url={c.media.url}
-                siteID={comment.site.id}
+                siteID={commentData.site.id}
               />
             )}
             {c.media && c.media.__typename === "TwitterMedia" && (
               <TwitterMedia
-                id={comment.id}
+                id={commentData.id}
                 url={c.media.url}
-                siteID={comment.site.id}
+                siteID={commentData.site.id}
               />
             )}
             {c.media && c.media.__typename === "YouTubeMedia" && (
               <YouTubeMedia
-                id={comment.id}
+                id={commentData.id}
                 url={c.media.url}
-                siteID={comment.site.id}
+                siteID={commentData.site.id}
                 still={c.media.still}
                 title={c.media.title}
               />
@@ -69,45 +110,4 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment CommentRevisionContainer_comment on Comment {
-      id
-      site {
-        id
-      }
-      revision {
-        id
-      }
-      revisionHistory {
-        id
-        body
-        createdAt
-        media {
-          __typename
-          ... on GiphyMedia {
-            url
-            title
-            width
-            height
-            still
-            video
-          }
-          ... on TwitterMedia {
-            url
-          }
-          ... on YouTubeMedia {
-            url
-            still
-            title
-          }
-          ... on ExternalMedia {
-            url
-          }
-        }
-      }
-    }
-  `,
-})(CommentRevisionContainer);
-
-export default enhanced;
+export default CommentRevisionContainer;

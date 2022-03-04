@@ -2,11 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent, useCallback, useMemo, useRef } from "react";
 import { FieldArray } from "react-final-form-arrays";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   ButtonIcon,
@@ -14,7 +13,7 @@ import {
   HorizontalGutter,
 } from "coral-ui/components/v2";
 
-import { SlackConfigContainer_settings$data as SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
+import { SlackConfigContainer_settings$key as SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -29,6 +28,28 @@ interface Props {
 }
 
 const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment SlackConfigContainer_settings on Settings {
+        slack {
+          channels {
+            enabled
+            name
+            hookURL
+            triggers {
+              reportedComments
+              pendingComments
+              featuredComments
+              allComments
+              staffComments
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onAddChannel = useCallback(() => {
@@ -83,14 +104,14 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
       },
     };
     if (
-      settings.slack &&
-      settings.slack.channels &&
-      settings.slack.channels.length > 0
+      settingsData.slack &&
+      settingsData.slack.channels &&
+      settingsData.slack.channels.length > 0
     ) {
-      formValues = pureMerge(formValues, settings);
+      formValues = pureMerge(formValues, settingsData);
     }
     form.initialize(formValues);
-  }, []);
+  }, [form, settingsData]);
 
   return (
     <HorizontalGutter size="double">
@@ -143,25 +164,4 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment SlackConfigContainer_settings on Settings {
-      slack {
-        channels {
-          enabled
-          name
-          hookURL
-          triggers {
-            reportedComments
-            pendingComments
-            featuredComments
-            allComments
-            staffComments
-          }
-        }
-      }
-    }
-  `,
-})(SlackConfigContainer);
-
-export default enhanced;
+export default SlackConfigContainer;

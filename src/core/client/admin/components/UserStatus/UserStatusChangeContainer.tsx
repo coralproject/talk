@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
-import { UserStatusChangeContainer_settings$data as UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
-import { UserStatusChangeContainer_user$data as UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
-import { UserStatusChangeContainer_viewer$data as UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
+import { UserStatusChangeContainer_settings$key as UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
+import { UserStatusChangeContainer_user$key as UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_viewer$key as UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import BanModal, { UpdateType } from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
@@ -41,6 +41,62 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   bordered,
   viewer,
 }) => {
+  const userData = useFragment(
+    graphql`
+      fragment UserStatusChangeContainer_user on User {
+        id
+        role
+        username
+        status {
+          ban {
+            active
+            sites {
+              id
+              name
+            }
+          }
+          suspension {
+            active
+          }
+          premod {
+            active
+          }
+          warning {
+            active
+          }
+        }
+        ...UserStatusContainer_user
+      }
+    `,
+    user
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment UserStatusChangeContainer_settings on Settings {
+        organization {
+          name
+        }
+        multisite
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment UserStatusChangeContainer_viewer on User {
+        role
+        moderationScopes {
+          scoped
+          sites {
+            id
+            name
+          }
+        }
+      }
+    `,
+    viewer
+  );
+
   const banUser = useMutation(BanUserMutation);
   const updateUserBan = useMutation(UpdateUserBanMutation);
   const unbanUser = useMutation(RemoveUserBanMutation);
@@ -62,45 +118,45 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     boolean
   >(false);
 
-  const moderationScopesEnabled = settings.multisite;
-  const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
+  const moderationScopesEnabled = settingsData.multisite;
+  const viewerIsScoped = !!viewerData.moderationScopes?.sites?.length;
 
   const handleModMessage = useCallback(() => {
     setShowModMessage(true);
-  }, [user, setShowModMessage]);
+  }, [userData, setShowModMessage]);
   const hideSendModMessage = useCallback(() => {
     setShowModMessage(false);
     setShowSendModMessageSuccess(false);
   }, [setShowWarn]);
   const handleSendModMessageConfirm = useCallback(
     (message: string) => {
-      void sendModMessage({ userID: user.id, message });
+      void sendModMessage({ userID: userData.id, message });
       setShowSendModMessageSuccess(true);
     },
-    [sendModMessage, user, setShowSendModMessageSuccess]
+    [sendModMessage, userData, setShowSendModMessageSuccess]
   );
   const handleWarn = useCallback(() => {
-    if (user.status.warning.active) {
+    if (userData.status.warning.active) {
       return;
     }
     setShowWarn(true);
-  }, [user, setShowWarn]);
+  }, [userData, setShowWarn]);
   const handleRemoveWarning = useCallback(() => {
-    if (!user.status.warning.active) {
+    if (!userData.status.warning.active) {
       return;
     }
-    void removeUserWarning({ userID: user.id });
-  }, [user, removeUserWarning]);
+    void removeUserWarning({ userID: userData.id });
+  }, [userData, removeUserWarning]);
   const hideWarn = useCallback(() => {
     setShowWarn(false);
     setShowWarnSuccess(false);
   }, [setShowWarn]);
   const handleWarnConfirm = useCallback(
     (message: string) => {
-      void warnUser({ userID: user.id, message });
+      void warnUser({ userID: userData.id, message });
       setShowWarnSuccess(true);
     },
-    [warnUser, user, setShowWarnSuccess]
+    [warnUser, userData, setShowWarnSuccess]
   );
 
   const handleManageBan = useCallback(() => {
@@ -108,40 +164,40 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   }, [setShowBanned]);
 
   const handleSuspend = useCallback(() => {
-    if (user.status.suspension.active) {
+    if (userData.status.suspension.active) {
       return;
     }
     setShowSuspend(true);
-  }, [user, setShowSuspend]);
+  }, [userData, setShowSuspend]);
   const handleRemoveSuspension = useCallback(() => {
-    if (!user.status.suspension.active) {
+    if (!userData.status.suspension.active) {
       return;
     }
-    void removeUserSuspension({ userID: user.id });
-  }, [user, removeUserSuspension]);
+    void removeUserSuspension({ userID: userData.id });
+  }, [userData, removeUserSuspension]);
 
   const handlePremod = useCallback(() => {
-    if (user.status.premod.active) {
+    if (userData.status.premod.active) {
       return;
     }
     setShowPremod(true);
-  }, [user, setShowPremod]);
+  }, [userData, setShowPremod]);
 
   const handlePremodConfirm = useCallback(() => {
-    void premodUser({ userID: user.id });
+    void premodUser({ userID: userData.id });
     setShowPremod(false);
-  }, [premodUser, user, setShowPremod]);
+  }, [premodUser, userData, setShowPremod]);
 
   const hidePremod = useCallback(() => {
     setShowPremod(false);
   }, [setShowPremod]);
 
   const handleRemovePremod = useCallback(() => {
-    if (!user.status.premod.active) {
+    if (!userData.status.premod.active) {
       return;
     }
-    void removeUserPremod({ userID: user.id });
-  }, [user, removeUserPremod]);
+    void removeUserPremod({ userID: userData.id });
+  }, [userData, removeUserPremod]);
 
   const handleSuspendModalClose = useCallback(() => {
     setShowSuspend(false);
@@ -155,13 +211,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const handleSuspendConfirm = useCallback(
     (timeout, message) => {
       void suspendUser({
-        userID: user.id,
+        userID: userData.id,
         timeout,
         message,
       });
       setShowSuspendSuccess(true);
     },
-    [user, suspendUser, setShowSuspendSuccess]
+    [userData, suspendUser, setShowSuspendSuccess]
   );
 
   const handleUpdateBan = useCallback(
@@ -169,17 +225,17 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       switch (updateType) {
         case UpdateType.ALL_SITES:
           void banUser({
-            userID: user.id,
+            userID: userData.id,
             message,
             rejectExistingComments,
             siteIDs: viewerIsScoped
-              ? viewer?.moderationScopes?.sites?.map((s) => s.id)
+              ? viewerData?.moderationScopes?.sites?.map((s) => s.id)
               : [],
           });
           break;
         case UpdateType.SPECIFIC_SITES:
           void updateUserBan({
-            userID: user.id,
+            userID: userData.id,
             message,
             rejectExistingComments,
             banSiteIDs,
@@ -188,25 +244,25 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           break;
         case UpdateType.NO_SITES:
           void unbanUser({
-            userID: user.id,
+            userID: userData.id,
           });
       }
       setShowBanned(false);
     },
     [
       banUser,
-      user.id,
+      userData.id,
       viewerIsScoped,
-      viewer?.moderationScopes?.sites,
+      viewerData?.moderationScopes?.sites,
       updateUserBan,
       unbanUser,
     ]
   );
 
-  if (user.role !== GQLUSER_ROLE.COMMENTER) {
+  if (userData.role !== GQLUSER_ROLE.COMMENTER) {
     return (
       <UserStatusContainer
-        user={user}
+        user={userData}
         moderationScopesEnabled={moderationScopesEnabled}
       />
     );
@@ -221,10 +277,10 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         onPremod={handlePremod}
         onRemovePremod={handleRemovePremod}
         viewerIsScoped={viewerIsScoped}
-        banned={user.status.ban.active}
-        suspended={user.status.suspension.active}
-        premod={user.status.premod.active}
-        warned={user.status.warning.active}
+        banned={userData.status.ban.active}
+        suspended={userData.status.suspension.active}
+        premod={userData.status.premod.active}
+        warned={userData.status.warning.active}
         onWarn={handleWarn}
         onRemoveWarning={handleRemoveWarning}
         onModMessage={handleModMessage}
@@ -233,34 +289,34 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         moderationScopesEnabled={moderationScopesEnabled}
       >
         <UserStatusContainer
-          user={user}
+          user={userData}
           moderationScopesEnabled={moderationScopesEnabled}
         />
       </UserStatusChange>
       <SuspendModal
-        username={user.username}
+        username={userData.username}
         open={showSuspend || showSuspendSuccess}
         success={showSuspendSuccess}
         onClose={handleSuspendModalClose}
-        organizationName={settings.organization.name}
+        organizationName={settingsData.organization.name}
         onConfirm={handleSuspendConfirm}
       />
       <PremodModal
-        username={user.username}
+        username={userData.username}
         open={showPremod}
         onClose={hidePremod}
         onConfirm={handlePremodConfirm}
       />
       <WarnModal
-        username={user.username}
-        organizationName={settings.organization.name}
+        username={userData.username}
+        organizationName={settingsData.organization.name}
         open={showWarn}
         onClose={hideWarn}
         onConfirm={handleWarnConfirm}
         success={showWarnSuccess}
       />
       <ModMessageModal
-        username={user.username}
+        username={userData.username}
         open={showModMessage}
         onClose={hideSendModMessage}
         onConfirm={handleSendModMessageConfirm}
@@ -268,69 +324,20 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       />
       {showBanned && (
         <BanModal
-          username={user.username}
+          username={userData.username}
           open
           onClose={handleBanModalClose}
           onConfirm={handleUpdateBan}
           moderationScopesEnabled={moderationScopesEnabled}
           viewerScopes={{
-            role: viewer.role,
-            sites: viewer.moderationScopes?.sites?.map((s) => s),
+            role: viewerData.role,
+            sites: viewerData.moderationScopes?.sites?.map((s) => s),
           }}
-          userBanStatus={user.status.ban}
+          userBanStatus={userData.status.ban}
         />
       )}
     </>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment UserStatusChangeContainer_user on User {
-      id
-      role
-      username
-      status {
-        ban {
-          active
-          sites {
-            id
-            name
-          }
-        }
-        suspension {
-          active
-        }
-        premod {
-          active
-        }
-        warning {
-          active
-        }
-      }
-      ...UserStatusContainer_user
-    }
-  `,
-  settings: graphql`
-    fragment UserStatusChangeContainer_settings on Settings {
-      organization {
-        name
-      }
-      multisite
-    }
-  `,
-  viewer: graphql`
-    fragment UserStatusChangeContainer_viewer on User {
-      role
-      moderationScopes {
-        scoped
-        sites {
-          id
-          name
-        }
-      }
-    }
-  `,
-})(UserStatusChangeContainer);
-
-export default enhanced;
+export default UserStatusChangeContainer;

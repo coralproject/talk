@@ -1,28 +1,35 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { CopyButton } from "coral-framework/components";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { getLocationOrigin } from "coral-framework/utils";
 import { Icon } from "coral-ui/components/v2";
 
-import { LinkDetailsContainer_comment$data as LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
-import { LinkDetailsContainer_settings$data as LinkDetailsContainer_settings } from "coral-admin/__generated__/LinkDetailsContainer_settings.graphql";
+import { LinkDetailsContainer_comment$key as LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
 
 import styles from "./LinkDetailsContainer.css";
 
 interface Props {
   comment: LinkDetailsContainer_comment;
-  settings: LinkDetailsContainer_settings;
 }
 
-const LinkDetailsContainer: FunctionComponent<Props> = ({
-  comment,
-  settings,
-}) => {
+const LinkDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment LinkDetailsContainer_comment on Comment {
+        id
+        story {
+          id
+          url
+        }
+      }
+    `,
+    comment
+  );
+
   const { window } = useCoralContext();
   return (
     <>
@@ -33,7 +40,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
       </div>
       <div className={styles.buttonContainer}>
         <CopyButton
-          text={getURLWithCommentID(comment.story.url, comment.id)}
+          text={getURLWithCommentID(commentData.story.url, commentData.id)}
           variant="regular"
           color="regular"
           innerCopied={
@@ -57,7 +64,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
       <div className={styles.buttonContainer}>
         <CopyButton
           text={`${getLocationOrigin(window)}/admin/moderate/comment/${
-            comment.id
+            commentData.id
           }`}
           variant="regular"
           color="regular"
@@ -83,23 +90,4 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment LinkDetailsContainer_comment on Comment {
-      id
-      story {
-        id
-        url
-      }
-    }
-  `,
-  settings: graphql`
-    fragment LinkDetailsContainer_settings on Settings {
-      organization {
-        url
-      }
-    }
-  `,
-})(LinkDetailsContainer);
-
-export default enhanced;
+export default LinkDetailsContainer;

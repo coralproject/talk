@@ -1,12 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
+import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { ReplyEditedWarningContainer_comment$data as ReplyEditedWarningContainer_comment } from "coral-stream/__generated__/ReplyEditedWarningContainer_comment.graphql";
+import { ReplyEditedWarningContainer_comment$key as ReplyEditedWarningContainer_comment } from "coral-stream/__generated__/ReplyEditedWarningContainer_comment.graphql";
 
 import styles from "./ReplyEditedWarningContainer.css";
 
@@ -15,12 +15,29 @@ interface Props {
 }
 
 const ReplyEditedWarningContainer: FunctionComponent<Props> = ({ comment }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ReplyEditedWarningContainer_comment on Comment {
+        editing {
+          edited
+        }
+        revision {
+          id
+        }
+      }
+    `,
+    comment
+  );
+
   const openedRevisionID = useMemo(() => {
-    return comment.revision!.id;
+    return commentData.revision!.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!comment.editing.edited || comment.revision?.id === openedRevisionID) {
+  if (
+    !commentData.editing.edited ||
+    commentData.revision?.id === openedRevisionID
+  ) {
     return null;
   }
 
@@ -45,17 +62,4 @@ const ReplyEditedWarningContainer: FunctionComponent<Props> = ({ comment }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ReplyEditedWarningContainer_comment on Comment {
-      editing {
-        edited
-      }
-      revision {
-        id
-      }
-    }
-  `,
-})(ReplyEditedWarningContainer);
-
-export default enhanced;
+export default ReplyEditedWarningContainer;

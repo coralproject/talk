@@ -1,19 +1,16 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
 
 import { Ability, can } from "coral-admin/permissions";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLSTORY_STATUS } from "coral-framework/schema";
 import { Button } from "coral-ui/components/v3";
 
-import { ArchiveStoryActionsContainer_local$data as ArchiveStoryActionsContainer_local } from "coral-admin/__generated__/ArchiveStoryActionsContainer_local.graphql";
-import { ArchiveStoryActionsContainer_story$data as ArchiveStoryActionsContainer_story } from "coral-admin/__generated__/ArchiveStoryActionsContainer_story.graphql";
-import { ArchiveStoryActionsContainer_viewer$data as ArchiveStoryActionsContainer_viewer } from "coral-admin/__generated__/ArchiveStoryActionsContainer_viewer.graphql";
+import { ArchiveStoryActionsContainer_local } from "coral-admin/__generated__/ArchiveStoryActionsContainer_local.graphql";
+import { ArchiveStoryActionsContainer_story$key as ArchiveStoryActionsContainer_story } from "coral-admin/__generated__/ArchiveStoryActionsContainer_story.graphql";
+import { ArchiveStoryActionsContainer_viewer$key as ArchiveStoryActionsContainer_viewer } from "coral-admin/__generated__/ArchiveStoryActionsContainer_viewer.graphql";
 
 import ArchiveStoriesMutation from "./ArchiveStoriesMutation";
 import UnarchiveStoriesMutation from "./UnarchiveStoriesMutation";
@@ -29,6 +26,30 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
   story,
   viewer,
 }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment ArchiveStoryActionsContainer_story on Story {
+        id
+        isArchiving
+        isArchived
+        isClosed
+        status
+        settings {
+          mode
+        }
+      }
+    `,
+    story
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment ArchiveStoryActionsContainer_viewer on User {
+        role
+      }
+    `,
+    viewer
+  );
+
   const archiveStory = useMutation(ArchiveStoriesMutation);
   const unarchiveStory = useMutation(UnarchiveStoriesMutation);
 
@@ -44,28 +65,28 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
 
   const handleArchive = useCallback(() => {
     setArchiveTriggered(true);
-    void archiveStory({ storyIDs: [story.id] });
-  }, [story, archiveStory]);
+    void archiveStory({ storyIDs: [storyData.id] });
+  }, [storyData, archiveStory]);
   const handleUnarchive = useCallback(
-    () => unarchiveStory({ storyIDs: [story.id] }),
-    [story, unarchiveStory]
+    () => unarchiveStory({ storyIDs: [storyData.id] }),
+    [storyData, unarchiveStory]
   );
 
-  const viewCanArchive = can(viewer, Ability.ARCHIVE_STORY);
+  const viewCanArchive = can(viewerData, Ability.ARCHIVE_STORY);
 
   const canArchive =
     archivingEnabled &&
     viewCanArchive &&
-    !story.isArchiving &&
-    !story.isArchived &&
-    story.settings?.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+    !storyData.isArchiving &&
+    !storyData.isArchived &&
+    storyData.settings?.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   const canUnarchive =
     archivingEnabled &&
-    story.status === GQLSTORY_STATUS.CLOSED &&
+    storyData.status === GQLSTORY_STATUS.CLOSED &&
     viewCanArchive &&
-    !story.isArchiving &&
-    story.isArchived;
+    !storyData.isArchiving &&
+    storyData.isArchived;
 
   if (canArchive) {
     return (
@@ -93,24 +114,4 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
   return null;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment ArchiveStoryActionsContainer_story on Story {
-      id
-      isArchiving
-      isArchived
-      isClosed
-      status
-      settings {
-        mode
-      }
-    }
-  `,
-  viewer: graphql`
-    fragment ArchiveStoryActionsContainer_viewer on User {
-      role
-    }
-  `,
-})(ArchiveStoryActionsContainer);
-
-export default enhanced;
+export default ArchiveStoryActionsContainer;

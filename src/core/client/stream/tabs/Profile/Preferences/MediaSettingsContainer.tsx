@@ -3,10 +3,10 @@ import cn from "classnames";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
   CheckBox,
@@ -18,8 +18,8 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { MediaSettingsContainer_settings$data as MediaSettingsContainer_settings } from "coral-stream/__generated__/MediaSettingsContainer_settings.graphql";
-import { MediaSettingsContainer_viewer$data as MediaSettingsContainer_viewer } from "coral-stream/__generated__/MediaSettingsContainer_viewer.graphql";
+import { MediaSettingsContainer_settings$key as MediaSettingsContainer_settings } from "coral-stream/__generated__/MediaSettingsContainer_settings.graphql";
+import { MediaSettingsContainer_viewer$key as MediaSettingsContainer_viewer } from "coral-stream/__generated__/MediaSettingsContainer_viewer.graphql";
 
 import UpdateUserMediaSettingsMutation from "./UpdateUserMediaSettingsMutation";
 
@@ -34,6 +34,39 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment MediaSettingsContainer_settings on Settings {
+        media {
+          giphy {
+            enabled
+          }
+          twitter {
+            enabled
+          }
+          youtube {
+            enabled
+          }
+          external {
+            enabled
+          }
+        }
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment MediaSettingsContainer_viewer on User {
+        id
+        mediaSettings {
+          unfurlEmbeds
+        }
+      }
+    `,
+    viewer
+  );
+
   const updateMediaSettings = useMutation(UpdateUserMediaSettingsMutation);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -65,10 +98,10 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
   );
 
   if (
-    !settings.media.giphy.enabled &&
-    !settings.media.twitter.enabled &&
-    !settings.media.youtube.enabled &&
-    !settings.media.external.enabled
+    !settingsData.media.giphy.enabled &&
+    !settingsData.media.twitter.enabled &&
+    !settingsData.media.youtube.enabled &&
+    !settingsData.media.external.enabled
   ) {
     return null;
   }
@@ -79,7 +112,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
         container="section"
         aria-labelledby="profile-preferences-mediaPreferences-title"
       >
-        <Form initialValues={viewer.mediaSettings} onSubmit={onSubmit}>
+        <Form initialValues={viewerData.mediaSettings} onSubmit={onSubmit}>
           {({
             handleSubmit,
             submitting,
@@ -174,33 +207,4 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment MediaSettingsContainer_settings on Settings {
-      media {
-        giphy {
-          enabled
-        }
-        twitter {
-          enabled
-        }
-        youtube {
-          enabled
-        }
-        external {
-          enabled
-        }
-      }
-    }
-  `,
-  viewer: graphql`
-    fragment MediaSettingsContainer_viewer on User {
-      id
-      mediaSettings {
-        unfurlEmbeds
-      }
-    }
-  `,
-})(MediaSettingsContainer);
-
-export default enhanced;
+export default MediaSettingsContainer;

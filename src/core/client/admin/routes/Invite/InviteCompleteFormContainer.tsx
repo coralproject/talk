@@ -1,9 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { InviteCompleteFormContainer_settings$data as InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
+import { InviteCompleteFormContainer_settings$key as InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
 
 import InviteCompleteForm from "./InviteCompleteForm";
 
@@ -19,23 +17,24 @@ const InviteCompleteFormContainer: FunctionComponent<Props> = ({
   token,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment InviteCompleteFormContainer_settings on Settings {
+        organization {
+          name
+        }
+      }
+    `,
+    settings
+  );
+
   return (
     <InviteCompleteForm
       token={token}
-      organizationName={settings.organization.name}
+      organizationName={settingsData.organization.name}
       onSuccess={onSuccess}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment InviteCompleteFormContainer_settings on Settings {
-      organization {
-        name
-      }
-    }
-  `,
-})(InviteCompleteFormContainer);
-
-export default enhanced;
+export default InviteCompleteFormContainer;

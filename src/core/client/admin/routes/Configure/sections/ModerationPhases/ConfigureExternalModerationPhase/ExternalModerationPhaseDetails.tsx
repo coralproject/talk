@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ExternalModerationPhaseDetails_phase } from "coral-admin/__generated__/ExternalModerationPhaseDetails_phase.graphql";
+import { ExternalModerationPhaseDetails_phase$key as ExternalModerationPhaseDetails_phase } from "coral-admin/__generated__/ExternalModerationPhaseDetails_phase.graphql";
 
 import ConfigureExternalModerationPhaseForm from "../ConfigureExternalModerationPhaseForm";
 
@@ -15,21 +14,24 @@ interface Props {
 
 const ExternalModerationPhaseDetails: FunctionComponent<Props> = ({
   phase,
-}) => (
-  <>
-    <Localized id="configure-moderationPhases-phaseDetails">
-      <Subheader>Phase details</Subheader>
-    </Localized>
-    <ConfigureExternalModerationPhaseForm phase={phase} />
-  </>
-);
+}) => {
+  const phaseData = useFragment(
+    graphql`
+      fragment ExternalModerationPhaseDetails_phase on ExternalModerationPhase {
+        ...ConfigureExternalModerationPhaseForm_phase
+      }
+    `,
+    phase
+  );
 
-const enhanced = withFragmentContainer<Props>({
-  phase: graphql`
-    fragment ExternalModerationPhaseDetails_phase on ExternalModerationPhase {
-      ...ConfigureExternalModerationPhaseForm_phase
-    }
-  `,
-})(ExternalModerationPhaseDetails);
+  return (
+    <>
+      <Localized id="configure-moderationPhases-phaseDetails">
+        <Subheader>Phase details</Subheader>
+      </Localized>
+      <ConfigureExternalModerationPhaseForm phase={phaseData} />
+    </>
+  );
+};
 
-export default enhanced;
+export default ExternalModerationPhaseDetails;

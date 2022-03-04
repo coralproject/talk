@@ -1,13 +1,9 @@
 import React, { FunctionComponent, useEffect } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 
-import { SignInContainer_auth as AuthData } from "coral-admin/__generated__/SignInContainer_auth.graphql";
+import { SignInContainer_auth$key as AuthData } from "coral-admin/__generated__/SignInContainer_auth.graphql";
 import { SignInContainerLocal } from "coral-admin/__generated__/SignInContainerLocal.graphql";
 
 import ClearAuthErrorMutation from "./ClearAuthErrorMutation";
@@ -18,7 +14,44 @@ interface Props {
 }
 
 const SignInContainer: FunctionComponent<Props> = ({ auth }) => {
-  const { integrations } = auth;
+  const authData = useFragment(
+    graphql`
+      fragment SignInContainer_auth on Auth {
+        ...SignInWithOIDCContainer_auth
+        ...SignInWithGoogleContainer_auth
+        ...SignInWithFacebookContainer_auth
+        integrations {
+          local {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+          facebook {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+          google {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+          oidc {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+        }
+      }
+    `,
+    auth
+  );
+
+  const { integrations } = authData;
   const clearAuthError = useMutation(ClearAuthErrorMutation);
   const [{ authError }] = useLocal<SignInContainerLocal>(graphql`
     fragment SignInContainerLocal on Local {
@@ -29,12 +62,12 @@ const SignInContainer: FunctionComponent<Props> = ({ auth }) => {
     return () => {
       clearAuthError();
     };
-  }, []);
+  }, [clearAuthError]);
 
   return (
     <SignIn
       error={authError}
-      auth={auth}
+      auth={authData}
       emailEnabled={
         integrations.local.enabled && integrations.local.targetFilter.admin
       }
@@ -52,39 +85,4 @@ const SignInContainer: FunctionComponent<Props> = ({ auth }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  auth: graphql`
-    fragment SignInContainer_auth on Auth {
-      ...SignInWithOIDCContainer_auth
-      ...SignInWithGoogleContainer_auth
-      ...SignInWithFacebookContainer_auth
-      integrations {
-        local {
-          enabled
-          targetFilter {
-            admin
-          }
-        }
-        facebook {
-          enabled
-          targetFilter {
-            admin
-          }
-        }
-        google {
-          enabled
-          targetFilter {
-            admin
-          }
-        }
-        oidc {
-          enabled
-          targetFilter {
-            admin
-          }
-        }
-      }
-    }
-  `,
-})(SignInContainer);
-export default enhanced;
+export default SignInContainer;

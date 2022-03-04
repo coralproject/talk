@@ -1,24 +1,29 @@
 import { Localized } from "@fluent/react/compat";
 import { intersection } from "lodash";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLSTORY_MODE, GQLTAG, GQLTAG_RL } from "coral-framework/schema";
 import { Flex, Icon, Tag } from "coral-ui/components/v2";
 
-import { UserTagsContainer_comment$data as UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
-import { UserTagsContainer_settings$data as UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
-import { UserTagsContainer_story$data as UserTagsContainer_story } from "coral-stream/__generated__/UserTagsContainer_story.graphql";
+import {
+  UserTagsContainer_comment,
+  UserTagsContainer_comment$key,
+} from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
+import { UserTagsContainer_settings$key } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
+import {
+  UserTagsContainer_story,
+  UserTagsContainer_story$key,
+} from "coral-stream/__generated__/UserTagsContainer_story.graphql";
 
 import StaffTagContainer from "./StaffTagContainer";
 
 import styles from "./UserTagsContainer.css";
 
 interface Props {
-  story: UserTagsContainer_story;
-  comment: UserTagsContainer_comment;
-  settings: UserTagsContainer_settings;
+  story: UserTagsContainer_story$key;
+  comment: UserTagsContainer_comment$key;
+  settings: UserTagsContainer_settings$key;
   className?: string;
 }
 
@@ -64,9 +69,38 @@ const UserTagsContainer: FunctionComponent<Props> = ({
   comment,
   className,
 }) => {
-  const staffTag = hasStaffTag(comment);
-  const expertTag = hasExpertTag(story, comment);
-  const hasTags = commentHasTags(story, comment);
+  const commentData = useFragment(
+    graphql`
+      fragment UserTagsContainer_comment on Comment {
+        tags {
+          code
+        }
+      }
+    `,
+    comment
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment UserTagsContainer_story on Story {
+        settings {
+          mode
+        }
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment UserTagsContainer_settings on Settings {
+        ...StaffTagContainer_settings
+      }
+    `,
+    settings
+  );
+
+  const staffTag = hasStaffTag(commentData);
+  const expertTag = hasExpertTag(storyData, commentData);
+  const hasTags = commentHasTags(storyData, commentData);
 
   if (!hasTags) {
     return null;
@@ -86,8 +120,8 @@ const UserTagsContainer: FunctionComponent<Props> = ({
       )}
       {staffTag && (
         <StaffTagContainer
-          settings={settings}
-          tags={tagStrings(comment)}
+          settings={settingsData}
+          tags={tagStrings(commentData)}
           className={className}
         />
       )}
@@ -95,26 +129,4 @@ const UserTagsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment UserTagsContainer_comment on Comment {
-      tags {
-        code
-      }
-    }
-  `,
-  story: graphql`
-    fragment UserTagsContainer_story on Story {
-      settings {
-        mode
-      }
-    }
-  `,
-  settings: graphql`
-    fragment UserTagsContainer_settings on Settings {
-      ...StaffTagContainer_settings
-    }
-  `,
-})(UserTagsContainer);
-
-export default enhanced;
+export default UserTagsContainer;

@@ -1,16 +1,16 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex } from "coral-ui/components/v2";
 
-import { UserBanPopoverContainer_comment$data as UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
-import { UserBanPopoverContainer_story$data as UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
+import { UserBanPopoverContainer_comment$key as UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
+import { UserBanPopoverContainer_story$key as UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 
 import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
 import BanUserMutation from "./BanUserMutation";
@@ -28,8 +28,37 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   story,
   onDismiss,
 }) => {
-  const user = comment.author!;
-  const rejected = comment.status === "REJECTED";
+  const commentData = useFragment(
+    graphql`
+      fragment UserBanPopoverContainer_comment on Comment {
+        id
+        revision {
+          id
+        }
+        status
+        author {
+          id
+          username
+        }
+      }
+    `,
+    comment
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment UserBanPopoverContainer_story on Story {
+        id
+        site {
+          id
+          name
+        }
+      }
+    `,
+    story
+  );
+
+  const user = commentData.author!;
+  const rejected = commentData.status === "REJECTED";
   const reject = useMutation(RejectCommentMutation);
   const banUser = useMutation(BanUserMutation);
   const { localeBundles } = useCoralContext();
@@ -37,7 +66,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const onBan = useCallback(() => {
     void banUser({
       userID: user.id,
-      commentID: comment.id,
+      commentID: commentData.id,
       rejectExistingComments: false,
       message: getMessage(
         localeBundles,
@@ -48,28 +77,28 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       siteIDs: [],
     });
 
-    if (!rejected && comment.revision) {
+    if (!rejected && commentData.revision) {
       void reject({
-        commentID: comment.id,
-        commentRevisionID: comment.revision.id,
-        storyID: story.id,
+        commentID: commentData.id,
+        commentRevisionID: commentData.revision.id,
+        storyID: storyData.id,
         noEmit: true,
       });
     }
     onDismiss();
   }, [
+    banUser,
     user.id,
     user.username,
-    comment.id,
-    comment.revision,
+    commentData.id,
+    commentData.revision,
     localeBundles,
-    banUser,
     rejected,
     onDismiss,
-    story.site.id,
-    story.id,
     reject,
+    storyData.id,
   ]);
+
   return (
     <Box className={cn(styles.root, CLASSES.banUserPopover.$root)} p={3}>
       <Localized id="comments-userBanPopover-title" $username={user.username}>
@@ -113,29 +142,4 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment UserBanPopoverContainer_comment on Comment {
-      id
-      revision {
-        id
-      }
-      status
-      author {
-        id
-        username
-      }
-    }
-  `,
-  story: graphql`
-    fragment UserBanPopoverContainer_story on Story {
-      id
-      site {
-        id
-        name
-      }
-    }
-  `,
-})(UserBanPopoverContainer);
-
-export default enhanced;
+export default UserBanPopoverContainer;

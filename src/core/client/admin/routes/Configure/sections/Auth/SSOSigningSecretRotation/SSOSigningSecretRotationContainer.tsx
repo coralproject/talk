@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Label } from "coral-ui/components/v2";
 
-import { SSOSigningSecretRotationContainer_settings$data as SSOSigningSecretRotationContainer_settings } from "coral-admin/__generated__/SSOSigningSecretRotationContainer_settings.graphql";
+import { SSOSigningSecretRotationContainer_settings$key as SSOSigningSecretRotationContainer_settings } from "coral-admin/__generated__/SSOSigningSecretRotationContainer_settings.graphql";
 
 import SSOSigningSecretCard, {
   SSOSigningSecretDates,
@@ -37,13 +36,36 @@ const SSOSigningSecretRotationContainer: FunctionComponent<Props> = ({
   disabled,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment SSOSigningSecretRotationContainer_settings on Settings {
+        auth {
+          integrations {
+            sso {
+              enabled
+              signingSecrets {
+                kid
+                secret
+                createdAt
+                lastUsedAt
+                rotatedAt
+                inactiveAt
+              }
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   const {
     auth: {
       integrations: {
         sso: { signingSecrets },
       },
     },
-  } = settings;
+  } = settingsData;
 
   const sortedSigningSecrets = useMemo(
     () =>
@@ -99,26 +121,4 @@ const SSOSigningSecretRotationContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment SSOSigningSecretRotationContainer_settings on Settings {
-      auth {
-        integrations {
-          sso {
-            enabled
-            signingSecrets {
-              kid
-              secret
-              createdAt
-              lastUsedAt
-              rotatedAt
-              inactiveAt
-            }
-          }
-        }
-      }
-    }
-  `,
-})(SSOSigningSecretRotationContainer);
-
-export default enhanced;
+export default SSOSigningSecretRotationContainer;

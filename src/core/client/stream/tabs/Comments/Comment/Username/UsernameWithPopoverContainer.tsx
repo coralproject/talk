@@ -1,13 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { BaseButton, ClickOutside, Popover } from "coral-ui/components/v2";
 
-import { UsernameWithPopoverContainer_comment$data as UsernameWithPopoverContainer_comment } from "coral-stream/__generated__/UsernameWithPopoverContainer_comment.graphql";
-import { UsernameWithPopoverContainer_settings$data as UsernameWithPopoverContainer_settings } from "coral-stream/__generated__/UsernameWithPopoverContainer_settings.graphql";
-import { UsernameWithPopoverContainer_viewer$data as UsernameWithPopoverContainer_viewer } from "coral-stream/__generated__/UsernameWithPopoverContainer_viewer.graphql";
+import { UsernameWithPopoverContainer_comment$key as UsernameWithPopoverContainer_comment } from "coral-stream/__generated__/UsernameWithPopoverContainer_comment.graphql";
+import { UsernameWithPopoverContainer_settings$key as UsernameWithPopoverContainer_settings } from "coral-stream/__generated__/UsernameWithPopoverContainer_settings.graphql";
+import { UsernameWithPopoverContainer_viewer$key as UsernameWithPopoverContainer_viewer } from "coral-stream/__generated__/UsernameWithPopoverContainer_viewer.graphql";
 
 import UserPopoverContainer from "../UserPopover";
 import Username from "./Username";
@@ -20,9 +19,45 @@ interface Props {
   usernameClassName?: string;
 }
 
-const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
-  const popoverID = `username-popover-${props.comment.id}`;
-  if (!props.comment.author) {
+const UsernameWithPopoverContainer: FunctionComponent<Props> = ({
+  comment,
+  settings,
+  viewer,
+  className,
+  usernameClassName,
+}) => {
+  const commentData = useFragment(
+    graphql`
+      fragment UsernameWithPopoverContainer_comment on Comment {
+        id
+        author {
+          id
+          username
+          ...UserPopoverContainer_user
+        }
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment UsernameWithPopoverContainer_settings on Settings {
+        ...UserPopoverContainer_settings
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment UsernameWithPopoverContainer_viewer on User {
+        ...UserPopoverContainer_viewer
+      }
+    `,
+    viewer
+  );
+
+  const popoverID = `username-popover-${commentData.id}`;
+  if (!commentData.author) {
     return null;
   }
   return (
@@ -34,9 +69,9 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
         body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
             <UserPopoverContainer
-              user={props.comment.author!}
-              viewer={props.viewer}
-              settings={props.settings}
+              user={commentData.author!}
+              viewer={viewerData}
+              settings={settingsData}
               onDismiss={toggleVisibility}
             />
           </ClickOutside>
@@ -47,10 +82,10 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
             onClick={toggleVisibility}
             aria-controls={popoverID}
             ref={ref}
-            className={props.className}
+            className={className}
           >
-            <Username className={props.usernameClassName}>
-              {props.comment.author!.username}
+            <Username className={usernameClassName}>
+              {commentData.author!.username}
             </Username>
           </BaseButton>
         )}
@@ -59,27 +94,4 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment UsernameWithPopoverContainer_settings on Settings {
-      ...UserPopoverContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment UsernameWithPopoverContainer_viewer on User {
-      ...UserPopoverContainer_viewer
-    }
-  `,
-  comment: graphql`
-    fragment UsernameWithPopoverContainer_comment on Comment {
-      id
-      author {
-        id
-        username
-        ...UserPopoverContainer_user
-      }
-    }
-  `,
-})(UsernameWithPopoverContainer);
-
-export default enhanced;
+export default UsernameWithPopoverContainer;

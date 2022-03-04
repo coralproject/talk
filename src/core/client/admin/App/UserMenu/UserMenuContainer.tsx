@@ -1,13 +1,12 @@
-import React from "react";
-import { graphql } from "react-relay";
+import React, { FunctionComponent, useCallback } from "react";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   SignOutMutation,
   withSignOutMutation,
 } from "coral-framework/mutations";
 
-import { UserMenuContainer_viewer$data as ViewerData } from "coral-admin/__generated__/UserMenuContainer_viewer.graphql";
+import { UserMenuContainer_viewer$key as ViewerData } from "coral-admin/__generated__/UserMenuContainer_viewer.graphql";
 
 import UserMenu from "./UserMenu";
 
@@ -16,26 +15,24 @@ interface Props {
   viewer: ViewerData | null;
 }
 
-class UserMenuContainer extends React.Component<Props> {
-  private handleSignOut = () => this.props.signOut();
-  public render() {
-    return (
-      <UserMenu
-        onSignOut={this.handleSignOut}
-        username={(this.props.viewer && this.props.viewer.username) || ""}
-      />
-    );
-  }
-}
-
-const enhanced = withSignOutMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
+const UserMenuContainer: FunctionComponent<Props> = ({ signOut, viewer }) => {
+  const viewerData = useFragment(
+    graphql`
       fragment UserMenuContainer_viewer on User {
         username
       }
     `,
-  })(UserMenuContainer)
-);
+    viewer
+  );
+  const handleSignOut = useCallback(() => signOut(), [signOut]);
+  return (
+    <UserMenu
+      onSignOut={handleSignOut}
+      username={(viewerData && viewerData.username) || ""}
+    />
+  );
+};
+
+const enhanced = withSignOutMutation(UserMenuContainer);
 
 export default enhanced;

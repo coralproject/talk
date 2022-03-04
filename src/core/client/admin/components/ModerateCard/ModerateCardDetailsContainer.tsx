@@ -5,9 +5,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Flex,
   HorizontalGutter,
@@ -16,8 +15,8 @@ import {
   TabBar,
 } from "coral-ui/components/v2";
 
-import { ModerateCardDetailsContainer_comment$data as ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
-import { ModerateCardDetailsContainer_settings$data as ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
+import { ModerateCardDetailsContainer_comment$key as ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
+import { ModerateCardDetailsContainer_settings$key as ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 
 import AutomatedActionsContainer from "./AutomatedActionsContainer";
 import CommentRevisionContainer from "./CommentRevisionContainer";
@@ -35,8 +34,8 @@ interface Props {
 
 type DetailsTabs = "INFO" | "REACTIONS" | "HISTORY" | "EXTERNAL_MOD";
 
-function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
-  return c.revision
+function hasFlagDetails(c: ModerateCardDetailsContainer_comment[" $data"]) {
+  return c && c.revision
     ? c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_ABUSIVE +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OTHER +
@@ -50,27 +49,89 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   onUsernameClick,
   settings,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ModerateCardDetailsContainer_comment on Comment {
+        id
+        status
+        tags {
+          code
+        }
+        editing {
+          edited
+        }
+        revision {
+          actionCounts {
+            flag {
+              reasons {
+                COMMENT_REPORTED_OFFENSIVE
+                COMMENT_REPORTED_ABUSIVE
+                COMMENT_REPORTED_SPAM
+                COMMENT_REPORTED_OTHER
+                COMMENT_DETECTED_TOXIC
+                COMMENT_DETECTED_SPAM
+              }
+            }
+            reaction {
+              total
+            }
+          }
+          metadata {
+            perspective {
+              score
+            }
+            externalModeration {
+              name
+              result {
+                status
+                tags
+                actions {
+                  reason
+                }
+              }
+            }
+          }
+        }
+        ...FlagDetailsContainer_comment
+        ...CommentRevisionContainer_comment
+        ...LinkDetailsContainer_comment
+        ...AutomatedActionsContainer_comment
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerateCardDetailsContainer_settings on Settings {
+        ...AutomatedActionsContainer_settings
+      }
+    `,
+    settings
+  );
+
   const [activeTab, setActiveTab] = useState<DetailsTabs>("INFO");
 
   const onTabClick = useCallback((id) => setActiveTab(id as DetailsTabs), [
     setActiveTab,
   ]);
 
-  const doesHaveFlagDetails = useMemo(() => hasFlagDetails(comment), [comment]);
-  const hasRevisions = comment.editing.edited;
+  const doesHaveFlagDetails = useMemo(() => hasFlagDetails(commentData), [
+    commentData,
+  ]);
+  const hasRevisions = commentData.editing.edited;
   const hasAutomatedActions = !!(
-    comment &&
-    comment.revision &&
-    comment.revision.metadata &&
-    ((comment.revision.metadata.perspective &&
-      comment.revision.metadata.perspective.score > 0) ||
-      (comment.revision.metadata.externalModeration &&
-        comment.revision.metadata.externalModeration.length > 0))
+    commentData &&
+    commentData.revision &&
+    commentData.revision.metadata &&
+    ((commentData.revision.metadata.perspective &&
+      commentData.revision.metadata.perspective.score > 0) ||
+      (commentData.revision.metadata.externalModeration &&
+        commentData.revision.metadata.externalModeration.length > 0))
   );
   const hasReactions = !!(
-    comment &&
-    comment.revision &&
-    comment.revision.actionCounts.reaction.total > 0
+    commentData &&
+    commentData.revision &&
+    commentData.revision.actionCounts.reaction.total > 0
   );
 
   return (
@@ -117,10 +178,10 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       </TabBar>
       {activeTab === "INFO" && (
         <>
-          <LinkDetailsContainer comment={comment} settings={settings} />
+          <LinkDetailsContainer comment={commentData} />
           {doesHaveFlagDetails && (
             <FlagDetailsContainer
-              comment={comment}
+              comment={commentData}
               onUsernameClick={onUsernameClick}
             />
           )}
@@ -128,75 +189,21 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       )}
       {activeTab === "REACTIONS" && (
         <ReactionDetailsQuery
-          commentID={comment.id}
+          commentID={commentData.id}
           onUsernameClick={onUsernameClick}
         />
       )}
       {activeTab === "HISTORY" && (
-        <CommentRevisionContainer comment={comment} />
+        <CommentRevisionContainer comment={commentData} />
       )}
       {activeTab === "EXTERNAL_MOD" && (
-        <AutomatedActionsContainer comment={comment} settings={settings} />
+        <AutomatedActionsContainer
+          comment={commentData}
+          settings={settingsData}
+        />
       )}
     </HorizontalGutter>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ModerateCardDetailsContainer_comment on Comment {
-      id
-      status
-      tags {
-        code
-      }
-      editing {
-        edited
-      }
-      revision {
-        actionCounts {
-          flag {
-            reasons {
-              COMMENT_REPORTED_OFFENSIVE
-              COMMENT_REPORTED_ABUSIVE
-              COMMENT_REPORTED_SPAM
-              COMMENT_REPORTED_OTHER
-              COMMENT_DETECTED_TOXIC
-              COMMENT_DETECTED_SPAM
-            }
-          }
-          reaction {
-            total
-          }
-        }
-        metadata {
-          perspective {
-            score
-          }
-          externalModeration {
-            name
-            result {
-              status
-              tags
-              actions {
-                reason
-              }
-            }
-          }
-        }
-      }
-      ...FlagDetailsContainer_comment
-      ...CommentRevisionContainer_comment
-      ...LinkDetailsContainer_comment
-      ...AutomatedActionsContainer_comment
-    }
-  `,
-  settings: graphql`
-    fragment ModerateCardDetailsContainer_settings on Settings {
-      ...LinkDetailsContainer_settings
-      ...AutomatedActionsContainer_settings
-    }
-  `,
-})(ModerateCardDetailsContainer);
-
-export default enhanced;
+export default ModerateCardDetailsContainer;

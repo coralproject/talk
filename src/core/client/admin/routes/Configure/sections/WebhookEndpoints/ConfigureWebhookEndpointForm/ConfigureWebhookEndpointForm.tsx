@@ -3,12 +3,12 @@ import { FORM_ERROR } from "final-form";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import getEndpointLink from "coral-admin/helpers/getEndpointLink";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -24,8 +24,8 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import { ConfigureWebhookEndpointForm_settings$data as ConfigureWebhookEndpointForm_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_settings.graphql";
-import { ConfigureWebhookEndpointForm_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_webhookEndpoint.graphql";
+import { ConfigureWebhookEndpointForm_settings$key as ConfigureWebhookEndpointForm_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_settings.graphql";
+import { ConfigureWebhookEndpointForm_webhookEndpoint$key as ConfigureWebhookEndpointForm_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_webhookEndpoint.graphql";
 
 import CreateWebhookEndpointMutation from "./CreateWebhookEndpointMutation";
 import EventsSelectField from "./EventsSelectField";
@@ -42,13 +42,33 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
   settings,
   webhookEndpoint,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ConfigureWebhookEndpointForm_settings on Settings {
+        ...EventsSelectField_settings
+      }
+    `,
+    settings
+  );
+  const webhookEndpointData = useFragment(
+    graphql`
+      fragment ConfigureWebhookEndpointForm_webhookEndpoint on WebhookEndpoint {
+        id
+        url
+        events
+        all
+      }
+    `,
+    webhookEndpoint
+  );
+
   const create = useMutation(CreateWebhookEndpointMutation);
   const update = useMutation(UpdateWebhookEndpointMutation);
   const { router } = useRouter();
   const onSubmit = useCallback(
     async (values) => {
       try {
-        if (webhookEndpoint) {
+        if (webhookEndpointData) {
           // The webhook endpoint was defined, update it.
           await update(values);
         } else {
@@ -69,14 +89,16 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
         return { [FORM_ERROR]: err.message };
       }
     },
-    [webhookEndpoint, create, update, router]
+    [webhookEndpointData, create, update, router]
   );
 
   return (
     <Form
       onSubmit={onSubmit}
       initialValues={
-        webhookEndpoint ? webhookEndpoint : { events: [], all: false, url: "" }
+        webhookEndpointData
+          ? webhookEndpointData
+          : { events: [], all: false, url: "" }
       }
     >
       {({ handleSubmit, submitting, submitError, pristine }) => (
@@ -106,7 +128,7 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
                 </FormField>
               )}
             </Field>
-            <EventsSelectField settings={settings} />
+            <EventsSelectField settings={settingsData} />
             <Flex direction="row" justifyContent="flex-end" itemGutter>
               {onCancel && (
                 <Localized id="configure-webhooks-cancelButton">
@@ -115,7 +137,7 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
                   </Button>
                 </Localized>
               )}
-              {webhookEndpoint ? (
+              {webhookEndpointData ? (
                 <Localized id="configure-webhooks-updateWebhookEndpointButton">
                   <Button type="submit" disabled={submitting || pristine}>
                     Update details
@@ -136,20 +158,4 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  webhookEndpoint: graphql`
-    fragment ConfigureWebhookEndpointForm_webhookEndpoint on WebhookEndpoint {
-      id
-      url
-      events
-      all
-    }
-  `,
-  settings: graphql`
-    fragment ConfigureWebhookEndpointForm_settings on Settings {
-      ...EventsSelectField_settings
-    }
-  `,
-})(ConfigureWebhookEndpointForm);
-
-export default enhanced;
+export default ConfigureWebhookEndpointForm;

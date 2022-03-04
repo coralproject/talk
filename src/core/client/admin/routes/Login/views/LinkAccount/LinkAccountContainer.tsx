@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import {
   colorFromMeta,
@@ -10,11 +10,7 @@ import {
   OnSubmit,
   ValidationMessage,
 } from "coral-framework/lib/form";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import {
   Button,
@@ -25,7 +21,7 @@ import {
   PasswordField,
 } from "coral-ui/components/v2";
 
-import { LinkAccountContainer_viewer$data as LinkAccountContainer_viewer } from "coral-admin/__generated__/LinkAccountContainer_viewer.graphql";
+import { LinkAccountContainer_viewer$key as LinkAccountContainer_viewer } from "coral-admin/__generated__/LinkAccountContainer_viewer.graphql";
 import { LinkAccountContainerLocal } from "coral-admin/__generated__/LinkAccountContainerLocal.graphql";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
@@ -43,7 +39,16 @@ interface Props {
   viewer: LinkAccountContainer_viewer | null;
 }
 
-const LinkAccountContainer: FunctionComponent<Props> = (props) => {
+const LinkAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment LinkAccountContainer_viewer on User {
+        duplicateEmail
+      }
+    `,
+    viewer
+  );
+
   const [local] = useLocal<LinkAccountContainerLocal>(graphql`
     fragment LinkAccountContainerLocal on Local {
       authDuplicateEmail
@@ -52,7 +57,7 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
   const setView = useMutation(SetAuthViewMutation);
   const linkAccount = useMutation(LinkAccountMutation);
   const duplicateEmail =
-    local.authDuplicateEmail || (props.viewer && props.viewer.duplicateEmail);
+    local.authDuplicateEmail || (viewerData && viewerData.duplicateEmail);
   const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
       if (!duplicateEmail) {
@@ -161,12 +166,4 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment LinkAccountContainer_viewer on User {
-      duplicateEmail
-    }
-  `,
-})(LinkAccountContainer);
-
-export default enhanced;
+export default LinkAccountContainer;

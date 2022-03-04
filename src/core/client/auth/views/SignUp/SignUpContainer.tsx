@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { SetViewMutation } from "coral-auth/mutations";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 
-import { SignUpContainer_auth as AuthData } from "coral-auth/__generated__/SignUpContainer_auth.graphql";
+import { SignUpContainer_auth$key as AuthData } from "coral-auth/__generated__/SignUpContainer_auth.graphql";
 
 import SignUp from "./SignUp";
 
@@ -25,6 +25,48 @@ function isEnabled(integration: {
 }
 
 const SignUpContainer: FunctionComponent<Props> = ({ auth }) => {
+  const authData = useFragment(
+    graphql`
+      fragment SignUpContainer_auth on Auth {
+        ...SignUpWithOIDCContainer_auth
+        ...SignUpWithGoogleContainer_auth
+        ...SignUpWithFacebookContainer_auth
+
+        integrations {
+          local {
+            enabled
+            targetFilter {
+              stream
+            }
+            allowRegistration
+          }
+          facebook {
+            enabled
+            targetFilter {
+              stream
+            }
+            allowRegistration
+          }
+          google {
+            enabled
+            targetFilter {
+              stream
+            }
+            allowRegistration
+          }
+          oidc {
+            enabled
+            targetFilter {
+              stream
+            }
+            allowRegistration
+          }
+        }
+      }
+    `,
+    auth
+  );
+
   const setView = useMutation(SetViewMutation);
 
   const onSignIn = useCallback(() => {
@@ -33,11 +75,11 @@ const SignUpContainer: FunctionComponent<Props> = ({ auth }) => {
 
   const {
     integrations: { local, facebook, google, oidc },
-  } = auth;
+  } = authData;
 
   return (
     <SignUp
-      auth={auth}
+      auth={authData}
       onSignIn={onSignIn}
       localEnabled={isEnabled(local)}
       facebookEnabled={isEnabled(facebook)}
@@ -47,45 +89,4 @@ const SignUpContainer: FunctionComponent<Props> = ({ auth }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  auth: graphql`
-    fragment SignUpContainer_auth on Auth {
-      ...SignUpWithOIDCContainer_auth
-      ...SignUpWithGoogleContainer_auth
-      ...SignUpWithFacebookContainer_auth
-
-      integrations {
-        local {
-          enabled
-          targetFilter {
-            stream
-          }
-          allowRegistration
-        }
-        facebook {
-          enabled
-          targetFilter {
-            stream
-          }
-          allowRegistration
-        }
-        google {
-          enabled
-          targetFilter {
-            stream
-          }
-          allowRegistration
-        }
-        oidc {
-          enabled
-          targetFilter {
-            stream
-          }
-          allowRegistration
-        }
-      }
-    }
-  `,
-})(SignUpContainer);
-
-export default enhanced;
+export default SignUpContainer;

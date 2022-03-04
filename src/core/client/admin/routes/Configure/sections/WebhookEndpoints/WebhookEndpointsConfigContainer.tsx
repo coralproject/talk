@@ -1,10 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -18,7 +17,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { WebhookEndpointsConfigContainer_settings$data as WebhookEndpointsConfigContainer_settings } from "coral-admin/__generated__/WebhookEndpointsConfigContainer_settings.graphql";
+import { WebhookEndpointsConfigContainer_settings$key as WebhookEndpointsConfigContainer_settings } from "coral-admin/__generated__/WebhookEndpointsConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -33,6 +32,19 @@ interface Props {
 const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment WebhookEndpointsConfigContainer_settings on Settings {
+        webhooks {
+          endpoints {
+            ...WebhookEndpointRow_webhookEndpoint
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   return (
     <HorizontalGutter size="double" data-testid="webhooks-container">
       <ExperimentalWebhooksCallOut />
@@ -72,7 +84,7 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
         <Localized id="configure-webhooks-endpoints">
           <Subheader>Endpoints</Subheader>
         </Localized>
-        {settings.webhooks.endpoints.length > 0 ? (
+        {settingsData.webhooks.endpoints.length > 0 ? (
           <Table fullWidth>
             <TableHead>
               <TableRow>
@@ -86,7 +98,7 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {settings.webhooks.endpoints.map((endpoint, idx) => (
+              {settingsData.webhooks.endpoints.map((endpoint, idx) => (
                 <WebhookEndpointRow key={idx} endpoint={endpoint} />
               ))}
             </TableBody>
@@ -103,16 +115,4 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment WebhookEndpointsConfigContainer_settings on Settings {
-      webhooks {
-        endpoints {
-          ...WebhookEndpointRow_webhookEndpoint
-        }
-      }
-    }
-  `,
-})(WebhookEndpointsConfigContainer);
-
-export default enhanced;
+export default WebhookEndpointsConfigContainer;

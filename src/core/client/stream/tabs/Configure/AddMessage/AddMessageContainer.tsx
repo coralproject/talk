@@ -1,12 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { AddMessageContainer_story$data as AddMessageContainer_story } from "coral-stream/__generated__/AddMessageContainer_story.graphql";
+import { AddMessageContainer_story$key as AddMessageContainer_story } from "coral-stream/__generated__/AddMessageContainer_story.graphql";
 
 import AddMessageClosed from "./AddMessageClosed";
 import AddMessageOpen from "./AddMessageOpen";
@@ -18,7 +17,19 @@ interface Props {
 }
 
 const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
-  const [open, setOpen] = useState(story.settings.messageBox.enabled);
+  const storyData = useFragment(
+    graphql`
+      fragment AddMessageContainer_story on Story {
+        id
+        settings {
+          ...MessageBoxConfig_formValues @relay(mask: false)
+        }
+      }
+    `,
+    story
+  );
+
+  const [open, setOpen] = useState(storyData.settings.messageBox.enabled);
   const [removed, setRemoved] = useState(false);
 
   const onOpen = useCallback(() => {
@@ -39,8 +50,8 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
     return (
       <section aria-labelledby="configure-addMessage-title">
         <AddMessageOpen
-          storyID={story.id}
-          storySettings={story.settings}
+          storyID={storyData.id}
+          storySettings={storyData.settings}
           onCancel={onClose}
           onRemove={onRemove}
         />
@@ -73,15 +84,4 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
   }
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment AddMessageContainer_story on Story {
-      id
-      settings {
-        ...MessageBoxConfig_formValues @relay(mask: false)
-      }
-    }
-  `,
-})(AddMessageContainer);
-
-export default enhanced;
+export default AddMessageContainer;

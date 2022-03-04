@@ -1,15 +1,14 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { AllCommentsTabCommentContainer_comment$data as AllCommentsTabCommentContainer_comment } from "coral-stream/__generated__/AllCommentsTabCommentContainer_comment.graphql";
-import { AllCommentsTabCommentContainer_settings$data as AllCommentsTabCommentContainer_settings } from "coral-stream/__generated__/AllCommentsTabCommentContainer_settings.graphql";
-import { AllCommentsTabCommentContainer_story$data as AllCommentsTabCommentContainer_story } from "coral-stream/__generated__/AllCommentsTabCommentContainer_story.graphql";
-import { AllCommentsTabCommentContainer_viewer$data as AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated__/AllCommentsTabCommentContainer_viewer.graphql";
+import { AllCommentsTabCommentContainer_comment$key as AllCommentsTabCommentContainer_comment } from "coral-stream/__generated__/AllCommentsTabCommentContainer_comment.graphql";
+import { AllCommentsTabCommentContainer_settings$key as AllCommentsTabCommentContainer_settings } from "coral-stream/__generated__/AllCommentsTabCommentContainer_settings.graphql";
+import { AllCommentsTabCommentContainer_story$key as AllCommentsTabCommentContainer_story } from "coral-stream/__generated__/AllCommentsTabCommentContainer_story.graphql";
+import { AllCommentsTabCommentContainer_viewer$key as AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated__/AllCommentsTabCommentContainer_viewer.graphql";
 
 import CollapsableComment from "../../Comment/CollapsableComment";
 import CommentContainer from "../../Comment/CommentContainer";
@@ -35,12 +34,57 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   story,
   isLast,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment AllCommentsTabCommentContainer_viewer on User {
+        id
+        ...ReplyListContainer1_viewer
+        ...CommentContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
+      }
+    `,
+    viewer
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment AllCommentsTabCommentContainer_story on Story {
+        ...ReplyListContainer1_story
+        ...CommentContainer_story
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment AllCommentsTabCommentContainer_settings on Settings {
+        ...ReplyListContainer1_settings
+        ...CommentContainer_settings
+      }
+    `,
+    settings
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment AllCommentsTabCommentContainer_comment on Comment {
+        id
+        enteredLive
+        seen
+        ...CommentContainer_comment
+        ...ReplyListContainer1_comment
+        ...IgnoredTombstoneOrHideContainer_comment
+        ...DeletedTombstoneContainer_comment
+      }
+    `,
+    comment
+  );
+
   const commentSeenEnabled = useCommentSeenEnabled();
-  const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
-  const commentSeen = canCommitCommentSeen && comment.seen;
+  const canCommitCommentSeen =
+    !!(viewerData && viewerData.id) && commentSeenEnabled;
+  const commentSeen = canCommitCommentSeen && commentData.seen;
   return (
-    <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
-      <FadeInTransition active={!!comment.enteredLive}>
+    <IgnoredTombstoneOrHideContainer viewer={viewerData} comment={commentData}>
+      <FadeInTransition active={!!commentData.enteredLive}>
         <CollapsableComment>
           {({ collapsed, toggleCollapsed }) => (
             <HorizontalGutter
@@ -52,23 +96,23 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
               })}
               spacing={commentSeenEnabled ? 0 : undefined}
             >
-              <DeletedTombstoneContainer comment={comment}>
+              <DeletedTombstoneContainer comment={commentData}>
                 <CommentContainer
                   collapsed={collapsed}
-                  viewer={viewer}
-                  settings={settings}
-                  comment={comment}
-                  story={story}
+                  viewer={viewerData}
+                  settings={settingsData}
+                  comment={commentData}
+                  story={storyData}
                   toggleCollapsed={toggleCollapsed}
                 />
               </DeletedTombstoneContainer>
               {!collapsed && (
                 <div>
                   <ReplyListContainer
-                    settings={settings}
-                    viewer={viewer}
-                    comment={comment}
-                    story={story}
+                    settings={settingsData}
+                    viewer={viewerData}
+                    comment={commentData}
+                    story={storyData}
                   />
                 </div>
               )}
@@ -80,38 +124,4 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment AllCommentsTabCommentContainer_viewer on User {
-      id
-      ...ReplyListContainer1_viewer
-      ...CommentContainer_viewer
-      ...IgnoredTombstoneOrHideContainer_viewer
-    }
-  `,
-  story: graphql`
-    fragment AllCommentsTabCommentContainer_story on Story {
-      ...ReplyListContainer1_story
-      ...CommentContainer_story
-    }
-  `,
-  settings: graphql`
-    fragment AllCommentsTabCommentContainer_settings on Settings {
-      ...ReplyListContainer1_settings
-      ...CommentContainer_settings
-    }
-  `,
-  comment: graphql`
-    fragment AllCommentsTabCommentContainer_comment on Comment {
-      id
-      enteredLive
-      seen
-      ...CommentContainer_comment
-      ...ReplyListContainer1_comment
-      ...IgnoredTombstoneOrHideContainer_comment
-      ...DeletedTombstoneContainer_comment
-    }
-  `,
-})(AllCommentsTabCommentContainer);
-
-export default enhanced;
+export default AllCommentsTabCommentContainer;

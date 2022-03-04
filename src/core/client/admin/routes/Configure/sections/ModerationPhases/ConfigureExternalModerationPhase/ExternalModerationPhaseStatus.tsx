@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
 import { CopyButton } from "coral-framework/components";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Flex,
   FormField,
@@ -15,7 +14,7 @@ import {
   PasswordField,
 } from "coral-ui/components/v2";
 
-import { ExternalModerationPhaseStatus_phase } from "coral-admin/__generated__/ExternalModerationPhaseStatus_phase.graphql";
+import { ExternalModerationPhaseStatus_phase$key as ExternalModerationPhaseStatus_phase } from "coral-admin/__generated__/ExternalModerationPhaseStatus_phase.graphql";
 
 import StatusMarker from "../StatusMarker";
 
@@ -24,6 +23,20 @@ interface Props {
 }
 
 const ExternalModerationPhaseStatus: FunctionComponent<Props> = ({ phase }) => {
+  const phaseData = useFragment(
+    graphql`
+      fragment ExternalModerationPhaseStatus_phase on ExternalModerationPhase {
+        id
+        enabled
+        signingSecret {
+          secret
+          createdAt
+        }
+      }
+    `,
+    phase
+  );
+
   return (
     <>
       <Localized id="configure-moderationPhases-phaseStatus">
@@ -33,7 +46,7 @@ const ExternalModerationPhaseStatus: FunctionComponent<Props> = ({ phase }) => {
         <Localized id="configure-moderationPhases-status">
           <Label>Status</Label>
         </Localized>
-        <StatusMarker enabled={phase.enabled} />
+        <StatusMarker enabled={phaseData.enabled} />
       </FormField>
       <FormField>
         <Localized id="configure-moderationPhases-signingSecret">
@@ -56,18 +69,18 @@ const ExternalModerationPhaseStatus: FunctionComponent<Props> = ({ phase }) => {
         </Localized>
         <Flex direction="row" itemGutter="half" alignItems="center">
           <PasswordField
-            value={phase.signingSecret.secret}
+            value={phaseData.signingSecret.secret}
             fullWidth
             readOnly
           />
-          <CopyButton text={phase.signingSecret.secret} />
+          <CopyButton text={phaseData.signingSecret.secret} />
         </Flex>
         <Localized
           id="configure-moderationPhases-generatedAt"
-          $date={new Date(phase.signingSecret.createdAt)}
+          $date={new Date(phaseData.signingSecret.createdAt)}
         >
           <HelperText>
-            KEY GENERATED AT: {phase.signingSecret.createdAt}
+            KEY GENERATED AT: {phaseData.signingSecret.createdAt}
           </HelperText>
         </Localized>
       </FormField>
@@ -75,17 +88,4 @@ const ExternalModerationPhaseStatus: FunctionComponent<Props> = ({ phase }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  phase: graphql`
-    fragment ExternalModerationPhaseStatus_phase on ExternalModerationPhase {
-      id
-      enabled
-      signingSecret {
-        secret
-        createdAt
-      }
-    }
-  `,
-})(ExternalModerationPhaseStatus);
-
-export default enhanced;
+export default ExternalModerationPhaseStatus;

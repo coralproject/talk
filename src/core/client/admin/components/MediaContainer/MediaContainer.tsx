@@ -1,9 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { MediaContainer_comment$data as MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
+import { MediaContainer_comment$key as MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
 import ExternalMedia from "./ExternalMedia";
 import GiphyMedia from "./GiphyMedia";
@@ -15,7 +13,43 @@ interface Props {
 }
 
 const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
-  const media = comment.revision?.media;
+  const commentData = useFragment(
+    graphql`
+      fragment MediaContainer_comment on Comment {
+        id
+        site {
+          id
+        }
+        revision {
+          media {
+            __typename
+            ... on GiphyMedia {
+              url
+              title
+              width
+              height
+              still
+              video
+            }
+            ... on TwitterMedia {
+              url
+            }
+            ... on YouTubeMedia {
+              url
+              still
+              title
+            }
+            ... on ExternalMedia {
+              url
+            }
+          }
+        }
+      }
+    `,
+    comment
+  );
+
+  const media = commentData.revision?.media;
   if (!media) {
     return null;
   }
@@ -34,25 +68,25 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
     case "ExternalMedia":
       return (
         <ExternalMedia
-          id={comment.id}
+          id={commentData.id}
           url={media.url}
-          siteID={comment.site.id}
+          siteID={commentData.site.id}
         />
       );
     case "TwitterMedia":
       return (
         <TwitterMedia
-          id={comment.id}
+          id={commentData.id}
           url={media.url}
-          siteID={comment.site.id}
+          siteID={commentData.site.id}
         />
       );
     case "YouTubeMedia":
       return (
         <YouTubeMedia
-          id={comment.id}
+          id={commentData.id}
           url={media.url}
-          siteID={comment.site.id}
+          siteID={commentData.site.id}
           still={media.still}
           title={media.title}
         />
@@ -62,39 +96,4 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
   }
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment MediaContainer_comment on Comment {
-      id
-      site {
-        id
-      }
-      revision {
-        media {
-          __typename
-          ... on GiphyMedia {
-            url
-            title
-            width
-            height
-            still
-            video
-          }
-          ... on TwitterMedia {
-            url
-          }
-          ... on YouTubeMedia {
-            url
-            still
-            title
-          }
-          ... on ExternalMedia {
-            url
-          }
-        }
-      }
-    }
-  `,
-})(MediaContainer);
-
-export default enhanced;
+export default MediaContainer;

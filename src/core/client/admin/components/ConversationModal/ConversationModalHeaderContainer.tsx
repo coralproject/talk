@@ -1,13 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, RefObject, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Button, HorizontalGutter, ModalHeader } from "coral-ui/components/v2";
 
-import { ConversationModalHeaderContainer_comment$data as ConversationModalHeaderContainer_comment } from "coral-admin/__generated__/ConversationModalHeaderContainer_comment.graphql";
+import { ConversationModalHeaderContainer_comment$key as ConversationModalHeaderContainer_comment } from "coral-admin/__generated__/ConversationModalHeaderContainer_comment.graphql";
 
 import styles from "./ConversationModalHeaderContainer.css";
 
@@ -22,11 +21,27 @@ const ConversationModalHeaderContainer: FunctionComponent<Props> = ({
   onClose,
   focusableRef,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ConversationModalHeaderContainer_comment on Comment {
+        story {
+          id
+          metadata {
+            title
+          }
+          url
+        }
+        id
+      }
+    `,
+    comment
+  );
+
   const { router } = useRouter();
   const onModerate = useCallback(() => {
-    const link = getModerationLink({ storyID: comment.story.id });
+    const link = getModerationLink({ storyID: commentData.story.id });
     router.push(link);
-  }, [comment.id]);
+  }, [commentData.story.id, router]);
   return (
     <ModalHeader onClose={onClose} focusableRef={focusableRef}>
       <HorizontalGutter spacing={3}>
@@ -34,9 +49,9 @@ const ConversationModalHeaderContainer: FunctionComponent<Props> = ({
           <Localized id="conversation-modal-conversationOn">
             <span className={styles.conversationTitle}>Conversation on:</span>
           </Localized>
-          {comment.story.metadata
-            ? comment.story.metadata.title
-            : comment.story.url}
+          {commentData.story.metadata
+            ? commentData.story.metadata.title
+            : commentData.story.url}
         </h1>
         <Localized id="conversation-modal-moderateStory">
           <Button
@@ -53,19 +68,4 @@ const ConversationModalHeaderContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ConversationModalHeaderContainer_comment on Comment {
-      story {
-        id
-        metadata {
-          title
-        }
-        url
-      }
-      id
-    }
-  `,
-})(ConversationModalHeaderContainer);
-
-export default enhanced;
+export default ConversationModalHeaderContainer;

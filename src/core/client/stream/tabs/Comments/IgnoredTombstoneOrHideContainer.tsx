@@ -6,16 +6,15 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { usePrevious } from "coral-framework/hooks";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Flex } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
-import { IgnoredTombstoneOrHideContainer_comment$data as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
-import { IgnoredTombstoneOrHideContainer_viewer$data as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
+import { IgnoredTombstoneOrHideContainer_comment$key as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
+import { IgnoredTombstoneOrHideContainer_viewer$key as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
 
 import styles from "./IgnoredTombstoneOrHideContainer.css";
 
@@ -34,10 +33,34 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   allowTombstoneReveal,
   disableHide,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment IgnoredTombstoneOrHideContainer_viewer on User {
+        ignoredUsers {
+          id
+        }
+      }
+    `,
+    viewer
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment IgnoredTombstoneOrHideContainer_comment on Comment {
+        author {
+          id
+          username
+        }
+      }
+    `,
+    comment
+  );
+
   const ignored = Boolean(
-    comment.author &&
-      viewer &&
-      viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
+    commentData.author &&
+      viewerData &&
+      viewerData.ignoredUsers.some((u) =>
+        Boolean(u.id === commentData.author!.id)
+      )
   );
   const [tombstone, setTombstone] = useState<boolean>(Boolean(disableHide));
   const [forceVisible, setForceVisible] = useState<boolean>(false);
@@ -68,11 +91,11 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
         <Flex alignItems="center" justifyContent="center" itemGutter>
           <Localized
             id="comments-tombstone-ignore"
-            $username={comment.author!.username}
+            $username={commentData.author!.username}
           >
             <div>
               This comment is hidden because you ignored{" "}
-              {comment.author!.username}
+              {commentData.author!.username}
             </div>
           </Localized>
           {allowTombstoneReveal && (
@@ -103,22 +126,4 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   return null;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment IgnoredTombstoneOrHideContainer_viewer on User {
-      ignoredUsers {
-        id
-      }
-    }
-  `,
-  comment: graphql`
-    fragment IgnoredTombstoneOrHideContainer_comment on Comment {
-      author {
-        id
-        username
-      }
-    }
-  `,
-})(IgnoredTombstoneOrHideContainer);
-
-export default enhanced;
+export default IgnoredTombstoneOrHideContainer;

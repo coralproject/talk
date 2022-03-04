@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { DropdownButton } from "coral-ui/components/v2";
 
-import { DashboardSiteContainer_site$data as DashboardSiteContainer_site } from "coral-admin/__generated__/DashboardSiteContainer_site.graphql";
+import { DashboardSiteContainer_site$key as DashboardSiteContainer_site } from "coral-admin/__generated__/DashboardSiteContainer_site.graphql";
 
 import styles from "./DashboardSiteContainer.css";
 
@@ -13,24 +12,25 @@ interface Props {
 }
 
 const DashboardSiteContainer: FunctionComponent<Props> = ({ site }) => {
+  const siteData = useFragment(
+    graphql`
+      fragment DashboardSiteContainer_site on Site {
+        id
+        name
+        createdAt
+      }
+    `,
+    site
+  );
+
   return (
     <DropdownButton
       className={styles.button}
-      to={`/admin/dashboard/${site.id}`}
+      to={`/admin/dashboard/${siteData.id}`}
     >
-      {site.name}
+      {siteData.name}
     </DropdownButton>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  site: graphql`
-    fragment DashboardSiteContainer_site on Site {
-      id
-      name
-      createdAt
-    }
-  `,
-})(DashboardSiteContainer);
-
-export default enhanced;
+export default DashboardSiteContainer;

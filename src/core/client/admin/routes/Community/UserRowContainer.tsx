@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { UserRowContainer_settings$data as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
-import { UserRowContainer_user$data as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
-import { UserRowContainer_viewer$data as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
+import { UserRowContainer_settings$key as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
+import { UserRowContainer_user$key as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
+import { UserRowContainer_viewer$key as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
 
 import UserRow from "./UserRow";
 
@@ -17,7 +16,45 @@ interface Props {
   onUsernameClicked?: (userID: string) => void;
 }
 
-const UserRowContainer: FunctionComponent<Props> = (props) => {
+const UserRowContainer: FunctionComponent<Props> = ({
+  user,
+  viewer,
+  settings,
+  onUsernameClicked,
+}) => {
+  const userData = useFragment(
+    graphql`
+      fragment UserRowContainer_user on User {
+        ...UserStatusChangeContainer_user
+        ...UserRoleChangeContainer_user
+        id
+        username
+        email
+        createdAt
+        deletedAt
+      }
+    `,
+    user
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment UserRowContainer_viewer on User {
+        ...UserStatusChangeContainer_viewer
+        ...UserRoleChangeContainer_viewer
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment UserRowContainer_settings on Settings {
+        ...UserStatusChangeContainer_settings
+        ...UserRoleChangeContainer_settings
+      }
+    `,
+    settings
+  );
+
   const formatter = useDateTimeFormatter({
     day: "2-digit",
     month: "2-digit",
@@ -28,43 +65,17 @@ const UserRowContainer: FunctionComponent<Props> = (props) => {
 
   return (
     <UserRow
-      user={props.user}
-      settings={props.settings}
-      viewer={props.viewer}
-      userID={props.user.id}
-      username={props.user.username}
-      email={props.user.email}
-      memberSince={formatter(props.user.createdAt)}
-      onUsernameClicked={props.onUsernameClicked}
-      deletedAt={props.user.deletedAt}
+      user={userData}
+      settings={settingsData}
+      viewer={viewerData}
+      userID={userData.id}
+      username={userData.username}
+      email={userData.email}
+      memberSince={formatter(userData.createdAt)}
+      onUsernameClicked={onUsernameClicked}
+      deletedAt={userData.deletedAt}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment UserRowContainer_viewer on User {
-      ...UserStatusChangeContainer_viewer
-      ...UserRoleChangeContainer_viewer
-    }
-  `,
-  settings: graphql`
-    fragment UserRowContainer_settings on Settings {
-      ...UserStatusChangeContainer_settings
-      ...UserRoleChangeContainer_settings
-    }
-  `,
-  user: graphql`
-    fragment UserRowContainer_user on User {
-      ...UserStatusChangeContainer_user
-      ...UserRoleChangeContainer_user
-      id
-      username
-      email
-      createdAt
-      deletedAt
-    }
-  `,
-})(UserRowContainer);
-
-export default enhanced;
+export default UserRowContainer;

@@ -1,13 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
 import { urls } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
   FormField,
@@ -15,7 +15,7 @@ import {
   Label,
 } from "coral-ui/components/v2";
 
-import { ExternalModerationPhaseDangerZone_phase } from "coral-admin/__generated__/ExternalModerationPhaseDangerZone_phase.graphql";
+import { ExternalModerationPhaseDangerZone_phase$key as ExternalModerationPhaseDangerZone_phase } from "coral-admin/__generated__/ExternalModerationPhaseDangerZone_phase.graphql";
 
 import DeleteExternalModerationPhaseMutation from "./DeleteExternalModerationPhaseMutation";
 import DisableExternalModerationPhaseMutation from "./DisableExternalModerationPhaseMutation";
@@ -29,6 +29,16 @@ interface Props {
 const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
   phase,
 }) => {
+  const phaseData = useFragment(
+    graphql`
+      fragment ExternalModerationPhaseDangerZone_phase on ExternalModerationPhase {
+        id
+        enabled
+      }
+    `,
+    phase
+  );
+
   const { localeBundles } = useCoralContext();
   const { router } = useRouter();
   const enableExternalModerationPhase = useMutation(
@@ -58,9 +68,9 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
 
     // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
-      await enableExternalModerationPhase({ id: phase.id });
+      await enableExternalModerationPhase({ id: phaseData.id });
     }
-  }, [phase, enableExternalModerationPhase]);
+  }, [localeBundles, enableExternalModerationPhase, phaseData.id]);
   const onDisable = useCallback(async () => {
     const message = getMessage(
       localeBundles,
@@ -70,9 +80,9 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
 
     // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
-      await disableExternalModerationPhase({ id: phase.id });
+      await disableExternalModerationPhase({ id: phaseData.id });
     }
-  }, [phase, disableExternalModerationPhase]);
+  }, [localeBundles, disableExternalModerationPhase, phaseData.id]);
 
   const onDelete = useCallback(async () => {
     const message = getMessage(
@@ -83,12 +93,12 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
 
     // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
-      await deleteExternalModerationPhase({ id: phase.id });
+      await deleteExternalModerationPhase({ id: phaseData.id });
 
       // Send the user back to the webhook endpoints listing.
       router.push(urls.admin.moderationPhases);
     }
-  }, [phase, disableExternalModerationPhase, router]);
+  }, [localeBundles, deleteExternalModerationPhase, phaseData.id, router]);
 
   return (
     <>
@@ -112,11 +122,11 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
         </Localized>
       </FormField>
       <RotateSigningSecretModal
-        phaseID={phase.id}
+        phaseID={phaseData.id}
         onHide={onHideRotateSecret}
         open={rotateSecretOpen}
       />
-      {phase.enabled ? (
+      {phaseData.enabled ? (
         <FormField>
           <Localized id="configure-moderationPhases-disableExternalModerationPhase">
             <Label>Disable external moderation phase</Label>
@@ -172,13 +182,4 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  phase: graphql`
-    fragment ExternalModerationPhaseDangerZone_phase on ExternalModerationPhase {
-      id
-      enabled
-    }
-  `,
-})(ExternalModerationPhaseDangerZone);
-
-export default enhanced;
+export default ExternalModerationPhaseDangerZone;

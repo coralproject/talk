@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { usePersistedSessionState } from "coral-framework/hooks";
@@ -16,11 +16,7 @@ import {
   InvalidRequestError,
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
-import {
-  useFetch,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useFetch, useMutation } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
@@ -28,9 +24,9 @@ import WarningError from "coral-stream/common/WarningError";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { PostCommentFormContainer_settings$data as PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
-import { PostCommentFormContainer_story$data as PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
-import { PostCommentFormContainer_viewer$data as PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
+import { PostCommentFormContainer_settings$key as PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
+import { PostCommentFormContainer_story$key as PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
+import { PostCommentFormContainer_viewer$key as PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
 import {
   COMMENT_SORT,
   COMMENTS_TAB,
@@ -76,6 +72,84 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   onChangeTab,
   commentsOrderBy,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment PostCommentFormContainer_settings on Settings {
+        charCount {
+          enabled
+          min
+          max
+        }
+        disableCommenting {
+          enabled
+          message
+        }
+        closeCommenting {
+          message
+        }
+        media {
+          twitter {
+            enabled
+          }
+          youtube {
+            enabled
+          }
+          giphy {
+            enabled
+            key
+            maxRating
+          }
+          external {
+            enabled
+          }
+        }
+        rte {
+          ...RTEContainer_config
+        }
+      }
+    `,
+    settings
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment PostCommentFormContainer_story on Story {
+        id
+        isClosed
+        site {
+          id
+        }
+        viewerRating {
+          id
+          status
+          tags {
+            code
+          }
+          rating
+        }
+        settings {
+          messageBox {
+            enabled
+          }
+          experts {
+            id
+          }
+          mode
+        }
+        ...MessageBoxContainer_story
+      }
+    `,
+    story
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment PostCommentFormContainer_viewer on User {
+        id
+        scheduledDeletionDate
+      }
+    `,
+    viewer
+  );
+
   const refreshSettings = useFetch(RefreshSettingsFetch);
   const refreshViewer = useFetch(RefreshViewerFetch);
   const createComment = useMutation(CreateCommentMutation);
@@ -86,7 +160,11 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   // closed. This value should not be updated when the props change, hence why
   // we don't use any deps here!
   const keepFormWhenClosed = useMemo(
-    () => !!viewer && !story.isClosed && !settings.disableCommenting.enabled,
+    () =>
+      !!viewer &&
+      !storyData.isClosed &&
+      !settingsData.disableCommenting.enabled,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -109,13 +187,13 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const initialized = !!initialValues;
 
   const disabled =
-    settings.disableCommenting.enabled ||
-    story.isClosed ||
-    !!viewer?.scheduledDeletionDate;
+    settingsData.disableCommenting.enabled ||
+    storyData.isClosed ||
+    !!viewerData?.scheduledDeletionDate;
 
   const isRatingsAndReviews =
-    story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
-  const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+    storyData.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+  const isQA = storyData.settings.mode === GQLSTORY_MODE.QA;
 
   const PostCommentSection: FC = useMemo(
     () => (props) => {
@@ -147,7 +225,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const handleOnSubmit: OnSubmitHandler = async (input, form) => {
     try {
       const response = await createComment({
-        storyID: story.id,
+        storyID: storyData.id,
         nudge,
         commentsOrderBy,
         body: input.body,
@@ -194,7 +272,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
-          await refreshSettings({ storyID: story.id });
+          await refreshSettings({ storyID: storyData.id });
         }
         if (shouldTriggerViewerRefresh(error.code)) {
           await refreshViewer();
@@ -249,7 +327,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   };
 
   const onToggle = (t: Toggle) => {
-    if (!viewer) {
+    if (!viewerData) {
       handleSignIn();
       return;
     }
@@ -258,11 +336,13 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   };
 
   const onClickReview = () => {
-    if (!story.viewerRating?.tags.some(({ code }) => code === GQLTAG.REVIEW)) {
+    if (
+      !storyData.viewerRating?.tags.some(({ code }) => code === GQLTAG.REVIEW)
+    ) {
       return;
     }
 
-    void setCommentID({ id: story.viewerRating.id });
+    void setCommentID({ id: storyData.viewerRating.id });
   };
 
   if (!initialized) {
@@ -270,32 +350,32 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   }
 
   if (!keepFormWhenClosed) {
-    if (settings.disableCommenting.enabled) {
+    if (settingsData.disableCommenting.enabled) {
       return (
         <PostCommentSection>
           <PostCommentFormClosedSitewide
-            story={story}
-            message={settings.disableCommenting.message}
-            showMessageBox={story.settings.messageBox.enabled}
+            story={storyData}
+            message={settingsData.disableCommenting.message}
+            showMessageBox={storyData.settings.messageBox.enabled}
           />
         </PostCommentSection>
       );
     }
 
-    if (story.isClosed) {
+    if (storyData.isClosed) {
       return (
         <PostCommentSection>
           <PostCommentFormClosed
-            story={story}
-            message={settings.closeCommenting.message}
-            showMessageBox={story.settings.messageBox.enabled}
+            story={storyData}
+            message={settingsData.closeCommenting.message}
+            showMessageBox={storyData.settings.messageBox.enabled}
           />
         </PostCommentSection>
       );
     }
   }
 
-  if (!viewer) {
+  if (!viewerData) {
     if (isRatingsAndReviews) {
       return (
         <PostCommentSection>
@@ -307,11 +387,11 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     return (
       <PostCommentSection>
         <PostCommentFormFake
-          rteConfig={settings.rte}
+          rteConfig={settingsData.rte}
           draft={draft}
           onDraftChange={setDraft}
-          story={story}
-          showMessageBox={story.settings.messageBox.enabled}
+          story={storyData}
+          showMessageBox={storyData.settings.messageBox.enabled}
           onSignIn={handleSignIn}
         />
       </PostCommentSection>
@@ -320,20 +400,20 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
   const disabledMessage =
     disabled &&
-    (settings.disableCommenting.enabled ? (
-      settings.disableCommenting.message
-    ) : viewer.scheduledDeletionDate ? (
+    (settingsData.disableCommenting.enabled ? (
+      settingsData.disableCommenting.message
+    ) : viewerData.scheduledDeletionDate ? (
       <Localized id="comments-postCommentForm-userScheduledForDeletion-warning">
         Commenting is disabled when your account is scheduled for deletion.
       </Localized>
     ) : (
-      settings.closeCommenting.message
+      settingsData.closeCommenting.message
     ));
 
-  const rating = story.viewerRating?.rating || undefined;
+  const rating = storyData.viewerRating?.rating || undefined;
   const showReview =
-    story.viewerRating?.tags.some(({ code }) => code === GQLTAG.REVIEW) &&
-    isPublished(story.viewerRating.status);
+    storyData.viewerRating?.tags.some(({ code }) => code === GQLTAG.REVIEW) &&
+    isPublished(storyData.viewerRating.status);
 
   const mode = isRatingsAndReviews
     ? toggle === "RATE_AND_REVIEW"
@@ -370,96 +450,31 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         )}
         <PostCommentForm
           mode={mode}
-          siteID={story.site.id}
-          story={story}
+          siteID={storyData.site.id}
+          story={storyData}
           onSubmit={handleOnSubmit}
           onChange={handleOnChange}
           initialValues={initialValues}
-          mediaConfig={settings.media}
-          rteConfig={settings.rte}
-          min={settings.charCount.enabled ? settings.charCount.min : null}
-          max={settings.charCount.enabled ? settings.charCount.max : null}
+          mediaConfig={settingsData.media}
+          rteConfig={settingsData.rte}
+          min={
+            settingsData.charCount.enabled ? settingsData.charCount.min : null
+          }
+          max={
+            settingsData.charCount.enabled ? settingsData.charCount.max : null
+          }
           disabled={disabled}
           disabledMessage={disabledMessage}
           submitStatus={submitStatus}
-          showMessageBox={story.settings.messageBox.enabled}
+          showMessageBox={storyData.settings.messageBox.enabled}
         />
       </HorizontalGutter>
     </PostCommentSection>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment PostCommentFormContainer_settings on Settings {
-      charCount {
-        enabled
-        min
-        max
-      }
-      disableCommenting {
-        enabled
-        message
-      }
-      closeCommenting {
-        message
-      }
-      media {
-        twitter {
-          enabled
-        }
-        youtube {
-          enabled
-        }
-        giphy {
-          enabled
-          key
-          maxRating
-        }
-        external {
-          enabled
-        }
-      }
-      rte {
-        ...RTEContainer_config
-      }
-    }
-  `,
-  story: graphql`
-    fragment PostCommentFormContainer_story on Story {
-      id
-      isClosed
-      site {
-        id
-      }
-      viewerRating {
-        id
-        status
-        tags {
-          code
-        }
-        rating
-      }
-      settings {
-        messageBox {
-          enabled
-        }
-        experts {
-          id
-        }
-        mode
-      }
-      ...MessageBoxContainer_story
-    }
-  `,
-  viewer: graphql`
-    fragment PostCommentFormContainer_viewer on User {
-      id
-      scheduledDeletionDate
-    }
-  `,
-})(PostCommentFormContainer);
+export type PostCommentFormContainerProps = PropTypesOf<
+  typeof PostCommentFormContainer
+>;
 
-export type PostCommentFormContainerProps = PropTypesOf<typeof enhanced>;
-
-export default enhanced;
+export default PostCommentFormContainer;

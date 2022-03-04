@@ -1,12 +1,12 @@
 import { Localized } from "@fluent/react/compat";
-import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
+import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
 
 import { urls } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
   ButtonIcon,
@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { EmailDomainConfigContainer_settings$data as EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
+import { EmailDomainConfigContainer_settings$key as EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -32,9 +32,21 @@ interface Props {
 }
 
 const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
-  const { emailDomainModeration } = settings;
+  const settingsData = useFragment(
+    graphql`
+      fragment EmailDomainConfigContainer_settings on Settings {
+        emailDomainModeration {
+          domain
+          id
+          newUserModeration
+        }
+      }
+    `,
+    settings
+  );
+
+  const { emailDomainModeration } = settingsData;
   const { localeBundles } = useCoralContext();
-  const { router } = useRouter();
   const deleteEmailDomain = useMutation(DeleteEmailDomainMutation);
 
   const onDelete = useCallback(
@@ -50,7 +62,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
         await deleteEmailDomain({ id: domainId });
       }
     },
-    [router]
+    [deleteEmailDomain, localeBundles]
   );
 
   return (
@@ -155,16 +167,4 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment EmailDomainConfigContainer_settings on Settings {
-      emailDomainModeration {
-        domain
-        id
-        newUserModeration
-      }
-    }
-  `,
-})(EmailDomainConfigContainer);
-
-export default enhanced;
+export default EmailDomainConfigContainer;

@@ -1,10 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import { last } from "lodash";
 import React, { FunctionComponent, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   BaseButton,
   Box,
@@ -13,7 +12,7 @@ import {
   Popover,
 } from "coral-ui/components/v2";
 
-import { UserStatusDetailsContainer_user$data as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
+import { UserStatusDetailsContainer_user$key as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
 
 import styles from "./UserStatusDetailsContainer.css";
 
@@ -22,23 +21,67 @@ interface Props {
 }
 
 const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
+  const userData = useFragment(
+    graphql`
+      fragment UserStatusDetailsContainer_user on User {
+        status {
+          warning {
+            active
+            history {
+              active
+              createdBy {
+                username
+              }
+              createdAt
+            }
+          }
+          ban {
+            active
+            history {
+              active
+              createdAt
+              createdBy {
+                username
+              }
+            }
+          }
+          suspension {
+            until
+            active
+            history {
+              active
+              from {
+                start
+                finish
+              }
+              createdBy {
+                username
+              }
+            }
+          }
+        }
+      }
+    `,
+    user
+  );
+
   const activeBan = useMemo(() => {
-    if (user.status.ban.active) {
-      return last(user.status.ban.history);
+    if (userData.status.ban.active) {
+      return last(userData.status.ban.history);
     }
     return null;
-  }, [user]);
+  }, [userData]);
 
   const activeSuspension = useMemo(() => {
-    return user.status.suspension.history.find((item) => item.active);
-  }, [user]);
+    return userData.status.suspension.history.find((item) => item.active);
+  }, [userData]);
 
   const activeWarning = useMemo(() => {
-    if (user.status.warning.active) {
-      return last(user.status.warning.history);
+    if (userData.status.warning.active) {
+      return last(userData.status.warning.history);
     }
     return null;
-  }, [user]);
+  }, [userData]);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -49,9 +92,9 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
   });
 
   if (
-    !user.status.ban.active &&
-    !user.status.suspension.active &&
-    !user.status.warning.active
+    !userData.status.ban.active &&
+    !userData.status.suspension.active &&
+    !userData.status.warning.active
   ) {
     return null;
   }
@@ -180,47 +223,4 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment UserStatusDetailsContainer_user on User {
-      status {
-        warning {
-          active
-          history {
-            active
-            createdBy {
-              username
-            }
-            createdAt
-          }
-        }
-        ban {
-          active
-          history {
-            active
-            createdAt
-            createdBy {
-              username
-            }
-          }
-        }
-        suspension {
-          until
-          active
-          history {
-            active
-            from {
-              start
-              finish
-            }
-            createdBy {
-              username
-            }
-          }
-        }
-      }
-    }
-  `,
-})(UserStatusDetailsContainer);
-
-export default enhanced;
+export default UserStatusDetailsContainer;

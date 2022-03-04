@@ -1,16 +1,16 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import { Button } from "coral-ui/components/v3/Button/Button";
 
-import { ModerateStoryButton_local$data as ModerateStoryButton_local } from "coral-admin/__generated__/ModerateStoryButton_local.graphql";
-import { ModerateStoryButton_settings$data as ModerateStoryButton_settings } from "coral-admin/__generated__/ModerateStoryButton_settings.graphql";
-import { ModerateStoryButton_story$data as ModerateStoryButton_story } from "coral-admin/__generated__/ModerateStoryButton_story.graphql";
-import { ModerateStoryButton_viewer$data as ModerateStoryButton_viewer } from "coral-admin/__generated__/ModerateStoryButton_viewer.graphql";
+import { ModerateStoryButton_local } from "coral-admin/__generated__/ModerateStoryButton_local.graphql";
+import { ModerateStoryButton_settings$key as ModerateStoryButton_settings } from "coral-admin/__generated__/ModerateStoryButton_settings.graphql";
+import { ModerateStoryButton_story$key as ModerateStoryButton_story } from "coral-admin/__generated__/ModerateStoryButton_story.graphql";
+import { ModerateStoryButton_viewer$key as ModerateStoryButton_viewer } from "coral-admin/__generated__/ModerateStoryButton_viewer.graphql";
 
 import styles from "./ModerateStoryButton.css";
 
@@ -22,9 +22,46 @@ export interface Props {
 
 const ModerateStoryButton: FunctionComponent<Props> = ({
   settings,
-  story: { id, isArchived, isArchiving, canModerate },
+  story,
   viewer,
 }) => {
+  const { id, isArchived, isArchiving, canModerate } = useFragment(
+    graphql`
+      fragment ModerateStoryButton_story on Story {
+        canModerate
+        isArchiving
+        isArchived
+        id
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerateStoryButton_settings on Settings {
+        auth {
+          integrations {
+            sso {
+              enabled
+              targetFilter {
+                admin
+              }
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment ModerateStoryButton_viewer on User {
+        role
+      }
+    `,
+    viewer
+  );
+
   const [{ accessToken }] = useLocal<ModerateStoryButton_local>(graphql`
     fragment ModerateStoryButton_local on Local {
       accessToken
@@ -37,16 +74,16 @@ const ModerateStoryButton: FunctionComponent<Props> = ({
     let link = getModerationLink({ storyID: id });
     if (
       accessToken &&
-      settings.auth.integrations.sso.enabled &&
-      settings.auth.integrations.sso.targetFilter.admin
+      settingsData.auth.integrations.sso.enabled &&
+      settingsData.auth.integrations.sso.targetFilter.admin
     ) {
       link += `#accessToken=${accessToken}`;
     }
 
     return link;
-  }, [accessToken, settings, id]);
+  }, [accessToken, settingsData, id]);
 
-  if (!canModerate || !viewer || !can(viewer, Ability.MODERATE)) {
+  if (!canModerate || !viewerData || !can(viewerData, Ability.MODERATE)) {
     return null;
   }
 
@@ -72,34 +109,4 @@ const ModerateStoryButton: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ModerateStoryButton_settings on Settings {
-      auth {
-        integrations {
-          sso {
-            enabled
-            targetFilter {
-              admin
-            }
-          }
-        }
-      }
-    }
-  `,
-  story: graphql`
-    fragment ModerateStoryButton_story on Story {
-      canModerate
-      isArchiving
-      isArchived
-      id
-    }
-  `,
-  viewer: graphql`
-    fragment ModerateStoryButton_viewer on User {
-      role
-    }
-  `,
-})(ModerateStoryButton);
-
-export default enhanced;
+export default ModerateStoryButton;

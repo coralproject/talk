@@ -1,14 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { MyOngoingDiscussionsContainer_settings$data as MyOngoingDiscussionsContainer_settings } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_settings.graphql";
-import { MyOngoingDiscussionsContainer_viewer$data as MyOngoingDiscussionsContainer_viewer } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_viewer.graphql";
+import { MyOngoingDiscussionsContainer_settings$key as MyOngoingDiscussionsContainer_settings } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_settings.graphql";
+import { MyOngoingDiscussionsContainer_viewer$key as MyOngoingDiscussionsContainer_viewer } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_viewer.graphql";
 
 import DiscussionsHeader from "./DiscussionsHeader";
 import StoryRowContainer from "./StoryRowContainer";
@@ -26,6 +25,28 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
   settings,
   currentSiteID,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment MyOngoingDiscussionsContainer_viewer on User {
+        ongoingDiscussions {
+          id
+          ...StoryRowContainer_story
+        }
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment MyOngoingDiscussionsContainer_settings on Settings {
+        organization {
+          name
+        }
+      }
+    `,
+    settings
+  );
+
   return (
     <HorizontalGutter
       className={cn(styles.root, CLASSES.discussions.myOngoingDiscussions)}
@@ -44,14 +65,14 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
         subHeader={
           <Localized
             id="discussions-myOngoingDiscussions-subhead"
-            $orgName={settings.organization.name}
+            $orgName={settingsData.organization.name}
           >
-            <>Where you’ve commented across {settings.organization.name}</>
+            <>Where you’ve commented across {settingsData.organization.name}</>
           </Localized>
         }
         icon="history"
       />
-      {viewer.ongoingDiscussions.length === 0 && (
+      {viewerData.ongoingDiscussions.length === 0 && (
         <Localized id="discussions-mostActiveDiscussions-empty">
           <p className={styles.emptyList}>
             You haven’t participated in any discussions
@@ -59,7 +80,7 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
         </Localized>
       )}
       <ul className={cn(styles.list, CLASSES.discussions.discussionsList)}>
-        {viewer.ongoingDiscussions.map((story) => (
+        {viewerData.ongoingDiscussions.map((story) => (
           <li key={cn(story.id, CLASSES.discussions.story.$root)}>
             <StoryRowContainer story={story} currentSiteID={currentSiteID} />
           </li>
@@ -69,22 +90,4 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment MyOngoingDiscussionsContainer_viewer on User {
-      ongoingDiscussions {
-        id
-        ...StoryRowContainer_story
-      }
-    }
-  `,
-  settings: graphql`
-    fragment MyOngoingDiscussionsContainer_settings on Settings {
-      organization {
-        name
-      }
-    }
-  `,
-})(MyOngoingDiscussionsContainer);
-
-export default enhanced;
+export default MyOngoingDiscussionsContainer;

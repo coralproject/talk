@@ -2,14 +2,14 @@ import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
@@ -29,8 +29,8 @@ import {
   Typography,
 } from "coral-ui/components/v2";
 
-import { SiteModeratorActions_user$data as SiteModeratorActions_user } from "coral-admin/__generated__/SiteModeratorActions_user.graphql";
-import { SiteModeratorActions_viewer$data as SiteModeratorActions_viewer } from "coral-admin/__generated__/SiteModeratorActions_viewer.graphql";
+import { SiteModeratorActions_user$key as SiteModeratorActions_user } from "coral-admin/__generated__/SiteModeratorActions_user.graphql";
+import { SiteModeratorActions_viewer$key as SiteModeratorActions_viewer } from "coral-admin/__generated__/SiteModeratorActions_viewer.graphql";
 
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
@@ -49,6 +49,38 @@ interface Props {
 }
 
 const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
+  const userData = useFragment(
+    graphql`
+      fragment SiteModeratorActions_viewer on User {
+        id
+        moderationScopes {
+          sites {
+            id
+            name
+          }
+        }
+      }
+    `,
+    user
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment SiteModeratorActions_user on User {
+        id
+        username
+        role
+        moderationScopes {
+          scoped
+          sites {
+            id
+            name
+          }
+        }
+      }
+    `,
+    viewer
+  );
+
   const promoteUser = useMutation(PromoteUserMutation);
   const demoteUser = useMutation(DemoteUserMutation);
   const notAvailableTranslation = useCommonTranslation(
@@ -80,9 +112,9 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
     async (input) => {
       try {
         if (mode === "promote") {
-          await promoteUser({ userID: user.id, siteIDs: input.siteIDs });
+          await promoteUser({ userID: userData.id, siteIDs: input.siteIDs });
         } else if (mode === "demote") {
-          await demoteUser({ userID: user.id, siteIDs: input.siteIDs });
+          await demoteUser({ userID: userData.id, siteIDs: input.siteIDs });
         }
 
         setMode(null);
@@ -96,11 +128,11 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
         return { [FORM_ERROR]: err.message };
       }
     },
-    [demoteUser, mode, promoteUser, toggleModalVisibility, user.id]
+    [demoteUser, mode, promoteUser, toggleModalVisibility, userData.id]
   );
 
-  const viewerSites = viewer.moderationScopes?.sites || [];
-  const userSites = user.moderationScopes?.sites || [];
+  const viewerSites = viewerData.moderationScopes?.sites || [];
+  const userSites = userData.moderationScopes?.sites || [];
 
   // These are sites that only the viewer has and the user does not.
   const uniqueViewerSites = viewerSites.filter(
@@ -115,17 +147,17 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
   // If the user is a site moderator and some of the sites on the user are the
   // same as the sites on the viewer, then we can demote this user.
   const canDemote =
-    user.role === GQLUSER_ROLE.MODERATOR &&
-    !!user.moderationScopes?.scoped &&
+    userData.role === GQLUSER_ROLE.MODERATOR &&
+    !!userData.moderationScopes?.scoped &&
     userSites.some((s) => viewerSites.find(({ id }) => s.id === id));
 
   // If the user is a site moderator, staff, or commenter and some of the sites
   // on the viewer are not on the user, then we can promote this user.
   const canPromote =
-    ((user.role === GQLUSER_ROLE.MODERATOR &&
-      !!user.moderationScopes?.scoped) ||
-      user.role === GQLUSER_ROLE.STAFF ||
-      user.role === GQLUSER_ROLE.COMMENTER) &&
+    ((userData.role === GQLUSER_ROLE.MODERATOR &&
+      !!userData.moderationScopes?.scoped) ||
+      userData.role === GQLUSER_ROLE.STAFF ||
+      userData.role === GQLUSER_ROLE.COMMENTER) &&
     uniqueViewerSites.length > 0;
 
   const canPerformActions = canPromote || canDemote;
@@ -134,8 +166,8 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
     return (
       <UserRoleText
         moderationScopesEnabled
-        scoped={!!user.moderationScopes?.scoped}
-        role={user.role}
+        scoped={!!userData.moderationScopes?.scoped}
+        role={userData.role}
       />
     );
   }
@@ -160,12 +192,12 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
                       <Localized
                         id="community-assignYourSitesTo"
                         strong={<ModalHeaderUsername />}
-                        $username={user.username || notAvailableTranslation}
+                        $username={userData.username || notAvailableTranslation}
                       >
                         <ModalHeader>
                           Assign your sites to{" "}
                           <ModalHeaderUsername>
-                            {user.username}
+                            {userData.username}
                           </ModalHeaderUsername>
                         </ModalHeader>
                       </Localized>
@@ -282,7 +314,7 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
                 {canPromote &&
-                  (user.role === GQLUSER_ROLE.MODERATOR ? (
+                  (userData.role === GQLUSER_ROLE.MODERATOR ? (
                     <Localized id="community-assignMySites">
                       <DropdownButton onClick={onPromote}>
                         Assign my sites
@@ -324,8 +356,8 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
               >
                 <UserRoleText
                   moderationScopesEnabled
-                  scoped={!!user.moderationScopes?.scoped}
-                  role={user.role}
+                  scoped={!!userData.moderationScopes?.scoped}
+                  role={userData.role}
                 />
                 <ButtonIcon size="lg">
                   {isPopoverVisible ? "arrow_drop_up" : "arrow_drop_down"}
@@ -339,32 +371,4 @@ const SiteModeratorActions: FunctionComponent<Props> = ({ viewer, user }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment SiteModeratorActions_viewer on User {
-      id
-      moderationScopes {
-        sites {
-          id
-          name
-        }
-      }
-    }
-  `,
-  user: graphql`
-    fragment SiteModeratorActions_user on User {
-      id
-      username
-      role
-      moderationScopes {
-        scoped
-        sites {
-          id
-          name
-        }
-      }
-    }
-  `,
-})(SiteModeratorActions);
-
-export default enhanced;
+export default SiteModeratorActions;

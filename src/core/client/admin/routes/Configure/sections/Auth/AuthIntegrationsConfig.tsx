@@ -13,7 +13,6 @@ interface Props {
   disabled?: boolean;
   auth: PropTypesOf<typeof FacebookConfigContainer>["auth"] &
     PropTypesOf<typeof GoogleConfigContainer>["auth"] &
-    PropTypesOf<typeof SSOConfigContainer>["auth"] &
     PropTypesOf<typeof OIDCConfigContainer>["auth"];
 }
 
@@ -24,7 +23,7 @@ const AuthIntegrationsConfig: FunctionComponent<Props> = ({
   <HorizontalGutter size="double">
     <LocalAuthConfigContainer disabled={disabled} />
     <OIDCConfigContainer disabled={disabled} auth={auth} />
-    <SSOConfigContainer disabled={disabled} auth={auth} />
+    <SSOConfigContainer disabled={disabled} />
     <GoogleConfigContainer disabled={disabled} auth={auth} />
     <FacebookConfigContainer disabled={disabled} auth={auth} />
   </HorizontalGutter>

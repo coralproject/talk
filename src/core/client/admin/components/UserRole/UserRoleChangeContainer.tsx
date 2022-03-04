@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
-import { UserRoleChangeContainer_settings$data as UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
-import { UserRoleChangeContainer_user$data as UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
-import { UserRoleChangeContainer_viewer$data as UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
+import { UserRoleChangeContainer_settings$key as UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
+import { UserRoleChangeContainer_user$key as UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
+import { UserRoleChangeContainer_viewer$key as UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 
 import ButtonPadding from "../ButtonPadding";
 import SiteModeratorActions from "./SiteModeratorActions";
@@ -27,43 +27,83 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const userData = useFragment(
+    graphql`
+      fragment UserRoleChangeContainer_user on User {
+        id
+        username
+        role
+        moderationScopes {
+          scoped
+          sites {
+            id
+            name
+          }
+        }
+        ...SiteModeratorActions_user
+      }
+    `,
+    user
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment UserRoleChangeContainer_viewer on User {
+        id
+        role
+        moderationScopes {
+          scoped
+        }
+        ...SiteModeratorActions_viewer
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment UserRoleChangeContainer_settings on Settings {
+        multisite
+      }
+    `,
+    settings
+  );
+
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const updateUserModerationScopes = useMutation(
     UpdateUserModerationScopesMutation
   );
   const handleOnChangeRole = useCallback(
     async (role: GQLUSER_ROLE_RL) => {
-      if (role === user.role) {
+      if (role === userData.role) {
         // No role change is needed! User already has the selected role.
         return;
       }
 
-      await updateUserRole({ userID: user.id, role });
+      await updateUserRole({ userID: userData.id, role });
     },
-    [user, updateUserRole]
+    [userData, updateUserRole]
   );
   const handleOnChangeModerationScopes = useCallback(
     async (siteIDs: string[]) => {
       await updateUserModerationScopes({
-        userID: user.id,
+        userID: userData.id,
         moderationScopes: { siteIDs },
       });
     },
-    [updateUserModerationScopes, user.id]
+    [updateUserModerationScopes, userData.id]
   );
 
   const canChangeRole =
-    viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
+    viewerData.id !== userData.id && can(viewerData, Ability.CHANGE_ROLE);
 
-  const moderationScopesEnabled = settings.multisite;
+  const moderationScopesEnabled = settingsData.multisite;
 
   const canPromoteDemote =
-    viewer.id !== user.id &&
-    viewer.role === GQLUSER_ROLE.MODERATOR &&
-    !!viewer.moderationScopes?.scoped;
+    viewerData.id !== userData.id &&
+    viewerData.role === GQLUSER_ROLE.MODERATOR &&
+    !!viewerData.moderationScopes?.scoped;
 
   if (canPromoteDemote) {
-    return <SiteModeratorActions viewer={viewer} user={user} />;
+    return <SiteModeratorActions viewer={viewerData} user={userData} />;
   }
 
   if (!canChangeRole) {
@@ -71,8 +111,8 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       <ButtonPadding>
         <UserRoleText
           moderationScopesEnabled={moderationScopesEnabled}
-          scoped={user.moderationScopes?.scoped}
-          role={user.role}
+          scoped={userData.moderationScopes?.scoped}
+          role={userData.role}
         />
       </ButtonPadding>
     );
@@ -80,48 +120,15 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   return (
     <UserRoleChange
-      username={user.username}
+      username={userData.username}
       onChangeRole={handleOnChangeRole}
       onChangeModerationScopes={handleOnChangeModerationScopes}
-      role={user.role}
-      scoped={user.moderationScopes?.scoped}
-      moderationScopes={user.moderationScopes}
+      role={userData.role}
+      scoped={userData.moderationScopes?.scoped}
+      moderationScopes={userData.moderationScopes}
       moderationScopesEnabled={moderationScopesEnabled}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment UserRoleChangeContainer_viewer on User {
-      id
-      role
-      moderationScopes {
-        scoped
-      }
-      ...SiteModeratorActions_viewer
-    }
-  `,
-  user: graphql`
-    fragment UserRoleChangeContainer_user on User {
-      id
-      username
-      role
-      moderationScopes {
-        scoped
-        sites {
-          id
-          name
-        }
-      }
-      ...SiteModeratorActions_user
-    }
-  `,
-  settings: graphql`
-    fragment UserRoleChangeContainer_settings on Settings {
-      multisite
-    }
-  `,
-})(UserRoleChangeContainer);
-
-export default enhanced;
+export default UserRoleChangeContainer;

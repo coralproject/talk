@@ -1,9 +1,7 @@
 import React from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { CommentStreamLiveUpdatesContainer_settings$data as CommentStreamLiveUpdatesContainer_settings } from "coral-admin/__generated__/CommentStreamLiveUpdatesContainer_settings.graphql";
+import { CommentStreamLiveUpdatesContainer_settings$key as CommentStreamLiveUpdatesContainer_settings } from "coral-admin/__generated__/CommentStreamLiveUpdatesContainer_settings.graphql";
 
 import CommentStreamLiveUpdates from "./CommentStreamLiveUpdates";
 
@@ -14,10 +12,23 @@ interface Props {
 
 const CommentStreamLiveUpdatesContainer: React.FunctionComponent<Props> = ({
   disabled,
-  settings: {
-    live: { configurable },
-  },
+  settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment CommentStreamLiveUpdatesContainer_settings on Settings {
+        live {
+          configurable
+        }
+      }
+    `,
+    settings
+  );
+
+  const {
+    live: { configurable },
+  } = settingsData;
+
   if (!configurable) {
     return null;
   }
@@ -25,14 +36,4 @@ const CommentStreamLiveUpdatesContainer: React.FunctionComponent<Props> = ({
   return <CommentStreamLiveUpdates disabled={disabled} />;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment CommentStreamLiveUpdatesContainer_settings on Settings {
-      live {
-        configurable
-      }
-    }
-  `,
-})(CommentStreamLiveUpdatesContainer);
-
-export default enhanced;
+export default CommentStreamLiveUpdatesContainer;

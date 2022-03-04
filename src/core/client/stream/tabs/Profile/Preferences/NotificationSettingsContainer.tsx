@@ -3,10 +3,10 @@ import cn from "classnames";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLDIGEST_FREQUENCY } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
@@ -21,21 +21,41 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { NotificationSettingsContainer_viewer$data as NotificationSettingsContainer_viewer } from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
+import {
+  NotificationSettingsContainer_viewer,
+  NotificationSettingsContainer_viewer$key,
+} from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
 
 import UpdateNotificationSettingsMutation from "./UpdateNotificationSettingsMutation";
 
 import styles from "./NotificationSettingsContainer.css";
 
 interface Props {
-  viewer: NotificationSettingsContainer_viewer;
+  viewer: NotificationSettingsContainer_viewer$key;
 }
 
 type FormProps = NotificationSettingsContainer_viewer["notifications"];
 
 const NotificationSettingsContainer: FunctionComponent<Props> = ({
-  viewer: { notifications },
+  viewer,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment NotificationSettingsContainer_viewer on User {
+        notifications {
+          onReply
+          onFeatured
+          onStaffReplies
+          onModeration
+          digestFrequency
+        }
+      }
+    `,
+    viewer
+  );
+
+  const { notifications } = viewerData;
+
   const mutation = useMutation(UpdateNotificationSettingsMutation);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -272,18 +292,4 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment NotificationSettingsContainer_viewer on User {
-      notifications {
-        onReply
-        onFeatured
-        onStaffReplies
-        onModeration
-        digestFrequency
-      }
-    }
-  `,
-})(NotificationSettingsContainer);
-
-export default enhanced;
+export default NotificationSettingsContainer;

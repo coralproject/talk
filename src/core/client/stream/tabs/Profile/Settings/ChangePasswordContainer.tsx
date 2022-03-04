@@ -1,17 +1,13 @@
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import SetAuthPopupStateMutation from "coral-stream/common/AuthPopup/SetAuthPopupStateMutation";
 import { Popup } from "coral-ui/components/v2";
 
-import { ChangePasswordContainer_settings$data as ChangePasswordContainer_settings } from "coral-stream/__generated__/ChangePasswordContainer_settings.graphql";
+import { ChangePasswordContainer_settings$key as ChangePasswordContainer_settings } from "coral-stream/__generated__/ChangePasswordContainer_settings.graphql";
 import { ChangePasswordContainerLocal } from "coral-stream/__generated__/ChangePasswordContainerLocal.graphql";
 
 import ChangePassword from "./ChangePassword";
@@ -21,6 +17,24 @@ interface Props {
 }
 
 const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ChangePasswordContainer_settings on Settings {
+        auth {
+          integrations {
+            local {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   const [
     {
       authPopup: { open, focus, view },
@@ -50,8 +64,8 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
   }, [setAuthPopupState]);
 
   if (
-    !settings.auth.integrations.local.enabled ||
-    !settings.auth.integrations.local.targetFilter.stream
+    !settingsData.auth.integrations.local.enabled ||
+    !settingsData.auth.integrations.local.targetFilter.stream
   ) {
     return null;
   }
@@ -72,21 +86,4 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ChangePasswordContainer_settings on Settings {
-      auth {
-        integrations {
-          local {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-        }
-      }
-    }
-  `,
-})(ChangePasswordContainer);
-
-export default enhanced;
+export default ChangePasswordContainer;

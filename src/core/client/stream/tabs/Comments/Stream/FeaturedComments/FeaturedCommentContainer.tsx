@@ -1,12 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, MouseEvent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation } from "coral-framework/lib/relay";
-import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
@@ -23,10 +22,10 @@ import {
 } from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
 
-import { FeaturedCommentContainer_comment$data as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
-import { FeaturedCommentContainer_settings$data as SettingsData } from "coral-stream/__generated__/FeaturedCommentContainer_settings.graphql";
-import { FeaturedCommentContainer_story$data as StoryData } from "coral-stream/__generated__/FeaturedCommentContainer_story.graphql";
-import { FeaturedCommentContainer_viewer$data as ViewerData } from "coral-stream/__generated__/FeaturedCommentContainer_viewer.graphql";
+import { FeaturedCommentContainer_comment$key as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
+import { FeaturedCommentContainer_settings$key as SettingsData } from "coral-stream/__generated__/FeaturedCommentContainer_settings.graphql";
+import { FeaturedCommentContainer_story$key as StoryData } from "coral-stream/__generated__/FeaturedCommentContainer_story.graphql";
+import { FeaturedCommentContainer_viewer$key as ViewerData } from "coral-stream/__generated__/FeaturedCommentContainer_viewer.graphql";
 
 import { UserTagsContainer } from "../../Comment";
 import MediaSectionContainer from "../../Comment/MediaSection";
@@ -43,20 +42,103 @@ interface Props {
   settings: SettingsData;
 }
 
-const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
-  const { comment, settings, story, viewer } = props;
+const FeaturedCommentContainer: FunctionComponent<Props> = ({
+  viewer,
+  comment,
+  story,
+  settings,
+}) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment FeaturedCommentContainer_viewer on User {
+        id
+        status {
+          current
+        }
+        ignoredUsers {
+          id
+        }
+        mediaSettings {
+          unfurlEmbeds
+        }
+        role
+        ...UsernameWithPopoverContainer_viewer
+        ...ReactionButtonContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
+      }
+    `,
+    viewer
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment FeaturedCommentContainer_story on Story {
+        url
+        commentCounts {
+          tags {
+            FEATURED
+          }
+        }
+        settings {
+          mode
+        }
+        isArchiving
+        isArchived
+        ...UserTagsContainer_story
+      }
+    `,
+    story
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment FeaturedCommentContainer_comment on Comment {
+        id
+        author {
+          id
+          username
+        }
+        parent {
+          author {
+            username
+          }
+        }
+        rating
+        body
+        createdAt
+        lastViewerAction
+        replyCount
+        ...UsernameWithPopoverContainer_comment
+        ...ReactionButtonContainer_comment
+        ...MediaSectionContainer_comment
+        ...UserTagsContainer_comment
+        ...IgnoredTombstoneOrHideContainer_comment
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment FeaturedCommentContainer_settings on Settings {
+        ...ReactionButtonContainer_settings
+        ...UserTagsContainer_settings
+        ...MediaSectionContainer_settings
+        ...UsernameWithPopoverContainer_settings
+      }
+    `,
+    settings
+  );
+
   const setCommentID = useMutation(SetCommentIDMutation);
-  const isViewerBanned = !!viewer?.status.current.includes(
+  const isViewerBanned = !!viewerData?.status.current.includes(
     GQLUSER_STATUS.BANNED
   );
-  const isViewerSuspended = !!viewer?.status.current.includes(
+  const isViewerSuspended = !!viewerData?.status.current.includes(
     GQLUSER_STATUS.SUSPENDED
   );
-  const isViewerWarned = !!viewer?.status.current.includes(
+  const isViewerWarned = !!viewerData?.status.current.includes(
     GQLUSER_STATUS.WARNED
   );
   const isRatingsAndReviews =
-    story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+    storyData.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
   const onGotoConversation = useCallback(
@@ -64,44 +146,44 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
       e.preventDefault();
       emitViewConversationEvent({
         from: "FEATURED_COMMENTS",
-        commentID: comment.id,
+        commentID: commentData.id,
       });
-      void setCommentID({ id: comment.id });
+      void setCommentID({ id: commentData.id });
       return false;
     },
-    [emitViewConversationEvent, comment.id, setCommentID]
+    [emitViewConversationEvent, commentData.id, setCommentID]
   );
 
   return (
-    <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
+    <IgnoredTombstoneOrHideContainer viewer={viewerData} comment={commentData}>
       <article
         className={cn(CLASSES.featuredComment.$root, styles.root)}
-        data-testid={`featuredComment-${comment.id}`}
-        aria-labelledby={`featuredComment-${comment.id}-label`}
+        data-testid={`featuredComment-${commentData.id}`}
+        aria-labelledby={`featuredComment-${commentData.id}-label`}
       >
         <Localized
           id="comments-featured-label"
-          RelativeTime={<RelativeTime date={comment.createdAt} />}
-          $username={comment.author?.username || ""}
+          RelativeTime={<RelativeTime date={commentData.createdAt} />}
+          $username={commentData.author?.username || ""}
         >
-          <Hidden id={`featuredComment-${comment.id}-label`}>
-            Featured Comment from {comment.author?.username} {` `}
-            <RelativeTime date={comment.createdAt} />
+          <Hidden id={`featuredComment-${commentData.id}-label`}>
+            Featured Comment from {commentData.author?.username} {` `}
+            <RelativeTime date={commentData.createdAt} />
           </Hidden>
         </Localized>
         <HorizontalGutter>
-          {isRatingsAndReviews && comment.rating && (
-            <StarRating rating={comment.rating} />
+          {isRatingsAndReviews && commentData.rating && (
+            <StarRating rating={commentData.rating} />
           )}
           <HTMLContent
             className={cn(styles.body, CLASSES.featuredComment.content)}
           >
-            {comment.body || ""}
+            {commentData.body || ""}
           </HTMLContent>
           <MediaSectionContainer
-            comment={comment}
-            settings={settings}
-            defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
+            comment={commentData}
+            settings={settingsData}
+            defaultExpanded={viewerData?.mediaSettings?.unfurlEmbeds}
           />
         </HorizontalGutter>
         <Flex
@@ -110,26 +192,26 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
           mt={3}
           className={CLASSES.featuredComment.authorBar.$root}
         >
-          {comment.author && (
+          {commentData.author && (
             <UsernameWithPopoverContainer
               className={CLASSES.featuredComment.authorBar.username}
               usernameClassName={styles.username}
-              comment={comment}
-              viewer={viewer}
-              settings={settings}
+              comment={commentData}
+              viewer={viewerData}
+              settings={settingsData}
             />
           )}
           <Box ml={1} container="span">
             <UserTagsContainer
               className={CLASSES.featuredComment.authorBar.userTag}
-              story={story}
-              comment={comment}
-              settings={settings}
+              story={storyData}
+              comment={commentData}
+              settings={settingsData}
             />
           </Box>
           <Box ml={2}>
             <Timestamp className={CLASSES.featuredComment.authorBar.timestamp}>
-              {comment.createdAt}
+              {commentData.createdAt}
             </Timestamp>
           </Box>
         </Flex>
@@ -139,21 +221,21 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
           className={CLASSES.featuredComment.actionBar.$root}
         >
           <ReactionButtonContainer
-            comment={comment}
-            settings={settings}
-            viewer={viewer}
+            comment={commentData}
+            settings={settingsData}
+            viewer={viewerData}
             readOnly={
               isViewerBanned ||
               isViewerSuspended ||
               isViewerWarned ||
-              story.isArchived ||
-              story.isArchiving
+              storyData.isArchived ||
+              storyData.isArchiving
             }
             className={CLASSES.featuredComment.actionBar.reactButton}
             reactedClassName={CLASSES.featuredComment.actionBar.reactedButton}
           />
           <Flex alignItems="center">
-            {comment.replyCount > 0 && (
+            {commentData.replyCount > 0 && (
               <Flex
                 alignItems="center"
                 className={cn(
@@ -165,7 +247,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                 <Localized id="comments-featured-replies">
                   <Box mx={1}>Replies</Box>
                 </Localized>
-                <Box>{comment.replyCount}</Box>
+                <Box>{commentData.replyCount}</Box>
               </Flex>
             )}
             <Flex alignItems="center">
@@ -179,7 +261,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                 color="none"
                 paddingSize="none"
                 onClick={onGotoConversation}
-                href={getURLWithCommentID(story.url, comment.id)}
+                href={getURLWithCommentID(storyData.url, commentData.id)}
               >
                 <Icon size="sm" className={styles.icon}>
                   forum
@@ -196,73 +278,4 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment FeaturedCommentContainer_viewer on User {
-      id
-      status {
-        current
-      }
-      ignoredUsers {
-        id
-      }
-      mediaSettings {
-        unfurlEmbeds
-      }
-      role
-      ...UsernameWithPopoverContainer_viewer
-      ...ReactionButtonContainer_viewer
-      ...IgnoredTombstoneOrHideContainer_viewer
-    }
-  `,
-  story: graphql`
-    fragment FeaturedCommentContainer_story on Story {
-      url
-      commentCounts {
-        tags {
-          FEATURED
-        }
-      }
-      settings {
-        mode
-      }
-      isArchiving
-      isArchived
-      ...UserTagsContainer_story
-    }
-  `,
-  comment: graphql`
-    fragment FeaturedCommentContainer_comment on Comment {
-      id
-      author {
-        id
-        username
-      }
-      parent {
-        author {
-          username
-        }
-      }
-      rating
-      body
-      createdAt
-      lastViewerAction
-      replyCount
-      ...UsernameWithPopoverContainer_comment
-      ...ReactionButtonContainer_comment
-      ...MediaSectionContainer_comment
-      ...UserTagsContainer_comment
-      ...IgnoredTombstoneOrHideContainer_comment
-    }
-  `,
-  settings: graphql`
-    fragment FeaturedCommentContainer_settings on Settings {
-      ...ReactionButtonContainer_settings
-      ...UserTagsContainer_settings
-      ...MediaSectionContainer_settings
-      ...UsernameWithPopoverContainer_settings
-    }
-  `,
-})(FeaturedCommentContainer);
-
-export default enhanced;
+export default FeaturedCommentContainer;

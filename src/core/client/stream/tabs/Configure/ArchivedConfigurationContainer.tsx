@@ -1,13 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 import { Button } from "coral-ui/components/v3/Button/Button";
 
-import { ArchivedConfigurationContainer_story$data as ArchivedConfigurationContainer_story } from "coral-stream/__generated__/ArchivedConfigurationContainer_story.graphql";
+import { ArchivedConfigurationContainer_story$key as ArchivedConfigurationContainer_story } from "coral-stream/__generated__/ArchivedConfigurationContainer_story.graphql";
 
 import UnarchiveStoriesMutation from "./UnarchiveStoriesMutation";
 
@@ -20,10 +20,19 @@ interface Props {
 const ArchivedConfigurationContainer: FunctionComponent<Props> = ({
   story,
 }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment ArchivedConfigurationContainer_story on Story {
+        id
+      }
+    `,
+    story
+  );
+
   const unarchiveStories = useMutation(UnarchiveStoriesMutation);
   const unarchiveStory = useCallback(() => {
-    void unarchiveStories({ storyIDs: [story.id] });
-  }, [story.id, unarchiveStories]);
+    void unarchiveStories({ storyIDs: [storyData.id] });
+  }, [storyData.id, unarchiveStories]);
 
   return (
     <div className={styles.root}>
@@ -74,12 +83,4 @@ const ArchivedConfigurationContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment ArchivedConfigurationContainer_story on Story {
-      id
-    }
-  `,
-})(ArchivedConfigurationContainer);
-
-export default enhanced;
+export default ArchivedConfigurationContainer;

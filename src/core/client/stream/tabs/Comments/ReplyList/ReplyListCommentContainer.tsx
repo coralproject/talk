@@ -1,15 +1,14 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { ReplyListCommentContainer_comment$data as ReplyListCommentContainer_comment } from "coral-stream/__generated__/ReplyListCommentContainer_comment.graphql";
-import { ReplyListCommentContainer_settings$data as ReplyListCommentContainer_settings } from "coral-stream/__generated__/ReplyListCommentContainer_settings.graphql";
-import { ReplyListCommentContainer_story$data as ReplyListCommentContainer_story } from "coral-stream/__generated__/ReplyListCommentContainer_story.graphql";
-import { ReplyListCommentContainer_viewer$data as ReplyListCommentContainer_viewer } from "coral-stream/__generated__/ReplyListCommentContainer_viewer.graphql";
+import { ReplyListCommentContainer_comment$key as ReplyListCommentContainer_comment } from "coral-stream/__generated__/ReplyListCommentContainer_comment.graphql";
+import { ReplyListCommentContainer_settings$key as ReplyListCommentContainer_settings } from "coral-stream/__generated__/ReplyListCommentContainer_settings.graphql";
+import { ReplyListCommentContainer_story$key as ReplyListCommentContainer_story } from "coral-stream/__generated__/ReplyListCommentContainer_story.graphql";
+import { ReplyListCommentContainer_viewer$key as ReplyListCommentContainer_viewer } from "coral-stream/__generated__/ReplyListCommentContainer_viewer.graphql";
 
 import CollapsableComment from "../Comment/CollapsableComment";
 import CommentContainer from "../Comment/CommentContainer";
@@ -49,12 +48,51 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
   showConversationLink,
   replyListElement,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment ReplyListCommentContainer_viewer on User {
+        ...CommentContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
+      }
+    `,
+    viewer
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment ReplyListCommentContainer_story on Story {
+        ...CommentContainer_story
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ReplyListCommentContainer_settings on Settings {
+        ...CommentContainer_settings
+        flattenReplies
+        featureFlags
+      }
+    `,
+    settings
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment ReplyListCommentContainer_comment on Comment {
+        enteredLive
+        ...CommentContainer_comment
+        ...IgnoredTombstoneOrHideContainer_comment
+        ...DeletedTombstoneContainer_comment
+      }
+    `,
+    comment
+  );
+
   const commentSeenEnabled = useCommentSeenEnabled();
   return (
-    <FadeInTransition active={Boolean(comment.enteredLive)}>
+    <FadeInTransition active={Boolean(commentData.enteredLive)}>
       <IgnoredTombstoneOrHideContainer
-        viewer={viewer}
-        comment={comment}
+        viewer={viewerData}
+        comment={commentData}
         allowTombstoneReveal={allowIgnoredTombstoneReveal}
         disableHide={disableHideIgnoredTombstone}
       >
@@ -62,18 +100,18 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
           <CollapsableComment>
             {({ collapsed, toggleCollapsed }) => {
               const collapseEnabled = !isReplyFlattened(
-                settings.flattenReplies,
+                settingsData.flattenReplies,
                 indentLevel
               );
               return (
                 <>
-                  <DeletedTombstoneContainer comment={comment}>
+                  <DeletedTombstoneContainer comment={commentData}>
                     <CommentContainer
-                      viewer={viewer}
-                      comment={comment}
-                      story={story}
+                      viewer={viewerData}
+                      comment={commentData}
+                      story={storyData}
                       collapsed={collapsed && collapseEnabled}
-                      settings={settings}
+                      settings={settingsData}
                       indentLevel={indentLevel}
                       localReply={localReply}
                       disableReplies={disableReplies}
@@ -101,33 +139,4 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment ReplyListCommentContainer_viewer on User {
-      ...CommentContainer_viewer
-      ...IgnoredTombstoneOrHideContainer_viewer
-    }
-  `,
-  story: graphql`
-    fragment ReplyListCommentContainer_story on Story {
-      ...CommentContainer_story
-    }
-  `,
-  settings: graphql`
-    fragment ReplyListCommentContainer_settings on Settings {
-      ...CommentContainer_settings
-      flattenReplies
-      featureFlags
-    }
-  `,
-  comment: graphql`
-    fragment ReplyListCommentContainer_comment on Comment {
-      enteredLive
-      ...CommentContainer_comment
-      ...IgnoredTombstoneOrHideContainer_comment
-      ...DeletedTombstoneContainer_comment
-    }
-  `,
-})(ReplyListCommentContainer);
-
-export default enhanced;
+export default ReplyListCommentContainer;

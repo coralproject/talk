@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { formatBool, parseStringBool } from "coral-framework/lib/form";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   FieldSet,
   FormField,
@@ -12,7 +11,7 @@ import {
 } from "coral-ui/components/v2";
 import { Link } from "coral-ui/components/v3";
 
-import { PreModerationConfigContainer_settings$data as PreModerationConfigContainer_settings } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
+import { PreModerationConfigContainer_settings$key as PreModerationConfigContainer_settings } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -46,6 +45,15 @@ const PreModerationConfigContainer: FunctionComponent<Props> = ({
   disabled,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment PreModerationConfigContainer_settings on Settings {
+        multisite
+      }
+    `,
+    settings
+  );
+
   return (
     <ConfigBox
       id="Comments"
@@ -66,7 +74,7 @@ const PreModerationConfigContainer: FunctionComponent<Props> = ({
         <Localized id="configure-moderation-preModeration-moderation">
           <Label component="legend">Pre-moderate all comments</Label>
         </Localized>
-        {settings.multisite ? (
+        {settingsData.multisite ? (
           <PreModerateAllCommentsConfig disabled={disabled} />
         ) : (
           <OnOffField
@@ -106,12 +114,4 @@ const PreModerationConfigContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment PreModerationConfigContainer_settings on Settings {
-      multisite
-    }
-  `,
-})(PreModerationConfigContainer);
-
-export default enhanced;
+export default PreModerationConfigContainer;

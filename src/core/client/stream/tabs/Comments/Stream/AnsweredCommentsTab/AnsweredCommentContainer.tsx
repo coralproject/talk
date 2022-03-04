@@ -1,12 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, MouseEvent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation } from "coral-framework/lib/relay";
-import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
@@ -21,10 +20,10 @@ import {
   TextLink,
 } from "coral-ui/components/v2";
 
-import { AnsweredCommentContainer_comment$data as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
-import { AnsweredCommentContainer_settings$data as SettingsData } from "coral-stream/__generated__/AnsweredCommentContainer_settings.graphql";
-import { AnsweredCommentContainer_story$data as StoryData } from "coral-stream/__generated__/AnsweredCommentContainer_story.graphql";
-import { AnsweredCommentContainer_viewer$data as ViewerData } from "coral-stream/__generated__/AnsweredCommentContainer_viewer.graphql";
+import { AnsweredCommentContainer_comment$key as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
+import { AnsweredCommentContainer_settings$key as SettingsData } from "coral-stream/__generated__/AnsweredCommentContainer_settings.graphql";
+import { AnsweredCommentContainer_story$key as StoryData } from "coral-stream/__generated__/AnsweredCommentContainer_story.graphql";
+import { AnsweredCommentContainer_viewer$key as ViewerData } from "coral-stream/__generated__/AnsweredCommentContainer_viewer.graphql";
 
 import { CommentContainer, UserTagsContainer } from "../../Comment";
 import MediaSectionContainer from "../../Comment/MediaSection/MediaSectionContainer";
@@ -41,16 +40,94 @@ interface Props {
   settings: SettingsData;
 }
 
-const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
-  const { comment, settings, story, viewer } = props;
+const AnsweredCommentContainer: FunctionComponent<Props> = ({
+  viewer,
+  comment,
+  story,
+  settings,
+}) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment AnsweredCommentContainer_viewer on User {
+        id
+        status {
+          current
+        }
+        ignoredUsers {
+          id
+        }
+        role
+        mediaSettings {
+          unfurlEmbeds
+        }
+        ...UsernameWithPopoverContainer_viewer
+        ...ReactionButtonContainer_viewer
+        ...CommentContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
+      }
+    `,
+    viewer
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment AnsweredCommentContainer_story on Story {
+        url
+        isArchiving
+        isArchived
+        ...UserTagsContainer_story
+        ...CommentContainer_story
+      }
+    `,
+    story
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment AnsweredCommentContainer_comment on Comment {
+        id
+        author {
+          id
+          username
+        }
+        parent {
+          author {
+            username
+          }
+          ...CommentContainer_comment
+        }
+        body
+        createdAt
+        lastViewerAction
+        replyCount
+        ...MediaSectionContainer_comment
+        ...UsernameWithPopoverContainer_comment
+        ...ReactionButtonContainer_comment
+        ...UserTagsContainer_comment
+        ...IgnoredTombstoneOrHideContainer_comment
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment AnsweredCommentContainer_settings on Settings {
+        ...ReactionButtonContainer_settings
+        ...UserTagsContainer_settings
+        ...CommentContainer_settings
+        ...MediaSectionContainer_settings
+        ...UsernameWithPopoverContainer_settings
+      }
+    `,
+    settings
+  );
+
   const setCommentID = useMutation(SetCommentIDMutation);
-  const isViewerBanned = !!viewer?.status.current.includes(
+  const isViewerBanned = !!viewerData?.status.current.includes(
     GQLUSER_STATUS.BANNED
   );
-  const isViewerSuspended = !!viewer?.status.current.includes(
+  const isViewerSuspended = !!viewerData?.status.current.includes(
     GQLUSER_STATUS.SUSPENDED
   );
-  const isViewerWarned = !!viewer?.status.current.includes(
+  const isViewerWarned = !!viewerData?.status.current.includes(
     GQLUSER_STATUS.WARNED
   );
   const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
@@ -59,22 +136,22 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
       e.preventDefault();
       emitViewConversationEvent({
         from: "FEATURED_COMMENTS",
-        commentID: comment.id,
+        commentID: commentData.id,
       });
-      void setCommentID({ id: comment.id });
+      void setCommentID({ id: commentData.id });
       return false;
     },
-    [emitViewConversationEvent, comment.id, setCommentID]
+    [emitViewConversationEvent, commentData.id, setCommentID]
   );
 
   return (
-    <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
-      {comment.parent && (
+    <IgnoredTombstoneOrHideContainer viewer={viewerData} comment={commentData}>
+      {commentData.parent && (
         <CommentContainer
-          viewer={props.viewer}
-          settings={props.settings}
-          comment={comment.parent}
-          story={props.story}
+          viewer={viewerData}
+          settings={settingsData}
+          comment={commentData.parent}
+          story={storyData}
           hideAnsweredTag
           hideReportButton
           hideModerationCarat
@@ -84,18 +161,18 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
       )}
       <article
         className={cn(CLASSES.featuredComment.$root, styles.root)}
-        data-testid={`commentAnswer-${comment.id}`}
-        aria-labelledby={`commentAnswerLabel-${comment.id}`}
-        id={`commentAnswer-${comment.id}`}
+        data-testid={`commentAnswer-${commentData.id}`}
+        aria-labelledby={`commentAnswerLabel-${commentData.id}`}
+        id={`commentAnswer-${commentData.id}`}
       >
         <Localized
           id="qa-answered-answerLabel"
-          RelativeTime={<RelativeTime date={comment.createdAt} />}
-          $username={comment.author?.username || ""}
+          RelativeTime={<RelativeTime date={commentData.createdAt} />}
+          $username={commentData.author?.username || ""}
         >
-          <Hidden id={`commentAnswerLabel-${comment.id}`}>
-            Answer from {comment.author?.username} {` `}
-            <RelativeTime date={comment.createdAt} />
+          <Hidden id={`commentAnswerLabel-${commentData.id}`}>
+            Answer from {commentData.author?.username} {` `}
+            <RelativeTime date={commentData.createdAt} />
           </Hidden>
         </Localized>
         <Flex
@@ -104,23 +181,23 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
           mt={4}
           className={CLASSES.featuredComment.authorBar.$root}
         >
-          {comment.author && (
+          {commentData.author && (
             <UsernameWithPopoverContainer
               className={cn(
                 CLASSES.featuredComment.authorBar.username,
                 styles.username
               )}
-              comment={comment}
-              viewer={viewer}
-              settings={settings}
+              comment={commentData}
+              viewer={viewerData}
+              settings={settingsData}
             />
           )}
           <Flex alignItems="flex-start" justifyContent="center">
             <UserTagsContainer
               className={CLASSES.featuredComment.authorBar.userTag}
-              story={story}
-              comment={comment}
-              settings={settings}
+              story={storyData}
+              comment={commentData}
+              settings={settingsData}
             />
             <Timestamp
               className={cn(
@@ -128,17 +205,17 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
                 styles.timestamp
               )}
             >
-              {comment.createdAt}
+              {commentData.createdAt}
             </Timestamp>
           </Flex>
         </Flex>
         <HTMLContent className={CLASSES.featuredComment.content}>
-          {comment.body || ""}
+          {commentData.body || ""}
         </HTMLContent>
         <MediaSectionContainer
-          comment={comment}
-          settings={settings}
-          defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
+          comment={commentData}
+          settings={settingsData}
+          defaultExpanded={viewerData?.mediaSettings?.unfurlEmbeds}
         />
         <Flex
           justifyContent="space-between"
@@ -146,22 +223,22 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
           className={CLASSES.featuredComment.actionBar.$root}
         >
           <ReactionButtonContainer
-            comment={comment}
-            settings={settings}
-            viewer={viewer}
+            comment={commentData}
+            settings={settingsData}
+            viewer={viewerData}
             readOnly={
               isViewerBanned ||
               isViewerSuspended ||
               isViewerWarned ||
-              story.isArchived ||
-              story.isArchiving
+              storyData.isArchived ||
+              storyData.isArchiving
             }
             className={CLASSES.featuredComment.actionBar.reactButton}
             reactedClassName={CLASSES.featuredComment.actionBar.reactedButton}
             isQA
           />
           <Flex alignItems="center">
-            {comment.replyCount > 0 && (
+            {commentData.replyCount > 0 && (
               <Flex alignItems="center" className={styles.replies}>
                 <Flex
                   alignItems="center"
@@ -171,7 +248,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
                   <Localized id="qa-answered-replies">
                     <span className={styles.repliesText}>Replies</span>
                   </Localized>
-                  <span>{comment.replyCount}</span>
+                  <span>{commentData.replyCount}</span>
                 </Flex>
                 <span className={styles.repliesDivider}>|</span>
               </Flex>
@@ -183,7 +260,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
                   styles.gotoConversation
                 )}
                 onClick={onGotoConversation}
-                href={getURLWithCommentID(story.url, comment.id)}
+                href={getURLWithCommentID(storyData.url, commentData.id)}
               >
                 <Localized id="qa-answered-gotoConversation">
                   <span>Go to Conversation</span>
@@ -198,68 +275,4 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment AnsweredCommentContainer_viewer on User {
-      id
-      status {
-        current
-      }
-      ignoredUsers {
-        id
-      }
-      role
-      mediaSettings {
-        unfurlEmbeds
-      }
-      ...UsernameWithPopoverContainer_viewer
-      ...ReactionButtonContainer_viewer
-      ...CommentContainer_viewer
-      ...IgnoredTombstoneOrHideContainer_viewer
-    }
-  `,
-  story: graphql`
-    fragment AnsweredCommentContainer_story on Story {
-      url
-      isArchiving
-      isArchived
-      ...UserTagsContainer_story
-      ...CommentContainer_story
-    }
-  `,
-  comment: graphql`
-    fragment AnsweredCommentContainer_comment on Comment {
-      id
-      author {
-        id
-        username
-      }
-      parent {
-        author {
-          username
-        }
-        ...CommentContainer_comment
-      }
-      body
-      createdAt
-      lastViewerAction
-      replyCount
-      ...MediaSectionContainer_comment
-      ...UsernameWithPopoverContainer_comment
-      ...ReactionButtonContainer_comment
-      ...UserTagsContainer_comment
-      ...IgnoredTombstoneOrHideContainer_comment
-    }
-  `,
-  settings: graphql`
-    fragment AnsweredCommentContainer_settings on Settings {
-      ...ReactionButtonContainer_settings
-      ...UserTagsContainer_settings
-      ...CommentContainer_settings
-      ...MediaSectionContainer_settings
-      ...UsernameWithPopoverContainer_settings
-    }
-  `,
-})(AnsweredCommentContainer);
-
-export default enhanced;
+export default AnsweredCommentContainer;

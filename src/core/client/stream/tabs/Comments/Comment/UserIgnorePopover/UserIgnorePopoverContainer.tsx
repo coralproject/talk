@@ -1,14 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Box, Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { UserIgnorePopoverContainer_user$data as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
+import { UserIgnorePopoverContainer_user$key as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
 
 import IgnoreUserMutation from "./IgnoreUserMutation";
 
@@ -23,18 +23,28 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
   user,
   onDismiss,
 }) => {
+  const userData = useFragment(
+    graphql`
+      fragment UserIgnorePopoverContainer_user on User {
+        id
+        username
+      }
+    `,
+    user
+  );
+
   const ignoreUser = useMutation(IgnoreUserMutation);
   const onIgnore = useCallback(() => {
-    void ignoreUser({ userID: user.id });
+    void ignoreUser({ userID: userData.id });
     onDismiss();
-  }, [user.id, ignoreUser]);
+  }, [ignoreUser, userData.id, onDismiss]);
   return (
     <Box p={3} className={cn(styles.root, CLASSES.ignoreUserPopover.$root)}>
       <Localized
         id="comments-userIgnorePopover-ignoreUser"
-        $username={user.username}
+        $username={userData.username}
       >
-        <div className={styles.title}>Ignore {user.username}?</div>
+        <div className={styles.title}>Ignore {userData.username}?</div>
       </Localized>
       <Localized id="comments-userIgnorePopover-description">
         <div className={styles.description}>
@@ -74,13 +84,4 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment UserIgnorePopoverContainer_user on User {
-      id
-      username
-    }
-  `,
-})(UserIgnorePopoverContainer);
-
-export default enhanced;
+export default UserIgnorePopoverContainer;

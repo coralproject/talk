@@ -1,12 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Tombstone } from "coral-ui/components/v3";
 
-import { RejectedTombstoneContainer_comment$data as RejectedTombstoneContainer_comment } from "coral-stream/__generated__/RejectedTombstoneContainer_comment.graphql";
+import { RejectedTombstoneContainer_comment$key as RejectedTombstoneContainer_comment } from "coral-stream/__generated__/RejectedTombstoneContainer_comment.graphql";
 
 interface Props {
   comment: RejectedTombstoneContainer_comment;
@@ -17,8 +16,21 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({
   comment,
   children,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment RejectedTombstoneContainer_comment on Comment {
+        status
+        lastViewerAction
+      }
+    `,
+    comment
+  );
+
   // Comment is not published after viewer rejected it.
-  if (comment.status !== "REJECTED" || comment.lastViewerAction === "REJECT") {
+  if (
+    commentData.status !== "REJECTED" ||
+    commentData.lastViewerAction === "REJECT"
+  ) {
     return <>{children}</>;
   }
   return (
@@ -31,13 +43,4 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment RejectedTombstoneContainer_comment on Comment {
-      status
-      lastViewerAction
-    }
-  `,
-})(RejectedTombstoneContainer);
-
-export default enhanced;
+export default RejectedTombstoneContainer;

@@ -1,18 +1,17 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import { Flex, Marker, Tag } from "coral-ui/components/v2";
 
 import {
-  AutomatedActionsContainer_comment,
+  AutomatedActionsContainer_comment$key as AutomatedActionsContainer_comment,
   COMMENT_FLAG_REASON,
   COMMENT_STATUS,
 } from "coral-admin/__generated__/AutomatedActionsContainer_comment.graphql";
-import { AutomatedActionsContainer_settings$data as AutomatedActionsContainer_settings } from "coral-admin/__generated__/AutomatedActionsContainer_settings.graphql";
+import { AutomatedActionsContainer_settings$key as AutomatedActionsContainer_settings } from "coral-admin/__generated__/AutomatedActionsContainer_settings.graphql";
 
 import FlagDetailsCategory from "./FlagDetailsCategory";
 import ToxicityLabel from "./ToxicityLabel";
@@ -92,15 +91,60 @@ const AutomatedActionsContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment AutomatedActionsContainer_comment on Comment {
+        revision {
+          metadata {
+            perspective {
+              score
+            }
+            externalModeration {
+              name
+              analyzedAt
+              result {
+                status
+                tags
+                actions {
+                  reason
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment AutomatedActionsContainer_settings on Settings {
+        integrations {
+          perspective {
+            threshold
+          }
+          external {
+            phases {
+              name
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   const externalModerations =
-    comment.revision?.metadata?.externalModeration?.map((em) => {
+    commentData.revision?.metadata?.externalModeration?.map((em) => {
       return { ...em, missing: false };
     }) || [];
 
   const missingPhases = (
-    settings.integrations?.external?.phases?.filter((p) => {
-      return !externalModerations.find((em) => em.name === p.name);
-    }) || []
+    settingsData.integrations?.external?.phases?.filter(
+      (p: { name: string }) => {
+        return !externalModerations.find((em) => em.name === p.name);
+      }
+    ) || []
   ).map((p) => {
     return {
       name: p.name,
@@ -117,9 +161,9 @@ const AutomatedActionsContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      {comment.revision &&
-        comment.revision.metadata &&
-        comment.revision.metadata.perspective && (
+      {commentData.revision &&
+        commentData.revision.metadata &&
+        commentData.revision.metadata.perspective && (
           <FlagDetailsCategory
             category={
               <Localized id="moderate-flagDetails-toxicityScore">
@@ -128,9 +172,9 @@ const AutomatedActionsContainer: FunctionComponent<Props> = ({
             }
           >
             <ToxicityLabel
-              score={comment.revision.metadata.perspective.score}
+              score={commentData.revision.metadata.perspective.score}
               threshold={
-                settings.integrations.perspective.threshold ||
+                settingsData.integrations.perspective.threshold ||
                 TOXICITY_THRESHOLD_DEFAULT / 100
               }
             />
@@ -193,43 +237,4 @@ const AutomatedActionsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment AutomatedActionsContainer_comment on Comment {
-      revision {
-        metadata {
-          perspective {
-            score
-          }
-          externalModeration {
-            name
-            analyzedAt
-            result {
-              status
-              tags
-              actions {
-                reason
-              }
-            }
-          }
-        }
-      }
-    }
-  `,
-  settings: graphql`
-    fragment AutomatedActionsContainer_settings on Settings {
-      integrations {
-        perspective {
-          threshold
-        }
-        external {
-          phases {
-            name
-          }
-        }
-      }
-    }
-  `,
-})(AutomatedActionsContainer);
-
-export default enhanced;
+export default AutomatedActionsContainer;

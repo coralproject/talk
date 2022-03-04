@@ -1,16 +1,16 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { DeletionRequestCalloutContainer_viewer$data as DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
+import { DeletionRequestCalloutContainer_viewer$key as DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
 
 import styles from "./DeletionRequestCalloutContainer.css";
 
@@ -21,6 +21,15 @@ interface Props {
 const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment DeletionRequestCalloutContainer_viewer on User {
+        scheduledDeletionDate
+      }
+    `,
+    viewer
+  );
+
   const cancelDeletionMutation = useMutation(CancelAccountDeletionMutation);
   const cancelDeletion = useCallback(() => {
     void cancelDeletionMutation();
@@ -37,13 +46,13 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
 
   const deletionDate = useMemo(
     () =>
-      viewer.scheduledDeletionDate
-        ? formatter(viewer.scheduledDeletionDate)
+      viewerData.scheduledDeletionDate
+        ? formatter(viewerData.scheduledDeletionDate)
         : null,
-    [viewer, formatter]
+    [viewerData, formatter]
   );
 
-  if (!viewer.scheduledDeletionDate) {
+  if (!viewerData.scheduledDeletionDate) {
     return null;
   }
 
@@ -94,12 +103,4 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment DeletionRequestCalloutContainer_viewer on User {
-      scheduledDeletionDate
-    }
-  `,
-})(DeletionRequestCalloutContainer);
-
-export default enhanced;
+export default DeletionRequestCalloutContainer;

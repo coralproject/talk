@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { StoryRowContainer_story$data as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
+import { StoryRowContainer_story$key as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
 
 import StoryRow from "./StoryRow";
 
@@ -14,7 +13,44 @@ interface Props {
   onOpenInfoDrawer: () => void;
 }
 
-const StoryRowContainer: FunctionComponent<Props> = (props) => {
+const StoryRowContainer: FunctionComponent<Props> = ({
+  story,
+  multisite,
+  onOpenInfoDrawer,
+}) => {
+  const storyData = useFragment(
+    graphql`
+      fragment StoryRowContainer_story on Story {
+        id
+        metadata {
+          title
+          author
+          publishedAt
+        }
+        commentCounts {
+          totalPublished
+        }
+        moderationQueues {
+          reported {
+            count
+          }
+          pending {
+            count
+          }
+        }
+        viewerCount
+        site {
+          name
+          id
+        }
+        canModerate
+        isClosed
+        ...StoryStatusContainer_story
+      }
+    `,
+    story
+  );
+
   const formatter = useDateTimeFormatter({
     day: "2-digit",
     month: "2-digit",
@@ -24,69 +60,37 @@ const StoryRowContainer: FunctionComponent<Props> = (props) => {
     minute: "2-digit",
   });
 
-  const title = props.story.metadata && props.story.metadata.title;
-  const author = props.story.metadata && props.story.metadata.author;
+  const title = storyData.metadata && storyData.metadata.title;
+  const author = storyData.metadata && storyData.metadata.author;
   const publishedAt = useMemo(() => {
-    if (!props.story.metadata || !props.story.metadata.publishedAt) {
+    if (!storyData.metadata || !storyData.metadata.publishedAt) {
       return null;
     }
 
-    return formatter(props.story.metadata.publishedAt);
-  }, [props.story, formatter]);
+    return formatter(storyData.metadata.publishedAt);
+  }, [storyData, formatter]);
 
   // A story is readOnly if the viewer can't moderate it.
-  const readOnly = !props.story.canModerate;
+  const readOnly = !storyData.canModerate;
 
   return (
     <StoryRow
       readOnly={readOnly}
-      storyID={props.story.id}
+      storyID={storyData.id}
       title={title}
       author={author}
-      story={props.story}
-      siteName={props.story.site.name}
-      siteID={props.story.site.id}
-      multisite={props.multisite}
-      totalCount={props.story.commentCounts.totalPublished}
-      reportedCount={props.story.moderationQueues.reported.count}
-      pendingCount={props.story.moderationQueues.pending.count}
+      story={storyData}
+      siteName={storyData.site.name}
+      siteID={storyData.site.id}
+      multisite={multisite}
+      totalCount={storyData.commentCounts.totalPublished}
+      reportedCount={storyData.moderationQueues.reported.count}
+      pendingCount={storyData.moderationQueues.pending.count}
       publishDate={publishedAt}
-      viewerCount={props.story.viewerCount}
-      onOpenInfoDrawer={props.onOpenInfoDrawer}
+      viewerCount={storyData.viewerCount}
+      onOpenInfoDrawer={onOpenInfoDrawer}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment StoryRowContainer_story on Story {
-      id
-      metadata {
-        title
-        author
-        publishedAt
-      }
-      commentCounts {
-        totalPublished
-      }
-      moderationQueues {
-        reported {
-          count
-        }
-        pending {
-          count
-        }
-      }
-      viewerCount
-      site {
-        name
-        id
-      }
-      canModerate
-      isClosed
-      ...StoryStatusContainer_story
-    }
-  `,
-})(StoryRowContainer);
-
-export default enhanced;
+export default StoryRowContainer;

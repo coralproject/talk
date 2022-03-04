@@ -1,13 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { MostActiveDiscussionsContainer_site$data as MostActiveDiscussionsContainer_site } from "coral-stream/__generated__/MostActiveDiscussionsContainer_site.graphql";
+import { MostActiveDiscussionsContainer_site$key as MostActiveDiscussionsContainer_site } from "coral-stream/__generated__/MostActiveDiscussionsContainer_site.graphql";
 
 import DiscussionsHeader from "./DiscussionsHeader";
 import StoryRowContainer from "./StoryRowContainer";
@@ -19,6 +18,20 @@ interface Props {
 }
 
 const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
+  const siteData = useFragment(
+    graphql`
+      fragment MostActiveDiscussionsContainer_site on Site {
+        id
+        name
+        topStories {
+          id
+          ...StoryRowContainer_story
+        }
+      }
+    `,
+    site
+  );
+
   return (
     <HorizontalGutter
       spacing={4}
@@ -37,23 +50,23 @@ const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
         subHeader={
           <Localized
             id="discussions-mostActiveDiscussions-subhead"
-            $siteName={site.name}
+            $siteName={siteData.name}
           >
             <>
               Ranked by the most comments received over the last 24 hours on{" "}
-              {site.name}
+              {siteData.name}
             </>
           </Localized>
         }
         icon="show_chart"
       />
       <ol className={cn(styles.list, CLASSES.discussions.discussionsList)}>
-        {site.topStories.map((story) => (
+        {siteData.topStories.map((story) => (
           <li
             className={cn(styles.listItem, CLASSES.discussions.story.$root)}
             key={story.id}
           >
-            <StoryRowContainer story={story} currentSiteID={site.id} />
+            <StoryRowContainer story={story} currentSiteID={siteData.id} />
           </li>
         ))}
       </ol>
@@ -61,17 +74,4 @@ const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  site: graphql`
-    fragment MostActiveDiscussionsContainer_site on Site {
-      id
-      name
-      topStories {
-        id
-        ...StoryRowContainer_story
-      }
-    }
-  `,
-})(MostActiveDiscussionsContainer);
-
-export default enhanced;
+export default MostActiveDiscussionsContainer;

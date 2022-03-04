@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import BanModal, {
@@ -18,19 +18,16 @@ import {
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { getModerationLink } from "coral-framework/helpers";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
-  ModerateCardContainer_comment,
+  ModerateCardContainer_comment as CommentModel,
+  ModerateCardContainer_comment$key as ModerateCardContainer_comment,
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
-import { ModerateCardContainer_settings$data as ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
-import { ModerateCardContainer_viewer$data as ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
+import { ModerateCardContainer_settings$key as ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_viewer$key as ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 
 import RemoveUserBanMutation from "../UserStatus/RemoveUserBanMutation";
@@ -58,7 +55,7 @@ interface Props {
   loadNext?: (() => void) | null;
 }
 
-function getStatus(comment: ModerateCardContainer_comment) {
+function getStatus(comment: CommentModel) {
   switch (comment.status) {
     case "APPROVED":
       return "approved";
@@ -69,7 +66,7 @@ function getStatus(comment: ModerateCardContainer_comment) {
   }
 }
 
-function isFeatured(comment: ModerateCardContainer_comment) {
+function isFeatured(comment: CommentModel) {
   return comment.tags.some((t) => t.code === GQLTAG.FEATURED);
 }
 
@@ -89,6 +86,126 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onSetSelected: setSelected,
   loadNext,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ModerateCardContainer_comment on Comment {
+        id
+        author {
+          id
+          username
+          status {
+            current
+            ban {
+              active
+              sites {
+                id
+                name
+              }
+            }
+          }
+          role
+        }
+        statusLiveUpdated
+        createdAt
+        body
+        rating
+        revision {
+          actionCounts {
+            flag {
+              reasons {
+                COMMENT_DETECTED_BANNED_WORD
+                COMMENT_DETECTED_SUSPECT_WORD
+              }
+            }
+          }
+          metadata {
+            wordList {
+              bannedWords {
+                value
+                index
+                length
+              }
+              suspectWords {
+                value
+                index
+                length
+              }
+            }
+          }
+        }
+        tags {
+          code
+        }
+        status
+        revision {
+          id
+        }
+        editing {
+          edited
+        }
+        parent {
+          author {
+            id
+            username
+          }
+        }
+        canModerate
+        story {
+          id
+          metadata {
+            title
+          }
+          settings {
+            mode
+          }
+          isArchived
+          isArchiving
+        }
+        site {
+          id
+          name
+        }
+        permalink
+        enteredLive
+        deleted
+        ...MarkersContainer_comment
+        ...ModeratedByContainer_comment
+        ...CommentAuthorContainer_comment
+        ...MediaContainer_comment
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerateCardContainer_settings on Settings {
+        locale
+        wordList {
+          banned
+          suspect
+        }
+        multisite
+        ...MarkersContainer_settings
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment ModerateCardContainer_viewer on User {
+        role
+        moderationScopes {
+          scoped
+          sites {
+            id
+            name
+          }
+        }
+      }
+    `,
+    viewer
+  );
+
   const approveComment = useMutation(ApproveCommentMutation);
   const rejectComment = useMutation(RejectCommentMutation);
   const featureComment = useMutation(FeatureCommentMutation);
@@ -107,16 +224,18 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
   `);
 
-  const scoped = useMemo(() => !!viewer.moderationScopes?.scoped, [viewer]);
+  const scoped = useMemo(() => !!viewerData.moderationScopes?.scoped, [
+    viewerData,
+  ]);
 
-  const readOnly = useMemo(() => scoped && !comment.canModerate, [
+  const readOnly = useMemo(() => scoped && !commentData.canModerate, [
     scoped,
-    comment,
+    commentData,
   ]);
 
   const [showBanModal, setShowBanModal] = useState(false);
   const handleApprove = useCallback(async () => {
-    if (!comment.revision) {
+    if (!commentData.revision) {
       return;
     }
 
@@ -127,8 +246,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     const { storyID, siteID, section } = parseModerationOptions(match);
 
     await approveComment({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+      commentID: commentData.id,
+      commentRevisionID: commentData.revision.id,
       storyID,
       siteID,
       section,
@@ -139,8 +258,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
   }, [
     approveComment,
-    comment.id,
-    comment.revision,
+    commentData.id,
+    commentData.revision,
     loadNext,
     match,
     readOnly,
@@ -148,7 +267,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   ]);
 
   const handleReject = useCallback(async () => {
-    if (!comment.revision) {
+    if (!commentData.revision) {
       return;
     }
 
@@ -159,8 +278,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     const { storyID, siteID, section } = parseModerationOptions(match);
 
     await rejectComment({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+      commentID: commentData.id,
+      commentRevisionID: commentData.revision.id,
       storyID,
       siteID,
       section,
@@ -170,8 +289,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       loadNext();
     }
   }, [
-    comment.revision,
-    comment.id,
+    commentData.revision,
+    commentData.id,
     readOnly,
     match,
     rejectComment,
@@ -180,7 +299,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   ]);
 
   const handleFeature = useCallback(() => {
-    if (!comment.revision) {
+    if (!commentData.revision) {
       return;
     }
 
@@ -191,14 +310,14 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     const { storyID, siteID, section } = parseModerationOptions(match);
 
     void featureComment({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+      commentID: commentData.id,
+      commentRevisionID: commentData.revision.id,
       storyID,
       siteID,
       section,
       orderBy: moderationQueueSort,
     });
-  }, [featureComment, comment, match, readOnly, moderationQueueSort]);
+  }, [featureComment, commentData, match, readOnly, moderationQueueSort]);
 
   const handleUnfeature = useCallback(() => {
     if (readOnly) {
@@ -206,49 +325,49 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
 
     void unfeatureComment({
-      commentID: comment.id,
+      commentID: commentData.id,
       storyID: match.params.storyID,
     });
-  }, [unfeatureComment, comment, match, readOnly]);
+  }, [unfeatureComment, commentData, match, readOnly]);
 
   const onFeature = useCallback(() => {
     if (readOnly) {
       return;
     }
 
-    const featured = isFeatured(comment);
+    const featured = isFeatured(commentData);
     if (featured) {
       handleUnfeature();
     } else {
       handleFeature();
     }
-  }, [comment, readOnly, handleFeature, handleUnfeature]);
+  }, [commentData, readOnly, handleFeature, handleUnfeature]);
 
   const onUsernameClicked = useCallback(
     (id?: string) => {
       if (!usernameClicked) {
         return;
       }
-      usernameClicked(id || comment.author!.id);
+      usernameClicked(id || commentData.author!.id);
     },
-    [usernameClicked, comment]
+    [usernameClicked, commentData]
   );
 
   const onConversationClicked = useCallback(() => {
     if (!conversationClicked) {
       return;
     }
-    conversationClicked(comment.id);
-  }, [conversationClicked, comment]);
+    conversationClicked(commentData.id);
+  }, [conversationClicked, commentData]);
 
   const handleModerateStory = useCallback(
     (e: React.MouseEvent) => {
-      router.push(getModerationLink({ storyID: comment.story.id }));
+      router.push(getModerationLink({ storyID: commentData.story.id }));
       if (e.preventDefault) {
         e.preventDefault();
       }
     },
-    [router, comment]
+    [router, commentData]
   );
 
   const onFocusOrClick = useCallback(() => {
@@ -263,14 +382,14 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const openBanModal = useCallback(() => {
     if (
-      !comment.author ||
-      comment.author.status.current.includes(GQLUSER_STATUS.BANNED)
+      !commentData.author ||
+      commentData.author.status.current.includes(GQLUSER_STATUS.BANNED)
     ) {
       return;
     }
 
     setShowBanModal(true);
-  }, [comment, setShowBanModal]);
+  }, [commentData, setShowBanModal]);
 
   const handleBanConfirm = useCallback(
     async (
@@ -280,21 +399,21 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       unbanSiteIDs: string[] | null | undefined,
       message: string
     ) => {
-      const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
+      const viewerIsScoped = !!viewerData.moderationScopes?.sites?.length;
       switch (updateType) {
         case UpdateType.ALL_SITES:
           await banUser({
-            userID: comment.author!.id, // Should be defined because the modal shouldn't open if author is null
+            userID: commentData.author!.id, // Should be defined because the modal shouldn't open if author is null
             message,
             rejectExistingComments,
             siteIDs: viewerIsScoped
-              ? viewer.moderationScopes!.sites!.map(({ id }) => id)
+              ? viewerData.moderationScopes!.sites!.map(({ id }) => id)
               : [],
           });
           break;
         case UpdateType.SPECIFIC_SITES:
           await updateUserBan({
-            userID: comment.author!.id,
+            userID: commentData.author!.id,
             message,
             banSiteIDs,
             unbanSiteIDs,
@@ -302,56 +421,65 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           break;
         case UpdateType.NO_SITES:
           await removeUserBan({
-            userID: comment.author!.id,
+            userID: commentData.author!.id,
           });
       }
       setShowBanModal(false);
     },
-    [comment, banUser, setShowBanModal, removeUserBan, updateUserBan, viewer]
+    [
+      commentData,
+      banUser,
+      setShowBanModal,
+      removeUserBan,
+      updateUserBan,
+      viewerData,
+    ]
   );
 
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
   const highlight = useMemo(() => {
-    if (!comment.revision) {
+    if (!commentData.revision) {
       return false;
     }
 
-    if (!comment.revision.actionCounts) {
-      throw new Error(`action counts missing: ${comment.id}`);
+    if (!commentData.revision.actionCounts) {
+      throw new Error(`action counts missing: ${commentData.id}`);
     }
 
     const count =
-      comment.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD +
-      comment.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD;
+      commentData.revision.actionCounts.flag.reasons
+        .COMMENT_DETECTED_BANNED_WORD +
+      commentData.revision.actionCounts.flag.reasons
+        .COMMENT_DETECTED_SUSPECT_WORD;
 
     return count > 0;
-  }, [comment]);
+  }, [commentData]);
 
   const isRatingsAndReviews =
-    comment.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+    commentData.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
 
   return (
     <>
-      <FadeInTransition active={!!comment.enteredLive}>
+      <FadeInTransition active={!!commentData.enteredLive}>
         <ModerateCard
-          id={comment.id}
+          id={commentData.id}
           username={
-            comment.author && comment.author.username
-              ? comment.author.username
+            commentData.author && commentData.author.username
+              ? commentData.author.username
               : ""
           }
-          createdAt={comment.createdAt}
-          body={comment.body!}
-          rating={isRatingsAndReviews ? comment.rating : null}
+          createdAt={commentData.createdAt}
+          body={commentData.body!}
+          rating={isRatingsAndReviews ? commentData.rating : null}
           highlight={highlight}
-          inReplyTo={comment.parent && comment.parent.author}
-          comment={comment}
-          settings={settings}
-          dangling={danglingLogic(comment.status)}
-          status={getStatus(comment)}
-          featured={isFeatured(comment)}
-          viewContextHref={comment.permalink}
+          inReplyTo={commentData.parent && commentData.parent.author}
+          comment={commentData}
+          settings={settingsData}
+          dangling={danglingLogic(commentData.status)}
+          status={getStatus(commentData)}
+          featured={isFeatured(commentData)}
+          viewContextHref={commentData.permalink}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
@@ -362,7 +490,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}
-          siteName={settings.multisite ? comment.site.name : null}
+          siteName={settingsData.multisite ? commentData.site.name : null}
           onBan={openBanModal}
           moderatedBy={
             <ModeratedByContainer
@@ -373,159 +501,47 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onFocusOrClick={onFocusOrClick}
           showStory={showStoryInfo}
           storyTitle={
-            (comment.story.metadata && comment.story.metadata.title) || (
-              <NotAvailable />
-            )
+            (commentData.story.metadata &&
+              commentData.story.metadata.title) || <NotAvailable />
           }
-          storyHref={getModerationLink({ storyID: comment.story.id })}
+          storyHref={getModerationLink({ storyID: commentData.story.id })}
           onModerateStory={handleModerateStory}
           mini={mini}
           hideUsername={hideUsername}
-          deleted={comment.deleted ? comment.deleted : false}
-          edited={comment.editing.edited}
+          deleted={commentData.deleted ? commentData.deleted : false}
+          edited={commentData.editing.edited}
           readOnly={readOnly}
-          isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
-          bannedWords={comment.revision?.metadata?.wordList?.bannedWords || []}
-          suspectWords={
-            comment.revision?.metadata?.wordList?.suspectWords || []
+          isQA={commentData.story.settings.mode === GQLSTORY_MODE.QA}
+          bannedWords={
+            commentData.revision?.metadata?.wordList?.bannedWords || []
           }
-          isArchived={comment.story.isArchived}
-          isArchiving={comment.story.isArchiving}
+          suspectWords={
+            commentData.revision?.metadata?.wordList?.suspectWords || []
+          }
+          isArchived={commentData.story.isArchived}
+          isArchiving={commentData.story.isArchiving}
         />
       </FadeInTransition>
-      {comment.author && (
+      {commentData.author && (
         <BanModal
           username={
-            comment.author && comment.author.username
-              ? comment.author.username
+            commentData.author && commentData.author.username
+              ? commentData.author.username
               : ""
           }
           open={showBanModal}
           onClose={handleBanModalClose}
           onConfirm={handleBanConfirm}
           viewerScopes={{
-            role: viewer.role,
-            sites: viewer.moderationScopes?.sites?.map((s) => s),
+            role: viewerData.role,
+            sites: viewerData.moderationScopes?.sites?.map((s) => s),
           }}
-          moderationScopesEnabled={settings.multisite}
-          userBanStatus={comment.author.status.ban}
+          moderationScopesEnabled={settingsData.multisite}
+          userBanStatus={commentData.author.status.ban}
         />
       )}
     </>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ModerateCardContainer_comment on Comment {
-      id
-      author {
-        id
-        username
-        status {
-          current
-          ban {
-            active
-            sites {
-              id
-              name
-            }
-          }
-        }
-        role
-      }
-      statusLiveUpdated
-      createdAt
-      body
-      rating
-      revision {
-        actionCounts {
-          flag {
-            reasons {
-              COMMENT_DETECTED_BANNED_WORD
-              COMMENT_DETECTED_SUSPECT_WORD
-            }
-          }
-        }
-        metadata {
-          wordList {
-            bannedWords {
-              value
-              index
-              length
-            }
-            suspectWords {
-              value
-              index
-              length
-            }
-          }
-        }
-      }
-      tags {
-        code
-      }
-      status
-      revision {
-        id
-      }
-      editing {
-        edited
-      }
-      parent {
-        author {
-          id
-          username
-        }
-      }
-      canModerate
-      story {
-        id
-        metadata {
-          title
-        }
-        settings {
-          mode
-        }
-        isArchived
-        isArchiving
-      }
-      site {
-        id
-        name
-      }
-      permalink
-      enteredLive
-      deleted
-      ...MarkersContainer_comment
-      ...ModeratedByContainer_comment
-      ...CommentAuthorContainer_comment
-      ...MediaContainer_comment
-    }
-  `,
-  settings: graphql`
-    fragment ModerateCardContainer_settings on Settings {
-      locale
-      wordList {
-        banned
-        suspect
-      }
-      multisite
-      ...MarkersContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment ModerateCardContainer_viewer on User {
-      role
-      moderationScopes {
-        scoped
-        sites {
-          id
-          name
-        }
-      }
-    }
-  `,
-})(ModerateCardContainer);
-
-export default enhanced;
+export default ModerateCardContainer;

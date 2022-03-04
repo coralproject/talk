@@ -1,16 +1,16 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
 import { Button } from "coral-ui/components/v3";
 
-import { ModerateStreamContainer_settings$data as ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
-import { ModerateStreamContainer_story$data as ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
-import { ModerateStreamContainer_viewer$data as ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
+import { ModerateStreamContainer_settings$key as ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
+import { ModerateStreamContainer_story$key as ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
+import { ModerateStreamContainer_viewer$key as ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
 import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
 
 interface Props {
@@ -21,9 +21,49 @@ interface Props {
 
 const ModerateStreamContainer: FunctionComponent<Props> = ({
   settings,
-  story: { id, canModerate, isArchived, isArchiving },
+  story,
   viewer,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerateStreamContainer_settings on Settings {
+        auth {
+          integrations {
+            sso {
+              enabled
+              targetFilter {
+                admin
+              }
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
+  const storyData = useFragment(
+    graphql`
+      fragment ModerateStreamContainer_story on Story {
+        id
+        canModerate
+        isArchived
+        isArchiving
+      }
+    `,
+    story
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment ModerateStreamContainer_viewer on User {
+        role
+      }
+    `,
+    viewer
+  );
+
+  const { id, canModerate, isArchived, isArchiving } = storyData;
+
   const [{ accessToken }] = useLocal<ModerateStreamContainerLocal>(graphql`
     fragment ModerateStreamContainerLocal on Local {
       accessToken
@@ -33,16 +73,16 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
     let link = getModerationLink({ storyID: id });
     if (
       accessToken &&
-      settings.auth.integrations.sso.enabled &&
-      settings.auth.integrations.sso.targetFilter.admin
+      settingsData.auth.integrations.sso.enabled &&
+      settingsData.auth.integrations.sso.targetFilter.admin
     ) {
       link += `#accessToken=${accessToken}`;
     }
 
     return link;
-  }, [accessToken, settings, id]);
+  }, [accessToken, settingsData, id]);
 
-  if (!canModerate || !viewer || !can(viewer, Ability.MODERATE)) {
+  if (!canModerate || !viewerData || !can(viewerData, Ability.MODERATE)) {
     return null;
   }
 
@@ -66,34 +106,4 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ModerateStreamContainer_settings on Settings {
-      auth {
-        integrations {
-          sso {
-            enabled
-            targetFilter {
-              admin
-            }
-          }
-        }
-      }
-    }
-  `,
-  story: graphql`
-    fragment ModerateStreamContainer_story on Story {
-      id
-      canModerate
-      isArchived
-      isArchiving
-    }
-  `,
-  viewer: graphql`
-    fragment ModerateStreamContainer_viewer on User {
-      role
-    }
-  `,
-})(ModerateStreamContainer);
-
-export default enhanced;
+export default ModerateStreamContainer;

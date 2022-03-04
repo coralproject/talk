@@ -2,12 +2,12 @@ import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { MAX_BIO_LENGTH } from "coral-common/constants";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { validateMaxLength } from "coral-framework/lib/validation";
 import {
   Flex,
@@ -22,8 +22,8 @@ import {
   ValidationMessage,
 } from "coral-ui/components/v3";
 
-import { BioContainer_settings$data as BioContainer_settings } from "coral-stream/__generated__/BioContainer_settings.graphql";
-import { BioContainer_viewer$data as BioContainer_viewer } from "coral-stream/__generated__/BioContainer_viewer.graphql";
+import { BioContainer_settings$key as BioContainer_settings } from "coral-stream/__generated__/BioContainer_settings.graphql";
+import { BioContainer_viewer$key as BioContainer_viewer } from "coral-stream/__generated__/BioContainer_viewer.graphql";
 
 import RemainingCharactersContainer from "../../Comments/RemainingCharacters";
 import UpdateBioMutation from "./UpdateBioMutation";
@@ -36,6 +36,23 @@ interface Props {
 }
 
 const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment BioContainer_viewer on User {
+        bio
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment BioContainer_settings on Settings {
+        memberBios
+      }
+    `,
+    settings
+  );
+
   const updateBio = useMutation(UpdateBioMutation);
   const onRemoveBio = useCallback(() => {
     void updateBio({ bio: null });
@@ -57,7 +74,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
     },
     [updateBio]
   );
-  if (!settings.memberBios) {
+  if (!settingsData.memberBios) {
     return null;
   }
   return (
@@ -75,7 +92,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
           </p>
         </Localized>
       </HorizontalGutter>
-      <Form onSubmit={onSubmit} initialValues={{ bio: viewer.bio }}>
+      <Form onSubmit={onSubmit} initialValues={{ bio: viewerData.bio }}>
         {({
           handleSubmit,
           submitting,
@@ -152,7 +169,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
                     variant="outlined"
                     type="button"
                     onClick={onRemoveBio}
-                    disabled={submitting || !viewer.bio}
+                    disabled={submitting || !viewerData.bio}
                   >
                     Remove
                   </Button>
@@ -176,17 +193,4 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment BioContainer_viewer on User {
-      bio
-    }
-  `,
-  settings: graphql`
-    fragment BioContainer_settings on Settings {
-      memberBios
-    }
-  `,
-})(BioContainer);
-
-export default enhanced;
+export default BioContainer;

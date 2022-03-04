@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 import { useForm } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 
-import { OIDCConfigContainer_auth as AuthData } from "coral-admin/__generated__/OIDCConfigContainer_auth.graphql";
+import { OIDCConfigContainer_auth$key as AuthData } from "coral-admin/__generated__/OIDCConfigContainer_auth.graphql";
 
 import DiscoverOIDCConfigurationFetch from "./DiscoverOIDCConfigurationFetch";
 import OIDCConfig from "./OIDCConfig";
@@ -15,6 +15,19 @@ interface Props {
 }
 
 const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
+  const authData = useFragment(
+    graphql`
+      fragment OIDCConfigContainer_auth on Auth {
+        integrations {
+          oidc {
+            callbackURL
+          }
+        }
+      }
+    `,
+    auth
+  );
+
   const [awaitingResponse, setAwaitingResponse] = useState(false);
   const discoverOIDCConfiguration = useFetch(DiscoverOIDCConfigurationFetch);
   const form = useForm();
@@ -66,23 +79,11 @@ const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
   return (
     <OIDCConfig
       disabled={disabled}
-      callbackURL={auth.integrations.oidc.callbackURL}
+      callbackURL={authData.integrations.oidc.callbackURL}
       onDiscover={handleDiscover}
       disableForDiscover={awaitingResponse}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  auth: graphql`
-    fragment OIDCConfigContainer_auth on Auth {
-      integrations {
-        oidc {
-          callbackURL
-        }
-      }
-    }
-  `,
-})(OIDCConfigContainer);
-
-export default enhanced;
+export default OIDCConfigContainer;

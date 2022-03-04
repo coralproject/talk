@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -16,15 +16,15 @@ import {
   InvalidRequestError,
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
-import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { ReplyCommentFormContainer_comment$data as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
-import { ReplyCommentFormContainer_settings$data as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
-import { ReplyCommentFormContainer_story$data as StoryData } from "coral-stream/__generated__/ReplyCommentFormContainer_story.graphql";
+import { ReplyCommentFormContainer_comment$key as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
+import { ReplyCommentFormContainer_settings$key as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
+import { ReplyCommentFormContainer_story$key as StoryData } from "coral-stream/__generated__/ReplyCommentFormContainer_story.graphql";
 
 import { useCommentSeenEnabled } from "../../commentSeen";
 import {
@@ -63,6 +63,72 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   localReply,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ReplyCommentFormContainer_settings on Settings {
+        charCount {
+          enabled
+          min
+          max
+        }
+        disableCommenting {
+          enabled
+          message
+        }
+        closeCommenting {
+          message
+        }
+        media {
+          twitter {
+            enabled
+          }
+          youtube {
+            enabled
+          }
+          giphy {
+            enabled
+            key
+            maxRating
+          }
+          external {
+            enabled
+          }
+        }
+        rte {
+          ...RTEContainer_config
+        }
+      }
+    `,
+    settings
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment ReplyCommentFormContainer_story on Story {
+        id
+        isClosed
+      }
+    `,
+    story
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment ReplyCommentFormContainer_comment on Comment {
+        id
+        site {
+          id
+        }
+        author {
+          username
+        }
+        revision {
+          id
+        }
+        ...ReplyEditedWarningContainer_comment
+      }
+    `,
+    comment
+  );
+
   const { pym, renderWindow, sessionStorage, browserInfo } = useCoralContext();
   // Disable autofocus on ios and enable for the rest.
   const autofocus = !browserInfo.ios;
@@ -79,7 +145,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   const [showJumpToComment, setShowJumpToComment] = useState(false);
   const [jumpToCommentID, setJumpToCommentID] = useState<string | null>(null);
 
-  const contextKey = `replyCommentFormBody-${comment.id}`;
+  const contextKey = `replyCommentFormBody-${commentData.id}`;
   const rteRef = useRef<CoralRTE | null>(null);
 
   useEffect(() => {
@@ -130,12 +196,12 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
       try {
         const response = getSubmissionResponse(
           await createCommentReply({
-            storyID: story.id,
-            parentID: comment.id,
+            storyID: storyData.id,
+            parentID: commentData.id,
             // Assuming comment revision exists otherwise we would
             // not be seeing the reply form options as we we tombstone
             // deleted comments without revision history
-            parentRevisionID: comment.revision!.id,
+            parentRevisionID: commentData.revision!.id,
             local: localReply,
             nudge,
             body: input.body,
@@ -162,7 +228,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
       } catch (error) {
         if (error instanceof InvalidRequestError) {
           if (shouldTriggerSettingsRefresh(error.code)) {
-            await refreshSettings({ storyID: story.id });
+            await refreshSettings({ storyID: storyData.id });
           }
 
           if (shouldTriggerViewerRefresh(error.code)) {
@@ -194,8 +260,8 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
       return;
     },
     [
-      comment.id,
-      comment.revision,
+      commentData.id,
+      commentData.revision,
       contextKey,
       createCommentReply,
       disableNudge,
@@ -206,7 +272,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
       refreshViewer,
       sessionStorage,
       showJumpToComment,
-      story.id,
+      storyData.id,
     ]
   );
 
@@ -293,89 +359,34 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ReplyEditedWarningContainer comment={comment} />
+      <ReplyEditedWarningContainer comment={commentData} />
       <ReplyCommentForm
-        siteID={comment.site.id}
-        id={comment.id}
-        rteConfig={settings.rte}
+        siteID={commentData.site.id}
+        id={commentData.id}
+        rteConfig={settingsData.rte}
         onSubmit={handleOnSubmit}
         onChange={handleOnChange}
-        mediaConfig={settings.media}
+        mediaConfig={settingsData.media}
         initialValues={initialValues}
         onCancel={handleOnCancelOrDismiss}
         rteRef={handleRTERef}
-        parentUsername={comment.author && comment.author.username}
-        min={(settings.charCount.enabled && settings.charCount.min) || null}
-        max={(settings.charCount.enabled && settings.charCount.max) || null}
-        disabled={settings.disableCommenting.enabled || story.isClosed}
+        parentUsername={commentData.author && commentData.author.username}
+        min={
+          (settingsData.charCount.enabled && settingsData.charCount.min) || null
+        }
+        max={
+          (settingsData.charCount.enabled && settingsData.charCount.max) || null
+        }
+        disabled={settingsData.disableCommenting.enabled || storyData.isClosed}
         disabledMessage={
-          (settings.disableCommenting.enabled &&
-            settings.disableCommenting.message) ||
-          settings.closeCommenting.message
+          (settingsData.disableCommenting.enabled &&
+            settingsData.disableCommenting.message) ||
+          settingsData.closeCommenting.message
         }
       />
     </>
   );
 };
 
-const enhanced = withCreateCommentReplyMutation(
-  withFragmentContainer<Props>({
-    settings: graphql`
-      fragment ReplyCommentFormContainer_settings on Settings {
-        charCount {
-          enabled
-          min
-          max
-        }
-        disableCommenting {
-          enabled
-          message
-        }
-        closeCommenting {
-          message
-        }
-        media {
-          twitter {
-            enabled
-          }
-          youtube {
-            enabled
-          }
-          giphy {
-            enabled
-            key
-            maxRating
-          }
-          external {
-            enabled
-          }
-        }
-        rte {
-          ...RTEContainer_config
-        }
-      }
-    `,
-    story: graphql`
-      fragment ReplyCommentFormContainer_story on Story {
-        id
-        isClosed
-      }
-    `,
-    comment: graphql`
-      fragment ReplyCommentFormContainer_comment on Comment {
-        id
-        site {
-          id
-        }
-        author {
-          username
-        }
-        revision {
-          id
-        }
-        ...ReplyEditedWarningContainer_comment
-      }
-    `,
-  })(ReplyCommentFormContainer)
-);
+const enhanced = withCreateCommentReplyMutation(ReplyCommentFormContainer);
 export default enhanced;

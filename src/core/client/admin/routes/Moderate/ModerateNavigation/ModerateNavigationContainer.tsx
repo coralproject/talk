@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
-import { graphql } from "react-relay";
+import React, { FunctionComponent, useEffect } from "react";
+import { graphql, useFragment } from "react-relay";
 
 import { SectionFilter } from "coral-common/section";
-import {
-  combineDisposables,
-  useSubscription,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { combineDisposables, useSubscription } from "coral-framework/lib/relay";
 
-import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
-import { ModerateNavigationContainer_settings$data as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";
-import { ModerateNavigationContainer_story$data as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
+import { ModerateNavigationContainer_moderationQueues$key as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
+import { ModerateNavigationContainer_settings$key as SettingsData } from "coral-admin/__generated__/ModerateNavigationContainer_settings.graphql";
+import { ModerateNavigationContainer_story$key as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
 
 import ModerateCountsCommentEnteredSubscription from "./ModerateCountsCommentEnteredSubscription";
 import ModerateCountsCommentLeftSubscription from "./ModerateCountsCommentLeftSubscription";
@@ -24,7 +20,49 @@ interface Props {
   section?: SectionFilter | null;
 }
 
-const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
+const ModerateNavigationContainer: FunctionComponent<Props> = ({
+  moderationQueues,
+  settings,
+  story,
+  siteID,
+  section,
+}) => {
+  const moderationQueuesData = useFragment(
+    graphql`
+      fragment ModerateNavigationContainer_moderationQueues on ModerationQueues {
+        unmoderated {
+          count
+        }
+        reported {
+          count
+        }
+        pending {
+          count
+        }
+      }
+    `,
+    moderationQueues
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerateNavigationContainer_settings on Settings {
+        moderation
+        forReviewQueue
+      }
+    `,
+    settings
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment ModerateNavigationContainer_story on Story {
+        id
+        isArchiving
+        isArchived
+      }
+    `,
+    story
+  );
+
   const subscribeToCommentEntered = useSubscription(
     ModerateCountsCommentEnteredSubscription
   );
@@ -32,14 +70,14 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
     ModerateCountsCommentLeftSubscription
   );
 
-  const shouldSubscribe = props.moderationQueues && !props.section;
+  const shouldSubscribe = moderationQueuesData && !section;
   useEffect(() => {
     if (!shouldSubscribe) {
       return;
     }
     const vars = {
-      storyID: props.story && props.story.id,
-      siteID: props.siteID,
+      storyID: storyData && storyData.id,
+      siteID,
     };
     const disposable = combineDisposables(
       subscribeToCommentEntered(vars),
@@ -49,63 +87,32 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
       disposable.dispose();
     };
   }, [
-    props.story,
-    props.siteID,
+    siteID,
     shouldSubscribe,
     subscribeToCommentEntered,
     subscribeToCommentLeft,
+    storyData,
   ]);
 
-  const storyIsArchived = props.story?.isArchived || props.story?.isArchiving;
+  const storyIsArchived = storyData?.isArchived || storyData?.isArchiving;
 
-  if (!props.moderationQueues) {
+  if (!moderationQueuesData) {
     return <Navigation />;
   }
   return (
     <Navigation
       unmoderatedCount={
-        storyIsArchived ? 0 : props.moderationQueues.unmoderated.count
+        storyIsArchived ? 0 : moderationQueuesData.unmoderated.count
       }
-      reportedCount={
-        storyIsArchived ? 0 : props.moderationQueues.reported.count
-      }
-      pendingCount={storyIsArchived ? 0 : props.moderationQueues.pending.count}
-      storyID={props.story && props.story.id}
-      siteID={props.siteID}
-      section={props.section}
-      mode={props.settings?.moderation}
-      enableForReview={props.settings?.forReviewQueue}
+      reportedCount={storyIsArchived ? 0 : moderationQueuesData.reported.count}
+      pendingCount={storyIsArchived ? 0 : moderationQueuesData.pending.count}
+      storyID={storyData && storyData.id}
+      siteID={siteID}
+      section={section}
+      mode={settingsData?.moderation}
+      enableForReview={settingsData?.forReviewQueue}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment ModerateNavigationContainer_story on Story {
-      id
-      isArchiving
-      isArchived
-    }
-  `,
-  settings: graphql`
-    fragment ModerateNavigationContainer_settings on Settings {
-      moderation
-      forReviewQueue
-    }
-  `,
-  moderationQueues: graphql`
-    fragment ModerateNavigationContainer_moderationQueues on ModerationQueues {
-      unmoderated {
-        count
-      }
-      reported {
-        count
-      }
-      pending {
-        count
-      }
-    }
-  `,
-})(ModerateNavigationContainer);
-
-export default enhanced;
+export default ModerateNavigationContainer;

@@ -1,15 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 
-import { ArchivedReportFlowContainer_comment$data as ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
-import { ArchivedReportFlowContainer_settings$data as ArchivedReportFlowContainer_settings } from "coral-stream/__generated__/ArchivedReportFlowContainer_settings.graphql";
+import { ArchivedReportFlowContainer_comment$key as ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
+import { ArchivedReportFlowContainer_settings$key as ArchivedReportFlowContainer_settings } from "coral-stream/__generated__/ArchivedReportFlowContainer_settings.graphql";
 
 import PermalinkCopyButton from "../PermalinkButton/PermalinkCopyButton";
 
@@ -24,9 +23,35 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
   settings,
   comment,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ArchivedReportFlowContainer_settings on Settings {
+        organization {
+          name
+          contactEmail
+        }
+      }
+    `,
+    settings
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment ArchivedReportFlowContainer_comment on Comment {
+        id
+        story {
+          url
+        }
+      }
+    `,
+    comment
+  );
+
   const { localeBundles } = useCoralContext();
 
-  const permalinkURL = getURLWithCommentID(comment.story.url, comment.id);
+  const permalinkURL = getURLWithCommentID(
+    commentData.story.url,
+    commentData.id
+  );
 
   const subject = getMessage(
     localeBundles,
@@ -59,12 +84,12 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
         id="comments-archivedReportPopover-doesThisComment"
         a={
           <a
-            href={`mailto:${settings.organization.contactEmail}?subject=${subject}&body=${emailBody}`}
+            href={`mailto:${settingsData.organization.contactEmail}?subject=${subject}&body=${emailBody}`}
           >
-            {settings.organization.name}
+            {settingsData.organization.name}
           </a>
         }
-        $orgName={settings.organization.name}
+        $orgName={settingsData.organization.name}
       >
         <div className={styles.body}>
           Does this comment violate our community guidelines? Is this offensive
@@ -79,7 +104,7 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
 
       <PermalinkCopyButton
         permalinkURL={permalinkURL}
-        commentID={comment.id}
+        commentID={commentData.id}
         variant="outlined"
         paddingSize="extraSmall"
         upperCase
@@ -89,23 +114,4 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ArchivedReportFlowContainer_settings on Settings {
-      organization {
-        name
-        contactEmail
-      }
-    }
-  `,
-  comment: graphql`
-    fragment ArchivedReportFlowContainer_comment on Comment {
-      id
-      story {
-        url
-      }
-    }
-  `,
-})(ArchivedReportFlowContainer);
-
-export default enhanced;
+export default ArchivedReportFlowContainer;

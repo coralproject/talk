@@ -1,13 +1,10 @@
 import React, { useMemo } from "react";
 import { useForm } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import {
-  purgeMetadata,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { purgeMetadata } from "coral-framework/lib/relay";
 
-import { OrganizationConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
+import { OrganizationConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
 
 import OrganizationContactEmailConfig from "./OrganizationContactEmailConfig";
 import OrganizationNameConfig from "./OrganizationNameConfig";
@@ -21,8 +18,22 @@ const OrganizationConfigContainer: React.FunctionComponent<Props> = ({
   settings,
   submitting,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment OrganizationConfigContainer_settings on Settings {
+        ...OrganizationNameConfig_formValues @relay(mask: false)
+        ...OrganizationURLConfig_formValues @relay(mask: false)
+        ...OrganizationContactEmailConfig_formValues @relay(mask: false)
+      }
+    `,
+    settings
+  );
+
   const form = useForm();
-  useMemo(() => form.initialize(purgeMetadata(settings)), []);
+  useMemo(() => form.initialize(purgeMetadata(settingsData)), [
+    form,
+    settingsData,
+  ]);
   return (
     <>
       <OrganizationNameConfig disabled={submitting} />
@@ -31,13 +42,5 @@ const OrganizationConfigContainer: React.FunctionComponent<Props> = ({
     </>
   );
 };
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment OrganizationConfigContainer_settings on Settings {
-      ...OrganizationNameConfig_formValues @relay(mask: false)
-      ...OrganizationURLConfig_formValues @relay(mask: false)
-      ...OrganizationContactEmailConfig_formValues @relay(mask: false)
-    }
-  `,
-})(OrganizationConfigContainer);
-export default enhanced;
+
+export default OrganizationConfigContainer;

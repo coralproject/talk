@@ -1,12 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
-import { OpenOrCloseStreamContainer_story$data as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
+import { OpenOrCloseStreamContainer_story$key as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
 
 import {
   CloseStoryMutation,
@@ -29,26 +28,36 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
   openStory,
   closeStory,
 }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment OpenOrCloseStreamContainer_story on Story {
+        id
+        isClosed
+      }
+    `,
+    story
+  );
+
   const [waiting, setWaiting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const onClick = useCallback(async () => {
     if (!waiting) {
       setWaiting(true);
-      if (story.isClosed) {
-        await openStory({ id: story.id });
+      if (storyData.isClosed) {
+        await openStory({ id: storyData.id });
       } else {
-        await closeStory({ id: story.id });
+        await closeStory({ id: storyData.id });
       }
       setWaiting(false);
       setShowSuccess(true);
     }
-  }, [waiting, setWaiting, story, openStory, closeStory, setShowSuccess]);
+  }, [waiting, storyData.isClosed, storyData.id, openStory, closeStory]);
   const onCloseSuccess = useCallback(() => {
     setShowSuccess(false);
   }, [setShowSuccess]);
 
-  return story.isClosed ? (
+  return storyData.isClosed ? (
     <section aria-labelledby="configure-openStream-title">
       <OpenStream onClick={onClick} disableButton={waiting} />
       <div
@@ -95,12 +104,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment OpenOrCloseStreamContainer_story on Story {
-      id
-      isClosed
-    }
-  `,
-})(withOpenStoryMutation(withCloseStoryMutation(OpenOrCloseStreamContainer)));
+const enhanced = withOpenStoryMutation(
+  withCloseStoryMutation(OpenOrCloseStreamContainer)
+);
 export default enhanced;

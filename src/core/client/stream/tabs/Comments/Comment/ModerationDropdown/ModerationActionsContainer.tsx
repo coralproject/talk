@@ -1,25 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
 
-import { ModerationActionsContainer_comment$data as ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
-import { ModerationActionsContainer_local$data as ModerationActionsContainer_local } from "coral-stream/__generated__/ModerationActionsContainer_local.graphql";
-import { ModerationActionsContainer_settings$data as ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
-import { ModerationActionsContainer_story$data as ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
-import { ModerationActionsContainer_viewer$data as ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
+import { ModerationActionsContainer_comment$key as ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
+import { ModerationActionsContainer_local } from "coral-stream/__generated__/ModerationActionsContainer_local.graphql";
+import { ModerationActionsContainer_settings$key as ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
+import { ModerationActionsContainer_story$key as ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
+import { ModerationActionsContainer_viewer$key as ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
@@ -46,6 +42,64 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   onDismiss,
   onBan,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ModerationActionsContainer_comment on Comment {
+        id
+        author {
+          id
+        }
+        revision {
+          id
+        }
+        status
+        tags {
+          code
+        }
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerationActionsContainer_settings on Settings {
+        auth {
+          integrations {
+            sso {
+              enabled
+              targetFilter {
+                admin
+              }
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment ModerationActionsContainer_story on Story {
+        id
+        settings {
+          mode
+        }
+      }
+    `,
+    story
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment ModerationActionsContainer_viewer on User {
+        id
+        moderationScopes {
+          scoped
+        }
+      }
+    `,
+    viewer
+  );
+
   const [{ accessToken }] = useLocal<ModerationActionsContainer_local>(graphql`
     fragment ModerationActionsContainer_local on Local {
       accessToken
@@ -60,77 +114,78 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
   const moderationLinkSuffix =
     !!accessToken &&
-    settings.auth.integrations.sso.enabled &&
-    settings.auth.integrations.sso.targetFilter.admin &&
+    settingsData.auth.integrations.sso.enabled &&
+    settingsData.auth.integrations.sso.targetFilter.admin &&
     `#accessToken=${accessToken}`;
 
   const gotoModerateStoryHref = useMemo(() => {
-    let link = getModerationLink({ storyID: story.id });
+    let link = getModerationLink({ storyID: storyData.id });
     if (moderationLinkSuffix) {
       link += moderationLinkSuffix;
     }
 
     return link;
-  }, [story.id, moderationLinkSuffix]);
+  }, [storyData.id, moderationLinkSuffix]);
 
   const gotoModerateCommentHref = useMemo(() => {
-    let link = getModerationLink({ commentID: comment.id });
+    let link = getModerationLink({ commentID: commentData.id });
     if (moderationLinkSuffix) {
       link += moderationLinkSuffix;
     }
 
     return link;
-  }, [comment.id, moderationLinkSuffix]);
+  }, [commentData.id, moderationLinkSuffix]);
 
   const onGotoModerate = useCallback(() => {
-    emitGotoModerationEvent({ commentID: comment.id });
-  }, [emitGotoModerationEvent, comment.id]);
+    emitGotoModerationEvent({ commentID: commentData.id });
+  }, [emitGotoModerationEvent, commentData.id]);
 
   const onApprove = useCallback(() => {
-    if (!comment.revision) {
+    if (!commentData.revision) {
       return;
     }
     void approve({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+      commentID: commentData.id,
+      commentRevisionID: commentData.revision.id,
     });
-  }, [approve, comment]);
+  }, [approve, commentData]);
   const onReject = useCallback(async () => {
-    if (!comment.revision) {
+    if (!commentData.revision) {
       return;
     }
     await reject({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
-      storyID: story.id,
+      commentID: commentData.id,
+      commentRevisionID: commentData.revision.id,
+      storyID: storyData.id,
     });
-  }, [approve, comment, story]);
+  }, [commentData.id, commentData.revision, reject, storyData.id]);
   const onFeature = useCallback(() => {
-    if (!comment.revision) {
+    if (!commentData.revision) {
       return;
     }
     void feature({
-      storyID: story.id,
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+      storyID: storyData.id,
+      commentID: commentData.id,
+      commentRevisionID: commentData.revision.id,
     });
     onDismiss();
-  }, [feature, onDismiss, story, comment]);
+  }, [feature, onDismiss, storyData, commentData]);
   const onUnfeature = useCallback(() => {
     void unfeature({
-      commentID: comment.id,
-      storyID: story.id,
+      commentID: commentData.id,
+      storyID: storyData.id,
     });
     onDismiss();
-  }, [unfeature, onDismiss, story, comment]);
-  const approved = comment.status === "APPROVED";
-  const rejected = comment.status === "REJECTED";
-  const featured = comment.tags.some((t) => t.code === "FEATURED");
+  }, [unfeature, onDismiss, storyData, commentData]);
+  const approved = commentData.status === "APPROVED";
+  const rejected = commentData.status === "REJECTED";
+  const featured = commentData.tags.some((t) => t.code === "FEATURED");
   const showBanOption =
-    !comment.author || !comment.author.id || viewer === null
+    !commentData.author || !commentData.author.id || viewerData === null
       ? false
-      : comment.author.id !== viewer.id && !viewer.moderationScopes?.scoped;
-  const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+      : commentData.author.id !== viewerData.id &&
+        !viewerData.moderationScopes?.scoped;
+  const isQA = storyData.settings.mode === GQLSTORY_MODE.QA;
 
   return (
     <>
@@ -257,7 +312,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       {showBanOption && (
         <>
           <DropdownDivider />
-          <ModerationActionBanQuery onBan={onBan} userID={comment.author!.id} />
+          <ModerationActionBanQuery
+            onBan={onBan}
+            userID={commentData.author!.id}
+          />
         </>
       )}
       <DropdownDivider />
@@ -297,52 +355,4 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ModerationActionsContainer_comment on Comment {
-      id
-      author {
-        id
-      }
-      revision {
-        id
-      }
-      status
-      tags {
-        code
-      }
-    }
-  `,
-  settings: graphql`
-    fragment ModerationActionsContainer_settings on Settings {
-      auth {
-        integrations {
-          sso {
-            enabled
-            targetFilter {
-              admin
-            }
-          }
-        }
-      }
-    }
-  `,
-  story: graphql`
-    fragment ModerationActionsContainer_story on Story {
-      id
-      settings {
-        mode
-      }
-    }
-  `,
-  viewer: graphql`
-    fragment ModerationActionsContainer_viewer on User {
-      id
-      moderationScopes {
-        scoped
-      }
-    }
-  `,
-})(ModerationActionsContainer);
-
-export default enhanced;
+export default ModerationActionsContainer;

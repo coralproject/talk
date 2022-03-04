@@ -1,12 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { EndpointDetails_settings$data as EndpointDetails_settings } from "coral-admin/__generated__/EndpointDetails_settings.graphql";
-import { EndpointDetails_webhookEndpoint } from "coral-admin/__generated__/EndpointDetails_webhookEndpoint.graphql";
+import { EndpointDetails_settings$key as EndpointDetails_settings } from "coral-admin/__generated__/EndpointDetails_settings.graphql";
+import { EndpointDetails_webhookEndpoint$key as EndpointDetails_webhookEndpoint } from "coral-admin/__generated__/EndpointDetails_webhookEndpoint.graphql";
 
 import ConfigureWebhookEndpointForm from "../ConfigureWebhookEndpointForm";
 
@@ -18,29 +17,36 @@ interface Props {
 const EndpointDetails: FunctionComponent<Props> = ({
   webhookEndpoint,
   settings,
-}) => (
-  <>
-    <Localized id="configure-webhooks-endpointDetails">
-      <Subheader>Endpoint details</Subheader>
-    </Localized>
-    <ConfigureWebhookEndpointForm
-      settings={settings}
-      webhookEndpoint={webhookEndpoint}
-    />
-  </>
-);
+}) => {
+  const webhookEndpointData = useFragment(
+    graphql`
+      fragment EndpointDetails_webhookEndpoint on WebhookEndpoint {
+        ...ConfigureWebhookEndpointForm_webhookEndpoint
+      }
+    `,
+    webhookEndpoint
+  );
 
-const enhanced = withFragmentContainer<Props>({
-  webhookEndpoint: graphql`
-    fragment EndpointDetails_webhookEndpoint on WebhookEndpoint {
-      ...ConfigureWebhookEndpointForm_webhookEndpoint
-    }
-  `,
-  settings: graphql`
-    fragment EndpointDetails_settings on Settings {
-      ...ConfigureWebhookEndpointForm_settings
-    }
-  `,
-})(EndpointDetails);
+  const settingsData = useFragment(
+    graphql`
+      fragment EndpointDetails_settings on Settings {
+        ...ConfigureWebhookEndpointForm_settings
+      }
+    `,
+    settings
+  );
 
-export default enhanced;
+  return (
+    <>
+      <Localized id="configure-webhooks-endpointDetails">
+        <Subheader>Endpoint details</Subheader>
+      </Localized>
+      <ConfigureWebhookEndpointForm
+        settings={settingsData}
+        webhookEndpoint={webhookEndpointData}
+      />
+    </>
+  );
+};
+
+export default EndpointDetails;

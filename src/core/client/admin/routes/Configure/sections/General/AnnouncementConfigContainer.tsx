@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -10,7 +10,7 @@ import {
   FormFieldDescription,
 } from "coral-ui/components/v2";
 
-import { AnnouncementConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/AnnouncementConfigContainer_settings.graphql";
+import { AnnouncementConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/AnnouncementConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -28,22 +28,38 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   settings,
   disabled,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment AnnouncementConfigContainer_settings on Settings {
+        announcement {
+          content
+          duration
+          createdAt
+        }
+      }
+    `,
+    settings
+  );
+
   const createAnnouncement = useMutation(CreateAnnouncementMutaiton);
   const deleteAnnouncement = useMutation(DeleteAnnouncementMutaiton);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState(null);
   const onClose = useCallback(() => {
     setShowForm(false);
-  }, [showForm]);
-  const onCreate = useCallback((values) => {
-    try {
-      setSubmitError(null);
-      void createAnnouncement(values);
-      setShowForm(false);
-    } catch (error) {
-      setSubmitError(error.message);
-    }
   }, []);
+  const onCreate = useCallback(
+    (values) => {
+      try {
+        setSubmitError(null);
+        void createAnnouncement(values);
+        setShowForm(false);
+      } catch (error) {
+        setSubmitError(error.message);
+      }
+    },
+    [createAnnouncement]
+  );
   const onDelete = useCallback(() => {
     try {
       setSubmitError(null);
@@ -52,7 +68,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
       setSubmitError(error.message);
       setShowForm(false);
     }
-  }, []);
+  }, [deleteAnnouncement]);
   return (
     <ConfigBox
       title={
@@ -68,7 +84,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
           your organization’s comment streams for a specific amount of time.
         </FormFieldDescription>
       </Localized>
-      {!settings.announcement && (
+      {!settingsData.announcement && (
         <Localized id="configure-general-announcements-add">
           <Button disabled={disabled} onClick={() => setShowForm(true)}>
             Add announcement
@@ -76,7 +92,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
         </Localized>
       )}
       <AnnouncementFormModal
-        open={!settings.announcement && showForm}
+        open={!settingsData.announcement && showForm}
         onSubmit={onCreate}
         onClose={onClose}
       />
@@ -85,12 +101,12 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
           {submitError}
         </CallOut>
       )}
-      {settings.announcement && settings.announcement.createdAt && (
+      {settingsData.announcement && settingsData.announcement.createdAt && (
         <>
           <Announcement
-            content={settings.announcement.content}
-            createdAt={settings.announcement.createdAt}
-            duration={settings.announcement.duration}
+            content={settingsData.announcement.content}
+            createdAt={settingsData.announcement.createdAt}
+            duration={settingsData.announcement.duration}
           />
           <Localized id="configure-general-announcements-delete">
             <Button color="alert" onClick={onDelete}>
@@ -103,16 +119,4 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment AnnouncementConfigContainer_settings on Settings {
-      announcement {
-        content
-        duration
-        createdAt
-      }
-    }
-  `,
-})(AnnouncementConfigContainer);
-
-export default enhanced;
+export default AnnouncementConfigContainer;

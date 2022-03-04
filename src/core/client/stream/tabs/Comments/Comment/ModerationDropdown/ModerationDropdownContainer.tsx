@@ -4,18 +4,17 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { ShowModerationPopoverEvent } from "coral-stream/events";
 import { Dropdown } from "coral-ui/components/v2";
 
-import { ModerationDropdownContainer_comment$data as ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
-import { ModerationDropdownContainer_settings$data as ModerationDropdownContainer_settings } from "coral-stream/__generated__/ModerationDropdownContainer_settings.graphql";
-import { ModerationDropdownContainer_story$data as ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
-import { ModerationDropdownContainer_viewer$data as ModerationDropdownContainer_viewer } from "coral-stream/__generated__/ModerationDropdownContainer_viewer.graphql";
+import { ModerationDropdownContainer_comment$key as ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
+import { ModerationDropdownContainer_settings$key as ModerationDropdownContainer_settings } from "coral-stream/__generated__/ModerationDropdownContainer_settings.graphql";
+import { ModerationDropdownContainer_story$key as ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
+import { ModerationDropdownContainer_viewer$key as ModerationDropdownContainer_viewer } from "coral-stream/__generated__/ModerationDropdownContainer_viewer.graphql";
 
 import UserBanPopoverContainer from "../UserBanPopover/UserBanPopoverContainer";
 import ModerationActionsContainer from "./ModerationActionsContainer";
@@ -39,6 +38,54 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   onDismiss,
   scheduleUpdate,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ModerationDropdownContainer_comment on Comment {
+        id
+        author {
+          id
+          username
+        }
+        revision {
+          id
+        }
+        status
+        tags {
+          code
+        }
+        ...ModerationActionsContainer_comment
+        ...UserBanPopoverContainer_comment
+      }
+    `,
+    comment
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment ModerationDropdownContainer_story on Story {
+        id
+        ...ModerationActionsContainer_story
+        ...UserBanPopoverContainer_story
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerationDropdownContainer_settings on Settings {
+        ...ModerationActionsContainer_settings
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment ModerationDropdownContainer_viewer on User {
+        ...ModerationActionsContainer_viewer
+      }
+    `,
+    viewer
+  );
+
   const emitShowEvent = useViewerEvent(ShowModerationPopoverEvent);
   const [view, setView] = useState<View>("MODERATE");
   const onBan = useCallback(() => {
@@ -48,26 +95,26 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
 
   // run once.
   useEffect(() => {
-    emitShowEvent({ commentID: comment.id });
-  }, []);
+    emitShowEvent({ commentID: commentData.id });
+  }, [commentData.id, emitShowEvent]);
 
   return (
     <div>
       {view === "MODERATE" ? (
         <Dropdown className={CLASSES.moderationDropdown.$root}>
           <ModerationActionsContainer
-            comment={comment}
-            story={story}
-            viewer={viewer}
-            settings={settings}
+            comment={commentData}
+            story={storyData}
+            viewer={viewerData}
+            settings={settingsData}
             onDismiss={onDismiss}
             onBan={onBan}
           />
         </Dropdown>
       ) : (
         <UserBanPopoverContainer
-          comment={comment}
-          story={story}
+          comment={commentData}
+          story={storyData}
           onDismiss={onDismiss}
         />
       )}
@@ -75,42 +122,4 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ModerationDropdownContainer_comment on Comment {
-      id
-      author {
-        id
-        username
-      }
-      revision {
-        id
-      }
-      status
-      tags {
-        code
-      }
-      ...ModerationActionsContainer_comment
-      ...UserBanPopoverContainer_comment
-    }
-  `,
-  story: graphql`
-    fragment ModerationDropdownContainer_story on Story {
-      id
-      ...ModerationActionsContainer_story
-      ...UserBanPopoverContainer_story
-    }
-  `,
-  settings: graphql`
-    fragment ModerationDropdownContainer_settings on Settings {
-      ...ModerationActionsContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment ModerationDropdownContainer_viewer on User {
-      ...ModerationActionsContainer_viewer
-    }
-  `,
-})(ModerationDropdownContainer);
-
-export default enhanced;
+export default ModerationDropdownContainer;

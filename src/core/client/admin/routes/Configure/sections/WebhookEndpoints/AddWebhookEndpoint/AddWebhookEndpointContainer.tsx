@@ -1,15 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import ConfigBox from "coral-admin/routes/Configure/ConfigBox";
 import Header from "coral-admin/routes/Configure/Header";
 import { urls } from "coral-framework/helpers";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { AddWebhookEndpointContainer_settings$data as AddWebhookEndpointContainer_settings } from "coral-admin/__generated__/AddWebhookEndpointContainer_settings.graphql";
+import { AddWebhookEndpointContainer_settings$key as AddWebhookEndpointContainer_settings } from "coral-admin/__generated__/AddWebhookEndpointContainer_settings.graphql";
 
 import { ConfigureWebhookEndpointForm } from "../ConfigureWebhookEndpointForm";
 import ExperimentalWebhooksCallOut from "../ExperimentalWebhooksCallOut";
@@ -21,6 +20,15 @@ interface Props {
 const AddWebhookEndpointContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment AddWebhookEndpointContainer_settings on Settings {
+        ...ConfigureWebhookEndpointForm_settings
+      }
+    `,
+    settings
+  );
+
   const { router } = useRouter();
   const onCancel = useCallback(() => {
     router.push(urls.admin.webhooks);
@@ -37,7 +45,7 @@ const AddWebhookEndpointContainer: FunctionComponent<Props> = ({
         }
       >
         <ConfigureWebhookEndpointForm
-          settings={settings}
+          settings={settingsData}
           webhookEndpoint={null}
           onCancel={onCancel}
         />
@@ -46,12 +54,4 @@ const AddWebhookEndpointContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment AddWebhookEndpointContainer_settings on Settings {
-      ...ConfigureWebhookEndpointForm_settings
-    }
-  `,
-})(AddWebhookEndpointContainer);
-
-export default enhanced;
+export default AddWebhookEndpointContainer;

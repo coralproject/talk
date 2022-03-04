@@ -1,8 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Flex,
   HorizontalGutter,
@@ -10,8 +9,8 @@ import {
   MarkerCount,
 } from "coral-ui/components/v2";
 
-import { MarkersContainer_comment$data as MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
-import { MarkersContainer_settings$data as MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
+import { MarkersContainer_comment$key as MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
+import { MarkersContainer_settings$key as MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
 
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
@@ -24,17 +23,18 @@ interface MarkersContainerProps {
 
 let keyCounter = 0;
 const markers: Array<(
-  c: MarkersContainer_comment
+  c: MarkersContainer_comment[" $data"]
 ) => React.ReactElement<any> | null> = [
   (c) =>
-    (c.status === "PREMOD" && (
+    (c && c.status === "PREMOD" && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
         <Marker color="pending">Pre-Mod</Marker>
       </Localized>
     )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
         <Localized id="moderate-marker-link" key={keyCounter++}>
           <Marker color="pending">Link</Marker>
@@ -42,7 +42,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD &&
       c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-possibleBannedWord" key={keyCounter++}>
@@ -51,7 +52,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD &&
       !c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
@@ -60,7 +62,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD &&
       c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-possibleSuspectWord" key={keyCounter++}>
@@ -69,7 +72,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD &&
       !c.revision.metadata?.wordList?.timedOut && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
@@ -78,7 +82,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
         <Localized id="moderate-marker-spamDetected" key={keyCounter++}>
           <Marker color="reported">Spam Detected</Marker>
@@ -86,7 +91,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
         <Localized id="moderate-marker-toxic" key={keyCounter++}>
           <Marker color="reported">Toxic</Marker>
@@ -94,7 +100,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_REPEAT_POST && (
         <Localized id="moderate-marker-repeatPost" key={keyCounter++}>
           <Marker color="reported">Repeat comment</Marker>
@@ -102,7 +109,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
         <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
           <Marker color="reported">Recent History</Marker>
@@ -110,7 +118,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
         <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-offensive">
@@ -123,7 +132,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_ABUSIVE && (
         <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-abusive">
@@ -136,7 +146,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
         <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-spam">
@@ -149,7 +160,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_BIO && (
         <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-bio">
@@ -162,7 +174,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OTHER && (
         <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-other">
@@ -175,7 +188,8 @@ const markers: Array<(
       )) ||
     null,
   (c) =>
-    (c.revision &&
+    (c &&
+      c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_NEW_COMMENTER && (
         <Localized id="moderate-marker-newCommenter" key={keyCounter++}>
           <Marker color="reported">New commenter</Marker>
@@ -184,22 +198,82 @@ const markers: Array<(
     null,
 ];
 
-export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = (
-  props
-) => {
+export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = ({
+  comment,
+  settings,
+  onUsernameClick,
+}) => {
+  const commentData = useFragment(
+    graphql`
+      fragment MarkersContainer_comment on Comment {
+        ...ModerateCardDetailsContainer_comment
+        status
+        tags {
+          code
+        }
+        revision {
+          actionCounts {
+            flag {
+              reasons {
+                COMMENT_REPORTED_SPAM
+                COMMENT_REPORTED_OTHER
+                COMMENT_REPORTED_OFFENSIVE
+                COMMENT_REPORTED_ABUSIVE
+                COMMENT_REPORTED_BIO
+                COMMENT_DETECTED_TOXIC
+                COMMENT_DETECTED_SUSPECT_WORD
+                COMMENT_DETECTED_SPAM
+                COMMENT_DETECTED_REPEAT_POST
+                COMMENT_DETECTED_RECENT_HISTORY
+                COMMENT_DETECTED_NEW_COMMENTER
+                COMMENT_DETECTED_LINKS
+                COMMENT_DETECTED_BANNED_WORD
+              }
+            }
+          }
+          metadata {
+            wordList {
+              timedOut
+            }
+            externalModeration {
+              name
+              analyzedAt
+              result {
+                status
+                tags
+                actions {
+                  reason
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment MarkersContainer_settings on Settings {
+        ...ModerateCardDetailsContainer_settings
+      }
+    `,
+    settings
+  );
+
   const elements = useMemo(
-    () => markers.map((cb) => cb(props.comment)).filter((m) => m),
-    [props.comment]
+    () => markers.map((cb) => cb(commentData)).filter((m) => m),
+    [commentData]
   );
 
   const phases = useMemo(() => {
     const validPhases: Array<React.ReactElement<any>> =
-      props.comment?.revision?.metadata?.externalModeration?.map((p) => (
+      commentData?.revision?.metadata?.externalModeration?.map((p) => (
         <Marker key={p.name}>{p.name}</Marker>
       )) || [];
 
     return validPhases;
-  }, [props.comment]);
+  }, [commentData]);
 
   return (
     <>
@@ -209,9 +283,9 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
       <Markers
         details={
           <ModerateCardDetailsContainer
-            onUsernameClick={props.onUsernameClick}
-            comment={props.comment}
-            settings={props.settings}
+            onUsernameClick={onUsernameClick}
+            comment={commentData}
+            settings={settingsData}
           />
         }
       >
@@ -221,58 +295,4 @@ export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = 
   );
 };
 
-const enhanced = withFragmentContainer<MarkersContainerProps>({
-  comment: graphql`
-    fragment MarkersContainer_comment on Comment {
-      ...ModerateCardDetailsContainer_comment
-      status
-      tags {
-        code
-      }
-      revision {
-        actionCounts {
-          flag {
-            reasons {
-              COMMENT_REPORTED_SPAM
-              COMMENT_REPORTED_OTHER
-              COMMENT_REPORTED_OFFENSIVE
-              COMMENT_REPORTED_ABUSIVE
-              COMMENT_REPORTED_BIO
-              COMMENT_DETECTED_TOXIC
-              COMMENT_DETECTED_SUSPECT_WORD
-              COMMENT_DETECTED_SPAM
-              COMMENT_DETECTED_REPEAT_POST
-              COMMENT_DETECTED_RECENT_HISTORY
-              COMMENT_DETECTED_NEW_COMMENTER
-              COMMENT_DETECTED_LINKS
-              COMMENT_DETECTED_BANNED_WORD
-            }
-          }
-        }
-        metadata {
-          wordList {
-            timedOut
-          }
-          externalModeration {
-            name
-            analyzedAt
-            result {
-              status
-              tags
-              actions {
-                reason
-              }
-            }
-          }
-        }
-      }
-    }
-  `,
-  settings: graphql`
-    fragment MarkersContainer_settings on Settings {
-      ...ModerateCardDetailsContainer_settings
-    }
-  `,
-})(MarkersContainer);
-
-export default enhanced;
+export default MarkersContainer;

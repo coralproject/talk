@@ -1,10 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 import Responsive from "react-responsive";
 
-import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
+import { MutationProp } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
   ShowAuthPopupMutation,
@@ -13,8 +13,8 @@ import {
 import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { ReportButton_comment$data as ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
-import { ReportButton_viewer$data as ReportButton_viewer } from "coral-stream/__generated__/ReportButton_viewer.graphql";
+import { ReportButton_comment$key as ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
+import { ReportButton_viewer$key as ReportButton_viewer } from "coral-stream/__generated__/ReportButton_viewer.graphql";
 
 import styles from "./ReportButton.css";
 
@@ -34,12 +34,36 @@ const ReportButton: FunctionComponent<Props> = ({
   viewer,
   open,
 }) => {
-  const isLoggedIn = !!viewer;
+  const viewerData = useFragment(
+    graphql`
+      fragment ReportButton_viewer on User {
+        id
+      }
+    `,
+    viewer
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment ReportButton_comment on Comment {
+        id
+        author {
+          username
+        }
+        viewerActionPresence {
+          dontAgree
+          flag
+        }
+      }
+    `,
+    comment
+  );
+
+  const isLoggedIn = !!viewerData;
 
   const isReported =
-    comment.viewerActionPresence &&
-    (comment.viewerActionPresence.flag ||
-      comment.viewerActionPresence.dontAgree);
+    commentData.viewerActionPresence &&
+    (commentData.viewerActionPresence.flag ||
+      commentData.viewerActionPresence.dontAgree);
 
   const signIn = useCallback(() => {
     void showAuthPopup({ view: "SIGN_IN" });
@@ -81,7 +105,7 @@ const ReportButton: FunctionComponent<Props> = ({
     <Localized
       id="comments-reportButton-aria-report"
       attrs={{ "aria-label": true }}
-      $username={comment.author ? comment.author.username : ""}
+      $username={commentData.author ? commentData.author.username : ""}
     >
       <Button
         className={cn(CLASSES.comment.actionBar.reportButton)}
@@ -109,26 +133,5 @@ const ReportButton: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withShowAuthPopupMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
-      fragment ReportButton_viewer on User {
-        id
-      }
-    `,
-    comment: graphql`
-      fragment ReportButton_comment on Comment {
-        id
-        author {
-          username
-        }
-        viewerActionPresence {
-          dontAgree
-          flag
-        }
-      }
-    `,
-  })(ReportButton)
-);
-
+const enhanced = withShowAuthPopupMutation(ReportButton);
 export default enhanced;

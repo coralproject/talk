@@ -4,13 +4,12 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { ANNOUNCEMENT_DISMISSED_KEY } from "coral-framework/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { AnnouncementContainer_settings$data as SettingsData } from "coral-stream/__generated__/AnnouncementContainer_settings.graphql";
+import { AnnouncementContainer_settings$key as SettingsData } from "coral-stream/__generated__/AnnouncementContainer_settings.graphql";
 
 import Announcement from "./Announcement";
 
@@ -19,8 +18,22 @@ interface Props {
 }
 
 export const AnnouncementContainer: FunctionComponent<Props> = ({
-  settings: { announcement },
+  settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment AnnouncementContainer_settings on Settings {
+        announcement {
+          id
+          content
+        }
+      }
+    `,
+    settings
+  );
+
+  const { announcement } = settingsData;
+
   const { localStorage } = useCoralContext();
   const [dismissed, setDismissed] = useState(false);
 
@@ -58,15 +71,4 @@ export const AnnouncementContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment AnnouncementContainer_settings on Settings {
-      announcement {
-        id
-        content
-      }
-    }
-  `,
-})(AnnouncementContainer);
-
-export default enhanced;
+export default AnnouncementContainer;

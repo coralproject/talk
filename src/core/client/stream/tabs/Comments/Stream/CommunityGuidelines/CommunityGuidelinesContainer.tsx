@@ -1,9 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { CommunityGuidelinesContainer_settings$data as SettingsData } from "coral-stream/__generated__/CommunityGuidelinesContainer_settings.graphql";
+import { CommunityGuidelinesContainer_settings$key as SettingsData } from "coral-stream/__generated__/CommunityGuidelinesContainer_settings.graphql";
 
 import CommunityGuidelines from "./CommunityGuidelines";
 
@@ -14,28 +12,29 @@ interface Props {
 export const CommunityGuidelinesContainerProps: FunctionComponent<Props> = ({
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment CommunityGuidelinesContainer_settings on Settings {
+        communityGuidelines {
+          enabled
+          content
+        }
+      }
+    `,
+    settings
+  );
+
   if (
-    !settings.communityGuidelines.enabled ||
-    !settings.communityGuidelines.content
+    !settingsData.communityGuidelines.enabled ||
+    !settingsData.communityGuidelines.content
   ) {
     return null;
   }
   return (
     <CommunityGuidelines>
-      {settings.communityGuidelines.content}
+      {settingsData.communityGuidelines.content}
     </CommunityGuidelines>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment CommunityGuidelinesContainer_settings on Settings {
-      communityGuidelines {
-        enabled
-        content
-      }
-    }
-  `,
-})(CommunityGuidelinesContainerProps);
-
-export default enhanced;
+export default CommunityGuidelinesContainerProps;

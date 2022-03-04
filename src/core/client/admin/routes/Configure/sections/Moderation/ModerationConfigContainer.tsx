@@ -1,16 +1,13 @@
 import { useRouter } from "found";
 import React, { useEffect, useMemo } from "react";
 import { useForm } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import {
-  purgeMetadata,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { purgeMetadata } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { ModerationConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
+import { ModerationConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
 
 import AkismetConfig from "./AkismetConfig";
 import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
@@ -28,8 +25,26 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
   settings,
   submitting,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerationConfigContainer_settings on Settings {
+        ...AkismetConfig_formValues @relay(mask: false)
+        ...PerspectiveConfig_formValues @relay(mask: false)
+        ...PreModerationConfigContainer_formValues @relay(mask: false)
+        ...PreModerationConfigContainer_settings
+        ...RecentCommentHistoryConfig_formValues @relay(mask: false)
+        ...NewCommentersConfigContainer_settings @relay(mask: false)
+        ...EmailDomainConfigContainer_settings
+      }
+    `,
+    settings
+  );
+
   const form = useForm();
-  useMemo(() => form.initialize(purgeMetadata(settings)), []);
+  useMemo(() => form.initialize(purgeMetadata(settingsData)), [
+    form,
+    settingsData,
+  ]);
 
   const router = useRouter();
   const { window } = useCoralContext();
@@ -38,32 +53,21 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
     const anchorLinkId = router.match.location.hash.replace("#", "");
     // eslint-disable-next-line no-unused-expressions
     window.document.getElementById(anchorLinkId)?.scrollIntoView();
-  }, [router]);
+  }, [router, window.document]);
 
   return (
     <HorizontalGutter size="double" data-testid="configure-moderationContainer">
-      <PreModerationConfigContainer disabled={submitting} settings={settings} />
+      <PreModerationConfigContainer
+        disabled={submitting}
+        settings={settingsData}
+      />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
       <NewCommentersConfig disabled={submitting} />
       <RecentCommentHistoryConfig disabled={submitting} />
-      <EmailDomainConfigContainer settings={settings} />
+      <EmailDomainConfigContainer settings={settingsData} />
     </HorizontalGutter>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ModerationConfigContainer_settings on Settings {
-      ...AkismetConfig_formValues @relay(mask: false)
-      ...PerspectiveConfig_formValues @relay(mask: false)
-      ...PreModerationConfigContainer_formValues @relay(mask: false)
-      ...PreModerationConfigContainer_settings
-      ...RecentCommentHistoryConfig_formValues @relay(mask: false)
-      ...NewCommentersConfigContainer_settings @relay(mask: false)
-      ...EmailDomainConfigContainer_settings
-    }
-  `,
-})(ModerationConfigContainer);
-
-export default enhanced;
+export default ModerationConfigContainer;

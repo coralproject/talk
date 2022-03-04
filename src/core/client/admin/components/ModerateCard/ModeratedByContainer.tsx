@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { useCallback, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { BaseButton } from "coral-ui/components/v2";
 
-import { ModeratedByContainer_comment$data as ModeratedByContainer_comment } from "coral-admin/__generated__/ModeratedByContainer_comment.graphql";
+import { ModeratedByContainer_comment$key as ModeratedByContainer_comment } from "coral-admin/__generated__/ModeratedByContainer_comment.graphql";
 
 import styles from "./ModeratedByContainer.css";
 
@@ -29,21 +28,52 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
   comment,
   onUsernameClicked,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ModeratedByContainer_comment on Comment {
+        id
+        status
+        viewerDidModerate
+        statusHistory(first: 1) {
+          edges {
+            node {
+              status
+              moderator {
+                id
+                username
+              }
+            }
+          }
+        }
+        revision {
+          metadata {
+            externalModeration {
+              name
+              result {
+                status
+              }
+            }
+          }
+        }
+      }
+    `,
+    comment
+  );
   const moderatedBy: ModeratedBy | null = useMemo(() => {
     // If the comment was just moderated by the viewer, don't display anything.
     // This will update once the mutation returns.
-    if (comment.viewerDidModerate) {
+    if (commentData.viewerDidModerate) {
       return null;
     }
 
     // If the comment has not been approved or rejected, don't render anything.
-    if (!MODERATION_STATUS.includes(comment.status)) {
+    if (!MODERATION_STATUS.includes(commentData.status)) {
       return null;
     }
 
-    if (comment.statusHistory.edges.length === 0) {
-      const externalModPhases = comment.revision?.metadata?.externalModeration
-        ?.filter((m) => m.result.status === comment.status)
+    if (commentData.statusHistory.edges.length === 0) {
+      const externalModPhases = commentData.revision?.metadata?.externalModeration
+        ?.filter((m) => m.result.status === commentData.status)
         .map((m: { name: string }) => m.name);
       if (externalModPhases && externalModPhases.length > 0) {
         return {
@@ -56,7 +86,7 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
     // Get the node that was the last moderated by element.
     const {
       node: { status, moderator },
-    } = comment.statusHistory.edges[0];
+    } = commentData.statusHistory.edges[0];
     if (!MODERATION_STATUS.includes(status)) {
       return null;
     }
@@ -66,7 +96,7 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
     }
 
     return moderator;
-  }, [comment]);
+  }, [commentData]);
 
   const onClick = useCallback(() => {
     if (!moderatedBy || !moderatedBy.id) {
@@ -103,35 +133,4 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
   return <BaseButton onClick={onClick}>{ModeratedByNode}</BaseButton>;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment ModeratedByContainer_comment on Comment {
-      id
-      status
-      viewerDidModerate
-      statusHistory(first: 1) {
-        edges {
-          node {
-            status
-            moderator {
-              id
-              username
-            }
-          }
-        }
-      }
-      revision {
-        metadata {
-          externalModeration {
-            name
-            result {
-              status
-            }
-          }
-        }
-      }
-    }
-  `,
-})(ModeratedByContainer);
-
-export default enhanced;
+export default ModeratedByContainer;

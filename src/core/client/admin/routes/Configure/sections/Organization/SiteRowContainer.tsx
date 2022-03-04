@@ -1,21 +1,31 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Button, Flex, Icon } from "coral-ui/components/v2";
 import { TableCell, TableRow } from "coral-ui/components/v2/Table";
 
-import { SiteRowContainer_site$data as SiteRowContainer_site } from "coral-admin/__generated__/SiteRowContainer_site.graphql";
+import { SiteRowContainer_site$key as SiteRowContainer_site } from "coral-admin/__generated__/SiteRowContainer_site.graphql";
 
 interface Props {
   site: SiteRowContainer_site;
 }
 
 const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
+  const siteData = useFragment(
+    graphql`
+      fragment SiteRowContainer_site on Site {
+        id
+        name
+        createdAt
+      }
+    `,
+    site
+  );
+
   return (
     <TableRow>
-      <TableCell>{site.name}</TableCell>
+      <TableCell>{siteData.name}</TableCell>
       <TableCell>
         <Flex justifyContent="flex-end">
           <Localized
@@ -24,7 +34,7 @@ const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
           >
             <Button
               variant="text"
-              to={`/admin/configure/organization/sites/${site.id}`}
+              to={`/admin/configure/organization/sites/${siteData.id}`}
               iconRight
             >
               Details
@@ -37,14 +47,4 @@ const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  site: graphql`
-    fragment SiteRowContainer_site on Site {
-      id
-      name
-      createdAt
-    }
-  `,
-})(SiteRowContainer);
-
-export default enhanced;
+export default SiteRowContainer;

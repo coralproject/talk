@@ -1,20 +1,16 @@
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import {
-  useFetch,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useFetch, useMutation } from "coral-framework/lib/relay";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 
-import { ReactionButtonContainer_comment$data as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
-import { ReactionButtonContainer_settings$data as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
-import { ReactionButtonContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
+import { ReactionButtonContainer_comment$key as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
+import { ReactionButtonContainer_settings$key as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
+import { ReactionButtonContainer_viewer$key as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 
 import { shouldTriggerViewerRefresh } from "../../helpers";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
@@ -41,26 +37,71 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
   reactedClassName,
   isQA = false,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment ReactionButtonContainer_viewer on User {
+        id
+      }
+    `,
+    viewer
+  );
+  const commentData = useFragment(
+    graphql`
+      fragment ReactionButtonContainer_comment on Comment {
+        id
+        author {
+          id
+          username
+        }
+        revision {
+          id
+        }
+        viewerActionPresence {
+          reaction
+        }
+        actionCounts {
+          reaction {
+            total
+          }
+        }
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ReactionButtonContainer_settings on Settings {
+        reaction {
+          label
+          labelActive
+          icon
+          iconActive
+        }
+      }
+    `,
+    settings
+  );
+
   const { window } = useCoralContext();
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const createCommentReaction = useMutation(CreateCommentReactionMutation);
   const removeCommentReaction = useMutation(RemoveCommentReactionMutation);
   const refreshViewer = useFetch(RefreshViewerFetch);
-  const isLoggedIn = !!viewer;
+  const isLoggedIn = !!viewerData;
   const handleClick = useCallback(async () => {
     if (!isLoggedIn) {
       return showAuthPopup({ view: "SIGN_IN" });
     }
 
     const input = {
-      commentID: comment.id,
+      commentID: commentData.id,
       // Can assume revision is not null as we tombstone when comment revisions
       // don't exist.
-      commentRevisionID: comment.revision!.id,
-      author: comment.author,
+      commentRevisionID: commentData.revision!.id,
+      author: commentData.author,
     };
 
-    const alreadyReacted = !!comment.viewerActionPresence?.reaction;
+    const alreadyReacted = !!commentData.viewerActionPresence?.reaction;
 
     try {
       if (alreadyReacted) {
@@ -84,10 +125,10 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
       }
     }
   }, [
-    comment.author,
-    comment.id,
-    comment.revision,
-    comment.viewerActionPresence?.reaction,
+    commentData.author,
+    commentData.id,
+    commentData.revision,
+    commentData.viewerActionPresence?.reaction,
     createCommentReaction,
     isLoggedIn,
     refreshViewer,
@@ -100,7 +141,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
     actionCounts: {
       reaction: { total: totalReactions },
     },
-  } = comment;
+  } = commentData;
 
   if (readOnly && totalReactions === 0) {
     return null;
@@ -108,9 +149,9 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
 
   const {
     reaction: { label, labelActive, icon, iconActive },
-  } = settings;
+  } = settingsData;
 
-  const reacted = !!comment.viewerActionPresence?.reaction;
+  const reacted = !!commentData.viewerActionPresence?.reaction;
 
   return (
     <ReactionButton
@@ -124,47 +165,9 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
       iconActive={iconActive}
       readOnly={readOnly}
       isQA={isQA}
-      author={comment.author?.username}
+      author={commentData.author?.username}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment ReactionButtonContainer_viewer on User {
-      id
-    }
-  `,
-  comment: graphql`
-    fragment ReactionButtonContainer_comment on Comment {
-      id
-      author {
-        id
-        username
-      }
-      revision {
-        id
-      }
-      viewerActionPresence {
-        reaction
-      }
-      actionCounts {
-        reaction {
-          total
-        }
-      }
-    }
-  `,
-  settings: graphql`
-    fragment ReactionButtonContainer_settings on Settings {
-      reaction {
-        label
-        labelActive
-        icon
-        iconActive
-      }
-    }
-  `,
-})(ReactionButtonContainer);
-
-export default enhanced;
+export default ReactionButtonContainer;

@@ -2,10 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   required,
   validateStrictURLList,
@@ -20,8 +20,8 @@ import {
   Label,
 } from "coral-ui/components/v2";
 
-import { EditSiteForm_settings$data as SettingsData } from "coral-admin/__generated__/EditSiteForm_settings.graphql";
-import { EditSiteForm_site$data as SiteData } from "coral-admin/__generated__/EditSiteForm_site.graphql";
+import { EditSiteForm_settings$key as SettingsData } from "coral-admin/__generated__/EditSiteForm_settings.graphql";
+import { EditSiteForm_site$key as SiteData } from "coral-admin/__generated__/EditSiteForm_site.graphql";
 
 import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
@@ -39,18 +39,41 @@ const EditSiteForm: FunctionComponent<Props> = ({
   settings,
   onEditSuccess,
 }) => {
+  const siteData = useFragment(
+    graphql`
+      fragment EditSiteForm_site on Site {
+        name
+        createdAt
+        id
+        allowedOrigins
+      }
+    `,
+    site
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment EditSiteForm_settings on Settings {
+        staticURI
+      }
+    `,
+    settings
+  );
+
   const updateSite = useMutation(UpdateSiteMutation);
   const [submitError, setSubmitError] = useState<null | string>(null);
-  const onSubmit = useCallback(async (input, form: FormApi) => {
-    try {
-      const result = await updateSite({ site: input, id: site.id });
-      if (result) {
-        onEditSuccess(result.site.name);
+  const onSubmit = useCallback(
+    async (input, form: FormApi) => {
+      try {
+        const result = await updateSite({ site: input, id: siteData.id });
+        if (result) {
+          onEditSuccess(result.site.name);
+        }
+      } catch (error) {
+        setSubmitError(error.message);
       }
-    } catch (error) {
-      setSubmitError(error.message);
-    }
-  }, []);
+    },
+    [onEditSuccess, siteData.id, updateSite]
+  );
   return (
     <div>
       <Form onSubmit={onSubmit}>
@@ -69,7 +92,11 @@ const EditSiteForm: FunctionComponent<Props> = ({
                     </HelperText>
                   </Localized>
                 </FormFieldHeader>
-                <Field name="name" validate={required} defaultValue={site.name}>
+                <Field
+                  name="name"
+                  validate={required}
+                  defaultValue={siteData.name}
+                >
                   {({ input, meta }) => (
                     <TextFieldWithValidation
                       {...input}
@@ -95,7 +122,7 @@ const EditSiteForm: FunctionComponent<Props> = ({
                 </FormFieldHeader>
                 <Field
                   name="allowedOrigins"
-                  defaultValue={site.allowedOrigins}
+                  defaultValue={siteData.allowedOrigins}
                   parse={parseStringList}
                   format={formatStringList}
                   validate={validateStrictURLList}
@@ -121,7 +148,7 @@ const EditSiteForm: FunctionComponent<Props> = ({
                   </Localized>
                 </FormFieldHeader>
 
-                <EmbedCode staticURI={settings.staticURI} />
+                <EmbedCode staticURI={settingsData.staticURI} />
               </FormField>
               {submitError && (
                 <CallOut fullWidth color="error">
@@ -148,20 +175,4 @@ const EditSiteForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  site: graphql`
-    fragment EditSiteForm_site on Site {
-      name
-      createdAt
-      id
-      allowedOrigins
-    }
-  `,
-  settings: graphql`
-    fragment EditSiteForm_settings on Settings {
-      staticURI
-    }
-  `,
-})(EditSiteForm);
-
-export default enhanced;
+export default EditSiteForm;

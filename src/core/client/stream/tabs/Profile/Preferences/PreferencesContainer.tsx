@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { PreferencesContainer_settings$data as PreferencesContainer_settings } from "coral-stream/__generated__/PreferencesContainer_settings.graphql";
-import { PreferencesContainer_viewer$data as PreferencesContainer_viewer } from "coral-stream/__generated__/PreferencesContainer_viewer.graphql";
+import { PreferencesContainer_settings$key as PreferencesContainer_settings } from "coral-stream/__generated__/PreferencesContainer_settings.graphql";
+import { PreferencesContainer_viewer$key as PreferencesContainer_viewer } from "coral-stream/__generated__/PreferencesContainer_viewer.graphql";
 
 import BioContainer from "./BioContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
@@ -17,32 +16,39 @@ interface Props {
   settings: PreferencesContainer_settings;
 }
 
-const PreferencesContainer: FunctionComponent<Props> = (props) => {
+const PreferencesContainer: FunctionComponent<Props> = ({
+  settings,
+  viewer,
+}) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment PreferencesContainer_settings on Settings {
+        ...MediaSettingsContainer_settings
+        ...BioContainer_settings
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment PreferencesContainer_viewer on User {
+        ...NotificationSettingsContainer_viewer
+        ...IgnoreUserSettingsContainer_viewer
+        ...MediaSettingsContainer_viewer
+        ...BioContainer_viewer
+      }
+    `,
+    viewer
+  );
+
   return (
     <HorizontalGutter spacing={4}>
-      <BioContainer viewer={props.viewer} settings={props.settings} />
-      <NotificationSettingsContainer viewer={props.viewer} />
-      <MediaSettingsContainer viewer={props.viewer} settings={props.settings} />
-      <IgnoreUserSettingsContainer viewer={props.viewer} />
+      <BioContainer viewer={viewerData} settings={settingsData} />
+      <NotificationSettingsContainer viewer={viewerData} />
+      <MediaSettingsContainer viewer={viewerData} settings={settingsData} />
+      <IgnoreUserSettingsContainer viewer={viewerData} />
     </HorizontalGutter>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment PreferencesContainer_settings on Settings {
-      ...MediaSettingsContainer_settings
-      ...BioContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment PreferencesContainer_viewer on User {
-      ...NotificationSettingsContainer_viewer
-      ...IgnoreUserSettingsContainer_viewer
-      ...MediaSettingsContainer_viewer
-      ...BioContainer_viewer
-    }
-  `,
-})(PreferencesContainer);
-
-export default enhanced;
+export default PreferencesContainer;

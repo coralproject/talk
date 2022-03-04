@@ -1,8 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   ExternalMedia,
   GiphyMedia,
@@ -11,8 +10,8 @@ import {
 } from "coral-stream/common/Media";
 import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
-import { MediaSectionContainer_comment$data as MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
-import { MediaSectionContainer_settings$data as MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
+import { MediaSectionContainer_comment$key as MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
+import { MediaSectionContainer_settings$key as MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
 
 import styles from "./MediaSectionContainer.css";
 
@@ -27,21 +26,82 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   settings,
   defaultExpanded = false,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment MediaSectionContainer_comment on Comment {
+        id
+        site {
+          id
+        }
+        revision {
+          media {
+            __typename
+            ... on GiphyMedia {
+              url
+              title
+              width
+              height
+              still
+              video
+            }
+            ... on TwitterMedia {
+              url
+              width
+            }
+            ... on YouTubeMedia {
+              url
+              width
+              height
+            }
+            ... on ExternalMedia {
+              url
+            }
+          }
+        }
+      }
+    `,
+    comment
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment MediaSectionContainer_settings on Settings {
+        media {
+          twitter {
+            enabled
+          }
+          youtube {
+            enabled
+          }
+          giphy {
+            enabled
+          }
+          external {
+            enabled
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   const [expanded, setExpanded] = useState(defaultExpanded);
   const onToggleExpand = useCallback(() => {
     setExpanded((v) => !v);
   }, []);
 
-  const media = comment.revision?.media;
+  const media = commentData.revision?.media;
   if (!media) {
     return null;
   }
 
   if (
-    (media.__typename === "TwitterMedia" && !settings.media.twitter.enabled) ||
-    (media.__typename === "YouTubeMedia" && !settings.media.youtube.enabled) ||
-    (media.__typename === "GiphyMedia" && !settings.media.giphy.enabled) ||
-    (media.__typename === "ExternalMedia" && !settings.media.external.enabled)
+    (media.__typename === "TwitterMedia" &&
+      !settingsData.media.twitter.enabled) ||
+    (media.__typename === "YouTubeMedia" &&
+      !settingsData.media.youtube.enabled) ||
+    (media.__typename === "GiphyMedia" && !settingsData.media.giphy.enabled) ||
+    (media.__typename === "ExternalMedia" &&
+      !settingsData.media.external.enabled)
   ) {
     return null;
   }
@@ -113,23 +173,23 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       </div>
       {media.__typename === "ExternalMedia" && (
         <ExternalMedia
-          id={comment.id}
+          id={commentData.id}
           url={media.url}
-          siteID={comment.site.id}
+          siteID={commentData.site.id}
         />
       )}
       {media.__typename === "TwitterMedia" && (
         <TwitterMedia
-          id={comment.id}
+          id={commentData.id}
           url={media.url}
-          siteID={comment.site.id}
+          siteID={commentData.site.id}
         />
       )}
       {media.__typename === "YouTubeMedia" && (
         <YouTubeMedia
-          id={comment.id}
+          id={commentData.id}
           url={media.url}
-          siteID={comment.site.id}
+          siteID={commentData.site.id}
         />
       )}
       {media.__typename === "GiphyMedia" && (
@@ -145,58 +205,4 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment MediaSectionContainer_comment on Comment {
-      id
-      site {
-        id
-      }
-      revision {
-        media {
-          __typename
-          ... on GiphyMedia {
-            url
-            title
-            width
-            height
-            still
-            video
-          }
-          ... on TwitterMedia {
-            url
-            width
-          }
-          ... on YouTubeMedia {
-            url
-            width
-            height
-          }
-          ... on ExternalMedia {
-            url
-          }
-        }
-      }
-    }
-  `,
-  settings: graphql`
-    fragment MediaSectionContainer_settings on Settings {
-      media {
-        twitter {
-          enabled
-        }
-        youtube {
-          enabled
-        }
-        giphy {
-          enabled
-        }
-        external {
-          enabled
-        }
-      }
-    }
-  `,
-})(MediaSectionContainer);
-
-export default enhanced;
+export default MediaSectionContainer;

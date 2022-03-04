@@ -19,9 +19,12 @@ import { HistoryCommentFooterContainerPaginationQuery } from "coral-stream/__gen
 
 import styles from "./HistoryCommentFooterContainer.css";
 
-interface Props {
+interface RootQueryProps {
   comment: HistoryCommentFooterContainer_comment;
   settings: HistoryCommentFooterContainer_settings;
+}
+
+interface Props extends RootQueryProps {
   relay: RelayPaginationProp;
   onGotoConversation: (e: React.MouseEvent) => void;
 }
@@ -127,7 +130,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
 type FragmentVariables = HistoryCommentFooterContainerPaginationQuery;
 
 const enhanced = withPaginationContainer<
-  Props,
+  RootQueryProps,
   HistoryCommentFooterContainerPaginationQuery,
   FragmentVariables
 >(

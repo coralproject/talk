@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
 import { CopyButton } from "coral-framework/components";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Flex,
   FormField,
@@ -15,7 +14,7 @@ import {
   PasswordField,
 } from "coral-ui/components/v2";
 
-import { EndpointStatus_webhookEndpoint } from "coral-admin/__generated__/EndpointStatus_webhookEndpoint.graphql";
+import { EndpointStatus_webhookEndpoint$key as EndpointStatus_webhookEndpoint } from "coral-admin/__generated__/EndpointStatus_webhookEndpoint.graphql";
 
 import StatusMarker from "../StatusMarker";
 
@@ -24,6 +23,20 @@ interface Props {
 }
 
 const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
+  const webhookEndpointData = useFragment(
+    graphql`
+      fragment EndpointStatus_webhookEndpoint on WebhookEndpoint {
+        id
+        enabled
+        signingSecret {
+          secret
+          createdAt
+        }
+      }
+    `,
+    webhookEndpoint
+  );
+
   return (
     <>
       <Localized id="configure-webhooks-endpointStatus">
@@ -33,7 +46,7 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
         <Localized id="configure-webhooks-status">
           <Label>Status</Label>
         </Localized>
-        <StatusMarker enabled={webhookEndpoint.enabled} />
+        <StatusMarker enabled={webhookEndpointData.enabled} />
       </FormField>
       <FormField>
         <Localized id="configure-webhooks-signingSecret">
@@ -56,18 +69,18 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
         </Localized>
         <Flex direction="row" itemGutter="half" alignItems="center">
           <PasswordField
-            value={webhookEndpoint.signingSecret.secret}
+            value={webhookEndpointData.signingSecret.secret}
             fullWidth
             readOnly
           />
-          <CopyButton text={webhookEndpoint.signingSecret.secret} />
+          <CopyButton text={webhookEndpointData.signingSecret.secret} />
         </Flex>
         <Localized
           id="configure-webhooks-generatedAt"
-          $date={new Date(webhookEndpoint.signingSecret.createdAt)}
+          $date={new Date(webhookEndpointData.signingSecret.createdAt)}
         >
           <HelperText>
-            KEY GENERATED AT: {webhookEndpoint.signingSecret.createdAt}
+            KEY GENERATED AT: {webhookEndpointData.signingSecret.createdAt}
           </HelperText>
         </Localized>
       </FormField>
@@ -75,17 +88,4 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  webhookEndpoint: graphql`
-    fragment EndpointStatus_webhookEndpoint on WebhookEndpoint {
-      id
-      enabled
-      signingSecret {
-        secret
-        createdAt
-      }
-    }
-  `,
-})(EndpointStatus);
-
-export default enhanced;
+export default EndpointStatus;

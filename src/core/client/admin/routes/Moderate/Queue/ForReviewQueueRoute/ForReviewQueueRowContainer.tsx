@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import None from "coral-admin/components/None";
 import NotAvailable from "coral-admin/components/NotAvailable";
@@ -9,18 +9,18 @@ import NoTextContent from "coral-admin/components/NoTextContent";
 import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
 import getModerationLink from "coral-framework/helpers/getModerationLink";
 import useDateTimeFormatter from "coral-framework/hooks/useDateTimeFormatter";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { TableCell, TableRow, TextLink } from "coral-ui/components/v2";
 
 import {
   COMMENT_FLAG_REASON,
-  ForReviewQueueRowContainer_flag,
+  ForReviewQueueRowContainer_flag$key as ForReviewQueueRowContainer_flag,
 } from "coral-admin/__generated__/ForReviewQueueRowContainer_flag.graphql";
 
 import { MarkFlagReviewedMutation } from "./MarkFlagReviewedMutation";
+import ReviewButton from "./ReviewButton";
 
 import styles from "./ForReviewQueueRowContainer.css";
-import ReviewButton from "./ReviewButton";
 
 interface Props {
   flag: ForReviewQueueRowContainer_flag;
@@ -110,9 +110,34 @@ const ReasonText: FunctionComponent<ReasonTextProps> = ({ reason }) => {
 };
 
 const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
+  const flagData = useFragment(
+    graphql`
+      fragment ForReviewQueueRowContainer_flag on Flag {
+        id
+        createdAt
+        flagger {
+          username
+        }
+        reason
+        additionalDetails
+        reviewed
+        revision {
+          body
+        }
+        comment {
+          id
+        }
+        revision {
+          body
+        }
+      }
+    `,
+    flag
+  );
+
   const markFlagged = useMutation(MarkFlagReviewedMutation);
   const handleReviewButtonClick = () => {
-    void markFlagged({ id: flag.id });
+    void markFlagged({ id: flagData.id });
   };
 
   const formatter = useDateTimeFormatter({
@@ -123,24 +148,24 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
     minute: "2-digit",
   });
 
-  const username = flag.flagger?.username || "";
+  const username = flagData.flagger?.username || "";
   const usernameTitle = username.length >= 20 ? username : undefined;
 
   return (
-    <TableRow data-testid={`moderate-flag-${flag.id}`}>
+    <TableRow data-testid={`moderate-flag-${flagData.id}`}>
       <TableCell className={styles.timeColumn}>
-        {formatter(flag.createdAt)}
+        {formatter(flagData.createdAt)}
       </TableCell>
       <TableCell className={styles.column}>
         <div className={styles.commentContainer}>
           <Link
             as={TextLink}
-            to={getModerationLink({ commentID: flag.comment.id })}
+            to={getModerationLink({ commentID: flagData.comment.id })}
           >
-            {flag.revision === null ? (
+            {flagData.revision === null ? (
               <NotAvailable />
             ) : (
-              getHTMLPlainText(flag.revision?.body || "")
+              getHTMLPlainText(flagData.revision?.body || "")
                 .trim()
                 .substr(0, 40) || <NoTextContent />
             )}
@@ -153,15 +178,15 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
         </div>
       </TableCell>
       <TableCell className={styles.column}>
-        <ReasonText reason={flag.reason} />
+        <ReasonText reason={flagData.reason} />
       </TableCell>
       <TableCell className={styles.descriptionColumn}>
-        {flag.additionalDetails || <None />}
+        {flagData.additionalDetails || <None />}
       </TableCell>
       <TableCell className={styles.reviewedColumn} align="center">
         <ReviewButton
-          checked={flag.reviewed}
-          readOnly={flag.reviewed}
+          checked={flagData.reviewed}
+          readOnly={flagData.reviewed}
           onClick={handleReviewButtonClick}
         />
       </TableCell>
@@ -169,28 +194,4 @@ const ForReviewQueueRowContainer: FunctionComponent<Props> = ({ flag }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  flag: graphql`
-    fragment ForReviewQueueRowContainer_flag on Flag {
-      id
-      createdAt
-      flagger {
-        username
-      }
-      reason
-      additionalDetails
-      reviewed
-      revision {
-        body
-      }
-      comment {
-        id
-      }
-      revision {
-        body
-      }
-    }
-  `,
-})(ForReviewQueueRowContainer);
-
-export default enhanced;
+export default ForReviewQueueRowContainer;

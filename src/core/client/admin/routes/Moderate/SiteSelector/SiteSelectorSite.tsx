@@ -2,11 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { SiteSelectorSite_site$data as SiteSelectorSite_site } from "coral-admin/__generated__/SiteSelectorSite_site.graphql";
+import { SiteSelectorSite_site$key as SiteSelectorSite_site } from "coral-admin/__generated__/SiteSelectorSite_site.graphql";
 
 import styles from "./SiteSelectorSite.css";
 
@@ -17,6 +15,16 @@ interface Props {
 }
 
 const SiteSelectorSite: FunctionComponent<Props> = ({ site, link, active }) => {
+  const siteData = useFragment(
+    graphql`
+      fragment SiteSelectorSite_site on Site {
+        name
+        id
+      }
+    `,
+    site
+  );
+
   return (
     <Link
       className={cn(styles.root, {
@@ -24,8 +32,8 @@ const SiteSelectorSite: FunctionComponent<Props> = ({ site, link, active }) => {
       })}
       to={link || ""}
     >
-      {site ? (
-        site.name
+      {siteData ? (
+        siteData.name
       ) : (
         <Localized id="sites-selector-allSites">All sites</Localized>
       )}
@@ -33,13 +41,4 @@ const SiteSelectorSite: FunctionComponent<Props> = ({ site, link, active }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  site: graphql`
-    fragment SiteSelectorSite_site on Site {
-      name
-      id
-    }
-  `,
-})(SiteSelectorSite);
-
-export default enhanced;
+export default SiteSelectorSite;

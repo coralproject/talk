@@ -1,13 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { DropdownButton, Icon, Spinner } from "coral-ui/components/v2";
 
-import { ModerationActionBanContainer_user$data as ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
+import { ModerationActionBanContainer_user$key as ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
 
 import styles from "./ModerationActionBanContainer.css";
 
@@ -21,7 +20,21 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
   user,
   onBan,
 }) => {
-  if (!user) {
+  const userData = useFragment(
+    graphql`
+      fragment ModerationActionBanContainer_user on User {
+        id
+        status {
+          ban {
+            active
+          }
+        }
+      }
+    `,
+    user
+  );
+
+  if (!userData) {
     return (
       <Localized id="comments-moderationDropdown-ban">
         <DropdownButton
@@ -43,7 +56,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
       </Localized>
     );
   }
-  const banned = user.status.ban.active;
+  const banned = userData.status.ban.active;
   if (banned) {
     return (
       <Localized id="comments-moderationDropdown-banned">
@@ -86,17 +99,4 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment ModerationActionBanContainer_user on User {
-      id
-      status {
-        ban {
-          active
-        }
-      }
-    }
-  `,
-})(ModerationActionBanContainer);
-
-export default enhanced;
+export default ModerationActionBanContainer;

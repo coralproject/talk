@@ -1,13 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import ConfigBox from "coral-admin/routes/Configure/ConfigBox";
 import Header from "coral-admin/routes/Configure/Header";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { ConfigureExternalModerationPhaseContainer_phase } from "coral-admin/__generated__/ConfigureExternalModerationPhaseContainer_phase.graphql";
+import { ConfigureExternalModerationPhaseContainer_phase$key as ConfigureExternalModerationPhaseContainer_phase } from "coral-admin/__generated__/ConfigureExternalModerationPhaseContainer_phase.graphql";
 
 import ExperimentalExternalModerationPhaseCallOut from "../ExperimentalExternalModerationPhaseCallOut";
 import ExternalModerationPhaseDangerZone from "./ExternalModerationPhaseDangerZone";
@@ -21,6 +20,17 @@ interface Props {
 const ConfigureExternalModerationPhaseContainer: FunctionComponent<Props> = ({
   phase,
 }) => {
+  const phaseData = useFragment(
+    graphql`
+      fragment ConfigureExternalModerationPhaseContainer_phase on ExternalModerationPhase {
+        ...ExternalModerationPhaseDetails_phase
+        ...ExternalModerationPhaseDangerZone_phase
+        ...ExternalModerationPhaseStatus_phase
+      }
+    `,
+    phase
+  );
+
   return (
     <HorizontalGutter
       size="double"
@@ -36,22 +46,12 @@ const ConfigureExternalModerationPhaseContainer: FunctionComponent<Props> = ({
           </Localized>
         }
       >
-        <ExternalModerationPhaseDetails phase={phase} />
-        <ExternalModerationPhaseStatus phase={phase} />
-        <ExternalModerationPhaseDangerZone phase={phase} />
+        <ExternalModerationPhaseDetails phase={phaseData} />
+        <ExternalModerationPhaseStatus phase={phaseData} />
+        <ExternalModerationPhaseDangerZone phase={phaseData} />
       </ConfigBox>
     </HorizontalGutter>
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  phase: graphql`
-    fragment ConfigureExternalModerationPhaseContainer_phase on ExternalModerationPhase {
-      ...ExternalModerationPhaseDetails_phase
-      ...ExternalModerationPhaseDangerZone_phase
-      ...ExternalModerationPhaseStatus_phase
-    }
-  `,
-})(ConfigureExternalModerationPhaseContainer);
-
-export default enhanced;
+export default ConfigureExternalModerationPhaseContainer;

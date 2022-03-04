@@ -1,17 +1,20 @@
 import { CoralRTE } from "@coralproject/rte";
 import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 
-import { EditCommentFormContainer_comment$data as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
-import { EditCommentFormContainer_settings$data as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
-import { EditCommentFormContainer_story$data as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
+import {
+  EditCommentFormContainer_comment as CommentData,
+  EditCommentFormContainer_comment$key,
+} from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
+import { EditCommentFormContainer_settings$key } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
+import { EditCommentFormContainer_story$key } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
 
 import {
   getSubmitStatus,
@@ -28,9 +31,9 @@ import {
 
 interface Props {
   editComment: EditCommentMutation;
-  comment: CommentData;
-  settings: SettingsData;
-  story: StoryData;
+  comment: EditCommentFormContainer_comment$key;
+  settings: EditCommentFormContainer_settings$key;
+  story: EditCommentFormContainer_story$key;
   onClose?: () => void;
 }
 
@@ -72,116 +75,8 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
   story,
   onClose,
 }) => {
-  const { browserInfo } = useCoralContext();
-  const refreshSettingsFetch = useFetch(RefreshSettingsFetch);
-  const [expired, setExpired] = useState(
-    !!comment.editing.editableUntil &&
-      !isBeforeDate(comment.editing.editableUntil)
-  );
-  const [submitStatus, setSubmitStatus] = useState<null | SubmitStatus>(null);
-  const [initialValues, setInitialValues] = useState({
-    body: comment.body || "",
-    media: getMediaFromComment(comment),
-  });
-  const updateWhenExpired = () => {
-    const ms = new Date(comment.editing.editableUntil!).getTime() - Date.now();
-    if (ms > 0) {
-      return setLongTimeout(() => setExpired(true), ms);
-    }
-    return;
-  };
-
-  const expiredTimer: LongTimeout | undefined = updateWhenExpired();
-
-  useEffect(() => {
-    return () => {
-      if (expiredTimer) {
-        clearLongTimeout(expiredTimer);
-      }
-    };
-  }, []);
-
-  const handleRTERef = (rte: CoralRTE | null) => {
-    // Disable autofocus on ios and enable for the rest.
-    const autofocus = !browserInfo.ios;
-    if (rte && autofocus) {
-      rte.focus();
-    }
-  };
-
-  const handleOnCancelOrClose = () => {
-    if (onClose) {
-      onClose();
-    }
-  };
-
-  const handleOnSubmit: EditCommentFormProps["onSubmit"] = async (input) => {
-    try {
-      const editSubmitStatus = getSubmitStatus(
-        await editComment({
-          commentID: comment.id,
-          body: input.body,
-          media: input.media,
-        })
-      );
-      if (editSubmitStatus !== "RETRY") {
-        if (editSubmitStatus === "APPROVED" && onClose) {
-          onClose();
-          return;
-        }
-      }
-      setSubmitStatus(editSubmitStatus);
-    } catch (error) {
-      if (error instanceof InvalidRequestError) {
-        if (shouldTriggerSettingsRefresh(error.code)) {
-          setInitialValues({
-            body: input.body || "",
-            media: getMediaFromComment(comment),
-          });
-          await refreshSettingsFetch({ storyID: story.id });
-        }
-        return error.invalidArgs;
-      }
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-    return;
-  };
-
-  if (submitStatus && submitStatus !== "RETRY") {
-    return (
-      <ReplyEditSubmitStatus
-        status={submitStatus}
-        onDismiss={handleOnCancelOrClose}
-        buttonClassName={CLASSES.editComment.dismiss}
-        inReviewClassName={CLASSES.editComment.inReview}
-      />
-    );
-  }
-  return (
-    <EditCommentForm
-      siteID={comment.site.id}
-      id={comment.id}
-      rteConfig={settings.rte}
-      onSubmit={handleOnSubmit}
-      initialValues={initialValues}
-      onCancel={handleOnCancelOrClose}
-      onClose={handleOnCancelOrClose}
-      rteRef={handleRTERef}
-      author={comment.author}
-      createdAt={comment.createdAt}
-      editableUntil={comment.editing.editableUntil!}
-      expired={expired}
-      mediaConfig={settings.media}
-      min={(settings.charCount.enabled && settings.charCount.min) || null}
-      max={(settings.charCount.enabled && settings.charCount.max) || null}
-    />
-  );
-};
-
-const enhanced = withEditCommentMutation(
-  withFragmentContainer<Props>({
-    comment: graphql`
+  const commentData = useFragment(
+    graphql`
       fragment EditCommentFormContainer_comment on Comment {
         id
         body
@@ -223,12 +118,18 @@ const enhanced = withEditCommentMutation(
         }
       }
     `,
-    story: graphql`
+    comment
+  );
+  const storyData = useFragment(
+    graphql`
       fragment EditCommentFormContainer_story on Story {
         id
       }
     `,
-    settings: graphql`
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
       fragment EditCommentFormContainer_settings on Settings {
         charCount {
           enabled
@@ -256,6 +157,120 @@ const enhanced = withEditCommentMutation(
         }
       }
     `,
-  })(EditCommentFormContainer)
-);
+    settings
+  );
+
+  const { browserInfo } = useCoralContext();
+  const refreshSettingsFetch = useFetch(RefreshSettingsFetch);
+  const [expired, setExpired] = useState(
+    !!commentData.editing.editableUntil &&
+      !isBeforeDate(commentData.editing.editableUntil)
+  );
+  const [submitStatus, setSubmitStatus] = useState<null | SubmitStatus>(null);
+  const [initialValues, setInitialValues] = useState({
+    body: commentData.body || "",
+    media: getMediaFromComment(commentData),
+  });
+  const updateWhenExpired = () => {
+    const ms =
+      new Date(commentData.editing.editableUntil!).getTime() - Date.now();
+    if (ms > 0) {
+      return setLongTimeout(() => setExpired(true), ms);
+    }
+    return;
+  };
+
+  const expiredTimer: LongTimeout | undefined = updateWhenExpired();
+
+  useEffect(() => {
+    return () => {
+      if (expiredTimer) {
+        clearLongTimeout(expiredTimer);
+      }
+    };
+  }, [expiredTimer]);
+
+  const handleRTERef = (rte: CoralRTE | null) => {
+    // Disable autofocus on ios and enable for the rest.
+    const autofocus = !browserInfo.ios;
+    if (rte && autofocus) {
+      rte.focus();
+    }
+  };
+
+  const handleOnCancelOrClose = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handleOnSubmit: EditCommentFormProps["onSubmit"] = async (input) => {
+    try {
+      const editSubmitStatus = getSubmitStatus(
+        await editComment({
+          commentID: commentData.id,
+          body: input.body,
+          media: input.media,
+        })
+      );
+      if (editSubmitStatus !== "RETRY") {
+        if (editSubmitStatus === "APPROVED" && onClose) {
+          onClose();
+          return;
+        }
+      }
+      setSubmitStatus(editSubmitStatus);
+    } catch (error) {
+      if (error instanceof InvalidRequestError) {
+        if (shouldTriggerSettingsRefresh(error.code)) {
+          setInitialValues({
+            body: input.body || "",
+            media: getMediaFromComment(commentData),
+          });
+          await refreshSettingsFetch({ storyID: storyData.id });
+        }
+        return error.invalidArgs;
+      }
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+    return;
+  };
+
+  if (submitStatus && submitStatus !== "RETRY") {
+    return (
+      <ReplyEditSubmitStatus
+        status={submitStatus}
+        onDismiss={handleOnCancelOrClose}
+        buttonClassName={CLASSES.editComment.dismiss}
+        inReviewClassName={CLASSES.editComment.inReview}
+      />
+    );
+  }
+  return (
+    <EditCommentForm
+      siteID={commentData.site.id}
+      id={commentData.id}
+      rteConfig={settingsData.rte}
+      onSubmit={handleOnSubmit}
+      initialValues={initialValues}
+      onCancel={handleOnCancelOrClose}
+      onClose={handleOnCancelOrClose}
+      rteRef={handleRTERef}
+      author={commentData.author}
+      createdAt={commentData.createdAt}
+      editableUntil={commentData.editing.editableUntil!}
+      expired={expired}
+      mediaConfig={settingsData.media}
+      min={
+        (settingsData.charCount.enabled && settingsData.charCount.min) || null
+      }
+      max={
+        (settingsData.charCount.enabled && settingsData.charCount.max) || null
+      }
+    />
+  );
+};
+
+const enhanced = withEditCommentMutation(EditCommentFormContainer);
 export default enhanced;

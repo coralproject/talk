@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   Divider,
@@ -16,9 +15,9 @@ import {
   TooltipButton,
 } from "coral-ui/components/v2";
 
-import { UserHistoryDrawerContainer_settings$data as UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
-import { UserHistoryDrawerContainer_user$data as UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
-import { UserHistoryDrawerContainer_viewer$data as UserHistoryDrawerContainer_viewer } from "coral-admin/__generated__/UserHistoryDrawerContainer_viewer.graphql";
+import { UserHistoryDrawerContainer_settings$key as UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
+import { UserHistoryDrawerContainer_user$key as UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
+import { UserHistoryDrawerContainer_viewer$key as UserHistoryDrawerContainer_viewer } from "coral-admin/__generated__/UserHistoryDrawerContainer_viewer.graphql";
 
 import MemberBioContainer from "./MemberBioContainer";
 import RecentHistoryContainer from "./RecentHistoryContainer";
@@ -43,6 +42,46 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
   onClose,
   setUserID,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment UserHistoryDrawerContainer_settings on Settings {
+        ...RecentHistoryContainer_settings
+        ...UserStatusChangeContainer_settings
+        organization {
+          name
+        }
+      }
+    `,
+    settings
+  );
+  const userData = useFragment(
+    graphql`
+      fragment UserHistoryDrawerContainer_user on User {
+        ...UserBadgesContainer_user
+        ...UserStatusChangeContainer_user
+        ...UserStatusDetailsContainer_user
+        ...RecentHistoryContainer_user
+        ...MemberBioContainer_user
+        moderatorNotes {
+          id
+        }
+        id
+        username
+        email
+        createdAt
+      }
+    `,
+    user
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment UserHistoryDrawerContainer_viewer on User {
+        ...UserStatusChangeContainer_viewer
+      }
+    `,
+    viewer
+  );
+
   const formatter = useDateTimeFormatter({
     month: "long",
     day: "numeric",
@@ -58,8 +97,8 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
         <HorizontalGutter spacing={3}>
           <HorizontalGutter spacing={2}>
             <Flex className={styles.username} spacing={2}>
-              {user.username ? (
-                <span>{user.username}</span>
+              {userData.username ? (
+                <span>{userData.username}</span>
               ) : (
                 <Flex alignItems="center">
                   <Localized id="moderate-user-drawer-username-not-available">
@@ -95,7 +134,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 </Flex>
               )}
               <div>
-                <UserBadgesContainer user={user} />
+                <UserBadgesContainer user={userData} />
               </div>
             </Flex>
             <Flex alignItems="center" spacing={1}>
@@ -109,12 +148,12 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
               <div className={styles.userStatusChange}>
                 <UserStatusChangeContainer
                   bordered={true}
-                  settings={settings}
-                  user={user}
-                  viewer={viewer}
+                  settings={settingsData}
+                  user={userData}
+                  viewer={viewerData}
                 />
               </div>
-              <UserStatusDetailsContainer user={user} />
+              <UserStatusDetailsContainer user={userData} />
             </Flex>
           </HorizontalGutter>
           <HorizontalGutter spacing={1}>
@@ -127,8 +166,8 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                   mail_outline
                 </Icon>
               </Localized>
-              <span className={styles.userDetailValue}>{user.email}</span>
-              <CopyButton text={user.email!} />
+              <span className={styles.userDetailValue}>{userData.email}</span>
+              <CopyButton text={userData.email!} />
             </Flex>
             <Flex alignItems="center" spacing={2}>
               <Localized
@@ -144,7 +183,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 </Icon>
               </Localized>
               <span className={styles.userDetailValue}>
-                {formatter(user.createdAt)}
+                {formatter(userData.createdAt)}
               </span>
             </Flex>
             <Flex alignItems="center" spacing={2}>
@@ -156,19 +195,19 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                   people_outline
                 </Icon>
               </Localized>
-              <span className={styles.userDetailValue}>{user.id}</span>
-              <CopyButton text={user.id} />
+              <span className={styles.userDetailValue}>{userData.id}</span>
+              <CopyButton text={userData.id} />
             </Flex>
           </HorizontalGutter>
         </HorizontalGutter>
-        <MemberBioContainer user={user} />
-        <RecentHistoryContainer user={user} settings={settings} />
+        <MemberBioContainer user={userData} />
+        <RecentHistoryContainer user={userData} settings={settingsData} />
       </HorizontalGutter>
       <Divider />
       <div className={styles.comments}>
         <Tabs
-          userID={user.id}
-          notesCount={user.moderatorNotes.length}
+          userID={userData.id}
+          notesCount={userData.moderatorNotes.length}
           setUserID={setUserID}
         />
       </div>
@@ -176,37 +215,4 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment UserHistoryDrawerContainer_user on User {
-      ...UserBadgesContainer_user
-      ...UserStatusChangeContainer_user
-      ...UserStatusDetailsContainer_user
-      ...RecentHistoryContainer_user
-      ...MemberBioContainer_user
-      moderatorNotes {
-        id
-      }
-      id
-      username
-      email
-      createdAt
-    }
-  `,
-  settings: graphql`
-    fragment UserHistoryDrawerContainer_settings on Settings {
-      ...RecentHistoryContainer_settings
-      ...UserStatusChangeContainer_settings
-      organization {
-        name
-      }
-    }
-  `,
-  viewer: graphql`
-    fragment UserHistoryDrawerContainer_viewer on User {
-      ...UserStatusChangeContainer_viewer
-    }
-  `,
-})(UserHistoryDrawerContainer);
-
-export default enhanced;
+export default UserHistoryDrawerContainer;

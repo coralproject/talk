@@ -3,7 +3,7 @@ import cn from "classnames";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
@@ -14,11 +14,7 @@ import {
   OnSubmit,
   streamColorFromMeta,
 } from "coral-framework/lib/form";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import {
@@ -29,7 +25,7 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
-import { LinkAccountContainer_viewer$data as LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
+import { LinkAccountContainer_viewer$key as LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
 import { LinkAccountContainerLocal } from "coral-auth/__generated__/LinkAccountContainerLocal.graphql";
 
 import LinkAccountMutation from "./LinkAccountMutation";
@@ -46,14 +42,23 @@ interface Props {
   viewer: LinkAccountContainer_viewer | null;
 }
 
-const LinkAccountContainer: FunctionComponent<Props> = (props) => {
+const LinkAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment LinkAccountContainer_viewer on User {
+        duplicateEmail
+      }
+    `,
+    viewer
+  );
+
   const [local] = useLocal<LinkAccountContainerLocal>(graphql`
     fragment LinkAccountContainerLocal on Local {
       duplicateEmail
     }
   `);
   const duplicateEmail =
-    local.duplicateEmail || (props.viewer && props.viewer.duplicateEmail);
+    local.duplicateEmail || (viewerData && viewerData.duplicateEmail);
   const setView = useMutation(SetViewMutation);
   const linkAccount = useMutation(LinkAccountMutation);
   const onSubmit: OnSubmit<FormErrorProps> = useCallback(
@@ -71,7 +76,7 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [linkAccount]
+    [duplicateEmail, linkAccount]
   );
   const changeEmail = useCallback(() => {
     setView({ view: "ADD_EMAIL_ADDRESS" });
@@ -177,12 +182,4 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment LinkAccountContainer_viewer on User {
-      duplicateEmail
-    }
-  `,
-})(LinkAccountContainer);
-
-export default enhanced;
+export default LinkAccountContainer;

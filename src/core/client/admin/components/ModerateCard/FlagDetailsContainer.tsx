@@ -1,14 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import {
   COMMENT_FLAG_REASON,
-  FlagDetailsContainer_comment,
+  FlagDetailsContainer_comment$key as FlagDetailsContainer_comment,
 } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
 
 import FlagDetails from "./FlagDetails";
@@ -59,9 +58,34 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
   comment,
   onUsernameClick,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment FlagDetailsContainer_comment on Comment {
+        flags {
+          nodes {
+            flagger {
+              username
+              id
+            }
+            reason
+            additionalDetails
+          }
+        }
+        revision {
+          metadata {
+            perspective {
+              score
+            }
+          }
+        }
+      }
+    `,
+    comment
+  );
+
   const { offensive, abusive, spam, other } = useMemo(
-    () => reduceReasons(comment.flags.nodes),
-    [comment.flags.nodes]
+    () => reduceReasons(commentData.flags.nodes),
+    [commentData.flags.nodes]
   );
 
   return (
@@ -106,28 +130,4 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment FlagDetailsContainer_comment on Comment {
-      flags {
-        nodes {
-          flagger {
-            username
-            id
-          }
-          reason
-          additionalDetails
-        }
-      }
-      revision {
-        metadata {
-          perspective {
-            score
-          }
-        }
-      }
-    }
-  `,
-})(FlagDetailsContainer);
-
-export default enhanced;
+export default FlagDetailsContainer;

@@ -2,9 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import {
   Button,
@@ -14,8 +14,8 @@ import {
   Textarea,
 } from "coral-ui/components/v2";
 
-import { UserDrawerNotesContainer_user$data as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
-import { UserDrawerNotesContainer_viewer$data as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
+import { UserDrawerNotesContainer_user$key as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
+import { UserDrawerNotesContainer_viewer$key as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
 
 import CreateModeratorNoteMutation from "./CreateModeratorNoteMutation";
 import DeleteModeratorNoteMutation from "./DeleteModeratorNoteMutation";
@@ -32,26 +32,52 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
   user,
   viewer,
 }) => {
+  const userData = useFragment(
+    graphql`
+      fragment UserDrawerNotesContainer_user on User {
+        id
+        moderatorNotes {
+          id
+          body
+          createdAt
+          createdBy {
+            username
+            id
+          }
+        }
+      }
+    `,
+    user
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment UserDrawerNotesContainer_viewer on User {
+        id
+      }
+    `,
+    viewer
+  );
+
   const createNote = useMutation(CreateModeratorNoteMutation);
   const deleteNote = useMutation(DeleteModeratorNoteMutation);
   const onDelete = useCallback(
     (id: string) => {
       return deleteNote({
         id,
-        userID: user.id,
+        userID: userData.id,
       });
     },
-    [user]
+    [deleteNote, userData.id]
   );
   const onSubmit = useCallback(
     async ({ body }, form: FormApi) => {
       await createNote({
-        userID: user.id,
+        userID: userData.id,
         body,
       });
       form.initialize({});
     },
-    [user]
+    [createNote, userData.id]
   );
   return (
     <div>
@@ -83,8 +109,8 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
       </Form>
       <Divider />
       <HorizontalGutter spacing={4}>
-        {user.moderatorNotes &&
-          user.moderatorNotes
+        {userData.moderatorNotes &&
+          userData.moderatorNotes
             .concat()
             .reverse()
             .map(
@@ -97,7 +123,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
                     moderator={note.createdBy.username}
                     createdAt={note.createdAt}
                     onDelete={
-                      viewer && viewer.id === note.createdBy.id
+                      viewerData && viewerData.id === note.createdBy.id
                         ? onDelete
                         : null
                     }
@@ -109,26 +135,4 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment UserDrawerNotesContainer_user on User {
-      id
-      moderatorNotes {
-        id
-        body
-        createdAt
-        createdBy {
-          username
-          id
-        }
-      }
-    }
-  `,
-  viewer: graphql`
-    fragment UserDrawerNotesContainer_viewer on User {
-      id
-    }
-  `,
-})(UserDrawerNotesContainer);
-
-export default enhanced;
+export default UserDrawerNotesContainer;

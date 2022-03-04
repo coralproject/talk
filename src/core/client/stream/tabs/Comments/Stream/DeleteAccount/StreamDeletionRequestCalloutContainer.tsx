@@ -1,16 +1,16 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 import { HorizontalGutter, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { StreamDeletionRequestCalloutContainer_viewer$data as StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
+import { StreamDeletionRequestCalloutContainer_viewer$key as StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
 
 import styles from "./StreamDeletionRequestCalloutContainer.css";
 
@@ -25,6 +25,15 @@ const subtractSeconds = (date: Date, seconds: number) => {
 const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment StreamDeletionRequestCalloutContainer_viewer on User {
+        scheduledDeletionDate
+      }
+    `,
+    viewer
+  );
+
   const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "numeric",
@@ -41,23 +50,23 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
 
   const deletionDate = useMemo(
     () =>
-      viewer.scheduledDeletionDate
-        ? formatter(viewer.scheduledDeletionDate)
+      viewerData.scheduledDeletionDate
+        ? formatter(viewerData.scheduledDeletionDate)
         : null,
-    [viewer, formatter]
+    [viewerData, formatter]
   );
 
   const requestDate = useMemo(
     () =>
-      viewer.scheduledDeletionDate
+      viewerData.scheduledDeletionDate
         ? formatter(
             subtractSeconds(
-              new Date(viewer.scheduledDeletionDate),
+              new Date(viewerData.scheduledDeletionDate),
               SCHEDULED_DELETION_WINDOW_DURATION
             )
           )
         : null,
-    [viewer, formatter]
+    [viewerData, formatter]
   );
 
   return (
@@ -127,12 +136,4 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment StreamDeletionRequestCalloutContainer_viewer on User {
-      scheduledDeletionDate
-    }
-  `,
-})(StreamDeletionRequestCalloutContainer);
-
-export default enhanced;
+export default StreamDeletionRequestCalloutContainer;

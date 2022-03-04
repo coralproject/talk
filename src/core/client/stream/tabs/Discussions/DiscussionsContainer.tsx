@@ -1,19 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import {
-  createMutation,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { createMutation, useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
-import { DiscussionsContainer_settings$data as DiscussionsContainer_settings } from "coral-stream/__generated__/DiscussionsContainer_settings.graphql";
-import { DiscussionsContainer_story$data as DiscussionsContainer_story } from "coral-stream/__generated__/DiscussionsContainer_story.graphql";
-import { DiscussionsContainer_viewer$data as DiscussionsContainer_viewer } from "coral-stream/__generated__/DiscussionsContainer_viewer.graphql";
+import { DiscussionsContainer_settings$key as DiscussionsContainer_settings } from "coral-stream/__generated__/DiscussionsContainer_settings.graphql";
+import { DiscussionsContainer_story$key as DiscussionsContainer_story } from "coral-stream/__generated__/DiscussionsContainer_story.graphql";
+import { DiscussionsContainer_viewer$key as DiscussionsContainer_viewer } from "coral-stream/__generated__/DiscussionsContainer_viewer.graphql";
 
 import { commit } from "../../App/SetActiveTabMutation";
 import MostActiveDiscussionsContainer from "./MostActiveDiscussionsContainer";
@@ -27,20 +23,57 @@ interface Props {
 
 const SetActiveTabMutation = createMutation("setActiveTab", commit);
 
-const DiscussionsContainer: FunctionComponent<Props> = (props) => {
+const DiscussionsContainer: FunctionComponent<Props> = ({
+  story,
+  viewer,
+  settings,
+}) => {
+  const storyData = useFragment(
+    graphql`
+      fragment DiscussionsContainer_story on Story {
+        site {
+          id
+          ...MostActiveDiscussionsContainer_site
+        }
+      }
+    `,
+    story
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment DiscussionsContainer_viewer on User {
+        ...MyOngoingDiscussionsContainer_viewer
+        ...UserBoxContainer_viewer
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment DiscussionsContainer_settings on Settings {
+        ...MyOngoingDiscussionsContainer_settings
+        ...UserBoxContainer_settings
+        organization {
+          name
+        }
+      }
+    `,
+    settings
+  );
+
   const setActiveTab = useMutation(SetActiveTabMutation);
   const onFullHistoryClick = useCallback(
     async () => await setActiveTab({ tab: "PROFILE" }),
-    []
+    [setActiveTab]
   );
   return (
     <HorizontalGutter spacing={3} className={CLASSES.discussions.$root}>
-      <UserBoxContainer settings={props.settings} viewer={props.viewer} />
-      <MostActiveDiscussionsContainer site={props.story.site} />
+      <UserBoxContainer settings={settingsData} viewer={viewerData} />
+      <MostActiveDiscussionsContainer site={storyData.site} />
       <MyOngoingDiscussionsContainer
-        viewer={props.viewer}
-        currentSiteID={props.story.site.id}
-        settings={props.settings}
+        viewer={viewerData}
+        currentSiteID={storyData.site.id}
+        settings={settingsData}
       />
       <Localized id="discussions-viewFullHistory">
         <Button
@@ -56,30 +89,4 @@ const DiscussionsContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment DiscussionsContainer_story on Story {
-      site {
-        id
-        ...MostActiveDiscussionsContainer_site
-      }
-    }
-  `,
-  viewer: graphql`
-    fragment DiscussionsContainer_viewer on User {
-      ...MyOngoingDiscussionsContainer_viewer
-      ...UserBoxContainer_viewer
-    }
-  `,
-  settings: graphql`
-    fragment DiscussionsContainer_settings on Settings {
-      ...MyOngoingDiscussionsContainer_settings
-      ...UserBoxContainer_settings
-      organization {
-        name
-      }
-    }
-  `,
-})(DiscussionsContainer);
-
-export default enhanced;
+export default DiscussionsContainer;

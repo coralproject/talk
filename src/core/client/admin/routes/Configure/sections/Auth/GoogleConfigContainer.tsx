@@ -1,9 +1,7 @@
 import React from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { GoogleConfigContainer_auth as AuthData } from "coral-admin/__generated__/GoogleConfigContainer_auth.graphql";
+import { GoogleConfigContainer_auth$key as AuthData } from "coral-admin/__generated__/GoogleConfigContainer_auth.graphql";
 
 import GoogleConfig from "./GoogleConfig";
 
@@ -16,24 +14,25 @@ const GoogleConfigContainer: React.FunctionComponent<Props> = ({
   disabled,
   auth,
 }) => {
+  const authData = useFragment(
+    graphql`
+      fragment GoogleConfigContainer_auth on Auth {
+        integrations {
+          google {
+            callbackURL
+          }
+        }
+      }
+    `,
+    auth
+  );
+
   return (
     <GoogleConfig
       disabled={disabled}
-      callbackURL={auth.integrations.google.callbackURL}
+      callbackURL={authData.integrations.google.callbackURL}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  auth: graphql`
-    fragment GoogleConfigContainer_auth on Auth {
-      integrations {
-        google {
-          callbackURL
-        }
-      }
-    }
-  `,
-})(GoogleConfigContainer);
-
-export default enhanced;
+export default GoogleConfigContainer;

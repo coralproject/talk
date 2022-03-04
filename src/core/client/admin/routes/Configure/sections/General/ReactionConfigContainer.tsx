@@ -1,9 +1,7 @@
 import React from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
-import { ReactionConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
+import { ReactionConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
 
 import ReactionConfig from "./ReactionConfig";
 
@@ -16,24 +14,25 @@ const ReactionConfigContainer: React.FunctionComponent<Props> = ({
   disabled,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ReactionConfigContainer_settings on Settings {
+        reaction {
+          icon
+          iconActive
+        }
+      }
+    `,
+    settings
+  );
+
   return (
     <ReactionConfig
-      iconActive={settings.reaction.iconActive}
-      icon={settings.reaction.icon}
+      iconActive={settingsData.reaction.iconActive}
+      icon={settingsData.reaction.icon}
       disabled={disabled}
     />
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ReactionConfigContainer_settings on Settings {
-      reaction {
-        icon
-        iconActive
-      }
-    }
-  `,
-})(ReactionConfigContainer);
-
-export default enhanced;
+export default ReactionConfigContainer;

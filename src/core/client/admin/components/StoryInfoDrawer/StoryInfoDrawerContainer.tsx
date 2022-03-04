@@ -1,15 +1,15 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
-import { StoryInfoDrawerContainer_settings$data as StoryInfoDrawerContainer_settings } from "coral-admin/__generated__/StoryInfoDrawerContainer_settings.graphql";
-import { StoryInfoDrawerContainer_story$data as StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
-import { StoryInfoDrawerContainer_viewer$data as StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
+import { StoryInfoDrawerContainer_settings$key as StoryInfoDrawerContainer_settings } from "coral-admin/__generated__/StoryInfoDrawerContainer_settings.graphql";
+import { StoryInfoDrawerContainer_story$key as StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
+import { StoryInfoDrawerContainer_viewer$key as StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
 import ArchiveStoryActionsContainer from "./ArchiveStoryActionsContainer";
 import ModerateStoryButton from "./ModerateStoryButton";
@@ -30,6 +30,47 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment StoryInfoDrawerContainer_story on Story {
+        id
+        url
+        status
+        scrapedAt
+        isArchived
+        isArchiving
+        metadata {
+          title
+          author
+          publishedAt
+        }
+        ...ModerateStoryButton_story
+        settings {
+          ...StorySettingsContainer_storySettings
+        }
+        ...ArchiveStoryActionsContainer_story
+      }
+    `,
+    story
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment StoryInfoDrawerContainer_viewer on User {
+        ...ArchiveStoryActionsContainer_viewer
+        ...ModerateStoryButton_viewer
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment StoryInfoDrawerContainer_settings on Settings {
+        ...ModerateStoryButton_settings
+      }
+    `,
+    settings
+  );
+
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
@@ -38,23 +79,26 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
             <span className={styles.sectionTitle}>Story Details</span>
           </Localized>
           <h2 className={styles.storyTitle}>
-            {story.metadata?.title ? (
-              story.metadata.title
+            {storyData.metadata?.title ? (
+              storyData.metadata.title
             ) : (
               <Localized id="storyInfoDrawer-titleNotAvailable">
                 Title not available
               </Localized>
             )}
           </h2>
-          <TextLink className={styles.storyLink} href={story.url}>
-            {story.url}
+          <TextLink className={styles.storyLink} href={storyData.url}>
+            {storyData.url}
           </TextLink>
-          {story.isArchived || story.isArchiving ? (
+          {storyData.isArchived || storyData.isArchiving ? (
             <Flex direction="column" className={styles.status}>
               <Flex direction="column" className={styles.archived}>
                 <ArchivedMarker />
-                {viewer && (
-                  <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+                {viewerData && (
+                  <ArchiveStoryActionsContainer
+                    story={storyData}
+                    viewer={viewerData}
+                  />
                 )}
               </Flex>
             </Flex>
@@ -66,24 +110,27 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
                 className={styles.status}
               >
                 <StoryStatus
-                  storyID={story.id}
-                  currentStatus={story.status as GQLSTORY_STATUS}
+                  storyID={storyData.id}
+                  currentStatus={storyData.status as GQLSTORY_STATUS}
                 />
-                {viewer && (
+                {viewerData && (
                   <ModerateStoryButton
-                    story={story}
-                    settings={settings}
-                    viewer={viewer}
+                    story={storyData}
+                    settings={settingsData}
+                    viewer={viewerData}
                   />
                 )}
               </Flex>
-              <RescrapeStory storyID={story.id} />
-              {viewer && (
-                <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+              <RescrapeStory storyID={storyData.id} />
+              {viewerData && (
+                <ArchiveStoryActionsContainer
+                  story={storyData}
+                  viewer={viewerData}
+                />
               )}
               <StorySettingsContainer
-                settings={story.settings}
-                storyID={story.id}
+                settings={storyData.settings}
+                storyID={storyData.id}
               />
             </>
           )}
@@ -93,38 +140,4 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment StoryInfoDrawerContainer_story on Story {
-      id
-      url
-      status
-      scrapedAt
-      isArchived
-      isArchiving
-      metadata {
-        title
-        author
-        publishedAt
-      }
-      ...ModerateStoryButton_story
-      settings {
-        ...StorySettingsContainer_storySettings
-      }
-      ...ArchiveStoryActionsContainer_story
-    }
-  `,
-  viewer: graphql`
-    fragment StoryInfoDrawerContainer_viewer on User {
-      ...ArchiveStoryActionsContainer_viewer
-      ...ModerateStoryButton_viewer
-    }
-  `,
-  settings: graphql`
-    fragment StoryInfoDrawerContainer_settings on Settings {
-      ...ModerateStoryButton_settings
-    }
-  `,
-})(StoryInfoDrawerContainer);
-
-export default enhanced;
+export default StoryInfoDrawerContainer;

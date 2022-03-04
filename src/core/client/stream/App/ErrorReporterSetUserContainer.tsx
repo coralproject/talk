@@ -1,10 +1,9 @@
 import { FunctionComponent, useEffect } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { globalErrorReporter } from "coral-framework/lib/errors";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ErrorReporterSetUserContainer_viewer$data as ErrorReporterSetUserContainer_viewer } from "coral-stream/__generated__/ErrorReporterSetUserContainer_viewer.graphql";
+import { ErrorReporterSetUserContainer_viewer$key as ErrorReporterSetUserContainer_viewer } from "coral-stream/__generated__/ErrorReporterSetUserContainer_viewer.graphql";
 
 interface Props {
   viewer: ErrorReporterSetUserContainer_viewer | null;
@@ -13,20 +12,21 @@ interface Props {
 const ErrorReporterSetUserContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment ErrorReporterSetUserContainer_viewer on User {
+        id
+        username
+        role
+      }
+    `,
+    viewer
+  );
+
   useEffect(() => {
-    globalErrorReporter.setUser(viewer);
-  }, [viewer]);
+    globalErrorReporter.setUser(viewerData);
+  }, [viewerData]);
   return null;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment ErrorReporterSetUserContainer_viewer on User {
-      id
-      username
-      role
-    }
-  `,
-})(ErrorReporterSetUserContainer);
-
-export default enhanced;
+export default ErrorReporterSetUserContainer;

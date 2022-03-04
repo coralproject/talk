@@ -1,23 +1,31 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import CLASSES from "coral-stream/classes";
 import { Tag } from "coral-ui/components/v2";
 
-import { UserBadgesContainer_user$data as UserData } from "coral-admin/__generated__/UserBadgesContainer_user.graphql";
+import { UserBadgesContainer_user$key as UserData } from "coral-admin/__generated__/UserBadgesContainer_user.graphql";
 
 interface Props {
   user: UserData;
 }
 
 const UserBadgesContainer: FunctionComponent<Props> = ({ user }) => {
-  if (!user.badges) {
+  const userData = useFragment(
+    graphql`
+      fragment UserBadgesContainer_user on User {
+        badges
+      }
+    `,
+    user
+  );
+
+  if (!userData.badges) {
     return null;
   }
   return (
     <>
-      {user.badges.map((badge) => (
+      {userData.badges.map((badge) => (
         <Tag
           key={badge}
           color="dark"
@@ -30,12 +38,4 @@ const UserBadgesContainer: FunctionComponent<Props> = ({ user }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment UserBadgesContainer_user on User {
-      badges
-    }
-  `,
-})(UserBadgesContainer);
-
-export default enhanced;
+export default UserBadgesContainer;

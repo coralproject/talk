@@ -1,13 +1,12 @@
 import { FunctionComponent, useEffect } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
-import { PreviousCountSpyContainer_settings$data as PreviousCountSpyContainer_settings } from "coral-stream/__generated__/PreviousCountSpyContainer_settings.graphql";
-import { PreviousCountSpyContainer_story$data as PreviousCountSpyContainer_story } from "coral-stream/__generated__/PreviousCountSpyContainer_story.graphql";
+import { PreviousCountSpyContainer_settings$key as PreviousCountSpyContainer_settings } from "coral-stream/__generated__/PreviousCountSpyContainer_settings.graphql";
+import { PreviousCountSpyContainer_story$key as PreviousCountSpyContainer_story } from "coral-stream/__generated__/PreviousCountSpyContainer_story.graphql";
 
 interface Props {
   story: PreviousCountSpyContainer_story;
@@ -16,8 +15,31 @@ interface Props {
 
 const PreviousCountSpyContainer: FunctionComponent<Props> = ({
   story,
-  settings: { featureFlags },
+  settings,
 }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment PreviousCountSpyContainer_story on Story {
+        id
+        isClosed
+        commentCounts {
+          totalPublished
+        }
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment PreviousCountSpyContainer_settings on Settings {
+        featureFlags
+      }
+    `,
+    settings
+  );
+
+  const { featureFlags } = settingsData;
+
   const { localStorage } = useCoralContext();
 
   // Whenever the all comments count changes, update the value in local storage.
@@ -28,7 +50,7 @@ const PreviousCountSpyContainer: FunctionComponent<Props> = ({
     }
 
     // key is the key used to store the count in storage.
-    const key = getPreviousCountStorageKey(story.id);
+    const key = getPreviousCountStorageKey(storyData.id);
 
     /**
      * remove will remove the item from localStorage.
@@ -45,13 +67,13 @@ const PreviousCountSpyContainer: FunctionComponent<Props> = ({
 
     // If the story is closed, then we can't have new comments, so remove the
     // entry!
-    if (story.isClosed) {
+    if (storyData.isClosed) {
       void remove();
       return;
     }
 
     // value is the current comment count as a string to be stored in storage.
-    const value = story.commentCounts.totalPublished.toString();
+    const value = storyData.commentCounts.totalPublished.toString();
 
     /**
      * update will take the current published comment count and update it in
@@ -71,29 +93,12 @@ const PreviousCountSpyContainer: FunctionComponent<Props> = ({
   }, [
     featureFlags,
     localStorage,
-    story.commentCounts.totalPublished,
-    story.id,
-    story.isClosed,
+    storyData.commentCounts.totalPublished,
+    storyData.id,
+    storyData.isClosed,
   ]);
 
   return null;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment PreviousCountSpyContainer_story on Story {
-      id
-      isClosed
-      commentCounts {
-        totalPublished
-      }
-    }
-  `,
-  settings: graphql`
-    fragment PreviousCountSpyContainer_settings on Settings {
-      featureFlags
-    }
-  `,
-})(PreviousCountSpyContainer);
-
-export default enhanced;
+export default PreviousCountSpyContainer;

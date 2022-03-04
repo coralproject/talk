@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CallOut,
   HorizontalGutter,
@@ -15,7 +14,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { UserDrawerAccountHistory_user$data as UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
+import { UserDrawerAccountHistory_user$key as UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 
 import AccountHistoryAction, {
   HistoryActionProps,
@@ -40,22 +39,109 @@ type HistoryRecord = HistoryActionProps & {
 };
 
 const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
-  const system = (
-    <Localized
-      id="moderate-user-drawer-account-history-system"
-      icon={<Icon size="md">computer</Icon>}
-    >
-      <span>
-        <Icon size="md">computer</Icon> System
-      </span>
-    </Localized>
+  const userData = useFragment(
+    graphql`
+      fragment UserDrawerAccountHistory_user on User {
+        status {
+          username {
+            history {
+              username
+              createdAt
+              createdBy {
+                username
+              }
+            }
+          }
+          warning {
+            history {
+              active
+              createdBy {
+                username
+              }
+              acknowledgedAt
+              createdAt
+              message
+            }
+          }
+          modMessage {
+            history {
+              active
+              createdBy {
+                username
+              }
+              acknowledgedAt
+              createdAt
+              message
+            }
+          }
+          ban {
+            history {
+              active
+              createdBy {
+                username
+              }
+              createdAt
+              sites {
+                name
+              }
+            }
+            active
+            sites {
+              id
+              name
+            }
+          }
+          premod {
+            history {
+              active
+              createdBy {
+                username
+              }
+              createdAt
+            }
+          }
+          suspension {
+            history {
+              active
+              from {
+                start
+                finish
+              }
+              createdBy {
+                username
+              }
+              modifiedAt
+              modifiedBy {
+                username
+              }
+              createdAt
+            }
+          }
+        }
+      }
+    `,
+    user
   );
+
+  const system = useMemo(() => {
+    return (
+      <Localized
+        id="moderate-user-drawer-account-history-system"
+        icon={<Icon size="md">computer</Icon>}
+      >
+        <span>
+          <Icon size="md">computer</Icon> System
+        </span>
+      </Localized>
+    );
+  }, []);
+
   const combinedHistory = useMemo(() => {
     // Collect all the different types of history items.
     const history: HistoryRecord[] = [];
 
     // Merge in all the suspension history items.
-    user.status.suspension.history.forEach((record) => {
+    userData.status.suspension.history.forEach((record) => {
       const from: From = {
         start: new Date(record.from.start),
         finish: new Date(record.from.finish),
@@ -97,19 +183,19 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
-    const isBanned = user.status.ban.active;
+    const isBanned = userData.status.ban.active;
     const isSiteBanned = !!(
-      user.status.ban.sites && user.status.ban.sites.length > 0
+      userData.status.ban.sites && userData.status.ban.sites.length > 0
     );
     let bannedSiteRecord: HistoryRecord | null = null;
 
     // Merge in all the ban status history items.
-    user.status.ban.history.forEach((record, index) => {
+    userData.status.ban.history.forEach((record, index) => {
       const siteBan = record.sites && record.sites.length > 0;
 
       if (
         (isBanned || isSiteBanned) &&
-        index === user.status.ban.history.length - 1
+        index === userData.status.ban.history.length - 1
       ) {
         bannedSiteRecord = {
           kind: siteBan ? "site-ban" : "ban",
@@ -119,8 +205,8 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
           date: new Date(record.createdAt),
           takenBy: record.createdBy ? record.createdBy.username : system,
           description:
-            isSiteBanned && !!user.status.ban.sites
-              ? user.status.ban.sites.map((s) => s.name).join(", ")
+            isSiteBanned && !!userData.status.ban.sites
+              ? userData.status.ban.sites.map((s) => s.name).join(", ")
               : "",
         };
       } else {
@@ -140,7 +226,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     });
 
     // Merge in all the premod history items.
-    user.status.premod.history.forEach((record) => {
+    userData.status.premod.history.forEach((record) => {
       history.push({
         kind: "premod",
         action: {
@@ -151,21 +237,21 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
-    user.status.username.history.forEach((record, i) => {
+    userData.status.username.history.forEach((record, i) => {
       history.push({
         kind: "username",
         action: {
           username: record.username,
           // grab username at previous index to show what username was changed from
           prevUsername:
-            i >= 1 ? user.status.username.history[i - 1].username : null,
+            i >= 1 ? userData.status.username.history[i - 1].username : null,
         },
         date: new Date(record.createdAt),
         takenBy: record.createdBy ? record.createdBy.username : system,
       });
     });
 
-    user.status.warning.history.forEach((record) => {
+    userData.status.warning.history.forEach((record) => {
       let action: "created" | "acknowledged" | "removed";
       if (record.active) {
         action = "created";
@@ -190,7 +276,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
-    user.status.modMessage.history.forEach((record) => {
+    userData.status.modMessage.history.forEach((record) => {
       const action: "created" | "acknowledged" = record.active
         ? "created"
         : "acknowledged";
@@ -218,7 +304,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     }
 
     return dateSortedHistory;
-  }, [system, user.status]);
+  }, [system, userData.status]);
   const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
@@ -284,87 +370,4 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
   );
 };
 
-const enhanced = withFragmentContainer<any>({
-  user: graphql`
-    fragment UserDrawerAccountHistory_user on User {
-      status {
-        username {
-          history {
-            username
-            createdAt
-            createdBy {
-              username
-            }
-          }
-        }
-        warning {
-          history {
-            active
-            createdBy {
-              username
-            }
-            acknowledgedAt
-            createdAt
-            message
-          }
-        }
-        modMessage {
-          history {
-            active
-            createdBy {
-              username
-            }
-            acknowledgedAt
-            createdAt
-            message
-          }
-        }
-        ban {
-          history {
-            active
-            createdBy {
-              username
-            }
-            createdAt
-            sites {
-              name
-            }
-          }
-          active
-          sites {
-            id
-            name
-          }
-        }
-        premod {
-          history {
-            active
-            createdBy {
-              username
-            }
-            createdAt
-          }
-        }
-        suspension {
-          history {
-            active
-            from {
-              start
-              finish
-            }
-            createdBy {
-              username
-            }
-            modifiedAt
-            modifiedBy {
-              username
-            }
-            createdAt
-          }
-        }
-      }
-    }
-  `,
-})(UserDrawerAccountHistory);
-
-export default enhanced;
+export default UserDrawerAccountHistory;

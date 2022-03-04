@@ -1,9 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
   BaseButton,
@@ -12,10 +11,10 @@ import {
   Popover,
 } from "coral-ui/components/v2";
 
-import { CaretContainer_comment$data as CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
-import { CaretContainer_settings$data as CaretContainer_settings } from "coral-stream/__generated__/CaretContainer_settings.graphql";
-import { CaretContainer_story$data as CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
-import { CaretContainer_viewer$data as CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
+import { CaretContainer_comment$key as CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
+import { CaretContainer_settings$key as CaretContainer_settings } from "coral-stream/__generated__/CaretContainer_settings.graphql";
+import { CaretContainer_story$key as CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
+import { CaretContainer_viewer$key as CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
 
 import ModerationDropdownContainer from "./ModerationDropdownContainer";
 
@@ -28,8 +27,47 @@ interface Props {
   settings: CaretContainer_settings;
 }
 
-const CaretContainer: FunctionComponent<Props> = (props) => {
-  const popoverID = `comments-moderationMenu-${props.comment.id}`;
+const CaretContainer: FunctionComponent<Props> = ({
+  comment,
+  story,
+  viewer,
+  settings,
+}) => {
+  const commentData = useFragment(
+    graphql`
+      fragment CaretContainer_comment on Comment {
+        id
+        ...ModerationDropdownContainer_comment
+      }
+    `,
+    comment
+  );
+  const storyData = useFragment(
+    graphql`
+      fragment CaretContainer_story on Story {
+        ...ModerationDropdownContainer_story
+      }
+    `,
+    story
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment CaretContainer_settings on Settings {
+        ...ModerationDropdownContainer_settings
+      }
+    `,
+    settings
+  );
+  const viewerData = useFragment(
+    graphql`
+      fragment CaretContainer_viewer on User {
+        ...ModerationDropdownContainer_viewer
+      }
+    `,
+    viewer
+  );
+
+  const popoverID = `comments-moderationMenu-${commentData.id}`;
   return (
     <Localized
       id="comments-moderationDropdown-popover"
@@ -42,10 +80,10 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
         body={({ toggleVisibility, scheduleUpdate }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
             <ModerationDropdownContainer
-              comment={props.comment}
-              story={props.story}
-              viewer={props.viewer}
-              settings={props.settings}
+              comment={commentData}
+              story={storyData}
+              viewer={viewerData}
+              settings={settingsData}
               onDismiss={toggleVisibility}
               scheduleUpdate={scheduleUpdate}
             />
@@ -77,28 +115,4 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  comment: graphql`
-    fragment CaretContainer_comment on Comment {
-      id
-      ...ModerationDropdownContainer_comment
-    }
-  `,
-  story: graphql`
-    fragment CaretContainer_story on Story {
-      ...ModerationDropdownContainer_story
-    }
-  `,
-  settings: graphql`
-    fragment CaretContainer_settings on Settings {
-      ...ModerationDropdownContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment CaretContainer_viewer on User {
-      ...ModerationDropdownContainer_viewer
-    }
-  `,
-})(CaretContainer);
-
-export default enhanced;
+export default CaretContainer;

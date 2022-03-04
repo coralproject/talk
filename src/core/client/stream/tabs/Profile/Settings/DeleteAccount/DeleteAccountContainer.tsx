@@ -1,17 +1,17 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { DeleteAccountContainer_settings$data as DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
-import { DeleteAccountContainer_viewer$data as DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
+import { DeleteAccountContainer_settings$key as DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
+import { DeleteAccountContainer_viewer$key as DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
 import DeleteAccountModal from "./DeleteAccountModal";
 
@@ -26,6 +26,26 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment DeleteAccountContainer_viewer on User {
+        id
+        scheduledDeletionDate
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment DeleteAccountContainer_settings on Settings {
+        organization {
+          contactEmail
+        }
+      }
+    `,
+    settings
+  );
+
   const cancelAccountDeletion = useMutation(CancelAccountDeletionMutation);
 
   const [deletePopoverVisible, setDeletePopoverVisible] = useState(false);
@@ -50,8 +70,8 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
     second: "numeric",
   });
 
-  const deletionDate = viewer.scheduledDeletionDate
-    ? formatter(viewer.scheduledDeletionDate)
+  const deletionDate = viewerData.scheduledDeletionDate
+    ? formatter(viewerData.scheduledDeletionDate)
     : null;
 
   return (
@@ -62,9 +82,9 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
       <DeleteAccountModal
         open={deletePopoverVisible}
         onClose={hidePopover}
-        userID={viewer.id}
-        scheduledDeletionDate={viewer.scheduledDeletionDate}
-        organizationEmail={settings.organization.contactEmail}
+        userID={viewerData.id}
+        scheduledDeletionDate={viewerData.scheduledDeletionDate}
+        organizationEmail={settingsData.organization.contactEmail}
       />
       <div data-testid="profile-account-deleteAccount">
         <div className={cn(styles.content, CLASSES.deleteMyAccount.content)}>
@@ -141,20 +161,4 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment DeleteAccountContainer_viewer on User {
-      id
-      scheduledDeletionDate
-    }
-  `,
-  settings: graphql`
-    fragment DeleteAccountContainer_settings on Settings {
-      organization {
-        contactEmail
-      }
-    }
-  `,
-})(DeleteAccountContainer);
-
-export default enhanced;
+export default DeleteAccountContainer;

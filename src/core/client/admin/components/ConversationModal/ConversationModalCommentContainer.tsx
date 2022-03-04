@@ -1,10 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   Flex,
@@ -12,8 +11,8 @@ import {
   Timestamp,
 } from "coral-ui/components/v2";
 
-import { ConversationModalCommentContainer_comment$data as ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
-import { ConversationModalCommentContainer_settings$data as ConversationModalCommentContainer_settings } from "coral-admin/__generated__/ConversationModalCommentContainer_settings.graphql";
+import { ConversationModalCommentContainer_comment$key as ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
+import { ConversationModalCommentContainer_settings$key as ConversationModalCommentContainer_settings } from "coral-admin/__generated__/ConversationModalCommentContainer_settings.graphql";
 
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import { Circle, Line } from "../Timeline";
@@ -38,16 +37,49 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   onUsernameClick,
   settings,
 }) => {
+  const commentData = useFragment(
+    graphql`
+      fragment ConversationModalCommentContainer_comment on Comment {
+        id
+        body
+        createdAt
+        author {
+          username
+          id
+        }
+        replyCount
+        parent {
+          author {
+            username
+            id
+          }
+        }
+        ...MediaContainer_comment
+      }
+    `,
+    comment
+  );
+  useFragment(
+    graphql`
+      fragment ConversationModalCommentContainer_settings on Settings {
+        multisite
+        featureFlags
+        ...MarkersContainer_settings
+      }
+    `,
+    settings
+  );
+
   const commentAuthorClick = useCallback(() => {
-    if (comment.author) {
-      onUsernameClick(comment.author.id);
+    if (commentData.author) {
+      onUsernameClick(commentData.author.id);
     }
-  }, [onUsernameClick, comment.author]);
+  }, [onUsernameClick, commentData.author]);
   const commentParentAuthorClick = useCallback(() => {
-    if (comment.parent && comment.parent.author) {
-      onUsernameClick(comment.parent.author.id);
+    if (commentData.parent && commentData.parent.author) {
+      onUsernameClick(commentData.parent.author.id);
     }
-  }, [onUsernameClick, comment.parent]);
+  }, [onUsernameClick, commentData.parent]);
   const [showReplies, setShowReplies] = useState(false);
   const onShowReplies = useCallback(() => {
     setShowReplies(true);
@@ -73,34 +105,34 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
         >
           <div>
             <Flex alignItems="center">
-              {comment.author && comment.author.username && (
+              {commentData.author && commentData.author.username && (
                 <UsernameButton
                   onClick={commentAuthorClick}
-                  username={comment.author.username}
+                  username={commentData.author.username}
                 />
               )}
-              <Timestamp>{comment.createdAt}</Timestamp>
+              <Timestamp>{commentData.createdAt}</Timestamp>
             </Flex>
-            {comment.parent &&
-              comment.parent.author &&
-              comment.parent.author.username && (
+            {commentData.parent &&
+              commentData.parent.author &&
+              commentData.parent.author.username && (
                 <InReplyTo onUsernameClick={commentParentAuthorClick}>
-                  {comment.parent.author.username}
+                  {commentData.parent.author.username}
                 </InReplyTo>
               )}
           </div>
 
           <div>
-            {comment.body && (
+            {commentData.body && (
               <CommentContent className={styles.commentText}>
-                {comment.body}
+                {commentData.body}
               </CommentContent>
             )}
-            <MediaContainer comment={comment} />
+            <MediaContainer comment={commentData} />
           </div>
         </HorizontalGutter>
       </Flex>
-      {isReply && comment.replyCount > 0 && (
+      {isReply && commentData.replyCount > 0 && (
         <div className={styles.showReplies}>
           {!showReplies && (
             <Localized id="conversation-modal-showReplies">
@@ -117,7 +149,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
           {showReplies && (
             <ConversationModalRepliesQuery
               onUsernameClicked={onUsernameClick}
-              commentID={comment.id}
+              commentID={commentData.id}
             />
           )}
         </div>
@@ -126,33 +158,4 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ConversationModalCommentContainer_settings on Settings {
-      multisite
-      featureFlags
-      ...MarkersContainer_settings
-    }
-  `,
-  comment: graphql`
-    fragment ConversationModalCommentContainer_comment on Comment {
-      id
-      body
-      createdAt
-      author {
-        username
-        id
-      }
-      replyCount
-      parent {
-        author {
-          username
-          id
-        }
-      }
-      ...MediaContainer_comment
-    }
-  `,
-})(ConversationModalCommentContainer);
-
-export default enhanced;
+export default ConversationModalCommentContainer;

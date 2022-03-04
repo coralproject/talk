@@ -3,7 +3,7 @@ import { FORM_ERROR } from "final-form";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import getExternalModerationPhaseLink from "coral-admin/helpers/getExternalModerationPhaseLink";
 import { InvalidRequestError } from "coral-framework/lib/errors";
@@ -12,7 +12,7 @@ import {
   parseInteger,
   ValidationMessage,
 } from "coral-framework/lib/form";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -33,7 +33,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import { ConfigureExternalModerationPhaseForm_phase } from "coral-admin/__generated__/ConfigureExternalModerationPhaseForm_phase.graphql";
+import { ConfigureExternalModerationPhaseForm_phase$key as ConfigureExternalModerationPhaseForm_phase } from "coral-admin/__generated__/ConfigureExternalModerationPhaseForm_phase.graphql";
 
 import CreateExternalModerationPhaseMutation from "./CreateExternalModerationPhaseMutation";
 import UpdateExternalModerationPhaseMutation from "./UpdateExternalModerationPhaseMutation";
@@ -57,13 +57,26 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
   onCancel,
   phase,
 }) => {
+  const phaseData = useFragment(
+    graphql`
+      fragment ConfigureExternalModerationPhaseForm_phase on ExternalModerationPhase {
+        id
+        name
+        url
+        timeout
+        format
+      }
+    `,
+    phase
+  );
+
   const create = useMutation(CreateExternalModerationPhaseMutation);
   const update = useMutation(UpdateExternalModerationPhaseMutation);
   const { router } = useRouter();
   const onSubmit = useCallback(
     async (values) => {
       try {
-        if (phase) {
+        if (phaseData) {
           // The external moderation phase was defined, update it.
           await update(values);
         } else {
@@ -84,11 +97,11 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
         return { [FORM_ERROR]: err.message };
       }
     },
-    [phase, create, update, router]
+    [phaseData, create, update, router]
   );
 
   return (
-    <Form onSubmit={onSubmit} initialValues={initialValues(phase)}>
+    <Form onSubmit={onSubmit} initialValues={initialValues(phaseData)}>
       {({ handleSubmit, submitting, submitError, pristine }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter size="double">
@@ -200,7 +213,7 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
                   </Button>
                 </Localized>
               )}
-              {phase ? (
+              {phaseData ? (
                 <Localized id="configure-moderationPhases-updateExternalModerationPhaseButton">
                   <Button type="submit" disabled={submitting || pristine}>
                     Update details
@@ -221,16 +234,4 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  phase: graphql`
-    fragment ConfigureExternalModerationPhaseForm_phase on ExternalModerationPhase {
-      id
-      name
-      url
-      timeout
-      format
-    }
-  `,
-})(ConfigureExternalModerationPhaseForm);
-
-export default enhanced;
+export default ConfigureExternalModerationPhaseForm;

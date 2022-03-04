@@ -1,18 +1,18 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { DOWNLOAD_LIMIT_TIMEFRAME_DURATION } from "coral-common/constants";
 import { reduceSeconds } from "coral-common/helpers/i18n";
 import TIME from "coral-common/time";
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { DownloadCommentsContainer_viewer$data as DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
+import { DownloadCommentsContainer_viewer$key as DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 
 import RequestCommentsDownloadMutation from "../Settings/RequestCommentsDownloadMutation";
 
@@ -23,6 +23,16 @@ interface Props {
 }
 
 const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment DownloadCommentsContainer_viewer on User {
+        id
+        lastDownloadedAt
+      }
+    `,
+    viewer
+  );
+
   const requestComments = useMutation(RequestCommentsDownloadMutation);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -44,8 +54,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
     timeZoneName: "short",
   });
 
-  const lastDownloadedAt = viewer.lastDownloadedAt
-    ? new Date(viewer.lastDownloadedAt)
+  const lastDownloadedAt = viewerData.lastDownloadedAt
+    ? new Date(viewerData.lastDownloadedAt)
     : null;
   const sinceLastDownload = lastDownloadedAt
     ? Math.ceil((Date.now() - lastDownloadedAt.getTime()) / 1000)
@@ -176,13 +186,4 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment DownloadCommentsContainer_viewer on User {
-      id
-      lastDownloadedAt
-    }
-  `,
-})(DownloadCommentsContainer);
-
-export default enhanced;
+export default DownloadCommentsContainer;

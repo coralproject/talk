@@ -1,11 +1,11 @@
 import { clearLongTimeout } from "long-settimeout";
 import { FunctionComponent, useEffect } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { createTimeoutAt } from "coral-common/utils";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 
-import { StoryClosedTimeoutContainer_story$data as StoryData } from "coral-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";
+import { StoryClosedTimeoutContainer_story$key as StoryData } from "coral-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";
 
 import SetStoryClosedMutation from "./SetStoryClosedMutation";
 
@@ -14,22 +14,32 @@ interface Props {
 }
 
 const StoryClosedTimeoutContainer: FunctionComponent<Props> = ({ story }) => {
+  const storyData = useFragment(
+    graphql`
+      fragment StoryClosedTimeoutContainer_story on Story {
+        id
+        closedAt
+      }
+    `,
+    story
+  );
+
   const setStoryClosed = useMutation(SetStoryClosedMutation);
 
   // Whenever the story is updated, or the mutation is updated, reapply the
   // timer.
   useEffect(() => {
-    if (!story.closedAt) {
+    if (!storyData.closedAt) {
       return;
     }
 
     // Create a timer to update the story status after this happens.
     const timer = createTimeoutAt(async () => {
       await setStoryClosed({
-        storyID: story.id,
+        storyID: storyData.id,
         isClosed: true,
       });
-    }, story.closedAt);
+    }, storyData.closedAt);
 
     // When this component is disposed, dispose this timer.
     return () => {
@@ -37,18 +47,9 @@ const StoryClosedTimeoutContainer: FunctionComponent<Props> = ({ story }) => {
         clearLongTimeout(timer);
       }
     };
-  }, [story, setStoryClosed]);
+  }, [storyData, setStoryClosed]);
 
   return null;
 };
 
-const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment StoryClosedTimeoutContainer_story on Story {
-      id
-      closedAt
-    }
-  `,
-})(StoryClosedTimeoutContainer);
-
-export default enhanced;
+export default StoryClosedTimeoutContainer;

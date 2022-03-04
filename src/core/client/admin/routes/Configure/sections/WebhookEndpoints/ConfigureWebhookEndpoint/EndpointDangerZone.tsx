@@ -1,13 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
 import { urls } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
   FormField,
@@ -15,7 +15,7 @@ import {
   Label,
 } from "coral-ui/components/v2";
 
-import { EndpointDangerZone_webhookEndpoint } from "coral-admin/__generated__/EndpointDangerZone_webhookEndpoint.graphql";
+import { EndpointDangerZone_webhookEndpoint$key as EndpointDangerZone_webhookEndpoint } from "coral-admin/__generated__/EndpointDangerZone_webhookEndpoint.graphql";
 
 import DeleteWebhookEndpointMutation from "./DeleteWebhookEndpointMutation";
 import DisableWebhookEndpointMutation from "./DisableWebhookEndpointMutation";
@@ -27,6 +27,16 @@ interface Props {
 }
 
 const EndpointDangerZone: FunctionComponent<Props> = ({ webhookEndpoint }) => {
+  const webhookEndpointData = useFragment(
+    graphql`
+      fragment EndpointDangerZone_webhookEndpoint on WebhookEndpoint {
+        id
+        enabled
+      }
+    `,
+    webhookEndpoint
+  );
+
   const { localeBundles } = useCoralContext();
   const { router } = useRouter();
   const enableWebhookEndpoint = useMutation(EnableWebhookEndpointMutation);
@@ -50,9 +60,9 @@ const EndpointDangerZone: FunctionComponent<Props> = ({ webhookEndpoint }) => {
 
     // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
-      await enableWebhookEndpoint({ id: webhookEndpoint.id });
+      await enableWebhookEndpoint({ id: webhookEndpointData.id });
     }
-  }, [webhookEndpoint, enableWebhookEndpoint]);
+  }, [localeBundles, enableWebhookEndpoint, webhookEndpointData.id]);
   const onDisable = useCallback(async () => {
     const message = getMessage(
       localeBundles,
@@ -62,9 +72,9 @@ const EndpointDangerZone: FunctionComponent<Props> = ({ webhookEndpoint }) => {
 
     // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
-      await disableWebhookEndpoint({ id: webhookEndpoint.id });
+      await disableWebhookEndpoint({ id: webhookEndpointData.id });
     }
-  }, [webhookEndpoint, disableWebhookEndpoint]);
+  }, [localeBundles, disableWebhookEndpoint, webhookEndpointData.id]);
 
   const onDelete = useCallback(async () => {
     const message = getMessage(
@@ -75,12 +85,12 @@ const EndpointDangerZone: FunctionComponent<Props> = ({ webhookEndpoint }) => {
 
     // eslint-disable-next-line no-restricted-globals
     if (window.confirm(message)) {
-      await deleteWebhookEndpoint({ id: webhookEndpoint.id });
+      await deleteWebhookEndpoint({ id: webhookEndpointData.id });
 
       // Send the user back to the webhook endpoints listing.
       router.push(urls.admin.webhooks);
     }
-  }, [webhookEndpoint, disableWebhookEndpoint, router]);
+  }, [localeBundles, deleteWebhookEndpoint, webhookEndpointData.id, router]);
 
   return (
     <>
@@ -104,11 +114,11 @@ const EndpointDangerZone: FunctionComponent<Props> = ({ webhookEndpoint }) => {
         </Localized>
       </FormField>
       <RotateSigningSecretModal
-        endpointID={webhookEndpoint.id}
+        endpointID={webhookEndpointData.id}
         onHide={onHideRotateSecret}
         open={rotateSecretOpen}
       />
-      {webhookEndpoint.enabled ? (
+      {webhookEndpointData.enabled ? (
         <FormField>
           <Localized id="configure-webhooks-disableEndpoint">
             <Label>Disable endpoint</Label>
@@ -163,13 +173,4 @@ const EndpointDangerZone: FunctionComponent<Props> = ({ webhookEndpoint }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  webhookEndpoint: graphql`
-    fragment EndpointDangerZone_webhookEndpoint on WebhookEndpoint {
-      id
-      enabled
-    }
-  `,
-})(EndpointDangerZone);
-
-export default enhanced;
+export default EndpointDangerZone;

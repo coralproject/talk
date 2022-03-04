@@ -1,18 +1,18 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import getAriaPoliteMacOSWorkaround from "coral-framework/helpers/getAriaPoliteMacOSWorkaround";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { ShowIgnoreUserdDialogEvent } from "coral-stream/events";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
-import { IgnoreUserSettingsContainer_viewer$data as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
+import { IgnoreUserSettingsContainer_viewer$key as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
 
 import IgnoreUserListItem from "./IgnoreUserListItem";
 import RemoveUserIgnoreMutation from "./RemoveUserIgnoreMutation";
@@ -24,6 +24,18 @@ interface Props {
 }
 
 const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment IgnoreUserSettingsContainer_viewer on User {
+        ignoredUsers {
+          id
+          username
+        }
+      }
+    `,
+    viewer
+  );
+
   const { window } = useCoralContext();
   const emitShow = useViewerEvent(ShowIgnoreUserdDialogEvent);
   const removeUserIgnore = useMutation(RemoveUserIgnoreMutation);
@@ -33,7 +45,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
       emitShow();
     }
     setShowManage((s) => !s);
-  }, [showManage, setShowManage]);
+  }, [showManage, emitShow]);
   const remove = useCallback(
     async (id: string) => {
       await removeUserIgnore({ userID: id });
@@ -41,7 +53,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
     [removeUserIgnore]
   );
 
-  const orderedUsers = viewer.ignoredUsers.concat([]).sort((a, b) => {
+  const orderedUsers = viewerData.ignoredUsers.concat([]).sort((a, b) => {
     if (!a.username) {
       return -1;
     }
@@ -141,15 +153,4 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment IgnoreUserSettingsContainer_viewer on User {
-      ignoredUsers {
-        id
-        username
-      }
-    }
-  `,
-})(IgnoreUserSettingsContainer);
-
-export default enhanced;
+export default IgnoreUserSettingsContainer;

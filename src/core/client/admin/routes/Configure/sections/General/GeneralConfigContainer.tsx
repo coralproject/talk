@@ -1,14 +1,11 @@
 import React, { useMemo } from "react";
 import { useForm } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import {
-  purgeMetadata,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { purgeMetadata } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { GeneralConfigContainer_settings$data as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
+import { GeneralConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 
 import AnnouncementConfigContainer from "./AnnouncementConfigContainer";
 import ClosedStreamMessageConfig from "./ClosedStreamMessageConfig";
@@ -36,8 +33,31 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
   settings,
   submitting,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment GeneralConfigContainer_settings on Settings {
+        ...AnnouncementConfigContainer_settings
+        ...FlattenRepliesConfig_formValues @relay(mask: false)
+        ...LocaleConfig_formValues @relay(mask: false)
+        ...GuidelinesConfig_formValues @relay(mask: false)
+        ...CommentLengthConfig_formValues @relay(mask: false)
+        ...CommentEditingConfig_formValues @relay(mask: false)
+        ...ClosedStreamMessageConfig_formValues @relay(mask: false)
+        ...ClosingCommentStreamsConfig_formValues @relay(mask: false)
+        ...SitewideCommentingConfig_formValues @relay(mask: false)
+        ...ReactionConfig_formValues @relay(mask: false)
+        ...StaffConfig_formValues @relay(mask: false)
+        ...RTEConfig_formValues @relay(mask: false)
+        ...MediaLinksConfig_formValues @relay(mask: false)
+        ...MemberBioConfig_formValues @relay(mask: false)
+        ...ReactionConfigContainer_settings
+      }
+    `,
+    settings
+  );
+
   const form = useForm();
-  useMemo(() => form.initialize(purgeMetadata(settings)), []);
+  useMemo(() => form.initialize(purgeMetadata(settingsData)), []);
   return (
     <HorizontalGutter
       size="double"
@@ -47,14 +67,17 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <LocaleConfig disabled={submitting} />
       <FlattenRepliesConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
-      <AnnouncementConfigContainer disabled={submitting} settings={settings} />
+      <AnnouncementConfigContainer
+        disabled={submitting}
+        settings={settingsData}
+      />
       <GuidelinesConfig disabled={submitting} />
       <RTEConfig disabled={submitting} />
       <CommentLengthConfig disabled={submitting} />
       <CommentEditingConfig disabled={submitting} />
       <ClosingCommentStreamsConfig disabled={submitting} />
       <ClosedStreamMessageConfig disabled={submitting} />
-      <ReactionConfigContainer disabled={submitting} settings={settings} />
+      <ReactionConfigContainer disabled={submitting} settings={settingsData} />
       <StaffConfig disabled={submitting} />
       <MemberBioConfig disabled={submitting} />
       <MediaLinksConfig disabled={submitting} />
@@ -62,26 +85,4 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment GeneralConfigContainer_settings on Settings {
-      ...AnnouncementConfigContainer_settings
-      ...FlattenRepliesConfig_formValues @relay(mask: false)
-      ...LocaleConfig_formValues @relay(mask: false)
-      ...GuidelinesConfig_formValues @relay(mask: false)
-      ...CommentLengthConfig_formValues @relay(mask: false)
-      ...CommentEditingConfig_formValues @relay(mask: false)
-      ...ClosedStreamMessageConfig_formValues @relay(mask: false)
-      ...ClosingCommentStreamsConfig_formValues @relay(mask: false)
-      ...SitewideCommentingConfig_formValues @relay(mask: false)
-      ...ReactionConfig_formValues @relay(mask: false)
-      ...StaffConfig_formValues @relay(mask: false)
-      ...RTEConfig_formValues @relay(mask: false)
-      ...MediaLinksConfig_formValues @relay(mask: false)
-      ...MemberBioConfig_formValues @relay(mask: false)
-      ...ReactionConfigContainer_settings
-    }
-  `,
-})(GeneralConfigContainer);
-
-export default enhanced;
+export default GeneralConfigContainer;

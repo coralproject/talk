@@ -1,10 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -18,7 +17,7 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { ModerationPhasesConfigContainer_settings$data as ModerationPhasesConfigContainer_settings } from "coral-admin/__generated__/ModerationPhasesConfigContainer_settings.graphql";
+import { ModerationPhasesConfigContainer_settings$key as ModerationPhasesConfigContainer_settings } from "coral-admin/__generated__/ModerationPhasesConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -33,6 +32,21 @@ interface Props {
 const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment ModerationPhasesConfigContainer_settings on Settings {
+        integrations {
+          external {
+            phases {
+              ...ExternalModerationPhaseRow_phase
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   return (
     <HorizontalGutter size="double" data-testid="moderation-phases-container">
       <ExperimentalExternalModerationPhaseCallOut />
@@ -74,8 +88,8 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
         <Localized id="configure-moderationPhases-moderationPhases">
           <Subheader>Moderation Phases</Subheader>
         </Localized>
-        {settings.integrations.external &&
-        settings.integrations.external.phases.length > 0 ? (
+        {settingsData.integrations.external &&
+        settingsData.integrations.external.phases.length > 0 ? (
           <Table fullWidth>
             <TableHead>
               <TableRow>
@@ -89,7 +103,7 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {settings.integrations.external.phases.map((phase, idx) => (
+              {settingsData.integrations.external.phases.map((phase, idx) => (
                 <ExternalModerationPhaseRow key={idx} phase={phase} />
               ))}
             </TableBody>
@@ -106,18 +120,4 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ModerationPhasesConfigContainer_settings on Settings {
-      integrations {
-        external {
-          phases {
-            ...ExternalModerationPhaseRow_phase
-          }
-        }
-      }
-    }
-  `,
-})(ModerationPhasesConfigContainer);
-
-export default enhanced;
+export default ModerationPhasesConfigContainer;

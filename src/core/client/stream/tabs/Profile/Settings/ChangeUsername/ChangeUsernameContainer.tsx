@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { Field, Form } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/constants";
 import { reduceSeconds } from "coral-common/helpers/i18n";
@@ -18,7 +18,7 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { streamColorFromMeta } from "coral-framework/lib/form";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
@@ -36,8 +36,8 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
-import { ChangeUsernameContainer_settings$data as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
-import { ChangeUsernameContainer_viewer$data as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
+import { ChangeUsernameContainer_settings$key as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
+import { ChangeUsernameContainer_viewer$key as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 
 import UpdateUsernameMutation from "./UpdateUsernameMutation";
 
@@ -62,6 +62,70 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment ChangeUsernameContainer_viewer on User {
+        username
+        profiles {
+          __typename
+        }
+        status {
+          username {
+            history {
+              username
+              createdAt
+            }
+          }
+        }
+      }
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment ChangeUsernameContainer_settings on Settings {
+        accountFeatures {
+          changeUsername
+        }
+        auth {
+          integrations {
+            local {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            google {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            oidc {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            sso {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+            facebook {
+              enabled
+              targetFilter {
+                stream
+              }
+            }
+          }
+        }
+      }
+    `,
+    settings
+  );
+
   const emitShowEditUsernameDialog = useViewerEvent(
     ShowEditUsernameDialogEvent
   );
@@ -72,32 +136,35 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       emitShowEditUsernameDialog();
     }
     setShowEditForm(!showEditForm);
-  }, [setShowEditForm, showEditForm]);
+  }, [emitShowEditUsernameDialog, showEditForm]);
   const updateUsername = useMutation(UpdateUsernameMutation);
 
-  const closeSuccessMessage = useCallback(() => setShowSuccessMessage(false), [
-    setShowEditForm,
-  ]);
+  const closeSuccessMessage = useCallback(
+    () => setShowSuccessMessage(false),
+    []
+  );
 
   const canChangeLocalAuth = useMemo(() => {
-    if (!settings.accountFeatures.changeUsername) {
+    if (!settingsData.accountFeatures.changeUsername) {
       return false;
     }
     if (
-      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
+      !viewerData.profiles.find(
+        (profile) => profile.__typename === "LocalProfile"
+      )
     ) {
       return false;
     }
-    const enabled = getAuthenticationIntegrations(settings.auth, "stream");
+    const enabled = getAuthenticationIntegrations(settingsData.auth, "stream");
 
     return (
       enabled.includes("local") ||
       !(enabled.length === 1 && enabled[0] === "sso")
     );
-  }, [viewer, settings]);
+  }, [viewerData, settingsData]);
 
   const canChangeUsername = useMemo(() => {
-    const { username } = viewer.status;
+    const { username } = viewerData.status;
     if (username && username.history.length > 1) {
       const lastUsernameEditAllowed = new Date();
       lastUsernameEditAllowed.setSeconds(
@@ -110,10 +177,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       return lastUsernameEdit <= lastUsernameEditAllowed;
     }
     return true;
-  }, [viewer]);
+  }, [viewerData]);
 
   const canChangeUsernameDate = useMemo(() => {
-    const { username } = viewer.status;
+    const { username } = viewerData.status;
     if (username && username.history.length > 1) {
       const date = new Date(
         username.history[username.history.length - 1].createdAt
@@ -124,7 +191,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       return date;
     }
     return null;
-  }, [viewer]);
+  }, [viewerData]);
 
   const onSubmit = useCallback(
     async (input: FormProps, form: FormApi) => {
@@ -173,7 +240,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
           </div>
         </Localized>
         <div className={cn(styles.username, CLASSES.myUsername.username)}>
-          {viewer.username}
+          {viewerData.username}
         </div>
       </div>
       {canChangeLocalAuth && !showEditForm && (
@@ -394,64 +461,4 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment ChangeUsernameContainer_viewer on User {
-      username
-      profiles {
-        __typename
-      }
-      status {
-        username {
-          history {
-            username
-            createdAt
-          }
-        }
-      }
-    }
-  `,
-  settings: graphql`
-    fragment ChangeUsernameContainer_settings on Settings {
-      accountFeatures {
-        changeUsername
-      }
-      auth {
-        integrations {
-          local {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          google {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          oidc {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          sso {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-          facebook {
-            enabled
-            targetFilter {
-              stream
-            }
-          }
-        }
-      }
-    }
-  `,
-})(ChangeUsernameContainer);
-
-export default enhanced;
+export default ChangeUsernameContainer;

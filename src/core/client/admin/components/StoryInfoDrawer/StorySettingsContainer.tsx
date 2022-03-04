@@ -2,9 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useState } from "react";
 import { Field, Form } from "react-final-form";
+import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import ExpertSelectionQuery from "coral-stream/tabs/Configure/Q&A/ExpertSelectionQuery";
 import {
   CheckBox,
@@ -16,10 +17,12 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components/v2";
-
 import { Button } from "coral-ui/components/v3";
 
-import { StorySettingsContainer_storySettings } from "coral-admin/__generated__/StorySettingsContainer_storySettings.graphql";
+import {
+  StorySettingsContainer_storySettings,
+  StorySettingsContainer_storySettings$key,
+} from "coral-admin/__generated__/StorySettingsContainer_storySettings.graphql";
 
 import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
 
@@ -29,7 +32,7 @@ export type MODERATION_MODE = StorySettingsContainer_storySettings["moderation"]
 
 export interface Props {
   storyID: string;
-  settings: StorySettingsContainer_storySettings;
+  settings: StorySettingsContainer_storySettings$key;
 }
 
 const parsePremod = (b: boolean): MODERATION_MODE => (b ? "PRE" : "POST");
@@ -40,8 +43,23 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
   storyID,
   settings: initialSettings,
 }) => {
+  const initialSettingsData = useFragment(
+    graphql`
+      fragment StorySettingsContainer_storySettings on StorySettings {
+        mode
+        moderation
+        premodLinksEnable
+        experts {
+          id
+          username
+        }
+      }
+    `,
+    initialSettings
+  );
+
   const [activeTab, setActiveTab] = useState("CONFIGURE_STORY");
-  const [settings, setSettings] = useState(initialSettings);
+  const [settings, setSettings] = useState(initialSettingsData);
 
   const { mode, moderation, premodLinksEnable } = settings;
 
@@ -173,18 +191,4 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment StorySettingsContainer_storySettings on StorySettings {
-      mode
-      moderation
-      premodLinksEnable
-      experts {
-        id
-        username
-      }
-    }
-  `,
-})(StorySettingsContainer);
-
-export default enhanced;
+export default StorySettingsContainer;

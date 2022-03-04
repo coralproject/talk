@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { AccountSettingsContainer_settings$data as AccountSettingsContainer_settings } from "coral-stream/__generated__/AccountSettingsContainer_settings.graphql";
-import { AccountSettingsContainer_viewer$data as AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
+import { AccountSettingsContainer_settings$key as AccountSettingsContainer_settings } from "coral-stream/__generated__/AccountSettingsContainer_settings.graphql";
+import { AccountSettingsContainer_viewer$key as AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
 
 import ChangeEmailContainer from "./ChangeEmail";
 import ChangePasswordContainer from "./ChangePasswordContainer";
@@ -23,38 +22,44 @@ interface Props {
 const AccountSettingsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
-}) => (
-  <HorizontalGutter size="oneAndAHalf" data-testid="profile-manageAccount">
-    <HorizontalGutter className={styles.root}>
-      <ChangeUsernameContainer settings={settings} viewer={viewer} />
-      <ChangeEmailContainer settings={settings} viewer={viewer} />
-      <ChangePasswordContainer settings={settings} />
-      {settings.accountFeatures.deleteAccount && (
-        <DeleteAccountContainer viewer={viewer} settings={settings} />
-      )}
-    </HorizontalGutter>
-  </HorizontalGutter>
-);
-
-const enhanced = withFragmentContainer<Props>({
-  viewer: graphql`
-    fragment AccountSettingsContainer_viewer on User {
-      ...DeleteAccountContainer_viewer
-      ...ChangeUsernameContainer_viewer
-      ...ChangeEmailContainer_viewer
-    }
-  `,
-  settings: graphql`
-    fragment AccountSettingsContainer_settings on Settings {
-      accountFeatures {
-        deleteAccount
+}) => {
+  const viewerData = useFragment(
+    graphql`
+      fragment AccountSettingsContainer_viewer on User {
+        ...DeleteAccountContainer_viewer
+        ...ChangeUsernameContainer_viewer
+        ...ChangeEmailContainer_viewer
       }
-      ...ChangePasswordContainer_settings
-      ...DeleteAccountContainer_settings
-      ...ChangeEmailContainer_settings
-      ...ChangeUsernameContainer_settings
-    }
-  `,
-})(AccountSettingsContainer);
+    `,
+    viewer
+  );
+  const settingsData = useFragment(
+    graphql`
+      fragment AccountSettingsContainer_settings on Settings {
+        accountFeatures {
+          deleteAccount
+        }
+        ...ChangePasswordContainer_settings
+        ...DeleteAccountContainer_settings
+        ...ChangeEmailContainer_settings
+        ...ChangeUsernameContainer_settings
+      }
+    `,
+    settings
+  );
 
-export default enhanced;
+  return (
+    <HorizontalGutter size="oneAndAHalf" data-testid="profile-manageAccount">
+      <HorizontalGutter className={styles.root}>
+        <ChangeUsernameContainer settings={settingsData} viewer={viewerData} />
+        <ChangeEmailContainer settings={settingsData} viewer={viewerData} />
+        <ChangePasswordContainer settings={settingsData} />
+        {settingsData.accountFeatures.deleteAccount && (
+          <DeleteAccountContainer viewer={viewerData} settings={settingsData} />
+        )}
+      </HorizontalGutter>
+    </HorizontalGutter>
+  );
+};
+
+export default AccountSettingsContainer;
