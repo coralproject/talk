@@ -40,7 +40,7 @@ const RemoveUserSuspensionMutation = createMutation(
       mutation: graphql`
         mutation RemoveUserSuspensionMutation(
           $input: RemoveUserSuspensionInput!
-        ) {
+        ) @raw_response_type {
           removeUserSuspension(input: $input) {
             user {
               id

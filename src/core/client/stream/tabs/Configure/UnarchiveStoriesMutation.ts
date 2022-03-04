@@ -17,7 +17,8 @@ const UnarchiveStoriesMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation UnarchiveStoriesMutation($input: UnarchiveStoriesInput!) {
+        mutation UnarchiveStoriesMutation($input: UnarchiveStoriesInput!)
+          @raw_response_type {
           unarchiveStories(input: $input) {
             stories {
               id

@@ -23,7 +23,8 @@ export type CreateCommentReactionInput = MutationInput<MutationTypes> & {
 };
 
 const mutation = graphql`
-  mutation CreateCommentReactionMutation($input: CreateCommentReactionInput!) {
+  mutation CreateCommentReactionMutation($input: CreateCommentReactionInput!)
+    @raw_response_type {
     createCommentReaction(input: $input) {
       comment {
         ...ReactionButtonContainer_comment

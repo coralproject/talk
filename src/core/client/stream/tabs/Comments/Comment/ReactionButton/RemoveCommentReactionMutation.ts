@@ -23,7 +23,8 @@ export type RemoveCommentReactionInput = MutationInput<MutationTypes> & {
 };
 
 const mutation = graphql`
-  mutation RemoveCommentReactionMutation($input: RemoveCommentReactionInput!) {
+  mutation RemoveCommentReactionMutation($input: RemoveCommentReactionInput!)
+    @raw_response_type {
     removeCommentReaction(input: $input) {
       comment {
         ...ReactionButtonContainer_comment

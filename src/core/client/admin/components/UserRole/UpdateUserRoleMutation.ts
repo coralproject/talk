@@ -16,7 +16,8 @@ const UpdateUserRoleMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation UpdateUserRoleMutation($input: UpdateUserRoleInput!) {
+        mutation UpdateUserRoleMutation($input: UpdateUserRoleInput!)
+          @raw_response_type {
           updateUserRole(input: $input) {
             user {
               id

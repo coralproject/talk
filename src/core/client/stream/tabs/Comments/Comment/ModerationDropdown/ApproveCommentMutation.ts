@@ -29,7 +29,8 @@ const ApproveCommentMutation = createMutation(
         environment,
         {
           mutation: graphql`
-            mutation ApproveCommentMutation($input: ApproveCommentInput!) {
+            mutation ApproveCommentMutation($input: ApproveCommentInput!)
+              @raw_response_type {
               approveComment(input: $input) {
                 comment {
                   id

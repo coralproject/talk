@@ -29,7 +29,7 @@ const BanUserMutation = createMutation(
         environment,
         {
           mutation: graphql`
-            mutation BanUserMutation($input: BanUserInput!) {
+            mutation BanUserMutation($input: BanUserInput!) @raw_response_type {
               banUser(input: $input) {
                 user {
                   id

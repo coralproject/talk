@@ -18,7 +18,8 @@ const RemoveUserBanMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation RemoveUserBanMutation($input: RemoveUserBanInput!) {
+        mutation RemoveUserBanMutation($input: RemoveUserBanInput!)
+          @raw_response_type {
           removeUserBan(input: $input) {
             user {
               id

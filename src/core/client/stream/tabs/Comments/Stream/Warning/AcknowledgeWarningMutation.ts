@@ -19,7 +19,8 @@ const AcknowledgeWarningMutation = createMutation(
     const viewer = getViewer(environment)!;
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation AcknowledgeWarningMutation($input: AcknowledgeWarningInput!) {
+        mutation AcknowledgeWarningMutation($input: AcknowledgeWarningInput!)
+          @raw_response_type {
           acknowledgeWarning(input: $input) {
             user {
               id

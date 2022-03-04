@@ -182,7 +182,7 @@ const mutation = graphql`
   mutation CreateCommentMutation(
     $input: CreateCommentInput!
     $flattenReplies: Boolean!
-  ) {
+  ) @raw_response_type {
     createComment(input: $input) {
       edge {
         cursor

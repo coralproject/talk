@@ -13,7 +13,8 @@ import { MarkFlagReviewedMutation as MutationTypes } from "coral-admin/__generat
 export type MarkFlagReviewedInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
-  mutation MarkFlagReviewedMutation($input: ReviewCommentFlagInput!) {
+  mutation MarkFlagReviewedMutation($input: ReviewCommentFlagInput!)
+    @raw_response_type {
     reviewCommentFlag(input: $input) {
       flag {
         id

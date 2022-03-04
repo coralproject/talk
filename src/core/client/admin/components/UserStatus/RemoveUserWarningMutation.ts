@@ -21,7 +21,8 @@ const RemoveUserWarningMutation = createMutation(
     const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation RemoveUserWarningMutation($input: RemoveUserWarningInput!) {
+        mutation RemoveUserWarningMutation($input: RemoveUserWarningInput!)
+          @raw_response_type {
           removeUserWarning(input: $input) {
             user {
               id

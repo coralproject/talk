@@ -18,7 +18,7 @@ const AcknowledgeModMessageMutation = createMutation(
       mutation: graphql`
         mutation AcknowledgeModMessageMutation(
           $input: AcknowledgeModMessageInput!
-        ) {
+        ) @raw_response_type {
           acknowledgeModMessage(input: $input) {
             user {
               id

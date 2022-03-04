@@ -19,7 +19,8 @@ const SendModMessageMutation = createMutation(
     const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation SendModMessageMutation($input: SendModMessageInput!) {
+        mutation SendModMessageMutation($input: SendModMessageInput!)
+          @raw_response_type {
           sendModMessage(input: $input) {
             user {
               id

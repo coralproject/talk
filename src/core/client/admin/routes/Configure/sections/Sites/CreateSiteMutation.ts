@@ -23,7 +23,8 @@ const CreateSiteMutation = createMutation(
     const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation CreateSiteMutation($input: CreateSiteInput!) {
+        mutation CreateSiteMutation($input: CreateSiteInput!)
+          @raw_response_type {
           createSite(input: $input) {
             site {
               id

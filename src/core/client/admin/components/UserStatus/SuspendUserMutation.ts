@@ -25,7 +25,8 @@ const SuspendUserMutation = createMutation(
     });
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation SuspendUserMutation($input: SuspendUserInput!) {
+        mutation SuspendUserMutation($input: SuspendUserInput!)
+          @raw_response_type {
           suspendUser(input: $input) {
             user {
               id

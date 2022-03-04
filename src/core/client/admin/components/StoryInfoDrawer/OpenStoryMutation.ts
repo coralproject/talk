@@ -17,7 +17,7 @@ const OpenStoryMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation OpenStoryMutation($input: OpenStoryInput!) {
+        mutation OpenStoryMutation($input: OpenStoryInput!) @raw_response_type {
           openStory(input: $input) {
             story {
               id

@@ -18,7 +18,7 @@ import { EditCommentMutation as MutationTypes } from "coral-stream/__generated__
 export type EditCommentInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
-  mutation EditCommentMutation($input: EditCommentInput!) {
+  mutation EditCommentMutation($input: EditCommentInput!) @raw_response_type {
     editComment(input: $input) {
       comment {
         id

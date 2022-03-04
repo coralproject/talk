@@ -17,7 +17,7 @@ const UpdateBioMutation = createMutation(
     const viewer = getViewer(environment)!;
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation UpdateBioMutation($input: UpdateBioInput!) {
+        mutation UpdateBioMutation($input: UpdateBioInput!) @raw_response_type {
           updateBio(input: $input) {
             clientMutationId
             user {

@@ -21,7 +21,7 @@ const WarnUserMutation = createMutation(
     const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation WarnUserMutation($input: WarnUserInput!) {
+        mutation WarnUserMutation($input: WarnUserInput!) @raw_response_type {
           warnUser(input: $input) {
             user {
               id

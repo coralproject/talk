@@ -35,7 +35,8 @@ const RejectCommentMutation = createMutation(
         environment,
         {
           mutation: graphql`
-            mutation RejectCommentMutation($input: RejectCommentInput!) {
+            mutation RejectCommentMutation($input: RejectCommentInput!)
+              @raw_response_type {
               rejectComment(input: $input) {
                 comment {
                   id

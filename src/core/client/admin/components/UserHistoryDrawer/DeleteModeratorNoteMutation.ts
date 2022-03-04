@@ -29,9 +29,8 @@ const DeleteModeratorNoteMutation = createMutation(
       }) || [];
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation DeleteModeratorNoteMutation(
-          $input: DeleteModeratorNoteInput!
-        ) {
+        mutation DeleteModeratorNoteMutation($input: DeleteModeratorNoteInput!)
+          @raw_response_type {
           deleteModeratorNote(input: $input) {
             user {
               id

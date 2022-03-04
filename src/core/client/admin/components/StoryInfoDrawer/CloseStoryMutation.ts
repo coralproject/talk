@@ -17,7 +17,8 @@ const CloseStoryMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation CloseStoryMutation($input: CloseStoryInput!) {
+        mutation CloseStoryMutation($input: CloseStoryInput!)
+          @raw_response_type {
           closeStory(input: $input) {
             story {
               id

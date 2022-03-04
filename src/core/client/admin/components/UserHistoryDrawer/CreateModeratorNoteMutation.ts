@@ -37,9 +37,8 @@ const CreateModeratorNoteMutation = createMutation(
     const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation CreateModeratorNoteMutation(
-          $input: CreateModeratorNoteInput!
-        ) {
+        mutation CreateModeratorNoteMutation($input: CreateModeratorNoteInput!)
+          @raw_response_type {
           createModeratorNote(input: $input) {
             user {
               id

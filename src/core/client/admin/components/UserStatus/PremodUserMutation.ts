@@ -20,7 +20,8 @@ const PremodUserMutation = createMutation(
     const viewer = getViewer(environment)!;
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation PremodUserMutation($input: PremodUserInput!) {
+        mutation PremodUserMutation($input: PremodUserInput!)
+          @raw_response_type {
           premodUser(input: $input) {
             user {
               id

@@ -29,7 +29,8 @@ const UpdateEmailMutation = createMutation(
         environment,
         {
           mutation: graphql`
-            mutation UpdateEmailMutation($input: UpdateEmailInput!) {
+            mutation UpdateEmailMutation($input: UpdateEmailInput!)
+              @raw_response_type {
               updateEmail(input: $input) {
                 clientMutationId
                 user {

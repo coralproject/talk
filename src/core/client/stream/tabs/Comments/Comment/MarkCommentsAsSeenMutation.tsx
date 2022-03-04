@@ -15,7 +15,8 @@ import {
 import { COMMIT_SEEN_EVENT, CommitSeenEventData } from "../commentSeen";
 
 const mutation = graphql`
-  mutation MarkCommentsAsSeenMutation($input: MarkCommentsAsSeenInput!) {
+  mutation MarkCommentsAsSeenMutation($input: MarkCommentsAsSeenInput!)
+    @raw_response_type {
     markCommentsAsSeen(input: $input) {
       comments {
         id
