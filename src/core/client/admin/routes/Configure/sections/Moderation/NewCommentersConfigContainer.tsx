@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import {
   formatBool,
@@ -9,7 +9,6 @@ import {
   parseStringBool,
   ValidationMessage,
 } from "coral-framework/lib/form";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
   Condition,
@@ -25,18 +24,18 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
+import { NewCommentersConfigContainer_settings$key } from "coral-admin/__generated__/NewCommentersConfigContainer_settings.graphql";
+
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 
-import { NewCommentersConfigContainer_settings } from "coral-admin/__generated__/NewCommentersConfigContainer_settings.graphql";
-
 import styles from "./NewCommentersConfigContainer.css";
 
 interface Props {
   disabled: boolean;
-  settings: NewCommentersConfigContainer_settings;
+  settings: NewCommentersConfigContainer_settings$key;
 }
 
 // eslint-disable-next-line no-unused-expressions
@@ -74,6 +73,15 @@ const NewCommentersConfigContainer: FunctionComponent<Props> = ({
   disabled,
   settings,
 }) => {
+  const settingsData = useFragment(
+    graphql`
+      fragment NewCommentersConfigContainer_settings on Settings {
+        multisite
+      }
+    `,
+    settings
+  );
+
   return (
     <ConfigBox
       id="Users"
@@ -93,7 +101,7 @@ const NewCommentersConfigContainer: FunctionComponent<Props> = ({
         <Localized id="configure-moderation-newCommenters-enable">
           <Label component="legend">Enable new commenter approval</Label>
         </Localized>
-        {settings.multisite ? (
+        {settingsData.multisite ? (
           <AllSpecificOffSitesField
             disabled={disabled}
             moderationModeFieldName="newCommenters.moderation.mode"
@@ -149,12 +157,4 @@ const NewCommentersConfigContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment NewCommentersConfigContainer_settings on Settings {
-      multisite
-    }
-  `,
-})(NewCommentersConfigContainer);
-
-export default enhanced;
+export default NewCommentersConfigContainer;
