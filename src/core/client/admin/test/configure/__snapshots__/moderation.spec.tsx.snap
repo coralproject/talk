@@ -1153,8 +1153,8 @@ for moderator approval before publication.
                         checked={false}
                         className="RadioButton-input"
                         disabled={false}
-                        id="newCommenters.premodEnabled-true"
-                        name="newCommenters.premodEnabled"
+                        id="newCommenters.moderation.mode-true"
+                        name="newCommenters.moderation.mode"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1163,7 +1163,7 @@ for moderator approval before publication.
                       />
                       <label
                         className="RadioButton-label"
-                        htmlFor="newCommenters.premodEnabled-true"
+                        htmlFor="newCommenters.moderation.mode-true"
                       >
                         <span>
                           On
@@ -1177,8 +1177,8 @@ for moderator approval before publication.
                         checked={true}
                         className="RadioButton-input"
                         disabled={false}
-                        id="newCommenters.premodEnabled-false"
-                        name="newCommenters.premodEnabled"
+                        id="newCommenters.moderation.mode-false"
+                        name="newCommenters.moderation.mode"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1187,7 +1187,7 @@ for moderator approval before publication.
                       />
                       <label
                         className="RadioButton-label RadioButton-labelChecked"
-                        htmlFor="newCommenters.premodEnabled-false"
+                        htmlFor="newCommenters.moderation.mode-false"
                       >
                         <span>
                           Off
@@ -1211,7 +1211,7 @@ for moderator approval before publication.
                       autoCapitalize="off"
                       autoComplete="off"
                       autoCorrect="off"
-                      className="TextField-input NewCommentersConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                      className="TextField-input NewCommentersConfigContainer-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
                       disabled={false}
                       name="newCommenters.approvedCommentsThreshold"
                       onBlur={[Function]}

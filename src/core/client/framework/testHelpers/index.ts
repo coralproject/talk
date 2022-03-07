@@ -24,6 +24,10 @@ export { default as findParent } from "./findParent";
 export { default as findParentWithType } from "./findParentWithType";
 export { default as findParentsWithType } from "./findParentsWithType";
 export {
+  default as createTestContext,
+  CreateTestRendererParams,
+} from "./createTestContext";
+export {
   default as createFixture,
   Fixture,
   WithTypename,
@@ -32,10 +36,7 @@ export { default as createFixtures } from "./createFixtures";
 export { default as createMockRouter } from "./createMockRouter";
 export { default as createMutationResolverStub } from "./createMutationResolverStub";
 export { default as createQueryResolverStub } from "./createQueryResolverStub";
-export {
-  default as createTestRenderer,
-  CreateTestRendererParams,
-} from "./createTestRenderer";
+export { default as createTestRenderer } from "./createTestRenderer";
 export { default as createResolversStub } from "./createResolversStub";
 export {
   TransitionControlData,

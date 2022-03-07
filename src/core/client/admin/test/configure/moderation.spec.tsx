@@ -103,7 +103,7 @@ it("change pre-moderation to On for all comments for single-site tenants", async
   act(() => onField.props.onChange(onField.props.value.toString()));
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -190,7 +190,7 @@ it("change site wide pre-moderation to Specific sites", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -238,7 +238,7 @@ it("change site wide link pre-moderation", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -298,7 +298,7 @@ it("change akismet settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   expect(
@@ -315,7 +315,7 @@ it("change akismet settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -326,6 +326,198 @@ it("change akismet settings", async () => {
   await act(async () => {
     await wait(() => {
       expect(onField.props.disabled).toBe(false);
+    });
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+});
+
+it("change new commenter approval settings on multisite tenant", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      sites: () => siteConnection,
+    },
+    Mutation: {
+      updateSettings: ({ variables, callCount }) => {
+        switch (callCount) {
+          case 0:
+            expectAndFail(variables.settings.newCommenters).toEqual({
+              approvedCommentsThreshold: 2,
+              moderation: {
+                mode: "PRE",
+                premodSites: [],
+              },
+              premodEnabled: false,
+            });
+            break;
+          case 1:
+            expectAndFail(variables.settings.newCommenters).toEqual({
+              approvedCommentsThreshold: 2,
+              moderation: {
+                mode: "SPECIFIC_SITES_PRE",
+                premodSites: ["site-1"],
+              },
+              premodEnabled: false,
+            });
+            break;
+        }
+        return {
+          settings: pureMerge(settingsWithMultisite, variables.settings),
+        };
+      },
+    },
+  });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
+    {
+      resolvers,
+    },
+    settingsWithMultisite
+  );
+
+  const enableNewCommenterApproval = within(
+    moderationContainer
+  ).getByText("Enable new commenter approval", { selector: "fieldset" });
+
+  // Change pre-moderation to on for all new commenters
+  const allSitesOption = within(enableNewCommenterApproval).getByLabelText(
+    "All sites"
+  );
+  act(() =>
+    allSitesOption.props.onChange(allSitesOption.props.value.toString())
+  );
+
+  const form = findParentWithType(enableNewCommenterApproval, "form")!;
+
+  // Send form
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(allSitesOption.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(allSitesOption.props.disabled).toBe(false);
+    });
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+
+  // Change pre-moderation to specific sites for
+  const specificSitesOption = within(enableNewCommenterApproval).getByLabelText(
+    "Specific sites"
+  );
+  act(() =>
+    specificSitesOption.props.onChange(
+      specificSitesOption.props.value.toString()
+    )
+  );
+
+  // // Send form
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  // see validation error with no site selected
+  expect(
+    within(enableNewCommenterApproval).getByText(
+      "You must select at least one site."
+    )
+  ).toBeDefined();
+
+  const siteSearchField = within(enableNewCommenterApproval).getByTestID(
+    "site-search-textField"
+  );
+  act(() => siteSearchField.props.onChange({ target: { value: "Test" } }));
+
+  const siteSearchButton = within(enableNewCommenterApproval).getByTestID(
+    "site-search-button"
+  );
+  act(() => {
+    siteSearchButton.props.onClick({ preventDefault: noop });
+  });
+
+  // // Add site on which to premoderate all comments
+  await act(async () => {
+    await waitForElement(() =>
+      within(enableNewCommenterApproval).getByTestID("site-search-list")
+    );
+    within(enableNewCommenterApproval).getByText("Test Site").props.onClick();
+  });
+
+  // Send form
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(specificSitesOption.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(specificSitesOption.props.disabled).toBe(false);
+    });
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+});
+
+it("change new commenter approval settings on single site tenant", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      sites: () => siteConnection,
+    },
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.newCommenters).toEqual({
+          approvedCommentsThreshold: 2,
+          moderation: {
+            mode: "PRE",
+            premodSites: [],
+          },
+          premodEnabled: false,
+        });
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
+
+  const enableNewCommenterApproval = within(
+    moderationContainer
+  ).getByText("Enable new commenter approval", { selector: "fieldset" });
+
+  // Change pre-moderation to on for all new commenters
+  const onOption = within(enableNewCommenterApproval).getByLabelText("On");
+  act(() => onOption.props.onChange(onOption.props.value.toString()));
+
+  const form = findParentWithType(enableNewCommenterApproval, "form")!;
+
+  // Send form
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(onOption.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(onOption.props.disabled).toBe(false);
     });
   });
 
@@ -391,7 +583,7 @@ it("change perspective settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   expect(
@@ -433,7 +625,7 @@ it("change perspective settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -455,7 +647,7 @@ it("change perspective settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -526,7 +718,7 @@ it("change perspective send feedback setting", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   // Wait for submission to be finished
