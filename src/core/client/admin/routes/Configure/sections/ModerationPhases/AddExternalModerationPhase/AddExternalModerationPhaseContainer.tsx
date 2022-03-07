@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 
 import ConfigBox from "coral-admin/routes/Configure/ConfigBox";
@@ -10,14 +10,8 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { ConfigureExternalModerationPhaseForm } from "../ConfigureExternalModerationPhaseForm";
 import ExperimentalExternalModerationPhaseCallOut from "../ExperimentalExternalModerationPhaseCallOut";
 
-interface Props {
-  router: Router;
-  match: Match;
-}
-
-const AddExternalModerationPhaseContainer: FunctionComponent<Props> = ({
-  router,
-}) => {
+const AddExternalModerationPhaseContainer: FunctionComponent = () => {
+  const { router } = useRouter();
   const onCancel = useCallback(() => {
     router.push(urls.admin.moderationPhases);
   }, [router]);
@@ -41,6 +35,4 @@ const AddExternalModerationPhaseContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withRouter(AddExternalModerationPhaseContainer);
-
-export default enhanced;
+export default AddExternalModerationPhaseContainer;

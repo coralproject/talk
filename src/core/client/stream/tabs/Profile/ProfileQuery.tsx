@@ -8,14 +8,14 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   QueryRenderData,
   QueryRenderer,
-  withLocalStateContainer,
+  useLocal,
 } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
-import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
+import { ProfileQueryLocal } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
 
 const loadProfileContainer = () =>
   import("./ProfileContainer" /* webpackChunkName: "profile" */);
@@ -32,10 +32,6 @@ const preloadAndPolyfill = once((window: Window) =>
 );
 
 const LazyProfileContainer = React.lazy(loadProfileContainer);
-
-interface Props {
-  local: Local;
-}
 
 export const render = (
   { error, props }: QueryRenderData<QueryTypes>,
@@ -82,10 +78,14 @@ export const render = (
   );
 };
 
-const ProfileQuery: FunctionComponent<Props> = ({
-  local: { storyID, storyURL },
-}) => {
+const ProfileQuery: FunctionComponent = () => {
   const { window } = useCoralContext();
+  const [{ storyID, storyURL }] = useLocal<ProfileQueryLocal>(graphql`
+    fragment ProfileQueryLocal on Local {
+      storyID
+      storyURL
+    }
+  `);
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <QueryRenderer<QueryTypes>
@@ -116,13 +116,4 @@ const ProfileQuery: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment ProfileQueryLocal on Local {
-      storyID
-      storyURL
-    }
-  `
-)(ProfileQuery);
-
-export default enhanced;
+export default ProfileQuery;

@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
@@ -40,8 +40,6 @@ import UpdateExternalModerationPhaseMutation from "./UpdateExternalModerationPha
 
 interface Props {
   onCancel?: () => void;
-  router: Router;
-  match: Match;
   phase: ConfigureExternalModerationPhaseForm_phase | null;
 }
 
@@ -58,10 +56,10 @@ const initialValues = (phase?: any) =>
 const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
   onCancel,
   phase,
-  router,
 }) => {
   const create = useMutation(CreateExternalModerationPhaseMutation);
   const update = useMutation(UpdateExternalModerationPhaseMutation);
+  const { router } = useRouter();
   const onSubmit = useCallback(
     async (values) => {
       try {
@@ -223,18 +221,16 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withRouter(
-  withFragmentContainer<Props>({
-    phase: graphql`
-      fragment ConfigureExternalModerationPhaseForm_phase on ExternalModerationPhase {
-        id
-        name
-        url
-        timeout
-        format
-      }
-    `,
-  })(ConfigureExternalModerationPhaseForm)
-);
+const enhanced = withFragmentContainer<Props>({
+  phase: graphql`
+    fragment ConfigureExternalModerationPhaseForm_phase on ExternalModerationPhase {
+      id
+      name
+      url
+      timeout
+      format
+    }
+  `,
+})(ConfigureExternalModerationPhaseForm);
 
 export default enhanced;

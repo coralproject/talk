@@ -33,6 +33,7 @@ export {
   WithTypename,
 } from "./createFixture";
 export { default as createFixtures } from "./createFixtures";
+export { default as createMockRouter } from "./createMockRouter";
 export { default as createMutationResolverStub } from "./createMutationResolverStub";
 export { default as createQueryResolverStub } from "./createQueryResolverStub";
 export { default as createTestRenderer } from "./createTestRenderer";

@@ -129,7 +129,7 @@ comments-rte-externalImage =
 
 comments-remainingCharacters = { $remaining } Zeichen übrig
 
-comments-postCommentFormFake-signInAndJoin = Melde dich an und nimm an der Diskussion teil
+comments-postCommentFormFake-signInAndJoin = Anmelden und mitdiskutieren
 
 comments-postCommentForm-rteLabel = Kommentar schreiben
 

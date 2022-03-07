@@ -2,16 +2,19 @@
  * Function decorator that prevents calling `fn` more then once per frame.
  * If called more than once, the last return value gets returned.
  */
-const oncePerFrame = <T extends (...args: any[]) => any>(fn: T) => {
-  let toggledThisFrame = false;
+const oncePerFrame = <T extends (...args: any[]) => any>(
+  fn: T,
+  toggledThisFrame: boolean,
+  setToggledThisFrame: (toggled: boolean) => void
+) => {
   let lastResult: any = null;
   return ((...args: any[]) => {
     if (toggledThisFrame) {
       return lastResult;
     }
-    toggledThisFrame = true;
+    setToggledThisFrame(true);
     lastResult = fn(...args);
-    setTimeout(() => (toggledThisFrame = false), 0);
+    setTimeout(() => setToggledThisFrame(false), 0);
   }) as T;
 };
 
