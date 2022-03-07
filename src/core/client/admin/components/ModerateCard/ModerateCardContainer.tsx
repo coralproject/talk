@@ -495,7 +495,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           moderatedBy={
             <ModeratedByContainer
               onUsernameClicked={onUsernameClicked}
-              comment={comment}
+              comment={commentData}
             />
           }
           onFocusOrClick={onFocusOrClick}
