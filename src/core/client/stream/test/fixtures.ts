@@ -308,6 +308,12 @@ export const userWithEmail = createFixture<GQLUser>(
   baseUser
 );
 
+export const member = createFixture<GQLUser>({
+  id: "member-user",
+  username: "member",
+  role: GQLUSER_ROLE.MEMBER,
+});
+
 export const commenters = createFixtures<GQLUser>(
   [
     {
