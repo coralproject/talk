@@ -1751,12 +1751,33 @@ type NewCommentersConfiguration {
   enough approved comments
   """
   premodEnabled: Boolean!
+    @deprecated(
+      reason: "Use moderation instead for whether premod is enabled and on which sites"
+    )
 
   """
   approvedCommentsThreshold is the number of comments a user must have approved before their
   comments do not require premoderation
   """
   approvedCommentsThreshold: Int!
+
+  """
+  moderation is the configuration for moderation for new commenters' comments until
+  they have enough approved comments. It stores whether it is PRE, POST, or SPECIFIC_SITES_PRE
+  for pre-moderation only on specific sites, and in this case, which specific sites.
+  """
+  moderation: NewCommentersModerationConfig
+}
+
+"""
+NewCommentersModerationConfig specifies the configuration for moderation for new
+commenters' comments until they have enough approved comments. It stores whether it
+is PRE, POST, or SPECIFIC_SITES_PRE for pre-moderation only on specific sites, and
+in this case, which specific sites.
+"""
+type NewCommentersModerationConfig {
+  mode: MODERATION_MODE
+  premodSites: [String!]!
 }
 
 """
@@ -5305,7 +5326,25 @@ input MediaConfigurationInput {
 }
 
 """
-NewCommenterConfigurationInput specifies the features that apply to new commenters
+NewCommentersModerationConfigInput specifies the moderation configuration for
+new commenters' comments.
+"""
+input NewCommentersModerationConfigInput {
+  """
+  mode is whether new commenters' comments should be moderated PRE, POST, or
+  SPECIFIC_SITES_PRE (pre-moderated for specific sites)
+  """
+  mode: MODERATION_MODE
+
+  """
+  premodSites is the specific sites that new commenters' comments should be
+  pre-moderated on if the SPECIFIC_SITES_PRE moderation mode is set
+  """
+  premodSites: [String!]
+}
+
+"""
+NewCommentersConfigurationInput specifies the features that apply to new commenters
 """
 input NewCommentersConfigurationInput {
   """
@@ -5319,6 +5358,14 @@ input NewCommentersConfigurationInput {
   comments do not require premoderation
   """
   approvedCommentsThreshold: Int
+
+  """
+  moderation is the configuration for pre-moderation for new commenters' comments until
+  they have enough approved comments. It stores whether it is PRE, POST, or
+  SPECIFIC_SITES_PRE for pre-moderation only on specific sites, and in this case, which
+  specific sites.
+  """
+  moderation: NewCommentersModerationConfigInput
 }
 
 """
@@ -5359,7 +5406,7 @@ input SettingsInput {
   premoderateAllCommentsSites are the sites that should have all comments
   premoderated when moderation mode is SPECIFIC_SITES_PRE
   """
-  premoderateAllCommentsSites: [ID!]!
+  premoderateAllCommentsSites: [ID!]
 
   """
   communityGuidelines will be shown in the comments stream.

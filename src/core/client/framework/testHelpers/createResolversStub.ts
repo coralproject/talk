@@ -7,7 +7,7 @@ import createMutationResolverStub, {
 import createQueryResolverStub, {
   QueryResolverCallback,
 } from "./createQueryResolverStub";
-import { Resolvers } from "./createTestRenderer";
+import { Resolvers } from "./createTestContext";
 
 export interface ResolversTemplate<T extends Resolvers = any> {
   Query?: {

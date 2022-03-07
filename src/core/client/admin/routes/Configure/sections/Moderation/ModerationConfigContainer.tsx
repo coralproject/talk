@@ -11,7 +11,7 @@ import { ModerationConfigContainer_settings$key as SettingsData } from "coral-ad
 
 import AkismetConfig from "./AkismetConfig";
 import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
-import NewCommentersConfig from "./NewCommentersConfig";
+import NewCommentersConfigContainer from "./NewCommentersConfigContainer";
 import PerspectiveConfig from "./PerspectiveConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
@@ -33,7 +33,8 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
         ...PreModerationConfigContainer_formValues @relay(mask: false)
         ...PreModerationConfigContainer_settings
         ...RecentCommentHistoryConfig_formValues @relay(mask: false)
-        ...NewCommentersConfigContainer_settings @relay(mask: false)
+        ...NewCommentersConfigContainer_formValues @relay(mask: false)
+        ...NewCommentersConfigContainer_settings
         ...EmailDomainConfigContainer_settings
       }
     `,
@@ -63,7 +64,10 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
-      <NewCommentersConfig disabled={submitting} />
+      <NewCommentersConfigContainer
+        disabled={submitting}
+        settings={settingsData}
+      />
       <RecentCommentHistoryConfig disabled={submitting} />
       <EmailDomainConfigContainer settings={settingsData} />
     </HorizontalGutter>

@@ -3,6 +3,8 @@ import React, { FunctionComponent } from "react";
 import { graphql, useFragment } from "react-relay";
 
 import { formatBool, parseStringBool } from "coral-framework/lib/form";
+import { Condition } from "coral-framework/lib/validation";
+import { GQLMODERATION_MODE } from "coral-framework/schema";
 import {
   FieldSet,
   FormField,
@@ -16,7 +18,7 @@ import { PreModerationConfigContainer_settings$key as PreModerationConfigContain
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import PreModerateAllCommentsConfig from "./PreModerateAllCommentsConfig";
+import AllSpecificOffSitesField from "./AllSpecificOffSitesField";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -34,12 +36,15 @@ interface Props {
 }
 
 const parse = (v: string) => {
-  return parseStringBool(v) ? "PRE" : "POST";
+  return parseStringBool(v) ? GQLMODERATION_MODE.PRE : GQLMODERATION_MODE.POST;
 };
 
-const format = (v: "PRE" | "POST") => {
-  return formatBool(v === "PRE");
+const format = (v: GQLMODERATION_MODE.PRE | GQLMODERATION_MODE.POST) => {
+  return formatBool(v === GQLMODERATION_MODE.PRE);
 };
+
+const specificSitesIsEnabled: Condition = (_value, values) =>
+  Boolean(values.moderation === GQLMODERATION_MODE.SPECIFIC_SITES_PRE);
 
 const PreModerationConfigContainer: FunctionComponent<Props> = ({
   disabled,
@@ -75,7 +80,12 @@ const PreModerationConfigContainer: FunctionComponent<Props> = ({
           <Label component="legend">Pre-moderate all comments</Label>
         </Localized>
         {settingsData.multisite ? (
-          <PreModerateAllCommentsConfig disabled={disabled} />
+          <AllSpecificOffSitesField
+            disabled={disabled}
+            moderationModeFieldName="moderation"
+            specificSitesFieldName="premoderateAllCommentsSites"
+            specificSitesIsEnabledCondition={specificSitesIsEnabled}
+          />
         ) : (
           <OnOffField
             name="moderation"
