@@ -1,6 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useMemo, useRef } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { FieldArray } from "react-final-form-arrays";
 import { graphql, useFragment } from "react-relay";
 
@@ -84,7 +90,7 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
     [form]
   );
 
-  useMemo(() => {
+  const computedValues = useMemo(() => {
     let formValues = {
       slack: {
         channels: [
@@ -110,8 +116,13 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
     ) {
       formValues = pureMerge(formValues, settingsData);
     }
-    form.initialize(formValues);
-  }, [form, settingsData]);
+
+    return formValues;
+  }, [settingsData]);
+
+  useEffect(() => {
+    form.initialize(computedValues);
+  }, [computedValues, form]);
 
   return (
     <HorizontalGutter size="double">
