@@ -55,7 +55,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
       });
       setShowSuccess(true);
     },
-    [updateMutation, setShowSuccess]
+    [updateMutation, storyID]
   );
   const onRemoveClicked = useCallback(() => {
     void updateMutation({
@@ -65,7 +65,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
       },
     });
     onRemove();
-  }, [onRemove]);
+  }, [onRemove, storyID, updateMutation]);
   const onCancelClicked = useCallback(() => {
     onCancel();
   }, [onCancel]);
@@ -94,7 +94,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
         )}
       </div>
     );
-  }, [showSuccess]);
+  }, [onCloseSuccess, showSuccess]);
 
   return (
     <div className={CLASSES.openCommentStream.$root}>

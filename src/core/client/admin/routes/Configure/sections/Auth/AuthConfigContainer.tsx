@@ -16,7 +16,6 @@ import {
   withSubmitHookContext,
 } from "coral-framework/lib/form";
 import { useGetMessage } from "coral-framework/lib/i18n";
-import { purgeMetadata } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
@@ -120,12 +119,10 @@ const AuthConfigContainer: FunctionComponent<Props> = ({
 
   useMemo(
     () =>
-      form.initialize(
-        purgeMetadata({
-          ...settingsData,
-          authData,
-        })
-      ),
+      form.initialize({
+        ...settingsData,
+        auth: authData,
+      }),
     [authData, form, settingsData]
   );
 

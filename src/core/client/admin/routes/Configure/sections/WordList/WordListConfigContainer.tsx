@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { useForm } from "react-final-form";
 import { graphql, useFragment } from "react-relay";
 
-import { purgeMetadata } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { WordListConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/WordListConfigContainer_settings.graphql";
@@ -30,10 +29,7 @@ const WordListConfigContainer: React.FunctionComponent<Props> = ({
   );
 
   const form = useForm();
-  useMemo(() => form.initialize(purgeMetadata(settingsData)), [
-    form,
-    settingsData,
-  ]);
+  useMemo(() => form.initialize(settingsData), [form, settingsData]);
   return (
     <HorizontalGutter size="double" data-testid="configure-wordListContainer">
       <BannedWordListConfig disabled={submitting} />

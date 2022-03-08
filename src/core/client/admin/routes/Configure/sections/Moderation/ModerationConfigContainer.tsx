@@ -4,7 +4,6 @@ import { useForm } from "react-final-form";
 import { graphql, useFragment } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { purgeMetadata } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { ModerationConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
@@ -42,10 +41,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
   );
 
   const form = useForm();
-  useMemo(() => form.initialize(purgeMetadata(settingsData)), [
-    form,
-    settingsData,
-  ]);
+  useMemo(() => form.initialize(settingsData), [form, settingsData]);
 
   const router = useRouter();
   const { window } = useCoralContext();

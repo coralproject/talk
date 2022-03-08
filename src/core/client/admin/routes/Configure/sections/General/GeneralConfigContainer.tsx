@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { useForm } from "react-final-form";
 import { graphql, useFragment } from "react-relay";
 
-import { purgeMetadata } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { GeneralConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
@@ -57,7 +56,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
   );
 
   const form = useForm();
-  useMemo(() => form.initialize(purgeMetadata(settingsData)), []);
+  useMemo(() => form.initialize(settingsData), [form, settingsData]);
   return (
     <HorizontalGutter
       size="double"

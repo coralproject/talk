@@ -5,7 +5,7 @@ import { graphql, useFragment } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
 import { DeepNullable } from "coral-common/types";
-import { purgeMetadata, useMutation } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
 import { AppNotification, Button, CallOut, Flex } from "coral-ui/components/v2";
 
@@ -75,9 +75,9 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
     } catch (error) {
       setSubmitError(error.message);
     }
-  }, []);
+  }, [clearMessage, sendTest, setMessage, viewerData]);
   useMemo(() => {
-    let values: any = { email };
+    let values: any = { email: emailData };
     if (emailData && emailData.smtp && emailData.smtp.authentication === null) {
       values = {
         email: {
@@ -94,8 +94,8 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
         },
       };
     }
-    form.initialize(purgeMetadata(values));
-  }, []);
+    form.initialize(values);
+  }, [emailData, form]);
   return (
     <ConfigBoxWithToggleField
       disabled={submitting}
