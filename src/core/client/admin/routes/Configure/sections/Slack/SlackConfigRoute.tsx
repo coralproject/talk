@@ -7,7 +7,7 @@ import { Delay, Spinner } from "coral-ui/components/v2";
 
 import { SlackConfigRouteQueryResponse } from "coral-admin/__generated__/SlackConfigRouteQuery.graphql";
 
-import SlackConfigContainer from "./SlackConfigContainer";
+import SlackConfigSubFormContainer from "./SlackConfigSubFormContainer";
 
 interface Props {
   data: SlackConfigRouteQueryResponse | null;
@@ -29,10 +29,9 @@ const SlackConfigRoute: FunctionComponent<Props> = ({
   }
 
   return (
-    <SlackConfigContainer
-      settings={data.settings}
-      form={form}
+    <SlackConfigSubFormContainer
       submitting={submitting}
+      settings={data.settings}
     />
   );
 };
@@ -41,7 +40,7 @@ const enhanced = withRouteConfig<Props>({
   query: graphql`
     query SlackConfigRouteQuery {
       settings {
-        ...SlackConfigContainer_settings
+        ...SlackConfigSubFormContainer_settings
       }
     }
   `,

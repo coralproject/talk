@@ -1,16 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import React, { FunctionComponent, useCallback, useRef } from "react";
 import { FieldArray } from "react-final-form-arrays";
-import { graphql, useFragment } from "react-relay";
 
-import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   Button,
@@ -18,8 +10,6 @@ import {
   FormFieldDescription,
   HorizontalGutter,
 } from "coral-ui/components/v2";
-
-import { SlackConfigContainer_settings$key as SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -30,32 +20,9 @@ import styles from "./SlackConfigContainer.css";
 interface Props {
   form: FormApi;
   submitting: boolean;
-  settings: SlackConfigContainer_settings;
 }
 
-const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
-  const settingsData = useFragment(
-    graphql`
-      fragment SlackConfigContainer_settings on Settings {
-        slack {
-          channels {
-            enabled
-            name
-            hookURL
-            triggers {
-              reportedComments
-              pendingComments
-              featuredComments
-              allComments
-              staffComments
-            }
-          }
-        }
-      }
-    `,
-    settings
-  );
-
+const SlackConfigContainer: FunctionComponent<Props> = ({ form }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onAddChannel = useCallback(() => {
@@ -89,40 +56,6 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
     },
     [form]
   );
-
-  const computedValues = useMemo(() => {
-    let formValues = {
-      slack: {
-        channels: [
-          {
-            enabled: false,
-            name: "",
-            hookURL: "",
-            triggers: {
-              allComments: false,
-              reportedComments: false,
-              pendingComments: false,
-              featuredComments: false,
-              staffComments: false,
-            },
-          },
-        ],
-      },
-    };
-    if (
-      settingsData.slack &&
-      settingsData.slack.channels &&
-      settingsData.slack.channels.length > 0
-    ) {
-      formValues = pureMerge(formValues, settingsData);
-    }
-
-    return formValues;
-  }, [settingsData]);
-
-  useEffect(() => {
-    form.initialize(computedValues);
-  }, [computedValues, form]);
 
   return (
     <HorizontalGutter size="double">

@@ -30,7 +30,7 @@ const UpdateSettingsMutation = createMutation(
               ...OrganizationConfigContainer_settings
               ...WordListConfigContainer_settings
               ...AdvancedConfigContainer_settings
-              ...SlackConfigContainer_settings
+              ...SlackConfigSubFormContainer_settings
             }
             clientMutationId
           }
