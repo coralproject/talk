@@ -191,7 +191,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = ({
               </Localized>
             </CallOut>
           )}
-          {comment && commentVisible && (
+          {commentData && commentVisible && (
             <HorizontalGutter>
               <ConversationThreadContainer
                 viewer={viewerData}

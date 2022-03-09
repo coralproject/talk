@@ -15,12 +15,10 @@ it("renders correctly", () => {
     story: {},
     viewer: null,
     siteID: null,
-    query: "",
+    query: { " $data": { settings: { featureFlags: [] }, sections: [] } },
     routeParams: {},
     queueName: undefined,
-    settings: {
-      multisite: false,
-    },
+    settings: {},
   };
   const renderer = createRenderer();
   renderer.render(<ModerateN {...props} />);

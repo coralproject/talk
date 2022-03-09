@@ -1,9 +1,9 @@
 import {
   createRefetchContainer,
-  FragmentOrRegularProp,
   GraphQLTaggedNode,
   RelayRefetchProp,
 } from "react-relay";
+import { FragmentOrRegularProp } from "react-relay/ReactRelayTypes";
 import {
   InferableComponentEnhancerWithProps,
   wrapDisplayName,

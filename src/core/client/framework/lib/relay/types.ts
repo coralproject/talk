@@ -1,4 +1,4 @@
-import { _RefType } from "react-relay";
+import { _RefType } from "relay-runtime";
 
 export type FragmentKeys<T> = Exclude<
   {

@@ -30,7 +30,7 @@ jest.spyOn(React, "useContext").mockImplementation(() => context);
 
 it("renders correctly", async () => {
   const props: PropTypesOf<typeof ReplyListN> = {
-    story: { id: "story-id" },
+    story: { " $data": { id: "story-id" } },
     comment: { id: "comment-id" },
     comments: [
       { id: "comment-1" },
@@ -44,9 +44,13 @@ it("renders correctly", async () => {
     localReply: false,
     disableReplies: false,
     settings: {
-      reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
+      " $data": {
+        featureFlags: [],
+        flattenReplies: false,
+        // reaction: {
+        //   icon: "thumb_up_alt",
+        //   label: "Respect",
+        // },
       },
     },
   };
@@ -56,7 +60,7 @@ it("renders correctly", async () => {
 
 describe("when there is more", async () => {
   const props: PropTypesOf<typeof ReplyListN> = {
-    story: { id: "story-id" },
+    story: { " $data": { id: "story-id" } },
     comment: { id: "comment-id" },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onShowAll: sinon.spy(),
@@ -65,10 +69,14 @@ describe("when there is more", async () => {
     indentLevel: 1,
     viewer: null,
     settings: {
-      reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
+      " $data": {
+        featureFlags: [],
+        flattenReplies: false,
       },
+      // reaction: {
+      //   icon: "thumb_up_alt",
+      //   label: "Respect",
+      // },
     },
   };
 

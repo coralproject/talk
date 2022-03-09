@@ -42,9 +42,11 @@ export async function fetchQuery<T extends { response: any }>(
   environment: Environment,
   taggedNode: GraphQLTaggedNode,
   variables: Variables,
-  cacheConfig?: CacheConfig
+  cacheConfig?: CacheConfig | null
 ): Promise<T["response"]> {
-  return relayFetchQuery(environment, taggedNode, variables, cacheConfig);
+  return relayFetchQuery(environment, taggedNode, variables, {
+    networkCacheConfig: cacheConfig,
+  });
 }
 
 /**
