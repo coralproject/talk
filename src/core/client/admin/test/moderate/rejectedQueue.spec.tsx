@@ -144,7 +144,7 @@ it("shows a moderate story", async () => {
     () => within(testRenderer.root).getAllByText("Moderate Story")[0]
   );
   transitionControl.allowTransition = false;
-  moderateStory.props.onClick({});
+  act(() => moderateStory.props.onClick({}));
   // Expect a routing request was made to the right url.
   expect(transitionControl.history[0].pathname).toBe(
     `/admin/moderate/stories/${reportedComments[0].story.id}`
@@ -321,7 +321,8 @@ it("approves comment in rejected queue", async () => {
   const ApproveButton = await waitForElement(() =>
     within(comment).getByLabelText("Approve")
   );
-  ApproveButton.props.onClick();
+
+  act(() => ApproveButton.props.onClick());
 
   // Snapshot dangling state of comment.
   expect(toJSON(getByTestID(testID))).toMatchSnapshot("dangling");
