@@ -44,9 +44,12 @@ export async function fetchQuery<T extends { response: any }>(
   variables: Variables,
   cacheConfig?: CacheConfig | null
 ): Promise<T["response"]> {
-  return relayFetchQuery(environment, taggedNode, variables, {
+  const promise = relayFetchQuery(environment, taggedNode, variables, {
     networkCacheConfig: cacheConfig,
-  });
+  }).toPromise();
+
+  const data = await promise;
+  return data as T["response"];
 }
 
 /**

@@ -7,12 +7,15 @@ import {
   FetchVariables,
 } from "coral-framework/lib/relay";
 
-import { SearchStoryFetchQuery as QueryTypes } from "coral-admin/__generated__/SearchStoryFetchQuery.graphql";
+import type { SearchStoryFetchQuery } from "coral-admin/__generated__/SearchStoryFetchQuery.graphql";
 
 const SearchStoryFetch = createFetch(
   "searchStory",
-  (environment: Environment, variables: FetchVariables<QueryTypes>) => {
-    return fetchQuery<QueryTypes>(
+  (
+    environment: Environment,
+    variables: FetchVariables<SearchStoryFetchQuery>
+  ) => {
+    return fetchQuery<SearchStoryFetchQuery>(
       environment,
       graphql`
         query SearchStoryFetchQuery(
