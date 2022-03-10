@@ -23,7 +23,7 @@ exports[`renders approved correctly 1`] = `
               onClick={[Function]}
               username="Theon"
             />
-            <Relay(CommentAuthorContainer)
+            <CommentAuthorContainer
               comment={Object {}}
             />
           </React.Fragment>
@@ -50,7 +50,7 @@ exports[`renders approved correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(MediaContainer)
+          <MediaContainer
             comment={Object {}}
           />
         </div>
@@ -84,7 +84,7 @@ exports[`renders approved correctly 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <Relay(MarkersContainer)
+          <MarkersContainer
             comment={Object {}}
             onUsernameClick={[Function]}
             settings={Object {}}
@@ -152,7 +152,7 @@ exports[`renders correctly 1`] = `
               onClick={[Function]}
               username="Theon"
             />
-            <Relay(CommentAuthorContainer)
+            <CommentAuthorContainer
               comment={Object {}}
             />
           </React.Fragment>
@@ -179,7 +179,7 @@ exports[`renders correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(MediaContainer)
+          <MediaContainer
             comment={Object {}}
           />
         </div>
@@ -213,7 +213,7 @@ exports[`renders correctly 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <Relay(MarkersContainer)
+          <MarkersContainer
             comment={Object {}}
             onUsernameClick={[Function]}
             settings={Object {}}
@@ -280,7 +280,7 @@ exports[`renders dangling correctly 1`] = `
               onClick={[Function]}
               username="Theon"
             />
-            <Relay(CommentAuthorContainer)
+            <CommentAuthorContainer
               comment={Object {}}
             />
           </React.Fragment>
@@ -307,7 +307,7 @@ exports[`renders dangling correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(MediaContainer)
+          <MediaContainer
             comment={Object {}}
           />
         </div>
@@ -341,7 +341,7 @@ exports[`renders dangling correctly 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <Relay(MarkersContainer)
+          <MarkersContainer
             comment={Object {}}
             onUsernameClick={[Function]}
             settings={Object {}}
@@ -410,7 +410,7 @@ exports[`renders rejected correctly 1`] = `
               onClick={[Function]}
               username="Theon"
             />
-            <Relay(CommentAuthorContainer)
+            <CommentAuthorContainer
               comment={Object {}}
             />
           </React.Fragment>
@@ -437,7 +437,7 @@ exports[`renders rejected correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(MediaContainer)
+          <MediaContainer
             comment={Object {}}
           />
         </div>
@@ -471,7 +471,7 @@ exports[`renders rejected correctly 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <Relay(MarkersContainer)
+          <MarkersContainer
             comment={Object {}}
             onUsernameClick={[Function]}
             settings={Object {}}
@@ -539,7 +539,7 @@ exports[`renders reply correctly 1`] = `
               onClick={[Function]}
               username="Theon"
             />
-            <Relay(CommentAuthorContainer)
+            <CommentAuthorContainer
               comment={Object {}}
             />
           </React.Fragment>
@@ -575,7 +575,7 @@ exports[`renders reply correctly 1`] = `
           >
             content
           </CommentContent>
-          <Relay(MediaContainer)
+          <MediaContainer
             comment={Object {}}
           />
         </div>
@@ -609,7 +609,7 @@ exports[`renders reply correctly 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <Relay(MarkersContainer)
+          <MarkersContainer
             comment={Object {}}
             onUsernameClick={[Function]}
             settings={Object {}}
@@ -676,7 +676,7 @@ exports[`renders story info 1`] = `
               onClick={[Function]}
               username="Theon"
             />
-            <Relay(CommentAuthorContainer)
+            <CommentAuthorContainer
               comment={Object {}}
             />
           </React.Fragment>
@@ -703,7 +703,7 @@ exports[`renders story info 1`] = `
           >
             content
           </CommentContent>
-          <Relay(MediaContainer)
+          <MediaContainer
             comment={Object {}}
           />
         </div>
@@ -775,7 +775,7 @@ exports[`renders story info 1`] = `
               </Localized>
             </div>
           </div>
-          <Relay(MarkersContainer)
+          <MarkersContainer
             comment={Object {}}
             onUsernameClick={[Function]}
             settings={Object {}}
@@ -842,7 +842,7 @@ exports[`renders tombstoned when comment is deleted 1`] = `
               onClick={[Function]}
               username="Theon"
             />
-            <Relay(CommentAuthorContainer)
+            <CommentAuthorContainer
               comment={Object {}}
             />
           </React.Fragment>
@@ -877,7 +877,7 @@ exports[`renders tombstoned when comment is deleted 1`] = `
               </div>
             </Localized>
           </CommentContent>
-          <Relay(MediaContainer)
+          <MediaContainer
             comment={Object {}}
           />
         </div>
@@ -911,7 +911,7 @@ exports[`renders tombstoned when comment is deleted 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <Relay(MarkersContainer)
+          <MarkersContainer
             comment={Object {}}
             onUsernameClick={[Function]}
             settings={Object {}}

@@ -13,7 +13,7 @@ exports[`renders loading 1`] = `
 `;
 
 exports[`renders permalink view container 1`] = `
-<Relay(PermalinkViewContainer)
+<PermalinkViewContainer
   comment={Object {}}
   story={Object {}}
 />

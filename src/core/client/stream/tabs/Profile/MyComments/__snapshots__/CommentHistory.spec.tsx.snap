@@ -19,7 +19,7 @@ exports[`has more disables load more 1`] = `
       role="log"
       size="double"
     >
-      <Relay(HistoryCommentContainer)
+      <HistoryCommentContainer
         comment={
           Object {
             "id": "comment-1",
@@ -28,7 +28,7 @@ exports[`has more disables load more 1`] = `
         settings={Object {}}
         story={Object {}}
       />
-      <Relay(HistoryCommentContainer)
+      <HistoryCommentContainer
         comment={
           Object {
             "id": "comment-2",
@@ -86,7 +86,7 @@ exports[`has more renders correctly 1`] = `
       role="log"
       size="double"
     >
-      <Relay(HistoryCommentContainer)
+      <HistoryCommentContainer
         comment={
           Object {
             "id": "comment-1",
@@ -95,7 +95,7 @@ exports[`has more renders correctly 1`] = `
         settings={Object {}}
         story={Object {}}
       />
-      <Relay(HistoryCommentContainer)
+      <HistoryCommentContainer
         comment={
           Object {
             "id": "comment-2",
@@ -153,7 +153,7 @@ exports[`renders correctly 1`] = `
       role="log"
       size="double"
     >
-      <Relay(HistoryCommentContainer)
+      <HistoryCommentContainer
         comment={
           Object {
             "id": "comment-1",
@@ -162,7 +162,7 @@ exports[`renders correctly 1`] = `
         settings={Object {}}
         story={Object {}}
       />
-      <Relay(HistoryCommentContainer)
+      <HistoryCommentContainer
         comment={
           Object {
             "id": "comment-2",

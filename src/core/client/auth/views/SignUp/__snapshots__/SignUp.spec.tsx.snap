@@ -45,13 +45,13 @@ exports[`renders correctly 1`] = `
     <withContext(createMutationContainer(SignUpContainer)) />
     <OrSeparator />
     <ForwardRef(forwardRef)>
-      <Relay(SignUpWithFacebookContainer)
+      <SignUpWithFacebookContainer
         auth={Object {}}
       />
-      <Relay(SignUpWithGoogleContainer)
+      <SignUpWithGoogleContainer
         auth={Object {}}
       />
-      <Relay(SignUpWithOIDCContainer)
+      <SignUpWithOIDCContainer
         auth={Object {}}
       />
     </ForwardRef(forwardRef)>
@@ -99,13 +99,13 @@ exports[`renders without email sign up 1`] = `
     data-testid="signUp-main"
   >
     <ForwardRef(forwardRef)>
-      <Relay(SignUpWithFacebookContainer)
+      <SignUpWithFacebookContainer
         auth={Object {}}
       />
-      <Relay(SignUpWithGoogleContainer)
+      <SignUpWithGoogleContainer
         auth={Object {}}
       />
-      <Relay(SignUpWithOIDCContainer)
+      <SignUpWithOIDCContainer
         auth={Object {}}
       />
     </ForwardRef(forwardRef)>

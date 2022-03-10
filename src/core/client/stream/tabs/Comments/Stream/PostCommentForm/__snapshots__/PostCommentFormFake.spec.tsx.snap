@@ -5,7 +5,7 @@ exports[`renders correctly 1`] = `
   className="coral coral-createComment"
   id="post-comment-form"
 >
-  <Relay(MessageBoxContainer)
+  <MessageBoxContainer
     className="coral coral-createComment-message PostCommentFormFake-messageBox"
     story={Object {}}
   />
