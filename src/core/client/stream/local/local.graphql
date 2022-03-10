@@ -51,7 +51,7 @@ type KeyboardShortcutsConfig {
 }
 
 type UnseenComment {
-  id: String!
+  nodeID: String!
   virtuosoIndex: Int!
   isRoot: Boolean!
 }
@@ -103,8 +103,9 @@ extend type Local {
 
   # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
   commentWithTraversalFocus: String
-  nextUnseenComment: UnseenComment
-  previousUnseenComment: UnseenComment
+  firstNextUnseenComment: UnseenComment
+  secondNextUnseenComment: UnseenComment
+  loadMoreReplies: String
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 

@@ -4,25 +4,41 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
+import { useLocal } from "coral-framework/lib/relay";
+import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
-import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
-import { graphql } from "react-relay";
-import { useLocal } from "coral-framework/lib/relay";
 
 interface Props {
   settings: AllCommentsTabContainer_settings;
   viewer: AllCommentsTabContainer_viewer | null;
   story: AllCommentsTabContainer_story;
-  loadMoreAndEmit: () => {};
+  loadMoreAndEmit: () => Promise<any>;
   hasMore: boolean;
   isLoadingMore: boolean;
   currentScrollRef: any;
+}
+
+interface Comment {
+  node: {
+    id: string;
+    seen: boolean | null;
+    allChildComments: {
+      edges: ReadonlyArray<{ node: { id: string; seen: boolean | null } }>;
+    };
+  };
+}
+
+interface UnseenComment {
+  nodeID?: string;
+  virtuosoIndex?: number;
+  isRoot: boolean;
 }
 
 const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
@@ -43,24 +59,45 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
       commentWithTraversalFocus
-      nextUnseenComment {
-        id
+      firstNextUnseenComment {
+        nodeID
+        virtuosoIndex
+        isRoot
+      }
+      secondNextUnseenComment {
+        nodeID
         virtuosoIndex
         isRoot
       }
     }
   `);
 
-  const lookForNextUnseen = useCallback(
-    (indexOfTraversalFocus: number, commentsHere: any) => {
-      const sliceIndex =
-        indexOfTraversalFocus === -1 ? 0 : indexOfTraversalFocus;
-      const nextSlice = commentsHere.slice(sliceIndex);
-      let isRoot = true;
-      const nextUnseen = nextSlice.find(
-        (comment: {
-          node: { seen: boolean; allChildComments: { edges: any[] } };
-        }) => {
+  const lookForNextOrPreviousUnseen = useCallback(
+    (commentsHere: ReadonlyArray<Comment>, nextOrPreviousSlice: Comment[]) => {
+      let counter = 0;
+      const firstUnseenComment: UnseenComment = { isRoot: true };
+      const secondUnseenComment: UnseenComment = { isRoot: true };
+      const firstUnseen = nextOrPreviousSlice.find((comment: Comment) => {
+        counter += 1;
+        if (comment.node.seen === false) {
+          return true;
+        }
+        if (
+          comment.node.allChildComments.edges.some((c) => {
+            if (c.node.seen === false) {
+              return true;
+            }
+            return false;
+          })
+        ) {
+          firstUnseenComment.isRoot = false;
+          return true;
+        }
+        return false;
+      });
+      const secondUnseen = nextOrPreviousSlice
+        .slice(counter + 1)
+        .find((comment: Comment) => {
           if (comment.node.seen === false) {
             return true;
           }
@@ -69,30 +106,42 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
               (c) => c.node.seen === false
             )
           ) {
-            isRoot = false;
+            secondUnseenComment.isRoot = false;
             return true;
           }
           return false;
-        }
-      );
-      if (nextUnseen) {
-        const indexOfFound = commentsHere.findIndex(
-          (comment: {
-            node: { id: any; allChildComments: { edges: any[] } };
-          }) => {
+        });
+      if (firstUnseen) {
+        firstUnseenComment.virtuosoIndex = commentsHere.findIndex(
+          (comment: Comment) => {
             return (
-              comment.node.id === nextUnseen?.node.id ||
+              comment.node.id === firstUnseen?.node.id ||
               comment.node.allChildComments.edges.some(
-                (c) => c.node.id === nextUnseen?.node.id
+                (c) => c.node.id === firstUnseen?.node.id
               )
             );
           }
         );
-        return {
-          id: nextUnseen?.node.id,
-          virtuosoIndex: indexOfFound,
-          isRoot,
-        };
+        firstUnseenComment.nodeID = firstUnseen.node.id;
+      }
+      if (secondUnseen) {
+        secondUnseenComment.virtuosoIndex = commentsHere.findIndex(
+          (comment: Comment) => {
+            return (
+              comment.node.id === secondUnseen?.node.id ||
+              comment.node.allChildComments.edges.some(
+                (c) => c.node.id === secondUnseen?.node.id
+              )
+            );
+          }
+        );
+        secondUnseenComment.nodeID = secondUnseen.node.id;
+      }
+      if (firstUnseen) {
+        if (secondUnseen) {
+          return [firstUnseenComment, secondUnseenComment];
+        }
+        return [firstUnseenComment];
       } else {
         return undefined;
       }
@@ -110,16 +159,22 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           )
         );
       });
-      const nextUnseen = lookForNextUnseen(indexOfTraversalFocus, comments);
-      if (nextUnseen) {
+      const sliceIndex =
+        indexOfTraversalFocus === -1 ? 0 : indexOfTraversalFocus;
+      const nextSlice = comments.slice(sliceIndex);
+      const nextUnseen = lookForNextOrPreviousUnseen(comments, nextSlice);
+      if (nextUnseen && nextUnseen[0]) {
         setLocal({
-          nextUnseenComment: nextUnseen,
+          firstNextUnseenComment: nextUnseen[0],
         });
+        if (nextUnseen[1]) {
+          setLocal({
+            secondNextUnseenComment: nextUnseen[1],
+          });
+        }
       } else {
         if (hasMore && !isLoadingMore) {
-          (async () => {
-            await loadMoreAndEmit();
-          })();
+          void loadMoreAndEmit();
         }
         if (!hasMore) {
           // this means that we've looked through all comments, if we've
@@ -135,7 +190,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     isLoadingMore,
     hasMore,
     loadMoreAndEmit,
-    lookForNextUnseen,
+    lookForNextOrPreviousUnseen,
     lookedThroughAllCommentsForNextUnseen,
     setLocal,
   ]);
@@ -156,7 +211,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         overscan={50}
         endReached={() => {
           if (hasMore && !isLoadingMore) {
-            loadMoreAndEmit();
+            void loadMoreAndEmit();
           }
         }}
         itemContent={(index, comment) => {

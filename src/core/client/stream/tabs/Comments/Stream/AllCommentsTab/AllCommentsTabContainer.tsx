@@ -92,7 +92,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
-  const currentScrollRef = useRef(null);
+  const currentScrollRef = useRef<null | HTMLElement>(null);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   createFragmentContainer as createRelayFragmentContainer,
   graphql,
@@ -203,7 +203,9 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig }] = useLocal<ReplyListContainerLocal>(
+  const [{ keyboardShortcutsConfig, loadMoreReplies }, setLocal] = useLocal<
+    ReplyListContainerLocal
+  >(
     graphql`
       fragment ReplyListContainerLocal on Local {
         keyboardShortcutsConfig {
@@ -211,6 +213,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
           source
           reverse
         }
+        loadMoreReplies
       }
     `
   );
@@ -220,11 +223,13 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const memoize = useMemoizer();
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
   const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
+
   const showAllAndEmit = useCallback(async () => {
     const showAllEvent = beginShowAllEvent({
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
+    setLocal({ loadMoreReplies: null });
     try {
       await showAll();
       showAllEvent.success();
@@ -233,7 +238,15 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [showAll, beginShowAllEvent, props.comment.id]);
+  }, [showAll, beginShowAllEvent, props.comment.id, keyboardShortcutsConfig]);
+
+  useEffect(() => {
+    // This supports when we need to load all replies navigating through with
+    // the Z key via keyboard shortcuts
+    if (loadMoreReplies && loadMoreReplies === props.comment.id) {
+      void showAllAndEmit();
+    }
+  }, []);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
@@ -255,7 +268,13 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [props.comment.id, props.story.id, viewNew, beginViewNewCommentsEvent]);
+  }, [
+    props.comment.id,
+    props.story.id,
+    viewNew,
+    beginViewNewCommentsEvent,
+    keyboardShortcutsConfig,
+  ]);
 
   if (!("replies" in props.comment)) {
     return null;
