@@ -493,7 +493,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       } else {
         let count = 0;
         // after Virtuoso scrolls, we have to make sure the root comment
-        // is available before setting focus to the next unread comment
+        // is available before setting focus to the next unseen comment
         const rootCommentElementExists = setInterval(async () => {
           count += 1;
           const rootCommentElement = root.getElementById(
@@ -519,6 +519,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     });
                     prevStop.element.focus();
                   }
+                  // We have to set this to Show all replies after Virtuoso has
+                  // remounted the reply list component after scrolling
                   setLocal({ loadMoreReplies: nextKeyStop.id.substr(34) });
                 } else {
                   JumpToNextUnseenCommentEvent.emit(eventEmitter, {
@@ -561,9 +563,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const handleZKeyPress = useCallback(
     (source: "keyboard" | "mobileToolbar") => {
       if (local.firstNextUnseenComment) {
-        // first, check if there is a current commentWithTraversalFocus
-        // if not, scroll to first virtuoso index and set focus
+        // first, we check if there is a current commentWithTraversalFocus
+        // if not, we scroll to first virtuoso index and set focus
         if (!local.commentWithTraversalFocus) {
+          // TODO: Do we want to check here for View new comment and click to open
+          // and reveal new comment if it exists?
           currentScrollRef.current.scrollIntoView({
             align: "center",
             index: local.firstNextUnseenComment.virtuosoIndex,
@@ -590,10 +594,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               skipSeen: true,
             });
           }
+          // If a next unseen comment is found without scrolling, we either set it
+          // to traversal focus or click if it's a load more
           if (nextStop) {
-            JumpToNextUnseenCommentEvent.emit(eventEmitter, {
-              source,
-            });
             const offset =
               // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               root.getElementById(nextStop.id)!.getBoundingClientRect().top +
@@ -603,23 +606,27 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             if (nextStop.isLoadMore) {
               nextStop.element.click();
             } else {
+              JumpToNextUnseenCommentEvent.emit(eventEmitter, {
+                source,
+              });
               void setTraversalFocus({
                 commentID: parseCommentElementID(nextStop.id),
                 commentSeenEnabled,
               });
               nextStop.element.focus();
             }
+            // If a next unseen comment isn't found without scrolling, we
+            // check which virtuoso index to scroll to and then scroll and set focus
           } else {
             const currentVirtuosoIndex = currentCommentElement
               ?.closest("[data-index]")
               ?.getAttribute("data-index");
-            // It might be the case that the first one is the one that we want to scroll into view
-            // we need to check if the current virtuoso index matches the first unseen virtuoso index to know
+            // We scroll to the second virtuoso index if the current virtuoso index
+            // that we already checked is the same index as the first unseen
+            // comment that was found
             const useSecondIndex =
               currentVirtuosoIndex ===
-                local.firstNextUnseenComment.virtuosoIndex.toString() ||
-              parseInt(currentVirtuosoIndex || "0", 10) >
-                local.firstNextUnseenComment.virtuosoIndex;
+              local.firstNextUnseenComment.virtuosoIndex.toString();
             const commentToScrollTo = useSecondIndex
               ? local.secondNextUnseenComment
               : local.firstNextUnseenComment;
@@ -639,12 +646,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     },
     [
       root,
-      setLocal,
-      zKeyEnabled,
       currentScrollRef,
       setFocus,
       eventEmitter,
-      local.commentWithTraversalFocus,
       local,
       renderWindow,
       setTraversalFocus,

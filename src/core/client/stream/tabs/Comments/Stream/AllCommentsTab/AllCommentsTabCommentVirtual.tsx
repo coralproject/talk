@@ -72,7 +72,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     }
   `);
 
-  const lookForNextOrPreviousUnseen = useCallback(
+  const lookForNextUnseen = useCallback(
     (commentsHere: ReadonlyArray<Comment>, nextSlice: Comment[]) => {
       let counter = 0;
       const firstUnseenComment: UnseenComment = { isRoot: true };
@@ -83,6 +83,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           return true;
         }
         if (
+          comment.node.allChildComments &&
           comment.node.allChildComments.edges.some((c) => {
             if (c.node.seen === false) {
               return true;
@@ -102,6 +103,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             return true;
           }
           if (
+            comment.node.allChildComments &&
             comment.node.allChildComments.edges.some(
               (c) => c.node.seen === false
             )
@@ -116,9 +118,10 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           (comment: Comment) => {
             return (
               comment.node.id === firstUnseen?.node.id ||
-              comment.node.allChildComments.edges.some(
-                (c) => c.node.id === firstUnseen?.node.id
-              )
+              (comment.node.allChildComments &&
+                comment.node.allChildComments.edges.some(
+                  (c) => c.node.id === firstUnseen?.node.id
+                ))
             );
           }
         );
@@ -129,9 +132,10 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           (comment: Comment) => {
             return (
               comment.node.id === secondUnseen?.node.id ||
-              comment.node.allChildComments.edges.some(
-                (c) => c.node.id === secondUnseen?.node.id
-              )
+              (comment.node.allChildComments &&
+                comment.node.allChildComments.edges.some(
+                  (c) => c.node.id === secondUnseen?.node.id
+                ))
             );
           }
         );
@@ -154,15 +158,16 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       const indexOfTraversalFocus = comments.findIndex((comment) => {
         return (
           comment.node.id === local.commentWithTraversalFocus ||
-          comment.node.allChildComments.edges.some(
-            (c) => c.node.id === local.commentWithTraversalFocus
-          )
+          (comment.node.allChildComments &&
+            comment.node.allChildComments.edges.some(
+              (c) => c.node.id === local.commentWithTraversalFocus
+            ))
         );
       });
       const sliceIndex =
         indexOfTraversalFocus === -1 ? 0 : indexOfTraversalFocus;
       const nextSlice = comments.slice(sliceIndex);
-      const nextUnseen = lookForNextOrPreviousUnseen(comments, nextSlice);
+      const nextUnseen = lookForNextUnseen(comments, nextSlice);
       if (nextUnseen && nextUnseen[0]) {
         setLocal({
           firstNextUnseenComment: nextUnseen[0],
@@ -189,7 +194,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     isLoadingMore,
     hasMore,
     loadMoreAndEmit,
-    lookForNextOrPreviousUnseen,
+    lookForNextUnseen,
     lookedThroughAllCommentsForNextUnseen,
     setLocal,
   ]);
