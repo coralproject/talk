@@ -23,7 +23,7 @@ import { AuthConfigContainer_auth$key as AuthData } from "coral-admin/__generate
 import { AuthConfigContainer_settings$key as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
 
 import AccountFeaturesConfig from "./AccountFeaturesConfig";
-import AuthIntegrationsConfig from "./AuthIntegrationsConfig";
+import AuthIntegrationsConfigContainer from "./AuthIntegrationsConfigContainer";
 import SessionConfig from "./SessionConfig";
 
 export type FormProps = DeepNullable<
@@ -53,9 +53,11 @@ const AuthConfigContainer: FunctionComponent<Props> = ({
         ...OIDCConfig_formValues @relay(mask: false)
         ...SessionConfig_formValues @relay(mask: false)
 
-        ...FacebookConfigContainer_auth
-        ...GoogleConfigContainer_auth
-        ...OIDCConfigContainer_auth
+        ...FacebookConfigContainer_auth @relay(mask: false)
+        ...GoogleConfigContainer_auth @relay(mask: false)
+        ...OIDCConfigContainer_auth @relay(mask: false)
+
+        ...AuthIntegrationsConfigContainer_auth
       }
     `,
     auth
@@ -137,7 +139,7 @@ const AuthConfigContainer: FunctionComponent<Props> = ({
     <HorizontalGutter size="double" data-testid="configure-authContainer">
       <AccountFeaturesConfig disabled={submitting} />
       <SessionConfig disabled={submitting} />
-      <AuthIntegrationsConfig auth={authData} disabled={submitting} />
+      <AuthIntegrationsConfigContainer auth={authData} disabled={submitting} />
     </HorizontalGutter>
   );
 };
