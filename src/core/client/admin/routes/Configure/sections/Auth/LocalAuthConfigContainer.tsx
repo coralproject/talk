@@ -1,11 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 
 import { useLocal } from "coral-framework/lib/relay";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
+import { LocalAuthConfigContainer_auth$key } from "coral-admin/__generated__/LocalAuthConfigContainer_auth.graphql";
 import { LocalAuthConfigContainerLocal } from "coral-admin/__generated__/LocalAuthConfigContainerLocal.graphql";
 
 import Header from "../../Header";
@@ -16,26 +17,34 @@ import TargetFilterField from "./TargetFilterField";
 import styles from "./LocalAuthConfigContainer.css";
 
 // eslint-disable-next-line no-unused-expressions
-graphql`
-  fragment LocalAuthConfigContainer_formValues on Auth {
-    integrations {
-      local {
-        enabled
-        allowRegistration
-        targetFilter {
-          admin
-          stream
-        }
-      }
-    }
-  }
-`;
 
 interface Props {
   disabled?: boolean;
+  auth: LocalAuthConfigContainer_auth$key;
 }
 
-const LocalAuthConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
+const LocalAuthConfigContainer: FunctionComponent<Props> = ({
+  auth,
+  disabled,
+}) => {
+  useFragment(
+    graphql`
+      fragment LocalAuthConfigContainer_auth on Auth {
+        integrations {
+          local {
+            enabled
+            allowRegistration
+            targetFilter {
+              admin
+              stream
+            }
+          }
+        }
+      }
+    `,
+    auth
+  );
+
   const [{ forceAdminLocalAuth }] = useLocal<
     LocalAuthConfigContainerLocal
   >(graphql`

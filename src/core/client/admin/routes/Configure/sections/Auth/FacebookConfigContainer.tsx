@@ -22,6 +22,7 @@ const FacebookConfigContainer: React.FunctionComponent<Props> = ({
             callbackURL
           }
         }
+        ...FacebookConfig_formValues
       }
     `,
     auth

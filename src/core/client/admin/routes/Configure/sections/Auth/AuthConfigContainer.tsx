@@ -47,16 +47,14 @@ const AuthConfigContainer: FunctionComponent<Props> = ({
   const authData = useFragment(
     graphql`
       fragment AuthConfigContainer_auth on Auth {
-        ...FacebookConfig_formValues @relay(mask: false)
-        ...GoogleConfig_formValues @relay(mask: false)
-        ...LocalAuthConfigContainer_formValues @relay(mask: false)
+        ...SessionConfig_auth @relay(mask: false)
+        ...LocalAuthConfigContainer_auth @relay(mask: false)
         ...OIDCConfig_formValues @relay(mask: false)
-        ...SessionConfig_formValues @relay(mask: false)
+        ...SSOConfig_formValues @relay(mask: false)
+        ...GoogleConfig_formValues @relay(mask: false)
+        ...FacebookConfig_formValues @relay(mask: false)
 
-        ...FacebookConfigContainer_auth @relay(mask: false)
-        ...GoogleConfigContainer_auth @relay(mask: false)
-        ...OIDCConfigContainer_auth @relay(mask: false)
-
+        ...SessionConfig_auth
         ...AuthIntegrationsConfigContainer_auth
       }
     `,
@@ -65,7 +63,8 @@ const AuthConfigContainer: FunctionComponent<Props> = ({
   const settingsData = useFragment(
     graphql`
       fragment AuthConfigContainer_settings on Settings {
-        ...AccountFeaturesConfig_formValues @relay(mask: false)
+        ...AccountFeaturesConfig_settings @relay(mask: false)
+        ...AccountFeaturesConfig_settings
       }
     `,
     settings
@@ -137,8 +136,8 @@ const AuthConfigContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="double" data-testid="configure-authContainer">
-      <AccountFeaturesConfig disabled={submitting} />
-      <SessionConfig disabled={submitting} />
+      <AccountFeaturesConfig settings={settingsData} disabled={submitting} />
+      <SessionConfig auth={authData} disabled={submitting} />
       <AuthIntegrationsConfigContainer auth={authData} disabled={submitting} />
     </HorizontalGutter>
   );

@@ -1,5 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { FormFieldDescription } from "coral-ui/components/v2";
@@ -9,6 +10,22 @@ import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RegistrationField from "./RegistrationField";
 import SSOSigningSecretRotationQuery from "./SSOSigningSecretRotation/SSOSigningSecretRotationQuery";
 import TargetFilterField from "./TargetFilterField";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SSOConfig_formValues on Auth {
+    integrations {
+      sso {
+        enabled
+        allowRegistration
+        targetFilter {
+          admin
+          stream
+        }
+      }
+    }
+  }
+`;
 
 interface Props {
   disabled?: boolean;

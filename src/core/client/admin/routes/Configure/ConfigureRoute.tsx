@@ -4,7 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { LanguageCode } from "coral-common/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { SubmitHookHandler } from "coral-framework/lib/form";
-import { useMutation } from "coral-framework/lib/relay";
+import { purgeMetadata, useMutation } from "coral-framework/lib/relay";
 
 import Configure from "./Configure";
 import NavigationWarningContainer from "./NavigationWarningContainer";
@@ -24,7 +24,8 @@ const ConfigureRoute: FunctionComponent<Props> = ({ children }) => {
     data: UpdateSettingsInput["settings"],
     form: FormApi
   ) => {
-    await updateSettings({ settings: data });
+    const cleanData = purgeMetadata(data);
+    await updateSettings({ settings: cleanData });
     const localeFieldState = form.getFieldState("locale");
     if (localeFieldState && localeFieldState.dirty) {
       await changeLocale(data.locale as LanguageCode);

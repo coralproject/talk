@@ -23,15 +23,15 @@ const AuthIntegrationsConfigContainer: FunctionComponent<Props> = ({
   const authData = useFragment(
     graphql`
       fragment AuthIntegrationsConfigContainer_auth on Auth {
-        ...FacebookConfig_formValues @relay(mask: false)
-        ...GoogleConfig_formValues @relay(mask: false)
-        ...LocalAuthConfigContainer_formValues @relay(mask: false)
-        ...OIDCConfig_formValues @relay(mask: false)
-        ...SessionConfig_formValues @relay(mask: false)
-
-        ...FacebookConfigContainer_auth
-        ...GoogleConfigContainer_auth
+        ...LocalAuthConfigContainer_auth
         ...OIDCConfigContainer_auth
+        ...OIDCConfig_formValues
+        ...SSOConfigContainer_auth
+        ...SSOConfig_formValues
+        ...GoogleConfigContainer_auth
+        ...GoogleConfig_formValues
+        ...FacebookConfigContainer_auth
+        ...FacebookConfig_formValues
       }
     `,
     auth
@@ -39,9 +39,9 @@ const AuthIntegrationsConfigContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="double">
-      <LocalAuthConfigContainer disabled={disabled} />
+      <LocalAuthConfigContainer disabled={disabled} auth={authData} />
       <OIDCConfigContainer disabled={disabled} auth={authData} />
-      <SSOConfigContainer disabled={disabled} />
+      <SSOConfigContainer disabled={disabled} auth={authData} />
       <GoogleConfigContainer disabled={disabled} auth={authData} />
       <FacebookConfigContainer disabled={disabled} auth={authData} />
     </HorizontalGutter>
