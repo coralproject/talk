@@ -96,11 +96,10 @@ describe("user badges", () => {
     const memberBadge = await screen.findByText(uniqueLabels.memberLabel);
     const staffBadge = await screen.findByText(uniqueLabels.staffLabel);
     const moderatorBadge = await screen.findByText(uniqueLabels.moderatorLabel);
+
     expect(memberBadge).toBeDefined();
     expect(staffBadge).toBeDefined();
     expect(moderatorBadge).toBeDefined();
-
-
 
     screen.debug();
   });
