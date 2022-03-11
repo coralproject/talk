@@ -73,11 +73,11 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   `);
 
   const lookForNextOrPreviousUnseen = useCallback(
-    (commentsHere: ReadonlyArray<Comment>, nextOrPreviousSlice: Comment[]) => {
+    (commentsHere: ReadonlyArray<Comment>, nextSlice: Comment[]) => {
       let counter = 0;
       const firstUnseenComment: UnseenComment = { isRoot: true };
       const secondUnseenComment: UnseenComment = { isRoot: true };
-      const firstUnseen = nextOrPreviousSlice.find((comment: Comment) => {
+      const firstUnseen = nextSlice.find((comment: Comment) => {
         counter += 1;
         if (comment.node.seen === false) {
           return true;
@@ -95,7 +95,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         }
         return false;
       });
-      const secondUnseen = nextOrPreviousSlice
+      const secondUnseen = nextSlice
         .slice(counter + 1)
         .find((comment: Comment) => {
           if (comment.node.seen === false) {
@@ -179,7 +179,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         if (!hasMore) {
           // this means that we've looked through all comments, if we've
           // found no next comment and there are also no more comments to load
-          // share this with the keyboard shortcuts?
           setLookedThroughAllCommentsForNextUnseen(true);
         }
       }
@@ -241,26 +240,76 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   );
 };
 
-const ScrollSeekPlaceholder = ({
-  height,
-  index,
-}: {
-  height: any;
-  index: any;
-}) => (
+const ScrollSeekPlaceholder = ({ height }: { height: number }) => (
   <div
     style={{
       height,
       boxSizing: "border-box",
-      overflow: "hidden",
     }}
   >
-    <div
-      style={{
-        background: index % 2 ? "gray" : "lightgray",
-        height,
-      }}
-    ></div>
+    <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
+      <div
+        style={{
+          flex: "0 1 auto",
+        }}
+      >
+        <hr style={{ border: "1px solid #eaeff0" }} />
+      </div>
+      <div
+        style={{
+          flex: "0 1 auto",
+          backgroundColor: "#f4f7f7",
+          width: "50%",
+          height: "2rem",
+        }}
+      ></div>
+      <div
+        style={{
+          flex: "0 1 auto",
+          backgroundColor: "white",
+          width: "100%",
+          height: "1rem",
+        }}
+      ></div>
+      <div
+        style={{
+          flex: "1 1 auto",
+          backgroundColor: "#eaeff0",
+          width: "100%",
+          height: "95%",
+        }}
+      ></div>
+      <div
+        style={{
+          flex: "0 1 auto",
+          backgroundColor: "white",
+          width: "100%",
+          height: "1rem",
+        }}
+      ></div>
+      <div
+        style={{
+          flex: "0 1 1.5rem",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "#f4f7f7",
+            height: "100%",
+            width: "12rem",
+          }}
+        ></div>
+        <div
+          style={{
+            backgroundColor: "#f4f7f7",
+            height: "100%",
+            width: "3rem",
+          }}
+        ></div>
+      </div>
+    </div>
   </div>
 );
 
