@@ -168,7 +168,6 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   return (
     <>
-      {/* SiteRoleActionsModal! */}
       {mode !== null && siteRoleType === SiteRoleType.MODERATOR && (
         <SiteModeratorActionsModal
           open={isModalVisible}

@@ -108,7 +108,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
   );
 
   const showSiteRoleModal = !!siteRole;
-  const siteRoleSitIDs =
+  const siteRoleSiteIDs =
     siteRole === GQLUSER_ROLE.MODERATOR
       ? selectedModerationSiteIDs
       : siteRole === GQLUSER_ROLE.MEMBER
@@ -120,7 +120,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
       <SiteRoleModal
         username={username}
         open={showSiteRoleModal}
-        selectedSiteIDs={siteRoleSitIDs}
+        selectedSiteIDs={siteRoleSiteIDs}
         onCancel={() => setSiteRole(null)}
         onFinish={(siteIDs: string[]) => onFinishModal(siteIDs)}
       />

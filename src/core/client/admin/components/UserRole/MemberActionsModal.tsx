@@ -5,7 +5,6 @@ import { Form } from "react-final-form";
 import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
-
 import {
   Button,
   CallOut,
