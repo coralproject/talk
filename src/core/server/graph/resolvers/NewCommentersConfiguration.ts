@@ -3,7 +3,7 @@ import * as settings from "coral-server/models/settings";
 import {
   GQLMODERATION_MODE,
   GQLNewCommentersConfigurationTypeResolver,
-} from "core/client/framework/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 export const NewCommentersConfiguration: GQLNewCommentersConfigurationTypeResolver<settings.NewCommentersConfiguration> = {
   premodEnabled: ({ premodEnabled }) => premodEnabled,
