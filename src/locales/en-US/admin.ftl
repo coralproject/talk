@@ -1353,12 +1353,13 @@ community-premodModal-premodUser = Yes, always pre-moderate
 
 community-siteRoleModal-assignSites =
   Assign sites for <strong>{ $username }</strong>
-community-siteRoleModal-assignSitesDescription =
+community-siteRoleModal-assignSitesDescription-siteModerator =
   Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
 community-siteRoleModal-cancel = Cancel
 community-siteRoleModal-assign = Assign
 community-siteRoleModal-remove = Remove
-community-siteRoleModal-selectSites = Select sites to moderate
+community-siteRoleModal-selectSites-siteModerator = Select sites to moderate
+community-siteRoleModal-selectSites-member = Select sites for this user to be a member of
 community-siteRoleModal-noSites = No sites
 
 community-invite-inviteMember = Invite members to your organization

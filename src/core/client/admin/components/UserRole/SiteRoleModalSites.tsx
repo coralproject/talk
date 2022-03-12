@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { useField } from "react-final-form";
 
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import { Label } from "coral-ui/components/v2";
 
 import SiteSearch from "../SiteSearch";
@@ -9,9 +10,13 @@ import SiteRoleModalSelectedSiteQuery from "./SiteRoleModalSelectedSiteQuery";
 
 interface Props {
   selectedSiteIDs?: string[];
+  roleToBeSet: GQLUSER_ROLE_RL | null;
 }
 
-const SiteRoleModalSites: FunctionComponent<Props> = ({ selectedSiteIDs }) => {
+const SiteRoleModalSites: FunctionComponent<Props> = ({
+  selectedSiteIDs,
+  roleToBeSet,
+}) => {
   const [candidateSites, setCandidateSites] = useState<string[]>(
     selectedSiteIDs || []
   );
@@ -43,7 +48,7 @@ const SiteRoleModalSites: FunctionComponent<Props> = ({ selectedSiteIDs }) => {
 
       siteIDsInput.onChange(changed);
     },
-    [siteIDsInput]
+    [candidateSites, siteIDsInput]
   );
   const onToggle = useCallback(
     (siteID: string, checked: boolean) =>
@@ -53,9 +58,16 @@ const SiteRoleModalSites: FunctionComponent<Props> = ({ selectedSiteIDs }) => {
 
   return (
     <>
-      <Localized id="community-siteRoleModal-selectSites">
-        <Label>Select sites to moderate</Label>
-      </Localized>
+      {roleToBeSet === GQLUSER_ROLE.MODERATOR && (
+        <Localized id="community-siteRoleModal-selectSites-siteModerator">
+          <Label>Select sites to moderate</Label>
+        </Localized>
+      )}
+      {roleToBeSet === GQLUSER_ROLE.MEMBER && (
+        <Localized id="community-siteRoleModal-selectSites-member">
+          <Label>Select sites for this user to be a member of</Label>
+        </Localized>
+      )}
       {candidateSites.map((siteID) => {
         const checked = siteIDsInput.value.includes(siteID);
         return (

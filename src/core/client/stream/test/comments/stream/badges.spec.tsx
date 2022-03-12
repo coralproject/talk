@@ -100,7 +100,5 @@ describe("user badges", () => {
     expect(memberBadge).toBeDefined();
     expect(staffBadge).toBeDefined();
     expect(moderatorBadge).toBeDefined();
-
-    screen.debug();
   });
 });

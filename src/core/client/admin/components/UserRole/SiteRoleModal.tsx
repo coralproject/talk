@@ -7,6 +7,7 @@ import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
   Button,
   CallOut,
@@ -26,6 +27,7 @@ import styles from "./SiteRoleModal.css";
 
 interface Props {
   username: string | null;
+  roleToBeSet: GQLUSER_ROLE_RL | null;
   open: boolean;
   onCancel: () => void;
   onFinish: (siteIDs: string[]) => Promise<void>;
@@ -34,6 +36,7 @@ interface Props {
 
 const SiteRoleModal: FunctionComponent<Props> = ({
   username,
+  roleToBeSet,
   open,
   onFinish,
   onCancel,
@@ -92,14 +95,27 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                         {submitError}
                       </CallOut>
                     )}
-                    <Localized id="community-siteRoleModal-assignSitesDescription">
-                      <ModalBodyText>
-                        Site moderators are permitted to make moderation
-                        decisions and issue suspensions on the sites they are
-                        assigned.
-                      </ModalBodyText>
-                    </Localized>
-                    <SiteRoleModalSites selectedSiteIDs={selectedSiteIDs} />
+                    {roleToBeSet === GQLUSER_ROLE.MODERATOR && (
+                      <Localized id="community-siteRoleModal-assignSitesDescription-siteModerator">
+                        <ModalBodyText>
+                          Site moderators are permitted to make moderation
+                          decisions and issue suspensions on the sites they are
+                          assigned.
+                        </ModalBodyText>
+                      </Localized>
+                    )}
+                    {roleToBeSet === GQLUSER_ROLE.MEMBER && (
+                      <Localized id="community-membersArePermitted">
+                        <ModalBodyText>
+                          Members are permitted to receive a badge on the sites
+                          they are assigned.
+                        </ModalBodyText>
+                      </Localized>
+                    )}
+                    <SiteRoleModalSites
+                      selectedSiteIDs={selectedSiteIDs}
+                      roleToBeSet={roleToBeSet}
+                    />
                     <Flex justifyContent="flex-end" itemGutter="half">
                       <Localized id="community-siteRoleModal-cancel">
                         <Button variant="flat" onClick={onCancel}>
