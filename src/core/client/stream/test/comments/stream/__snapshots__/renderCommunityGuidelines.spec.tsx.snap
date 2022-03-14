@@ -951,6 +951,26 @@ exports[`renders comment stream with community guidelines 1`] = `
                   </div>
                 </div>
               </div>
+              <div>
+                <button
+                  aria-controls="comments-allComments-log"
+                  className="BaseButton-root Button-base Button-outlined Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-fullWidth coral coral-loadMoreButton coral-allComments-loadMoreButton"
+                  data-is-load-more={true}
+                  data-key-stop={true}
+                  data-variant="outlined"
+                  disabled={false}
+                  id="comments-loadAll"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Load All Comments
+                </button>
+              </div>
             </div>
           </div>
           <nav

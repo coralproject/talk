@@ -381,6 +381,8 @@ export type Settings = GlobalModerationSettings &
      * put on a comment by a user.
      */
     forReviewQueue?: boolean;
+
+    loadAllComments?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

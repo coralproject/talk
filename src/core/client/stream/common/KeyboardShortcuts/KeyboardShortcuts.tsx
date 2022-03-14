@@ -562,12 +562,36 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   const handleZKeyPress = useCallback(
     (source: "keyboard" | "mobileToolbar") => {
-      if (local.firstNextUnseenComment) {
+      let viewNewCommentButtonFound = false;
+      if (!local.commentWithTraversalFocus) {
+        // Check here for View new comment and click to open
+        // and reveal new comment if it exists
+        // The new comment can only be first chronologically if
+        // no comment already has traversal focus
+        const viewNewCommentsButton = root.getElementById(
+          "comments-allComments-viewNewButton"
+        );
+        if (viewNewCommentsButton) {
+          viewNewCommentsButton.click();
+          viewNewCommentButtonFound = true;
+        }
+      }
+      // If we don't find a new comment, then we go to first unseen comment
+      // if it exists
+      if (local.firstNextUnseenComment && !viewNewCommentButtonFound) {
+        // Check for a Load All Comments button and click it first before scrolling
+        // (only if virtuoso index is greater than 20/the default number of first comments)
+        if (local.firstNextUnseenComment.virtuosoIndex >= 20) {
+          const loadAllCommentsButton = root.getElementById(
+            "comments-loadMore"
+          );
+          if (loadAllCommentsButton) {
+            loadAllCommentsButton.click();
+          }
+        }
         // first, we check if there is a current commentWithTraversalFocus
         // if not, we scroll to first virtuoso index and set focus
         if (!local.commentWithTraversalFocus) {
-          // TODO: Do we want to check here for View new comment and click to open
-          // and reveal new comment if it exists?
           currentScrollRef.current.scrollIntoView({
             align: "center",
             index: local.firstNextUnseenComment.virtuosoIndex,
@@ -773,11 +797,33 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // immediately updating amp iframe height
         // instead of waiting for polling to update it
         eventEmitter.emit("heightChange");
-
         // after more comments/replies have loaded, we want to traverse
         // to the next comment/reply based on the configuration
         if (data.keyboardShortcutsConfig) {
           traverse(data.keyboardShortcutsConfig);
+        }
+      }
+
+      if (e === ViewNewCommentsNetworkEvent.nameSuccess) {
+        // Announce height change to embed to allow
+        // immediately updating amp iframe height
+        // instead of waiting for polling to update it
+        eventEmitter.emit("heightChange");
+        // after more comments/replies have loaded, we want to traverse
+        // to the next comment/reply based on the configuration
+        if (
+          data.keyboardShortcutsConfig &&
+          data.keyboardShortcutsConfig.key === "z"
+        ) {
+          const stops = getKeyStops(root);
+          const firstStop = getFirstKeyStop(stops);
+          if (firstStop) {
+            void setTraversalFocus({
+              commentID: parseCommentElementID(firstStop.id),
+              commentSeenEnabled,
+            });
+            firstStop.element.focus();
+          }
         }
       }
 
@@ -790,7 +836,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, traverse, updateButtonStates]);
+  }, [eventEmitter, traverse, updateButtonStates, root]);
 
   // Subscribe to keypress events.
   useEffect(() => {

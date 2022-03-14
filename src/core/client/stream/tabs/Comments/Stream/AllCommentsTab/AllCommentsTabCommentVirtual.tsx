@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
   useCallback,
@@ -12,6 +13,8 @@ import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/Al
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
+import { Button } from "coral-ui/components/v3";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 
@@ -55,6 +58,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     lookedThroughAllCommentsForNextUnseen,
     setLookedThroughAllCommentsForNextUnseen,
   ] = useState(false);
+  const [showLoadAllCommentsButton, setShowLoadAllCommentsButton] = useState(
+    settings.loadAllComments
+  );
 
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
@@ -208,10 +214,16 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
               key: comments.length,
             }
           : {})}
+        context={{
+          isLoadingMore,
+          comments,
+          showLoadAllCommentsButton,
+          setShowLoadAllCommentsButton,
+        }}
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: 600 }}
-        data={comments}
+        data={showLoadAllCommentsButton ? comments.slice(0, 20) : comments}
         overscan={50}
         endReached={() => {
           if (hasMore && !isLoadingMore) {
@@ -229,7 +241,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             />
           );
         }}
-        components={{ ScrollSeekPlaceholder }}
+        components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{
           enter: (velocity) => {
             const shouldEnter = Math.abs(velocity) >= 100;
@@ -241,6 +253,47 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           },
         }}
       />
+    </>
+  );
+};
+
+const Footer = ({
+  context: {
+    isLoadingMore,
+    comments,
+    showLoadAllCommentsButton,
+    setShowLoadAllCommentsButton,
+  },
+}: {
+  context: {
+    isLoadingMore: boolean;
+    comments: ReadonlyArray<Comment>;
+    showLoadAllCommentsButton: boolean;
+    setShowLoadAllCommentsButton: (show: boolean) => void;
+  };
+}) => {
+  return (
+    <>
+      {showLoadAllCommentsButton && (
+        <Localized id="comments-loadAll">
+          <Button
+            key={`comments-loadAll-${comments.length}`}
+            id="comments-loadAll"
+            onClick={() => setShowLoadAllCommentsButton(false)}
+            color="secondary"
+            variant="outlined"
+            fullWidth
+            disabled={isLoadingMore}
+            aria-controls="comments-allComments-log"
+            className={CLASSES.allCommentsTabPane.loadMoreButton}
+            // Added for keyboard shortcut support.
+            data-key-stop
+            data-is-load-more
+          >
+            Load All Comments
+          </Button>
+        </Localized>
+      )}
     </>
   );
 };

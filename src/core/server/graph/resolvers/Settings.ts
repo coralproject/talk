@@ -42,4 +42,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     Boolean(disableDefaultFonts),
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
+  loadAllComments: ({ loadAllComments = true }) => loadAllComments,
 };

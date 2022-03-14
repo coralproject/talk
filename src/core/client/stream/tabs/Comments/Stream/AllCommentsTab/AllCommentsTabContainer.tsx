@@ -227,7 +227,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
     [viewer, settings]
   );
-
   return (
     <>
       <KeyboardShortcuts
@@ -421,6 +420,7 @@ const enhanced = withPaginationContainer<
           enabled
         }
         featureFlags
+        loadAllComments
         ...PostCommentFormContainer_settings
         ...ViewersWatchingContainer_settings
         ...AllCommentsTabCommentContainer_settings

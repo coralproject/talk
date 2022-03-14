@@ -2134,6 +2134,8 @@ type Settings @cacheControl(maxAge: 30) {
   pre-moderating new users at a certain email domain
   """
   emailDomainModeration: [EmailDomain!]!
+
+  loadAllComments: Boolean!
 }
 
 ################################################################################
@@ -5535,6 +5537,8 @@ input SettingsInput {
   (European Directive 2000/31/CE).
   """
   forReviewQueue: Boolean
+
+  loadAllComments: Boolean
 }
 
 """
