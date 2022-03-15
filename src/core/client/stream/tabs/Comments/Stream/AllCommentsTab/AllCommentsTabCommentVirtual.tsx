@@ -56,7 +56,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
 }) => {
   const comments = useMemo(() => story.comments.edges, [story.comments.edges]);
   const [showLoadAllCommentsButton, setShowLoadAllCommentsButton] = useState(
-    settings.loadAllComments
+    !settings.loadAllComments
   );
 
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
