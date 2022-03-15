@@ -203,7 +203,7 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig, loadMoreReplies }, setLocal] = useLocal<
+  const [{ keyboardShortcutsConfig, loadAllReplies }, setLocal] = useLocal<
     ReplyListContainerLocal
   >(
     graphql`
@@ -213,7 +213,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
           source
           reverse
         }
-        loadMoreReplies
+        loadAllReplies
       }
     `
   );
@@ -229,7 +229,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
-    setLocal({ loadMoreReplies: null });
+    setLocal({ loadAllReplies: null });
     try {
       await showAll();
       showAllEvent.success();
@@ -243,7 +243,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   useEffect(() => {
     // This supports when we need to load all replies navigating through with
     // the Z key via keyboard shortcuts
-    if (loadMoreReplies && loadMoreReplies === props.comment.id) {
+    if (loadAllReplies && loadAllReplies === props.comment.id) {
       void showAllAndEmit();
     }
   }, []);

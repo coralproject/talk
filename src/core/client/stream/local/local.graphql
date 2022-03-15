@@ -103,9 +103,12 @@ extend type Local {
 
   # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
   commentWithTraversalFocus: String
+  # first next unseen comment (Used by keyboard shortcuts for Z key navigation)
   firstNextUnseenComment: UnseenComment
+  # second next unseen comment (Used by keyboard shortcuts for Z key navigation)
   secondNextUnseenComment: UnseenComment
-  loadMoreReplies: String
+  # used by keyboard shortcuts if all replies for a particular comment id should be loaded
+  loadAllReplies: String
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 

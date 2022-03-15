@@ -54,10 +54,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const comments = story.comments.edges;
-  const [
-    lookedThroughAllCommentsForNextUnseen,
-    setLookedThroughAllCommentsForNextUnseen,
-  ] = useState(false);
   const [showLoadAllCommentsButton, setShowLoadAllCommentsButton] = useState(
     settings.loadAllComments
   );
@@ -160,38 +156,30 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    if (!lookedThroughAllCommentsForNextUnseen) {
-      const indexOfTraversalFocus = comments.findIndex((comment) => {
-        return (
-          comment.node.id === local.commentWithTraversalFocus ||
-          (comment.node.allChildComments &&
-            comment.node.allChildComments.edges.some(
-              (c) => c.node.id === local.commentWithTraversalFocus
-            ))
-        );
+    const indexOfTraversalFocus = comments.findIndex((comment) => {
+      return (
+        comment.node.id === local.commentWithTraversalFocus ||
+        (comment.node.allChildComments &&
+          comment.node.allChildComments.edges.some(
+            (c) => c.node.id === local.commentWithTraversalFocus
+          ))
+      );
+    });
+    const sliceIndex = indexOfTraversalFocus === -1 ? 0 : indexOfTraversalFocus;
+    const nextSlice = comments.slice(sliceIndex);
+    const nextUnseen = lookForNextUnseen(comments, nextSlice);
+    if (nextUnseen && nextUnseen[0]) {
+      setLocal({
+        firstNextUnseenComment: nextUnseen[0],
       });
-      const sliceIndex =
-        indexOfTraversalFocus === -1 ? 0 : indexOfTraversalFocus;
-      const nextSlice = comments.slice(sliceIndex);
-      const nextUnseen = lookForNextUnseen(comments, nextSlice);
-      if (nextUnseen && nextUnseen[0]) {
+      if (nextUnseen[1]) {
         setLocal({
-          firstNextUnseenComment: nextUnseen[0],
+          secondNextUnseenComment: nextUnseen[1],
         });
-        if (nextUnseen[1]) {
-          setLocal({
-            secondNextUnseenComment: nextUnseen[1],
-          });
-        }
-      } else {
-        if (hasMore && !isLoadingMore) {
-          void loadMoreAndEmit();
-        }
-        if (!hasMore) {
-          // this means that we've looked through all comments, if we've
-          // found no next comment and there are also no more comments to load
-          setLookedThroughAllCommentsForNextUnseen(true);
-        }
+      }
+    } else {
+      if (hasMore && !isLoadingMore) {
+        void loadMoreAndEmit();
       }
     }
   }, [
@@ -201,7 +189,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     hasMore,
     loadMoreAndEmit,
     lookForNextUnseen,
-    lookedThroughAllCommentsForNextUnseen,
     setLocal,
   ]);
 

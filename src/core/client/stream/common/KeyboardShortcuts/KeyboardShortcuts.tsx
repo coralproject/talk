@@ -300,7 +300,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         isRoot
         virtuosoIndex
       }
-      loadMoreReplies
+      loadAllReplies
     }
   `);
   const amp = useAMP();
@@ -485,7 +485,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           commentID: commentToScrollTo.nodeID,
           commentSeenEnabled,
         });
-        // or find stop element and focus
         void markSeen({
           storyID,
           commentIDs: [commentToScrollTo.nodeID],
@@ -508,6 +507,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               });
 
               if (nextKeyStop) {
+                // if there are no unseen comments before the next show all replies
+                // button, load all replies (traversal to next unseen comment will
+                // be handled after the success event for all replies loading)
                 if (nextKeyStop.isLoadMore) {
                   const prevStop = findPreviousKeyStop(root, nextKeyStop, {
                     skipLoadMore: true,
@@ -519,10 +521,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     });
                     prevStop.element.focus();
                   }
-                  // We have to set this to Show all replies after Virtuoso has
+                  // We have to set load all replies to the comment id to load
+                  // more replies for to make sure that we load after Virtuoso has
                   // remounted the reply list component after scrolling
-                  setLocal({ loadMoreReplies: nextKeyStop.id.substr(34) });
+                  setLocal({ loadAllReplies: nextKeyStop.id.substr(34) });
                 } else {
+                  // go to the first unseen reply to the root comment and set focus to it
                   JumpToNextUnseenCommentEvent.emit(eventEmitter, {
                     source,
                   });
@@ -565,9 +569,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       let viewNewCommentButtonFound = false;
       if (!local.commentWithTraversalFocus) {
         // Check here for View new comment and click to open
-        // and reveal new comment if it exists
+        // and reveal new comment if it exists.
         // The new comment can only be first chronologically if
-        // no comment already has traversal focus
+        // no comment already has traversal focus.
+        // Traversing to the first new unseen comment will be handled
+        // after the success event for the new comment being loaded.
         const viewNewCommentsButton = root.getElementById(
           "comments-allComments-viewNewButton"
         );
@@ -601,6 +607,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             },
           });
         } else {
+          // if there is a current commentWithTraversal focus, we first attempt to
+          // find a next unseen comment that's already loaded without any scrolling
           const currentCommentID = local.commentWithTraversalFocus;
           let currentCommentElement;
           if (currentCommentID) {
@@ -645,8 +653,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             const currentVirtuosoIndex = currentCommentElement
               ?.closest("[data-index]")
               ?.getAttribute("data-index");
-            // We scroll to the second virtuoso index if the current virtuoso index
-            // that we already checked is the same index as the first unseen
+            // We scroll to the second virtuoso index if the currently scrolled Virtuoso
+            // index that we just checked is the same Virtuoso index as the first unseen
             // comment that was found
             const useSecondIndex =
               currentVirtuosoIndex ===
@@ -785,7 +793,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   }, [updateButtonStates]);
 
   // Update button states after certain events.
-  // Also traverse to next comment/reply after loading more/new comments and replies
+  // Also traverse to next comment/reply after loading new comments and replies
   useEffect(() => {
     const listener: ListenerFn = async (e, data) => {
       if (!eventsOfInterest.includes(e)) {
@@ -797,8 +805,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // immediately updating amp iframe height
         // instead of waiting for polling to update it
         eventEmitter.emit("heightChange");
-        // after more comments/replies have loaded, we want to traverse
-        // to the next comment/reply based on the configuration
+        // after more replies have loaded, we want to traverse
+        // to the next reply based on the configuration
         if (data.keyboardShortcutsConfig) {
           traverse(data.keyboardShortcutsConfig);
         }
@@ -809,8 +817,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // immediately updating amp iframe height
         // instead of waiting for polling to update it
         eventEmitter.emit("heightChange");
-        // after more comments/replies have loaded, we want to traverse
-        // to the next comment/reply based on the configuration
+        // after new comment(s) have loaded, we want to traverse
+        // to the first comment based on the configuration
         if (
           data.keyboardShortcutsConfig &&
           data.keyboardShortcutsConfig.key === "z"
