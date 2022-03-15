@@ -588,9 +588,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // Check for a Load All Comments button and click it first before scrolling
         // (only if virtuoso index is greater than 20/the default number of first comments)
         if (local.firstNextUnseenComment.virtuosoIndex >= 20) {
-          const loadAllCommentsButton = root.getElementById(
-            "comments-loadMore"
-          );
+          const loadAllCommentsButton = root.getElementById("comments-loadAll");
           if (loadAllCommentsButton) {
             loadAllCommentsButton.click();
           }

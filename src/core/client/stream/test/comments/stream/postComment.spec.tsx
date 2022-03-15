@@ -74,7 +74,7 @@ async function createTestRenderer(
   };
 }
 
-it.skip("post a comment", async () => {
+it("post a comment", async () => {
   const { rte, form, tabPane } = await createTestRenderer({
     Mutation: {
       createComment: sinon.stub().callsFake((_, data) => {

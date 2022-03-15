@@ -3,6 +3,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -53,7 +54,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   isLoadingMore,
   currentScrollRef,
 }) => {
-  const comments = story.comments.edges;
+  const comments = useMemo(() => story.comments.edges, [story.comments.edges]);
   const [showLoadAllCommentsButton, setShowLoadAllCommentsButton] = useState(
     settings.loadAllComments
   );
@@ -192,6 +193,114 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     setLocal,
   ]);
 
+  const Footer = useCallback(() => {
+    return (
+      <>
+        {showLoadAllCommentsButton && comments.length > 20 && (
+          <Localized id="comments-loadAll">
+            <Button
+              key={`comments-loadAll-${comments.length}`}
+              id="comments-loadAll"
+              onClick={() => setShowLoadAllCommentsButton(false)}
+              color="secondary"
+              variant="outlined"
+              fullWidth
+              disabled={isLoadingMore}
+              aria-controls="comments-allComments-log"
+              className={CLASSES.allCommentsTabPane.loadMoreButton}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
+            >
+              Load All Comments
+            </Button>
+          </Localized>
+        )}
+      </>
+    );
+  }, [
+    showLoadAllCommentsButton,
+    comments,
+    isLoadingMore,
+    setShowLoadAllCommentsButton,
+  ]);
+
+  const ScrollSeekPlaceholder = useCallback(
+    ({ height }: { height: number }) => (
+      <div
+        style={{
+          height,
+          boxSizing: "border-box",
+        }}
+      >
+        <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
+          <div
+            style={{
+              flex: "0 1 auto",
+            }}
+          >
+            <hr style={{ border: "1px solid #eaeff0" }} />
+          </div>
+          <div
+            style={{
+              flex: "0 1 auto",
+              backgroundColor: "#f4f7f7",
+              width: "50%",
+              height: "2rem",
+            }}
+          ></div>
+          <div
+            style={{
+              flex: "0 1 auto",
+              backgroundColor: "white",
+              width: "100%",
+              height: "1rem",
+            }}
+          ></div>
+          <div
+            style={{
+              flex: "1 1 auto",
+              backgroundColor: "#eaeff0",
+              width: "100%",
+              height: "95%",
+            }}
+          ></div>
+          <div
+            style={{
+              flex: "0 1 auto",
+              backgroundColor: "white",
+              width: "100%",
+              height: "1rem",
+            }}
+          ></div>
+          <div
+            style={{
+              flex: "0 1 1.5rem",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#f4f7f7",
+                height: "100%",
+                width: "12rem",
+              }}
+            ></div>
+            <div
+              style={{
+                backgroundColor: "#f4f7f7",
+                height: "100%",
+                width: "3rem",
+              }}
+            ></div>
+          </div>
+        </div>
+      </div>
+    ),
+    []
+  );
+
   return (
     <>
       <Virtuoso
@@ -201,33 +310,32 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
               key: comments.length,
             }
           : {})}
-        context={{
-          isLoadingMore,
-          comments,
-          showLoadAllCommentsButton,
-          setShowLoadAllCommentsButton,
-        }}
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: 600 }}
-        data={showLoadAllCommentsButton ? comments.slice(0, 20) : comments}
+        totalCount={showLoadAllCommentsButton ? 20 : comments.length}
         overscan={50}
         endReached={() => {
           if (hasMore && !isLoadingMore) {
             void loadMoreAndEmit();
           }
         }}
-        itemContent={(index, comment) => {
-          return (
-            <AllCommentsTabCommentContainer
-              viewer={viewer}
-              comment={comment.node}
-              story={story}
-              settings={settings}
-              isLast={index === story.comments.edges.length - 1}
-            />
-          );
-        }}
+        itemContent={useCallback(
+          (index) => {
+            const comment = comments[index];
+            return (
+              <AllCommentsTabCommentContainer
+                key={comment.node.id}
+                viewer={viewer}
+                comment={comment.node}
+                story={story}
+                settings={settings}
+                isLast={index === comments.length - 1}
+              />
+            );
+          },
+          [story, comments, settings, viewer]
+        )}
         components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{
           enter: (velocity) => {
@@ -243,119 +351,5 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     </>
   );
 };
-
-const Footer = ({
-  context: {
-    isLoadingMore,
-    comments,
-    showLoadAllCommentsButton,
-    setShowLoadAllCommentsButton,
-  },
-}: {
-  context: {
-    isLoadingMore: boolean;
-    comments: ReadonlyArray<Comment>;
-    showLoadAllCommentsButton: boolean;
-    setShowLoadAllCommentsButton: (show: boolean) => void;
-  };
-}) => {
-  return (
-    <>
-      {showLoadAllCommentsButton && (
-        <Localized id="comments-loadAll">
-          <Button
-            key={`comments-loadAll-${comments.length}`}
-            id="comments-loadAll"
-            onClick={() => setShowLoadAllCommentsButton(false)}
-            color="secondary"
-            variant="outlined"
-            fullWidth
-            disabled={isLoadingMore}
-            aria-controls="comments-allComments-log"
-            className={CLASSES.allCommentsTabPane.loadMoreButton}
-            // Added for keyboard shortcut support.
-            data-key-stop
-            data-is-load-more
-          >
-            Load All Comments
-          </Button>
-        </Localized>
-      )}
-    </>
-  );
-};
-
-const ScrollSeekPlaceholder = ({ height }: { height: number }) => (
-  <div
-    style={{
-      height,
-      boxSizing: "border-box",
-    }}
-  >
-    <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
-      <div
-        style={{
-          flex: "0 1 auto",
-        }}
-      >
-        <hr style={{ border: "1px solid #eaeff0" }} />
-      </div>
-      <div
-        style={{
-          flex: "0 1 auto",
-          backgroundColor: "#f4f7f7",
-          width: "50%",
-          height: "2rem",
-        }}
-      ></div>
-      <div
-        style={{
-          flex: "0 1 auto",
-          backgroundColor: "white",
-          width: "100%",
-          height: "1rem",
-        }}
-      ></div>
-      <div
-        style={{
-          flex: "1 1 auto",
-          backgroundColor: "#eaeff0",
-          width: "100%",
-          height: "95%",
-        }}
-      ></div>
-      <div
-        style={{
-          flex: "0 1 auto",
-          backgroundColor: "white",
-          width: "100%",
-          height: "1rem",
-        }}
-      ></div>
-      <div
-        style={{
-          flex: "0 1 1.5rem",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <div
-          style={{
-            backgroundColor: "#f4f7f7",
-            height: "100%",
-            width: "12rem",
-          }}
-        ></div>
-        <div
-          style={{
-            backgroundColor: "#f4f7f7",
-            height: "100%",
-            width: "3rem",
-          }}
-        ></div>
-      </div>
-    </div>
-  </div>
-);
 
 export default AllCommentsTabCommentVirtual;
