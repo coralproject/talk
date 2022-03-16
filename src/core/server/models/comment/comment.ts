@@ -490,6 +490,7 @@ export async function retrieveCommentAllChildCommentsConnection(
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   const filter = {
     ancestorIDs: { $in: [comment.id] },
+    ...input.filter,
   };
 
   return retrieveCommentStoryConnection(collection, tenantID, comment.storyID, {

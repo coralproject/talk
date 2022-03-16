@@ -410,7 +410,10 @@ export default (ctx: GraphContext) => ({
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
   },
-  allChildComments: async (comment: Comment, { orderBy }: any) => {
+  allChildComments: async (
+    comment: Comment,
+    { first, orderBy }: CommentToRepliesArgs
+  ) => {
     const story = await ctx.loaders.Stories.story.load(comment.storyID);
     if (!story) {
       throw new StoryNotFoundError(comment.storyID);
@@ -420,6 +423,7 @@ export default (ctx: GraphContext) => ({
       ctx.tenant.id,
       comment,
       {
+        first: 999,
         orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_ASC),
       },
       story.isArchived
