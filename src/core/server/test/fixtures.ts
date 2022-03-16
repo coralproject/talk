@@ -162,6 +162,10 @@ export const createTenantFixture = (
     newCommenters: {
       premodEnabled: false,
       approvedCommentsThreshold: 2,
+      moderation: {
+        mode: "POST",
+        premodSites: [],
+      },
     },
     premoderateSuspectWords: false,
     createdAt: now,

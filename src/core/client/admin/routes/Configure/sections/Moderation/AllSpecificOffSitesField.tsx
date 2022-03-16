@@ -1,7 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, useField } from "react-final-form";
-import { graphql } from "react-relay";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { hasError } from "coral-framework/lib/form";
@@ -17,78 +16,84 @@ import {
   ValidationMessage,
 } from "coral-ui/components/v2";
 
-import PreModerationSitesSelectedQuery from "./PreModerationSitesSelectedQuery";
+import SpecificSitesSelectedQuery from "./SpecificSitesSelectedQuery";
 
-import styles from "./PreModerateAllCommentsConfig.css";
-
-// eslint-disable-next-line no-unused-expressions
-graphql`
-  fragment PreModerateAllCommentsConfig_formValues on Settings {
-    moderation
-    premoderateAllCommentsSites
-  }
-`;
+import styles from "./AllSpecificOffSitesField.css";
 
 interface Props {
   disabled: boolean;
+  moderationModeFieldName: string;
+  specificSitesFieldName: string;
+  specificSitesIsEnabledCondition: Condition<any, any>;
 }
 
-const specificSitesIsEnabled: Condition = (_value, values) =>
-  Boolean(values.moderation === GQLMODERATION_MODE.SPECIFIC_SITES_PRE);
-
-const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
+const AllSpecificOffSitesField: FunctionComponent<Props> = ({
   disabled,
+  moderationModeFieldName,
+  specificSitesFieldName,
+  specificSitesIsEnabledCondition,
 }) => {
-  const {
-    input: premoderateAllCommentsSitesInput,
-    meta: premoderateAllCommentsSitesMeta,
-  } = useField<string[]>("premoderateAllCommentsSites", {
-    validate: validateWhen(specificSitesIsEnabled, required),
+  const { input: moderationModeInput } = useField<string>(
+    moderationModeFieldName
+  );
+  const { input: specificSitesInput, meta: specificSitesMeta } = useField<
+    string[]
+  >(specificSitesFieldName, {
+    validate: validateWhen(specificSitesIsEnabledCondition, required),
   });
-
-  const { input: moderationInput } = useField<string>("moderation");
-
   const onAddSite = useCallback(
     (siteID: string) => {
-      const changed = [...premoderateAllCommentsSitesInput.value];
+      const changed = [...specificSitesInput.value];
       const index = changed.indexOf(siteID);
       if (index === -1) {
         changed.push(siteID);
       }
-      premoderateAllCommentsSitesInput.onChange(changed);
+      specificSitesInput.onChange(changed);
     },
-    [premoderateAllCommentsSitesInput]
+    [specificSitesInput]
   );
 
   const onRemoveSite = useCallback(
     (siteID: string) => {
-      const changed = [...premoderateAllCommentsSitesInput.value];
+      const changed = [...specificSitesInput.value];
       const index = changed.indexOf(siteID);
       if (index >= 0) {
         changed.splice(index, 1);
       }
-      premoderateAllCommentsSitesInput.onChange(changed);
+      specificSitesInput.onChange(changed);
     },
-    [premoderateAllCommentsSitesInput]
+    [specificSitesInput]
   );
 
   return (
     <>
-      <Field name="moderation" type="radio" value="PRE">
+      <Field
+        name={`${moderationModeFieldName}`}
+        type="radio"
+        value={GQLMODERATION_MODE.PRE}
+      >
         {({ input }) => (
-          <RadioButton {...input} id={`${input.name}-PRE`} disabled={disabled}>
+          <RadioButton
+            {...input}
+            id={`${input.name}-${GQLMODERATION_MODE.PRE}`}
+            disabled={disabled}
+          >
             <Localized id="configure-moderation-allSites">
               <span>All sites</span>
             </Localized>
           </RadioButton>
         )}
       </Field>
-      <Field name="moderation" type="radio" value="SPECIFIC_SITES_PRE">
+      <Field
+        name={`${moderationModeFieldName}`}
+        type="radio"
+        value={GQLMODERATION_MODE.SPECIFIC_SITES_PRE}
+      >
         {({ input }) => (
           <>
             <RadioButton
               {...input}
-              id={`${input.name}-SPECIFIC_SITES_PRE`}
+              id={`${input.name}-${GQLMODERATION_MODE.SPECIFIC_SITES_PRE}`}
               disabled={disabled}
             >
               <Localized id="configure-moderation-specificSites">
@@ -98,12 +103,12 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
           </>
         )}
       </Field>
-      {moderationInput.value === GQLMODERATION_MODE.SPECIFIC_SITES_PRE && (
+      {moderationModeInput.value === GQLMODERATION_MODE.SPECIFIC_SITES_PRE && (
         <div className={styles.specificSites}>
           <HorizontalGutter spacing={3} mt={3} mb={3}>
-            {premoderateAllCommentsSitesInput.value.map((siteID: string) => {
+            {specificSitesInput.value.map((siteID: string) => {
               return (
-                <PreModerationSitesSelectedQuery
+                <SpecificSitesSelectedQuery
                   key={siteID}
                   siteID={siteID}
                   onChange={onRemoveSite}
@@ -118,7 +123,7 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
             onSelect={onAddSite}
             clearTextFieldValueAfterSelect={true}
           />
-          {hasError(premoderateAllCommentsSitesMeta) ? (
+          {hasError(specificSitesMeta) ? (
             <Localized id="specificSitesSelect-validation">
               <ValidationMessage className={styles.validationMessage}>
                 You must select at least one site.
@@ -127,9 +132,17 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
           ) : null}
         </div>
       )}
-      <Field name="moderation" type="radio" value="POST">
+      <Field
+        name={`${moderationModeFieldName}`}
+        type="radio"
+        value={GQLMODERATION_MODE.POST}
+      >
         {({ input }) => (
-          <RadioButton {...input} id={`${input.name}-POST`} disabled={disabled}>
+          <RadioButton
+            {...input}
+            id={`${input.name}-${GQLMODERATION_MODE.POST}`}
+            disabled={disabled}
+          >
             <Localized id="configure-onOffField-off">
               <span>Off</span>
             </Localized>
@@ -140,4 +153,4 @@ const PreModerateAllCommentsConfig: FunctionComponent<Props> = ({
   );
 };
 
-export default PreModerateAllCommentsConfig;
+export default AllSpecificOffSitesField;

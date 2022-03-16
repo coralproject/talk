@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import RescrapeStoryMutation from "coral-admin/routes/Stories/StoryActions/RescrapeStoryMutation";
+import RescrapeStoryMutation from "coral-admin/components/StoryInfoDrawer/RescrapeStoryMutation";
 import { useMutation } from "coral-framework/lib/relay";
 import { Button, Flex } from "coral-ui/components/v2";
 import React, { FunctionComponent, useCallback, useState } from "react";
@@ -34,7 +34,9 @@ const ScrapeStory: FunctionComponent<Props> = ({ storyID }) => {
             Triggered
           </Localized>
         ) : (
-          <Localized id="storyInfoDrawer-triggerRescrape">Rescrape</Localized>
+          <Localized id="storyInfoDrawer-triggerRescrape">
+            Rescrape Metadata
+          </Localized>
         )}
       </Button>
     </Flex>

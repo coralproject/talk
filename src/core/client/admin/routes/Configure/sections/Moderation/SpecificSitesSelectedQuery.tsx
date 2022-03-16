@@ -5,21 +5,21 @@ import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { CheckBox } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
-import { PreModerationSitesSelectedQuery as QueryTypes } from "coral-admin/__generated__/PreModerationSitesSelectedQuery.graphql";
+import { SpecificSitesSelectedQuery as QueryTypes } from "coral-admin/__generated__/SpecificSitesSelectedQuery.graphql";
 
 interface Props {
   siteID: string;
   onChange: (id: string) => void;
 }
 
-const PreModerationSitesSelectedQuery: FunctionComponent<Props> = ({
+const SpecificSitesSelectedQuery: FunctionComponent<Props> = ({
   siteID,
   onChange,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query PreModerationSitesSelectedQuery($siteID: ID!) {
+        query SpecificSitesSelectedQuery($siteID: ID!) {
           site(id: $siteID) {
             name
           }
@@ -42,4 +42,4 @@ const PreModerationSitesSelectedQuery: FunctionComponent<Props> = ({
   );
 };
 
-export default PreModerationSitesSelectedQuery;
+export default SpecificSitesSelectedQuery;

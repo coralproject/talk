@@ -4,6 +4,7 @@
 general-notAvailable = Not available
 general-none = None
 general-noTextContent = No text content
+general-archived = Archived
 
 ## Story Status
 storyStatus-open = Open
@@ -556,13 +557,13 @@ site-search-textField =
 site-search-textField =
   .placeholder = Search by site name
 site-search-none-found = No sites were found with that search
-specificSitesSelect-validation = You must select at least one site from which to ban/unban the user.
+specificSitesSelect-validation = You must select at least one site.
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
 
-stories-actionsButton =
-  .aria-label = Select action
+stories-openInfoDrawer =
+  .aria-label = Open Info Drawer
 stories-actions-popover =
   .description = A dropdown to select story actions
 stories-actions-rescrape = Re-scrape
@@ -738,6 +739,8 @@ configure-moderation-preModeration-moderation =
   Pre-moderate all comments
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate all comments containing links
+
+#### Moderation all/specific sites options
 configure-moderation-specificSites = Specific sites
 configure-moderation-allSites = All sites
 
@@ -1438,7 +1441,7 @@ stories-status-popover =
   .description = A dropdown to change the story status
 
 storyInfoDrawer-rescrapeTriggered = Triggered
-storyInfoDrawer-triggerRescrape = Rescrape
+storyInfoDrawer-triggerRescrape = Rescrape Metadata
 storyInfoDrawer-title = Story Details
 storyInfoDrawer-titleNotAvailable = Story title not available
 storyInfoDrawer-authorNotAvailable = Author not available
@@ -1447,10 +1450,13 @@ storyInfoDrawer-scrapedMetaData = Scraped metadata
 storyInfoDrawer-configure = Configure
 storyInfoDrawer-storyStatus-open = Open
 storyInfoDrawer-storyStatus-closed = Closed
-storyInfoDrawerSettings-premodLinksEnable = Pre Mod Links
+storyInfoDrawer-moderateStory = Moderate
+storyInfoDrawerSettings-premodLinksEnable = Pre-moderate comments containing links
+storyInfoDrawerSettings-premodCommentsEnable = Pre-moderate all comments
 storyInfoDrawerSettings-moderation = Moderation
 storyInfoDrawerSettings-moderationMode-pre = Pre
 storyInfoDrawerSettings-moderationMode-post = Post
+storyInfoDrawerSettings-update = Update
 storyInfoDrawer-storyStatus-archiving = Archiving
 storyInfoDrawer-storyStatus-archived = Archived
 

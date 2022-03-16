@@ -1,5 +1,7 @@
-import { Component } from "react";
-import withUIContext from "../UIContext/withUIContext";
+import { FunctionComponent, useEffect } from "react";
+
+import usePrevious from "coral-framework/hooks/usePrevious";
+import { useUIContext } from "coral-ui/components/v2/UIContext";
 
 interface WindowFeatures {
   resizable: number;
@@ -25,7 +27,6 @@ interface PopupProps {
   href: string;
   features?: Partial<WindowFeatures>;
   title?: string;
-  window: Window;
 }
 
 function reconcileFeatures(
@@ -56,42 +57,35 @@ function reconcileFeatures(
     .join(",");
 }
 
-export class Popup extends Component<PopupProps> {
-  private ref: Window | null = null;
-  private detectCloseInterval: any = null;
-  private resetCallbackInterval: any = null;
+const defaultFeatures: WindowFeatures = {
+  resizable: 0,
+  menubar: 0,
+  width: 350,
+  height: 450,
+  centered: true,
+};
 
-  constructor(props: PopupProps) {
-    super(props);
+const Popup: FunctionComponent<PopupProps> = (props) => {
+  let ref: Window | null = null;
+  let detectCloseInterval: any = null;
+  let resetCallbackInterval: any = null;
+  const { renderWindow } = useUIContext();
+  const previousOpen = usePrevious(props.open);
+  const previousFocus = usePrevious(props.focus);
+  const previousHref = usePrevious(props.href);
 
-    if (props.open) {
-      this.openWindow(props);
-    }
-  }
-
-  public static defaultFeatures: WindowFeatures = {
-    resizable: 0,
-    menubar: 0,
-    width: 350,
-    height: 450,
-    centered: true,
-  };
-
-  private openWindow({ features = {}, href, title } = this.props) {
+  const openWindow = ({ features = {}, href, title } = props) => {
     const opts: WindowFeatures = {
-      ...Popup.defaultFeatures,
+      ...defaultFeatures,
       ...features,
     };
 
-    this.ref = this.props.window.open(
-      "",
-      title,
-      reconcileFeatures(this.props.window, opts)
-    );
+    ref = renderWindow.open("", title, reconcileFeatures(renderWindow, opts));
 
-    this.attemptSetCallbacks();
-    this.ref!.location.href = href;
-  }
+    attemptSetCallbacks();
+
+    ref.location.href = href;
+  };
 
   /**
    * attemptSetCallbacks will try to call setCallbacks wrapped in a try/catch
@@ -100,48 +94,48 @@ export class Popup extends Component<PopupProps> {
    * access to directly. This resolves that issue by swallowing the error here
    * and logging it.
    */
-  private attemptSetCallbacks() {
+  const attemptSetCallbacks = () => {
     try {
-      this.setCallbacks();
+      setCallbacks();
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
     }
-  }
+  };
 
-  private setCallbacks() {
-    if (!this.ref) {
+  const setCallbacks = () => {
+    if (!ref) {
       return;
     }
-    this.ref.onload = (e) => {
-      this.onLoad(e);
+    ref.onload = (e) => {
+      onLoad(e);
     };
 
-    this.ref.onfocus = (e) => {
-      this.onFocus(e);
+    ref.onfocus = (e) => {
+      onFocus(e);
     };
 
-    this.ref.onblur = (e) => {
-      this.onBlur(e);
+    ref.onblur = (e) => {
+      onBlur(e);
     };
 
     // Use `onunload` instead of `onbeforeunload` which is not supported in iOS
     // Safari.
-    this.ref.onunload = (e) => {
-      this.onUnload(e);
+    ref.onunload = (e) => {
+      onUnload(e);
 
-      if (this.resetCallbackInterval) {
-        clearInterval(this.resetCallbackInterval);
+      if (resetCallbackInterval) {
+        clearInterval(resetCallbackInterval);
       }
 
-      this.resetCallbackInterval = setInterval(() => {
+      resetCallbackInterval = setInterval(() => {
         try {
-          if (this.ref && this.ref.onload === null) {
-            if (this.resetCallbackInterval) {
-              clearInterval(this.resetCallbackInterval);
+          if (ref && ref.onload === null) {
+            if (resetCallbackInterval) {
+              clearInterval(resetCallbackInterval);
             }
-            this.resetCallbackInterval = null;
-            this.setCallbacks();
+            resetCallbackInterval = null;
+            setCallbacks();
           }
         } catch (err) {
           // We could be getting a security exception here if the login page
@@ -149,106 +143,108 @@ export class Popup extends Component<PopupProps> {
         }
       }, 50);
 
-      if (this.detectCloseInterval) {
-        clearInterval(this.detectCloseInterval);
+      if (detectCloseInterval) {
+        clearInterval(detectCloseInterval);
       }
 
-      this.detectCloseInterval = setInterval(() => {
-        if (!this.ref || this.ref.closed) {
-          if (this.detectCloseInterval) {
-            clearInterval(this.detectCloseInterval);
+      detectCloseInterval = setInterval(() => {
+        if (!ref || ref.closed) {
+          if (detectCloseInterval) {
+            clearInterval(detectCloseInterval);
           }
-          this.detectCloseInterval = null;
-          this.onClose();
+          detectCloseInterval = null;
+          onClose();
         }
       }, 50);
     };
-  }
+  };
 
-  private closeWindow() {
-    if (this.ref) {
-      if (!this.ref.closed) {
-        this.ref.close();
+  const closeWindow = () => {
+    if (ref) {
+      if (!ref.closed) {
+        ref.close();
       }
-      this.ref = null;
-    }
-  }
-
-  private focusWindow() {
-    if (this.ref && !this.ref.closed) {
-      this.ref.focus();
-    }
-  }
-
-  private blurWindow() {
-    if (this.ref && !this.ref.closed) {
-      this.ref.blur();
-    }
-  }
-
-  private onLoad = (e: Event) => {
-    if (this.props.onLoad) {
-      this.props.onLoad(e);
+      ref = null;
     }
   };
 
-  private onUnload = (e: Event) => {
-    if (this.props.onUnload) {
-      this.props.onUnload(e);
+  const focusWindow = () => {
+    if (ref && !ref.closed) {
+      ref.focus();
     }
   };
 
-  private onClose = () => {
-    if (this.props.onClose) {
-      this.props.onClose();
+  const blurWindow = () => {
+    if (ref && !ref.closed) {
+      ref.blur();
     }
   };
 
-  private onFocus = (e: FocusEvent) => {
-    if (this.props.onFocus) {
-      this.props.onFocus(e);
+  const onLoad = (e: Event) => {
+    if (props.onLoad) {
+      props.onLoad(e);
     }
   };
 
-  private onBlur = (e: FocusEvent) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
+  const onUnload = (e: Event) => {
+    if (props.onUnload) {
+      props.onUnload(e);
     }
   };
 
-  public UNSAFE_componentWillReceiveProps(nextProps: PopupProps) {
-    if (nextProps.open && !this.ref) {
-      this.openWindow(nextProps);
+  const onClose = () => {
+    if (props.onClose) {
+      props.onClose();
+    }
+  };
+
+  const onFocus = (e: FocusEvent) => {
+    if (props.onFocus) {
+      props.onFocus(e);
+    }
+  };
+
+  const onBlur = (e: FocusEvent) => {
+    if (props.onBlur) {
+      props.onBlur(e);
+    }
+  };
+
+  useEffect(() => {
+    if (props.open && !ref && !previousOpen) {
+      openWindow(props);
+    }
+    if (previousOpen && !props.open) {
+      closeWindow();
+    }
+  }, [props.open, openWindow, closeWindow]);
+
+  useEffect(() => {
+    if (!previousFocus && props.focus) {
+      focusWindow();
     }
 
-    if (this.props.open && !nextProps.open) {
-      this.closeWindow();
+    if (previousFocus && !props.focus) {
+      blurWindow();
     }
+  }, [props.focus, focusWindow, blurWindow]);
 
-    if (!this.props.focus && nextProps.focus) {
-      this.focusWindow();
+  useEffect(() => {
+    if (previousHref !== props.href && ref) {
+      ref.location.href = props.href;
     }
+  }, [props.href]);
 
-    if (this.props.focus && !nextProps.focus) {
-      this.blurWindow();
+  useEffect(() => {
+    if (props.open) {
+      openWindow(props);
     }
+    return () => {
+      closeWindow();
+    };
+  }, []);
 
-    if (this.props.href !== nextProps.href) {
-      this.ref!.location.href = nextProps.href;
-    }
-  }
+  return null;
+};
 
-  public componentWillUnmount() {
-    this.closeWindow();
-  }
-
-  public render() {
-    return null;
-  }
-}
-
-const enhanced = withUIContext(({ renderWindow }) => ({
-  window: renderWindow,
-}))(Popup);
-
-export default enhanced;
+export default Popup;
