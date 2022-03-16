@@ -84,7 +84,7 @@ const Popup: FunctionComponent<PopupProps> = (props) => {
 
     attemptSetCallbacks();
 
-    ref.location.href = href;
+    ref!.location.href = href;
   };
 
   /**
