@@ -3594,6 +3594,10 @@ type Comment @cacheControl(maxAge: 5) {
   """
   parentCount: Int!
 
+  """
+  allChildComments is a CommentsConnection that includes all comments that are
+  children of a comment (i.e. that have the comment included in their ancestorIDs)
+  """
   allChildComments(
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC

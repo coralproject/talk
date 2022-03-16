@@ -382,6 +382,12 @@ export type Settings = GlobalModerationSettings &
      */
     forReviewQueue?: boolean;
 
+    /**
+     * loadAllComments is whether or not all comments should be loaded in
+     * infinite scroll for the stream, or a Load all comments button should
+     * be shown after the initial comments. Show infinite scroll if true,
+     * load all comments if false.
+     */
     loadAllComments?: boolean;
   };
 

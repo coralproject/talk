@@ -472,7 +472,17 @@ export const retrieveCommentRepliesConnection = (
   });
 };
 
-export async function retrieveCommentAllChildCommentsConnectionModel(
+/**
+ * retrieveCommentAllChildCommentsConnection returns a Connection<Comment> for
+ * a given comment's child comments
+ *
+ * @param mongo database connection
+ * @param tenantID the tenant id
+ * @param storyID the id of the story the comment belongs to
+ * @param comment the comment to retrieve child comments of
+ * @param input connection configuration
+ */
+export async function retrieveCommentAllChildCommentsConnection(
   collection: Collection<Readonly<Comment>>,
   tenantID: string,
   comment: Comment,

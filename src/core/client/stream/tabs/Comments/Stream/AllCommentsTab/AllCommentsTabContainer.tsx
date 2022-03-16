@@ -293,7 +293,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           />
         )}
         {!alternateOldestViewEnabled && (
-          // TODO: Would need to update Top of comments link to scroll to top of comments
           <CommentsLinks
             showGoToDiscussions={showGoToDiscussions}
             showGoToProfile={!!viewer}
