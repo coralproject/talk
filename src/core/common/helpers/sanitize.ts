@@ -109,7 +109,6 @@ const sanitizeAnchor = (node: Element) => {
       href = href?.endsWith("/") ? href : (href += "/");
       innerHtml = innerHtml.endsWith("/") ? innerHtml : (innerHtml += "/");
     }
-
     // When the url is valid and the anchor tag's inner html matches its href
     if (
       !invalidURL &&
