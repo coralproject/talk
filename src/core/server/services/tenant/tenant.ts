@@ -2,7 +2,6 @@ import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
-import { pureMerge } from "coral-common/utils";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
@@ -66,28 +65,6 @@ function cleanWordLists(
   return list;
 }
 
-function migrateDeprecatedFields(
-  input: UpdateTenant,
-  tenant: Tenant
-): UpdateTenant {
-  if (!input.staff && !input.badges) {
-    return input;
-  }
-
-  // rename deprecated input
-  if (input.staff) {
-    input.badges = input.staff;
-    delete input.staff;
-  }
-
-  // possibly migrate deprecated fields
-  if (!tenant.badges) {
-    input.badges = pureMerge(tenant.staff, input.badges);
-  }
-
-  return input;
-}
-
 export async function update(
   mongo: MongoContext,
   redis: Redis,
@@ -113,16 +90,14 @@ export async function update(
     input.wordList = cleanWordLists(input.wordList);
   }
 
-  const migrated = migrateDeprecatedFields(input, tenant);
-
   // Whenever the settings are updated, log who performed the update and what
   // keys they updated.
   logger.info(
-    { update: Object.keys(migrated), userID: user.id, tenantID: tenant.id },
+    { update: Object.keys(input), userID: user.id, tenantID: tenant.id },
     "settings update audit"
   );
 
-  const updatedTenant = await updateTenant(mongo, tenant.id, migrated);
+  const updatedTenant = await updateTenant(mongo, tenant.id, input);
   if (!updatedTenant) {
     return null;
   }
