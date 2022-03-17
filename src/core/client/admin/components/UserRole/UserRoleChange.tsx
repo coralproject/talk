@@ -118,6 +118,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
   return (
     <>
       <SiteRoleModal
+        roleToBeSet={siteRole}
         username={username}
         open={showSiteRoleModal}
         selectedSiteIDs={siteRoleSiteIDs}
