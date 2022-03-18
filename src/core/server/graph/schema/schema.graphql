@@ -2141,6 +2141,12 @@ type Settings @cacheControl(maxAge: 30) {
   pre-moderating new users at a certain email domain
   """
   emailDomainModeration: [EmailDomain!]!
+
+  """
+  publicProfileURL is a string template for an external link to a user's
+  public profile.
+  """
+  publicProfileURL: String
 }
 
 ################################################################################
@@ -5553,6 +5559,12 @@ input SettingsInput {
   (European Directive 2000/31/CE).
   """
   forReviewQueue: Boolean
+
+  """
+  publicProfileURL is a string template for an external link to a user's
+  public profile.
+  """
+  publicProfileURL: String
 }
 
 """
@@ -9125,7 +9137,9 @@ type Mutation {
   Seen state is stored per user, per story. It will do nothing if the request is
   not issued with a valid logged in user token.
   """
-  markCommentsAsSeen(input: MarkCommentsAsSeenInput!): MarkCommentsAsSeenPayload!
+  markCommentsAsSeen(
+    input: MarkCommentsAsSeenInput!
+  ): MarkCommentsAsSeenPayload!
 }
 
 ##################
