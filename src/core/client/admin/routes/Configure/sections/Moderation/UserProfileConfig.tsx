@@ -3,7 +3,8 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { required } from "coral-framework/lib/validation";
+// import { required } from "coral-framework/lib/validation";
+import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
   FieldSet,
   Flex,
@@ -21,7 +22,7 @@ import styles from "./UserProfileConfig.css";
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment UserProfileConfig_formValues on Settings {
-    publicProfileURL
+    externalProfileURL
   }
 `;
 
@@ -34,24 +35,30 @@ const UserProfileConfig: FunctionComponent<Props> = ({ disabled }) => (
     title={
       // TODO: Localization
       // <Localized id="configure-general-staff-title">
-      <Header container={<legend />}>Public user profile link</Header>
+      <Header container={<legend />}>External links for moderators</Header>
       // </Localized>
     }
     container={<FieldSet />}
   >
     {/* <Localized id="configure-general-staff-explanation"> */}
     <FormFieldDescription>
-      External link to a user's public profile. May contain $USER_NAME to
-      replace with username or $USER_ID to replace with user ID.
+      When a URL format is included below, external profile links are added to
+      the user drawer inside the moderation interface. You can use the format
+      $USER_NAME to insert the username or $USER_ID to insert the user’s unique
+      ID number.
     </FormFieldDescription>
     {/* </Localized> */}
     {/* TODO: Add more validation */}
-    <Field name="publicProfileURL" validate={required}>
+    <Field
+      name="externalProfileURL"
+      parse={parseEmptyAsNull}
+      format={formatEmpty}
+    >
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>
             {/* <Localized id="configure-general-staff-admin-label"> */}
-            <Label>Public user profile URL pattern</Label>
+            <Label>External profile URL pattern</Label>
             {/* </Localized> */}
             {/* <Localized id="configure-general-staff-admin-input"> */}
             <TextFieldWithValidation
@@ -61,7 +68,7 @@ const UserProfileConfig: FunctionComponent<Props> = ({ disabled }) => (
               id={input.name}
               type="text"
               fullWidth
-              placeholder="https://sbnation.com/user/$USER_NAME"
+              placeholder="https://example.com/users/$USER_NAME"
               disabled={disabled}
               meta={meta}
             />

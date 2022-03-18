@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
@@ -12,6 +12,7 @@ import {
   Flex,
   HorizontalGutter,
   Icon,
+  TextLink,
   Tooltip,
   TooltipButton,
 } from "coral-ui/components/v2";
@@ -36,6 +37,20 @@ interface Props {
   setUserID?: (id: string) => void;
 }
 
+const formatExternalProfileURL = (
+  externalProfileURL: string | null,
+  username: string | null,
+  userID: string
+) => {
+  if (externalProfileURL?.includes("$USER_NAME") && username) {
+    return externalProfileURL.replace("$USER_NAME", username);
+  }
+  if (externalProfileURL?.includes("$USER_ID")) {
+    return externalProfileURL.replace("$USER_ID", userID);
+  }
+  return null;
+};
+
 const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
   settings,
   user,
@@ -48,6 +63,16 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
     day: "numeric",
     year: "numeric",
   });
+
+  const formattedExternalProfileURL = useMemo(
+    () =>
+      formatExternalProfileURL(
+        settings.externalProfileURL,
+        user.username,
+        user.id
+      ),
+    [settings.externalProfileURL, user.username, user.id]
+  );
 
   return (
     <>
@@ -159,6 +184,28 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
               <span className={styles.userDetailValue}>{user.id}</span>
               <CopyButton text={user.id} />
             </Flex>
+            {formattedExternalProfileURL && (
+              <Flex alignItems="center" spacing={2}>
+                {/* <Localized
+                id="moderate-user-drawer-member-id"
+                attrs={{ title: true }}
+              > */}
+                <Icon
+                  size="sm"
+                  className={styles.icon}
+                  title="External profile URL"
+                >
+                  people_outline
+                </Icon>
+                {/* </Localized> */}
+                {/* TODO: Add localizated to this as well */}
+                <span className={styles.userDetailValue}>
+                  <TextLink href={formattedExternalProfileURL} target="_blank">
+                    External profile URL
+                  </TextLink>
+                </span>
+              </Flex>
+            )}
           </HorizontalGutter>
         </HorizontalGutter>
         <MemberBioContainer user={user} />
@@ -200,6 +247,7 @@ const enhanced = withFragmentContainer<Props>({
       organization {
         name
       }
+      externalProfileURL
     }
   `,
   viewer: graphql`

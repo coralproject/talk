@@ -2143,10 +2143,10 @@ type Settings @cacheControl(maxAge: 30) {
   emailDomainModeration: [EmailDomain!]!
 
   """
-  publicProfileURL is a string template for an external link to a user's
-  public profile.
+  externalProfileURL is a string template for an link to a user's
+  external profile.
   """
-  publicProfileURL: String
+  externalProfileURL: String
 }
 
 ################################################################################
@@ -5561,10 +5561,10 @@ input SettingsInput {
   forReviewQueue: Boolean
 
   """
-  publicProfileURL is a string template for an external link to a user's
-  public profile.
+  externalProfileURL is a string template for a link to a user's
+  external profile.
   """
-  publicProfileURL: String
+  externalProfileURL: String
 }
 
 """

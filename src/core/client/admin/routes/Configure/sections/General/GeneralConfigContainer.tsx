@@ -24,7 +24,6 @@ import ReactionConfigContainer from "./ReactionConfigContainer";
 import RTEConfig from "./RTEConfig";
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
 import StaffConfig from "./StaffConfig";
-import UserProfileConfig from "./UserProfileConfig";
 
 import styles from "./GeneralConfigContainer.css";
 
@@ -59,7 +58,6 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <StaffConfig disabled={submitting} />
       <MemberBioConfig disabled={submitting} />
       <MediaLinksConfig disabled={submitting} />
-      <UserProfileConfig disabled={submitting} />
     </HorizontalGutter>
   );
 };
@@ -81,7 +79,6 @@ const enhanced = withFragmentContainer<Props>({
       ...RTEConfig_formValues @relay(mask: false)
       ...MediaLinksConfig_formValues @relay(mask: false)
       ...MemberBioConfig_formValues @relay(mask: false)
-      ...UserProfileConfig_formValues @relay(mask: false)
       ...ReactionConfigContainer_settings
     }
   `,
