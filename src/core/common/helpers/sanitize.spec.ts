@@ -159,6 +159,24 @@ it("does not replace anchor tags with their text if href does match inner html a
   `);
 });
 
+it("replaces anchor tags with their text if href is an invalid url and does not throw an error", () => {
+  const sanitize = createSanitize(window as any);
+  const el = sanitize(
+    `
+    <div>
+      <a href="/en-US/docs">This is an invalid url</a>.
+    </div>
+  `
+  );
+  expect(el.innerHTML).toMatchInlineSnapshot(`
+    "
+        <div>
+          This is an invalid url.
+        </div>
+      "
+  `);
+});
+
 it("allows bolded tags", () => {
   const sanitize = createSanitize(window as any, {
     features: {
