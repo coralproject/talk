@@ -2,17 +2,20 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { useField } from "react-final-form";
 
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import { Label } from "coral-ui/components/v2";
 
 import SiteSearch from "../SiteSearch";
-import SiteModeratorModalSelectedSiteQuery from "./SiteModeratorModalSelectedSiteQuery";
+import SiteRoleModalSelectedSiteQuery from "./SiteRoleModalSelectedSiteQuery";
 
 interface Props {
   selectedSiteIDs?: string[];
+  roleToBeSet: GQLUSER_ROLE_RL | null;
 }
 
-const SiteModeratorModalSites: FunctionComponent<Props> = ({
+const SiteRoleModalSites: FunctionComponent<Props> = ({
   selectedSiteIDs,
+  roleToBeSet,
 }) => {
   const [candidateSites, setCandidateSites] = useState<string[]>(
     selectedSiteIDs || []
@@ -45,7 +48,7 @@ const SiteModeratorModalSites: FunctionComponent<Props> = ({
 
       siteIDsInput.onChange(changed);
     },
-    [siteIDsInput]
+    [candidateSites, siteIDsInput]
   );
   const onToggle = useCallback(
     (siteID: string, checked: boolean) =>
@@ -55,13 +58,20 @@ const SiteModeratorModalSites: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Localized id="community-siteModeratorModal-selectSites">
-        <Label>Select sites to moderate</Label>
-      </Localized>
+      {roleToBeSet === GQLUSER_ROLE.MODERATOR && (
+        <Localized id="community-siteRoleModal-selectSites-siteModerator">
+          <Label>Select sites to moderate</Label>
+        </Localized>
+      )}
+      {roleToBeSet === GQLUSER_ROLE.MEMBER && (
+        <Localized id="community-siteRoleModal-selectSites-member">
+          <Label>Select sites for this user to be a member of</Label>
+        </Localized>
+      )}
       {candidateSites.map((siteID) => {
         const checked = siteIDsInput.value.includes(siteID);
         return (
-          <SiteModeratorModalSelectedSiteQuery
+          <SiteRoleModalSelectedSiteQuery
             key={siteID}
             siteID={siteID}
             checked={checked}
@@ -80,4 +90,4 @@ const SiteModeratorModalSites: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteModeratorModalSites;
+export default SiteRoleModalSites;

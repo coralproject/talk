@@ -108,6 +108,11 @@ exports[`renders community 1`] = `
                     >
                       Commenters
                     </option>
+                    <option
+                      value="MEMBER"
+                    >
+                      Members
+                    </option>
                   </optgroup>
                   <optgroup
                     label="Organization"
@@ -907,6 +912,11 @@ exports[`renders empty community 1`] = `
                       value="COMMENTER"
                     >
                       Commenters
+                    </option>
+                    <option
+                      value="MEMBER"
+                    >
+                      Members
                     </option>
                   </optgroup>
                   <optgroup

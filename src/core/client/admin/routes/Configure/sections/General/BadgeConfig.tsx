@@ -18,15 +18,16 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
-import styles from "./StaffConfig.css";
+import styles from "./BadgeConfig.css";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment StaffConfig_formValues on Settings {
-    staff {
+  fragment BadgeConfig_formValues on Settings {
+    badges {
       staffLabel
       adminLabel
       moderatorLabel
+      memberLabel
     }
   }
 `;
@@ -38,40 +39,43 @@ interface Props {
 const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
-      <Localized id="configure-general-staff-title">
-        <Header container={<legend />}>Staff member badge</Header>
+      <Localized id="configure-general-badges-title">
+        <Header container={<legend />}>Member badges</Header>
       </Localized>
     }
     container={<FieldSet />}
   >
-    <Localized id="configure-general-staff-explanation">
+    <Localized id="configure-general-badges-explanation">
       <FormFieldDescription>
-        Show a custom badge for staff members of your organization. This badge
-        appears on the comment stream and in the admin interface.
+        Show a custom badge for users with specified roles. This badge appears
+        on the comment stream and in the admin interface.
       </FormFieldDescription>
     </Localized>
-    <Field name="staff.adminLabel" validate={required}>
+    <Field name="badges.adminLabel" validate={required}>
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>
-            <Localized id="configure-general-staff-admin-label">
+            <Localized id="configure-general-badges-admin-label">
               <Label>Admin badge text</Label>
             </Localized>
-            <Localized id="configure-general-staff-admin-input">
+            <Localized
+              id="configure-general-badges-admin-input"
+              attrs={{ placeholder: true }}
+            >
               <TextFieldWithValidation
                 {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 fullWidth
-                placeholder="E.g. Staff"
+                placeholder="E.g. Admin"
                 disabled={disabled}
                 meta={meta}
               />
             </Localized>
           </FormField>
           <HorizontalGutter>
-            <Localized id="configure-general-staff-admin-preview">
+            <Localized id="configure-general-badges-preview">
               <Label component="p">Preview</Label>
             </Localized>
             {input.value && <Tag>{input.value}</Tag>}
@@ -79,28 +83,31 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Flex>
       )}
     </Field>
-    <Field name="staff.moderatorLabel" validate={required}>
+    <Field name="badges.moderatorLabel" validate={required}>
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>
-            <Localized id="configure-general-staff-moderator-label">
+            <Localized id="configure-general-badges-moderator-label">
               <Label>Moderator badge text</Label>
             </Localized>
-            <Localized id="configure-general-staff-moderator-input">
+            <Localized
+              id="configure-general-badges-moderator-input"
+              attrs={{ placeholder: true }}
+            >
               <TextFieldWithValidation
                 {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 fullWidth
-                placeholder="E.g. Staff"
+                placeholder="E.g. Moderator"
                 disabled={disabled}
                 meta={meta}
               />
             </Localized>
           </FormField>
           <HorizontalGutter>
-            <Localized id="configure-general-staff-moderator-preview">
+            <Localized id="configure-general-badges-preview">
               <Label component="p">Preview</Label>
             </Localized>
             {input.value && <Tag>{input.value}</Tag>}
@@ -108,14 +115,17 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Flex>
       )}
     </Field>
-    <Field name="staff.staffLabel" validate={required}>
+    <Field name="badges.staffLabel" validate={required}>
       {({ input, meta }) => (
         <Flex itemGutter="double">
           <FormField>
-            <Localized id="configure-general-staff-member-label">
+            <Localized id="configure-general-badges-staff-member-label">
               <Label>Staff member badge text</Label>
             </Localized>
-            <Localized id="configure-general-staff-input">
+            <Localized
+              id="configure-general-badges-staff-member-input"
+              attrs={{ placeholder: true }}
+            >
               <TextFieldWithValidation
                 {...input}
                 className={styles.textInput}
@@ -129,7 +139,39 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
             </Localized>
           </FormField>
           <HorizontalGutter>
-            <Localized id="configure-general-staff-preview">
+            <Localized id="configure-general-badges-preview">
+              <Label component="p">Preview</Label>
+            </Localized>
+            {input.value && <Tag>{input.value}</Tag>}
+          </HorizontalGutter>
+        </Flex>
+      )}
+    </Field>
+    <Field name="badges.memberLabel" validate={required}>
+      {({ input, meta }) => (
+        <Flex itemGutter="double">
+          <FormField>
+            <Localized id="configure-general-badges-member-label">
+              <Label>Member badge text</Label>
+            </Localized>
+            <Localized
+              id="configure-general-badges-member-input"
+              attrs={{ placeholder: true }}
+            >
+              <TextFieldWithValidation
+                {...input}
+                className={styles.textInput}
+                id={input.name}
+                type="text"
+                fullWidth
+                placeholder="E.g. Member"
+                disabled={disabled}
+                meta={meta}
+              />
+            </Localized>
+          </FormField>
+          <HorizontalGutter>
+            <Localized id="configure-general-badges-preview">
               <Label component="p">Preview</Label>
             </Localized>
             {input.value && <Tag>{input.value}</Tag>}
