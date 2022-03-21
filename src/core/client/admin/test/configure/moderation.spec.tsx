@@ -1,6 +1,6 @@
-import sinon from "sinon";
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLMODERATION_MODE, GQLResolver } from "coral-framework/schema";
@@ -779,4 +779,64 @@ it("deletes email domains from configuration", async () => {
   });
 
   window.confirm = origConfirm;
+});
+
+it("change external links for moderators", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.externalProfileURL).toEqual(
+          "https://example.com/users/$USER_NAME"
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { context } = await createTestRenderer({
+    resolvers,
+  });
+  customRenderAppWithContext(context);
+
+  const moderationContainer = await screen.findByTestId(
+    "configure-moderationContainer"
+  );
+  const externalProfileURLPatternField = within(
+    moderationContainer
+  ).getByLabelText("External profile URL pattern");
+  userEvent.type(
+    externalProfileURLPatternField,
+    "https://example.com/random/invalid-url"
+  );
+  const saveChangesButton = screen.getByRole("button", {
+    name: "Save Changes",
+  });
+  userEvent.click(saveChangesButton);
+
+  // See validation error with invalid url format
+  expect(
+    within(moderationContainer).queryAllByText(
+      "All external profile URL patterns must contain either $USER_NAME or $USER_ID."
+    ).length
+  ).toBe(1);
+
+  userEvent.clear(externalProfileURLPatternField);
+  userEvent.type(
+    externalProfileURLPatternField,
+    "https://example.com/users/$USER_NAME"
+  );
+  userEvent.click(saveChangesButton);
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton).toBeDisabled();
+  expect(externalProfileURLPatternField).toBeDisabled();
+
+  // Wait for submission to be finished
+  await waitFor(() => {
+    expect(externalProfileURLPatternField).not.toBeDisabled();
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });

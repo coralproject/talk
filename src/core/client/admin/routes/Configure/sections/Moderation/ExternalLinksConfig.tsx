@@ -57,7 +57,9 @@ const ExternalLinksConfig: FunctionComponent<Props> = ({ disabled }) => (
         <Flex itemGutter="double">
           <FormField>
             <Localized id="configure-moderation-externalLinks-profile-label">
-              <Label>External profile URL pattern</Label>
+              <Label htmlFor="externalProfileURL">
+                External profile URL pattern
+              </Label>
             </Localized>
             <Localized id="configure-moderation-externalLinks-profile-input">
               <TextFieldWithValidation
