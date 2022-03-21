@@ -20,6 +20,7 @@ import {
   INVALID_EMAIL,
   INVALID_EMAIL_DOMAIN,
   INVALID_MEDIA_URL,
+  INVALID_STRING_TEMPLATE,
   INVALID_URL,
   INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION,
   NOT_A_WHOLE_NUMBER,
@@ -116,6 +117,23 @@ export const validateURL = createValidator(
   (v) => !v || URL_REGEX.test(v),
   INVALID_URL()
 );
+
+/**
+ * validateStringTemplate is a Validator that checks that the string contains at least
+ * one of any expected variables.
+ */
+export const validateStringTemplate = (variables: string[]) =>
+  createValidator((v) => {
+    if (v === null) {
+      return true;
+    }
+    for (const variable of variables) {
+      if (v && v.includes("$" + variable)) {
+        return true;
+      }
+    }
+    return false;
+  }, INVALID_STRING_TEMPLATE());
 
 /**
  * validateMinLength is a Validator that checks that the field has a min length of characters
