@@ -7,6 +7,7 @@ import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
   Button,
   CallOut,
@@ -20,20 +21,22 @@ import {
 import ModalBodyText from "../ModalBodyText";
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
-import SiteModeratorModalSites from "./SiteModeratorModalSites";
+import SiteRoleModalSites from "./SiteRoleModalSites";
 
-import styles from "./SiteModeratorModal.css";
+import styles from "./SiteRoleModal.css";
 
 interface Props {
   username: string | null;
+  roleToBeSet: GQLUSER_ROLE_RL | null;
   open: boolean;
   onCancel: () => void;
   onFinish: (siteIDs: string[]) => Promise<void>;
   selectedSiteIDs?: string[];
 }
 
-const SiteModeratorModal: FunctionComponent<Props> = ({
+const SiteRoleModal: FunctionComponent<Props> = ({
   username,
+  roleToBeSet,
   open,
   onFinish,
   onCancel,
@@ -62,7 +65,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
       open={open}
       onClose={onCancel}
       disableScroll
-      data-testid="site-moderator-modal"
+      data-testid="site-role-modal"
     >
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
@@ -78,7 +81,7 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                 <form onSubmit={handleSubmit}>
                   <HorizontalGutter spacing={3}>
                     <Localized
-                      id="community-siteModeratorModal-assignSites"
+                      id="community-siteRoleModal-assignSites"
                       strong={<ModalHeaderUsername />}
                       $username={username || notAvailableTranslation}
                     >
@@ -92,28 +95,39 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
                         {submitError}
                       </CallOut>
                     )}
-                    <Localized id="community-siteModeratorModal-assignSitesDescription">
-                      <ModalBodyText>
-                        Site moderators are permitted to make moderation
-                        decisions and issue suspensions on the sites they are
-                        assigned.
-                      </ModalBodyText>
-                    </Localized>
-                    <SiteModeratorModalSites
+                    {roleToBeSet === GQLUSER_ROLE.MODERATOR && (
+                      <Localized id="community-siteRoleModal-assignSitesDescription-siteModerator">
+                        <ModalBodyText>
+                          Site moderators are permitted to make moderation
+                          decisions and issue suspensions on the sites they are
+                          assigned.
+                        </ModalBodyText>
+                      </Localized>
+                    )}
+                    {roleToBeSet === GQLUSER_ROLE.MEMBER && (
+                      <Localized id="community-membersArePermitted">
+                        <ModalBodyText>
+                          Members are permitted to receive a badge on the sites
+                          they are assigned.
+                        </ModalBodyText>
+                      </Localized>
+                    )}
+                    <SiteRoleModalSites
                       selectedSiteIDs={selectedSiteIDs}
+                      roleToBeSet={roleToBeSet}
                     />
                     <Flex justifyContent="flex-end" itemGutter="half">
-                      <Localized id="community-siteModeratorModal-cancel">
+                      <Localized id="community-siteRoleModal-cancel">
                         <Button variant="flat" onClick={onCancel}>
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="community-siteModeratorModal-assign">
+                      <Localized id="community-siteRoleModal-assign">
                         <Button
                           type="submit"
                           disabled={submitting || values.siteIDs.length === 0}
                           ref={lastFocusableRef}
-                          data-testid="site-moderator-modal-submitButton"
+                          data-testid="site-role-modal-submitButton"
                         >
                           Assign
                         </Button>
@@ -130,4 +144,4 @@ const SiteModeratorModal: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteModeratorModal;
+export default SiteRoleModal;

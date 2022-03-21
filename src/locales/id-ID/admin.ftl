@@ -1386,8 +1386,8 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Ganti peran
 
-community-assignMySites = Tetapkan situs saya
-community-removeMySites = Hapus situs saya
+community-assignMySitesToModerator = Tetapkan situs saya
+community-removeMySitesFromModerator = Hapus situs saya
 community-stillHaveSiteModeratorPrivileges = Mereka akan tetap memiliki hak istimewa Moderator Situs untuk:
 community-userNoLongerPermitted = Pengguna tidak akan lagi diizinkan membuat keputusan moderasi atau menetapkan penangguhan pada:
 community-assignThisUser = Tetapkan pengguna ini ke
@@ -1416,7 +1416,7 @@ community-column-status = Status
 community-role-popover =
   .description = Tarik turun untuk mengubah peran pengguna
 
-community-siteModeratorActions-popover =
+community-siteRoleActions-popover =
   .description = Tarik turun untuk mempromosikan/menurunkan pengguna ke/dari situs
 
 community-userStatus-popover =
@@ -1480,15 +1480,15 @@ community-premodModal-consequence =
 community-premodModal-cancel = Batalkan
 community-premodModal-premodUser = Ya, selalu pra-moderat
 
-community-siteModeratorModal-assignSites =
+community-siteRoleModal-assignSites =
   Tetapkan situs untuk <strong>{ $username }</strong>
-community-siteModeratorModal-assignSitesDescription =
+community-siteRoleModal-assignSitesDescription-siteModerator =
   Moderator situs diizinkan untuk membuat keputusan moderasi dan mengeluarkan penangguhan di situs yang ditetapkan kepada mereka.
-community-siteModeratorModal-cancel = Batal
-community-siteModeratorModal-assign = Tetapkan
-community-siteModeratorModal-remove = Hapus
-community-siteModeratorModal-selectSites = Pilih situs untuk moderasi
-community-siteModeratorModal-noSites = Tidak ada situs
+community-siteRoleModal-cancel = Batal
+community-siteRoleModal-assign = Tetapkan
+community-siteRoleModal-remove = Hapus
+community-siteRoleModal-selectSites-siteModerator = Pilih situs untuk moderasi
+community-siteRoleModal-noSites = Tidak ada situs
 
 community-invite-inviteMember = Undang anggota ke organisasi Anda
 community-invite-emailAddressLabel = Alamat email:
@@ -1611,23 +1611,23 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Pratinjau
 configure-general-reaction-sortMenu-sortBy = Urut berdasarkan
 
-configure-general-staff-title = Lencana anggota staf
-configure-general-staff-explanation =
+configure-general-badges-title = Lencana anggota staf
+configure-general-badges-explanation =
   Tunjukkan sebuah lambang khusus untuk anggota staf organisasi Anda. Lencana khusus untuk anggota staf organisasi Anda. Lencana ini
   muncul dalam aliran komentar dan pada antarmuka admin.
-configure-general-staff-label = Teks lencana
-configure-general-staff-input =
+configure-general-badges-label = Teks lencana
+configure-general-badges-input =
   .placeholder = Misalnya Staf
-configure-general-staff-moderator-input =
+configure-general-badges-moderator-input =
   .placeholder = Misalnya Moderator
-configure-general-staff-admin-input =
+configure-general-badges-admin-input =
   .placeholder = Misalnya Admin
-configure-general-staff-preview = Pratinjau
-configure-general-staff-moderator-preview = Pratinjau
+configure-general-badges-preview = Pratinjau
+configure-general-badges-moderator-preview = Pratinjau
 configure-general-staff-admin-preview = Pratinjau
-configure-general-staff-member-label = Teks lencana anggota Staf
-configure-general-staff-admin-label = Teks lencana Admin
-configure-general-staff-moderator-label = Teks lencana Moderator
+configure-general-badges-staff-member-label = Teks lencana anggota Staf
+configure-general-badges-admin-label = Teks lencana Admin
+configure-general-badges-moderator-label = Teks lencana Moderator
 
 configure-general-rte-title = Komentar teks kaya
 configure-general-rte-express = Beri komunitas Anda lebih banyak cara untuk mengekspresikan diri mereka di luar teks sederhana dengan format teks kaya.

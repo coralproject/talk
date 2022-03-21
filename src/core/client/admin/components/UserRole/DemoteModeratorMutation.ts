@@ -7,17 +7,17 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { PromoteUserMutation as MutationTypes } from "coral-admin/__generated__/PromoteUserMutation.graphql";
+import { DemoteModeratorMutation as MutationTypes } from "coral-admin/__generated__/DemoteModeratorMutation.graphql";
 
 let clientMutationId = 0;
 
-const PromoteUserMutation = createMutation(
-  "promoteUser",
+const DemoteModeratorMutation = createMutation(
+  "demoteModerator",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation PromoteUserMutation($input: PromoteUserInput!) {
-          promoteUser(input: $input) {
+        mutation DemoteModeratorMutation($input: DemoteModeratorInput!) {
+          demoteModerator(input: $input) {
             user {
               id
               role
@@ -42,4 +42,4 @@ const PromoteUserMutation = createMutation(
     })
 );
 
-export default PromoteUserMutation;
+export default DemoteModeratorMutation;
