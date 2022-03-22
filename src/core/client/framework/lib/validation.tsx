@@ -126,7 +126,13 @@ export const validateExternalProfileURL = createValidator((v) => {
   if (v === null) {
     return true;
   }
-  if (v && (v.includes("$USER_NAME") || v.includes("$USER_ID"))) {
+  const includesUserName = v.includes("$USER_NAME");
+  const includesUserId = v.includes("$USER_ID");
+  if (
+    v &&
+    ((includesUserName && !includesUserId) ||
+      (includesUserId && !includesUserName))
+  ) {
     return true;
   }
   return false;
