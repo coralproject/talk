@@ -49,6 +49,20 @@ const createTestRenderer = async (
   return { context };
 };
 
+it("user drawer is open and user name is visible", async () => {
+  const { context } = await createTestRenderer();
+  customRenderAppWithContext(context);
+  await screen.findByTestId("community-container");
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
+  const isabelleUserHistory = await screen.findByTestId(
+    "userHistoryDrawer-modal"
+  );
+  expect(
+    within(isabelleUserHistory).queryByText("Isabelle")
+  ).toBeInTheDocument();
+});
+
 it("opens user drawer and shows external profile url link when has feature flag and configured", async () => {
   const settingsOverride = settings;
   settingsOverride.featureFlags = [
@@ -59,10 +73,12 @@ it("opens user drawer and shows external profile url link when has feature flag 
   customRenderAppWithContext(context);
 
   await screen.findByTestId("community-container");
-  const isabelle = screen.getAllByRole("button", { name: "Isabelle" })[0];
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
   userEvent.click(isabelle);
 
-  const isabelleUserHistory = screen.getByTestId("userHistoryDrawer-modal");
+  const isabelleUserHistory = await screen.findByTestId(
+    "userHistoryDrawer-modal"
+  );
   const externalProfileURLLink = await within(isabelleUserHistory).findByRole(
     "link"
   );
@@ -82,9 +98,11 @@ it("opens user drawer and does not show external profile url link when doesn't h
   customRenderAppWithContext(context);
 
   await screen.findByTestId("community-container");
-  const isabelle = screen.getAllByRole("button", { name: "Isabelle" })[0];
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
   userEvent.click(isabelle);
 
-  const isabelleUserHistory = screen.getByTestId("userHistoryDrawer-modal");
+  const isabelleUserHistory = await screen.findByTestId(
+    "userHistoryDrawer-modal"
+  );
   expect(within(isabelleUserHistory).queryByRole("link")).toBeNull();
 });
