@@ -58,7 +58,7 @@ const createTestRenderer = async (
   return { context };
 };
 
-it("user drawer is open and user name is visible", async () => {
+it("user drawer is open and both user name and user id are visible", async () => {
   const { context } = await createTestRenderer();
   customRenderAppWithContext(context);
   await screen.findByTestId("community-container");
@@ -69,6 +69,9 @@ it("user drawer is open and user name is visible", async () => {
   );
   expect(
     within(isabelleUserHistory).queryByText("Isabelle")
+  ).toBeInTheDocument();
+  expect(
+    within(isabelleUserHistory).queryByText(users.commenters[0].id)
   ).toBeInTheDocument();
 });
 
