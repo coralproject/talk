@@ -454,7 +454,6 @@ it("change new commenter approval settings on single site tenant", async () => {
   const moderationContainer = await screen.findByTestId(
     "configure-moderationContainer"
   );
-  // TODO: Can just write names as strings?
   const enableNewCommenterApproval = within(moderationContainer).getAllByRole(
     "group",
     {
