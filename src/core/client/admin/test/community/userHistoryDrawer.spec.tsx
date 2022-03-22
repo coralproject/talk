@@ -185,7 +185,7 @@ it("select rejected comments, rejected comment is visible", async () => {
   const isabelleUserHistory = await screen.findByTestId(
     "userHistoryDrawer-modal"
   );
-  const rejectedCommentsTab = await within(isabelleUserHistory).queryAllByRole(
+  const rejectedCommentsTab = within(isabelleUserHistory).queryAllByRole(
     "tab"
   )[1];
   userEvent.click(rejectedCommentsTab);

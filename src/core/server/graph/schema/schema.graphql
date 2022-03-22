@@ -2149,7 +2149,7 @@ type Settings @cacheControl(maxAge: 30) {
   emailDomainModeration: [EmailDomain!]!
 
   """
-  externalProfileURL is a string template for an link to a user's
+  externalProfileURL is a string template for a link to a user's
   external profile.
   """
   externalProfileURL: String

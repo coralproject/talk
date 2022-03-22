@@ -36,7 +36,7 @@ framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try aga
 framework-validation-invalidWebhookEndpointEventSelection = Select at least one event to receive.
 framework-validation-media-url-invalid = Please enter a valid image URL (.png, .jpg, or .gif)
 framework-validation-invalidEmailDomain = Invalid email domain format. Please use "email.com"
-framework-validation-invalidStringTemplate = All external profile URL patterns must contain either $USER_NAME or $USER_ID.
+framework-validation-invalidExternalProfileURL = All external profile URL patterns must contain either $USER_NAME or $USER_ID.
 
 framework-timeago-just-now = Just now
 

@@ -130,8 +130,8 @@ export const INVALID_MEDIA_URL = () => (
   </Localized>
 );
 
-export const INVALID_STRING_TEMPLATE = () => (
-  <Localized id="framework-validation-invalidStringTemplate">
+export const INVALID_EXTERNAL_PROFILE_URL = () => (
+  <Localized id="framework-validation-invalidExternalProfileURL">
     <span>
       All external profile URL patterns must contain either $USER_NAME or
       $USER_ID.

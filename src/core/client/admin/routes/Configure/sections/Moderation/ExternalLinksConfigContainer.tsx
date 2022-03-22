@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { validateStringTemplate } from "coral-framework/lib/validation";
+import { validateExternalProfileURL } from "coral-framework/lib/validation";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import {
   FieldSet,
@@ -62,7 +62,7 @@ const ExternalLinksConfigContainer: FunctionComponent<Props> = ({
         name="externalProfileURL"
         parse={parseEmptyAsNull}
         format={formatEmpty}
-        validate={validateStringTemplate(["USER_NAME", "USER_ID"])}
+        validate={validateExternalProfileURL}
       >
         {({ input, meta }) => (
           <Flex itemGutter="double">
