@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
@@ -11,7 +11,15 @@ import {
 
 import { createContext } from "../create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
-import { communityUsers, settings, siteConnection, users } from "../fixtures";
+import {
+  communityUsers,
+  rejectedComments,
+  settings,
+  settingsWithMultisite,
+  siteConnection,
+  unmoderatedComments,
+  users,
+} from "../fixtures";
 
 const viewer = users.admins[0];
 
@@ -21,7 +29,8 @@ beforeEach(async () => {
 
 const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {},
-  settingsOverride?: any
+  settingsOverride?: any,
+  usersOverride?: any
 ) => {
   const { context } = createContext({
     ...params,
@@ -31,7 +40,7 @@ const createTestRenderer = async (
           settings: () => (settingsOverride ? settingsOverride : settings),
           users: ({ variables }) => {
             expectAndFail(variables.role).toBeFalsy();
-            return communityUsers;
+            return usersOverride ? usersOverride : communityUsers;
           },
           user: () => users.commenters[0],
           viewer: () => viewer,
@@ -93,6 +102,7 @@ it("opens user drawer and shows external profile url link when has feature flag 
 
 it("opens user drawer and does not show external profile url link when doesn't have feature flag", async () => {
   const settingsOverride = settings;
+  settingsOverride.featureFlags = [];
   settingsOverride.externalProfileURL = "https://example.com/users/$USER_NAME";
   const { context } = await createTestRenderer({}, settingsOverride);
   customRenderAppWithContext(context);
@@ -105,4 +115,85 @@ it("opens user drawer and does not show external profile url link when doesn't h
     "userHistoryDrawer-modal"
   );
   expect(within(isabelleUserHistory).queryByRole("link")).toBeNull();
+});
+
+it("all comments selected, comment is visible in all comments", async () => {
+  const usersOverride = communityUsers;
+  usersOverride.edges[5].node.allComments = {
+    edges: [
+      {
+        node: unmoderatedComments[0],
+        cursor: unmoderatedComments[0].createdAt,
+      },
+    ],
+    nodes: [],
+    pageInfo: {
+      hasPreviousPage: false,
+      hasNextPage: false,
+    },
+  };
+  const { context } = await createTestRenderer(
+    {},
+    settingsWithMultisite,
+    usersOverride
+  );
+  customRenderAppWithContext(context);
+
+  await screen.findByTestId("community-container");
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
+
+  const isabelleUserHistory = await screen.findByTestId(
+    "userHistoryDrawer-modal"
+  );
+  expect(
+    within(isabelleUserHistory).queryByText(
+      "Isabelle has not submitted any comments."
+    )
+  ).toBeNull();
+  expect(
+    within(isabelleUserHistory).queryByText("This is an unmoderated comment.")
+  ).toBeInTheDocument();
+});
+
+it("select rejected comments, rejected comment is visible", async () => {
+  const usersOverride = communityUsers;
+  usersOverride.edges[5].node.rejectedComments = {
+    edges: [
+      {
+        node: rejectedComments[0],
+        cursor: rejectedComments[0].createdAt,
+      },
+    ],
+    nodes: [],
+    pageInfo: {
+      hasPreviousPage: false,
+      hasNextPage: false,
+    },
+  };
+  const { context } = await createTestRenderer(
+    {},
+    settingsWithMultisite,
+    usersOverride
+  );
+  customRenderAppWithContext(context);
+
+  await screen.findByTestId("community-container");
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
+
+  const isabelleUserHistory = await screen.findByTestId(
+    "userHistoryDrawer-modal"
+  );
+  const rejectedCommentsTab = await within(isabelleUserHistory).queryAllByRole(
+    "tab"
+  )[1];
+  userEvent.click(rejectedCommentsTab);
+  await waitFor(() => {
+    expect(
+      within(isabelleUserHistory).queryByText(
+        "This is the last random sentence I will be writing and I am going to stop mid-sent"
+      )
+    ).toBeInTheDocument();
+  });
 });
