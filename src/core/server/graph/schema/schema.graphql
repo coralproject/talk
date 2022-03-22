@@ -555,6 +555,12 @@ enum FEATURE_FLAG {
   Z_KEY will allow Z key traversal and the mobile toolbar.
   """
   Z_KEY
+
+  """
+  CONFIGURE_PUBLIC_PROFILE_URL will allow configuration in the admin of a link to
+  an external profile for a user.
+  """
+  CONFIGURE_PUBLIC_PROFILE_URL
 }
 
 # The moderation mode of the site.
