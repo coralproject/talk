@@ -74,3 +74,17 @@ it("opens user drawer and shows external profile url link when has feature flag 
   );
   expect(externalProfileURLLink).toHaveAttribute("target", "_blank");
 });
+
+it("opens user drawer and does not show external profile url link when doesn't have feature flag", async () => {
+  const settingsOverride = settings;
+  settingsOverride.externalProfileURL = "https://example.com/users/$USER_NAME";
+  const { context } = await createTestRenderer({}, settingsOverride);
+  customRenderAppWithContext(context);
+
+  await screen.findByTestId("community-container");
+  const isabelle = screen.getAllByRole("button", { name: "Isabelle" })[0];
+  userEvent.click(isabelle);
+
+  const isabelleUserHistory = screen.getByTestId("userHistoryDrawer-modal");
+  expect(within(isabelleUserHistory).queryByRole("link")).toBeNull();
+});
