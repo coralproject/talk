@@ -202,16 +202,16 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                       people_outline
                     </Icon>
                   </Localized>
-                  <Localized id="moderate-user-drawer-external-profile-URL-link">
-                    <span className={styles.userDetailValue}>
-                      <TextLink
-                        href={formattedExternalProfileURL}
-                        target="_blank"
-                      >
-                        External profile URL
-                      </TextLink>
-                    </span>
-                  </Localized>
+                  <span className={styles.userDetailValue}>
+                    <TextLink
+                      href={formattedExternalProfileURL}
+                      target="_blank"
+                    >
+                      <Localized id="moderate-user-drawer-external-profile-URL-link">
+                        <span>External profile URL</span>
+                      </Localized>
+                    </TextLink>
+                  </span>
                 </Flex>
               )}
           </HorizontalGutter>

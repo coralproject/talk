@@ -504,6 +504,17 @@ export const users = {
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
         recentCommentHistory,
+        moderatorNotes: [],
+        allComments: {
+          edges: [],
+          nodes: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            startCursor: null,
+            endCursor: null,
+          },
+        },
       },
       {
         id: "user-commenter-1",
