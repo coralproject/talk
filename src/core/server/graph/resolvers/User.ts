@@ -64,6 +64,13 @@ export const User: GQLUserTypeResolver<user.User> = {
     // For all other users return null for moderation scopes.
     return moderationScopes;
   },
+  membershipScopes: ({ role, membershipScopes }, input, ctx) => {
+    if (role !== GQLUSER_ROLE.MEMBER) {
+      return null;
+    }
+
+    return membershipScopes;
+  },
   ignoredUsers: ({ ignoredUsers }, input, ctx, info) =>
     maybeLoadOnlyExistingIgnoredUsers(ctx, info, ignoredUsers),
   ignoreable: ({ role }) => !roleIsStaff(role),

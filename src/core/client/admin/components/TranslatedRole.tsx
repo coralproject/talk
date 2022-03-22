@@ -29,6 +29,12 @@ const TranslatedRole: React.FunctionComponent<Props> = (props) => {
           {createElement(props.container!, "Commenter")}
         </Localized>
       );
+    case GQLUSER_ROLE.MEMBER:
+      return (
+        <Localized id="role-member">
+          {createElement(props.container!, "Member")}
+        </Localized>
+      );
     case GQLUSER_ROLE.ADMIN:
       return (
         <Localized id="role-admin">

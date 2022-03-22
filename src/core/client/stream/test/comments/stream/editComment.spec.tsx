@@ -207,7 +207,7 @@ it("shows expiry message", async () => {
   act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
 
   timekeeper.reset();
-  jest.runOnlyPendingTimers();
+  act(() => jest.runOnlyPendingTimers());
 
   // Show edit time expired.
   expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");

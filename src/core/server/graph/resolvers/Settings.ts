@@ -40,4 +40,15 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
+  badges: ({ badges, staff }, args, ctx) => {
+    const badgeConfig = badges || staff;
+
+    return badgeConfig;
+  },
+  staff: ({ staff, badges }, args, ctx) => {
+    // Default to new badges config if present
+    const deprecated = badges || staff;
+
+    return deprecated;
+  },
 };

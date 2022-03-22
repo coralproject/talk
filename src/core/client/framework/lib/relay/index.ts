@@ -1,7 +1,6 @@
 export { default as withFragmentContainer } from "./withFragmentContainer";
 export { default as withPaginationContainer } from "./withPaginationContainer";
 export { default as withRefetchContainer } from "./withRefetchContainer";
-export { default as withLocalStateContainer } from "./withLocalStateContainer";
 export { default as QueryRenderer } from "./QueryRenderer";
 export * from "./QueryRenderer";
 export { default as createMutationContainer } from "./createMutationContainer";
@@ -28,7 +27,6 @@ export {
   createFetch,
   FetchVariables,
   FetchProp,
-  withFetch,
   useFetch,
 } from "./fetch";
 export { default as useRefetch } from "./useRefetch";

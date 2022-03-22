@@ -60,11 +60,12 @@ export const settings = createFixture<GQLSettings>({
     timeout: 604800,
     message: "Comments are closed on this story.",
   },
-  staff: {
+  badges: {
     label: "Staff",
     staffLabel: "Staff",
     moderatorLabel: "Staff",
     adminLabel: "Staff",
+    memberLabel: "Member",
   },
   memberBios: true,
   reaction: {
@@ -195,6 +196,10 @@ export const settings = createFixture<GQLSettings>({
   newCommenters: {
     premodEnabled: false,
     approvedCommentsThreshold: 2,
+    moderation: {
+      mode: GQLMODERATION_MODE.POST,
+      premodSites: [],
+    },
   },
   premoderateSuspectWords: false,
   media: {

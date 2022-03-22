@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
@@ -24,15 +24,13 @@ import RotateSigningSecretModal from "./RotateSigningSecretModal";
 
 interface Props {
   phase: ExternalModerationPhaseDangerZone_phase;
-  router: Router;
-  match: Match;
 }
 
 const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
   phase,
-  router,
 }) => {
   const { localeBundles } = useCoralContext();
+  const { router } = useRouter();
   const enableExternalModerationPhase = useMutation(
     EnableExternalModerationPhaseMutation
   );
@@ -174,15 +172,13 @@ const ExternalModerationPhaseDangerZone: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withRouter(
-  withFragmentContainer<Props>({
-    phase: graphql`
-      fragment ExternalModerationPhaseDangerZone_phase on ExternalModerationPhase {
-        id
-        enabled
-      }
-    `,
-  })(ExternalModerationPhaseDangerZone)
-);
+const enhanced = withFragmentContainer<Props>({
+  phase: graphql`
+    fragment ExternalModerationPhaseDangerZone_phase on ExternalModerationPhase {
+      id
+      enabled
+    }
+  `,
+})(ExternalModerationPhaseDangerZone);
 
 export default enhanced;
