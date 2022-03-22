@@ -3,7 +3,11 @@ import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
-import { GQLMODERATION_MODE, GQLResolver } from "coral-framework/schema";
+import {
+  GQLFEATURE_FLAG,
+  GQLMODERATION_MODE,
+  GQLResolver,
+} from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -782,6 +786,10 @@ it("deletes email domains from configuration", async () => {
 });
 
 it("change external links for moderators", async () => {
+  const settingsOverride = settings;
+  settingsOverride.featureFlags = [
+    GQLFEATURE_FLAG.CONFIGURE_PUBLIC_PROFILE_URL,
+  ];
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
@@ -794,9 +802,12 @@ it("change external links for moderators", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer({
-    resolvers,
-  });
+  const { context } = await createTestRenderer(
+    {
+      resolvers,
+    },
+    settingsOverride
+  );
   customRenderAppWithContext(context);
 
   const moderationContainer = await screen.findByTestId(
