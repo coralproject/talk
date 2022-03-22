@@ -50,7 +50,7 @@ comments-stream-loadMore = Mehr laden
 comments-allCommentsTab = Alle Kommentare
 comments-featuredTab = Ausgewählt
 comments-counter-shortNum = { SHORT_NUMBER($count) }
-comments-watchers 
+comments-watchers =
   { $count ->
     [one] 1 Person, die diese Diskussion verfolgt
     *[other] { SHORT_NUMBER($count) } Personen, die diese Diskussion sehen
