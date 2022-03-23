@@ -130,7 +130,7 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
           </Flex>
         </Flex>
         {hasMore && (
-          <Localized id="moderateCardDetails-tab-reactions-loadMore">
+          <Localized id="moderateCardDetails-tab-flags-loadMore">
             <Button
               variant="outlined"
               color="secondary"
@@ -138,7 +138,7 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
               onClick={loadMore}
               disabled={isLoadingMore}
             >
-              Load More
+              Load more
             </Button>
           </Localized>
         )}
