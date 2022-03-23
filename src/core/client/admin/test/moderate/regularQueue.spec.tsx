@@ -1,3 +1,6 @@
+import { act, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { pureMerge } from "coral-common/utils";
 import {
   GQLCOMMENT_SORT,
@@ -8,19 +11,15 @@ import {
   MutationToRejectCommentResolver,
 } from "coral-framework/schema";
 import {
-  act,
   createMutationResolverStub,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
-  waitForElement,
-  waitUntilThrow,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
@@ -40,7 +39,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context, subscriptionHandler } = create({
+  const { context, subscriptionHandler } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -61,45 +60,56 @@ async function createTestRenderer(
       }
     },
   });
-  return { testRenderer, context, subscriptionHandler };
+  return { context, subscriptionHandler };
 }
 
 it("renders empty reported queue", async () => {
   await act(async () => {
-    const { testRenderer } = await createTestRenderer();
-    const { getByText } = within(testRenderer.root);
-    await waitForElement(() => getByText("no more reported", { exact: false }));
+    const { context } = await createTestRenderer();
+    customRenderAppWithContext(context);
+    const reportedQueue = await screen.findByText("no more reported", {
+      exact: false,
+    });
+    expect(reportedQueue).toBeInTheDocument();
   });
 });
 
 it("renders empty pending queue", async () => {
   replaceHistoryLocation("http://localhost/admin/moderate/pending");
-  const { testRenderer } = await createTestRenderer();
-  const { getByText } = within(testRenderer.root);
-  await waitForElement(() => getByText("no more pending", { exact: false }));
+  const { context } = await createTestRenderer();
+  customRenderAppWithContext(context);
+  const pendingQueue = await screen.findByText("no more pending", {
+    exact: false,
+  });
+  expect(pendingQueue).toBeInTheDocument();
 });
 
 it("renders empty unmoderated queue", async () => {
   replaceHistoryLocation("http://localhost/admin/moderate/unmoderated");
-  const { testRenderer } = await createTestRenderer();
-  const { getByText } = within(testRenderer.root);
-  await waitForElement(() =>
-    getByText("comments have been moderated", { exact: false })
+  const { context } = await createTestRenderer();
+  customRenderAppWithContext(context);
+  const unmoderatedQueue = await screen.findByText(
+    "comments have been moderated",
+    {
+      exact: false,
+    }
   );
+  expect(unmoderatedQueue).toBeInTheDocument();
 });
 
 it("renders empty rejected queue", async () => {
   replaceHistoryLocation("http://localhost/admin/moderate/rejected");
-  const { testRenderer } = await createTestRenderer();
-  const { getByText } = within(testRenderer.root);
-  await waitForElement(() =>
-    getByText("no rejected comments", { exact: false })
-  );
+  const { context } = await createTestRenderer();
+  customRenderAppWithContext(context);
+  const rejectedQueue = await screen.findByText("no rejected comments", {
+    exact: false,
+  });
+  expect(rejectedQueue).toBeInTheDocument();
 });
 
 it("renders reported queue with comments", async () => {
   await act(async () => {
-    const { testRenderer } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () =>
@@ -135,15 +145,24 @@ it("renders reported queue with comments", async () => {
         },
       }),
     });
-    const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+    customRenderAppWithContext(context);
+    const moderateContainer = await screen.findByTestId("moderate-container");
+
+    // make sure comment bodies are present
+    expect(
+      await within(moderateContainer).findByText(
+        "This is the last random sentence I will be writing and I am going to stop mid-sent"
+      )
+    ).toBeInTheDocument();
+    expect(
+      await within(moderateContainer).findByText("Don't fool with me")
+    ).toBeInTheDocument();
   });
 });
 
 it("renders reported queue with comments", async () => {
   await act(async () => {
-    const { testRenderer } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () =>
@@ -179,14 +198,24 @@ it("renders reported queue with comments", async () => {
         },
       }),
     });
-    const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+    customRenderAppWithContext(context);
+    const moderateContainer = await screen.findByTestId("moderate-container");
+
+    // make sure comment bodies are present
+    expect(
+      await within(moderateContainer).findByText(
+        "This is the last random sentence I will be writing and I am going to stop mid-sent"
+      )
+    ).toBeInTheDocument();
+    expect(
+      await within(moderateContainer).findByText("Don't fool with me")
+    ).toBeInTheDocument();
   });
 });
+
 it("show details of comment with flags", async () => {
   await act(async () => {
-    const { testRenderer } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () =>
@@ -218,27 +247,30 @@ it("show details of comment with flags", async () => {
         },
       }),
     });
-    const { getByTestID } = within(testRenderer.root);
-    const reported = await waitForElement(() =>
-      getByTestID(`moderate-comment-${reportedComments[0].id}`)
+    customRenderAppWithContext(context);
+    const reported = await screen.findByTestId(
+      `moderate-comment-${reportedComments[0].id}`
     );
     expect(
       within(reported).queryByText(
         reportedComments[0].flags.nodes[0].additionalDetails!
       )
     ).toBeNull();
-    within(reported)
-      .getByText("Details", { selector: "button" })
-      .props.onClick();
-    within(reported).getByText(
-      reportedComments[0].flags.nodes[0].additionalDetails!
-    );
+    const detailsButton = within(reported).getByRole("button", {
+      name: "Details",
+    });
+    userEvent.click(detailsButton);
+    expect(
+      within(reported).getByText(
+        reportedComments[0].flags.nodes[0].additionalDetails!
+      )
+    ).toBeInTheDocument();
   });
 });
 
 it("show reaction details for a comment with reactions", async () => {
   await act(async () => {
-    const { testRenderer } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           comment: ({ variables, callCount }) => {
@@ -282,40 +314,28 @@ it("show reaction details for a comment with reactions", async () => {
         },
       }),
     });
-    const { getByTestID } = within(testRenderer.root);
-    const reported = await waitForElement(() =>
-      getByTestID(`moderate-comment-${reportedComments[0].id}`)
+    customRenderAppWithContext(context);
+    const reported = await screen.findByTestId(
+      `moderate-comment-${reportedComments[0].id}`
     );
-    await act(async () => {
-      within(reported)
-        .getByText("Details", { selector: "button" })
-        .props.onClick();
+    const detailsButton = within(reported).getByRole("button", {
+      name: "Details",
     });
-    await act(async () => {
-      within(reported)
-        .getByText("Reactions", { selector: "button" })
-        .props.onClick();
+    userEvent.click(detailsButton);
+    const reactionsButton = within(reported).getByRole("tab", {
+      name: "Tab: Reactions",
     });
-    // Reacter's username is shown, and clicking their username
-    // opens their user history drawer modal
-    await act(async () => {
-      within(testRenderer.root)
-        .getByText("Ngoc", { selector: "button" })
-        .props.onClick();
-    });
-    const modal = await waitForElement(() =>
-      getByTestID("userHistoryDrawer-modal")
-    );
-    within(modal).getByText("Ngoc");
+    userEvent.click(reactionsButton);
+    const ngocButton = await screen.findByRole("button", { name: "Ngoc" });
+    userEvent.click(ngocButton);
+    const modal = await screen.findByTestId("userHistoryDrawer-modal");
+    expect(within(modal).getByText("Ngoc")).toBeInTheDocument();
   });
 });
 
 it("shows a moderate story", async () => {
   await act(async () => {
-    const {
-      testRenderer,
-      context: { transitionControl },
-    } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () =>
@@ -351,20 +371,20 @@ it("shows a moderate story", async () => {
         },
       }),
     });
-    const moderateStory = await waitForElement(
-      () => within(testRenderer.root).getAllByText("Moderate Story")[0]
-    );
-    transitionControl.allowTransition = false;
-    await act(async () => {
-      moderateStory.props.onClick({});
-    });
+    customRenderAppWithContext(context);
+    const moderateStory = (
+      await screen.findAllByRole("link", { name: "Moderate Story" })
+    )[0];
+    context.transitionControl.allowTransition = false;
+    userEvent.click(moderateStory);
 
     // Expect a routing request was made to the right url. history[1] because a redirect happens through /admin/moderate
-    expect(transitionControl.history[1].pathname).toBe(
+    expect(context.transitionControl.history[1].pathname).toBe(
       `/admin/moderate/stories/${reportedComments[0].story.id}`
     );
   });
 });
+
 it("renders reported queue with comments and load more", async () => {
   await act(async () => {
     const moderationQueuesStub = pureMerge(emptyModerationQueues, {
@@ -418,43 +438,38 @@ it("renders reported queue with comments and load more", async () => {
       },
     });
 
-    const { testRenderer } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () => moderationQueuesStub,
         },
       }),
     });
-    const moderateContainer = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("moderate-container")
-    );
-
-    const { getByText, getAllByTestID, getByTestID } = within(
-      moderateContainer
-    );
+    customRenderAppWithContext(context);
+    const moderateContainer = await screen.findByTestId("moderate-container");
 
     // Get previous count of comments.
-    const previousCount = getAllByTestID(/^moderate-comment-.*$/).length;
+    const previousCount = (
+      await within(moderateContainer).findAllByTestId(/^moderate-comment-.*$/)
+    ).length;
 
-    const loadMore = await waitForElement(() => getByText("Load More"));
-    loadMore.props.onClick();
+    const loadMore = screen.getByRole("button", { name: "Load More" });
+    userEvent.click(loadMore);
 
     // Wait for load more to disappear.
-    await waitUntilThrow(() => getByText("Load More"));
+    await waitFor(() => {
+      expect(screen.queryByRole("button", { name: "Load More" })).toBeNull();
+    });
 
     // Verify we have one more item now.
-    const comments = getAllByTestID(/^moderate-comment-.*$/);
+    const comments = screen.getAllByTestId(/^moderate-comment-.*$/);
     expect(comments.length).toBe(previousCount + 1);
 
     // Verify last one added was our new one
-    expect(comments[comments.length - 1].props["data-testid"]).toBe(
+    expect(comments[comments.length - 1]).toHaveAttribute(
+      "data-testid",
       `moderate-comment-${reportedComments[2].id}`
     );
-
-    // Snapshot of added comment.
-    expect(
-      toJSON(getByTestID(`moderate-comment-${reportedComments[2].id}`))
-    ).toMatchSnapshot();
   });
 });
 
@@ -524,7 +539,7 @@ it("approves comment in reported queue", async () => {
       },
     });
 
-    const { testRenderer } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () => moderationQueuesStub,
@@ -534,31 +549,37 @@ it("approves comment in reported queue", async () => {
         },
       }),
     });
+    customRenderAppWithContext(context);
 
-    const testID = `moderate-comment-${reportedComments[0].id}`;
-    const { getByTestID } = within(testRenderer.root);
-    const comment = await waitForElement(() => getByTestID(testID));
-
-    const ApproveButton = await waitForElement(() =>
-      within(comment).getByLabelText("Approve")
+    const comment = await screen.findByTestId(
+      `moderate-comment-${reportedComments[0].id}`
     );
+    const approveButton = within(comment).getByRole("button", {
+      name: "Approve",
+    });
+    userEvent.click(approveButton);
 
-    await act(async () => {
-      ApproveButton.props.onClick();
+    // dangling state of comment.
+    expect(
+      within(comment).getByText(
+        "This is the last random sentence I will be writing and I am going to stop mid-sent"
+      )
+    ).toBeInTheDocument();
 
-      // Snapshot dangling state of comment.
-      expect(toJSON(comment)).toMatchSnapshot("dangling");
-
-      // Wait until comment is gone.
-      await waitUntilThrow(() => getByTestID(testID));
+    // Wait until comment is gone.
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId(`moderate-comment-${reportedComments[0].id}`)
+      ).toBeNull();
     });
 
     expect(approveCommentStub.called).toBe(true);
 
     // Count should have been updated.
-    expect(
-      toJSON(getByTestID("moderate-navigation-reported-count"))
-    ).toMatchSnapshot("count should be 1");
+    const reportedCount = screen.getByTestId(
+      "moderate-navigation-reported-count"
+    );
+    expect(within(reportedCount).getByText("1")).toBeInTheDocument();
   });
 });
 
@@ -598,7 +619,7 @@ it("rejects comment in reported queue", async () => {
       };
     });
 
-    const { testRenderer } = await createTestRenderer({
+    const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () =>
@@ -637,27 +658,36 @@ it("rejects comment in reported queue", async () => {
         },
       }),
     });
+    customRenderAppWithContext(context);
 
-    const testID = `moderate-comment-${reportedComments[0].id}`;
-    const { getByTestID } = within(testRenderer.root);
-    const comment = await waitForElement(() => getByTestID(testID));
-
-    const RejectButton = await waitForElement(() =>
-      within(comment).getByLabelText("Reject")
+    const comment = await screen.findByTestId(
+      `moderate-comment-${reportedComments[0].id}`
     );
-    RejectButton.props.onClick();
+    const rejectButton = within(comment).getByRole("button", {
+      name: "Reject",
+    });
+    userEvent.click(rejectButton);
 
-    // Snapshot dangling state of comment.
-    expect(toJSON(comment)).toMatchSnapshot("dangling");
+    // dangling state of comment.
+    expect(
+      within(comment).getByText(
+        "This is the last random sentence I will be writing and I am going to stop mid-sent"
+      )
+    ).toBeInTheDocument();
 
     // Wait until comment is gone.
-    await waitUntilThrow(() => getByTestID(testID));
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId(`moderate-comment-${reportedComments[0].id}`)
+      ).toBeNull();
+    });
 
     expect(rejectCommentStub.called).toBe(true);
 
     // Count should have been updated.
-    expect(
-      toJSON(getByTestID("moderate-navigation-reported-count"))
-    ).toMatchSnapshot("count should be 1");
+    const reportedCount = screen.getByTestId(
+      "moderate-navigation-reported-count"
+    );
+    expect(within(reportedCount).getByText("1")).toBeInTheDocument();
   });
 });
