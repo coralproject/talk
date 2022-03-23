@@ -6,17 +6,17 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLTAG_RL } from "coral-framework/schema";
 import { Tag } from "coral-ui/components/v2";
 
-import { StaffTagContainer_settings } from "coral-stream/__generated__/StaffTagContainer_settings.graphql";
+import { BadgeTagContainer_settings } from "coral-stream/__generated__/BadgeTagContainer_settings.graphql";
 
-import styles from "./StaffTagContainer.css";
+import styles from "./BadgeTagContainer.css";
 
 interface Props {
-  settings: StaffTagContainer_settings;
+  settings: BadgeTagContainer_settings;
   tags: GQLTAG_RL[];
   className?: string;
 }
 
-const StaffTagContainer: FunctionComponent<Props> = ({
+const BadgeTagContainer: FunctionComponent<Props> = ({
   settings,
   tags,
   className,
@@ -25,17 +25,22 @@ const StaffTagContainer: FunctionComponent<Props> = ({
     <>
       {tags.includes("ADMIN") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.staff.adminLabel}
+          {settings.badges.adminLabel}
         </Tag>
       )}
       {tags.includes("MODERATOR") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.staff.moderatorLabel}
+          {settings.badges.moderatorLabel}
         </Tag>
       )}
       {tags.includes("STAFF") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.staff.staffLabel}
+          {settings.badges.staffLabel}
+        </Tag>
+      )}
+      {tags.includes("MEMBER") && (
+        <Tag className={cn(className, styles.tag)}>
+          {settings.badges.memberLabel}
         </Tag>
       )}
     </>
@@ -44,14 +49,15 @@ const StaffTagContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment StaffTagContainer_settings on Settings {
-      staff {
+    fragment BadgeTagContainer_settings on Settings {
+      badges {
         staffLabel
         adminLabel
         moderatorLabel
+        memberLabel
       }
     }
   `,
-})(StaffTagContainer);
+})(BadgeTagContainer);
 
 export default enhanced;
