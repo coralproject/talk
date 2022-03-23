@@ -36,7 +36,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { context, subscriptionHandler } = createContext({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -53,7 +53,7 @@ async function createTestRenderer(
       }
     },
   });
-  return { context, subscriptionHandler };
+  return { context };
 }
 
 const comment = rejectedComments[0];
