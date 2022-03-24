@@ -833,7 +833,7 @@ export const reportedComments = createFixtures<GQLComment>(
             cursor: "2021-06-01T14:21:21.890Z",
           },
         ],
-        pageInfo: { endCursor: null, hasNextPage: false },
+        pageInfo: { endCursor: "2021-06-01T14:21:21.890Z", hasNextPage: true },
         nodes: [
           {
             id: "comment-0-flag-0",
@@ -862,7 +862,7 @@ export const reportedComments = createFixtures<GQLComment>(
             cursor: "2021-06-01T14:21:21.890Z",
           },
         ],
-        pageInfo: { endCursor: null, hasNextPage: false },
+        pageInfo: { endCursor: "2021-06-01T14:21:21.890Z", hasNextPage: true },
       },
     },
     {

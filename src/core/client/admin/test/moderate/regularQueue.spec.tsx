@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
 import {
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLResolver,
@@ -213,7 +214,7 @@ it("renders reported queue with comments", async () => {
   });
 });
 
-it("show details of comment with flags", async () => {
+it("show details of comment with flags and load more flags", async () => {
   await act(async () => {
     const { context } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
@@ -244,6 +245,66 @@ it("show details of comment with flags", async () => {
                 }),
               },
             }),
+          comment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({ id: "comment-0" });
+            return pureMerge(reportedComments[0], {
+              flags: {
+                edges: [
+                  {
+                    node: {
+                      id: "comment-0-flag-0",
+                      reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+                      flagger: users.commenters[0],
+                      additionalDetails: "This looks like an ad",
+                    },
+                    cursor: "2021-06-01T14:21:21.890Z",
+                  },
+                  {
+                    node: {
+                      id: "comment-0-flag-1",
+                      reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+                      flagger: users.commenters[1],
+                      additionalDetails: "",
+                    },
+                    cursor: "2021-06-01T14:21:21.890Z",
+                  },
+                  {
+                    node: {
+                      id: "comment-0-flag-2",
+                      reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+                      flagger: users.commenters[1],
+                      additionalDetails: "Another flag loaded",
+                    },
+                    cursor: "2021-06-01T14:21:21.890Z",
+                  },
+                ],
+                pageInfo: { endCursor: null, hasNextPage: false },
+                nodes: [
+                  {
+                    id: "comment-0-flag-0",
+                    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+                    flagger: users.commenters[0],
+                    additionalDetails: "This looks like an ad",
+                  },
+                  {
+                    id: "comment-0-flag-1",
+                    reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+                    flagger: users.commenters[1],
+                    additionalDetails: "",
+                  },
+                  {
+                    node: {
+                      id: "comment-0-flag-2",
+                      reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+                      flagger: users.commenters[1],
+                      additionalDetails: "Another flag loaded",
+                    },
+                    cursor: "2021-06-01T14:21:21.890Z",
+                  },
+                ],
+              },
+            });
+          },
         },
       }),
     });
@@ -265,6 +326,10 @@ it("show details of comment with flags", async () => {
         reportedComments[0].flags.nodes[0].additionalDetails!
       )
     ).toBeInTheDocument();
+    expect(screen.queryByText("Another flag loaded")).not.toBeInTheDocument();
+    const loadMore = screen.getByRole("button", { name: "Load More" });
+    userEvent.click(loadMore);
+    expect(await screen.findByText("Another flag loaded")).toBeInTheDocument();
   });
 });
 
