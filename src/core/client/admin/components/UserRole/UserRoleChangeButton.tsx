@@ -10,7 +10,7 @@ import styles from "./UserRoleChangeButton.css";
 interface Props extends Omit<PropTypesOf<typeof TranslatedRole>, "container"> {
   active?: boolean;
   onClick: () => void;
-  testID: string;
+  testID?: string;
 }
 
 const UserRoleChangeButton: FunctionComponent<Props> = ({
