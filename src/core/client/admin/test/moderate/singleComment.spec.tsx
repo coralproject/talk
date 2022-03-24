@@ -53,6 +53,7 @@ async function createTestRenderer(
       }
     },
   });
+  customRenderAppWithContext(context);
   return { context };
 }
 
@@ -71,14 +72,13 @@ beforeEach(() => {
 });
 
 it("renders single comment view with story info", async () => {
-  const { context } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         comment: commentStub,
       },
     },
   });
-  customRenderAppWithContext(context);
   const singleModerateContainer = await screen.findByTestId(
     "single-moderate-container"
   );
@@ -123,7 +123,7 @@ it("approves single comment", async () => {
     };
   });
 
-  const { context } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         comment: commentStub,
@@ -133,7 +133,6 @@ it("approves single comment", async () => {
       },
     },
   });
-  customRenderAppWithContext(context);
   const approveButton = await screen.findByLabelText("Approve");
   userEvent.click(approveButton);
 
@@ -171,7 +170,7 @@ it("rejects single comment", async () => {
     };
   });
 
-  const { context } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         comment: commentStub,
@@ -182,7 +181,6 @@ it("rejects single comment", async () => {
     },
   });
 
-  customRenderAppWithContext(context);
   const rejectButton = await screen.findByLabelText("Reject");
   userEvent.click(rejectButton);
 
