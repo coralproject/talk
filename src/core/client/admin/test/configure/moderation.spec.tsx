@@ -50,8 +50,17 @@ async function createTestRenderer(
       }
     },
   });
+  customRenderAppWithContext(context);
+  const moderationContainer = await screen.findByTestId(
+    "configure-moderationContainer"
+  );
+  const saveChangesButton = screen.getByRole("button", {
+    name: "Save Changes",
+  });
   return {
     context,
+    moderationContainer,
+    saveChangesButton,
   };
 }
 
@@ -68,14 +77,10 @@ it("change pre-moderation to On for all comments for single-site tenants", async
       },
     },
   });
-  const { context } = await createTestRenderer({
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
-  customRenderAppWithContext(context);
 
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const preModerationContainer = within(
     moderationContainer
   ).getAllByRole("group", { name: "Pre-moderate all comments" })[0];
@@ -83,9 +88,6 @@ it("change pre-moderation to On for all comments for single-site tenants", async
   // Let's enable it and submit.
   const onField = within(preModerationContainer).getByLabelText("On");
   userEvent.click(onField);
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
   userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
@@ -120,15 +122,11 @@ it("change site wide pre-moderation to Specific sites", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer(
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
     {
       resolvers,
     },
     settingsWithMultisite
-  );
-  customRenderAppWithContext(context);
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
   );
   const preModerationContainer = within(
     moderationContainer
@@ -154,9 +152,6 @@ it("change site wide pre-moderation to Specific sites", async () => {
   userEvent.click(testSite);
 
   // Save changes
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
   userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
@@ -183,13 +178,9 @@ it("change site wide link pre-moderation", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer({
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
-  customRenderAppWithContext(context);
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const preModerationContainer = within(moderationContainer).getAllByRole(
     "group",
     {
@@ -202,9 +193,6 @@ it("change site wide link pre-moderation", async () => {
   userEvent.click(onField);
 
   // Save changes
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
   userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
@@ -236,14 +224,10 @@ it("change akismet settings", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer({
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
-  customRenderAppWithContext(context);
 
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const akismetContainer = within(moderationContainer).getByTestId(
     "akismet-config"
   );
@@ -261,9 +245,6 @@ it("change akismet settings", async () => {
   // Let's turn it on.
   userEvent.click(onField);
 
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
   expect(saveChangesButton).not.toBeDisabled();
 
   userEvent.click(saveChangesButton);
@@ -330,17 +311,13 @@ it("change new commenter approval settings on multisite tenant", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer(
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
     {
       resolvers,
     },
     settingsWithMultisite
   );
-  customRenderAppWithContext(context);
 
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const enableNewCommenterApproval = within(moderationContainer).getAllByRole(
     "group",
     {
@@ -353,9 +330,6 @@ it("change new commenter approval settings on multisite tenant", async () => {
     "All sites"
   );
   userEvent.click(allSitesOption);
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
 
   // Submit changes
   userEvent.click(saveChangesButton);
@@ -445,15 +419,10 @@ it("change new commenter approval settings on single site tenant", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer({
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  customRenderAppWithContext(context);
-
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const enableNewCommenterApproval = within(moderationContainer).getAllByRole(
     "group",
     {
@@ -465,9 +434,6 @@ it("change new commenter approval settings on single site tenant", async () => {
   const onOption = within(enableNewCommenterApproval).getByLabelText("On");
   userEvent.click(onOption);
 
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
   userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
@@ -512,14 +478,10 @@ it("change perspective settings", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer({
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
-  customRenderAppWithContext(context);
 
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const perspectiveContainer = within(moderationContainer).getByTestId(
     "perspective-container"
   );
@@ -544,9 +506,6 @@ it("change perspective settings", async () => {
   userEvent.click(dontAllowField);
   userEvent.click(allowField);
 
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
   expect(saveChangesButton).not.toBeDisabled();
 
   // Send form
@@ -661,17 +620,13 @@ it("change perspective send feedback setting", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer(
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
     {
       resolvers,
     },
     settingsOverride
   );
-  customRenderAppWithContext(context);
 
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const perspectiveContainer = within(moderationContainer).getByTestId(
     "perspective-container"
   );
@@ -679,9 +634,6 @@ it("change perspective send feedback setting", async () => {
   const allowField = within(perspectiveContainer).getByTestId(
     "test-allowSendFeedback"
   );
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
 
   // Let's turn it on.
   userEvent.click(allowField);
@@ -704,7 +656,6 @@ it("change perspective send feedback setting", async () => {
 
 it("navigates to correct route for adding email domains", async () => {
   const { context } = await createTestRenderer();
-  customRenderAppWithContext(context);
 
   // Prevent router transitions.
   context.transitionControl.allowTransition = false;
@@ -764,11 +715,8 @@ it("deletes email domains from configuration", async () => {
   });
   const origConfirm = window.confirm;
   window.confirm = sinon.stub().returns(true);
-  const { context } = await createTestRenderer({ resolvers });
-  customRenderAppWithContext(context);
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
+  const { moderationContainer } = await createTestRenderer({ resolvers });
+
   const emailDomainConfig = within(moderationContainer).getByTestId(
     "emailDomain-container"
   );
@@ -801,17 +749,13 @@ it("change external links for moderators", async () => {
       },
     },
   });
-  const { context } = await createTestRenderer(
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
     {
       resolvers,
     },
     settingsOverride
   );
-  customRenderAppWithContext(context);
 
-  const moderationContainer = await screen.findByTestId(
-    "configure-moderationContainer"
-  );
   const externalProfileURLPatternField = within(
     moderationContainer
   ).getByLabelText("External profile URL pattern");
@@ -819,9 +763,7 @@ it("change external links for moderators", async () => {
     externalProfileURLPatternField,
     "https://example.com/random/invalid-url"
   );
-  const saveChangesButton = screen.getByRole("button", {
-    name: "Save Changes",
-  });
+
   userEvent.click(saveChangesButton);
 
   // See validation error with invalid url format
