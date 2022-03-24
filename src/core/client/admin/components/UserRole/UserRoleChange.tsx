@@ -135,14 +135,12 @@ const UserRoleChange: FunctionComponent<Props> = ({
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
                 <UserRoleChangeButton
-                  testID={`role-change-commenter-button`}
                   active={role === GQLUSER_ROLE.COMMENTER}
                   role={GQLUSER_ROLE.COMMENTER}
                   moderationScopesEnabled={moderationScopesEnabled}
                   onClick={onClick(GQLUSER_ROLE.COMMENTER)}
                 />
                 <UserRoleChangeButton
-                  testID={`role-change-member-button`}
                   active={membershipScoped && role === GQLUSER_ROLE.MEMBER}
                   role={GQLUSER_ROLE.MEMBER}
                   moderationScopesEnabled={moderationScopesEnabled}
@@ -153,7 +151,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   }}
                 />
                 <UserRoleChangeButton
-                  testID={`role-change-staff-button`}
                   active={role === GQLUSER_ROLE.STAFF}
                   role={GQLUSER_ROLE.STAFF}
                   moderationScopesEnabled={moderationScopesEnabled}
@@ -161,7 +158,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 />
                 {moderationScopesEnabled && (
                   <UserRoleChangeButton
-                    testID={`role-change-siteModerator-button`}
                     active={moderationScoped && role === GQLUSER_ROLE.MODERATOR}
                     role={GQLUSER_ROLE.MODERATOR}
                     scoped
@@ -173,7 +169,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   />
                 )}
                 <UserRoleChangeButton
-                  testID={`role-change-moderator-button`}
                   active={
                     (!moderationScopesEnabled ||
                       (moderationScopesEnabled && !moderationScoped)) &&
@@ -184,7 +179,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   onClick={onClick(GQLUSER_ROLE.MODERATOR)}
                 />
                 <UserRoleChangeButton
-                  testID={`role-change-admin-button`}
                   active={role === GQLUSER_ROLE.ADMIN}
                   role={GQLUSER_ROLE.ADMIN}
                   moderationScopesEnabled={moderationScopesEnabled}
