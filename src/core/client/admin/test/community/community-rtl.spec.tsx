@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import customRenderAppWithContext from "coral-admin/test/customRenderAppWithContext";
@@ -84,11 +84,13 @@ it("renders empty community", async () => {
 it("renders the invite button", async () => {
   await createTestRenderer();
 
-  const inviteUsersButton = await screen.findByTestId("invite-users-button");
-  inviteUsersButton.click();
+  const inviteUsersButton = await screen.findByRole("button", {
+    name: "Invite",
+  });
+  userEvent.click(inviteUsersButton);
 
   const modal = await screen.findByTestId("invite-users-modal");
-  expect(modal).toBeDefined();
+  expect(modal).toBeVisible();
 });
 
 it("renders with invite button when viewed with admin user", async () => {
@@ -115,10 +117,7 @@ it("renders without invite button when viewed with non-admin user", async () => 
     }),
   });
 
-  // We use `queryByTestId` here because it will throw an error
-  // if the object does not exist when we use `findByTestId`
-  const inviteButton = screen.queryByTestId("invite-users");
-  expect(inviteButton).toBeNull();
+  expect(screen.queryByTestId("invite-users")).not.toBeInTheDocument();
 });
 
 it("renders without invite button when email disabled", async () => {
@@ -201,9 +200,7 @@ it("filter by role", async () => {
   });
 
   const selectField = await screen.findByLabelText("Search by role");
-  fireEvent.change(selectField, {
-    target: { value: "Test" },
-  });
+  userEvent.selectOptions(selectField, ["Commenters"]);
 
   await screen.findByText("We could not find anyone", { exact: false });
 });
@@ -214,7 +211,9 @@ it("can't change viewer role", async () => {
   const viewerRow = await screen.findByTestId(
     `community-row-${adminViewer.id}`
   );
-  expect(() => within(viewerRow).getByLabelText("Change role")).toThrow();
+  expect(
+    within(viewerRow).queryByLabelText("Change role")
+  ).not.toBeInTheDocument();
 });
 
 it("change user role", async () => {
@@ -249,6 +248,8 @@ it("change user role", async () => {
   const staffButton = await within(popup).findByRole("button", {
     name: "Staff",
   });
+  // userEvent.click(...) throws an error here cause the button is set to
+  // pointer-events: none when disabled. So we do the other `.click()` here.
   staffButton.click();
 
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
@@ -264,7 +265,7 @@ it("can't change role as a moderator", async () => {
     }),
   });
 
-  expect(screen.queryByLabelText("Change user status")).toBeInTheDocument();
+  expect(screen.getByLabelText("Change user status")).toBeVisible();
   expect(screen.queryByLabelText("Change role")).toBeNull();
 });
 
@@ -320,9 +321,11 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
     "A dropdown to change the user role"
   );
 
-  const siteModButton = within(popup).getByTestId(
-    "role-change-siteModerator-button"
-  );
+  const siteModButton = within(popup).getByRole("button", {
+    name: "Site Moderator",
+  });
+  // userEvent.click(...) throws an error here cause the button is set to
+  // pointer-events: none when disabled. So we do the other `.click()` here.
   siteModButton.click();
 
   const modal = await screen.findByTestId("site-role-modal");
@@ -331,10 +334,11 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
   const submitButton = await screen.findByTestId(
     "site-role-modal-submitButton"
   );
-  expect(submitButton.classList.contains("Button-disabled")).toBe(true);
+  expect(submitButton).toBeDisabled();
 
-  const siteSearchField = within(modal).getByTestId("site-search-textField");
-  userEvent.click(siteSearchField);
+  const siteSearchField = within(modal).getByRole("textbox", {
+    name: "Search by site name",
+  });
   userEvent.type(siteSearchField, "Test");
 
   const siteSearchButton = await screen.findByTestId("site-search-button");
@@ -395,6 +399,8 @@ it("promote user role as a site moderator", async () => {
   const siteModButton = within(popup).getByRole("button", {
     name: "Site Moderator",
   });
+  // userEvent.click(...) throws an error here cause the button is set to
+  // pointer-events: none when disabled. So we do the other `.click()` here.
   siteModButton.click();
 
   await waitFor(() => screen.getByTestId("siteModeratorActions-modal"));
@@ -449,13 +455,17 @@ it("demote user role as a site moderator", async () => {
   const siteModButton = within(popup).getByRole("button", {
     name: "Remove my sites from moderator",
   });
+  // userEvent.click(...) throws an error here cause the button is set to
+  // pointer-events: none when disabled. So we do the other `.click()` here.
   siteModButton.click();
 
-  await waitFor(() => screen.getByTestId("siteModeratorActions-modal"));
+  await screen.findByTestId("siteModeratorActions-modal");
   const removeButton = screen.getByRole("button", { name: "Remove" });
   removeButton.click();
 
-  expect(resolvers.Mutation!.demoteModerator!.called).toBe(true);
+  await waitFor(() =>
+    expect(resolvers.Mutation!.demoteModerator!.called).toBe(true)
+  );
 });
 
 it("load more", async () => {
@@ -508,7 +518,7 @@ it("load more", async () => {
   );
 
   // Make sure third user was added.
-  screen.getByText(users.commenters[1].username!);
+  expect(screen.getByText(users.commenters[1].username!)).toBeVisible();
 });
 
 it("filter by search", async () => {
