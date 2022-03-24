@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import customRenderAppWithContext from "coral-admin/test/customRenderAppWithContext";
@@ -240,7 +240,7 @@ it("change user role", async () => {
 
   const userRow = await screen.findByTestId(`community-row-${user.id}`);
   const changeRoleButton = within(userRow).getByLabelText("Change role");
-  changeRoleButton.click();
+  userEvent.click(changeRoleButton);
 
   const popup = within(userRow).getByLabelText(
     "A dropdown to change the user role"
@@ -248,9 +248,7 @@ it("change user role", async () => {
   const staffButton = await within(popup).findByRole("button", {
     name: "Staff",
   });
-  // userEvent.click(...) throws an error here cause the button is set to
-  // pointer-events: none when disabled. So we do the other `.click()` here.
-  staffButton.click();
+  fireEvent.click(staffButton);
 
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
@@ -324,9 +322,7 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
   const siteModButton = within(popup).getByRole("button", {
     name: "Site Moderator",
   });
-  // userEvent.click(...) throws an error here cause the button is set to
-  // pointer-events: none when disabled. So we do the other `.click()` here.
-  siteModButton.click();
+  fireEvent.click(siteModButton);
 
   const modal = await screen.findByTestId("site-role-modal");
 
@@ -399,9 +395,7 @@ it("promote user role as a site moderator", async () => {
   const siteModButton = within(popup).getByRole("button", {
     name: "Site Moderator",
   });
-  // userEvent.click(...) throws an error here cause the button is set to
-  // pointer-events: none when disabled. So we do the other `.click()` here.
-  siteModButton.click();
+  fireEvent.click(siteModButton);
 
   await waitFor(() => screen.getByTestId("siteModeratorActions-modal"));
   const assignButton = screen.getByRole("button", { name: "Assign" });
@@ -455,13 +449,11 @@ it("demote user role as a site moderator", async () => {
   const siteModButton = within(popup).getByRole("button", {
     name: "Remove my sites from moderator",
   });
-  // userEvent.click(...) throws an error here cause the button is set to
-  // pointer-events: none when disabled. So we do the other `.click()` here.
-  siteModButton.click();
+  fireEvent.click(siteModButton);
 
   await screen.findByTestId("siteModeratorActions-modal");
   const removeButton = screen.getByRole("button", { name: "Remove" });
-  removeButton.click();
+  userEvent.click(removeButton);
 
   await waitFor(() =>
     expect(resolvers.Mutation!.demoteModerator!.called).toBe(true)
@@ -511,7 +503,7 @@ it("load more", async () => {
   });
 
   const loadMore = screen.getByText("Load More");
-  loadMore.click();
+  userEvent.click(loadMore);
 
   await waitFor(() =>
     expect(screen.queryByText("Load More")).not.toBeInTheDocument()
