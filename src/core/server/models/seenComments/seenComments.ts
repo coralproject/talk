@@ -71,37 +71,49 @@ export async function findSeenComments(
 export async function markSeenComments(
   mongo: MongoContext,
   tenantID: string,
-  storyID: string,
-  userID: string,
-  commentIDs: string[],
+  seenComments: Map<string, string[]>,
   now: Date
 ) {
-  const comments = commentIDs.reduce<Record<string, Date>>((acc, commentID) => {
-    acc[commentID] = now;
-    return acc;
-  }, {});
+  let count = 0;
 
-  const result = await mongo.seenComments().findOneAndUpdate(
-    {
-      storyID,
-      tenantID,
-      userID,
-    },
-    {
-      $setOnInsert: {
-        id: uuid(),
+  for (const [key, commentIDs] of seenComments) {
+    const split = key.split(":");
+    const userID = split[0];
+    const storyID = split[1];
+
+    const comments = commentIDs.reduce<Record<string, Date>>(
+      (acc, commentID) => {
+        acc[commentID] = now;
+        return acc;
+      },
+      {}
+    );
+
+    const result = await mongo.seenComments().findOneAndUpdate(
+      {
         storyID,
-        userID,
         tenantID,
+        userID,
       },
-      $set: {
-        lastSeenAt: now,
-        ...dotize({ comments }),
+      {
+        $setOnInsert: {
+          id: uuid(),
+          storyID,
+          userID,
+          tenantID,
+        },
+        $set: {
+          lastSeenAt: now,
+          ...dotize({ comments }),
+        },
       },
-    },
-    { upsert: true }
-  );
+      { upsert: true }
+    );
 
-  // We upserted, so this will always exist
-  return result.value!;
+    if (result.ok) {
+      count += commentIDs.length;
+    }
+  }
+
+  return count;
 }
