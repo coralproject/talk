@@ -86,6 +86,8 @@ export default class GraphContext {
   public readonly signingConfig?: JWTSigningConfig;
   public readonly user?: User;
 
+  public readonly seenComments: Map<string, string[]>;
+
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
     this.now = options.now || new Date();
@@ -120,5 +122,7 @@ export default class GraphContext {
     this.broker = options.broker.instance(this);
     this.loaders = loaders(this);
     this.mutators = mutators(this);
+
+    this.seenComments = new Map<string, string[]>();
   }
 }

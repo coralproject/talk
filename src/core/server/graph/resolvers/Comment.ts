@@ -164,11 +164,17 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       storyID,
       userID: ctx.user.id,
     });
-    if (!seenComments) {
-      return false;
+
+    const key = `${ctx.user.id}:${storyID}`;
+    const toBeMarkedComments = ctx.seenComments.get(key);
+    if (!toBeMarkedComments) {
+      ctx.seenComments.set(key, [id]);
+    } else {
+      toBeMarkedComments.push(id);
     }
 
-    const seen = seenComments.comments.has(id);
+    const seen = seenComments ? id in seenComments.comments : false;
+
     return seen;
   },
 };
