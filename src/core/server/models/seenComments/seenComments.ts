@@ -57,6 +57,15 @@ export async function findSeenComments(
   return result ?? null;
 }
 
+function reduceCommentIDs(commentIDs: string[], now: Date) {
+  const comments = commentIDs.reduce<Record<string, Date>>((acc, commentID) => {
+    acc[commentID] = now;
+    return acc;
+  }, {});
+
+  return comments;
+}
+
 /**
  * Marks multiple comments as seen for a user.
  *
@@ -71,49 +80,74 @@ export async function findSeenComments(
 export async function markSeenComments(
   mongo: MongoContext,
   tenantID: string,
+  storyID: string,
+  userID: string,
+  commentIDs: string[],
+  now: Date
+) {
+  const comments = reduceCommentIDs(commentIDs, now);
+
+  const result = await mongo.seenComments().findOneAndUpdate(
+    {
+      storyID,
+      tenantID,
+      userID,
+    },
+    {
+      $setOnInsert: {
+        id: uuid(),
+        storyID,
+        userID,
+        tenantID,
+      },
+      $set: {
+        lastSeenAt: now,
+        ...dotize({ comments }),
+      },
+    },
+    { upsert: true }
+  );
+
+  return result.value;
+}
+
+export async function markSeenCommentsBulk(
+  mongo: MongoContext,
+  tenantID: string,
   seenComments: Map<string, string[]>,
   now: Date
 ) {
-  let count = 0;
-
+  const operations: any[] = [];
   for (const [key, commentIDs] of seenComments) {
     const split = key.split(":");
     const userID = split[0];
     const storyID = split[1];
 
-    const comments = commentIDs.reduce<Record<string, Date>>(
-      (acc, commentID) => {
-        acc[commentID] = now;
-        return acc;
-      },
-      {}
-    );
+    const comments = reduceCommentIDs(commentIDs, now);
 
-    const result = await mongo.seenComments().findOneAndUpdate(
-      {
-        storyID,
-        tenantID,
-        userID,
-      },
-      {
-        $setOnInsert: {
-          id: uuid(),
-          storyID,
-          userID,
-          tenantID,
+    operations.push({
+      updateOne: {
+        filter: { tenantID, storyID, userID },
+        update: {
+          $setOnInsert: {
+            id: uuid(),
+            storyID,
+            userID,
+            tenantID,
+          },
+          $set: {
+            lastSeenAt: now,
+            ...dotize({ comments }),
+          },
         },
-        $set: {
-          lastSeenAt: now,
-          ...dotize({ comments }),
-        },
+        upsert: true,
       },
-      { upsert: true }
-    );
-
-    if (result.ok) {
-      count += commentIDs.length;
-    }
+    });
   }
 
-  return count;
+  const result = await mongo
+    .seenComments()
+    .bulkWrite(operations, { ordered: false });
+
+  return (result.upsertedCount ?? 0) + (result.insertedCount ?? 0);
 }
