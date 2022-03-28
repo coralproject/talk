@@ -478,7 +478,7 @@ export const users = {
         ignoreable: false,
         moderationScopes: {
           scoped: true,
-          sites: [sites[0]],
+          sites: [sites[0], sites[1]],
         },
       },
     ],
@@ -565,6 +565,19 @@ export const users = {
         current: [GQLUSER_STATUS.BANNED],
         ban: { active: true },
         suspension: { active: true },
+      },
+    },
+    baseUser
+  ),
+  siteBannedCommenter: createFixture<GQLUser>(
+    {
+      id: "user-banned-1",
+      username: "Lulu",
+      email: "lulu@test.com",
+      role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
+      status: {
+        ban: { active: false, sites: [sites[0], sites[1]] },
       },
     },
     baseUser

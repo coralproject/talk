@@ -53,9 +53,6 @@ const createTestRenderer = async (
   });
   customRenderAppWithContext(context);
   const container = await screen.findByTestId("community-container");
-  // const container = await waitForElement(() =>
-  //   within(testRenderer.root).getByTestID("community-container")
-  // );
   return { container };
 };
 
@@ -100,7 +97,6 @@ it("bans user from all sites", async () => {
     "A dropdown to change the user status"
   );
   fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
-  // TODO: Could use selectOption here from userEvent instead??
 
   const modal = screen.getByLabelText("Are you sure you want to ban Isabelle?");
   userEvent.click(within(modal).getByLabelText("All sites"));
@@ -313,6 +309,87 @@ it("ban user across specific sites", async () => {
   userEvent.click(within(modal).getByRole("checkbox", { name: "Test Site" }));
 
   // Submit ban and see that user is correctly banned across selected site
+  userEvent.click(within(modal).getByRole("button", { name: "Save" }));
+  expect(await within(userRow).findByText("Banned (1)")).toBeVisible();
+  expect(resolvers.Mutation!.updateUserBan!.called).toBe(true);
+});
+
+it("site moderators can unban users on their sites but not sites out of their scope", async () => {
+  const user = users.siteBannedCommenter;
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserBan: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          banSiteIDs: [],
+          unbanSiteIDs: ["site-1"],
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            ban: { active: false, sites: [sites[1]] },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+    Query: {
+      settings: () => settingsWithMultisite,
+      users: () => ({
+        edges: [
+          {
+            node: user,
+            cursor: user.createdAt,
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      }),
+      viewer: () => users.moderators[1],
+      site: ({ variables, callCount }) => {
+        switch (callCount) {
+          case 0:
+            expectAndFail(variables.id).toBe("site-1");
+            return sites[0];
+          case 1:
+            expectAndFail(variables.id).toBe("site-2");
+            return sites[1];
+          default:
+            return siteConnection;
+        }
+      },
+    },
+  });
+
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+  const userRow = within(container).getByRole("row", {
+    name: "Lulu lulu@test.com 07/06/18, 06:24 PM Commenter Banned (2)",
+  });
+  userEvent.click(
+    within(userRow).getByRole("button", { name: "Change user status" })
+  );
+  const dropdown = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
+  const modal = screen.getByLabelText(
+    "Are you sure you want to manage the ban status of Lulu?"
+  );
+  const siteOneCheckbox = await within(modal).findByRole("checkbox", {
+    name: "Test Site",
+  });
+  const siteTwoCheckbox = await within(modal).findByRole("checkbox", {
+    name: "Second Site",
+  });
+
+  // Checkbox for site within moderator's scope is not disabled, but site out of scope is disabled
+  expect(siteOneCheckbox).not.toBeDisabled();
+  expect(siteTwoCheckbox).toBeDisabled();
+
+  // When site mod unchecks site within their scope, the ban is removed for that site
+  userEvent.click(siteOneCheckbox);
   userEvent.click(within(modal).getByRole("button", { name: "Save" }));
   expect(await within(userRow).findByText("Banned (1)")).toBeVisible();
   expect(resolvers.Mutation!.updateUserBan!.called).toBe(true);
