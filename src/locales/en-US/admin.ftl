@@ -732,6 +732,16 @@ configure-moderation-recentCommentHistory-triggerRejectionRate-description =
   over the timeframe above, as a percentage. It does not include
   comments pending for toxicity, spam or pre-moderation.
 
+#### External links for moderators
+configure-moderation-externalLinks-title = External links for moderators
+configure-moderation-externalLinks-profile-explanation = When a URL format is included
+  below, external profile links are added to the user drawer inside the moderation
+  interface. You can use the format $USER_NAME to insert the username or $USER_ID
+  to insert the user’s unique ID number.
+configure-moderation-externalLinks-profile-label = External profile URL pattern
+configure-moderation-externalLinks-profile-input =
+  .placeholder = https://example.com/users/$USER_NAME
+
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
@@ -1074,6 +1084,9 @@ moderate-user-drawer-created-at =
   .title = Account creation date
 moderate-user-drawer-member-id =
   .title = Member ID
+moderate-user-drawer-external-profile-URL =
+  .title = External profile URL
+moderate-user-drawer-external-profile-URL-link = External profile URL
 moderate-user-drawer-tab-all-comments = All Comments
 moderate-user-drawer-tab-rejected-comments = Rejected
 moderate-user-drawer-tab-account-history = Account History
