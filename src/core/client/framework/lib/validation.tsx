@@ -19,6 +19,7 @@ import {
   INVALID_CHARACTERS,
   INVALID_EMAIL,
   INVALID_EMAIL_DOMAIN,
+  INVALID_EXTERNAL_PROFILE_URL,
   INVALID_MEDIA_URL,
   INVALID_URL,
   INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION,
@@ -116,6 +117,26 @@ export const validateURL = createValidator(
   (v) => !v || URL_REGEX.test(v),
   INVALID_URL()
 );
+
+/**
+ * validateExternalProfileURL is a Validator that checks that the external profile URL,
+ * if it exists, contains either $USER_NAME or $USER_ID
+ */
+export const validateExternalProfileURL = createValidator((v) => {
+  if (v === null) {
+    return true;
+  }
+  const includesUserName = v.includes("$USER_NAME");
+  const includesUserId = v.includes("$USER_ID");
+  if (
+    v &&
+    ((includesUserName && !includesUserId) ||
+      (includesUserId && !includesUserName))
+  ) {
+    return true;
+  }
+  return false;
+}, INVALID_EXTERNAL_PROFILE_URL());
 
 /**
  * validateMinLength is a Validator that checks that the field has a min length of characters

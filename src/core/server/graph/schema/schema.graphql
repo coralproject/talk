@@ -555,6 +555,12 @@ enum FEATURE_FLAG {
   Z_KEY will allow Z key traversal and the mobile toolbar.
   """
   Z_KEY
+
+  """
+  CONFIGURE_PUBLIC_PROFILE_URL will allow configuration in the admin of a link to
+  an external profile for a user.
+  """
+  CONFIGURE_PUBLIC_PROFILE_URL
 }
 
 # The moderation mode of the site.
@@ -2152,6 +2158,12 @@ type Settings @cacheControl(maxAge: 30) {
   pre-moderating new users at a certain email domain
   """
   emailDomainModeration: [EmailDomain!]!
+
+  """
+  externalProfileURL is a string template for a link to a user's
+  external profile.
+  """
+  externalProfileURL: String
 }
 
 ################################################################################
@@ -5606,6 +5618,12 @@ input SettingsInput {
   (European Directive 2000/31/CE).
   """
   forReviewQueue: Boolean
+
+  """
+  externalProfileURL is a string template for a link to a user's
+  external profile.
+  """
+  externalProfileURL: String
 }
 
 """
@@ -9307,7 +9325,9 @@ type Mutation {
   Seen state is stored per user, per story. It will do nothing if the request is
   not issued with a valid logged in user token.
   """
-  markCommentsAsSeen(input: MarkCommentsAsSeenInput!): MarkCommentsAsSeenPayload!
+  markCommentsAsSeen(
+    input: MarkCommentsAsSeenInput!
+  ): MarkCommentsAsSeenPayload!
 }
 
 ##################
