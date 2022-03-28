@@ -18,11 +18,13 @@ role-moderator = Moderator
 role-siteModerator = Site Moderator
 role-organizationModerator = Organization Moderator
 role-staff = Staff
+role-member = Member
 role-commenter = Commenter
 
 role-plural-admin = Admins
 role-plural-moderator = Moderators
 role-plural-staff = Staff
+role-plural-member = Members
 role-plural-commenter = Commenters
 
 comments-react =
@@ -1256,14 +1258,20 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Change role
 
-community-assignMySites = Assign my sites
-community-removeMySites = Remove my sites
+community-assignMySitesToModerator = Assign my sites to moderator
+community-removeMySitesFromModerator = Remove my sites from moderator
+community-assignMySitesToMember = Assign my sites to member
+community-removeMySitesFromMember = Remove my sites from member
 community-stillHaveSiteModeratorPrivileges = They will still have Site Moderator privileges for:
+community-stillHaveMemberPrivileges = They will still have Member privileges for:
 community-userNoLongerPermitted = User will no longer be permitted to make moderation decisions or assign suspensions on:
+community-memberNoLongerPermitted = User will no longer receive Member privileges on:
 community-assignThisUser = Assign this user to
 community-assignYourSitesTo = Assign your sites to <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
+community-membersArePermitted = Members are permitted to receive a badge on the sites they are assigned.
 community-removeSiteModeratorPermissions = Remove Site Moderator permissions
+community-removeMemberPermissions = Remove Member permissions
 
 community-filter-optGroupAudience =
   .label = Audience
@@ -1286,7 +1294,7 @@ community-column-status = Status
 community-role-popover =
   .description = A dropdown to change the user role
 
-community-siteModeratorActions-popover =
+community-siteRoleActions-popover =
   .description = A dropdown to promote/demote a user to/from sites
 
 community-userStatus-popover =
@@ -1356,15 +1364,16 @@ community-premodModal-consequence =
 community-premodModal-cancel = Cancel
 community-premodModal-premodUser = Yes, always pre-moderate
 
-community-siteModeratorModal-assignSites =
+community-siteRoleModal-assignSites =
   Assign sites for <strong>{ $username }</strong>
-community-siteModeratorModal-assignSitesDescription =
+community-siteRoleModal-assignSitesDescription-siteModerator =
   Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
-community-siteModeratorModal-cancel = Cancel
-community-siteModeratorModal-assign = Assign
-community-siteModeratorModal-remove = Remove
-community-siteModeratorModal-selectSites = Select sites to moderate
-community-siteModeratorModal-noSites = No sites
+community-siteRoleModal-cancel = Cancel
+community-siteRoleModal-assign = Assign
+community-siteRoleModal-remove = Remove
+community-siteRoleModal-selectSites-siteModerator = Select sites to moderate
+community-siteRoleModal-selectSites-member = Select sites for this user to be a member of
+community-siteRoleModal-noSites = No sites
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
@@ -1517,23 +1526,24 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
-configure-general-staff-title = Staff member badge
-configure-general-staff-explanation =
-  Show a custom badge for staff members of your organization. This badge
-  appears on the comment stream and in the admin interface.
-configure-general-staff-label = Badge text
-configure-general-staff-input =
+configure-general-badges-title = Member badges
+configure-general-badges-explanation =
+  Show a custom badge for users with specified roles. This badge appears
+  on the comment stream and in the admin interface.
+configure-general-badges-label = Badge text
+configure-general-badges-staff-member-input =
   .placeholder = E.g. Staff
-configure-general-staff-moderator-input =
+configure-general-badges-moderator-input =
   .placeholder = E.g. Moderator
-configure-general-staff-admin-input =
+configure-general-badges-admin-input =
   .placeholder = E.g. Admin
-configure-general-staff-preview = Preview
-configure-general-staff-moderator-preview = Preview
-configure-general-staff-admin-preview = Preview
-configure-general-staff-member-label = Staff member badge text
-configure-general-staff-admin-label = Admin badge text
-configure-general-staff-moderator-label = Moderator badge text
+configure-general-badges-member-input =
+  .placeholder = E.g. Member
+configure-general-badges-preview = Preview
+configure-general-badges-staff-member-label = Staff member badge text
+configure-general-badges-admin-label = Admin badge text
+configure-general-badges-moderator-label = Moderator badge text
+configure-general-badges-member-label = Member badge text
 
 configure-general-rte-title = Rich-text comments
 configure-general-rte-express = Give your community more ways to express themselves beyond plain text with rich-text formatting.

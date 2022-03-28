@@ -195,12 +195,24 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.updateUserRole(input),
     clientMutationId: input.clientMutationId,
   }),
-  promoteUser: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.Users.promote(input),
+  promoteModerator: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.promoteModerator(input),
     clientMutationId: input.clientMutationId,
   }),
-  demoteUser: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.Users.demote(input),
+  demoteModerator: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.demoteModerator(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  promoteMember: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.promoteMember(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  demoteMember: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.demoteMember(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  updateUserMembershipScopes: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.updateUserMembershipScopes(input),
     clientMutationId: input.clientMutationId,
   }),
   updateUserModerationScopes: async (source, { input }, ctx) => ({

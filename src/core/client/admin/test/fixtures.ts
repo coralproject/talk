@@ -60,11 +60,12 @@ export const settings = createFixture<GQLSettings>({
     timeout: 604800,
     message: "Comments are closed on this story.",
   },
-  staff: {
+  badges: {
     label: "Staff",
     staffLabel: "Staff",
     moderatorLabel: "Staff",
     adminLabel: "Staff",
+    memberLabel: "Member",
   },
   memberBios: true,
   reaction: {

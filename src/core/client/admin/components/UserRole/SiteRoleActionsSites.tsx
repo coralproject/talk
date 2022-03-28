@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { useField } from "react-final-form";
 
 import { CheckBox, ListGroup, ListGroupRow } from "coral-ui/components/v2";
@@ -12,7 +17,7 @@ interface Props {
   mode: string | null;
 }
 
-const SiteModeratorActionsSites: FunctionComponent<Props> = ({
+const SiteRoleActionsSites: FunctionComponent<Props> = ({
   viewerSites,
   userSites,
   mode,
@@ -21,12 +26,15 @@ const SiteModeratorActionsSites: FunctionComponent<Props> = ({
   const userScopedSitesInViewerScope = userSites?.filter((s) =>
     viewerSites.find(({ id }) => s.id === id)
   );
-  const candidateSites =
-    mode === "promote" ? viewerSites : userScopedSitesInViewerScope || [];
+  const candidateSites = useMemo(
+    () =>
+      mode === "promote" ? viewerSites : userScopedSitesInViewerScope || [],
+    []
+  );
 
   useEffect(() => {
     siteIDsInput.onChange(candidateSites.map((site) => site.id));
-  }, []);
+  }, [candidateSites]);
 
   const onAddSite = useCallback(
     (siteID: string) => {
@@ -64,6 +72,7 @@ const SiteModeratorActionsSites: FunctionComponent<Props> = ({
         const siteIsAlreadyIncludedInUserScopes = userSites
           ?.map((s) => s.id)
           .includes(site.id);
+
         return (
           <ListGroupRow key={site.id}>
             <CheckBox
@@ -82,4 +91,4 @@ const SiteModeratorActionsSites: FunctionComponent<Props> = ({
   );
 };
 
-export default SiteModeratorActionsSites;
+export default SiteRoleActionsSites;
