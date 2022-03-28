@@ -165,16 +165,12 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       userID: ctx.user.id,
     });
 
-    const key = `${ctx.user.id}:${storyID}`;
-    const toBeMarkedComments = ctx.seenComments.get(key);
-    if (!toBeMarkedComments) {
-      ctx.seenComments.set(key, [id]);
-    } else {
-      toBeMarkedComments.push(id);
-    }
+    // Store that we've seen this comment
+    ctx.seenComments.insert(ctx.user.id, storyID, id);
 
+    // Check if we had previously seen this comment
     const seen = seenComments ? id in seenComments.comments : false;
-
+    ctx.logger.debug({ commentID: id, seen }, "seen state");
     return seen;
   },
 };

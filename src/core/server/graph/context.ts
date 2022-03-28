@@ -26,6 +26,7 @@ import { Request } from "coral-server/types/express";
 
 import loaders from "./loaders";
 import mutators from "./mutators";
+import SeenCommentsCollection from "./seenCommentsCollection";
 
 export interface GraphContextOptions {
   clientID?: string;
@@ -86,7 +87,7 @@ export default class GraphContext {
   public readonly signingConfig?: JWTSigningConfig;
   public readonly user?: User;
 
-  public readonly seenComments: Map<string, string[]>;
+  public readonly seenComments: SeenCommentsCollection;
 
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
@@ -123,6 +124,6 @@ export default class GraphContext {
     this.loaders = loaders(this);
     this.mutators = mutators(this);
 
-    this.seenComments = new Map<string, string[]>();
+    this.seenComments = new SeenCommentsCollection();
   }
 }

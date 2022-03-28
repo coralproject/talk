@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import { dotize } from "coral-common/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import { FindSeenCommentsInput } from "coral-server/graph/loaders/SeenComments";
+import SeenCommentsCollection from "coral-server/graph/seenCommentsCollection";
 
 import { TenantResource } from "../tenant";
 
@@ -114,15 +115,14 @@ export async function markSeenComments(
 export async function markSeenCommentsBulk(
   mongo: MongoContext,
   tenantID: string,
-  seenComments: Map<string, string[]>,
+  seenComments: SeenCommentsCollection,
   now: Date
 ) {
   const operations: any[] = [];
-  for (const [key, commentIDs] of seenComments) {
-    const split = key.split(":");
-    const userID = split[0];
-    const storyID = split[1];
 
+  const keys = seenComments.keys();
+  for (const { userID, storyID } of keys) {
+    const commentIDs = seenComments.idsForStory(userID, storyID);
     const comments = reduceCommentIDs(commentIDs, now);
 
     operations.push({
@@ -143,6 +143,10 @@ export async function markSeenCommentsBulk(
         upsert: true,
       },
     });
+  }
+
+  if (operations.length === 0) {
+    return 0;
   }
 
   const result = await mongo
