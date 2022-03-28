@@ -150,8 +150,8 @@ $moderateCardLinkTextColor: $colors-teal-700;
 
 .timestamp {
   padding-right: var(--spacing-2);
-  /* font-size: var(--font-size-1);
-  line-height: 1.33; */
+  font-size: var(--font-size-1);
+  line-height: 1.33;
 }
 
 .edited {
