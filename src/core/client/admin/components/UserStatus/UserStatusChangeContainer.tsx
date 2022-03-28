@@ -203,10 +203,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     ]
   );
 
-  if (
-    user.role !== GQLUSER_ROLE.COMMENTER &&
-    user.role !== GQLUSER_ROLE.MEMBER
-  ) {
+  if (user.role === GQLUSER_ROLE.ADMIN) {
     return (
       <UserStatusContainer
         user={user}
