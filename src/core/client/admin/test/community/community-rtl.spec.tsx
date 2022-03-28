@@ -263,7 +263,8 @@ it("can't change role as a moderator", async () => {
     }),
   });
 
-  expect(screen.getByLabelText("Change user status")).toBeVisible();
+  const userStatus = screen.getAllByLabelText("Change user status")[0];
+  expect(userStatus).toBeVisible();
   expect(screen.queryByLabelText("Change role")).toBeNull();
 });
 
@@ -544,4 +545,23 @@ it("filter by search", async () => {
       )
     ).toBeInTheDocument()
   );
+});
+
+it("can't change admin status but can for mods and staff", async () => {
+  await createTestRenderer();
+  const admin = screen.getByRole("row", {
+    name: "Markus markus@test.com 07/06/18, 06:24 PM Admin Active",
+  });
+  expect(
+    within(admin).queryByLabelText("Change user status")
+  ).not.toBeInTheDocument();
+
+  const moderator = screen.getByRole("row", {
+    name: "Lukas lukas@test.com 07/06/18, 06:24 PM Moderator Active",
+  });
+  const staff = screen.getByRole("row", {
+    name: "Huy huy@test.com 07/06/18, 06:24 PM Staff Active",
+  });
+  expect(within(moderator).getByLabelText("Change user status")).toBeVisible();
+  expect(within(staff).getByLabelText("Change user status")).toBeVisible();
 });
