@@ -25,6 +25,12 @@ export default class SeenCommentsCollection {
     }
   }
 
+  public insertMany(userID: string, storyID: string, commentIDs: string[]) {
+    commentIDs.forEach((id) => {
+      this.insert(userID, storyID, id);
+    });
+  }
+
   public idsForStory(userID: string, storyID: string): string[] {
     const key = this.computeKey(userID, storyID);
     const commentIDs = this.comments.get(key);
