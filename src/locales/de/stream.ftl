@@ -45,6 +45,8 @@ comment-count-text =
 
 ## Comments Tab
 
+comments-postCommentForm-submit = Kommentar absenden
+comments-stream-loadMore = Mehr laden
 comments-allCommentsTab = Alle Kommentare
 comments-featuredTab = Ausgewählt
 comments-counter-shortNum = { SHORT_NUMBER($count) }
@@ -87,11 +89,10 @@ comments-communityGuidelines-section =
 
 comments-commentForm-cancel = Abbrechen
 comments-commentForm-saveChanges = Änderungen speichern
-comments-commentForm-submit = Abschicken
+comments-commentForm-submit = Absenden
 
 comments-postCommentForm-section =
   .aria-label = Einen Kommentar veröffentlichen
-comments-postCommentForm-submit = Abschicken
 comments-replyList-showAll = Alle anzeigen
 comments-replyList-showMoreReplies = Weitere Antworten anzeigen
 
