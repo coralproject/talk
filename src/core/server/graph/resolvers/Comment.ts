@@ -165,12 +165,14 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       userID: ctx.user.id,
     });
 
-    // Store that we've seen this comment
-    ctx.seenComments.insert(ctx.user.id, storyID, id);
+    // Append comment to seenComments update list.
+    // These will be set after the GraphQL request has completed.
+    if (ctx.user) {
+      ctx.seenComments.insert(ctx.user.id, storyID, id);
+    }
 
     // Check if we had previously seen this comment
     const seen = seenComments ? id in seenComments.comments : false;
-    ctx.logger.debug({ commentID: id, seen }, "seen state");
     return seen;
   },
 };
