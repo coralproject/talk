@@ -346,7 +346,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         }
       });
 
-      void markSeen({ storyID, commentIDs });
+      void markSeen({ storyID, commentIDs, updateSeen: true });
       if (!disableUnmarkAction) {
         setDisableUnmarkAction(true);
       }

@@ -8,7 +8,7 @@ export default function commitLocalUpdatePromisified(
   environment: Environment,
   updater: (store: RecordSourceProxy) => Promise<void>
 ) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     commitLocalUpdate(environment, (store) => {
       updater(store)
         .then(() => resolve())
