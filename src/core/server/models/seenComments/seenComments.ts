@@ -153,5 +153,9 @@ export async function markSeenCommentsBulk(
     .seenComments()
     .bulkWrite(operations, { ordered: false });
 
-  return (result.upsertedCount ?? 0) + (result.insertedCount ?? 0);
+  return (
+    (result.insertedCount ?? 0) +
+    (result.modifiedCount ?? 0) +
+    (result.upsertedCount ?? 0)
+  );
 }
