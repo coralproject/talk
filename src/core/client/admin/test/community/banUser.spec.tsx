@@ -10,6 +10,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   communityUsers,
   settings,
@@ -18,7 +19,6 @@ import {
   sites,
   users,
 } from "../fixtures";
-import customRenderAppWithContext from "../customRenderAppWithContext";
 
 const adminViewer = users.admins[0];
 
