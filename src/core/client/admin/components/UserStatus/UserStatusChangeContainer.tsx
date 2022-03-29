@@ -203,7 +203,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     ]
   );
 
-  if (user.role === GQLUSER_ROLE.ADMIN) {
+  if (user.role === GQLUSER_ROLE.ADMIN || user.id === viewer.id) {
     return (
       <UserStatusContainer
         user={user}
@@ -321,6 +321,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment UserStatusChangeContainer_viewer on User {
+      id
       role
       moderationScopes {
         scoped
