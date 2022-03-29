@@ -1,3 +1,4 @@
+import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
@@ -67,11 +68,11 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 
   const handleModMessage = useCallback(() => {
     setShowModMessage(true);
-  }, [user, setShowModMessage]);
+  }, [setShowModMessage]);
   const hideSendModMessage = useCallback(() => {
     setShowModMessage(false);
     setShowSendModMessageSuccess(false);
-  }, [setShowWarn]);
+  }, []);
   const handleSendModMessageConfirm = useCallback(
     (message: string) => {
       void sendModMessage({ userID: user.id, message });
@@ -165,7 +166,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   const handleUpdateBan = useCallback(
-    (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
+    async (
+      updateType,
+      rejectExistingComments,
+      banSiteIDs,
+      unbanSiteIDs,
+      message
+    ) => {
       switch (updateType) {
         case UpdateType.ALL_SITES:
           void banUser({
@@ -178,13 +185,17 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           });
           break;
         case UpdateType.SPECIFIC_SITES:
-          void updateUserBan({
-            userID: user.id,
-            message,
-            rejectExistingComments,
-            banSiteIDs,
-            unbanSiteIDs,
-          });
+          try {
+            await updateUserBan({
+              userID: user.id,
+              message,
+              rejectExistingComments,
+              banSiteIDs,
+              unbanSiteIDs,
+            });
+          } catch (err) {
+            return { [FORM_ERROR]: err.message };
+          }
           break;
         case UpdateType.NO_SITES:
           void unbanUser({
@@ -192,6 +203,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           });
       }
       setShowBanned(false);
+      return;
     },
     [
       banUser,
@@ -278,6 +290,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
             sites: viewer.moderationScopes?.sites?.map((s) => s),
           }}
           userBanStatus={user.status.ban}
+          userRole={user.role}
         />
       )}
     </>
