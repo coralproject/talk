@@ -186,7 +186,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           break;
         case UpdateType.SPECIFIC_SITES:
           try {
-            void updateUserBan({
+            await updateUserBan({
               userID: user.id,
               message,
               rejectExistingComments,
