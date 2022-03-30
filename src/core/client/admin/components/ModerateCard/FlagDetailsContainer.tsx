@@ -68,8 +68,8 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Localized id="moderate-flagDetails-mostRecentReports">
-        <p className={styles.latestReports}>Ten most recent reports</p>
+      <Localized id="moderate-flagDetails-latestReports">
+        <p className={styles.latestReports}>Latest reports</p>
       </Localized>
       <HorizontalGutter size="oneAndAHalf">
         <FlagDetails
