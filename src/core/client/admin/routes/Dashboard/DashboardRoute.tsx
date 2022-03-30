@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withRouteConfig } from "coral-framework/lib/router";
@@ -11,20 +11,26 @@ interface Props {
   data: DashboardRouteQueryResponse | null;
 }
 const DashboardRoute: React.FunctionComponent<Props> = ({ data }) => {
+  const firstSite = useMemo(() => {
+    if (data) {
+      if (
+        data.viewer?.moderationScopes?.scoped &&
+        data.viewer.moderationScopes.sites
+      ) {
+        return data.viewer.moderationScopes.sites[0];
+      }
+      return data.firstSite.edges && data.firstSite.edges.length > 0
+        ? data.firstSite.edges[0].node
+        : null;
+    }
+    return null;
+  }, [data]);
+
   if (!data) {
     return null;
   }
 
-  return (
-    <DashboardContainer
-      query={data}
-      site={
-        data.firstSite.edges && data.firstSite.edges.length > 0
-          ? data.firstSite.edges[0].node
-          : null
-      }
-    />
-  );
+  return <DashboardContainer query={data} site={firstSite} />;
 };
 
 const enhanced = withRouteConfig<Props>({
@@ -35,6 +41,16 @@ const enhanced = withRouteConfig<Props>({
           node {
             id
             name
+          }
+        }
+      }
+      viewer {
+        moderationScopes {
+          scoped
+          sites {
+            id
+            name
+            ...DashboardSiteContainer_site
           }
         }
       }
