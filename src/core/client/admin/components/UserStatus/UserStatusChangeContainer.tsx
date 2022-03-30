@@ -65,6 +65,10 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 
   const moderationScopesEnabled = settings.multisite;
   const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
+  const userIsOrgModerator =
+    moderationScopesEnabled &&
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    !user.moderationScopes?.scoped;
 
   const handleModMessage = useCallback(() => {
     setShowModMessage(true);
@@ -243,6 +247,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         fullWidth={fullWidth}
         bordered={bordered}
         moderationScopesEnabled={moderationScopesEnabled}
+        userIsOrgModerator={userIsOrgModerator}
       >
         <UserStatusContainer
           user={user}
@@ -303,6 +308,9 @@ const enhanced = withFragmentContainer<Props>({
       id
       role
       username
+      moderationScopes {
+        scoped
+      }
       status {
         ban {
           active
