@@ -566,6 +566,32 @@ it("can't change admin status but can for mods and staff", async () => {
   expect(within(staff).getByLabelText("Change user status")).toBeVisible();
 });
 
+it("can't ban org moderators but can change other status for them", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settingsWithMultisite,
+    },
+  });
+  await createTestRenderer({ resolvers });
+  const orgModRow = screen.getByRole("row", {
+    name:
+      "Lukas lukas@test.com 07/06/18, 06:24 PM Organization Moderator Active",
+  });
+  const changeStatusButton = within(orgModRow).getByRole("button", {
+    name: "Change user status",
+  });
+  userEvent.click(changeStatusButton);
+  const dropdown = within(orgModRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+  expect(
+    within(dropdown).getByRole("button", { name: "Manage Ban" })
+  ).toBeDisabled();
+  expect(
+    within(dropdown).getByRole("button", { name: "Message" })
+  ).not.toBeDisabled();
+});
+
 it("doesn't show All Sites option when banning moderators and bans them on specific sites", async () => {
   const user = users.moderators[1];
   const resolvers = createResolversStub<GQLResolver>({
