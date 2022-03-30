@@ -1,4 +1,7 @@
-.container {
-  max-height: 370px;
-  overflow: auto;
+.latestReports {
+  color: var(--palette-grey-500);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-1);
+  text-transform: uppercase;
 }

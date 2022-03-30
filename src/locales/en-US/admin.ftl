@@ -973,6 +973,7 @@ moderate-marker-repeatPost = Repeat comment
 moderate-marker-other = Other
 
 moderate-markers-details = Details
+moderate-flagDetails-mostRecentReports = Ten most recent reports
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
@@ -1053,7 +1054,6 @@ moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
 moderateCardDetails-tab-reactions = Reactions
 moderateCardDetails-tab-reactions-loadMore = Load More
-moderateCardDetails-tab-flags-loadMore = Load More
 moderateCardDetails-tab-noIssuesFound = No issues found
 moderateCardDetails-tab-missingPhase = Was not run
 
