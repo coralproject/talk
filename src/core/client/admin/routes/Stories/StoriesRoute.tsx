@@ -37,7 +37,6 @@ StoriesRoute.routeConfig = createRouteConfig({
           }
         }
       }
-      ...StoryTableContainer_query
     }
   `,
   cacheConfig: { force: true },
