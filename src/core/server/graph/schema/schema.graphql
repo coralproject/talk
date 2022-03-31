@@ -2783,7 +2783,6 @@ type UserMembershipScopes {
   When null, it means that the user is a member of all sites within the organization.
   """
   sites: [Site!]
-
 }
 
 """
@@ -4288,7 +4287,7 @@ type Query {
     after: Cursor
     status: STORY_STATUS
     query: String
-    siteID: ID
+    siteIDs: [ID!]
   ): StoriesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -7594,7 +7593,7 @@ type PromoteMemberPayload {
 ##################
 
 input DemoteMemberInput {
-    """
+  """
   userID is the ID of the User that should have their member role demoted.
   """
   userID: ID!
