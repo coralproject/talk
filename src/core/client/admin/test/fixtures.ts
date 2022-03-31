@@ -647,6 +647,9 @@ export const stories = createFixtures<GQLStory>([
     canModerate: true,
     settings: {
       mode: GQLSTORY_MODE.COMMENTS,
+      moderation: GQLMODERATION_MODE.POST,
+      premodLinksEnable: false,
+      experts: [],
     },
   },
   {

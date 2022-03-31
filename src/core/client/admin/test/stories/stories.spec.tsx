@@ -1,4 +1,5 @@
-import { noop } from "lodash";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
 import {
@@ -8,19 +9,14 @@ import {
   MutationToOpenStoryResolver,
 } from "coral-framework/schema";
 import {
-  act,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
-  findParentWithType,
   replaceHistoryLocation,
-  wait,
-  waitForElement,
-  waitUntilThrow,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   emptyStories,
   settings,
@@ -42,7 +38,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -65,39 +61,38 @@ async function createTestRenderer(
       }
     },
   });
-
-  return await act(async () => {
-    const container = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("stories-container")
-    );
-
-    return { testRenderer, container, context };
-  });
+  customRenderAppWithContext(context);
+  const container = await screen.findByTestId("stories-container");
+  return { container, context };
 }
 
 it("renders stories", async () => {
   const { container } = await createTestRenderer();
-  await act(async () => {
-    await wait(() => {
-      expect(within(container).toJSON()).toMatchSnapshot();
-    });
-  });
+  expect(
+    within(container).getByRole("row", {
+      name: "Finally a Cure for Cancer Vin Hoa 11/29/2018, 4:01 PM 3 2 5 Open",
+    })
+  ).toBeVisible();
+  expect(
+    within(container).getByRole("row", {
+      name: "First Colony on Mars Linh Nguyen 11/29/2018, 4:01 PM 3 2 5 Open",
+    })
+  ).toBeVisible();
 });
 
 it("renders empty stories", async () => {
   const { container } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
-        users: () => emptyStories,
+        stories: () => emptyStories,
       },
     }),
   });
-
-  await act(async () => {
-    await wait(() => {
-      expect(within(container).toJSON()).toMatchSnapshot();
-    });
-  });
+  // renders only the row of table headings
+  expect(within(container).getAllByRole("row").length).toEqual(1);
+  expect(
+    within(container).getByText("There are currently no published stories.")
+  ).toBeVisible();
 });
 
 it("goes to moderation when clicking on title", async () => {
@@ -110,19 +105,15 @@ it("goes to moderation when clicking on title", async () => {
   transitionControl.allowTransition = false;
 
   const story = storyConnection.edges[0].node;
-  act(() => {
-    within(container)
-      .getByText(story.metadata!.title!)
-      .props.onClick({ button: 0, preventDefault: noop });
+  const storyLink = within(container).getByRole("link", {
+    name: "Finally a Cure for Cancer",
   });
+  userEvent.click(storyLink);
 
-  // Expect a routing request was made to the right url.
-  await act(async () => {
-    await wait(() => {
-      expect(transitionControl.history[0].pathname).toBe(
-        `/admin/moderate/stories/${story.id}`
-      );
-    });
+  await waitFor(() => {
+    expect(transitionControl.history[0].pathname).toBe(
+      `/admin/moderate/stories/${story.id}`
+    );
   });
 });
 
@@ -142,27 +133,18 @@ it("filter by status", async () => {
       },
     }),
   });
-
-  const selectField = within(container).getByLabelText("Search by status");
-  const closedOption = within(selectField).getByText("Closed Stories");
-
-  act(() => {
-    selectField.props.onChange({
-      target: { value: closedOption.props.value.toString() },
-    });
+  const selectField = within(container).getByRole("combobox", {
+    name: "Search by status",
   });
+  userEvent.selectOptions(selectField, "CLOSED");
 
-  await act(async () => {
-    await waitForElement(() =>
-      within(container).getByText("could not find any", { exact: false })
-    );
-  });
+  expect(
+    await within(container).findByText(
+      "We could not find any stories matching your criteria."
+    )
+  ).toBeVisible();
 });
 
-// TODO: (marcushaddon) this can be updated to test the StoryInfoDrawer
-// NOTES: (nickfunk) this can't be mocked properly because the drawer is
-// inside the modal div which is separate from the root which is our App
-// div.
 it("change story status", async () => {
   const story = stories[1];
   const openStory = createMutationResolverStub<MutationToOpenStoryResolver>(
@@ -200,53 +182,34 @@ it("change story status", async () => {
   const { container } = await createTestRenderer({
     resolvers: {
       Mutation: { openStory, closeStory },
+      Query: {
+        story: () => story,
+      },
     },
   });
 
-  const storyRow = within(container).getByText(story.metadata!.title!, {
-    selector: "tr",
+  const storyRow = within(container).getByRole("row", {
+    name: "First Colony on Mars Linh Nguyen 11/29/2018, 4:01 PM 3 2 5 Open",
   });
+  const openStoryDrawerButton = within(storyRow).getByRole("button", {
+    name: "Open Info Drawer",
+  });
+  userEvent.click(openStoryDrawerButton);
 
-  const openStoryDrawerButton = within(storyRow).getByLabelText(
-    "Open Info Drawer"
+  const modal = await screen.findByTestId("modal-storyInfoDrawer");
+  const changeStatusButton = await within(modal).findByLabelText(
+    "Select action"
   );
-  act(() => {
-    openStoryDrawerButton.props.onClick();
-  });
+  userEvent.click(changeStatusButton);
 
-  // NOTE: (nickfunk), this is as far as we can get before we need to
-  // have access to the modal div outside the App.
+  /** CLOSE STORY */
+  fireEvent.click(within(modal).getByRole("button", { name: "Closed" }));
+  expect(closeStory.called).toBe(true);
 
-  // const changeStatusButton = within(testRenderer.root).getByLabelText(
-  //   "Select action"
-  // );
-
-  // /** CLOSE STORY */
-  // act(() => {
-  //   changeStatusButton.props.onClick();
-  // });
-  // act(() => {
-  //   within(testRenderer.root)
-  //     .getByText("Close story", { selector: "button" })
-  //     .props.onClick();
-  // });
-
-  // within(testRenderer.root).getByText("Closed");
-  // expect(closeStory.called).toBe(true);
-
-  // /** OPEN STORY */
-  // act(() => {
-  //   changeStatusButton.props.onClick();
-  // });
-
-  // act(() => {
-  //   within(testRenderer.root)
-  //     .getByText("Open story", { selector: "button" })
-  //     .props.onClick();
-  // });
-
-  // within(testRenderer.root).getByText("Open");
-  // expect(openStory.called).toBe(true);
+  /** OPEN STORY */
+  userEvent.click(changeStatusButton);
+  fireEvent.click(within(modal).getByRole("button", { name: "Open" }));
+  expect(openStory.called).toBe(true);
 });
 
 it("load more", async () => {
@@ -280,21 +243,16 @@ it("load more", async () => {
     }),
   });
   const loadMore = within(container).getByText("Load More");
-  act(() => {
-    loadMore.props.onClick();
+  userEvent.click(loadMore);
+  await waitFor(() => {
+    expect(within(container).queryByText("Load More")).not.toBeInTheDocument();
   });
 
-  await act(async () => {
-    // Wait for load more to disappear.
-    await waitUntilThrow(() => within(container).getByText("Load More"));
-  });
-
-  await act(async () => {
-    await wait(() => {
-      // Make sure third user was added.
-      within(container).getByText(stories[2].metadata!.title!);
-    });
-  });
+  expect(
+    within(container).getByRole("row", {
+      name: "World hunger has been defeated 11/29/2018, 4:01 PM 3 2 5 Closed",
+    })
+  ).toBeVisible();
 });
 
 it("filter by search", async () => {
@@ -313,27 +271,16 @@ it("filter by search", async () => {
       },
     }),
   });
-
-  const searchField = within(container).getByLabelText(
-    "Search by story title",
-    { exact: false }
-  );
-  const form = findParentWithType(searchField, "form")!;
-
-  act(() =>
-    searchField.props.onChange({
-      target: { value: "search" },
-    })
-  );
-  act(() => {
-    form.props.onSubmit();
+  const searchField = within(container).getByRole("textbox", {
+    name: "Search by story title or author",
   });
-
-  await act(async () => {
-    await waitForElement(() =>
-      within(container).getByText("could not find any", { exact: false })
-    );
-  });
+  userEvent.type(searchField, "search");
+  userEvent.click(within(container).getByRole("button", { name: "Search" }));
+  expect(
+    await within(container).findByText(
+      "We could not find any stories matching your criteria."
+    )
+  ).toBeVisible();
 });
 
 it("search by site name", async () => {
@@ -362,52 +309,25 @@ it("search by site name", async () => {
       },
     }),
   });
-
-  const siteSearchField = within(container).getByTestID(
-    "site-search-textField"
-  );
-  await act(async () => {
-    await wait(() => {
-      expect(siteSearchField.props.value).toBe("");
-    });
+  const siteSearchField = within(container).getByRole("textbox", {
+    name: "Search by site name",
   });
 
-  act(() =>
-    siteSearchField.props.onChange({
-      target: { value: "Test" },
-    })
-  );
-
-  const siteSearchButton = within(container).getByTestID("site-search-button");
-  act(() => {
-    siteSearchButton.props.onClick({ preventDefault: noop });
+  userEvent.type(siteSearchField, "Test");
+  const siteSearchButton = within(container).getByTestId("site-search-button");
+  userEvent.click(siteSearchButton);
+  const testSite = await within(container).findByText("Test Site");
+  userEvent.click(testSite);
+  await waitFor(() => {
+    expect(siteSearchField).toHaveValue("Test Site");
   });
 
-  await act(async () => {
-    await waitForElement(() => within(container).getByText("Test Site"));
-    within(container).getByText("Test Site").props.onClick();
-  });
-
-  await act(async () => {
-    await wait(() => {
-      expect(siteSearchField.props.value).toBe("Test Site");
-    });
-  });
-
-  act(() =>
-    siteSearchField.props.onChange({
-      target: { value: "Not a site" },
-    })
-  );
-  act(() => {
-    siteSearchButton.props.onClick({ preventDefault: noop });
-  });
-
-  await act(async () => {
-    await waitForElement(() =>
-      within(container).getByText("No sites were found with that search")
-    );
-  });
+  userEvent.clear(siteSearchField);
+  userEvent.type(siteSearchField, "Not a site");
+  userEvent.click(siteSearchButton);
+  expect(
+    await within(container).findByText("No sites were found with that search")
+  ).toBeVisible();
 });
 
 it("use searchFilter from url", async () => {
@@ -423,15 +343,10 @@ it("use searchFilter from url", async () => {
       },
     }),
   });
-
-  const searchField = within(container).getByLabelText(
-    "Search by story title",
-    { exact: false }
-  );
-
-  await act(async () => {
-    await wait(() => {
-      expect(searchField.props.value).toBe(searchFilter);
-    });
+  const searchField = within(container).getByRole("textbox", {
+    name: "Search by story title or author",
+  });
+  await waitFor(() => {
+    expect(searchField).toHaveValue(searchFilter);
   });
 });
