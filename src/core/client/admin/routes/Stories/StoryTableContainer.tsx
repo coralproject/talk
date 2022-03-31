@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
@@ -21,28 +21,23 @@ interface Props {
   initialSearchFilter?: string;
   query: QueryData | null;
   relay: RelayPaginationProp;
+  moderateScopeSites: string[] | null;
 }
 
-const StoryTableContainer: FunctionComponent<Props> = (props) => {
-  const stories = props.query
-    ? props.query.stories.edges.map((edge) => edge.node)
-    : [];
+const StoryTableContainer: FunctionComponent<Props> = ({
+  initialSearchFilter,
+  query,
+  relay,
+  moderateScopeSites,
+}) => {
+  const stories = query ? query.stories.edges.map((edge) => edge.node) : [];
   const viewerIsSingleSiteMod =
-    props.query?.viewer?.moderationScopes?.sites &&
-    props.query?.viewer?.moderationScopes?.sites.length === 1;
+    query?.viewer?.moderationScopes?.sites &&
+    query?.viewer?.moderationScopes?.sites.length === 1;
 
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const moderateScopeSites = useMemo(() => {
-    if (
-      props.query?.viewer?.moderationScopes?.scoped &&
-      props.query.viewer.moderationScopes.sites
-    ) {
-      return props.query.viewer.moderationScopes.sites.map((site) => site.id);
-    }
-    return null;
-  }, [props.query]);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>(
-    props.initialSearchFilter || ""
+    initialSearchFilter || ""
   );
   const [statusFilter, setStatusFilter] = useState<GQLSTORY_STATUS_RL | null>(
     null
@@ -53,7 +48,7 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
       StoryTableContainerPaginationQueryVariables,
       "searchFilter" | "statusFilter" | "siteIDs"
     >
-  >(props.relay, 10, {
+  >(relay, 10, {
     searchFilter: searchFilter || null,
     statusFilter,
     siteIDs: siteFilter
@@ -62,6 +57,13 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
       ? moderateScopeSites
       : null,
   });
+  const onSelect = useCallback((id) => {
+    if (id) {
+      setSiteFilter([id]);
+    } else {
+      setSiteFilter(null);
+    }
+  }, []);
 
   return (
     <IntersectionProvider>
@@ -73,30 +75,22 @@ const StoryTableContainer: FunctionComponent<Props> = (props) => {
             onSetSearchFilter={setSearchFilter}
             searchFilter={searchFilter}
           />
-          {props.query &&
-            props.query.settings.multisite &&
-            !viewerIsSingleSiteMod && (
-              <SiteSearch
-                onSelect={(id) => {
-                  if (id) {
-                    setSiteFilter([id]);
-                  } else {
-                    setSiteFilter(null);
-                  }
-                }}
-                showSiteSearchLabel={true}
-                showOnlyScopedSitesInSearchResults={true}
-                showAllSitesSearchFilterOption={true}
-                clearTextFieldValueAfterSelect={false}
-              />
-            )}
+          {query && query.settings.multisite && !viewerIsSingleSiteMod && (
+            <SiteSearch
+              onSelect={onSelect}
+              showSiteSearchLabel={true}
+              showOnlyScopedSitesInSearchResults={true}
+              showAllSitesSearchFilterOption={true}
+              clearTextFieldValueAfterSelect={false}
+            />
+          )}
         </Flex>
         <StoryTable
-          loading={!props.query || isRefetching}
+          loading={!query || isRefetching}
           stories={stories}
           onLoadMore={loadMore}
-          multisite={props.query ? props.query.settings.multisite : false}
-          hasMore={!isRefetching && props.relay.hasMore()}
+          multisite={query ? query.settings.multisite : false}
+          hasMore={!isRefetching && relay.hasMore()}
           disableLoadMore={isLoadingMore}
           isSearching={Boolean(statusFilter) || Boolean(searchFilter)}
         />

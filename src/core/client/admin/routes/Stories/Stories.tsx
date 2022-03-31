@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "relay-runtime";
 
 import MainLayout from "coral-admin/components/MainLayout";
@@ -17,6 +17,15 @@ interface Props {
 }
 
 const Stories: FunctionComponent<Props> = ({ query, initialSearchFilter }) => {
+  const moderateScopeSites = useMemo(() => {
+    if (
+      query.viewer?.moderationScopes?.scoped &&
+      query.viewer.moderationScopes.sites
+    ) {
+      return query.viewer.moderationScopes.sites.map((site) => site.id);
+    }
+    return null;
+  }, [query]);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -27,9 +36,7 @@ const Stories: FunctionComponent<Props> = ({ query, initialSearchFilter }) => {
       `}
       variables={{
         searchFilter: initialSearchFilter,
-        siteIDs: query.viewer?.moderationScopes?.sites?.map(
-          (site: { id: string }) => site.id
-        ),
+        siteIDs: moderateScopeSites,
       }}
       cacheConfig={{ force: true }}
       render={({ error, props }) => {
@@ -38,6 +45,7 @@ const Stories: FunctionComponent<Props> = ({ query, initialSearchFilter }) => {
             <StoryTableContainer
               query={props}
               initialSearchFilter={initialSearchFilter}
+              moderateScopeSites={moderateScopeSites}
             />
           </MainLayout>
         );
