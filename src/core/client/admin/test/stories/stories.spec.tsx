@@ -350,3 +350,41 @@ it("use searchFilter from url", async () => {
     expect(searchField).toHaveValue(searchFilter);
   });
 });
+
+it("shows stories only for sites within a site moderator's scope and single-site mods have no site search", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () => users.moderators[1],
+        stories: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            first: 10,
+            query: null,
+            siteIDs: ["site-1"],
+          });
+          return {
+            edges: [{ node: stories[0], cursor: stories[0].createdAt }],
+            pageInfo: { endCursor: null, hasNextPage: false },
+          };
+        },
+      },
+    }),
+  });
+  expect(
+    within(container).getByRole("row", {
+      name: "Finally a Cure for Cancer Vin Hoa 11/29/2018, 4:01 PM 3 2 5 Open",
+    })
+  ).toBeVisible();
+  expect(
+    within(container).queryByRole("row", {
+      name: "First Colony on Mars Linh Nguyen 11/29/2018, 4:01 PM 3 2 5 Open",
+    })
+  ).not.toBeInTheDocument();
+
+  // single-site moderators will only ever need to see stories for one site, so they don't
+  // see a site search
+  const siteSearchField = within(container).queryByRole("textbox", {
+    name: "Search by site name",
+  });
+  expect(siteSearchField).not.toBeInTheDocument();
+});
