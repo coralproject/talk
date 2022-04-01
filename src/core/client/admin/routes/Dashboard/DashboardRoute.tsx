@@ -15,7 +15,8 @@ const DashboardRoute: React.FunctionComponent<Props> = ({ data }) => {
     if (data) {
       if (
         data.viewer?.moderationScopes?.scoped &&
-        data.viewer.moderationScopes.sites
+        data.viewer.moderationScopes.sites &&
+        data.viewer.moderationScopes.sites.length > 0
       ) {
         return data.viewer.moderationScopes.sites[0];
       }
