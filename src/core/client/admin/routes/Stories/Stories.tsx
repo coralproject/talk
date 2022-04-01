@@ -3,6 +3,7 @@ import { graphql } from "relay-runtime";
 
 import MainLayout from "coral-admin/components/MainLayout";
 import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { StoriesQuery as QueryTypes } from "coral-admin/__generated__/StoriesQuery.graphql";
 import { StoriesRouteQueryResponse } from "coral-admin/__generated__/StoriesRouteQuery.graphql";
@@ -40,6 +41,9 @@ const Stories: FunctionComponent<Props> = ({ query, initialSearchFilter }) => {
       }}
       cacheConfig={{ force: true }}
       render={({ error, props }) => {
+        if (error) {
+          return <QueryError error={error} />;
+        }
         return (
           <MainLayout className={styles.root} data-testid="stories-container">
             <StoryTableContainer
