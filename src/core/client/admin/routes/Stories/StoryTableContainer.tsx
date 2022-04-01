@@ -57,9 +57,9 @@ const StoryTableContainer: FunctionComponent<Props> = ({
       ? moderateScopeSites
       : null,
   });
-  const onSelect = useCallback((id) => {
-    if (id) {
-      setSiteFilter([id]);
+  const onSelect = useCallback((siteID) => {
+    if (siteID) {
+      setSiteFilter([siteID]);
     } else {
       setSiteFilter(null);
     }
@@ -122,7 +122,6 @@ const enhanced = withPaginationContainer<
         }
         viewer {
           moderationScopes {
-            scoped
             sites {
               id
             }
