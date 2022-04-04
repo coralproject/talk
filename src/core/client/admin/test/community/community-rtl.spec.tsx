@@ -447,7 +447,7 @@ it("demote user role as a site moderator", async () => {
     "A dropdown to promote/demote a user to/from sites"
   );
   const siteModButton = within(popup).getByRole("button", {
-    name: "Remove my sites from moderator",
+    name: "Remove moderator from my sites",
   });
   fireEvent.click(siteModButton);
 
