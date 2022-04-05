@@ -216,7 +216,6 @@ const BanModal: FunctionComponent<Props> = ({
                   {updateType !== UpdateType.NO_SITES && (
                     <Localized id="community-banModal-customize">
                       <CheckBox
-                        id="banModal-showMessage"
                         checked={customizeMessage}
                         onChange={(event) =>
                           setCustomizeMessage(event.target.checked)
