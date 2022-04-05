@@ -1,4 +1,3 @@
-import { noop } from "lodash";
 import { v1 as uuid } from "uuid";
 
 import { pureMerge } from "coral-common/utils";
@@ -18,9 +17,7 @@ import {
   communityUsers,
   emptyCommunityUsers,
   settings,
-  settingsWithMultisite,
   siteConnection,
-  sites,
   users,
 } from "../fixtures";
 
