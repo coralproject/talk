@@ -36,6 +36,7 @@ interface Props {
   settings: ModerationActionsContainer_settings;
   onDismiss: () => void;
   onBan: () => void;
+  onSiteBan: () => void;
 }
 
 const ModerationActionsContainer: FunctionComponent<Props> = ({
@@ -45,6 +46,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   settings,
   onDismiss,
   onBan,
+  onSiteBan,
 }) => {
   const [{ accessToken }] = useLocal<ModerationActionsContainer_local>(graphql`
     fragment ModerationActionsContainer_local on Local {
@@ -129,8 +131,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const showBanOption =
     !comment.author || !comment.author.id || viewer === null
       ? false
-      : comment.author.id !== viewer.id && !viewer.moderationScopes?.scoped;
+      : comment.author.id !== viewer.id;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+  const viewerScoped =
+    viewer.moderationScopes && viewer.moderationScopes.scoped;
 
   return (
     <>
@@ -257,7 +261,12 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       {showBanOption && (
         <>
           <DropdownDivider />
-          <ModerationActionBanQuery onBan={onBan} userID={comment.author!.id} />
+          <ModerationActionBanQuery
+            onBan={onBan}
+            onSiteBan={onSiteBan}
+            userID={comment.author!.id}
+            viewerScoped={viewerScoped}
+          />
         </>
       )}
       <DropdownDivider />
