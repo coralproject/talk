@@ -1,23 +1,16 @@
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-// import { waitFor } from "coral-common/helpers";
-// import { waitFor } from "coral-common/helpers";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {
-  // act,
   createResolversStub,
   CreateTestRendererParams,
-  // waitForElement,
-  // waitUntilThrow,
-  // within,
 } from "coral-framework/testHelpers";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import { featuredTag, moderators, settings, stories } from "../../fixtures";
 import { createContext } from "../create";
-// import create from "./create";
 
 function createStory() {
   const base = stories[0];
@@ -202,13 +195,12 @@ it("reject comment", async () => {
   );
 });
 
-it.only("ban user", async () => {
-  await createTestRenderer({
+it("ban user", async () => {
+  const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         user: ({ variables }) => {
           expectAndFail(variables.id).toBe(firstComment.author!.id);
-          // console.log(firstComment.author, "author");
           return firstComment.author!;
         },
       },
@@ -242,101 +234,48 @@ it.only("ban user", async () => {
       },
     }),
   });
-  // const comment = await waitForElement(() =>
-  //   within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  // );
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  // act(() => {
-  //   caretButton.props.onClick();
-  // });
   userEvent.click(caretButton);
-
-  // await act(async () => {
-  //   const banButton = await waitForElement(() => {
-  //     const el = within(comment).getByText("Ban User", {
-  //       selector: "button",
-  //     });
-  // const banButton = await within(comment).findByRole("button", {
-  //   name: "Ban User",
-  // });
   await waitFor(() => {
     expect(
       within(comment).getByRole("button", { name: "Ban User" })
     ).not.toBeDisabled();
   });
   fireEvent.click(within(comment).getByRole("button", { name: "Ban User" }));
-  // screen.debug(banButton);
-  // await waitFor(() => {
-  //   expect(banButton).not.toBeDisabled();
-  // });
-
-  //     expect(el.props.disabled).toBeFalsy();
-  //     return el;
-  //   });
-  //   banButton.props.onClick();
-  // });
-  // userEvent.click(banButton);
-
-  // await act(async () => {
-  //   const banButtonDialog = within(comment).getByText("Ban", {
-  //     selector: "button",
-  //   });
-  await screen.findByText("Ban Markus?");
-  //   banButtonDialog.props.onClick();
-  // });
-  // userEvent.click(banButtonDialog);
-
-  // await waitForElement(() =>
-  //   within(tabPane).getByText("You have rejected this comment", {
-  //     exact: false,
-  //   })
-  // );
-  // expect(
-  //   within(tabPane).getByText("You have rejected this comment.")
-  // ).toBeVisible();
+  const banButtonDialog = await screen.findByRole("button", { name: "Ban" });
+  fireEvent.click(banButtonDialog);
+  expect(
+    await within(tabPane).findByText("You have rejected this comment.")
+  ).toBeVisible();
 });
 
-// it("cancel ban user", async () => {
-//   const { testRenderer } = await createTestRenderer({
-//     resolvers: createResolversStub<GQLResolver>({
-//       Query: {
-//         user: ({ variables }) => {
-//           expectAndFail(variables.id).toBe(firstComment.author!.id);
-//           return firstComment.author!;
-//         },
-//       },
-//     }),
-//   });
-//   const comment = await waitForElement(() =>
-//     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-//   );
-//   const caretButton = within(comment).getByLabelText("Moderate");
-//   act(() => {
-//     caretButton.props.onClick();
-//   });
+it("cancel ban user", async () => {
+  await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        user: ({ variables }) => {
+          expectAndFail(variables.id).toBe(firstComment.author!.id);
+          return firstComment.author!;
+        },
+      },
+    }),
+  });
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+  const caretButton = within(comment).getByLabelText("Moderate");
+  userEvent.click(caretButton);
+  await waitFor(() => {
+    expect(
+      within(comment).getByRole("button", { name: "Ban User" })
+    ).not.toBeDisabled();
+  });
+  fireEvent.click(within(comment).getByRole("button", { name: "Ban User" }));
+  const cancelButtonDialog = await screen.findByRole("button", {
+    name: "Cancel",
+  });
+  fireEvent.click(cancelButtonDialog);
 
-//   await act(async () => {
-//     const banButton = await waitForElement(() => {
-//       const el = within(comment).getByText("Ban User", {
-//         selector: "button",
-//       });
-//       expect(el.props.disabled).toBeFalsy();
-//       return el;
-//     });
-//     banButton.props.onClick();
-//   });
-
-//   await act(async () => {
-//     const cancelButtonDialog = within(comment).getByText("Cancel", {
-//       selector: "button",
-//     });
-//     cancelButtonDialog.props.onClick();
-//   });
-
-//   expect(
-//     within(comment).queryByText("Ban", {
-//       selector: "button",
-//     })
-//   ).toBeNull();
-// });
+  expect(
+    within(comment).queryByRole("button", { name: "Ban" })
+  ).not.toBeInTheDocument();
+});
