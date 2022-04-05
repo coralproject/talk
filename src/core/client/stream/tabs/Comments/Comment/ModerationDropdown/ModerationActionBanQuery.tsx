@@ -13,6 +13,7 @@ interface Props {
   onSiteBan: () => void;
   userID: string;
   viewerScoped: boolean | null;
+  siteID: string;
 }
 
 export default class ModerationActionBanQuery extends Component<Props> {
@@ -43,6 +44,7 @@ export default class ModerationActionBanQuery extends Component<Props> {
               onSiteBan={this.props.onSiteBan}
               user={props ? props.user : null}
               viewerScoped={this.props.viewerScoped}
+              siteID={this.props.siteID}
             />
           );
         }}

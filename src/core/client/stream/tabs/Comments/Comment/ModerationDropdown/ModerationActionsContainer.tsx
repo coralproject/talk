@@ -266,6 +266,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
             onSiteBan={onSiteBan}
             userID={comment.author!.id}
             viewerScoped={viewerScoped}
+            siteID={story.site.id}
           />
         </>
       )}
@@ -341,6 +342,9 @@ const enhanced = withFragmentContainer<Props>({
       id
       settings {
         mode
+      }
+      site {
+        id
       }
     }
   `,

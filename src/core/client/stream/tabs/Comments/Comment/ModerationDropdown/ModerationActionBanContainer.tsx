@@ -16,6 +16,7 @@ interface Props {
   viewerScoped: boolean | null;
   onBan: () => void;
   onSiteBan: () => void;
+  siteID: string;
 }
 
 const ModerationActionBanContainer: FunctionComponent<Props> = ({
@@ -23,6 +24,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
   viewerScoped,
   onBan,
   onSiteBan,
+  siteID,
 }) => {
   if (!user) {
     return (
@@ -68,9 +70,10 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
       </>
     );
   } else {
-    const banned = user.status.ban.active;
-    const siteBanned =
-      user.status.ban.sites && user.status.ban.sites.length > 0;
+    const siteBans = user.status.ban.sites?.map((s) => s.id);
+    const allSiteBanned =
+      !!user.status.ban.active && !(siteBans && siteBans.length > 0);
+    const siteBanned = siteBans && siteBans.includes(siteID);
     return (
       <>
         <Localized id="comments-moderationDropdown-siteBan">
@@ -86,7 +89,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
               root: styles.label,
               mouseHover: styles.mouseHover,
             }}
-            disabled={!!siteBanned}
+            disabled={!!siteBanned || allSiteBanned}
           >
             Site Ban
           </DropdownButton>
@@ -105,7 +108,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
                 root: styles.label,
                 mouseHover: styles.mouseHover,
               }}
-              disabled={banned}
+              disabled={allSiteBanned}
             >
               Ban User
             </DropdownButton>
