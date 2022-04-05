@@ -44,7 +44,7 @@ const UserRow: FunctionComponent<Props> = ({
   }, [userID, onUsernameClicked]);
 
   return (
-    <TableRow>
+    <TableRow data-testid={`community-row-${userID}`}>
       <TableCell className={styles.usernameColumn}>
         {deletedAt && (
           <>

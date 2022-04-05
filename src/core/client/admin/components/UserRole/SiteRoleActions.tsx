@@ -215,7 +215,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     <DropdownButton
                       onClick={() => startPromoting(SiteRoleType.MODERATOR)}
                     >
-                      Assign my sites to moderator
+                      Assign moderator to my sites
                     </DropdownButton>
                   </Localized>
                 )}
@@ -224,7 +224,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     <DropdownButton
                       onClick={() => startDemoting(SiteRoleType.MODERATOR)}
                     >
-                      Remove my sites
+                      Remove moderator from my sites
                     </DropdownButton>
                   </Localized>
                 )}
@@ -241,7 +241,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     <DropdownButton
                       onClick={() => startPromoting(SiteRoleType.MEMBER)}
                     >
-                      Add my sites to member
+                      Assign member to my sites
                     </DropdownButton>
                   </Localized>
                 )}
@@ -250,7 +250,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     <DropdownButton
                       onClick={() => startDemoting(SiteRoleType.MEMBER)}
                     >
-                      Remove my sites from member
+                      Remove member from my sites
                     </DropdownButton>
                   </Localized>
                 )}

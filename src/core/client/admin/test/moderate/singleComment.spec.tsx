@@ -1,3 +1,6 @@
+import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { pureMerge } from "coral-common/utils";
 import {
   GQLCOMMENT_STATUS,
@@ -12,12 +15,10 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   emptyModerationQueues,
   rejectedComments,
@@ -35,7 +36,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context, subscriptionHandler } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -52,7 +53,8 @@ async function createTestRenderer(
       }
     },
   });
-  return { testRenderer, context, subscriptionHandler };
+  customRenderAppWithContext(context);
+  return { context };
 }
 
 const comment = rejectedComments[0];
@@ -69,19 +71,25 @@ beforeEach(() => {
   );
 });
 
-it("renders single comment view", async () => {
-  const { testRenderer } = await createTestRenderer({
+it("renders single comment view with story info", async () => {
+  await createTestRenderer({
     resolvers: {
       Query: {
         comment: commentStub,
       },
     },
   });
-  const { getByTestID } = within(testRenderer.root);
-  const container = await waitForElement(() =>
-    getByTestID("single-moderate-container")
+  const singleModerateContainer = await screen.findByTestId(
+    "single-moderate-container"
   );
-  expect(toJSON(container)).toMatchSnapshot();
+  expect(
+    within(singleModerateContainer).queryByText("Comment On")
+  ).toBeInTheDocument();
+  expect(
+    within(singleModerateContainer).queryByRole("link", {
+      name: "Moderate Story",
+    })
+  ).toBeInTheDocument();
 });
 
 it("approves single comment", async () => {
@@ -115,7 +123,7 @@ it("approves single comment", async () => {
     };
   });
 
-  const { testRenderer } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         comment: commentStub,
@@ -125,14 +133,8 @@ it("approves single comment", async () => {
       },
     },
   });
-
-  const { getByLabelText, getByTestID } = within(testRenderer.root);
-  const ApproveButton = await waitForElement(() => getByLabelText("Approve"));
-  ApproveButton.props.onClick();
-
-  expect(
-    toJSON(getByTestID(`moderate-comment-${comment.id}`))
-  ).toMatchSnapshot();
+  const approveButton = await screen.findByLabelText("Approve");
+  userEvent.click(approveButton);
 
   expect(approveCommentStub.called).toBe(true);
 });
@@ -168,7 +170,7 @@ it("rejects single comment", async () => {
     };
   });
 
-  const { testRenderer } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         comment: commentStub,
@@ -179,12 +181,8 @@ it("rejects single comment", async () => {
     },
   });
 
-  const { getByLabelText, getByTestID } = within(testRenderer.root);
-  const RejectButton = await waitForElement(() => getByLabelText("Reject"));
-  RejectButton.props.onClick();
+  const rejectButton = await screen.findByLabelText("Reject");
+  userEvent.click(rejectButton);
 
-  expect(
-    toJSON(getByTestID(`moderate-comment-${comment.id}`))
-  ).toMatchSnapshot();
   expect(rejectCommentStub.called).toBe(true);
 });
