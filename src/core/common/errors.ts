@@ -280,6 +280,12 @@ export enum ERROR_CODES {
   USER_SITE_BANNED = "USER_SITE_BANNED",
 
   /**
+   * MODERATOR_CANNOT_BE_BANNED_ON_SITE is returned when one or more of the sites
+   * that a user is being banned on is included in the user's moderation scopes.
+   */
+  MODERATOR_CANNOT_BE_BANNED_ON_SITE = "MODERATOR_CANNOT_BE_BANNED_ON_SITE",
+
+  /**
    * USER_CANNOT_BE_IGNORED is returned when the user attempts to ignore
    * a user that is not allowed to be ignored. This is usually because the
    * user is staff member.

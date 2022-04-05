@@ -126,18 +126,6 @@ it("filter by status", async () => {
   });
 });
 
-it("can't change staff, moderator and admin status", async () => {
-  const { container } = await createTestRenderer();
-  ["Admin", "Moderator", "Staff"].forEach((role) => {
-    const viewerRow = within(container).getAllByText(role, {
-      selector: "tr",
-    });
-    expect(() =>
-      within(viewerRow[0]).getByLabelText("Change user status")
-    ).toThrow();
-  });
-});
-
 it("suspend user", async () => {
   const user = users.commenters[0];
 
