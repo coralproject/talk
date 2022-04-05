@@ -409,6 +409,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }}
           moderationScopesEnabled={settings.multisite}
           userBanStatus={comment.author.status.ban}
+          userRole={comment.author.role}
         />
       )}
     </>

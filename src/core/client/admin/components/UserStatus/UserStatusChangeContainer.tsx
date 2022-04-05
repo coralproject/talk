@@ -1,3 +1,4 @@
+import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
@@ -64,14 +65,18 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 
   const moderationScopesEnabled = settings.multisite;
   const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
+  const userIsOrgModerator =
+    moderationScopesEnabled &&
+    user.role === GQLUSER_ROLE.MODERATOR &&
+    !user.moderationScopes?.scoped;
 
   const handleModMessage = useCallback(() => {
     setShowModMessage(true);
-  }, [user, setShowModMessage]);
+  }, [setShowModMessage]);
   const hideSendModMessage = useCallback(() => {
     setShowModMessage(false);
     setShowSendModMessageSuccess(false);
-  }, [setShowWarn]);
+  }, []);
   const handleSendModMessageConfirm = useCallback(
     (message: string) => {
       void sendModMessage({ userID: user.id, message });
@@ -165,7 +170,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   );
 
   const handleUpdateBan = useCallback(
-    (updateType, rejectExistingComments, banSiteIDs, unbanSiteIDs, message) => {
+    async (
+      updateType,
+      rejectExistingComments,
+      banSiteIDs,
+      unbanSiteIDs,
+      message
+    ) => {
       switch (updateType) {
         case UpdateType.ALL_SITES:
           void banUser({
@@ -178,13 +189,17 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           });
           break;
         case UpdateType.SPECIFIC_SITES:
-          void updateUserBan({
-            userID: user.id,
-            message,
-            rejectExistingComments,
-            banSiteIDs,
-            unbanSiteIDs,
-          });
+          try {
+            await updateUserBan({
+              userID: user.id,
+              message,
+              rejectExistingComments,
+              banSiteIDs,
+              unbanSiteIDs,
+            });
+          } catch (err) {
+            return { [FORM_ERROR]: err.message };
+          }
           break;
         case UpdateType.NO_SITES:
           void unbanUser({
@@ -192,6 +207,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           });
       }
       setShowBanned(false);
+      return;
     },
     [
       banUser,
@@ -203,10 +219,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     ]
   );
 
-  if (
-    user.role !== GQLUSER_ROLE.COMMENTER &&
-    user.role !== GQLUSER_ROLE.MEMBER
-  ) {
+  if (user.role === GQLUSER_ROLE.ADMIN || user.id === viewer.id) {
     return (
       <UserStatusContainer
         user={user}
@@ -234,6 +247,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         fullWidth={fullWidth}
         bordered={bordered}
         moderationScopesEnabled={moderationScopesEnabled}
+        userIsOrgModerator={userIsOrgModerator}
       >
         <UserStatusContainer
           user={user}
@@ -281,6 +295,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
             sites: viewer.moderationScopes?.sites?.map((s) => s),
           }}
           userBanStatus={user.status.ban}
+          userRole={user.role}
         />
       )}
     </>
@@ -293,6 +308,9 @@ const enhanced = withFragmentContainer<Props>({
       id
       role
       username
+      moderationScopes {
+        scoped
+      }
       status {
         ban {
           active
@@ -324,6 +342,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment UserStatusChangeContainer_viewer on User {
+      id
       role
       moderationScopes {
         scoped
