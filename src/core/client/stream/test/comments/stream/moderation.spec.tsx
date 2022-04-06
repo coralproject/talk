@@ -339,7 +339,7 @@ it("site moderator can site ban commenter", async () => {
   userEvent.click(caretButton);
 
   // Site moderator has Site Ban option but not Ban User option
-  const siteBanButton = within(comment).getByRole("button", {
+  const siteBanButton = await within(comment).findByRole("button", {
     name: "Site Ban",
   });
   await waitFor(() => {
