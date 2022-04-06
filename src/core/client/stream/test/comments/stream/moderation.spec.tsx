@@ -250,8 +250,8 @@ it("ban user", async () => {
     ).not.toBeDisabled();
   });
   expect(
-    within(comment).getByRole("button", { name: "Site Ban" })
-  ).toBeInTheDocument();
+    within(comment).queryByRole("button", { name: "Site Ban" })
+  ).not.toBeInTheDocument();
   fireEvent.click(within(comment).getByRole("button", { name: "Ban User" }));
   const banButtonDialog = await screen.findByRole("button", { name: "Ban" });
   fireEvent.click(banButtonDialog);

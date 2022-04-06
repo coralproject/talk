@@ -133,8 +133,6 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ? false
       : comment.author.id !== viewer.id;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
-  const viewerScoped =
-    viewer.moderationScopes && viewer.moderationScopes.scoped;
 
   return (
     <>
@@ -260,13 +258,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       )}
       {showBanOption && (
         <>
-          <DropdownDivider />
           <ModerationActionBanQuery
             onBan={onBan}
             onSiteBan={onSiteBan}
             userID={comment.author!.id}
-            viewerScoped={viewerScoped}
-            siteID={story.site.id}
           />
         </>
       )}
@@ -343,17 +338,11 @@ const enhanced = withFragmentContainer<Props>({
       settings {
         mode
       }
-      site {
-        id
-      }
     }
   `,
   viewer: graphql`
     fragment ModerationActionsContainer_viewer on User {
       id
-      moderationScopes {
-        scoped
-      }
     }
   `,
 })(ModerationActionsContainer);

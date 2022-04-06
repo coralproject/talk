@@ -2783,7 +2783,6 @@ type UserMembershipScopes {
   When null, it means that the user is a member of all sites within the organization.
   """
   sites: [Site!]
-
 }
 
 """
@@ -7594,7 +7593,7 @@ type PromoteMemberPayload {
 ##################
 
 input DemoteMemberInput {
-    """
+  """
   userID is the ID of the User that should have their member role demoted.
   """
   userID: ID!

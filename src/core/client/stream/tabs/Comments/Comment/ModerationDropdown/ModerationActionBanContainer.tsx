@@ -1,122 +1,95 @@
-import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import CLASSES from "coral-stream/classes";
-import { DropdownButton, Icon, Spinner } from "coral-ui/components/v2";
+import { GQLUSER_ROLE } from "coral-framework/schema";
+import { DropdownDivider } from "coral-ui/components/v2";
 
+import { ModerationActionBanContainer_settings } from "coral-stream/__generated__/ModerationActionBanContainer_settings.graphql";
+import { ModerationActionBanContainer_story } from "coral-stream/__generated__/ModerationActionBanContainer_story.graphql";
 import { ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
+import { ModerationActionBanContainer_viewer } from "coral-stream/__generated__/ModerationActionBanContainer_viewer.graphql";
 
-import styles from "./ModerationActionBanContainer.css";
+import ModerationActionBanButton from "./ModerationActionBanButton";
 
 interface Props {
   /** user in question or null if still loading */
   user: ModerationActionBanContainer_user | null;
-  viewerScoped: boolean | null;
+  settings: ModerationActionBanContainer_settings | null;
+  story: ModerationActionBanContainer_story | null;
+  viewer: ModerationActionBanContainer_viewer | null;
   onBan: () => void;
   onSiteBan: () => void;
-  siteID: string;
 }
 
 const ModerationActionBanContainer: FunctionComponent<Props> = ({
   user,
-  viewerScoped,
+  settings,
+  story,
+  viewer,
   onBan,
   onSiteBan,
-  siteID,
 }) => {
-  if (!user) {
+  const viewerScoped =
+    viewer?.moderationScopes && viewer.moderationScopes.scoped;
+
+  const siteBans = user?.status.ban.sites?.map((s) => s.id);
+  const userIsAllSiteBanned =
+    !!user?.status.ban.active && !(siteBans && siteBans.length > 0);
+  const userIsSiteBanned =
+    story?.site && siteBans && siteBans.includes(story.site.id);
+
+  // on multisite, a site moderator cannot ban an org mod or admin
+  // on single site, a moderator cannot ban an admin
+  const viewerCannotBanUser = useMemo(() => {
     return (
-      <>
-        <Localized id="comments-moderationDropdown-siteBan">
-          <DropdownButton
-            icon={
-              <div className={styles.banIcon}>
-                <Icon size="sm">block</Icon>
-              </div>
-            }
-            adornment={<Spinner size="xs" className={styles.spinner} />}
-            className={CLASSES.moderationDropdown.banUserButton}
-            classes={{
-              root: styles.label,
-              mouseHover: styles.mouseHover,
-            }}
-            disabled
-          >
-            Site Ban
-          </DropdownButton>
-        </Localized>
-        {!viewerScoped && (
-          <Localized id="comments-moderationDropdown-ban">
-            <DropdownButton
-              icon={
-                <div className={styles.banIcon}>
-                  <Icon size="sm">block</Icon>
-                </div>
-              }
-              adornment={<Spinner size="xs" className={styles.spinner} />}
-              className={CLASSES.moderationDropdown.banUserButton}
-              classes={{
-                root: styles.label,
-                mouseHover: styles.mouseHover,
-              }}
-              disabled
-            >
-              Ban User
-            </DropdownButton>
-          </Localized>
-        )}
-      </>
+      (settings?.multisite &&
+        viewer?.role === GQLUSER_ROLE.MODERATOR &&
+        viewer?.moderationScopes?.scoped &&
+        (user?.role === GQLUSER_ROLE.ADMIN ||
+          (user?.role === GQLUSER_ROLE.MODERATOR &&
+            !user.moderationScopes?.scoped))) ||
+      (!settings?.multisite &&
+        viewer?.role === GQLUSER_ROLE.MODERATOR &&
+        user?.role === GQLUSER_ROLE.ADMIN)
     );
-  } else {
-    const siteBans = user.status.ban.sites?.map((s) => s.id);
-    const allSiteBanned =
-      !!user.status.ban.active && !(siteBans && siteBans.length > 0);
-    const siteBanned = siteBans && siteBans.includes(siteID);
-    return (
-      <>
-        <Localized id="comments-moderationDropdown-siteBan">
-          <DropdownButton
-            icon={
-              <div className={styles.banIcon}>
-                <Icon size="sm">block</Icon>
-              </div>
-            }
-            onClick={onSiteBan}
-            className={CLASSES.moderationDropdown.banUserButton}
-            classes={{
-              root: styles.label,
-              mouseHover: styles.mouseHover,
-            }}
-            disabled={!!siteBanned || allSiteBanned}
-          >
-            Site Ban
-          </DropdownButton>
-        </Localized>{" "}
-        {!viewerScoped && (
-          <Localized id="comments-moderationDropdown-ban">
-            <DropdownButton
-              icon={
-                <div className={styles.banIcon}>
-                  <Icon size="sm">block</Icon>
-                </div>
-              }
-              onClick={onBan}
-              className={CLASSES.moderationDropdown.banUserButton}
-              classes={{
-                root: styles.label,
-                mouseHover: styles.mouseHover,
-              }}
-              disabled={allSiteBanned}
-            >
-              Ban User
-            </DropdownButton>
-          </Localized>
-        )}
-      </>
-    );
+  }, [settings, viewer, user]);
+
+  if (viewerCannotBanUser) {
+    return null;
   }
+  return (
+    <>
+      <DropdownDivider />
+      {settings?.multisite ? (
+        <>
+          <ModerationActionBanButton
+            disabled={!user || !!userIsSiteBanned || userIsAllSiteBanned}
+            allSiteBan={false}
+            onClick={onSiteBan}
+            showSpinner={!user}
+          />
+          {!viewerScoped && (
+            <ModerationActionBanButton
+              disabled={!user || userIsAllSiteBanned}
+              allSiteBan={true}
+              onClick={onBan}
+              showSpinner={!user}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <ModerationActionBanButton
+            disabled={!user || userIsAllSiteBanned}
+            allSiteBan={true}
+            onClick={onBan}
+            showSpinner={!user}
+          />
+        </>
+      )}
+    </>
+  );
 };
 
 const enhanced = withFragmentContainer<Props>({
@@ -131,6 +104,30 @@ const enhanced = withFragmentContainer<Props>({
           }
         }
       }
+      role
+      moderationScopes {
+        scoped
+      }
+    }
+  `,
+  settings: graphql`
+    fragment ModerationActionBanContainer_settings on Settings {
+      multisite
+    }
+  `,
+  story: graphql`
+    fragment ModerationActionBanContainer_story on Story {
+      site {
+        id
+      }
+    }
+  `,
+  viewer: graphql`
+    fragment ModerationActionBanContainer_viewer on User {
+      moderationScopes {
+        scoped
+      }
+      role
     }
   `,
 })(ModerationActionBanContainer);

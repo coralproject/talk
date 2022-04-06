@@ -12,8 +12,6 @@ interface Props {
   onBan: () => void;
   onSiteBan: () => void;
   userID: string;
-  viewerScoped: boolean | null;
-  siteID: string;
 }
 
 export default class ModerationActionBanQuery extends Component<Props> {
@@ -24,6 +22,15 @@ export default class ModerationActionBanQuery extends Component<Props> {
           query ModerationActionBanQuery($userID: ID!) {
             user(id: $userID) {
               ...ModerationActionBanContainer_user
+            }
+            settings {
+              ...ModerationActionBanContainer_settings
+            }
+            story {
+              ...ModerationActionBanContainer_story
+            }
+            viewer {
+              ...ModerationActionBanContainer_viewer
             }
           }
         `}
@@ -43,8 +50,9 @@ export default class ModerationActionBanQuery extends Component<Props> {
               onBan={this.props.onBan}
               onSiteBan={this.props.onSiteBan}
               user={props ? props.user : null}
-              viewerScoped={this.props.viewerScoped}
-              siteID={this.props.siteID}
+              settings={props ? props.settings : null}
+              story={props ? props.story : null}
+              viewer={props ? props.viewer : null}
             />
           );
         }}
