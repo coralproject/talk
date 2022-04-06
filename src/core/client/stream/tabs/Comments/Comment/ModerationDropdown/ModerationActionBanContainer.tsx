@@ -30,15 +30,6 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
   onBan,
   onSiteBan,
 }) => {
-  const viewerScoped =
-    viewer?.moderationScopes && viewer.moderationScopes.scoped;
-
-  const siteBans = user?.status.ban.sites?.map((s) => s.id);
-  const userIsAllSiteBanned =
-    !!user?.status.ban.active && !(siteBans && siteBans.length > 0);
-  const userIsSiteBanned =
-    story?.site && siteBans && siteBans.includes(story.site.id);
-
   // on multisite, a site moderator cannot ban an org mod or admin
   const viewerCannotBanUser = useMemo(() => {
     return (
@@ -48,11 +39,21 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
         (user?.role === GQLUSER_ROLE.MODERATOR &&
           !user.moderationScopes?.scoped))
     );
-  }, [settings, viewer, user]);
+  }, [viewer, user]);
 
   if (viewerCannotBanUser) {
     return null;
   }
+
+  const viewerScoped =
+    viewer?.moderationScopes && viewer.moderationScopes.scoped;
+
+  const siteBans = user?.status.ban.sites?.map((s) => s.id);
+  const userIsAllSiteBanned =
+    !!user?.status.ban.active && !(siteBans && siteBans.length > 0);
+  const userIsSiteBanned =
+    story?.site && siteBans && siteBans.includes(story.site.id);
+
   return (
     <>
       <DropdownDivider />
@@ -61,14 +62,14 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
           <ModerationActionBanButton
             disabled={!user || !!userIsSiteBanned || userIsAllSiteBanned}
             allSiteBan={false}
-            onClick={onSiteBan}
+            onClick={!user ? undefined : onSiteBan}
             showSpinner={!user}
           />
           {!viewerScoped && (
             <ModerationActionBanButton
               disabled={!user || userIsAllSiteBanned}
               allSiteBan={true}
-              onClick={onBan}
+              onClick={!user ? undefined : onBan}
               showSpinner={!user}
             />
           )}
@@ -78,7 +79,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
           <ModerationActionBanButton
             disabled={!user || userIsAllSiteBanned}
             allSiteBan={true}
-            onClick={onBan}
+            onClick={!user ? undefined : onBan}
             showSpinner={!user}
           />
         </>

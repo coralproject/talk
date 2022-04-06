@@ -9,7 +9,7 @@ import styles from "./ModerationActionBanButton.css";
 interface Props {
   allSiteBan: boolean;
   disabled: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   showSpinner?: boolean;
 }
 
