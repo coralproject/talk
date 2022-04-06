@@ -9,7 +9,13 @@ import {
 } from "coral-framework/testHelpers";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
-import { featuredTag, moderators, settings, stories } from "../../fixtures";
+import {
+  featuredTag,
+  moderators,
+  settings,
+  settingsWithMultisite,
+  stories,
+} from "../../fixtures";
 import { createContext } from "../create";
 
 function createStory() {
@@ -209,6 +215,7 @@ it("ban user", async () => {
           expectAndFail(variables).toMatchObject({
             userID: firstComment.author!.id,
             rejectExistingComments: false,
+            siteIDs: [],
           });
           return {
             user: pureMerge<typeof firstComment.author>(firstComment.author, {
@@ -278,4 +285,80 @@ it("cancel ban user", async () => {
   expect(
     within(comment).queryByRole("button", { name: "Ban" })
   ).not.toBeInTheDocument();
+});
+
+it("site moderator can site ban user", async () => {
+  const { tabPane } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        user: ({ variables }) => {
+          expectAndFail(variables.id).toBe(firstComment.author!.id);
+          return firstComment.author!;
+        },
+        settings: () => settingsWithMultisite,
+        viewer: () => moderators[1],
+      },
+      Mutation: {
+        banUser: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            userID: firstComment.author!.id,
+            rejectExistingComments: false,
+            siteIDs: ["site-id"],
+          });
+          return {
+            user: pureMerge<typeof firstComment.author>(firstComment.author, {
+              status: {
+                ban: {
+                  active: true,
+                },
+              },
+            }),
+          };
+        },
+        rejectComment: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            commentID: firstComment.id,
+            commentRevisionID: firstComment.revision!.id,
+          });
+          return {
+            comment: pureMerge<typeof firstComment>(firstComment, {
+              status: GQLCOMMENT_STATUS.REJECTED,
+            }),
+          };
+        },
+      },
+    }),
+  });
+
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+  const caretButton = within(comment).getByLabelText("Moderate");
+  userEvent.click(caretButton);
+
+  // Site moderator has Site Ban option but not Ban User option
+  const siteBanButton = within(comment).getByRole("button", {
+    name: "Site Ban",
+  });
+  await waitFor(() => {
+    expect(siteBanButton).not.toBeDisabled();
+  });
+  expect(
+    within(comment).queryByRole("button", { name: "Ban User" })
+  ).not.toBeInTheDocument();
+  fireEvent.click(siteBanButton);
+  expect(
+    await screen.findByText("Ban Markus from this site?")
+  ).toBeInTheDocument();
+
+  const banButtonDialog = screen.getByRole("button", { name: "Ban" });
+  fireEvent.click(banButtonDialog);
+  expect(
+    within(tabPane).getByText("You have rejected this comment.")
+  ).toBeVisible();
+  const link = within(tabPane).getByRole("link", {
+    name: "Go to moderate to review this decision",
+  });
+  expect(link).toHaveAttribute(
+    "href",
+    `/admin/moderate/comment/${firstComment.id}`
+  );
 });
