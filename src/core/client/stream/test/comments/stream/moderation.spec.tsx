@@ -249,6 +249,7 @@ it("ban user", async () => {
       within(comment).getByRole("button", { name: "Ban User" })
     ).not.toBeDisabled();
   });
+  // this is not multisite, so there should be no Site Ban option
   expect(
     within(comment).queryByRole("button", { name: "Site Ban" })
   ).not.toBeInTheDocument();
@@ -290,7 +291,7 @@ it("cancel ban user", async () => {
   ).not.toBeInTheDocument();
 });
 
-it("site moderator can site ban user", async () => {
+it("site moderator can site ban commenter", async () => {
   const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
