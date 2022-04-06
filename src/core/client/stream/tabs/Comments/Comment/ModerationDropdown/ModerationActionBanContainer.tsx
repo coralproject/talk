@@ -40,18 +40,13 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
     story?.site && siteBans && siteBans.includes(story.site.id);
 
   // on multisite, a site moderator cannot ban an org mod or admin
-  // on single site, a moderator cannot ban an admin
   const viewerCannotBanUser = useMemo(() => {
     return (
-      (settings?.multisite &&
-        viewer?.role === GQLUSER_ROLE.MODERATOR &&
-        viewer?.moderationScopes?.scoped &&
-        (user?.role === GQLUSER_ROLE.ADMIN ||
-          (user?.role === GQLUSER_ROLE.MODERATOR &&
-            !user.moderationScopes?.scoped))) ||
-      (!settings?.multisite &&
-        viewer?.role === GQLUSER_ROLE.MODERATOR &&
-        user?.role === GQLUSER_ROLE.ADMIN)
+      viewer?.role === GQLUSER_ROLE.MODERATOR &&
+      viewer?.moderationScopes?.scoped &&
+      (user?.role === GQLUSER_ROLE.ADMIN ||
+        (user?.role === GQLUSER_ROLE.MODERATOR &&
+          !user.moderationScopes?.scoped))
     );
   }, [settings, viewer, user]);
 
