@@ -443,7 +443,7 @@ profile-commentHistory-loadMore = Load More
 profile-commentHistory-empty = You have not written any comments
 profile-commentHistory-empty-subheading = A history of your comments will appear here
 
-profile-commentHistory-archived-thisIsAllYourComments = 
+profile-commentHistory-archived-thisIsAllYourComments =
   This is all of your comments from the previous { $value } { $unit ->
     [second] { $value ->
       [1] second

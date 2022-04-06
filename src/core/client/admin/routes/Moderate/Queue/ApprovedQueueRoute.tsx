@@ -94,7 +94,7 @@ export const ApprovedQueueRoute: FunctionComponent<Props> = (props) => {
             <EmptyMessage>There are no approved comments.</EmptyMessage>
           </Localized>
         }
-        allStories={!props.storyID}
+        showStoryInfo={!props.storyID}
       />
     </IntersectionProvider>
   );

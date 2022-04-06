@@ -60,11 +60,12 @@ export const settings = createFixture<GQLSettings>({
     timeout: 604800,
     message: "Comments are closed on this story.",
   },
-  staff: {
+  badges: {
     label: "Staff",
     staffLabel: "Staff",
     moderatorLabel: "Staff",
     adminLabel: "Staff",
+    memberLabel: "Member",
   },
   memberBios: true,
   reaction: {
@@ -195,6 +196,10 @@ export const settings = createFixture<GQLSettings>({
   newCommenters: {
     premodEnabled: false,
     approvedCommentsThreshold: 2,
+    moderation: {
+      mode: GQLMODERATION_MODE.POST,
+      premodSites: [],
+    },
   },
   premoderateSuspectWords: false,
   media: {
@@ -473,7 +478,7 @@ export const users = {
         ignoreable: false,
         moderationScopes: {
           scoped: true,
-          sites: [sites[0]],
+          sites: [sites[0], sites[1]],
         },
       },
     ],
@@ -500,6 +505,17 @@ export const users = {
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
         recentCommentHistory,
+        moderatorNotes: [],
+        allComments: {
+          edges: [],
+          nodes: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            startCursor: null,
+            endCursor: null,
+          },
+        },
       },
       {
         id: "user-commenter-1",
@@ -560,6 +576,19 @@ export const users = {
         current: [GQLUSER_STATUS.BANNED],
         ban: { active: true },
         suspension: { active: true },
+      },
+    },
+    baseUser
+  ),
+  siteBannedCommenter: createFixture<GQLUser>(
+    {
+      id: "user-banned-1",
+      username: "Lulu",
+      email: "lulu@test.com",
+      role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
+      status: {
+        ban: { active: false, sites: [sites[0], sites[1]] },
       },
     },
     baseUser

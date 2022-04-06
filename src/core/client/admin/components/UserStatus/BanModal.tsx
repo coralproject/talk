@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import { FORM_ERROR } from "final-form";
 import React, {
   FunctionComponent,
   useCallback,
@@ -11,7 +10,7 @@ import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 
-import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { useGetMessage } from "coral-framework/lib/i18n";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
@@ -53,10 +52,9 @@ interface Props {
     unbanSiteIDs?: string[] | null | undefined,
     message?: string
   ) => void;
-  getMessage: GetMessage;
-
   moderationScopesEnabled?: boolean | null;
   viewerScopes: Scopes;
+  userRole: string;
 }
 
 const BanModal: FunctionComponent<Props> = ({
@@ -64,11 +62,12 @@ const BanModal: FunctionComponent<Props> = ({
   onClose,
   onConfirm,
   username,
-  getMessage,
   moderationScopesEnabled,
   viewerScopes,
   userBanStatus,
+  userRole,
 }) => {
+  const getMessage = useGetMessage();
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
       "common-banEmailTemplate",
@@ -102,13 +101,17 @@ const BanModal: FunctionComponent<Props> = ({
   const userIsSingleSiteBanned = !!userBanStatus?.sites?.length;
   const userHasAnyBan = userIsBlanketBanned || userIsSingleSiteBanned;
 
-  const [updateType, setUpdateType] = useState<UpdateType>(
-    userIsBlanketBanned
-      ? UpdateType.NO_SITES
-      : userIsSingleSiteBanned
+  const [updateType, setUpdateType] = useState<UpdateType>(() => {
+    if (userIsBlanketBanned) {
+      return UpdateType.NO_SITES;
+    }
+    if (userIsSingleSiteBanned) {
+      return UpdateType.SPECIFIC_SITES;
+    }
+    return userRole === GQLUSER_ROLE.MODERATOR
       ? UpdateType.SPECIFIC_SITES
-      : UpdateType.ALL_SITES
-  );
+      : UpdateType.ALL_SITES;
+  });
 
   const [customizeMessage, setCustomizeMessage] = useState(false);
   const [emailMessage, setEmailMessage] = useState<string>(getDefaultMessage);
@@ -124,18 +127,13 @@ const BanModal: FunctionComponent<Props> = ({
   }, [viewerIsSingleSiteMod]);
 
   const onFormSubmit = useCallback(() => {
-    try {
-      onConfirm(
-        updateType,
-        rejectComments,
-        banSiteIDs,
-        unbanSiteIDs,
-        customizeMessage ? emailMessage : getDefaultMessage
-      );
-      return;
-    } catch (err) {
-      return { [FORM_ERROR]: err.message };
-    }
+    return onConfirm(
+      updateType,
+      rejectComments,
+      banSiteIDs,
+      unbanSiteIDs,
+      customizeMessage ? emailMessage : getDefaultMessage
+    );
   }, [
     onConfirm,
     updateType,
@@ -218,7 +216,6 @@ const BanModal: FunctionComponent<Props> = ({
                   {updateType !== UpdateType.NO_SITES && (
                     <Localized id="community-banModal-customize">
                       <CheckBox
-                        id="banModal-showMessage"
                         checked={customizeMessage}
                         onChange={(event) =>
                           setCustomizeMessage(event.target.checked)
@@ -237,22 +234,25 @@ const BanModal: FunctionComponent<Props> = ({
                       onChange={(event) => setEmailMessage(event.target.value)}
                     />
                   )}
-
                   {(viewerIsAdmin ||
                     viewerIsOrgAdmin ||
                     (viewerIsScoped && !viewerIsSingleSiteMod)) && (
                     <Flex className={styles.sitesToggle} spacing={5}>
-                      <FormField>
-                        <Localized id="community-banModal-allSites">
-                          <RadioButton
-                            checked={updateType === UpdateType.ALL_SITES}
-                            onChange={() => setUpdateType(UpdateType.ALL_SITES)}
-                            disabled={userBanStatus?.active}
-                          >
-                            All sites
-                          </RadioButton>
-                        </Localized>
-                      </FormField>
+                      {!(userRole === GQLUSER_ROLE.MODERATOR) && (
+                        <FormField>
+                          <Localized id="community-banModal-allSites">
+                            <RadioButton
+                              checked={updateType === UpdateType.ALL_SITES}
+                              onChange={() =>
+                                setUpdateType(UpdateType.ALL_SITES)
+                              }
+                              disabled={userBanStatus?.active}
+                            >
+                              All sites
+                            </RadioButton>
+                          </Localized>
+                        </FormField>
+                      )}
                       <FormField>
                         <Localized id="community-banModal-specificSites">
                           <RadioButton
@@ -327,6 +327,4 @@ const BanModal: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withGetMessage(BanModal);
-
-export default enhanced;
+export default BanModal;

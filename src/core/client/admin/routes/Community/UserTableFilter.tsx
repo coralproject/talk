@@ -124,6 +124,9 @@ const UserTableFilter: FunctionComponent<Props> = (props) => (
                     <Localized id="role-plural-commenter">
                       <Option value={GQLUSER_ROLE.COMMENTER}>Commenters</Option>
                     </Localized>
+                    <Localized id="role-plural-member">
+                      <Option value={GQLUSER_ROLE.MEMBER}>Members</Option>
+                    </Localized>
                   </OptGroup>
                 </Localized>
                 <Localized

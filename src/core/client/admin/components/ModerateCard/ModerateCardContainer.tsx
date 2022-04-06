@@ -1,4 +1,4 @@
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, {
   FunctionComponent,
   useCallback,
@@ -46,8 +46,6 @@ interface Props {
   comment: ModerateCardContainer_comment;
   settings: ModerateCardContainer_settings;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
-  match: Match;
-  router: Router;
   showStoryInfo: boolean;
   mini?: boolean;
   hideUsername?: boolean;
@@ -81,8 +79,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   viewer,
   danglingLogic,
   showStoryInfo,
-  match,
-  router,
   mini,
   hideUsername,
   selected,
@@ -100,6 +96,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   const banUser = useMutation(BanCommentUserMutation);
   const updateUserBan = useMutation(UpdateUserBanMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
+
+  const { match, router } = useRouter();
 
   const [{ moderationQueueSort }] = useLocal<
     ModerateCardContainerLocal
@@ -411,6 +409,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }}
           moderationScopesEnabled={settings.multisite}
           userBanStatus={comment.author.status.ban}
+          userRole={comment.author.role}
         />
       )}
     </>
@@ -528,6 +527,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(withRouter(ModerateCardContainer));
+})(ModerateCardContainer);
 
 export default enhanced;

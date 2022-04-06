@@ -24,13 +24,14 @@ export const getDefaultReactionConfiguration = (
   icon: "thumb_up",
 });
 
-export const getDefaultStaffConfiguration = (
+export const getDefaultBadgeConfiguration = (
   bundle: FluentBundle
-): Tenant["staff"] => ({
+): Tenant["badges"] => ({
   label: translate(bundle, "Staff", "staff-label"),
   adminLabel: translate(bundle, "Staff", "staff-label"),
   staffLabel: translate(bundle, "Staff", "staff-label"),
   moderatorLabel: translate(bundle, "Staff", "staff-label"),
+  memberLabel: translate(bundle, "Member", "member-label"),
 });
 
 /**
