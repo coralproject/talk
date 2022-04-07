@@ -146,4 +146,4 @@ it("loads more comments", async () => {
   expect(within(streamLog).getAllByTestID(/^comment[-]comment[-]/).length).toBe(
     commentsBefore + 1
   );
-});
+}, 60000);
