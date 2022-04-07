@@ -8,7 +8,6 @@ import React, {
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useLive } from "coral-framework/hooks";
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
@@ -152,18 +151,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [setLocal]
   );
 
-  const lastComment =
-    (story.comments.edges.length &&
-      story.comments.edges[story.comments.edges.length - 1]) ||
-    null;
-
   const commentSeenEnabled = useCommentSeenEnabled();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
     ViewNewCommentsNetworkEvent
   );
-  const { window } = useCoralContext();
 
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({
@@ -178,7 +171,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, story.id, lastComment, window]);
+  }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
 
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
