@@ -1,3 +1,7 @@
+---
+title: "Migrating to v6: Replacing plugin functionality"
+---
+
 # Replacing plugin functionality
 
 Coral v6+ does not support custom plugins, however there are other options for customizing the functionality of the platform to suit your use cases. The functionality from all of the [default plugins](https://legacy.docs.coralproject.net/talk/plugins-directory/?q=default) is now built in to Coral.

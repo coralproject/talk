@@ -1,6 +1,11 @@
-# External Moderation Phases Guide
+---
+title: External Moderation Phases
+---
 
-This document is in reference to external moderation phases emitted by Coral.
+# External Moderation Phases
+
+External Moderation Phases are an advanced feature that allows you to integrate with Coral's moderation pipeline via HTTP. You will provide a callback URL that will receive POST requests from Coral when comments are posted. The provided URl must respond with a moderation decision within the designated timeout or the action will be skipped.
+
 You can configure external moderation phases on your installation of Coral by
 visiting `/admin/configure/moderation/phases`.
 
@@ -25,17 +30,6 @@ The external moderation phase must respond with one of the following:
 2. Perform a moderation action and return a 200 with a [External Moderation Response](#external-moderation-response)
    as a `JSON` encoded body containing the operations you want to perform on the
    comment.
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
-
-- [Request Signing](#request-signing)
-- [Schema](#schema)
-  - [External Moderation Request](#external-moderation-request)
-  - [External Moderation Response](#external-moderation-response)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Request Signing
 

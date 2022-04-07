@@ -1,3 +1,7 @@
+---
+title: Migrating from Talk v4.x to Coral v6+
+---
+
 # Migrating from Talk v4.x to Coral v6+
 
 When we started building Talk, the precursor to our Coral platform, we wanted it to be as flexible as possible, so we could learn what publishers needed, and allow companies to customize almost every aspect of the experience.
@@ -22,8 +26,8 @@ This guide will give you instructions on how to do the migration.
 **Note: if you plan on importing data from v4.x, complete all import steps _first_ before you create any data (stories, users, comments) in your v6 instance to avoid conflicts.**
 
 1. [Set up a new instance of Coral based off the latest docker image](https://docs.coralproject.net/)
-2. Configure or reconfigure authentication strategies
-3. Find alternatives for any functionality introduced in custom plugins
-4. Update embed code, including any custom event tracking
-5. Update custom CSS
-6. Export historical Talk(v4) data and translate for import to Coral(v6) with Importer Tools
+2. [Configure or reconfigure authentication strategies](/migrate-auth)
+3. [Find alternatives for any functionality introduced in custom plugins](/migrate-custom)
+4. [Update embed code, including any custom event tracking](/cms)
+5. [Update custom CSS](/css)
+6. [Export historical Talk(v4) data and translate for import to Coral(v6) with Importer Tools](/migrate-data)

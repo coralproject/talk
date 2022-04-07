@@ -26,6 +26,8 @@ module.exports = {
         "slack",
         "mobile",
         "seo",
+        "external-moderation-phases",
+        "webhooks",
       ],
     },
     {

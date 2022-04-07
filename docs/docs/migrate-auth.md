@@ -1,6 +1,10 @@
+---
+title: "Migrating to v6: Auth strategies"
+---
+
 # Migrating to v6: Auth strategies
 
-Coral v6+ supports more authentication strategies than v4 out of the box with no plugins required. Read more about [social authentication strategies and OIDC (new)](https://docs.coralproject.net/auth)
+Coral v6+ supports more authentication strategies than v4 out of the box with no plugins required. Read more about [social authentication strategies and OIDC (new)](/auth)
 
 ## SSO in v6+
 
@@ -11,7 +15,7 @@ In Legacy Coral, SSO authentication requried:
 
 In Coral v6+, user creation and authentication is handled by Coral, to authenticate, you need to generate a JWT that matches the Coral format, sign it with the secret provided by Coral, and pass that JWT to Coral in the embed code.
 
-Find out how to [generate a signed token](https://docs.coralproject.net/sso). Note that the fields are different:
+Find out how to [generate a signed token](/sso). Note that the fields are different:
 
 - `jti`: now optional
 - `exp`: now optional
@@ -26,4 +30,4 @@ Find out how to [generate a signed token](https://docs.coralproject.net/sso). No
 - `iss`: **deprecated**
 - `aud`: **deprecated**
 
-[Read more about SSO configuration](https://docs.coralproject.net/sso)
+[Read more about SSO configuration](/sso)

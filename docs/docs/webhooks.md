@@ -1,23 +1,16 @@
+---
+title: Webhooks
+---
+
 # Webhooks Guide
 
-This document is in reference to webhooks emitted by Coral. You can configure
-webhooks on your installation of Coral by visiting `/admin/configure/webhooks`.
+Webhooks are an advanced feature that allow you to subscribe to Coral events via HTTP.
+
+You can configure webhooks on your installation of Coral by visiting `/admin/configure/webhooks`.
 
 Once you've configured a webhook endpoint in Coral, you will receive updates
 from Coral when those events occur. These will be in the form of `POST` requests
 with a `JSON` payload consisting of the schema represented below.
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
-
-- [Webhook Signing](#webhook-signing)
-  - [How to verify the signature(s)](#how-to-verify-the-signatures)
-- [Schema](#schema)
-- [Events Listing](#events-listing)
-- [Events](#events)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Webhook Signing
 
@@ -52,7 +45,7 @@ function extractEvent(body, sig) {
     // Split the header by `,` to get a list of elements.
     .split(",")
     // Split each element by `=` to get a prefix and value pair.
-    .map(element => element.split("="))
+    .map((element) => element.split("="))
     // Grab all the elements with the prefix of `sha256`.
     .filter(([prefix]) => prefix === "sha256")
     // Grab the value from the prefix and value pair.
@@ -71,7 +64,7 @@ function extractEvent(body, sig) {
   // Step 4: Compare signatures.
   if (
     // For each of the signatures on the request...
-    !signatures.some(signature =>
+    !signatures.some((signature) =>
       // Compare the expected signature to the signature on in the header. If at
       // least one of the match, we should continue to process the event.
       crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))
@@ -246,7 +239,7 @@ function when comparing signatures.
     /**
      * siteID is the ID of the site to which the story belongs.
      */
-    siteID: string
+    siteID: string;
 
     /**
      * commentID is the ID of the newly created comment.
