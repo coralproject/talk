@@ -407,7 +407,7 @@
   },
   "overrides": {
     "postcss-calc-function": {
-      "mathjs": "3.17.0"
+      "mathjs": "^3.17.0"
     }
   },
   "dependencies-pins-documentation": {
