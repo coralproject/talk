@@ -112,7 +112,7 @@ const createTestRenderer = async () => {
   return { context, stream };
 };
 
-it("rtl - renders comment stream with load more button", async () => {
+it("renders comment stream with load more button", async () => {
   const { stream } = await createTestRenderer();
 
   expect(within(stream).queryByText("Load More")).toBeInTheDocument();
