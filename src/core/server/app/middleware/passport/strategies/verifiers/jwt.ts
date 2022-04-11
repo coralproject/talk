@@ -64,7 +64,7 @@ export class JWTVerifier implements Verifier<JWTToken> {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  public validationError(token: JWTToken | object): string | undefined {
+  public checkForValidationError(token: JWTToken | object): string | undefined {
     return validateToken(token);
   }
 

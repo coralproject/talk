@@ -292,7 +292,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
     return tenant.auth.integrations.sso.enabled;
   }
 
-  public validationError(
+  public checkForValidationError(
     // eslint-disable-next-line @typescript-eslint/ban-types
     token: SSOToken | object,
     kid?: string

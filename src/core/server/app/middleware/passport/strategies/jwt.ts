@@ -51,8 +51,19 @@ export interface Verifier<T = Token> {
    * supports will perform type checking and ensure that the given Tenant
    * supports the requested verification type.
    */
+  /**
+   * checkForValidationError will validate the token against the verifier and
+   * return an error if there is one.
+   */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  validationError: (token: T | object, kid?: string) => string | undefined;
+  checkForValidationError: (
+    token: T | object,
+    kid?: string
+  ) => string | undefined;
+  /**
+   * enabled will check that the requested verification type has been enabled
+   * on a given Tenant.
+   */
   enabled: (tenant: Tenant, token: T | object) => boolean;
 }
 
@@ -91,7 +102,7 @@ export async function verifyAndRetrieveUser(
       // First check that verifier is enabled on the tenant
       if (verifier.enabled(tenant, token)) {
         // Then check for token validation errors if verifier is enabled
-        const error = verifier.validationError(token);
+        const error = verifier.checkForValidationError(token);
         if (error) {
           if (validationErrors.length === 0) {
             validationErrors += error;
@@ -123,7 +134,7 @@ export async function verifyAndRetrieveUser(
   // verifiers to help trace the issue.
   throw new TokenInvalidError(
     tokenString,
-    "No suitable jwt verifier could be found. This could be because none is enabled, or due to token validation errors.",
+    "No suitable jwt verifier could be found. Either a verifier is not enabled or there are token validation errors.",
     validationErrors
   );
 }

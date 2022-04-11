@@ -71,7 +71,9 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
     );
   }
 
-  public validationError(token: OIDCIDToken | object): string | undefined {
+  public checkForValidationError(
+    token: OIDCIDToken | object
+  ): string | undefined {
     return validateToken(token);
   }
 }
