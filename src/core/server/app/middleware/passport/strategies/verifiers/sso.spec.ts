@@ -38,7 +38,7 @@ describe("isSSOToken", () => {
           role: "SUPERADMIN",
         },
       } as object)
-    ).toEqual('SSO token: "user.id" is required');
+    ).toEqual('SSO token: "user.id" is required.');
     expect(validateToken({})).toEqual('SSO token: "user" is required.');
   });
 });
