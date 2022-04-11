@@ -6,7 +6,6 @@ import {
   RsaSigningKey,
   SigningKey,
 } from "jwks-rsa";
-import { isNil } from "lodash";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -69,13 +68,13 @@ export const OIDCIDTokenSchema = Joi.object()
     (s) => s.optional()
   );
 
-export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
+export function validateToken(token: OIDCIDToken | object): string | undefined {
   const { error } = OIDCIDTokenSchema.validate(token, {
     // OIDC ID tokens may contain many other fields we haven't seen.. We Just
     // need to check to see that it contains at least the fields we need.
     allowUnknown: true,
   });
-  return isNil(error);
+  return error ? "OIDC: " + error.message + "." : undefined;
 }
 
 function isCertSigningKey(
@@ -130,7 +129,12 @@ export function verifyIDToken(
       (err, token) => {
         if (err) {
           return reject(
-            new TokenInvalidError(tokenString, "token validation error", err)
+            new TokenInvalidError(
+              tokenString,
+              "token validation error",
+              undefined,
+              err
+            )
           );
         }
 

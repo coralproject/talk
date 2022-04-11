@@ -8,8 +8,8 @@ import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
   findOrCreateOIDCUserWithToken,
-  isOIDCToken,
   OIDCIDToken,
+  validateToken,
 } from "coral-server/services/oidc";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 
@@ -64,14 +64,14 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
     );
   }
 
-  public supports(
-    token: OIDCIDToken | object,
-    tenant: Tenant
-  ): token is OIDCIDToken {
+  public enabled(tenant: Tenant): boolean {
     return (
       tenant.auth.integrations.oidc.enabled &&
-      Boolean(tenant.auth.integrations.oidc.jwksURI) &&
-      isOIDCToken(token)
+      Boolean(tenant.auth.integrations.oidc.jwksURI)
     );
+  }
+
+  public validationError(token: OIDCIDToken | object): string | undefined {
+    return validateToken(token);
   }
 }

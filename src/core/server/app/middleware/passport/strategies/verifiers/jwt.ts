@@ -1,6 +1,5 @@
 import { Redis } from "ioredis";
 import Joi from "joi";
-import { isNil } from "lodash";
 
 import { MongoContext } from "coral-server/data/context";
 import { Tenant } from "coral-server/models/tenant";
@@ -36,11 +35,11 @@ export const JWTTokenSchema = Joi.object().keys({
 });
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function isJWTToken(token: JWTToken | object): token is JWTToken {
+export function validateToken(token: JWTToken | object): string | undefined {
   const { error } = JWTTokenSchema.validate(token, {
     allowUnknown: true,
   });
-  return isNil(error);
+  return error ? "JWT: " + error.message + "." : undefined;
 }
 
 export interface JWTVerifierOptions {
@@ -60,9 +59,13 @@ export class JWTVerifier implements Verifier<JWTToken> {
     this.redis = redis;
   }
 
+  public enabled(tenant: Tenant, token: JWTToken): boolean {
+    return token.iss === tenant.id;
+  }
+
   // eslint-disable-next-line @typescript-eslint/ban-types
-  public supports(token: JWTToken | object, tenant: Tenant): token is JWTToken {
-    return isJWTToken(token) && token.iss === tenant.id;
+  public validationError(token: JWTToken | object): string | undefined {
+    return validateToken(token);
   }
 
   public async verify(

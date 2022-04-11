@@ -1,7 +1,7 @@
 import {
-  isSSOToken,
   SSOTokenSchema,
   SSOUserProfileSchema,
+  validateToken,
 } from "coral-server/app/middleware/passport/strategies/verifiers/sso";
 import { validate } from "coral-server/app/request/body";
 
@@ -15,29 +15,31 @@ describe("isSSOToken", () => {
         role: "COMMENTER",
       },
     };
-    expect(isSSOToken(token)).toBeTruthy();
+    expect(validateToken(token)).toBeUndefined();
   });
 
   it("understands invalid sso tokens", () => {
     expect(
-      isSSOToken({ user: { id: "id", email: "email" } } as object)
-    ).toBeFalsy();
+      validateToken({ user: { id: "id", email: "email" } } as object)
+    ).toEqual('SSO token: "user.username" is required.');
     expect(
-      isSSOToken({ user: { id: "id", username: "username" } } as object)
-    ).toBeFalsy();
+      validateToken({ user: { id: "id", username: "username" } } as object)
+    ).toEqual('SSO token: "user.email" is required.');
     expect(
-      isSSOToken({ user: { email: "email", username: "username" } } as object)
-    ).toBeFalsy();
+      validateToken({
+        user: { email: "email", username: "username" },
+      } as object)
+    ).toEqual('SSO token: "user.id" is required.');
     expect(
-      isSSOToken({
+      validateToken({
         user: {
           email: "email",
           username: "username",
           role: "SUPERADMIN",
         },
       } as object)
-    ).toBeFalsy();
-    expect(isSSOToken({})).toBeFalsy();
+    ).toEqual('SSO token: "user.id" is required');
+    expect(validateToken({})).toEqual('SSO token: "user" is required.');
   });
 });
 
@@ -50,7 +52,7 @@ describe("SSOUserProfileSchema", () => {
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
+    expect(validateToken({ user: profile })).toBeUndefined();
   });
 
   it("allows unknown claims", async () => {
@@ -70,6 +72,6 @@ describe("SSOUserProfileSchema", () => {
     };
 
     expect(validate(SSOTokenSchema, token)).toEqual(base);
-    expect(isSSOToken(token)).toEqual(true);
+    expect(validateToken(token)).toBeUndefined();
   });
 });

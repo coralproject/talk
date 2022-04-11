@@ -52,7 +52,8 @@ export interface Verifier<T = Token> {
    * supports the requested verification type.
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  supports: (token: T | object, tenant: Tenant, kid?: string) => token is T;
+  validationError: (token: T | object, kid?: string) => string | undefined;
+  enabled: (tenant: Tenant, token: T | object) => boolean;
 }
 
 export function createVerifiers(
@@ -83,17 +84,29 @@ export async function verifyAndRetrieveUser(
   const header: StandardHeader = decoded.header;
   const token: Token = decoded.payload;
 
+  let validationErrors = "";
   try {
     // Try to verify the token.
     for (const verifier of verifiers) {
-      if (verifier.supports(token, tenant)) {
-        return await verifier.verify(
-          tokenString,
-          token,
-          tenant,
-          now,
-          header.kid
-        );
+      // First check that verifier is enabled on the tenant
+      if (verifier.enabled(tenant, token)) {
+        // Then check for token validation errors if verifier is enabled
+        const error = verifier.validationError(token);
+        if (error) {
+          if (validationErrors.length === 0) {
+            validationErrors += error;
+          } else {
+            validationErrors += " " + error;
+          }
+        } else {
+          return await verifier.verify(
+            tokenString,
+            token,
+            tenant,
+            now,
+            header.kid
+          );
+        }
       }
     }
   } catch (err) {
@@ -106,10 +119,12 @@ export async function verifyAndRetrieveUser(
     throw err;
   }
 
-  // No verifier could be found.
+  // If no verifier could be found, throw an error. Include validation errors for all enabled
+  // verifiers to help trace the issue.
   throw new TokenInvalidError(
     tokenString,
-    "no suitable jwt verifier could be found"
+    "No suitable jwt verifier could be found. This could be because none is enabled, or due to validation errors.",
+    validationErrors
   );
 }
 
