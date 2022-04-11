@@ -344,6 +344,11 @@ function resolveGraphQLSubscriptionURI(
   }://${host}/api/graphql/live`;
 }
 
+interface CreateManagedResult {
+  provider: ComponentType;
+  context: CoralContext;
+}
+
 /**
  * `createManaged` establishes the dependencies of our framework
  * and returns a `ManagedCoralContextProvider` that provides the context
@@ -358,7 +363,7 @@ export default async function createManaged({
   bundleConfig = {},
   tokenRefreshProvider,
   reporterFeedbackPrompt = false,
-}: CreateContextArguments): Promise<ComponentType> {
+}: CreateContextArguments): Promise<CreateManagedResult> {
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
   await injectConditionalPolyfills(window, browserInfo);
@@ -482,13 +487,16 @@ export default async function createManaged({
 
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
-  return createManagedCoralContextProvider(
+  return {
+    provider: createManagedCoralContextProvider(
+      context,
+      subscriptionClient,
+      clientID,
+      initLocalState,
+      localesData,
+      localeBundles,
+      reporter?.ErrorBoundary
+    ),
     context,
-    subscriptionClient,
-    clientID,
-    initLocalState,
-    localesData,
-    localeBundles,
-    reporter?.ErrorBoundary
-  );
+  };
 }

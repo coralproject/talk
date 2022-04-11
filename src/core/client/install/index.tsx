@@ -11,16 +11,16 @@ import localesData from "./locales";
 import "coral-ui/theme/admin.css";
 
 async function main() {
-  const ManagedCoralContextProvider = await createManaged({
+  const managed = await createManaged({
     localesData,
     initLocalState,
     bundle: "install",
   });
 
   const Index: FunctionComponent = () => (
-    <ManagedCoralContextProvider>
+    <managed.provider>
       <App />
-    </ManagedCoralContextProvider>
+    </managed.provider>
   );
 
   // eslint-disable-next-line no-restricted-globals
