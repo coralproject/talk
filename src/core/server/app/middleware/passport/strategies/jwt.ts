@@ -134,7 +134,7 @@ export async function verifyAndRetrieveUser(
   // verifiers to help trace the issue.
   throw new TokenInvalidError(
     tokenString,
-    "No suitable jwt verifier could be found. Either a verifier is not enabled or there are token validation errors.",
+    "Token invalid. Either a verifier (JWT, SSO, OIDC) is not enabled or there are token validation errors.",
     validationErrors
   );
 }
