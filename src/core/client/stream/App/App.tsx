@@ -14,7 +14,11 @@ import TabBarQuery from "./TabBarQuery";
 
 import styles from "./App.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
+export type TabValue =
+  | "COMMENTS"
+  | "PROFILE"
+  | "DISCUSSIONS"
+  | "%future added value";
 
 export interface AppProps {
   activeTab: TabValue;

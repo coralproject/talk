@@ -1,9 +1,6 @@
-import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import React, { FunctionComponent, useContext } from "react";
 
-import { useLocal } from "coral-framework/lib/relay";
-
-import { AppContainerLocal } from "coral-stream/__generated__/AppContainerLocal.graphql";
+import { StreamLocalContext } from "coral-stream/local/StreamLocalProvider";
 
 import { RenderTargetContextProvider } from "../renderTarget";
 import App from "./App";
@@ -31,16 +28,16 @@ interface Props {
 }
 
 const AppContainer: FunctionComponent<Props> = ({ disableListeners }) => {
-  const [{ activeTab }] = useLocal<AppContainerLocal>(graphql`
-    fragment AppContainerLocal on Local {
-      activeTab
-    }
-  `);
+  const local = useContext(StreamLocalContext);
+  if (!local) {
+    return null;
+  }
+
   return (
     <RenderTargetContextProvider>
       {disableListeners ? null : listeners}
       <RefreshTokenHandler />
-      <App activeTab={activeTab} />
+      <App activeTab={local.activeTab} />
     </RenderTargetContextProvider>
   );
 };

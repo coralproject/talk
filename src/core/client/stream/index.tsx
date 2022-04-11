@@ -7,10 +7,12 @@ import { parseQuery } from "coral-common/utils";
 import { injectConditionalPolyfills } from "coral-framework/helpers";
 import { createManaged } from "coral-framework/lib/bootstrap";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
+import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import { createTokenRefreshProvider } from "coral-framework/lib/network/tokenRefreshProvider";
 
 import AppContainer from "./App";
 import { initLocalState } from "./local";
+import StreamLocal from "./local/StreamLocalProvider";
 import localesData from "./locales";
 
 // Import css variables.
@@ -46,9 +48,13 @@ async function main() {
     tokenRefreshProvider: createTokenRefreshProvider(),
   });
 
+  const config = await getExternalConfig(window, pym);
+
   const Index: FunctionComponent = () => (
     <ManagedCoralContextProvider>
-      <AppContainer />
+      <StreamLocal config={config}>
+        <AppContainer />
+      </StreamLocal>
     </ManagedCoralContextProvider>
   );
 
