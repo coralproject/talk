@@ -1,22 +1,18 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { QueryRenderer, useLocal } from "coral-framework/lib/relay";
+import { QueryRenderer } from "coral-framework/lib/relay";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { QueryError } from "coral-ui/components/v3";
 
 import { TabBarQuery as QueryTypes } from "coral-stream/__generated__/TabBarQuery.graphql";
-import { TabBarQueryLocal } from "coral-stream/__generated__/TabBarQueryLocal.graphql";
 
 import ErrorReporterSetUserContainer from "./ErrorReporterSetUserContainer";
 import TabBarContainer from "./TabBarContainer";
 
 const TabBarQuery: FunctionComponent = () => {
-  const [{ storyID, storyURL }] = useLocal<TabBarQueryLocal>(graphql`
-    fragment TabBarQueryLocal on Local {
-      storyID
-      storyURL
-    }
-  `);
+  const { storyID, storyURL } = useStreamLocal();
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
