@@ -22,9 +22,9 @@ interface Props {
   config: ExternalConfig | null;
 }
 
-export const StreamLocalContext = React.createContext<
-  StreamLocalValue | undefined
->(undefined);
+const StreamLocalContext = React.createContext<StreamLocalValue>({} as any);
+
+export const useStreamLocal = () => React.useContext(StreamLocalContext);
 
 const StreamLocal: FunctionComponent<Props> = ({ config, children }) => {
   const query = parseQuery(location.search);

@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent } from "react";
 
-import { StreamLocalContext } from "coral-stream/local/StreamLocalProvider";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 import { RenderTargetContextProvider } from "../renderTarget";
 import App from "./App";
@@ -28,16 +28,13 @@ interface Props {
 }
 
 const AppContainer: FunctionComponent<Props> = ({ disableListeners }) => {
-  const local = useContext(StreamLocalContext);
-  if (!local) {
-    return null;
-  }
+  const { activeTab } = useStreamLocal();
 
   return (
     <RenderTargetContextProvider>
       {disableListeners ? null : listeners}
       <RefreshTokenHandler />
-      <App activeTab={local.activeTab} />
+      <App activeTab={activeTab} />
     </RenderTargetContextProvider>
   );
 };

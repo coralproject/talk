@@ -12,7 +12,7 @@ import { createTokenRefreshProvider } from "coral-framework/lib/network/tokenRef
 
 import AppContainer from "./App";
 import { initLocalState } from "./local";
-import StreamLocal from "./local/StreamLocalProvider";
+import StreamLocal from "./local/StreamLocal";
 import localesData from "./locales";
 
 // Import css variables.

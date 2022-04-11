@@ -1,15 +1,10 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
-import { StreamLocalContext } from "coral-stream/local/StreamLocalProvider";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
@@ -29,14 +24,12 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   story,
   settings,
 }) => {
-  const local = useContext(StreamLocalContext);
+  const { activeTab, setActiveTab } = useStreamLocal();
   const handleSetActiveTab = useCallback(
     (tab: TabValue) => {
-      if (local) {
-        local.setActiveTab(tab);
-      }
+      setActiveTab(tab);
     },
-    [local]
+    [setActiveTab]
   );
 
   const showDiscussionsTab = useMemo(
@@ -56,14 +49,10 @@ export const TabBarContainer: FunctionComponent<Props> = ({
     [viewer, story]
   );
 
-  if (!local) {
-    return null;
-  }
-
   return (
     <TabBar
       mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
-      activeTab={local?.activeTab}
+      activeTab={activeTab}
       showProfileTab={!!viewer}
       showDiscussionsTab={showDiscussionsTab}
       showConfigureTab={showConfigureTab}
