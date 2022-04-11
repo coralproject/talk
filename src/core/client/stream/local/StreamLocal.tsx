@@ -84,6 +84,9 @@ interface StreamLocalValue {
 
   useAmp: boolean;
   setUseAmp: React.Dispatch<React.SetStateAction<boolean>>;
+
+  enableCommentSeen: boolean;
+  setEnableCommentSeen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StreamLocalContext = React.createContext<StreamLocalValue>({} as any);
@@ -139,6 +142,10 @@ const createContext = async (context: CoralContext) => {
 
     const [useAmp, setUseAmp] = useState<boolean>(Boolean(config?.amp));
 
+    const [enableCommentSeen, setEnableCommentSeen] = useState<boolean>(
+      featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN)
+    );
+
     const value: StreamLocalValue = {
       storyID,
       setStoryID,
@@ -162,6 +169,8 @@ const createContext = async (context: CoralContext) => {
       setEnableZKey,
       useAmp,
       setUseAmp,
+      enableCommentSeen,
+      setEnableCommentSeen,
     };
 
     return (
