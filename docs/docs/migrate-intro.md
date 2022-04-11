@@ -31,3 +31,4 @@ This guide will give you instructions on how to do the migration.
 4. [Update embed code, including any custom event tracking](/cms)
 5. [Update custom CSS](/css)
 6. [Export historical Talk(v4) data and translate for import to Coral(v6) with Importer Tools](/migrate-data)
+7. [Update comment count data](/migrate-counts)
