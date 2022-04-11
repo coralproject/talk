@@ -4,11 +4,15 @@ import { Environment, fetchQuery, graphql } from "relay-runtime";
 import { StaticConfig } from "coral-common/config";
 import { parseQuery } from "coral-common/utils";
 import { CoralContext } from "coral-framework/lib/bootstrap";
+import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import getStaticConfig from "coral-framework/lib/getStaticConfig";
 import { TabValue } from "coral-stream/App/App";
 import { COMMENTS_ORDER_BY } from "coral-stream/constants";
 
-import { GQLCOMMENT_SORT } from "coral-framework/schema/__generated__/types";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+} from "coral-framework/schema/__generated__/types";
 import { StreamLocalQuery } from "coral-stream/__generated__/StreamLocalQuery.graphql";
 
 interface ResolvedConfig {
@@ -74,11 +78,19 @@ interface StreamLocalValue {
 
   featureFlags: string[];
   setFeatureFlags: React.Dispatch<React.SetStateAction<string[]>>;
+
+  enableZKey: boolean;
+  setEnableZKey: React.Dispatch<React.SetStateAction<boolean>>;
+
+  useAmp: boolean;
+  setUseAmp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StreamLocalContext = React.createContext<StreamLocalValue>({} as any);
 
 const createContext = async (context: CoralContext) => {
+  const config = await getExternalConfig(context.window, context.pym);
+
   const staticConfig = getStaticConfig(context.window);
 
   const { featureFlags, flattenReplies } = await resolveConfig(
@@ -121,6 +133,12 @@ const createContext = async (context: CoralContext) => {
       featureFlags ?? []
     );
 
+    const [enableZKey, setEnableZKey] = useState<boolean>(
+      featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)
+    );
+
+    const [useAmp, setUseAmp] = useState<boolean>(Boolean(config?.amp));
+
     const value: StreamLocalValue = {
       storyID,
       setStoryID,
@@ -140,6 +158,10 @@ const createContext = async (context: CoralContext) => {
       setFlattenReplies: setFlattenRepliesVal,
       featureFlags: featureFlagsVal,
       setFeatureFlags: setFeatureFlagsVal,
+      enableZKey,
+      setEnableZKey,
+      useAmp,
+      setUseAmp,
     };
 
     return (
