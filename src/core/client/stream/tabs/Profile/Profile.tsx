@@ -1,15 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
-import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { SetProfileTabEvent } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import {
   HorizontalGutter,
   Tab,
@@ -17,8 +16,6 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components/v2";
-
-import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
 import MyCommentsContainer from "./MyComments";
@@ -40,16 +37,19 @@ export interface ProfileProps {
     PropTypesOf<typeof PreferencesContainer>["settings"];
 }
 
+export type PROFILE_TAB =
+  | "ACCOUNT"
+  | "MY_COMMENTS"
+  | "PREFERENCES"
+  | "%future added value";
+
 const Profile: FunctionComponent<ProfileProps> = (props) => {
   const { window } = useCoralContext();
   const emitSetProfileTabEvent = useViewerEvent(SetProfileTabEvent);
-  const [local, setLocal] = useLocal<ProfileLocal>(graphql`
-    fragment ProfileLocal on Local {
-      profileTab
-    }
-  `);
+  const { profileTab, setProfileTab } = useStreamLocal();
+
   const onTabClick = useCallback(
-    (tab: ProfileLocal["profileTab"]) => {
+    (tab: PROFILE_TAB) => {
       if (
         tab === "ACCOUNT" &&
         props.isSSO &&
@@ -57,18 +57,18 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
         props.ssoURL.length > 0
       ) {
         window.open(props.ssoURL);
-      } else if (local.profileTab !== tab) {
+      } else if (profileTab !== tab) {
         emitSetProfileTabEvent({ tab });
-        setLocal({ profileTab: tab });
+        setProfileTab(tab);
       }
     },
     [
       props.isSSO,
       props.ssoURL,
-      local.profileTab,
-      emitSetProfileTabEvent,
-      setLocal,
+      profileTab,
       window,
+      emitSetProfileTabEvent,
+      setProfileTab,
     ]
   );
 
@@ -90,7 +90,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
         <nav aria-label="Secondary Tablist">
           <TabBar
             variant="streamSecondary"
-            activeTab={local.profileTab}
+            activeTab={profileTab}
             onTabClick={onTabClick}
             className={CLASSES.tabBarMyProfile.$root}
           >
@@ -98,8 +98,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
               tabID="MY_COMMENTS"
               variant="streamSecondary"
               className={cn(CLASSES.tabBarMyProfile.myComments, {
-                [CLASSES.tabBarMyProfile.active]:
-                  local.profileTab === "MY_COMMENTS",
+                [CLASSES.tabBarMyProfile.active]: profileTab === "MY_COMMENTS",
               })}
             >
               <Localized id="profile-myCommentsTab-comments">
@@ -110,8 +109,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
               tabID="PREFERENCES"
               variant="streamSecondary"
               className={cn(CLASSES.tabBarMyProfile.preferences, {
-                [CLASSES.tabBarMyProfile.active]:
-                  local.profileTab === "PREFERENCES",
+                [CLASSES.tabBarMyProfile.active]: profileTab === "PREFERENCES",
               })}
             >
               <Localized id="profile-preferencesTab">
@@ -123,8 +121,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
                 tabID="ACCOUNT"
                 variant="streamSecondary"
                 className={cn(CLASSES.tabBarMyProfile.settings, {
-                  [CLASSES.tabBarMyProfile.active]:
-                    local.profileTab === "ACCOUNT",
+                  [CLASSES.tabBarMyProfile.active]: profileTab === "ACCOUNT",
                 })}
               >
                 <Localized id="profile-accountTab">
@@ -135,7 +132,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
           </TabBar>
         </nav>
       </Localized>
-      <TabContent activeTab={local.profileTab}>
+      <TabContent activeTab={profileTab}>
         <TabPane
           className={CLASSES.myCommentsTabPane.$root}
           tabID="MY_COMMENTS"
