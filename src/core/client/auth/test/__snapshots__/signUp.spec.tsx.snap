@@ -348,7 +348,10 @@ exports[`auth configuration renders only some social login enabled 1`] = `
 `;
 
 exports[`renders sign up form 1`] = `
-<div>
+<div
+  className="coral-width-gt-xs coral-width-gte-xs coral-width-gt-mobile coral-width-gte-mobile coral-width-gt-mobileMax coral-width-gte-mobileMax coral-width-gt-sm coral-width-gte-sm coral-width-gte-md coral-width-lte-md coral-width-lt-lg coral-width-lte-lg coral-width-lt-xl coral-width-lte-xl"
+  id="coral"
+>
   <div>
     <div
       data-testid="signUp-container"

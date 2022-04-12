@@ -31,7 +31,7 @@ module.exports = {
     {
       type: "category",
       label: "FAQ & Troubleshooting",
-      items: ["faq", "troubleshooting", "ie11"],
+      items: ["faq", "troubleshooting"],
     },
     {
       type: "category",

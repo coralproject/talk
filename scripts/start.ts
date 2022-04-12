@@ -79,6 +79,7 @@ const compiler = createCompiler({
 const serverConfig = createDevServerConfig({
   allowedHost: urls.lanUrlForConfig,
   serverPort: config.get("port"),
+  devPort: PORT,
   publicPath: webpackConfig[0].output!.publicPath!,
 });
 

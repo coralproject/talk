@@ -14,3 +14,4 @@ export { default as usePersistedLocalState } from "./usePersistedLocalState";
 export { default as usePersistedSessionState } from "./usePersistedSessionState";
 export { default as useInMemoryState } from "./useInMemoryState";
 export { default as useMemoizer } from "./useMemoizer";
+export { default as useModerationLink } from "./useModerationLink";

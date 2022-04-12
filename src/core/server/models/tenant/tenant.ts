@@ -286,6 +286,7 @@ export async function createTenant(
     rte: defaultRTEConfiguration,
     amp: false,
     flattenReplies: false,
+    disableDefaultFonts: false,
     emailDomainModeration: [],
   };
 

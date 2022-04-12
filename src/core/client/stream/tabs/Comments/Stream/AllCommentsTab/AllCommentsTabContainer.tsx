@@ -172,7 +172,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       console.error(error);
     }
   }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
-
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewMore = useCallback(async () => {
@@ -198,6 +197,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     story.id,
     keyboardShortcutsConfig,
     viewMore,
+    tag,
     viewer,
     markAsSeen,
   ]);

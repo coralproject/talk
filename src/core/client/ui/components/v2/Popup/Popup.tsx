@@ -21,9 +21,13 @@ interface WindowFeatures {
 interface PopupProps {
   open?: boolean;
   focus?: boolean;
+  /** onFocus event, does not work on cross origin popups! */
   onFocus?: (e: FocusEvent) => void;
+  /** onBlur event, does not work on cross origin popups! */
   onBlur?: (e: FocusEvent) => void;
+  /** onLoad event, does not work on cross origin popups! */
   onLoad?: (e: Event) => void;
+  /** onUnload event, does not work on cross origin popups! */
   onUnload?: (e: Event) => void;
   onClose?: () => void;
   href: string;
@@ -167,15 +171,14 @@ const Popup: FunctionComponent<PopupProps> = ({
     };
 
     ref.current = renderWindow.open(
-      href,
+      "",
       title,
       reconcileFeatures(renderWindow, opts)
     );
 
     attemptSetCallbacks();
 
-    // For some reasons IE needs a timeout before setting the callbacks...
-    setTimeout(() => attemptSetCallbacks(), 1000);
+    ref.current!.location.href = href;
   }, [renderWindow, ref, attemptSetCallbacks, href, title, reconcileFeatures]);
 
   // have to use layouteffect here so that fires synchronously and popup
