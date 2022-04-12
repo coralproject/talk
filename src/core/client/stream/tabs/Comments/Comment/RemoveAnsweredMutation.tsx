@@ -7,7 +7,7 @@ import {
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutation } from "coral-framework/lib/relay";
 
-import { COMMENT_SORT } from "coral-stream/__generated__/RemoveAnsweredLocal.graphql";
+import { COMMENT_SORT } from "../ReplyList/__generated__/ReplyListContainer1PaginationQuery.graphql";
 
 export interface RemoveAnsweredMutationInput {
   commentID: string;

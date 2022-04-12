@@ -5,17 +5,13 @@ import { graphql } from "react-relay";
 
 import { polyfillCSSVars } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
-import {
-  QueryRenderData,
-  QueryRenderer,
-  useLocal,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { DiscussionsQuery as QueryTypes } from "coral-stream/__generated__/DiscussionsQuery.graphql";
-import { DiscussionsQueryLocal } from "coral-stream/__generated__/DiscussionsQueryLocal.graphql";
 
 const loadDiscussionsContainer = () =>
   import("./DiscussionsContainer" /* webpackChunkName: "profile" */);
@@ -80,12 +76,8 @@ export const render = (
 
 const DiscussionsQuery: FunctionComponent = () => {
   const { window } = useCoralContext();
-  const [{ storyID, storyURL }] = useLocal<DiscussionsQueryLocal>(graphql`
-    fragment DiscussionsQueryLocal on Local {
-      storyID
-      storyURL
-    }
-  `);
+  const { storyID, storyURL } = useStreamLocal();
+
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <QueryRenderer<QueryTypes>

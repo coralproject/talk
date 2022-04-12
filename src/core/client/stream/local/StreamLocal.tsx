@@ -2,11 +2,12 @@ import React, { FunctionComponent, useState } from "react";
 import { Environment, fetchQuery, graphql } from "relay-runtime";
 
 import { StaticConfig } from "coral-common/config";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { parseQuery } from "coral-common/utils";
+import { AuthState, parseAccessToken } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import getStaticConfig from "coral-framework/lib/getStaticConfig";
-import { TabValue } from "coral-stream/App/App";
 import { COMMENTS_ORDER_BY } from "coral-stream/constants";
 
 import {
@@ -14,6 +15,8 @@ import {
   GQLFEATURE_FLAG,
 } from "coral-framework/schema/__generated__/types";
 import { StreamLocalQuery } from "coral-stream/__generated__/StreamLocalQuery.graphql";
+
+import { ACTIVE_TAB, AUTH_VIEW, COMMENT_SORT, COMMENTS_TAB } from "./types";
 
 interface ResolvedConfig {
   readonly featureFlags: string[];
@@ -51,6 +54,31 @@ async function resolveConfig(
   };
 }
 
+interface StreamLocalKeyboardShortcuts {
+  key: string;
+  setKey: React.Dispatch<React.SetStateAction<string>>;
+
+  source: string;
+  setSource: React.Dispatch<React.SetStateAction<string>>;
+
+  reverse: boolean;
+  setReverse: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface StreamLocalAuth {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  focus: boolean;
+  setFocus: React.Dispatch<React.SetStateAction<boolean>>;
+
+  view: AUTH_VIEW | null;
+  setView: React.Dispatch<React.SetStateAction<AUTH_VIEW | null>>;
+
+  href: string;
+  setHref: React.Dispatch<React.SetStateAction<string>>;
+}
+
 interface StreamLocalValue {
   storyID: string | undefined;
   setStoryID: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -64,14 +92,17 @@ interface StreamLocalValue {
   commentID: string | undefined;
   setCommentID: React.Dispatch<React.SetStateAction<string | undefined>>;
 
-  commentsOrderBy: GQLCOMMENT_SORT;
-  setCommentsOrderBy: React.Dispatch<React.SetStateAction<GQLCOMMENT_SORT>>;
+  commentsOrderBy: COMMENT_SORT;
+  setCommentsOrderBy: React.Dispatch<React.SetStateAction<COMMENT_SORT>>;
 
-  activeTab: TabValue;
-  setActiveTab: React.Dispatch<React.SetStateAction<TabValue>>;
+  activeTab: ACTIVE_TAB;
+  setActiveTab: React.Dispatch<React.SetStateAction<ACTIVE_TAB>>;
 
   profileTab: string;
   setProfileTab: React.Dispatch<React.SetStateAction<string>>;
+
+  commentsTab: COMMENTS_TAB;
+  setCommentsTab: React.Dispatch<React.SetStateAction<COMMENTS_TAB>>;
 
   flattenReplies: boolean;
   setFlattenReplies: React.Dispatch<React.SetStateAction<boolean>>;
@@ -87,12 +118,37 @@ interface StreamLocalValue {
 
   enableCommentSeen: boolean;
   setEnableCommentSeen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  ratingFilter: number | null;
+  setRatingFilter: React.Dispatch<React.SetStateAction<number | null>>;
+
+  archivingEnabled: boolean;
+  setArchivingEnabled: React.Dispatch<React.SetStateAction<boolean>>;
+
+  autoArchiveOlderThanMs: number;
+  setAutoArchiveOlderThanMs: React.Dispatch<React.SetStateAction<number>>;
+
+  authPopup: StreamLocalAuth;
+  keyboardShortcutsConfig: StreamLocalKeyboardShortcuts;
 }
 
 const StreamLocalContext = React.createContext<StreamLocalValue>({} as any);
 
-const createContext = async (context: CoralContext) => {
+const createContext = async (
+  context: CoralContext,
+  auth?: AuthState | null
+) => {
   const config = await getExternalConfig(context.window, context.pym);
+  if (config) {
+    if (config.accessToken) {
+      // Access tokens passed via the config should not be persisted.
+      auth = parseAccessToken(config.accessToken);
+    }
+    // append body class name if set in config.
+    if (config.bodyClassName) {
+      context.window.document.body.classList.add(config.bodyClassName);
+    }
+  }
 
   const staticConfig = getStaticConfig(context.window);
 
@@ -121,12 +177,13 @@ const createContext = async (context: CoralContext) => {
       query.commentID
     );
 
-    const [commentsOrderByVal, setCommentsOrderByVal] = useState<
-      GQLCOMMENT_SORT
-    >(commentsOrderBy);
+    const [commentsOrderByVal, setCommentsOrderByVal] = useState<COMMENT_SORT>(
+      commentsOrderBy
+    );
 
-    const [activeTab, setActiveTab] = useState<TabValue>("COMMENTS");
+    const [activeTab, setActiveTab] = useState<ACTIVE_TAB>("COMMENTS");
     const [profileTab, setProfileTab] = useState<string>("MY_COMMENTS");
+    const [commentsTab, setCommentsTab] = useState<COMMENTS_TAB>("NONE");
 
     const [flattenRepliesVal, setFlattenRepliesVal] = useState<boolean>(
       !!flattenReplies
@@ -146,6 +203,26 @@ const createContext = async (context: CoralContext) => {
       featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN)
     );
 
+    const [ratingFilter, setRatingFilter] = useState<number | null>(null);
+
+    const [archivingEnabled, setArchivingEnabled] = useState<boolean>(
+      staticConfig?.archivingEnabled || false
+    );
+    const [autoArchiveOlderThanMs, setAutoArchiveOlderThanMs] = useState<
+      number
+    >(staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN);
+
+    // Auth
+    const [authOpen, setAuthOpen] = useState<boolean>(false);
+    const [authFocus, setAuthFocus] = useState<boolean>(false);
+    const [authView, setAuthView] = useState<AUTH_VIEW | null>(null);
+    const [authHref, setAuthHref] = useState<string>("");
+
+    // Keyboard Shortcuts
+    const [keysKey, setKeysKey] = useState<string>("");
+    const [keysSource, setKeysSource] = useState<string>("");
+    const [keysReverse, setKeysReverse] = useState<boolean>(false);
+
     const value: StreamLocalValue = {
       storyID,
       setStoryID,
@@ -161,6 +238,8 @@ const createContext = async (context: CoralContext) => {
       setActiveTab,
       profileTab,
       setProfileTab,
+      commentsTab,
+      setCommentsTab,
       flattenReplies: flattenRepliesVal,
       setFlattenReplies: setFlattenRepliesVal,
       featureFlags: featureFlagsVal,
@@ -171,6 +250,30 @@ const createContext = async (context: CoralContext) => {
       setUseAmp,
       enableCommentSeen,
       setEnableCommentSeen,
+      ratingFilter,
+      setRatingFilter,
+      archivingEnabled,
+      setArchivingEnabled,
+      autoArchiveOlderThanMs,
+      setAutoArchiveOlderThanMs,
+      authPopup: {
+        open: authOpen,
+        setOpen: setAuthOpen,
+        focus: authFocus,
+        setFocus: setAuthFocus,
+        view: authView,
+        setView: setAuthView,
+        href: authHref,
+        setHref: setAuthHref,
+      },
+      keyboardShortcutsConfig: {
+        key: keysKey,
+        setKey: setKeysKey,
+        source: keysSource,
+        setSource: setKeysSource,
+        reverse: keysReverse,
+        setReverse: setKeysReverse,
+      },
     };
 
     return (

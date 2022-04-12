@@ -6,7 +6,6 @@ import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
-  useLocal,
   useMutation,
   useSubscription,
   withPaginationContainer,
@@ -15,6 +14,7 @@ import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import { Box, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -22,7 +22,6 @@ import { Button } from "coral-ui/components/v3";
 import { UnansweredCommentsTabContainer_settings } from "coral-stream/__generated__/UnansweredCommentsTabContainer_settings.graphql";
 import { UnansweredCommentsTabContainer_story } from "coral-stream/__generated__/UnansweredCommentsTabContainer_story.graphql";
 import { UnansweredCommentsTabContainer_viewer } from "coral-stream/__generated__/UnansweredCommentsTabContainer_viewer.graphql";
-import { UnansweredCommentsTabContainerLocal } from "coral-stream/__generated__/UnansweredCommentsTabContainerLocal.graphql";
 import { UnansweredCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/UnansweredCommentsTabContainerPaginationQuery.graphql";
 
 import NoComments from "../NoComments";
@@ -40,20 +39,7 @@ interface Props {
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   props
 ) => {
-  const [{ commentsOrderBy, keyboardShortcutsConfig }] = useLocal<
-    UnansweredCommentsTabContainerLocal
-  >(
-    graphql`
-      fragment UnansweredCommentsTabContainerLocal on Local {
-        commentsOrderBy
-        keyboardShortcutsConfig {
-          key
-          source
-          reverse
-        }
-      }
-    `
-  );
+  const { commentsOrderBy, keyboardShortcutsConfig } = useStreamLocal();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
@@ -118,7 +104,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [loadMore, beginLoadMoreEvent, props.story.id]);
+  }, [beginLoadMoreEvent, props.story.id, keyboardShortcutsConfig, loadMore]);
   const viewMore = useMutation(UnansweredCommentsTabViewNewMutation);
   const onViewMore = useCallback(() => viewMore({ storyID: props.story.id }), [
     props.story.id,

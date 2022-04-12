@@ -2,16 +2,12 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import {
-  QueryRenderData,
-  QueryRenderer,
-  useLocal,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
-import { UnansweredCommentsTabQueryLocal } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
 
 import { useStaticFlattenReplies } from "../../helpers";
 import SpinnerWhileRendering from "../AllCommentsTab/SpinnerWhileRendering";
@@ -57,15 +53,8 @@ export const render = (
 
 const UnansweredCommentsTabQuery: FunctionComponent<Props> = ({ preload }) => {
   const flattenReplies = useStaticFlattenReplies();
-  const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
-    UnansweredCommentsTabQueryLocal
-  >(graphql`
-    fragment UnansweredCommentsTabQueryLocal on Local {
-      storyID
-      storyURL
-      commentsOrderBy
-    }
-  `);
+  const { storyID, storyURL, commentsOrderBy } = useStreamLocal();
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`

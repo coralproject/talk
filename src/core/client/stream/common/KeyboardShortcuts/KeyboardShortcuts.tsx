@@ -6,14 +6,14 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Environment, graphql } from "react-relay";
+import { Environment } from "react-relay";
 
 import { waitFor } from "coral-common/helpers";
 import { onPymMessage } from "coral-framework/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
-import { useLocal, useMutation } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import CLASSES from "coral-stream/classes";
@@ -28,6 +28,7 @@ import {
   UnmarkAllEvent,
   ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import MarkCommentsAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
@@ -39,8 +40,6 @@ import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnable
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
-
-import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
 import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";
@@ -281,15 +280,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markSeen = useMutation(MarkCommentsAsSeenMutation);
-  const [, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
-    fragment KeyboardShortcuts_local on Local {
-      keyboardShortcutsConfig {
-        key
-        source
-        reverse
-      }
-    }
-  `);
+  const { keyboardShortcutsConfig } = useStreamLocal();
+  const { setKey, setSource, setReverse } = keyboardShortcutsConfig;
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
@@ -503,13 +495,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
       }
 
       if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
-        setLocal({
-          keyboardShortcutsConfig: {
-            key: pressedKey,
-            reverse: Boolean(data.shiftKey),
-            source: "keyboard",
-          },
-        });
+        setKey(pressedKey);
+        setReverse(Boolean(data.shiftKey));
+        setSource("keyboard");
         traverse({
           key: pressedKey,
           reverse: Boolean(data.shiftKey),
@@ -517,19 +505,15 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         });
       }
     },
-    [pym, traverse, unmarkAll, zKeyEnabled]
+    [pym, setKey, setReverse, setSource, traverse, unmarkAll, zKeyEnabled]
   );
 
   const handleZKeyButton = useCallback(() => {
-    setLocal({
-      keyboardShortcutsConfig: {
-        key: "z",
-        reverse: false,
-        source: "mobileToolbar",
-      },
-    });
+    setKey("z");
+    setReverse(false);
+    setSource("mobileToolbar");
     traverse({ key: "z", reverse: false, source: "mobileToolbar" });
-  }, [traverse]);
+  }, [setKey, setReverse, setSource, traverse]);
 
   // Update button states after first render.
   useEffect(() => {
@@ -564,7 +548,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, updateButtonStates]);
+  }, [eventEmitter, pym, traverse, updateButtonStates]);
 
   // Subscribe to keypress events.
   useEffect(() => {

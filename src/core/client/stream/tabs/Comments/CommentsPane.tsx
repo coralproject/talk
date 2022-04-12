@@ -1,20 +1,13 @@
 import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
 
-import { useLocal } from "coral-framework/lib/relay";
-
-import { CommentsPaneLocal } from "coral-stream/__generated__/CommentsPaneLocal.graphql";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 import PermalinkView from "./PermalinkView";
 import Stream from "./Stream";
 
 const CommentsPane: FunctionComponent = () => {
-  const [local] = useLocal<CommentsPaneLocal>(graphql`
-    fragment CommentsPaneLocal on Local {
-      commentID
-    }
-  `);
-  const showPermalinkView = Boolean(local.commentID);
+  const { commentID } = useStreamLocal();
+  const showPermalinkView = Boolean(commentID);
   if (showPermalinkView) {
     return <PermalinkView />;
   }

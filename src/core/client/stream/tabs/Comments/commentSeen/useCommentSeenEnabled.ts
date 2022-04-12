@@ -1,17 +1,10 @@
-import { useLocal } from "coral-framework/lib/relay";
-import { graphql } from "react-relay";
-
-import { useCommentSeenEnabledLocal } from "coral-stream/__generated__/useCommentSeenEnabledLocal.graphql";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 /**
  * Returns true when the comment seen feature is enabled.
  */
 export default function useCommentSeenEnabled() {
-  const [local] = useLocal<useCommentSeenEnabledLocal>(graphql`
-    fragment useCommentSeenEnabledLocal on Local {
-      enableCommentSeen
-    }
-  `);
+  const { enableCommentSeen } = useStreamLocal();
 
-  return local.enableCommentSeen;
+  return enableCommentSeen;
 }

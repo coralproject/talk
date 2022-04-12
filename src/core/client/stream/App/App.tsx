@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import CLASSES from "coral-stream/classes";
+import { ACTIVE_TAB } from "coral-stream/local/types";
 import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components/v2";
 
 import Comments from "../tabs/Comments";
@@ -14,14 +15,8 @@ import TabBarQuery from "./TabBarQuery";
 
 import styles from "./App.css";
 
-export type TabValue =
-  | "COMMENTS"
-  | "PROFILE"
-  | "DISCUSSIONS"
-  | "%future added value";
-
 export interface AppProps {
-  activeTab: TabValue;
+  activeTab: ACTIVE_TAB;
 }
 
 const App: FunctionComponent<AppProps> = (props) => {

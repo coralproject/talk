@@ -1,18 +1,10 @@
-import { useLocal } from "coral-framework/lib/relay";
-import { graphql } from "react-relay";
-
-import { useZKeyEnabledLocal } from "coral-stream/__generated__/useZKeyEnabledLocal.graphql";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 /**
  * Returns true when the comment seen feature is enabled.
  */
 export default function useZKeyEnabled() {
-  const [local] = useLocal<useZKeyEnabledLocal>(graphql`
-    fragment useZKeyEnabledLocal on Local {
-      enableCommentSeen
-      enableZKey
-    }
-  `);
+  const { enableCommentSeen, enableZKey } = useStreamLocal();
 
-  return local.enableZKey && local.enableCommentSeen;
+  return enableZKey && enableCommentSeen;
 }

@@ -3,18 +3,14 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { coerceStoryMode } from "coral-framework/helpers";
-import {
-  QueryRenderData,
-  QueryRenderer,
-  useLocal,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
+import { COMMENTS_TAB } from "coral-stream/local/types";
 import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
-import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";
-import { StreamQueryLocal as Local } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 
 import { AllCommentsTabQuery } from "./AllCommentsTab";
 import StreamContainer from "./StreamContainer";
@@ -62,17 +58,7 @@ export const render = (
 };
 
 const StreamQuery: FunctionComponent = () => {
-  const [{ storyID, storyURL, storyMode, commentsTab }] = useLocal<
-    Local
-  >(graphql`
-    fragment StreamQueryLocal on Local {
-      storyID
-      storyURL
-      storyMode
-      commentsOrderBy
-      commentsTab
-    }
-  `);
+  const { storyID, storyURL, storyMode, commentsTab } = useStreamLocal();
 
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (

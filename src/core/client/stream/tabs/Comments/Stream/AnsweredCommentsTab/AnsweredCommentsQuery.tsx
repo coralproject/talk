@@ -2,16 +2,12 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import {
-  QueryRenderData,
-  QueryRenderer,
-  useLocal,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { AnsweredCommentsQuery as QueryTypes } from "coral-stream/__generated__/AnsweredCommentsQuery.graphql";
-import { AnsweredCommentsQueryLocal } from "coral-stream/__generated__/AnsweredCommentsQueryLocal.graphql";
 
 import AnsweredCommentsContainer from "./AnsweredCommentsContainer";
 
@@ -60,15 +56,8 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
 };
 
 const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
-  const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
-    AnsweredCommentsQueryLocal
-  >(graphql`
-    fragment AnsweredCommentsQueryLocal on Local {
-      storyID
-      storyURL
-      commentsOrderBy
-    }
-  `);
+  const { storyID, storyURL, commentsOrderBy } = useStreamLocal();
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`

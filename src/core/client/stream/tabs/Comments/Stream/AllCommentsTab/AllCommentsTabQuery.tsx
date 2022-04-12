@@ -4,17 +4,13 @@ import { graphql } from "react-relay";
 
 import { coerceStoryMode } from "coral-framework/helpers";
 import { useEffectAtUnmount } from "coral-framework/hooks";
-import {
-  QueryRenderData,
-  QueryRenderer,
-  useLocal,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
-import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
 
 import { useStaticFlattenReplies } from "../../helpers";
 import AllCommentsTabContainer from "./AllCommentsTabContainer";
@@ -65,23 +61,19 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
   preload = false,
   tag,
 }) => {
-  const [
-    { storyID, storyURL, storyMode, ratingFilter, commentsOrderBy },
-    setLocal,
-  ] = useLocal<Local>(graphql`
-    fragment AllCommentsTabQueryLocal on Local {
-      storyID
-      storyURL
-      storyMode
-      ratingFilter
-      commentsOrderBy
-    }
-  `);
+  const {
+    storyID,
+    storyURL,
+    storyMode,
+    ratingFilter,
+    setRatingFilter,
+    commentsOrderBy,
+  } = useStreamLocal();
   const flattenReplies = useStaticFlattenReplies();
 
   // When we swtich off of the AllCommentsTab, reset the rating filter.
   useEffectAtUnmount(() => {
-    setLocal({ ratingFilter: null });
+    setRatingFilter(null);
   });
 
   return (

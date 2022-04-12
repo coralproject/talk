@@ -9,7 +9,6 @@ import {
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
-  useLocal,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import {
@@ -23,15 +22,15 @@ import {
   LoadMoreFeaturedCommentsEvent,
   SetCommentsTabEvent,
 } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
+import { COMMENTS_TAB } from "coral-stream/local/types";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { FeaturedCommentsContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentsContainer_settings.graphql";
 import { FeaturedCommentsContainer_story as StoryData } from "coral-stream/__generated__/FeaturedCommentsContainer_story.graphql";
 import { FeaturedCommentsContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentsContainer_viewer.graphql";
-import { FeaturedCommentsContainerLocal } from "coral-stream/__generated__/FeaturedCommentsContainerLocal.graphql";
 import { FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
-import { COMMENTS_TAB } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 
 import CommentsLinks from "../CommentsLinks";
 import { PostCommentFormContainer } from "../PostCommentForm";
@@ -50,14 +49,7 @@ interface Props {
 export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
 
-  const [local, setLocal] = useLocal<FeaturedCommentsContainerLocal>(
-    graphql`
-      fragment FeaturedCommentsContainerLocal on Local {
-        commentsOrderBy
-        commentsTab
-      }
-    `
-  );
+  const { commentsOrderBy, commentsTab, setCommentsTab } = useStreamLocal();
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const beginLoadMoreEvent = useViewerNetworkEvent(
@@ -77,17 +69,17 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
 
   const onChangeTab = useCallback(
     (tab: COMMENTS_TAB, emit = true) => {
-      if (local.commentsTab === tab) {
+      if (commentsTab === tab) {
         return;
       }
 
-      setLocal({ commentsTab: tab });
+      setCommentsTab(tab);
 
       if (emit) {
         emitSetCommentsTabEvent({ tab });
       }
     },
-    [local.commentsTab, setLocal, emitSetCommentsTabEvent]
+    [commentsTab, emitSetCommentsTabEvent, setCommentsTab]
   );
 
   const comments = props.story.featuredComments.edges.map((edge) => edge.node);
@@ -96,7 +88,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
     props.settings.featureFlags.includes(
       GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
     ) &&
-    local.commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
     !props.story.isClosed &&
     !props.settings.disableCommenting.enabled;
 
@@ -169,7 +161,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
               story={props.story}
               settings={props.settings}
               viewer={props.viewer}
-              commentsOrderBy={local.commentsOrderBy}
+              commentsOrderBy={commentsOrderBy}
               tab="FEATURED_COMMENTS"
               onChangeTab={onChangeTab}
             />

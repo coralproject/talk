@@ -6,7 +6,7 @@ import { graphql } from "react-relay";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   GQLCOMMENT_SORT,
   GQLFEATURE_FLAG,
@@ -24,6 +24,8 @@ import {
   SetCommentsOrderByEvent,
   SetCommentsTabEvent,
 } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
+import { COMMENTS_TAB } from "coral-stream/local/types";
 import {
   AriaInfo,
   Counter,
@@ -41,10 +43,6 @@ import { PropTypesOf } from "coral-ui/types";
 import { StreamContainer_settings } from "coral-stream/__generated__/StreamContainer_settings.graphql";
 import { StreamContainer_story } from "coral-stream/__generated__/StreamContainer_story.graphql";
 import { StreamContainer_viewer } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
-import {
-  COMMENTS_TAB,
-  StreamContainerLocal,
-} from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import ModerateStreamContainer from "../../../common/ModerateStream/ModerateStreamContainer";
 import AddACommentButton from "./AddACommentButton";
@@ -127,25 +125,17 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
   const { localStorage } = useCoralContext();
-  const [local, setLocal] = useLocal<StreamContainerLocal>(
-    graphql`
-      fragment StreamContainerLocal on Local {
-        siteID
-        commentsTab
-        commentsOrderBy
-      }
-    `
-  );
+  const local = useStreamLocal();
   const onChangeOrder = useCallback(
     async (order: React.ChangeEvent<HTMLSelectElement>) => {
       if (local.commentsOrderBy === order.target.value) {
         return;
       }
-      setLocal({ commentsOrderBy: order.target.value as any });
+      local.setCommentsOrderBy(order.target.value as any);
       emitSetCommentsOrderByEvent({ orderBy: order.target.value });
       await localStorage.setItem(COMMENTS_ORDER_BY, order.target.value);
     },
-    [local.commentsOrderBy, setLocal, emitSetCommentsOrderByEvent, localStorage]
+    [local, emitSetCommentsOrderByEvent, localStorage]
   );
 
   const onChangeTab = useCallback(
@@ -154,13 +144,13 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         return;
       }
 
-      setLocal({ commentsTab: tab });
+      local.setCommentsTab(tab);
 
       if (emit) {
         emitSetCommentsTabEvent({ tab });
       }
     },
-    [local.commentsTab, setLocal, emitSetCommentsTabEvent]
+    [local, emitSetCommentsTabEvent]
   );
 
   // TODO: extract to separate function
@@ -221,14 +211,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     }
 
     onChangeTab("ALL_COMMENTS", false);
-  }, [
-    local,
-    setLocal,
-    props,
-    featuredCommentsCount,
-    onChangeTab,
-    isRatingsAndReviews,
-  ]);
+  }, [local, props, featuredCommentsCount, onChangeTab, isRatingsAndReviews]);
 
   return (
     <>

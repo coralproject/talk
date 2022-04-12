@@ -11,7 +11,6 @@ import useMemoizer from "coral-framework/hooks/useMemoizer";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
-  useLocal,
   useMutation,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
@@ -21,6 +20,7 @@ import {
   ShowAllRepliesEvent,
   ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 import { ReplyListContainer1_comment } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
 import { ReplyListContainer1_settings } from "coral-stream/__generated__/ReplyListContainer1_settings.graphql";
@@ -46,7 +46,6 @@ import { ReplyListContainerLastFlattened_settings } from "coral-stream/__generat
 import { ReplyListContainerLastFlattened_story } from "coral-stream/__generated__/ReplyListContainerLastFlattened_story.graphql";
 import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated__/ReplyListContainerLastFlattened_viewer.graphql";
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
-import { ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
 
 import { isPublished, useStaticFlattenReplies } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
@@ -203,17 +202,8 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig }] = useLocal<ReplyListContainerLocal>(
-    graphql`
-      fragment ReplyListContainerLocal on Local {
-        keyboardShortcutsConfig {
-          key
-          source
-          reverse
-        }
-      }
-    `
-  );
+  const { keyboardShortcutsConfig } = useStreamLocal();
+
   // We do local replies at the last level when flatten replies are not set.
   const atLastLevelLocalReply = props.indentLevel === 3 && !flattenReplies;
 
@@ -233,7 +223,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [showAll, beginShowAllEvent, props.comment.id]);
+  }, [beginShowAllEvent, props.comment.id, keyboardShortcutsConfig, showAll]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
@@ -255,7 +245,13 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [props.comment.id, props.story.id, viewNew, beginViewNewCommentsEvent]);
+  }, [
+    beginViewNewCommentsEvent,
+    props.story.id,
+    props.comment.id,
+    keyboardShortcutsConfig,
+    viewNew,
+  ]);
 
   if (!("replies" in props.comment)) {
     return null;

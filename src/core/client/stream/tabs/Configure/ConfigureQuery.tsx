@@ -5,16 +5,12 @@ import { graphql } from "react-relay";
 
 import { polyfillCSSVars } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
-import {
-  QueryRenderData,
-  QueryRenderer,
-  useLocal,
-} from "coral-framework/lib/relay";
+import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/ConfigureQuery.graphql";
-import { ConfigureQueryLocal } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
 
 const loadConfigureContainer = () =>
   import("./ConfigureContainer" /* webpackChunkName: "configure" */);
@@ -77,12 +73,8 @@ export const render = (
 
 const ConfigureQuery: FunctionComponent = () => {
   const { window } = useCoralContext();
-  const [{ storyID, storyURL }] = useLocal<ConfigureQueryLocal>(graphql`
-    fragment ConfigureQueryLocal on Local {
-      storyID
-      storyURL
-    }
-  `);
+  const { storyID, storyURL } = useStreamLocal();
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`

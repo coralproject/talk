@@ -2,17 +2,13 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import SetAuthPopupStateMutation from "coral-stream/common/AuthPopup/SetAuthPopupStateMutation";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Popup } from "coral-ui/components/v2";
 
 import { ChangePasswordContainer_settings } from "coral-stream/__generated__/ChangePasswordContainer_settings.graphql";
-import { ChangePasswordContainerLocal } from "coral-stream/__generated__/ChangePasswordContainerLocal.graphql";
 
 import ChangePassword from "./ChangePassword";
 
@@ -21,19 +17,9 @@ interface Props {
 }
 
 const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
-  const [
-    {
-      authPopup: { open, focus, view },
-    },
-  ] = useLocal<ChangePasswordContainerLocal>(graphql`
-    fragment ChangePasswordContainerLocal on Local {
-      authPopup {
-        open
-        focus
-        view
-      }
-    }
-  `);
+  const {
+    authPopup: { open, focus, view },
+  } = useStreamLocal();
   const setAuthPopupState = useMutation(SetAuthPopupStateMutation);
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const onResetPassword = useCallback(() => {

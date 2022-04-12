@@ -25,16 +25,13 @@ import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
+import { COMMENT_SORT, COMMENTS_TAB } from "coral-stream/local/types";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
 import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
-import {
-  COMMENT_SORT,
-  COMMENTS_TAB,
-} from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import {
   getSubmitStatus,
@@ -87,6 +84,9 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   // we don't use any deps here!
   const keepFormWhenClosed = useMemo(
     () => !!viewer && !story.isClosed && !settings.disableCommenting.enabled,
+    // No dependencies should be included in the array here, so use
+    // eslint ignore.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

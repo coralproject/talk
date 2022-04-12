@@ -4,15 +4,14 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
-  useLocal,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { LoadMoreHistoryCommentsEvent } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 import { CommentHistoryContainer_settings as SettingsData } from "coral-stream/__generated__/CommentHistoryContainer_settings.graphql";
 import { CommentHistoryContainer_story as StoryData } from "coral-stream/__generated__/CommentHistoryContainer_story.graphql";
 import { CommentHistoryContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentHistoryContainer_viewer.graphql";
-import { CommentHistoryContainerLocal } from "coral-stream/__generated__/CommentHistoryContainerLocal.graphql";
 import { CommentHistoryContainerPaginationQueryVariables } from "coral-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
 
 import CommentHistory from "./CommentHistory";
@@ -30,14 +29,7 @@ export const CommentHistoryContainer: FunctionComponent<Props> = ({
   story,
   settings,
 }) => {
-  const [{ archivingEnabled, autoArchiveOlderThanMs }] = useLocal<
-    CommentHistoryContainerLocal
-  >(graphql`
-    fragment CommentHistoryContainerLocal on Local {
-      archivingEnabled
-      autoArchiveOlderThanMs
-    }
-  `);
+  const { archivingEnabled, autoArchiveOlderThanMs } = useStreamLocal();
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const beginLoadMoreEvent = useViewerNetworkEvent(
     LoadMoreHistoryCommentsEvent
