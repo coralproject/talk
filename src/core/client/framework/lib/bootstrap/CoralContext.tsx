@@ -21,6 +21,9 @@ import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
 import { InMemoryStorage } from "../storage/InMemoryStorage";
 
 export interface CoralContext {
+  /** clientID is sent to the server with every request */
+  clientID: string;
+
   /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
 

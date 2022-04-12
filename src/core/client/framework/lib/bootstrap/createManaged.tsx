@@ -67,7 +67,7 @@ export type InitLocalState = (dependencies: {
   staticConfig?: StaticConfig | null;
 }) => void | Promise<void>;
 
-interface CreateContextArguments {
+interface CreateManagedArguments {
   /** Locales data that is returned by our `locales-loader`. */
   localesData: LocalesData;
 
@@ -96,6 +96,14 @@ interface CreateContextArguments {
 
   /** tokenRefreshProvider is used to obtain a new access token after expiry. */
   tokenRefreshProvider?: TokenRefreshProvider;
+}
+
+interface CreateContextArguments extends CreateManagedArguments {
+  staticConfig: StaticConfig | null;
+
+  postMessage: PostMessageService;
+
+  localStorage: PromisifiedStorage<string>;
 }
 
 /**
@@ -171,9 +179,8 @@ function createRestClient(
  */
 function createManagedCoralContextProvider(
   context: CoralContext,
-  subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
-  initLocalState: InitLocalState,
+  initLocalState: InitLocalState = noop,
   localesData: LocalesData,
   localeBundles: FluentBundle[],
   ErrorBoundary?: React.ComponentType
@@ -204,7 +211,7 @@ function createManagedCoralContextProvider(
       }
 
       // Pause subscriptions.
-      subscriptionClient.pause();
+      context.subscriptionClient.pause();
 
       // Parse the claims/token and update storage.
       const auth = nextAccessToken
@@ -218,7 +225,7 @@ function createManagedCoralContextProvider(
 
       // Create the new environment.
       const { environment, accessTokenProvider } = createRelayEnvironment(
-        subscriptionClient,
+        context.subscriptionClient,
         clientID,
         localeBundles,
         this.state.context.tokenRefreshProvider,
@@ -242,12 +249,12 @@ function createManagedCoralContextProvider(
       });
 
       // Update the subscription client access token.
-      subscriptionClient.setAccessToken(accessTokenProvider());
+      context.subscriptionClient.setAccessToken(accessTokenProvider());
 
       // Propagate new context.
       this.setState({ context: newContext }, () => {
         // Resume subscriptions after context has changed.
-        subscriptionClient.resume();
+        context.subscriptionClient.resume();
       });
     };
 
@@ -349,33 +356,23 @@ interface CreateManagedResult {
   context: CoralContext;
 }
 
-/**
- * `createManaged` establishes the dependencies of our framework
- * and returns a `ManagedCoralContextProvider` that provides the context
- * to the rest of the application.
- */
-export default async function createManaged({
-  initLocalState = noop,
+async function createContext({
   localesData,
   pym,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 1000 }),
   bundle,
   bundleConfig = {},
   tokenRefreshProvider,
-  reporterFeedbackPrompt = false,
-}: CreateContextArguments): Promise<CreateManagedResult> {
+  staticConfig,
+  postMessage,
+  localStorage,
+}: CreateContextArguments) {
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
   await injectConditionalPolyfills(window, browserInfo);
 
   // Potentially inject react-axe for runtime a11y checks.
   await potentiallyInjectAxe(pym?.parentUrl, browserInfo);
-
-  const reporter = createReporter(window, { reporterFeedbackPrompt });
-  // Set error reporter.
-  if (reporter) {
-    setGlobalErrorReporter(reporter);
-  }
 
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
@@ -384,13 +381,6 @@ export default async function createManaged({
       return onPymMessage(pym, "click", cb);
     };
   }
-
-  const postMessage = new PostMessageService(
-    window,
-    "coral",
-    window.parent,
-    pym ? getOrigin(pym.parentUrl) : "*"
-  );
 
   // Initialize i18n.
   const locales = [localesData.fallbackLocale];
@@ -416,15 +406,8 @@ export default async function createManaged({
   const localeBundles = await generateBundles(locales, localesData);
   await polyfillIntlLocale(locales, browserInfo);
 
-  const localStorage = resolveStorage("localStorage", postMessage, pym);
-
-  // Get the access token from storage.
-  const auth = await retrieveAccessToken(localStorage);
-
   /** clientID is sent to the server with every request */
   const clientID = uuid();
-
-  const staticConfig = getStaticConfig(window);
 
   // websocketEndpoint points to our graphql server's live endpoint.
   const graphQLSubscriptionURI = resolveGraphQLSubscriptionURI(staticConfig);
@@ -443,8 +426,14 @@ export default async function createManaged({
     tokenRefreshProvider
   );
 
+  // Set new token for the websocket connection.
+  // TODO: (cvle) dynamically reset when token changes.
+  // ^ only necessary when we can prolong existing session using a new token.
+  subscriptionClient.setAccessToken(accessTokenProvider());
+
   // Assemble context.
   const context: CoralContext = {
+    clientID,
     subscriptionClient,
     relayEnvironment: environment,
     locales,
@@ -472,29 +461,80 @@ export default async function createManaged({
     renderWindow: window,
   };
 
-  // Initialize local state.
-  await initLocalState({
-    environment: context.relayEnvironment,
-    context,
-    auth,
+  return context;
+}
+
+export function createPostMessageService(pym?: PymChild) {
+  const postMessage = new PostMessageService(
+    window,
+    "coral",
+    window.parent,
+    pym ? getOrigin(pym.parentUrl) : "*"
+  );
+
+  return postMessage;
+}
+
+export function resolvedLocalStorage(
+  postMessage: PostMessageService,
+  pym?: PymChild
+) {
+  const localStorage = resolveStorage("localStorage", postMessage, pym);
+
+  return localStorage;
+}
+
+/**
+ * `createManaged` establishes the dependencies of our framework
+ * and returns a `ManagedCoralContextProvider` that provides the context
+ * to the rest of the application.
+ */
+export default async function createManaged(
+  args: CreateManagedArguments
+): Promise<CreateManagedResult> {
+  const {
+    initLocalState,
+    localesData,
+    reporterFeedbackPrompt = false,
+    pym,
+  } = args;
+
+  const postMessage = createPostMessageService(pym);
+  const localStorage = resolvedLocalStorage(postMessage, pym);
+  const staticConfig = getStaticConfig(window);
+  const auth = await retrieveAccessToken(localStorage);
+
+  const context = await createContext({
+    ...args,
     staticConfig,
+    postMessage,
+    localStorage,
   });
 
-  // Set new token for the websocket connection.
-  // TODO: (cvle) dynamically reset when token changes.
-  // ^ only necessary when we can prolong existing session using a new token.
-  subscriptionClient.setAccessToken(accessTokenProvider());
+  if (initLocalState) {
+    await initLocalState({
+      environment: context.relayEnvironment,
+      context,
+      auth,
+      staticConfig,
+    });
+  }
+
+  const reporter = createReporter(window, { reporterFeedbackPrompt });
+  // Set error reporter.
+  if (reporter) {
+    setGlobalErrorReporter(reporter);
+  }
 
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
   return {
     provider: createManagedCoralContextProvider(
       context,
-      subscriptionClient,
-      clientID,
+      context.clientID,
       initLocalState,
       localesData,
-      localeBundles,
+      context.localeBundles,
       reporter?.ErrorBoundary
     ),
     context,
