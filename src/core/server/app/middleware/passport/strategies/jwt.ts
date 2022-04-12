@@ -95,7 +95,7 @@ export async function verifyAndRetrieveUser(
   const header: StandardHeader = decoded.header;
   const token: Token = decoded.payload;
 
-  let validationErrors = "";
+  const validationErrors = [];
   try {
     // Try to verify the token.
     for (const verifier of verifiers) {
@@ -104,11 +104,7 @@ export async function verifyAndRetrieveUser(
         // Then check for token validation errors if verifier is enabled
         const error = verifier.checkForValidationError(token);
         if (error) {
-          if (validationErrors.length === 0) {
-            validationErrors += error;
-          } else {
-            validationErrors += " " + error;
-          }
+          validationErrors.push(error);
         } else {
           return await verifier.verify(
             tokenString,
@@ -135,7 +131,7 @@ export async function verifyAndRetrieveUser(
   throw new TokenInvalidError(
     tokenString,
     "Token invalid. Either a verifier (JWT, SSO, OIDC) is not enabled or there are token validation errors.",
-    validationErrors
+    validationErrors.join(". ")
   );
 }
 

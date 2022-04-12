@@ -74,7 +74,7 @@ export function validateToken(token: OIDCIDToken | object): string | undefined {
     // need to check to see that it contains at least the fields we need.
     allowUnknown: true,
   });
-  return error ? "OIDC: " + error.message + "." : undefined;
+  return error ? "OIDC: " + error.message : undefined;
 }
 
 function isCertSigningKey(

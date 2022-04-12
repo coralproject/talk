@@ -71,7 +71,7 @@ export interface SSOToken {
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function validateToken(token: SSOToken | object): string | undefined {
   const { error } = SSOTokenSchema.validate(token, { allowUnknown: true });
-  return error ? "SSO: " + error.message + "." : undefined;
+  return error ? "SSO: " + error.message : undefined;
 }
 
 function isValidImageURL(url: string) {

@@ -39,7 +39,7 @@ export function validateToken(token: JWTToken | object): string | undefined {
   const { error } = JWTTokenSchema.validate(token, {
     allowUnknown: true,
   });
-  return error ? "JWT: " + error.message + "." : undefined;
+  return error ? "JWT: " + error.message : undefined;
 }
 
 export interface JWTVerifierOptions {

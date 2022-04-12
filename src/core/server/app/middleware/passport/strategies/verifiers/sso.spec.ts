@@ -21,15 +21,15 @@ describe("isSSOToken", () => {
   it("understands invalid sso tokens", () => {
     expect(
       validateToken({ user: { id: "id", email: "email" } } as object)
-    ).toEqual('SSO: "user.username" is required.');
+    ).toEqual('SSO: "user.username" is required');
     expect(
       validateToken({ user: { id: "id", username: "username" } } as object)
-    ).toEqual('SSO: "user.email" is required.');
+    ).toEqual('SSO: "user.email" is required');
     expect(
       validateToken({
         user: { email: "email", username: "username" },
       } as object)
-    ).toEqual('SSO: "user.id" is required.');
+    ).toEqual('SSO: "user.id" is required');
     expect(
       validateToken({
         user: {
@@ -38,8 +38,8 @@ describe("isSSOToken", () => {
           role: "SUPERADMIN",
         },
       } as object)
-    ).toEqual('SSO: "user.id" is required.');
-    expect(validateToken({})).toEqual('SSO: "user" is required.');
+    ).toEqual('SSO: "user.id" is required');
+    expect(validateToken({})).toEqual('SSO: "user" is required');
   });
 });
 
