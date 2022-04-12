@@ -578,7 +578,7 @@ exports[`renders app with comment stream 1`] = `
     >
       <i
         aria-hidden="true"
-        className="Icon-root Icon-sm ButtonIcon-root"
+        className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
       >
         forum
       </i>
@@ -600,7 +600,7 @@ exports[`renders app with comment stream 1`] = `
     >
       <i
         aria-hidden="true"
-        className="Icon-root Icon-sm ButtonIcon-root"
+        className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
       >
         description
       </i>

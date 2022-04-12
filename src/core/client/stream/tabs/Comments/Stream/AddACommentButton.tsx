@@ -4,6 +4,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
+import getElementWindowTopOffset from "coral-ui/helpers/getElementWindowTopOffset";
 
 import styles from "./AddACommentButton.css";
 
@@ -12,14 +14,19 @@ interface Props {
 }
 
 const AddACommentButton: FunctionComponent<Props> = ({ isQA = false }) => {
-  const { pym } = useCoralContext();
+  const { renderWindow } = useCoralContext();
+  const root = useShadowRootOrDocument();
   const onClick = useCallback(() => {
-    if (!pym) {
+    if (!renderWindow) {
       return;
     }
-
-    pym.scrollParentToChildEl(POST_COMMENT_FORM_ID);
-  }, [pym]);
+    const postCommentForm = root.getElementById(POST_COMMENT_FORM_ID);
+    if (postCommentForm) {
+      renderWindow.scrollTo({
+        top: getElementWindowTopOffset(renderWindow, postCommentForm),
+      });
+    }
+  }, [renderWindow, root]);
 
   return (
     <div className={styles.root}>

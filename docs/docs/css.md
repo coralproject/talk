@@ -33,13 +33,13 @@ The easiest way to find the class name for the element you're looking for is to 
 
 You can also navigate to https://github.com/coralproject/talk/blob/main/src/core/client/stream/classes.ts to see available stable class names.
 
-### Custom body class for theming
+### Custom container class for theming
 
-You can set the class name of the `<body>` tag inside the embed by using the `bodyClassName` parameter when calling `Coral.createStreamEmbed`:
+You can set the class name of the container inside the embed by using the `containerClassName` parameter when calling `Coral.createStreamEmbed`:
 
 ```js
 Coral.createStreamEmbed({
-  bodyClassName: "pink",
+  containerClassName: "pink",
 });
 ```
 

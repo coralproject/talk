@@ -2,6 +2,7 @@ import Joi from "joi";
 
 import validateImagePathname from "coral-common/helpers/validateImagePathname";
 import { AppOptions } from "coral-server/app";
+import { createManifestLoader } from "coral-server/app/helpers/manifestLoader";
 import { validate } from "coral-server/app/request/body";
 import { supportsMediaType } from "coral-server/models/tenant";
 import { translate } from "coral-server/services/i18n";
@@ -15,14 +16,27 @@ interface ExternalMediaQuery {
   url: string;
 }
 
-type Options = Pick<AppOptions, "i18n">;
+type Options = Pick<AppOptions, "i18n" | "config">;
 
 export const externalMediaHandler = ({
   i18n,
+  config,
 }: Options): RequestHandler<TenantCoralRequest> => {
+  const manifestLoader = createManifestLoader(
+    config,
+    "frame-asset-manifest.json"
+  );
+  const entrypointLoader = manifestLoader.createEntrypointLoader("frame");
+
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;
+
+    const entrypoint = await entrypointLoader();
+    if (!entrypoint) {
+      next(new Error("Entrypoint not available"));
+      return;
+    }
 
     try {
       if (!supportsMediaType(tenant, "external")) {
@@ -44,7 +58,7 @@ export const externalMediaHandler = ({
         return;
       }
 
-      res.render("image", { url });
+      res.render("image", { url, entrypoint });
     } catch (err) {
       // There was no response! Return a translated error message.
       const bundle = i18n.getBundle(tenant.locale);
@@ -54,7 +68,7 @@ export const externalMediaHandler = ({
         "common-embedNotFound"
       );
 
-      return res.status(400).render("oembed", { message });
+      return res.status(400).render("oembed", { message, entrypoint });
     }
   };
 };

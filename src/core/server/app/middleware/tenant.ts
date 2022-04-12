@@ -3,15 +3,20 @@ import { v1 as uuid } from "uuid";
 import { MongoContext } from "coral-server/data/context";
 import { TenantNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";
-import { retrieveSite, Site } from "coral-server/models/site";
+import {
+  retrieveSite,
+  retrieveSiteByOrigin,
+  Site,
+} from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { Request, RequestHandler } from "coral-server/types/express";
 
+import { getRequesterOrigin } from "../helpers";
+
 interface RequestQuery {
-  parentUrl?: string | null;
   storyURL?: string | null;
   storyID?: string | null;
   siteID?: string | null;
@@ -30,12 +35,7 @@ function parseQueryFromRequest(
 ): RequestQuery | null {
   // Check to see if the parameters are available on the query. If they are,
   // return it.
-  if (
-    req.query.parentUrl ||
-    req.query.storyURL ||
-    req.query.storyID ||
-    req.query.siteID
-  ) {
+  if (req.query.storyURL || req.query.storyID || req.query.siteID) {
     return req.query;
   }
 
@@ -75,7 +75,6 @@ function parseQueryFromRequest(
     siteID: parsed.searchParams.get("siteID"),
     storyURL: parsed.searchParams.get("storyURL"),
     storyID: parsed.searchParams.get("storyID"),
-    parentUrl: parsed.searchParams.get("parentUrl"),
   };
 
   return query;
@@ -91,7 +90,7 @@ function parseQueryFromRequest(
 async function retrieveSiteFromQuery(
   mongo: MongoContext,
   tenant: Tenant,
-  { storyURL, storyID, parentUrl, siteID }: RequestQuery
+  { storyURL, storyID, siteID }: RequestQuery
 ): Promise<Site | null> {
   // If the siteID is available, use that.
   if (siteID) {
@@ -118,13 +117,6 @@ async function retrieveSiteFromQuery(
     return retrieveSite(mongo, tenant.id, story.siteID);
   }
 
-  // As the last fallback, if the storyURL and storyID cannot be found, then pym
-  // does provide us with a parentUrl that's the URL of the page embedding
-  // Coral. We'll try to find the site based on this URL.
-  if (parentUrl) {
-    return findSiteByURL(mongo, tenant.id, parentUrl);
-  }
-
   return null;
 }
 
@@ -140,19 +132,22 @@ async function retrieveSiteFromRequest(
   tenant: Tenant,
   req: Request
 ): Promise<Site | null> {
+  let site: Site | null = null;
   const query = parseQueryFromRequest(tenant, req);
-  if (!query) {
-    return null;
+  if (query) {
+    logger.debug({ query }, "parsed query from request");
+    site = await retrieveSiteFromQuery(mongo, tenant, query);
   }
-
-  logger.debug({ query }, "parsed query from request");
-
-  const site = await retrieveSiteFromQuery(mongo, tenant, query);
   if (!site) {
-    return null;
+    const requesterOrigin = getRequesterOrigin(req);
+    // We use the requester's origin, if the site cannot be found from the query.
+    if (requesterOrigin) {
+      site = await retrieveSiteByOrigin(mongo, tenant.id, requesterOrigin);
+    }
   }
-
-  logger.debug({ siteID: site.id }, "found associated site from request");
+  if (site) {
+    logger.debug({ siteID: site.id }, "found associated site from request");
+  }
 
   return site;
 }

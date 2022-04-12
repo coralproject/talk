@@ -1,45 +1,60 @@
-import pym, { ParentSettings } from "pym.js";
-import React, { FunctionComponent, useEffect, useMemo } from "react";
+import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { v1 as uuid } from "uuid";
 
-import { Spinner } from "coral-ui/components/v2";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import modifyQuery from "coral-framework/utils/modifyQuery";
 
 interface Props {
   id?: string;
   src: string;
   sandbox?: boolean;
+  title?: string;
 }
 
-const Frame: FunctionComponent<Props> = ({ id, src, sandbox }) => {
-  const containerID = useMemo(
+export interface FrameHeightMessage {
+  height: number;
+  frameID: string;
+}
+
+const iframeStyle = { display: "block" };
+
+const Frame: FunctionComponent<Props> = ({ id, src, sandbox, title }) => {
+  const { postMessage, rootURL } = useCoralContext();
+  const [height, setHeight] = useState(0);
+  const frameID = useMemo(
     () => (id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`),
     [id]
   );
+  const url = useMemo(() => {
+    return modifyQuery(`${rootURL}${src}`, { frameID });
+  }, [frameID, rootURL, src]);
+
+  const sandboxStr = sandbox ? "allow-same-origin allow-scripts" : undefined;
 
   useEffect(() => {
-    // Create the configuration used for the iframe.
-    const config: ParentSettings = {
-      optionalparams: false,
-    };
-    if (sandbox) {
-      // The resizing behavior with pym requires script support.
-      config.sandbox = "allow-same-origin allow-scripts";
-    }
-
-    // Create the new frame for the specific src.
-    const parent = new pym.Parent(containerID, src, config);
-
-    // When this component does unmount or the properties change, remove the old
-    // one so we can re-create it.
-    return () => {
-      parent.remove();
-    };
-  }, [containerID, sandbox, src]);
+    const unlisten = postMessage.on(
+      "frameHeight",
+      (data: FrameHeightMessage) => {
+        if (data.frameID !== frameID) {
+          return;
+        }
+        setHeight(data.height);
+      }
+    );
+    return unlisten;
+  }, [frameID, postMessage]);
 
   return (
-    <div id={containerID}>
-      {/* pym will replace the spinner with the iframe when it loads up */}
-      <Spinner />
+    <div id={frameID}>
+      <iframe
+        title={title}
+        frameBorder={0}
+        style={iframeStyle}
+        src={url}
+        height={height}
+        sandbox={sandboxStr}
+        scrolling="no"
+      />
     </div>
   );
 };

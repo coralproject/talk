@@ -7,19 +7,14 @@ export interface BrowserInfo {
   mobile: boolean;
   tablet: boolean;
   supports: {
-    cssVariables: boolean;
     fetch: boolean;
-    proxyObject: boolean;
     intl: boolean;
     intlPluralRules: boolean;
     intersectionObserver: boolean;
+    resizeObserver: boolean;
   };
   macOS: boolean;
   iPadOS: boolean;
-}
-
-export function supportsCSSVars(window: Window): boolean {
-  return (window as any).CSS && CSS.supports("color", "var(--fake-var)");
 }
 
 /**
@@ -40,15 +35,13 @@ export function getBrowserInfo(window: Window): BrowserInfo {
     supports: {
       intl: typeof Intl !== "undefined",
       intlPluralRules: typeof Intl !== "undefined" && Boolean(Intl.PluralRules),
-      proxyObject: Boolean((window as any).Proxy),
-      cssVariables:
-        (window as any).CSS && CSS.supports("color", "var(--fake-var)"),
       fetch: Boolean(window.fetch),
       intersectionObserver:
         "IntersectionObserver" in window &&
         "IntersectionObserverEntry" in window &&
         "intersectionRatio" in
           (window as any).IntersectionObserverEntry.prototype,
+      resizeObserver: "ResizeObserver" in window,
     },
     ios,
     msie,

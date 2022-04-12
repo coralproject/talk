@@ -7,7 +7,7 @@ function resizePopup(window: Window) {
       innerHeight + window.outerHeight - window.innerHeight + 10
     );
   } catch {
-    // Ignore occasional errors in IE11.
+    // Ignore occasional errors in older browsers.
   }
 }
 
