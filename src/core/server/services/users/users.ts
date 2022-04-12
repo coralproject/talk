@@ -19,6 +19,7 @@ import {
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
+  ModeratorCannotBeBannedOnSiteError,
   PasswordIncorrect,
   TokenNotFoundError,
   UserAlreadyBannedError,
@@ -1478,6 +1479,18 @@ export async function updateUserBan(
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
+  }
+
+  // If targetUser is a moderator, throw an error if any of the
+  // sites in banSiteIDs are also in their moderation scopes
+  if (targetUser.role === GQLUSER_ROLE.MODERATOR) {
+    const moderationScopes = targetUser.moderationScopes?.siteIDs;
+    const moderatorSiteInBanSiteIDs = banSiteIDs?.filter((bsi) =>
+      moderationScopes?.includes(bsi)
+    );
+    if (moderatorSiteInBanSiteIDs && moderatorSiteInBanSiteIDs.length > 0) {
+      throw new ModeratorCannotBeBannedOnSiteError();
+    }
   }
 
   let newBans = false;

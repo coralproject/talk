@@ -7,6 +7,8 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 import CLASSES from "coral-stream/classes";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
+import getElementWindowTopOffset from "coral-ui/helpers/getElementWindowTopOffset";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 
@@ -21,7 +23,8 @@ const InReplyTo: FunctionComponent<Props> = ({
   parent,
   enableJumpToParent,
 }) => {
-  const { pym, renderWindow } = useCoralContext();
+  const { renderWindow } = useCoralContext();
+  const root = useShadowRootOrDocument();
 
   const navigateToParent = useCallback(() => {
     if (!parent) {
@@ -29,16 +32,18 @@ const InReplyTo: FunctionComponent<Props> = ({
     }
 
     const elemID = computeCommentElementID(parent.id);
-    const elem = renderWindow.document.getElementById(elemID);
+    const elem = root.getElementById(elemID);
     if (elem) {
-      void pym?.scrollParentToChildEl(elemID);
+      renderWindow.scrollTo({
+        top: getElementWindowTopOffset(renderWindow, elem),
+      });
       elem.focus();
     } else {
       globalErrorReporter.report(
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  }, [parent, pym, renderWindow.document]);
+  }, [parent, root, renderWindow]);
 
   const Username = () => (
     <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>

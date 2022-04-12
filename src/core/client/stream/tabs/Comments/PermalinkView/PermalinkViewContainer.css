@@ -24,7 +24,7 @@
   text-align: center;
 }
 
-@media (min-width: $breakpoints-xs) {
+:global(.coral-width-gte-xs) {
   .title {
     font-family: var(--font-family-primary);
     font-style: normal;

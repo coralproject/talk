@@ -10,7 +10,8 @@
   padding: var(--spacing-2);
 
   text-align: center;
-  @media (min-width: $breakpoints-xs) {
+
+  :global(.coral-width-gte-xs) & {
     padding: var(--spacing-4);
   }
 }

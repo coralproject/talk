@@ -1,22 +1,17 @@
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { isMatch } from "lodash";
-import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import {
-  act,
-  createSinonStub,
-  wait,
-  waitForElement,
-  within,
-} from "coral-framework/testHelpers";
+import { createSinonStub } from "coral-framework/testHelpers";
+import { createContext } from "coral-stream/test/create";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import { comments, settings, stories } from "../../fixtures";
-import create from "./create";
 
 const loadMoreDateCursor = "2019-07-06T18:24:00.000Z";
 
-let testRenderer: ReactTestRenderer;
-beforeEach(() => {
+const createTestRenderer = async () => {
   const storyStub = {
     ...stories[0],
     comments: createSinonStub((s) =>
@@ -101,49 +96,44 @@ beforeEach(() => {
     },
   };
 
-  ({ testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
+  const { context } = createContext({
     resolvers,
     initLocalState: (localRecord) => {
+      localRecord.setValue("COMMENTS", "activeTab");
+      localRecord.setValue("ALL_COMMENTS", "commentsTab");
+      localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
       localRecord.setValue(storyStub.id, "storyID");
     },
-  }));
-});
+  });
+
+  customRenderAppWithContext(context);
+  const stream = await screen.findByTestId("comments-allComments-log");
+
+  return { context, stream };
+};
 
 it("renders comment stream with load more button", async () => {
-  const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
+  const { stream } = await createTestRenderer();
 
-  expect(within(streamLog).toJSON()).toMatchSnapshot();
-  await wait(() =>
-    expect(within(streamLog).queryByText("Load More")).toBeDefined()
-  );
+  expect(within(stream).queryByText("Load More")).toBeInTheDocument();
 });
 
 it("loads more comments", async () => {
-  const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
-
-  expect(await within(streamLog).axe()).toHaveNoViolations();
+  const { stream } = await createTestRenderer();
 
   // Get amount of comments before.
-  const commentsBefore = within(streamLog).getAllByTestID(
-    /^comment[-]comment[-]/
-  ).length;
+  const commentsBefore = within(stream).getAllByTestId(/^comment[-]comment[-]/)
+    .length;
 
-  await act(async () => {
-    within(streamLog).getByText("Load More").props.onClick();
+  const loadMore = within(stream).getByRole("button", {
+    name: "Load More",
   });
+  userEvent.click(loadMore);
+  expect(within(stream).queryByText("Load More")).toBeDisabled();
 
-  // Should now have one more comment
-  await wait(() =>
-    expect(within(streamLog).queryByText("Load More")).toBeNull()
-  );
-
-  expect(within(streamLog).getAllByTestID(/^comment[-]comment[-]/).length).toBe(
-    commentsBefore + 1
+  await waitFor(() =>
+    expect(within(stream).getAllByTestId(/^comment[-]comment[-]/).length).toBe(
+      commentsBefore + 1
+    )
   );
 });

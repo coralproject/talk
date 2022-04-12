@@ -21,6 +21,7 @@ import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
 import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
@@ -63,7 +64,8 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   localReply,
   settings,
 }) => {
-  const { pym, renderWindow, sessionStorage, browserInfo } = useCoralContext();
+  const root = useShadowRootOrDocument();
+  const { renderWindow, sessionStorage, browserInfo } = useCoralContext();
   // Disable autofocus on ios and enable for the rest.
   const autofocus = !browserInfo.ios;
   const commentSeenEnabled = useCommentSeenEnabled();
@@ -102,7 +104,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
     (rte: CoralRTE | null) => {
       rteRef.current = rte;
       if (rteRef && autofocus) {
-        // Delay focus a bit until iframe had a change to resize.
+        // Delay focus a bit until iframe had a chance to resize.
         setTimeout(
           () => rteRef && rteRef.current && rteRef.current.focus(),
           100
@@ -231,7 +233,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
 
   const jumpToComment = useCallback(() => {
     const commentID = jumpToCommentID;
-    if (!commentID || !pym) {
+    if (!commentID) {
       return;
     }
 
@@ -241,18 +243,18 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
 
     const elementID = computeCommentElementID(commentID);
     setTimeout(() => {
-      const elem = renderWindow.document.getElementById(elementID);
+      const elem = root.getElementById(elementID);
       if (elem) {
         const offset =
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           elem.getBoundingClientRect().top +
           renderWindow.pageYOffset -
           (commentSeenEnabled ? 150 : 0);
-        pym.scrollParentToChildPos(offset);
+        renderWindow.scrollTo({ top: offset });
         elem.focus();
       }
     }, 300);
-  }, [commentSeenEnabled, jumpToCommentID, onClose, pym, renderWindow]);
+  }, [commentSeenEnabled, jumpToCommentID, onClose, renderWindow, root]);
 
   if (!initialized) {
     return null;
