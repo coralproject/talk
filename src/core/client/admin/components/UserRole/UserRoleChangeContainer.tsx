@@ -10,7 +10,8 @@ import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRole
 import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 
 import ButtonPadding from "../ButtonPadding";
-import SiteModeratorActions from "./SiteModeratorActions";
+import SiteRoleActions from "./SiteRoleActions";
+import UpdateUserMembershipScopesMutation from "./UpdateUserMembershipScopesMutation";
 import UpdateUserModerationScopesMutation from "./UpdateUserModerationScopesMutation";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 import UserRoleChange from "./UserRoleChange";
@@ -30,6 +31,9 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const updateUserModerationScopes = useMutation(
     UpdateUserModerationScopesMutation
+  );
+  const updateUserMembershipScopes = useMutation(
+    UpdateUserMembershipScopesMutation
   );
   const handleOnChangeRole = useCallback(
     async (role: GQLUSER_ROLE_RL) => {
@@ -52,6 +56,18 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     [updateUserModerationScopes, user.id]
   );
 
+  const handleOnChangeMembershipScopes = useCallback(
+    async (siteIDs: string[]) => {
+      await updateUserMembershipScopes({
+        userID: user.id,
+        membershipScopes: {
+          siteIDs,
+        },
+      });
+    },
+    [updateUserMembershipScopes, user.id]
+  );
+
   const canChangeRole =
     viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
 
@@ -63,7 +79,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     !!viewer.moderationScopes?.scoped;
 
   if (canPromoteDemote) {
-    return <SiteModeratorActions viewer={viewer} user={user} />;
+    return <SiteRoleActions viewer={viewer} user={user} />;
   }
 
   if (!canChangeRole) {
@@ -83,9 +99,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       username={user.username}
       onChangeRole={handleOnChangeRole}
       onChangeModerationScopes={handleOnChangeModerationScopes}
+      onChangeMembershipScopes={handleOnChangeMembershipScopes}
       role={user.role}
-      scoped={user.moderationScopes?.scoped}
+      moderationScoped={user.moderationScopes?.scoped}
+      membershipScoped={user.membershipScopes?.scoped}
       moderationScopes={user.moderationScopes}
+      membershipScopes={user.membershipScopes}
       moderationScopesEnabled={moderationScopesEnabled}
     />
   );
@@ -99,7 +118,7 @@ const enhanced = withFragmentContainer<Props>({
       moderationScopes {
         scoped
       }
-      ...SiteModeratorActions_viewer
+      ...SiteRoleActions_viewer
     }
   `,
   user: graphql`
@@ -114,7 +133,14 @@ const enhanced = withFragmentContainer<Props>({
           name
         }
       }
-      ...SiteModeratorActions_user
+      membershipScopes {
+        scoped
+        sites {
+          id
+          name
+        }
+      }
+      ...SiteRoleActions_user
     }
   `,
   settings: graphql`

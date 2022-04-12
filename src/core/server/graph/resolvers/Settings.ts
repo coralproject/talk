@@ -42,4 +42,15 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     Boolean(disableDefaultFonts),
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
+  badges: ({ badges, staff }, args, ctx) => {
+    const badgeConfig = badges || staff;
+
+    return badgeConfig;
+  },
+  staff: ({ staff, badges }, args, ctx) => {
+    // Default to new badges config if present
+    const deprecated = badges || staff;
+
+    return deprecated;
+  },
 };

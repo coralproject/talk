@@ -128,7 +128,7 @@ community-banModal-cancel = Kanselleer
 community-banModal-banUser = Blok gebruiker
 community-suspendModal-cancel = Kanselleer
 community-premodModal-cancel = Kanselleer
-community-siteModeratorModal-cancel = Kanselleer
+community-siteRoleModal-cancel = Kanselleer
 community-warnModal-cancel = Kanselleer
 
 community-column-memberSince = Lid sedert

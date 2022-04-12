@@ -28,7 +28,7 @@ const MemberBioConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-memberBio-title">
-        <Header container={<legend />}>Member bios</Header>
+        <Header container={<legend />}>Commenter bios</Header>
       </Localized>
     }
     container={<FieldSet />}
@@ -36,12 +36,12 @@ const MemberBioConfig: FunctionComponent<Props> = ({ disabled }) => (
     <Localized id="configure-general-memberBio-explanation" strong={<strong />}>
       <FormFieldDescription>
         Allow commenters to add a bio to their profile. Note: this can increase
-        moderator time as member bios can be reported.
+        moderator time as commenter bios can be reported.
       </FormFieldDescription>
     </Localized>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-memberBio-label">
-        <Label component="legend">Allow member bios</Label>
+        <Label component="legend">Allow commenter bios</Label>
       </Localized>
       <OnOffField name="memberBios" disabled={disabled} />
     </FormField>

@@ -50,6 +50,7 @@ error-userAlreadySuspended = The user already has an active suspension until {$u
 error-userAlreadyBanned = The user is already banned.
 error-userBanned = Your account is currently banned.
 error-userSiteBanned = Your account is currently banned on { $siteName }.
+error-moderatorCannotBeBannedOnSite = You cannot ban a site moderator from their own site. You can cancel this action or change their role before trying again.
 error-userSuspended = Your account is currently suspended until {$until}.
 error-userWarned = Your account has been issued a warning, to continue participating please review the warning message above.
 error-integrationDisabled = Specified integration is disabled.

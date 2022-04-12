@@ -88,12 +88,13 @@ export interface NewCommentersConfiguration {
   moderation: NewCommentersModerationConfig;
 }
 
-export interface StaffConfiguration {
+export interface BadgeConfiguration {
   staffLabel?: string;
   // MIGRATE: plan to migrate this to `staffLabel` in 7.0.0.
   label: string;
   adminLabel?: string;
   moderatorLabel?: string;
+  memberLabel?: string;
 }
 
 /**
@@ -365,9 +366,14 @@ export type Settings = GlobalModerationSettings &
     media?: Omit<GQLMediaConfiguration, "external">;
 
     /**
-     * staff configures the labels for staff members in comment stream.
+     * badges configures the labels for any member with role above COMMENTER.
      */
-    staff: StaffConfiguration;
+    badges: BadgeConfiguration;
+
+    /**
+     * DEPRECATED: for backwards compatibility for badges field
+     */
+    staff?: BadgeConfiguration;
 
     /**
      * stories stores the configuration around stories.

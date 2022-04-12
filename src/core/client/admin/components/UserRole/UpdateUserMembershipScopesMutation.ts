@@ -7,21 +7,23 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { DemoteUserMutation as MutationTypes } from "coral-admin/__generated__/DemoteUserMutation.graphql";
+import { UpdateUserMembershipScopesMutation as MutationTypes } from "coral-admin/__generated__/UpdateUserMembershipScopesMutation.graphql";
 
 let clientMutationId = 0;
 
-const DemoteUserMutation = createMutation(
-  "demoteUser",
+const UpdateUserMembershipScopesMutation = createMutation(
+  "updateUserMembership",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
-    commitMutationPromiseNormalized<MutationTypes>(environment, {
+    commitMutationPromiseNormalized<any>(environment, {
       mutation: graphql`
-        mutation DemoteUserMutation($input: DemoteUserInput!) {
-          demoteUser(input: $input) {
+        mutation UpdateUserMembershipScopesMutation(
+          $input: UpdateUserMembershipScopesInput!
+        ) {
+          updateUserMembershipScopes(input: $input) {
             user {
               id
               role
-              moderationScopes {
+              membershipScopes {
                 scoped
                 sites {
                   id
@@ -29,7 +31,6 @@ const DemoteUserMutation = createMutation(
                 }
               }
             }
-            clientMutationId
           }
         }
       `,
@@ -42,4 +43,4 @@ const DemoteUserMutation = createMutation(
     })
 );
 
-export default DemoteUserMutation;
+export default UpdateUserMembershipScopesMutation;

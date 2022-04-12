@@ -757,6 +757,14 @@ export class UserSiteBanned extends CoralError {
   }
 }
 
+export class ModeratorCannotBeBannedOnSiteError extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.MODERATOR_CANNOT_BE_BANNED_ON_SITE,
+    });
+  }
+}
+
 export class UserSuspended extends CoralError {
   constructor(
     userID: string,

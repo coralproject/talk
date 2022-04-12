@@ -28,7 +28,7 @@ interface Props {
   disableLoadMore: boolean;
   danglingLogic: PropTypesOf<typeof ModerateCardContainer>["danglingLogic"];
   emptyElement?: React.ReactElement;
-  allStories?: boolean;
+  showStoryInfo: boolean;
   viewNewCount?: number;
 }
 
@@ -41,7 +41,7 @@ const Queue: FunctionComponent<Props> = ({
   onLoadMore,
   danglingLogic,
   emptyElement,
-  allStories,
+  showStoryInfo,
   viewNewCount,
   onViewNew,
 }) => {
@@ -154,7 +154,7 @@ const Queue: FunctionComponent<Props> = ({
             viewer={viewer}
             comment={comment}
             danglingLogic={danglingLogic}
-            showStoryInfo={Boolean(allStories)}
+            showStoryInfo={showStoryInfo}
             onUsernameClicked={onShowUserDrawer}
             onConversationClicked={onShowConversationModal}
             onSetSelected={memoize(i, () => setSelectedComment(i))}

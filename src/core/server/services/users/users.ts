@@ -19,6 +19,7 @@ import {
   InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
+  ModeratorCannotBeBannedOnSiteError,
   PasswordIncorrect,
   TokenNotFoundError,
   UserAlreadyBannedError,
@@ -55,9 +56,11 @@ import {
   FindOrCreateUserInput,
   ignoreUser,
   linkUsers,
+  mergeUserMembershipScopes,
   mergeUserSiteModerationScopes,
   NotificationSettingsInput,
   premodUser,
+  pullUserMembershipScopes,
   pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
   removeUserBan,
@@ -80,6 +83,7 @@ import {
   updateUserEmail,
   updateUserMediaSettings,
   UpdateUserMediaSettingsInput,
+  updateUserMembershipScopes,
   updateUserModerationScopes,
   updateUserNotificationSettings,
   updateUserPassword,
@@ -768,7 +772,7 @@ export async function updateRole(
   return updateUserRole(mongo, tenant.id, userID, role);
 }
 
-export async function promoteUser(
+export async function promoteModerator(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
@@ -831,7 +835,7 @@ export async function promoteUser(
   return updated;
 }
 
-export async function demoteUser(
+export async function demoteModerator(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: User,
@@ -895,6 +899,101 @@ export async function demoteUser(
   return updated;
 }
 
+function ensureValidMembershipUpdate(
+  viewer: User,
+  user: User,
+  siteIDs: string[]
+) {
+  const viewerIsScoped = !!viewer.moderationScopes?.siteIDs?.length;
+  if (viewerIsScoped) {
+    const outOfScopeSiteIDs = siteIDs.filter(
+      (id) => !viewer.moderationScopes?.siteIDs?.includes(id)
+    );
+    if (outOfScopeSiteIDs.length > 0) {
+      throw new UserForbiddenError(
+        "Site IDs out of viewer's moderation scopes.",
+        user.id,
+        "promoteMember",
+        viewer.id
+      );
+    }
+  }
+}
+
+export async function promoteMember(
+  mongo: MongoContext,
+  tenant: Tenant,
+  viewer: User,
+  userID: string,
+  siteIDs: string[]
+) {
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  ensureValidMembershipUpdate(viewer, user, siteIDs);
+  const isPromotion =
+    user.role === GQLUSER_ROLE.COMMENTER ||
+    user.role === GQLUSER_ROLE.STAFF ||
+    user.role === GQLUSER_ROLE.MEMBER;
+
+  if (!isPromotion) {
+    throw new Error("Invalid member promotion");
+  }
+
+  let updated = await mergeUserMembershipScopes(
+    mongo,
+    tenant.id,
+    userID,
+    siteIDs
+  );
+
+  if (updated.role !== GQLUSER_ROLE.MEMBER) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      updated.id,
+      GQLUSER_ROLE.MEMBER
+    );
+  }
+
+  return updated;
+}
+
+export async function demoteMember(
+  mongo: MongoContext,
+  tenant: Tenant,
+  viewer: User,
+  userID: string,
+  siteIDs: string[]
+) {
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  ensureValidMembershipUpdate(viewer, user, siteIDs);
+
+  let updated = await pullUserMembershipScopes(
+    mongo,
+    tenant.id,
+    userID,
+    siteIDs
+  );
+
+  if (!updated.membershipScopes?.siteIDs?.length) {
+    updated = await updateUserRole(
+      mongo,
+      tenant.id,
+      updated.id,
+      GQLUSER_ROLE.COMMENTER
+    );
+  }
+
+  return updated;
+}
+
 export async function updateModerationScopes(
   mongo: MongoContext,
   tenant: Tenant,
@@ -922,6 +1021,25 @@ export async function updateModerationScopes(
   }
 
   return updateUserModerationScopes(mongo, tenant.id, userID, moderationScopes);
+}
+
+/**
+ * updateMembershipScopes updates the sites on which a user has membership
+ * assuming they have the member role.
+ */
+export async function updateMembershipScopes(
+  mongo: MongoContext,
+  tenant: Tenant,
+  viewer: User,
+  userID: string,
+  membershipScopes: string[]
+) {
+  const sites = await retrieveManySites(mongo, tenant.id, membershipScopes);
+  if (sites.some((s) => s === null)) {
+    throw new Error("Some of the provided site ids did not exist");
+  }
+
+  return updateUserMembershipScopes(mongo, tenant.id, userID, membershipScopes);
 }
 
 /**
@@ -1361,6 +1479,18 @@ export async function updateUserBan(
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
+  }
+
+  // If targetUser is a moderator, throw an error if any of the
+  // sites in banSiteIDs are also in their moderation scopes
+  if (targetUser.role === GQLUSER_ROLE.MODERATOR) {
+    const moderationScopes = targetUser.moderationScopes?.siteIDs;
+    const moderatorSiteInBanSiteIDs = banSiteIDs?.filter((bsi) =>
+      moderationScopes?.includes(bsi)
+    );
+    if (moderatorSiteInBanSiteIDs && moderatorSiteInBanSiteIDs.length > 0) {
+      throw new ModeratorCannotBeBannedOnSiteError();
+    }
   }
 
   let newBans = false;

@@ -454,6 +454,14 @@ export interface UserModerationScopes {
   siteIDs?: string[];
 }
 
+export interface UserMembershipScopes {
+  /**
+   * siteIDs is the array of ID's for sites on which this user is a member.
+   * If not present (and user has role of MEMBER), user is a member on all sites.
+   */
+  siteIDs?: string[];
+}
+
 /**
  * User is someone that leaves Comments, and logs in.
  */
@@ -528,6 +536,12 @@ export interface User extends TenantResource {
    * the user has a MODERATOR role.
    */
   moderationScopes?: UserModerationScopes;
+
+  /**
+   * membershipScopes describes the scopes of membership. These only apply when
+   * the user has a MEMBER role.
+   */
+  membershipScopes?: UserMembershipScopes;
 
   /**
    * notifications stores the notification settings for the given User.
@@ -924,6 +938,62 @@ export async function pullUserSiteModerationScopes(
   return result.value;
 }
 
+export async function mergeUserMembershipScopes(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  membershipScopes: string[]
+) {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $addToSet: {
+        "membershipScopes.siteIDs": { $each: membershipScopes },
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return result.value;
+}
+
+export async function pullUserMembershipScopes(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  membershipScopes: string[]
+) {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $pull: {
+        "membershipScopes.siteIDs": { $in: membershipScopes },
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return result.value;
+}
+
 export async function updateUserModerationScopes(
   mongo: MongoContext,
   tenantID: string,
@@ -941,6 +1011,27 @@ export async function updateUserModerationScopes(
   );
   if (!result.value) {
     throw new UserNotFoundError(id);
+  }
+
+  return result.value;
+}
+
+export async function updateUserMembershipScopes(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  siteIDs: string[]
+) {
+  const result = await mongo
+    .users()
+    .findOneAndUpdate(
+      { id: userID, tenantID },
+      { $set: { membershipScopes: { siteIDs } } },
+      { returnOriginal: false }
+    );
+
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
   }
 
   return result.value;

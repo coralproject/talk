@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -41,6 +46,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   unbanState: [unbanSiteIDs, setUnbanSiteIDs],
 }) => {
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
+  const viewerScopesSiteIDs = useMemo(() => {
+    return viewerScopes.sites?.map((site) => site.id);
+  }, [viewerScopes.sites]);
 
   const initiallyBanned = useCallback(
     (siteID: string) => !!userBanStatus?.sites?.some(({ id }) => id === siteID),
@@ -143,7 +151,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
                   siteID={siteID}
                   checked={checked}
                   onChange={onToggleSite}
-                  disabled={viewerIsScoped && initiallyBanned(siteID)}
+                  disabled={
+                    viewerIsScoped && !viewerScopesSiteIDs?.includes(siteID)
+                  }
                 />
               );
             })}

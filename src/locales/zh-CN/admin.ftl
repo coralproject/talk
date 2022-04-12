@@ -1095,8 +1095,8 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = 修改角色
 
-community-assignMySites = 分配我的网站
-community-removeMySites = 取消我的网站
+community-assignMySitesToModerator = 分配我的网站
+community-removeMySitesFromModerator = 取消我的网站
 community-stillHaveSiteModeratorPrivileges = 他们仍将拥有网站版主的权限：
 community-userNoLongerPermitted =不再允许用户做出修改决定或分配暂停令：
 community-assignThisUser = 分配该用户到
@@ -1124,7 +1124,7 @@ community-column-status = 状态
 
 community-role-popover =
   .description =用于修改用户角色的下拉菜单
-community-siteModeratorActions-popover =
+community-siteRoleActions-popover =
   .description =用于提拔/下放用户之/来自网站的下拉菜单
 
 community-userStatus-popover =
@@ -1187,16 +1187,16 @@ community-premodModal-consequence =
 community-premodModal-cancel = 取消
 community-premodModal-premodUser = 是，始终预审
 
-community-siteModeratorModal-assignSites =
+community-siteRoleModal-assignSites =
   Assign sites for <strong>{ $username }</strong>
-community-siteModeratorModal-assignSitesDescription =
+community-siteRoleModal-assignSitesDescription-siteModerator =
   允许网站版主在他们所分配的网站上做出修改决定和发布暂停令。
 
-community-siteModeratorModal-cancel = 取消
-community-siteModeratorModal-assign = 分配
-community-siteModeratorModal-remove = 取消
-community-siteModeratorModal-selectSites = 选择网站进行审核
-community-siteModeratorModal-noSites = 没有网站
+community-siteRoleModal-cancel = 取消
+community-siteRoleModal-assign = 分配
+community-siteRoleModal-remove = 取消
+community-siteRoleModal-selectSites-siteModerator = 选择网站进行审核
+community-siteRoleModal-noSites = 没有网站
 
 community-invite-inviteMember = 邀请成员到您的机构
 community-invite-emailAddressLabel = 电子邮件地址：
@@ -1316,22 +1316,22 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = 预览
 configure-general-reaction-sortMenu-sortBy = 按分类
 
-configure-general-staff-title =员工成员徽章
-configure-general-staff-explanation =
+configure-general-badges-title =员工成员徽章
+configure-general-badges-explanation =
   为您机构的工作人员展示一个自定义的徽章。这个徽章会出现在留言流和管理界面中。
-configure-general-staff-label = Badge text
-configure-general-staff-input =
+configure-general-badges-label = Badge text
+configure-general-badges-input =
   .placeholder = 例如：员工
-configure-general-staff-moderator-input =
+configure-general-badges-moderator-input =
   .placeholder = 例如：版主
-configure-general-staff-admin-input =
+configure-general-badges-admin-input =
   .placeholder = 例如：管理员
-configure-general-staff-preview = 预览
-configure-general-staff-moderator-preview = 预览
+configure-general-badges-preview = 预览
+configure-general-badges-moderator-preview = 预览
 configure-general-staff-admin-preview = 预览
-configure-general-staff-member-label = 员工成员徽章文本
-configure-general-staff-admin-label =管理员徽章文本
-configure-general-staff-moderator-label =版主徽章文本
+configure-general-badges-staff-member-label = 员工成员徽章文本
+configure-general-badges-admin-label =管理员徽章文本
+configure-general-badges-moderator-label =版主徽章文本
 
 configure-general-rte-title = rich-text留言
 configure-general-rte-express = 给您的社区提供更多的方式来表达自己，而不是用丰富文本格式化的纯文本。

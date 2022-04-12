@@ -90,6 +90,7 @@ it("disables comment stream", async () => {
   within(tabPane).getAllByText("In accordance with Acme Co", {
     exact: false,
   });
+
   expect(within(tabPane).queryByTestID("comment-reply-button")).toBeNull();
   expect(within(tabPane).queryByTestID("comment-report-button")).toBeNull();
   expect(within(tabPane).queryByTestID("comment-edit-button")).toBeNull();
