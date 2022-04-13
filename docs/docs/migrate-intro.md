@@ -9,7 +9,7 @@ When we started building Talk, the precursor to our Coral platform, we wanted it
 We learned two key things:
 
 1. More than 90% of publishers used the same plugin setup
-2. A handful of publishers created plugins that made the platform almost unusable, and wanted us to change our architecture to support their bespoke work
+2. A handful of publishers created plugins that made the platform more challenging to use, and would have required significant re-architecture of the Coral platform to support properly
 
 Taking everything we learned, in 2019 we relaunched with a complete rewrite of the platform, calling the new version Coral. The new version no longer has custom plugins.
 
