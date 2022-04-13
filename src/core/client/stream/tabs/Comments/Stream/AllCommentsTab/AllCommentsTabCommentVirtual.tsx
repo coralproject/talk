@@ -4,20 +4,27 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from "react";
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal } from "coral-framework/lib/relay";
 import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
+import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
+import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
+import CommentsLinks from "../CommentsLinks";
+import { PostCommentFormContainer } from "../PostCommentForm";
+import ViewersWatchingContainer from "../ViewersWatchingContainer";
+
+import styles from "./AllCommentsTabCommentVirtual.css";
 
 interface Props {
   settings: AllCommentsTabContainer_settings;
@@ -27,6 +34,10 @@ interface Props {
   hasMore: boolean;
   isLoadingMore: boolean;
   currentScrollRef: any;
+  alternateOldestViewEnabled: boolean;
+  showCommentForm: boolean;
+  commentsOrderBy: COMMENT_SORT;
+  showGoToDiscussions: boolean;
 }
 
 interface Comment {
@@ -53,12 +64,12 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   hasMore,
   isLoadingMore,
   currentScrollRef,
+  alternateOldestViewEnabled,
+  showCommentForm,
+  commentsOrderBy,
+  showGoToDiscussions,
 }) => {
   const comments = useMemo(() => story.comments.edges, [story.comments.edges]);
-  const [showLoadAllCommentsButton, setShowLoadAllCommentsButton] = useState(
-    !settings.loadAllComments
-  );
-
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
       commentWithTraversalFocus
@@ -72,6 +83,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         virtuosoIndex
         isRoot
       }
+      showLoadAllCommentsButton
     }
   `);
 
@@ -196,12 +208,14 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   const Footer = useCallback(() => {
     return (
       <>
-        {showLoadAllCommentsButton && comments.length > 20 && (
+        {local.showLoadAllCommentsButton && comments.length > 20 && (
           <Localized id="comments-loadAll">
             <Button
               key={`comments-loadAll-${comments.length}`}
               id="comments-loadAll"
-              onClick={() => setShowLoadAllCommentsButton(false)}
+              onClick={() => {
+                setLocal({ showLoadAllCommentsButton: false });
+              }}
               color="secondary"
               variant="outlined"
               fullWidth
@@ -216,13 +230,41 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             </Button>
           </Localized>
         )}
+        {alternateOldestViewEnabled && (
+          <HorizontalGutter mt={6} spacing={4}>
+            <IntersectionProvider>
+              <ViewersWatchingContainer story={story} settings={settings} />
+            </IntersectionProvider>
+            {showCommentForm && (
+              <PostCommentFormContainer
+                story={story}
+                settings={settings}
+                viewer={viewer}
+                commentsOrderBy={commentsOrderBy}
+              />
+            )}
+            <div className={styles.borderedFooter}>
+              <CommentsLinks
+                showGoToDiscussions={showGoToDiscussions}
+                showGoToProfile={!!viewer}
+              />
+            </div>
+          </HorizontalGutter>
+        )}
       </>
     );
   }, [
-    showLoadAllCommentsButton,
+    local.showLoadAllCommentsButton,
     comments,
     isLoadingMore,
-    setShowLoadAllCommentsButton,
+    alternateOldestViewEnabled,
+    commentsOrderBy,
+    setLocal,
+    settings,
+    showCommentForm,
+    showGoToDiscussions,
+    story,
+    viewer,
   ]);
 
   const ScrollSeekPlaceholder = useCallback(
@@ -313,7 +355,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: 600 }}
-        totalCount={showLoadAllCommentsButton ? 20 : comments.length}
+        totalCount={local.showLoadAllCommentsButton ? 20 : comments.length}
         overscan={50}
         endReached={() => {
           if (hasMore && !isLoadingMore) {

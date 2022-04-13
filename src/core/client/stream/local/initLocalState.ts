@@ -20,6 +20,7 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 interface ResolvedConfig {
   readonly featureFlags: string[];
   readonly flattenReplies?: boolean | null;
+  readonly loadAllComments: boolean;
 }
 
 async function resolveConfig(
@@ -39,6 +40,7 @@ async function resolveConfig(
           settings {
             flattenReplies
             featureFlags
+            loadAllComments
           }
         }
       `,
@@ -50,6 +52,7 @@ async function resolveConfig(
   return {
     featureFlags: [],
     flattenReplies: false,
+    loadAllComments: true,
   };
 }
 
@@ -83,7 +86,7 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
     ...rest,
   });
 
-  const { featureFlags, flattenReplies } = await resolveConfig(
+  const { featureFlags, flattenReplies, loadAllComments } = await resolveConfig(
     environment,
     staticConfig
   );
@@ -150,6 +153,8 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
       featureFlags.includes(GQLFEATURE_FLAG.Z_KEY),
       "enableZKey"
     );
+
+    localRecord.setValue(!loadAllComments, "showLoadAllCommentsButton");
 
     // Version as reported by the embed.js
     localRecord.setValue(options?.version, "embedVersion");

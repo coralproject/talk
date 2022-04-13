@@ -112,6 +112,8 @@ extend type Local {
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 
+  showLoadAllCommentsButton: Boolean!
+
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
 }

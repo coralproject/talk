@@ -136,6 +136,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       }
     `
   );
+
   const onChangeOrder = useCallback(
     async (order: React.ChangeEvent<HTMLSelectElement>) => {
       if (local.commentsOrderBy === order.target.value) {
