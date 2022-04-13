@@ -3,13 +3,13 @@ import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
 import { ModerationRejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_comment.graphql";
-import { ModerationRejectedTombstoneContainer_local } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_local.graphql";
 import { ModerationRejectedTombstoneContainer_settings as SettingsData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_settings.graphql";
 
 import styles from "./ModerationRejectedTombstoneContainer.css";
@@ -23,13 +23,7 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
-  const [{ accessToken }] = useLocal<
-    ModerationRejectedTombstoneContainer_local
-  >(graphql`
-    fragment ModerationRejectedTombstoneContainer_local on Local {
-      accessToken
-    }
-  `);
+  const { accessToken } = useStreamLocal();
 
   const moderationLinkSuffix =
     !!accessToken &&

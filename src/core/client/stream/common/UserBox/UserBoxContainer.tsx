@@ -1,46 +1,33 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import {
-  MutationProp,
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { SignOutMutation } from "coral-stream/mutations";
 
 import { UserBoxContainer_settings as SettingsData } from "coral-stream/__generated__/UserBoxContainer_settings.graphql";
 import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated__/UserBoxContainer_viewer.graphql";
-import { UserBoxContainerLocal } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
 
 import { supportsRegister, weControlAuth } from "../authControl";
-import AuthPopup, {
-  ShowAuthPopupMutation,
-  withShowAuthPopupMutation,
-} from "../AuthPopup";
+import AuthPopup from "../AuthPopup";
+import useAuthPopupActions from "../AuthPopup/useAuthPopupActions";
 import UserBoxAuthenticated from "./UserBoxAuthenticated";
 import UserBoxUnauthenticated from "./UserBoxUnauthenticated";
 
 interface Props {
   viewer: ViewerData | null;
   settings: SettingsData;
-  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
 }
 
 export const UserBoxContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
-  showAuthPopup,
 }) => {
-  const [{ accessToken, accessTokenJTI, accessTokenExp }] = useLocal<
-    UserBoxContainerLocal
-  >(graphql`
-    fragment UserBoxContainerLocal on Local {
-      accessToken
-      accessTokenJTI
-      accessTokenExp
-    }
-  `);
+  const context = useCoralContext();
+  const [showAuthPopup] = useAuthPopupActions(context.eventEmitter);
+  const { accessToken, accessTokenJTI, accessTokenExp } = useStreamLocal();
+
   const signOut = useMutation(SignOutMutation);
   const handleSignIn = () => showAuthPopup({ view: "SIGN_IN" });
   const handleRegister = () => showAuthPopup({ view: "SIGN_UP" });
@@ -75,19 +62,17 @@ export const UserBoxContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withShowAuthPopupMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
-      fragment UserBoxContainer_viewer on User {
-        username
-      }
-    `,
-    settings: graphql`
-      fragment UserBoxContainer_settings on Settings {
-        ...authControl_settings @relay(mask: false)
-      }
-    `,
-  })(UserBoxContainer)
-);
+const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment UserBoxContainer_viewer on User {
+      username
+    }
+  `,
+  settings: graphql`
+    fragment UserBoxContainer_settings on Settings {
+      ...authControl_settings @relay(mask: false)
+    }
+  `,
+})(UserBoxContainer);
 
 export default enhanced;

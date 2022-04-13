@@ -128,6 +128,15 @@ interface StreamLocalValue {
   autoArchiveOlderThanMs: number;
   setAutoArchiveOlderThanMs: React.Dispatch<React.SetStateAction<number>>;
 
+  accessToken: string | null;
+  setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
+
+  accessTokenJTI: string | null;
+  setAccessTokenJTI: React.Dispatch<React.SetStateAction<string | null>>;
+
+  accessTokenExp: number | null;
+  setAccessTokenExp: React.Dispatch<React.SetStateAction<number | null>>;
+
   authPopup: StreamLocalAuth;
   keyboardShortcutsConfig: StreamLocalKeyboardShortcuts;
 }
@@ -218,6 +227,16 @@ const createContext = async (
     const [authView, setAuthView] = useState<AUTH_VIEW | null>(null);
     const [authHref, setAuthHref] = useState<string>("");
 
+    const [authAccessToken, setAuthAccessToken] = useState<string | null>(
+      auth?.accessToken || null
+    );
+    const [authAccessTokenJTI, setAuthAccessTokenJTI] = useState<string | null>(
+      auth?.claims.jti || null
+    );
+    const [authAccessTokenExp, setAuthAccessTokenExp] = useState<number | null>(
+      auth?.claims.exp || null
+    );
+
     // Keyboard Shortcuts
     const [keysKey, setKeysKey] = useState<string>("");
     const [keysSource, setKeysSource] = useState<string>("");
@@ -256,6 +275,14 @@ const createContext = async (
       setArchivingEnabled,
       autoArchiveOlderThanMs,
       setAutoArchiveOlderThanMs,
+
+      accessToken: authAccessToken,
+      setAccessToken: setAuthAccessToken,
+      accessTokenExp: authAccessTokenExp,
+      setAccessTokenExp: setAuthAccessTokenExp,
+      accessTokenJTI: authAccessTokenJTI,
+      setAccessTokenJTI: setAuthAccessTokenJTI,
+
       authPopup: {
         open: authOpen,
         setOpen: setAuthOpen,
@@ -266,6 +293,7 @@ const createContext = async (
         href: authHref,
         setHref: setAuthHref,
       },
+
       keyboardShortcutsConfig: {
         key: keysKey,
         setKey: setKeysKey,

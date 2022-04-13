@@ -5,18 +5,14 @@ import { graphql } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
-import {
-  useLocal,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
 
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
-import { ModerationActionsContainer_local } from "coral-stream/__generated__/ModerationActionsContainer_local.graphql";
 import { ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
@@ -46,11 +42,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   onDismiss,
   onBan,
 }) => {
-  const [{ accessToken }] = useLocal<ModerationActionsContainer_local>(graphql`
-    fragment ModerationActionsContainer_local on Local {
-      accessToken
-    }
-  `);
+  const { accessToken } = useStreamLocal();
 
   const emitGotoModerationEvent = useViewerEvent(GotoModerationEvent);
   const approve = useMutation(ApproveCommentMutation);
@@ -104,7 +96,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       commentRevisionID: comment.revision.id,
       storyID: story.id,
     });
-  }, [approve, comment, story]);
+  }, [comment.id, comment.revision, reject, story.id]);
   const onFeature = useCallback(() => {
     if (!comment.revision) {
       return;

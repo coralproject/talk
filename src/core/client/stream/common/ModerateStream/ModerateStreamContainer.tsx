@@ -3,7 +3,7 @@ import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { getModerationLink } from "coral-framework/helpers";
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
 import { Button } from "coral-ui/components/v3";
@@ -11,7 +11,7 @@ import { Button } from "coral-ui/components/v3";
 import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
 import { ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
 import { ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
-import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 interface Props {
   settings: ModerateStreamContainer_settings;
@@ -24,11 +24,8 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   story: { id, canModerate, isArchived, isArchiving },
   viewer,
 }) => {
-  const [{ accessToken }] = useLocal<ModerateStreamContainerLocal>(graphql`
-    fragment ModerateStreamContainerLocal on Local {
-      accessToken
-    }
-  `);
+  const { accessToken } = useStreamLocal();
+
   const href = useMemo(() => {
     let link = getModerationLink({ storyID: id });
     if (

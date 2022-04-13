@@ -4,12 +4,10 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 import Responsive from "react-responsive";
 
-import { MutationProp, withFragmentContainer } from "coral-framework/lib/relay";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import {
-  ShowAuthPopupMutation,
-  withShowAuthPopupMutation,
-} from "coral-stream/common/AuthPopup";
+import useAuthPopupActions from "coral-stream/common/AuthPopup/useAuthPopupActions";
 import { Flex, Icon, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -22,18 +20,19 @@ interface Props {
   onClick: () => void;
   open?: boolean | null;
 
-  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
   viewer: ReportButton_viewer | null;
 }
 
 const ReportButton: FunctionComponent<Props> = ({
   onClick,
-  showAuthPopup,
   comment,
   viewer,
   open,
 }) => {
+  const context = useCoralContext();
+  const [showAuthPopup] = useAuthPopupActions(context.eventEmitter);
+
   const isLoggedIn = !!viewer;
 
   const isReported =
@@ -109,26 +108,24 @@ const ReportButton: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withShowAuthPopupMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
-      fragment ReportButton_viewer on User {
-        id
+const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment ReportButton_viewer on User {
+      id
+    }
+  `,
+  comment: graphql`
+    fragment ReportButton_comment on Comment {
+      id
+      author {
+        username
       }
-    `,
-    comment: graphql`
-      fragment ReportButton_comment on Comment {
-        id
-        author {
-          username
-        }
-        viewerActionPresence {
-          dontAgree
-          flag
-        }
+      viewerActionPresence {
+        dontAgree
+        flag
       }
-    `,
-  })(ReportButton)
-);
+    }
+  `,
+})(ReportButton);
 
 export default enhanced;

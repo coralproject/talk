@@ -2,9 +2,8 @@ import { FluentBundle } from "@fluent/bundle/compat";
 /* eslint-disable no-restricted-globals */
 import { Localized } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
-import { noop } from "lodash";
 import { Child as PymChild } from "pym.js";
-import React, { Component, ComponentType } from "react";
+import React, { Component, ComponentType, FunctionComponent } from "react";
 import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
@@ -67,7 +66,7 @@ export type InitLocalState = (dependencies: {
   staticConfig?: StaticConfig | null;
 }) => void | Promise<void>;
 
-interface CreateManagedArguments {
+interface CreateContextArguments {
   /** Locales data that is returned by our `locales-loader`. */
   localesData: LocalesData;
 
@@ -96,14 +95,6 @@ interface CreateManagedArguments {
 
   /** tokenRefreshProvider is used to obtain a new access token after expiry. */
   tokenRefreshProvider?: TokenRefreshProvider;
-}
-
-interface CreateContextArguments extends CreateManagedArguments {
-  staticConfig: StaticConfig | null;
-
-  postMessage: PostMessageService;
-
-  localStorage: PromisifiedStorage<string>;
 }
 
 /**
@@ -173,18 +164,29 @@ function createRestClient(
   return new RestClient("/api", clientID, accessTokenProvider);
 }
 
+type CreateLocalContextFunc = (
+  context: CoralContext,
+  auth?: AuthState | null
+) => Promise<React.FunctionComponent<{}>>;
+
 /**
  * Returns a managed CoralContextProvider, that includes given context
  * and handles context changes, e.g. when a user session changes.
  */
-function createManagedCoralContextProvider(
+async function createManagedCoralContextProvider(
   context: CoralContext,
   clientID: string,
-  initLocalState: InitLocalState = noop,
   localesData: LocalesData,
   localeBundles: FluentBundle[],
+  createLocalContext?: CreateLocalContextFunc,
+  auth?: AuthState | null,
   ErrorBoundary?: React.ComponentType
 ) {
+  let Local: FunctionComponent<{}> | null = null;
+  if (createLocalContext) {
+    Local = await createLocalContext(context, auth);
+  }
+
   const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
     {},
     { context: CoralContext }
@@ -214,7 +216,7 @@ function createManagedCoralContextProvider(
       context.subscriptionClient.pause();
 
       // Parse the claims/token and update storage.
-      const auth = nextAccessToken
+      const newAuth = nextAccessToken
         ? options.ephemeral
           ? parseAccessToken(nextAccessToken)
           : await storeAccessTokenInLocalStorage(
@@ -240,16 +242,14 @@ function createManagedCoralContextProvider(
         rest: createRestClient(clientID, accessTokenProvider),
       };
 
-      // Initialize local state.
-      await initLocalState({
-        environment: newContext.relayEnvironment,
-        context: newContext,
-        auth,
-        staticConfig: getStaticConfig(window),
-      });
+      if (createLocalContext) {
+        Local = await createLocalContext(context, newAuth);
+      }
 
       // Update the subscription client access token.
-      context.subscriptionClient.setAccessToken(accessTokenProvider());
+      this.state.context.subscriptionClient.setAccessToken(
+        accessTokenProvider()
+      );
 
       // Propagate new context.
       this.setState({ context: newContext }, () => {
@@ -282,12 +282,25 @@ function createManagedCoralContextProvider(
       // happens.
       return (
         <CoralContextProvider value={this.state.context}>
-          {ErrorBoundary ? (
-            <ErrorBoundary>{this.props.children}</ErrorBoundary>
+          {Local ? (
+            <Local>
+              {ErrorBoundary ? (
+                <ErrorBoundary>{this.props.children}</ErrorBoundary>
+              ) : (
+                this.props.children
+              )}
+              {this.state.context.pym && <SendPymReady />}
+            </Local>
           ) : (
-            this.props.children
+            <>
+              {ErrorBoundary ? (
+                <ErrorBoundary>{this.props.children}</ErrorBoundary>
+              ) : (
+                this.props.children
+              )}
+              {this.state.context.pym && <SendPymReady />}
+            </>
           )}
-          {this.state.context.pym && <SendPymReady />}
         </CoralContextProvider>
       );
     }
@@ -351,22 +364,27 @@ function resolveGraphQLSubscriptionURI(
   }://${host}/api/graphql/live`;
 }
 
-interface CreateManagedResult {
-  provider: ComponentType;
+interface CreateContextResult {
   context: CoralContext;
+  postMessage: PostMessageService;
+  localStorage: PromisifiedStorage<string>;
+  staticConfig: StaticConfig | null;
+  auth: AuthState | null | undefined;
 }
 
-async function createContext({
+export async function createCoralContext({
   localesData,
   pym,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 1000 }),
   bundle,
   bundleConfig = {},
   tokenRefreshProvider,
-  staticConfig,
-  postMessage,
-  localStorage,
-}: CreateContextArguments) {
+}: CreateContextArguments): Promise<CreateContextResult> {
+  const postMessage = createPostMessageService(pym);
+  const localStorage = resolvedLocalStorage(postMessage, pym);
+  const staticConfig = getStaticConfig(window);
+  const auth = await retrieveAccessToken(localStorage);
+
   const browserInfo = getBrowserInfo(window);
   // Load any polyfills that are required.
   await injectConditionalPolyfills(window, browserInfo);
@@ -461,7 +479,13 @@ async function createContext({
     renderWindow: window,
   };
 
-  return context;
+  return {
+    context,
+    postMessage,
+    localStorage,
+    staticConfig,
+    auth,
+  };
 }
 
 export function createPostMessageService(pym?: PymChild) {
@@ -490,36 +514,13 @@ export function resolvedLocalStorage(
  * to the rest of the application.
  */
 export default async function createManaged(
-  args: CreateManagedArguments
-): Promise<CreateManagedResult> {
-  const {
-    initLocalState,
-    localesData,
-    reporterFeedbackPrompt = false,
-    pym,
-  } = args;
-
-  const postMessage = createPostMessageService(pym);
-  const localStorage = resolvedLocalStorage(postMessage, pym);
-  const staticConfig = getStaticConfig(window);
-  const auth = await retrieveAccessToken(localStorage);
-
-  const context = await createContext({
-    ...args,
-    staticConfig,
-    postMessage,
-    localStorage,
-  });
-
-  if (initLocalState) {
-    await initLocalState({
-      environment: context.relayEnvironment,
-      context,
-      auth,
-      staticConfig,
-    });
-  }
-
+  localesData: LocalesData,
+  context: CoralContext,
+  createLocalContext?: CreateLocalContextFunc,
+  auth?: AuthState | null,
+  pym?: PymChild,
+  reporterFeedbackPrompt?: boolean
+): Promise<ComponentType> {
   const reporter = createReporter(window, { reporterFeedbackPrompt });
   // Set error reporter.
   if (reporter) {
@@ -528,15 +529,13 @@ export default async function createManaged(
 
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
-  return {
-    provider: createManagedCoralContextProvider(
-      context,
-      context.clientID,
-      initLocalState,
-      localesData,
-      context.localeBundles,
-      reporter?.ErrorBoundary
-    ),
+  return await createManagedCoralContextProvider(
     context,
-  };
+    context.clientID,
+    localesData,
+    context.localeBundles,
+    createLocalContext,
+    auth,
+    reporter?.ErrorBoundary
+  );
 }

@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { createManaged } from "coral-framework/lib/bootstrap";
+import { createCoralContext } from "coral-framework/lib/bootstrap/createManaged";
 
 import App from "./App";
 import Head from "./Head";
@@ -12,18 +13,27 @@ import localesData from "./locales";
 import "coral-ui/theme/admin.css";
 
 async function main() {
-  const managed = await createManaged({
+  const contextResult = await createCoralContext({
     initLocalState,
     localesData,
     reporterFeedbackPrompt: true,
     bundle: "admin",
   });
 
+  const ManagedProvider = await createManaged(
+    localesData,
+    contextResult.context,
+    undefined,
+    undefined,
+    undefined,
+    true
+  );
+
   const Index: FunctionComponent = () => (
-    <managed.provider>
+    <ManagedProvider>
       <Head />
       <App />
-    </managed.provider>
+    </ManagedProvider>
   );
 
   // eslint-disable-next-line no-restricted-globals

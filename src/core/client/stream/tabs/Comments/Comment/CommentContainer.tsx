@@ -14,7 +14,7 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useToggleState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { MutationProp, useMutation } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { Ability, can } from "coral-framework/permissions";
 import {
@@ -25,10 +25,7 @@ import {
 } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import {
-  ShowAuthPopupMutation,
-  withShowAuthPopupMutation,
-} from "coral-stream/common/AuthPopup";
+import useAuthPopupActions from "coral-stream/common/AuthPopup/useAuthPopupActions";
 import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
 import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
@@ -87,7 +84,6 @@ interface Props {
   story: StoryData;
   settings: SettingsData;
   indentLevel?: number;
-  showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   /**
    * localReply will integrate the mutation response into
    * localReplies
@@ -139,7 +135,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
   story,
   toggleCollapsed,
   viewer,
-  showAuthPopup,
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
@@ -204,6 +199,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
   );
 
   const isLoggedIn = !!viewer;
+
+  const context = useCoralContext();
+  const [showAuthPopup] = useAuthPopupActions(context.eventEmitter);
 
   const openEditDialog = useCallback(() => {
     if (isLoggedIn) {
@@ -768,123 +766,121 @@ export const CommentContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withShowAuthPopupMutation(
-  withFragmentContainer<Props>({
-    viewer: graphql`
-      fragment CommentContainer_viewer on User {
+const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment CommentContainer_viewer on User {
+      id
+      status {
+        current
+      }
+      ignoredUsers {
         id
-        status {
-          current
-        }
-        ignoredUsers {
-          id
-        }
+      }
+      badges
+      role
+      scheduledDeletionDate
+      mediaSettings {
+        unfurlEmbeds
+      }
+      ...UsernameWithPopoverContainer_viewer
+      ...ReactionButtonContainer_viewer
+      ...ReportFlowContainer_viewer
+      ...ReportButton_viewer
+      ...CaretContainer_viewer
+    }
+  `,
+  story: graphql`
+    fragment CommentContainer_story on Story {
+      id
+      url
+      isClosed
+      canModerate
+      settings {
+        mode
+      }
+      isArchiving
+      isArchived
+      ...CaretContainer_story
+      ...EditCommentFormContainer_story
+      ...PermalinkButtonContainer_story
+      ...ReplyCommentFormContainer_story
+      ...UserTagsContainer_story
+    }
+  `,
+  comment: graphql`
+    fragment CommentContainer_comment on Comment {
+      id
+      author {
+        id
+        username
+        avatar
         badges
-        role
-        scheduledDeletionDate
-        mediaSettings {
-          unfurlEmbeds
-        }
-        ...UsernameWithPopoverContainer_viewer
-        ...ReactionButtonContainer_viewer
-        ...ReportFlowContainer_viewer
-        ...ReportButton_viewer
-        ...CaretContainer_viewer
       }
-    `,
-    story: graphql`
-      fragment CommentContainer_story on Story {
-        id
-        url
-        isClosed
-        canModerate
-        settings {
-          mode
-        }
-        isArchiving
-        isArchived
-        ...CaretContainer_story
-        ...EditCommentFormContainer_story
-        ...PermalinkButtonContainer_story
-        ...ReplyCommentFormContainer_story
-        ...UserTagsContainer_story
-      }
-    `,
-    comment: graphql`
-      fragment CommentContainer_comment on Comment {
+      parent {
         id
         author {
-          id
           username
-          avatar
-          badges
         }
-        parent {
-          id
-          author {
-            username
-          }
-        }
-        body
-        createdAt
-        status
-        rating
-        editing {
-          edited
-          editableUntil
-        }
-        tags {
-          code
-        }
-        pending
-        lastViewerAction
-        deleted
-        actionCounts {
-          reaction {
-            total
-          }
-        }
-        viewerActionPresence {
-          dontAgree
-          flag
-        }
-        hasTraversalFocus
-        seen
-        ...CaretContainer_comment
-        ...EditCommentFormContainer_comment
-        ...MediaSectionContainer_comment
-        ...ReactionButtonContainer_comment
-        ...ModerationRejectedTombstoneContainer_comment
-        ...ReplyCommentFormContainer_comment
-        ...ReportButton_comment
-        ...ReportFlowContainer_comment
-        ...UsernameContainer_comment
-        ...UsernameWithPopoverContainer_comment
-        ...UserTagsContainer_comment
-        ...ArchivedReportFlowContainer_comment
       }
-    `,
-    settings: graphql`
-      fragment CommentContainer_settings on Settings {
-        flattenReplies
-        disableCommenting {
-          enabled
-        }
-        featureFlags
-        ...CaretContainer_settings
-        ...EditCommentFormContainer_settings
-        ...MediaSectionContainer_settings
-        ...ReactionButtonContainer_settings
-        ...ModerationRejectedTombstoneContainer_settings
-        ...ReplyCommentFormContainer_settings
-        ...ReportFlowContainer_settings
-        ...UsernameWithPopoverContainer_settings
-        ...UserTagsContainer_settings
-        ...ArchivedReportFlowContainer_settings
+      body
+      createdAt
+      status
+      rating
+      editing {
+        edited
+        editableUntil
       }
-    `,
-  })(CommentContainer)
-);
+      tags {
+        code
+      }
+      pending
+      lastViewerAction
+      deleted
+      actionCounts {
+        reaction {
+          total
+        }
+      }
+      viewerActionPresence {
+        dontAgree
+        flag
+      }
+      hasTraversalFocus
+      seen
+      ...CaretContainer_comment
+      ...EditCommentFormContainer_comment
+      ...MediaSectionContainer_comment
+      ...ReactionButtonContainer_comment
+      ...ModerationRejectedTombstoneContainer_comment
+      ...ReplyCommentFormContainer_comment
+      ...ReportButton_comment
+      ...ReportFlowContainer_comment
+      ...UsernameContainer_comment
+      ...UsernameWithPopoverContainer_comment
+      ...UserTagsContainer_comment
+      ...ArchivedReportFlowContainer_comment
+    }
+  `,
+  settings: graphql`
+    fragment CommentContainer_settings on Settings {
+      flattenReplies
+      disableCommenting {
+        enabled
+      }
+      featureFlags
+      ...CaretContainer_settings
+      ...EditCommentFormContainer_settings
+      ...MediaSectionContainer_settings
+      ...ReactionButtonContainer_settings
+      ...ModerationRejectedTombstoneContainer_settings
+      ...ReplyCommentFormContainer_settings
+      ...ReportFlowContainer_settings
+      ...UsernameWithPopoverContainer_settings
+      ...UserTagsContainer_settings
+      ...ArchivedReportFlowContainer_settings
+    }
+  `,
+})(CommentContainer);
 
 export type CommentContainerProps = PropTypesOf<typeof enhanced>;
 

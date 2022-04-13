@@ -6,16 +6,16 @@ import ReactDOM from "react-dom";
 import { parseQuery } from "coral-common/utils";
 import { injectConditionalPolyfills } from "coral-framework/helpers";
 import { createManaged } from "coral-framework/lib/bootstrap";
+import { createCoralContext } from "coral-framework/lib/bootstrap/createManaged";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { createTokenRefreshProvider } from "coral-framework/lib/network/tokenRefreshProvider";
 
 import AppContainer from "./App";
-import { initLocalState } from "./local";
+import createContext from "./local/StreamLocal";
 import localesData from "./locales";
 
 // Import css variables.
 import "coral-ui/theme/stream.css";
-import createContext from "./local/StreamLocal";
 
 function extractBundleConfig() {
   const { storyID, storyURL } = parseQuery(location.search);
@@ -38,8 +38,7 @@ async function main() {
   // add it to the managed provider.
   const bundleConfig = extractBundleConfig();
 
-  const managed = await createManaged({
-    initLocalState,
+  const contextResult = await createCoralContext({
     localesData,
     pym,
     bundle: "stream",
@@ -47,14 +46,18 @@ async function main() {
     tokenRefreshProvider: createTokenRefreshProvider(),
   });
 
-  const LocalContext = await createContext(managed.context);
+  const ManagedProvider = await createManaged(
+    localesData,
+    contextResult.context,
+    createContext,
+    contextResult.auth,
+    pym
+  );
 
   const Index: FunctionComponent = () => (
-    <managed.provider>
-      <LocalContext>
-        <AppContainer />
-      </LocalContext>
-    </managed.provider>
+    <ManagedProvider>
+      <AppContainer />
+    </ManagedProvider>
   );
 
   // eslint-disable-next-line no-restricted-globals
