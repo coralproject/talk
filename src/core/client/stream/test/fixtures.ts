@@ -94,11 +94,12 @@ export const settings = createFixture<GQLSettings>({
       },
     },
   },
-  staff: {
+  badges: {
     label: "Staff",
     adminLabel: "Staff",
     moderatorLabel: "Staff",
     staffLabel: "Staff",
+    memberLabel: "Member",
   },
   reaction: {
     icon: "thumb_up",
@@ -307,6 +308,12 @@ export const userWithEmail = createFixture<GQLUser>(
   },
   baseUser
 );
+
+export const member = createFixture<GQLUser>({
+  id: "member-user",
+  username: "member",
+  role: GQLUSER_ROLE.MEMBER,
+});
 
 export const commenters = createFixtures<GQLUser>(
   [
@@ -523,6 +530,22 @@ export const comments = denormalizeComments(
   )
 );
 
+export const commentFromMember = denormalizeComment(
+  createFixture<GQLComment>(
+    {
+      id: "comment-from-member",
+      author: member,
+      body: "I like gogurt.",
+      tags: [
+        {
+          code: GQLTAG.MEMBER,
+        },
+      ],
+    },
+    baseComment
+  )
+);
+
 export const commentWithReplies = denormalizeComment(
   createFixture<GQLComment>(
     {
@@ -649,6 +672,22 @@ export const moderators = createFixtures<GQLUser>(
     },
   ],
   baseUser
+);
+
+export const commentFromModerator = denormalizeComment(
+  createFixture<GQLComment>(
+    {
+      id: "comment-from-moderator",
+      author: moderators[0],
+      body: "Stop all that cussing!",
+      tags: [
+        {
+          code: GQLTAG.MODERATOR,
+        },
+      ],
+    },
+    baseComment
+  )
 );
 
 export const commentsFromStaff = denormalizeComments(

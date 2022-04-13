@@ -4,45 +4,32 @@ import { graphql } from "relay-runtime";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
-import {
-  Flex,
-  HorizontalGutter,
-  Icon,
-  TextLink,
-  Timestamp,
-} from "coral-ui/components/v2";
+import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
+import { StoryInfoDrawerContainer_settings } from "coral-admin/__generated__/StoryInfoDrawerContainer_settings.graphql";
 import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryInfoDrawerContainer_story.graphql";
+import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
+import ArchiveStoryActionsContainer from "./ArchiveStoryActionsContainer";
+import ModerateStoryButton from "./ModerateStoryButton";
 import RescrapeStory from "./RescrapeStory";
-import styles from "./StoryInfoDrawerContainer.css";
 import StorySettingsContainer from "./StorySettingsContainer";
 import StoryStatus from "./StoryStatus";
 
-export interface Props {
-  onClose: () => void;
-  story: StoryInfoDrawerContainer_story;
-}
+import styles from "./StoryInfoDrawerContainer.css";
 
-const MetaDataItem: FunctionComponent<{ val: any; icon: any }> = ({
-  val,
-  icon,
-}) => {
-  return (
-    <Flex direction="row" className={styles.metaDataItem}>
-      <div>{icon}</div>
-      <div>{val}</div>
-    </Flex>
-  );
-};
+export interface Props {
+  story: StoryInfoDrawerContainer_story;
+  viewer: StoryInfoDrawerContainer_viewer | null;
+  settings: StoryInfoDrawerContainer_settings;
+}
 
 const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   story,
-  onClose,
+  viewer,
+  settings,
 }) => {
-  const { author, publishedAt } = story.metadata || {};
-
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
@@ -62,40 +49,44 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           <TextLink className={styles.storyLink} href={story.url}>
             {story.url}
           </TextLink>
-          <Flex direction="row" alignItems="center" className={styles.status}>
-            {story.isArchived || story.isArchiving ? (
-              <ArchivedMarker />
-            ) : (
-              <StoryStatus
+          {story.isArchived || story.isArchiving ? (
+            <Flex direction="column" className={styles.status}>
+              <Flex direction="column" className={styles.archived}>
+                <ArchivedMarker />
+                {viewer && (
+                  <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+                )}
+              </Flex>
+            </Flex>
+          ) : (
+            <>
+              <Flex
+                direction="row"
+                alignItems="center"
+                className={styles.status}
+              >
+                <StoryStatus
+                  storyID={story.id}
+                  currentStatus={story.status as GQLSTORY_STATUS}
+                />
+                {viewer && (
+                  <ModerateStoryButton
+                    story={story}
+                    settings={settings}
+                    viewer={viewer}
+                  />
+                )}
+              </Flex>
+              <RescrapeStory storyID={story.id} />
+              {viewer && (
+                <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+              )}
+              <StorySettingsContainer
+                settings={story.settings}
                 storyID={story.id}
-                currentStatus={story.status as GQLSTORY_STATUS}
               />
-            )}
-          </Flex>
-          <Localized id="storyInfoDrawer-scrapedMetaData">
-            <span className={styles.sectionTitle}>Scraped Metadata</span>
-          </Localized>
-          <Flex className={styles.metaData} direction="column">
-            {author && (
-              <MetaDataItem
-                key="author"
-                val={author}
-                icon={<Icon size="sm">people</Icon>}
-              />
-            )}
-            {publishedAt && (
-              <MetaDataItem
-                key="publishedAt"
-                val={<Timestamp>{publishedAt}</Timestamp>}
-                icon={<Icon size="sm">calendar_today</Icon>}
-              />
-            )}
-          </Flex>
-          <RescrapeStory storyID={story.id} />
-          <StorySettingsContainer
-            settings={story.settings}
-            storyID={story.id}
-          />
+            </>
+          )}
         </Flex>
       </Flex>
     </HorizontalGutter>
@@ -116,9 +107,22 @@ const enhanced = withFragmentContainer<Props>({
         author
         publishedAt
       }
+      ...ModerateStoryButton_story
       settings {
         ...StorySettingsContainer_storySettings
       }
+      ...ArchiveStoryActionsContainer_story
+    }
+  `,
+  viewer: graphql`
+    fragment StoryInfoDrawerContainer_viewer on User {
+      ...ArchiveStoryActionsContainer_viewer
+      ...ModerateStoryButton_viewer
+    }
+  `,
+  settings: graphql`
+    fragment StoryInfoDrawerContainer_settings on Settings {
+      ...ModerateStoryButton_settings
     }
   `,
 })(StoryInfoDrawerContainer);

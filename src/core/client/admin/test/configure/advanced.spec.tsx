@@ -1,3 +1,5 @@
+import { noop } from "lodash";
+
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
@@ -89,7 +91,9 @@ it("change custom css", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer).getByType("form").props.onSubmit();
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit({ preventDefault: noop });
   });
 
   // Submit button and text field should be disabled.
@@ -135,7 +139,9 @@ it("remove custom css", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer).getByType("form").props.onSubmit();
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit({ preventDefault: noop });
   });
 
   // Wait for submission to be finished
@@ -199,7 +205,9 @@ it("change review all user reports to enable For review queue", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer).getByType("form").props.onSubmit();
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit({ preventDefault: noop });
   });
 
   // Wait for submission to be finished

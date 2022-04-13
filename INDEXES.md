@@ -6,6 +6,26 @@ The goal of this document is to date-mark the indexes you add to support the cha
 
 If you are releasing, you can use this readme to check all the indexes prior to the release you are deploying and have a good idea of what indexes you might need to deploy to Mongo along with your release of a new Coral Docker image to kubernetes.
 
+## 2022-03-07
+
+```
+db.archivedComments.createIndex({ authorID: 1, tenantID: 1, createdAt: 1 });
+```
+
+- This is used to speed up downloading a user's comments. There are indexes existing for the regular `comments`, but this addresses this for the `archivedComments`.
+
+## 2022-01-18
+
+```
+db.seenComments.createIndex({ tenantID: 1, storyID: 1, userID: 1 });
+db.seenComments.createIndex({ lastSeenAt: 1 }, { expireAfterSeconds: 604800 });
+```
+
+  - These indexes manage the `seenComments` collection to provide persistence of a user's seen comments from device to device.
+  - This is a special set of indexes because the second index is a TTL index.
+    - It specifies when old `seenComments` documents will "expire" and be gracefully deleted.
+    - The above `expireAfterSeconds` default of `604800` is 7 days.
+
 ## 2022-01-17
 
 ```

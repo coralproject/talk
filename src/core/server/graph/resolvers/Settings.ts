@@ -43,4 +43,15 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
   loadAllComments: ({ loadAllComments = true }) => loadAllComments,
+  badges: ({ badges, staff }, args, ctx) => {
+    const badgeConfig = badges || staff;
+
+    return badgeConfig;
+  },
+  staff: ({ staff, badges }, args, ctx) => {
+    // Default to new badges config if present
+    const deprecated = badges || staff;
+
+    return deprecated;
+  },
 };

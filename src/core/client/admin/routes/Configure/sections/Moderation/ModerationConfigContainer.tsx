@@ -14,7 +14,8 @@ import { ModerationConfigContainer_settings as SettingsData } from "coral-admin/
 
 import AkismetConfig from "./AkismetConfig";
 import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
-import NewCommentersConfig from "./NewCommentersConfig";
+import ExternalLinksConfigContainer from "./ExternalLinksConfigContainer";
+import NewCommentersConfigContainer from "./NewCommentersConfigContainer";
 import PerspectiveConfig from "./PerspectiveConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
@@ -45,8 +46,9 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       <PreModerationConfigContainer disabled={submitting} settings={settings} />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
-      <NewCommentersConfig disabled={submitting} />
+      <NewCommentersConfigContainer disabled={submitting} settings={settings} />
       <RecentCommentHistoryConfig disabled={submitting} />
+      <ExternalLinksConfigContainer disabled={submitting} settings={settings} />
       <EmailDomainConfigContainer settings={settings} />
     </HorizontalGutter>
   );
@@ -60,8 +62,11 @@ const enhanced = withFragmentContainer<Props>({
       ...PreModerationConfigContainer_formValues @relay(mask: false)
       ...PreModerationConfigContainer_settings
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
-      ...NewCommentersConfigContainer_settings @relay(mask: false)
+      ...NewCommentersConfigContainer_formValues @relay(mask: false)
+      ...NewCommentersConfigContainer_settings
       ...EmailDomainConfigContainer_settings
+      ...ExternalLinksConfigContainer_formValues @relay(mask: false)
+      ...ExternalLinksConfigContainer_settings
     }
   `,
 })(ModerationConfigContainer);

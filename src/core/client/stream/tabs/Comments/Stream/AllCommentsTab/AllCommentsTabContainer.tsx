@@ -45,6 +45,7 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
+import MarkCommentsAsSeenMutation from "../../Comment/MarkCommentsAsSeenMutation";
 import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
@@ -175,13 +176,19 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     }
   }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
+  const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewMore = useCallback(async () => {
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: story.id,
       keyboardShortcutsConfig,
     });
     try {
-      await viewMore({ storyID: story.id, tag });
+      await viewMore({
+        storyID: story.id,
+        markSeen: !!viewer,
+        viewerID: viewer?.id,
+        markAsSeen,
+      });
       viewNewCommentsEvent.success();
     } catch (error) {
       viewNewCommentsEvent.error({ message: error.message, code: error.code });
@@ -194,6 +201,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     keyboardShortcutsConfig,
     viewMore,
     tag,
+    viewer,
+    markAsSeen,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
@@ -405,6 +414,7 @@ const enhanced = withPaginationContainer<
         ...CreateCommentReplyMutation_viewer
         ...CreateCommentMutation_viewer
         ...PostCommentFormContainer_viewer
+        id
         status {
           current
         }

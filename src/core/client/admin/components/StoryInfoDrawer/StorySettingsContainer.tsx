@@ -7,7 +7,6 @@ import { graphql } from "relay-runtime";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import ExpertSelectionQuery from "coral-stream/tabs/Configure/Q&A/ExpertSelectionQuery";
 import {
-  Button,
   CheckBox,
   Divider,
   Flex,
@@ -18,9 +17,10 @@ import {
   TabPane,
 } from "coral-ui/components/v2";
 
+import { Button } from "coral-ui/components/v3";
+
 import { StorySettingsContainer_storySettings } from "coral-admin/__generated__/StorySettingsContainer_storySettings.graphql";
 
-import { FinalFormSelect as Select } from "./Select";
 import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
 
 import styles from "./StorySettingsContainer.css";
@@ -32,18 +32,9 @@ export interface Props {
   settings: StorySettingsContainer_storySettings;
 }
 
-const localizedModMode = (mode: MODERATION_MODE): string => {
-  switch (mode) {
-    case "PRE":
-      return "storyInfoDrawerSettings-moderationMode-pre";
-    case "POST":
-      return "storyInfoDrawerSettings-moderationMode-post";
-    case "%future added value":
-      return "storyInfoDrawerSettings-moderationMode-future";
-    default:
-      return "";
-  }
-};
+const parsePremod = (b: boolean): MODERATION_MODE => (b ? "PRE" : "POST");
+
+const formatPremod = (mode: MODERATION_MODE) => mode === "PRE";
 
 const StorySettingsContainer: FunctionComponent<Props> = ({
   storyID,
@@ -59,7 +50,12 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
   const onSubmit = async (
     values: Partial<StorySettingsContainer_storySettings>
   ) => {
-    const res = await updateSettings({ id: storyID, settings: values });
+    const updatedSettings = { ...values };
+
+    const res = await updateSettings({
+      id: storyID,
+      settings: updatedSettings,
+    });
 
     setSettings(res.story.settings);
   };
@@ -90,13 +86,36 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
               handleSubmit,
               submitting,
               dirty,
-              form,
               submitSucceeded,
               dirtySinceLastSubmit,
             }) => {
               return (
                 <form onSubmit={handleSubmit}>
                   <Flex direction="column">
+                    <Flex direction="row" className={styles.setting}>
+                      {/* PREMOD ALL COMMENTS ENABLED */}
+                      <Field
+                        name="moderation"
+                        parse={parsePremod}
+                        format={formatPremod}
+                        type="checkbox"
+                        initialValue={moderation}
+                      >
+                        {({ input }) => (
+                          <Localized id="storyInfoDrawerSettings-premodCommentsEnable">
+                            <CheckBox
+                              {...input}
+                              checked={input.checked}
+                              disabled={submitting}
+                            >
+                              <div className={styles.checkboxText}>
+                                Pre-moderate all comments
+                              </div>
+                            </CheckBox>
+                          </Localized>
+                        )}
+                      </Field>
+                    </Flex>
                     <Flex direction="row" className={styles.setting}>
                       {/* PREMODLINKSENABLED */}
                       <Field
@@ -112,7 +131,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                               disabled={submitting}
                             >
                               <div className={styles.checkboxText}>
-                                Pre Mod Links
+                                Pre-moderate comments containing links
                               </div>
                             </CheckBox>
                           </Localized>
@@ -120,46 +139,22 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
                       </Field>
                     </Flex>
 
-                    {/* MODERATION MODE */}
-                    <Flex direction="row" className={styles.setting}>
-                      <Localized id="storyInfoDrawerSettings-moderation">
-                        <Select
-                          id="storySettingsContainer-moderationMode"
-                          name="moderation"
-                          label="Moderation"
-                          description="A menu for setting the moderation mode for the story"
-                          options={[
-                            {
-                              value: "PRE",
-                              localizationID: localizedModMode("PRE"),
-                            },
-                            {
-                              value: "POST",
-                              localizationID: localizedModMode("POST"),
-                            },
-                          ]}
-                          selected={{
-                            value: moderation,
-                            localizationID: localizedModMode(moderation),
-                          }}
-                        />
-                      </Localized>
-                    </Flex>
-
-                    {/* SAVE/SUBMIT */}
-                    <Button
-                      variant="outlined"
-                      color="regular"
-                      type="submit"
-                      disabled={
-                        submitting ||
-                        !dirty ||
-                        (submitSucceeded && !dirtySinceLastSubmit)
-                      }
-                    >
-                      Save
-                    </Button>
-
+                    {/* UPDATE */}
+                    <Localized id="storyInfoDrawerSettings-update">
+                      <Button
+                        className={styles.submit}
+                        variant="outlined"
+                        color="primary"
+                        type="submit"
+                        disabled={
+                          submitting ||
+                          !dirty ||
+                          (submitSucceeded && !dirtySinceLastSubmit)
+                        }
+                      >
+                        Update
+                      </Button>
+                    </Localized>
                     {mode === "QA" && (
                       <>
                         <Divider />

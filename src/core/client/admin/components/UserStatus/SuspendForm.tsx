@@ -4,7 +4,7 @@ import React, { FunctionComponent, RefObject, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { ScaledUnit } from "coral-common/helpers/i18n";
-import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { useGetMessage } from "coral-framework/lib/i18n";
 import {
   Button,
   CheckBox,
@@ -20,7 +20,6 @@ import styles from "./SuspendForm.css";
 interface Props {
   username: string | null;
   onCancel: () => void;
-  getMessage: GetMessage;
   organizationName: string;
   onSubmit: (duration: ScaledUnit, message: string) => void;
   lastFocusableRef: RefObject<any>;
@@ -43,11 +42,11 @@ const DEFAULT_DURATION = DURATIONS[0]; // 1 hour
 const SuspendForm: FunctionComponent<Props> = ({
   onCancel,
   username,
-  getMessage,
   onSubmit,
   organizationName,
   lastFocusableRef,
 }) => {
+  const getMessage = useGetMessage();
   const getMessageWithDuration = useCallback(
     ({ scaled, unit }: Pick<ScaledUnit, "scaled" | "unit">): string => {
       return getMessage(
@@ -215,6 +214,4 @@ const SuspendForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withGetMessage(SuspendForm);
-
-export default enhanced;
+export default SuspendForm;

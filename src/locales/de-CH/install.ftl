@@ -43,7 +43,7 @@ install-addSite-siteURLTextField =
   .placeholder = Organisations-URL
 install-addSite-siteURLDescription =
   Diese URL wird in E-Mails angezeigt, die Coral an Ihre Community-Mitglieder sendet.
-install-addOrganization-orgURLDescription = Stelle sicher, dass <strong> http: // </ strong> oder <strong> https: // </ strong> in ihre URL aufnehmen
+install-addOrganization-orgURLDescription = Stelle sicher, dass <strong> http: // </strong> oder <strong> https: // </strong> in ihre URL aufnehmen
 
 install-createYourAccount-stepTitle = Erstelle ein Administratorkonto
 install-createYourAccount-title = Erstelle ein Administratorkonto

@@ -200,15 +200,6 @@ exports[`renders empty stories 1`] = `
                   >
                     Finally a Cure for Cancer
                   </a>
-                  <i
-                    aria-hidden="true"
-                    aria-label="Open story info drawer"
-                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
-                    onClick={[Function]}
-                    role="button"
-                  >
-                    open_in_new
-                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
@@ -254,35 +245,25 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <button
+                aria-label="Open Info Drawer"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
+                data-variant="text"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                <button
-                  aria-label="Select action"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg ButtonIcon-root"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    more_horiz
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-label="A dropdown to select story actions"
-                  id="stories-Actions"
-                  role="dialog"
-                />
-              </div>
+                  more_horiz
+                </i>
+              </button>
             </td>
           </tr>
           <tr
@@ -302,15 +283,6 @@ exports[`renders empty stories 1`] = `
                   >
                     First Colony on Mars
                   </a>
-                  <i
-                    aria-hidden="true"
-                    aria-label="Open story info drawer"
-                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
-                    onClick={[Function]}
-                    role="button"
-                  >
-                    open_in_new
-                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
@@ -356,35 +328,25 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <button
+                aria-label="Open Info Drawer"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
+                data-variant="text"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                <button
-                  aria-label="Select action"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg ButtonIcon-root"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    more_horiz
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-label="A dropdown to select story actions"
-                  id="stories-Actions"
-                  role="dialog"
-                />
-              </div>
+                  more_horiz
+                </i>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -594,15 +556,6 @@ exports[`renders stories 1`] = `
                   >
                     Finally a Cure for Cancer
                   </a>
-                  <i
-                    aria-hidden="true"
-                    aria-label="Open story info drawer"
-                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
-                    onClick={[Function]}
-                    role="button"
-                  >
-                    open_in_new
-                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
@@ -648,35 +601,25 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <button
+                aria-label="Open Info Drawer"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
+                data-variant="text"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                <button
-                  aria-label="Select action"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg ButtonIcon-root"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    more_horiz
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-label="A dropdown to select story actions"
-                  id="stories-Actions"
-                  role="dialog"
-                />
-              </div>
+                  more_horiz
+                </i>
+              </button>
             </td>
           </tr>
           <tr
@@ -696,15 +639,6 @@ exports[`renders stories 1`] = `
                   >
                     First Colony on Mars
                   </a>
-                  <i
-                    aria-hidden="true"
-                    aria-label="Open story info drawer"
-                    className="Icon-root Icon-sm StoryRow-infoDrawerButton"
-                    onClick={[Function]}
-                    role="button"
-                  >
-                    open_in_new
-                  </i>
                 </p>
                 <p
                   className="StoryRow-meta"
@@ -750,35 +684,25 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-actionsColumn TableCell-body"
             >
-              <div
-                className="Popover-root"
+              <button
+                aria-label="Open Info Drawer"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
+                data-variant="text"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                <button
-                  aria-label="Select action"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText"
-                  data-variant="text"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg ButtonIcon-root"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-lg ButtonIcon-root"
-                  >
-                    more_horiz
-                  </i>
-                </button>
-                <div
-                  aria-hidden={true}
-                  aria-label="A dropdown to select story actions"
-                  id="stories-Actions"
-                  role="dialog"
-                />
-              </div>
+                  more_horiz
+                </i>
+              </button>
             </td>
           </tr>
         </tbody>

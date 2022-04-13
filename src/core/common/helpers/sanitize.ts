@@ -88,12 +88,18 @@ const sanitizeAnchor = (node: Element) => {
     let href = node.getAttribute("href");
     let innerHtml = node.innerHTML;
 
-    let mailToWithMatchingInnerHtml = false;
+    let mailToWithMatchingInnerHtml = false,
+      invalidURL = false;
     if (href) {
-      const url = new URL(href);
+      let url;
+      try {
+        url = new URL(href);
+      } catch (error) {
+        invalidURL = true;
+      }
 
       // Check for a mailto: link with corresponding inner html
-      if (url.protocol === MAILTO_PROTOCOL) {
+      if (url && url.protocol === MAILTO_PROTOCOL) {
         if (href.replace(url.protocol, "") === innerHtml) {
           mailToWithMatchingInnerHtml = true;
         }
@@ -103,9 +109,11 @@ const sanitizeAnchor = (node: Element) => {
       href = href?.endsWith("/") ? href : (href += "/");
       innerHtml = innerHtml.endsWith("/") ? innerHtml : (innerHtml += "/");
     }
-
-    // When the anchor tag's inner html matches its href
-    if ((href && href === innerHtml) || mailToWithMatchingInnerHtml) {
+    // When the url is valid and the anchor tag's inner html matches its href
+    if (
+      !invalidURL &&
+      ((href && href === innerHtml) || mailToWithMatchingInnerHtml)
+    ) {
       // Ensure we wrap all the links with the target + rel set
       node.setAttribute("target", "_blank");
       node.setAttribute("rel", "noopener noreferrer ugc");

@@ -1,7 +1,7 @@
 import sinon from "sinon";
 
 import { Fixture } from "./createFixture";
-import { Resolver } from "./createTestRenderer";
+import { Resolver } from "./createTestContext";
 
 export type QueryResult<T> = Fixture<T>;
 export type QueryResultVariations<

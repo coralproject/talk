@@ -24,9 +24,7 @@ const StoryInfoDrawer: FunctionComponent<StoryInfoDrawerProps> = ({
       {() => (
         <Card className={styles.root}>
           <Flex direction="column">
-            {storyID && (
-              <StoryInfoDrawerQuery onClose={onClose} storyID={storyID} />
-            )}
+            {storyID && <StoryInfoDrawerQuery storyID={storyID} />}
           </Flex>
         </Card>
       )}
