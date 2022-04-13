@@ -359,7 +359,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
       });
 
-      void markSeen({ storyID, commentIDs });
+      void markSeen({ storyID, commentIDs, updateSeen: true });
       if (!disableUnmarkAction) {
         setDisableUnmarkAction(true);
       }
@@ -392,7 +392,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           };
         }
         const currentStop = getCurrentKeyStop(root, relayEnvironment);
-
         if (config.reverse) {
           stop = findPreviousKeyStop(root, currentStop, traverseOptions);
         } else {

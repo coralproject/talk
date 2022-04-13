@@ -48,6 +48,7 @@ const SingleModerateRoute: FunctionComponent<Props> = (props) => {
         hasLoadMore={false}
         disableLoadMore={false}
         danglingLogic={danglingLogic}
+        showStoryInfo
       />
     </SingleModerate>
   );

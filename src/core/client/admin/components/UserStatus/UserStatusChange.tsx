@@ -32,6 +32,7 @@ interface Props {
   bordered?: boolean;
   moderationScopesEnabled?: boolean;
   viewerIsScoped?: boolean;
+  userIsOrgModerator: boolean;
 }
 
 const UserStatusChange: FunctionComponent<Props> = ({
@@ -52,6 +53,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
   bordered = false,
   moderationScopesEnabled = false,
   viewerIsScoped = false,
+  userIsOrgModerator,
 }) => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
@@ -65,7 +67,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
               <Localized id="community-userStatus-manageBan">
                 <DropdownButton
                   className={styles.dropdownButton}
-                  disabled={banned && viewerIsScoped}
+                  disabled={(banned && viewerIsScoped) || userIsOrgModerator}
                   onClick={() => {
                     onManageBan();
                     toggleVisibility();
@@ -83,6 +85,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     onRemoveSuspension();
                     toggleVisibility();
                   }}
+                  disabled={viewerIsScoped && userIsOrgModerator}
                 >
                   Remove suspension
                 </DropdownButton>
@@ -101,6 +104,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     onSuspend();
                     toggleVisibility();
                   }}
+                  disabled={viewerIsScoped && userIsOrgModerator}
                 >
                   Suspend
                 </DropdownButton>
@@ -114,6 +118,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     onRemovePremod();
                     toggleVisibility();
                   }}
+                  disabled={viewerIsScoped && userIsOrgModerator}
                 >
                   Remove always pre-moderate
                 </DropdownButton>
@@ -126,6 +131,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     onPremod();
                     toggleVisibility();
                   }}
+                  disabled={viewerIsScoped && userIsOrgModerator}
                 >
                   Always pre-moderate
                 </DropdownButton>
@@ -135,7 +141,9 @@ const UserStatusChange: FunctionComponent<Props> = ({
               <Localized id="community-userStatus-removeWarning">
                 <DropdownButton
                   className={styles.dropdownButton}
-                  disabled={!onRemoveWarning}
+                  disabled={
+                    !onRemoveWarning || (viewerIsScoped && userIsOrgModerator)
+                  }
                   onClick={() => {
                     if (onRemoveWarning) {
                       onRemoveWarning();
@@ -156,7 +164,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
               >
                 <DropdownButton
                   className={styles.dropdownButton}
-                  disabled={!onWarn}
+                  disabled={!onWarn || (viewerIsScoped && userIsOrgModerator)}
                   onClick={() => {
                     if (onWarn) {
                       onWarn();

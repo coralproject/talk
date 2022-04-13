@@ -1,7 +1,9 @@
 import { v4 as uuid } from "uuid";
 
+import { dotize } from "coral-common/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import { FindSeenCommentsInput } from "coral-server/graph/loaders/SeenComments";
+import SeenCommentsCollection from "coral-server/graph/seenCommentsCollection";
 
 import { TenantResource } from "../tenant";
 
@@ -18,6 +20,7 @@ export interface SeenComments extends TenantResource {
 
   storyID: string;
   userID: string;
+  tenantID: string;
 
   /**
    * the last time this lookup table was updated with a seen comment ID.
@@ -28,14 +31,7 @@ export interface SeenComments extends TenantResource {
    * the lookup of commentID's this user has seen on this story mapped to the
    * date they were seen at.
    */
-  comments: Map<string, Date>;
-}
-
-function convertMongoMapToTSMap<V>(mongoMapObj: any) {
-  const entries: [string, V][] = Object.entries(mongoMapObj);
-  const map = new Map<string, V>(entries);
-
-  return map;
+  comments: Record<string, Date>;
 }
 
 /**
@@ -59,18 +55,16 @@ export async function findSeenComments(
     userID,
   });
 
-  if (result) {
-    const model: SeenComments = {
-      ...result,
-      comments: result.comments
-        ? convertMongoMapToTSMap<Date>(result.comments)
-        : new Map<string, Date>(),
-    };
+  return result ?? null;
+}
 
-    return model;
-  }
+function reduceCommentIDs(commentIDs: string[], now: Date) {
+  const comments = commentIDs.reduce<Record<string, Date>>((acc, commentID) => {
+    acc[commentID] = now;
+    return acc;
+  }, {});
 
-  return null;
+  return comments;
 }
 
 /**
@@ -92,45 +86,76 @@ export async function markSeenComments(
   commentIDs: string[],
   now: Date
 ) {
-  const seenComments = await mongo.seenComments().findOne({
-    tenantID,
-    storyID,
-    userID,
-  });
+  const comments = reduceCommentIDs(commentIDs, now);
 
-  if (seenComments) {
-    const comments = convertMongoMapToTSMap<Date>(seenComments.comments);
-    const newIDs = commentIDs.filter((id) => !comments.has(id));
-    newIDs.forEach((id) => {
-      comments.set(id, now);
-    });
-
-    await mongo.seenComments().findOneAndUpdate(
-      {
-        tenantID,
+  const result = await mongo.seenComments().findOneAndUpdate(
+    {
+      storyID,
+      tenantID,
+      userID,
+    },
+    {
+      $setOnInsert: {
+        id: uuid(),
         storyID,
         userID,
+        tenantID,
       },
-      {
-        $set: {
-          comments,
-          lastSeenAt: now,
-        },
-      }
-    );
-  } else {
-    const comments = new Map<string, Date>();
-    commentIDs.forEach((id) => {
-      comments.set(id, now);
-    });
+      $set: {
+        lastSeenAt: now,
+        ...dotize({ comments }),
+      },
+    },
+    { upsert: true }
+  );
 
-    await mongo.seenComments().insertOne({
-      id: uuid(),
-      tenantID,
-      storyID,
-      userID,
-      comments,
-      lastSeenAt: now,
+  return result.value;
+}
+
+export async function markSeenCommentsBulk(
+  mongo: MongoContext,
+  tenantID: string,
+  seenComments: SeenCommentsCollection,
+  now: Date
+) {
+  const operations: any[] = [];
+
+  const keys = seenComments.keys();
+  for (const { userID, storyID } of keys) {
+    const commentIDs = seenComments.idsForStory(userID, storyID);
+    const comments = reduceCommentIDs(commentIDs, now);
+
+    operations.push({
+      updateOne: {
+        filter: { tenantID, storyID, userID },
+        update: {
+          $setOnInsert: {
+            id: uuid(),
+            storyID,
+            userID,
+            tenantID,
+          },
+          $set: {
+            lastSeenAt: now,
+            ...dotize({ comments }),
+          },
+        },
+        upsert: true,
+      },
     });
   }
+
+  if (operations.length === 0) {
+    return 0;
+  }
+
+  const result = await mongo
+    .seenComments()
+    .bulkWrite(operations, { ordered: false });
+
+  return (
+    (result.insertedCount ?? 0) +
+    (result.modifiedCount ?? 0) +
+    (result.upsertedCount ?? 0)
+  );
 }

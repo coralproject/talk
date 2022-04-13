@@ -821,7 +821,7 @@ exports[`renders comment stream 1`] = `
                                               className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                             >
                                               <span
-                                                className="Tag-root coral coral-userTag coral-comment-userTag StaffTagContainer-tag Tag-colorGrey Tag-uppercase"
+                                                className="Tag-root coral coral-userTag coral-comment-userTag BadgeTagContainer-tag Tag-colorGrey Tag-uppercase"
                                               >
                                                 Staff
                                               </span>

@@ -3,12 +3,9 @@ import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { useModerationLink } from "coral-framework/hooks";
-import {
-  withFragmentContainer,
-  withLocalStateContainer,
-} from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
-import { Ability, can } from "coral-stream/permissions";
 import { Button } from "coral-ui/components/v3";
 
 import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
@@ -17,19 +14,22 @@ import { ModerateStreamContainer_viewer } from "coral-stream/__generated__/Moder
 import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
 
 interface Props {
-  local: ModerateStreamContainerLocal;
   settings: ModerateStreamContainer_settings;
   viewer: ModerateStreamContainer_viewer | null;
   story: ModerateStreamContainer_story;
 }
 
 const ModerateStreamContainer: FunctionComponent<Props> = ({
-  local: { accessToken },
   settings,
   story: { id, canModerate, isArchived, isArchiving },
   viewer,
 }) => {
   const link = useModerationLink({ storyID: id });
+  const [{ accessToken }] = useLocal<ModerateStreamContainerLocal>(graphql`
+    fragment ModerateStreamContainerLocal on Local {
+      accessToken
+    }
+  `);
   const href = useMemo(() => {
     let ret = link;
     if (
@@ -95,12 +95,6 @@ const enhanced = withFragmentContainer<Props>({
       role
     }
   `,
-})(
-  withLocalStateContainer(graphql`
-    fragment ModerateStreamContainerLocal on Local {
-      accessToken
-    }
-  `)(ModerateStreamContainer)
-);
+})(ModerateStreamContainer);
 
 export default enhanced;

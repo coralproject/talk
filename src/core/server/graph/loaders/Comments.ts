@@ -28,7 +28,6 @@ import {
   retrieveManyComments,
   retrieveRejectedCommentUserConnection,
 } from "coral-server/services/comments";
-import { markSeen } from "coral-server/services/seenComments";
 
 import {
   CommentToParentsArgs,
@@ -152,34 +151,6 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
 
     return null;
   };
-};
-
-const markCommentsAsSeen = async (
-  ctx: GraphContext,
-  storyID: string,
-  commentIDs: string[]
-) => {
-  if (!ctx.user) {
-    return;
-  }
-
-  // cache the prior result before we overwrite it so
-  // sequential loader calls after this retrieve the cached
-  // results
-  await ctx.loaders.SeenComments.find.load({
-    storyID,
-    userID: ctx.user.id,
-  });
-
-  // mark these comments as seen for next time
-  await markSeen(
-    ctx.mongo,
-    ctx.tenant.id,
-    storyID,
-    ctx.user.id,
-    commentIDs,
-    ctx.now
-  );
 };
 
 /**
@@ -353,8 +324,10 @@ export default (ctx: GraphContext) => ({
     ).then(primeCommentsFromConnection(ctx));
 
     if (ctx.user) {
-      const commentIDs = connection.edges.map((e) => e.node.id);
-      await markCommentsAsSeen(ctx, storyID, commentIDs);
+      // Append comments to seenComments update list.
+      // These will be set after the GraphQL request has completed.
+      const commentIDs = connection.nodes.map((n) => n.id);
+      ctx.seenComments.insertMany(ctx.user.id, storyID, commentIDs);
     }
 
     return connection;
@@ -386,8 +359,10 @@ export default (ctx: GraphContext) => ({
     ).then(primeCommentsFromConnection(ctx));
 
     if (ctx.user) {
-      const commentIDs = connection.edges.map((e) => e.node.id);
-      await markCommentsAsSeen(ctx, storyID, commentIDs);
+      // Append comments to seenComments update list.
+      // These will be set after the GraphQL request has completed.
+      const commentIDs = connection.nodes.map((n) => n.id);
+      ctx.seenComments.insertMany(ctx.user.id, storyID, commentIDs);
     }
 
     return connection;

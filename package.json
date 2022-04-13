@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "6.16.2",
+  "version": "6.18.1",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -172,6 +172,9 @@
     "@graphql-codegen/introspection": "^1.18.1",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@sentry/react": "^5.29.2",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.3",
+    "@testing-library/user-event": "^13.5.0",
     "@types/archiver": "^3.1.0",
     "@types/basic-auth": "^1.1.3",
     "@types/bcryptjs": "^2.4.2",
@@ -285,6 +288,7 @@
     "enzyme-to-json": "^3.6.1",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest-dom": "^4.0.1",
     "eslint-plugin-jsdoc": "^28.5.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.1.4",

@@ -5,27 +5,25 @@ import { graphql } from "react-relay";
 import {
   QueryRenderData,
   QueryRenderer,
-  withLocalStateContainer,
+  useLocal,
 } from "coral-framework/lib/relay";
 import { Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { UnansweredCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/UnansweredCommentsTabQuery.graphql";
-import { UnansweredCommentsTabQueryLocal as Local } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
+import { UnansweredCommentsTabQueryLocal } from "coral-stream/__generated__/UnansweredCommentsTabQueryLocal.graphql";
 
 import { useStaticFlattenReplies } from "../../helpers";
 import SpinnerWhileRendering from "../AllCommentsTab/SpinnerWhileRendering";
 import UnansweredCommentsTabContainer from "./UnansweredCommentsTabContainer";
 
-interface Props {
-  local: Local;
-  preload?: boolean;
-}
-
 export const render = (
   data: QueryRenderData<QueryTypes>,
   flattenReplies: boolean
 ) => {
+  if (!data) {
+    return null;
+  }
   if (data.error) {
     return <QueryError error={data.error} />;
   }
@@ -56,11 +54,17 @@ export const render = (
   );
 };
 
-const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
-  const {
-    local: { storyID, storyURL, commentsOrderBy },
-  } = props;
+const UnansweredCommentsTabQuery: FunctionComponent = () => {
   const flattenReplies = useStaticFlattenReplies();
+  const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
+    UnansweredCommentsTabQueryLocal
+  >(graphql`
+    fragment UnansweredCommentsTabQueryLocal on Local {
+      storyID
+      storyURL
+      commentsOrderBy
+    }
+  `);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -88,19 +92,9 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
         commentsOrderBy,
         flattenReplies,
       }}
-      render={(data) => (props.preload ? null : render(data, flattenReplies))}
+      render={(data) => render(data, flattenReplies)}
     />
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment UnansweredCommentsTabQueryLocal on Local {
-      storyID
-      storyURL
-      commentsOrderBy
-    }
-  `
-)(UnansweredCommentsTabQuery);
-
-export default enhanced;
+export default UnansweredCommentsTabQuery;

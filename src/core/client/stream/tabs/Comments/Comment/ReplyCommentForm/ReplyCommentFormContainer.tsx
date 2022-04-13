@@ -11,17 +11,12 @@ import React, {
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { useCoralContext, withContext } from "coral-framework/lib/bootstrap";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
-import {
-  FetchProp,
-  withFetch,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
-import { PromisifiedStorage } from "coral-framework/lib/storage";
+import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
@@ -53,33 +48,29 @@ import ReplyEditedWarningContainer from "./ReplyEditedWarningContainer";
 
 interface Props {
   createCommentReply: CreateCommentReplyMutation;
-  sessionStorage: PromisifiedStorage;
   comment: CommentData;
   settings: SettingsData;
   story: StoryData;
   onClose?: () => void;
-  autofocus: boolean;
   localReply?: boolean;
-  refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
-  refreshViewer: FetchProp<typeof RefreshViewerFetch>;
   showJumpToComment?: boolean;
 }
 
 const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   comment,
-  sessionStorage,
-  autofocus,
   onClose,
   createCommentReply,
   story,
   localReply,
-  refreshSettings,
-  refreshViewer,
   settings,
 }) => {
-  const { renderWindow } = useCoralContext();
   const root = useShadowRootOrDocument();
+  const { renderWindow, sessionStorage, browserInfo } = useCoralContext();
+  // Disable autofocus on ios and enable for the rest.
+  const autofocus = !browserInfo.ios;
   const commentSeenEnabled = useCommentSeenEnabled();
+  const refreshSettings = useFetch(RefreshSettingsFetch);
+  const refreshViewer = useFetch(RefreshViewerFetch);
 
   const [nudge, setNudge] = useState(true);
   const [initialized, setInitialized] = useState(false);
@@ -329,74 +320,64 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
-  sessionStorage,
-  // Disable autofocus on ios and enable for the rest.
-  autofocus: !browserInfo.ios,
-}))(
-  withFetch(RefreshViewerFetch)(
-    withFetch(RefreshSettingsFetch)(
-      withCreateCommentReplyMutation(
-        withFragmentContainer<Props>({
-          settings: graphql`
-            fragment ReplyCommentFormContainer_settings on Settings {
-              charCount {
-                enabled
-                min
-                max
-              }
-              disableCommenting {
-                enabled
-                message
-              }
-              closeCommenting {
-                message
-              }
-              media {
-                twitter {
-                  enabled
-                }
-                youtube {
-                  enabled
-                }
-                giphy {
-                  enabled
-                  key
-                  maxRating
-                }
-                external {
-                  enabled
-                }
-              }
-              rte {
-                ...RTEContainer_config
-              }
-            }
-          `,
-          story: graphql`
-            fragment ReplyCommentFormContainer_story on Story {
-              id
-              isClosed
-            }
-          `,
-          comment: graphql`
-            fragment ReplyCommentFormContainer_comment on Comment {
-              id
-              site {
-                id
-              }
-              author {
-                username
-              }
-              revision {
-                id
-              }
-              ...ReplyEditedWarningContainer_comment
-            }
-          `,
-        })(ReplyCommentFormContainer)
-      )
-    )
-  )
+const enhanced = withCreateCommentReplyMutation(
+  withFragmentContainer<Props>({
+    settings: graphql`
+      fragment ReplyCommentFormContainer_settings on Settings {
+        charCount {
+          enabled
+          min
+          max
+        }
+        disableCommenting {
+          enabled
+          message
+        }
+        closeCommenting {
+          message
+        }
+        media {
+          twitter {
+            enabled
+          }
+          youtube {
+            enabled
+          }
+          giphy {
+            enabled
+            key
+            maxRating
+          }
+          external {
+            enabled
+          }
+        }
+        rte {
+          ...RTEContainer_config
+        }
+      }
+    `,
+    story: graphql`
+      fragment ReplyCommentFormContainer_story on Story {
+        id
+        isClosed
+      }
+    `,
+    comment: graphql`
+      fragment ReplyCommentFormContainer_comment on Comment {
+        id
+        site {
+          id
+        }
+        author {
+          username
+        }
+        revision {
+          id
+        }
+        ...ReplyEditedWarningContainer_comment
+      }
+    `,
+  })(ReplyCommentFormContainer)
 );
 export default enhanced;

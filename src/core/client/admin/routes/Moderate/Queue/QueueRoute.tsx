@@ -191,7 +191,7 @@ export const QueueRoute: FunctionComponent<Props> = ({
         disableLoadMore={isLoadingMore}
         danglingLogic={danglingLogic}
         emptyElement={emptyElement}
-        allStories={!storyID}
+        showStoryInfo={!storyID}
         viewNewCount={viewNewCount}
         onViewNew={onViewNew}
       />

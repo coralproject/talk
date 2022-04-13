@@ -790,7 +790,7 @@ configure-wordList-suspect-bannedWordsAndPhrases = Palavras e Frases Suspeitas
 configure-wordList-suspect-explanation =
   Comentários contendo uma palavra ou frase na Lista de Palavras Suspeitas
   são <strong> colocados na Fila de Reportados para revisão de moderadores e são
-  publicado (se os comentários não forem pré-moderados). </ strong>
+  publicado (se os comentários não forem pré-moderados). </strong>
 configure-wordList-suspect-explanationSuspectWordsList =
   Comentários contendo uma palavra ou frase na Lista de Palavras Suspeitas são
   <strong>enviados para a fila Pendente para revisão do moderador and não são
@@ -1082,8 +1082,8 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Mudar Função
 
-community-assignMySites = Atribuir meus sites
-community-removeMySites = Remover meus sites
+community-assignMySitesToModerator = Atribuir meus sites
+community-removeMySitesFromModerator = Remover meus sites
 community-stillHaveSiteModeratorPrivileges = Eles ainda terão privilégios de moderador do site para:
 community-userNoLongerPermitted = O usuário não terá mais permissão para tomar decisões de moderação ou atribuir suspensões em:
 community-assignThisUser = Atribuir este usuário a
@@ -1112,7 +1112,7 @@ community-column-status = Status
 community-role-popover =
   .description = Um menu suspenso para alterar o papel do usuário
 
-community-siteModeratorActions-popover =
+community-siteRoleActions-popover =
   .description = Uma lista para promover/rebaixar um usuário dos sites
 
 community-userStatus-popover =
@@ -1177,15 +1177,15 @@ community-premodModal-consequence =
 community-premodModal-cancel = Cancelar
 community-premodModal-premodUser = Sim, sempre pré-moderar
 
-community-siteModeratorModal-assignSites =
+community-siteRoleModal-assignSites =
   Atribuir sites para <strong>{ $username }</strong>
-community-siteModeratorModal-assignSitesDescription =
+community-siteRoleModal-assignSitesDescription-siteModerator =
   Os moderadores de sites têm permissão para tomar decisões de moderação e emitir suspensões nos sites que lhes são atribuídos.
-community-siteModeratorModal-cancel = Cancelar
-community-siteModeratorModal-assign = Atribuir
-community-siteModeratorModal-remove = Remover
-community-siteModeratorModal-selectSites = Selecionar sites para moderar
-community-siteModeratorModal-noSites = Sem sites
+community-siteRoleModal-cancel = Cancelar
+community-siteRoleModal-assign = Atribuir
+community-siteRoleModal-remove = Remover
+community-siteRoleModal-selectSites-siteModerator = Selecionar sites para moderar
+community-siteRoleModal-noSites = Sem sites
 
 community-invite-inviteMember = Convidar membros para sua organização
 community-invite-emailAddressLabel = Endereço de e-mail:
@@ -1307,24 +1307,24 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Pré-visualização
 configure-general-reaction-sortMenu-sortBy = Ordenar por
 
-configure-general-staff-title = Crachá de membros Staff
-configure-general-staff-explanation =
+configure-general-badges-title = Crachá de membros Staff
+configure-general-badges-explanation =
   Mostra um crachá customizado para membros staff da sua organização. Este crachá
   aparecerá no fluxo de comentários e na interface de administração.
-configure-general-staff-label = Texto do crachá
-configure-general-staff-input =
+configure-general-badges-label = Texto do crachá
+configure-general-badges-input =
   .placeholder = Ex: Staff
-configure-general-staff-preview = Pré-visualização
-configure-general-staff-moderator-input =
+configure-general-badges-preview = Pré-visualização
+configure-general-badges-moderator-input =
   .placeholder = Ex: Moderador
-configure-general-staff-admin-input =
+configure-general-badges-admin-input =
   .placeholder = Ex: Admin
-configure-general-staff-preview = Pré-visualizar
-configure-general-staff-moderator-preview = Pré-visualizar
+configure-general-badges-preview = Pré-visualizar
+configure-general-badges-moderator-preview = Pré-visualizar
 configure-general-staff-admin-preview = Pré-visualizar
-configure-general-staff-member-label = Texto do crachá de membros staff
-configure-general-staff-admin-label = Texto do crachá de administradores
-configure-general-staff-moderator-label = Texto do crachá de moderadores
+configure-general-badges-staff-member-label = Texto do crachá de membros staff
+configure-general-badges-admin-label = Texto do crachá de administradores
+configure-general-badges-moderator-label = Texto do crachá de moderadores
 
 configure-general-rte-title = Comentários em texto rico
 configure-general-rte-express = Dê à sua comunidade mais maneiras de se expressar além do texto simples com formatação de texto rico.
