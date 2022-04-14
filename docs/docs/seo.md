@@ -10,4 +10,10 @@ One of the aspects contributing to page experience is Cumulative Layout Score, o
 
 If you are concerned about CLS and want to ensure that Coral does not cause layout shifts, you may want to set a minimum height on the element Coral is rendered into, to reserve space for the embed.
 
-# add a note about rel nofollow and nosnippet
+## Links in comments
+
+To prevent spam, by default all links shared in Coral comments will have a [rel=nofollow](https://developers.google.com/search/docs/advanced/guidelines/qualify-outbound-links) attribute added to them.
+
+## Search Snippets
+
+Coral use the [data-nosnippet](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag#data-nosnippet-attr) attribute to prevent search engines from including comment content in search previews content.
