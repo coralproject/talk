@@ -18,6 +18,7 @@ import {
 } from "coral-framework/lib/errors";
 import {
   useFetch,
+  useLocal,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
@@ -31,6 +32,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
 import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
+import { PostCommentFormContainerLocal } from "coral-stream/__generated__/PostCommentFormContainerLocal.graphql";
 import {
   COMMENT_SORT,
   COMMENTS_TAB,
@@ -81,6 +83,12 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const createComment = useMutation(CreateCommentMutation);
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const setCommentID = useMutation(SetCommentIDMutation);
+
+  const [local, setLocal] = useLocal<PostCommentFormContainerLocal>(graphql`
+    fragment PostCommentFormContainerLocal on Local {
+      oldestFirstNewCommentsToShow
+    }
+  `);
 
   // keepFormWhenClosed controls the display state when the commenting has been
   // closed. This value should not be updated when the props change, hence why
@@ -154,6 +162,16 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         rating: input.rating,
         media: input.media,
       });
+
+      // Add this response to new comments to show that have been added
+      if (local.oldestFirstNewCommentsToShow === "") {
+        setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
+      } else {
+        setLocal({
+          oldestFirstNewCommentsToShow:
+            local.oldestFirstNewCommentsToShow + " " + response.edge.node.id,
+        });
+      }
 
       const status = getSubmitStatus(response);
 

@@ -8,7 +8,6 @@ import React, {
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useLocal } from "coral-framework/lib/relay";
 import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
 import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
@@ -16,15 +15,9 @@ import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/All
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
-import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
-import CommentsLinks from "../CommentsLinks";
-import { PostCommentFormContainer } from "../PostCommentForm";
-import ViewersWatchingContainer from "../ViewersWatchingContainer";
-
-import styles from "./AllCommentsTabCommentVirtual.css";
 
 interface Props {
   settings: AllCommentsTabContainer_settings;
@@ -70,6 +63,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   showGoToDiscussions,
 }) => {
   const comments = useMemo(() => story.comments.edges, [story.comments.edges]);
+
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
       commentWithTraversalFocus
@@ -84,8 +78,20 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         isRoot
       }
       showLoadAllCommentsButton
+      oldestFirstNewCommentsToShow
     }
   `);
+
+  const newCommentsToShow = useMemo(() => {
+    const newCommentsToShowIds = local.oldestFirstNewCommentsToShow?.split(" ");
+    return comments.filter((c) => newCommentsToShowIds?.includes(c.node.id));
+  }, [local.oldestFirstNewCommentsToShow, comments]);
+
+  useEffect(() => {
+    // on rerender, clear the newly added comments to show if it's
+    // alternate oldest view
+    setLocal({ oldestFirstNewCommentsToShow: "" });
+  }, []);
 
   const lookForNextUnseen = useCallback(
     (commentsHere: ReadonlyArray<Comment>, nextSlice: Comment[]) => {
@@ -208,6 +214,20 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   const Footer = useCallback(() => {
     return (
       <>
+        {alternateOldestViewEnabled &&
+          newCommentsToShow.length > 0 &&
+          newCommentsToShow.map((comment, i) => {
+            return (
+              <AllCommentsTabCommentContainer
+                key={comment.node.id}
+                viewer={viewer}
+                comment={comment.node}
+                story={story}
+                settings={settings}
+                isLast={i === newCommentsToShow.length - 1}
+              />
+            );
+          })}
         {local.showLoadAllCommentsButton && comments.length > 20 && (
           <Localized id="comments-loadAll">
             <Button
@@ -230,27 +250,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             </Button>
           </Localized>
         )}
-        {alternateOldestViewEnabled && (
-          <HorizontalGutter mt={6} spacing={4}>
-            <IntersectionProvider>
-              <ViewersWatchingContainer story={story} settings={settings} />
-            </IntersectionProvider>
-            {showCommentForm && (
-              <PostCommentFormContainer
-                story={story}
-                settings={settings}
-                viewer={viewer}
-                commentsOrderBy={commentsOrderBy}
-              />
-            )}
-            <div className={styles.borderedFooter}>
-              <CommentsLinks
-                showGoToDiscussions={showGoToDiscussions}
-                showGoToProfile={!!viewer}
-              />
-            </div>
-          </HorizontalGutter>
-        )}
       </>
     );
   }, [
@@ -261,10 +260,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     commentsOrderBy,
     setLocal,
     settings,
-    showCommentForm,
-    showGoToDiscussions,
     story,
     viewer,
+    newCommentsToShow,
   ]);
 
   const ScrollSeekPlaceholder = useCallback(

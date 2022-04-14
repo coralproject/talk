@@ -10,6 +10,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useLive } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useLocal,
@@ -48,9 +49,13 @@ import MarkCommentsAsSeenMutation from "../../Comment/MarkCommentsAsSeenMutation
 import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
+import { PostCommentFormContainer } from "../PostCommentForm";
+import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import AllCommentsTabCommentVirtual from "./AllCommentsTabCommentVirtual";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import RatingsFilterMenu from "./RatingsFilterMenu";
+
+import styles from "./AllCommentsTabContainer.css";
 
 interface Props {
   story: AllCommentsTabContainer_story;
@@ -306,6 +311,27 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           />
         )}
       </HorizontalGutter>
+      {alternateOldestViewEnabled && (
+        <HorizontalGutter mt={6} spacing={4}>
+          <IntersectionProvider>
+            <ViewersWatchingContainer story={story} settings={settings} />
+          </IntersectionProvider>
+          {showCommentForm && (
+            <PostCommentFormContainer
+              story={story}
+              settings={settings}
+              viewer={viewer}
+              commentsOrderBy={commentsOrderBy}
+            />
+          )}
+          <div className={styles.borderedFooter}>
+            <CommentsLinks
+              showGoToDiscussions={showGoToDiscussions}
+              showGoToProfile={!!viewer}
+            />
+          </div>
+        </HorizontalGutter>
+      )}
     </>
   );
 };
