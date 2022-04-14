@@ -1,14 +1,14 @@
 ---
-title: "Migrating to v6: Replacing plugin functionality"
+title: "Migrating to v7: Replacing plugin functionality"
 ---
 
 # Replacing plugin functionality
 
-Coral v6+ does not support custom plugins, however there are other options for customizing the functionality of the platform to suit your use cases. The functionality from all of the [default plugins](https://legacy.docs.coralproject.net/talk/plugins-directory/?q=default) is now built in to Coral.
+Coral v7+ does not support custom plugins, however there are other options for customizing the functionality of the platform to suit your use cases. The functionality from all of the [default plugins](https://legacy.docs.coralproject.net/talk/plugins-directory/?q=default) is now built in to Coral.
 
 ## External Moderation Phases
 
-External Moderation Phases allow you to hook into Coral's moderation pipeline and make moderation decisions programatically. If you were using a plugin to integrate with any automated moderation tools in v4, you would use an external moderaiton phase for that in v6+.
+External Moderation Phases allow you to hook into Coral's moderation pipeline and make moderation decisions programatically. If you were using a plugin to integrate with any automated moderation tools in v4, you would use an external moderaiton phase for that in v7+.
 
 [Read more about external moderation phases](/external-moderation-phases)
 
@@ -36,11 +36,11 @@ Most visual customizations or most customizations to show or hide elements of th
 
 ### talk-plugin-comment-content
 
-Coral v6 supports pasted links in comment content if they are valid. You can configure pre-moderation for all comments containing links via **Configuration > Moderation > Comments**.
+Coral v7 supports pasted links in comment content if they are valid. You can configure pre-moderation for all comments containing links via **Configuration > Moderation > Comments**.
 
 ### talk-plugin-comment-count
 
-Coral v6 includes a script that will embed comment counts for a story on a given page via JSONP.
+Coral v7 includes a script that will embed comment counts for a story on a given page via JSONP.
 [Learn more about the count script](/counts)
 
 ### talk-plugin-toxic-comments
@@ -49,4 +49,4 @@ Coral v6 includes a script that will embed comment counts for a story on a given
 
 ### talk-plugin-rich-text
 
-Coral v6 includes optional rich-text by default, configure via **Configuration > General > Rich-text Comments**
+Coral v7 includes optional rich-text by default, configure via **Configuration > General > Rich-text Comments**
