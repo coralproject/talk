@@ -4,6 +4,7 @@ import { ERROR_CODES } from "coral-common/errors";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useFetch } from "coral-framework/lib/relay";
 import { CallOut, Flex, Typography } from "coral-ui/components/v2";
+import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
 
 import CheckInstallFetch from "./CheckInstallFetch";
 import InstallWizard from "./InstallWizard";
@@ -37,12 +38,12 @@ const App: FunctionComponent = () => {
   }, []);
 
   return (
-    <div className={styles.root}>
+    <CoralWindowContainer className={styles.root}>
       <MainBar />
       <main className={styles.container}>
         <AppState state={state} error={error} />
       </main>
-    </div>
+    </CoralWindowContainer>
   );
 };
 

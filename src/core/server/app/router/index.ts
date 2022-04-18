@@ -10,7 +10,7 @@ import logger from "coral-server/logger";
 import { createAPIRouter } from "./api";
 import { mountClientRoutes } from "./client";
 
-export function createRouter(app: AppOptions, options: RouterOptions) {
+export async function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
 
@@ -25,46 +25,42 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
     attachGraphiQL(router, app);
   }
 
-  if (!options.disableClientRoutes) {
-    // Prepare the client config to be injected on the page.
-    const staticConfig: StaticConfig = {
-      // When mounting client routes, we need to provide a staticURI even when
-      // not provided to the default current domain relative "/".
-      staticURI: app.config.get("static_uri") || "/",
-      graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
-      featureFlags: [],
-      flattenReplies: false,
-      forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
-      archivingEnabled: isArchivingEnabled(app.config),
-      autoArchiveOlderThanMs: app.config.get("auto_archive_older_than"),
+  // Prepare the client config to be injected on the page.
+  const staticConfig: StaticConfig = {
+    // When mounting client routes, we need to provide a staticURI even when
+    // not provided to the default current domain relative "/".
+    staticURI: app.config.get("static_uri"),
+    graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
+    featureFlags: [],
+    flattenReplies: false,
+    forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
+    archivingEnabled: isArchivingEnabled(app.config),
+    autoArchiveOlderThanMs: app.config.get("auto_archive_older_than"),
+  };
+
+  // If sentry is configured, then add it's config to the config.
+  if (
+    app.config.get("env") === "production" &&
+    app.config.get("sentry_frontend_key")
+  ) {
+    staticConfig.reporter = {
+      name: "sentry",
+      dsn: app.config.get("sentry_frontend_key"),
     };
-
-    // If sentry is configured, then add it's config to the config.
-    if (
-      app.config.get("env") === "production" &&
-      app.config.get("sentry_frontend_key")
-    ) {
-      staticConfig.reporter = {
-        name: "sentry",
-        dsn: app.config.get("sentry_frontend_key"),
-      };
-    }
-
-    mountClientRoutes(router, {
-      analytics: {
-        key: app.config.get("analytics_frontend_key"),
-        url: app.config.get("analytics_data_plane_url"),
-        sdk: app.config.get("analytics_frontend_sdk_url"),
-      },
-      defaultLocale: app.config.get("default_locale") as LanguageCode,
-      tenantCache: app.tenantCache,
-      mongo: app.mongo,
-      staticConfig,
-      config: app.config,
-    });
-  } else {
-    logger.warn("client routes are disabled");
   }
+
+  await mountClientRoutes(router, {
+    analytics: {
+      key: app.config.get("analytics_frontend_key"),
+      url: app.config.get("analytics_data_plane_url"),
+      sdk: app.config.get("analytics_frontend_sdk_url"),
+    },
+    defaultLocale: app.config.get("default_locale") as LanguageCode,
+    tenantCache: app.tenantCache,
+    mongo: app.mongo,
+    staticConfig,
+    config: app.config,
+  });
 
   return router;
 }

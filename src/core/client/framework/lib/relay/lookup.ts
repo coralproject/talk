@@ -1,7 +1,5 @@
 import { Environment } from "relay-runtime";
 
-import { hasProxyPolyfill } from "coral-framework/helpers/polyfillProxy";
-
 /**
  * RecordSourceProxy has the same shape as the underlying Schema Type, but
  * makes all fields optional and readonly.
@@ -24,7 +22,7 @@ const createProxy = <T = any>(
   environment: Environment,
   recordSource: Record<string, any>
 ) => {
-  let target = {};
+  const target = {};
   const proxy: ProxyHandler<any> = {
     ownKeys() {
       return Object.keys(recordSource);
@@ -53,15 +51,6 @@ const createProxy = <T = any>(
       return rsrc[prop];
     },
   };
-  // IE11 does not have Proxy support and the polyfill only supports
-  // a subset of features under special circumstances.
-  // https://github.com/GoogleChrome/proxy-polyfill
-  if (hasProxyPolyfill()) {
-    target = recordSource;
-    delete proxy.ownKeys;
-    delete proxy.getOwnPropertyDescriptor;
-    delete proxy.has;
-  }
   return new Proxy(target, proxy) as RecordSourceProxy<T>;
 };
 
@@ -73,7 +62,10 @@ const createProxy = <T = any>(
  * components if you are looking into non-local-state,
  * make sure to make a comment about that.
  */
-export default function lookup<T = any>(environment: Environment, id: string) {
+export default function lookup<T = any>(
+  environment: Environment,
+  id: string
+): RecordSourceProxy<T> | null {
   const recordSource = environment.getStore().getSource().get(id);
   if (!recordSource) {
     return null;

@@ -9,13 +9,13 @@ import React, {
 import { Environment, graphql } from "react-relay";
 
 import { waitFor } from "coral-common/helpers";
-import { onPymMessage } from "coral-framework/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
+import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import CLASSES from "coral-stream/classes";
 import {
   CloseMobileToolbarEvent,
@@ -39,6 +39,7 @@ import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnable
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
@@ -94,19 +95,17 @@ const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) => {
   return true;
 };
 
-const getKeyStops = (window: Window) => {
+const getKeyStops = (root: ShadowRoot | Document) => {
   const stops: KeyStop[] = [];
-  window.document
+  root
     .querySelectorAll<HTMLElement>("[data-key-stop]")
     .forEach((el) => stops.push(toKeyStop(el)));
   return stops;
 };
 
-const shouldDisableUnmarkAll = (window: Window) => {
+const shouldDisableUnmarkAll = (root: ShadowRoot | Document) => {
   return (
-    window.document.querySelector<HTMLElement>(
-      `.${CLASSES.comment.notSeen}`
-    ) === null
+    root.querySelector<HTMLElement>(`.${CLASSES.comment.notSeen}`) === null
   );
 };
 
@@ -129,10 +128,13 @@ const getLastKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
   return null;
 };
 
-const getCurrentKeyStop = (window: Window, relayEnvironment: Environment) => {
+const getCurrentKeyStop = (
+  root: ShadowRoot | Document,
+  relayEnvironment: Environment
+) => {
   const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
     .commentWithTraversalFocus;
-  const currentCommentElement = window.document.getElementById(
+  const currentCommentElement = root.getElementById(
     computeCommentElementID(currentCommentID)
   );
   if (!currentCommentElement) {
@@ -142,11 +144,11 @@ const getCurrentKeyStop = (window: Window, relayEnvironment: Environment) => {
 };
 
 const findNextKeyStop = (
-  window: Window,
+  root: ShadowRoot | Document,
   currentStop: KeyStop | null,
   options: TraverseOptions = {}
 ): KeyStop | null => {
-  const stops = getKeyStops(window);
+  const stops = getKeyStops(root);
   if (stops.length === 0) {
     return null;
   }
@@ -181,11 +183,11 @@ const findNextKeyStop = (
 };
 
 const findPreviousKeyStop = (
-  window: Window,
+  root: ShadowRoot | Document,
   currentStop: KeyStop | null,
   options: TraverseOptions = {}
 ): KeyStop | null => {
-  const stops = getKeyStops(window);
+  const stops = getKeyStops(root);
   if (stops.length === 0) {
     return null;
   }
@@ -226,12 +228,12 @@ const NextUnread = (
 );
 
 const getNextAction = (
-  window: Window,
+  root: ShadowRoot | Document,
   relayEnvironment: Environment,
   options: TraverseOptions = {}
 ) => {
-  const currentStop = getCurrentKeyStop(window, relayEnvironment);
-  const next = findNextKeyStop(window, currentStop, options);
+  const currentStop = getCurrentKeyStop(root, relayEnvironment);
+  const next = findNextKeyStop(root, currentStop, options);
   if (next) {
     if (next.isLoadMore) {
       return {
@@ -268,12 +270,12 @@ const loadMoreEvents = [
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
   const {
-    pym,
     relayEnvironment,
     renderWindow,
     eventEmitter,
     browserInfo,
   } = useCoralContext();
+  const root = useShadowRootOrDocument();
   const [toolbarClosed, setToolbarClosed] = useInMemoryState(
     "keyboardShortcutMobileToolbarClosed",
     false
@@ -301,7 +303,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
   const updateButtonStates = useCallback(() => {
-    const nextAction = getNextAction(renderWindow, relayEnvironment, {
+    const nextAction = getNextAction(root, relayEnvironment, {
       skipSeen: true,
     });
     if (!nextAction) {
@@ -319,7 +321,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     if (nextAction.disabled !== disableZAction) {
       setDisableZAction(nextAction.disabled);
     }
-    if (shouldDisableUnmarkAll(renderWindow) !== disableUnmarkAction) {
+    if (shouldDisableUnmarkAll(root) !== disableUnmarkAction) {
       setDisableUnmarkAction(!disableUnmarkAction);
     }
   }, [
@@ -327,7 +329,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     disableZAction,
     nextZAction,
     relayEnvironment,
-    renderWindow,
+    root,
   ]);
 
   const unmarkAll = useCallback(
@@ -369,9 +371,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
       reverse: boolean;
       source: "keyboard" | "mobileToolbar";
     }) => {
-      if (!pym) {
-        return;
-      }
       let stop: KeyStop | null = null;
       let traverseOptions: TraverseOptions | undefined;
 
@@ -381,15 +380,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
             skipSeen: true,
           };
         }
-        const currentStop = getCurrentKeyStop(renderWindow, relayEnvironment);
+        const currentStop = getCurrentKeyStop(root, relayEnvironment);
         if (config.reverse) {
-          stop = findPreviousKeyStop(
-            renderWindow,
-            currentStop,
-            traverseOptions
-          );
+          stop = findPreviousKeyStop(root, currentStop, traverseOptions);
         } else {
-          stop = findNextKeyStop(renderWindow, currentStop, traverseOptions);
+          stop = findNextKeyStop(root, currentStop, traverseOptions);
         }
       }
 
@@ -419,20 +414,19 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
 
       const offset =
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        renderWindow.document.getElementById(stop.id)!.getBoundingClientRect()
-          .top +
+        root.getElementById(stop.id)!.getBoundingClientRect().top +
         renderWindow.pageYOffset -
         150;
-      pym.scrollParentToChildPos(offset);
+      renderWindow.scrollTo({ top: offset });
 
       if (stop.isLoadMore) {
         if (!stop.isViewNew) {
-          let prevOrNextStop = findPreviousKeyStop(renderWindow, stop, {
+          let prevOrNextStop = findPreviousKeyStop(root, stop, {
             skipLoadMore: true,
             noCircle: true,
           });
           if (!prevOrNextStop) {
-            prevOrNextStop = findNextKeyStop(renderWindow, stop, {
+            prevOrNextStop = findNextKeyStop(root, stop, {
               skipLoadMore: true,
               noCircle: true,
             });
@@ -457,8 +451,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     [
       commentSeenEnabled,
       eventEmitter,
-      pym,
       relayEnvironment,
+      root,
       renderWindow,
       setTraversalFocus,
       zKeyEnabled,
@@ -467,10 +461,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
 
   const handleKeypress = useCallback(
     (event: React.KeyboardEvent | KeyboardEvent | string) => {
-      if (!pym) {
-        return;
-      }
-
       let data: KeyboardEventData;
       try {
         if (typeof event === "string") {
@@ -478,6 +468,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         } else {
           if (event.target) {
             const el = event.target as HTMLElement;
+
             if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
               return;
             }
@@ -493,6 +484,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
       }
 
       if (data.ctrlKey || data.metaKey || data.altKey) {
+        return;
+      }
+
+      // Ignore when we are not intersecting.
+      if ("host" in root && !isElementIntersecting(root.host, renderWindow)) {
         return;
       }
 
@@ -517,7 +513,20 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         });
       }
     },
-    [pym, traverse, unmarkAll, zKeyEnabled]
+    [renderWindow, root, setLocal, traverse, unmarkAll, zKeyEnabled]
+  );
+
+  const handleWindowKeypress = useCallback(
+    (event: React.KeyboardEvent | KeyboardEvent) => {
+      // Ignore events inside shadow dom.
+      if ("host" in root) {
+        if (event.target === root.host) {
+          return;
+        }
+      }
+      return handleKeypress(event);
+    },
+    [handleKeypress, root]
   );
 
   const handleZKeyButton = useCallback(() => {
@@ -529,7 +538,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
       },
     });
     traverse({ key: "z", reverse: false, source: "mobileToolbar" });
-  }, [traverse]);
+  }, [setLocal, traverse]);
 
   // Update button states after first render.
   useEffect(() => {
@@ -544,10 +553,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         return;
       }
 
-      if (loadMoreEvents.includes(e) && pym) {
-        // Need to send new height to pym after more comments/replies load
-        // in instead of waiting for polling to update it
-        pym.sendHeight();
+      if (loadMoreEvents.includes(e)) {
+        // Announce height change to embed to allow
+        // immediately updating amp iframe height
+        // instead of waiting for polling to update it
+        eventEmitter.emit("heightChange");
+
         // after more comments/replies have loaded, we want to traverse
         // to the next comment/reply based on the configuration
         if (data.keyboardShortcutsConfig) {
@@ -564,22 +575,18 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, updateButtonStates]);
+  }, [eventEmitter, traverse, updateButtonStates]);
 
   // Subscribe to keypress events.
   useEffect(() => {
-    if (!pym) {
-      return;
-    }
-
-    const unsubscribe = onPymMessage(pym, "keypress", handleKeypress);
-    renderWindow.addEventListener("keypress", handleKeypress);
+    renderWindow.addEventListener("keypress", handleWindowKeypress);
+    root.addEventListener("keypress", handleKeypress as any);
 
     return () => {
-      unsubscribe();
-      renderWindow.removeEventListener("keypress", handleKeypress);
+      renderWindow.removeEventListener("keypress", handleWindowKeypress);
+      root.removeEventListener("keypress", handleKeypress as any);
     };
-  }, [handleKeypress, pym, renderWindow]);
+  }, [handleKeypress, handleWindowKeypress, renderWindow, root]);
 
   if (amp || toolbarClosed || !zKeyEnabled || !loggedIn) {
     return null;

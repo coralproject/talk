@@ -27,8 +27,8 @@ it("emits ShowAuthPopupEvent and LoginPromptEvent on SIGN_IN", async () => {
   const view = "SIGN_IN";
   const eventEmitter = new EventEmitter2();
   const mock = sinon.mock(eventEmitter);
-  mock.expects("emit").withArgs("loginPrompt");
-  mock.expects("emit").withArgs("showAuthPopup", { view });
+  mock.expects("emit").withArgs("viewer.loginPrompt");
+  mock.expects("emit").withArgs("viewer.showAuthPopup", { view });
   await commit(environment, { view }, { eventEmitter });
   mock.verify();
 });
@@ -37,7 +37,7 @@ it("emits only ShowAuthPopupEvent on other views", async () => {
   const view = "FORGOT_PASSWORD";
   const eventEmitter = new EventEmitter2();
   const mock = sinon.mock(eventEmitter);
-  mock.expects("emit").withArgs("showAuthPopup", { view });
+  mock.expects("emit").withArgs("viewer.showAuthPopup", { view });
   await commit(environment, { view }, { eventEmitter });
   mock.verify();
 });

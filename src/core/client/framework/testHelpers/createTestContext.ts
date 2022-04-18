@@ -109,12 +109,11 @@ export default function createTestContext<
     postMessage: new PostMessageService(window, "coral", window, "*"),
     browserInfo: params.browserInfo || {
       supports: {
-        cssVariables: true,
         intersectionObserver: true,
+        resizeObserver: true,
         fetch: true,
         intl: true,
         intlPluralRules: true,
-        proxyObject: true,
       },
       version: 10.0,
       ios: false,
@@ -138,23 +137,7 @@ export default function createTestContext<
     },
     window,
     renderWindow: window,
-    pym: {
-      id: "pym-id",
-      timerId: "timer-id",
-      parentUrl: "http://test.com",
-      parentTitle: "parent-title",
-      parentWidth: "1000px",
-      onMessage: sinon.stub(),
-      messageHandlers: {},
-      messageRegex: /foo/,
-      navigateParentTo: sinon.stub(),
-      remove: sinon.stub(),
-      scrollParentTo: sinon.stub(),
-      scrollParentToChildEl: sinon.stub(),
-      scrollParentToChildPos: sinon.stub(),
-      sendHeight: sinon.stub(),
-      sendMessage: sinon.stub(),
-    },
+    rootURL: "",
   };
 
   return {
