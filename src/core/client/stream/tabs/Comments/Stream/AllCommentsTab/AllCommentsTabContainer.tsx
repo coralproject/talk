@@ -299,7 +299,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             hasMore={hasMore}
             currentScrollRef={currentScrollRef}
             alternateOldestViewEnabled={alternateOldestViewEnabled}
-            commentsOrderBy={commentsOrderBy}
           />
         )}
         {!alternateOldestViewEnabled && (

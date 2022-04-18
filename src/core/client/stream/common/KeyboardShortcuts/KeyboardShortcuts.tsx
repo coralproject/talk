@@ -17,6 +17,7 @@ import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import CLASSES from "coral-stream/classes";
+import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
   CloseMobileToolbarEvent,
   JumpToNextCommentEvent,
@@ -586,8 +587,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // if it exists
       if (local.firstNextUnseenComment && !viewNewCommentButtonFound) {
         // Check for a Load All Comments button and click it first before scrolling
-        // (only if virtuoso index is greater than 20/the default number of first comments)
-        if (local.firstNextUnseenComment.virtuosoIndex >= 20) {
+        // (only if virtuoso index is greater than 20/the default number of initial comments)
+        if (
+          local.firstNextUnseenComment.virtuosoIndex >= NUM_INITIAL_COMMENTS
+        ) {
           const loadAllCommentsButton = root.getElementById("comments-loadAll");
           if (loadAllCommentsButton) {
             loadAllCommentsButton.click();

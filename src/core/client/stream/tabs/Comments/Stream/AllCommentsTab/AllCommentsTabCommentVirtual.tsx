@@ -10,7 +10,6 @@ import { Virtuoso } from "react-virtuoso";
 
 import { useLocal } from "coral-framework/lib/relay";
 import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
-import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
@@ -29,7 +28,6 @@ interface Props {
   isLoadingMore: boolean;
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
-  commentsOrderBy: COMMENT_SORT;
 }
 
 interface Comment {
@@ -57,7 +55,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   isLoadingMore,
   currentScrollRef,
   alternateOldestViewEnabled,
-  commentsOrderBy,
 }) => {
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
@@ -78,6 +75,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   `);
 
   const comments = useMemo(() => {
+    // if alternate oldest view, filter out new comments to show as they will
+    // be included in the stream after initial number of comments until
+    // the new comments are cleared on rerender and shown in chronological position
     if (alternateOldestViewEnabled) {
       if (local.oldestFirstNewCommentsToShow) {
         const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
@@ -374,7 +374,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
                 button if alternate oldest view and button is shown */}
                 {index === NUM_INITIAL_COMMENTS - 1 &&
                   alternateOldestViewEnabled &&
-                  local.showLoadAllCommentsButton &&
                   local.oldestFirstNewCommentsToShow &&
                   newCommentsToShow.map((newComment) => {
                     return (
@@ -398,7 +397,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             viewer,
             alternateOldestViewEnabled,
             local.oldestFirstNewCommentsToShow,
-            local.showLoadAllCommentsButton,
             newCommentsToShow,
           ]
         )}

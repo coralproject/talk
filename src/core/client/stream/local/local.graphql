@@ -113,7 +113,7 @@ extend type Local {
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 
   showLoadAllCommentsButton: Boolean!
-  oldestFirstNewCommentsToShow: String!
+  oldestFirstNewCommentsToShow: String
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
