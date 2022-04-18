@@ -743,7 +743,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setLocal({
           keyboardShortcutsConfig: {
             key: pressedKey,
-            reverse: Boolean(data.shiftKey),
+            reverse: false,
             source: "keyboard",
           },
         });

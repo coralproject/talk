@@ -525,6 +525,11 @@ export const comments = denormalizeComments(
         author: commenters[2],
         body: "Comment Body 5",
       },
+      {
+        id: "comment-21",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
     ],
     baseComment
   )
