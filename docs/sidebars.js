@@ -36,7 +36,7 @@ module.exports = {
     {
       type: "category",
       label: "Migrating versions",
-      items: ["migrating-from-4", "migrating-5-to-6"],
+      items: ["migrating-from-4", "migrating-5-to-6", "migrating-6-to-7"],
     },
     {
       type: "doc",
