@@ -22,17 +22,17 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
+import { PostCommentFormContainerLocal } from "coral-stream/__generated__/PostCommentFormContainerLocal.graphql";
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
 import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
-import { PostCommentFormContainerLocal } from "coral-stream/__generated__/PostCommentFormContainerLocal.graphql";
 import {
   COMMENT_SORT,
   COMMENTS_TAB,
@@ -87,8 +87,13 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const [local, setLocal] = useLocal<PostCommentFormContainerLocal>(graphql`
     fragment PostCommentFormContainerLocal on Local {
       oldestFirstNewCommentsToShow
+      showLoadAllCommentsButton
     }
   `);
+
+  const alternateOldestViewEnabled = settings.featureFlags.includes(
+    GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
+  );
 
   // keepFormWhenClosed controls the display state when the commenting has been
   // closed. This value should not be updated when the props change, hence why
@@ -164,13 +169,19 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       });
 
       // Add this response to new comments to show that have been added
-      if (local.oldestFirstNewCommentsToShow === "") {
-        setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
-      } else {
-        setLocal({
-          oldestFirstNewCommentsToShow:
-            local.oldestFirstNewCommentsToShow + " " + response.edge.node.id,
-        });
+      if (alternateOldestViewEnabled) {
+        if (local.showLoadAllCommentsButton) {
+          if (!local.oldestFirstNewCommentsToShow) {
+            setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
+          } else {
+            setLocal({
+              oldestFirstNewCommentsToShow:
+                local.oldestFirstNewCommentsToShow +
+                " " +
+                response.edge.node.id,
+            });
+          }
+        }
       }
 
       const status = getSubmitStatus(response);
@@ -323,16 +334,18 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     }
 
     return (
-      <PostCommentSection>
-        <PostCommentFormFake
-          rteConfig={settings.rte}
-          draft={draft}
-          onDraftChange={setDraft}
-          story={story}
-          showMessageBox={story.settings.messageBox.enabled}
-          onSignIn={handleSignIn}
-        />
-      </PostCommentSection>
+      <>
+        <PostCommentSection>
+          <PostCommentFormFake
+            rteConfig={settings.rte}
+            draft={draft}
+            onDraftChange={setDraft}
+            story={story}
+            showMessageBox={story.settings.messageBox.enabled}
+            onSignIn={handleSignIn}
+          />
+        </PostCommentSection>
+      </>
     );
   }
 
@@ -441,6 +454,7 @@ const enhanced = withFragmentContainer<Props>({
       rte {
         ...RTEContainer_config
       }
+      featureFlags
     }
   `,
   story: graphql`

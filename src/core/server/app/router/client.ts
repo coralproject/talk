@@ -135,11 +135,13 @@ const populateStaticConfig = (staticConfig: StaticConfig, req: Request) => {
     req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
     [];
   const flattenReplies = req.coral.tenant?.flattenReplies || false;
+  const loadAllComments = req.coral.tenant?.loadAllComments ?? true;
   return {
     ...staticConfig,
     featureFlags,
     tenantDomain: req.coral.tenant?.domain,
     flattenReplies,
+    loadAllComments,
   };
 };
 

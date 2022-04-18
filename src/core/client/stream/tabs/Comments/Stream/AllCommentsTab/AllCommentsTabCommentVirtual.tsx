@@ -15,6 +15,7 @@ import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/All
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
+import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { Button } from "coral-ui/components/v3";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
@@ -28,9 +29,7 @@ interface Props {
   isLoadingMore: boolean;
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
-  showCommentForm: boolean;
   commentsOrderBy: COMMENT_SORT;
-  showGoToDiscussions: boolean;
 }
 
 interface Comment {
@@ -58,12 +57,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   isLoadingMore,
   currentScrollRef,
   alternateOldestViewEnabled,
-  showCommentForm,
   commentsOrderBy,
-  showGoToDiscussions,
 }) => {
-  const comments = useMemo(() => story.comments.edges, [story.comments.edges]);
-
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
       commentWithTraversalFocus
@@ -82,10 +77,30 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     }
   `);
 
+  const comments = useMemo(() => {
+    if (alternateOldestViewEnabled) {
+      if (local.oldestFirstNewCommentsToShow) {
+        const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
+          " "
+        );
+        return story.comments.edges.filter(
+          (c) => !newCommentsToShowIds.includes(c.node.id)
+        );
+      }
+    }
+    return story.comments.edges;
+  }, [
+    story.comments.edges,
+    alternateOldestViewEnabled,
+    local.oldestFirstNewCommentsToShow,
+  ]);
+
   const newCommentsToShow = useMemo(() => {
     const newCommentsToShowIds = local.oldestFirstNewCommentsToShow?.split(" ");
-    return comments.filter((c) => newCommentsToShowIds?.includes(c.node.id));
-  }, [local.oldestFirstNewCommentsToShow, comments]);
+    return story.comments.edges.filter((c) =>
+      newCommentsToShowIds?.includes(c.node.id)
+    );
+  }, [local.oldestFirstNewCommentsToShow, story.comments.edges]);
 
   useEffect(() => {
     // on rerender, clear the newly added comments to show if it's
@@ -214,56 +229,32 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   const Footer = useCallback(() => {
     return (
       <>
-        {alternateOldestViewEnabled &&
-          newCommentsToShow.length > 0 &&
-          newCommentsToShow.map((comment, i) => {
-            return (
-              <AllCommentsTabCommentContainer
-                key={comment.node.id}
-                viewer={viewer}
-                comment={comment.node}
-                story={story}
-                settings={settings}
-                isLast={i === newCommentsToShow.length - 1}
-              />
-            );
-          })}
-        {local.showLoadAllCommentsButton && comments.length > 20 && (
-          <Localized id="comments-loadAll">
-            <Button
-              key={`comments-loadAll-${comments.length}`}
-              id="comments-loadAll"
-              onClick={() => {
-                setLocal({ showLoadAllCommentsButton: false });
-              }}
-              color="secondary"
-              variant="outlined"
-              fullWidth
-              disabled={isLoadingMore}
-              aria-controls="comments-allComments-log"
-              className={CLASSES.allCommentsTabPane.loadMoreButton}
-              // Added for keyboard shortcut support.
-              data-key-stop
-              data-is-load-more
-            >
-              Load All Comments
-            </Button>
-          </Localized>
-        )}
+        {local.showLoadAllCommentsButton &&
+          comments.length > NUM_INITIAL_COMMENTS && (
+            <Localized id="comments-loadAll">
+              <Button
+                key={`comments-loadAll-${comments.length}`}
+                id="comments-loadAll"
+                onClick={() => {
+                  setLocal({ showLoadAllCommentsButton: false });
+                }}
+                color="secondary"
+                variant="outlined"
+                fullWidth
+                disabled={isLoadingMore}
+                aria-controls="comments-allComments-log"
+                className={CLASSES.allCommentsTabPane.loadMoreButton}
+                // Added for keyboard shortcut support.
+                data-key-stop
+                data-is-load-more
+              >
+                Load All Comments
+              </Button>
+            </Localized>
+          )}
       </>
     );
-  }, [
-    local.showLoadAllCommentsButton,
-    comments,
-    isLoadingMore,
-    alternateOldestViewEnabled,
-    commentsOrderBy,
-    setLocal,
-    settings,
-    story,
-    viewer,
-    newCommentsToShow,
-  ]);
+  }, [local.showLoadAllCommentsButton, comments, isLoadingMore, setLocal]);
 
   const ScrollSeekPlaceholder = useCallback(
     ({ height }: { height: number }) => (
@@ -353,7 +344,13 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: 600 }}
-        totalCount={local.showLoadAllCommentsButton ? 20 : comments.length}
+        totalCount={
+          local.showLoadAllCommentsButton
+            ? comments.length < NUM_INITIAL_COMMENTS
+              ? comments.length
+              : NUM_INITIAL_COMMENTS
+            : comments.length
+        }
         overscan={50}
         endReached={() => {
           if (hasMore && !isLoadingMore) {
@@ -364,17 +361,46 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           (index) => {
             const comment = comments[index];
             return (
-              <AllCommentsTabCommentContainer
-                key={comment.node.id}
-                viewer={viewer}
-                comment={comment.node}
-                story={story}
-                settings={settings}
-                isLast={index === comments.length - 1}
-              />
+              <>
+                <AllCommentsTabCommentContainer
+                  key={comment.node.id}
+                  viewer={viewer}
+                  comment={comment.node}
+                  story={story}
+                  settings={settings}
+                  isLast={index === comments.length - 1}
+                />
+                {/* Show newly posted comments above Load All Comments
+                button if alternate oldest view and button is shown */}
+                {index === NUM_INITIAL_COMMENTS - 1 &&
+                  alternateOldestViewEnabled &&
+                  local.showLoadAllCommentsButton &&
+                  local.oldestFirstNewCommentsToShow &&
+                  newCommentsToShow.map((newComment) => {
+                    return (
+                      <AllCommentsTabCommentContainer
+                        key={newComment.node.id}
+                        viewer={viewer}
+                        comment={newComment.node}
+                        story={story}
+                        settings={settings}
+                        isLast={false}
+                      />
+                    );
+                  })}
+              </>
             );
           },
-          [story, comments, settings, viewer]
+          [
+            story,
+            comments,
+            settings,
+            viewer,
+            alternateOldestViewEnabled,
+            local.oldestFirstNewCommentsToShow,
+            local.showLoadAllCommentsButton,
+            newCommentsToShow,
+          ]
         )}
         components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{
