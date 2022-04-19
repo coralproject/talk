@@ -96,14 +96,14 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
           " "
         );
-        const commentsComments = story.comments.edges.filter(
+        const commentsWithoutNew = story.comments.edges.filter(
           (c) => !newCommentsToShowIds.includes(c.node.id)
         );
         const newComments = story.comments.edges.filter((c) =>
           newCommentsToShowIds.includes(c.node.id)
         );
         return {
-          comments: commentsComments,
+          comments: commentsWithoutNew,
           newCommentsToShow: newComments,
         };
       }
