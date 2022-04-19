@@ -3,7 +3,14 @@ import { FluentBundle } from "@fluent/bundle/compat";
 import { Localized } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
 import { Child as PymChild } from "pym.js";
-import React, { Component, ComponentType, FunctionComponent } from "react";
+import React, {
+  ComponentType,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
@@ -174,7 +181,7 @@ type CreateLocalContextFunc = (
  * and handles context changes, e.g. when a user session changes.
  */
 async function createManagedCoralContextProvider(
-  context: CoralContext,
+  initialContext: CoralContext,
   clientID: string,
   localesData: LocalesData,
   localeBundles: FluentBundle[],
@@ -182,128 +189,114 @@ async function createManagedCoralContextProvider(
   auth?: AuthState | null,
   ErrorBoundary?: React.ComponentType
 ) {
-  let Local: FunctionComponent<{}> | null = null;
+  let InitialLocal: FunctionComponent | null;
   if (createLocalContext) {
-    Local = await createLocalContext(context, auth);
+    InitialLocal = await createLocalContext(initialContext, auth);
   }
 
-  const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
-    {},
-    { context: CoralContext }
-  > {
-    constructor(props: {}) {
-      super(props);
-      this.state = {
-        context: {
-          ...context,
-          clearSession: this.clearSession,
-          changeLocale: this.changeLocale,
-        },
-      };
-    }
-
-    // This is called every time a user session starts or ends.
-    private clearSession = async (
-      nextAccessToken?: string,
-      options: { ephemeral?: boolean } = {}
-    ) => {
-      // Clear session storage on logouts otherwise keep it!
-      if (!nextAccessToken) {
-        void this.state.context.sessionStorage.clear();
-      }
-
-      // Pause subscriptions.
-      context.subscriptionClient.pause();
-
-      // Parse the claims/token and update storage.
-      const newAuth = nextAccessToken
-        ? options.ephemeral
-          ? parseAccessToken(nextAccessToken)
-          : await storeAccessTokenInLocalStorage(
-              context.localStorage,
-              nextAccessToken
-            )
-        : await deleteAccessTokenFromLocalStorage(context.localStorage);
-
-      // Create the new environment.
-      const { environment, accessTokenProvider } = createRelayEnvironment(
-        context.subscriptionClient,
-        clientID,
-        localeBundles,
-        this.state.context.tokenRefreshProvider,
-        // Disable the cache on requests for the next 30 seconds.
-        new Date(Date.now() + 30 * 1000)
-      );
-
-      // Create the new context.
-      const newContext: CoralContext = {
-        ...this.state.context,
-        relayEnvironment: environment,
-        rest: createRestClient(clientID, accessTokenProvider),
-      };
-
-      if (createLocalContext) {
-        Local = await createLocalContext(context, newAuth);
-      }
-
-      // Update the subscription client access token.
-      this.state.context.subscriptionClient.setAccessToken(
-        accessTokenProvider()
-      );
-
-      // Propagate new context.
-      this.setState({ context: newContext }, () => {
-        // Resume subscriptions after context has changed.
-        context.subscriptionClient.resume();
-      });
-    };
+  const ManagedCoralContextProvider: FunctionComponent = ({ children }) => {
+    const [context, setContext] = useState<CoralContext>(initialContext);
+    const [Local, setLocal] = useState<FunctionComponent | null>(InitialLocal);
 
     // This is called when the locale should change.
-    private changeLocale = async (locale: LanguageCode) => {
-      // Add fallback locale.
-      const locales = [localesData.fallbackLocale];
-      if (locale && locale !== localesData.fallbackLocale) {
-        locales.splice(0, 0, locale);
-      }
-      const newContext = {
-        ...this.state.context,
-        locales,
-        localeBundles,
-      };
-      // Propagate new context.
-      this.setState({
-        context: newContext,
-      });
-    };
+    const changeLocale = useCallback(
+      async (locale: LanguageCode) => {
+        // Add fallback locale.
+        const locales = [localesData.fallbackLocale];
+        if (locale && locale !== localesData.fallbackLocale) {
+          locales.splice(0, 0, locale);
+        }
+        const newContext = {
+          ...context,
+          locales,
+          localeBundles,
+        };
 
-    public render() {
-      // If the boundary is available from the reporter (also, if it's
-      // available) then use it to wrap the lower children for any error that
-      // happens.
+        setContext(newContext);
+      },
+      [context]
+    );
+
+    // This is called every time a user session starts or ends.
+    const clearSession = useCallback(
+      async (
+        nextAccessToken?: string,
+        options: { ephemeral?: boolean } = {}
+      ) => {
+        // Clear session storage on logouts otherwise keep it!
+        if (!nextAccessToken) {
+          void context.sessionStorage.clear();
+        }
+
+        // Pause subscriptions.
+        context.subscriptionClient.pause();
+
+        // Parse the claims/token and update storage.
+        const newAuth = nextAccessToken
+          ? options.ephemeral
+            ? parseAccessToken(nextAccessToken)
+            : await storeAccessTokenInLocalStorage(
+                context.localStorage,
+                nextAccessToken
+              )
+          : await deleteAccessTokenFromLocalStorage(context.localStorage);
+
+        // Create the new environment.
+        const { environment, accessTokenProvider } = createRelayEnvironment(
+          context.subscriptionClient,
+          clientID,
+          localeBundles,
+          context.tokenRefreshProvider,
+          // Disable the cache on requests for the next 30 seconds.
+          new Date(Date.now() + 30 * 1000)
+        );
+
+        // Create the new context.
+        const newContext: CoralContext = {
+          ...context,
+          relayEnvironment: environment,
+          rest: createRestClient(clientID, accessTokenProvider),
+        };
+
+        if (createLocalContext) {
+          setLocal(await createLocalContext(context, newAuth));
+        }
+
+        // Update the subscription client access token.
+        context.subscriptionClient.setAccessToken(accessTokenProvider());
+
+        setContext(newContext);
+        newContext.subscriptionClient.resume();
+      },
+      [context]
+    );
+
+    useEffect(() => {
+      context.clearSession = clearSession;
+      context.changeLocale = changeLocale;
+    }, [changeLocale, clearSession, context]);
+
+    const errorWrappedChildren = useMemo(() => {
       return (
-        <CoralContextProvider value={this.state.context}>
-          {Local ? (
-            <Local>
-              {ErrorBoundary ? (
-                <ErrorBoundary>{this.props.children}</ErrorBoundary>
-              ) : (
-                this.props.children
-              )}
-              {this.state.context.pym && <SendPymReady />}
-            </Local>
-          ) : (
-            <>
-              {ErrorBoundary ? (
-                <ErrorBoundary>{this.props.children}</ErrorBoundary>
-              ) : (
-                this.props.children
-              )}
-              {this.state.context.pym && <SendPymReady />}
-            </>
-          )}
-        </CoralContextProvider>
+        <>
+          {ErrorBoundary ? <ErrorBoundary>{children}</ErrorBoundary> : children}
+          {context.pym && <SendPymReady />}
+        </>
       );
-    }
+    }, [children, context.pym]);
+
+    // If the boundary is available from the reporter (also, if it's
+    // available) then use it to wrap the lower children for any error that
+    // happens.
+    return (
+      <CoralContextProvider value={context}>
+        {Local ? (
+          <Local>{errorWrappedChildren}</Local>
+        ) : (
+          <>{errorWrappedChildren}</>
+        )}
+      </CoralContextProvider>
+    );
   };
 
   return ManagedCoralContextProvider;
