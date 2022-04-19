@@ -170,17 +170,13 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
 
       // Add this response to new comments to show that have been added
       if (alternateOldestViewEnabled) {
-        if (local.showLoadAllCommentsButton) {
-          if (!local.oldestFirstNewCommentsToShow) {
-            setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
-          } else {
-            setLocal({
-              oldestFirstNewCommentsToShow:
-                local.oldestFirstNewCommentsToShow +
-                " " +
-                response.edge.node.id,
-            });
-          }
+        if (!local.oldestFirstNewCommentsToShow) {
+          setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
+        } else {
+          setLocal({
+            oldestFirstNewCommentsToShow:
+              local.oldestFirstNewCommentsToShow + " " + response.edge.node.id,
+          });
         }
       }
 

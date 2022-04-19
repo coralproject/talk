@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
@@ -73,39 +74,84 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       oldestFirstNewCommentsToShow
     }
   `);
+  const [
+    loadAllButtonHasBeenDisplayed,
+    setLoadAllButtonHasBeenDisplayed,
+  ] = useState(false);
+  const [
+    loadAllButtonHasBeenClicked,
+    setLoadAllButtonHasBeenClicked,
+  ] = useState(false);
+  const [initialComments, setInitialComments] = useState<null | {
+    length: number;
+    hasMore: boolean;
+  }>(null);
 
-  const comments = useMemo(() => {
+  const { comments, newCommentsToShow } = useMemo(() => {
     // if alternate oldest view, filter out new comments to show as they will
     // be included in the stream after initial number of comments until
     // the new comments are cleared on rerender and shown in chronological position
     if (alternateOldestViewEnabled) {
-      if (local.oldestFirstNewCommentsToShow) {
+      if (local.oldestFirstNewCommentsToShow && loadAllButtonHasBeenDisplayed) {
         const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
           " "
         );
-        return story.comments.edges.filter(
+        const commentsComments = story.comments.edges.filter(
           (c) => !newCommentsToShowIds.includes(c.node.id)
         );
+        const newComments = story.comments.edges.filter((c) =>
+          newCommentsToShowIds.includes(c.node.id)
+        );
+        return {
+          comments: commentsComments,
+          newCommentsToShow: newComments,
+        };
       }
     }
-    return story.comments.edges;
+    return { comments: story.comments.edges, newCommentsToShow: null };
   }, [
     story.comments.edges,
     alternateOldestViewEnabled,
     local.oldestFirstNewCommentsToShow,
+    loadAllButtonHasBeenDisplayed,
   ]);
 
-  const newCommentsToShow = useMemo(() => {
-    const newCommentsToShowIds = local.oldestFirstNewCommentsToShow?.split(" ");
-    return story.comments.edges.filter((c) =>
-      newCommentsToShowIds?.includes(c.node.id)
+  const totalCommentsLength = useMemo(() => {
+    return newCommentsToShow
+      ? comments.length + newCommentsToShow.length
+      : comments.length;
+  }, [newCommentsToShow, comments]);
+
+  const displayLoadAllButton = useMemo(() => {
+    return (
+      (local.showLoadAllCommentsButton ||
+        (alternateOldestViewEnabled && !loadAllButtonHasBeenClicked)) &&
+      totalCommentsLength > NUM_INITIAL_COMMENTS &&
+      ((initialComments && initialComments.length > 20) ||
+        (initialComments &&
+          initialComments.length === 20 &&
+          initialComments.hasMore))
     );
-  }, [local.oldestFirstNewCommentsToShow, story.comments.edges]);
+  }, [
+    local.showLoadAllCommentsButton,
+    totalCommentsLength,
+    initialComments,
+    alternateOldestViewEnabled,
+    loadAllButtonHasBeenClicked,
+  ]);
 
   useEffect(() => {
     // on rerender, clear the newly added comments to show if it's
     // alternate oldest view
     setLocal({ oldestFirstNewCommentsToShow: "" });
+    // on rerender, also clear if load all button has displayed
+    setLoadAllButtonHasBeenDisplayed(false);
+    // on rerender, also clear initial comments info
+    setInitialComments({
+      length: story.comments.edges.length,
+      hasMore,
+    });
+    setLoadAllButtonHasBeenClicked(false);
   }, []);
 
   const lookForNextUnseen = useCallback(
@@ -227,34 +273,37 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   ]);
 
   const Footer = useCallback(() => {
+    if (displayLoadAllButton) {
+      setLoadAllButtonHasBeenDisplayed(true);
+    }
     return (
       <>
-        {local.showLoadAllCommentsButton &&
-          comments.length > NUM_INITIAL_COMMENTS && (
-            <Localized id="comments-loadAll">
-              <Button
-                key={`comments-loadAll-${comments.length}`}
-                id="comments-loadAll"
-                onClick={() => {
-                  setLocal({ showLoadAllCommentsButton: false });
-                }}
-                color="secondary"
-                variant="outlined"
-                fullWidth
-                disabled={isLoadingMore}
-                aria-controls="comments-allComments-log"
-                className={CLASSES.allCommentsTabPane.loadMoreButton}
-                // Added for keyboard shortcut support.
-                data-key-stop
-                data-is-load-more
-              >
-                Load All Comments
-              </Button>
-            </Localized>
-          )}
+        {displayLoadAllButton && (
+          <Localized id="comments-loadAll">
+            <Button
+              key={`comments-loadAll-${comments.length}`}
+              id="comments-loadAll"
+              onClick={() => {
+                setLocal({ showLoadAllCommentsButton: false });
+                setLoadAllButtonHasBeenClicked(true);
+              }}
+              color="secondary"
+              variant="outlined"
+              fullWidth
+              disabled={isLoadingMore}
+              aria-controls="comments-allComments-log"
+              className={CLASSES.allCommentsTabPane.loadMoreButton}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
+            >
+              Load All Comments
+            </Button>
+          </Localized>
+        )}
       </>
     );
-  }, [local.showLoadAllCommentsButton, comments, isLoadingMore, setLocal]);
+  }, [comments, isLoadingMore, setLocal, displayLoadAllButton]);
 
   const ScrollSeekPlaceholder = useCallback(
     ({ height }: { height: number }) => (
@@ -345,11 +394,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         ref={currentScrollRef}
         style={{ height: 600 }}
         totalCount={
-          local.showLoadAllCommentsButton
-            ? comments.length < NUM_INITIAL_COMMENTS
-              ? comments.length
-              : NUM_INITIAL_COMMENTS
-            : comments.length
+          displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length
         }
         overscan={50}
         endReached={() => {
@@ -370,12 +415,11 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
                   settings={settings}
                   isLast={index === comments.length - 1}
                 />
-                {/* Show newly posted comments above Load All Comments
-                button if alternate oldest view and button is shown */}
-                {index === NUM_INITIAL_COMMENTS - 1 &&
-                  alternateOldestViewEnabled &&
-                  local.oldestFirstNewCommentsToShow &&
-                  newCommentsToShow.map((newComment) => {
+                {/* Show any newly posted comments above Load All Comments
+                button if alternate oldest view */}
+                {alternateOldestViewEnabled &&
+                  index === NUM_INITIAL_COMMENTS - 1 &&
+                  newCommentsToShow?.map((newComment) => {
                     return (
                       <AllCommentsTabCommentContainer
                         key={newComment.node.id}
@@ -396,7 +440,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             settings,
             viewer,
             alternateOldestViewEnabled,
-            local.oldestFirstNewCommentsToShow,
             newCommentsToShow,
           ]
         )}
