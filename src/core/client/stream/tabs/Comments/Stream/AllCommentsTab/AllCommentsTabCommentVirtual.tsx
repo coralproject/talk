@@ -393,6 +393,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: 600 }}
+        increaseViewportBy={1500}
         totalCount={
           displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length
         }
@@ -446,7 +447,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{
           enter: (velocity) => {
-            const shouldEnter = Math.abs(velocity) >= 600;
+            const shouldEnter = Math.abs(velocity) >= 800;
             return shouldEnter;
           },
           exit: (velocity) => {
