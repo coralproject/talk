@@ -201,8 +201,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   const isLoggedIn = !!viewer;
 
-  const context = useCoralContext();
-  const [showAuthPopup] = useAuthPopupActions(context.eventEmitter);
+  const [{ show: showAuthPopup }] = useAuthPopupActions();
 
   const openEditDialog = useCallback(() => {
     if (isLoggedIn) {

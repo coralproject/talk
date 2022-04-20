@@ -23,11 +23,11 @@ import {
   GQLUSER_ROLE,
 } from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
+import { COMMENT_SORT } from "coral-stream/local/types";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 import { CreateCommentMutation_story } from "coral-stream/__generated__/CreateCommentMutation_story.graphql";
 import { CreateCommentMutation_viewer } from "coral-stream/__generated__/CreateCommentMutation_viewer.graphql";
-import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import {
   incrementStoryCommentCounts,

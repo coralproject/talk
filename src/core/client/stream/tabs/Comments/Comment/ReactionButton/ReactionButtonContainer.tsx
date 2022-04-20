@@ -8,7 +8,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
+import useAuthPopupActions from "coral-stream/common/AuthPopup/useAuthPopupActions";
 import { VIEWER_STATUS_CONTAINER_ID } from "coral-stream/constants";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
@@ -42,7 +42,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
   isQA = false,
 }) => {
   const root = useShadowRootOrDocument();
-  const showAuthPopup = useMutation(ShowAuthPopupMutation);
+  const [{ show: showAuthPopup }] = useAuthPopupActions();
   const createCommentReaction = useMutation(CreateCommentReactionMutation);
   const removeCommentReaction = useMutation(RemoveCommentReactionMutation);
   const refreshViewer = useFetch(RefreshViewerFetch);

@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { SignOutMutation } from "coral-stream/mutations";
@@ -24,8 +23,7 @@ export const UserBoxContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
-  const context = useCoralContext();
-  const [showAuthPopup] = useAuthPopupActions(context.eventEmitter);
+  const [{ show: showAuthPopup }] = useAuthPopupActions();
   const { accessToken, accessTokenJTI, accessTokenExp } = useStreamLocal();
 
   const signOut = useMutation(SignOutMutation);

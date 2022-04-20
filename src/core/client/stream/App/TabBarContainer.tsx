@@ -5,12 +5,12 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
+import { ACTIVE_TAB } from "coral-stream/local/types";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainer_viewer } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
 
-import { TabValue } from "./App";
 import TabBar from "./TabBar";
 
 interface Props {
@@ -26,7 +26,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
 }) => {
   const { activeTab, setActiveTab } = useStreamLocal();
   const handleSetActiveTab = useCallback(
-    (tab: TabValue) => {
+    (tab: ACTIVE_TAB) => {
       setActiveTab(tab);
     },
     [setActiveTab]

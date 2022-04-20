@@ -1,6 +1,6 @@
-import { EventEmitter2 } from "eventemitter2";
 import { useCallback } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { LoginPromptEvent, ShowAuthPopupEvent } from "coral-stream/events";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
@@ -14,7 +14,8 @@ export interface SetAuthPopupStateInput {
   href?: string;
 }
 
-const useAuthPopupActions = (eventEmitter: EventEmitter2) => {
+const useAuthPopupActions = () => {
+  const { eventEmitter } = useCoralContext();
   const { authPopup } = useStreamLocal();
   const { focus, setFocus, open, setOpen, setView, setHref } = authPopup;
 
@@ -54,7 +55,7 @@ const useAuthPopupActions = (eventEmitter: EventEmitter2) => {
     [setOpen, setFocus, setHref]
   );
 
-  return [show, setState];
+  return [{ show, setState }];
 };
 
 export default useAuthPopupActions;

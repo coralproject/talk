@@ -3,7 +3,14 @@ import { FluentBundle } from "@fluent/bundle/compat";
 import { Localized } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
 import { noop } from "lodash";
-import React, { Component, ComponentType } from "react";
+import React, {
+  ComponentType,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
@@ -65,6 +72,13 @@ export type InitLocalState = (dependencies: {
   staticConfig?: StaticConfig | null;
 }) => void | Promise<void>;
 
+export interface CreateLocalContextParameters {
+  context: CoralContext;
+  auth?: AuthState | null;
+  accessToken?: string;
+  amp?: boolean;
+}
+
 export type RefreshAccessTokenPromise = () => Promise<string>;
 
 declare let __webpack_public_path__: string;
@@ -106,6 +120,10 @@ interface CreateContextArguments {
 
   /** Static Config from the server necessary to start the client*/
   staticConfig?: StaticConfig | null;
+
+  createLocal?: (
+    params: CreateLocalContextParameters
+  ) => Promise<React.FunctionComponent<{}>>;
 }
 
 /**
@@ -196,141 +214,156 @@ function determineLocales(localesData: LocalesData, lang: string) {
  * Returns a managed CoralContextProvider, that includes given context
  * and handles context changes, e.g. when a user session changes.
  */
-function createManagedCoralContextProvider(
+async function createManagedCoralContextProvider(
   rootURL: string,
-  context: CoralContext,
+  initialContext: CoralContext,
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
   initLocalState: InitLocalState,
   localesData: LocalesData,
   ErrorBoundary?: React.ComponentType,
   refreshAccessTokenPromise?: RefreshAccessTokenPromise,
-  staticConfig?: StaticConfig | null
+  staticConfig?: StaticConfig | null,
+  initialAuth?: AuthState | null | undefined,
+  createLocal?: (
+    params: CreateLocalContextParameters
+  ) => Promise<React.FunctionComponent<{}>>
 ) {
-  const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
-    {},
-    { context: CoralContext }
-  > {
-    constructor(props: {}) {
-      super(props);
-      this.state = {
-        context: {
+  const initialLocal = createLocal
+    ? await createLocal({ context: initialContext, auth: initialAuth })
+    : null;
+
+  const ManagedCoralContextProvider: FunctionComponent = ({ children }) => {
+    const [context, setContext] = useState<CoralContext>(initialContext);
+    const [Local, SetLocal] = useState<FunctionComponent | null>(initialLocal);
+
+    // This is called every time a user session starts or ends.
+    const clearSession = useCallback(
+      async (
+        nextAccessToken?: string,
+        options: { ephemeral?: boolean } = {}
+      ) => {
+        // Clear session storage on logouts otherwise keep it!
+        if (!nextAccessToken) {
+          void context.sessionStorage.clear();
+        }
+
+        // Pause subscriptions.
+        subscriptionClient.pause();
+
+        // Parse the claims/token and update storage.
+        const auth = nextAccessToken
+          ? options.ephemeral
+            ? parseAccessToken(nextAccessToken)
+            : await storeAccessTokenInLocalStorage(
+                context.localStorage,
+                nextAccessToken
+              )
+          : await deleteAccessTokenFromLocalStorage(context.localStorage);
+
+        // Create the new environment.
+        const { environment, accessTokenProvider } = createRelayEnvironment(
+          rootURL,
+          subscriptionClient,
+          clientID,
+          context.localeBundles,
+          context.tokenRefreshProvider,
+          // Disable the cache on requests for the next 30 seconds.
+          new Date(Date.now() + 30 * 1000)
+        );
+
+        // Create the new context.
+        const newContext: CoralContext = {
           ...context,
-          clearSession: this.clearSession,
-          changeLocale: this.changeLocale,
-        },
-      };
+          relayEnvironment: environment,
+          rest: createRestClient(rootURL, clientID, accessTokenProvider),
+        };
+
+        if (createLocal) {
+          SetLocal(
+            await createLocal({ context: initialContext, auth: initialAuth })
+          );
+        }
+
+        // Initialize local state.
+        await initLocalState({
+          environment: newContext.relayEnvironment,
+          context: newContext,
+          auth,
+          staticConfig,
+        });
+
+        // Update the subscription client access token.
+        subscriptionClient.setAccessToken(accessTokenProvider());
+
+        setContext(newContext);
+
+        window.requestAnimationFrame(() => {
+          subscriptionClient.resume();
+        });
+      },
+      [context, setContext]
+    );
+
+    // This is called when the locale should change.
+    const changeLocale = useCallback(
+      async (locale: LanguageCode) => {
+        // Initialize i18n.
+        const locales = determineLocales(localesData, locale);
+        const localeBundles = await generateBundles(locales, localesData);
+
+        const newContext = {
+          ...context,
+          locales,
+          localeBundles,
+        };
+        // Propagate new context.
+        setContext(newContext);
+      },
+      [context]
+    );
+
+    useEffect(() => {
+      context.changeLocale = changeLocale;
+      context.clearSession = clearSession;
+
       if (refreshAccessTokenPromise) {
         context.tokenRefreshProvider.register(async () => {
           const token = await refreshAccessTokenPromise();
           if (token) {
             await SetAccessTokenMutation.commit(
-              this.state.context.relayEnvironment,
+              context.relayEnvironment,
               {
                 accessToken: token,
                 ephemeral: true,
                 refresh: true,
               },
-              this.state.context
+              context
             );
             return token;
           }
           return "";
         });
       }
-    }
+    }, [changeLocale, clearSession, context]);
 
-    // This is called every time a user session starts or ends.
-    private clearSession = async (
-      nextAccessToken?: string,
-      options: { ephemeral?: boolean } = {}
-    ) => {
-      // Clear session storage on logouts otherwise keep it!
-      if (!nextAccessToken) {
-        void this.state.context.sessionStorage.clear();
-      }
-
-      // Pause subscriptions.
-      subscriptionClient.pause();
-
-      // Parse the claims/token and update storage.
-      const auth = nextAccessToken
-        ? options.ephemeral
-          ? parseAccessToken(nextAccessToken)
-          : await storeAccessTokenInLocalStorage(
-              context.localStorage,
-              nextAccessToken
-            )
-        : await deleteAccessTokenFromLocalStorage(context.localStorage);
-
-      // Create the new environment.
-      const { environment, accessTokenProvider } = createRelayEnvironment(
-        rootURL,
-        subscriptionClient,
-        clientID,
-        this.state.context.localeBundles,
-        this.state.context.tokenRefreshProvider,
-        // Disable the cache on requests for the next 30 seconds.
-        new Date(Date.now() + 30 * 1000)
-      );
-
-      // Create the new context.
-      const newContext: CoralContext = {
-        ...this.state.context,
-        relayEnvironment: environment,
-        rest: createRestClient(rootURL, clientID, accessTokenProvider),
-      };
-
-      // Initialize local state.
-      await initLocalState({
-        environment: newContext.relayEnvironment,
-        context: newContext,
-        auth,
-        staticConfig,
-      });
-
-      // Update the subscription client access token.
-      subscriptionClient.setAccessToken(accessTokenProvider());
-
-      // Propagate new context.
-      this.setState({ context: newContext }, () => {
-        // Resume subscriptions after context has changed.
-        subscriptionClient.resume();
-      });
-    };
-
-    // This is called when the locale should change.
-    private changeLocale = async (locale: LanguageCode) => {
-      // Initialize i18n.
-      const locales = determineLocales(localesData, locale);
-      const localeBundles = await generateBundles(locales, localesData);
-
-      const newContext = {
-        ...this.state.context,
-        locales,
-        localeBundles,
-      };
-      // Propagate new context.
-      this.setState({
-        context: newContext,
-      });
-    };
-
-    public render() {
-      // If the boundary is available from the reporter (also, if it's
-      // available) then use it to wrap the lower children for any error that
-      // happens.
+    const wrappedChildren = useMemo(() => {
       return (
-        <CoralContextProvider value={this.state.context}>
-          {ErrorBoundary ? (
-            <ErrorBoundary>{this.props.children}</ErrorBoundary>
-          ) : (
-            this.props.children
-          )}
+        <>
+          {ErrorBoundary ? <ErrorBoundary>{children}</ErrorBoundary> : children}
           <SendReady />
-        </CoralContextProvider>
+        </>
       );
-    }
+    }, [children]);
+
+    // If the boundary is available from the reporter (also, if it's
+    // available) then use it to wrap the lower children for any error that
+    // happens.
+    return (
+      <CoralContextProvider value={context}>
+        {Local ? <Local>{wrappedChildren}</Local> : <>{wrappedChildren}</>}
+      </CoralContextProvider>
+    );
   };
 
   return ManagedCoralContextProvider;
@@ -396,6 +429,7 @@ export default async function createManaged({
   graphQLSubscriptionURI,
   refreshAccessTokenPromise,
   staticConfig = getStaticConfig(window),
+  createLocal,
 }: CreateContextArguments): Promise<ComponentType> {
   if (!staticConfig) {
     // eslint-disable-next-line no-console
@@ -512,7 +546,7 @@ export default async function createManaged({
 
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
-  return createManagedCoralContextProvider(
+  return await createManagedCoralContextProvider(
     rootURL,
     context,
     subscriptionClient,
@@ -521,6 +555,8 @@ export default async function createManaged({
     localesData,
     reporter?.ErrorBoundary,
     refreshAccessTokenPromise,
-    staticConfig
+    staticConfig,
+    auth,
+    createLocal
   );
 }

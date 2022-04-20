@@ -4,7 +4,6 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 import Responsive from "react-responsive";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import useAuthPopupActions from "coral-stream/common/AuthPopup/useAuthPopupActions";
@@ -30,8 +29,7 @@ const ReportButton: FunctionComponent<Props> = ({
   viewer,
   open,
 }) => {
-  const context = useCoralContext();
-  const [showAuthPopup] = useAuthPopupActions(context.eventEmitter);
+  const [{ show: showAuthPopup }] = useAuthPopupActions();
 
   const isLoggedIn = !!viewer;
 
@@ -41,7 +39,7 @@ const ReportButton: FunctionComponent<Props> = ({
       comment.viewerActionPresence.dontAgree);
 
   const signIn = useCallback(() => {
-    void showAuthPopup({ view: "SIGN_IN" });
+    showAuthPopup({ view: "SIGN_IN" });
   }, [showAuthPopup]);
 
   if (isReported) {

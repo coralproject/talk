@@ -4,15 +4,14 @@ import React, { FunctionComponent } from "react";
 import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
+import { ACTIVE_TAB } from "coral-stream/local/types";
 import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
 import styles from "./TabBar.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
-
 export interface Props {
-  activeTab: TabValue;
-  onTabClick: (tab: TabValue) => void;
+  activeTab: ACTIVE_TAB;
+  onTabClick: (tab: ACTIVE_TAB) => void;
   showProfileTab: boolean;
   showDiscussionsTab: boolean;
   showConfigureTab: boolean;

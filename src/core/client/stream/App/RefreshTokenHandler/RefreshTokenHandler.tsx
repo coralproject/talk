@@ -12,13 +12,11 @@ import {
 } from "coral-framework/lib/relay";
 import { SetAccessTokenMutation } from "coral-framework/mutations";
 import { weControlAuth } from "coral-stream/common/authControl";
+import useAuthPopupActions from "coral-stream/common/AuthPopup/useAuthPopupActions";
 
 import { RefreshTokenHandlerAuthControlQuery } from "coral-stream/__generated__/RefreshTokenHandlerAuthControlQuery.graphql";
 
-import {
-  ShowAuthPopupMutation,
-  waitTillAuthPopupIsClosed,
-} from "../../common/AuthPopup";
+import { waitTillAuthPopupIsClosed } from "../../common/AuthPopup";
 
 const authControlQuery = graphql`
   query RefreshTokenHandlerAuthControlQuery {
@@ -38,7 +36,7 @@ const RefreshTokenHandler: FunctionComponent = () => {
     eventEmitter,
     relayEnvironment,
   } = useCoralContext();
-  const showAuthPopup = useMutation(ShowAuthPopupMutation);
+  const [{ show: showAuthPopup }] = useAuthPopupActions();
   const setAccessToken = useMutation(SetAccessTokenMutation);
   useEffect(() => {
     // Prevent garbage collection of auth control data that we use
@@ -69,7 +67,7 @@ const RefreshTokenHandler: FunctionComponent = () => {
 
       if (weControlAuth(data.settings)) {
         // If we control auth, show auth popup to get access token.
-        void showAuthPopup({ view: "SIGN_IN" });
+        showAuthPopup({ view: "SIGN_IN" });
 
         // Wait for auth popup to close.
         await waitTillAuthPopupIsClosed(relayEnvironment);

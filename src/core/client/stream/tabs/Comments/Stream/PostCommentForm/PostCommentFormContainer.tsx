@@ -23,7 +23,7 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
-import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
+import useAuthPopupActions from "coral-stream/common/AuthPopup/useAuthPopupActions";
 import WarningError from "coral-stream/common/WarningError";
 import { COMMENT_SORT, COMMENTS_TAB } from "coral-stream/local/types";
 import { SetCommentIDMutation } from "coral-stream/mutations";
@@ -73,10 +73,11 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   onChangeTab,
   commentsOrderBy,
 }) => {
+  const [{ show: showAuthPopup }] = useAuthPopupActions();
+
   const refreshSettings = useFetch(RefreshSettingsFetch);
   const refreshViewer = useFetch(RefreshViewerFetch);
   const createComment = useMutation(CreateCommentMutation);
-  const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const setCommentID = useMutation(SetCommentIDMutation);
 
   // keepFormWhenClosed controls the display state when the commenting has been
@@ -245,7 +246,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   );
 
   const handleSignIn = () => {
-    void showAuthPopup({ view: "SIGN_IN" });
+    showAuthPopup({ view: "SIGN_IN" });
   };
 
   const onToggle = (t: Toggle) => {

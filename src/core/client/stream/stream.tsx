@@ -24,6 +24,7 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 import AppContainer from "./App";
 import CSSLoadError from "./CSSLoadError";
 import { createInitLocalState } from "./local";
+import createContextBuilder from "./local/StreamLocal";
 import localesData from "./locales";
 import { EmotionShadowRoot } from "./shadow";
 
@@ -109,6 +110,7 @@ export async function attach(options: AttachOptions) {
     eventEmitter: options.eventEmitter,
     refreshAccessTokenPromise,
     staticConfig: options.staticConfig,
+    createLocal: await createContextBuilder(options),
   });
 
   // Amount of initial css files to be loaded.

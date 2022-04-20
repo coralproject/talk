@@ -20,14 +20,14 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
   const {
     authPopup: { open, focus, view },
   } = useStreamLocal();
-  const [showAuthPopup, setAuthPopupState] = useAuthPopupActions();
+  const [{ show: showPopup, setState: setPopupState }] = useAuthPopupActions();
   const { rootURL } = useCoralContext();
   const onResetPassword = useCallback(() => {
-    showAuthPopup({ view: "FORGOT_PASSWORD" });
-  }, [showAuthPopup]);
+    showPopup({ view: "FORGOT_PASSWORD" });
+  }, [showPopup]);
   const onClose = useCallback(() => {
-    setAuthPopupState({ open: false });
-  }, [setAuthPopupState]);
+    setPopupState({ open: false });
+  }, [setPopupState]);
 
   if (
     !settings.auth.integrations.local.enabled ||
