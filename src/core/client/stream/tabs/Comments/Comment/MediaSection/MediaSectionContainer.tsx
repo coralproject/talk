@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   ExternalMedia,
   GiphyMedia,
@@ -13,6 +13,7 @@ import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
 import { MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
 import { MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
+import { MediaSectionContainerLocal } from "coral-stream/__generated__/MediaSectionContainerLocal.graphql";
 
 import styles from "./MediaSectionContainer.css";
 
@@ -27,10 +28,43 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   settings,
   defaultExpanded = false,
 }) => {
-  const [expanded, setExpanded] = useState(defaultExpanded);
+  const [{ expandedMediaSettings }, setLocal] = useLocal<
+    MediaSectionContainerLocal
+  >(graphql`
+    fragment MediaSectionContainerLocal on Local {
+      expandedMediaSettings {
+        commentIDs
+      }
+    }
+  `);
   const onToggleExpand = useCallback(() => {
-    setExpanded((v) => !v);
-  }, []);
+    const initialMediaSettings = expandedMediaSettings
+      ? expandedMediaSettings
+      : { commentIDs: [] };
+    const indexOfComment = initialMediaSettings.commentIDs.indexOf(comment.id);
+    if (indexOfComment === -1) {
+      setLocal({
+        expandedMediaSettings: {
+          commentIDs: initialMediaSettings.commentIDs.concat(comment.id),
+        },
+      });
+    } else {
+      setLocal({
+        expandedMediaSettings: {
+          commentIDs: initialMediaSettings.commentIDs.filter(
+            (c: string) => c !== comment.id
+          ),
+        },
+      });
+    }
+  }, [comment, expandedMediaSettings, setLocal]);
+
+  const expanded = useMemo(() => {
+    const commentInSettings = expandedMediaSettings?.commentIDs.includes(
+      comment.id
+    );
+    return defaultExpanded ? !commentInSettings : commentInSettings;
+  }, [expandedMediaSettings, comment, defaultExpanded]);
 
   const media = comment.revision?.media;
   if (!media) {

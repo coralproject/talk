@@ -56,6 +56,10 @@ type UnseenComment {
   isRoot: Boolean!
 }
 
+type ExpandedMediaSettings {
+  commentIDs: [String!]!
+}
+
 extend type Comment {
   # pending is true during the optimistic response.
   pending: Boolean
@@ -114,6 +118,7 @@ extend type Local {
 
   showLoadAllCommentsButton: Boolean!
   oldestFirstNewCommentsToShow: String
+  expandedMediaSettings: ExpandedMediaSettings
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
