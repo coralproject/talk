@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Basic integration test should render iframe 1`] = `"<iframe src=\\"http://localhost/embed/stream?storyURL=http%3A%2F%2Flocalhost%2F&amp;v=Test&amp;ts=1589310900000&amp;initialWidth=0&amp;childId=basic-integration-test-id&amp;parentTitle=&amp;parentUrl=http%3A%2F%2Flocalhost%2F\\" width=\\"100%\\" scrolling=\\"no\\" marginheight=\\"0\\" frameborder=\\"0\\" title=\\"Coral Embed Stream\\" id=\\"basic-integration-test-id_iframe\\" name=\\"basic-integration-test-id_iframe\\" style=\\"width: 1px; min-width: 100%;\\"></iframe>"`;
-
-exports[`Basic integration test should use canonical link 1`] = `"<iframe src=\\"http://localhost/embed/stream?storyURL=http%3A%2F%2Flocalhost%2Fcanonical&amp;v=Test&amp;ts=1589310900000&amp;initialWidth=0&amp;childId=basic-integration-test-id&amp;parentTitle=&amp;parentUrl=http%3A%2F%2Flocalhost%2F\\" width=\\"100%\\" scrolling=\\"no\\" marginheight=\\"0\\" frameborder=\\"0\\" title=\\"Coral Embed Stream\\" name=\\"basic-integration-test-id_iframe\\" style=\\"width: 1px; min-width: 100%;\\"></iframe>"`;

@@ -11,11 +11,10 @@ import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/
 
 import FeaturedCommentsContainer from "./FeaturedCommentsContainer";
 
-interface Props {
-  preload?: boolean;
-}
-
 export const render = (data: QueryRenderData<QueryTypes>) => {
+  if (!data) {
+    return null;
+  }
   if (data.error) {
     return <QueryError error={data.error} />;
   }
@@ -55,7 +54,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const FeaturedCommentsQuery: FunctionComponent<Props> = (props) => {
+const FeaturedCommentsQuery: FunctionComponent = () => {
   const { storyID, storyURL, commentsOrderBy } = useStreamLocal();
 
   return (
@@ -83,7 +82,7 @@ const FeaturedCommentsQuery: FunctionComponent<Props> = (props) => {
         storyURL,
         commentsOrderBy,
       }}
-      render={(data) => (props.preload ? null : render(data))}
+      render={(data) => render(data)}
     />
   );
 };

@@ -3,8 +3,6 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { polyfillCSSVars } from "coral-framework/helpers";
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
@@ -17,27 +15,20 @@ const loadDiscussionsContainer = () =>
   import("./DiscussionsContainer" /* webpackChunkName: "profile" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadAndPolyfill = once((window: Window) =>
+const preload = once(() =>
   setTimeout(() => {
-    void loadDiscussionsContainer().then((x) => {
-      // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVars(window);
-      return x;
-    });
+    void loadDiscussionsContainer();
   }, 0)
 );
 
 const LazyDiscussionsContainer = React.lazy(loadDiscussionsContainer);
 
-export const render = (
-  { error, props }: QueryRenderData<QueryTypes>,
-  window: Window
-) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  preloadAndPolyfill(window);
+  preload();
 
   if (props) {
     if (!props.viewer) {
@@ -75,7 +66,6 @@ export const render = (
 };
 
 const DiscussionsQuery: FunctionComponent = () => {
-  const { window } = useCoralContext();
   const { storyID, storyURL } = useStreamLocal();
 
   const handleIncompleteAccount = useHandleIncompleteAccount();
@@ -102,7 +92,7 @@ const DiscussionsQuery: FunctionComponent = () => {
         if (handleIncompleteAccount(data)) {
           return null;
         }
-        return render(data, window);
+        return render(data);
       }}
     />
   );

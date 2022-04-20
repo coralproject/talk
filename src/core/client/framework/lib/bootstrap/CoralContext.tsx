@@ -1,7 +1,6 @@
 import { FluentBundle } from "@fluent/bundle/compat";
 import { LocalizationProvider } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
-import { Child as PymChild } from "pym.js";
 import React, { FunctionComponent } from "react";
 import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
@@ -14,7 +13,6 @@ import { RestClient } from "coral-framework/lib/rest";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { TransitionControlData } from "coral-framework/testHelpers";
 import { UIContext } from "coral-ui/components/v2";
-import { ClickFarAwayRegister } from "coral-ui/components/v2/ClickOutside";
 
 import { ManagedSubscriptionClient } from "../network/createManagedSubscriptionClient";
 import { TokenRefreshProvider } from "../network/tokenRefreshProvider";
@@ -73,15 +71,6 @@ export interface CoralContext {
   /** postMessage service */
   postMessage: PostMessageService;
 
-  /**
-   * A way to listen for clicks that are e.g. outside of the
-   * current frame for `ClickOutside`
-   */
-  registerClickFarAway?: ClickFarAwayRegister;
-
-  /** A pym child that interacts with the pym parent. */
-  pym?: PymChild;
-
   /** Browser detection. */
   browserInfo: BrowserInfo;
 
@@ -92,7 +81,7 @@ export interface CoralContext {
   eventEmitter: EventEmitter2;
 
   /** TokenRefreshProvider is used to obtain a new access token after expiry */
-  tokenRefreshProvider?: TokenRefreshProvider;
+  tokenRefreshProvider: TokenRefreshProvider;
 
   /** Clear session data. */
   clearSession: (
@@ -105,6 +94,9 @@ export interface CoralContext {
 
   /** Controls router transitions (for tests) */
   transitionControl?: TransitionControlData;
+
+  /** rootURL to the Coral Server */
+  rootURL: string;
 }
 
 export const CoralReactContext = React.createContext<CoralContext>({} as any);
@@ -116,30 +108,9 @@ export const useCoralContext = () => React.useContext(CoralReactContext);
  */
 export const CoralContextConsumer = CoralReactContext.Consumer;
 
-const parser = new DOMParser();
-
-function fallbackParseMarkup(str: string) {
-  // eslint-disable-next-line no-restricted-globals
-  const doc = document.implementation.createHTMLDocument("");
-  doc.documentElement.innerHTML = str;
-  return doc;
-}
-
-// Use this custom markup parser which works in IE11.
-function parseMarkup(str: string) {
-  const html = `<body>${str}</body>`;
-  let doc = parser.parseFromString(html, "text/html");
-  // occasionally parser.parseFromString will not return document.body synchronously on iOS
-  if (!doc.body) {
-    doc = fallbackParseMarkup(html);
-  }
-  return Array.from(doc.body.childNodes);
-}
-
 export function getUIContextPropsFromCoralContext(ctx: CoralContext) {
   return {
     timeagoFormatter: ctx.timeagoFormatter,
-    registerClickFarAway: ctx.registerClickFarAway,
     mediaQueryValues: ctx.mediaQueryValues,
     locales: ctx.locales,
     renderWindow: ctx.renderWindow,
@@ -154,10 +125,7 @@ export const CoralContextProvider: FunctionComponent<{
   value: CoralContext;
 }> = ({ value, children }) => (
   <CoralReactContext.Provider value={value}>
-    <LocalizationProvider
-      bundles={value.localeBundles}
-      parseMarkup={parseMarkup}
-    >
+    <LocalizationProvider bundles={value.localeBundles}>
       <UIContext.Provider value={getUIContextPropsFromCoralContext(value)}>
         {children}
       </UIContext.Provider>

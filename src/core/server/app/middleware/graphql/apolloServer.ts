@@ -6,6 +6,7 @@ import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { AppOptions } from "coral-server/app";
 import GraphContext, { GraphContextOptions } from "coral-server/graph/context";
 import {
+  CommentSeenServerPlugin,
   ErrorApolloServerPlugin,
   LoggerApolloServerPlugin,
   MetricsApolloServerPlugin,
@@ -73,6 +74,7 @@ export const apolloGraphQLMiddleware = ({
     ErrorApolloServerPlugin,
     LoggerApolloServerPlugin,
     MetricsApolloServerPlugin(metrics),
+    CommentSeenServerPlugin,
   ];
 
   // Optionally cache GraphQL responses in Redis. Will only enable if headers
@@ -138,7 +140,7 @@ export const apolloGraphQLMiddleware = ({
     // instead uses the /api/health endpoint.
     disableHealthCheck: true,
 
-    // Disable CORS, Coral does not allow cross origin requests.
+    // CORS is not enabled here, but in a different middleware that comes before this.
     cors: false,
 
     // Disable the body parser, we will add our own.

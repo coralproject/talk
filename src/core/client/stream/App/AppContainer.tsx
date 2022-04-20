@@ -2,24 +2,23 @@ import React, { FunctionComponent } from "react";
 
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
-import { RenderTargetContextProvider } from "../renderTarget";
 import App from "./App";
 import {
-  OnEvents,
+  OnEmbedLogin,
+  OnEmbedLogout,
+  OnEmbedSetCommentID,
+  OnEventsForRudderStack,
   OnPostMessageSetAccessToken,
-  OnPymLogin,
-  OnPymLogout,
-  OnPymSetCommentID,
 } from "./listeners";
 import RefreshTokenHandler from "./RefreshTokenHandler";
 
 const listeners = (
   <>
-    <OnPymLogin />
-    <OnPymLogout />
-    <OnPymSetCommentID />
+    <OnEmbedLogin />
+    <OnEmbedLogout />
+    <OnEmbedSetCommentID />
     <OnPostMessageSetAccessToken />
-    <OnEvents />
+    <OnEventsForRudderStack />
   </>
 );
 
@@ -31,11 +30,11 @@ const AppContainer: FunctionComponent<Props> = ({ disableListeners }) => {
   const { activeTab } = useStreamLocal();
 
   return (
-    <RenderTargetContextProvider>
+    <>
       {disableListeners ? null : listeners}
       <RefreshTokenHandler />
       <App activeTab={activeTab} />
-    </RenderTargetContextProvider>
+    </>
   );
 };
 

@@ -55,7 +55,6 @@ import { createRouter } from "./router";
 export interface AppOptions {
   broker: CoralEventListenerBroker;
   config: Config;
-  disableClientRoutes: boolean;
   i18n: I18n;
   mailerQueue: MailerQueue;
   metrics: Metrics;
@@ -124,13 +123,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   const passport = createPassport(options);
 
   // Mount the router.
-  parent.use(
-    "/",
-    createRouter(options, {
-      passport,
-      disableClientRoutes: options.disableClientRoutes,
-    })
-  );
+  parent.use("/", await createRouter(options, { passport }));
 
   // Enable CORS headers for media assets, font's require them.
   parent.use("/assets/media", cors());

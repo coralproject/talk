@@ -11,11 +11,10 @@ import { AnsweredCommentsQuery as QueryTypes } from "coral-stream/__generated__/
 
 import AnsweredCommentsContainer from "./AnsweredCommentsContainer";
 
-interface Props {
-  preload?: boolean;
-}
-
 export const render = (data: QueryRenderData<QueryTypes>) => {
+  if (!data) {
+    return;
+  }
   if (data.error) {
     return <QueryError error={data.error} />;
   }
@@ -55,7 +54,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
+const AnsweredCommentsQuery: FunctionComponent = () => {
   const { storyID, storyURL, commentsOrderBy } = useStreamLocal();
 
   return (
@@ -83,7 +82,7 @@ const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
         storyURL,
         commentsOrderBy,
       }}
-      render={(data) => (props.preload ? null : render(data))}
+      render={(data) => render(data)}
     />
   );
 };

@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-framework/helpers";
+import { useModerationLink } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
@@ -25,6 +25,7 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
 }) => {
   const { accessToken } = useStreamLocal();
 
+  const link = useModerationLink({ commentID: comment.id });
   const moderationLinkSuffix =
     !!accessToken &&
     settings.auth.integrations.sso.enabled &&
@@ -32,13 +33,13 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
     `#accessToken=${accessToken}`;
 
   const gotoModerateCommentHref = useMemo(() => {
-    let link = getModerationLink({ commentID: comment.id });
+    let ret = link;
     if (moderationLinkSuffix) {
-      link += moderationLinkSuffix;
+      ret += moderationLinkSuffix;
     }
 
-    return link;
-  }, [comment.id, moderationLinkSuffix]);
+    return ret;
+  }, [link, moderationLinkSuffix]);
   return (
     <Tombstone className={CLASSES.moderationRejectedTombstone.$root} fullWidth>
       <Localized id="comments-moderationRejectedTombstone-title">

@@ -14,8 +14,6 @@ Add the `count.js` script to your `html` tree. On a page that includes the _Stre
 
 > **NOTE:** Replace the value of `{{ CORAL_DOMAIN_NAME }}` with the location of your running instance of Coral.
 
-> **NOTE:** `class="coral-script"` is needed to support IE11.
-
 Insert an html element with the class `coral-count` and configure it using `data-coral-*` attributes.
 
 ```html

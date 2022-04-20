@@ -148,6 +148,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       void markCommentsAsSeen({
         commentIDs: [comment.id],
         storyID: story.id,
+        updateSeen: true,
       });
     }
 

@@ -2,16 +2,16 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-framework/helpers";
+import { useModerationLink } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Button } from "coral-ui/components/v3";
 
 import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
 import { ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
 import { ModerateStreamContainer_viewer } from "coral-stream/__generated__/ModerateStreamContainer_viewer.graphql";
-import { useStreamLocal } from "coral-stream/local/StreamLocal";
 
 interface Props {
   settings: ModerateStreamContainer_settings;
@@ -24,20 +24,25 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   story: { id, canModerate, isArchived, isArchiving },
   viewer,
 }) => {
+  const link = useModerationLink({ storyID: id });
   const { accessToken } = useStreamLocal();
-
   const href = useMemo(() => {
-    let link = getModerationLink({ storyID: id });
+    let ret = link;
     if (
       accessToken &&
       settings.auth.integrations.sso.enabled &&
       settings.auth.integrations.sso.targetFilter.admin
     ) {
-      link += `#accessToken=${accessToken}`;
+      ret += `#accessToken=${accessToken}`;
     }
 
-    return link;
-  }, [accessToken, settings, id]);
+    return ret;
+  }, [
+    link,
+    accessToken,
+    settings.auth.integrations.sso.enabled,
+    settings.auth.integrations.sso.targetFilter.admin,
+  ]);
 
   if (!canModerate || !viewer || !can(viewer, Ability.MODERATE)) {
     return null;

@@ -3,8 +3,6 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { polyfillCSSVars } from "coral-framework/helpers";
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Delay, Spinner } from "coral-ui/components/v2";
@@ -16,27 +14,20 @@ const loadConfigureContainer = () =>
   import("./ConfigureContainer" /* webpackChunkName: "configure" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadAndPolyfill = once((window: Window) =>
+const preload = once(() =>
   setTimeout(() => {
-    void loadConfigureContainer().then((x) => {
-      // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVars(window);
-      return x;
-    });
+    void loadConfigureContainer();
   }, 0)
 );
 
 const LazyConfigureContainer = React.lazy(loadConfigureContainer);
 
-export const render = (
-  { error, props }: QueryRenderData<QueryTypes>,
-  window: Window
-) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  preloadAndPolyfill(window);
+  preload();
 
   if (props) {
     if (!props.viewer) {
@@ -72,7 +63,6 @@ export const render = (
 };
 
 const ConfigureQuery: FunctionComponent = () => {
-  const { window } = useCoralContext();
   const { storyID, storyURL } = useStreamLocal();
 
   return (
@@ -95,7 +85,7 @@ const ConfigureQuery: FunctionComponent = () => {
         storyURL,
       }}
       render={(data) => {
-        return render(data, window);
+        return render(data);
       }}
     />
   );

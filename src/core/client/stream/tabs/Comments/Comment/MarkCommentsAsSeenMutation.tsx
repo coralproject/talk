@@ -26,7 +26,9 @@ const mutation = graphql`
   }
 `;
 
-type Input = Omit<MarkCommentsAsSeenInput, "clientMutationId">;
+type Input = Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
+  updateSeen: boolean;
+};
 
 const enhanced = createMutation(
   "markCommentsAsSeen",
@@ -50,10 +52,26 @@ const enhanced = createMutation(
       optimisticResponse: {
         markCommentsAsSeen: {
           comments: input.commentIDs.map((id) => {
-            return { id, seen: true };
+            return { id, seen: input.updateSeen ? true : false };
           }),
           clientMutationId: (clientMutationId++).toString(),
         },
+      },
+      updater: (store, data) => {
+        if (
+          !data.markCommentsAsSeen ||
+          !data.markCommentsAsSeen.comments ||
+          data.markCommentsAsSeen.comments.length === 0
+        ) {
+          return;
+        }
+
+        for (const comment of data.markCommentsAsSeen.comments) {
+          const proxy = store.get(comment.id);
+          if (proxy) {
+            proxy.setValue(!!input.updateSeen, "seen");
+          }
+        }
       },
     });
 

@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useCallback } from "react";
 
 import { urls } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import Popup from "coral-ui/components/v2/Popup";
 
-import { useStreamLocal } from "coral-stream/local/StreamLocal";
-
 const AuthPopup: FunctionComponent = () => {
+  const { rootURL } = useCoralContext();
   const { authPopup } = useStreamLocal();
   const { view, open, setOpen, focus, setFocus } = authPopup;
 
@@ -21,13 +22,13 @@ const AuthPopup: FunctionComponent = () => {
 
   return (
     <Popup
-      href={`${urls.embed.auth}?view=${view}`}
+      href={`${rootURL}${urls.embed.auth}?view=${view}`}
       title="Coral Auth"
       open={open}
       focus={focus}
+      onClose={handleClose}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      onClose={handleClose}
       features={{ width: 350, innerWidth: 350 }}
     />
   );

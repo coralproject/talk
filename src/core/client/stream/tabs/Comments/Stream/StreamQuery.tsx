@@ -6,19 +6,14 @@ import { coerceStoryMode } from "coral-framework/helpers";
 import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
-import { COMMENTS_TAB } from "coral-stream/local/types";
 import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";
 
-import { AllCommentsTabQuery } from "./AllCommentsTab";
 import StreamContainer from "./StreamContainer";
 
-export const render = (
-  data: QueryRenderData<QueryTypes>,
-  commentsTab: COMMENTS_TAB
-) => {
+export const render = (data: QueryRenderData<QueryTypes>) => {
   if (data.error) {
     return <QueryError error={data.error} />;
   }
@@ -42,12 +37,6 @@ export const render = (
 
   return (
     <>
-      {// TODO: (cvle) For some reason this way of preloading
-      // causes weird errors in the
-      // tests. Needs further investigation.
-      process.env.NODE_ENV !== "test" && commentsTab === "ALL_COMMENTS" && (
-        <AllCommentsTabQuery preload />
-      )}
       <Delay>
         <Flex justifyContent="center">
           <Spinner />
@@ -58,7 +47,7 @@ export const render = (
 };
 
 const StreamQuery: FunctionComponent = () => {
-  const { storyID, storyURL, storyMode, commentsTab } = useStreamLocal();
+  const { storyID, storyURL, storyMode } = useStreamLocal();
 
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
@@ -90,7 +79,7 @@ const StreamQuery: FunctionComponent = () => {
           if (handleIncompleteAccount(data)) {
             return null;
           }
-          return render(data, commentsTab);
+          return render(data);
         }}
       />
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import bunyan from "bunyan";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
@@ -48,6 +49,15 @@ const reactProfilerAlias = {
   "scheduler/tracing": "scheduler/tracing-profiling",
 };
 
+function insertLinkTag(linkTag: HTMLLinkElement) {
+  const coralStream = (window as any).CoralStream;
+  if (coralStream && coralStream.insertLinkTag) {
+    coralStream.insertLinkTag(linkTag);
+  } else {
+    document.head.appendChild(linkTag);
+  }
+}
+
 export default function createWebpackConfig(
   config: Config,
   { appendPlugins = [], watch = false }: CreateWebpackOptions = {}
@@ -88,10 +98,6 @@ export default function createWebpackConfig(
    */
   const ifBuild = !watch ? (...nodes: any[]) => nodes : () => [];
 
-  const styleLoader = {
-    loader: require.resolve("style-loader"),
-  };
-
   const localesOptions = {
     pathToLocales: paths.appLocales,
 
@@ -115,15 +121,16 @@ export default function createWebpackConfig(
   };
 
   const additionalPlugins = [
+    new MiniCssExtractPlugin({
+      filename: isProduction
+        ? "assets/css/[name].[contenthash].css"
+        : "assets/css/[name].[hash].css",
+      chunkFilename: isProduction
+        ? "assets/css/[id].[contenthash].css"
+        : "assets/css/[id].[hash].css",
+      insert: insertLinkTag,
+    }),
     ...ifBuild(
-      new MiniCssExtractPlugin({
-        filename: isProduction
-          ? "assets/css/[name].[contenthash].css"
-          : "assets/css/[name].css",
-        chunkFilename: isProduction
-          ? "assets/css/[id].[contenthash].css"
-          : "assets/css/[id].css",
-      }),
       isProduction &&
         new OptimizeCssnanoPlugin({
           sourceMap: !disableSourcemaps,
@@ -233,10 +240,10 @@ export default function createWebpackConfig(
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
         ? "assets/js/[name].[contenthash].js"
-        : "assets/js/[name].js",
+        : "assets/js/[name].[hash].js",
       chunkFilename: isProduction
         ? "assets/js/[name].[contenthash].chunk.js"
-        : "assets/js/[name].chunk.js",
+        : "assets/js/[name].[hash].chunk.js",
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -266,8 +273,6 @@ export default function createWebpackConfig(
       // thus we can't turn on `strictExportPresence` which would turn warnings into errors.
       strictExportPresence: false,
       rules: [
-        // Disable require.ensure as it's not a standard language feature.
-        { parser: { requireEnsure: false } },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -374,7 +379,7 @@ export default function createWebpackConfig(
             {
               test: /\.css\.ts$/,
               use: [
-                !watch ? MiniCssExtractPlugin.loader : styleLoader,
+                MiniCssExtractPlugin.loader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
@@ -461,7 +466,7 @@ export default function createWebpackConfig(
             {
               test: /\.js$/,
               include: /node_modules\//,
-              exclude: /node_modules\/(@babel|babel|core-js|regenerator-runtime)/,
+              exclude: /node_modules\/(@babel|babel|core-js|webpack\/|regenerator-runtime)/,
               use: [
                 {
                   loader: require.resolve("babel-loader"),
@@ -471,15 +476,49 @@ export default function createWebpackConfig(
                 },
               ],
             },
+            // typography.css must be included in the light dom whereas the other css
+            // could be in the shadow dom. That's why we are treating it here separately.
+            {
+              test: /\/typography\.css$/,
+              use: [
+                {
+                  loader: "file-loader",
+                  options: {
+                    name: "assets/css/[name].[hash].css",
+                  },
+                },
+                {
+                  loader: "extract-loader",
+                },
+                {
+                  loader: require.resolve("css-loader"),
+                  options: {
+                    modules: {
+                      localIdentName: "[name]-[local]-[contenthash]",
+                    },
+                    importLoaders: 1,
+                    sourceMap: !disableSourcemaps,
+                  },
+                },
+                {
+                  loader: require.resolve("postcss-loader"),
+                  options: {
+                    config: {
+                      path: paths.appPostCssConfig,
+                    },
+                    sourceMap: !disableSourcemaps,
+                  },
+                },
+              ],
+            },
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // When building we use a plugin to extract that CSS to a file, and
-            // in watch mode "style" loader enables hot editing of CSS.
+            // We use a plugin to extract that CSS to a file.
             {
               test: /\.css$/,
+              exclude: /\/typography\.css$/,
               use: [
-                !watch ? MiniCssExtractPlugin.loader : styleLoader,
+                MiniCssExtractPlugin.loader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
@@ -597,42 +636,20 @@ export default function createWebpackConfig(
     {
       ...baseConfig,
       entry: {
-        stream: [
-          // We ship polyfills by default
-          paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
-          ...devServerEntries,
-          paths.appStreamIndex,
-        ],
+        stream: [...devServerEntries, paths.appStreamIndex],
         auth: [
-          // We ship polyfills by default
-          paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
-        install: [
-          // We ship polyfills by default
-          paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
-          ...devServerEntries,
-          paths.appInstallIndex,
-        ],
-        account: [
-          // We ship polyfills by default
-          paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
-          ...devServerEntries,
-          paths.appAccountIndex,
-        ],
-        admin: [
-          // We ship polyfills by default
-          paths.appPolyfill,
-          ...ifBuild(paths.appPublicPath),
-          ...devServerEntries,
-          paths.appAdminIndex,
-        ],
+        install: [...devServerEntries, paths.appInstallIndex],
+        account: [...devServerEntries, paths.appAccountIndex],
+        admin: [...devServerEntries, paths.appAdminIndex],
+      },
+      output: {
+        ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralWebpackJsonp",
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
@@ -640,50 +657,13 @@ export default function createWebpackConfig(
           // This is necessary to emit hot updates
           new webpack.HotModuleReplacementPlugin({
             multiStep: true,
-          }),
-          // Generates an `stream.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "stream.html",
-            template: paths.appStreamHTML,
-            chunks: ["stream"],
-            inject: "body",
-          }),
-          // Generates an `auth.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "auth.html",
-            template: paths.appAuthHTML,
-            chunks: ["auth"],
-            inject: "body",
-          }),
-          // Generates an `install.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "install.html",
-            template: paths.appInstallHTML,
-            chunks: ["install"],
-            inject: "body",
-          }),
-          // Generates an `account.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "account.html",
-            template: paths.appAccountHTML,
-            chunks: ["account"],
-            inject: "body",
-          }),
-          // Generates an `admin.html` file with the <script> injected.
-          new HtmlWebpackPlugin({
-            filename: "admin.html",
-            template: paths.appAdminHTML,
-            chunks: ["admin"],
-            inject: "body",
           })
         ),
-        ...ifBuild(
-          new WebpackAssetsManifest({
-            output: "asset-manifest.json",
-            entrypoints: true,
-            integrity: true,
-          })
-        ),
+        new WebpackAssetsManifest({
+          output: "asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
       ]),
     },
     /* Webpack config for our embed */
@@ -691,7 +671,7 @@ export default function createWebpackConfig(
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
-        // Ensure that we never split the embed into chunks.
+        // Ensure that we never split the main library into chunks.
         splitChunks: {
           chunks: "async",
         },
@@ -699,9 +679,11 @@ export default function createWebpackConfig(
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: true,
       },
-      entry: [paths.appEmbedPolyfill, paths.appEmbedIndex],
+      entry: [paths.appEmbedIndex],
       output: {
         ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralEmbedWebpackJsonp",
         library: "Coral",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
@@ -737,13 +719,11 @@ export default function createWebpackConfig(
             inject: false,
           })
         ),
-        ...ifBuild(
-          new WebpackAssetsManifest({
-            output: "embed-asset-manifest.json",
-            entrypoints: true,
-            integrity: true,
-          })
-        ),
+        new WebpackAssetsManifest({
+          output: "embed-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
       ]),
     },
     /* Webpack config for count */
@@ -751,7 +731,7 @@ export default function createWebpackConfig(
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
-        // Ensure that we never split the count into chunks.
+        // Ensure that we never split the main library into chunks.
         splitChunks: {
           chunks: "async",
         },
@@ -762,6 +742,8 @@ export default function createWebpackConfig(
       entry: [paths.appCountIndex],
       output: {
         ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralCountWebpackJsonp",
         // don't hash the count, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
         filename: "assets/js/count.js",
@@ -776,13 +758,41 @@ export default function createWebpackConfig(
             inject: "body",
           })
         ),
-        ...ifBuild(
-          new WebpackAssetsManifest({
-            output: "count-asset-manifest.json",
-            entrypoints: true,
-            integrity: true,
-          })
-        ),
+        new WebpackAssetsManifest({
+          output: "count-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
+      ]),
+    },
+    /* Webpack config for frame bundle */
+    {
+      ...baseConfig,
+      optimization: {
+        ...baseConfig.optimization,
+        // Ensure that we never split the main library into chunks.
+        splitChunks: {
+          chunks: "async",
+        },
+        // We can turn on sideEffects here as we don't use
+        // css here and don't run into: https://github.com/webpack/webpack/issues/7094
+        sideEffects: true,
+      },
+      output: {
+        ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralFrameWebpackJsonp",
+      },
+      entry: {
+        frame: [paths.appFrameIndex],
+      },
+      plugins: filterPlugins([
+        ...baseConfig.plugins!,
+        new WebpackAssetsManifest({
+          output: "frame-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
       ]),
     },
   ];

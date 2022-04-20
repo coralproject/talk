@@ -2,9 +2,9 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
-import SetAuthPopupStateMutation from "coral-stream/common/AuthPopup/SetAuthPopupStateMutation";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import useAuthPopupActions from "coral-stream/common/AuthPopup/useAuthPopupActions";
 import { useStreamLocal } from "coral-stream/local/StreamLocal";
 import { Popup } from "coral-ui/components/v2";
 
@@ -20,19 +20,13 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
   const {
     authPopup: { open, focus, view },
   } = useStreamLocal();
-  const setAuthPopupState = useMutation(SetAuthPopupStateMutation);
-  const showAuthPopup = useMutation(ShowAuthPopupMutation);
+  const [showAuthPopup, setAuthPopupState] = useAuthPopupActions();
+  const { rootURL } = useCoralContext();
   const onResetPassword = useCallback(() => {
-    void showAuthPopup({ view: "FORGOT_PASSWORD" });
+    showAuthPopup({ view: "FORGOT_PASSWORD" });
   }, [showAuthPopup]);
-  const onFocus = useCallback(() => {
-    void setAuthPopupState({ focus: true });
-  }, [setAuthPopupState]);
-  const onBlur = useCallback(() => {
-    void setAuthPopupState({ focus: true });
-  }, [setAuthPopupState]);
   const onClose = useCallback(() => {
-    void setAuthPopupState({ open: false });
+    setAuthPopupState({ open: false });
   }, [setAuthPopupState]);
 
   if (
@@ -45,12 +39,10 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
   return (
     <>
       <Popup
-        href={`${urls.embed.auth}?view=${view}`}
+        href={`${rootURL}${urls.embed.auth}?view=${view}`}
         title="Coral Auth"
         open={open}
         focus={focus}
-        onFocus={onFocus}
-        onBlur={onBlur}
         onClose={onClose}
       />
       <ChangePassword onResetPassword={onResetPassword} />
