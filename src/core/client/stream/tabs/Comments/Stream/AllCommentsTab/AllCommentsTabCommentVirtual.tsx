@@ -447,7 +447,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{
           enter: (velocity) => {
-            const shouldEnter = Math.abs(velocity) >= 800;
+            const shouldEnter = Math.abs(velocity) >= 1200;
             return shouldEnter;
           },
           exit: (velocity) => {
