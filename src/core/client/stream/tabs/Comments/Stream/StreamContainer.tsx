@@ -1,6 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -200,6 +205,8 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     // If we aren't warned.
     !warned;
 
+  const currentScrollRef = useRef<null | HTMLElement>(null);
+
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
 
@@ -266,7 +273,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         {isRatingsAndReviews && <StoryRatingContainer story={props.story} />}
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
-            <AddACommentButton isQA={isQA} />
+            <AddACommentButton
+              isQA={isQA}
+              currentScrollRef={currentScrollRef}
+            />
           ) : (
             <>
               <IntersectionProvider>
@@ -542,7 +552,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="ALL_COMMENTS"
               >
-                <AllCommentsTab />
+                <AllCommentsTab currentScrollRef={currentScrollRef} />
               </TabPane>
             )}
             {isRatingsAndReviews && (
@@ -550,7 +560,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="REVIEWS"
               >
-                <AllCommentsTab tag={GQLTAG.REVIEW} />
+                <AllCommentsTab
+                  tag={GQLTAG.REVIEW}
+                  currentScrollRef={currentScrollRef}
+                />
               </TabPane>
             )}
             {isRatingsAndReviews && (
@@ -558,7 +571,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="QUESTIONS"
               >
-                <AllCommentsTab tag={GQLTAG.QUESTION} />
+                <AllCommentsTab
+                  tag={GQLTAG.QUESTION}
+                  currentScrollRef={currentScrollRef}
+                />
               </TabPane>
             )}
           </TabContent>

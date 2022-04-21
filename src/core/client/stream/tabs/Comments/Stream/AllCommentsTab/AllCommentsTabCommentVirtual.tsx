@@ -72,6 +72,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       }
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
+      totalCommentsLength
     }
   `);
   const [
@@ -139,6 +140,10 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     alternateOldestViewEnabled,
     loadAllButtonHasBeenClicked,
   ]);
+
+  useEffect(() => {
+    setLocal({ totalCommentsLength });
+  }, [totalCommentsLength, setLocal]);
 
   useEffect(() => {
     // on rerender, clear the newly added comments to show if it's
@@ -393,7 +398,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: 600 }}
-        increaseViewportBy={1500}
+        increaseViewportBy={{ top: 2000, bottom: 2000 }}
         totalCount={
           displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length
         }

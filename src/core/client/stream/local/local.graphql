@@ -118,6 +118,7 @@ extend type Local {
 
   showLoadAllCommentsButton: Boolean!
   oldestFirstNewCommentsToShow: String
+  totalCommentsLength: Int
   expandedMediaSettings: ExpandedMediaSettings
 
   archivingEnabled: Boolean!

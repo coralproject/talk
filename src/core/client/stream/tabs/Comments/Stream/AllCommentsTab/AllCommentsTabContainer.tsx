@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -63,6 +62,7 @@ interface Props {
   viewer: AllCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
   flattenReplies: boolean;
+  currentScrollRef: any;
   tag?: GQLTAG;
 }
 
@@ -72,6 +72,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   viewer,
   relay,
   tag,
+  currentScrollRef,
 }) => {
   const [
     { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
@@ -92,8 +93,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
-
-  const currentScrollRef = useRef<null | HTMLElement>(null);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
@@ -340,7 +339,7 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Props,
+  Omit<Props, "currentScrollRef">,
   AllCommentsTabContainerPaginationQueryVariables,
   FragmentVariables
 >(
