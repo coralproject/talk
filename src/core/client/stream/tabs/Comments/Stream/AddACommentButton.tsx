@@ -32,6 +32,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
     `
   );
   const root = useShadowRootOrDocument();
+
   const onClick = useCallback(() => {
     if (!renderWindow) {
       return;
@@ -39,16 +40,23 @@ const AddACommentButton: FunctionComponent<Props> = ({
     const postCommentForm = root.getElementById(POST_COMMENT_FORM_ID);
     if (postCommentForm) {
       setLocal({ showLoadAllCommentsButton: true });
-      // Scroll to last comment, which is right above the Add a comment box
-      if (currentScrollRef.current && totalCommentsLength) {
-        currentScrollRef.current.scrollIntoView({
-          align: "center",
-          index:
-            totalCommentsLength < NUM_INITIAL_COMMENTS
-              ? totalCommentsLength
-              : NUM_INITIAL_COMMENTS,
-          behavior: "auto",
-        });
+      if (totalCommentsLength) {
+        const indexToScroll =
+          totalCommentsLength < NUM_INITIAL_COMMENTS
+            ? totalCommentsLength - 1
+            : NUM_INITIAL_COMMENTS - 1;
+        // Scroll to last comment, which is right above the Add a comment box
+        if (currentScrollRef.current) {
+          currentScrollRef.current.scrollIntoView({
+            align: "center",
+            index: indexToScroll,
+            behavior: "auto",
+            done: () => {
+              // allow time for any media to load in then scroll into view
+              setTimeout(() => postCommentForm.scrollIntoView(), 2000);
+            },
+          });
+        }
       }
     }
   }, [renderWindow, root, setLocal, currentScrollRef, totalCommentsLength]);
