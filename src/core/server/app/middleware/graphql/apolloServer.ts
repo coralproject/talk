@@ -140,7 +140,7 @@ export const apolloGraphQLMiddleware = ({
     // instead uses the /api/health endpoint.
     disableHealthCheck: true,
 
-    // Disable CORS, Coral does not allow cross origin requests.
+    // CORS is not enabled here, but in a different middleware that comes before this.
     cors: false,
 
     // Disable the body parser, we will add our own.

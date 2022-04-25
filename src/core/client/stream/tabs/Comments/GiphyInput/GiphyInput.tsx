@@ -14,7 +14,7 @@ import React, {
   useState,
 } from "react";
 import useDebounce from "react-use/lib/useDebounce";
-import useResizeObserver from "use-resize-observer/polyfilled";
+import useResizeObserver from "use-resize-observer";
 
 import {
   Button,

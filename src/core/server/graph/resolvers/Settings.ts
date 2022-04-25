@@ -38,6 +38,8 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
   flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),
   forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
+  disableDefaultFonts: ({ disableDefaultFonts }) =>
+    Boolean(disableDefaultFonts),
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
   badges: ({ badges, staff }, args, ctx) => {

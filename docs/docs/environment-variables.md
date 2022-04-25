@@ -181,11 +181,6 @@ started in development mode (where `NODE_ENV=development`).
 
 The port where the Webpack Development server is running on. (Default `8080`)
 
-### `DISABLE_CLIENT_ROUTES`
-
-Disables mounting of client routes for developing with Webpack Dev Server.
-(Default `false`)
-
 ### `DISABLE_RATE_LIMITERS`
 
 Used to disable the rate limiters used in Coral. (Default `false`)

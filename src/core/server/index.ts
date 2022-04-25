@@ -350,14 +350,9 @@ class Server {
     // Ensure we have an app to bind to.
     parent = parent ? parent : this.parentApp;
 
-    // Disables the client routes to serve bundles etc. Useful for developing with
-    // Webpack Dev Server.
-    const disableClientRoutes = this.config.get("disable_client_routes");
-
     const options: AppOptions = {
       broker: this.broker,
       config: this.config,
-      disableClientRoutes,
       i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
       metrics: createMetrics(),

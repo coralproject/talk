@@ -1,6 +1,7 @@
 import { AppOptions } from "coral-server/app";
 import Joi from "joi";
 
+import { createManifestLoader } from "coral-server/app/helpers/manifestLoader";
 import { validate } from "coral-server/app/request/body";
 import { NotFoundError, ValidationError } from "coral-server/errors";
 import { supportsMediaType } from "coral-server/models/tenant";
@@ -23,14 +24,27 @@ interface OEmbedQuery {
   maxWidth?: number;
 }
 
-type Options = Pick<AppOptions, "i18n">;
+type Options = Pick<AppOptions, "i18n" | "config">;
 
 export const oembedHandler = ({
   i18n,
+  config,
 }: Options): RequestHandler<TenantCoralRequest> => {
+  const manifestLoader = createManifestLoader(
+    config,
+    "frame-asset-manifest.json"
+  );
+  const entrypointLoader = manifestLoader.createEntrypointLoader("frame");
+
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;
+
+    const entrypoint = await entrypointLoader();
+    if (!entrypoint) {
+      next(new Error("Entrypoint not available"));
+      return;
+    }
 
     try {
       const { type, url, maxWidth }: OEmbedQuery = validate(
@@ -45,7 +59,7 @@ export const oembedHandler = ({
           "This media is not supported.",
           "common-embedTypeNotSupported"
         );
-        res.status(400).render("oembed", { message });
+        res.status(400).render("oembed", { message, entrypoint });
         return;
       }
 
@@ -81,7 +95,7 @@ export const oembedHandler = ({
           );
         }
 
-        return res.status(status).render("oembed", { message });
+        return res.status(status).render("oembed", { message, entrypoint });
       }
 
       // Pull out some params from the response.
@@ -95,7 +109,7 @@ export const oembedHandler = ({
       }
 
       // Send back the template!
-      return res.render("oembed", { html, ratio });
+      return res.render("oembed", { html, ratio, entrypoint });
     } catch (err) {
       next(err);
     }
