@@ -395,10 +395,10 @@ configure-general-guidelines-explanation =
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 #### Bio
-configure-general-memberBio-title = Member bios
+configure-general-memberBio-title = Commenter bios
 configure-general-memberBio-explanation =
-  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as member bios can be reported.
-configure-general-memberBio-label = Allow member bios
+  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as commenter bios can be reported.
+configure-general-memberBio-label = Allow commenter bios
 
 #### Locale
 configure-general-locale-language = Language
@@ -732,6 +732,16 @@ configure-moderation-recentCommentHistory-triggerRejectionRate-description =
   over the timeframe above, as a percentage. It does not include
   comments pending for toxicity, spam or pre-moderation.
 
+#### External links for moderators
+configure-moderation-externalLinks-title = External links for moderators
+configure-moderation-externalLinks-profile-explanation = When a URL format is included
+  below, external profile links are added to the user drawer inside the moderation
+  interface. You can use the format $USER_NAME to insert the username or $USER_ID
+  to insert the user’s unique ID number.
+configure-moderation-externalLinks-profile-label = External profile URL pattern
+configure-moderation-externalLinks-profile-input =
+  .placeholder = https://example.com/users/$USER_NAME
+
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
@@ -862,6 +872,11 @@ configure-wordList-suspect-wordListDetailInstructions =
 configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-override =
   URL of a CSS stylesheet that will override default Embed Stream styles.
+configure-advanced-customCSS-stylesheetURL = Custom CSS Stylesheet URL
+configure-advanced-customCSS-fontsStylesheetURL = Custom CSS Stylesheet URL for Font Faces
+configure-advanced-customCSS-containsFontFace =
+  URL to a custom CSS stylesheet that contains all @font-face
+  definitions needed by above stylesheet.
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
@@ -977,6 +992,7 @@ moderate-flagDetails-latestReports = Latest reports
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
 
 moderate-flagDetails-toxicityScore = Toxicity Score
@@ -1075,6 +1091,9 @@ moderate-user-drawer-created-at =
   .title = Account creation date
 moderate-user-drawer-member-id =
   .title = Member ID
+moderate-user-drawer-external-profile-URL =
+  .title = External profile URL
+moderate-user-drawer-external-profile-URL-link = External profile URL
 moderate-user-drawer-tab-all-comments = All Comments
 moderate-user-drawer-tab-rejected-comments = Rejected
 moderate-user-drawer-tab-account-history = Account History
@@ -1246,10 +1265,10 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Change role
 
-community-assignMySitesToModerator = Assign my sites to moderator
-community-removeMySitesFromModerator = Remove my sites from moderator
-community-assignMySitesToMember = Assign my sites to member
-community-removeMySitesFromMember = Remove my sites from member
+community-assignMySitesToModerator = Assign moderator to my sites
+community-removeMySitesFromModerator = Remove moderator from my sites
+community-assignMySitesToMember = Assign member to my sites
+community-removeMySitesFromMember = Remove member from my sites
 community-stillHaveSiteModeratorPrivileges = They will still have Site Moderator privileges for:
 community-stillHaveMemberPrivileges = They will still have Member privileges for:
 community-userNoLongerPermitted = User will no longer be permitted to make moderation decisions or assign suspensions on:

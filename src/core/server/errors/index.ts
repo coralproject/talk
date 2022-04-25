@@ -435,11 +435,16 @@ export class TokenNotFoundError extends CoralError {
 }
 
 export class TokenInvalidError extends CoralError {
-  constructor(token: string, reason: string, cause?: Error) {
+  constructor(
+    token: string,
+    reason: string,
+    validationErrors?: string,
+    cause?: Error
+  ) {
     super({
       code: ERROR_CODES.TOKEN_INVALID,
       cause,
-      context: { pvt: { token, reason } },
+      context: { pvt: { token, reason, validationErrors } },
       status: 401,
     });
   }
@@ -753,6 +758,14 @@ export class UserSiteBanned extends CoralError {
     super({
       code: ERROR_CODES.USER_SITE_BANNED,
       context: { pvt: { siteID, userID }, pub: { siteName } },
+    });
+  }
+}
+
+export class ModeratorCannotBeBannedOnSiteError extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.MODERATOR_CANNOT_BE_BANNED_ON_SITE,
     });
   }
 }

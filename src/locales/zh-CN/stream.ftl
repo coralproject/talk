@@ -95,7 +95,7 @@ comments-postCommentForm-submit = 递交
 comments-replyList-showAll = 显示所有
 comments-replyList-showMoreReplies = 显示更多回复
 
-comments-postCommentForm-gifSearch = 搜索一个动图
+comments-postComment-gifSearch = 搜索一个动图
 comments-postComment-gifSearch-search =
   .aria-label = 搜索
 comments-postComment-gifSearch-loading = 载入中……

@@ -3,6 +3,7 @@ import {
   CommentNotFoundError,
   CommentRevisionNotFoundError,
 } from "coral-server/errors";
+import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
   createCommentModerationAction,
   CreateCommentModerationActionInput,
@@ -14,15 +15,27 @@ import {
   updateCommentStatus,
 } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
+import { AugmentedRedis } from "coral-server/services/redis";
+import { updateAllCommentCounts } from "coral-server/stacks/helpers";
 
 export type Moderate = Omit<CreateCommentModerationActionInput, "storyID">;
 
 export default async function moderate(
   mongo: MongoContext,
+  redis: AugmentedRedis,
   tenant: Tenant,
   input: Moderate,
   now: Date,
-  isArchived = false
+  isArchived = false,
+  updateAllCommentCountsArgs: {
+    actionCounts: Readonly<EncodedCommentActionCounts>;
+    options?: {
+      updateShared: boolean;
+      updateStory: boolean;
+      updateSite: boolean;
+      updateUser: boolean;
+    };
+  }
 ) {
   // TODO: wrap these operations in a transaction?
   const commentsColl =
@@ -54,7 +67,7 @@ export default async function moderate(
 
     // The comment has this revision, it just isn't the latest one. Return the
     // same comment back because we didn't modify anything.
-    return { before: comment, after: null };
+    return { result: { before: comment, after: null } };
   }
 
   // TODO: (wyattjoh) this is a pretty race condition prone check here, replace
@@ -93,5 +106,17 @@ export default async function moderate(
     throw new Error("could not create moderation action");
   }
 
-  return result;
+  // update the comment counts
+  const counts = await updateAllCommentCounts(
+    mongo,
+    redis,
+    {
+      ...result,
+      tenant,
+      actionCounts: updateAllCommentCountsArgs.actionCounts,
+    },
+    updateAllCommentCountsArgs.options
+  );
+
+  return { result, counts };
 }

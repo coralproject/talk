@@ -2,33 +2,30 @@ import { EventEmitter2 } from "eventemitter2";
 
 import startsWith from "coral-common/utils/startsWith";
 
-import { Decorator } from "./types";
-
 const withEventEmitter = (
-  eventEmitter: EventEmitter2,
+  streamEventEmitter: EventEmitter2,
+  embedEventEmitter: EventEmitter2,
   enableDeprecatedEvents = false
-): Decorator => (pym) => {
-  // Pass events from iframe to the event emitter.
-  pym.onMessage("event", (raw: string) => {
-    const { eventName, value } = JSON.parse(raw);
-    // TODO: (cvle) Remove this when no longer needed.
-    if (!enableDeprecatedEvents) {
-      if (startsWith(eventName as string, "mutation.")) {
-        return;
-      }
-      if (startsWith(eventName as string, "fetch.")) {
-        return;
-      }
-      if (startsWith(eventName as string, "subscription.")) {
-        return;
+) => {
+  // Pass events from stream to the embedEventEmitter.
+  streamEventEmitter.onAny(function (eventName: string, value: string) {
+    let emitEventName = "";
+    if (["ready"].includes(eventName)) {
+      emitEventName = eventName;
+    } else if (startsWith(eventName, "viewer.")) {
+      emitEventName = eventName.substr("viewer.".length);
+    } else if (enableDeprecatedEvents) {
+      if (startsWith(eventName, "mutation.")) {
+        emitEventName = eventName;
+      } else if (startsWith(eventName, "fetch.")) {
+        emitEventName = eventName;
+      } else if (startsWith(eventName, "subscription.")) {
+        emitEventName = eventName;
       }
     }
-    eventEmitter.emit(eventName, value);
-  });
-
-  // Notify ready state.
-  pym.onMessage("ready", () => {
-    eventEmitter.emit("ready");
+    if (emitEventName) {
+      embedEventEmitter.emit(emitEventName, value);
+    }
   });
 };
 

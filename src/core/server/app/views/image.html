@@ -1,6 +1,27 @@
+{% import "macros.html" as macros %}
 {% extends "templates/base.html" %}
 
+{% block meta %}
+  <base href="/" />
+  {# Insert the link preload tags here. #}
+  {% if entrypoint.css %}
+    {% for asset in entrypoint.css %}
+      {{ macros.preload(asset.src, "style", prefix = staticURI) }}
+    {% endfor %}
+  {% endif %}
+  {% if entrypoint.js %}
+    {% for asset in entrypoint.js %}
+      {{ macros.preload(asset.src, "script", prefix = staticURI) }}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
 {% block css %}
+  {% if entrypoint.css %}
+    {% for asset in entrypoint.css %}
+      {{ macros.css(asset.src, asset.integrity, staticURI) }}
+    {% endfor %}
+  {% endif %}
   <style>
     body {
       margin: 0;
@@ -22,7 +43,11 @@
   <img src="{{ url }}" referrerpolicy="no-referrer" />
 {% endblock %}
 
-{% block js %}
-  {# TODO: create a bundle for this instead of relying on this CDN to serve this file #}
-  <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js" onload="new pym.Child({ polling: 100 });"></script>
-{% endblock %}
+{# Include all the scripts from the entrypoint #}
+{% if entrypoint.js %}
+  {% block js %}
+    {% for asset in entrypoint.js %}
+      {{ macros.js(asset.src, asset.integrity, staticURI) }}
+    {% endfor %}
+  {% endblock %}
+{% endif %}

@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-framework/helpers";
+import { useModerationLink } from "coral-framework/hooks";
 import { useViewerEvent } from "coral-framework/lib/events";
 import {
   useLocal,
@@ -36,6 +36,7 @@ interface Props {
   settings: ModerationActionsContainer_settings;
   onDismiss: () => void;
   onBan: () => void;
+  onSiteBan: () => void;
 }
 
 const ModerationActionsContainer: FunctionComponent<Props> = ({
@@ -45,6 +46,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   settings,
   onDismiss,
   onBan,
+  onSiteBan,
 }) => {
   const [{ accessToken }] = useLocal<ModerationActionsContainer_local>(graphql`
     fragment ModerationActionsContainer_local on Local {
@@ -58,6 +60,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const unfeature = useMutation(UnfeatureCommentMutation);
   const reject = useMutation(RejectCommentMutation);
 
+  const linkModerateStory = useModerationLink({ storyID: story.id });
+  const linkModerateComment = useModerationLink({ commentID: comment.id });
+
   const moderationLinkSuffix =
     !!accessToken &&
     settings.auth.integrations.sso.enabled &&
@@ -65,22 +70,22 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     `#accessToken=${accessToken}`;
 
   const gotoModerateStoryHref = useMemo(() => {
-    let link = getModerationLink({ storyID: story.id });
+    let ret = linkModerateStory;
     if (moderationLinkSuffix) {
-      link += moderationLinkSuffix;
+      ret += moderationLinkSuffix;
     }
 
-    return link;
-  }, [story.id, moderationLinkSuffix]);
+    return ret;
+  }, [linkModerateStory, moderationLinkSuffix]);
 
   const gotoModerateCommentHref = useMemo(() => {
-    let link = getModerationLink({ commentID: comment.id });
+    let ret = linkModerateComment;
     if (moderationLinkSuffix) {
-      link += moderationLinkSuffix;
+      ret += moderationLinkSuffix;
     }
 
-    return link;
-  }, [comment.id, moderationLinkSuffix]);
+    return ret;
+  }, [linkModerateComment, moderationLinkSuffix]);
 
   const onGotoModerate = useCallback(() => {
     emitGotoModerationEvent({ commentID: comment.id });
@@ -129,7 +134,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const showBanOption =
     !comment.author || !comment.author.id || viewer === null
       ? false
-      : comment.author.id !== viewer.id && !viewer.moderationScopes?.scoped;
+      : comment.author.id !== viewer.id;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
   return (
@@ -256,8 +261,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       )}
       {showBanOption && (
         <>
-          <DropdownDivider />
-          <ModerationActionBanQuery onBan={onBan} userID={comment.author!.id} />
+          <ModerationActionBanQuery
+            onBan={onBan}
+            onSiteBan={onSiteBan}
+            userID={comment.author!.id}
+          />
         </>
       )}
       <DropdownDivider />
@@ -338,9 +346,6 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment ModerationActionsContainer_viewer on User {
       id
-      moderationScopes {
-        scoped
-      }
     }
   `,
 })(ModerationActionsContainer);
