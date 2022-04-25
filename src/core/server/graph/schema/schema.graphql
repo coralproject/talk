@@ -4301,7 +4301,7 @@ type Query {
     after: Cursor
     status: STORY_STATUS
     query: String
-    siteID: ID
+    siteIDs: [ID!]
   ): StoriesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
