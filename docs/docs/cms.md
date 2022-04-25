@@ -41,14 +41,13 @@ Options object for `createStreamEmbed`:
 - `customCSSURL` - [string] _(optional)_: URL for a custom stylesheet to be included for this stream. To configure a custom stylesheet for _all_ streams, see advanced configuration options in the admin.
 - `customFontsCSSURL` - [string] _(optional)_: URL for a custom stylesheet with font-face definitions to be included for this stream. To configure a custom stylesheet for _all_ streams, see advanced configuration options in the admin.
 - `autoRender` - [boolean] _(optional)_: Render the comment stream automatically when the element is scrolled into the viewport
-- `title` - [string] _(optional)_: Title for the coral iframe. Defaults to "Coral Stream Embed".
 - `amp` - [boolean] _(optional)_: enable support for [Accelerated Mobile Pages](/amp)
 
 > **NOTE:** Replace the value of `{{ CORAL_DOMAIN_NAME }}` with the location of your running instance of Coral.
 
 ## Story Creation
 
-Lazy `Story` Creation enables stories to be automatically created when they are published from your CMS. Triggering the embed script above renders the comment stream iframe on your page. By default that script dynamically generates `Stories` in Coral for seamless integration.
+Lazy `Story` Creation enables stories to be automatically created when they are published from your CMS. Triggering the embed script above renders the comment stream embed on your page. By default that script dynamically generates `Stories` in Coral for seamless integration.
 
 ### storyURL
 
@@ -90,16 +89,16 @@ Metadata scraping is performed by the `scraper` job which is enabled by default.
 
 If your production site is behind a paywall or otherwise prevents scraping, you might need to configure a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriate proxy as parsed by the npm proxy-agent package. A Scraper Proxy URL can be added in the coral Admin under "CONFIGURE" -> "Advanced" -> "Story creation".
 
-If your story URL returns an HTTP response status code other than 200 (as when it returns a [300-399] "redirect" code), the scraper cannot retrieve metadata.  To see what response code your story URL is returning, use: `curl -I <storyURL>`
+If your story URL returns an HTTP response status code other than 200 (as when it returns a [300-399] "redirect" code), the scraper cannot retrieve metadata. To see what response code your story URL is returning, use: `curl -I <storyURL>`
 
-| Asset Property     | Selector                                                                                                                                                            |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Asset Property     | Selector                                                                                                                          |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
 | `title`            | See [`metascraper-title`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-title/index.js)             |
 | `description`      | See [`metascraper-description`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-description/index.js) |
 | `image`            | See [`metascraper-image`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-image/index.js)             |
 | `author`           | See [`metascraper-author`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-author/index.js)           |
 | `publication_date` | See [`metascraper-date`](https://github.com/microlinkhq/metascraper/blob/master/packages/metascraper-date/index.js)               |
-| `modified_date`    | `meta[property="article:modified"]`                                                                                                                                 |
-| `section`          | `meta[property="article:section"]`                                                                                                                                  |
+| `modified_date`    | `meta[property="article:modified"]`                                                                                               |
+| `section`          | `meta[property="article:section"]`                                                                                                |
 
 You can debug story scraping for your stories using the [GraphQL API debugScrapeStoryMetadata](https://docs.coralproject.net/api/queries/debug-scrape-story-metadata) query.

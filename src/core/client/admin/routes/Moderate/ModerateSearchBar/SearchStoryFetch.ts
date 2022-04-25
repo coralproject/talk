@@ -18,13 +18,13 @@ const SearchStoryFetch = createFetch(
         query SearchStoryFetchQuery(
           $query: String!
           $limit: Int!
-          $siteID: ID
+          $siteIDs: [ID!]
         ) {
           settings {
             multisite
             featureFlags
           }
-          stories(query: $query, first: $limit, siteID: $siteID) {
+          stories(query: $query, first: $limit, siteIDs: $siteIDs) {
             edges {
               node {
                 id

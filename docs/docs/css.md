@@ -3,7 +3,9 @@ title: Customizing Styles with CSS
 sidebar_label: Custom CSS
 ---
 
-You can add your own stylesheet in **Admin** > **Configure** > **Advanced** > **Custom CSS**.
+Coral uses [Shadow DOM Encapsulation](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) to isolate the styling context from the parent page, therefore any CSS on the parent page will not apply to the embed.
+
+You can add your own stylesheet to customize Coral in **Admin** > **Configure** > **Advanced** > **Custom CSS**. Use a separate stylesheet to import custom fonts via @font-face, and add it in **Admin** > **Configure** > **Advanced** > **Custom Fonts CSS**.
 
 ### Use CSS Variables
 
@@ -12,7 +14,7 @@ We recommend using CSS Variables to broadly apply changes to certain styling asp
 Here is a CSS example that modifies some of the CSS Variables.
 
 ```css
-:root {
+#coral {
   /* Change primary font */
   --font-family-primary: "Verdana";
 
@@ -50,6 +52,10 @@ This will allow your styles to include variations:
   background: pink;
 }
 ```
+
+### Container styling
+
+To style the outermost container of the Coral embed, target the `#coral` selector.
 
 ### Reaction styling
 

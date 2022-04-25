@@ -991,6 +991,7 @@ moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
 
 moderate-flagDetails-toxicityScore = Toxicity Score
