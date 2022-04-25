@@ -88,7 +88,7 @@ comments-postCommentForm-submit = Gönder
 comments-replyList-showAll = Tümünü göster
 comments-replyList-showMoreReplies = Daha fazla cevap göster
 
-comments-postCommentForm-gifSearch = GIF ara
+comments-postComment-gifSearch = GIF ara
 comments-postComment-gifSearch-search =
   .aria-label = Ara
 comments-postComment-gifSearch-loading = Yükleniyor...

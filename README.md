@@ -20,9 +20,6 @@ Online comments are broken. Our open-source commenting platform,
 conversation function, creating the opportunity for safer, smarter discussions
 around your work.
 
-We offer hosting and support packages for Coral, as well as exclusive,
-customer-only features. [Contact us](https://coralproject.net/pricing/) for more
-information or [sign up for a webinar](https://coralproject.net).
 
 ## Documentation
 

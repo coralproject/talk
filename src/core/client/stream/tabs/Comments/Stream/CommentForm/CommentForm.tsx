@@ -3,6 +3,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi, FormState, FormSubscription } from "final-form";
 import React, {
+  CSSProperties,
   EventHandler,
   FunctionComponent,
   MouseEvent,
@@ -119,6 +120,14 @@ function createWidgetToggle(desiredWidget: Widget) {
   };
 }
 
+/** hiddenStyle is used to hide the form while the RTE is still being loaded. */
+const hiddenStyle: CSSProperties = {
+  opacity: 0,
+  position: "absolute",
+  width: "100%",
+  pointerEvents: "none",
+};
+
 const subscription: FormSubscription = {
   dirty: true,
   values: true,
@@ -151,8 +160,13 @@ const CommentForm: FunctionComponent<Props> = ({
   submitStatus,
   topBorder,
 }) => {
+  const [rteLoaded, setRTELoaded] = useState(false);
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
   const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
+
+  const onRTELoad = useCallback(() => {
+    setRTELoaded(true);
+  }, []);
 
   const onFormSubmit = useCallback(
     (values: FormSubmitProps, form: FormApi) => {
@@ -235,7 +249,10 @@ const CommentForm: FunctionComponent<Props> = ({
   const showExternalImageInput = mediaWidget === "external";
 
   return (
-    <div className={cn(CLASSES[classNameRoot].$root, className)}>
+    <div
+      className={cn(CLASSES[classNameRoot].$root, className)}
+      style={rteLoaded ? undefined : hiddenStyle}
+    >
       <Form onSubmit={onFormSubmit} initialValues={initialValues}>
         {({
           handleSubmit,
@@ -282,6 +299,7 @@ const CommentForm: FunctionComponent<Props> = ({
                           inputID={bodyInputID}
                           config={rteConfig}
                           onFocus={onFocus}
+                          onLoad={onRTELoad}
                           onWillPaste={(event) => {
                             if (
                               !(

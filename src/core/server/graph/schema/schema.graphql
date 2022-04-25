@@ -1992,6 +1992,20 @@ type Settings @cacheControl(maxAge: 30) {
     @cacheControl(maxAge: 0, scope: PRIVATE)
 
   """
+  customFontsCSSURL is the URL of the custom CSS with @font-face definitions used to display on the frontend.
+  """
+  customFontsCSSURL: String
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  """
+  disableDefaultFonts will turn off font-face loading of Coral's default fonts.
+  """
+  disableDefaultFonts: Boolean!
+    @auth(roles: [ADMIN, MODERATOR])
+    @cacheControl(maxAge: 0, scope: PRIVATE)
+
+  """
   disableCommenting will disable commenting site-wide.
   """
   disableCommenting: DisableCommenting!
@@ -5480,6 +5494,16 @@ input SettingsInput {
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
+
+  """
+  customFontsCSSURL is the URL of the custom CSS with @font-face definitions used to display on the frontend.
+  """
+  customFontsCSSURL: String
+
+  """
+  disableDefaultFonts will turn off font-face loading of Coral's default fonts.
+  """
+  disableDefaultFonts: Boolean
 
   """
   disableCommenting will disable commenting site-wide.

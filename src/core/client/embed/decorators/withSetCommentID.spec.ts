@@ -1,23 +1,19 @@
 import simulant from "simulant";
 import sinon from "sinon";
 
-import { CleanupCallback } from "./";
 import withSetCommentID from "./withSetCommentID";
 
 it("should add commentID", () => {
   const previousLocation = location.toString();
   const previousState = window.history.state;
-  const fakePym = {
-    onMessage: (type: string, callback: (id: string) => void) => {
-      if (type === "setCommentID") {
+  const fakeStreamEventEmitter = {
+    on: (eventName: string, callback: (id: string) => void) => {
+      if (eventName === "stream.setCommentID") {
         callback("comment-id");
       }
     },
   };
-  const cleanup = withSetCommentID(
-    fakePym as any,
-    null as any
-  ) as CleanupCallback;
+  const cleanup = withSetCommentID(fakeStreamEventEmitter as any);
   expect(location.toString()).toBe("http://localhost/?commentID=comment-id");
   cleanup();
   window.history.replaceState(previousState, document.title, previousLocation);
@@ -31,23 +27,20 @@ it("should remove commentID", () => {
     document.title,
     "http://localhost/?commentID=comment-id"
   );
-  const fakePym = {
-    onMessage: (type: string, callback: () => void) => {
-      if (type === "setCommentID") {
+  const fakeStreamEventEmitter = {
+    on: (eventName: string, callback: () => void) => {
+      if (eventName === "stream.setCommentID") {
         callback();
       }
     },
   };
-  const cleanup = withSetCommentID(
-    fakePym as any,
-    null as any
-  ) as CleanupCallback;
+  const cleanup = withSetCommentID(fakeStreamEventEmitter as any);
   expect(location.toString()).toBe("http://localhost/");
   cleanup();
   window.history.replaceState(previousState, document.title, previousLocation);
 });
 
-it("should send commentID over pym when history changes", () => {
+it("should send commentID over eventEmitter when history changes", () => {
   const previousLocation = location.toString();
   const previousState = window.history.state;
   window.history.replaceState(
@@ -55,17 +48,14 @@ it("should send commentID over pym when history changes", () => {
     document.title,
     "http://localhost/?commentID=comment-id"
   );
-  const fakePym = {
-    onMessage: sinon.stub(),
-    sendMessage: sinon.mock().once().withArgs("setCommentID", "comment-id"),
+  const fakeEventEmitter = {
+    on: sinon.stub(),
+    emit: sinon.mock().once().withArgs("embed.setCommentID", "comment-id"),
   };
-  const cleanup = withSetCommentID(
-    fakePym as any,
-    null as any
-  ) as CleanupCallback;
+  const cleanup = withSetCommentID(fakeEventEmitter as any);
   simulant.fire(window as any, "popstate");
   cleanup();
   simulant.fire(window as any, "popstate");
-  fakePym.sendMessage.verify();
+  fakeEventEmitter.emit.verify();
   window.history.replaceState(previousState, document.title, previousLocation);
 });

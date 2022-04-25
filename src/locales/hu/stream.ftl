@@ -96,7 +96,7 @@ comments-postCommentForm-submit = Közzététel
 comments-replyList-showAll = Minden találat megmutatása
 comments-replyList-showMoreReplies = Több válasz megjelenítése
 
-comments-postCommentForm-gifSearch = GIF keresése
+comments-postComment-gifSearch = GIF keresése
 comments-postComment-gifSearch-search =
   .aria-label = Keresés
 comments-postComment-gifSearch-loading = Betöltés...

@@ -1,6 +1,6 @@
 import { Redis } from "ioredis";
 import Joi from "joi";
-import { isNil, throttle } from "lodash";
+import { throttle } from "lodash";
 import { DateTime } from "luxon";
 import { URL } from "url";
 
@@ -69,9 +69,9 @@ export interface SSOToken {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function isSSOToken(token: SSOToken | object): token is SSOToken {
+export function validateToken(token: SSOToken | object): string | undefined {
   const { error } = SSOTokenSchema.validate(token, { allowUnknown: true });
-  return isNil(error);
+  return error ? "SSO: " + error.message : undefined;
 }
 
 function isValidImageURL(url: string) {
@@ -288,15 +288,17 @@ export class SSOVerifier implements Verifier<SSOToken> {
     this.redis = redis;
   }
 
-  public supports(
+  public enabled(tenant: Tenant): boolean {
+    return tenant.auth.integrations.sso.enabled;
+  }
+
+  public checkForValidationError(
     // eslint-disable-next-line @typescript-eslint/ban-types
     token: SSOToken | object,
-    tenant: Tenant,
     kid?: string
-  ): token is SSOToken {
+  ): string | undefined {
     // TODO: [CORL-755] (wyattjoh) check that the `kid` it provided and matches a given kid in a future release
-
-    return tenant.auth.integrations.sso.enabled && isSSOToken(token);
+    return validateToken(token);
   }
 
   public async verify(

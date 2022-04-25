@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   useLocal,
   useMutation,
@@ -34,17 +35,12 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
       }
     }
   `);
+  const { rootURL } = useCoralContext();
   const setAuthPopupState = useMutation(SetAuthPopupStateMutation);
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const onResetPassword = useCallback(() => {
     void showAuthPopup({ view: "FORGOT_PASSWORD" });
   }, [showAuthPopup]);
-  const onFocus = useCallback(() => {
-    void setAuthPopupState({ focus: true });
-  }, [setAuthPopupState]);
-  const onBlur = useCallback(() => {
-    void setAuthPopupState({ focus: true });
-  }, [setAuthPopupState]);
   const onClose = useCallback(() => {
     void setAuthPopupState({ open: false });
   }, [setAuthPopupState]);
@@ -59,12 +55,10 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
   return (
     <>
       <Popup
-        href={`${urls.embed.auth}?view=${view}`}
+        href={`${rootURL}${urls.embed.auth}?view=${view}`}
         title="Coral Auth"
         open={open}
         focus={focus}
-        onFocus={onFocus}
-        onBlur={onBlur}
         onClose={onClose}
       />
       <ChangePassword onResetPassword={onResetPassword} />

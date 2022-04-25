@@ -1,7 +1,6 @@
 import { TokenRefresh } from "./createNetwork";
 
 export type UnregisterCallback = () => void;
-
 export interface TokenRefreshProvider {
   register(cb: TokenRefresh): UnregisterCallback;
   refreshToken: TokenRefresh;

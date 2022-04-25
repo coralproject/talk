@@ -263,7 +263,8 @@ it("can't change role as a moderator", async () => {
     }),
   });
 
-  expect(screen.getByLabelText("Change user status")).toBeVisible();
+  const userStatus = screen.getAllByLabelText("Change user status")[0];
+  expect(userStatus).toBeVisible();
   expect(screen.queryByLabelText("Change role")).toBeNull();
 });
 
@@ -447,7 +448,7 @@ it("demote user role as a site moderator", async () => {
     "A dropdown to promote/demote a user to/from sites"
   );
   const siteModButton = within(popup).getByRole("button", {
-    name: "Remove my sites from moderator",
+    name: "Remove moderator from my sites",
   });
   fireEvent.click(siteModButton);
 
@@ -544,4 +545,115 @@ it("filter by search", async () => {
       )
     ).toBeInTheDocument()
   );
+});
+
+it("can't change admin status but can for mods and staff", async () => {
+  await createTestRenderer();
+  const admin = screen.getByRole("row", {
+    name: "Markus markus@test.com 07/06/18, 06:24 PM Admin Active",
+  });
+  expect(
+    within(admin).queryByLabelText("Change user status")
+  ).not.toBeInTheDocument();
+
+  const moderator = screen.getByRole("row", {
+    name: "Lukas lukas@test.com 07/06/18, 06:24 PM Moderator Active",
+  });
+  const staff = screen.getByRole("row", {
+    name: "Huy huy@test.com 07/06/18, 06:24 PM Staff Active",
+  });
+  expect(within(moderator).getByLabelText("Change user status")).toBeVisible();
+  expect(within(staff).getByLabelText("Change user status")).toBeVisible();
+});
+
+it("can't ban org moderators but can change other status for them", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settingsWithMultisite,
+    },
+  });
+  await createTestRenderer({ resolvers });
+  const orgModRow = screen.getByRole("row", {
+    name:
+      "Lukas lukas@test.com 07/06/18, 06:24 PM Organization Moderator Active",
+  });
+  const changeStatusButton = within(orgModRow).getByRole("button", {
+    name: "Change user status",
+  });
+  userEvent.click(changeStatusButton);
+  const dropdown = within(orgModRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+  expect(
+    within(dropdown).getByRole("button", { name: "Manage Ban" })
+  ).toBeDisabled();
+  expect(
+    within(dropdown).getByRole("button", { name: "Message" })
+  ).not.toBeDisabled();
+});
+
+it("doesn't show All Sites option when banning moderators and bans them on specific sites", async () => {
+  const user = users.moderators[1];
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settingsWithMultisite,
+    },
+    Mutation: {
+      updateUserBan: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          banSiteIDs: ["site-2"],
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            ban: { sites: [{ id: sites[1].id }] },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({ resolvers });
+  const moderatorRow = screen.getByRole("row", {
+    name: "Ginger ginger@test.com 07/06/18, 06:24 PM Site Moderator Active",
+  });
+  const changeStatusButton = within(moderatorRow).getByRole("button", {
+    name: "Change user status",
+  });
+  userEvent.click(changeStatusButton);
+  const dropdown = within(moderatorRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
+  const modal = screen.getByLabelText(
+    "Are you sure you want to manage the ban status of Ginger?"
+  );
+
+  // All sites shouldn't be an option for banning site moderators
+  expect(
+    within(modal).queryByRole("radio", { name: "All sites" })
+  ).not.toBeInTheDocument();
+
+  const specificSites = within(modal).getByRole("radio", {
+    name: "Specific sites",
+  });
+  userEvent.click(specificSites);
+
+  const siteSearchTextbox = within(modal).getByRole("textbox", {
+    name: "Search by site name",
+  });
+  userEvent.type(siteSearchTextbox, "Second");
+  const siteSearchButton = within(modal).getByRole("button", {
+    name: "Search",
+  });
+  userEvent.click(siteSearchButton);
+  await within(modal).findByTestId("site-search-list");
+  userEvent.click(within(modal).getByText("Second Site"));
+  userEvent.click(within(modal).getByRole("button", { name: "Save" }));
+
+  // Moderator should be banned on one site
+  expect(await within(moderatorRow).findByText("Banned (1)")).toBeVisible();
+  expect(resolvers.Mutation!.updateUserBan!.called).toBe(true);
 });

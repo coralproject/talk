@@ -395,10 +395,10 @@ configure-general-guidelines-explanation =
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 #### Bio
-configure-general-memberBio-title = Member bios
+configure-general-memberBio-title = Commenter bios
 configure-general-memberBio-explanation =
-  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as member bios can be reported.
-configure-general-memberBio-label = Allow member bios
+  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as commenter bios can be reported.
+configure-general-memberBio-label = Allow commenter bios
 
 #### Locale
 configure-general-locale-language = Language
@@ -872,6 +872,11 @@ configure-wordList-suspect-wordListDetailInstructions =
 configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-override =
   URL of a CSS stylesheet that will override default Embed Stream styles.
+configure-advanced-customCSS-stylesheetURL = Custom CSS Stylesheet URL
+configure-advanced-customCSS-fontsStylesheetURL = Custom CSS Stylesheet URL for Font Faces
+configure-advanced-customCSS-containsFontFace =
+  URL to a custom CSS stylesheet that contains all @font-face
+  definitions needed by above stylesheet.
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
@@ -986,6 +991,7 @@ moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
 
 moderate-flagDetails-toxicityScore = Toxicity Score
@@ -1258,10 +1264,10 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Change role
 
-community-assignMySitesToModerator = Assign my sites to moderator
-community-removeMySitesFromModerator = Remove my sites from moderator
-community-assignMySitesToMember = Assign my sites to member
-community-removeMySitesFromMember = Remove my sites from member
+community-assignMySitesToModerator = Assign moderator to my sites
+community-removeMySitesFromModerator = Remove moderator from my sites
+community-assignMySitesToMember = Assign member to my sites
+community-removeMySitesFromMember = Remove member from my sites
 community-stillHaveSiteModeratorPrivileges = They will still have Site Moderator privileges for:
 community-stillHaveMemberPrivileges = They will still have Member privileges for:
 community-userNoLongerPermitted = User will no longer be permitted to make moderation decisions or assign suspensions on:

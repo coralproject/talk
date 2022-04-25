@@ -40,7 +40,7 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 
 .actionBar {
   min-width: 100px;
-  @media (min-width: $breakpoints-xs) {
+  :global(.coral-width-gte-xs) & {
     min-width: 150px;
   }
 }
