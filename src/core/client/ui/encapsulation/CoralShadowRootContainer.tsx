@@ -17,7 +17,13 @@ const CoralShadowRootContainer: FunctionComponent<Props> = ({
   ...rest
 }) => {
   return (
-    <DivWithShadowBreakpointClasses ref={forwardRef} {...rest} id="coral" />
+    <DivWithShadowBreakpointClasses
+      ref={forwardRef}
+      {...rest}
+      id="coral"
+      // exclude Coral from snippets
+      data-nosnippet
+    />
   );
 };
 
