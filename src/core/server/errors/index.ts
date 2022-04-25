@@ -435,11 +435,16 @@ export class TokenNotFoundError extends CoralError {
 }
 
 export class TokenInvalidError extends CoralError {
-  constructor(token: string, reason: string, cause?: Error) {
+  constructor(
+    token: string,
+    reason: string,
+    validationErrors?: string,
+    cause?: Error
+  ) {
     super({
       code: ERROR_CODES.TOKEN_INVALID,
       cause,
-      context: { pvt: { token, reason } },
+      context: { pvt: { token, reason, validationErrors } },
       status: 401,
     });
   }
