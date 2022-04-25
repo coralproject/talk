@@ -1,3 +1,6 @@
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { pureMerge } from "coral-common/utils";
 import {
   GQLCOMMENT_SORT,
@@ -5,18 +8,14 @@ import {
   MutationToReviewCommentFlagResolver,
 } from "coral-framework/schema";
 import {
-  act,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
-  waitForElement,
-  waitUntilThrow,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   commentFlags,
   commentFlagsDeleted,
@@ -39,7 +38,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context, subscriptionHandler } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -63,27 +62,27 @@ async function createTestRenderer(
       }
     },
   });
-  return { testRenderer, context, subscriptionHandler };
+  customRenderAppWithContext(context);
+  const modContainer = await screen.findByTestId("moderate-container");
+  return { context, modContainer };
 }
 
 it("renders 'For Review' Navigation Item", async () => {
-  const { testRenderer } = await createTestRenderer();
-  const { getByTestID } = within(testRenderer.root);
-  const tabBar = await waitForElement(() =>
-    getByTestID("moderate-tabBar-container")
-  );
-  within(tabBar).getByText("For Review", { selector: "a", exact: false });
+  await createTestRenderer();
+  const tabBar = await screen.findByTestId("moderate-tabBar-container");
+  expect(
+    within(tabBar).getByRole("link", { name: "for review" })
+  ).toBeVisible();
 });
 
 it("renders empty For Review queue", async () => {
-  const { testRenderer } = await createTestRenderer();
-  const { getByTestID } = within(testRenderer.root);
-  await waitForElement(() => getByTestID("moderate-container"));
-  expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+  const { modContainer } = await createTestRenderer();
+  // renders only the initial row with column names
+  expect(within(modContainer).getAllByRole("row")).toHaveLength(1);
 });
 
 it("renders For Review queue with flags", async () => {
-  const { testRenderer } = await createTestRenderer({
+  const { modContainer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         flags: ({ variables }) => {
@@ -122,13 +121,53 @@ it("renders For Review queue with flags", async () => {
       },
     }),
   });
-  const { getByTestID } = within(testRenderer.root);
-  await waitForElement(() => getByTestID("moderate-container"));
-  expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+
+  // confirm that renders all comment rows with expected flags
+  const firstCommentRow = within(modContainer).getByRole("row", {
+    name:
+      "06/01/21, 02:21 PM This is the last random sentence I will Isabelle Abusive this is why",
+  });
+  expect(
+    within(firstCommentRow).getByRole("cell", { name: "Abusive" })
+  ).toBeVisible();
+  expect(
+    within(firstCommentRow).getByRole("cell", { name: "this is why" })
+  ).toBeVisible();
+
+  const secondCommentRow = within(modContainer).getByRole("row", {
+    name: "06/01/21, 02:21 PM Don't fool with me Isabelle Abusive None",
+  });
+  expect(
+    within(secondCommentRow).getByRole("cell", { name: "Abusive" })
+  ).toBeVisible();
+  expect(
+    within(secondCommentRow).getByRole("cell", { name: "None" })
+  ).toBeVisible();
+
+  const thirdCommentRow = within(modContainer).getByRole("row", {
+    name: "06/01/21, 02:21 PM Not available Isabelle Abusive Looks abusive",
+  });
+  expect(
+    within(thirdCommentRow).getByRole("cell", { name: "Abusive" })
+  ).toBeVisible();
+  expect(
+    within(thirdCommentRow).getByRole("cell", { name: "Looks abusive" })
+  ).toBeVisible();
+
+  const fourthCommentRow = within(modContainer).getByRole("row", {
+    name:
+      "06/01/21, 02:21 PM Don't fool with me Isabelle Abusive Looks abusive",
+  });
+  expect(
+    within(fourthCommentRow).getByRole("cell", { name: "Abusive" })
+  ).toBeVisible();
+  expect(
+    within(fourthCommentRow).getByRole("cell", { name: "Looks abusive" })
+  ).toBeVisible();
 });
 
 it("load more", async () => {
-  const { testRenderer } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         flags: ({ variables, callCount }) => {
@@ -180,30 +219,23 @@ it("load more", async () => {
     }),
   });
 
-  const moderateContainer = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("moderate-container")
-  );
-
-  const { getByText, getAllByTestID } = within(moderateContainer);
-
   // Get previous count of comments.
-  const previousCount = getAllByTestID(/^moderate-flag-.*$/).length;
-
-  const loadMore = await waitForElement(() => getByText("Load More"));
-
-  act(() => {
-    loadMore.props.onClick();
-  });
+  const previousCount = screen.getAllByTestId(/^moderate-flag-.*$/).length;
+  const loadMore = screen.getByRole("button", { name: "Load More" });
+  userEvent.click(loadMore);
 
   // Wait for load more to disappear.
-  await waitUntilThrow(() => getByText("Load More"));
+  await waitFor(() => {
+    expect(loadMore).not.toBeInTheDocument();
+  });
 
   // Verify we have one more item now.
-  const flags = getAllByTestID(/^moderate-flag-.*$/);
-  expect(flags.length).toBe(previousCount + 1);
+  const flags = screen.getAllByTestId(/^moderate-flag-.*$/);
+  expect(flags).toHaveLength(previousCount + 1);
 
   // Verify last one added was our new one
-  expect(flags[flags.length - 1].props["data-testid"]).toBe(
+  expect(flags[flags.length - 1]).toHaveAttribute(
+    "data-testid",
     `moderate-flag-${commentFlags[1].id}`
   );
 });
@@ -222,7 +254,7 @@ it("mark as reviewed", async () => {
       },
     };
   });
-  const { testRenderer } = await createTestRenderer({
+  const { modContainer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         flags: ({ variables }) => {
@@ -253,21 +285,12 @@ it("mark as reviewed", async () => {
     }),
   });
 
-  const moderateContainer = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("moderate-container")
-  );
-
-  const markAsReviewedButton = within(moderateContainer).getByLabelText(
-    "Mark as reviewed"
-  );
-
-  act(() => {
-    markAsReviewedButton.props.onClick({});
+  const markAsReviewedButton = within(modContainer).getByRole("button", {
+    name: "Mark as reviewed",
   });
+  userEvent.click(markAsReviewedButton);
+  await within(modContainer).findByRole("button", { name: "Reviewed" });
 
   // Wait for flag to be marked as reviewed.
-  await waitForElement(() =>
-    within(moderateContainer).getByLabelText("Reviewed")
-  );
   expect(reviewCommentFlagStub.called).toBe(true);
 });

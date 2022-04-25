@@ -1830,7 +1830,7 @@ on the comment stream and in the admin interface.
                 <legend
                   className="Header-root"
                 >
-                  Member bios
+                  Commenter bios
                 </legend>
               </div>
               <div />
@@ -1844,7 +1844,7 @@ on the comment stream and in the admin interface.
                 <p
                   className="FormFieldDescription-root"
                 >
-                  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as member bios can be reported.
+                  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as commenter bios can be reported.
                 </p>
                 <fieldset
                   className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
@@ -1852,7 +1852,7 @@ on the comment stream and in the admin interface.
                   <legend
                     className="Label-root"
                   >
-                    Allow member bios
+                    Allow commenter bios
                   </legend>
                   <div>
                     <div

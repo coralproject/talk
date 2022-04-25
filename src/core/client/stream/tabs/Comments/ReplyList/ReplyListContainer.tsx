@@ -48,6 +48,7 @@ import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 import { ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
 
+import MarkCommentsAsSeenMutation from "../Comment/MarkCommentsAsSeenMutation";
 import { isPublished, useStaticFlattenReplies } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
@@ -141,6 +142,7 @@ graphql`
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment ReplyListContainer_viewer on User {
+    id
     ...ReplyListCommentContainer_viewer
   }
 `;
@@ -239,6 +241,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
     ViewNewCommentsNetworkEvent
   );
+  const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewNew = useCallback(async () => {
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: props.story.id,
@@ -248,6 +251,9 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       void (await viewNew({
         commentID: props.comment.id,
         storyID: props.story.id,
+        markSeen: !!props.viewer,
+        viewerID: props.viewer?.id,
+        markAsSeen,
       }));
       viewNewCommentsEvent.success();
     } catch (error) {
@@ -396,6 +402,7 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainerLastFlattened_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
       }
     `,
@@ -476,6 +483,7 @@ const ReplyListContainerLast = createRelayFragmentContainer<
   {
     viewer: graphql`
       fragment ReplyListContainerLast_viewer on User {
+        id
         ...LocalReplyListContainer_viewer @skip(if: $flattenReplies)
         ...ReplyListContainerLastFlattened_viewer @include(if: $flattenReplies)
       }
@@ -507,6 +515,7 @@ const ReplyListContainer3 = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer3_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainerLast_viewer
       }
@@ -571,6 +580,7 @@ const ReplyListContainer2 = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer2_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainer3_viewer
       }
@@ -635,6 +645,7 @@ const ReplyListContainer1 = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer1_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainer2_viewer
       }

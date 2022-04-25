@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
+import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
 
 import AddEmailAddress from "../views/AddEmailAddress";
 import CreatePassword from "../views/CreatePassword";
@@ -54,10 +55,10 @@ const render = ({ view, auth, viewer }: AppProps) => {
 
 const App: FunctionComponent<AppProps> = (props) => {
   return (
-    <div>
+    <CoralWindowContainer>
       {process.env.NODE_ENV !== "test" && <ViewRouter />}
       <div>{render(props)}</div>
-    </div>
+    </CoralWindowContainer>
   );
 };
 
