@@ -3,8 +3,6 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { polyfillCSSVars } from "coral-framework/helpers";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -21,27 +19,20 @@ const loadProfileContainer = () =>
   import("./ProfileContainer" /* webpackChunkName: "profile" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadAndPolyfill = once((window: Window) =>
+const preload = once(() =>
   setTimeout(() => {
-    void loadProfileContainer().then((x) => {
-      // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVars(window);
-      return x;
-    });
+    void loadProfileContainer();
   }, 0)
 );
 
 const LazyProfileContainer = React.lazy(loadProfileContainer);
 
-export const render = (
-  { error, props }: QueryRenderData<QueryTypes>,
-  window: Window
-) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  preloadAndPolyfill(window);
+  preload();
 
   if (props) {
     if (!props.viewer) {
@@ -79,7 +70,6 @@ export const render = (
 };
 
 const ProfileQuery: FunctionComponent = () => {
-  const { window } = useCoralContext();
   const [{ storyID, storyURL }] = useLocal<ProfileQueryLocal>(graphql`
     fragment ProfileQueryLocal on Local {
       storyID
@@ -110,7 +100,7 @@ const ProfileQuery: FunctionComponent = () => {
         if (handleIncompleteAccount(data)) {
           return null;
         }
-        return render(data, window);
+        return render(data);
       }}
     />
   );

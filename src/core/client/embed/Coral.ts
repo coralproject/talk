@@ -1,8 +1,8 @@
 import { EventEmitter2 } from "eventemitter2";
 
 import { parseQuery } from "coral-common/utils";
+import { getCurrentScriptOrigin } from "coral-framework/helpers";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
-import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import { StreamEmbed } from "./StreamEmbed";
 
@@ -29,36 +29,52 @@ export interface Config {
   refreshAccessToken?: RefreshAccessTokenCallback;
   enableDeprecatedEvents?: boolean;
 
-  /** Allow setting className of body tag inside iframe */
+  /** Allow setting className of embed container */
+  containerClassName?: string;
+  /** @deprecated use new option: `containerClassName` */
   bodyClassName?: string;
+
   customCSSURL?: string;
+  customFontsCSSURL?: string;
+  disableDefaultFonts?: boolean;
   amp?: boolean;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
   // Parse query params
   const query = parseQuery(location.search);
-  const eventEmitter = new EventEmitter2({ wildcard: true });
+  const embedEventEmitter = new EventEmitter2({
+    wildcard: true,
+    delimiter: ".",
+  });
 
   if (config.events) {
-    config.events(eventEmitter);
+    config.events(embedEventEmitter);
+  }
+
+  if (config.bodyClassName) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "Coral: `bodyClassName` has been deprecated. Use `containerClassName` instead."
+    );
   }
 
   return new StreamEmbed({
-    title: "Coral Embed Stream",
+    id: config.id || "coral-embed-stream",
     storyID: config.storyID || query.storyID,
     storyURL: config.storyURL || query.storyURL || resolveStoryURL(window),
     storyMode: config.storyMode || undefined,
     commentID: config.commentID || query.commentID,
-    id: config.id || "coral-embed-stream",
-    rootURL: config.rootURL || getLocationOrigin(window),
-    autoRender: config.autoRender,
-    eventEmitter,
+    rootURL: config.rootURL || getCurrentScriptOrigin(),
+    eventEmitter: embedEventEmitter,
     accessToken: config.accessToken,
-    bodyClassName: config.bodyClassName,
-    enableDeprecatedEvents: config.enableDeprecatedEvents,
     customCSSURL: config.customCSSURL,
+    customFontsCSSURL: config.customFontsCSSURL,
+    disableDefaultFonts: config.disableDefaultFonts,
     refreshAccessToken: config.refreshAccessToken,
     amp: config.amp,
+    autoRender: config.autoRender,
+    enableDeprecatedEvents: config.enableDeprecatedEvents,
+    containerClassName: config.containerClassName || config.bodyClassName,
   });
 }

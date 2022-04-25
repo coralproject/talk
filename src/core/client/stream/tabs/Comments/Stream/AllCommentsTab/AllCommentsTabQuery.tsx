@@ -21,7 +21,6 @@ import AllCommentsTabContainer from "./AllCommentsTabContainer";
 import SpinnerWhileRendering from "./SpinnerWhileRendering";
 
 interface Props {
-  preload?: boolean;
   tag?: GQLTAG;
 }
 
@@ -30,6 +29,9 @@ export const render = (
   flattenReplies: boolean,
   tag?: GQLTAG
 ) => {
+  if (!data) {
+    return null;
+  }
   if (data.error) {
     return <QueryError error={data.error} />;
   }
@@ -61,10 +63,7 @@ export const render = (
   );
 };
 
-const AllCommentsTabQuery: FunctionComponent<Props> = ({
-  preload = false,
-  tag,
-}) => {
+const AllCommentsTabQuery: FunctionComponent<Props> = ({ tag }) => {
   const [
     { storyID, storyURL, storyMode, ratingFilter, commentsOrderBy },
     setLocal,
@@ -121,7 +120,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         storyMode: coerceStoryMode(storyMode),
         flattenReplies,
       }}
-      render={(data) => (preload ? null : render(data, flattenReplies, tag))}
+      render={(data) => render(data, flattenReplies, tag)}
     />
   );
 };

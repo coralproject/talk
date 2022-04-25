@@ -17,14 +17,13 @@ import { useStaticFlattenReplies } from "../../helpers";
 import SpinnerWhileRendering from "../AllCommentsTab/SpinnerWhileRendering";
 import UnansweredCommentsTabContainer from "./UnansweredCommentsTabContainer";
 
-interface Props {
-  preload?: boolean;
-}
-
 export const render = (
   data: QueryRenderData<QueryTypes>,
   flattenReplies: boolean
 ) => {
+  if (!data) {
+    return null;
+  }
   if (data.error) {
     return <QueryError error={data.error} />;
   }
@@ -55,7 +54,7 @@ export const render = (
   );
 };
 
-const UnansweredCommentsTabQuery: FunctionComponent<Props> = ({ preload }) => {
+const UnansweredCommentsTabQuery: FunctionComponent = () => {
   const flattenReplies = useStaticFlattenReplies();
   const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
     UnansweredCommentsTabQueryLocal
@@ -93,7 +92,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = ({ preload }) => {
         commentsOrderBy,
         flattenReplies,
       }}
-      render={(data) => (preload ? null : render(data, flattenReplies))}
+      render={(data) => render(data, flattenReplies)}
     />
   );
 };

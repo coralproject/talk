@@ -1,8 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { getAriaPoliteMacOSWorkaround } from "coral-framework/helpers";
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import TraceableError from "coral-framework/lib/errors/traceableError";
 
 import CallOut from "../CallOut";
@@ -14,7 +12,6 @@ interface Props {
 }
 
 const QueryError: FunctionComponent<Props> = ({ error }) => {
-  const { window } = useCoralContext();
   if (!error) {
     return null;
   }
@@ -40,10 +37,7 @@ const QueryError: FunctionComponent<Props> = ({ error }) => {
       <Localized id="common-error-message">
         <div className={styles.heading}>Message</div>
       </Localized>
-      <div
-        className={styles.section}
-        aria-live={getAriaPoliteMacOSWorkaround(window)}
-      >
+      <div className={styles.section} aria-live={"polite"}>
         {error.message}
       </div>
     </CallOut>

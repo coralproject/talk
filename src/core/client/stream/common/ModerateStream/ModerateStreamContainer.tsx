@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-framework/helpers";
+import { useModerationLink } from "coral-framework/hooks";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
@@ -24,22 +24,23 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   story: { id, canModerate, isArchived, isArchiving },
   viewer,
 }) => {
+  const link = useModerationLink({ storyID: id });
   const [{ accessToken }] = useLocal<ModerateStreamContainerLocal>(graphql`
     fragment ModerateStreamContainerLocal on Local {
       accessToken
     }
   `);
   const href = useMemo(() => {
-    let link = getModerationLink({ storyID: id });
+    let ret = link;
     if (
       accessToken &&
       settings.auth.integrations.sso.enabled &&
       settings.auth.integrations.sso.targetFilter.admin
     ) {
-      link += `#accessToken=${accessToken}`;
+      ret += `#accessToken=${accessToken}`;
     }
 
-    return link;
+    return ret;
   }, [accessToken, settings, id]);
 
   if (!canModerate || !viewer || !can(viewer, Ability.MODERATE)) {

@@ -1,5 +1,5 @@
-export { default as OnPymSetCommentID } from "./OnPymSetCommentID";
+export { default as OnEmbedSetCommentID } from "./OnEmbedSetCommentID";
 export { default as OnPostMessageSetAccessToken } from "./OnPostMessageSetAccessToken";
-export { default as OnEvents } from "./OnEvents";
-export { default as OnPymLogin } from "./OnPymLogin";
-export { default as OnPymLogout } from "./OnPymLogout";
+export { default as OnEventsForRudderStack } from "./OnEventsForRudderStack";
+export { default as OnEmbedLogin } from "./OnEmbedLogin";
+export { default as OnEmbedLogout } from "./OnEmbedLogout";
