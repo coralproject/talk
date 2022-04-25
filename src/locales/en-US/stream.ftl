@@ -241,6 +241,7 @@ comments-userIgnorePopover-ignore = Ignore
 comments-userIgnorePopover-cancel = Cancel
 
 comments-userBanPopover-title = Ban {$username}?
+comments-userSiteBanPopover-title = Ban {$username} from this site?
 comments-userBanPopover-description =
   Once banned, this user will no longer be able
   to comment, use reactions, or report comments.
@@ -257,6 +258,7 @@ comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
 comments-moderationDropdown-ban = Ban User
+comments-moderationDropdown-siteBan = Site Ban
 comments-moderationDropdown-banned = Banned
 comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Moderation view
