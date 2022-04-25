@@ -13,7 +13,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { publishChanges, updateAllCommentCounts } from "./helpers";
+import { publishChanges } from "./helpers";
 
 const rejectComment = async (
   mongo: MongoContext,
@@ -26,9 +26,14 @@ const rejectComment = async (
   now: Date,
   request?: Request | undefined
 ) => {
+  const updateAllCommentCountsArgs = {
+    actionCounts: {},
+  };
+
   // Reject the comment.
-  const result = await moderate(
+  const { result, counts } = await moderate(
     mongo,
+    redis,
     tenant,
     {
       commentID,
@@ -36,7 +41,9 @@ const rejectComment = async (
       moderatorID,
       status: GQLCOMMENT_STATUS.REJECTED,
     },
-    now
+    now,
+    undefined,
+    updateAllCommentCountsArgs
   );
 
   const revision = getLatestRevision(result.before);
@@ -54,17 +61,9 @@ const rejectComment = async (
     return result.before;
   }
 
-  // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, {
-    ...result,
-    tenant,
-    // Rejecting a comment does not change the action counts.
-    actionCounts: {},
-  });
-
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira
-  if (broker) {
+  if (broker && counts) {
     // Publish changes to the event publisher.
     await publishChanges(broker, {
       ...result,

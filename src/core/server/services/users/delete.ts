@@ -5,7 +5,6 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Story } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
-import { updateAllCommentCounts } from "coral-server/stacks/helpers";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
@@ -137,8 +136,19 @@ async function moderateComments(
       continue;
     }
 
-    const result = await moderate(
+    const updateAllCommentCountsArgs = {
+      actionCounts: {},
+      options: {
+        updateShared: !isArchived,
+        updateSite: !isArchived,
+        updateStory: true,
+        updateUser: true,
+      },
+    };
+
+    const { result } = await moderate(
       mongo,
+      redis,
       tenant,
       {
         commentID: comment.id,
@@ -147,29 +157,13 @@ async function moderateComments(
         status: targetStatus,
       },
       now,
-      isArchived
+      isArchived,
+      updateAllCommentCountsArgs
     );
 
     if (!result.after) {
       continue;
     }
-
-    await updateAllCommentCounts(
-      mongo,
-      redis,
-      {
-        ...result,
-        tenant,
-        // Rejecting a comment does not change the action counts.
-        actionCounts: {},
-      },
-      {
-        updateShared: !isArchived,
-        updateSite: !isArchived,
-        updateStory: true,
-        updateUser: true,
-      }
-    );
   }
 }
 
