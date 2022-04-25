@@ -6,31 +6,29 @@ import { AppOptions } from "coral-server/app";
 import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { retrieveSite, Site } from "coral-server/models/site";
+import {
+  retrieveSite,
+  retrieveSiteByOrigin,
+  Site,
+} from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { isAMPEnabled, Tenant } from "coral-server/models/tenant";
 import { findSiteByURL } from "coral-server/services/sites";
 import { Request, RequestHandler } from "coral-server/types/express";
 
 interface RequestQuery {
-  parentUrl?: string;
   storyURL?: string;
   storyID?: string;
   siteID?: string;
 }
 
-async function retrieveSiteFromEmbed(
+async function retrieveSiteFromQuery(
   mongo: MongoContext,
   req: Request,
   tenant: Tenant
 ): Promise<Site | null> {
   // Attempt to detect the site based on the query parameters.
-  const {
-    storyURL = "",
-    storyID = "",
-    parentUrl = "",
-    siteID = "",
-  }: RequestQuery = req.query;
+  const { storyURL = "", storyID = "", siteID = "" }: RequestQuery = req.query;
 
   // If the siteID is available, use that.
   if (siteID) {
@@ -55,13 +53,6 @@ async function retrieveSiteFromEmbed(
     // If the site can't be found based on it's allowed origins and the story
     // URL (which is a allowed list), then we know it isn't allowed.
     return retrieveSite(mongo, tenant.id, story.siteID);
-  }
-
-  // As the last fallback, if the storyURL and storyID cannot be found, then pym
-  // does provide us with a parentUrl that's the URL of the page embedding
-  // Coral. We'll try to find the site based on this URL.
-  if (parentUrl) {
-    return findSiteByURL(mongo, tenant.id, parentUrl);
   }
 
   return null;
@@ -93,7 +84,15 @@ async function retrieveOriginsFromRequest(
     return [];
   }
 
-  const site = await retrieveSiteFromEmbed(mongo, req, tenant);
+  let site = await retrieveSiteFromQuery(mongo, req, tenant);
+  if (!site) {
+    const requesterOrigin = getRequesterOrigin(req);
+    // We use the requester's origin, if the site cannot be found from the query.
+    if (requesterOrigin) {
+      site = await retrieveSiteByOrigin(mongo, tenant.id, requesterOrigin);
+    }
+  }
+
   if (!site || site.allowedOrigins.length === 0) {
     return [];
   }

@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-framework/helpers";
+import { useModerationLink } from "coral-framework/hooks";
 import { useViewerEvent } from "coral-framework/lib/events";
 import {
   useLocal,
@@ -58,6 +58,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const unfeature = useMutation(UnfeatureCommentMutation);
   const reject = useMutation(RejectCommentMutation);
 
+  const linkModerateStory = useModerationLink({ storyID: story.id });
+  const linkModerateComment = useModerationLink({ commentID: comment.id });
+
   const moderationLinkSuffix =
     !!accessToken &&
     settings.auth.integrations.sso.enabled &&
@@ -65,22 +68,22 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     `#accessToken=${accessToken}`;
 
   const gotoModerateStoryHref = useMemo(() => {
-    let link = getModerationLink({ storyID: story.id });
+    let ret = linkModerateStory;
     if (moderationLinkSuffix) {
-      link += moderationLinkSuffix;
+      ret += moderationLinkSuffix;
     }
 
-    return link;
-  }, [story.id, moderationLinkSuffix]);
+    return ret;
+  }, [linkModerateStory, moderationLinkSuffix]);
 
   const gotoModerateCommentHref = useMemo(() => {
-    let link = getModerationLink({ commentID: comment.id });
+    let ret = linkModerateComment;
     if (moderationLinkSuffix) {
-      link += moderationLinkSuffix;
+      ret += moderationLinkSuffix;
     }
 
-    return link;
-  }, [comment.id, moderationLinkSuffix]);
+    return ret;
+  }, [linkModerateComment, moderationLinkSuffix]);
 
   const onGotoModerate = useCallback(() => {
     emitGotoModerationEvent({ commentID: comment.id });

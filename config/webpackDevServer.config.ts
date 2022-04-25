@@ -1,22 +1,35 @@
+import fs from "fs";
+import path from "path";
 import errorOverlayMiddleware from "react-dev-utils/errorOverlayMiddleware";
 import evalSourceMapMiddleware from "react-dev-utils/evalSourceMapMiddleware";
 import ignoredFiles from "react-dev-utils/ignoredFiles";
 import noopServiceWorkerMiddleware from "react-dev-utils/noopServiceWorkerMiddleware";
 import { Configuration } from "webpack-dev-server";
+
 import paths from "./paths";
 
 interface WebpackDevServerConfig {
   allowedHost: any;
+  /** The port of the Coral server */
   serverPort: number;
+  /** The port of the Webpack Dev server */
+  devPort: number;
   publicPath: string;
 }
 
 export default function ({
   allowedHost,
   serverPort,
+  devPort,
   publicPath,
 }: WebpackDevServerConfig): Configuration {
   return {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    },
     stats: {
       // https://github.com/TypeStrong/ts-loader#transpileonly-boolean-defaultfalse
       // Using transpilation only without typechecks gives warnings when we reexport types.
@@ -67,31 +80,45 @@ export default function ({
     overlay: false,
     historyApiFallback: {
       disableDotRule: true,
-      rewrites: [
-        { from: /^\/account/, to: "/account.html" },
-        { from: /^\/admin/, to: "/admin.html" },
-        { from: /^\/embed\/stream/, to: "/stream.html" },
-        { from: /^\/embed\/auth$/, to: "/auth.html" },
-        { from: /^\/install/, to: "/install.html" },
-      ],
+      rewrites: [],
     },
     public: allowedHost,
     index: "embed.html",
-    proxy: {
-      // Proxy websocket connections.
-      "/api/graphql/live": {
+    sockPort: devPort,
+    proxy: [
+      {
+        context: "/api/graphql/live",
+        // Proxy websocket connections.
         target: `ws://localhost:${serverPort}`,
         ws: true,
       },
-      // Proxy to the graphql server.
-      "/api": {
+      {
+        context: (pathname) => {
+          const lc = pathname.toLocaleLowerCase();
+          return [
+            "/embed/auth",
+            "/embed/bootstrap",
+            "/admin",
+            "/account",
+            "/install",
+            "/api",
+            "/graphiql",
+          ].some((p) => p === lc || lc.startsWith(`${p}/`));
+        },
         target: `http://localhost:${serverPort}`,
+        onError: (err, req, res) => {
+          res.writeHead(500, {
+            "Content-Type": "text/html",
+          });
+          res.end(
+            fs.readFileSync(
+              path.join(__dirname, "webpackDevServerProxyError.html")
+            )
+          );
+          return;
+        },
       },
-      // Proxy to the GraphiQL route on the server.
-      "/graphiql": {
-        target: `http://localhost:${serverPort}`,
-      },
-    },
+    ],
     before(app, server) {
       // This lets us fetch source contents from webpack for the error overlay
       app.use(evalSourceMapMiddleware(server));

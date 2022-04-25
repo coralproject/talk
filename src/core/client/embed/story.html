@@ -16,7 +16,7 @@
     <p style="text-align: center;">
       <a href="/admin">Admin</a> | <a href="/">Default</a> |
       <a href="/storyButton.html">Story With Button</a> |
-      <a href="/storyAMP.html"> AMP</a>
+      <a href="http://127.0.0.1:8080/storyAMP.html"> AMP</a>
     </p>
     <h1 style="text-align: center">Coral – Story</h1>
     <p>
@@ -123,6 +123,7 @@
     <script>
       const CoralStreamEmbed = Coral.createStreamEmbed({
         id: "coralStreamEmbed",
+        rootURL: "http://localhost:8080",
         autoRender: true,
       });
       window.CoralStreamEmbed = CoralStreamEmbed;

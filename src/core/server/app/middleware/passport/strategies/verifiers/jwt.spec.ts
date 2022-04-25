@@ -7,7 +7,7 @@ import {
   SymmetricSigningAlgorithm,
 } from "coral-server/services/jwt";
 
-import { isJWTToken, JWTToken } from "./jwt";
+import { JWTToken, validateToken } from "./jwt";
 
 // Create signing config.
 const config: JWTSigningConfig = {
@@ -30,7 +30,7 @@ it("validates a jwt token", async () => {
   // eslint-disable-next-line @typescript-eslint/ban-types
   const token = jwt.decode(tokenString) as object;
 
-  expect(isJWTToken(token)).toBeTruthy();
+  expect(validateToken(token)).toBeUndefined();
   expect((token as JWTToken).exp).toBe(
     DateTime.fromJSDate(now).plus({ seconds: 100 }).toSeconds()
   );

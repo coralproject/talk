@@ -6,22 +6,52 @@ import {
   createMutation,
 } from "coral-framework/lib/relay";
 import { ShowMoreRepliesEvent } from "coral-stream/events";
+
+import { MarkCommentsAsSeenInput } from "coral-stream/__generated__/MarkCommentsAsSeenMutation.graphql";
+
 import { incrementStoryCommentCounts } from "../helpers";
 
 interface ReplyListViewNewMutationInput {
   storyID: string;
   commentID: string;
+
+  viewerID?: string;
+  markSeen: boolean;
+  markAsSeen?: (
+    input: Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
+      updateSeen: boolean;
+    }
+  ) => Promise<
+    Omit<
+      {
+        readonly comments: ReadonlyArray<{
+          readonly id: string;
+          readonly seen: boolean | null;
+        }>;
+        readonly clientMutationId: string;
+      },
+      "clientMutationId"
+    >
+  >;
 }
 
 const ReplyListViewNewMutation = createMutation(
   "viewNew",
   async (
     environment: Environment,
-    input: ReplyListViewNewMutationInput,
+    {
+      commentID,
+      storyID,
+      viewerID,
+      markSeen,
+      markAsSeen,
+    }: ReplyListViewNewMutationInput,
     { eventEmitter }: CoralContext
   ) => {
+    let commentIDs: string[] = [];
+
     await commitLocalUpdatePromisified(environment, async (store) => {
-      const parentProxy = store.get(input.commentID);
+      const parentProxy = store.get(commentID);
       if (!parentProxy) {
         return;
       }
@@ -43,15 +73,23 @@ const ReplyListViewNewMutation = createMutation(
       }
       viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeAfter(connection, edge);
-        incrementStoryCommentCounts(store, input.storyID, edge);
+        incrementStoryCommentCounts(store, storyID, edge);
       });
+
+      commentIDs = viewNewEdges.map(
+        (edge) => edge.getLinkedRecord("node")!.getValue("id") as string
+      );
 
       connection.setLinkedRecords([], "viewNewEdges");
       ShowMoreRepliesEvent.emit(eventEmitter, {
-        commentID: input.commentID,
+        commentID,
         count: viewNewEdges.length,
       });
     });
+
+    if (viewerID && markSeen && commentIDs.length > 0 && markAsSeen) {
+      await markAsSeen({ storyID, commentIDs, updateSeen: false });
+    }
   }
 );
 

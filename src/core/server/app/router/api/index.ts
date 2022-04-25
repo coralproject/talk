@@ -6,6 +6,7 @@ import { externalMediaHandler, oembedHandler } from "coral-server/app/handlers";
 import {
   apolloGraphQLMiddleware,
   authenticate,
+  corsWhitelisted,
   cspSiteMiddleware,
   JSONErrorHandler,
   jsonMiddleware,
@@ -53,13 +54,18 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use(passport.initialize());
 
   // Create the auth router.
-  router.use("/auth", createNewAuthRouter(app, options));
+  router.use(
+    "/auth",
+    corsWhitelisted(app.mongo),
+    createNewAuthRouter(app, options)
+  );
   router.use("/account", createNewAccountRouter(app, options));
   router.use("/user", createNewUserRouter(app));
 
   // Configure the GraphQL route middleware.
   router.use(
     "/graphql",
+    corsWhitelisted(app.mongo),
     authenticate(options.passport),
     jsonMiddleware(app.config.get("max_request_size")),
     persistedQueryMiddleware(app)
