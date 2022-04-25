@@ -98,7 +98,7 @@ comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
-comments-postCommentForm-gifSearch = Search for a GIF
+comments-postComment-gifSearch = Search for a GIF
 comments-postComment-gifSearch-search =
   .aria-label = Search
 comments-postComment-gifSearch-loading = Loading...
