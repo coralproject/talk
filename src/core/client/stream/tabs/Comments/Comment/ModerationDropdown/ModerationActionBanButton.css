@@ -12,7 +12,7 @@ $commentsModerationBannedColor: var(--palette-error-500);
 
 .banned {
   &:disabled {
-    opacity: 1.0;
+    opacity: 1;
   }
   color: $commentsModerationBannedColor;
   font-weight: var(--font-weight-primary-bold);
