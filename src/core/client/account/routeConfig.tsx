@@ -1,13 +1,20 @@
 import { makeRouteConfig, Route } from "found";
-import React from "react";
+import React, { FunctionComponent } from "react";
+
+import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
 
 import DownloadRoute from "./routes/download/Download";
 import ConfirmRoute from "./routes/email/Confirm";
 import UnsubscribeRoute from "./routes/notifications/Unsubscribe";
 import ResetRoute from "./routes/password/Reset";
 
+/** Small wrapper that omits router props */
+const CoralContainer: FunctionComponent = ({ children }) => (
+  <CoralWindowContainer>{children}</CoralWindowContainer>
+);
+
 export default makeRouteConfig(
-  <Route path="account">
+  <Route path="account" Component={CoralContainer}>
     <Route path="password">
       <Route path="reset" {...ResetRoute.routeConfig} />
     </Route>

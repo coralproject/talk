@@ -7,8 +7,7 @@ import CLASSES from "coral-stream/classes";
 import { OpenSortMenuEvent } from "coral-stream/events";
 import { AriaInfo, Flex, Option, SelectField } from "coral-ui/components/v2";
 
-import * as styles from "./SortMenu.css";
-
+import styles from "./SortMenu.css";
 interface Props {
   className?: string;
   orderBy:

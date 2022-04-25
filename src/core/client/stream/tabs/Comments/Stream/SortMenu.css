@@ -19,7 +19,7 @@
     calc(var(--spacing-1) + 1.0px) var(--spacing-2);
 }
 
-@media screen and (max-width: $breakpoints-mobile) {
+:global(.coral-width-lte-mobile) {
   .selectFont {
     font-family: var(--font-family-primary);
     font-weight: var(--font-weight-primary-semi-bold);

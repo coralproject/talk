@@ -2,7 +2,7 @@ import { Environment } from "relay-runtime";
 
 import { replaceAccessTokenOnTheFly } from "coral-framework/lib/auth";
 import { CoralContext } from "coral-framework/lib/bootstrap";
-import { createMutation } from "coral-framework/lib/relay";
+import { createMutation } from "coral-framework/lib/relay/mutation";
 
 interface SetAccessTokenInput {
   /**

@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`PymControl should create iframe 1`] = `"<iframe src=\\"http://coralproject.net/?initialWidth=0&amp;childId=pymcontrol-test-id&amp;parentTitle=&amp;parentUrl=http%3A%2F%2Flocalhost%2F\\" width=\\"100%\\" scrolling=\\"no\\" marginheight=\\"0\\" frameborder=\\"0\\" title=\\"iFrame title\\" id=\\"pymcontrol-test-id_iframe\\" name=\\"pymcontrol-test-id_iframe\\"></iframe>"`;
-
-exports[`PymControl should send message 1`] = `"pymxPYMxpymcontrol-test-idxPYMxtestxPYMxhello world"`;

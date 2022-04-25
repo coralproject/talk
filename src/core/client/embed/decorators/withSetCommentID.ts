@@ -1,15 +1,18 @@
 import { parseQuery, stringifyQuery } from "coral-common/utils";
 import { buildURL } from "coral-framework/utils";
+import { EventEmitter2 } from "eventemitter2";
 
-import { Decorator } from "./types";
+import { CleanupCallback } from "./types";
 
 function getCurrentCommentID() {
   return parseQuery(location.search).commentID;
 }
 
-const withSetCommentID: Decorator = (pym) => {
+const withSetCommentID = (
+  streamEventEmitter: EventEmitter2
+): CleanupCallback => {
   // Add the permalink comment id to the query.
-  pym.onMessage("setCommentID", (id: string) => {
+  streamEventEmitter.on("stream.setCommentID", (id: string) => {
     const search = stringifyQuery({
       ...parseQuery(location.search),
       commentID: id || undefined,
@@ -25,7 +28,7 @@ const withSetCommentID: Decorator = (pym) => {
   // Send new commentID when history state changes.
   const sendSetCommentID = (e: Event) => {
     const commentID = getCurrentCommentID();
-    pym.sendMessage("setCommentID", commentID || "");
+    streamEventEmitter.emit("embed.setCommentID", commentID || "");
   };
   window.addEventListener("popstate", sendSetCommentID);
 
