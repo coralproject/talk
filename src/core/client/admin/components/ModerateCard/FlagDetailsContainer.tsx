@@ -13,6 +13,8 @@ import {
 
 import FlagDetails from "./FlagDetails";
 
+import styles from "./FlagDetailsContainer.css";
+
 interface Reasons<T> {
   offensive: T[];
   abusive: T[];
@@ -69,53 +71,58 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
   );
 
   return (
-    <HorizontalGutter size="oneAndAHalf">
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-offensive">
-            <span>Offensive</span>
-          </Localized>
-        }
-        nodes={offensive}
-        onUsernameClick={onUsernameClick}
-      />
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-abusive">
-            <span>Abusive</span>
-          </Localized>
-        }
-        nodes={abusive}
-        onUsernameClick={onUsernameClick}
-      />
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-spam">
-            <span>Spam</span>
-          </Localized>
-        }
-        nodes={spam}
-        onUsernameClick={onUsernameClick}
-      />
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-bio">
-            <span>Bio</span>
-          </Localized>
-        }
-        nodes={bio}
-        onUsernameClick={onUsernameClick}
-      />
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-other">
-            <span>Other</span>
-          </Localized>
-        }
-        nodes={other}
-        onUsernameClick={onUsernameClick}
-      />
-    </HorizontalGutter>
+    <>
+      <Localized id="moderate-flagDetails-latestReports">
+        <p className={styles.latestReports}>Latest reports</p>
+      </Localized>
+      <HorizontalGutter size="oneAndAHalf">
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-offensive">
+              <span>Offensive</span>
+            </Localized>
+          }
+          nodes={offensive}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-abusive">
+              <span>Abusive</span>
+            </Localized>
+          }
+          nodes={abusive}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-spam">
+              <span>Spam</span>
+            </Localized>
+          }
+          nodes={spam}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-bio">
+              <span>Bio</span>
+            </Localized>
+          }
+          nodes={bio}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-other">
+              <span>Other</span>
+            </Localized>
+          }
+          nodes={other}
+          onUsernameClick={onUsernameClick}
+        />
+      </HorizontalGutter>
+    </>
   );
 };
 

@@ -988,6 +988,7 @@ moderate-marker-repeatPost = Repeat comment
 moderate-marker-other = Other
 
 moderate-markers-details = Details
+moderate-flagDetails-latestReports = Latest reports
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam

@@ -764,6 +764,8 @@ export const baseComment = createFixture<GQLComment>({
     },
   },
   flags: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
     nodes: [],
   },
   story: stories[0],
@@ -838,6 +840,27 @@ export const reportedComments = createFixtures<GQLComment>(
       body:
         "This is the last random sentence I will be writing and I am going to stop mid-sent",
       flags: {
+        edges: [
+          {
+            node: {
+              id: "comment-0-flag-0",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+              flagger: users.commenters[0],
+              additionalDetails: "This looks like an ad",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+          {
+            node: {
+              id: "comment-0-flag-1",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+              flagger: users.commenters[1],
+              additionalDetails: "",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+        ],
+        pageInfo: { endCursor: "2021-06-01T14:21:21.890Z", hasNextPage: true },
         nodes: [
           {
             id: "comment-0-flag-0",
@@ -866,7 +889,7 @@ export const reportedComments = createFixtures<GQLComment>(
             cursor: "2021-06-01T14:21:21.890Z",
           },
         ],
-        pageInfo: { endCursor: null, hasNextPage: false },
+        pageInfo: { endCursor: "2021-06-01T14:21:21.890Z", hasNextPage: true },
       },
     },
     {
@@ -894,6 +917,36 @@ export const reportedComments = createFixtures<GQLComment>(
       author: users.commenters[1],
       body: "Don't fool with me",
       flags: {
+        edges: [
+          {
+            node: {
+              id: "comment-1-flag-0",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+              flagger: users.commenters[0],
+              additionalDetails: "I find this offensive",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+          {
+            node: {
+              id: "comment-1-flag-1",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+              flagger: users.commenters[1],
+              additionalDetails: "Not like that",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+          {
+            node: {
+              id: "comment-1-flag-2",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+              flagger: users.commenters[2],
+              additionalDetails: "",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
         nodes: [
           {
             id: "comment-1-flag-0",
@@ -943,6 +996,27 @@ export const reportedComments = createFixtures<GQLComment>(
       author: users.commenters[2],
       body: "I think I deserve better",
       flags: {
+        edges: [
+          {
+            node: {
+              id: "comment-2-flag-0",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+              flagger: users.commenters[0],
+              additionalDetails: "I find this offensive",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+          {
+            node: {
+              id: "comment-2-flag-1",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+              flagger: users.commenters[2],
+              additionalDetails: "",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
         nodes: [
           {
             id: "comment-2-flag-0",
@@ -985,6 +1059,18 @@ export const reportedComments = createFixtures<GQLComment>(
       author: users.commenters[3],
       body: "World peace at last",
       flags: {
+        edges: [
+          {
+            node: {
+              id: "comment-3-flag-0",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+              flagger: users.commenters[2],
+              additionalDetails: "",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
         nodes: [
           {
             id: "comment-3-flag-0",
