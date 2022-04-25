@@ -18,7 +18,7 @@ framework-timeago =
        [1] Sekunde
       *[other] Sekunden
     }
-    [minuto] { $value ->
+    [minute] { $value ->
        [1] Minute
       *[other] Minuten
     }
