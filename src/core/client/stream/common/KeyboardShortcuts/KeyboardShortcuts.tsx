@@ -148,7 +148,8 @@ const getCurrentKeyStop = (
 const findNextKeyStop = (
   root: ShadowRoot | Document,
   currentStop: KeyStop | null,
-  options: TraverseOptions = {}
+  options: TraverseOptions = {},
+  currentScrollRef?: any
 ): KeyStop | null => {
   const stops = getKeyStops(root);
   if (stops.length === 0) {
@@ -181,6 +182,23 @@ const findNextKeyStop = (
 
   // We couldn't find your current element to get the next one! Go to the first
   // stop.
+  if (currentScrollRef) {
+    currentScrollRef.current.scrollIntoView({
+      align: "center",
+      index: 0,
+      behavior: "auto",
+      done: () => {
+        setTimeout(() => {
+          const newStops = getKeyStops(root);
+          const firstKeyStop = getFirstKeyStop(newStops, options);
+          if (firstKeyStop) {
+            firstKeyStop.element.focus();
+          }
+        }, 0);
+      },
+    });
+    return null;
+  }
   return getFirstKeyStop(stops, options);
 };
 
@@ -396,7 +414,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         if (config.reverse) {
           stop = findPreviousKeyStop(root, currentStop, traverseOptions);
         } else {
-          stop = findNextKeyStop(root, currentStop, traverseOptions);
+          stop = findNextKeyStop(
+            root,
+            currentStop,
+            traverseOptions,
+            currentScrollRef
+          );
         }
       }
 
@@ -468,6 +491,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       renderWindow,
       setTraversalFocus,
       zKeyEnabled,
+      currentScrollRef,
     ]
   );
 
@@ -845,7 +869,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, traverse, updateButtonStates, root]);
+  }, [
+    eventEmitter,
+    traverse,
+    updateButtonStates,
+    root,
+    commentSeenEnabled,
+    setTraversalFocus,
+  ]);
 
   // Subscribe to keypress events.
   useEffect(() => {
