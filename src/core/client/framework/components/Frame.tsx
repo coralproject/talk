@@ -94,6 +94,7 @@ const Frame: FunctionComponent<Props> = ({
       {(height === 0 || height > 250) && (
         <div className={styles.expand} style={{ display: `${displayExpand}` }}>
           <Button
+            color="stream"
             onClick={() => {
               setMaxHeight("none");
               setDisplayExpand("none");
