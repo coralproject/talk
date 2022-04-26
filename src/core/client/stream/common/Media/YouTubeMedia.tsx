@@ -14,6 +14,7 @@ const YouTubeMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
     <Frame
       id={id}
       src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
+      type="youtube"
     />
   );
 };

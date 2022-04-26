@@ -52,8 +52,9 @@ const AddACommentButton: FunctionComponent<Props> = ({
             index: indexToScroll,
             behavior: "auto",
             done: () => {
-              // allow time for any media to load in then scroll into view
-              setTimeout(() => postCommentForm.scrollIntoView(), 2000);
+              setTimeout(() => {
+                postCommentForm.scrollIntoView();
+              }, 0);
             },
           });
         }

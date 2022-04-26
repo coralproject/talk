@@ -1,3 +1,0 @@
-.borderedFooter {
-  border-top: 1px solid var(--palette-grey-300);
-}

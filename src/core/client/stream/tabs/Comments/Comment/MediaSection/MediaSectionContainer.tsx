@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
@@ -37,18 +42,21 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       }
     }
   `);
+  const [wasToggled, setWasToggled] = useState(false);
   const onToggleExpand = useCallback(() => {
     const initialMediaSettings = expandedMediaSettings
       ? expandedMediaSettings
       : { commentIDs: [] };
     const indexOfComment = initialMediaSettings.commentIDs.indexOf(comment.id);
     if (indexOfComment === -1) {
+      setWasToggled(defaultExpanded ? false : true);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.concat(comment.id),
         },
       });
     } else {
+      setWasToggled(defaultExpanded ? true : false);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.filter(
@@ -57,7 +65,13 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         },
       });
     }
-  }, [comment, expandedMediaSettings, setLocal]);
+  }, [
+    comment,
+    expandedMediaSettings,
+    setLocal,
+    setWasToggled,
+    defaultExpanded,
+  ]);
 
   const expanded = useMemo(() => {
     const commentInSettings = expandedMediaSettings?.commentIDs.includes(
@@ -150,6 +164,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
+          wasToggled={wasToggled}
         />
       )}
       {media.__typename === "TwitterMedia" && (
@@ -157,6 +172,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
+          wasToggled={wasToggled}
         />
       )}
       {media.__typename === "YouTubeMedia" && (

@@ -1,0 +1,16 @@
+.iframeContainer {
+  margin-bottom: 0 !important;
+}
+
+.expand {
+  align-items: end;
+  background-image: linear-gradient(to bottom, #eaeff0, white);
+  display: flex;
+  height: 30px;
+  width: 300px;
+
+  button {
+    padding-bottom: 5px;
+    padding-left: 5px;
+  }
+}
