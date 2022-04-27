@@ -394,6 +394,7 @@ comments-embedLinks-hide-twitter = Hide Tweet
 comments-embedLinks-show-external = Show image
 comments-embedLinks-hide-external = Hide image
 
+comments-embedLinks-expand = Expand
 
 ### Featured Comments
 comments-featured-label =

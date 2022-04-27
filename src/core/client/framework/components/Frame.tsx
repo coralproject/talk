@@ -1,4 +1,11 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { Localized } from "@fluent/react/compat";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 import { v1 as uuid } from "uuid";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -22,6 +29,8 @@ export interface FrameHeightMessage {
 }
 
 const iframeStyle = { display: "block" };
+const youTubeThumbnailHeight = "168px";
+const defaultUnexpandedHeight = 250;
 
 const Frame: FunctionComponent<Props> = ({
   id,
@@ -33,13 +42,12 @@ const Frame: FunctionComponent<Props> = ({
 }) => {
   const { postMessage, rootURL } = useCoralContext();
   const [height, setHeight] = useState(0);
-  // TODO: Make these constants and add comment about Youtube video thumbnail height
   const [maxHeight, setMaxHeight] = useState<string>(
-    type === "twitter" || type === "external_media"
-      ? wasToggled
-        ? "none"
-        : "250px"
-      : "168px"
+    type === "youtube"
+      ? youTubeThumbnailHeight
+      : wasToggled
+      ? "none"
+      : `${defaultUnexpandedHeight}px`
   );
   const [displayExpand, setDisplayExpand] = useState(
     type === "twitter" || type === "external_media"
@@ -71,6 +79,11 @@ const Frame: FunctionComponent<Props> = ({
     return unlisten;
   }, [frameID, postMessage]);
 
+  const onExpand = useCallback(() => {
+    setMaxHeight("none");
+    setDisplayExpand("none");
+  }, [setMaxHeight, setDisplayExpand]);
+
   return (
     <>
       <div
@@ -90,19 +103,13 @@ const Frame: FunctionComponent<Props> = ({
       </div>
       {/* todo: need solution with background or something for external media that
       has height smaller than the default shown */}
-      {/* todo: localize */}
-      {(height === 0 || height > 250) && (
+      {(height === 0 || height > defaultUnexpandedHeight) && (
         <div className={styles.expand} style={{ display: `${displayExpand}` }}>
-          <Button
-            color="stream"
-            onClick={() => {
-              setMaxHeight("none");
-              setDisplayExpand("none");
-            }}
-            variant="text"
-          >
-            Expand
-          </Button>
+          <Localized id="comments-embedLinks-expand">
+            <Button color="stream" onClick={onExpand} variant="text">
+              Expand
+            </Button>
+          </Localized>
         </div>
       )}
     </>
