@@ -51,6 +51,12 @@ interface UnseenComment {
   isRoot: boolean;
 }
 
+// Virtuoso settings
+const overscan = 50;
+const increaseViewportBy = 2000;
+const virtuosoHeight = 600;
+const scrollSeekShowPlaceholderVelocity = 1200;
+
 const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   story,
   settings,
@@ -133,9 +139,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       (local.showLoadAllCommentsButton ||
         (alternateOldestViewEnabled && !loadAllButtonHasBeenClicked)) &&
       totalCommentsLength > NUM_INITIAL_COMMENTS &&
-      ((initialComments && initialComments.length > 20) ||
+      ((initialComments && initialComments.length > NUM_INITIAL_COMMENTS) ||
         (initialComments &&
-          initialComments.length === 20 &&
+          initialComments.length === NUM_INITIAL_COMMENTS &&
           initialComments.hasMore))
     );
   }, [
@@ -146,9 +152,23 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     loadAllButtonHasBeenClicked,
   ]);
 
+  const showLoadMoreForOldestFirstNewComments = useMemo(() => {
+    return (
+      hasMore &&
+      commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+      (comments.length < NUM_INITIAL_COMMENTS ||
+        (comments.length >= NUM_INITIAL_COMMENTS && !displayLoadAllButton))
+    );
+  }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
+
   useEffect(() => {
     setLocal({ totalCommentsLength });
   }, [totalCommentsLength, setLocal]);
+
+  const onDisplayLoadAllButtonClick = useCallback(() => {
+    setLocal({ showLoadAllCommentsButton: false });
+    setLoadAllButtonHasBeenClicked(true);
+  }, [setLocal, setLoadAllButtonHasBeenClicked]);
 
   useEffect(() => {
     // on rerender, clear the newly added comments to show if it's
@@ -288,38 +308,32 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     }
     return (
       <>
-        {hasMore &&
-          commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
-          (comments.length < 20 ||
-            (comments.length >= 20 && !displayLoadAllButton)) && (
-            <Localized id="comments-loadMore">
-              <Button
-                key={`comments-loadMore-${story.comments.edges.length}`}
-                id="comments-loadMore"
-                onClick={loadMoreAndEmit}
-                color="secondary"
-                variant="outlined"
-                fullWidth
-                disabled={isLoadingMore}
-                aria-controls="comments-allComments-log"
-                className={CLASSES.allCommentsTabPane.loadMoreButton}
-                // Added for keyboard shortcut support.
-                data-key-stop
-                data-is-load-more
-              >
-                Load More
-              </Button>
-            </Localized>
-          )}
+        {showLoadMoreForOldestFirstNewComments && (
+          <Localized id="comments-loadMore">
+            <Button
+              key={`comments-loadMore-${story.comments.edges.length}`}
+              id="comments-loadMore"
+              onClick={loadMoreAndEmit}
+              color="secondary"
+              variant="outlined"
+              fullWidth
+              disabled={isLoadingMore}
+              aria-controls="comments-allComments-log"
+              className={CLASSES.allCommentsTabPane.loadMoreButton}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
+            >
+              Load More
+            </Button>
+          </Localized>
+        )}
         {displayLoadAllButton && (
           <Localized id="comments-loadAll">
             <Button
               key={`comments-loadAll-${comments.length}`}
               id="comments-loadAll"
-              onClick={() => {
-                setLocal({ showLoadAllCommentsButton: false });
-                setLoadAllButtonHasBeenClicked(true);
-              }}
+              onClick={onDisplayLoadAllButtonClick}
               color="secondary"
               variant="outlined"
               fullWidth
@@ -341,8 +355,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     isLoadingMore,
     setLocal,
     displayLoadAllButton,
-    hasMore,
-    commentsOrderBy,
+    showLoadMoreForOldestFirstNewComments,
   ]);
 
   const ScrollSeekPlaceholder = useCallback(
@@ -432,12 +445,15 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           : {})}
         useWindowScroll
         ref={currentScrollRef}
-        style={{ height: comments.length > 0 ? 600 : 0 }}
-        increaseViewportBy={{ top: 2000, bottom: 2000 }}
+        style={{ height: comments.length > 0 ? virtuosoHeight : 0 }}
+        increaseViewportBy={{
+          top: increaseViewportBy,
+          bottom: increaseViewportBy,
+        }}
         totalCount={
           displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length
         }
-        overscan={50}
+        overscan={overscan}
         endReached={() => {
           if (hasMore && !isLoadingMore) {
             void loadMoreAndEmit();
@@ -487,7 +503,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{
           enter: (velocity) => {
-            const shouldEnter = Math.abs(velocity) >= 1200;
+            const shouldEnter =
+              Math.abs(velocity) >= scrollSeekShowPlaceholderVelocity;
             return shouldEnter;
           },
           exit: (velocity) => {
