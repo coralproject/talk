@@ -1,21 +1,19 @@
-import { noop } from "lodash";
 import { SinonStub } from "sinon";
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  wait,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { settings, users } from "../fixtures";
 
 beforeEach(() => {
@@ -27,7 +25,7 @@ const viewer = users.admins[0];
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -44,27 +42,43 @@ async function createTestRenderer(
       }
     },
   });
-  const configureContainer = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("configure-container")
-  );
-  const generalContainer = await waitForElement(() =>
-    within(configureContainer).getByTestID("configure-generalContainer")
-  );
-  const saveChangesButton = within(configureContainer).getByTestID(
-    "configure-sideBar-saveChanges"
-  );
+  customRenderAppWithContext(context);
+  const configureContainer = await screen.findByTestId("configure-container");
+  const generalContainer = screen.getByTestId("configure-generalContainer");
+  const saveChangesButton = screen.getByRole("button", {
+    name: "Save Changes",
+  });
   return {
     context,
-    testRenderer,
     configureContainer,
     generalContainer,
     saveChangesButton,
   };
 }
 
-it("renders configure general", async () => {
-  const { configureContainer } = await createTestRenderer();
-  expect(within(configureContainer).toJSON()).toMatchSnapshot();
+it("renders configure general with expected configuration sections", async () => {
+  await createTestRenderer();
+  expect(screen.getByLabelText("Language")).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Flatten replies" })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Load everything" })
+  ).toBeInTheDocument();
+  expect(screen.getByText("Sitewide commenting")).toBeInTheDocument();
+  expect(screen.getByText("Community announcement")).toBeInTheDocument();
+  expect(
+    screen.getByLabelText("Community guidelines summary")
+  ).toBeInTheDocument();
+  expect(screen.getByText("Comment length")).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Comment editing" })
+  ).toBeInTheDocument();
+  expect(screen.getByText("Closing comment streams")).toBeInTheDocument();
+  expect(screen.getByText("Closed comment stream message")).toBeInTheDocument();
+  expect(screen.getByText("Member badges")).toBeInTheDocument();
+  expect(screen.getByText("Commenter bios")).toBeInTheDocument();
+  expect(screen.getByText("Embedded media")).toBeInTheDocument();
 });
 
 it("change language", async () => {
@@ -80,7 +94,6 @@ it("change language", async () => {
   });
   const {
     context: { changeLocale },
-    configureContainer,
     generalContainer,
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
@@ -88,29 +101,18 @@ it("change language", async () => {
   const languageField = within(generalContainer).getByLabelText("Language");
 
   // Let's change the language.
-  act(() => languageField.props.onChange("es"));
+  userEvent.selectOptions(languageField, "es");
+  userEvent.click(saveChangesButton);
 
-  // Send form
-  await act(async () => {
-    await within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
-
-  // Submit button and text field should be disabled.
-  await wait(() => {
-    expect(saveChangesButton.props.disabled).toBe(true);
-  });
+  expect(saveChangesButton).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
-    });
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 
   // Wait for client to change language.
-  await wait(() => {
+  await waitFor(() => {
     expect((changeLocale as SinonStub).called).toBe(true);
   });
 });
@@ -129,59 +131,46 @@ it("change site wide commenting", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const sitewideCommentingContainer = within(
-    generalContainer
-  ).getAllByText("Sitewide commenting", { selector: "fieldset" })[0];
-
-  const offField = within(sitewideCommentingContainer).getByLabelText(
-    "Off - Comment streams closed for new comments"
-  );
-  const contentField = within(sitewideCommentingContainer).getByLabelText(
-    "Sitewide closed comments message"
-  );
-
-  // Let's enable it.
-  act(() => offField.props.onChange(offField.props.value.toString()));
-
-  // Let's change the content.
-  act(() => contentField.props.onChange("Closing message"));
-
-  // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
+  const offField = within(generalContainer).getByRole("radio", {
+    name: "Off - Comment streams closed for new comments",
+  });
+  const contentField = within(generalContainer).getByRole("textbox", {
+    name: "Sitewide closed comments message",
   });
 
+  // Let's enable it.
+  userEvent.click(offField);
+
+  // Let's change the content.
+  userEvent.clear(contentField);
+  userEvent.type(contentField, "Closing message");
+
+  // Send form
+  userEvent.click(saveChangesButton);
+
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(offField.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
+  expect(offField).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(offField.props.disabled).toBe(false);
-    });
+  await waitFor(() => {
+    expect(offField).not.toBeDisabled();
   });
 
   // Should have successfully sent with server.
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
-it("change community guidlines", async () => {
+it("change community guidelines", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
         expectAndFail(variables.settings.communityGuidelines!.content).toEqual(
-          "This is the community guidlines summary"
+          "This is the community guidelines summary"
         );
         expectAndFail(variables.settings.communityGuidelines!.enabled).toEqual(
           true
@@ -193,47 +182,34 @@ it("change community guidlines", async () => {
     },
   });
 
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const guidelinesContainer = within(
-    generalContainer
-  ).getAllByText("Community guidelines summary", { selector: "fieldset" })[0];
-
-  const onField = within(guidelinesContainer).getByLabelText("On");
-  const contentField = within(guidelinesContainer).getByLabelText(
-    "Community guidelines summary"
+  const onField = within(generalContainer).getByTestId(
+    "community-guidelines-on"
   );
-
-  // Let's enable it.
-  act(() => onField.props.onChange(onField.props.value.toString()));
-
-  // Let's change the content.
-  act(() =>
-    contentField.props.onChange("This is the community guidlines summary")
-  );
-
-  // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
+  const contentField = within(generalContainer).getByRole("textbox", {
+    name: "Community guidelines summary",
   });
 
+  // Let's enable it.
+  userEvent.click(onField);
+
+  // Let's change the content.
+  userEvent.clear(contentField);
+  userEvent.type(contentField, "This is the community guidelines summary");
+
+  // Send form
+  userEvent.click(saveChangesButton);
+
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(onField.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
+  expect(onField).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(onField.props.disabled).toBe(false);
-    });
+  await waitFor(() => {
+    expect(onField).not.toBeDisabled();
   });
 
   // Should have successfully sent with server.
@@ -253,34 +229,27 @@ it("change closed stream message", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({ resolvers });
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
 
   const contentField = within(generalContainer).getByLabelText(
     "Closed comment stream message"
   );
 
   // Let's change the content.
-  act(() => contentField.props.onChange("The stream has been closed"));
+  userEvent.clear(contentField);
+  userEvent.type(contentField, "The stream has been closed");
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
-    });
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 });
 
@@ -297,40 +266,30 @@ it("change comment editing time", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({ resolvers });
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
 
-  const durationFieldset = within(
-    generalContainer
-  ).getByText("Comment edit timeframe", { selector: "fieldset" });
-  const valueField = within(durationFieldset).getByLabelText("value");
-  const unitField = within(durationFieldset).getByLabelText("unit");
-  const hoursOption = within(unitField).getByText(/Hours?/);
+  const commentEditingConfigBox = within(generalContainer).getByTestId(
+    "comment-editing-config-box"
+  );
+  const valueField = within(commentEditingConfigBox).getByLabelText("value");
+  const unitField = within(commentEditingConfigBox).getByLabelText("unit");
 
   // Let's turn on and set some invalid values.
-  act(() => valueField.props.onChange({ target: { value: "" } }));
+  userEvent.clear(valueField);
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   expect(
     within(generalContainer).queryAllByText("This field is required.").length
   ).toBe(1);
 
   // Let's change to sth valid.
-  act(() => valueField.props.onChange({ target: { value: "30" } }));
-  act(() =>
-    unitField.props.onChange({
-      target: { value: hoursOption.props.value.toString() },
-    })
-  );
+  userEvent.clear(valueField);
+  userEvent.type(valueField, "30");
+  userEvent.selectOptions(unitField, "Hours");
 
   expect(
     within(generalContainer).queryAllByText(
@@ -339,20 +298,14 @@ it("change comment editing time", async () => {
   ).toBe(0);
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
-    });
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 });
 
@@ -371,17 +324,13 @@ it("change comment length limitations", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const commentLengthContainer = within(
-    generalContainer
-  ).getByText("Comment length", { selector: "fieldset" });
+  const commentLengthContainer = within(generalContainer).getByTestId(
+    "comment-length-config-box"
+  );
   const onField = within(commentLengthContainer).getByLabelText("On");
   const minField = within(commentLengthContainer).getByLabelText(
     "Minimum comment length"
@@ -391,16 +340,14 @@ it("change comment length limitations", async () => {
   );
 
   // Let's turn on and set some invalid values.
-  act(() => onField.props.onChange(onField.props.value.toString()));
-  act(() => minField.props.onChange("invalid"));
-  act(() => maxField.props.onChange("-1"));
+  userEvent.click(onField);
+  userEvent.clear(minField);
+  userEvent.type(minField, "invalid");
+  userEvent.clear(maxField);
+  userEvent.type(maxField, "-1");
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   expect(
     within(generalContainer).queryAllByText(
@@ -409,8 +356,10 @@ it("change comment length limitations", async () => {
   ).toBe(2);
 
   // Make max smaller than min.
-  act(() => minField.props.onChange("1000"));
-  act(() => maxField.props.onChange("500"));
+  userEvent.clear(minField);
+  userEvent.type(minField, "1000");
+  userEvent.clear(maxField);
+  userEvent.type(maxField, "500");
 
   expect(
     within(generalContainer).queryAllByText(
@@ -419,8 +368,9 @@ it("change comment length limitations", async () => {
   ).toBe(1);
 
   // Let's change to sth valid.
-  act(() => minField.props.onChange(""));
-  act(() => maxField.props.onChange("3000"));
+  userEvent.clear(minField);
+  userEvent.clear(maxField);
+  userEvent.type(maxField, "3000");
 
   expect(
     within(generalContainer).queryAllByText(
@@ -429,23 +379,17 @@ it("change comment length limitations", async () => {
   ).toBe(0);
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(minField.props.disabled).toBe(true);
-  expect(maxField.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
+  expect(minField).toBeDisabled();
+  expect(maxField).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(minField.props.disabled).toBe(false);
-      expect(maxField.props.disabled).toBe(false);
-    });
+  await waitFor(() => {
+    expect(minField).not.toBeDisabled();
+    expect(maxField).not.toBeDisabled();
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
@@ -464,64 +408,48 @@ it("change closing comment streams", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({ resolvers });
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
 
-  const closingCommentStreamsContainer = within(
-    generalContainer
-  ).getByText("Closing comment streams", { selector: "fieldset" });
+  const closingCommentStreamsContainer = within(generalContainer).getByTestId(
+    "closing-comment-streams-config-box"
+  );
   const onField = within(closingCommentStreamsContainer).getByLabelText("On");
-  const durationFieldset = within(
-    closingCommentStreamsContainer
-  ).getByText("Close comments after", { selector: "fieldset" });
-  const valueField = within(durationFieldset).getByLabelText("value");
-  const unitField = within(durationFieldset).getByLabelText("unit");
-  const daysOption = within(unitField).getByText(/Days?/);
+  const valueField = within(closingCommentStreamsContainer).getByLabelText(
+    "value"
+  );
+  const unitField = within(closingCommentStreamsContainer).getByLabelText(
+    "unit"
+  );
 
   // Let's turn on and set some invalid values.
-  act(() => onField.props.onChange(onField.props.value.toString()));
-  act(() => valueField.props.onChange({ target: { value: "" } }));
+  userEvent.click(onField);
+  userEvent.clear(valueField);
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   expect(
     within(generalContainer).queryAllByText("This field is required.").length
   ).toBe(1);
 
   // Let's change to sth valid.
-  act(() => valueField.props.onChange({ target: { value: "30" } }));
-  act(() =>
-    unitField.props.onChange({
-      target: { value: daysOption.props.value.toString() },
-    })
-  );
+  userEvent.type(valueField, "30");
+  userEvent.selectOptions(unitField, "Days");
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(valueField.props.disabled).toBe(true);
-  expect(unitField.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
+  expect(valueField).toBeDisabled();
+  expect(unitField).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(valueField.props.disabled).toBe(false);
-      expect(unitField.props.disabled).toBe(false);
-    });
+  await waitFor(() => {
+    expect(valueField).not.toBeDisabled();
+    expect(unitField).not.toBeDisabled();
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
@@ -538,7 +466,11 @@ it("handle server error", async () => {
     },
   });
 
-  const { configureContainer, generalContainer } = await createTestRenderer({
+  const {
+    configureContainer,
+    generalContainer,
+    saveChangesButton,
+  } = await createTestRenderer({
     resolvers,
     muteNetworkErrors: true,
   });
@@ -548,21 +480,16 @@ it("handle server error", async () => {
   );
 
   // Let's change the content.
-  act(() => contentField.props.onChange("The stream has been closed"));
+  userEvent.clear(contentField);
+  userEvent.type(contentField, "The stream has been closed");
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Look for internal error being displayed.
-  await act(async () => {
-    await waitForElement(() =>
-      within(configureContainer).getByText("INTERNAL_ERROR")
-    );
-  });
+  expect(
+    await within(configureContainer).findByText("INTERNAL_ERROR")
+  ).toBeVisible();
 });
 
 it("change rte config", async () => {
@@ -580,52 +507,42 @@ it("change rte config", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const rteContainer = within(
-    generalContainer
-  ).getAllByText("Rich-text comments", { selector: "fieldset" })[0];
-  const onField = within(rteContainer).getByLabelText("On", { exact: false });
-  const offField = within(rteContainer).getByLabelText("Off", { exact: false });
+  const rteContainer = within(generalContainer).getByTestId("rte-config-box");
+  const onField = within(rteContainer).getByLabelText(
+    "On - bold, italics, block quotes, and bulleted lists"
+  );
+  const offField = within(rteContainer).getByLabelText("Off");
   const strikethroughField = within(rteContainer).getByLabelText(
     "Strikethrough"
   );
 
   // Turn off rte will disable additional options.
-  act(() => offField.props.onChange(offField.props.value.toString()));
-  expect(strikethroughField.props.disabled).toBe(true);
+  userEvent.click(offField);
+  expect(strikethroughField).toBeDisabled();
 
   // Turn on rte will enable additional options.
-  act(() => onField.props.onChange(onField.props.value.toString()));
-  expect(strikethroughField.props.disabled).toBe(false);
+  userEvent.click(onField);
+  expect(strikethroughField).not.toBeDisabled();
 
   // Enable strikethrough option.
-  act(() => strikethroughField.props.onChange(true));
+  userEvent.click(strikethroughField);
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(onField.props.disabled).toBe(true);
-  expect(strikethroughField.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
+  expect(onField).toBeDisabled();
+  expect(strikethroughField).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(onField.props.disabled).toBe(false);
-      expect(strikethroughField.props.disabled).toBe(false);
-    });
+  await waitFor(() => {
+    expect(onField).not.toBeDisabled();
+    expect(strikethroughField).not.toBeDisabled();
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
