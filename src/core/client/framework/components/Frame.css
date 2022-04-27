@@ -4,7 +4,11 @@
 
 .expand {
   align-items: end;
-  background-image: linear-gradient(to bottom, #eaeff0, white);
+  background-image: linear-gradient(
+    to bottom,
+    var(--palette-grey-200),
+    var(--palette-background-body)
+  );
   display: flex;
   height: 30px;
   width: 300px;

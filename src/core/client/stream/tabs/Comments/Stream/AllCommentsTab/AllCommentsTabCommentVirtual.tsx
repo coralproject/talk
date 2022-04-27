@@ -181,6 +181,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       length: story.comments.edges.length,
       hasMore,
     });
+    // on rerender, reset whether the Load All Comments button has been clicked
     setLoadAllButtonHasBeenClicked(false);
   }, []);
 
