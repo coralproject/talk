@@ -10,10 +10,13 @@ import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
 import { useLocal } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
+import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
+
 import CLASSES from "coral-stream/classes";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { Button } from "coral-ui/components/v3";
@@ -29,6 +32,7 @@ interface Props {
   isLoadingMore: boolean;
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
+  commentsOrderBy: COMMENT_SORT;
 }
 
 interface Comment {
@@ -56,6 +60,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   isLoadingMore,
   currentScrollRef,
   alternateOldestViewEnabled,
+  commentsOrderBy,
 }) => {
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
@@ -283,6 +288,29 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     }
     return (
       <>
+        {hasMore &&
+          commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+          (comments.length < 20 ||
+            (comments.length >= 20 && !displayLoadAllButton)) && (
+            <Localized id="comments-loadMore">
+              <Button
+                key={`comments-loadMore-${story.comments.edges.length}`}
+                id="comments-loadMore"
+                onClick={loadMoreAndEmit}
+                color="secondary"
+                variant="outlined"
+                fullWidth
+                disabled={isLoadingMore}
+                aria-controls="comments-allComments-log"
+                className={CLASSES.allCommentsTabPane.loadMoreButton}
+                // Added for keyboard shortcut support.
+                data-key-stop
+                data-is-load-more
+              >
+                Load More
+              </Button>
+            </Localized>
+          )}
         {displayLoadAllButton && (
           <Localized id="comments-loadAll">
             <Button
@@ -308,7 +336,14 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         )}
       </>
     );
-  }, [comments, isLoadingMore, setLocal, displayLoadAllButton]);
+  }, [
+    comments,
+    isLoadingMore,
+    setLocal,
+    displayLoadAllButton,
+    hasMore,
+    commentsOrderBy,
+  ]);
 
   const ScrollSeekPlaceholder = useCallback(
     ({ height }: { height: number }) => (
@@ -397,7 +432,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
           : {})}
         useWindowScroll
         ref={currentScrollRef}
-        style={{ height: 600 }}
+        style={{ height: comments.length > 0 ? 600 : 0 }}
         increaseViewportBy={{ top: 2000, bottom: 2000 }}
         totalCount={
           displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length

@@ -288,18 +288,17 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             tag={tag}
           />
         )}
-        {story.comments.edges.length > 0 && (
-          <AllCommentsTabCommentVirtual
-            settings={settings}
-            viewer={viewer}
-            story={story}
-            isLoadingMore={isLoadingMore}
-            loadMoreAndEmit={loadMoreAndEmit}
-            hasMore={hasMore}
-            currentScrollRef={currentScrollRef}
-            alternateOldestViewEnabled={alternateOldestViewEnabled}
-          />
-        )}
+        <AllCommentsTabCommentVirtual
+          settings={settings}
+          viewer={viewer}
+          story={story}
+          isLoadingMore={isLoadingMore}
+          loadMoreAndEmit={loadMoreAndEmit}
+          hasMore={hasMore}
+          currentScrollRef={currentScrollRef}
+          alternateOldestViewEnabled={alternateOldestViewEnabled}
+          commentsOrderBy={commentsOrderBy}
+        />
         {!alternateOldestViewEnabled && (
           <CommentsLinks
             showGoToDiscussions={showGoToDiscussions}
