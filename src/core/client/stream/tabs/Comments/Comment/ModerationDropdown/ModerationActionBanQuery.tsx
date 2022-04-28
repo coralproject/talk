@@ -10,6 +10,7 @@ import ModerationActionBanContainer from "./ModerationActionBanContainer";
 
 interface Props {
   onBan: () => void;
+  onSiteBan: () => void;
   userID: string;
 }
 
@@ -21,6 +22,15 @@ export default class ModerationActionBanQuery extends Component<Props> {
           query ModerationActionBanQuery($userID: ID!) {
             user(id: $userID) {
               ...ModerationActionBanContainer_user
+            }
+            settings {
+              ...ModerationActionBanContainer_settings
+            }
+            story {
+              ...ModerationActionBanContainer_story
+            }
+            viewer {
+              ...ModerationActionBanContainer_viewer
             }
           }
         `}
@@ -38,7 +48,11 @@ export default class ModerationActionBanQuery extends Component<Props> {
           return (
             <ModerationActionBanContainer
               onBan={this.props.onBan}
+              onSiteBan={this.props.onSiteBan}
               user={props ? props.user : null}
+              settings={props ? props.settings : null}
+              story={props ? props.story : null}
+              viewer={props ? props.viewer : null}
             />
           );
         }}

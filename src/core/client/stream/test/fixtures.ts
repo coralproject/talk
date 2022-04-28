@@ -133,13 +133,22 @@ export const settings = createFixture<GQLSettings>({
   loadAllComments: true,
 });
 
-export const site = createFixture<GQLSite>({
-  name: "Test Site",
-  id: "site-id",
-  createdAt: "2018-05-06T18:24:00.000Z",
-  allowedOrigins: ["http://test-site.com"],
-  canModerate: true,
-});
+export const site = createFixtures<GQLSite>([
+  {
+    name: "Test Site",
+    id: "site-id",
+    createdAt: "2018-05-06T18:24:00.000Z",
+    allowedOrigins: ["http://test-site.com"],
+    canModerate: true,
+  },
+  {
+    name: "Second Site",
+    id: "site-two",
+    createdAt: "2018-05-06T18:24:00.000Z",
+    allowedOrigins: ["http://second-site.com"],
+    canModerate: true,
+  },
+]);
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
   {
@@ -150,6 +159,13 @@ export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
         },
       },
     },
+  },
+  settings
+);
+
+export const settingsWithMultisite = createFixture<GQLSettings>(
+  {
+    multisite: true,
   },
   settings
 );
@@ -379,7 +395,7 @@ export const baseStory = createFixture<GQLStory>({
     experts: [],
   },
   canModerate: true,
-  site,
+  site: site[0],
 });
 
 export const baseComment = createFixture<GQLComment>({
@@ -674,6 +690,16 @@ export const moderators = createFixtures<GQLUser>(
       username: "Moderator",
       role: GQLUSER_ROLE.MODERATOR,
       ignoreable: false,
+    },
+    {
+      id: "site-moderator",
+      username: "Site Moderator",
+      role: GQLUSER_ROLE.MODERATOR,
+      ignoreable: false,
+      moderationScopes: {
+        scoped: true,
+        sites: [site[0]],
+      },
     },
   ],
   baseUser

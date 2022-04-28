@@ -4,7 +4,7 @@ import { GQLResolver } from "coral-framework/schema";
 import { CreateTestRendererParams } from "coral-framework/testHelpers";
 
 import createTopLevel, {
-  createContext as createContextTopLevel,
+  createContext as createTopLevelContext,
 } from "../create";
 
 const initLocalState = (
@@ -32,7 +32,7 @@ export default function create(params: CreateTestRendererParams) {
 }
 
 export function createContext(params: CreateTestRendererParams) {
-  return createContextTopLevel({
+  return createTopLevelContext({
     ...params,
     initLocalState: (localRecord, source, environment) => {
       initLocalState(localRecord, source, environment, params);

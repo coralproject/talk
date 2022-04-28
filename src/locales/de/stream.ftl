@@ -96,7 +96,7 @@ comments-postCommentForm-section =
 comments-replyList-showAll = Alle anzeigen
 comments-replyList-showMoreReplies = Weitere Antworten anzeigen
 
-comments-postCommentForm-gifSearch = Nach einem GIF suchen
+comments-postComment-gifSearch = Nach einem GIF suchen
 comments-postComment-gifSearch-search =
   .aria-label = Suche
 comments-postComment-gifSearch-loading = Laden...
