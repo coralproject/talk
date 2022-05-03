@@ -12,13 +12,13 @@ import {
 } from "coral-framework/testHelpers";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
-import { createContext } from "../create";
 import {
   comments,
   settings,
   stories,
   storyWithNoComments,
 } from "../../fixtures";
+import { createContext } from "../create";
 
 const story = stories[0];
 
