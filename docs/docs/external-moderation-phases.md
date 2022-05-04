@@ -34,7 +34,7 @@ The external moderation phase must respond with one of the following:
 ## Request Signing
 
 Requests sent by Coral for external moderation phases use the same process as
-those used by webhooks. Refer to the [webhooks documentation](WEBHOOKS.md#webhook-signing)
+those used by webhooks. Refer to the [webhooks documentation](/webhooks)
 for instructions on how to verify signatures sent by Coral.
 
 ## Schema
