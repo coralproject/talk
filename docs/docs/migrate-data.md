@@ -17,7 +17,7 @@ Before you start the data migration process, make sure you have the following:
 The first step in the data migration process is to get one JSON file for each collection in your v4 data. You will need to use [mongoexport](https://www.mongodb.com/docs/database-tools/mongoexport/) to get these files. The following bash script will create a folder containing the JSON files for each collection. This script may take a long time to run on large data sets.
 
 ```bash
-# Set this to the TALK_MONGO_URL used by Coral.
+# Set this to the v4 TALK_MONGO_URL used by Coral.
 export TALK_MONGO_URL="..."
 
 # Set this to a folder where we'll export the documents from your ^4 database.
@@ -57,7 +57,7 @@ export CORAL_TENANT_ID=""
 # Set this to the ID of your v7 Site.
 export CORAL_SITE_ID=""
 
-# This importer tool is designed to work with Coral at thw following migration
+# This importer tool is designed to work with Coral at the following migration
 # version. This is the newest file in the
 # https://github.com/coralproject/talk/tree/develop/src/core/server/services/migrate/migrations
 # directory for your version of Coral.
@@ -89,6 +89,12 @@ Read the following instructions carefully and in their entirety before attemptin
 
 The following step will perform a further transformation on your users.json file to update user profile data as requried for SSO authentication. The configuration for this step will depend on the specific implementation of your v4 authentication plugin and the shape of the data it stored.
 
+If your plugin saved the User ID at the root level of the document or in an object field, you can specify the path to the user ID using the `CORAL_MAPPER_USERS_SSO_ID` environemnt variable.
+
+```bash
+export CORAL_MAPPER_USERS_SSO_ID="id"
+```
+
 If your plugin saved the User ID (the ID encoded in the authentication token) in the `profiles` array on the `user` document along with a `provider` field, for example:
 
 ```json
@@ -108,11 +114,7 @@ then you will need to configure the `CORAL_MAPPER_USERS_SSO_PROVIDER` environmen
 export CORAL_MAPPER_USERS_SSO_PROVIDER="my-auth"
 ```
 
----
-
-Insert note about how to configure mapper if the ID field is not contained in the profiles array
-
----
+**Only set _either_ `CORAL_MAPPER_USERS_SSO_ID` or `CORAL_MAPPER_USERS_SSO_PROVIDER` but not both, depending on your data**
 
 If your custom plugin wrote the username field to a field that is _not_ called `username` at the top-level of the `user` document, then you will need to set the `CORAL_MAPPER_USERS_USERNAME` environment variable. For example, if your data looks like this:
 

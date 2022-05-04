@@ -8,7 +8,7 @@ Coral v7+ supports more authentication strategies than v4 out of the box with no
 
 ## SSO in v7+
 
-In Legacy Coral, SSO authentication requried:
+In Legacy Coral, SSO authentication required:
 
 1. a service to generate JWTs
 2. a custom plugin to create and authenticate talk users from the JWTs
