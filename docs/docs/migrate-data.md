@@ -164,11 +164,66 @@ coral-importer legacy --dryRun map
 
 If this script succeeded, run it a second time, removing the `--dryRun` flag. If it did not succeed, inspect the logs.json file for more information.
 
-If you have multiple values for `provider` in your dataset, you will need to complete this step multiple times, once for each provider. For example, if you have two `provider` values, `auth-1` and `auth-2`, you will first set `CORAL_MAPPER_USERS_SSO_PROVIDER` to `auth-1`, run the `map` command. Once this has succeeded, replace the `users.json` file in the output directory with the `users.json` file created by the `map` command. Then set `CORAL_MAPPER_USERS_SSO_PROVIDER` to `auth-2` and run the command again.
+### Multiple auth providers in v4 data
 
-Once you have completed the import mapping process, replace the `users.json` file in your output directory with the `users.json` file created by the mapper and move on to the next step.
+If you have multiple values for `profiles[x].provider`, but your SSO authentication system can issue tokens for both types of users, you will need to complete some additional steps. For example, if some user documents look like this:
+
+```json
+{
+  "profiles": [
+    {
+      "provider": "provider-1",
+      "id": "abc123"
+    }
+  ]
+}
+```
+
+and some user documents look like this:
+
+```json
+{
+  "profiles": [
+    {
+      "provider": "provider-2",
+      "id": "def456"
+    }
+  ]
+}
+```
+
+Then running the above process with `CORAL_MAPPER_USERS_SSO_PROVIDER="provider-1"` will only migrate the users that used provider 1. If your SSO system can issue tokens for both types of users, you will just need to migrate the data for each provider separately:
+
+1. Run the import map script for a first time, setting `CORAL_MAPPER_POST_DIRECTORY` to `$PWD/coral/provider-1` and `CORAL_MAPPER_USERS_SSO_PROVIDER` to `"provider-1"`.
+2. Run the import map script for a second time, setting `CORAL_MAPPER_POST_DIRECTORY` to `$PWD/coral/provider-2` and `CORAL_MAPPER_USERS_SSO_PROVIDER` to `"provider-2"`.
+3. Combine the two files together into one `users.json` file.
+
+If you have two separate authentication providers and your SSO system can only issue tokens for one of them, you will have to have users of the unsupported authentication system log in using the supported authentication system and update or link the accounts from your authentication server. The Coral import mapper does not support mapping to multiple authentication providers.
+
+#### Individual users with multiple providers
+
+If you have individual user documents that have multiple provider values, for example:
+
+```json
+{
+  "profiles": [
+    {
+      "provider": "provider-1",
+      "id": "def456"
+    },
+    {
+      "provider": "legacy-provider",
+      "id": "def456"
+    }
+  ]
+}
+```
+
+You will need to select only 1 provider for the map process and ignore the other. Users must have only one `provider` value or there will be errors in the import or login steps.
 
 ## 4. Importing transformed data into v7 mongo instance
+
+If you have completed the import mapping process above, replace the `users.json` file in your output directory with the `users.json` file created by the mapper before completing this step.
 
 The following bash script will import the transformed data into your new v7 mongo instance. This operation may take a long time depending on available system resources and the size of your data set.
 
