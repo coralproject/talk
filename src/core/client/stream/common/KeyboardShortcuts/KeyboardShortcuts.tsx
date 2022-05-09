@@ -337,7 +337,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
       UnmarkAllEvent.emit(eventEmitter, { source: config.source });
 
       // eslint-disable-next-line no-restricted-globals
-      const notSeenComments = root.querySelectorAll<HTMLElement>(
+      const notSeenComments = window.document.querySelectorAll<HTMLElement>(
         "[data-not-seen=true]"
       );
       const commentIDs: string[] = [];
