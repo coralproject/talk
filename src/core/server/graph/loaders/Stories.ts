@@ -128,10 +128,10 @@ const statusFilter = (
   }
 };
 
-const siteFilter = (siteID?: string): StoryConnectionInput["filter"] => {
-  if (siteID) {
+const siteFilter = (siteIDs?: string[]): StoryConnectionInput["filter"] => {
+  if (siteIDs) {
     return {
-      siteID,
+      siteID: { $in: siteIDs },
     };
   }
   return {};
@@ -213,14 +213,14 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  connection: ({ first, after, status, query, siteID }: QueryToStoriesArgs) =>
+  connection: ({ first, after, status, query, siteIDs }: QueryToStoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       orderBy: query ? STORY_SORT.TEXT_SCORE : STORY_SORT.CREATED_AT_DESC,
       filter: {
         // Merge the site filter into the connection filter.
-        ...siteFilter(siteID),
+        ...siteFilter(siteIDs),
         // Merge the status filter into the connection filter.
         ...statusFilter(ctx.tenant.closeCommenting, status, ctx.now),
         // Merge the query filters into the query.

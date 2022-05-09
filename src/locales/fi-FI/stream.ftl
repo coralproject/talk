@@ -69,7 +69,7 @@ comments-postCommentForm-submit = Lähetä
 comments-replyList-showAll = Näytä kaikki
 comments-replyList-showMoreReplies = Näytä lisää vastauksia
 
-comments-postCommentForm-gifSearch = Hae GIF kuvaa
+comments-postComment-gifSearch = Hae GIF kuvaa
 comments-postComment-gifSearch-search =
   .aria-label = Hae
 comments-postComment-gifSearch-loading = Ladataan...

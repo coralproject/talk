@@ -60,6 +60,7 @@ const BanUserMutation = createMutation(
               userID: input.userID,
               message: input.message,
               rejectExistingComments: input.rejectExistingComments,
+              siteIDs: input.siteIDs,
               clientMutationId: clientMutationId.toString(),
             },
           },

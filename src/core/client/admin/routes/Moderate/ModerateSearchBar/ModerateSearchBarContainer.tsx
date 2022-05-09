@@ -168,7 +168,7 @@ type OnSearchCallback = (search: string) => void;
 interface SearchParams {
   query: string;
   limit: number;
-  siteID?: string;
+  siteIDs?: string[];
 }
 /**
  * useSearchOptions
@@ -214,7 +214,7 @@ function useSearchOptions(
         limit: 5,
       };
       if (siteID) {
-        searchParams.siteID = siteID;
+        searchParams.siteIDs = [siteID];
       }
       const { settings, stories } = await searchStory(searchParams);
       if (searchCount !== searchCountRef.current) {

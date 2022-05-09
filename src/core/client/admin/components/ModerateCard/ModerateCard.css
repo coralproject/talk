@@ -15,9 +15,6 @@ $moderateCardLinkTextColor: $colors-teal-700;
   margin-bottom: var(--spacing-4);
 }
 
-.inReplyTo {
-}
-
 .footer {
   margin-top: calc(2 * var(--mini-unit));
 }
@@ -152,9 +149,7 @@ $moderateCardLinkTextColor: $colors-teal-700;
 }
 
 .timestamp {
-  color: $moderateCardTimestampColor;
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-regular);
+  padding-right: var(--spacing-2);
   font-size: var(--font-size-1);
   line-height: 1.33;
 }
