@@ -12,7 +12,9 @@
       "name": "server",
       "directory": "src/core/server",
       "blockedImports": [
-        "coral-client/"
+        "coral-client/",
+        "coral-stream/",
+        "coral-framework/"
       ],
       "extensions": [ ".ts" ]
     }
