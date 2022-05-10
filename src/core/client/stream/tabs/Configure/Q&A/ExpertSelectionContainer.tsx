@@ -1,13 +1,7 @@
 import { Localized } from "@fluent/react/compat";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import {
   useLoadMore,
   useMutation,
@@ -15,7 +9,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
-import { Flex, Icon, TextField } from "coral-ui/components/v2";
+import { ClickOutside, Flex, Icon, TextField } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ExpertSelectionContainer_query as QueryData } from "coral-stream/__generated__/ExpertSelectionContainer_query.graphql";
@@ -66,14 +60,11 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   query,
   relay,
 }) => {
-  const { window } = useCoralContext();
   const users = computeUsers(query);
   const experts = computeExperts(query);
   const [removedExperts, setRemovedExperts] = useState(
     new Array<ExpertListItem>()
   );
-
-  const searchRootRef = React.createRef<HTMLDivElement>();
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
@@ -95,28 +86,6 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     setTempSearchFilter("");
     setSearchFilter("");
   }, [setSearchFilter, setTempSearchFilter]);
-
-  // TODO: (cvle) Use <OnClickOutside> component.
-  const onClickOutside = useCallback(
-    (e: any) => {
-      if (
-        searchRootRef &&
-        searchRootRef.current &&
-        searchRootRef.current.contains(e.target)
-      ) {
-        return;
-      }
-
-      clearSearchFilter();
-    },
-    [clearSearchFilter, searchRootRef]
-  );
-  useEffect(() => {
-    window.document.addEventListener("mousedown", onClickOutside);
-    return () => {
-      window.document.removeEventListener("mousedown", onClickOutside);
-    };
-  }, [onClickOutside, window.document]);
 
   const onAddExpert = useCallback(
     (id: string) => {
@@ -219,7 +188,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
           <span>Search for an expert</span>
         </Localized>
       </div>
-      <div className={styles.searchRoot} ref={searchRootRef}>
+      <ClickOutside onClickOutside={clearSearchFilter}>
         <Flex>
           <Localized
             id="configure-experts-filter-searchField"
@@ -263,42 +232,42 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
           disableLoadMore={isLoadingMore}
           onLoadMore={loadMore}
         />
-        <div className={styles.expertListTitle}>
-          <Localized id="configure-experts-assigned-title">
-            <span>Experts</span>
-          </Localized>
-        </div>
-        {expertsList.length > 0 ? (
-          <ul className={styles.list}>
-            {expertsList.map((u) => {
-              if (u.removed) {
-                return (
-                  <NoLongerAnExpert
-                    key={`${u.id}-removed`}
-                    username={u.username}
-                  />
-                );
-              } else {
-                return (
-                  <ExpertListItem
-                    key={u.id}
-                    id={u.id}
-                    username={u.username}
-                    email={u.email}
-                    onClickRemove={onRemoveExpert}
-                  />
-                );
-              }
-            })}
-          </ul>
-        ) : (
-          <Localized id="configure-experts-none-yet">
-            <div className={styles.noExperts}>
-              There are currently no experts for this Q&A.
-            </div>
-          </Localized>
-        )}
+      </ClickOutside>
+      <div className={styles.expertListTitle}>
+        <Localized id="configure-experts-assigned-title">
+          <span>Experts</span>
+        </Localized>
       </div>
+      {expertsList.length > 0 ? (
+        <ul className={styles.list}>
+          {expertsList.map((u) => {
+            if (u.removed) {
+              return (
+                <NoLongerAnExpert
+                  key={`${u.id}-removed`}
+                  username={u.username}
+                />
+              );
+            } else {
+              return (
+                <ExpertListItem
+                  key={u.id}
+                  id={u.id}
+                  username={u.username}
+                  email={u.email}
+                  onClickRemove={onRemoveExpert}
+                />
+              );
+            }
+          })}
+        </ul>
+      ) : (
+        <Localized id="configure-experts-none-yet">
+          <div className={styles.noExperts}>
+            There are currently no experts for this Q&A.
+          </div>
+        </Localized>
+      )}
     </>
   );
 };
