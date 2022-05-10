@@ -29,12 +29,19 @@ function attachHandlers(db: Db) {
   });
 }
 
+export interface MongoInstance {
+  client: MongoClient;
+  db: Db;
+}
+
 /**
  * create will connect to the MongoDB instance identified in the configuration.
  *
  * @param config application configuration.
  */
-export async function createMongoDB(mongoURI: string): Promise<Db> {
+export async function createMongoInstance(
+  mongoURI: string
+): Promise<MongoInstance> {
   // Connect and create a client for MongoDB.
   const client = await createMongoClient(mongoURI);
 
@@ -47,5 +54,8 @@ export async function createMongoDB(mongoURI: string): Promise<Db> {
   // Attach the handlers.
   attachHandlers(db);
 
-  return db;
+  return {
+    client,
+    db,
+  };
 }

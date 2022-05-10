@@ -1,4 +1,4 @@
-import { Collection, Db } from "mongodb";
+import { Collection, Db, MongoClient } from "mongodb";
 
 import { Config } from "coral-server/config";
 import { CommentAction } from "coral-server/models/action/comment";
@@ -13,9 +13,14 @@ import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { createMongoDB } from "coral-server/services/mongodb";
+import {
+  createMongoInstance,
+  MongoInstance,
+} from "coral-server/services/mongodb";
 
 export interface MongoContext {
+  readonly liveClient: MongoClient;
+  readonly archiveClient?: MongoClient;
   readonly live: Db;
   readonly archive?: Db;
 
@@ -38,12 +43,22 @@ export interface MongoContext {
 }
 
 export class MongoContextImpl implements MongoContext {
+  public readonly liveClient: MongoClient;
+  public readonly archiveClient?: MongoClient;
   public readonly live: Db;
   public readonly archive?: Db;
 
-  constructor(live: Db, archive?: Db) {
+  constructor(
+    liveClient: MongoClient,
+    live: Db,
+    archiveClient?: MongoClient,
+    archive?: Db
+  ) {
     this.live = live;
     this.archive = archive;
+
+    this.liveClient = liveClient;
+    this.archiveClient = archiveClient;
   }
 
   public users(): Collection<Readonly<User>> {
@@ -132,11 +147,11 @@ export async function createMongoContext(
 ): Promise<MongoContext> {
   // Setup MongoDB.
   const liveURI = config.get("mongodb");
-  const live = await createMongoDB(liveURI);
+  const live = await createMongoInstance(liveURI);
 
   // If we have an archive URI, use it, otherwise, default
   // to using the live database
-  let archive: Db | null = null;
+  let archive: MongoInstance | null = null;
   const archiveURI = config.get("mongodb_archive");
   if (
     archiveURI === config.default("mongodb_archive") &&
@@ -144,8 +159,13 @@ export async function createMongoContext(
   ) {
     archive = live;
   } else {
-    archive = await createMongoDB(archiveURI);
+    archive = await createMongoInstance(archiveURI);
   }
 
-  return new MongoContextImpl(live, archive);
+  return new MongoContextImpl(
+    live.client,
+    live.db,
+    archive ? archive.client : undefined,
+    archive ? archive.db : undefined
+  );
 }

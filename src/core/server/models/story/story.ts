@@ -9,6 +9,7 @@ import {
   DuplicateStoryURLError,
   StoryNotFoundError,
 } from "coral-server/errors";
+import { Comment } from "coral-server/models/comment";
 import {
   Connection,
   NodeToCursorTransformer,
@@ -32,7 +33,6 @@ import {
 } from "../comment/counts";
 
 export * from "./helpers";
-
 export interface StreamModeSettings {
   /**
    * mode is whether the story stream is in commenting or Q&A mode.
@@ -910,4 +910,82 @@ export async function markStoryAsUnarchived(
   );
 
   return result.value;
+}
+
+interface GenTreeComment {
+  id: string;
+  createdAt: Date;
+  body: string;
+}
+
+async function findChildren(
+  root: Readonly<GenTreeComment>,
+  comments: Readonly<Comment>[]
+) {
+  return comments
+    .filter((c) => c.parentID === root.id)
+    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+    .map((c) => {
+      return {
+        id: c.id,
+        body: c.revisions[c.revisions.length - 1].body,
+        createdAt: c.createdAt,
+      };
+    });
+}
+
+async function createTree(
+  root: Readonly<GenTreeComment>,
+  comments: Readonly<Comment>[]
+) {
+  const tree: any = {
+    id: root.id,
+    body: root.body,
+    createdAt: root.createdAt,
+    children: [],
+  };
+
+  const children = await findChildren(root, comments);
+  for (const child of children) {
+    const subTree = await createTree(child, comments);
+    tree.children.push(subTree);
+  }
+
+  return tree;
+}
+
+export async function generateTreeForStory(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string
+) {
+  const result = await mongo
+    .comments()
+    .find({
+      tenantID,
+      storyID,
+    })
+    .toArray();
+
+  const rootComments = result
+    .filter((c) => c.parentID === null || c.parentID === undefined)
+    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+
+  const tree: any = [];
+
+  for (const rootComment of rootComments) {
+    const subTree = await createTree(
+      {
+        id: rootComment.id,
+        createdAt: rootComment.createdAt,
+        body: rootComment.revisions[rootComment.revisions.length - 1].body,
+      },
+      result
+    );
+    tree.push(subTree);
+  }
+
+  const output = JSON.stringify(tree, null, 2);
+  // eslint-disable-next-line no-console
+  console.log(output);
 }

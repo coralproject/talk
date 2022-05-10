@@ -8693,6 +8693,20 @@ type MarkCommentsAsSeenPayload {
   comments: [Comment!]!
 }
 
+input GenerateStoryTreeInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  storyID: ID!
+}
+
+type GenerateStoryTreePayload {
+  clientMutationID: String!
+  storyID: ID!
+}
+
 ##################
 ## Mutation
 ##################
@@ -9374,6 +9388,10 @@ type Mutation {
   markCommentsAsSeen(
     input: MarkCommentsAsSeenInput!
   ): MarkCommentsAsSeenPayload!
+
+  generateStoryTree(
+    input: GenerateStoryTreeInput!
+  ): GenerateStoryTreePayload!
 }
 
 ##################
