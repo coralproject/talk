@@ -21,6 +21,7 @@ import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 
 import {
+  GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLSTORY_MODE,
   GQLStoryMetadata,
@@ -32,6 +33,10 @@ import {
   RelatedCommentCounts,
   updateRelatedCommentCounts,
 } from "../comment/counts";
+import {
+  findSeenComments,
+  reduceCommentIDs,
+} from "../seenComments/seenComments";
 
 export * from "./helpers";
 export interface StreamModeSettings {
@@ -108,6 +113,8 @@ export interface Story extends TenantResource {
 
   isArchiving?: boolean;
   isArchived?: boolean;
+
+  tree: StoryTreeComment[];
 }
 
 export interface UpsertStoryInput {
@@ -138,6 +145,7 @@ export async function upsertStory(
     createdAt: now,
     commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
+    tree: [],
   };
 
   if (mode) {
@@ -291,6 +299,7 @@ export async function createStory(
     closedAt,
     commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
+    tree: [],
   };
 
   if (mode) {
@@ -1106,4 +1115,72 @@ export async function updateCommentOnStoryTree(
   const result = await mongo.stories().findOneAndUpdate(query, update, options);
 
   return result.value;
+}
+
+const VISIBLE_STATUSES = [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE];
+
+export async function findNextUnseenVisibleCommentID(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  userID: string,
+  orderBy: GQLCOMMENT_SORT
+) {
+  if (
+    ![GQLCOMMENT_SORT.CREATED_AT_ASC, GQLCOMMENT_SORT.CREATED_AT_DESC].includes(
+      orderBy
+    )
+  ) {
+    throw new Error(
+      "invalid order by detected to find next unseen. Only ascending and descending order is supported."
+    );
+  }
+
+  const story = await mongo.stories().findOne({ tenantID, storyID });
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  const seenComments = await findSeenComments(mongo, tenantID, {
+    storyID,
+    userID,
+  });
+  const seen = seenComments
+    ? seenComments.comments
+    : reduceCommentIDs([], new Date());
+
+  const stack = [...story.tree];
+
+  let current: StoryTreeComment | null | undefined = null;
+
+  while (stack.length > 0) {
+    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+      current = stack.shift();
+    }
+    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+      current = stack.pop();
+    }
+
+    if (!current) {
+      continue;
+    }
+    if (!VISIBLE_STATUSES.includes(current.status)) {
+      continue;
+    }
+
+    if (!(current.id in seen)) {
+      return current.id;
+    }
+
+    if (current.replies.length > 0) {
+      if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+        stack.unshift(...current.replies);
+      }
+      if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+        stack.push(...current.replies);
+      }
+    }
+  }
+
+  return null;
 }

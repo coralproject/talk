@@ -4271,6 +4271,12 @@ type Queues {
   rejector: Queue!
 }
 
+type NextUnseenCommentPayload {
+  commentID: ID!
+  parentID: ID
+  rootCommentID: ID!
+}
+
 ################################################################################
 ## Query
 ################################################################################
@@ -4437,6 +4443,16 @@ type Query {
   emailDomain will return a specific emailDomain configuration if it exists.
   """
   emailDomain(id: ID!): EmailDomain @auth(roles: [ADMIN])
+
+  """
+  nextUnseenComment will return the next unseen comment for the viewer
+  if Z_KEY is enabled.
+  """
+  nextUnseenComment(
+    id: ID!
+    storyID: ID!
+    orderBy: COMMENT_SORT!
+  ): NextUnseenCommentPayload
 }
 
 ################################################################################
@@ -9389,9 +9405,7 @@ type Mutation {
     input: MarkCommentsAsSeenInput!
   ): MarkCommentsAsSeenPayload!
 
-  generateStoryTree(
-    input: GenerateStoryTreeInput!
-  ): GenerateStoryTreePayload!
+  generateStoryTree(input: GenerateStoryTreeInput!): GenerateStoryTreePayload!
 }
 
 ##################
