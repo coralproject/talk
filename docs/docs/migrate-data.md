@@ -37,7 +37,7 @@ done
 
 ## 2. Run `coral-importer`
 
-Download the [coral-importer](https://github.com/coralproject/coral-importer/releases/tag/v0.5.0) tool and unarchive it onto the machine you will be running the import on. The following example bash script will configure the importer and run it in "dry run" mode, which will not write any new files, but will validate document formats and configuration.
+Download the [coral-importer](https://github.com/coralproject/coral-importer/releases) tool and unarchive it onto the machine you will be running the import on. The following example bash script will configure the importer and run it in "dry run" mode, which will not write any new files, but will validate document formats and configuration.
 
 ```bash
 
