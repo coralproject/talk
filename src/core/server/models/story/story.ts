@@ -989,10 +989,7 @@ export async function generateTreeForStory(
     tree.push(subTree);
   }
 
-  // eslint-disable-next-line no-console
-  console.log(JSON.stringify(tree, null, 2));
-
-  const updateResult = await mongo.stories().updateOne(
+  await mongo.stories().updateOne(
     { tenantID, id: storyID },
     {
       $set: {
@@ -1000,9 +997,6 @@ export async function generateTreeForStory(
       },
     }
   );
-
-  // eslint-disable-next-line no-console
-  console.log(updateResult);
 }
 
 /**
