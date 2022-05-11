@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import MainLayout from "coral-admin/components/MainLayout";
@@ -43,47 +43,61 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
   const onRefetch = useCallback(() => {
     setLastUpdated(new Date().toString());
   }, []);
+
+  const sites = useMemo(() => {
+    if (
+      props.query?.viewer?.moderationScopes?.scoped &&
+      props.query.viewer.moderationScopes.sites
+    ) {
+      return props.query.viewer.moderationScopes.sites;
+    }
+    return props.query ? props.query.sites.edges.map((edge) => edge.node) : [];
+  }, [props.query]);
+
   if (!props.site) {
     return null;
   }
-  const sites = props.query
-    ? props.query.sites.edges.map((edge) => edge.node)
-    : [];
   return (
     <MainLayout className={styles.root}>
-      <Popover
-        id="dashboardSiteSwitcher"
-        placement="bottom-end"
-        description="A dialog of the user menu with related links and actions"
-        body={({ toggleVisibility }) => (
-          <ClickOutside onClickOutside={toggleVisibility}>
-            <Dropdown>
-              <IntersectionProvider>
-                <DashboardSiteSelector
-                  loading={!props.query}
-                  sites={sites}
-                  onLoadMore={loadMore}
-                  hasMore={props.relay.hasMore()}
-                  disableLoadMore={isLoadingMore}
-                />
-              </IntersectionProvider>
-            </Dropdown>
-          </ClickOutside>
-        )}
-      >
-        {({ toggleVisibility, ref, visible }) => (
-          <BaseButton onClick={toggleVisibility} ref={ref}>
-            <Flex>
-              <h2 className={styles.header}>{props.site && props.site.name}</h2>
-              {
-                <ButtonIcon className={styles.icon} size="lg">
-                  {visible ? "arrow_drop_up" : "arrow_drop_down"}
-                </ButtonIcon>
-              }
-            </Flex>
-          </BaseButton>
-        )}
-      </Popover>
+      {sites.length > 1 ? (
+        <Popover
+          id="dashboardSiteSwitcher"
+          placement="bottom-end"
+          description="A dialog of the user menu with related links and actions"
+          body={({ toggleVisibility }) => (
+            <ClickOutside onClickOutside={toggleVisibility}>
+              <Dropdown>
+                <IntersectionProvider>
+                  <DashboardSiteSelector
+                    loading={!props.query}
+                    sites={sites}
+                    onLoadMore={loadMore}
+                    hasMore={props.relay.hasMore()}
+                    disableLoadMore={isLoadingMore}
+                  />
+                </IntersectionProvider>
+              </Dropdown>
+            </ClickOutside>
+          )}
+        >
+          {({ toggleVisibility, ref, visible }) => (
+            <BaseButton onClick={toggleVisibility} ref={ref}>
+              <Flex>
+                <h2 className={styles.header}>
+                  {props.site && props.site.name}
+                </h2>
+                {
+                  <ButtonIcon className={styles.icon} size="lg">
+                    {visible ? "arrow_drop_up" : "arrow_drop_down"}
+                  </ButtonIcon>
+                }
+              </Flex>
+            </BaseButton>
+          )}
+        </Popover>
+      ) : (
+        <h2 className={styles.header}>{props.site && props.site.name}</h2>
+      )}
       <Flex alignItems="center" spacing={2}>
         <SiteDashboardTimestamp />
         <Button variant="text" onClick={onRefetch} iconLeft>
@@ -114,6 +128,16 @@ const enhanced = withPaginationContainer<
           @connection(key: "SitesConfig_sites") {
           edges {
             node {
+              id
+              name
+              ...DashboardSiteContainer_site
+            }
+          }
+        }
+        viewer {
+          moderationScopes {
+            scoped
+            sites {
               id
               name
               ...DashboardSiteContainer_site

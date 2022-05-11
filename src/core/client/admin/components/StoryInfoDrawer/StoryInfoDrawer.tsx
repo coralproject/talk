@@ -20,7 +20,7 @@ const StoryInfoDrawer: FunctionComponent<StoryInfoDrawerProps> = ({
   storyID,
 }) => {
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} data-testid="modal-storyInfoDrawer">
       {() => (
         <Card className={styles.root}>
           <Flex direction="column">

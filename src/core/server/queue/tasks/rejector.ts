@@ -20,7 +20,6 @@ import {
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
 import { rejectComment } from "coral-server/stacks";
-import { updateAllCommentCounts } from "coral-server/stacks/helpers";
 
 const JOB_NAME = "rejector";
 
@@ -100,27 +99,29 @@ const rejectArchivedComments = async (
         moderatorID,
       };
 
-      const result = await moderate(mongo, tenant, input, now, true);
-      if (!result.after) {
-        continue;
-      }
-
-      await updateAllCommentCounts(
-        mongo,
-        redis,
-        {
-          ...result,
-          tenant,
-          // Rejecting a comment does not change the action counts.
-          actionCounts: {},
-        },
-        {
+      const updateAllCommentCountsArgs = {
+        // Rejecting a comment does not change the action counts.
+        actionCounts: {},
+        options: {
           updateShared: false,
           updateSite: false,
           updateStory: true,
           updateUser: true,
-        }
+        },
+      };
+
+      const { result } = await moderate(
+        mongo,
+        redis,
+        tenant,
+        input,
+        now,
+        true,
+        updateAllCommentCountsArgs
       );
+      if (!result.after) {
+        continue;
+      }
     }
     // If there was not another page, abort processing.
     if (!connection.pageInfo.hasNextPage) {

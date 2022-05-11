@@ -13,10 +13,13 @@ import {
 
 import FlagDetails from "./FlagDetails";
 
+import styles from "./FlagDetailsContainer.css";
+
 interface Reasons<T> {
   offensive: T[];
   abusive: T[];
   spam: T[];
+  bio: T[];
   other: T[];
 }
 
@@ -27,6 +30,7 @@ function reduceReasons<
     offensive: [],
     abusive: [],
     spam: [],
+    bio: [],
     other: [],
   };
 
@@ -41,11 +45,13 @@ function reduceReasons<
       case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM:
         reasons.spam.push(node);
         break;
+      case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_BIO:
+        reasons.bio.push(node);
+        break;
       case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER:
         reasons.other.push(node);
         break;
     }
-
     return reasons;
   }, initialValue);
 }
@@ -59,50 +65,64 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
   comment,
   onUsernameClick,
 }) => {
-  const { offensive, abusive, spam, other } = useMemo(
+  const { offensive, abusive, spam, bio, other } = useMemo(
     () => reduceReasons(comment.flags.nodes),
     [comment.flags.nodes]
   );
 
   return (
-    <HorizontalGutter size="oneAndAHalf">
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-offensive">
-            <span>Offensive</span>
-          </Localized>
-        }
-        nodes={offensive}
-        onUsernameClick={onUsernameClick}
-      />
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-abusive">
-            <span>Abusive</span>
-          </Localized>
-        }
-        nodes={abusive}
-        onUsernameClick={onUsernameClick}
-      />
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-spam">
-            <span>Spam</span>
-          </Localized>
-        }
-        nodes={spam}
-        onUsernameClick={onUsernameClick}
-      />
-      <FlagDetails
-        category={
-          <Localized id="moderate-flagDetails-other">
-            <span>Other</span>
-          </Localized>
-        }
-        nodes={other}
-        onUsernameClick={onUsernameClick}
-      />
-    </HorizontalGutter>
+    <>
+      <Localized id="moderate-flagDetails-latestReports">
+        <p className={styles.latestReports}>Latest reports</p>
+      </Localized>
+      <HorizontalGutter size="oneAndAHalf">
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-offensive">
+              <span>Offensive</span>
+            </Localized>
+          }
+          nodes={offensive}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-abusive">
+              <span>Abusive</span>
+            </Localized>
+          }
+          nodes={abusive}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-spam">
+              <span>Spam</span>
+            </Localized>
+          }
+          nodes={spam}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-bio">
+              <span>Bio</span>
+            </Localized>
+          }
+          nodes={bio}
+          onUsernameClick={onUsernameClick}
+        />
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-other">
+              <span>Other</span>
+            </Localized>
+          }
+          nodes={other}
+          onUsernameClick={onUsernameClick}
+        />
+      </HorizontalGutter>
+    </>
   );
 };
 

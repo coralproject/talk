@@ -70,7 +70,7 @@ comments-postCommentForm-submit = Kommentar abschicken
 comments-replyList-showAll = Alle anzeigen
 comments-replyList-showMoreReplies = Mehr Antworten anzeigen
 
-comments-postCommentForm-gifSearch = Nach einem GIF suchen
+comments-postComment-gifSearch = Nach einem GIF suchen
 comments-postComment-gifSearch-search =
   .aria-label = Suchen
 comments-postComment-gifSearch-loading = Laden...
