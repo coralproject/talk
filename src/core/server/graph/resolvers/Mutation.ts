@@ -490,8 +490,7 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     clientMutationId: input.clientMutationId,
   }),
   generateStoryTree: async (source, { input }, ctx) => ({
-    storyID: await (await ctx.mutators.Stories.generateStoryTree(input))
-      .storyID,
+    storyID: (await ctx.mutators.Stories.generateStoryTree(input)).storyID,
     clientMutationId: input.clientMutationId,
   }),
 };
