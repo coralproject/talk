@@ -21,6 +21,7 @@ import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 
 import {
+  GQLCOMMENT_STATUS,
   GQLSTORY_MODE,
   GQLStoryMetadata,
   GQLStorySettings,
@@ -912,43 +913,44 @@ export async function markStoryAsUnarchived(
   return result.value;
 }
 
-interface GenTreeComment {
+interface StoryTreeComment {
   id: string;
-  createdAt: Date;
-  body: string;
+  authorID: string | null;
+  status: GQLCOMMENT_STATUS;
+  replies: StoryTreeComment[];
 }
 
 async function findChildren(
-  root: Readonly<GenTreeComment>,
+  root: Readonly<StoryTreeComment>,
   comments: Readonly<Comment>[]
 ) {
   return comments
     .filter((c) => c.parentID === root.id)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
     .map((c) => {
       return {
         id: c.id,
-        body: c.revisions[c.revisions.length - 1].body,
-        createdAt: c.createdAt,
+        authorID: c.authorID,
+        status: c.status,
+        replies: [],
       };
     });
 }
 
 async function createTree(
-  root: Readonly<GenTreeComment>,
+  root: Readonly<StoryTreeComment>,
   comments: Readonly<Comment>[]
 ) {
-  const tree: any = {
+  const tree: StoryTreeComment = {
     id: root.id,
-    body: root.body,
-    createdAt: root.createdAt,
-    children: [],
+    authorID: root.authorID,
+    status: root.status,
+    replies: [],
   };
 
   const children = await findChildren(root, comments);
   for (const child of children) {
     const subTree = await createTree(child, comments);
-    tree.children.push(subTree);
+    tree.replies.push(subTree);
   }
 
   return tree;
@@ -965,27 +967,149 @@ export async function generateTreeForStory(
       tenantID,
       storyID,
     })
+    .sort({ createdAt: 1 })
     .toArray();
 
-  const rootComments = result
-    .filter((c) => c.parentID === null || c.parentID === undefined)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+  const rootComments = result.filter(
+    (c) => c.parentID === null || c.parentID === undefined
+  );
 
-  const tree: any = [];
+  const tree: StoryTreeComment[] = [];
 
   for (const rootComment of rootComments) {
     const subTree = await createTree(
       {
         id: rootComment.id,
-        createdAt: rootComment.createdAt,
-        body: rootComment.revisions[rootComment.revisions.length - 1].body,
+        authorID: rootComment.authorID,
+        status: rootComment.status,
+        replies: [],
       },
       result
     );
     tree.push(subTree);
   }
 
-  const output = JSON.stringify(tree, null, 2);
   // eslint-disable-next-line no-console
-  console.log(output);
+  console.log(JSON.stringify(tree, null, 2));
+
+  const updateResult = await mongo.stories().updateOne(
+    { tenantID, id: storyID },
+    {
+      $set: {
+        tree,
+      },
+    }
+  );
+
+  // eslint-disable-next-line no-console
+  console.log(updateResult);
+}
+
+/**
+ * Max level of nesting from MongoDB.
+ *
+ * @see https://www.mongodb.com/docs/manual/reference/limits/#mongodb-limit-Nested-Depth-for-BSON-Documents
+ */
+const MAX_LEVEL_NESTING = 100;
+
+/**
+ * Max level of ancestors is nesting max, halved (because of the structure of
+ * the tree) and minus two (because the root and tree element itself count).
+ */
+const MAX_ANCESTORS = Math.ceil(MAX_LEVEL_NESTING / 2) - 2;
+
+const KEYS = "abcdefghijklmnopqrstuvwxyz";
+
+const createArrayKeyChar = (i: number) => {
+  return KEYS[i % KEYS.length].repeat(Math.floor(i / KEYS.length) + 1);
+};
+
+const createKey = (ids: string[]) => {
+  if (ids.length > MAX_ANCESTORS) {
+    throw new Error("too many ancestors");
+  }
+
+  let key = "tree";
+
+  // ancestorIDs are in reverse order. So process this in reverse.
+  for (let i = ids.length - 1; i >= 0; i--) {
+    key += `.$[${createArrayKeyChar(i)}].replies`;
+  }
+
+  return key;
+};
+
+const createArrayFilters = (ids: string[]) => {
+  if (ids.length > MAX_ANCESTORS) {
+    throw new Error("too many ancestors");
+  }
+
+  const filters = [];
+
+  // ancestorIDs are in reverse order. So process this in reverse.
+  for (let i = ids.length - 1; i >= 0; i--) {
+    filters.push({ [`${createArrayKeyChar(i)}.id`]: ids[i] });
+  }
+
+  return filters;
+};
+
+const createNode = ({
+  id,
+  status,
+  authorID,
+}: Readonly<Comment>): StoryTreeComment => ({
+  id,
+  status,
+  authorID,
+  replies: [],
+});
+
+export async function addCommentToStoryTree(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  comment: Readonly<Comment>
+) {
+  const query = { tenantID, id: storyID };
+  const update = {
+    $push: {
+      [createKey(comment.ancestorIDs)]: createNode(comment),
+    },
+  };
+  const options = {
+    arrayFilters: createArrayFilters(comment.ancestorIDs),
+    returnDocument: "after",
+  };
+
+  const result = await mongo.stories().findOneAndUpdate(query, update, options);
+
+  return result.value;
+}
+
+export async function updateCommentOnStoryTree(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  comment: Readonly<Comment>
+) {
+  let key = createKey([comment.id, ...comment.ancestorIDs]);
+
+  // key now contains a `.replies` we want to replace with `.status`.
+  key = key.replace(/\.replies$/, ".status");
+
+  const query = { tenantID, id: storyID };
+  const update = {
+    $set: {
+      [key]: comment.status,
+    },
+  };
+  const options = {
+    arrayFilters: createArrayFilters([comment.id, ...comment.ancestorIDs]),
+    returnDocument: "after",
+  };
+
+  const result = await mongo.stories().findOneAndUpdate(query, update, options);
+
+  return result.value;
 }
