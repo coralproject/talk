@@ -22,6 +22,7 @@ exports[`renders correctly 1`] = `
     placeholder="Post a comment"
     placeholderClassName="coral coral-rte-placeholder RTE-placeholder"
     placeholderClassNameDisabled=""
+    rteElementID="Coral-RTE"
     sanitizeToDOMFragment={[Function]}
     sanitizeValue={true}
     toolbarClassName="coral coral-rte-toolbar RTE-toolbar RTE-toolbarHidden"
