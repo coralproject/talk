@@ -9406,6 +9406,7 @@ type Mutation {
   ): MarkCommentsAsSeenPayload!
 
   generateStoryTree(input: GenerateStoryTreeInput!): GenerateStoryTreePayload!
+    @auth(roles: [ADMIN])
 }
 
 ##################
