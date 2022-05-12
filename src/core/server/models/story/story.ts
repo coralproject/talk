@@ -328,7 +328,9 @@ export async function retrieveStoryByURL(
   tenantID: string,
   url: string
 ) {
-  return mongo.stories().findOne({ url, tenantID });
+  return mongo
+    .stories()
+    .findOne({ url, tenantID }, { projection: { tree: 0 } });
 }
 
 export async function retrieveStory(
@@ -336,7 +338,7 @@ export async function retrieveStory(
   tenantID: string,
   id: string
 ) {
-  return mongo.stories().findOne({ id, tenantID });
+  return mongo.stories().findOne({ id, tenantID }, { projection: { tree: 0 } });
 }
 
 export async function retrieveManyStories(
@@ -344,10 +346,13 @@ export async function retrieveManyStories(
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
-  const cursor = mongo.stories().find({
-    id: { $in: ids },
-    tenantID,
-  });
+  const cursor = mongo.stories().find(
+    {
+      id: { $in: ids },
+      tenantID,
+    },
+    { projection: { tree: 0 } }
+  );
 
   const stories = await cursor.toArray();
 
@@ -359,10 +364,13 @@ export async function retrieveManyStoriesByURL(
   tenantID: string,
   urls: ReadonlyArray<string>
 ) {
-  const cursor = mongo.stories().find({
-    url: { $in: urls },
-    tenantID,
-  });
+  const cursor = mongo.stories().find(
+    {
+      url: { $in: urls },
+      tenantID,
+    },
+    { projection: { tree: 0 } }
+  );
 
   const stories = await cursor.toArray();
 
@@ -605,14 +613,17 @@ export async function retrieveActiveStories(
 ) {
   const stories = await mongo
     .stories()
-    .find({
-      tenantID,
-      // We limit this query to stories that have the following field. This
-      // allows us to use the index.
-      lastCommentedAt: {
-        $exists: true,
+    .find(
+      {
+        tenantID,
+        // We limit this query to stories that have the following field. This
+        // allows us to use the index.
+        lastCommentedAt: {
+          $exists: true,
+        },
       },
-    })
+      { projection: { tree: 0 } }
+    )
     .sort({ lastCommentedAt: -1 })
     .limit(limit)
     .toArray();
@@ -856,20 +867,26 @@ export async function retrieveStoriesToBeArchived(
 ): Promise<Readonly<Story>[]> {
   const result = await mongo
     .stories()
-    .find({
-      tenantID,
-      $or: [
-        { lastCommentedAt: { $lte: olderThan } },
-        {
-          $and: [{ lastCommentedAt: null }, { createdAt: { $lte: olderThan } }],
-        },
-      ],
-      isArchiving: { $in: [null, false] },
-      isArchived: { $in: [null, false] },
-      startedUnarchivingAt: { $in: [null, false] },
-      unarchivedAt: { $in: [null, false] },
-      "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
-    })
+    .find(
+      {
+        tenantID,
+        $or: [
+          { lastCommentedAt: { $lte: olderThan } },
+          {
+            $and: [
+              { lastCommentedAt: null },
+              { createdAt: { $lte: olderThan } },
+            ],
+          },
+        ],
+        isArchiving: { $in: [null, false] },
+        isArchived: { $in: [null, false] },
+        startedUnarchivingAt: { $in: [null, false] },
+        unarchivedAt: { $in: [null, false] },
+        "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
+      },
+      { projection: { tree: 0 } }
+    )
     .limit(count)
     .toArray();
 
