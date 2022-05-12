@@ -108,11 +108,11 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
         const rootCommentID =
           comment?.ancestorIDs?.length > 0
             ? comment?.ancestorIDs[comment.ancestorIDs.length - 1]
-            : undefined;
+            : comment.id;
 
         return {
-          id: comment?.id,
-          parentID: comment?.parentID,
+          commentID: comment.id,
+          parentID: comment.parentID,
           rootCommentID,
         };
       }
