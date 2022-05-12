@@ -77,12 +77,15 @@ const createSanitizeToDOMFragment = (
 export const RTELocalized = React.forwardRef<
   any,
   PropTypesOf<typeof LocalizedOriginal>
->(function RTELocalized({ ctrlKey, squire, ButtonComponent, ...props }, ref) {
+>(function RTELocalized(
+  { ctrlKey, squire, ButtonComponent, rteElementID, ...props },
+  ref
+) {
   return (
     <LocalizedOriginal {...props}>
       {React.cloneElement(
         React.Children.only(props.children as React.ReactElement),
-        { ctrlKey, squire, ButtonComponent, ref }
+        { ctrlKey, squire, ButtonComponent, rteElementID, ref }
       )}
     </LocalizedOriginal>
   );
@@ -275,6 +278,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     <div role="none">
       <CoralRTE
         inputID={inputID}
+        rteElementID="Coral-RTE"
         className={cn(CLASSES.rte.$root, className)}
         contentClassName={cn(
           CLASSES.rte.content,

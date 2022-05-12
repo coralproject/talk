@@ -163,6 +163,7 @@ const IframeEncapsulation: FunctionComponent<IframeEncapsulationProps> = ({
         height={height || 0}
         scrolling="no"
         style={iframeStyle}
+        id="Coral-RTE"
       ></iframe>
       {target && (
         <TargetPortal target={target}>
