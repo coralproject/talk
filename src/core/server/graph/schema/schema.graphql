@@ -4272,9 +4272,9 @@ type Queues {
 }
 
 type NextUnseenCommentPayload {
-  commentID: ID!
+  commentID: ID
   parentID: ID
-  rootCommentID: ID!
+  rootCommentID: ID
 }
 
 ################################################################################
