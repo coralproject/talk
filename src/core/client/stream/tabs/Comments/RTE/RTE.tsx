@@ -22,6 +22,7 @@ import { createSanitize } from "coral-common/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import IframeEncapsulation from "coral-framework/lib/encapsulation/IframeEncapsulation";
 import CLASSES from "coral-stream/classes";
+import { RTE_ELEMENT_ID } from "coral-stream/constants";
 import { Icon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -278,7 +279,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     <div role="none">
       <CoralRTE
         inputID={inputID}
-        rteElementID="Coral-RTE"
+        rteElementID={RTE_ELEMENT_ID}
         className={cn(CLASSES.rte.$root, className)}
         contentClassName={cn(
           CLASSES.rte.content,

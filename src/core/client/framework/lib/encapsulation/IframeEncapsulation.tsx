@@ -16,6 +16,7 @@ import {
   useCoralContext,
 } from "coral-framework/lib/bootstrap";
 import { getUIContextPropsFromCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
+import { RTE_ELEMENT_ID } from "coral-stream/constants";
 import { UIContext } from "coral-ui/components/v2";
 import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
 import CSSAsset from "coral-ui/encapsulation/CSSAsset";
@@ -163,7 +164,7 @@ const IframeEncapsulation: FunctionComponent<IframeEncapsulationProps> = ({
         height={height || 0}
         scrolling="no"
         style={iframeStyle}
-        id="Coral-RTE"
+        id={RTE_ELEMENT_ID}
       ></iframe>
       {target && (
         <TargetPortal target={target}>
