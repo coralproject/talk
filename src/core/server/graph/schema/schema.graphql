@@ -8719,8 +8719,24 @@ input GenerateStoryTreeInput {
 }
 
 type GenerateStoryTreePayload {
-  clientMutationID: String!
+  clientMutationId: String!
   storyID: ID!
+}
+
+input RegenerateStoryTreesInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RegenerateStoryTreesPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  accepted: Boolean!
 }
 
 ##################
@@ -9406,6 +9422,9 @@ type Mutation {
   ): MarkCommentsAsSeenPayload!
 
   generateStoryTree(input: GenerateStoryTreeInput!): GenerateStoryTreePayload!
+    @auth(roles: [ADMIN])
+
+  regenerateStoryTrees(input: RegenerateStoryTreesInput!): RegenerateStoryTreesPayload!
     @auth(roles: [ADMIN])
 }
 

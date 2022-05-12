@@ -7,6 +7,7 @@ import {
   generateTreeForStory,
   markStoryForArchiving,
   markStoryForUnarchiving,
+  regenerateStoryTrees,
   retrieveStory,
   Story,
 } from "coral-server/models/story";
@@ -193,5 +194,8 @@ export const Stories = (ctx: GraphContext) => ({
   generateStoryTree: async (input: GQLGenerateStoryTreeInput) => {
     await generateTreeForStory(ctx.mongo, ctx.tenant.id, input.storyID);
     return { storyID: input.storyID };
+  },
+  regenerateStoryTrees: async () => {
+    return await regenerateStoryTrees(ctx.mongo, ctx.tenant.id);
   },
 });

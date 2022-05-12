@@ -996,7 +996,12 @@ export async function generateTreeForStory(
     .sort({ createdAt: 1 })
     .toArray();
 
-  const rootComments = result.filter(
+  const tree = await createTreeFromComments(result);
+  await writeTreeToStory(mongo, tenantID, storyID, tree);
+}
+
+async function createTreeFromComments(comments: Readonly<Comment>[]) {
+  const rootComments = comments.filter(
     (c) => c.parentID === null || c.parentID === undefined
   );
 
@@ -1010,11 +1015,20 @@ export async function generateTreeForStory(
         status: rootComment.status,
         replies: [],
       },
-      result
+      comments
     );
     tree.push(subTree);
   }
 
+  return tree;
+}
+
+async function writeTreeToStory(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  tree: StoryTreeComment[]
+) {
   await mongo.stories().updateOne(
     { tenantID, id: storyID },
     {
@@ -1200,4 +1214,37 @@ export async function findNextUnseenVisibleCommentID(
   }
 
   return null;
+}
+
+export async function regenerateStoryTrees(
+  mongo: MongoContext,
+  tenantID: string
+) {
+  const cursor = mongo.comments().find({ tenantID }).sort({ createdAt: 1 });
+
+  let comment = await cursor.next();
+  let storyID = comment ? comment.storyID : null;
+  let comments: Readonly<Comment>[] = [];
+
+  while (comment !== null) {
+    const currentStoryID = comment.storyID;
+
+    // Story has changed, save current story and setup for next story
+    if (currentStoryID !== storyID && storyID !== null) {
+      // Write out the generated tree for current story
+      const tree = await createTreeFromComments(comments);
+      await writeTreeToStory(mongo, tenantID, storyID, tree);
+
+      // Move to new story
+      storyID = currentStoryID;
+      comments = [];
+    }
+
+    comments.push(comment);
+
+    // Move forward in list
+    comment = await cursor.next();
+  }
+
+  return true;
 }
