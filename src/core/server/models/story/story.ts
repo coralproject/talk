@@ -1153,7 +1153,7 @@ export async function findNextUnseenVisibleCommentID(
     );
   }
 
-  const story = await mongo.stories().findOne({ tenantID, storyID });
+  const story = await mongo.stories().findOne({ tenantID, id: storyID });
   if (!story) {
     throw new StoryNotFoundError(storyID);
   }
