@@ -96,6 +96,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     const commentID = await findNextUnseenVisibleCommentID(
       ctx.mongo,
       ctx.tenant.id,
+      id,
       storyID,
       ctx.user.id,
       orderBy

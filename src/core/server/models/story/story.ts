@@ -1153,6 +1153,7 @@ const VISIBLE_STATUSES = [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE];
 export async function findNextUnseenVisibleCommentID(
   mongo: MongoContext,
   tenantID: string,
+  currentCommentID: string,
   storyID: string,
   userID: string,
   orderBy: GQLCOMMENT_SORT
@@ -1163,7 +1164,7 @@ export async function findNextUnseenVisibleCommentID(
     )
   ) {
     throw new Error(
-      "invalid order by detected to find next unseen. Only ascending and descending order is supported."
+      "invalid orderBy detected: only ascending and descending order is supported."
     );
   }
 
@@ -1172,6 +1173,8 @@ export async function findNextUnseenVisibleCommentID(
     throw new StoryNotFoundError(storyID);
   }
 
+  // Grab the user's seen comments collection and handle if it is null.
+  // Our dictionary/map of id -> Date will be the `seen` variable.
   const seenComments = await findSeenComments(mongo, tenantID, {
     storyID,
     userID,
@@ -1180,39 +1183,67 @@ export async function findNextUnseenVisibleCommentID(
     ? seenComments.comments
     : reduceCommentIDs([], new Date());
 
+  // Flatten the story tree so we can walk it linearly.
   const stack = [...story.tree];
 
-  let current: StoryTreeComment | null | undefined = null;
+  // We will walk the stack in different directions based on
+  // what our sort ordering is.
+  let direction = 1;
+  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+    direction = 1;
+  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+    direction = -1;
+  }
 
-  while (stack.length > 0) {
-    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-      current = stack.shift();
+  // Find our current position in the stack by the passed in
+  // commentID that our commenter is currently focused on
+  // with Z_KEY traversal
+  let cursor = stack.findIndex((c) => c.id === currentCommentID);
+  if (cursor === -1) {
+    return null;
+  }
+
+  // We are going to walk the full length of the stack now, but
+  // we will use the cursor position we found to determine our start
+  // position for our search.
+  //
+  // If we hit either end of the stack, we will loop around to the
+  // "start"/"end" depending on the direction we're going so that
+  // we search the whole stream for unseen comments even if we are
+  // at the bottom/top of the stream.
+
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let i = 0; i < stack.length; i++) {
+    cursor += direction;
+
+    // We hit the bottom of the stack, must be going forwards,
+    // loop back to the beginning
+    if (cursor >= stack.length) {
+      cursor = 0;
     }
-    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-      current = stack.pop();
+    // We hit the start of the stack, must be going backwards,
+    // loop back to the end of the stack
+    if (cursor < 0) {
+      cursor = stack.length - 1;
     }
 
-    if (!current) {
+    const comment = stack[cursor];
+
+    // If a comment is not visible to the stream, the user cannot
+    // tab/Z_KEY/c-key to it, ignore it and continue on.
+    if (!VISIBLE_STATUSES.includes(comment.status)) {
       continue;
     }
-    if (!VISIBLE_STATUSES.includes(current.status)) {
-      continue;
-    }
 
-    if (!(current.id in seen)) {
-      return current.id;
-    }
-
-    if (current.replies.length > 0) {
-      if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-        stack.unshift(...current.replies);
-      }
-      if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-        stack.push(...current.replies);
-      }
+    // If this is true, we have found a new unseen comment
+    // return it, we're done!
+    if (!(comment.id in seen)) {
+      return comment.id;
     }
   }
 
+  // If we get here, we traversed the whole stream and found no unseen
+  // comments. We're done, return nothing.
   return null;
 }
 
