@@ -86,7 +86,7 @@ const MAILTO_PROTOCOL = "mailto:";
 const sanitizeAnchor = (node: Element) => {
   if (node.nodeName === "A") {
     let href = node.getAttribute("href");
-    let innerHtml = node.innerHTML;
+    let textContent = node.textContent;
 
     let mailToWithMatchingInnerHtml = false,
       invalidURL = false;
@@ -100,19 +100,21 @@ const sanitizeAnchor = (node: Element) => {
 
       // Check for a mailto: link with corresponding inner html
       if (url && url.protocol === MAILTO_PROTOCOL) {
-        if (href.replace(url.protocol, "") === innerHtml) {
+        if (href.replace(url.protocol, "") === textContent) {
           mailToWithMatchingInnerHtml = true;
         }
       }
 
       // Account for whether trailing slashes are included or not
       href = href?.endsWith("/") ? href : (href += "/");
-      innerHtml = innerHtml.endsWith("/") ? innerHtml : (innerHtml += "/");
+      textContent = textContent?.endsWith("/")
+        ? textContent
+        : (textContent += "/");
     }
     // When the url is valid and the anchor tag's inner html matches its href
     if (
       !invalidURL &&
-      ((href && href === innerHtml) || mailToWithMatchingInnerHtml)
+      ((href && href === textContent) || mailToWithMatchingInnerHtml)
     ) {
       // Ensure we wrap all the links with the target + rel set
       node.setAttribute("target", "_blank");

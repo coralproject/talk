@@ -13,6 +13,7 @@ const TwitterMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
   return (
     <Frame
       id={id}
+      width="100%"
       src={`/api/oembed?type=twitter&url=${component}&siteID=${siteID}`}
     />
   );
