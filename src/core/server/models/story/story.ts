@@ -1211,6 +1211,13 @@ export async function findNextUnseenVisibleCommentID(
   // "start"/"end" depending on the direction we're going so that
   // we search the whole stream for unseen comments even if we are
   // at the bottom/top of the stream.
+  //
+  // Because of this weird offset traversal, we are doing one loop
+  // with i through the whole stack length, but we will also increment
+  // the cursor with the direction we computed earlier. Some folks
+  // might prefer using one variable to traverse this with an offset,
+  // but I tend to like abstracting the "do the whole loop" and the
+  // "where am I in the search?" as two separate variables.
 
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < stack.length; i++) {
