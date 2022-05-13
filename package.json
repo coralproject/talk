@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -113,7 +113,7 @@
     "graphql-subscriptions": "^1.1.0",
     "he": "^1.2.0",
     "helmet": "^3.22.0",
-    "html-to-text": "^5.1.1",
+    "html-to-text": "^8.2.0",
     "ioredis": "^4.16.1",
     "joi": "^17.2.1",
     "jsdom": "^16.2.2",
@@ -203,7 +203,7 @@
     "@types/fs-extra": "^8.1.0",
     "@types/he": "^1.1.1",
     "@types/helmet": "^0.0.45",
-    "@types/html-to-text": "^1.4.31",
+    "@types/html-to-text": "^8.1.0",
     "@types/html-webpack-plugin": "^3.2.3",
     "@types/ioredis": "^4.19.4",
     "@types/jest": "^26.0.13",
