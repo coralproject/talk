@@ -323,13 +323,6 @@ export default (ctx: GraphContext) => ({
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
 
-    if (ctx.user) {
-      // Append comments to seenComments update list.
-      // These will be set after the GraphQL request has completed.
-      const commentIDs = connection.nodes.map((n) => n.id);
-      ctx.seenComments.insertMany(ctx.user.id, storyID, commentIDs);
-    }
-
     return connection;
   },
   forParent: async (
@@ -357,13 +350,6 @@ export default (ctx: GraphContext) => ({
       },
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
-
-    if (ctx.user) {
-      // Append comments to seenComments update list.
-      // These will be set after the GraphQL request has completed.
-      const commentIDs = connection.nodes.map((n) => n.id);
-      ctx.seenComments.insertMany(ctx.user.id, storyID, commentIDs);
-    }
 
     return connection;
   },
