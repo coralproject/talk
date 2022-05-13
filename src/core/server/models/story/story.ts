@@ -1185,7 +1185,7 @@ export async function findNextUnseenVisibleCommentID(
   let current: StoryTreeComment | null | undefined = null;
 
   while (stack.length > 0) {
-    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
       current = stack.shift();
     }
     if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
@@ -1204,7 +1204,7 @@ export async function findNextUnseenVisibleCommentID(
     }
 
     if (current.replies.length > 0) {
-      if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+      if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
         stack.unshift(...current.replies);
       }
       if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
