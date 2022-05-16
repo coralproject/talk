@@ -7,6 +7,7 @@ import {
 
 import {
   createSubscription,
+  LOCAL_ID,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -51,6 +52,11 @@ function updateForNewestFirst(
 
   // QUESTION: connection here was undefined when using the RR review/question tabs
   connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
+
+  const local = store.get(LOCAL_ID);
+  if (local) {
+    local.setValue(linked.length, "viewNewCount");
+  }
 }
 
 function updateForOldestFirst(

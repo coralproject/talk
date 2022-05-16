@@ -123,4 +123,6 @@ extend type Local {
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
+
+  viewNewCount: Int
 }
