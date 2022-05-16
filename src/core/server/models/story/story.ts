@@ -1266,7 +1266,8 @@ export async function findNextUnseenVisibleCommentID(
   storyID: string,
   userID: string,
   orderBy: GQLCOMMENT_SORT,
-  currentCommentID?: string
+  currentCommentID?: string,
+  viewNewCount?: number
 ) {
   if (
     ![GQLCOMMENT_SORT.CREATED_AT_ASC, GQLCOMMENT_SORT.CREATED_AT_DESC].includes(
@@ -1348,10 +1349,13 @@ export async function findNextUnseenVisibleCommentID(
   // but I tend to like abstracting the "do the whole loop" and the
   // "where am I in the search?" as two separate variables.
 
+  let loopedAround = false;
+
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < stack.length; i++) {
     cursor++;
     if (cursor >= stack.length) {
+      loopedAround = true;
       cursor = 0;
     }
 
@@ -1366,7 +1370,20 @@ export async function findNextUnseenVisibleCommentID(
     // If this is true, we have found a new unseen comment
     // return it, we're done!
     if (!(comment.id in seen)) {
-      return { commentID: comment.id, index: comment.rootIndex };
+      const computedIndex =
+        viewNewCount && viewNewCount > 0
+          ? comment.rootIndex - viewNewCount
+          : comment.rootIndex;
+
+      let needToLoadNew = false;
+      if (!currentCommentID && viewNewCount && viewNewCount > 0) {
+        needToLoadNew = true;
+      }
+      if (loopedAround && viewNewCount && viewNewCount > 0) {
+        needToLoadNew = true;
+      }
+
+      return { commentID: comment.id, index: computedIndex, needToLoadNew };
     }
   }
 

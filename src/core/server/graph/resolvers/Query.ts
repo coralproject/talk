@@ -73,7 +73,11 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
         },
       },
     }),
-  nextUnseenComment: async (source, { id, storyID, orderBy }, ctx) => {
+  nextUnseenComment: async (
+    source,
+    { id, storyID, orderBy, viewNewCount },
+    ctx
+  ) => {
     // unseen comments is only available to logged in users
     if (!ctx.user) {
       return null;
@@ -96,13 +100,18 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
       return null;
     }
 
-    const { commentID, index } = await findNextUnseenVisibleCommentID(
+    const {
+      commentID,
+      index,
+      needToLoadNew,
+    } = await findNextUnseenVisibleCommentID(
       ctx.mongo,
       ctx.tenant.id,
       storyID,
       ctx.user.id,
       orderBy,
-      id
+      id,
+      viewNewCount
     );
 
     if (commentID) {
@@ -119,6 +128,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
           parentID: comment.parentID,
           rootCommentID,
           index,
+          needToLoadNew,
         };
       }
     }

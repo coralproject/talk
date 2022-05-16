@@ -4276,6 +4276,7 @@ type NextUnseenCommentPayload {
   parentID: ID
   rootCommentID: ID
   index: Int
+  needToLoadNew: Boolean
 }
 
 ################################################################################
@@ -4453,6 +4454,7 @@ type Query {
     id: ID
     storyID: ID
     orderBy: COMMENT_SORT!
+    viewNewCount: Int
   ): NextUnseenCommentPayload
 }
 
