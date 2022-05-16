@@ -1153,10 +1153,10 @@ const VISIBLE_STATUSES = [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE];
 export async function findNextUnseenVisibleCommentID(
   mongo: MongoContext,
   tenantID: string,
-  currentCommentID: string,
   storyID: string,
   userID: string,
-  orderBy: GQLCOMMENT_SORT
+  orderBy: GQLCOMMENT_SORT,
+  currentCommentID?: string
 ) {
   if (
     ![GQLCOMMENT_SORT.CREATED_AT_ASC, GQLCOMMENT_SORT.CREATED_AT_DESC].includes(
@@ -1197,10 +1197,22 @@ export async function findNextUnseenVisibleCommentID(
 
   // Find our current position in the stack by the passed in
   // commentID that our commenter is currently focused on
-  // with Z_KEY traversal
-  let cursor = stack.findIndex((c) => c.id === currentCommentID);
-  if (cursor === -1) {
-    return { commentID: null, index: null };
+  // with Z_KEY traversal.
+  // If currentCommentID is null, set cursor so we start at
+  // beginning of stack if order is ascending and end of stack if
+  // order is descending.
+  let cursor = 0;
+  if (!currentCommentID) {
+    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+      cursor = -1;
+    } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+      cursor = 0;
+    }
+  } else {
+    cursor = stack.findIndex((c) => c.id === currentCommentID);
+    if (cursor === -1) {
+      return { commentID: null, index: null };
+    }
   }
 
   // We are going to walk the full length of the stack now, but

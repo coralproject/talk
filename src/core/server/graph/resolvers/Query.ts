@@ -81,9 +81,6 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     if (!storyID) {
       return null;
     }
-    if (!id) {
-      return null;
-    }
     // unseen comments is only compatible with newest or oldest first
     // sort orders.
     if (
@@ -102,10 +99,10 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     const { commentID, index } = await findNextUnseenVisibleCommentID(
       ctx.mongo,
       ctx.tenant.id,
-      id,
       storyID,
       ctx.user.id,
-      orderBy
+      orderBy,
+      id
     );
 
     if (commentID) {
