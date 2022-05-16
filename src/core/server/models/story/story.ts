@@ -8,6 +8,7 @@ import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
   StoryNotFoundError,
+  UserNotFoundError,
 } from "coral-server/errors";
 import { Comment } from "coral-server/models/comment";
 import {
@@ -1173,6 +1174,12 @@ export async function findNextUnseenVisibleCommentID(
     throw new StoryNotFoundError(storyID);
   }
 
+  const user = await mongo.users().findOne({ tenantID, id: userID });
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+  const ignoredUserIDs = user.ignoredUsers.map((u) => u.id);
+
   // Grab the user's seen comments collection and handle if it is null.
   // Our dictionary/map of id -> Date will be the `seen` variable.
   const seenComments = await findSeenComments(mongo, tenantID, {
@@ -1183,8 +1190,24 @@ export async function findNextUnseenVisibleCommentID(
     ? seenComments.comments
     : reduceCommentIDs([], new Date());
 
-  // Flatten the story tree so we can walk it linearly.
-  const stack = [...story.tree];
+  // Flatten the story tree so we can walk it linearly. Also, we will
+  // filter out any non-visible comments, as well as any comments that
+  // are written by an author the user has ignored.
+  const stack = [...story.tree].filter((comment) => {
+    // If a comment is not visible to the stream, the user cannot
+    // tab/Z_KEY/c-key to it, ignore it and continue on.
+    if (!VISIBLE_STATUSES.includes(comment.status)) {
+      return false;
+    }
+
+    // Skip past any ignored users, we do not stop to read these comments
+    // as they are not visible to the current user.
+    if (comment.authorID && ignoredUserIDs.includes(comment.authorID)) {
+      return false;
+    }
+
+    return true;
+  });
 
   // We will walk the stack in different directions based on
   // what our sort ordering is.
@@ -1248,15 +1271,15 @@ export async function findNextUnseenVisibleCommentID(
 
     const comment = stack[cursor];
 
-    // If a comment is not visible to the stream, the user cannot
-    // tab/Z_KEY/c-key to it, ignore it and continue on.
-    if (!VISIBLE_STATUSES.includes(comment.status)) {
+    // We don't count our own comments as unread stops, we have always
+    // seen our own comments
+    if (comment.authorID === userID) {
       continue;
     }
 
-    // If this is true, we have found a new unseen comment
-    // return it, we're done!
-    if (!(comment.id in seen) && !(comment.authorID === userID)) {
+    if (!(comment.id in seen)) {
+      // If this is true, we have found a new unseen comment
+      // return it, we're done!
       let index = cursor;
       if (direction === -1) {
         index = stack.length - 1 - cursor;
