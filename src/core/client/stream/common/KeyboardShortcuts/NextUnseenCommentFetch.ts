@@ -28,6 +28,7 @@ const NextUnseenCommentFetch = createFetch(
             commentID
             parentID
             rootCommentID
+            index
           }
         }
       `,

@@ -99,7 +99,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
       return null;
     }
 
-    const commentID = await findNextUnseenVisibleCommentID(
+    const { commentID, index } = await findNextUnseenVisibleCommentID(
       ctx.mongo,
       ctx.tenant.id,
       id,
@@ -121,6 +121,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
           commentID: comment.id,
           parentID: comment.parentID,
           rootCommentID,
+          index,
         };
       }
     }

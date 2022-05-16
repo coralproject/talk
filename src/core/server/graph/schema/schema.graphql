@@ -4275,6 +4275,7 @@ type NextUnseenCommentPayload {
   commentID: ID
   parentID: ID
   rootCommentID: ID
+  index: Int
 }
 
 ################################################################################
@@ -9424,8 +9425,9 @@ type Mutation {
   generateStoryTree(input: GenerateStoryTreeInput!): GenerateStoryTreePayload!
     @auth(roles: [ADMIN])
 
-  regenerateStoryTrees(input: RegenerateStoryTreesInput!): RegenerateStoryTreesPayload!
-    @auth(roles: [ADMIN])
+  regenerateStoryTrees(
+    input: RegenerateStoryTreesInput!
+  ): RegenerateStoryTreesPayload! @auth(roles: [ADMIN])
 }
 
 ##################

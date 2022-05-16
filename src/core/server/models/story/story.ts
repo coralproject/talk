@@ -1200,7 +1200,7 @@ export async function findNextUnseenVisibleCommentID(
   // with Z_KEY traversal
   let cursor = stack.findIndex((c) => c.id === currentCommentID);
   if (cursor === -1) {
-    return null;
+    return { commentID: null, index: null };
   }
 
   // We are going to walk the full length of the stack now, but
@@ -1244,14 +1244,18 @@ export async function findNextUnseenVisibleCommentID(
 
     // If this is true, we have found a new unseen comment
     // return it, we're done!
-    if (!(comment.id in seen)) {
-      return comment.id;
+    if (!(comment.id in seen) && !(comment.authorID === userID)) {
+      let index = cursor;
+      if (direction === -1) {
+        index = stack.length - 1 - cursor;
+      }
+      return { commentID: comment.id, index };
     }
   }
 
   // If we get here, we traversed the whole stream and found no unseen
   // comments. We're done, return nothing.
-  return null;
+  return { commentID: null, index: null };
 }
 
 export async function regenerateStoryTrees(
