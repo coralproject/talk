@@ -1222,19 +1222,41 @@ interface FlattenedTreeComment extends StoryTreeComment {
 
 function flattenComment(
   comment: StoryTreeComment,
-  result: FlattenedTreeComment[],
-  rootIndex: number
+  orderBy: GQLCOMMENT_SORT,
+  rootIndex: number,
+  result: FlattenedTreeComment[]
 ) {
   result.push({ ...comment, rootIndex });
-  for (const reply of comment.replies) {
-    flattenComment(reply, result, rootIndex);
+
+  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+    for (const reply of comment.replies) {
+      flattenComment(reply, orderBy, rootIndex, result);
+    }
+  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+    for (let i = comment.replies.length - 1; i >= 0; i--) {
+      const reply = comment.replies[i];
+      flattenComment(reply, orderBy, rootIndex, result);
+    }
   }
 }
 
-function flattenTree(tree: StoryTreeComment[], result: FlattenedTreeComment[]) {
-  for (let i = 0; i < tree.length; i++) {
-    const rootComment = tree[i];
-    flattenComment(rootComment, result, i);
+function flattenTree(
+  tree: StoryTreeComment[],
+  orderBy: GQLCOMMENT_SORT,
+  result: FlattenedTreeComment[]
+) {
+  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+    for (let i = 0; i < tree.length; i++) {
+      const rootComment = tree[i];
+      flattenComment(rootComment, orderBy, i, result);
+    }
+  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+    let index = 0;
+    for (let i = tree.length - 1; i >= 0; i--) {
+      const rootComment = tree[i];
+      flattenComment(rootComment, orderBy, index, result);
+      index++;
+    }
   }
 }
 
@@ -1288,16 +1310,7 @@ export async function findNextUnseenVisibleCommentID(
 
   // Flatten our pruned tree with only visible comments
   const stack: FlattenedTreeComment[] = [];
-  flattenTree(prunedTree, stack);
-
-  // We will walk the stack in different directions based on
-  // what our sort ordering is.
-  let direction = 1;
-  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-    direction = 1;
-  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-    direction = -1;
-  }
+  flattenTree(prunedTree, orderBy, stack);
 
   // Find our current position in the stack by the passed in
   // commentID that our commenter is currently focused on
@@ -1337,17 +1350,9 @@ export async function findNextUnseenVisibleCommentID(
 
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < stack.length; i++) {
-    cursor += direction;
-
-    // We hit the bottom of the stack, must be going forwards,
-    // loop back to the beginning
+    cursor++;
     if (cursor >= stack.length) {
       cursor = 0;
-    }
-    // We hit the start of the stack, must be going backwards,
-    // loop back to the end of the stack
-    if (cursor < 0) {
-      cursor = stack.length - 1;
     }
 
     const comment = stack[cursor];
@@ -1358,14 +1363,10 @@ export async function findNextUnseenVisibleCommentID(
       continue;
     }
 
+    // If this is true, we have found a new unseen comment
+    // return it, we're done!
     if (!(comment.id in seen)) {
-      // If this is true, we have found a new unseen comment
-      // return it, we're done!
-      let index = comment.rootIndex;
-      if (direction === -1) {
-        index = story.tree.length - 1 - comment.rootIndex;
-      }
-      return { commentID: comment.id, index };
+      return { commentID: comment.id, index: comment.rootIndex };
     }
   }
 
