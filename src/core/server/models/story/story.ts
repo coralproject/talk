@@ -1151,6 +1151,71 @@ export async function updateCommentOnStoryTree(
 
 const VISIBLE_STATUSES = [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE];
 
+function pruneCommentForVisibleComments(
+  comment: StoryTreeComment,
+  visibleStatuses: GQLCOMMENT_STATUS[],
+  ignoredAuthorIDs: string[]
+) {
+  // If a comment is not visible to the stream, the user cannot
+  // tab/Z_KEY/c-key to it, ignore it and continue on.
+  if (!VISIBLE_STATUSES.includes(comment.status)) {
+    return null;
+  }
+  // Ignore any ignored users, we do not stop to read these comments
+  // as they are not visible to the current user.
+  if (comment.authorID && ignoredAuthorIDs.includes(comment.authorID)) {
+    return null;
+  }
+
+  // Recursively check all our replies the same as we did the root above.
+  // We'll walk down each level and if it's null, we don't include it.
+  const visibleReplies: StoryTreeComment[] = [];
+  for (const reply of comment.replies) {
+    const result = pruneCommentForVisibleComments(
+      reply,
+      visibleStatuses,
+      ignoredAuthorIDs
+    );
+    if (result) {
+      visibleReplies.push(result);
+    }
+  }
+
+  // Return the us + the valid replies under ourself.
+  return {
+    ...comment,
+    replies: visibleReplies,
+  };
+}
+
+// Helper function to iterate over all the linear first array of
+// root comments at the start of the story's comment tree. This is
+// essentially just a filter in a for-loop that starts the recursion
+// down the tree with the above actual recursive op function.
+function pruneTreeForVisibleComments(
+  tree: StoryTreeComment[],
+  visibleStatuses: GQLCOMMENT_STATUS[],
+  ignoredAuthorIDs: string[]
+) {
+  const visibleRootComments: StoryTreeComment[] = [];
+  for (const rootComment of tree) {
+    // Start the recursion
+    const result = pruneCommentForVisibleComments(
+      rootComment,
+      visibleStatuses,
+      ignoredAuthorIDs
+    );
+
+    // If it's null, the comment is ignored or not visible, only
+    // add to visible list if the comment isn't null.
+    if (result) {
+      visibleRootComments.push(result);
+    }
+  }
+
+  return visibleRootComments;
+}
+
 export async function findNextUnseenVisibleCommentID(
   mongo: MongoContext,
   tenantID: string,
@@ -1190,24 +1255,17 @@ export async function findNextUnseenVisibleCommentID(
     ? seenComments.comments
     : reduceCommentIDs([], new Date());
 
-  // Flatten the story tree so we can walk it linearly. Also, we will
-  // filter out any non-visible comments, as well as any comments that
-  // are written by an author the user has ignored.
-  const stack = [...story.tree].filter((comment) => {
-    // If a comment is not visible to the stream, the user cannot
-    // tab/Z_KEY/c-key to it, ignore it and continue on.
-    if (!VISIBLE_STATUSES.includes(comment.status)) {
-      return false;
-    }
+  // Find a tree of only the visible comments. A comment is deemed
+  // visible if its status is in the VISIBLE_STATUSES or it is not
+  // authored by one of the user's ignored users.
+  const prunedTree = pruneTreeForVisibleComments(
+    story.tree,
+    VISIBLE_STATUSES,
+    ignoredUserIDs
+  );
 
-    // Skip past any ignored users, we do not stop to read these comments
-    // as they are not visible to the current user.
-    if (comment.authorID && ignoredUserIDs.includes(comment.authorID)) {
-      return false;
-    }
-
-    return true;
-  });
+  // Flatten our pruned tree with only visible comments
+  const stack = [...prunedTree];
 
   // We will walk the stack in different directions based on
   // what our sort ordering is.
