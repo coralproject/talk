@@ -4449,8 +4449,8 @@ type Query {
   if Z_KEY is enabled.
   """
   nextUnseenComment(
-    id: ID!
-    storyID: ID!
+    id: ID
+    storyID: ID
     orderBy: COMMENT_SORT!
   ): NextUnseenCommentPayload
 }

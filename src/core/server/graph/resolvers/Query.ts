@@ -78,6 +78,12 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     if (!ctx.user) {
       return null;
     }
+    if (!storyID) {
+      return null;
+    }
+    if (!id) {
+      return null;
+    }
     // unseen comments is only compatible with newest or oldest first
     // sort orders.
     if (
