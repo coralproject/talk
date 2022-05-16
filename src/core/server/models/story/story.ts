@@ -1216,6 +1216,28 @@ function pruneTreeForVisibleComments(
   return visibleRootComments;
 }
 
+interface FlattenedTreeComment extends StoryTreeComment {
+  rootIndex: number;
+}
+
+function flattenComment(
+  comment: StoryTreeComment,
+  result: FlattenedTreeComment[],
+  rootIndex: number
+) {
+  result.push({ ...comment, rootIndex });
+  for (const reply of comment.replies) {
+    flattenComment(reply, result, rootIndex);
+  }
+}
+
+function flattenTree(tree: StoryTreeComment[], result: FlattenedTreeComment[]) {
+  for (let i = 0; i < tree.length; i++) {
+    const rootComment = tree[i];
+    flattenComment(rootComment, result, i);
+  }
+}
+
 export async function findNextUnseenVisibleCommentID(
   mongo: MongoContext,
   tenantID: string,
@@ -1265,7 +1287,8 @@ export async function findNextUnseenVisibleCommentID(
   );
 
   // Flatten our pruned tree with only visible comments
-  const stack = [...prunedTree];
+  const stack: FlattenedTreeComment[] = [];
+  flattenTree(prunedTree, stack);
 
   // We will walk the stack in different directions based on
   // what our sort ordering is.
@@ -1338,9 +1361,9 @@ export async function findNextUnseenVisibleCommentID(
     if (!(comment.id in seen)) {
       // If this is true, we have found a new unseen comment
       // return it, we're done!
-      let index = cursor;
+      let index = comment.rootIndex;
       if (direction === -1) {
-        index = stack.length - 1 - cursor;
+        index = story.tree.length - 1 - comment.rootIndex;
       }
       return { commentID: comment.id, index };
     }
