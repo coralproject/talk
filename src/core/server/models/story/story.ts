@@ -1337,28 +1337,33 @@ export async function findNextUnseenVisibleCommentID(
   // we will use the cursor position we found to determine our start
   // position for our search.
   //
-  // If we hit either end of the stack, we will loop around to the
-  // "start"/"end" depending on the direction we're going so that
+  // If we hit the end of the stack, we will loop around to the
+  // "start" depending on the direction we're going so that
   // we search the whole stream for unseen comments even if we are
   // at the bottom/top of the stream.
   //
   // Because of this weird offset traversal, we are doing one loop
   // with i through the whole stack length, but we will also increment
-  // the cursor with the direction we computed earlier. Some folks
-  // might prefer using one variable to traverse this with an offset,
-  // but I tend to like abstracting the "do the whole loop" and the
-  // "where am I in the search?" as two separate variables.
+  // the cursor we computed earlier. Some folks might prefer using one
+  // variable to traverse this with an offset, but I tend to like
+  // abstracting the "do the whole loop" (with `i`) and the "where am
+  // I in the search?" (with `cursor`) as two separate variables.
 
   let loopedAround = false;
 
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < stack.length; i++) {
     cursor++;
+
+    // If we hit the end of the stack, start at the beginning
+    // and "loopAround" until we get to right behind where our
+    // cursor started
     if (cursor >= stack.length) {
       loopedAround = true;
       cursor = 0;
     }
 
+    // Pull the comment out via the cursor
     const comment = stack[cursor];
 
     // We don't count our own comments as unread stops, we have always
@@ -1370,15 +1375,23 @@ export async function findNextUnseenVisibleCommentID(
     // If this is true, we have found a new unseen comment
     // return it, we're done!
     if (!(comment.id in seen)) {
+      // Offset by the client's provided viewNewCount so that our
+      // indices are accurate
       const computedIndex =
         viewNewCount && viewNewCount > 0
           ? comment.rootIndex - viewNewCount
           : comment.rootIndex;
 
       let needToLoadNew = false;
+      // If the user did not provide a comment ID (at start of stream)
+      // and they have a viewNewCount, tell them to load in the new
+      // comments
       if (!currentCommentID && viewNewCount && viewNewCount > 0) {
         needToLoadNew = true;
       }
+      // If the user looped around and they have have a viewNewCount,
+      // they likely want to load in the new comments before traversing
+      // to the next comment
       if (loopedAround && viewNewCount && viewNewCount > 0) {
         needToLoadNew = true;
       }
