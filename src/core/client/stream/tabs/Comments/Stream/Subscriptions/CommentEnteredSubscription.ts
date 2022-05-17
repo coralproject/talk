@@ -55,7 +55,7 @@ function updateForNewestFirst(
 
   const local = store.get(LOCAL_ID);
   if (local) {
-    local.setValue(linked.length, "viewNewCount");
+    local.setValue(linked.length + 1, "viewNewCount");
   }
 }
 
