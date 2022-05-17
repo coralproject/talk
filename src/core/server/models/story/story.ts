@@ -994,7 +994,7 @@ export async function generateTreeForStory(
       tenantID,
       storyID,
     })
-    .sort({ createdAt: 1 })
+    .sort({ createdAt: -1 })
     .toArray();
 
   const tree = await createTreeFromComments(result);
@@ -1109,7 +1109,10 @@ export async function addCommentToStoryTree(
   const query = { tenantID, id: storyID };
   const update = {
     $push: {
-      [createKey(comment.ancestorIDs)]: createNode(comment),
+      [createKey(comment.ancestorIDs)]: {
+        $each: [createNode(comment)],
+        $position: 0,
+      },
     },
   };
   const options = {
@@ -1222,21 +1225,16 @@ interface FlattenedTreeComment extends StoryTreeComment {
 
 function flattenComment(
   comment: StoryTreeComment,
-  orderBy: GQLCOMMENT_SORT,
   rootIndex: number,
   result: FlattenedTreeComment[]
 ) {
   result.push({ ...comment, rootIndex });
 
-  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-    for (const reply of comment.replies) {
-      flattenComment(reply, orderBy, rootIndex, result);
-    }
-  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-    for (let i = comment.replies.length - 1; i >= 0; i--) {
-      const reply = comment.replies[i];
-      flattenComment(reply, orderBy, rootIndex, result);
-    }
+  // Default ordering in story tree is newest first, but replies are
+  // always oldest first order, so we need to flip this around.
+  for (let i = comment.replies.length - 1; i >= 0; i--) {
+    const reply = comment.replies[i];
+    flattenComment(reply, rootIndex, result);
   }
 }
 
@@ -1245,16 +1243,16 @@ function flattenTree(
   orderBy: GQLCOMMENT_SORT,
   result: FlattenedTreeComment[]
 ) {
-  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
     for (let i = 0; i < tree.length; i++) {
       const rootComment = tree[i];
-      flattenComment(rootComment, orderBy, i, result);
+      flattenComment(rootComment, i, result);
     }
-  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
+  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
     let index = 0;
     for (let i = tree.length - 1; i >= 0; i--) {
       const rootComment = tree[i];
-      flattenComment(rootComment, orderBy, index, result);
+      flattenComment(rootComment, index, result);
       index++;
     }
   }
@@ -1409,7 +1407,7 @@ export async function regenerateStoryTrees(
   mongo: MongoContext,
   tenantID: string
 ) {
-  const cursor = mongo.comments().find({ tenantID }).sort({ createdAt: 1 });
+  const cursor = mongo.comments().find({ tenantID }).sort({ createdAt: -1 });
 
   let comment = await cursor.next();
   let storyID = comment ? comment.storyID : null;
