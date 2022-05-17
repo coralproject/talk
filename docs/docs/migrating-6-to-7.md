@@ -58,5 +58,5 @@ html {
 
 Once the update is complete and you are running v7, you may wish to undo some of the previous steps for better maintainability:
 
-1. If desired, you can specify the new custom fonts CSS URL through the admin at \*_Configure > Advanced > Custom CSS Stylesheet URL for Font Faces_. Once you have added the URL to this field you can remove the `customFontsCSSURL` property from your embed code
+1. If desired, you can specify the new custom fonts CSS URL through the admin at **Configure > Advanced > Custom CSS Stylesheet URL for Font Faces**. Once you have added the URL to this field you can remove the `customFontsCSSURL` property from your embed code
 2. You may now remove any rules targeting `body`, `html`, and `:root` from your custom CSS file
