@@ -4272,10 +4272,33 @@ type Queues {
 }
 
 type NextUnseenCommentPayload {
+  """
+  commentID is the new comment the next comment ID to focus on.
+  """
   commentID: ID
+
+  """
+  parentID is the comment ID of the parent of the next comment ID
+  to traverse to.
+  """
   parentID: ID
+
+  """
+  rootCommentID is the root comment (0th indent level) of the next
+  comment ID to traverse to.
+  """
   rootCommentID: ID
+
+  """
+  index is the next root level index that matches the virtualized
+  rendering order of the next commennt ID to focus on.
+  """
   index: Int
+
+  """
+  needToLoadNew is a recommendation that loading in the "view new comments"
+  is likely available prior to making this next Z_KEY traversal.
+  """
   needToLoadNew: Boolean
 }
 
@@ -8718,11 +8741,21 @@ input GenerateStoryTreeInput {
   """
   clientMutationId: String!
 
+  """
+  storyID is the story to generate a story tree for.
+  """
   storyID: ID!
 }
 
 type GenerateStoryTreePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
   clientMutationId: String!
+
+  """
+  storyID is the identifier for the story the tree was generated for.
+  """
   storyID: ID!
 }
 
@@ -8739,6 +8772,9 @@ type RegenerateStoryTreesPayload {
   """
   clientMutationId: String!
 
+  """
+  accepted is whether the regeneration request was accepted.
+  """
   accepted: Boolean!
 }
 
