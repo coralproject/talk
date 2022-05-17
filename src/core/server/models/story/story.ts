@@ -1407,30 +1407,20 @@ export async function regenerateStoryTrees(
   mongo: MongoContext,
   tenantID: string
 ) {
-  const cursor = mongo.comments().find({ tenantID }).sort({ createdAt: -1 });
+  const cursor = mongo.stories().find({ tenantID });
 
-  let comment = await cursor.next();
-  let storyID = comment ? comment.storyID : null;
-  let comments: Readonly<Comment>[] = [];
+  let story = await cursor.next();
+  while (story !== null) {
+    const comments = await mongo
+      .comments()
+      .find({ tenantID, storyID: story.id })
+      .sort({ createdAt: -1 })
+      .toArray();
 
-  while (comment !== null) {
-    const currentStoryID = comment.storyID;
+    const tree = await createTreeFromComments(comments);
+    await writeTreeToStory(mongo, tenantID, story.id, tree);
 
-    // Story has changed, save current story and setup for next story
-    if (currentStoryID !== storyID && storyID !== null) {
-      // Write out the generated tree for current story
-      const tree = await createTreeFromComments(comments);
-      await writeTreeToStory(mongo, tenantID, storyID, tree);
-
-      // Move to new story
-      storyID = currentStoryID;
-      comments = [];
-    }
-
-    comments.push(comment);
-
-    // Move forward in list
-    comment = await cursor.next();
+    story = await cursor.next();
   }
 
   return true;
