@@ -48,7 +48,6 @@ import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 import { ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
 
-import MarkCommentsAsSeenMutation from "../Comment/MarkCommentsAsSeenMutation";
 import { isPublished, useStaticFlattenReplies } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
@@ -254,7 +253,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
     ViewNewCommentsNetworkEvent
   );
-  const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewNew = useCallback(async () => {
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: props.story.id,
@@ -264,9 +262,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       void (await viewNew({
         commentID: props.comment.id,
         storyID: props.story.id,
-        markSeen: !!props.viewer,
-        viewerID: props.viewer?.id,
-        markAsSeen,
       }));
       viewNewCommentsEvent.success();
     } catch (error) {

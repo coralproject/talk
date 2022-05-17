@@ -12,7 +12,7 @@ import { waitFor } from "coral-common/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
-import { useFetch, useLocal, useMutation } from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
@@ -45,7 +45,6 @@ import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
 import MobileToolbar from "./MobileToolbar";
-import NextUnseenCommentFetch from "./NextUnseenCommentFetch";
 import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
@@ -323,12 +322,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       loadAllReplies
     }
   `);
-  const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
-  const nextUnseen = useCallback(async () => {
-    const { nextUnseenComment } = await fetchNextUnseenComment();
-    return nextUnseenComment;
-  }, [fetchNextUnseenComment]);
-  nextUnseen();
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();

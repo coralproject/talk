@@ -1,10 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
+  useCallback,
   useEffect,
   useMemo,
   useState,
-  useCallback,
 } from "react";
 import { v1 as uuid } from "uuid";
 

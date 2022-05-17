@@ -1,6 +1,6 @@
-import { SinonStub } from "sinon";
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { SinonStub } from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";

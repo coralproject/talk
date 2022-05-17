@@ -9,43 +9,20 @@ import {
 import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
 
-import { MarkCommentsAsSeenInput } from "coral-stream/__generated__/MarkCommentsAsSeenMutation.graphql";
-
 import { incrementStoryCommentCounts } from "../../helpers";
 
 interface Input {
   storyID: string;
   tag?: GQLTAG;
-
-  viewerID?: string;
-  markSeen: boolean;
-  markAsSeen?: (
-    input: Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
-      updateSeen: boolean;
-    }
-  ) => Promise<
-    Omit<
-      {
-        readonly comments: ReadonlyArray<{
-          readonly id: string;
-          readonly seen: boolean | null;
-        }>;
-        readonly clientMutationId: string;
-      },
-      "clientMutationId"
-    >
-  >;
 }
 
 const AllCommentsTabViewNewMutation = createMutation(
   "viewNew",
   async (
     environment: Environment,
-    { storyID, tag, markSeen, viewerID, markAsSeen }: Input,
+    { storyID, tag }: Input,
     { eventEmitter }: CoralContext
   ) => {
-    let commentIDs: string[] = [];
-
     await commitLocalUpdatePromisified(environment, async (store) => {
       const story = store.get(storyID)!;
       const connection = ConnectionHandler.getConnection(
@@ -62,10 +39,6 @@ const AllCommentsTabViewNewMutation = createMutation(
       if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }
-
-      commentIDs = viewNewEdges.map(
-        (edge) => edge.getLinkedRecord("node")!.getValue("id") as string
-      );
 
       // Insert new edges into the view.
       viewNewEdges.forEach((edge) => {
@@ -84,10 +57,6 @@ const AllCommentsTabViewNewMutation = createMutation(
       });
       connection.setLinkedRecords([], "viewNewEdges");
     });
-
-    if (viewerID && markSeen && commentIDs.length > 0 && markAsSeen) {
-      await markAsSeen({ storyID, commentIDs, updateSeen: false });
-    }
   }
 );
 
