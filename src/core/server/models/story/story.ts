@@ -1024,20 +1024,35 @@ async function createTreeFromComments(comments: Readonly<Comment>[]) {
   return tree;
 }
 
+interface StoryTreeUpdate {
+  filter: any;
+  update: any;
+}
+
+function computeWriteStoryToTreeUpdate(
+  tenantID: string,
+  storyID: string,
+  tree: StoryTreeComment[]
+): StoryTreeUpdate {
+  return {
+    filter: { tenantID, id: storyID },
+    update: {
+      $set: {
+        tree,
+      },
+    },
+  };
+}
+
 async function writeTreeToStory(
   mongo: MongoContext,
   tenantID: string,
   storyID: string,
   tree: StoryTreeComment[]
 ) {
-  await mongo.stories().updateOne(
-    { tenantID, id: storyID },
-    {
-      $set: {
-        tree,
-      },
-    }
-  );
+  const operation = computeWriteStoryToTreeUpdate(tenantID, storyID, tree);
+
+  await mongo.stories().updateOne(operation.filter, operation.update);
 }
 
 /**
@@ -1403,12 +1418,28 @@ export async function findNextUnseenVisibleCommentID(
   return { commentID: null, index: null };
 }
 
+async function executBulkStoryTreeWrites(
+  mongo: MongoContext,
+  operations: StoryTreeUpdate[]
+) {
+  const bulk = mongo.stories().initializeUnorderedBulkOp();
+  for (const operation of operations) {
+    bulk.find(operation.filter).updateOne(operation.update);
+  }
+
+  await bulk.execute();
+}
+
 export async function regenerateStoryTrees(
   mongo: MongoContext,
   tenantID: string
 ) {
+  const BATCH_SIZE = 100;
+
   const cursor = mongo.stories().find({ tenantID });
 
+  let operations = [];
+  let count = 0;
   let story = await cursor.next();
   while (story !== null) {
     const comments = await mongo
@@ -1416,11 +1447,22 @@ export async function regenerateStoryTrees(
       .find({ tenantID, storyID: story.id })
       .sort({ createdAt: -1 })
       .toArray();
-
     const tree = await createTreeFromComments(comments);
-    await writeTreeToStory(mongo, tenantID, story.id, tree);
+
+    const operation = computeWriteStoryToTreeUpdate(tenantID, story.id, tree);
+    operations.push(operation);
 
     story = await cursor.next();
+    count++;
+
+    if (count >= BATCH_SIZE) {
+      await executBulkStoryTreeWrites(mongo, operations);
+      operations = [];
+    }
+  }
+
+  if (operations.length > 0) {
+    await executBulkStoryTreeWrites(mongo, operations);
   }
 
   return true;
