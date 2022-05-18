@@ -58,7 +58,7 @@ export async function findSeenComments(
   return result ?? null;
 }
 
-function reduceCommentIDs(commentIDs: string[], now: Date) {
+export function reduceCommentIDs(commentIDs: string[], now: Date) {
   const comments = commentIDs.reduce<Record<string, Date>>((acc, commentID) => {
     acc[commentID] = now;
     return acc;
