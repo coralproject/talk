@@ -101,8 +101,6 @@ const Frame: FunctionComponent<Props> = ({
           scrolling="no"
         />
       </div>
-      {/* todo: need solution with background or something for external media that
-      has height smaller than the default shown */}
       {(height === 0 || height > defaultUnexpandedHeight) && (
         <div className={styles.expand} style={{ display: `${displayExpand}` }}>
           <Localized id="comments-embedLinks-expand">

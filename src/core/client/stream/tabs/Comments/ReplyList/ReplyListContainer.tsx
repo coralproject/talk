@@ -19,7 +19,7 @@ import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Overwrite } from "coral-framework/types";
 import {
   ShowAllRepliesEvent,
-  ViewNewCommentsNetworkEvent,
+  ViewNewRepliesNetworkEvent,
 } from "coral-stream/events";
 
 import { ReplyListContainer1_comment } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
@@ -233,8 +233,10 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     setLocal({ loadAllReplies: null });
     try {
       await showAll();
+      // console.log("successful show all");
       showAllEvent.success();
     } catch (error) {
+      // console.log(error, "error");
       showAllEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
@@ -244,17 +246,18 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   useEffect(() => {
     // This supports when we need to load all replies navigating through with
     // the Z key via keyboard shortcuts
+    // console.log(loadAllReplies, "loadAllReplies");
     if (loadAllReplies && loadAllReplies === props.comment.id) {
       void showAllAndEmit();
     }
   }, []);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
-  const beginViewNewCommentsEvent = useViewerNetworkEvent(
-    ViewNewCommentsNetworkEvent
+  const beginViewNewRepliesEvent = useViewerNetworkEvent(
+    ViewNewRepliesNetworkEvent
   );
   const onViewNew = useCallback(async () => {
-    const viewNewCommentsEvent = beginViewNewCommentsEvent({
+    const viewNewRepliesEvent = beginViewNewRepliesEvent({
       storyID: props.story.id,
       keyboardShortcutsConfig,
     });
@@ -263,9 +266,9 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
         commentID: props.comment.id,
         storyID: props.story.id,
       }));
-      viewNewCommentsEvent.success();
+      viewNewRepliesEvent.success();
     } catch (error) {
-      viewNewCommentsEvent.error({ message: error.message, code: error.code });
+      viewNewRepliesEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -273,7 +276,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     props.comment.id,
     props.story.id,
     viewNew,
-    beginViewNewCommentsEvent,
+    beginViewNewRepliesEvent,
     keyboardShortcutsConfig,
   ]);
 

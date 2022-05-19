@@ -224,6 +224,11 @@ export const Comments = (ctx: GraphContext) => ({
     commentIDs,
     storyID,
   }: WithoutMutationID<GQLMarkCommentsAsSeenInput>) => {
+    // console.log(
+    //   "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+    //   commentIDs,
+    //   "marking as seen!!!"
+    // );
     if (ctx.user) {
       await markSeen(
         ctx.mongo,

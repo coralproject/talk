@@ -160,6 +160,11 @@ function insertReply(
   } else {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
+
+    const local = store.get(LOCAL_ID);
+    if (local) {
+      local.setValue(linked.length + 1, "viewNewRepliesCount");
+    }
   }
 }
 

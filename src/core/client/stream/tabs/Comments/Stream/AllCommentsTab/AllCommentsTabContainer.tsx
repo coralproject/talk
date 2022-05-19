@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -197,6 +198,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     viewer,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
+  // console.log(viewNewCount, "viewNewCount");
 
   // TODO: extract to separate function
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
@@ -228,12 +230,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
     [viewer, settings]
   );
+
+  const [nextUnseenComment, setNextUnseenComment] = useState(null);
   return (
     <>
       <KeyboardShortcuts
         loggedIn={!!viewer}
         storyID={story.id}
         currentScrollRef={currentScrollRef}
+        nextUnseenComment={nextUnseenComment}
       />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
@@ -292,6 +297,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           currentScrollRef={currentScrollRef}
           alternateOldestViewEnabled={alternateOldestViewEnabled}
           commentsOrderBy={commentsOrderBy}
+          setNextUnseenComment={setNextUnseenComment}
+          nextUnseenComment={nextUnseenComment}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks
@@ -380,15 +387,6 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              seen
-              allChildComments {
-                edges {
-                  node {
-                    id
-                    seen
-                  }
-                }
-              }
               ...AllCommentsTabCommentContainer_comment
             }
           }

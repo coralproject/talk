@@ -99,6 +99,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.Z_KEY)) {
       return null;
     }
+    // console.log("id here in next unseen comment!!", id);
 
     const {
       commentID,

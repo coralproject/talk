@@ -12,12 +12,11 @@ import { waitFor } from "coral-common/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
-import { useLocal, useMutation } from "coral-framework/lib/relay";
+import { useFetch, useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import CLASSES from "coral-stream/classes";
-import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
   CloseMobileToolbarEvent,
   JumpToNextCommentEvent,
@@ -28,6 +27,7 @@ import {
   ShowAllRepliesEvent,
   UnmarkAllEvent,
   ViewNewCommentsNetworkEvent,
+  ViewNewRepliesNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import MarkCommentsAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
@@ -44,7 +44,9 @@ import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
+import scrollToBeginning from "../scrollToBeginning";
 import MobileToolbar from "./MobileToolbar";
+import NextUnseenCommentFetch from "./NextUnseenCommentFetch";
 import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
@@ -53,6 +55,7 @@ interface Props {
   loggedIn: boolean;
   storyID: string;
   currentScrollRef: any;
+  nextUnseenComment: any;
 }
 
 export interface KeyboardEventData {
@@ -75,6 +78,7 @@ interface TraverseOptions {
   noCircle?: boolean;
   skipSeen?: boolean;
   skipLoadMore?: boolean;
+  skipNonLoadMoreOrViewNew?: boolean;
 }
 
 const toKeyStop = (element: HTMLElement): KeyStop => {
@@ -92,6 +96,12 @@ const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) => {
     return false;
   }
   if (options.skipSeen && !stop.notSeen && !stop.isLoadMore) {
+    return false;
+  }
+  if (
+    options.skipNonLoadMoreOrViewNew &&
+    !(stop.isLoadMore || stop.isViewNew)
+  ) {
     return false;
   }
   return true;
@@ -279,6 +289,7 @@ const eventsOfInterest = [
   ShowAllRepliesEvent.nameSuccess,
   LoadMoreAllCommentsEvent.nameSuccess,
   ViewNewCommentsNetworkEvent.nameSuccess,
+  ViewNewRepliesNetworkEvent.nameSuccess,
   COMMIT_SEEN_EVENT,
 ];
 
@@ -286,6 +297,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   loggedIn,
   storyID,
   currentScrollRef,
+  nextUnseenComment,
 }) => {
   const {
     relayEnvironment,
@@ -309,19 +321,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         source
         reverse
       }
-      firstNextUnseenComment {
-        nodeID
-        isRoot
-        virtuosoIndex
-      }
-      secondNextUnseenComment {
-        nodeID
-        isRoot
-        virtuosoIndex
-      }
       loadAllReplies
+      storyID
+      commentsOrderBy
+      viewNewCount
     }
   `);
+
+  const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
@@ -495,78 +502,100 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     ]
   );
 
-  const setFocus = useCallback(
-    (
-      commentToScrollTo: {
-        isRoot: boolean;
-        nodeID: string;
-        virtuosoIndex: number;
-      },
-      source: "keyboard" | "mobileToolbar"
-    ) => {
-      if (commentToScrollTo.isRoot) {
-        void setTraversalFocus({
-          commentID: commentToScrollTo.nodeID,
-          commentSeenEnabled,
-        });
-        void markSeen({
-          storyID,
-          commentIDs: [commentToScrollTo.nodeID],
-          updateSeen: true,
-        });
+  const setFocusAndMarkSeen = useCallback(
+    (commentID: string) => {
+      void setTraversalFocus({
+        commentID,
+        commentSeenEnabled,
+      });
+      void markSeen({
+        storyID,
+        commentIDs: [commentID],
+        updateSeen: true,
+      });
+    },
+    [setTraversalFocus, markSeen]
+  );
+
+  const findCommentAndSetFocus = useCallback(
+    (isRootComment) => {
+      // Just set focus and mark as seen if next unseen is a root comment
+      if (isRootComment) {
+        setFocusAndMarkSeen(nextUnseenComment.commentID!);
+        // Otherwise, handle finding and setting focus to next unseen reply
       } else {
+        // After Virtuoso scrolls, we have to make sure the root comment
+        // is available before setting focus to the next unseen reply
         let count = 0;
-        // after Virtuoso scrolls, we have to make sure the root comment
-        // is available before setting focus to the next unseen comment
         const rootCommentElementExists = setInterval(async () => {
           count += 1;
           const rootCommentElement = root.getElementById(
-            computeCommentElementID(commentToScrollTo.nodeID)
+            computeCommentElementID(nextUnseenComment.rootCommentID!)
           );
           if (rootCommentElement !== undefined && rootCommentElement !== null) {
+            // console.log(rootCommentElement, "rootCommentElement", count);
             clearInterval(rootCommentElementExists);
             if (rootCommentElement) {
-              const rootKeyStop = toKeyStop(rootCommentElement);
-              const nextKeyStop = findNextKeyStop(root, rootKeyStop, {
-                skipSeen: true,
-              });
+              const nextUnseenReply = root.getElementById(
+                computeCommentElementID(nextUnseenComment.commentID!)
+              );
 
-              if (nextKeyStop) {
-                // if there are no unseen comments before the next show all replies
-                // button, load all replies (traversal to next unseen comment will
-                // be handled after the success event for all replies loading)
-                if (nextKeyStop.isLoadMore) {
-                  const prevStop = findPreviousKeyStop(root, nextKeyStop, {
-                    skipLoadMore: true,
-                  });
-                  if (prevStop) {
-                    void setTraversalFocus({
-                      commentID: parseCommentElementID(prevStop.id),
-                      commentSeenEnabled,
-                    });
-                    prevStop.element.focus();
+              // Check to see if the next unseen reply comment is found.
+              // If so, we scroll to it, set focus, and mark as seen.
+              if (nextUnseenReply) {
+                const offset =
+                  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                  nextUnseenReply.getBoundingClientRect().top +
+                  renderWindow.pageYOffset -
+                  150;
+                setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
+                setFocusAndMarkSeen(nextUnseenComment.commentID!);
+                // If the next unseen reply comment is not found, we need to load more
+                // comments to find it.
+              } else {
+                const rootKeyStop = toKeyStop(rootCommentElement);
+                const nextLoadMoreOrViewNewKeyStop = findNextKeyStop(
+                  root,
+                  rootKeyStop,
+                  {
+                    skipNonLoadMoreOrViewNew: true,
                   }
+                );
+                if (nextLoadMoreOrViewNewKeyStop) {
+                  const prevStop = findPreviousKeyStop(
+                    root,
+                    nextLoadMoreOrViewNewKeyStop,
+                    {
+                      skipLoadMore: true,
+                    }
+                  );
+
+                  // Set focus to the comment before load/view more
+                  // while more replies are being loaded in.
+                  if (prevStop) {
+                    setFocusAndMarkSeen(parseCommentElementID(prevStop.id));
+                  }
+
                   // We have to set load all replies to the comment id to load
                   // more replies for to make sure that we load after Virtuoso has
-                  // remounted the reply list component after scrolling
-                  setLocal({ loadAllReplies: nextKeyStop.id.substr(34) });
-                } else {
-                  // go to the first unseen reply to the root comment and set focus to it
-                  JumpToNextUnseenCommentEvent.emit(eventEmitter, {
-                    source,
-                  });
-                  const offset =
-                    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                    root.getElementById(nextKeyStop.id)!.getBoundingClientRect()
-                      .top +
-                    renderWindow.pageYOffset -
-                    150;
-                  setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
-                  void setTraversalFocus({
-                    commentID: parseCommentElementID(nextKeyStop.id),
-                    commentSeenEnabled,
-                  });
-                  nextKeyStop.element.focus();
+                  // remounted the reply list component after scrolling.
+                  // New replies are actually loaded by ReplyListContainer, and then
+                  // the next unseen reply is traversed to after the success of the
+                  // Load More replies or View New replies events.
+                  if (nextLoadMoreOrViewNewKeyStop.isViewNew) {
+                    nextLoadMoreOrViewNewKeyStop.element.click();
+                    // setLocal({
+                    //   loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(
+                    //     42
+                    //   ),
+                    // });
+                  } else {
+                    setLocal({
+                      loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(
+                        34
+                      ),
+                    });
+                  }
                 }
               }
             }
@@ -578,138 +607,82 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       }
     },
     [
-      commentSeenEnabled,
-      markSeen,
-      renderWindow,
       root,
-      setTraversalFocus,
-      storyID,
-      eventEmitter,
-      setLocal,
+      renderWindow,
+      setFocusAndMarkSeen,
+      toKeyStop,
+      findNextKeyStop,
+      findPreviousKeyStop,
     ]
   );
 
+  const [currentVirtuosoIndex, setCurrentVirtuosoIndex] = useState<
+    null | number
+  >(null);
+
   const handleZKeyPress = useCallback(
-    (source: "keyboard" | "mobileToolbar") => {
-      let viewNewCommentButtonFound = false;
-      if (!local.commentWithTraversalFocus) {
-        // Check here for View new comment and click to open
-        // and reveal new comment if it exists.
-        // The new comment can only be first chronologically if
-        // no comment already has traversal focus.
-        // Traversing to the first new unseen comment will be handled
-        // after the success event for the new comment being loaded.
+    async (source: "keyboard" | "mobileToolbar") => {
+      // console.log(nextUnseenComment, "nextUnseenComment in handlezkeypress");
+      // if we need to load new comments that entered via subscription,
+      // we scroll to the top of the comments, click the view new comments
+      // button, and then set focus and mark as seen the next unseen comment
+      if (nextUnseenComment?.needToLoadNew) {
+        scrollToBeginning(root, renderWindow);
+        setCurrentVirtuosoIndex(null);
         const viewNewCommentsButton = root.getElementById(
           "comments-allComments-viewNewButton"
         );
         if (viewNewCommentsButton) {
           viewNewCommentsButton.click();
-          viewNewCommentButtonFound = true;
+          setFocusAndMarkSeen(nextUnseenComment.commentID!);
+          setCurrentVirtuosoIndex(0);
         }
       }
-      // If we don't find a new comment, then we go to first unseen comment
-      // if it exists
-      if (local.firstNextUnseenComment && !viewNewCommentButtonFound) {
-        // Check for a Load All Comments button and click it first before scrolling
-        // (only if virtuoso index is greater than 20/the default number of initial comments)
-        if (
-          local.firstNextUnseenComment.virtuosoIndex >= NUM_INITIAL_COMMENTS
-        ) {
-          const loadAllCommentsButton = root.getElementById("comments-loadAll");
-          if (loadAllCommentsButton) {
-            loadAllCommentsButton.click();
-          }
-        }
-        // first, we check if there is a current commentWithTraversalFocus
-        // if not, we scroll to first virtuoso index and set focus
-        if (!local.commentWithTraversalFocus) {
+
+      const isRootComment =
+        nextUnseenComment?.commentID === nextUnseenComment?.rootCommentID;
+
+      // Scroll to the Virtuoso index for the next unseen comment!
+      // (unless we are already on that index then don't scroll again)
+      // Then find the next unseen comment and set traversal focus to it.
+      if (
+        nextUnseenComment &&
+        nextUnseenComment.commentID &&
+        nextUnseenComment.rootCommentID &&
+        (nextUnseenComment.index || nextUnseenComment.index === 0)
+      ) {
+        JumpToNextUnseenCommentEvent.emit(eventEmitter, {
+          source,
+        });
+        if (!(currentVirtuosoIndex === nextUnseenComment.index)) {
           currentScrollRef.current.scrollIntoView({
             align: "center",
-            index: local.firstNextUnseenComment.virtuosoIndex,
+            index: nextUnseenComment.index,
             behavior: "auto",
             done: () => {
-              setFocus(local.firstNextUnseenComment!, source);
+              setCurrentVirtuosoIndex(nextUnseenComment.index);
+              findCommentAndSetFocus(nextUnseenComment, isRootComment);
             },
           });
         } else {
-          // if there is a current commentWithTraversal focus, we first attempt to
-          // find a next unseen comment that's already loaded without any scrolling
-          const currentCommentID = local.commentWithTraversalFocus;
-          let currentCommentElement;
-          if (currentCommentID) {
-            currentCommentElement = root.getElementById(
-              computeCommentElementID(currentCommentID)
-            );
-          }
-          let currentStop;
-          if (currentCommentElement) {
-            currentStop = toKeyStop(currentCommentElement);
-          }
-          let nextStop;
-          if (currentStop) {
-            nextStop = findNextKeyStop(root, currentStop, {
-              skipSeen: true,
-            });
-          }
-          // If a next unseen comment is found without scrolling, we either set it
-          // to traversal focus or click if it's a load more
-          if (nextStop) {
-            const offset =
-              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-              root.getElementById(nextStop.id)!.getBoundingClientRect().top +
-              renderWindow.pageYOffset -
-              150;
-            renderWindow.scrollTo({ top: offset });
-            if (nextStop.isLoadMore) {
-              nextStop.element.click();
-            } else {
-              JumpToNextUnseenCommentEvent.emit(eventEmitter, {
-                source,
-              });
-              void setTraversalFocus({
-                commentID: parseCommentElementID(nextStop.id),
-                commentSeenEnabled,
-              });
-              nextStop.element.focus();
-            }
-            // If a next unseen comment isn't found without scrolling, we
-            // check which virtuoso index to scroll to and then scroll and set focus
-          } else {
-            const currentVirtuosoIndex = currentCommentElement
-              ?.closest("[data-index]")
-              ?.getAttribute("data-index");
-            // We scroll to the second virtuoso index if the currently scrolled Virtuoso
-            // index that we just checked is the same Virtuoso index as the first unseen
-            // comment that was found
-            const useSecondIndex =
-              currentVirtuosoIndex ===
-              local.firstNextUnseenComment.virtuosoIndex.toString();
-            const commentToScrollTo = useSecondIndex
-              ? local.secondNextUnseenComment
-              : local.firstNextUnseenComment;
-            if (commentToScrollTo) {
-              currentScrollRef.current.scrollIntoView({
-                align: "center",
-                index: commentToScrollTo.virtuosoIndex,
-                behavior: "auto",
-                done: () => {
-                  setFocus(commentToScrollTo, source);
-                },
-              });
-            }
-          }
+          findCommentAndSetFocus(nextUnseenComment, isRootComment);
         }
       }
     },
     [
       root,
-      currentScrollRef,
-      setFocus,
-      eventEmitter,
-      local,
       renderWindow,
       setTraversalFocus,
+      fetchNextUnseenComment,
+      markSeen,
       commentSeenEnabled,
+      eventEmitter,
+      local.commentWithTraversalFocus,
+      local.storyID,
+      local.viewNewCount,
+      local.commentsOrderBy,
+      findCommentAndSetFocus,
+      nextUnseenComment,
     ]
   );
 
@@ -774,7 +747,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             source: "keyboard",
           },
         });
-        handleZKeyPress("keyboard");
+        void handleZKeyPress("keyboard");
       }
     },
     [
@@ -809,7 +782,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         source: "mobileToolbar",
       },
     });
-    handleZKeyPress("mobileToolbar");
+    void handleZKeyPress("mobileToolbar");
   }, [setLocal, handleZKeyPress]);
 
   // Update button states after first render.
@@ -825,38 +798,19 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
 
-      if (e === ShowAllRepliesEvent.nameSuccess) {
+      if (
+        e === ShowAllRepliesEvent.nameSuccess ||
+        e === ViewNewRepliesNetworkEvent.nameSuccess
+      ) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
         // instead of waiting for polling to update it
         eventEmitter.emit("heightChange");
-        // after more replies have loaded, we want to traverse
+
+        // After more replies have loaded, we want to traverse
         // to the next reply based on the configuration
         if (data.keyboardShortcutsConfig) {
           traverse(data.keyboardShortcutsConfig);
-        }
-      }
-
-      if (e === ViewNewCommentsNetworkEvent.nameSuccess) {
-        // Announce height change to embed to allow
-        // immediately updating amp iframe height
-        // instead of waiting for polling to update it
-        eventEmitter.emit("heightChange");
-        // after new comment(s) have loaded, we want to traverse
-        // to the first comment based on the configuration
-        if (
-          data.keyboardShortcutsConfig &&
-          data.keyboardShortcutsConfig.key === "z"
-        ) {
-          const stops = getKeyStops(root);
-          const firstStop = getFirstKeyStop(stops);
-          if (firstStop) {
-            void setTraversalFocus({
-              commentID: parseCommentElementID(firstStop.id),
-              commentSeenEnabled,
-            });
-            firstStop.element.focus();
-          }
         }
       }
 

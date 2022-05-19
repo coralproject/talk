@@ -19,7 +19,6 @@ import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   retrieveAllCommentsUserConnection,
-  retrieveCommentAllChildCommentsConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
@@ -367,25 +366,6 @@ export default (ctx: GraphContext) => ({
         last: defaultTo(last, 1),
         // The cursor passed here is always going to be a number.
         before: before as number,
-      },
-      story.isArchived
-    ).then(primeCommentsFromConnection(ctx));
-  },
-  allChildComments: async (
-    comment: Comment,
-    { first, orderBy }: CommentToRepliesArgs
-  ) => {
-    const story = await ctx.loaders.Stories.story.load(comment.storyID);
-    if (!story) {
-      throw new StoryNotFoundError(comment.storyID);
-    }
-    return retrieveCommentAllChildCommentsConnection(
-      ctx.mongo,
-      ctx.tenant.id,
-      comment,
-      {
-        first: 999,
-        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_ASC),
       },
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
