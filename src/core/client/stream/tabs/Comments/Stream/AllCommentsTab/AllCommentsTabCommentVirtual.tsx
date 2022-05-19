@@ -9,19 +9,22 @@ import React, {
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
-import { useLocal } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
+import { useFetch, useLocal } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT, GQLFEATURE_FLAG } from "coral-framework/schema";
+import CLASSES from "coral-stream/classes";
+// import NextUnseenCommentFetch from "coral-stream/common/KeyboardShortcuts/NextUnseenCommentFetch";
+import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
+import { Button } from "coral-ui/components/v3";
+
 import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
-import CLASSES from "coral-stream/classes";
-import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
-import { Button } from "coral-ui/components/v3";
-
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
+import NextUnseenCommentFetch from "coral-stream/common/KeyboardShortcuts/NextUnseenCommentFetch";
 
 interface Props {
   settings: AllCommentsTabContainer_settings;
@@ -33,22 +36,8 @@ interface Props {
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
-}
-
-interface Comment {
-  node: {
-    id: string;
-    seen: boolean | null;
-    allChildComments: {
-      edges: ReadonlyArray<{ node: { id: string; seen: boolean | null } }>;
-    };
-  };
-}
-
-interface UnseenComment {
-  nodeID?: string;
-  virtuosoIndex?: number;
-  isRoot: boolean;
+  setNextUnseenComment: any;
+  nextUnseenComment: any;
 }
 
 // Virtuoso settings
@@ -67,23 +56,19 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   currentScrollRef,
   alternateOldestViewEnabled,
   commentsOrderBy,
+  setNextUnseenComment,
+  nextUnseenComment,
 }) => {
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
       commentWithTraversalFocus
-      firstNextUnseenComment {
-        nodeID
-        virtuosoIndex
-        isRoot
-      }
-      secondNextUnseenComment {
-        nodeID
-        virtuosoIndex
-        isRoot
-      }
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
       totalCommentsLength
+      storyID
+      commentsOrderBy
+      viewNewCount
+      viewNewRepliesCount
     }
   `);
   const [
@@ -100,9 +85,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   }>(null);
 
   const { comments, newCommentsToShow } = useMemo(() => {
-    // if alternate oldest view, filter out new comments to show as they will
-    // be included in the stream after initial number of comments until
-    // the new comments are cleared on rerender and shown in chronological position
+    // If alternate oldest view, filter out new comments to show as they will
+    // be included in the stream at the bottom after initial number of comments.
+    // When the new comments are cleared on rerender, they will be shown in chronological position.
     if (alternateOldestViewEnabled) {
       if (local.oldestFirstNewCommentsToShow && loadAllButtonHasBeenDisplayed) {
         const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
@@ -128,12 +113,14 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     loadAllButtonHasBeenDisplayed,
   ]);
 
+  // TODO: Add comment here
   const totalCommentsLength = useMemo(() => {
     return newCommentsToShow
       ? comments.length + newCommentsToShow.length
       : comments.length;
   }, [newCommentsToShow, comments]);
 
+  // TODO: Add comment here
   const displayLoadAllButton = useMemo(() => {
     return (
       (local.showLoadAllCommentsButton ||
@@ -152,6 +139,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     loadAllButtonHasBeenClicked,
   ]);
 
+  // TODO: Add comment here
   const showLoadMoreForOldestFirstNewComments = useMemo(() => {
     return (
       hasMore &&
@@ -160,6 +148,77 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         (comments.length >= NUM_INITIAL_COMMENTS && !displayLoadAllButton))
     );
   }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
+
+  // useEffect(() => {
+  //   console.log(
+  //     local.commentWithTraversalFocus,
+  //     "commentwithtravresalfocus changes"
+  //   );
+  // }, [local.commentWithTraversalFocus]);
+
+  const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
+  const findNextUnseen = useCallback(() => {
+    const findNext = async () => {
+      // console.log(
+      //   local.commentWithTraversalFocus,
+      //   "comment with focus sent through"
+      // );
+      // TODO: think of a way to run this less
+      const { nextUnseenComment: nextUnseen } = await fetchNextUnseenComment({
+        id: local.commentWithTraversalFocus,
+        storyID: local.storyID,
+        orderBy: local.commentsOrderBy,
+        viewNewCount: local.viewNewCount,
+      });
+      // console.log(nextUnseen, "nextUnseen");
+      setNextUnseenComment(nextUnseen);
+    };
+
+    void findNext();
+  }, [
+    fetchNextUnseenComment,
+    local.commentWithTraversalFocus,
+    local.storyID,
+    local.commentsOrderBy,
+    local.viewNewCount,
+  ]);
+
+  // Whenever we initially render, comment with traversal focus changes,
+  // new comments come in via subscription, or new replies come in via
+  // subscription, we find the next unseen and set it for keyboard shortcuts
+  // if Z_KEY is enabled.
+  useEffect(() => {
+    if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
+      findNextUnseen();
+    }
+  }, [
+    // local.commentWithTraversalFocus,
+    // local.viewNewCount,
+    local.viewNewRepliesCount,
+  ]);
+
+  useEffect(() => {
+    if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
+      findNextUnseen();
+    }
+  }, []);
+
+  // Whenever the next unseen comment changes, we need to check to make sure
+  // that it's included in the comments that are loaded for Virtuoso. If it's
+  // not, then we need to load more comments until it is loaded so that if Z key
+  // is pressed, Virtuoso will be able to scroll to the next unseen comment.
+  useEffect(() => {
+    if (nextUnseenComment) {
+      const nextUnseenInComments = comments.find(
+        (comment) => comment.node.id === nextUnseenComment.commentID
+      );
+      if (!nextUnseenInComments) {
+        if (hasMore && !isLoadingMore) {
+          void loadMoreAndEmit();
+        }
+      }
+    }
+  }, [nextUnseenComment, comments, hasMore, isLoadingMore, loadMoreAndEmit]);
 
   useEffect(() => {
     setLocal({ totalCommentsLength });
@@ -174,134 +233,16 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     // on rerender, clear the newly added comments to show if it's
     // alternate oldest view
     setLocal({ oldestFirstNewCommentsToShow: "" });
-    // on rerender, also clear if load all button has displayed
-    setLoadAllButtonHasBeenDisplayed(false);
-    // on rerender, also clear initial comments info
+    // on rerender, clear initial comments info
     setInitialComments({
       length: story.comments.edges.length,
       hasMore,
     });
+    // on rerender, clear if the Load All Comments button has displayed
+    setLoadAllButtonHasBeenDisplayed(false);
     // on rerender, reset whether the Load All Comments button has been clicked
     setLoadAllButtonHasBeenClicked(false);
   }, []);
-
-  const lookForNextUnseen = useCallback(
-    (commentsHere: ReadonlyArray<Comment>, nextSlice: Comment[]) => {
-      let counter = 0;
-      const firstUnseenComment: UnseenComment = { isRoot: true };
-      const secondUnseenComment: UnseenComment = { isRoot: true };
-      const firstUnseen = nextSlice.find((comment: Comment) => {
-        counter += 1;
-        if (comment.node.seen === false) {
-          return true;
-        }
-        if (
-          comment.node.allChildComments &&
-          comment.node.allChildComments.edges.some((c) => {
-            if (c.node.seen === false) {
-              return true;
-            }
-            return false;
-          })
-        ) {
-          firstUnseenComment.isRoot = false;
-          return true;
-        }
-        return false;
-      });
-      const secondUnseen = nextSlice
-        .slice(counter + 1)
-        .find((comment: Comment) => {
-          if (comment.node.seen === false) {
-            return true;
-          }
-          if (
-            comment.node.allChildComments &&
-            comment.node.allChildComments.edges.some(
-              (c) => c.node.seen === false
-            )
-          ) {
-            secondUnseenComment.isRoot = false;
-            return true;
-          }
-          return false;
-        });
-      if (firstUnseen) {
-        firstUnseenComment.virtuosoIndex = commentsHere.findIndex(
-          (comment: Comment) => {
-            return (
-              comment.node.id === firstUnseen?.node.id ||
-              (comment.node.allChildComments &&
-                comment.node.allChildComments.edges.some(
-                  (c) => c.node.id === firstUnseen?.node.id
-                ))
-            );
-          }
-        );
-        firstUnseenComment.nodeID = firstUnseen.node.id;
-      }
-      if (secondUnseen) {
-        secondUnseenComment.virtuosoIndex = commentsHere.findIndex(
-          (comment: Comment) => {
-            return (
-              comment.node.id === secondUnseen?.node.id ||
-              (comment.node.allChildComments &&
-                comment.node.allChildComments.edges.some(
-                  (c) => c.node.id === secondUnseen?.node.id
-                ))
-            );
-          }
-        );
-        secondUnseenComment.nodeID = secondUnseen.node.id;
-      }
-      if (firstUnseen) {
-        if (secondUnseen) {
-          return [firstUnseenComment, secondUnseenComment];
-        }
-        return [firstUnseenComment];
-      } else {
-        return undefined;
-      }
-    },
-    []
-  );
-
-  useEffect(() => {
-    const indexOfTraversalFocus = comments.findIndex((comment) => {
-      return (
-        comment.node.id === local.commentWithTraversalFocus ||
-        (comment.node.allChildComments &&
-          comment.node.allChildComments.edges.some(
-            (c) => c.node.id === local.commentWithTraversalFocus
-          ))
-      );
-    });
-    const sliceIndex = indexOfTraversalFocus === -1 ? 0 : indexOfTraversalFocus;
-    const nextSlice = comments.slice(sliceIndex);
-    const nextUnseen = lookForNextUnseen(comments, nextSlice);
-    if (nextUnseen && nextUnseen[0]) {
-      setLocal({
-        firstNextUnseenComment: nextUnseen[0],
-      });
-      if (nextUnseen[1]) {
-        setLocal({
-          secondNextUnseenComment: nextUnseen[1],
-        });
-      }
-    } else {
-      if (hasMore && !isLoadingMore) {
-        void loadMoreAndEmit();
-      }
-    }
-  }, [
-    local.commentWithTraversalFocus,
-    comments,
-    isLoadingMore,
-    hasMore,
-    loadMoreAndEmit,
-    lookForNextUnseen,
-    setLocal,
-  ]);
 
   const Footer = useCallback(() => {
     if (displayLoadAllButton) {
@@ -465,14 +406,16 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
             const comment = comments[index];
             return (
               <>
-                <AllCommentsTabCommentContainer
-                  key={comment.node.id}
-                  viewer={viewer}
-                  comment={comment.node}
-                  story={story}
-                  settings={settings}
-                  isLast={index === comments.length - 1}
-                />
+                <IntersectionProvider>
+                  <AllCommentsTabCommentContainer
+                    key={comment.node.id}
+                    viewer={viewer}
+                    comment={comment.node}
+                    story={story}
+                    settings={settings}
+                    isLast={index === comments.length - 1}
+                  />
+                </IntersectionProvider>
                 {/* Show any newly posted comments above Load All Comments
                 button if alternate oldest view */}
                 {alternateOldestViewEnabled &&

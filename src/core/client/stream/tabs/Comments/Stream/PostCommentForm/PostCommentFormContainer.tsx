@@ -330,18 +330,16 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     }
 
     return (
-      <>
-        <PostCommentSection>
-          <PostCommentFormFake
-            rteConfig={settings.rte}
-            draft={draft}
-            onDraftChange={setDraft}
-            story={story}
-            showMessageBox={story.settings.messageBox.enabled}
-            onSignIn={handleSignIn}
-          />
-        </PostCommentSection>
-      </>
+      <PostCommentSection>
+        <PostCommentFormFake
+          rteConfig={settings.rte}
+          draft={draft}
+          onDraftChange={setDraft}
+          story={story}
+          showMessageBox={story.settings.messageBox.enabled}
+          onSignIn={handleSignIn}
+        />
+      </PostCommentSection>
     );
   }
 
