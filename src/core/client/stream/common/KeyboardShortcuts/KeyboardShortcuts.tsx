@@ -518,10 +518,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   );
 
   const findCommentAndSetFocus = useCallback(
-    (isRootComment) => {
+    (nextUnseen, isRootComment) => {
       // Just set focus and mark as seen if next unseen is a root comment
       if (isRootComment) {
-        setFocusAndMarkSeen(nextUnseenComment.commentID!);
+        setFocusAndMarkSeen(nextUnseen.commentID!);
         // Otherwise, handle finding and setting focus to next unseen reply
       } else {
         // After Virtuoso scrolls, we have to make sure the root comment
@@ -530,14 +530,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         const rootCommentElementExists = setInterval(async () => {
           count += 1;
           const rootCommentElement = root.getElementById(
-            computeCommentElementID(nextUnseenComment.rootCommentID!)
+            computeCommentElementID(nextUnseen.rootCommentID!)
           );
           if (rootCommentElement !== undefined && rootCommentElement !== null) {
             // console.log(rootCommentElement, "rootCommentElement", count);
             clearInterval(rootCommentElementExists);
             if (rootCommentElement) {
               const nextUnseenReply = root.getElementById(
-                computeCommentElementID(nextUnseenComment.commentID!)
+                computeCommentElementID(nextUnseen.commentID!)
               );
 
               // Check to see if the next unseen reply comment is found.
@@ -549,7 +549,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   renderWindow.pageYOffset -
                   150;
                 setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
-                setFocusAndMarkSeen(nextUnseenComment.commentID!);
+                setFocusAndMarkSeen(nextUnseen.commentID!);
                 // If the next unseen reply comment is not found, we need to load more
                 // comments to find it.
               } else {

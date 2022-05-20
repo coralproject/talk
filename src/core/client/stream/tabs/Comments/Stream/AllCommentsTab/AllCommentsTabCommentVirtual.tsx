@@ -192,8 +192,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       findNextUnseen();
     }
   }, [
-    // local.commentWithTraversalFocus,
-    // local.viewNewCount,
+    local.commentWithTraversalFocus,
+    local.viewNewCount,
     local.viewNewRepliesCount,
   ]);
 
