@@ -1,5 +1,5 @@
 ---
-title: "Migrating to v7: Migrating Data"
+title: "Migrating from Talk v4.x to Coral v7+: Migrating Data"
 ---
 
 ## Before you start
