@@ -62,20 +62,22 @@ it("should view more when ordering by newest", async () => {
     within(container).queryByTestId(`comment-${commentData.id}`)
   ).not.toBeInTheDocument();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
-    "commentEntered",
-    (variables) => {
-      if (variables.storyID !== story.id) {
-        return;
+  await act(async () => {
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: commentData,
+        };
       }
-      if (variables.ancestorID) {
-        return;
-      }
-      return {
-        comment: commentData,
-      };
-    }
-  );
+    );
+  });
 
   const viewMoreButton = await screen.findByRole("button", {
     name: "View 1 New Comment",
