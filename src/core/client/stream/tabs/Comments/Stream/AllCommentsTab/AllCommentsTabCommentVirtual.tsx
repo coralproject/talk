@@ -13,7 +13,6 @@ import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useFetch, useLocal } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
-// import NextUnseenCommentFetch from "coral-stream/common/KeyboardShortcuts/NextUnseenCommentFetch";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { Button } from "coral-ui/components/v3";
 
@@ -24,7 +23,7 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
-import NextUnseenCommentFetch from "coral-stream/common/KeyboardShortcuts/NextUnseenCommentFetch";
+import NextUnseenCommentFetch from "./NextUnseenCommentFetch";
 
 interface Props {
   settings: AllCommentsTabContainer_settings;
@@ -149,28 +148,15 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     );
   }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
 
-  // useEffect(() => {
-  //   console.log(
-  //     local.commentWithTraversalFocus,
-  //     "commentwithtravresalfocus changes"
-  //   );
-  // }, [local.commentWithTraversalFocus]);
-
   const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
   const findNextUnseen = useCallback(() => {
     const findNext = async () => {
-      // console.log(
-      //   local.commentWithTraversalFocus,
-      //   "comment with focus sent through"
-      // );
-      // TODO: think of a way to run this less
       const { nextUnseenComment: nextUnseen } = await fetchNextUnseenComment({
         id: local.commentWithTraversalFocus,
         storyID: local.storyID,
         orderBy: local.commentsOrderBy,
         viewNewCount: local.viewNewCount,
       });
-      // console.log(nextUnseen, "nextUnseen");
       setNextUnseenComment(nextUnseen);
     };
 
@@ -209,9 +195,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   // is pressed, Virtuoso will be able to scroll to the next unseen comment.
   useEffect(() => {
     if (nextUnseenComment) {
-      const nextUnseenInComments = comments.find(
-        (comment) => comment.node.id === nextUnseenComment.commentID
-      );
+      const nextUnseenInComments =
+        nextUnseenComment.index <= comments.length - 1;
       if (!nextUnseenInComments) {
         if (hasMore && !isLoadingMore) {
           void loadMoreAndEmit();

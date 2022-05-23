@@ -35,7 +35,8 @@ const NextUnseenCommentFetch = createFetch(
           }
         }
       `,
-      variables
+      variables,
+      { force: true }
     );
   }
 );

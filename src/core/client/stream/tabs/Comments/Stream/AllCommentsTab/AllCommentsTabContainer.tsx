@@ -198,7 +198,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     viewer,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
-  // console.log(viewNewCount, "viewNewCount");
 
   // TODO: extract to separate function
   const banned = !!viewer?.status.current.includes(GQLUSER_STATUS.BANNED);
