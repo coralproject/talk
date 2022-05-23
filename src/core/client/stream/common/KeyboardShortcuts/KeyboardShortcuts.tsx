@@ -62,7 +62,7 @@ interface Props {
   loggedIn: boolean;
   storyID: string;
   currentScrollRef: any;
-  nextUnseenComment: NextUnseenComment;
+  nextUnseenComment: NextUnseenComment | null;
   setZKeyClickedAndLoadAllComments: (
     setZKeyClickedAndLoadAllComments: boolean
   ) => void;
