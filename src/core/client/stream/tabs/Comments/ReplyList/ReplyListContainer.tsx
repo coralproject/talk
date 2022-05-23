@@ -230,16 +230,22 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
-    setLocal({ loadAllReplies: null });
     try {
       await showAll();
       showAllEvent.success();
+      setLocal({ loadAllReplies: null });
     } catch (error) {
       showAllEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [showAll, beginShowAllEvent, props.comment.id, keyboardShortcutsConfig]);
+  }, [
+    showAll,
+    beginShowAllEvent,
+    props.comment.id,
+    keyboardShortcutsConfig,
+    setLocal,
+  ]);
 
   useEffect(() => {
     // This supports when we need to load all replies navigating through with
@@ -247,7 +253,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     if (loadAllReplies && loadAllReplies === props.comment.id) {
       void showAllAndEmit();
     }
-  }, []);
+  }, [loadAllReplies, showAllAndEmit, props.comment.id]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewRepliesEvent = useViewerNetworkEvent(

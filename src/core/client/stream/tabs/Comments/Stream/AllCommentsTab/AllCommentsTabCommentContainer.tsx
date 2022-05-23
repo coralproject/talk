@@ -1,9 +1,8 @@
 import cn from "classnames";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
-import { useInView } from "coral-framework/lib/intersection";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
@@ -39,59 +38,46 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const commentSeen = canCommitCommentSeen && comment.seen;
-  const { inView, intersectionRef } = useInView();
-  const [hasBeenSeen, setHasBeenSeen] = useState(false);
-
-  useEffect(() => {
-    if (inView && !hasBeenSeen) {
-      setHasBeenSeen(true);
-    }
-    // if (!inView && hasBeenSeen && !comment.seen) {
-    //   console.log("mark comment as seen!", comment);
-    // }
-  }, [inView, comment, hasBeenSeen]);
 
   return (
-    <div ref={intersectionRef}>
-      <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
-        <FadeInTransition active={!!comment.enteredLive}>
-          <CollapsableComment>
-            {({ collapsed, toggleCollapsed }) => (
-              <HorizontalGutter
-                className={cn({
-                  [styles.borderedCommentSeen]:
-                    commentSeen && !collapsed && !isLast,
-                  [styles.borderedCommentNotSeen]:
-                    !commentSeen && !collapsed && !isLast,
-                })}
-                spacing={commentSeenEnabled ? 0 : undefined}
-              >
-                <DeletedTombstoneContainer comment={comment}>
-                  <CommentContainer
-                    collapsed={collapsed}
-                    viewer={viewer}
+    <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
+      <FadeInTransition active={!!comment.enteredLive}>
+        <CollapsableComment>
+          {({ collapsed, toggleCollapsed }) => (
+            <HorizontalGutter
+              className={cn({
+                [styles.borderedCommentSeen]:
+                  commentSeen && !collapsed && !isLast,
+                [styles.borderedCommentNotSeen]:
+                  !commentSeen && !collapsed && !isLast,
+              })}
+              spacing={commentSeenEnabled ? 0 : undefined}
+            >
+              <DeletedTombstoneContainer comment={comment}>
+                <CommentContainer
+                  collapsed={collapsed}
+                  viewer={viewer}
+                  settings={settings}
+                  comment={comment}
+                  story={story}
+                  toggleCollapsed={toggleCollapsed}
+                />
+              </DeletedTombstoneContainer>
+              {!collapsed && (
+                <div>
+                  <ReplyListContainer
                     settings={settings}
+                    viewer={viewer}
                     comment={comment}
                     story={story}
-                    toggleCollapsed={toggleCollapsed}
                   />
-                </DeletedTombstoneContainer>
-                {!collapsed && (
-                  <div>
-                    <ReplyListContainer
-                      settings={settings}
-                      viewer={viewer}
-                      comment={comment}
-                      story={story}
-                    />
-                  </div>
-                )}
-              </HorizontalGutter>
-            )}
-          </CollapsableComment>
-        </FadeInTransition>
-      </IgnoredTombstoneOrHideContainer>
-    </div>
+                </div>
+              )}
+            </HorizontalGutter>
+          )}
+        </CollapsableComment>
+      </FadeInTransition>
+    </IgnoredTombstoneOrHideContainer>
   );
 };
 
