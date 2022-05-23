@@ -233,10 +233,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     setLocal({ loadAllReplies: null });
     try {
       await showAll();
-      // console.log("successful show all");
       showAllEvent.success();
     } catch (error) {
-      // console.log(error, "error");
       showAllEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
@@ -246,7 +244,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   useEffect(() => {
     // This supports when we need to load all replies navigating through with
     // the Z key via keyboard shortcuts
-    // console.log(loadAllReplies, "loadAllReplies");
     if (loadAllReplies && loadAllReplies === props.comment.id) {
       void showAllAndEmit();
     }

@@ -1136,15 +1136,6 @@ export async function addCommentToStoryTree(
   };
 
   const result = await mongo.stories().findOneAndUpdate(query, update, options);
-  // add query update and options
-  // console.log(
-  //   "BEFORE",
-  //   JSON.stringify(
-  //     { comment, tree: result.value?.tree, query, update, options },
-  //     null,
-  //     2
-  //   )
-  // );
 
   return result.value;
 }
@@ -1291,7 +1282,6 @@ export async function findNextUnseenVisibleCommentID(
   currentCommentID?: string,
   viewNewCount?: number
 ) {
-  // console.log(currentCommentID, "currentCommentID");
   if (
     ![GQLCOMMENT_SORT.CREATED_AT_ASC, GQLCOMMENT_SORT.CREATED_AT_DESC].includes(
       orderBy
@@ -1306,7 +1296,6 @@ export async function findNextUnseenVisibleCommentID(
   if (!story) {
     throw new StoryNotFoundError(storyID);
   }
-  // console.log("AFTER", JSON.stringify({ tree: story.tree }, null, 2));
 
   const user = await mongo.users().findOne({ tenantID, id: userID });
   if (!user) {
@@ -1336,11 +1325,6 @@ export async function findNextUnseenVisibleCommentID(
   // Flatten our pruned tree with only visible comments
   const stack: FlattenedTreeComment[] = [];
   flattenTree(prunedTree, orderBy, stack);
-  // console.log(
-  //   "STORY TREE AND CURRENT COMMENT ID",
-  //   JSON.stringify(story.tree, null, 2),
-  //   currentCommentID
-  // );
 
   // Find our current position in the stack by the passed in
   // commentID that our commenter is currently focused on
@@ -1426,7 +1410,6 @@ export async function findNextUnseenVisibleCommentID(
         needToLoadNew = true;
       }
 
-      // console.log("!!!!STACK***** in comment not in seen", cursor, stack, seen);
       return { commentID: comment.id, index: computedIndex, needToLoadNew };
     }
   }

@@ -12,7 +12,7 @@ import { waitFor } from "coral-common/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
-import { useFetch, useLocal, useMutation } from "coral-framework/lib/relay";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
@@ -46,7 +46,6 @@ import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShor
 
 import scrollToBeginning from "../scrollToBeginning";
 import MobileToolbar from "./MobileToolbar";
-import NextUnseenCommentFetch from "./NextUnseenCommentFetch";
 import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
@@ -328,7 +327,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     }
   `);
 
-  const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
@@ -533,7 +531,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             computeCommentElementID(nextUnseen.rootCommentID!)
           );
           if (rootCommentElement !== undefined && rootCommentElement !== null) {
-            // console.log(rootCommentElement, "rootCommentElement", count);
             clearInterval(rootCommentElementExists);
             if (rootCommentElement) {
               const nextUnseenReply = root.getElementById(
@@ -622,7 +619,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   const handleZKeyPress = useCallback(
     async (source: "keyboard" | "mobileToolbar") => {
-      // console.log(nextUnseenComment, "nextUnseenComment in handlezkeypress");
       // if we need to load new comments that entered via subscription,
       // we scroll to the top of the comments, click the view new comments
       // button, and then set focus and mark as seen the next unseen comment
@@ -673,7 +669,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       root,
       renderWindow,
       setTraversalFocus,
-      fetchNextUnseenComment,
       markSeen,
       commentSeenEnabled,
       eventEmitter,
