@@ -17,6 +17,7 @@ import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import CLASSES from "coral-stream/classes";
+import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
   CloseMobileToolbarEvent,
   JumpToNextCommentEvent,
@@ -529,13 +530,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   const findCommentAndSetFocus = useCallback(
     (nextUnseen, isRootComment) => {
-      // Just set focus and mark as seen if next unseen is a root comment
+      // If next unseen is a root comment, just set focus and mark as seen.
       if (isRootComment) {
         setFocusAndMarkSeen(nextUnseen.commentID!);
-        // Otherwise, handle finding and setting focus to next unseen reply
+        // Otherwise, handle finding and setting focus to next unseen reply.
       } else {
         // After Virtuoso scrolls, we have to make sure the root comment
-        // is available before setting focus to the next unseen reply
+        // is available before setting focus to the next unseen reply.
         let count = 0;
         const rootCommentElementExists = setInterval(async () => {
           count += 1;
@@ -549,7 +550,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 computeCommentElementID(nextUnseen.commentID!)
               );
 
-              // Check to see if the next unseen reply comment is found.
+              // Once root comment is available, check to see if the next unseen
+              // reply comment is found already in the DOM.
               // If so, we scroll to it, set focus, and mark as seen.
               if (nextUnseenReply) {
                 const offset =
@@ -559,10 +561,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   150;
                 setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
                 setFocusAndMarkSeen(nextUnseen.commentID!);
-                // If the next unseen reply comment is not found, we need to load more
-                // comments to find it.
+                // If the next unseen reply comment is not found in the DOM, that means
+                // we need to load more comments to find it.
               } else {
                 const rootKeyStop = toKeyStop(rootCommentElement);
+
+                // Find the next Load more button or View new replies button.
                 const nextLoadMoreOrViewNewKeyStop = findNextKeyStop(
                   root,
                   rootKeyStop,
@@ -579,7 +583,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     }
                   );
 
-                  // Set focus to the comment before load/view more
+                  // Set focus to the comment before the Load/View more button
                   // while more replies are being loaded in.
                   if (prevStop) {
                     setFocusAndMarkSeen(parseCommentElementID(prevStop.id));
@@ -625,6 +629,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     [root, renderWindow, setFocusAndMarkSeen, setLocal]
   );
 
+  // We keep track of current Virtuoso index so that we know if we need to scroll
+  // to get to the next unseen comment or not.
   const [currentVirtuosoIndex, setCurrentVirtuosoIndex] = useState<
     null | number
   >(null);
@@ -646,16 +652,20 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   const handleZKeyPress = useCallback(
     async (source: "keyboard" | "mobileToolbar") => {
+      // If a Load all comments button is currently displayed, but the next
+      // unseen comment is at a Virtuoso index greater than the initial number
+      // of comments we display, we need to hide the button and show those comments
+      // so we can scroll to that next unseen.
       if (
         nextUnseenComment &&
         nextUnseenComment.index &&
-        nextUnseenComment.index >= 20
+        nextUnseenComment.index >= NUM_INITIAL_COMMENTS
       ) {
         setZKeyClickedAndLoadAllComments(true);
       }
-      // if we need to load new comments that entered via subscription,
+      // If we need to load new comments that entered via subscription,
       // we scroll to the top of the comments, click the view new comments
-      // button, and then set focus and mark as seen the next unseen comment
+      // button, and then set focus and mark as seen the next unseen comment.
       if (nextUnseenComment?.needToLoadNew) {
         scrollToBeginning(root, renderWindow);
         setCurrentVirtuosoIndex(null);
@@ -673,7 +683,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         nextUnseenComment?.commentID === nextUnseenComment?.rootCommentID;
 
       // Scroll to the Virtuoso index for the next unseen comment!
-      // (unless we are already on that index then don't scroll again)
+      // (unless we are already on that index, then don't scroll again)
       // Then find the next unseen comment and set traversal focus to it.
       if (
         nextUnseenComment &&
@@ -842,8 +852,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // instead of waiting for polling to update it
         eventEmitter.emit("heightChange");
 
-        // After more replies have loaded, we want to traverse
-        // to the next reply based on the configuration
+        // After more replies have loaded, we traverse
+        // to the next reply based on the configuration.
+        // Focus has already been set to the comment/reply that is directly
+        // before the next unseen that we want to end up on.
         if (data.keyboardShortcutsConfig) {
           traverse(data.keyboardShortcutsConfig);
         }
