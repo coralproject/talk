@@ -56,6 +56,14 @@ import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
 
+interface NextUnseenComment {
+  commentID?: string | null;
+  parentID?: string | null;
+  rootCommentID?: string | null;
+  index?: number | null;
+  needToLoadNew?: boolean | null;
+}
+
 interface Props {
   story: AllCommentsTabContainer_story;
   settings: AllCommentsTabContainer_settings;
@@ -224,7 +232,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [viewer, settings]
   );
 
-  const [nextUnseenComment, setNextUnseenComment] = useState(null);
+  const [
+    nextUnseenComment,
+    setNextUnseenComment,
+  ] = useState<NextUnseenComment | null>(null);
   const [
     zKeyClickedAndLoadAllComments,
     setZKeyClickedAndLoadAllComments,
@@ -379,7 +390,6 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
-              seen
               ...AllCommentsTabCommentContainer_comment
             }
           }

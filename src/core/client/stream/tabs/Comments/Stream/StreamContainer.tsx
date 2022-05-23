@@ -135,7 +135,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
-        storyID
         siteID
         commentsTab
         commentsOrderBy
@@ -143,8 +142,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
       }
     `
   );
-  setLocal({ storyID: props.story.id });
-
   const onChangeOrder = useCallback(
     async (order: React.ChangeEvent<HTMLSelectElement>) => {
       if (local.commentsOrderBy === order.target.value) {

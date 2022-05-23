@@ -334,12 +334,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         reverse
       }
       loadAllReplies
-      storyID
-      commentsOrderBy
-      viewNewCount
     }
   `);
-
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
@@ -415,7 +411,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   // Traverse is used for C key traversal and for Z key traversal after more replies
   // are loaded in and those events are successfully triggered (to navigate to the next unseen
-  // new reply after wheere the Load / View more buttons were).
+  // new reply after where the Load / View more buttons were).
   const traverse = useCallback(
     (config: {
       key: "z" | "c";
@@ -722,9 +718,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       commentSeenEnabled,
       eventEmitter,
       local.commentWithTraversalFocus,
-      local.storyID,
-      local.viewNewCount,
-      local.commentsOrderBy,
       findCommentAndSetFocus,
       nextUnseenComment,
       currentScrollRef,
@@ -839,7 +832,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   }, [updateButtonStates]);
 
   // Update button states after certain events.
-  // Also traverse to next comment/reply after loading new comments and replies
+  // Also traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
     const listener: ListenerFn = async (e, data) => {
       if (!eventsOfInterest.includes(e)) {

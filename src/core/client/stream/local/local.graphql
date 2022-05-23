@@ -107,14 +107,22 @@ extend type Local {
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 
+  # Whether the Load all comments button should be shown instead of infinite scroll
   showLoadAllCommentsButton: Boolean!
+  # If new comments have been added while in alternate oldest first view that need to
+  # be displayed.
   oldestFirstNewCommentsToShow: String
+  # Keeps track of comments loaded in plus any new comments added in alternate oldest first view.
   totalCommentsLength: Int
+  # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
+  # media settings)
   expandedMediaSettings: ExpandedMediaSettings
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
 
+  # Used for Z key to know whether there are new comments/replies that need
+  # to be checked for if they include the next unseen comment.
   viewNewCount: Int
   viewNewRepliesCount: Int
 }
