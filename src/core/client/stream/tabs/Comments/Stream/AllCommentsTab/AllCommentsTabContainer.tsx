@@ -190,13 +190,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [
-    beginViewNewCommentsEvent,
-    story.id,
-    keyboardShortcutsConfig,
-    viewMore,
-    viewer,
-  ]);
+  }, [beginViewNewCommentsEvent, story.id, keyboardShortcutsConfig, viewMore]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
   // TODO: extract to separate function
@@ -231,6 +225,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   );
 
   const [nextUnseenComment, setNextUnseenComment] = useState(null);
+  const [
+    zKeyClickedAndLoadAllComments,
+    setZKeyClickedAndLoadAllComments,
+  ] = useState(false);
   return (
     <>
       <KeyboardShortcuts
@@ -238,6 +236,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         storyID={story.id}
         currentScrollRef={currentScrollRef}
         nextUnseenComment={nextUnseenComment}
+        setZKeyClickedAndLoadAllComments={setZKeyClickedAndLoadAllComments}
       />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
@@ -298,6 +297,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           commentsOrderBy={commentsOrderBy}
           setNextUnseenComment={setNextUnseenComment}
           nextUnseenComment={nextUnseenComment}
+          zKeyClickedAndLoadAllComments={zKeyClickedAndLoadAllComments}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks

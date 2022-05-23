@@ -37,6 +37,7 @@ interface Props {
   commentsOrderBy: COMMENT_SORT;
   setNextUnseenComment: any;
   nextUnseenComment: any;
+  zKeyClickedAndLoadAllComments: boolean;
 }
 
 // Virtuoso settings
@@ -57,6 +58,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   commentsOrderBy,
   setNextUnseenComment,
   nextUnseenComment,
+  zKeyClickedAndLoadAllComments,
 }) => {
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
@@ -121,6 +123,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
 
   // TODO: Add comment here
   const displayLoadAllButton = useMemo(() => {
+    if (zKeyClickedAndLoadAllComments) {
+      return false;
+    }
     return (
       (local.showLoadAllCommentsButton ||
         (alternateOldestViewEnabled && !loadAllButtonHasBeenClicked)) &&
@@ -136,6 +141,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     initialComments,
     alternateOldestViewEnabled,
     loadAllButtonHasBeenClicked,
+    zKeyClickedAndLoadAllComments,
   ]);
 
   // TODO: Add comment here
@@ -167,6 +173,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     local.storyID,
     local.commentsOrderBy,
     local.viewNewCount,
+    setNextUnseenComment,
   ]);
 
   // Whenever we initially render, comment with traversal focus changes,
@@ -181,6 +188,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     local.commentWithTraversalFocus,
     local.viewNewCount,
     local.viewNewRepliesCount,
+    findNextUnseen,
+    settings.featureFlags,
   ]);
 
   useEffect(() => {

@@ -50,11 +50,22 @@ import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
 
+interface NextUnseenComment {
+  commentID?: string | null;
+  parentID?: string | null;
+  rootCommentID?: string | null;
+  index?: number | null;
+  needToLoadNew?: boolean | null;
+}
+
 interface Props {
   loggedIn: boolean;
   storyID: string;
   currentScrollRef: any;
-  nextUnseenComment: any;
+  nextUnseenComment: NextUnseenComment;
+  setZKeyClickedAndLoadAllComments: (
+    setZKeyClickedAndLoadAllComments: boolean
+  ) => void;
 }
 
 export interface KeyboardEventData {
@@ -297,6 +308,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   storyID,
   currentScrollRef,
   nextUnseenComment,
+  setZKeyClickedAndLoadAllComments,
 }) => {
   const {
     relayEnvironment,
@@ -388,7 +400,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnmarkAction(true);
       }
     },
-    [disableUnmarkAction, eventEmitter, markSeen, storyID]
+    [disableUnmarkAction, eventEmitter, markSeen, storyID, root]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
@@ -512,7 +524,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         updateSeen: true,
       });
     },
-    [setTraversalFocus, markSeen]
+    [setTraversalFocus, markSeen, commentSeenEnabled, storyID]
   );
 
   const findCommentAndSetFocus = useCallback(
@@ -580,18 +592,25 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   // the next unseen reply is traversed to after the success of the
                   // Load More replies or View New replies events.
                   if (nextLoadMoreOrViewNewKeyStop.isViewNew) {
-                    nextLoadMoreOrViewNewKeyStop.element.click();
-                    // setLocal({
-                    //   loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(
-                    //     42
-                    //   ),
-                    // });
+                    setTimeout(
+                      () =>
+                        setLocal({
+                          loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(
+                            42
+                          ),
+                        }),
+                      0
+                    );
                   } else {
-                    setLocal({
-                      loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(
-                        34
-                      ),
-                    });
+                    setTimeout(
+                      () =>
+                        setLocal({
+                          loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(
+                            34
+                          ),
+                        }),
+                      0
+                    );
                   }
                 }
               }
@@ -603,22 +622,37 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }, 100);
       }
     },
-    [
-      root,
-      renderWindow,
-      setFocusAndMarkSeen,
-      toKeyStop,
-      findNextKeyStop,
-      findPreviousKeyStop,
-    ]
+    [root, renderWindow, setFocusAndMarkSeen, setLocal]
   );
 
   const [currentVirtuosoIndex, setCurrentVirtuosoIndex] = useState<
     null | number
   >(null);
 
+  // Set current virtuoso index based on current comment with traversal focus too
+  useEffect(() => {
+    if (local.commentWithTraversalFocus) {
+      const commentWithTraversalFocusElement = root.getElementById(
+        computeCommentElementID(local.commentWithTraversalFocus)
+      );
+      const virtuosoIndex = commentWithTraversalFocusElement
+        ?.closest("[data-index]")
+        ?.getAttribute("data-index");
+      setCurrentVirtuosoIndex(
+        virtuosoIndex ? parseInt(virtuosoIndex, 10) : null
+      );
+    }
+  }, [local.commentWithTraversalFocus, root]);
+
   const handleZKeyPress = useCallback(
     async (source: "keyboard" | "mobileToolbar") => {
+      if (
+        nextUnseenComment &&
+        nextUnseenComment.index &&
+        nextUnseenComment.index >= 20
+      ) {
+        setZKeyClickedAndLoadAllComments(true);
+      }
       // if we need to load new comments that entered via subscription,
       // we scroll to the top of the comments, click the view new comments
       // button, and then set focus and mark as seen the next unseen comment
@@ -656,7 +690,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             index: nextUnseenComment.index,
             behavior: "auto",
             done: () => {
-              setCurrentVirtuosoIndex(nextUnseenComment.index);
+              if (nextUnseenComment.index) {
+                setCurrentVirtuosoIndex(nextUnseenComment.index);
+              }
               findCommentAndSetFocus(nextUnseenComment, isRootComment);
             },
           });
@@ -678,6 +714,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       local.commentsOrderBy,
       findCommentAndSetFocus,
       nextUnseenComment,
+      currentScrollRef,
+      currentVirtuosoIndex,
+      setFocusAndMarkSeen,
+      setZKeyClickedAndLoadAllComments,
     ]
   );
 
