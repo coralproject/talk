@@ -224,7 +224,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const memoize = useMemoizer();
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
   const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
-
   const showAllAndEmit = useCallback(async () => {
     const showAllEvent = beginShowAllEvent({
       commentID: props.comment.id,

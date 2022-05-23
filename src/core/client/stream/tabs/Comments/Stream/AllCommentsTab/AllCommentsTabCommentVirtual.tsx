@@ -25,6 +25,14 @@ import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainer
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import NextUnseenCommentFetch from "./NextUnseenCommentFetch";
 
+interface NextUnseenComment {
+  commentID?: string | null;
+  parentID?: string | null;
+  rootCommentID?: string | null;
+  index?: number | null;
+  needToLoadNew?: boolean | null;
+}
+
 interface Props {
   settings: AllCommentsTabContainer_settings;
   viewer: AllCommentsTabContainer_viewer | null;
@@ -35,8 +43,8 @@ interface Props {
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
-  setNextUnseenComment: any;
-  nextUnseenComment: any;
+  setNextUnseenComment: (nextUnseenComment: NextUnseenComment | null) => void;
+  nextUnseenComment: NextUnseenComment | null;
   zKeyClickedAndLoadAllComments: boolean;
 }
 
@@ -66,7 +74,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
       totalCommentsLength
-      storyID
       commentsOrderBy
       viewNewCount
       viewNewRepliesCount
@@ -178,7 +185,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     const findNext = async () => {
       const { nextUnseenComment: nextUnseen } = await fetchNextUnseenComment({
         id: local.commentWithTraversalFocus,
-        storyID: local.storyID,
+        storyID: story.id,
         orderBy: local.commentsOrderBy,
         viewNewCount: local.viewNewCount,
       });
@@ -189,7 +196,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   }, [
     fetchNextUnseenComment,
     local.commentWithTraversalFocus,
-    local.storyID,
+    story.id,
     local.commentsOrderBy,
     local.viewNewCount,
     setNextUnseenComment,
@@ -222,7 +229,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   // not, then we need to load more comments until it is loaded so that if Z key
   // is pressed, Virtuoso will be able to scroll to the next unseen comment.
   useEffect(() => {
-    if (nextUnseenComment) {
+    if (nextUnseenComment && nextUnseenComment.index) {
       const nextUnseenInComments =
         nextUnseenComment.index <= comments.length - 1;
       if (!nextUnseenInComments) {

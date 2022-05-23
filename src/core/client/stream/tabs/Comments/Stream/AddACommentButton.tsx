@@ -32,20 +32,22 @@ const AddACommentButton: FunctionComponent<Props> = ({
     `
   );
   const root = useShadowRootOrDocument();
-
   const onClick = useCallback(() => {
     if (!renderWindow) {
       return;
     }
     const postCommentForm = root.getElementById(POST_COMMENT_FORM_ID);
     if (postCommentForm) {
+      // Make sure that the Load all comments button is displayed even if it
+      // was previously clicked and no longer displayed.
+      // Then scroll to last comment, which is right above the Add a comment box,
+      // and scroll the post comment form into view.
       setLocal({ showLoadAllCommentsButton: true });
       if (totalCommentsLength) {
         const indexToScroll =
           totalCommentsLength < NUM_INITIAL_COMMENTS
             ? totalCommentsLength - 1
             : NUM_INITIAL_COMMENTS - 1;
-        // Scroll to last comment, which is right above the Add a comment box
         if (currentScrollRef.current) {
           currentScrollRef.current.scrollIntoView({
             align: "center",
