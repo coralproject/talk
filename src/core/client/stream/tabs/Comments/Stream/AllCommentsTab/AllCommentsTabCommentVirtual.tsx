@@ -76,10 +76,17 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     loadAllButtonHasBeenDisplayed,
     setLoadAllButtonHasBeenDisplayed,
   ] = useState(false);
+
+  // We need to know if the load all button has been clicked for the alternate oldest view.
+  // This is because it always shows in this case on initial load UNTIL it has been clicked,
+  // and then it is no longer shown.
   const [
     loadAllButtonHasBeenClicked,
     setLoadAllButtonHasBeenClicked,
   ] = useState(false);
+
+  // Initial comments are used to determine whether the Load all comments button should be
+  // displayed or not.
   const [initialComments, setInitialComments] = useState<null | {
     length: number;
     hasMore: boolean;
@@ -114,14 +121,23 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     loadAllButtonHasBeenDisplayed,
   ]);
 
-  // TODO: Add comment here
+  // Total comments length is either the number of comments that have been loaded OR,
+  // for alternate oldest view, the number of comments loaded PLUS any new comments
+  // that have been added via the Add new comments box.
   const totalCommentsLength = useMemo(() => {
     return newCommentsToShow
       ? comments.length + newCommentsToShow.length
       : comments.length;
   }, [newCommentsToShow, comments]);
 
-  // TODO: Add comment here
+  // We determine whether to display the Load all comments button based on whether:
+  // 1. Don't display if Z key has been clicked and the next unseen comment is below the
+  // initial number of comments displayed.
+  // 2. Display if setting to show button enabled in admin OR we are in alternate oldest
+  // view and the button hasn't already been clicked. AND we have more comments to display
+  // if the button is clicked. We check initial comments because if the number of initial
+  // comments is less than the initial number of comments we want to display before a Load all,
+  // then we never need to show the Load all button as more comments are added.
   const displayLoadAllButton = useMemo(() => {
     if (zKeyClickedAndLoadAllComments) {
       return false;
@@ -144,16 +160,19 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     zKeyClickedAndLoadAllComments,
   ]);
 
-  // TODO: Add comment here
+  // This determines if there are new comments that have come in via subscription
+  // for which a Load more button should be displayed when comments sorted oldest first.
   const showLoadMoreForOldestFirstNewComments = useMemo(() => {
     return (
-      hasMore &&
       commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+      hasMore &&
       (comments.length < NUM_INITIAL_COMMENTS ||
         (comments.length >= NUM_INITIAL_COMMENTS && !displayLoadAllButton))
     );
   }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
 
+  // This is the fetch for the next unseen comment, which is used for Z key traversal
+  // in keyboard shortcuts.
   const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
   const findNextUnseen = useCallback(() => {
     const findNext = async () => {
@@ -218,13 +237,15 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     setLocal({ totalCommentsLength });
   }, [totalCommentsLength, setLocal]);
 
+  // If the Load All Comments button is clicked, we need to set that it has been
+  // clicked so that we know it should no longer be displayed.
   const onDisplayLoadAllButtonClick = useCallback(() => {
     setLocal({ showLoadAllCommentsButton: false });
     setLoadAllButtonHasBeenClicked(true);
   }, [setLocal, setLoadAllButtonHasBeenClicked]);
 
   useEffect(() => {
-    // on rerender, clear the newly added comments to show if it's
+    // on rerender, clear the newly added comments to display if it's
     // alternate oldest view
     setLocal({ oldestFirstNewCommentsToShow: "" });
     // on rerender, clear initial comments info
