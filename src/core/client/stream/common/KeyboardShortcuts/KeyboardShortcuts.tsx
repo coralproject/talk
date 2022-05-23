@@ -413,6 +413,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     CloseMobileToolbarEvent.emit(eventEmitter);
   }, [eventEmitter, setToolbarClosed]);
 
+  // Traverse is used for C key traversal and for Z key traversal after more replies
+  // are loaded in and those events are successfully triggered (to navigate to the next unseen
+  // new reply after wheere the Load / View more buttons were).
   const traverse = useCallback(
     (config: {
       key: "z" | "c";
