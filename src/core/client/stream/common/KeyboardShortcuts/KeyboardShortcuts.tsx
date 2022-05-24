@@ -527,6 +527,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     [setTraversalFocus, markSeen, commentSeenEnabled, storyID]
   );
 
+  // If the next unseen comment is a reply, then this finds that comment beneath
+  // its Virtuoso index root comment. If the next unseen is behind a Show more or
+  // View new comments button, then this clicks that button and loads in the needed
+  // replies. Once the comment is found, focus is set and the comment is marked as seen.
   const findCommentAndSetFocus = useCallback(
     (nextUnseen, isRootComment) => {
       // If next unseen is a root comment, just set focus and mark as seen.

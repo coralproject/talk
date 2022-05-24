@@ -15,6 +15,7 @@ import { GQLCOMMENT_SORT, GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { Button } from "coral-ui/components/v3";
+import colors from "coral-ui/theme/colors";
 
 import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
@@ -79,12 +80,16 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       viewNewRepliesCount
     }
   `);
+
+  // In alternate oldest view, we need to know if the Load all button has been displayed
+  // so that we know if we should display new comments added via the post comment form
+  // above them.
   const [
     loadAllButtonHasBeenDisplayed,
     setLoadAllButtonHasBeenDisplayed,
   ] = useState(false);
 
-  // We need to know if the load all button has been clicked for the alternate oldest view.
+  // In alternate oldest view, we need to know if the Load all button has been clicked.
   // This is because it always shows in this case on initial load UNTIL it has been clicked,
   // and then it is no longer shown.
   const [
@@ -137,6 +142,10 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       : comments.length;
   }, [newCommentsToShow, comments]);
 
+  useEffect(() => {
+    setLocal({ totalCommentsLength });
+  }, [totalCommentsLength, setLocal]);
+
   // We determine whether to display the Load all comments button based on whether:
   // 1. Don't display if Z key has been clicked and the next unseen comment is below the
   // initial number of comments displayed.
@@ -167,8 +176,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     zKeyClickedAndLoadAllComments,
   ]);
 
-  // This determines if there are new comments that have come in via subscription
-  // for which a Load more button should be displayed when comments sorted oldest first.
+  // When comments are sorted oldest first, this determines if there are new comments
+  // that have come in via subscription for which a Load more button should be
+  // displayed.
   const showLoadMoreForOldestFirstNewComments = useMemo(() => {
     return (
       commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
@@ -179,7 +189,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
 
   // This is the fetch for the next unseen comment, which is used for Z key traversal
-  // in keyboard shortcuts.
+  // in keyboard shortcuts if Z_KEY is enabled.
   const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
   const findNextUnseen = useCallback(() => {
     const findNext = async () => {
@@ -202,10 +212,9 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     setNextUnseenComment,
   ]);
 
-  // Whenever we initially render, comment with traversal focus changes,
-  // new comments come in via subscription, or new replies come in via
-  // subscription, we find the next unseen and set it for keyboard shortcuts
-  // if Z_KEY is enabled.
+  // Whenever the comment with traversal focus changes, new comments come in via
+  // subscription, or new replies come in via subscription, we find the next
+  // unseen and set it for keyboard shortcuts if Z_KEY is enabled.
   useEffect(() => {
     if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
       findNextUnseen();
@@ -218,6 +227,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     settings.featureFlags,
   ]);
 
+  // Whenever we initially render, we find the next unseen and set it for keyboard shortcuts
+  // if Z_KEY is enabled.
   useEffect(() => {
     if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
       findNextUnseen();
@@ -226,7 +237,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
 
   // Whenever the next unseen comment changes, we need to check to make sure
   // that it's included in the comments that are loaded for Virtuoso. If it's
-  // not, then we need to load more comments until it is loaded so that if Z key
+  // not, then we need to load more comments until it is loaded. This is so that if Z key
   // is pressed, Virtuoso will be able to scroll to the next unseen comment.
   useEffect(() => {
     if (nextUnseenComment && nextUnseenComment.index) {
@@ -239,10 +250,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       }
     }
   }, [nextUnseenComment, comments, hasMore, isLoadingMore, loadMoreAndEmit]);
-
-  useEffect(() => {
-    setLocal({ totalCommentsLength });
-  }, [totalCommentsLength, setLocal]);
 
   // If the Load All Comments button is clicked, we need to set that it has been
   // clicked so that we know it should no longer be displayed.
@@ -322,79 +329,84 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     showLoadMoreForOldestFirstNewComments,
   ]);
 
+  // The scroll seek placeholder is displayed in place of comments when the user is
+  // scrolling up/down the page at a velocity that is greater than the
+  // scrollSeekShowPlaceholderVelocity that is set for Virtuoso.
   const ScrollSeekPlaceholder = useCallback(
-    ({ height }: { height: number }) => (
-      <div
-        style={{
-          height,
-          boxSizing: "border-box",
-        }}
-      >
-        <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
-          <div
-            style={{
-              flex: "0 1 auto",
-            }}
-          >
-            <hr style={{ border: "1px solid #eaeff0" }} />
-          </div>
-          <div
-            style={{
-              flex: "0 1 auto",
-              backgroundColor: "#f4f7f7",
-              width: "50%",
-              height: "2rem",
-            }}
-          ></div>
-          <div
-            style={{
-              flex: "0 1 auto",
-              backgroundColor: "white",
-              width: "100%",
-              height: "1rem",
-            }}
-          ></div>
-          <div
-            style={{
-              flex: "1 1 auto",
-              backgroundColor: "#eaeff0",
-              width: "100%",
-              height: "95%",
-            }}
-          ></div>
-          <div
-            style={{
-              flex: "0 1 auto",
-              backgroundColor: "white",
-              width: "100%",
-              height: "1rem",
-            }}
-          ></div>
-          <div
-            style={{
-              flex: "0 1 1.5rem",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
+    ({ height }: { height: number }) => {
+      return (
+        <div
+          style={{
+            height,
+            boxSizing: "border-box",
+          }}
+        >
+          <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
             <div
               style={{
-                backgroundColor: "#f4f7f7",
-                height: "100%",
-                width: "12rem",
+                flex: "0 1 auto",
+              }}
+            >
+              <hr style={{ border: `1px solid ${colors.grey200}` }} />
+            </div>
+            <div
+              style={{
+                flex: "0 1 auto",
+                backgroundColor: `${colors.grey100}`,
+                width: "50%",
+                height: "2rem",
               }}
             ></div>
             <div
               style={{
-                backgroundColor: "#f4f7f7",
-                height: "100%",
-                width: "3rem",
+                flex: "0 1 auto",
+                backgroundColor: `${colors.pure.white}`,
+                width: "100%",
+                height: "1rem",
               }}
             ></div>
+            <div
+              style={{
+                flex: "1 1 auto",
+                backgroundColor: `${colors.grey200}`,
+                width: "100%",
+                height: "95%",
+              }}
+            ></div>
+            <div
+              style={{
+                flex: "0 1 auto",
+                backgroundColor: `${colors.pure.white}`,
+                width: "100%",
+                height: "1rem",
+              }}
+            ></div>
+            <div
+              style={{
+                flex: "0 1 1.5rem",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: `${colors.grey100}`,
+                  height: "100%",
+                  width: "12rem",
+                }}
+              ></div>
+              <div
+                style={{
+                  backgroundColor: `${colors.grey100}`,
+                  height: "100%",
+                  width: "3rem",
+                }}
+              ></div>
+            </div>
           </div>
         </div>
-      </div>
-    ),
+      );
+    },
     []
   );
 
