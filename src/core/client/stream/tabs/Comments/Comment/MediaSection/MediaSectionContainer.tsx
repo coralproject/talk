@@ -42,21 +42,21 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       }
     }
   `);
-  const [wasToggled, setWasToggled] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
   const onToggleExpand = useCallback(() => {
     const initialMediaSettings = expandedMediaSettings
       ? expandedMediaSettings
       : { commentIDs: [] };
     const indexOfComment = initialMediaSettings.commentIDs.indexOf(comment.id);
     if (indexOfComment === -1) {
-      setWasToggled(defaultExpanded ? false : true);
+      setIsToggled(defaultExpanded ? false : true);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.concat(comment.id),
         },
       });
     } else {
-      setWasToggled(defaultExpanded ? true : false);
+      setIsToggled(defaultExpanded ? true : false);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.filter(
@@ -65,13 +65,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         },
       });
     }
-  }, [
-    comment,
-    expandedMediaSettings,
-    setLocal,
-    setWasToggled,
-    defaultExpanded,
-  ]);
+  }, [comment, expandedMediaSettings, setLocal, setIsToggled, defaultExpanded]);
 
   const expanded = useMemo(() => {
     const commentInSettings = expandedMediaSettings?.commentIDs.includes(
@@ -164,7 +158,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
-          wasToggled={wasToggled}
+          isToggled={isToggled}
         />
       )}
       {media.__typename === "TwitterMedia" && (
@@ -172,7 +166,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
-          wasToggled={wasToggled}
+          isToggled={isToggled}
         />
       )}
       {media.__typename === "YouTubeMedia" && (
@@ -180,6 +174,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
+          isToggled={isToggled}
         />
       )}
       {media.__typename === "GiphyMedia" && (

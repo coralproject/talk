@@ -6,15 +6,21 @@ interface Props {
   id?: string;
   url: string;
   siteID: string;
+  isToggled?: boolean;
 }
 
-const YouTubeMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
+const YouTubeMedia: FunctionComponent<Props> = ({
+  id,
+  url,
+  siteID,
+  isToggled,
+}) => {
   const component = encodeURIComponent(url);
   return (
     <Frame
       id={id}
       src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
-      type="youtube"
+      isToggled={isToggled}
     />
   );
 };

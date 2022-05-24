@@ -6,14 +6,14 @@ interface Props {
   id?: string;
   url: string;
   siteID: string;
-  wasToggled?: boolean;
+  isToggled?: boolean;
 }
 
 const TwitterMedia: FunctionComponent<Props> = ({
   id,
   url,
   siteID,
-  wasToggled,
+  isToggled,
 }) => {
   const component = encodeURIComponent(url);
   return (
@@ -21,8 +21,7 @@ const TwitterMedia: FunctionComponent<Props> = ({
       id={id}
       width="100%"
       src={`/api/oembed?type=twitter&url=${component}&siteID=${siteID}`}
-      wasToggled={wasToggled}
-      type="twitter"
+      isToggled={isToggled}
     />
   );
 };

@@ -19,9 +19,9 @@ interface Props {
   src: string;
   sandbox?: boolean;
   title?: string;
-  wasToggled?: boolean;
-  type?: "youtube" | "twitter" | "external_media";
+  isToggled?: boolean;
   width?: string;
+  showFullHeight?: boolean;
 }
 
 export interface FrameHeightMessage {
@@ -30,33 +30,24 @@ export interface FrameHeightMessage {
 }
 
 const iframeStyle = { display: "block" };
-const youTubeThumbnailHeight = "168px";
-const defaultUnexpandedHeight = 250;
+const defaultUnexpandedHeight = 260;
 
 const Frame: FunctionComponent<Props> = ({
   id,
   src,
   sandbox,
   title,
-  wasToggled,
-  type,
+  isToggled,
   width,
+  showFullHeight,
 }) => {
   const { postMessage, rootURL } = useCoralContext();
   const [height, setHeight] = useState(0);
   const [maxHeight, setMaxHeight] = useState<string>(
-    type === "youtube"
-      ? youTubeThumbnailHeight
-      : wasToggled
-      ? "none"
-      : `${defaultUnexpandedHeight}px`
+    isToggled || showFullHeight ? "none" : `${defaultUnexpandedHeight}px`
   );
   const [displayExpand, setDisplayExpand] = useState(
-    type === "twitter" || type === "external_media"
-      ? wasToggled
-        ? "none"
-        : "flex"
-      : "none"
+    isToggled || showFullHeight ? "none" : "flex"
   );
   const frameID = useMemo(
     () => (id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`),
