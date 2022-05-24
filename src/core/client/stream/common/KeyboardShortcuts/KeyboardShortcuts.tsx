@@ -39,6 +39,7 @@ import {
 } from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
+import { NextUnseenComment } from "coral-stream/tabs/Comments/Stream/AllCommentsTab/AllCommentsTabVirtualizedComments";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
@@ -50,14 +51,6 @@ import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
-
-interface NextUnseenComment {
-  commentID?: string | null;
-  parentID?: string | null;
-  rootCommentID?: string | null;
-  index?: number | null;
-  needToLoadNew?: boolean | null;
-}
 
 interface Props {
   loggedIn: boolean;
@@ -300,6 +293,11 @@ const eventsOfInterest = [
   ViewNewCommentsNetworkEvent.nameSuccess,
   ViewNewRepliesNetworkEvent.nameSuccess,
   COMMIT_SEEN_EVENT,
+];
+
+const loadMoreRepliesEvents = [
+  ShowAllRepliesEvent.nameSuccess,
+  ViewNewRepliesNetworkEvent.nameSuccess,
 ];
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({
@@ -841,10 +839,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
 
-      if (
-        e === ShowAllRepliesEvent.nameSuccess ||
-        e === ViewNewRepliesNetworkEvent.nameSuccess
-      ) {
+      if (loadMoreRepliesEvents.includes(e)) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
         // instead of waiting for polling to update it

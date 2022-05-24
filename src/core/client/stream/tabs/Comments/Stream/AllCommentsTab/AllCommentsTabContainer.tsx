@@ -50,19 +50,13 @@ import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
-import AllCommentsTabCommentVirtual from "./AllCommentsTabCommentVirtual";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
+import AllCommentsTabVirtualizedComments, {
+  NextUnseenComment,
+} from "./AllCommentsTabVirtualizedComments";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
-
-interface NextUnseenComment {
-  commentID?: string | null;
-  parentID?: string | null;
-  rootCommentID?: string | null;
-  index?: number | null;
-  needToLoadNew?: boolean | null;
-}
 
 interface Props {
   story: AllCommentsTabContainer_story;
@@ -306,7 +300,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             tag={tag}
           />
         )}
-        <AllCommentsTabCommentVirtual
+        <AllCommentsTabVirtualizedComments
           settings={settings}
           viewer={viewer}
           story={story}

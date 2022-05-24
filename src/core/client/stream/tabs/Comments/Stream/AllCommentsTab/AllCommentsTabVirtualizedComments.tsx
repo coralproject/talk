@@ -17,16 +17,16 @@ import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { Button } from "coral-ui/components/v3";
 import colors from "coral-ui/theme/colors";
 
-import { AllCommentsTabCommentVirtualLocal } from "coral-stream/__generated__/AllCommentsTabCommentVirtualLocal.graphql";
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
+import { AllCommentsTabVirtualizedCommentsLocal } from "coral-stream/__generated__/AllCommentsTabVirtualizedCommentsLocal.graphql";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import NextUnseenCommentFetch from "./NextUnseenCommentFetch";
 
-interface NextUnseenComment {
+export interface NextUnseenComment {
   commentID?: string | null;
   parentID?: string | null;
   rootCommentID?: string | null;
@@ -58,7 +58,7 @@ const increaseViewportBy = 2000;
 const virtuosoHeight = 600;
 const scrollSeekShowPlaceholderVelocity = 1200;
 
-const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
+const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   story,
   settings,
   viewer,
@@ -73,8 +73,10 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   zKeyClickedAndLoadAllComments,
   viewNewCount,
 }) => {
-  const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
-    fragment AllCommentsTabCommentVirtualLocal on Local {
+  const [local, setLocal] = useLocal<
+    AllCommentsTabVirtualizedCommentsLocal
+  >(graphql`
+    fragment AllCommentsTabVirtualizedCommentsLocal on Local {
       commentWithTraversalFocus
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
@@ -497,4 +499,4 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   );
 };
 
-export default AllCommentsTabCommentVirtual;
+export default AllCommentsTabVirtualizedComments;
