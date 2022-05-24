@@ -28,7 +28,11 @@ import {
   YouTubeMedia,
 } from "coral-server/models/comment";
 import { retrieveSite } from "coral-server/models/site";
-import { resolveStoryMode, retrieveStory } from "coral-server/models/story";
+import {
+  resolveStoryMode,
+  retrieveStory,
+  updateCommentOnStoryTree,
+} from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { isSiteBanned } from "coral-server/models/user/helpers";
@@ -263,6 +267,8 @@ export default async function edit(
       now
     );
   }
+
+  await updateCommentOnStoryTree(mongo, tenant.id, story.id, result.after);
 
   // Update all the comment counts on stories and users.
   const counts = await updateAllCommentCounts(mongo, redis, {
