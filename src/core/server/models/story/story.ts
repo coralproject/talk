@@ -40,7 +40,6 @@ import {
 } from "../seenComments/seenComments";
 
 export * from "./helpers";
-
 export interface StreamModeSettings {
   /**
    * mode is whether the story stream is in commenting or Q&A mode.
@@ -1335,11 +1334,7 @@ export async function findNextUnseenVisibleCommentID(
   // order is descending.
   let cursor = 0;
   if (!currentCommentID) {
-    if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-      cursor = -1;
-    } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-      cursor = 0;
-    }
+    cursor = -1;
   } else {
     cursor = stack.findIndex((c) => c.id === currentCommentID);
     if (cursor === -1) {
