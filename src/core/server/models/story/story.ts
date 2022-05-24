@@ -986,10 +986,11 @@ async function createTree(
 export async function generateTreeForStory(
   mongo: MongoContext,
   tenantID: string,
-  storyID: string
+  storyID: string,
+  archived = false
 ) {
-  const result = await mongo
-    .comments()
+  const comments = archived ? mongo.archivedComments() : mongo.comments();
+  const result = await comments
     .find({
       tenantID,
       storyID,
