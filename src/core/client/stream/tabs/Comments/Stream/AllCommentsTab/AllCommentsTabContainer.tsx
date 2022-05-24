@@ -238,8 +238,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   ] = useState<NextUnseenComment | null>(null);
   const [
     zKeyClickedAndLoadAllComments,
-    setZKeyClickedAndLoadAllComments,
+    setZKeyPressedAndLoadAllComments,
   ] = useState(false);
+
+  const onNextUnseenCommentFetched = useCallback(
+    (nextUnseen: NextUnseenComment) => {
+      setNextUnseenComment(nextUnseen);
+    },
+    [setNextUnseenComment]
+  );
+  const onZKeyPressed = useCallback(() => {
+    setZKeyPressedAndLoadAllComments(true);
+  }, [setZKeyPressedAndLoadAllComments]);
   return (
     <>
       <KeyboardShortcuts
@@ -247,7 +257,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         storyID={story.id}
         currentScrollRef={currentScrollRef}
         nextUnseenComment={nextUnseenComment}
-        setZKeyClickedAndLoadAllComments={setZKeyClickedAndLoadAllComments}
+        onZKeyPressed={onZKeyPressed}
       />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
@@ -306,8 +316,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           currentScrollRef={currentScrollRef}
           alternateOldestViewEnabled={alternateOldestViewEnabled}
           commentsOrderBy={commentsOrderBy}
-          setNextUnseenComment={setNextUnseenComment}
           nextUnseenComment={nextUnseenComment}
+          onNextUnseenCommentFetched={onNextUnseenCommentFetched}
           zKeyClickedAndLoadAllComments={zKeyClickedAndLoadAllComments}
         />
         {!alternateOldestViewEnabled && (

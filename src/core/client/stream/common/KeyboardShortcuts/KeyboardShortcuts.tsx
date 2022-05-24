@@ -64,9 +64,7 @@ interface Props {
   storyID: string;
   currentScrollRef: any;
   nextUnseenComment: NextUnseenComment | null;
-  setZKeyClickedAndLoadAllComments: (
-    setZKeyClickedAndLoadAllComments: boolean
-  ) => void;
+  onZKeyPressed: () => void;
 }
 
 export interface KeyboardEventData {
@@ -309,7 +307,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   storyID,
   currentScrollRef,
   nextUnseenComment,
-  setZKeyClickedAndLoadAllComments,
+  onZKeyPressed,
 }) => {
   const {
     relayEnvironment,
@@ -664,7 +662,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         nextUnseenComment.index &&
         nextUnseenComment.index >= NUM_INITIAL_COMMENTS
       ) {
-        setZKeyClickedAndLoadAllComments(true);
+        onZKeyPressed();
       }
       // If we need to load new comments that entered via subscription,
       // we scroll to the top of the comments, click the view new comments
@@ -727,7 +725,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       currentScrollRef,
       currentVirtuosoIndex,
       setFocusAndMarkSeen,
-      setZKeyClickedAndLoadAllComments,
+      onZKeyPressed,
     ]
   );
 

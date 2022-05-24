@@ -44,8 +44,10 @@ interface Props {
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
-  setNextUnseenComment: (nextUnseenComment: NextUnseenComment | null) => void;
   nextUnseenComment: NextUnseenComment | null;
+  onNextUnseenCommentFetched: (
+    nextUnseenComment: NextUnseenComment | null
+  ) => void;
   zKeyClickedAndLoadAllComments: boolean;
 }
 
@@ -65,8 +67,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   currentScrollRef,
   alternateOldestViewEnabled,
   commentsOrderBy,
-  setNextUnseenComment,
   nextUnseenComment,
+  onNextUnseenCommentFetched,
   zKeyClickedAndLoadAllComments,
 }) => {
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
@@ -199,7 +201,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
         orderBy: local.commentsOrderBy,
         viewNewCount: local.viewNewCount,
       });
-      setNextUnseenComment(nextUnseen);
+      onNextUnseenCommentFetched(nextUnseen);
     };
 
     void findNext();
@@ -209,7 +211,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     story.id,
     local.commentsOrderBy,
     local.viewNewCount,
-    setNextUnseenComment,
+    onNextUnseenCommentFetched,
   ]);
 
   // Whenever the comment with traversal focus changes, new comments come in via
