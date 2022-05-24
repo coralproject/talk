@@ -9451,9 +9451,16 @@ type Mutation {
     input: MarkCommentsAsSeenInput!
   ): MarkCommentsAsSeenPayload!
 
+  """
+  generateStoryTree will create a story tree for a specific story.
+  """
   generateStoryTree(input: GenerateStoryTreeInput!): GenerateStoryTreePayload!
     @auth(roles: [ADMIN])
 
+  """
+  regenerateStoryTrees will regenerate all story trees for this organization and
+  all of its sites.
+  """
   regenerateStoryTrees(
     input: RegenerateStoryTreesInput!
   ): RegenerateStoryTreesPayload! @auth(roles: [ADMIN])

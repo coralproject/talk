@@ -22,6 +22,7 @@ import { createSanitize } from "coral-common/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import IframeEncapsulation from "coral-framework/lib/encapsulation/IframeEncapsulation";
 import CLASSES from "coral-stream/classes";
+import { RTE_ELEMENT_ID } from "coral-stream/constants";
 import { Icon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -77,12 +78,15 @@ const createSanitizeToDOMFragment = (
 export const RTELocalized = React.forwardRef<
   any,
   PropTypesOf<typeof LocalizedOriginal>
->(function RTELocalized({ ctrlKey, squire, ButtonComponent, ...props }, ref) {
+>(function RTELocalized(
+  { ctrlKey, squire, ButtonComponent, rteElementID, ...props },
+  ref
+) {
   return (
     <LocalizedOriginal {...props}>
       {React.cloneElement(
         React.Children.only(props.children as React.ReactElement),
-        { ctrlKey, squire, ButtonComponent, ref }
+        { ctrlKey, squire, ButtonComponent, rteElementID, ref }
       )}
     </LocalizedOriginal>
   );
@@ -275,6 +279,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     <div role="none">
       <CoralRTE
         inputID={inputID}
+        rteElementID={RTE_ELEMENT_ID}
         className={cn(CLASSES.rte.$root, className)}
         contentClassName={cn(
           CLASSES.rte.content,

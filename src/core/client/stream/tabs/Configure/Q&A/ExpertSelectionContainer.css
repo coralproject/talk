@@ -21,11 +21,6 @@
   margin-bottom: var(--spacing-3);
 }
 
-.searchRoot {
-  position: relative;
-  width: 100%;
-}
-
 .searchField {
   width: 100%;
 

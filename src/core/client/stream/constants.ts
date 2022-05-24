@@ -7,3 +7,5 @@ export const POST_COMMENT_FORM_ID = "post-comment-form";
 export const MAX_REPLY_INDENT_DEPTH = 4;
 
 export const NUM_INITIAL_COMMENTS = 20;
+
+export const RTE_ELEMENT_ID = "Coral-RTE";

@@ -21,6 +21,7 @@ interface Props {
   title?: string;
   wasToggled?: boolean;
   type?: "youtube" | "twitter" | "external_media";
+  width?: string;
 }
 
 export interface FrameHeightMessage {
@@ -39,6 +40,7 @@ const Frame: FunctionComponent<Props> = ({
   title,
   wasToggled,
   type,
+  width,
 }) => {
   const { postMessage, rootURL } = useCoralContext();
   const [height, setHeight] = useState(0);
@@ -97,6 +99,7 @@ const Frame: FunctionComponent<Props> = ({
           style={{ ...iframeStyle, maxHeight: `${maxHeight}` }}
           src={url}
           height={height}
+          width={width}
           sandbox={sandboxStr}
           scrolling="no"
         />

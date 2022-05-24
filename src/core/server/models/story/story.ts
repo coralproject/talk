@@ -986,10 +986,11 @@ async function createTree(
 export async function generateTreeForStory(
   mongo: MongoContext,
   tenantID: string,
-  storyID: string
+  storyID: string,
+  archived = false
 ) {
-  const result = await mongo
-    .comments()
+  const comments = archived ? mongo.archivedComments() : mongo.comments();
+  const result = await comments
     .find({
       tenantID,
       storyID,
@@ -1334,11 +1335,6 @@ export async function findNextUnseenVisibleCommentID(
   // order is descending.
   let cursor = 0;
   if (!currentCommentID) {
-    // if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-    //   cursor = -1;
-    // } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-    //   cursor = 0;
-    // }
     cursor = -1;
   } else {
     cursor = stack.findIndex((c) => c.id === currentCommentID);
