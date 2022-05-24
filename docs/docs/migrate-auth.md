@@ -1,8 +1,6 @@
 ---
-title: "Migrating to v7: Auth strategies"
+title: "Migrating from Talk v4.x to Coral v7+: Auth strategies"
 ---
-
-# Migrating to v7: Auth strategies
 
 Coral v7+ supports more authentication strategies than v4 out of the box with no plugins required. Read more about [social authentication strategies and OIDC (new)](/auth)
 
