@@ -16,7 +16,7 @@ const YouTubeMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
     <div className={styles.container}>
       <Frame
         id={id}
-        width="100%"
+        width="75%"
         src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
       />
     </div>
