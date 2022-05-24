@@ -16,7 +16,6 @@ const IntersectionContext = React.createContext<IntersectionContext>({} as any);
 export const useIntersectionContext = () =>
   React.useContext(IntersectionContext);
 
-// TODO: Make this accept an argument for threshold
 export const IntersectionProvider: React.FunctionComponent = ({ children }) => {
   const callbacks = useRef(new Map<Element, IntersectionCallback>());
 
@@ -40,7 +39,7 @@ export const IntersectionProvider: React.FunctionComponent = ({ children }) => {
     () =>
       new IntersectionObserver(onIntersect, {
         rootMargin: "0px",
-        threshold: [0, 1],
+        threshold: 0.25,
       }),
     [onIntersect]
   );

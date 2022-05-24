@@ -229,10 +229,10 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
+    setLocal({ loadAllReplies: null });
     try {
       await showAll();
       showAllEvent.success();
-      setLocal({ loadAllReplies: null });
     } catch (error) {
       showAllEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
