@@ -10,7 +10,10 @@ Before you start the data migration process, make sure you have the following:
 - a site ID for the new v7 coral instance (inspect the one record in the `sites` collection)
 - a mongo instance with a replica of your v4 production data set
 - a local machine or virtual machine with sufficient RAM and processing power to run `mongoexport` and `mongoimport` on your data set. In our experience, large data sets (10+ GB) will require a minimum of 16GB RAM and 8 cores.
-- _before_ you start the migration process, it is a good idea to create several test users (one commenter, one moderator, one admin). Following the data migration, attempt to log in and comment/moderate as these users to verify that account and login related data was migrated correctly, and that authentication has been configured correctly.
+  <<<<<<< HEAD
+- # _before_ you start the migration process, it is a good idea to create several test users (one commenter, one moderator, one admin). Following the data migration, attempt to log in and comment/moderate as these users to verify that account and login related data was migrated correctly, and that authentication has been configured correctly.
+- _before_ you start the migration process, it is a good idea to create several test users (one commenter, one moderator, one admin). Following the data migration, attempt to log in and comment/moderate as these users to verify that account and login related data was migrated correctly, and that authentication has bee configured correctly.
+  > > > > > > > main
 
 ## 1. Obtain JSON files for v4 data
 
