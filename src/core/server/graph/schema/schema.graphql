@@ -4257,7 +4257,7 @@ type Queues {
 
 type NextUnseenCommentPayload {
   """
-  commentID is the new comment the next comment ID to focus on.
+  commentID is the next comment ID to traverse to.
   """
   commentID: ID
 
@@ -4275,7 +4275,7 @@ type NextUnseenCommentPayload {
 
   """
   index is the next root level index that matches the virtualized
-  rendering order of the next commennt ID to focus on.
+  rendering order of the next comment ID to traverse to.
   """
   index: Int
 
