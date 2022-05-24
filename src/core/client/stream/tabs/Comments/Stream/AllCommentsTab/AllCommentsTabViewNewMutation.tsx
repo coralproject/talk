@@ -4,7 +4,6 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutation,
-  LOCAL_ID,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
@@ -45,11 +44,6 @@ const AllCommentsTabViewNewMutation = createMutation(
         ConnectionHandler.insertEdgeBefore(connection, edge);
         incrementStoryCommentCounts(store, storyID, edge);
       });
-
-      const local = store.get(LOCAL_ID);
-      if (local) {
-        local.setValue(null, "viewNewCount");
-      }
 
       ViewNewCommentsEvent.emit(eventEmitter, {
         storyID,

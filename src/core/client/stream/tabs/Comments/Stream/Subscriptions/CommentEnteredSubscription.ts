@@ -52,11 +52,6 @@ function updateForNewestFirst(
 
   // QUESTION: connection here was undefined when using the RR review/question tabs
   connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
-
-  const local = store.get(LOCAL_ID);
-  if (local) {
-    local.setValue(linked.length + 1, "viewNewCount");
-  }
 }
 
 function updateForOldestFirst(

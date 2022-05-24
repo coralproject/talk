@@ -319,6 +319,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           nextUnseenComment={nextUnseenComment}
           onNextUnseenCommentFetched={onNextUnseenCommentFetched}
           zKeyClickedAndLoadAllComments={zKeyClickedAndLoadAllComments}
+          viewNewCount={viewNewCount}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks

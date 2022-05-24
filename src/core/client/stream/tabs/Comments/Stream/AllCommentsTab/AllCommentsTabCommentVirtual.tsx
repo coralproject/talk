@@ -49,6 +49,7 @@ interface Props {
     nextUnseenComment: NextUnseenComment | null
   ) => void;
   zKeyClickedAndLoadAllComments: boolean;
+  viewNewCount: number;
 }
 
 // Virtuoso settings
@@ -70,6 +71,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
   nextUnseenComment,
   onNextUnseenCommentFetched,
   zKeyClickedAndLoadAllComments,
+  viewNewCount,
 }) => {
   const [local, setLocal] = useLocal<AllCommentsTabCommentVirtualLocal>(graphql`
     fragment AllCommentsTabCommentVirtualLocal on Local {
@@ -77,8 +79,6 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
       totalCommentsLength
-      commentsOrderBy
-      viewNewCount
       viewNewRepliesCount
     }
   `);
@@ -198,8 +198,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
       const { nextUnseenComment: nextUnseen } = await fetchNextUnseenComment({
         id: local.commentWithTraversalFocus,
         storyID: story.id,
-        orderBy: local.commentsOrderBy,
-        viewNewCount: local.viewNewCount,
+        orderBy: commentsOrderBy,
+        viewNewCount,
       });
       onNextUnseenCommentFetched(nextUnseen);
     };
@@ -209,8 +209,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     fetchNextUnseenComment,
     local.commentWithTraversalFocus,
     story.id,
-    local.commentsOrderBy,
-    local.viewNewCount,
+    commentsOrderBy,
+    viewNewCount,
     onNextUnseenCommentFetched,
   ]);
 
@@ -223,7 +223,7 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
     }
   }, [
     local.commentWithTraversalFocus,
-    local.viewNewCount,
+    viewNewCount,
     local.viewNewRepliesCount,
     findNextUnseen,
     settings.featureFlags,
@@ -452,8 +452,8 @@ const AllCommentsTabCommentVirtual: FunctionComponent<Props> = ({
                     isLast={index === comments.length - 1}
                   />
                 </IntersectionProvider>
-                {/* Show any newly posted comments above Load All Comments
-                button if alternate oldest view */}
+                {/* If alternate oldest view, show any newly posted
+                comments above Load All Comments button */}
                 {alternateOldestViewEnabled &&
                   index === NUM_INITIAL_COMMENTS - 1 &&
                   newCommentsToShow?.map((newComment) => {
