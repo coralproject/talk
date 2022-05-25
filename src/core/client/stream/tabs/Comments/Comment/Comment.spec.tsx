@@ -21,6 +21,8 @@ it("renders username and body", () => {
         username: "test-user",
       },
     },
+    id: "comment-0",
+    showCommentID: false,
   };
   const renderer = createRenderer();
   renderer.render(<Comment {...props} />);

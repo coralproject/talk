@@ -290,6 +290,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         source
         reverse
       }
+      showCommentIDs
     }
   `);
   const amp = useAMP();
@@ -459,6 +460,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     ]
   );
 
+  const toggleShowCommentIDs = useCallback(() => {
+    const showCommentIDs = !!lookup(relayEnvironment, LOCAL_ID).showCommentIDs;
+    setLocal({ showCommentIDs: !showCommentIDs });
+  }, [relayEnvironment, setLocal]);
+
   const handleKeypress = useCallback(
     (event: React.KeyboardEvent | KeyboardEvent | string) => {
       let data: KeyboardEventData;
@@ -483,6 +489,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         return;
       }
 
+      const pressedKey = data.key.toLocaleLowerCase();
+
+      // Alt + H
+      if (data.altKey && pressedKey === "˙") {
+        toggleShowCommentIDs();
+      }
+
       if (data.ctrlKey || data.metaKey || data.altKey) {
         return;
       }
@@ -492,7 +505,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
         return;
       }
 
-      const pressedKey = data.key.toLocaleLowerCase();
       if (pressedKey === "a" && data.shiftKey) {
         unmarkAll({ source: "keyboard" });
         return;
