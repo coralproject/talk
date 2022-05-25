@@ -158,7 +158,9 @@ function insertReply(
 
     const local = store.get(LOCAL_ID);
     if (local) {
-      local.setValue(linked.length + 1, "viewNewRepliesCount");
+      const currentRepliesCount =
+        (local.getValue("viewNewRepliesCount") as number) || 0;
+      local.setValue(currentRepliesCount + 1, "viewNewRepliesCount");
     }
   }
 }

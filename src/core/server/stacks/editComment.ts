@@ -266,8 +266,6 @@ export default async function edit(
       },
       now
     );
-
-    await updateCommentOnStoryTree(mongo, tenant.id, story.id, result.after);
   }
 
   await updateCommentOnStoryTree(mongo, tenant.id, story.id, result.after);
