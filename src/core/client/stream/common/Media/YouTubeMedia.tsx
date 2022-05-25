@@ -2,6 +2,8 @@ import React, { FunctionComponent } from "react";
 
 import Frame from "coral-framework/components/Frame";
 
+import styles from "./YouTubeMedia.css";
+
 interface Props {
   id?: string;
   url: string;
@@ -17,11 +19,14 @@ const YouTubeMedia: FunctionComponent<Props> = ({
 }) => {
   const component = encodeURIComponent(url);
   return (
-    <Frame
-      id={id}
-      src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
-      isToggled={isToggled}
-    />
+    <div className={styles.container}>
+      <Frame
+        id={id}
+        width="75%"
+        src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
+        isToggled={isToggled}
+      />
+    </div>
   );
 };
 
