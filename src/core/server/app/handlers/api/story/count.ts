@@ -3,10 +3,16 @@ import Joi from "joi";
 import { CountJSONPData } from "coral-common/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
-import { calculateTotalPublishedCommentCount } from "coral-server/models/comment";
-import { translate } from "coral-server/services/i18n";
+import { MongoContext } from "coral-server/data/context";
+import { retrieveManyStoryRatings } from "coral-server/models/comment";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
+import { Story } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+
+import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
@@ -35,6 +41,44 @@ interface StoryCountJSONPQuery {
   ref: string;
 }
 
+function getCountHTML(
+  tenant: Readonly<Tenant>,
+  storyMode: GQLSTORY_MODE | undefined | null,
+  i18n: I18n,
+  count: number
+) {
+  // Use translated string.
+  const bundle = i18n.getBundle(tenant.locale);
+
+  let html = "";
+
+  if (storyMode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+    html = translate(
+      bundle,
+      `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Ratings</span>`,
+      "comment-count-ratings-and-review",
+      {
+        number: count,
+        numberClass: NUMBER_CLASS_NAME,
+        textClass: TEXT_CLASS_NAME,
+      }
+    );
+  } else {
+    html = translate(
+      bundle,
+      `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
+      "comment-count",
+      {
+        number: count,
+        numberClass: NUMBER_CLASS_NAME,
+        textClass: TEXT_CLASS_NAME,
+      }
+    );
+  }
+
+  return html;
+}
+
 /**
  * countHandler returns translated comment counts using JSONP.
  */
@@ -61,27 +105,14 @@ export const countJSONPHandler = ({
       url,
     });
 
-    const count = story
-      ? calculateTotalPublishedCommentCount(story.commentCounts.status)
-      : 0;
+    const count = story ? await calculateStoryCount(mongo, story) : 0;
 
     let html = "";
     if (notext === "true") {
       // We only need the count without the text.
       html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
     } else {
-      // Use translated string.
-      const bundle = i18n.getBundle(tenant.locale);
-      html = translate(
-        bundle,
-        `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
-        "comment-count",
-        {
-          number: count,
-          numberClass: NUMBER_CLASS_NAME,
-          textClass: TEXT_CLASS_NAME,
-        }
-      );
+      html = getCountHTML(tenant, story?.settings.mode, i18n, count);
     }
 
     const data: CountJSONPData = {
@@ -132,12 +163,31 @@ export const countHandler = ({
       return res.json({ count: null });
     }
 
-    const count = calculateTotalPublishedCommentCount(
-      story.commentCounts.status
-    );
+    const count = await calculateStoryCount(mongo, story);
 
     return res.json({ count });
   } catch (err) {
     return next(err);
   }
 };
+
+async function calculateStoryCount(
+  mongo: MongoContext,
+  story: Readonly<Story>
+) {
+  if (story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
+    const tallies = await retrieveManyStoryRatings(mongo, story.tenantID, [
+      story.id,
+    ]);
+    if (tallies.length === 0) {
+      return 0;
+    }
+
+    return tallies[0].count;
+  }
+
+  return PUBLISHED_STATUSES.reduce(
+    (total, status) => total + story.commentCounts.status[status],
+    0
+  );
+}

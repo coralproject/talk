@@ -12,4 +12,11 @@ comment-count =
     *[other] Comments
   }</span>
 
+comment-counts-ratings-and-review =
+  <span class="{ $numberClass }">{ $number }</span>
+  <span class="{ $textClass }">{ $number  ->
+    [one] Rating
+    *[other] Ratings
+  }</span>
+
 staff-label = Staff

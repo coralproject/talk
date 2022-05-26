@@ -1,5 +1,6 @@
 import cors from "cors";
 import express, { Router } from "express";
+import fs from "fs";
 
 import { EmbedBootstrapConfig, StaticConfig } from "coral-common/config";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
@@ -164,6 +165,9 @@ const clientHandler = ({
     next(new Error("Entrypoint not available"));
     return;
   }
+
+  // eslint-disable-next-line no-console
+  fs.writeFileSync("output.log", JSON.stringify(staticConfig, null, 2));
 
   res.render(viewTemplate, {
     analytics,
