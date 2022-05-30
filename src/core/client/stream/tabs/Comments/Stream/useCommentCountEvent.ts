@@ -8,8 +8,8 @@ import { getMessage } from "coral-framework/lib/i18n";
 
 import { STORY_MODE } from "coral-stream/__generated__/useCommentCountEvent_story.graphql";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const fragment = graphql`
+// eslint-disable-next-line no-unused-expressions
+graphql`
   fragment useCommentCountEvent_story on Story {
     id
     url
