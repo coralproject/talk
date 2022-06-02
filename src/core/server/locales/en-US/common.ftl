@@ -19,4 +19,16 @@ comment-counts-ratings-and-review =
     *[other] Ratings
   }</span>
 
+comment-counts-seen =
+  <span class="{ $numberClass }">{ $count }</span>
+  <span class="{ $textClass }">{ $number  ->
+    [one] Comment
+    *[other] Comments
+  }</span>
+  &nbsp;
+  <span class="{ $dividerClass }">/</span>
+  &nbsp;
+  <span class="{ $numberClass }">{ $unreadCount }</span>
+  <span class="{ $textClass }">Unread</span>
+
 staff-label = Staff

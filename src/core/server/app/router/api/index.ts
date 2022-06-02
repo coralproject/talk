@@ -47,7 +47,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use(tenantMiddleware({ mongo: app.mongo, cache: app.tenantCache }));
 
   // We don't need auth for the story router, so mount it earlier.
-  router.use("/story", createStoryRouter(app));
+  router.use("/story", createStoryRouter(app, options));
   router.use("/comment", createCommentRouter(app));
 
   // Setup Passport middleware.

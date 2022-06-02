@@ -6,10 +6,15 @@ import {
   ratingsJSONPHandler,
 } from "coral-server/app/handlers";
 import cacheMiddleware from "coral-server/app/middleware/cache";
+import { authenticate } from "coral-server/app/middleware/passport";
+import { RouterOptions } from "coral-server/app/router/types";
 
 import { createAPIRouter } from "./helpers";
 
-export function createStoryRouter(app: AppOptions) {
+export function createStoryRouter(
+  app: AppOptions,
+  { passport }: Pick<RouterOptions, "passport">
+) {
   const cacheDuration = app.config.get("jsonp_cache_max_age");
   const immutable = app.config.get("jsonp_cache_immutable");
 
@@ -18,6 +23,8 @@ export function createStoryRouter(app: AppOptions) {
   if (app.config.get("jsonp_response_cache")) {
     router.use(cacheMiddleware(app.redis, cacheDuration));
   }
+
+  router.use(authenticate(passport));
 
   router.get("/count", countHandler(app));
   router.get("/count.js", countJSONPHandler(app));

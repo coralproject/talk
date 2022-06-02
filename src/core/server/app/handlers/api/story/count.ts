@@ -7,15 +7,20 @@ import { MongoContext } from "coral-server/data/context";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { Story } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+} from "coral-server/graph/schema/__generated__/types";
+import { findSeenComments } from "coral-server/models/seenComments/seenComments";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
+const DIVIDER_CLASS_NAME = "coral-count-divider";
 
 export type JSONPCountOptions = Pick<
   AppOptions,
@@ -45,7 +50,8 @@ function getCountHTML(
   tenant: Readonly<Tenant>,
   storyMode: GQLSTORY_MODE | undefined | null,
   i18n: I18n,
-  count: number
+  totalCount: number,
+  seenCount = 0
 ) {
   // Use translated string.
   const bundle = i18n.getBundle(tenant.locale);
@@ -55,21 +61,47 @@ function getCountHTML(
   if (storyMode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
     html = translate(
       bundle,
-      `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Ratings</span>`,
+      `<span class="${NUMBER_CLASS_NAME}">${totalCount}</span> <span class="${TEXT_CLASS_NAME}">Ratings</span>`,
       "comment-count-ratings-and-review",
       {
-        number: count,
+        number: totalCount,
         numberClass: NUMBER_CLASS_NAME,
+        textClass: TEXT_CLASS_NAME,
+      }
+    );
+  } else if (
+    storyMode === GQLSTORY_MODE.COMMENTS &&
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.COMMENT_SEEN) &&
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.Z_KEY)
+  ) {
+    let unseenCount = totalCount - seenCount;
+    if (unseenCount < 0) {
+      unseenCount = 0;
+    }
+
+    html = translate(
+      bundle,
+      `
+        <span class="${NUMBER_CLASS_NAME}">${totalCount}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>
+        &nbsp;<span class="${DIVIDER_CLASS_NAME}">/</span>&nbsp;
+        <span class="${NUMBER_CLASS_NAME}">${unseenCount}</span> <span class="${TEXT_CLASS_NAME}">Unread</span>
+      `,
+      "comment-count-seen",
+      {
+        count: totalCount,
+        unreadCount: unseenCount,
+        numberClass: NUMBER_CLASS_NAME,
+        dividerClass: DIVIDER_CLASS_NAME,
         textClass: TEXT_CLASS_NAME,
       }
     );
   } else {
     html = translate(
       bundle,
-      `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
+      `<span class="${NUMBER_CLASS_NAME}">${totalCount}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
       "comment-count",
       {
-        number: count,
+        number: totalCount,
         numberClass: NUMBER_CLASS_NAME,
         textClass: TEXT_CLASS_NAME,
       }
@@ -107,12 +139,30 @@ export const countJSONPHandler = ({
 
     const count = story ? await calculateStoryCount(mongo, story) : 0;
 
+    let seenCount = 0;
+    if (
+      story &&
+      story.settings.mode === GQLSTORY_MODE.COMMENTS &&
+      hasFeatureFlag(tenant, GQLFEATURE_FLAG.COMMENT_SEEN) &&
+      hasFeatureFlag(tenant, GQLFEATURE_FLAG.Z_KEY) &&
+      req.user
+    ) {
+      const seenComments = await findSeenComments(mongo, tenant.id, {
+        storyID: story.id,
+        userID: req.user.id,
+      });
+
+      seenCount = seenComments?.comments
+        ? Object.keys(seenComments?.comments).length
+        : 0;
+    }
+
     let html = "";
     if (notext === "true") {
       // We only need the count without the text.
       html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
     } else {
-      html = getCountHTML(tenant, story?.settings.mode, i18n, count);
+      html = getCountHTML(tenant, story?.settings.mode, i18n, count, seenCount);
     }
 
     const data: CountJSONPData = {
@@ -135,6 +185,7 @@ const StoryCountQuerySchema = Joi.object()
   .keys({
     id: Joi.string().optional(),
     url: Joi.string().optional(),
+    token: Joi.string().optional(),
   })
   .or("id", "url");
 
