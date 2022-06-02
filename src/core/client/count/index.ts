@@ -22,6 +22,27 @@ interface DetectAndInjectArgs {
   reset?: boolean;
 }
 
+interface SSOJWT {
+  token: string;
+}
+
+function retrieveToken() {
+  // Attempt to retrieve it from the local auth token
+  let token = window.localStorage.getItem("coral:v2:accessToken");
+
+  // If the local auth token does not exist, attempt to grab it
+  // from the client page item
+  if (token === null) {
+    const tokenObjStr = window.localStorage.getItem("coral_sso_jwt");
+    if (tokenObjStr !== null) {
+      const tokenObj = JSON.parse(tokenObjStr) as SSOJWT;
+      token = tokenObj.token;
+    }
+  }
+
+  return token;
+}
+
 /** Detects count elements and use jsonp to inject the counts. */
 function detectAndInject(opts: DetectAndInjectArgs = {}) {
   const ORIGIN = getCurrentScriptOrigin();
@@ -84,7 +105,7 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
       args.d = Date.now().toString();
     }
 
-    const token = window.localStorage.getItem("coral:v2:accessToken");
+    const token = retrieveToken();
 
     // Add the script element with the specified options to the page.
     jsonp(`${ORIGIN}/api/story/count.js`, "CoralCount.setCount", args, token);
