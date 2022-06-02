@@ -9,7 +9,8 @@
 function jsonp(
   endpoint: string,
   callback: string,
-  args: Record<string, string | number | undefined>
+  args: Record<string, string | number | undefined>,
+  token?: string | null
 ) {
   // Create the script element.
   const script = window.document.createElement("script");
@@ -29,6 +30,10 @@ function jsonp(
       // Append the new parameter to the source.
       script.src += `&${key}=${encodeURIComponent(val)}`;
     });
+
+  if (token) {
+    script.src += `&accessToken=${token}`;
+  }
 
   // Attach the script to the body.
   window.document.body.appendChild(script);

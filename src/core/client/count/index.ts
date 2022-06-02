@@ -84,8 +84,10 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
       args.d = Date.now().toString();
     }
 
+    const token = window.localStorage.getItem("coral:v2:accessToken");
+
     // Add the script element with the specified options to the page.
-    jsonp(`${ORIGIN}/api/story/count.js`, "CoralCount.setCount", args);
+    jsonp(`${ORIGIN}/api/story/count.js`, "CoralCount.setCount", args, token);
   });
 }
 
