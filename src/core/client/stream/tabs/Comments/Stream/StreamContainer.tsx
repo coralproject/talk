@@ -207,7 +207,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     props.story.id,
     props.story.url,
     props.story.settings?.mode,
-    isRatingsAndReviews ? ratingsCount : allCommentsCount
+    isRatingsAndReviews ? ratingsCount : allCommentsCount,
+    props.story.commentCounts.seenCount,
+    props.settings.featureFlags
   );
 
   useEffect(() => {
@@ -592,6 +594,7 @@ const enhanced = withFragmentContainer<Props>({
           REVIEW
           QUESTION
         }
+        seenCount
       }
       ratings {
         count
@@ -647,6 +650,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SuspendedInfoContainer_settings
       ...UserBoxContainer_settings
       ...ViewersWatchingContainer_settings
+      ...useCommentCountEvent_settings
     }
   `,
 })(StreamContainer);

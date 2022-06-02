@@ -3869,6 +3869,11 @@ type CommentCounts {
   totalPublished: Int!
 
   """
+  seenCount will return how many comments have been seen if the user is logged in.
+  """
+  seenCount: Int!
+
+  """
   tags stores the counts of all the Tags against Comment's on this Story.
   """
   tags: CommentTagCounts!

@@ -3,6 +3,10 @@
  * will be replaced by the story count.
  */
 export const COUNT_SELECTOR = ".coral-count";
+export const COUNT_NUMBER_CLASS_NAME = ".coral-count-number";
+export const COUNT_UNREAD_NUMBER_CLASS_NAME = ".coral-count-number-unread";
+export const COUNT_TEXT_CLASS_NAME = ".coral-count-text";
+export const COUNT_UNREAD_TEXT_CLASS_NAME = ".coral-count-text-unread";
 
 /**
  * ORIGIN_FALLBACK_ID can be attached to any <script /> tag as an

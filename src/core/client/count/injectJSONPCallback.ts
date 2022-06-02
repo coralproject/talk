@@ -1,39 +1,8 @@
 import { CountJSONPData } from "coral-common/types/count";
 import { COUNT_SELECTOR } from "coral-framework/constants";
-import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
+// import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
 
 type GetCountFunction = (opts?: { reset?: boolean }) => void;
-
-/**
- * getPreviousCount will return the previous count if we can find it in storage.
- *
- * @param storyID the ID of the Story that we're referencing
- */
-function getPreviousCount(storyID: string): number | null {
-  // Calculate the key for this value used in storage. We have to prefix this
-  // with `coral:` because inside the framework we automatically prefix it.
-  const key = "coral:" + getPreviousCountStorageKey(storyID);
-
-  let previousCount: number;
-  try {
-    // Try to get the storage entry for this. If it isn't available then
-    // either
-    const item = localStorage.getItem(key);
-    if (!item) {
-      return null;
-    }
-
-    // Parse the previous count.
-    previousCount = parseInt(item, 10);
-  } catch (err) {
-    // Looks like we encountered an error parsing the previous count data,
-    // we should remove the storage entry.
-    localStorage.removeItem(key);
-    return null;
-  }
-
-  return previousCount;
-}
 
 interface CountElementDataset {
   coralCount: string;
@@ -44,7 +13,6 @@ interface CountElementDataset {
 function createCountElementEnhancer({
   html,
   count: currentCount,
-  id: storyID,
 }: CountJSONPData) {
   // Get the dataset together for setting properties on the enhancer.
   const dataset: CountElementDataset = {
@@ -56,37 +24,6 @@ function createCountElementEnhancer({
 
   // Update the innerHTML which contains the count and new value..
   element.innerHTML = html;
-
-  if (storyID) {
-    const previousCount = getPreviousCount(storyID);
-    if (previousCount !== null && previousCount < currentCount) {
-      // The new count is just the current count subtracting from the previous
-      // count.
-      const newCount = currentCount - previousCount;
-
-      // Add the counts to the dataset so it can be targeted by CSS if you want.
-      dataset.coralPreviousCount = previousCount.toString();
-      dataset.coralNewCount = newCount.toString();
-
-      // Insert the divider " / "
-      const dividerElement = document.createElement("span");
-      dividerElement.className = "coral-new-count-divider";
-      dividerElement.innerText = " / ";
-      element.appendChild(dividerElement);
-
-      // Add the number of new comments to that.
-      const newCountNumber = document.createElement("span");
-      newCountNumber.className = "coral-new-count-number";
-      newCountNumber.innerText = newCount.toString();
-      element.appendChild(newCountNumber);
-
-      // Add the number of new comments to that.
-      const newCountText = document.createElement("span");
-      newCountText.className = "coral-new-count-text";
-      newCountText.innerText = " New";
-      element.appendChild(newCountText);
-    }
-  }
 
   return (target: HTMLElement) => {
     // Add the innerHTML from the element to the target element. This will

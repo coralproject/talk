@@ -49,6 +49,8 @@ comment-count-text-ratings =
     *[other] Ratings
   }
 
+comment-count-text-unread = Unread
+
 ## Comments Tab
 
 comments-allCommentsTab = All Comments

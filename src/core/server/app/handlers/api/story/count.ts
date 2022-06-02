@@ -6,20 +6,26 @@ import { validate } from "coral-server/app/request/body";
 import { MongoContext } from "coral-server/data/context";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
+import { findSeenComments } from "coral-server/models/seenComments/seenComments";
 import { Story } from "coral-server/models/story";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
-import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import {
+  Request,
+  RequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 
 import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
 } from "coral-server/graph/schema/__generated__/types";
-import { findSeenComments } from "coral-server/models/seenComments/seenComments";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
+const UNREAD_NUMBER_CLASS_NAME = "coral-count-number-unread";
 const TEXT_CLASS_NAME = "coral-count-text";
+const UNREAD_TEXT_CLASS_NAME = "coral-count-text-unread";
 const DIVIDER_CLASS_NAME = "coral-count-divider";
 
 export type JSONPCountOptions = Pick<
@@ -84,7 +90,7 @@ function getCountHTML(
       `
         <span class="${NUMBER_CLASS_NAME}">${totalCount}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>
         &nbsp;<span class="${DIVIDER_CLASS_NAME}">/</span>&nbsp;
-        <span class="${NUMBER_CLASS_NAME}">${unseenCount}</span> <span class="${TEXT_CLASS_NAME}">Unread</span>
+        <span class="${UNREAD_NUMBER_CLASS_NAME}">${unseenCount}</span> <span class="${UNREAD_TEXT_CLASS_NAME}">Unread</span>
       `,
       "comment-count-seen",
       {
@@ -110,6 +116,33 @@ function getCountHTML(
 
   return html;
 }
+
+const retrieveSeenCount = async (
+  mongo: MongoContext,
+  tenant: Tenant,
+  story: Readonly<Story> | null,
+  req: Request<TenantCoralRequest>
+) => {
+  let seenCount = 0;
+  if (
+    story &&
+    story.settings.mode === GQLSTORY_MODE.COMMENTS &&
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.COMMENT_SEEN) &&
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.Z_KEY) &&
+    req.user
+  ) {
+    const seenComments = await findSeenComments(mongo, tenant.id, {
+      storyID: story.id,
+      userID: req.user.id,
+    });
+
+    seenCount = seenComments?.comments
+      ? Object.keys(seenComments?.comments).length
+      : 0;
+  }
+
+  return seenCount;
+};
 
 /**
  * countHandler returns translated comment counts using JSONP.
@@ -138,24 +171,7 @@ export const countJSONPHandler = ({
     });
 
     const count = story ? await calculateStoryCount(mongo, story) : 0;
-
-    let seenCount = 0;
-    if (
-      story &&
-      story.settings.mode === GQLSTORY_MODE.COMMENTS &&
-      hasFeatureFlag(tenant, GQLFEATURE_FLAG.COMMENT_SEEN) &&
-      hasFeatureFlag(tenant, GQLFEATURE_FLAG.Z_KEY) &&
-      req.user
-    ) {
-      const seenComments = await findSeenComments(mongo, tenant.id, {
-        storyID: story.id,
-        userID: req.user.id,
-      });
-
-      seenCount = seenComments?.comments
-        ? Object.keys(seenComments?.comments).length
-        : 0;
-    }
+    const seenCount = await retrieveSeenCount(mongo, tenant, story, req);
 
     let html = "";
     if (notext === "true") {
@@ -169,6 +185,7 @@ export const countJSONPHandler = ({
       ref,
       html,
       count,
+      seenCount,
       id: story?.id || null,
     };
 
@@ -208,6 +225,8 @@ export const countHandler = ({
     // Ensure we have something to query with.
     const query: StoryCountQuery = validate(StoryCountQuerySchema, req.query);
 
+    const { tenant } = req.coral;
+
     // Try to query the story.
     const story = await find(mongo, req.coral.tenant, query);
     if (!story) {
@@ -215,8 +234,9 @@ export const countHandler = ({
     }
 
     const count = await calculateStoryCount(mongo, story);
+    const seenCount = await retrieveSeenCount(mongo, tenant, story, req);
 
-    return res.json({ count });
+    return res.json({ count, seenCount });
   } catch (err) {
     return next(err);
   }

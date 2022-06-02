@@ -5,7 +5,9 @@ import { graphql } from "react-relay";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
+import { GQLFEATURE_FLAG } from "coral-framework/schema";
 
+import { FEATURE_FLAG } from "coral-stream/__generated__/useCommentCountEvent_settings.graphql";
 import { STORY_MODE } from "coral-stream/__generated__/useCommentCountEvent_story.graphql";
 
 // eslint-disable-next-line no-unused-expressions
@@ -19,7 +21,14 @@ graphql`
   }
 `;
 
-function getText(
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment useCommentCountEvent_settings on Settings {
+    featureFlags
+  }
+`;
+
+function getCountText(
   storyMode: STORY_MODE | undefined,
   localeBundles: FluentBundle[],
   count: number
@@ -35,6 +44,12 @@ function getText(
   }
 }
 
+function getUnreadCountText(localeBundles: FluentBundle[], count: number) {
+  return getMessage(localeBundles, "comment-count-text-unread", "Comment", {
+    count,
+  });
+}
+
 /**
  * useCommentCountEvent is a React hook that will
  * emit `commentCount` events.
@@ -47,16 +62,36 @@ function useCommentCountEvent(
   storyID: string,
   storyURL: string,
   storyMode: STORY_MODE | undefined,
-  commentCount: number
+  commentCount: number,
+  seenCount: number,
+  featureFlags: Readonly<FEATURE_FLAG[]>
 ) {
   const { eventEmitter, localeBundles } = useCoralContext();
+
   const callback = () => {
     eventEmitter.emit("commentCount", {
       number: commentCount,
-      text: getText(storyMode, localeBundles, commentCount),
+      text: getCountText(storyMode, localeBundles, commentCount),
       storyID,
       storyURL,
     });
+
+    if (
+      storyMode === "COMMENTS" &&
+      featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN) &&
+      featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)
+    ) {
+      let unreadCount = commentCount - seenCount;
+      if (unreadCount < 0) {
+        unreadCount = 0;
+      }
+      eventEmitter.emit("unreadCommentCount", {
+        number: unreadCount,
+        text: getUnreadCountText(localeBundles, unreadCount),
+        storyID,
+        storyURL,
+      });
+    }
   };
   useEffect(callback, []);
   useEffectWhenChanged(callback, [
