@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -9,7 +10,6 @@ import React, {
 import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
@@ -28,9 +28,8 @@ import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserSt
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
-
 import { getTextForUpdateType } from "./helpers";
+import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
@@ -55,7 +54,32 @@ interface Props {
   moderationScopesEnabled?: boolean | null;
   viewerScopes: Scopes;
   userRole: string;
+  isMultisite: boolean;
 }
+
+const createSingleSiteSubmitButton = (
+  isBanned: boolean,
+  lastFocusableRef: React.RefObject<any>,
+  disabled: boolean
+) => {
+  if (isBanned) {
+    return (
+      <Localized id="community-banModal-unban">
+        <Button type="submit" ref={lastFocusableRef} disabled={disabled}>
+          Unban
+        </Button>
+      </Localized>
+    );
+  } else {
+    return (
+      <Localized id="community-banModal-ban">
+        <Button type="submit" ref={lastFocusableRef} disabled={disabled}>
+          Ban
+        </Button>
+      </Localized>
+    );
+  }
+};
 
 const BanModal: FunctionComponent<Props> = ({
   open,
@@ -66,6 +90,7 @@ const BanModal: FunctionComponent<Props> = ({
   viewerScopes,
   userBanStatus,
   userRole,
+  isMultisite,
 }) => {
   const getMessage = useGetMessage();
   const getDefaultMessage = useMemo((): string => {
@@ -124,7 +149,7 @@ const BanModal: FunctionComponent<Props> = ({
     if (viewerIsSingleSiteMod) {
       setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
     }
-  }, [viewerIsSingleSiteMod]);
+  }, [viewerIsSingleSiteMod, viewerScopes.sites]);
 
   const onFormSubmit = useCallback(() => {
     return onConfirm(
@@ -237,7 +262,12 @@ const BanModal: FunctionComponent<Props> = ({
                   {(viewerIsAdmin ||
                     viewerIsOrgAdmin ||
                     (viewerIsScoped && !viewerIsSingleSiteMod)) && (
-                    <Flex className={styles.sitesToggle} spacing={5}>
+                    <Flex
+                      className={cn(styles.sitesToggle, {
+                        [styles.hidden]: !isMultisite,
+                      })}
+                      spacing={5}
+                    >
                       {!(userRole === GQLUSER_ROLE.MODERATOR) && (
                         <FormField>
                           <Localized id="community-banModal-allSites">
@@ -307,15 +337,23 @@ const BanModal: FunctionComponent<Props> = ({
                         Cancel
                       </Button>
                     </Localized>
-                    <Localized id="community-banModal-updateBan">
-                      <Button
-                        type="submit"
-                        ref={lastFocusableRef}
-                        disabled={disableForm}
-                      >
-                        Save
-                      </Button>
-                    </Localized>
+                    {isMultisite && (
+                      <Localized id="community-banModal-updateBan">
+                        <Button
+                          type="submit"
+                          ref={lastFocusableRef}
+                          disabled={disableForm}
+                        >
+                          Save
+                        </Button>
+                      </Localized>
+                    )}
+                    {!isMultisite &&
+                      createSingleSiteSubmitButton(
+                        !!(userBanStatus && userBanStatus?.active),
+                        lastFocusableRef,
+                        disableForm
+                      )}
                   </Flex>
                 </HorizontalGutter>
               </form>

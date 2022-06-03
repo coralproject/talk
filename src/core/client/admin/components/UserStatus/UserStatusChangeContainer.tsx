@@ -296,6 +296,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           }}
           userBanStatus={user.status.ban}
           userRole={user.role}
+          isMultisite={settings.multisite}
         />
       )}
     </>
