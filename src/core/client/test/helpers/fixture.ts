@@ -286,6 +286,7 @@ export function createStory(
           QUESTION: 0,
           REVIEW: 0,
         },
+        seenCount: 0,
       },
       site: data.site || createSite(),
       settings: {

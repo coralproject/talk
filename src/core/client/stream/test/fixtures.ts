@@ -379,6 +379,7 @@ export const baseStory = createFixture<GQLStory>({
       REVIEW: 0,
       QUESTION: 0,
     },
+    seenCount: 0,
   },
   settings: {
     moderation: GQLMODERATION_MODE.POST,

@@ -105,6 +105,9 @@ describe("Basic integration test", () => {
                   "_listeners": [Function],
                 },
               },
+              "unreadCommentCount": Object {
+                "_listeners": [Function],
+              },
             },
             "verboseMemoryLeak": false,
             "wildcard": true,
