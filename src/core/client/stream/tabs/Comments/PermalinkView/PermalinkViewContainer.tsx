@@ -11,6 +11,7 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useMutation,
   useSubscription,
@@ -149,12 +150,14 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
           )}
           {comment && commentVisible && (
             <HorizontalGutter>
-              <ConversationThreadContainer
-                viewer={viewer}
-                comment={comment}
-                story={story}
-                settings={settings}
-              />
+              <IntersectionProvider>
+                <ConversationThreadContainer
+                  viewer={viewer}
+                  comment={comment}
+                  story={story}
+                  settings={settings}
+                />
+              </IntersectionProvider>
               <div className={styles.replyList}>
                 <ReplyListContainer
                   viewer={viewer}

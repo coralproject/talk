@@ -3,10 +3,10 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Manager, Popper, Reference } from "react-popper";
 
 import { oncePerFrame } from "coral-common/utils";
+import { useUIContext } from "coral-ui/components/v2/UIContext";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
-import withUIContext from "../UIContext/withUIContext";
 import Arrow from "./Arrow";
 
 import styles from "./Popover.css";
@@ -58,7 +58,7 @@ interface PopoverProps {
   eventsEnabled?: PropTypesOf<typeof Popper>["eventsEnabled"];
   positionFixed?: PropTypesOf<typeof Popper>["positionFixed"];
   dark?: boolean;
-  window: Window;
+  // window: Window;
 }
 
 const Popover: FunctionComponent<PopoverProps> = ({
@@ -74,11 +74,12 @@ const Popover: FunctionComponent<PopoverProps> = ({
   eventsEnabled,
   positionFixed,
   dark,
-  window,
+  // window,
   ...rest
 }) => {
   const [visibleState, setVisibleState] = useState(false);
   const [toggledThisFrame, setToggledThisFrame] = useState(false);
+  const { renderWindow: window } = useUIContext();
   const visible =
     controlledVisible !== undefined ? controlledVisible : visibleState;
   const includeArrow =
@@ -187,8 +188,6 @@ const Popover: FunctionComponent<PopoverProps> = ({
   );
 };
 
-const enhanced = withStyles(styles)(
-  withUIContext(({ renderWindow }) => ({ window: renderWindow }))(Popover)
-);
+const enhanced = withStyles(styles)(Popover);
 
 export default enhanced;

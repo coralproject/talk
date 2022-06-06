@@ -316,10 +316,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           viewNewCount={viewNewCount}
         />
         {!alternateOldestViewEnabled && (
-          <CommentsLinks
-            showGoToDiscussions={showGoToDiscussions}
-            showGoToProfile={!!viewer}
-          />
+          <IntersectionProvider threshold={[0, 1]}>
+            <CommentsLinks
+              showGoToDiscussions={showGoToDiscussions}
+              showGoToProfile={!!viewer}
+            />
+          </IntersectionProvider>
         )}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
@@ -336,10 +338,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.borderedFooter}>
-            <CommentsLinks
-              showGoToDiscussions={showGoToDiscussions}
-              showGoToProfile={!!viewer}
-            />
+            <IntersectionProvider threshold={[0, 1]}>
+              <CommentsLinks
+                showGoToDiscussions={showGoToDiscussions}
+                showGoToProfile={!!viewer}
+              />
+            </IntersectionProvider>
           </div>
         </HorizontalGutter>
       )}

@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
@@ -38,6 +39,7 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const commentSeen = canCommitCommentSeen && comment.seen;
+
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
@@ -53,14 +55,16 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
               spacing={commentSeenEnabled ? 0 : undefined}
             >
               <DeletedTombstoneContainer comment={comment}>
-                <CommentContainer
-                  collapsed={collapsed}
-                  viewer={viewer}
-                  settings={settings}
-                  comment={comment}
-                  story={story}
-                  toggleCollapsed={toggleCollapsed}
-                />
+                <IntersectionProvider threshold={[0, 1]}>
+                  <CommentContainer
+                    collapsed={collapsed}
+                    viewer={viewer}
+                    settings={settings}
+                    comment={comment}
+                    story={story}
+                    toggleCollapsed={toggleCollapsed}
+                  />
+                </IntersectionProvider>
               </DeletedTombstoneContainer>
               {!collapsed && (
                 <div>

@@ -99,7 +99,7 @@ const createTestRenderer = async (
 };
 
 it("post a reply", async () => {
-  const { testRenderer, rte, form } = await createTestRenderer({
+  const { form, testRenderer, rte } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         createCommentReply: ({ variables }) => {
@@ -126,7 +126,9 @@ it("post a reply", async () => {
     }),
   });
 
-  expect(await within(form).axe()).toHaveNoViolations();
+  await act(async () => {
+    expect(await within(form).axe()).toHaveNoViolations();
+  });
 
   // Write reply .
   act(() => rte.props.onChange("<b>Hello world!</b>"));

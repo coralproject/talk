@@ -4,6 +4,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   withPaginationContainer,
@@ -75,13 +76,15 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
         >
           <RejectedTombstoneContainer comment={comment}>
             <DeletedTombstoneContainer comment={comment}>
-              <CommentContainer
-                comment={comment}
-                story={story}
-                settings={settings}
-                viewer={viewer}
-                highlight
-              />
+              <IntersectionProvider>
+                <CommentContainer
+                  comment={comment}
+                  story={story}
+                  settings={settings}
+                  viewer={viewer}
+                  highlight
+                />
+              </IntersectionProvider>
             </DeletedTombstoneContainer>
           </RejectedTombstoneContainer>
         </IgnoredTombstoneOrHideContainer>
@@ -106,14 +109,16 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                 >
                   <RejectedTombstoneContainer comment={rootParent}>
                     <DeletedTombstoneContainer comment={rootParent}>
-                      <CommentContainer
-                        comment={rootParent}
-                        story={story}
-                        viewer={viewer}
-                        settings={settings}
-                        localReply
-                        ariaIsAncestor
-                      />
+                      <IntersectionProvider>
+                        <CommentContainer
+                          comment={rootParent}
+                          story={story}
+                          viewer={viewer}
+                          settings={settings}
+                          localReply
+                          ariaIsAncestor
+                        />
+                      </IntersectionProvider>
                     </DeletedTombstoneContainer>
                   </RejectedTombstoneContainer>
                   {viewer && (
@@ -172,14 +177,16 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                   >
                     <RejectedTombstoneContainer comment={parent}>
                       <DeletedTombstoneContainer comment={parent}>
-                        <CommentContainer
-                          comment={parent}
-                          story={story}
-                          viewer={viewer}
-                          settings={settings}
-                          localReply
-                          ariaIsAncestor
-                        />
+                        <IntersectionProvider>
+                          <CommentContainer
+                            comment={parent}
+                            story={story}
+                            viewer={viewer}
+                            settings={settings}
+                            localReply
+                            ariaIsAncestor
+                          />
+                        </IntersectionProvider>
                       </DeletedTombstoneContainer>
                     </RejectedTombstoneContainer>
                     {viewer && (
@@ -209,16 +216,18 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
             >
               <RejectedTombstoneContainer comment={comment}>
                 <DeletedTombstoneContainer comment={comment}>
-                  <CommentContainer
-                    enableJumpToParent={remaining === 0}
-                    className={CLASSES.conversationThread.hightlighted}
-                    comment={comment}
-                    story={story}
-                    settings={settings}
-                    viewer={viewer}
-                    highlight
-                    ariaIsHighlighted
-                  />
+                  <IntersectionProvider>
+                    <CommentContainer
+                      enableJumpToParent={remaining === 0}
+                      className={CLASSES.conversationThread.hightlighted}
+                      comment={comment}
+                      story={story}
+                      settings={settings}
+                      viewer={viewer}
+                      highlight
+                      ariaIsHighlighted
+                    />
+                  </IntersectionProvider>
                 </DeletedTombstoneContainer>
               </RejectedTombstoneContainer>
             </IgnoredTombstoneOrHideContainer>

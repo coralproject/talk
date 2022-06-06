@@ -9,7 +9,6 @@ import React, {
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useFetch, useLocal } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
@@ -444,16 +443,14 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
             const comment = comments[index];
             return (
               <>
-                <IntersectionProvider>
-                  <AllCommentsTabCommentContainer
-                    key={comment.node.id}
-                    viewer={viewer}
-                    comment={comment.node}
-                    story={story}
-                    settings={settings}
-                    isLast={index === comments.length - 1}
-                  />
-                </IntersectionProvider>
+                <AllCommentsTabCommentContainer
+                  key={comment.node.id}
+                  viewer={viewer}
+                  comment={comment.node}
+                  story={story}
+                  settings={settings}
+                  isLast={index === comments.length - 1}
+                />
                 {/* If alternate oldest view, show any newly posted
                 comments above Load All Comments button */}
                 {alternateOldestViewEnabled &&

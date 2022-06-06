@@ -118,6 +118,8 @@ extend type Local {
   # media settings)
   expandedMediaSettings: ExpandedMediaSettings
 
+  commentsLinksInView: Boolean
+
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
 

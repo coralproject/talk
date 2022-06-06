@@ -1,15 +1,19 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FC, FunctionComponent, useCallback } from "react";
+import React, { FC, FunctionComponent, useCallback, useEffect } from "react";
+import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { useMutation } from "coral-framework/lib/relay";
+import { useInView } from "coral-framework/lib/intersection";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabMutation";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 import { PropTypesOf } from "coral-ui/types";
+
+import { CommentsLinksLocal } from "coral-stream/__generated__/CommentsLinksLocal.graphql";
 
 import styles from "./CommentsLinks.css";
 
@@ -72,71 +76,87 @@ const CommentsLinks: FunctionComponent<Props> = ({
     disabled: styles.disabled,
   };
 
+  const [, setLocal] = useLocal<CommentsLinksLocal>(
+    graphql`
+      fragment CommentsLinksLocal on Local {
+        commentsLinksInView
+      }
+    `
+  );
+
+  const { intersectionRef, inView } = useInView();
+
+  useEffect(() => {
+    setLocal({ commentsLinksInView: inView });
+  }, [inView]);
+
   return (
-    <Localized id="stream-footer-navigation" attrs={{ "aria-label": true }}>
-      <nav
-        className={cn(styles.container, CLASSES.streamFooter.$root)}
-        aria-label="Comments Footer"
-      >
-        {showGoToProfile && (
-          <Localized id="stream-footer-links-profile" attrs={{ title: true }}>
-            <FooterButton
-              className={CLASSES.streamFooter.profileLink}
-              title="Go to profile and replies"
-              onClick={onGoToProfile}
-              classes={classes}
-              icon="account_box"
+    <div ref={intersectionRef}>
+      <Localized id="stream-footer-navigation" attrs={{ "aria-label": true }}>
+        <nav
+          className={cn(styles.container, CLASSES.streamFooter.$root)}
+          aria-label="Comments Footer"
+        >
+          {showGoToProfile && (
+            <Localized id="stream-footer-links-profile" attrs={{ title: true }}>
+              <FooterButton
+                className={CLASSES.streamFooter.profileLink}
+                title="Go to profile and replies"
+                onClick={onGoToProfile}
+                classes={classes}
+                icon="account_box"
+              >
+                Profile and replies
+              </FooterButton>
+            </Localized>
+          )}
+          {showGoToDiscussions && (
+            <Localized
+              id="stream-footer-links-discussions"
+              attrs={{ title: true }}
             >
-              Profile and replies
-            </FooterButton>
-          </Localized>
-        )}
-        {showGoToDiscussions && (
+              <FooterButton
+                className={CLASSES.streamFooter.discussionsLink}
+                title="Go to more discussions"
+                onClick={onGoToDiscussions}
+                classes={classes}
+                icon="list_alt"
+              >
+                More discussions
+              </FooterButton>
+            </Localized>
+          )}
           <Localized
-            id="stream-footer-links-discussions"
+            id="stream-footer-links-top-of-comments"
             attrs={{ title: true }}
           >
             <FooterButton
-              className={CLASSES.streamFooter.discussionsLink}
-              title="Go to more discussions"
-              onClick={onGoToDiscussions}
+              className={CLASSES.streamFooter.commentsTopLink}
+              title="Go to top of comments"
+              onClick={onGoToCommentsTop}
               classes={classes}
-              icon="list_alt"
+              icon="forum"
             >
-              More discussions
+              Top of comments
             </FooterButton>
           </Localized>
-        )}
-        <Localized
-          id="stream-footer-links-top-of-comments"
-          attrs={{ title: true }}
-        >
-          <FooterButton
-            className={CLASSES.streamFooter.commentsTopLink}
-            title="Go to top of comments"
-            onClick={onGoToCommentsTop}
-            classes={classes}
-            icon="forum"
+          <Localized
+            id="stream-footer-links-top-of-article"
+            attrs={{ title: true }}
           >
-            Top of comments
-          </FooterButton>
-        </Localized>
-        <Localized
-          id="stream-footer-links-top-of-article"
-          attrs={{ title: true }}
-        >
-          <FooterButton
-            className={CLASSES.streamFooter.articleTopLink}
-            title="Go to top of article"
-            onClick={onGoToArticleTop}
-            classes={classes}
-            icon="description"
-          >
-            Top of article
-          </FooterButton>
-        </Localized>
-      </nav>
-    </Localized>
+            <FooterButton
+              className={CLASSES.streamFooter.articleTopLink}
+              title="Go to top of article"
+              onClick={onGoToArticleTop}
+              classes={classes}
+              icon="description"
+            >
+              Top of article
+            </FooterButton>
+          </Localized>
+        </nav>
+      </Localized>
+    </div>
   );
 };
 
