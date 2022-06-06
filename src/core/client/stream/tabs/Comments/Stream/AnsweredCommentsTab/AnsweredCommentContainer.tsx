@@ -71,7 +71,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
   return (
     <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
       {comment.parent && (
-        <IntersectionProvider>
+        <IntersectionProvider threshold={[0, 1]}>
           <CommentContainer
             viewer={props.viewer}
             settings={props.settings}

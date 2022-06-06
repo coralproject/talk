@@ -407,15 +407,13 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   if (showEditDialog) {
     return (
-      <div ref={intersectionRef}>
-        <div data-testid={`comment-${comment.id}`}>
-          <EditCommentFormContainer
-            settings={settings}
-            comment={comment}
-            story={story}
-            onClose={toggleShowEditDialog}
-          />
-        </div>
+      <div ref={intersectionRef} data-testid={`comment-${comment.id}`}>
+        <EditCommentFormContainer
+          settings={settings}
+          comment={comment}
+          story={story}
+          onClose={toggleShowEditDialog}
+        />
       </div>
     );
   }

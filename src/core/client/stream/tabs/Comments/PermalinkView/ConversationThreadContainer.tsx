@@ -76,7 +76,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
         >
           <RejectedTombstoneContainer comment={comment}>
             <DeletedTombstoneContainer comment={comment}>
-              <IntersectionProvider>
+              <IntersectionProvider threshold={[0, 1]}>
                 <CommentContainer
                   comment={comment}
                   story={story}
@@ -109,7 +109,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                 >
                   <RejectedTombstoneContainer comment={rootParent}>
                     <DeletedTombstoneContainer comment={rootParent}>
-                      <IntersectionProvider>
+                      <IntersectionProvider threshold={[0, 1]}>
                         <CommentContainer
                           comment={rootParent}
                           story={story}
@@ -177,7 +177,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                   >
                     <RejectedTombstoneContainer comment={parent}>
                       <DeletedTombstoneContainer comment={parent}>
-                        <IntersectionProvider>
+                        <IntersectionProvider threshold={[0, 1]}>
                           <CommentContainer
                             comment={parent}
                             story={story}
@@ -216,7 +216,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
             >
               <RejectedTombstoneContainer comment={comment}>
                 <DeletedTombstoneContainer comment={comment}>
-                  <IntersectionProvider>
+                  <IntersectionProvider threshold={[0, 1]}>
                     <CommentContainer
                       enableJumpToParent={remaining === 0}
                       className={CLASSES.conversationThread.hightlighted}

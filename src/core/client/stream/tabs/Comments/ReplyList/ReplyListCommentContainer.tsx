@@ -69,7 +69,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
               return (
                 <>
                   <DeletedTombstoneContainer comment={comment}>
-                    <IntersectionProvider>
+                    <IntersectionProvider threshold={[0, 1]}>
                       <CommentContainer
                         viewer={viewer}
                         comment={comment}

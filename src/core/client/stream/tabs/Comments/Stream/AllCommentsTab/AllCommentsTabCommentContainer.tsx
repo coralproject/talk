@@ -39,7 +39,6 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const commentSeen = canCommitCommentSeen && comment.seen;
-
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>

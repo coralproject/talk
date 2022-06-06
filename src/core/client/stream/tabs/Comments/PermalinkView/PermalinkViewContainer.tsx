@@ -150,7 +150,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
           )}
           {comment && commentVisible && (
             <HorizontalGutter>
-              <IntersectionProvider>
+              <IntersectionProvider threshold={[0, 1]}>
                 <ConversationThreadContainer
                   viewer={viewer}
                   comment={comment}

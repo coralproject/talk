@@ -97,7 +97,7 @@ it("auto close comment stream when story closed at has been reached", async () =
   );
 
   await act(async () => {
-    await jest.advanceTimersByTime(closeIn);
+    jest.advanceTimersByTime(closeIn);
   });
 
   await waitForElement(() =>

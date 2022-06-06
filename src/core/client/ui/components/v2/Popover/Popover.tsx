@@ -58,7 +58,6 @@ interface PopoverProps {
   eventsEnabled?: PropTypesOf<typeof Popper>["eventsEnabled"];
   positionFixed?: PropTypesOf<typeof Popper>["positionFixed"];
   dark?: boolean;
-  // window: Window;
 }
 
 const Popover: FunctionComponent<PopoverProps> = ({
@@ -74,7 +73,6 @@ const Popover: FunctionComponent<PopoverProps> = ({
   eventsEnabled,
   positionFixed,
   dark,
-  // window,
   ...rest
 }) => {
   const [visibleState, setVisibleState] = useState(false);
