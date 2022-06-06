@@ -316,7 +316,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           viewNewCount={viewNewCount}
         />
         {!alternateOldestViewEnabled && (
-          <IntersectionProvider threshold={[0, 1]}>
+          <IntersectionProvider threshold={1}>
             <CommentsLinks
               showGoToDiscussions={showGoToDiscussions}
               showGoToProfile={!!viewer}
@@ -338,7 +338,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.borderedFooter}>
-            <IntersectionProvider threshold={[0, 1]}>
+            <IntersectionProvider threshold={1}>
               <CommentsLinks
                 showGoToDiscussions={showGoToDiscussions}
                 showGoToProfile={!!viewer}

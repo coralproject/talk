@@ -31,7 +31,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
       );
     }
     return (
-      <IntersectionProvider threshold={[0, 1]}>
+      <IntersectionProvider threshold={1}>
         <PermalinkViewContainer
           viewer={props.viewer}
           settings={props.settings}

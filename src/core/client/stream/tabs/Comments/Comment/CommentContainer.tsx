@@ -371,29 +371,30 @@ export const CommentContainer: FunctionComponent<Props> = ({
   // This marks comments as seen if they are scrolled up and off the top of the
   // stream by the user.
   useEffect(() => {
-    if (scrolledUpOutOfView) {
-      if (canCommitCommentSeen && !comment.seen) {
-        void markCommentsAsSeen({
-          commentIDs: [comment.id],
-          storyID: story.id,
-          updateSeen: true,
-        });
-      }
+    if (scrolledUpOutOfView && canCommitCommentSeen && !comment.seen) {
+      void markCommentsAsSeen({
+        commentIDs: [comment.id],
+        storyID: story.id,
+        updateSeen: true,
+      });
     }
   }, [scrolledUpOutOfView, canCommitCommentSeen, comment.seen]);
 
-  // This marks comments as seen if they are in view when we reach the comments
-  // links at the bottom of the stream (otherwise these won't be marked as seen
-  // because they will never be scrolled up and off the top of the screen).
+  // This marks comments as seen if they are in view when we reach the bottom of
+  // the comments, whether stream or permalink (otherwise these won't be marked as
+  // seen because they will never be scrolled up and off the top of the screen).
   useEffect(() => {
-    if (bottomOfCommentsInView) {
-      if (inView && canCommitCommentSeen && !comment.seen) {
-        void markCommentsAsSeen({
-          commentIDs: [comment.id],
-          storyID: story.id,
-          updateSeen: true,
-        });
-      }
+    if (
+      bottomOfCommentsInView &&
+      inView &&
+      canCommitCommentSeen &&
+      !comment.seen
+    ) {
+      void markCommentsAsSeen({
+        commentIDs: [comment.id],
+        storyID: story.id,
+        updateSeen: true,
+      });
     }
   }, [
     bottomOfCommentsInView,

@@ -1617,6 +1617,7 @@ exports[`renders permalink view 1`] = `
         </div>
       </div>
     </section>
+    <div />
   </div>
 </section>
 `;
