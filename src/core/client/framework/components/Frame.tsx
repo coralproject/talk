@@ -22,6 +22,7 @@ interface Props {
   isToggled?: boolean;
   width?: string;
   showFullHeight?: boolean;
+  type?: "twitter" | "youtube" | "external_media";
 }
 
 export interface FrameHeightMessage {
@@ -40,6 +41,7 @@ const Frame: FunctionComponent<Props> = ({
   isToggled,
   width,
   showFullHeight,
+  type,
 }) => {
   const { postMessage, rootURL } = useCoralContext();
   const [height, setHeight] = useState(0);
@@ -49,6 +51,16 @@ const Frame: FunctionComponent<Props> = ({
   const [displayExpand, setDisplayExpand] = useState(
     isToggled || showFullHeight ? "none" : "flex"
   );
+  const expandWidth = useMemo(() => {
+    if (type === "twitter") {
+      return "550px";
+    }
+    if (type === "youtube") {
+      return "75%";
+    }
+    // this is for external media
+    return "300px";
+  }, [type]);
   const frameID = useMemo(
     () => (id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`),
     [id]
@@ -96,7 +108,10 @@ const Frame: FunctionComponent<Props> = ({
         />
       </div>
       {(height === 0 || height > defaultUnexpandedHeight) && (
-        <div className={styles.expand} style={{ display: `${displayExpand}` }}>
+        <div
+          className={styles.expand}
+          style={{ display: `${displayExpand}`, width: `${expandWidth}` }}
+        >
           <Localized id="comments-embedLinks-expand">
             <Button color="stream" onClick={onExpand} variant="text">
               Expand

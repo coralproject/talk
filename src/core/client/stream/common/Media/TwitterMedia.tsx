@@ -22,6 +22,7 @@ const TwitterMedia: FunctionComponent<Props> = ({
       width="100%"
       src={`/api/oembed?type=twitter&url=${component}&siteID=${siteID}`}
       isToggled={isToggled}
+      type="twitter"
     />
   );
 };

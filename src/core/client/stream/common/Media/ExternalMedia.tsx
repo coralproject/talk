@@ -22,6 +22,7 @@ const ExternalMedia: FunctionComponent<Props> = ({
       src={`/api/external-media?url=${component}&siteID=${siteID}`}
       sandbox
       isToggled={isToggled}
+      type="external_media"
     />
   );
 };

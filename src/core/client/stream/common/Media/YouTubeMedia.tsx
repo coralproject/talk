@@ -25,6 +25,7 @@ const YouTubeMedia: FunctionComponent<Props> = ({
         width="75%"
         src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
         isToggled={isToggled}
+        type="youtube"
       />
     </div>
   );
