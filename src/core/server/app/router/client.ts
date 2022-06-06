@@ -155,8 +155,10 @@ const clientHandler = ({
 }: ClientTargetHandlerOptions): RequestHandler => async (req, res, next) => {
   // Grab the locale code from the tenant configuration, if available.
   let locale: LanguageCode = defaultLocale;
+  let rootURL = "";
   if (req.coral.tenant) {
     locale = req.coral.tenant.locale;
+    rootURL = `${req.protocol}://${req.coral.tenant?.domain}`;
   }
 
   const entrypoint = await entrypointLoader();
@@ -172,6 +174,7 @@ const clientHandler = ({
     enableCustomCSS,
     locale,
     config: populateStaticConfig(staticConfig, req),
+    rootURL,
   });
 };
 
