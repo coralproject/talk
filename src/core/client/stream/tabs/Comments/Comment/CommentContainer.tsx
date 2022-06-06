@@ -181,10 +181,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
     toggleShowEditDialog,
   ] = useToggleState(false);
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
-  const [{ commentsLinksInView }] = useLocal<CommentContainerLocal>(
+  const [{ bottomOfCommentsInView }] = useLocal<CommentContainerLocal>(
     graphql`
       fragment CommentContainerLocal on Local {
-        commentsLinksInView
+        bottomOfCommentsInView
       }
     `
   );
@@ -386,7 +386,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
   // links at the bottom of the stream (otherwise these won't be marked as seen
   // because they will never be scrolled up and off the top of the screen).
   useEffect(() => {
-    if (commentsLinksInView) {
+    if (bottomOfCommentsInView) {
       if (inView && canCommitCommentSeen && !comment.seen) {
         void markCommentsAsSeen({
           commentIDs: [comment.id],
@@ -395,7 +395,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
         });
       }
     }
-  }, [commentsLinksInView, canCommitCommentSeen, comment.seen, showEditDialog]);
+  }, [
+    bottomOfCommentsInView,
+    canCommitCommentSeen,
+    comment.seen,
+    showEditDialog,
+  ]);
 
   const showModerationCaret: boolean =
     !!viewer &&
@@ -407,13 +412,15 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   if (showEditDialog) {
     return (
-      <div ref={intersectionRef} data-testid={`comment-${comment.id}`}>
-        <EditCommentFormContainer
-          settings={settings}
-          comment={comment}
-          story={story}
-          onClose={toggleShowEditDialog}
-        />
+      <div ref={intersectionRef}>
+        <div data-testid={`comment-${comment.id}`}>
+          <EditCommentFormContainer
+            settings={settings}
+            comment={comment}
+            story={story}
+            onClose={toggleShowEditDialog}
+          />
+        </div>
       </div>
     );
   }

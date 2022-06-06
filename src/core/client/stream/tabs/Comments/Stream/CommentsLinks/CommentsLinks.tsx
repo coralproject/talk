@@ -79,7 +79,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
   const [, setLocal] = useLocal<CommentsLinksLocal>(
     graphql`
       fragment CommentsLinksLocal on Local {
-        commentsLinksInView
+        bottomOfCommentsInView
       }
     `
   );
@@ -87,7 +87,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
   const { intersectionRef, inView } = useInView();
 
   useEffect(() => {
-    setLocal({ commentsLinksInView: inView });
+    setLocal({ bottomOfCommentsInView: inView });
   }, [inView]);
 
   return (
