@@ -378,7 +378,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
         updateSeen: true,
       });
     }
-  }, [scrolledUpOutOfView, canCommitCommentSeen, comment.seen]);
+  }, [
+    scrolledUpOutOfView,
+    canCommitCommentSeen,
+    comment.seen,
+    markCommentsAsSeen,
+  ]);
 
   // This marks comments as seen if they are in view when we reach the bottom of
   // the comments, whether stream or permalink (otherwise these won't be marked as
@@ -400,7 +405,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     bottomOfCommentsInView,
     canCommitCommentSeen,
     comment.seen,
-    showEditDialog,
+    markCommentsAsSeen,
   ]);
 
   const showModerationCaret: boolean =
