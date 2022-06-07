@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { Environment, graphql } from "react-relay";
 
-import { waitFor } from "coral-common/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
@@ -24,19 +23,14 @@ import {
   JumpToNextUnseenCommentEvent,
   JumpToPreviousCommentEvent,
   JumpToPreviousUnseenCommentEvent,
-  LoadMoreAllCommentsEvent,
   ShowAllRepliesEvent,
   UnmarkAllEvent,
-  ViewNewCommentsNetworkEvent,
   ViewNewRepliesNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import MarkCommentsAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
-import {
-  COMMIT_SEEN_EVENT,
-  useCommentSeenEnabled,
-} from "coral-stream/tabs/Comments/commentSeen/";
+import { useCommentSeenEnabled } from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import { NextUnseenComment } from "coral-stream/tabs/Comments/Stream/AllCommentsTab/AllCommentsTabVirtualizedComments";
@@ -252,19 +246,6 @@ const findPreviousKeyStop = (
   // first stop.
   return getLastKeyStop(stops, options);
 };
-
-// Every time one of these events happen, we update
-// the button state.
-const eventsOfInterest = [
-  "mutation.viewNew",
-  "mutation.SetTraversalFocus",
-  "subscription.subscribeToCommentEntered.data",
-  ShowAllRepliesEvent.nameSuccess,
-  LoadMoreAllCommentsEvent.nameSuccess,
-  ViewNewCommentsNetworkEvent.nameSuccess,
-  ViewNewRepliesNetworkEvent.nameSuccess,
-  COMMIT_SEEN_EVENT,
-];
 
 const loadMoreRepliesEvents = [
   ShowAllRepliesEvent.nameSuccess,
@@ -670,11 +651,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     [
       root,
       renderWindow,
-      setTraversalFocus,
-      markSeen,
-      commentSeenEnabled,
       eventEmitter,
-      local.commentWithTraversalFocus,
       findCommentAndSetFocus,
       nextUnseenComment,
       currentScrollRef,
@@ -783,19 +760,15 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     void handleZKeyPress("mobileToolbar");
   }, [setLocal, handleZKeyPress]);
 
-  // Update button states after first render.
+  // Update button states after first render and
+  // whenever the next unseen comment updates.
   useEffect(() => {
     updateButtonStates();
-  }, [updateButtonStates]);
+  }, [nextUnseenComment, updateButtonStates]);
 
-  // Update button states after certain events.
-  // Also traverse to next comment/reply after loading more/new comments and replies
+  // Traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
     const listener: ListenerFn = async (e, data) => {
-      if (!eventsOfInterest.includes(e)) {
-        return;
-      }
-
       if (loadMoreRepliesEvents.includes(e)) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
@@ -810,24 +783,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           traverse(data.keyboardShortcutsConfig);
         }
       }
-
-      // Wait until current renderpass finishes.
-      // TODO: (cvle) revisit whenever we do async rendering.
-      await waitFor(50);
-      updateButtonStates();
     };
     eventEmitter.onAny(listener);
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [
-    eventEmitter,
-    traverse,
-    updateButtonStates,
-    root,
-    commentSeenEnabled,
-    setTraversalFocus,
-  ]);
+  }, [eventEmitter, traverse, commentSeenEnabled]);
 
   // Subscribe to keypress events.
   useEffect(() => {
