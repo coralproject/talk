@@ -253,35 +253,6 @@ const findPreviousKeyStop = (
   return getLastKeyStop(stops, options);
 };
 
-const NextUnread = (
-  <Localized id="comments-mobileToolbar-nextUnread">
-    <span>Next unread</span>
-  </Localized>
-);
-
-const getNextAction = (
-  root: ShadowRoot | Document,
-  relayEnvironment: Environment,
-  options: TraverseOptions = {}
-) => {
-  const currentStop = getCurrentKeyStop(root, relayEnvironment);
-  const next = findNextKeyStop(root, currentStop, options);
-  if (next) {
-    if (next.isLoadMore) {
-      return {
-        element: NextUnread,
-        disabled: Boolean((next.element as HTMLInputElement).disabled),
-      };
-    } else {
-      return {
-        element: NextUnread,
-        disabled: false,
-      };
-    }
-  }
-  return null;
-};
-
 // Every time one of these events happen, we update
 // the button state.
 const eventsOfInterest = [
@@ -336,17 +307,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
 
-  const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(
-    NextUnread
-  );
   const [disableZAction, setDisableZAction] = useState<boolean>(true);
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
   const updateButtonStates = useCallback(() => {
-    const nextAction = getNextAction(root, relayEnvironment, {
-      skipSeen: true,
-    });
-    if (!nextAction) {
+    if (!nextUnseenComment) {
       if (!disableZAction) {
         setDisableZAction(true);
       }
@@ -355,22 +320,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       }
       return;
     }
-    if (nextAction.element !== nextZAction) {
-      setNextZAction(nextAction.element);
-    }
-    if (nextAction.disabled !== disableZAction) {
-      setDisableZAction(nextAction.disabled);
-    }
     if (shouldDisableUnmarkAll(root) !== disableUnmarkAction) {
       setDisableUnmarkAction(!disableUnmarkAction);
     }
-  }, [
-    disableUnmarkAction,
-    disableZAction,
-    nextZAction,
-    relayEnvironment,
-    root,
-  ]);
+  }, [disableUnmarkAction, disableZAction, nextUnseenComment, root]);
 
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
