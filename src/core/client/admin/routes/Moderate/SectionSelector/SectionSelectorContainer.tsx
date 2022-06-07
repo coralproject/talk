@@ -10,22 +10,42 @@ import { SectionSelectorContainer_query } from "coral-admin/__generated__/Sectio
 
 import SectionSelector from "./SectionSelector";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SectionSelectorContainer_settings on Settings {
+    featureFlags
+  }
+`;
+
+// eslint-disable-next-line no-unused-expressions
+const queryFragment = graphql`
+  fragment SectionSelectorContainer_query on Query {
+    sections
+    settings {
+      featureFlags
+      ...SectionSelectorContainer_settings
+    }
+  }
+`;
+
 interface Props {
   query: SectionSelectorContainer_query | null;
+
   section?: SectionFilter | null;
   queueName: QUEUE_NAME | undefined;
 }
 
 const SectionSelectorContainer: FunctionComponent<Props> = ({
-  query,
   section,
   queueName,
+  query,
 }) => {
   // FEATURE_FLAG:SECTIONS
   if (
     !query ||
     !query.settings.featureFlags.includes(GQLFEATURE_FLAG.SECTIONS) ||
-    !query.sections
+    query.sections === null ||
+    query.sections.length === 0
   ) {
     return null;
   }
@@ -40,15 +60,7 @@ const SectionSelectorContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
-  query: graphql`
-    fragment SectionSelectorContainer_query on Query {
-      sections
-      settings {
-        # FEATURE_FLAG:SECTIONS
-        featureFlags
-      }
-    }
-  `,
+  query: queryFragment,
 })(SectionSelectorContainer);
 
 export default enhanced;

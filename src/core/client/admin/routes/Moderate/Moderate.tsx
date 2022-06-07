@@ -33,8 +33,10 @@ interface RouteParams {
 interface Props {
   story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
     PropTypesOf<typeof ModerateSearchBarContainer>["story"];
-  query: PropTypesOf<typeof SiteSelectorContainer>["query"] &
-    PropTypesOf<typeof SectionSelectorContainer>["query"];
+  query:
+    | (PropTypesOf<typeof SiteSelectorContainer>["query"] &
+        PropTypesOf<typeof SectionSelectorContainer>["query"])
+    | null;
   viewer: PropTypesOf<typeof SiteSelectorContainer>["viewer"];
   moderationQueues: PropTypesOf<
     typeof ModerateNavigationContainer
@@ -103,8 +105,8 @@ const Moderate: FunctionComponent<Props> = ({
         sectionSelector={
           <SectionSelectorContainer
             queueName={queueName}
-            query={query}
             section={section}
+            query={query}
           />
         }
       />

@@ -146,10 +146,13 @@ const enhanced = withRouteConfig<Props>({
     ) {
       ...SiteSelectorContainer_query
       ...SectionSelectorContainer_query
+      sections
 
       settings {
         ...ModerateSearchBarContainer_settings
         ...ModerateNavigationContainer_settings
+        ...SectionSelectorContainer_settings
+        featureFlags
       }
 
       story(id: $storyID) @include(if: $includeStory) {

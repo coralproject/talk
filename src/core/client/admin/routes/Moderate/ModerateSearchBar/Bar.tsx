@@ -92,7 +92,8 @@ const Bar: FunctionComponent<Props> = ({
         aria-expanded={focused}
       >
         <Backdrop className={styles.bumpZIndex} active={focused} />
-        {multisite ? siteSelector : sectionSelector}
+        {multisite && siteSelector}
+        {sectionSelector}
         <Form onSubmit={submitHandler}>
           {({ handleSubmit }) => (
             <Localized
