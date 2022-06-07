@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -30,12 +31,14 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
       );
     }
     return (
-      <PermalinkViewContainer
-        viewer={props.viewer}
-        settings={props.settings}
-        comment={props.comment}
-        story={props.story}
-      />
+      <IntersectionProvider threshold={1}>
+        <PermalinkViewContainer
+          viewer={props.viewer}
+          settings={props.settings}
+          comment={props.comment}
+          story={props.story}
+        />
+      </IntersectionProvider>
     );
   }
   return (
