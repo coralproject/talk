@@ -319,6 +319,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnmarkAction(true);
       }
       return;
+    } else {
+      if (disableZAction) {
+        setDisableZAction(false);
+      }
     }
     if (shouldDisableUnmarkAll(root) !== disableUnmarkAction) {
       setDisableUnmarkAction(!disableUnmarkAction);
