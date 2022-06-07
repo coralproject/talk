@@ -881,7 +881,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   }}
                   onClick={handleZKeyButton}
                 >
-                  {nextZAction}
+                  <Localized id="comments-mobileToolbar-nextUnread">
+                    <span>Next unread</span>
+                  </Localized>
                   <ButtonIcon>skip_next</ButtonIcon>
                 </Button>
               </div>
