@@ -214,6 +214,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     commentsOrderBy,
     viewNewCount,
     onNextUnseenCommentFetched,
+    showLoadMoreForOldestFirstNewComments,
   ]);
 
   // Whenever the comment with traversal focus changes, new comments come in via
