@@ -39,11 +39,7 @@ graphql`
   }
 `;
 
-interface Props {
-  disabled: boolean;
-}
-
-const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
+const MessageBoxConfig: FunctionComponent = () => (
   <HorizontalGutter size="oneAndAHalf">
     <Field name="messageBox.icon" parse={parseEmptyAsNull} format={formatEmpty}>
       {({ input: iconInput }) => (
@@ -159,7 +155,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                     id="configure-messageBox-content"
                     name={contentInput.name}
                     onChange={contentInput.onChange}
-                    value={contentInput.value || "&nbsp;"}
+                    value={contentInput.value}
                   />
                 </Suspense>
                 <FieldValidationMessage meta={meta} />
