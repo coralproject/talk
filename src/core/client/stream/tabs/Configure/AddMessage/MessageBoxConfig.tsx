@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import DOMPurify from "dompurify";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
@@ -66,7 +67,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                       iconInput.value ? styles.withIcon : styles.withoutIcon
                     }
                   >
-                    {contentInput.value || "&nbsp;"}
+                    {DOMPurify.sanitize(contentInput.value) || "&nbsp;"}
                   </MessageBoxContent>
                 </MessageBox>
               </HorizontalGutter>

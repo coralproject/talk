@@ -1,5 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
+import DOMPurify from "dompurify";
 import React, {
   FunctionComponent,
   useCallback,
@@ -42,13 +43,13 @@ const AddMessageOpen: FunctionComponent<Props> = ({
       if (!formData || !messageBox) {
         return;
       }
-
+      const cleanMessageBoxContent = DOMPurify.sanitize(messageBox.content);
       void updateMutation({
         id: storyID,
         settings: {
           messageBox: {
             icon: messageBox.icon,
-            content: messageBox.content,
+            content: cleanMessageBoxContent,
             enabled: true,
           },
         },
