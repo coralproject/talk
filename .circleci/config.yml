@@ -249,6 +249,7 @@ filter_release: &filter_release
     branches:
       only:
         - main
+        - main-6x
     tags:
       only: /^v.*/
 
