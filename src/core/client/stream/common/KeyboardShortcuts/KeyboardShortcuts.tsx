@@ -597,7 +597,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // if it is, we can just find the comment, scroll to it, set focus to it,
         // and mark it as seen.
         const nextUnseenInRoot = root.getElementById(
-          computeCommentElementID(nextUnseenComment.rootCommentID!)
+          computeCommentElementID(nextUnseenComment.rootCommentID)
         );
         if (nextUnseenInRoot) {
           findCommentAndSetFocus(
