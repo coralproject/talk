@@ -548,7 +548,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
       }
     },
-    [root, renderWindow, setFocusAndMarkSeen, setLocal]
+    [root, renderWindow, setFocusAndMarkSeen, setLocal, scrollToComment]
   );
 
   const handleZKeyPress = useCallback(
