@@ -407,7 +407,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
             role: viewer.role,
             sites: viewer.moderationScopes?.sites?.map((s) => s),
           }}
-          moderationScopesEnabled={settings.multisite}
           userBanStatus={comment.author.status.ban}
           userRole={comment.author.role}
           isMultisite={settings.multisite}
