@@ -47,7 +47,6 @@ interface Props {
   onNextUnseenCommentFetched: (
     nextUnseenComment: NextUnseenComment | null
   ) => void;
-  zKeyClickedAndLoadAllComments: boolean;
   viewNewCount: number;
 }
 
@@ -69,7 +68,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   commentsOrderBy,
   nextUnseenComment,
   onNextUnseenCommentFetched,
-  zKeyClickedAndLoadAllComments,
   viewNewCount,
 }) => {
   const [local, setLocal] = useLocal<
@@ -81,6 +79,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       oldestFirstNewCommentsToShow
       totalCommentsLength
       viewNewRepliesCount
+      zKeyClicked
+      addACommentButtonClicked
     }
   `);
 
@@ -152,32 +152,54 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // We determine whether to display the Load all comments button based on whether:
   // 1. Don't display if Z key has been clicked and the next unseen comment is below the
   // initial number of comments displayed.
-  // 2. Display if setting to show button enabled in admin OR we are in alternate oldest
+  // 2. Display if the Add a comment button has been clicked in alternate oldest view.
+  // 3. Display if setting to show button enabled in admin OR we are in alternate oldest
   // view and the button hasn't already been clicked. AND we have more comments to display
   // if the button is clicked. We check initial comments because if the number of initial
   // comments is less than the initial number of comments we want to display before a Load all,
   // then we never need to show the Load all button as more comments are added.
   const displayLoadAllButton = useMemo(() => {
-    if (zKeyClickedAndLoadAllComments) {
+    if (local.zKeyClicked) {
       return false;
     }
-    return (
-      (local.showLoadAllCommentsButton ||
-        (alternateOldestViewEnabled && !loadAllButtonHasBeenClicked)) &&
+    if (local.addACommentButtonClicked) {
+      return true;
+    }
+    if (alternateOldestViewEnabled && loadAllButtonHasBeenClicked) {
+      return false;
+    }
+    if (
+      alternateOldestViewEnabled &&
+      !loadAllButtonHasBeenClicked &&
       totalCommentsLength > NUM_INITIAL_COMMENTS &&
       ((initialComments && initialComments.length > NUM_INITIAL_COMMENTS) ||
         (initialComments &&
           initialComments.length === NUM_INITIAL_COMMENTS &&
           initialComments.hasMore))
-    );
+    ) {
+      return false;
+    }
+    if (!settings.loadAllComments) {
+      if (!loadAllButtonHasBeenClicked) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }, [
-    local.showLoadAllCommentsButton,
+    settings.loadAllComments,
     totalCommentsLength,
     initialComments,
     alternateOldestViewEnabled,
     loadAllButtonHasBeenClicked,
-    zKeyClickedAndLoadAllComments,
+    local.zKeyClicked,
   ]);
+
+  useEffect(() => {
+    setLocal({ showLoadAllCommentsButton: displayLoadAllButton });
+  }, [displayLoadAllButton]);
 
   // When comments are sorted oldest first, this determines if there are new comments
   // that have come in via subscription for which a Load more button should be
@@ -258,8 +280,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // If the Load All Comments button is clicked, we need to set that it has been
   // clicked so that we know it should no longer be displayed.
   const onDisplayLoadAllButtonClick = useCallback(() => {
-    setLocal({ showLoadAllCommentsButton: false });
     setLoadAllButtonHasBeenClicked(true);
+    setLocal({ zKeyClicked: false });
+    setLocal({ addACommentButtonClicked: false });
   }, [setLocal, setLoadAllButtonHasBeenClicked]);
 
   useEffect(() => {

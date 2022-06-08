@@ -26,8 +26,9 @@ const AddACommentButton: FunctionComponent<Props> = ({
   const [{ totalCommentsLength }, setLocal] = useLocal<AddACommentButtonLocal>(
     graphql`
       fragment AddACommentButtonLocal on Local {
-        showLoadAllCommentsButton
+        addACommentButtonClicked
         totalCommentsLength
+        zKeyClicked
       }
     `
   );
@@ -42,7 +43,8 @@ const AddACommentButton: FunctionComponent<Props> = ({
       // was previously clicked and no longer displayed.
       // Then scroll to last comment, which is right above the Add a comment box,
       // and scroll the post comment form into view.
-      setLocal({ showLoadAllCommentsButton: true });
+      setLocal({ addACommentButtonClicked: true });
+      setLocal({ zKeyClicked: false });
       if (totalCommentsLength) {
         const indexToScroll =
           totalCommentsLength < NUM_INITIAL_COMMENTS

@@ -40,7 +40,6 @@ async function resolveConfig(
           settings {
             flattenReplies
             featureFlags
-            loadAllComments
           }
         }
       `,
@@ -86,7 +85,7 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
     ...rest,
   });
 
-  const { featureFlags, flattenReplies, loadAllComments } = await resolveConfig(
+  const { featureFlags, flattenReplies } = await resolveConfig(
     environment,
     staticConfig
   );
@@ -153,8 +152,6 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
       featureFlags.includes(GQLFEATURE_FLAG.Z_KEY),
       "enableZKey"
     );
-
-    localRecord.setValue(!loadAllComments, "showLoadAllCommentsButton");
 
     // Version as reported by the embed.js
     localRecord.setValue(options?.version, "embedVersion");
