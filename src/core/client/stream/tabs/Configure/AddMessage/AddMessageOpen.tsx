@@ -42,6 +42,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
       if (!formData || !messageBox) {
         return;
       }
+
       void updateMutation({
         id: storyID,
         settings: {

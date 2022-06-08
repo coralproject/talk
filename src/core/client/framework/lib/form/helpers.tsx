@@ -24,7 +24,7 @@ export const parseEmptyAsNull = (v: any) => {
   return v;
 };
 
-export const parseWithDomPurify: any = (v: any) => {
+export const parseWithDOMPurify: any = (v: any) => {
   if (v === "") {
     return null;
   }

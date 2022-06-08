@@ -7,7 +7,7 @@ import { MarkdownEditor } from "coral-framework/components/loadables";
 import {
   formatEmpty,
   parseEmptyAsNull,
-  parseWithDomPurify,
+  parseWithDOMPurify,
 } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
@@ -43,7 +43,7 @@ const MessageBoxConfig: FunctionComponent = () => (
   <HorizontalGutter size="oneAndAHalf">
     <Field name="messageBox.icon" parse={parseEmptyAsNull} format={formatEmpty}>
       {({ input: iconInput }) => (
-        <Field name="messageBox.content" parse={parseWithDomPurify}>
+        <Field name="messageBox.content" parse={parseWithDOMPurify}>
           {({ input: contentInput, meta }) => (
             <>
               <HorizontalGutter size="half" container="section">
