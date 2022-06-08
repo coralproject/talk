@@ -1,11 +1,14 @@
 import { Localized } from "@fluent/react/compat";
-import DOMPurify from "dompurify";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
-import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
+import {
+  formatEmpty,
+  parseEmptyAsNull,
+  parseWithDomPurify,
+} from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
@@ -44,7 +47,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Field name="messageBox.icon" parse={parseEmptyAsNull} format={formatEmpty}>
       {({ input: iconInput }) => (
-        <Field name="messageBox.content" parse={parseEmptyAsNull}>
+        <Field name="messageBox.content" parse={parseWithDomPurify}>
           {({ input: contentInput, meta }) => (
             <>
               <HorizontalGutter size="half" container="section">
@@ -67,7 +70,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                       iconInput.value ? styles.withIcon : styles.withoutIcon
                     }
                   >
-                    {DOMPurify.sanitize(contentInput.value) || "&nbsp;"}
+                    {contentInput.value || "&nbsp;"}
                   </MessageBoxContent>
                 </MessageBox>
               </HorizontalGutter>
@@ -156,7 +159,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                     id="configure-messageBox-content"
                     name={contentInput.name}
                     onChange={contentInput.onChange}
-                    value={contentInput.value}
+                    value={contentInput.value || "&nbsp;"}
                   />
                 </Suspense>
                 <FieldValidationMessage meta={meta} />
