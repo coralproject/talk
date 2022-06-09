@@ -1,18 +1,13 @@
-import { ReactTestRenderer } from "react-test-renderer";
+import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
-import {
-  act,
-  createSinonStub,
-  wait,
-  waitForElement,
-  within,
-} from "coral-framework/testHelpers";
+import { createSinonStub } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import { comments, settings, stories } from "../../fixtures";
-import create from "./create";
+import { createContext } from "../create";
 
-let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const commentStub = {
     ...comments[0],
@@ -86,45 +81,51 @@ beforeEach(() => {
     },
   };
 
-  ({ testRenderer } = create({
+  const { context } = createContext({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
     initLocalState: (localRecord) => {
       localRecord.setValue(storyStub.id, "storyID");
     },
-  }));
+  });
+  customRenderAppWithContext(context);
 });
 
-it("renders comment stream", async () => {
+it("renders comment stream with comments", async () => {
   const commentID = comments[0].id;
-  const commentReplyList = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`commentReplyList-${commentID}`)
-  );
-  // Wait for loading.
-  expect(within(commentReplyList).toJSON()).toMatchSnapshot();
+  await screen.findByTestId(`commentReplyList-${commentID}`);
+  expect(screen.getByText("Comment from Lukas")).toBeDefined();
+  expect(screen.getByText("What's up?")).toBeDefined();
 });
 
 it("show all replies", async () => {
   const commentID = comments[0].id;
-  const commentReplyList = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`commentReplyList-${commentID}`)
+  const commentReplyList = await screen.findByTestId(
+    `commentReplyList-${commentID}`
   );
 
   // Get amount of comments before.
-  const commentsBefore = within(commentReplyList).getAllByTestID(
+  const commentsBefore = within(commentReplyList).getAllByTestId(
     /^comment[-]comment[-]/
   ).length;
 
-  await act(async () => {
-    within(commentReplyList).getByText("Show All").props.onClick();
-    // Wait for loading.
-    await wait(() =>
-      expect(within(commentReplyList).queryByText("Show All")).toBeNull()
-    );
-  });
+  // show all button should be rendered and enabled
+  const showAllButton = screen.getByRole("button", { name: "Show All" });
+  expect(showAllButton).toBeDefined();
+  expect(showAllButton).toBeEnabled();
 
+  // when clicked, show all button should be disabled and then not in the document
+  userEvent.click(showAllButton);
+  expect(showAllButton).toBeDisabled();
   expect(
-    within(commentReplyList).getAllByTestID(/^comment[-]comment[-]/).length
+    await within(commentReplyList).findByText("Show All")
+  ).not.toBeInTheDocument();
+
+  // after show all has been clicked, we should see one additional reply included
+  expect(
+    within(commentReplyList).getAllByTestId(/^comment[-]comment[-]/).length
   ).toBe(commentsBefore + 1);
+  expect(screen.getByText("Comment from Isabelle")).toBeDefined();
+  expect(screen.getByText("Hey!")).toBeDefined();
 });
