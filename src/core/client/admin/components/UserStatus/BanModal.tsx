@@ -84,12 +84,7 @@ const BanButton: FunctionComponent<BanButtonProps> = ({
   if (isBanned) {
     return (
       <Localized id="community-banModal-unban">
-        <Button
-          type="submit"
-          ref={lastFocusableRef}
-          disabled={disabled}
-          color="alert"
-        >
+        <Button type="submit" ref={lastFocusableRef} disabled={disabled}>
           Unban
         </Button>
       </Localized>
