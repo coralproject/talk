@@ -84,17 +84,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     }
   `);
 
-  // In alternate oldest view, we need to know if the Load all button has been displayed
-  // so that we know if we should display new comments added via the post comment form
-  // above them.
-  const [
-    loadAllButtonHasBeenDisplayed,
-    setLoadAllButtonHasBeenDisplayed,
-  ] = useState(false);
-
-  // In alternate oldest view, we need to know if the Load all button has been clicked.
-  // This is because it always shows in this case on initial load UNTIL it has been clicked,
-  // and then it is no longer shown.
+  // We need to know if the Load all button has been clicked to help determine whether
+  // to display the Load all button or not.
   const [
     loadAllButtonHasBeenClicked,
     setLoadAllButtonHasBeenClicked,
@@ -112,7 +103,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     // be included in the stream at the bottom after initial number of comments.
     // When the new comments are cleared on rerender, they will be shown in chronological position.
     if (alternateOldestViewEnabled) {
-      if (local.oldestFirstNewCommentsToShow && loadAllButtonHasBeenDisplayed) {
+      if (local.oldestFirstNewCommentsToShow) {
         const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
           " "
         );
@@ -133,7 +124,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     story.comments.edges,
     alternateOldestViewEnabled,
     local.oldestFirstNewCommentsToShow,
-    loadAllButtonHasBeenDisplayed,
   ]);
 
   // Total comments length is either the number of comments that have been loaded OR,
@@ -297,16 +287,11 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       length: story.comments.edges.length,
       hasMore,
     });
-    // on rerender, clear if the Load All Comments button has displayed
-    setLoadAllButtonHasBeenDisplayed(false);
     // on rerender, reset whether the Load All Comments button has been clicked
     setLoadAllButtonHasBeenClicked(false);
   }, []);
 
   const Footer = useCallback(() => {
-    if (displayLoadAllButton) {
-      setLoadAllButtonHasBeenDisplayed(true);
-    }
     return (
       <>
         {showLoadMoreForOldestFirstNewComments && (
