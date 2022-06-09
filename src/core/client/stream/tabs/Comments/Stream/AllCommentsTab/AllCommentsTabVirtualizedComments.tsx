@@ -79,7 +79,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       oldestFirstNewCommentsToShow
       totalCommentsLength
       viewNewRepliesCount
-      zKeyClicked
+      zKeyClickedLoadAll
       addACommentButtonClicked
     }
   `);
@@ -149,39 +149,41 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     setLocal({ totalCommentsLength });
   }, [totalCommentsLength, setLocal]);
 
-  // We determine whether to display the Load all comments button based on whether:
-  // 1. Don't display if Z key has been clicked and the next unseen comment is below the
-  // initial number of comments displayed.
-  // 2. Display if the Add a comment button has been clicked in alternate oldest view.
-  // 3. Display if setting to show button enabled in admin OR we are in alternate oldest
-  // view and the button hasn't already been clicked. AND we have more comments to display
-  // if the button is clicked. We check initial comments because if the number of initial
-  // comments is less than the initial number of comments we want to display before a Load all,
-  // then we never need to show the Load all button as more comments are added.
-  const displayLoadAllButton = useMemo(() => {
-    if (local.zKeyClicked) {
-      return false;
-    }
-    if (local.addACommentButtonClicked) {
-      return true;
-    }
-    if (alternateOldestViewEnabled && loadAllButtonHasBeenClicked) {
-      return false;
-    }
-    if (
-      alternateOldestViewEnabled &&
-      !loadAllButtonHasBeenClicked &&
+  // This determines if there are more comments to display than the initial 20.
+  // It also takes into account the initial comments loaded since if we start
+  // with fewer than 20, we will never want to display load all as new comments
+  // come in.
+  const moreCommentsForLoadAll = useMemo(() => {
+    return (
       totalCommentsLength > NUM_INITIAL_COMMENTS &&
       ((initialComments && initialComments.length > NUM_INITIAL_COMMENTS) ||
         (initialComments &&
           initialComments.length === NUM_INITIAL_COMMENTS &&
           initialComments.hasMore))
-    ) {
-      return false;
-    }
-    if (!settings.loadAllComments) {
-      if (!loadAllButtonHasBeenClicked) {
+    );
+  }, [totalCommentsLength, initialComments]);
+
+  // We determine whether to display the Load all comments button based on whether:
+  // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.
+  // 2. Don't display if Z key has clicked the Load all button to open it and go to next unseen.
+  // 3. Display if the Add a comment button has been clicked in alternate oldest view.
+  // 4. If alternate oldest view enabled, don't display if Load all button has been clicked;
+  // otherwise, default to the admin configuration.
+  // 5. Last, we check the admin configuration and displayed based on that and whether or not
+  // the Load all button has already been clicked.
+  const displayLoadAllButton = useMemo(() => {
+    if (moreCommentsForLoadAll) {
+      if (local.zKeyClickedLoadAll) {
+        return false;
+      }
+      if (local.addACommentButtonClicked) {
         return true;
+      }
+      if (alternateOldestViewEnabled) {
+        return loadAllButtonHasBeenClicked ? false : !settings.loadAllComments;
+      }
+      if (!settings.loadAllComments) {
+        return !loadAllButtonHasBeenClicked;
       } else {
         return false;
       }
@@ -194,7 +196,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     initialComments,
     alternateOldestViewEnabled,
     loadAllButtonHasBeenClicked,
-    local.zKeyClicked,
+    local.zKeyClickedLoadAll,
+    local.addACommentButtonClicked,
   ]);
 
   useEffect(() => {
@@ -281,7 +284,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // clicked so that we know it should no longer be displayed.
   const onDisplayLoadAllButtonClick = useCallback(() => {
     setLoadAllButtonHasBeenClicked(true);
-    setLocal({ zKeyClicked: false });
+    setLocal({ zKeyClickedLoadAll: false });
     setLocal({ addACommentButtonClicked: false });
   }, [setLocal, setLoadAllButtonHasBeenClicked]);
 
@@ -354,6 +357,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     setLocal,
     displayLoadAllButton,
     showLoadMoreForOldestFirstNewComments,
+    totalCommentsLength,
+    initialComments,
   ]);
 
   // The scroll seek placeholder is displayed in place of comments when the user is

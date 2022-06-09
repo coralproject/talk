@@ -110,7 +110,7 @@ extend type Local {
   # Whether the Load all comments button should be shown instead of infinite scroll
   showLoadAllCommentsButton: Boolean!
   addACommentButtonClicked: Boolean
-  zKeyClicked: Boolean
+  zKeyClickedLoadAll: Boolean
   # If new comments have been added while in alternate oldest first view that need to
   # be displayed.
   oldestFirstNewCommentsToShow: String

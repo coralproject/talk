@@ -28,7 +28,6 @@ exports[`init local state 1`] = `
     \\"enableCommentSeen\\": false,
     \\"flattenReplies\\": false,
     \\"enableZKey\\": false,
-    \\"showLoadAllCommentsButton\\": false,
     \\"embedVersion\\": \\"version\\",
     \\"amp\\": true,
     \\"customCSSURL\\": \\"customCSSURL\\",

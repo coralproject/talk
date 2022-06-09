@@ -28,7 +28,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
       fragment AddACommentButtonLocal on Local {
         addACommentButtonClicked
         totalCommentsLength
-        zKeyClicked
+        zKeyClickedLoadAll
       }
     `
   );
@@ -44,7 +44,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
       // Then scroll to last comment, which is right above the Add a comment box,
       // and scroll the post comment form into view.
       setLocal({ addACommentButtonClicked: true });
-      setLocal({ zKeyClicked: false });
+      setLocal({ zKeyClickedLoadAll: false });
       if (totalCommentsLength) {
         const indexToScroll =
           totalCommentsLength < NUM_INITIAL_COMMENTS

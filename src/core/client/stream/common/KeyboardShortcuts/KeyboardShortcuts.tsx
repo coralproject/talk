@@ -280,7 +280,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         reverse
       }
       loadAllReplies
-      zKeyClicked
+      zKeyClickedLoadAll
     }
   `);
   const amp = useAMP();
@@ -561,7 +561,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         nextUnseenComment.index &&
         nextUnseenComment.index >= NUM_INITIAL_COMMENTS
       ) {
-        setLocal({ zKeyClicked: true });
+        setLocal({ zKeyClickedLoadAll: true });
       }
       // If we need to load new comments that entered via subscription,
       // we scroll to the top of the comments, click the view new comments
