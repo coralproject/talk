@@ -122,19 +122,31 @@ it("render popover content", async () => {
   const approvedCommentInfo = screen.getByText("Approved comment by");
   expect(approvedCommentInfo).toBeDefined();
   expect(approvedCommentInfo.textContent).toBe("Approved comment by addy");
-  expect(
-    screen.getAllByRole("link", { name: "Go to comment" })[0]
-  ).toBeDefined();
+  const goToCommentLinkApproved = screen.getAllByRole("link", {
+    name: "Go to comment",
+  })[0];
+  expect(goToCommentLinkApproved).toBeDefined();
+  expect(goToCommentLinkApproved).toHaveAttribute(
+    "href",
+    "/admin/moderate/comment/1b41be9f-510f-41f3-a1df-5a431dc98bf3"
+  );
   expect(screen.getByText("2018-11-29T16:01:51.897Z")).toBeDefined();
+  expect(screen.getByTestId("approved-icon")).toBeDefined();
 
   // Correctly renders rejected comments
   const rejectedCommentInfo = screen.getByText("Rejected comment by");
   expect(rejectedCommentInfo).toBeDefined();
   expect(rejectedCommentInfo.textContent).toBe("Rejected comment by addy");
-  expect(
-    screen.getAllByRole("link", { name: "Go to comment" })[1]
-  ).toBeDefined();
+  const goToCommentLinkRejected = screen.getAllByRole("link", {
+    name: "Go to comment",
+  })[1];
+  expect(goToCommentLinkRejected).toBeDefined();
+  expect(goToCommentLinkRejected).toHaveAttribute(
+    "href",
+    "/admin/moderate/comment/1b41be9f-510f-41f3-a1df-5a431dc98bf3"
+  );
   expect(screen.getByText("2018-11-29T16:01:45.644Z")).toBeDefined();
+  expect(screen.getByTestId("rejected-icon")).toBeDefined();
 
   expect(screen.getByRole("button", { name: "Show More" })).toBeDefined();
 });
