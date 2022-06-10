@@ -1415,7 +1415,7 @@ export async function findNextUnseenVisibleCommentID(
   return { commentID: null, index: null };
 }
 
-async function executBulkStoryTreeWrites(
+async function executeBulkStoryTreeWrites(
   mongo: MongoContext,
   operations: StoryTreeUpdate[]
 ) {
@@ -1433,7 +1433,11 @@ export async function regenerateStoryTrees(
 ) {
   const BATCH_SIZE = 100;
 
-  const cursor = mongo.stories().find({ tenantID });
+  const cursor = mongo.stories().find({
+    tenantID,
+    isArchiving: { $in: [null, false] },
+    isArchived: { $in: [null, false] },
+  });
 
   let operations = [];
   let count = 0;
@@ -1453,13 +1457,13 @@ export async function regenerateStoryTrees(
     count++;
 
     if (count >= BATCH_SIZE) {
-      await executBulkStoryTreeWrites(mongo, operations);
+      await executeBulkStoryTreeWrites(mongo, operations);
       operations = [];
     }
   }
 
   if (operations.length > 0) {
-    await executBulkStoryTreeWrites(mongo, operations);
+    await executeBulkStoryTreeWrites(mongo, operations);
   }
 
   return true;
