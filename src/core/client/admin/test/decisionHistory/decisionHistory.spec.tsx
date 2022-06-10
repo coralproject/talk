@@ -117,8 +117,25 @@ it("render popover content", async () => {
   );
   expect(decisionHistoryContainer).toBeDefined();
   expect(screen.getByText("Your Decision History")).toBeDefined();
-  expect(screen.getByText("Approved comment by")).toBeDefined();
-  expect(screen.getByText("Rejected comment by")).toBeDefined();
+
+  // Correctly renders approved comments
+  const approvedCommentInfo = screen.getByText("Approved comment by");
+  expect(approvedCommentInfo).toBeDefined();
+  expect(approvedCommentInfo.textContent).toBe("Approved comment by addy");
+  expect(
+    screen.getAllByRole("link", { name: "Go to comment" })[0]
+  ).toBeDefined();
+  expect(screen.getByText("2018-11-29T16:01:51.897Z")).toBeDefined();
+
+  // Correctly renders rejected comments
+  const rejectedCommentInfo = screen.getByText("Rejected comment by");
+  expect(rejectedCommentInfo).toBeDefined();
+  expect(rejectedCommentInfo.textContent).toBe("Rejected comment by addy");
+  expect(
+    screen.getAllByRole("link", { name: "Go to comment" })[1]
+  ).toBeDefined();
+  expect(screen.getByText("2018-11-29T16:01:45.644Z")).toBeDefined();
+
   expect(screen.getByRole("button", { name: "Show More" })).toBeDefined();
 });
 
