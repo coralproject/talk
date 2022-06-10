@@ -1433,7 +1433,11 @@ export async function regenerateStoryTrees(
 ) {
   const BATCH_SIZE = 100;
 
-  const cursor = mongo.stories().find({ tenantID });
+  const cursor = mongo.stories().find({
+    tenantID,
+    isArchiving: { $in: [null, false] },
+    isArchived: { $in: [null, false] },
+  });
 
   let operations = [];
   let count = 0;
