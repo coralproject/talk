@@ -1,21 +1,19 @@
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   UserToCommentModerationActionHistoryResolver,
 } from "coral-framework/schema";
 import {
-  act,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
-  waitForElement,
-  waitUntilThrow,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { moderationActions, settings, users } from "../fixtures";
 
 beforeEach(async () => {
@@ -27,7 +25,7 @@ const viewer = users.admins[0];
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -84,69 +82,70 @@ async function createTestRenderer(
       }
     },
   });
-  const { getByTestID } = within(testRenderer.root);
-  await waitForElement(() => getByTestID("decisionHistory-toggle"));
-  return testRenderer;
-}
-
-async function createTestRendererAndOpenPopover() {
-  const testRenderer = await createTestRenderer();
-  const toggle = testRenderer.root.findByProps({
-    "data-testid": "decisionHistory-toggle",
-  })!;
-  act(() => {
-    toggle.props.onClick();
-  });
-  return testRenderer;
+  customRenderAppWithContext(context);
 }
 
 it("renders decision history popover button", async () => {
-  const testRenderer = await createTestRenderer();
-  const popover = within(testRenderer.root).getByTestID(
-    "decisionHistory-popover"
-  );
-  expect(toJSON(popover)).toMatchSnapshot();
+  await createTestRenderer();
+  const popover = await screen.findByTestId("decisionHistory-popover");
+  const popoverButton = within(popover).getByTestId("decisionHistory-toggle");
+  expect(popoverButton).toBeDefined();
+  expect(
+    within(popover).getByLabelText("A dialog showing the decision history")
+  ).toBeDefined();
 });
 
 it("opens popover when clicked on button showing loading state", async () => {
-  const testRenderer = await createTestRendererAndOpenPopover();
-  const container = within(testRenderer.root).getByTestID(
-    "decisionHistory-loading-container"
-  );
-  expect(toJSON(container)).toMatchSnapshot();
+  await createTestRenderer();
+  const popoverButton = await screen.findByTestId("decisionHistory-toggle");
+  expect(
+    screen.queryByTestId("decisionHistory-loading-container")
+  ).not.toBeInTheDocument();
+  expect(screen.queryByText("Your Decision History")).not.toBeInTheDocument();
+  userEvent.click(popoverButton);
+  expect(screen.getByTestId("decisionHistory-loading-container")).toBeDefined();
+  expect(screen.getByText("Your Decision History")).toBeDefined();
 });
 
 it("render popover content", async () => {
-  const testRenderer = await createTestRendererAndOpenPopover();
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("decisionHistory-container")
+  await createTestRenderer();
+  const popoverButton = await screen.findByTestId("decisionHistory-toggle");
+  userEvent.click(popoverButton);
+
+  const decisionHistoryContainer = await screen.findByTestId(
+    "decisionHistory-container"
   );
-  expect(toJSON(container)).toMatchSnapshot();
+  expect(decisionHistoryContainer).toBeDefined();
+  expect(screen.getByText("Your Decision History")).toBeDefined();
+  expect(screen.getByText("Approved comment by")).toBeDefined();
+  expect(screen.getByText("Rejected comment by")).toBeDefined();
+  expect(screen.getByRole("button", { name: "Show More" })).toBeDefined();
 });
 
 it("loads more", async () => {
-  const testRenderer = await createTestRendererAndOpenPopover();
+  await createTestRenderer();
+  const popoverButton = await screen.findByTestId("decisionHistory-toggle");
+  userEvent.click(popoverButton);
 
   // Wait for decision history to render.
-  const decisionHistoryContainer = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("decisionHistory-container")
+  const decisionHistoryContainer = await screen.findByTestId(
+    "decisionHistory-container"
   );
 
-  const { getByText } = within(decisionHistoryContainer);
-
   // Find active show more button.
-  const ShowMoreButton = getByText("Show More");
-  expect(ShowMoreButton.props.disabled).toBeFalsy();
+  const showMoreButton = within(decisionHistoryContainer).getByRole("button", {
+    name: "Show More",
+  });
+  expect(showMoreButton).toBeEnabled();
 
   // Click show more!
-  ShowMoreButton.props.onClick();
+  fireEvent.click(showMoreButton);
 
   // Disable show more while loading.
-  expect(ShowMoreButton.props.disabled).toBeTruthy();
+  expect(showMoreButton).toBeDisabled();
 
   // Wait until show more disappears.
-  await waitUntilThrow(() => getByText("Show More"));
-
-  // Make a snapshot.
-  expect(toJSON(decisionHistoryContainer)).toMatchSnapshot();
+  waitFor(() => {
+    expect(showMoreButton).not.toBeInTheDocument();
+  });
 });
