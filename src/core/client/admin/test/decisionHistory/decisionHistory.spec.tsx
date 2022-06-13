@@ -214,7 +214,7 @@ it("loads more", async () => {
   expect(showMoreButton).toBeDisabled();
 
   // Wait until show more disappears.
-  waitFor(() => {
+  await waitFor(() => {
     expect(showMoreButton).not.toBeInTheDocument();
   });
 });
