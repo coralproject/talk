@@ -107,6 +107,43 @@ it("opens popover when clicked on button showing loading state", async () => {
   expect(screen.getByText("Your Decision History")).toBeDefined();
 });
 
+it("renders empty state when no moderation actions", async () => {
+  await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () =>
+          pureMerge(viewer, {
+            commentModerationActionHistory: createQueryResolverStub<
+              UserToCommentModerationActionHistoryResolver
+            >(({ variables }) => {
+              expectAndFail(variables).toEqual({
+                first: 5,
+              });
+              return {
+                edges: [],
+                pageInfo: {
+                  hasNextPage: false,
+                },
+              };
+            }),
+          }),
+      },
+    }),
+  });
+  const popoverButton = await screen.findByTestId("decisionHistory-toggle");
+  userEvent.click(popoverButton);
+  const decisionHistoryContainer = await screen.findByTestId(
+    "decisionHistory-container"
+  );
+  expect(decisionHistoryContainer).toBeDefined();
+  expect(screen.getByText("Your Decision History")).toBeDefined();
+  expect(
+    screen.getByText(
+      "You will see a list of your post moderation actions here."
+    )
+  ).toBeDefined();
+});
+
 it("render popover content", async () => {
   await createTestRenderer();
   const popoverButton = await screen.findByTestId("decisionHistory-toggle");
@@ -147,6 +184,9 @@ it("render popover content", async () => {
   );
   expect(screen.getByText("2018-11-29T16:01:45.644Z")).toBeDefined();
   expect(screen.getByTestId("rejected-icon")).toBeDefined();
+
+  // one dot divider should be rendered per decision history item
+  expect(screen.getAllByTestId("decisionHistory-dotDivider")).toHaveLength(2);
 
   expect(screen.getByRole("button", { name: "Show More" })).toBeDefined();
 });
