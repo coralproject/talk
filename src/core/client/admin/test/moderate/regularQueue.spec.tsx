@@ -65,6 +65,53 @@ async function createTestRenderer(
   return { context };
 }
 
+it("renders moderate navigation with correct links and comment counts", async () => {
+  await createTestRenderer();
+  const pendingNav = await screen.findByText("Pending");
+  expect(pendingNav).toBeDefined();
+  expect(pendingNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/pending"
+  );
+  expect(
+    screen.getByTestId("moderate-navigation-pending-count")
+  ).toHaveTextContent("0");
+
+  const reportedNav = screen.getByText("reported");
+  expect(reportedNav).toBeDefined();
+  expect(reportedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/reported"
+  );
+  expect(
+    screen.getByTestId("moderate-navigation-reported-count")
+  ).toHaveTextContent("0");
+
+  const unmoderatedNav = screen.getByText("unmoderated");
+  expect(unmoderatedNav).toBeDefined();
+  expect(unmoderatedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/unmoderated"
+  );
+  expect(
+    screen.getByTestId("moderate-navigation-unmoderated-count")
+  ).toHaveTextContent("0");
+
+  const approvedNav = screen.getByText("approved");
+  expect(approvedNav).toBeDefined();
+  expect(approvedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/approved"
+  );
+
+  const rejectedNav = screen.getByText("rejected");
+  expect(rejectedNav).toBeDefined();
+  expect(rejectedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/rejected"
+  );
+});
+
 it("renders empty reported queue", async () => {
   await createTestRenderer();
   const reportedQueue = await screen.findByText("no more reported", {
