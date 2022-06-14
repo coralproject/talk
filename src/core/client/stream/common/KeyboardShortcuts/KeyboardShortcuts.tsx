@@ -15,7 +15,6 @@ import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
-import CLASSES from "coral-stream/classes";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
   CloseMobileToolbarEvent,
@@ -108,12 +107,6 @@ const getKeyStops = (root: ShadowRoot | Document) => {
     .querySelectorAll<HTMLElement>("[data-key-stop]")
     .forEach((el) => stops.push(toKeyStop(el)));
   return stops;
-};
-
-const shouldDisableUnmarkAll = (root: ShadowRoot | Document) => {
-  return (
-    root.querySelector<HTMLElement>(`.${CLASSES.comment.notSeen}`) === null
-  );
 };
 
 const getFirstKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
@@ -287,27 +280,21 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
 
-  const [disableZAction, setDisableZAction] = useState<boolean>(true);
-  const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
+  const [disableUnreadButtons, setDisableUnreadButtons] = useState<boolean>(
+    true
+  );
 
   const updateButtonStates = useCallback(() => {
     if (!nextUnseenComment) {
-      if (!disableZAction) {
-        setDisableZAction(true);
+      if (!disableUnreadButtons) {
+        setDisableUnreadButtons(true);
       }
-      if (!disableUnmarkAction) {
-        setDisableUnmarkAction(true);
-      }
-      return;
     } else {
-      if (disableZAction) {
-        setDisableZAction(false);
+      if (disableUnreadButtons) {
+        setDisableUnreadButtons(false);
       }
     }
-    if (shouldDisableUnmarkAll(root) !== disableUnmarkAction) {
-      setDisableUnmarkAction(!disableUnmarkAction);
-    }
-  }, [disableUnmarkAction, disableZAction, nextUnseenComment, root]);
+  }, [disableUnreadButtons, nextUnseenComment]);
 
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
@@ -325,12 +312,17 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
       });
 
-      void markSeen({ storyID, commentIDs, updateSeen: true });
-      if (!disableUnmarkAction) {
-        setDisableUnmarkAction(true);
+      void markSeen({
+        storyID,
+        commentIDs: [],
+        updateSeen: true,
+        markAllAsSeen: true,
+      });
+      if (!disableUnreadButtons) {
+        setDisableUnreadButtons(true);
       }
     },
-    [disableUnmarkAction, eventEmitter, markSeen, storyID, root]
+    [disableUnreadButtons, eventEmitter, markSeen, storyID, root]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
@@ -547,7 +539,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
       }
     },
-    [root, renderWindow, setFocusAndMarkSeen, setLocal, scrollToComment]
+    [root, setFocusAndMarkSeen, setLocal, scrollToComment]
   );
 
   const handleZKeyPress = useCallback(
@@ -813,7 +805,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   variant="text"
                   size="large"
                   uppercase={false}
-                  disabled={disableUnmarkAction}
+                  disabled={disableUnreadButtons}
                   onClick={handleUnmarkAllButton}
                   classes={{
                     variantText: styles.button,
@@ -832,7 +824,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   variant="text"
                   size="large"
                   uppercase={false}
-                  disabled={disableZAction}
+                  disabled={disableUnreadButtons}
                   classes={{
                     variantText: styles.button,
                     disabled: styles.buttonDisabled,

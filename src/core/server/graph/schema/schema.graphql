@@ -8712,6 +8712,11 @@ input MarkCommentsAsSeenInput {
   commentID is the comment to be marked as seen.
   """
   commentIDs: [ID!]!
+
+  """
+  markAllAsSeen marks all comments as seen.
+  """
+  markAllAsSeen: Boolean
 }
 
 type MarkCommentsAsSeenPayload {
