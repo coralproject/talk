@@ -31,7 +31,7 @@ export interface FrameHeightMessage {
 }
 
 const iframeStyle = { display: "block" };
-const defaultUnexpandedHeight = 260;
+const defaultUnexpandedHeight = 175;
 
 const Frame: FunctionComponent<Props> = ({
   id,
