@@ -89,7 +89,7 @@ export async function markSeenComments(
 ) {
   let comments;
   if (markAllAsSeen) {
-    const markAllCommentIDs = await (
+    const markAllCommentIDs = (
       await mongo
         .comments()
         .find({ storyID }, { projection: { id: 1 } })
