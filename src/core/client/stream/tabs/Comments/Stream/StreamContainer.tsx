@@ -138,7 +138,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         siteID
         commentsTab
         commentsOrderBy
-        viewNewRepliesCount
       }
     `
   );
@@ -160,7 +159,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         return;
       }
 
-      setLocal({ commentsTab: tab, viewNewRepliesCount: null });
+      setLocal({ commentsTab: tab });
 
       if (emit) {
         emitSetCommentsTabEvent({ tab });

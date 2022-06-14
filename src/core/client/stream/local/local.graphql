@@ -124,8 +124,4 @@ extend type Local {
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
-
-  # Used for Z key to know whether there are new replies that need
-  # to be checked for if they include the next unseen comment.
-  viewNewRepliesCount: Int
 }

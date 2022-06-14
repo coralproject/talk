@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { ListenerFn } from "eventemitter2";
 import React, {
   FunctionComponent,
   useCallback,
@@ -9,6 +10,7 @@ import React, {
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useFetch, useLocal } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLFEATURE_FLAG } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
@@ -78,11 +80,11 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
       totalCommentsLength
-      viewNewRepliesCount
       zKeyClickedLoadAll
       addACommentButtonClicked
     }
   `);
+  const { eventEmitter } = useCoralContext();
 
   // We need to know if the Load all button has been clicked to help determine whether
   // to display the Load all button or not.
@@ -231,21 +233,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     showLoadMoreForOldestFirstNewComments,
   ]);
 
-  // Whenever the comment with traversal focus changes, new comments come in via
-  // subscription, or new replies come in via subscription, we find the next
-  // unseen and set it for keyboard shortcuts if Z_KEY is enabled.
-  useEffect(() => {
-    if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
-      findNextUnseen();
-    }
-  }, [
-    local.commentWithTraversalFocus,
-    viewNewCount,
-    local.viewNewRepliesCount,
-    findNextUnseen,
-    settings.featureFlags,
-  ]);
-
   // Whenever we initially render, we find the next unseen and set it for keyboard shortcuts
   // if Z_KEY is enabled.
   useEffect(() => {
@@ -253,6 +240,36 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       findNextUnseen();
     }
   }, []);
+
+  // Whenever new comments come in via subscription, we find the next
+  // unseen and set it for keyboard shortcuts if Z_KEY is enabled.
+  useEffect(() => {
+    if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
+      findNextUnseen();
+    }
+  }, [viewNewCount, findNextUnseen, settings.featureFlags]);
+
+  // Whenever the comment with traversal focus changes, new replies
+  // come in via subscription, or comments are marked as seen, we
+  // find the next unseen and set it for keyboard shortcuts if Z_KEY
+  // is enabled.
+  useEffect(() => {
+    const listener: ListenerFn = async (e) => {
+      if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
+        if (
+          e === "commentSeen.commit" ||
+          e === "subscription.subscribeToCommentEntered.data" ||
+          e === "mutation.setTraversalFocus"
+        ) {
+          findNextUnseen();
+        }
+      }
+    };
+    eventEmitter.onAny(listener);
+    return () => {
+      eventEmitter.offAny(listener);
+    };
+  }, [eventEmitter, settings.featureFlags]);
 
   // Whenever the next unseen comment changes, we need to check to make sure
   // that it's included in the comments that are loaded for Virtuoso. If it's

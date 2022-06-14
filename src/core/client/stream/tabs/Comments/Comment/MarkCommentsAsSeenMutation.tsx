@@ -138,7 +138,10 @@ const enhanced = createMutation(
       },
     });
 
-    if (input.commentIDs && input.commentIDs.length > 0) {
+    if (
+      input.markAllAsSeen ||
+      (input.commentIDs && input.commentIDs.length > 0)
+    ) {
       eventEmitter.emit(COMMIT_SEEN_EVENT, {
         commentIDs: input.commentIDs,
       } as CommitSeenEventData);
