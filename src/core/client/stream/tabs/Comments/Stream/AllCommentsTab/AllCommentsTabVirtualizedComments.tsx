@@ -242,8 +242,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     }
   }, []);
 
-  // Whenever new comments come in via subscription, we find the next
-  // unseen and set it for keyboard shortcuts if Z_KEY is enabled.
+  // Whenever new comments come in via subscription, or the comment with
+  // traversal focus changes, we find the next unseen and set it for
+  // keyboard shortcuts if Z_KEY is enabled.
   useEffect(() => {
     if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
       findNextUnseen();
@@ -251,18 +252,19 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   }, [
     viewNewCount,
     local.viewNewRepliesCount,
+    local.commentWithTraversalFocus,
     findNextUnseen,
     settings.featureFlags,
   ]);
 
-  // Whenever the comment with traversal focus changes, new replies
-  // come in via subscription, or comments are marked as seen, we
-  // find the next unseen and set it for keyboard shortcuts if Z_KEY
-  // is enabled.
+  // Whenever comments are marked as seen, we find the next unseen and set
+  // it for keyboard shortcuts if Z_KEY is enabled.
+  // This ensures that comments marked as seen on scroll up and out of view
+  // trigger a refresh of the next unseen.
   useEffect(() => {
     const listener: ListenerFn = async (e) => {
       if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
-        if (e === "commentSeen.commit" || e === "mutation.setTraversalFocus") {
+        if (e === "commentSeen.commit") {
           findNextUnseen();
         }
       }
