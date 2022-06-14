@@ -37,6 +37,35 @@ type Input = Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
   updateSeen: boolean;
 };
 
+const updateRepliesToSeen = (
+  proxy: RecordProxy<{}>,
+  store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
+  input: Input
+) => {
+  const replyConnectionKey = "ReplyList_replies";
+  const replyConnection = ConnectionHandler.getConnection(
+    proxy,
+    replyConnectionKey,
+    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
+  );
+  const replies = replyConnection?.getLinkedRecords("edges");
+  const newReplies = replyConnection?.getLinkedRecords("viewNewEdges") || [];
+  const combinedReplies = replies?.concat(newReplies);
+  let replyProxy: RecordProxy<{}> | null | undefined = null;
+  if (combinedReplies) {
+    for (const reply of combinedReplies) {
+      const replyID = reply.getLinkedRecord("node")?.getValue("id");
+      if (replyID) {
+        replyProxy = store.get(replyID.toString());
+        if (replyProxy) {
+          replyProxy.setValue(!!input.updateSeen, "seen");
+        }
+      }
+    }
+  }
+  return replyProxy;
+};
+
 const updateCommentsAndRepliesToSeen = (
   comments: RecordProxy[],
   store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
@@ -48,26 +77,10 @@ const updateCommentsAndRepliesToSeen = (
       const proxy = store.get(commentID.toString());
       if (proxy) {
         proxy.setValue(!!input.updateSeen, "seen");
-        const replyConnectionKey = "ReplyList_replies";
-        const replyConnection = ConnectionHandler.getConnection(
-          proxy,
-          replyConnectionKey,
-          { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
-        );
-        const replies = replyConnection?.getLinkedRecords("edges");
-        const newReplies =
-          replyConnection?.getLinkedRecords("viewNewEdges") || [];
-        const combinedReplies = replies?.concat(newReplies);
-        if (combinedReplies) {
-          for (const reply of combinedReplies) {
-            const replyID = reply.getLinkedRecord("node")?.getValue("id");
-            if (replyID) {
-              const replyProxy = store.get(replyID.toString());
-              if (replyProxy) {
-                replyProxy.setValue(!!input.updateSeen, "seen");
-              }
-            }
-          }
+        let replyProxy: RecordProxy<{}> | null | undefined = proxy;
+        // Have to check and update all levels of replies on a comment to seen
+        while (replyProxy) {
+          replyProxy = updateRepliesToSeen(replyProxy, store, input);
         }
       }
     }
@@ -110,7 +123,6 @@ const enhanced = createMutation(
             "Stream_comments",
             {
               orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-              tag: undefined,
             }
           )!;
           const comments = connection.getLinkedRecords("edges");
