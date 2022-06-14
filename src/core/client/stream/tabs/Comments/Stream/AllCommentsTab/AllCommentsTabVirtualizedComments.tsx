@@ -80,6 +80,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
       totalCommentsLength
+      viewNewRepliesCount
       zKeyClickedLoadAll
       addACommentButtonClicked
     }
@@ -247,7 +248,12 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
       findNextUnseen();
     }
-  }, [viewNewCount, findNextUnseen, settings.featureFlags]);
+  }, [
+    viewNewCount,
+    local.viewNewRepliesCount,
+    findNextUnseen,
+    settings.featureFlags,
+  ]);
 
   // Whenever the comment with traversal focus changes, new replies
   // come in via subscription, or comments are marked as seen, we
@@ -256,11 +262,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   useEffect(() => {
     const listener: ListenerFn = async (e) => {
       if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
-        if (
-          e === "commentSeen.commit" ||
-          e === "subscription.subscribeToCommentEntered.data" ||
-          e === "mutation.setTraversalFocus"
-        ) {
+        if (e === "commentSeen.commit" || e === "mutation.setTraversalFocus") {
           findNextUnseen();
         }
       }
