@@ -23,6 +23,7 @@ interface Props {
   width?: string;
   showFullHeight?: boolean;
   type?: "twitter" | "youtube" | "external_media";
+  mobile?: boolean;
 }
 
 export interface FrameHeightMessage {
@@ -31,7 +32,6 @@ export interface FrameHeightMessage {
 }
 
 const iframeStyle = { display: "block" };
-const defaultUnexpandedHeight = 175;
 
 const Frame: FunctionComponent<Props> = ({
   id,
@@ -42,9 +42,13 @@ const Frame: FunctionComponent<Props> = ({
   width,
   showFullHeight,
   type,
+  mobile,
 }) => {
   const { postMessage, rootURL } = useCoralContext();
   const [height, setHeight] = useState(0);
+  const defaultUnexpandedHeight = useMemo(() => {
+    return mobile ? 160 : 250;
+  }, [mobile]);
   const [maxHeight, setMaxHeight] = useState<string>(
     isToggled || showFullHeight ? "none" : `${defaultUnexpandedHeight}px`
   );
@@ -56,7 +60,7 @@ const Frame: FunctionComponent<Props> = ({
       return "550px";
     }
     if (type === "youtube") {
-      return "75%";
+      return width;
     }
     // this is for external media
     return "300px";
