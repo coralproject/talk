@@ -299,19 +299,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
       UnmarkAllEvent.emit(eventEmitter, { source: config.source });
-
-      // eslint-disable-next-line no-restricted-globals
-      const notSeenComments = root.querySelectorAll<HTMLElement>(
-        "[data-not-seen=true]"
-      );
-      const commentIDs: string[] = [];
-      notSeenComments.forEach((c) => {
-        const id = c.getAttribute("id")?.replace("comment-", "");
-        if (id) {
-          commentIDs.push(id);
-        }
-      });
-
       void markSeen({
         storyID,
         commentIDs: [],
@@ -322,7 +309,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnreadButtons(true);
       }
     },
-    [disableUnreadButtons, eventEmitter, markSeen, storyID, root]
+    [disableUnreadButtons, eventEmitter, markSeen, storyID]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
