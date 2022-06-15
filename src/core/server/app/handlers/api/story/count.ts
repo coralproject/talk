@@ -179,11 +179,8 @@ async function calculateStoryCount(
     const tallies = await retrieveManyStoryRatings(mongo, story.tenantID, [
       story.id,
     ]);
-    if (tallies.length === 0) {
-      return 0;
-    }
 
-    return tallies[0].count;
+    return tallies.length === 0 ? 0 : tallies[0].count;
   }
 
   return PUBLISHED_STATUSES.reduce(
