@@ -434,7 +434,7 @@ it("show reaction details for a comment with reactions", async () => {
   expect(within(modal).getByText("Ngoc")).toBeVisible();
 });
 
-it("shows a moderate story", async () => {
+it("shows story info and navigates to a moderate story", async () => {
   const { context } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
@@ -471,9 +471,13 @@ it("shows a moderate story", async () => {
       },
     }),
   });
-  const moderateStory = (
-    await screen.findAllByRole("link", { name: "Moderate Story" })
-  )[0];
+  const comment = await screen.findByTestId("moderate-comment-comment-0");
+  const storyInfo = within(comment).getByTestId("moderate-comment-storyInfo");
+  expect(storyInfo).toHaveTextContent("Comment On:Finally a Cure for Cancer");
+
+  const moderateStory = screen.getAllByRole("link", {
+    name: "Moderate Story",
+  })[0];
   context.transitionControl.allowTransition = false;
   userEvent.click(moderateStory);
 
