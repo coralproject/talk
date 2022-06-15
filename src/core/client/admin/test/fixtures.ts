@@ -894,6 +894,13 @@ export const reportedComments = createFixtures<GQLComment>(
     },
     {
       id: "comment-1",
+      parent: {
+        id: "comment-2",
+        author: {
+          username: "luke2",
+          id: "4383c3d3-bb9b-40b9-847a-240f3cf6c6af",
+        },
+      },
       revision: {
         id: "comment-1-revision-1",
         actionCounts: {
@@ -1074,6 +1081,66 @@ export const reportedComments = createFixtures<GQLComment>(
         nodes: [
           {
             id: "comment-3-flag-0",
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+            flagger: users.commenters[2],
+            additionalDetails: "",
+          },
+        ],
+      },
+    },
+    {
+      id: "comment-4",
+      revision: {
+        id: "comment-4-revision-4",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_SPAM: 1,
+            },
+          },
+          reaction: {
+            total: 0,
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+          wordList: {
+            bannedWords: [
+              { value: "bad", index: 33, length: 3 },
+              { value: "bad", index: 54, length: 3 },
+              { value: "bad", index: 62, length: 3 },
+              { value: "bad", index: 71, length: 3 },
+              { value: "bad", index: 75, length: 3 },
+              { value: "bad", index: 88, length: 3 },
+            ],
+          },
+        },
+        body:
+          "This is a very long comment with bad words. Let's try bad and bad. Now bad bad.\nBad BAD bad.\n",
+      },
+      permalink: "http://localhost/comment/4",
+      status: GQLCOMMENT_STATUS.PREMOD,
+      author: users.commenters[3],
+      body:
+        "This is a very long comment with bad words. Let's try bad and bad. Now bad bad.\nBad BAD bad.\n",
+      flags: {
+        edges: [
+          {
+            node: {
+              id: "comment-4-flag-0",
+              reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+              flagger: users.commenters[2],
+              additionalDetails: "",
+            },
+            cursor: "2021-06-01T14:21:21.890Z",
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+        nodes: [
+          {
+            id: "comment-4-flag-0",
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[2],
             additionalDetails: "",

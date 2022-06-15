@@ -200,7 +200,7 @@ it("renders reported queue with comments", async () => {
   ).toBeVisible();
 });
 
-it("renders reported queue with comments", async () => {
+it("renders reported queue with comments correctly rendered", async () => {
   await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
@@ -239,15 +239,74 @@ it("renders reported queue with comments", async () => {
   });
   const moderateContainer = await screen.findByTestId("moderate-container");
 
-  // make sure comment bodies are present
+  // make sure comment bodies, authors, and whether they are replies are correctly rendered
+  // first comment
   expect(
     await within(moderateContainer).findByText(
       "This is the last random sentence I will be writing and I am going to stop mid-sent"
     )
   ).toBeVisible();
+  expect(within(moderateContainer).getByText("Isabelle")).toBeVisible();
+
+  // second comment
   expect(
     await within(moderateContainer).findByText("Don't fool with me")
   ).toBeVisible();
+  expect(within(moderateContainer).getByText("Reply to")).toBeVisible();
+  expect(within(moderateContainer).getByText("Ngoc")).toBeVisible();
+});
+
+it("renders reported queue with comments with banned words correctly", async () => {
+  await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        moderationQueues: () =>
+          pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 2,
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[4],
+                      cursor: reportedComments[4].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[4].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }),
+            },
+          }),
+      },
+    }),
+  });
+  const moderateContainer = await screen.findByTestId("moderate-container");
+  const comment = within(moderateContainer).getByTestId(
+    "moderate-comment-comment-4"
+  );
+  const commentText = within(comment).getByText(
+    "This is a very long comment with",
+    {
+      exact: false,
+    }
+  );
+  expect(commentText).toBeDefined();
+  expect(commentText).toHaveTextContent(
+    "This is a very long comment with bad words. Let's try bad and bad. Now bad bad. Bad BAD bad."
+  );
+  // banned words should be highlighted in the comment text
+  expect(commentText.innerHTML).toContain(
+    "This is a very long comment with <mark>bad</mark> words. Let's try <mark>bad</mark> and <mark>bad</mark>. Now <mark>bad</mark> <mark>bad</mark>.\nBad BAD <mark>bad</mark>.\n"
+  );
 });
 
 it("show details of comment with flags", async () => {
