@@ -56,7 +56,7 @@ function getCountHTML(
     html = translate(
       bundle,
       `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Ratings</span>`,
-      "comment-count-ratings-and-review",
+      "comment-counts-ratings-and-reviews",
       {
         number: count,
         numberClass: NUMBER_CLASS_NAME,
