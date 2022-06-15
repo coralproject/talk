@@ -284,12 +284,7 @@ export async function usernameAlreadyExists(
   tenant: Tenant,
   username: string
 ) {
-  const existingUser = await retrieveUserByUsername(mongo, tenant.id, username);
-  if (existingUser) {
-    return true;
-  }
-
-  return false;
+  return !!(await retrieveUserByUsername(mongo, tenant.id, username));
 }
 
 export async function create(
