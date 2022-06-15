@@ -345,6 +345,17 @@ it("show details of comment with flags", async () => {
   const reported = await screen.findByTestId(
     `moderate-comment-${reportedComments[0].id}`
   );
+
+  // all markers should be rendered for comment's flags
+  expect(within(reported).getByText("Spam")).toBeVisible();
+  expect(within(reported).getByText("Link")).toBeVisible();
+  expect(within(reported).getByText("Banned word")).toBeVisible();
+  expect(within(reported).getByText("Suspect word")).toBeVisible();
+  expect(within(reported).getByText("Spam detected")).toBeVisible();
+  expect(within(reported).getByText("Toxic")).toBeVisible();
+  expect(within(reported).getByText("Repeat comment")).toBeVisible();
+  expect(within(reported).getByText("Recent history")).toBeVisible();
+  expect(within(reported).getByText("Offensive")).toBeVisible();
   expect(
     within(reported).queryByText(
       reportedComments[0].flags.nodes[0].additionalDetails!
