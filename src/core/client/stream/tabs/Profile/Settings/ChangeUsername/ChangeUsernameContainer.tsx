@@ -271,7 +271,13 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
           </div>
           {canChangeUsername && (
             <Form onSubmit={onSubmit}>
-              {({ handleSubmit, submitError, pristine, invalid }) => (
+              {({
+                handleSubmit,
+                submitError,
+                pristine,
+                invalid,
+                dirtySinceLastSubmit,
+              }) => (
                 <form
                   onSubmit={handleSubmit}
                   data-testid="profile-changeUsername-form"
@@ -377,7 +383,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                         type="submit"
                         data-testid="profile-changeUsername-save"
                         color="primary"
-                        disabled={pristine || invalid}
+                        disabled={
+                          pristine || (invalid && !dirtySinceLastSubmit)
+                        }
                         upperCase
                       >
                         <span>Save Changes</span>
