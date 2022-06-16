@@ -388,6 +388,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.seen,
     markCommentsAsSeen,
     ScrollCommentUpOutOfViewEvent,
+    eventEmitter,
   ]);
 
   // This marks comments as seen if they are in view when we reach the bottom of

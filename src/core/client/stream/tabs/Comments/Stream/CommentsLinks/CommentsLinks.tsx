@@ -9,6 +9,7 @@ import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabMutation";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
+import { ScrollCommentUpOutOfViewEvent } from "coral-stream/events";
 import { Button, ButtonIcon } from "coral-ui/components/v2";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 import { PropTypesOf } from "coral-ui/types";
@@ -49,7 +50,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
   showGoToDiscussions,
   showGoToProfile,
 }) => {
-  const { renderWindow } = useCoralContext();
+  const { renderWindow, eventEmitter } = useCoralContext();
   const root = useShadowRootOrDocument();
   const onGoToArticleTop = useCallback(() => {
     renderWindow.scrollTo({ top: 0 });
@@ -88,7 +89,8 @@ const CommentsLinks: FunctionComponent<Props> = ({
 
   useEffect(() => {
     setLocal({ bottomOfCommentsInView: inView });
-  }, [inView]);
+    ScrollCommentUpOutOfViewEvent.emit(eventEmitter, {});
+  }, [inView, ScrollCommentUpOutOfViewEvent, eventEmitter]);
 
   return (
     <div ref={intersectionRef}>

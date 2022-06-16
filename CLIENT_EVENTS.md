@@ -471,7 +471,7 @@ createComment.error
 - <a id="scrollCommentUpOutOfView">**scrollCommentUpOutOfView**</a>: This event is emitted when the viewer scrolls a comment up and out of view on the stream.
   ```ts
   {
-      commentID: string;
+      commentID?: string | undefined;
   }
   ```
 - <a id="setCommentsOrderBy">**setCommentsOrderBy**</a>: This event is emitted when the viewer changes the sort order of the comments.

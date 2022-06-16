@@ -335,7 +335,7 @@ export const ViewNewRepliesNetworkEvent = createViewerNetworkEvent<{
  * view on the stream.
  */
 export const ScrollCommentUpOutOfViewEvent = createViewerEvent<{
-  commentID: string;
+  commentID?: string;
 }>("scrollCommentUpOutOfView");
 
 /**
