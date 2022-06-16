@@ -22,7 +22,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
+import { GQLCOMMENT_SORT, GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
@@ -164,8 +164,11 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         media: input.media,
       });
 
-      // Add this response to new comments to show that have been added
-      if (local.showLoadAllCommentsButton) {
+      // If in oldest first view, add this response to new comments to show that have been added
+      if (
+        commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+        local.showLoadAllCommentsButton
+      ) {
         if (!local.oldestFirstNewCommentsToShow) {
           setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
         } else {
