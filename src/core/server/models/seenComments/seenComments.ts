@@ -92,7 +92,7 @@ export async function markSeenComments(
     const markAllCommentIDs = (
       await mongo
         .comments()
-        .find({ storyID }, { projection: { id: 1 } })
+        .find({ tenantID, storyID }, { projection: { id: 1 } })
         .toArray()
     ).map((comment) => comment.id);
     comments = reduceCommentIDs(markAllCommentIDs, now);
