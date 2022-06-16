@@ -33,6 +33,7 @@ import {
 import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
 import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
+  ScrollCommentUpOutOfViewEvent,
   ShowEditFormEvent,
   ShowReplyFormEvent,
   ViewConversationEvent,
@@ -377,12 +378,16 @@ export const CommentContainer: FunctionComponent<Props> = ({
         storyID: story.id,
         updateSeen: true,
       });
+      ScrollCommentUpOutOfViewEvent.emit(eventEmitter, {
+        commentID: comment.id,
+      });
     }
   }, [
     scrolledUpOutOfView,
     canCommitCommentSeen,
     comment.seen,
     markCommentsAsSeen,
+    ScrollCommentUpOutOfViewEvent,
   ]);
 
   // This marks comments as seen if they are in view when we reach the bottom of

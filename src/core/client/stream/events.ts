@@ -330,6 +330,15 @@ export const ViewNewRepliesNetworkEvent = createViewerNetworkEvent<{
 }>("viewNewRepliesNetwork");
 
 /**
+ *
+ * This event is emitted when the viewer scrolls a comment up and out of
+ * view on the stream.
+ */
+export const ScrollCommentUpOutOfViewEvent = createViewerEvent<{
+  commentID: string;
+}>("scrollCommentUpOutOfView");
+
+/**
  * This event is emitted when the viewer loads more
  * top level comments into the history comment stream.
  */

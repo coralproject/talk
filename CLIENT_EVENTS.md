@@ -113,6 +113,7 @@ createComment.error
 - <a href="#requestAccountDeletion">requestAccountDeletion</a>
 - <a href="#requestDownloadCommentHistory">requestDownloadCommentHistory</a>
 - <a href="#resendEmailVerification">resendEmailVerification</a>
+- <a href="#scrollCommentUpOutOfView">scrollCommentUpOutOfView</a>
 - <a href="#setCommentsOrderBy">setCommentsOrderBy</a>
 - <a href="#setCommentsTab">setCommentsTab</a>
 - <a href="#setMainTab">setMainTab</a>
@@ -465,6 +466,12 @@ createComment.error
           message: string;
           code?: string | undefined;
       };
+  }
+  ```
+- <a id="scrollCommentUpOutOfView">**scrollCommentUpOutOfView**</a>: This event is emitted when the viewer scrolls a comment up and out of view on the stream.
+  ```ts
+  {
+      commentID: string;
   }
   ```
 - <a id="setCommentsOrderBy">**setCommentsOrderBy**</a>: This event is emitted when the viewer changes the sort order of the comments.
