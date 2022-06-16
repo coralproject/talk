@@ -102,35 +102,29 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   }>(null);
 
   const { comments, newCommentsToShow } = useMemo(() => {
-    // If alternate oldest view, filter out new comments to show as they will
+    // If in oldest first view, filter out new comments to show as they will
     // be included in the stream at the bottom after initial number of comments.
     // When the new comments are cleared on rerender, they will be shown in chronological position.
-    if (alternateOldestViewEnabled) {
-      if (local.oldestFirstNewCommentsToShow) {
-        const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
-          " "
-        );
-        const commentsWithoutNew = story.comments.edges.filter(
-          (c) => !newCommentsToShowIds.includes(c.node.id)
-        );
-        const newComments = story.comments.edges.filter((c) =>
-          newCommentsToShowIds.includes(c.node.id)
-        );
-        return {
-          comments: commentsWithoutNew,
-          newCommentsToShow: newComments,
-        };
-      }
+    if (local.oldestFirstNewCommentsToShow) {
+      const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
+        " "
+      );
+      const commentsWithoutNew = story.comments.edges.filter(
+        (c) => !newCommentsToShowIds.includes(c.node.id)
+      );
+      const newComments = story.comments.edges.filter((c) =>
+        newCommentsToShowIds.includes(c.node.id)
+      );
+      return {
+        comments: commentsWithoutNew,
+        newCommentsToShow: newComments,
+      };
     }
     return { comments: story.comments.edges, newCommentsToShow: null };
-  }, [
-    story.comments.edges,
-    alternateOldestViewEnabled,
-    local.oldestFirstNewCommentsToShow,
-  ]);
+  }, [story.comments.edges, local.oldestFirstNewCommentsToShow]);
 
   // Total comments length is either the number of comments that have been loaded OR,
-  // for alternate oldest view, the number of comments loaded PLUS any new comments
+  // for oldest first view, the number of comments loaded PLUS any new comments
   // that have been added via the Add new comments box.
   const totalCommentsLength = useMemo(() => {
     return newCommentsToShow
@@ -191,11 +185,12 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     loadAllButtonHasBeenClicked,
     local.zKeyClickedLoadAll,
     local.addACommentButtonClicked,
+    moreCommentsForLoadAll,
   ]);
 
   useEffect(() => {
     setLocal({ showLoadAllCommentsButton: displayLoadAllButton });
-  }, [displayLoadAllButton]);
+  }, [displayLoadAllButton, setLocal]);
 
   // When comments are sorted oldest first, this determines if there are new comments
   // that have come in via subscription for which a Load more button should be
@@ -271,7 +266,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, settings.featureFlags]);
+  }, [eventEmitter, settings.featureFlags, findNextUnseen]);
 
   // Whenever the next unseen comment changes, we need to check to make sure
   // that it's included in the comments that are loaded for Virtuoso. If it's
@@ -363,6 +358,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     showLoadMoreForOldestFirstNewComments,
     totalCommentsLength,
     initialComments,
+    loadMoreAndEmit,
+    onDisplayLoadAllButtonClick,
+    story.comments.edges.length,
   ]);
 
   // The scroll seek placeholder is displayed in place of comments when the user is
@@ -484,10 +482,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
                   settings={settings}
                   isLast={index === comments.length - 1}
                 />
-                {/* If alternate oldest view, show any newly posted
+                {/* If in oldest first view, show any newly posted
                 comments above Load All Comments button */}
-                {alternateOldestViewEnabled &&
-                  index === NUM_INITIAL_COMMENTS - 1 &&
+                {index === NUM_INITIAL_COMMENTS - 1 &&
                   newCommentsToShow?.map((newComment) => {
                     return (
                       <AllCommentsTabCommentContainer
@@ -503,14 +500,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
               </>
             );
           },
-          [
-            story,
-            comments,
-            settings,
-            viewer,
-            alternateOldestViewEnabled,
-            newCommentsToShow,
-          ]
+          [story, comments, settings, viewer, newCommentsToShow]
         )}
         components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{

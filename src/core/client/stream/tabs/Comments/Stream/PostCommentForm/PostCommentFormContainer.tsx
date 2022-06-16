@@ -22,7 +22,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG, GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
@@ -90,10 +90,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       showLoadAllCommentsButton
     }
   `);
-
-  const alternateOldestViewEnabled = settings.featureFlags.includes(
-    GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
-  );
 
   // keepFormWhenClosed controls the display state when the commenting has been
   // closed. This value should not be updated when the props change, hence why
@@ -169,7 +165,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       });
 
       // Add this response to new comments to show that have been added
-      if (alternateOldestViewEnabled && local.showLoadAllCommentsButton) {
+      if (local.showLoadAllCommentsButton) {
         if (!local.oldestFirstNewCommentsToShow) {
           setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
         } else {
