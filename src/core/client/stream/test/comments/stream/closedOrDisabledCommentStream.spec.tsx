@@ -1,3 +1,4 @@
+import { act } from "react-test-renderer";
 import sinon from "sinon";
 
 import { waitForElement, within } from "coral-framework/testHelpers";
@@ -95,7 +96,9 @@ it("auto close comment stream when story closed at has been reached", async () =
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
 
-  jest.advanceTimersByTime(closeIn);
+  await act(async () => {
+    jest.advanceTimersByTime(closeIn);
+  });
 
   await waitForElement(() =>
     within(testRenderer.root).getByText("Story is closed", { exact: false })

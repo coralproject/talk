@@ -501,6 +501,11 @@ configure-general-flattenReplies-enabled = Flatten replies enabled
 configure-general-flattenReplies-explanation =
   Change how levels of replies display. When enabled, replies to comments can go up to four levels deep before they are no longer indented on the page. When disabled, after a depth of four replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
 
+#### Load everything
+configure-general-loadAllComments-title = Load everything
+configure-general-loadAllComments-explanation = Change how long streams display. When enabled, the reader will have to scroll past all of the comments to get to any content below, no matter how many comments are on the page. When disabled, long comment streams will be paused with a "Load All Comments" button after 20 top-level comments, so that readers can easily move past the comments if they don't want to read them all.
+configure-general-loadAllComments-enabled = Load everything enabled
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
