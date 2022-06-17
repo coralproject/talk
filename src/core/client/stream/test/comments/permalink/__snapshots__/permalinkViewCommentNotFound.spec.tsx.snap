@@ -99,6 +99,7 @@ exports[`renders permalink view with unknown comment 1`] = `
         </div>
       </div>
     </section>
+    <div />
   </div>
 </section>
 `;

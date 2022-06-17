@@ -71,6 +71,8 @@ export interface StaticConfig {
    * be kept before being auto-archived.
    */
   autoArchiveOlderThanMs: number;
+
+  loadAllComments: boolean;
 }
 
 export interface EmbedBootstrapConfig {
