@@ -1,0 +1,19 @@
+.iframeContainer {
+  margin-bottom: 0 !important;
+}
+
+.expand {
+  align-items: end;
+  background-image: linear-gradient(
+    to bottom,
+    var(--palette-grey-200),
+    var(--palette-background-body)
+  );
+  display: flex;
+  height: 30px;
+
+  button {
+    padding-bottom: 5px;
+    padding-left: 5px;
+  }
+}

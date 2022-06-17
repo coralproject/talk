@@ -1,6 +1,7 @@
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision } from "coral-server/models/comment";
+import { updateCommentOnStoryTree } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -54,6 +55,13 @@ const approveComment = async (
   if (!result.after) {
     return result.before;
   }
+
+  await updateCommentOnStoryTree(
+    mongo,
+    tenant.id,
+    result.after.storyID,
+    result.after
+  );
 
   if (counts) {
     // Publish changes to the event publisher.
