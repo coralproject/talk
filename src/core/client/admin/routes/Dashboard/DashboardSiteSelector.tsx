@@ -7,7 +7,7 @@ import { Flex, Spinner } from "coral-ui/components/v2";
 import DashboardSiteContainer from "./DashboardSiteContainer";
 
 interface Props {
-  sites: Array<
+  sites: ReadonlyArray<
     { id: string } & PropTypesOf<typeof DashboardSiteContainer>["site"]
   >;
   onLoadMore: () => void;

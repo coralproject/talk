@@ -1,11 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Child as PymChild } from "pym.js";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { withContext } from "coral-framework/lib/bootstrap";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   withPaginationContainer,
@@ -35,7 +34,6 @@ interface Props {
   story: ConversationThreadContainer_story;
   settings: ConversationThreadContainer_settings;
   viewer: ConversationThreadContainer_viewer | null;
-  pym: PymChild | undefined;
   relay: RelayPaginationProp;
 }
 
@@ -78,13 +76,15 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
         >
           <RejectedTombstoneContainer comment={comment}>
             <DeletedTombstoneContainer comment={comment}>
-              <CommentContainer
-                comment={comment}
-                story={story}
-                settings={settings}
-                viewer={viewer}
-                highlight
-              />
+              <IntersectionProvider threshold={[0, 1]}>
+                <CommentContainer
+                  comment={comment}
+                  story={story}
+                  settings={settings}
+                  viewer={viewer}
+                  highlight
+                />
+              </IntersectionProvider>
             </DeletedTombstoneContainer>
           </RejectedTombstoneContainer>
         </IgnoredTombstoneOrHideContainer>
@@ -109,14 +109,16 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                 >
                   <RejectedTombstoneContainer comment={rootParent}>
                     <DeletedTombstoneContainer comment={rootParent}>
-                      <CommentContainer
-                        comment={rootParent}
-                        story={story}
-                        viewer={viewer}
-                        settings={settings}
-                        localReply
-                        ariaIsAncestor
-                      />
+                      <IntersectionProvider threshold={[0, 1]}>
+                        <CommentContainer
+                          comment={rootParent}
+                          story={story}
+                          viewer={viewer}
+                          settings={settings}
+                          localReply
+                          ariaIsAncestor
+                        />
+                      </IntersectionProvider>
                     </DeletedTombstoneContainer>
                   </RejectedTombstoneContainer>
                   {viewer && (
@@ -175,14 +177,16 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                   >
                     <RejectedTombstoneContainer comment={parent}>
                       <DeletedTombstoneContainer comment={parent}>
-                        <CommentContainer
-                          comment={parent}
-                          story={story}
-                          viewer={viewer}
-                          settings={settings}
-                          localReply
-                          ariaIsAncestor
-                        />
+                        <IntersectionProvider threshold={[0, 1]}>
+                          <CommentContainer
+                            comment={parent}
+                            story={story}
+                            viewer={viewer}
+                            settings={settings}
+                            localReply
+                            ariaIsAncestor
+                          />
+                        </IntersectionProvider>
                       </DeletedTombstoneContainer>
                     </RejectedTombstoneContainer>
                     {viewer && (
@@ -212,16 +216,18 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
             >
               <RejectedTombstoneContainer comment={comment}>
                 <DeletedTombstoneContainer comment={comment}>
-                  <CommentContainer
-                    enableJumpToParent={remaining === 0}
-                    className={CLASSES.conversationThread.hightlighted}
-                    comment={comment}
-                    story={story}
-                    settings={settings}
-                    viewer={viewer}
-                    highlight
-                    ariaIsHighlighted
-                  />
+                  <IntersectionProvider threshold={[0, 1]}>
+                    <CommentContainer
+                      enableJumpToParent={remaining === 0}
+                      className={CLASSES.conversationThread.hightlighted}
+                      comment={comment}
+                      story={story}
+                      settings={settings}
+                      viewer={viewer}
+                      highlight
+                      ariaIsHighlighted
+                    />
+                  </IntersectionProvider>
                 </DeletedTombstoneContainer>
               </RejectedTombstoneContainer>
             </IgnoredTombstoneOrHideContainer>
@@ -238,108 +244,104 @@ interface FragmentVariables {
   cursor?: string;
 }
 
-const enhanced = withContext((ctx) => ({
-  pym: ctx.pym,
-}))(
-  withPaginationContainer<
-    Props,
-    ConversationThreadContainerPaginationQueryVariables,
-    FragmentVariables
-  >(
-    {
-      story: graphql`
-        fragment ConversationThreadContainer_story on Story {
-          ...CommentContainer_story
-          ...LocalReplyListContainer_story
-          ...UserTagsContainer_story
-        }
-      `,
-      settings: graphql`
-        fragment ConversationThreadContainer_settings on Settings {
-          ...CommentContainer_settings
-          ...LocalReplyListContainer_settings
-          ...UserTagsContainer_settings
-        }
-      `,
-      comment: graphql`
-        fragment ConversationThreadContainer_comment on Comment
-          @argumentDefinitions(
-            count: { type: "Int", defaultValue: 0 }
-            cursor: { type: "Cursor" }
-          ) {
+const enhanced = withPaginationContainer<
+  Props,
+  ConversationThreadContainerPaginationQueryVariables,
+  FragmentVariables
+>(
+  {
+    story: graphql`
+      fragment ConversationThreadContainer_story on Story {
+        ...CommentContainer_story
+        ...LocalReplyListContainer_story
+        ...UserTagsContainer_story
+      }
+    `,
+    settings: graphql`
+      fragment ConversationThreadContainer_settings on Settings {
+        ...CommentContainer_settings
+        ...LocalReplyListContainer_settings
+        ...UserTagsContainer_settings
+      }
+    `,
+    comment: graphql`
+      fragment ConversationThreadContainer_comment on Comment
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 0 }
+          cursor: { type: "Cursor" }
+        ) {
+        id
+        ...CommentContainer_comment
+        ...IgnoredTombstoneOrHideContainer_comment
+        ...RejectedTombstoneContainer_comment
+        ...DeletedTombstoneContainer_comment
+        rootParent {
           id
+          author {
+            id
+            username
+          }
+          createdAt
+          ...UserTagsContainer_comment
           ...CommentContainer_comment
           ...IgnoredTombstoneOrHideContainer_comment
+          ...LocalReplyListContainer_comment
           ...RejectedTombstoneContainer_comment
           ...DeletedTombstoneContainer_comment
-          rootParent {
-            id
-            author {
+        }
+        parentCount
+        parents(last: $count, before: $cursor)
+          @connection(key: "ConversationThread_parents") {
+          edges {
+            node {
               id
-              username
-            }
-            createdAt
-            ...UserTagsContainer_comment
-            ...CommentContainer_comment
-            ...IgnoredTombstoneOrHideContainer_comment
-            ...LocalReplyListContainer_comment
-            ...RejectedTombstoneContainer_comment
-            ...DeletedTombstoneContainer_comment
-          }
-          parentCount
-          parents(last: $count, before: $cursor)
-            @connection(key: "ConversationThread_parents") {
-            edges {
-              node {
-                id
-                ...CommentContainer_comment
-                ...LocalReplyListContainer_comment
-                ...IgnoredTombstoneOrHideContainer_comment
-                ...RejectedTombstoneContainer_comment
-                ...DeletedTombstoneContainer_comment
-              }
+              ...CommentContainer_comment
+              ...LocalReplyListContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
+              ...RejectedTombstoneContainer_comment
+              ...DeletedTombstoneContainer_comment
             }
           }
         }
-      `,
-      viewer: graphql`
-        fragment ConversationThreadContainer_viewer on User {
-          ...CommentContainer_viewer
-          ...LocalReplyListContainer_viewer
-          ...IgnoredTombstoneOrHideContainer_viewer
-        }
-      `,
+      }
+    `,
+    viewer: graphql`
+      fragment ConversationThreadContainer_viewer on User {
+        ...CommentContainer_viewer
+        ...LocalReplyListContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
+      }
+    `,
+  },
+  {
+    direction: "backward",
+    getConnectionFromProps(props) {
+      return props.comment && props.comment.parents;
     },
-    {
-      direction: "backward",
-      getConnectionFromProps(props) {
-        return props.comment && props.comment.parents;
-      },
-      getVariables(props, { count, cursor }) {
-        return {
-          count,
-          cursor,
-          // commentID isn't specified as an @argument for the fragment, but it should be a
-          // variable available for the fragment under the query root.
-          commentID: props.comment.id,
-        };
-      },
-      query: graphql`
-        # Pagination query to be fetched upon calling 'loadMore'.
-        # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-        query ConversationThreadContainerPaginationQuery(
-          $count: Int!
-          $cursor: Cursor
-          $commentID: ID!
-        ) {
-          comment(id: $commentID) {
-            ...ConversationThreadContainer_comment
-              @arguments(count: $count, cursor: $cursor)
-          }
+    getVariables(props, { count, cursor }) {
+      return {
+        count,
+        cursor,
+        // commentID isn't specified as an @argument for the fragment, but it should be a
+        // variable available for the fragment under the query root.
+        commentID: props.comment.id,
+      };
+    },
+    query: graphql`
+      # Pagination query to be fetched upon calling 'loadMore'.
+      # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+      query ConversationThreadContainerPaginationQuery(
+        $count: Int!
+        $cursor: Cursor
+        $commentID: ID!
+      ) {
+        comment(id: $commentID) {
+          ...ConversationThreadContainer_comment
+            @arguments(count: $count, cursor: $cursor)
         }
-      `,
-    }
-  )(ConversationThreadContainer)
-);
+      }
+    `,
+  }
+)(ConversationThreadContainer);
 
 export default enhanced;

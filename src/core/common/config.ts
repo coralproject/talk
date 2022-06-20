@@ -1,3 +1,5 @@
+import { LanguageCode } from "./helpers";
+
 /**
  * SentryReporterConfig is the ReporterConfig for the Sentry service.
  */
@@ -69,4 +71,23 @@ export interface StaticConfig {
    * be kept before being auto-archived.
    */
   autoArchiveOlderThanMs: number;
+
+  loadAllComments: boolean;
+}
+
+export interface EmbedBootstrapConfig {
+  locale: LanguageCode;
+  assets: {
+    js: {
+      src: string;
+    }[];
+    css: {
+      src: string;
+    }[];
+  };
+  customFontsCSSURL: string | undefined;
+  customCSSURL: string | undefined;
+  defaultFontsCSSURL: string | undefined;
+  disableDefaultFonts: boolean;
+  staticConfig: StaticConfig;
 }

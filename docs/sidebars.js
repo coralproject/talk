@@ -26,17 +26,32 @@ module.exports = {
         "slack",
         "mobile",
         "seo",
+        "external-moderation-phases",
+        "webhooks",
       ],
     },
     {
       type: "category",
       label: "FAQ & Troubleshooting",
-      items: ["faq", "troubleshooting", "ie11"],
+      items: ["faq", "troubleshooting"],
     },
     {
       type: "category",
       label: "Migrating versions",
-      items: ["migrating-from-4", "migrating-5-to-6"],
+      items: [
+        {
+          type: "category",
+          label: "Migrating from v4.x to v7+",
+          items: [
+            { type: "doc", id: "migrating-from-4", label: "Introduction" },
+            { type: "doc", id: "migrate-auth", label: "Authentication" },
+            { type: "doc", id: "migrate-custom", label: "Custom Plugins" },
+            { type: "doc", id: "migrate-data", label: "Data Migration" },
+          ],
+        },
+        "migrating-5-to-6",
+        "migrating-6-to-7",
+      ],
     },
     {
       type: "doc",

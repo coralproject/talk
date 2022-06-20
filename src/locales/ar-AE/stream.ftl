@@ -94,7 +94,7 @@ comments-postCommentForm-submit = تقديم
 comments-replyList-showAll = إظهار الكل
 comments-replyList-showMoreReplies = إظهار المزيد من الردود
 
-comments-postCommentForm-gifSearch = بحث عن صورة متحركة
+comments-postComment-gifSearch = بحث عن صورة متحركة
 comments-postComment-gifSearch-search =
   .aria-label = بحث
 comments-postComment-gifSearch-loading = تحميل...

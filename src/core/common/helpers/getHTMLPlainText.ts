@@ -21,7 +21,7 @@ export default function getHTMLPlainText(html: string): string {
     textContent = decode(require("striptags")(htmlWithNewLine));
   } else {
     // eslint-disable-next-line no-restricted-globals
-    const divElement = document.createElement("div");
+    const divElement = window.document.createElement("div");
     divElement.innerHTML = htmlWithNewLine;
     textContent = divElement.textContent || "";
   }

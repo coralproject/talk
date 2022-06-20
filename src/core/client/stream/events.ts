@@ -314,6 +314,31 @@ export const ViewNewCommentsNetworkEvent = createViewerNetworkEvent<{
 }>("viewNewCommentsNetwork");
 
 /**
+ *
+ * This event is emitted when the viewer reveals
+ * new live replies to comments.
+ */
+export const ViewNewRepliesNetworkEvent = createViewerNetworkEvent<{
+  storyID?: string;
+  keyboardShortcutsConfig: {
+    source: string;
+    key: string;
+    reverse: boolean;
+  } | null;
+  success: {};
+  error: { message: string; code?: string };
+}>("viewNewRepliesNetwork");
+
+/**
+ *
+ * This event is emitted when the viewer scrolls a comment up and out of
+ * view on the stream.
+ */
+export const ScrollCommentUpOutOfViewEvent = createViewerEvent<{
+  commentID?: string;
+}>("scrollCommentUpOutOfView");
+
+/**
  * This event is emitted when the viewer loads more
  * top level comments into the history comment stream.
  */

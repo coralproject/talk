@@ -4,7 +4,7 @@
 
 ## Validation
 
-framework-validation-required = Dies ist ein Pflichtpfeld.
+framework-validation-required = Dies ist ein Pflichtfeld.
 
 framework-timeago-just-now = Gerade eben
 framework-timeago =
@@ -18,7 +18,7 @@ framework-timeago =
        [1] Sekunde
       *[other] Sekunden
     }
-    [minuto] { $value ->
+    [minute] { $value ->
        [1] Minute
       *[other] Minuten
     }
@@ -42,5 +42,5 @@ framework-timeago =
        [1] Jahr
       *[other] Jahre
     }
-    *[other] unknown unit
+    *[other] Unbekannte Einheit
   }

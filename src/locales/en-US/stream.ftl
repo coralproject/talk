@@ -98,7 +98,7 @@ comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
 
-comments-postCommentForm-gifSearch = Search for a GIF
+comments-postComment-gifSearch = Search for a GIF
 comments-postComment-gifSearch-search =
   .aria-label = Search
 comments-postComment-gifSearch-loading = Loading...
@@ -122,6 +122,7 @@ comments-viewNew =
     *[other] View {$count} New Comments
   }
 comments-loadMore = Load More
+comments-loadAll = Load All Comments
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment
@@ -241,6 +242,7 @@ comments-userIgnorePopover-ignore = Ignore
 comments-userIgnorePopover-cancel = Cancel
 
 comments-userBanPopover-title = Ban {$username}?
+comments-userSiteBanPopover-title = Ban {$username} from this site?
 comments-userBanPopover-description =
   Once banned, this user will no longer be able
   to comment, use reactions, or report comments.
@@ -257,6 +259,7 @@ comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
 comments-moderationDropdown-ban = Ban User
+comments-moderationDropdown-siteBan = Site Ban
 comments-moderationDropdown-banned = Banned
 comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Moderation view
@@ -393,6 +396,7 @@ comments-embedLinks-hide-twitter = Hide Tweet
 comments-embedLinks-show-external = Show image
 comments-embedLinks-hide-external = Hide image
 
+comments-embedLinks-expand = Expand
 
 ### Featured Comments
 comments-featured-label =
@@ -443,7 +447,7 @@ profile-commentHistory-loadMore = Load More
 profile-commentHistory-empty = You have not written any comments
 profile-commentHistory-empty-subheading = A history of your comments will appear here
 
-profile-commentHistory-archived-thisIsAllYourComments = 
+profile-commentHistory-archived-thisIsAllYourComments =
   This is all of your comments from the previous { $value } { $unit ->
     [second] { $value ->
       [1] second

@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import { Box, Button, CheckIcon, Flex } from "coral-ui/components/v2";
 
-import * as styles from "./Success.css";
+import styles from "./Success.css";
 
 interface Props {
   onClose: () => void;

@@ -10,47 +10,52 @@ exports[`renders form 1`] = `
   <div
     className="MainLayout-centered"
   >
-    <main
-      className="UnsubscribeRoute-container"
+    <div
+      className="coral-width-gt-xs coral-width-gte-xs coral-width-gt-mobile coral-width-gte-mobile coral-width-gt-mobileMax coral-width-gte-mobileMax coral-width-gt-sm coral-width-gte-sm coral-width-gte-md coral-width-lte-md coral-width-lt-lg coral-width-lte-lg coral-width-lt-xl coral-width-lte-xl"
+      id="coral"
     >
-      <div
-        className="UnsubscribeRoute-root"
+      <main
+        className="UnsubscribeRoute-container"
       >
         <div
-          data-testid="unsubscribe-form"
+          className="UnsubscribeRoute-root"
         >
-          <form
-            onSubmit={[Function]}
+          <div
+            data-testid="unsubscribe-form"
           >
-            <div>
-              <div
-                className="Unsubscribe-title"
-              >
-                Unsubscribe from email notifications
+            <form
+              onSubmit={[Function]}
+            >
+              <div>
+                <div
+                  className="Unsubscribe-title"
+                >
+                  Unsubscribe from email notifications
+                </div>
+                <div
+                  className="Unsubscribe-description"
+                >
+                  Click below to confirm that you want to unsubscribe from all notifications.
+                </div>
+                <button
+                  className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth Unsubscribe-submit"
+                  data-variant="filled"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="submit"
+                >
+                  Unsubscribe
+                </button>
               </div>
-              <div
-                className="Unsubscribe-description"
-              >
-                Click below to confirm that you want to unsubscribe from all notifications.
-              </div>
-              <button
-                className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeMedium Button-colorPrimary Button-upperCase Button-fullWidth Unsubscribe-submit"
-                data-variant="filled"
-                disabled={false}
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="submit"
-              >
-                Unsubscribe
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
@@ -65,45 +70,50 @@ exports[`renders missing confirm token 1`] = `
   <div
     className="MainLayout-centered"
   >
-    <main
-      className="UnsubscribeRoute-container"
+    <div
+      className="coral-width-gt-xs coral-width-gte-xs coral-width-gt-mobile coral-width-gte-mobile coral-width-gt-mobileMax coral-width-gte-mobileMax coral-width-gt-sm coral-width-gte-sm coral-width-gte-md coral-width-lte-md coral-width-lt-lg coral-width-lte-lg coral-width-lt-xl coral-width-lte-xl"
+      id="coral"
     >
-      <div
-        className="UnsubscribeRoute-root"
+      <main
+        className="UnsubscribeRoute-container"
       >
-        <div>
-          <div
-            className="Unsubscribe-title"
-          >
-            Oops Sorry!
-          </div>
-          <div
-            className="CallOut-root CallOut-error CallOut-leftBorder"
-          >
+        <div
+          className="UnsubscribeRoute-root"
+        >
+          <div>
             <div
-              className="CallOut-container"
+              className="Unsubscribe-title"
+            >
+              Oops Sorry!
+            </div>
+            <div
+              className="CallOut-root CallOut-error CallOut-leftBorder"
             >
               <div
-                className="CallOut-content"
+                className="CallOut-container"
               >
                 <div
-                  className="CallOut-title CallOut-titleSemiBold"
+                  className="CallOut-content"
                 >
-                  <span
-                    data-testid="invalid-link"
+                  <div
+                    className="CallOut-title CallOut-titleSemiBold"
                   >
-                    The specified link is invalid, check to see if it was copied correctly.
-                  </span>
+                    <span
+                      data-testid="invalid-link"
+                    >
+                      The specified link is invalid, check to see if it was copied correctly.
+                    </span>
+                  </div>
+                  <div
+                    className="CallOut-body"
+                  />
                 </div>
-                <div
-                  className="CallOut-body"
-                />
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

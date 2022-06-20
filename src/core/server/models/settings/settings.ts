@@ -71,19 +71,30 @@ export interface AccountFeatures {
 }
 
 /**
- * NewCommentersConfiguration is the configuration for how new commenters comments are treated.
+ * NewCommentersModerationConfig is the configuration for how new commenters' comments
+ * are moderated.
+ */
+export interface NewCommentersModerationConfig {
+  mode: GQLMODERATION_MODE;
+  premodSites: string[];
+}
+
+/**
+ * NewCommentersConfiguration is the configuration for how new commenters' comments are treated.
  */
 export interface NewCommentersConfiguration {
   premodEnabled: boolean;
   approvedCommentsThreshold: number;
+  moderation: NewCommentersModerationConfig;
 }
 
-export interface StaffConfiguration {
+export interface BadgeConfiguration {
   staffLabel?: string;
   // MIGRATE: plan to migrate this to `staffLabel` in 7.0.0.
   label: string;
   adminLabel?: string;
   moderatorLabel?: string;
+  memberLabel?: string;
 }
 
 /**
@@ -292,6 +303,8 @@ export type Settings = GlobalModerationSettings &
     | "reaction"
     | "editCommentWindowLength"
     | "customCSSURL"
+    | "customFontsCSSURL"
+    | "disableDefaultFonts"
     | "communityGuidelines"
     | "createdAt"
     | "slack"
@@ -353,9 +366,14 @@ export type Settings = GlobalModerationSettings &
     media?: Omit<GQLMediaConfiguration, "external">;
 
     /**
-     * staff configures the labels for staff members in comment stream.
+     * badges configures the labels for any member with role above COMMENTER.
      */
-    staff: StaffConfiguration;
+    badges: BadgeConfiguration;
+
+    /**
+     * DEPRECATED: for backwards compatibility for badges field
+     */
+    staff?: BadgeConfiguration;
 
     /**
      * stories stores the configuration around stories.
@@ -379,6 +397,14 @@ export type Settings = GlobalModerationSettings &
      * put on a comment by a user.
      */
     forReviewQueue?: boolean;
+
+    /**
+     * loadAllComments is whether or not all comments should be loaded in
+     * infinite scroll for the stream, or a Load all comments button should
+     * be shown after the initial comments. Show infinite scroll if true,
+     * load all comments if false.
+     */
+    loadAllComments?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

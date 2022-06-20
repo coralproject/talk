@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLUSER_STATUS } from "coral-framework/schema";
@@ -70,17 +71,19 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
   return (
     <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
       {comment.parent && (
-        <CommentContainer
-          viewer={props.viewer}
-          settings={props.settings}
-          comment={comment.parent}
-          story={props.story}
-          hideAnsweredTag
-          hideReportButton
-          hideModerationCarat
-          disableReplies
-          highlight
-        />
+        <IntersectionProvider threshold={[0, 1]}>
+          <CommentContainer
+            viewer={props.viewer}
+            settings={props.settings}
+            comment={comment.parent}
+            story={props.story}
+            hideAnsweredTag
+            hideReportButton
+            hideModerationCarat
+            disableReplies
+            highlight
+          />
+        </IntersectionProvider>
       )}
       <article
         className={cn(CLASSES.featuredComment.$root, styles.root)}

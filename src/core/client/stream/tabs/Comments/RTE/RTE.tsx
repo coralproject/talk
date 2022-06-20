@@ -14,12 +14,15 @@ import React, {
   FocusEvent,
   FunctionComponent,
   Ref,
+  useEffect,
   useMemo,
 } from "react";
 
 import { createSanitize } from "coral-common/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
+import IframeEncapsulation from "coral-framework/lib/encapsulation/IframeEncapsulation";
 import CLASSES from "coral-stream/classes";
+import { RTE_ELEMENT_ID } from "coral-stream/constants";
 import { Icon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -75,12 +78,15 @@ const createSanitizeToDOMFragment = (
 export const RTELocalized = React.forwardRef<
   any,
   PropTypesOf<typeof LocalizedOriginal>
->(function RTELocalized({ ctrlKey, squire, ButtonComponent, ...props }, ref) {
+>(function RTELocalized(
+  { ctrlKey, squire, ButtonComponent, rteElementID, ...props },
+  ref
+) {
   return (
     <LocalizedOriginal {...props}>
       {React.cloneElement(
         React.Children.only(props.children as React.ReactElement),
-        { ctrlKey, squire, ButtonComponent, ref }
+        { ctrlKey, squire, ButtonComponent, rteElementID, ref }
       )}
     </LocalizedOriginal>
   );
@@ -152,6 +158,9 @@ interface Props {
   toolbarButtons?: React.ReactElement | null;
 
   onWillPaste?: (event: PasteEvent) => void;
+
+  /** onLoad is called when the RTE has been loaded */
+  onLoad?: () => void;
 }
 
 const RTE: FunctionComponent<Props> = (props) => {
@@ -174,6 +183,7 @@ const RTE: FunctionComponent<Props> = (props) => {
     features,
     onWillPaste,
     onKeyPress,
+    onLoad,
     ...rest
   } = props;
 
@@ -265,10 +275,11 @@ const RTE: FunctionComponent<Props> = (props) => {
     return x;
   }, [features, props.toolbarButtons]);
 
-  return (
+  const elementTree = (
     <div role="none">
       <CoralRTE
         inputID={inputID}
+        rteElementID={RTE_ELEMENT_ID}
         className={cn(CLASSES.rte.$root, className)}
         contentClassName={cn(
           CLASSES.rte.content,
@@ -310,6 +321,26 @@ const RTE: FunctionComponent<Props> = (props) => {
         {...rest}
       />
     </div>
+  );
+
+  // Don't make things harder in test env.
+  useEffect(() => {
+    if (process.env.NODE_ENV === "test") {
+      if (props.onLoad) {
+        props.onLoad();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  if (process.env.NODE_ENV === "test") {
+    return elementTree;
+  }
+  //
+
+  return (
+    <IframeEncapsulation onLoad={props.onLoad}>
+      {elementTree}
+    </IframeEncapsulation>
   );
 };
 

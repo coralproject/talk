@@ -59,7 +59,7 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
     [events]
   );
 
-  const onRecieveAll = useCallback(() => {
+  const onReceiveAll = useCallback(() => {
     all.onChange(true);
   }, [all]);
 
@@ -126,11 +126,11 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
       ) : (
         <Localized
           id="configure-webhooks-selectAnEvent"
-          button={<Button variant="text" onClick={onRecieveAll} />}
+          button={<Button variant="text" onClick={onReceiveAll} />}
         >
           <HelperText>
             Select events above or{" "}
-            <Button variant="text" onClick={onRecieveAll}>
+            <Button variant="text" onClick={onReceiveAll}>
               receive all events
             </Button>
             .

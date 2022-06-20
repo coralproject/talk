@@ -1,4 +1,4 @@
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 import { graphql } from "react-relay";
 
@@ -11,15 +11,8 @@ import { ModerateContainerQueryResponse } from "coral-admin/__generated__/Modera
 
 import Moderate from "./Moderate";
 
-interface RouteParams {
-  storyID?: string;
-  siteID?: string;
-}
-
 interface Props {
   data: ModerateContainerQueryResponse | null;
-  router: Router;
-  match: Match & { params: RouteParams };
 }
 
 const queueNames: QUEUE_NAME[] = [
@@ -31,12 +24,8 @@ const queueNames: QUEUE_NAME[] = [
   "review",
 ];
 
-const ModerateContainer: FunctionComponent<Props> = ({
-  data,
-  match,
-  router,
-  children,
-}) => {
+const ModerateContainer: FunctionComponent<Props> = ({ data, children }) => {
+  const { match, router } = useRouter();
   const allStories = !match.params.storyID;
   const queueName = useMemo(
     () =>
@@ -204,6 +193,6 @@ const enhanced = withRouteConfig<Props>({
       includeStory: !!storyID,
     };
   },
-})(withRouter(ModerateContainer));
+})(ModerateContainer);
 
 export default enhanced;

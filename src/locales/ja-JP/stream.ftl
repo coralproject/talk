@@ -97,7 +97,7 @@ comments-postCommentForm-submit = 送信
 comments-replyList-showAll = 全てを見る
 comments-replyList-showMoreReplies = 返信をもっと見る
 
-comments-postCommentForm-gifSearch = GIF画像を検索する
+comments-postComment-gifSearch = GIF画像を検索する
 comments-postComment-gifSearch-search =
   .aria-label = 検索
 comments-postComment-gifSearch-loading = 読み込み中...

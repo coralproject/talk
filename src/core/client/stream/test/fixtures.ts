@@ -94,11 +94,12 @@ export const settings = createFixture<GQLSettings>({
       },
     },
   },
-  staff: {
+  badges: {
     label: "Staff",
     adminLabel: "Staff",
     moderatorLabel: "Staff",
     staffLabel: "Staff",
+    memberLabel: "Member",
   },
   reaction: {
     icon: "thumb_up",
@@ -129,15 +130,25 @@ export const settings = createFixture<GQLSettings>({
     sarcasm: false,
   },
   flattenReplies: false,
+  loadAllComments: true,
 });
 
-export const site = createFixture<GQLSite>({
-  name: "Test Site",
-  id: "site-id",
-  createdAt: "2018-05-06T18:24:00.000Z",
-  allowedOrigins: ["http://test-site.com"],
-  canModerate: true,
-});
+export const site = createFixtures<GQLSite>([
+  {
+    name: "Test Site",
+    id: "site-id",
+    createdAt: "2018-05-06T18:24:00.000Z",
+    allowedOrigins: ["http://test-site.com"],
+    canModerate: true,
+  },
+  {
+    name: "Second Site",
+    id: "site-two",
+    createdAt: "2018-05-06T18:24:00.000Z",
+    allowedOrigins: ["http://second-site.com"],
+    canModerate: true,
+  },
+]);
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
   {
@@ -148,6 +159,13 @@ export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
         },
       },
     },
+  },
+  settings
+);
+
+export const settingsWithMultisite = createFixture<GQLSettings>(
+  {
+    multisite: true,
   },
   settings
 );
@@ -307,6 +325,12 @@ export const userWithEmail = createFixture<GQLUser>(
   baseUser
 );
 
+export const member = createFixture<GQLUser>({
+  id: "member-user",
+  username: "member",
+  role: GQLUSER_ROLE.MEMBER,
+});
+
 export const commenters = createFixtures<GQLUser>(
   [
     {
@@ -371,7 +395,7 @@ export const baseStory = createFixture<GQLStory>({
     experts: [],
   },
   canModerate: true,
-  site,
+  site: site[0],
 });
 
 export const baseComment = createFixture<GQLComment>({
@@ -513,7 +537,28 @@ export const comments = denormalizeComments(
         author: commenters[2],
         body: "Comment Body 5",
       },
+      {
+        id: "comment-21",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
     ],
+    baseComment
+  )
+);
+
+export const commentFromMember = denormalizeComment(
+  createFixture<GQLComment>(
+    {
+      id: "comment-from-member",
+      author: member,
+      body: "I like gogurt.",
+      tags: [
+        {
+          code: GQLTAG.MEMBER,
+        },
+      ],
+    },
     baseComment
   )
 );
@@ -642,8 +687,34 @@ export const moderators = createFixtures<GQLUser>(
       role: GQLUSER_ROLE.MODERATOR,
       ignoreable: false,
     },
+    {
+      id: "site-moderator",
+      username: "Site Moderator",
+      role: GQLUSER_ROLE.MODERATOR,
+      ignoreable: false,
+      moderationScopes: {
+        scoped: true,
+        sites: [site[0]],
+      },
+    },
   ],
   baseUser
+);
+
+export const commentFromModerator = denormalizeComment(
+  createFixture<GQLComment>(
+    {
+      id: "comment-from-moderator",
+      author: moderators[0],
+      body: "Stop all that cussing!",
+      tags: [
+        {
+          code: GQLTAG.MODERATOR,
+        },
+      ],
+    },
+    baseComment
+  )
 );
 
 export const commentsFromStaff = denormalizeComments(

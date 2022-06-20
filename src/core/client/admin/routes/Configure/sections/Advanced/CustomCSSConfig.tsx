@@ -4,15 +4,17 @@ import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
-import { FormField, FormFieldDescription } from "coral-ui/components/v2";
+import { FormField, FormFieldHeader, Label } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CustomCSSConfig_formValues on Settings {
+    customFontsCSSURL
     customCSSURL
   }
 `;
@@ -30,13 +32,50 @@ const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
   >
     <FormField>
-      <Localized id="configure-advanced-customCSS-override" strong={<strong />}>
-        <FormFieldDescription>
-          URL of a CSS stylesheet that will override default Embed Stream
-          styles.
-        </FormFieldDescription>
-      </Localized>
+      <FormFieldHeader>
+        <Localized id="configure-advanced-customCSS-stylesheetURL">
+          <Label>Custom CSS Stylesheet URL</Label>
+        </Localized>
+        <Localized id="configure-advanced-customCSS-override">
+          <HelperText>
+            URL of a Custom CSS stylesheet that will override default Embed
+            styles.
+          </HelperText>
+        </Localized>
+      </FormFieldHeader>
       <Field name="customCSSURL" parse={parseEmptyAsNull} format={formatEmpty}>
+        {({ input, meta }) => (
+          <TextFieldWithValidation
+            {...input}
+            id={`configure-advanced-${input.name}`}
+            disabled={disabled}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            fullWidth
+            meta={meta}
+          />
+        )}
+      </Field>
+    </FormField>
+    <FormField>
+      <FormFieldHeader>
+        <Localized id="configure-advanced-customCSS-fontsStylesheetURL">
+          <Label>Custom CSS Style Sheet URL for Font Faces</Label>
+        </Localized>
+        <Localized id="configure-advanced-customCSS-containsFontFace">
+          <HelperText>
+            URL to a Custom CSS stylesheets that contains all @font-face
+            definitions needed by above Stylesheet.
+          </HelperText>
+        </Localized>
+      </FormFieldHeader>
+      <Field
+        name="customFontsCSSURL"
+        parse={parseEmptyAsNull}
+        format={formatEmpty}
+      >
         {({ input, meta }) => (
           <TextFieldWithValidation
             {...input}

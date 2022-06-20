@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   createFragmentContainer as createRelayFragmentContainer,
   graphql,
@@ -19,7 +19,7 @@ import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Overwrite } from "coral-framework/types";
 import {
   ShowAllRepliesEvent,
-  ViewNewCommentsNetworkEvent,
+  ViewNewRepliesNetworkEvent,
 } from "coral-stream/events";
 
 import { ReplyListContainer1_comment } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
@@ -141,6 +141,7 @@ graphql`
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment ReplyListContainer_viewer on User {
+    id
     ...ReplyListCommentContainer_viewer
   }
 `;
@@ -203,7 +204,9 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig }] = useLocal<ReplyListContainerLocal>(
+  const [{ keyboardShortcutsConfig, loadAllReplies }, setLocal] = useLocal<
+    ReplyListContainerLocal
+  >(
     graphql`
       fragment ReplyListContainerLocal on Local {
         keyboardShortcutsConfig {
@@ -211,6 +214,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
           source
           reverse
         }
+        loadAllReplies
       }
     `
   );
@@ -225,6 +229,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
+    setLocal({ loadAllReplies: null });
     try {
       await showAll();
       showAllEvent.success();
@@ -233,14 +238,28 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [showAll, beginShowAllEvent, props.comment.id]);
+  }, [
+    showAll,
+    beginShowAllEvent,
+    props.comment.id,
+    keyboardShortcutsConfig,
+    setLocal,
+  ]);
+
+  useEffect(() => {
+    // This supports when we need to load all replies navigating through with
+    // the Z key via keyboard shortcuts
+    if (loadAllReplies && loadAllReplies === props.comment.id) {
+      void showAllAndEmit();
+    }
+  }, [loadAllReplies, showAllAndEmit, props.comment.id]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
-  const beginViewNewCommentsEvent = useViewerNetworkEvent(
-    ViewNewCommentsNetworkEvent
+  const beginViewNewRepliesEvent = useViewerNetworkEvent(
+    ViewNewRepliesNetworkEvent
   );
   const onViewNew = useCallback(async () => {
-    const viewNewCommentsEvent = beginViewNewCommentsEvent({
+    const viewNewRepliesEvent = beginViewNewRepliesEvent({
       storyID: props.story.id,
       keyboardShortcutsConfig,
     });
@@ -249,13 +268,19 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
         commentID: props.comment.id,
         storyID: props.story.id,
       }));
-      viewNewCommentsEvent.success();
+      viewNewRepliesEvent.success();
     } catch (error) {
-      viewNewCommentsEvent.error({ message: error.message, code: error.code });
+      viewNewRepliesEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [props.comment.id, props.story.id, viewNew, beginViewNewCommentsEvent]);
+  }, [
+    props.comment.id,
+    props.story.id,
+    viewNew,
+    beginViewNewRepliesEvent,
+    keyboardShortcutsConfig,
+  ]);
 
   if (!("replies" in props.comment)) {
     return null;
@@ -396,6 +421,7 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainerLastFlattened_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
       }
     `,
@@ -476,6 +502,7 @@ const ReplyListContainerLast = createRelayFragmentContainer<
   {
     viewer: graphql`
       fragment ReplyListContainerLast_viewer on User {
+        id
         ...LocalReplyListContainer_viewer @skip(if: $flattenReplies)
         ...ReplyListContainerLastFlattened_viewer @include(if: $flattenReplies)
       }
@@ -507,6 +534,7 @@ const ReplyListContainer3 = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer3_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainerLast_viewer
       }
@@ -571,6 +599,7 @@ const ReplyListContainer2 = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer2_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainer3_viewer
       }
@@ -635,6 +664,7 @@ const ReplyListContainer1 = createReplyListContainer({
   fragments: {
     viewer: graphql`
       fragment ReplyListContainer1_viewer on User {
+        id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainer2_viewer
       }

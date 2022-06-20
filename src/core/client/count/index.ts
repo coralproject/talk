@@ -1,9 +1,9 @@
-import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "coral-framework/constants";
+import { COUNT_SELECTOR } from "coral-framework/constants";
 import detectCountScript from "coral-framework/helpers/detectCountScript";
+import getCurrentScriptOrigin from "coral-framework/helpers/getCurrentScriptOrigin";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 import jsonp from "coral-framework/utils/jsonp";
 
-import getCurrentScriptOrigin from "./getCurrentScriptOrigin";
 import injectJSONPCallback from "./injectJSONPCallback";
 
 /** Arguments that will be send to the server. */
@@ -24,7 +24,7 @@ interface DetectAndInjectArgs {
 
 /** Detects count elements and use jsonp to inject the counts. */
 function detectAndInject(opts: DetectAndInjectArgs = {}) {
-  const ORIGIN = getCurrentScriptOrigin(ORIGIN_FALLBACK_ID);
+  const ORIGIN = getCurrentScriptOrigin();
   const STORY_URL = resolveStoryURL(window);
 
   /** A map of references pointing to the count query arguments */
