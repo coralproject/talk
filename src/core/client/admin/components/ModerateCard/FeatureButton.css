@@ -1,7 +1,5 @@
 .root {
-  position: absolute;
-  right: 0px;
-  top: 2px;
+  margin-left: auto;
 
   border: 1px solid var(--palette-grey-500);
   box-sizing: border-box;

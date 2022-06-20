@@ -1,2 +1,2 @@
-export { default as initLocalState } from "./initLocalState";
+export { createInitLocalState } from "./initLocalState";
 export * from "./constants";

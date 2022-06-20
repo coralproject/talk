@@ -6,7 +6,7 @@ import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
 import { ScaledUnit } from "coral-common/helpers/i18n";
-import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { useGetMessage } from "coral-framework/lib/i18n";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import ModalBodyText from "../ModalBodyText";
@@ -17,7 +17,6 @@ import SuspendForm from "./SuspendForm";
 
 interface Props {
   username: string | null;
-  getMessage: GetMessage;
   open: boolean;
   onClose: () => void;
   onConfirm: (timeout: number, message: string) => void;
@@ -29,7 +28,6 @@ const SuspendModal: FunctionComponent<Props> = ({
   open,
   onClose,
   onConfirm,
-  getMessage,
   username,
   success,
   organizationName,
@@ -38,6 +36,7 @@ const SuspendModal: FunctionComponent<Props> = ({
     COMMON_TRANSLATION.NOT_AVAILABLE
   );
   const [successDuration, setSuccessDuration] = useState("");
+  const getMessage = useGetMessage();
   const onFormSubmit = useCallback(
     ({ original, scaled, unit }: ScaledUnit, message: string) => {
       setSuccessDuration(
@@ -119,6 +118,4 @@ const SuspendModal: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withGetMessage(SuspendModal);
-
-export default enhanced;
+export default SuspendModal;

@@ -70,7 +70,7 @@ comments-postCommentForm-submit = Kommentar abschicken
 comments-replyList-showAll = Alle anzeigen
 comments-replyList-showMoreReplies = Mehr Antworten anzeigen
 
-comments-postCommentForm-gifSearch = Nach einem GIF suchen
+comments-postComment-gifSearch = Nach einem GIF suchen
 comments-postComment-gifSearch-search =
   .aria-label = Suchen
 comments-postComment-gifSearch-loading = Laden...
@@ -129,7 +129,7 @@ comments-rte-externalImage =
 
 comments-remainingCharacters = { $remaining } Zeichen übrig
 
-comments-postCommentFormFake-signInAndJoin = Melde dich an und nimm an der Diskussion teil
+comments-postCommentFormFake-signInAndJoin = Anmelden und mitdiskutieren
 
 comments-postCommentForm-rteLabel = Kommentar schreiben
 

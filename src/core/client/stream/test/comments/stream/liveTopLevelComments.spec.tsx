@@ -1,15 +1,16 @@
+import { act, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   SubscriptionToCommentEnteredResolver,
 } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import {
   comments,
@@ -17,14 +18,14 @@ import {
   stories,
   storyWithNoComments,
 } from "../../fixtures";
-import create from "./create";
+import { createContext } from "../create";
 
 const story = stories[0];
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context, subscriptionHandler } = create({
+  const { context, subscriptionHandler } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -43,67 +44,23 @@ async function createTestRenderer(
     },
   });
 
+  customRenderAppWithContext(context);
+  const container = await screen.findByTestId("comments-allComments-log");
+
   return {
-    testRenderer,
     context,
+    container,
     subscriptionHandler,
   };
 }
 it("should view more when ordering by newest", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer();
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
+  const { container, subscriptionHandler } = await createTestRenderer();
   const commentData = comments[5];
 
   expect(subscriptionHandler.has("commentEntered")).toBe(true);
-  expect(() =>
-    within(container).getByTestID(`comment-${commentData.id}`)
-  ).toThrow();
-
-  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
-    "commentEntered",
-    (variables) => {
-      if (variables.storyID !== story.id) {
-        return;
-      }
-      if (variables.ancestorID) {
-        return;
-      }
-      return {
-        comment: commentData,
-      };
-    }
-  );
-
-  const viewMoreButton = await waitForElement(() =>
-    within(testRenderer.root).getByText("View 1 New Comment", {
-      exact: false,
-      selector: "button",
-    })
-  );
-  viewMoreButton.props.onClick();
-  within(container).getByTestID(`comment-${commentData.id}`);
-});
-
-it("should load more when ordering by oldest", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer({
-    initLocalState: (localRecord) => {
-      localRecord.setValue("CREATED_AT_ASC", "commentsOrderBy");
-    },
-  });
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
-  const commentData = comments[5];
-
-  expect(subscriptionHandler.has("commentEntered")).toBe(true);
-  expect(() =>
-    within(testRenderer.root).getByText("Load More", {
-      exact: false,
-      selector: "button",
-    })
-  ).toThrow();
+  expect(
+    within(container).queryByTestId(`comment-${commentData.id}`)
+  ).not.toBeInTheDocument();
 
   await act(async () => {
     subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
@@ -120,18 +77,54 @@ it("should load more when ordering by oldest", async () => {
         };
       }
     );
+  });
 
-    await waitForElement(() =>
-      within(testRenderer.root).getByText("Load More", {
-        exact: false,
-        selector: "button",
-      })
+  const viewMoreButton = await screen.findByRole("button", {
+    name: "View 1 New Comment",
+  });
+  userEvent.click(viewMoreButton);
+  expect(
+    within(container).getByTestId(`comment-${commentData.id}`)
+  ).toBeVisible();
+});
+
+it("should load more when ordering by oldest", async () => {
+  const { subscriptionHandler } = await createTestRenderer({
+    initLocalState: (localRecord) => {
+      localRecord.setValue("CREATED_AT_ASC", "commentsOrderBy");
+    },
+  });
+  const commentData = comments[5];
+
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
+  expect(
+    screen.queryByRole("button", { name: "Load More" })
+  ).not.toBeInTheDocument();
+
+  await act(async () => {
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: commentData,
+        };
+      }
     );
   });
+
+  expect(
+    await screen.findByRole("button", { name: "Load More" })
+  ).toBeVisible();
 });
 
 it("should load more when ordering by oldest even when initial render was empty", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer({
+  const { subscriptionHandler } = await createTestRenderer({
     resolvers: {
       Query: {
         story: () => storyWithNoComments,
@@ -141,15 +134,9 @@ it("should load more when ordering by oldest even when initial render was empty"
       localRecord.setValue("CREATED_AT_ASC", "commentsOrderBy");
     },
   });
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
-  expect(() =>
-    within(testRenderer.root).getByText("Load More", {
-      exact: false,
-      selector: "button",
-    })
-  ).toThrow();
+  expect(
+    screen.queryByRole("button", { name: "Load More" })
+  ).not.toBeInTheDocument();
 
   const commentData = comments[5];
   await act(async () => {
@@ -167,31 +154,25 @@ it("should load more when ordering by oldest even when initial render was empty"
         };
       }
     );
-    await waitForElement(() =>
-      within(testRenderer.root).getByText("Load More", {
-        exact: false,
-        selector: "button",
-      })
-    );
   });
+  expect(
+    await screen.findByRole("button", { name: "Load More" })
+  ).toBeVisible();
 });
 
 it("should not subscribe when story is closed", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer({
+  const { subscriptionHandler } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         stream: () => pureMerge<typeof story>(story, { isClosed: true }),
       },
     }),
   });
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
   expect(subscriptionHandler.has("commentEntered")).toBe(false);
 });
 
 it("should not subscribe when commenting is disabled", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer({
+  const { subscriptionHandler } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         settings: () =>
@@ -203,8 +184,5 @@ it("should not subscribe when commenting is disabled", async () => {
       },
     }),
   });
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
   expect(subscriptionHandler.has("commentEntered")).toBe(false);
 });

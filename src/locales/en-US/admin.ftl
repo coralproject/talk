@@ -18,11 +18,13 @@ role-moderator = Moderator
 role-siteModerator = Site Moderator
 role-organizationModerator = Organization Moderator
 role-staff = Staff
+role-member = Member
 role-commenter = Commenter
 
 role-plural-admin = Admins
 role-plural-moderator = Moderators
 role-plural-staff = Staff
+role-plural-member = Members
 role-plural-commenter = Commenters
 
 comments-react =
@@ -393,10 +395,10 @@ configure-general-guidelines-explanation =
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 #### Bio
-configure-general-memberBio-title = Member bios
+configure-general-memberBio-title = Commenter bios
 configure-general-memberBio-explanation =
-  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as member bios can be reported.
-configure-general-memberBio-label = Allow member bios
+  Allow commenters to add a bio to their profile. Note: This can increase moderator workload as commenter bios can be reported.
+configure-general-memberBio-label = Allow commenter bios
 
 #### Locale
 configure-general-locale-language = Language
@@ -499,6 +501,11 @@ configure-general-flattenReplies-enabled = Flatten replies enabled
 configure-general-flattenReplies-explanation =
   Change how levels of replies display. When enabled, replies to comments can go up to four levels deep before they are no longer indented on the page. When disabled, after a depth of four replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
 
+#### Load everything
+configure-general-loadAllComments-title = Load everything
+configure-general-loadAllComments-explanation = Change how long streams display. When enabled, the reader will have to scroll past all of the comments to get to any content below, no matter how many comments are on the page. When disabled, long comment streams will be paused with a "Load All Comments" button after 20 top-level comments, so that readers can easily move past the comments if they don't want to read them all.
+configure-general-loadAllComments-enabled = Load everything enabled
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
@@ -557,7 +564,7 @@ site-search-textField =
 site-search-textField =
   .placeholder = Search by site name
 site-search-none-found = No sites were found with that search
-specificSitesSelect-validation = You must select at least one site from which to ban/unban the user.
+specificSitesSelect-validation = You must select at least one site.
 
 stories-column-actions = Actions
 stories-column-rescrape = Re-scrape
@@ -730,6 +737,16 @@ configure-moderation-recentCommentHistory-triggerRejectionRate-description =
   over the timeframe above, as a percentage. It does not include
   comments pending for toxicity, spam or pre-moderation.
 
+#### External links for moderators
+configure-moderation-externalLinks-title = External links for moderators
+configure-moderation-externalLinks-profile-explanation = When a URL format is included
+  below, external profile links are added to the user drawer inside the moderation
+  interface. You can use the format $USER_NAME to insert the username or $USER_ID
+  to insert the user’s unique ID number.
+configure-moderation-externalLinks-profile-label = External profile URL pattern
+configure-moderation-externalLinks-profile-input =
+  .placeholder = https://example.com/users/$USER_NAME
+
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
@@ -739,6 +756,8 @@ configure-moderation-preModeration-moderation =
   Pre-moderate all comments
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate all comments containing links
+
+#### Moderation all/specific sites options
 configure-moderation-specificSites = Specific sites
 configure-moderation-allSites = All sites
 
@@ -858,6 +877,11 @@ configure-wordList-suspect-wordListDetailInstructions =
 configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-override =
   URL of a CSS stylesheet that will override default Embed Stream styles.
+configure-advanced-customCSS-stylesheetURL = Custom CSS Stylesheet URL
+configure-advanced-customCSS-fontsStylesheetURL = Custom CSS Stylesheet URL for Font Faces
+configure-advanced-customCSS-containsFontFace =
+  URL to a custom CSS stylesheet that contains all @font-face
+  definitions needed by above stylesheet.
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
@@ -969,9 +993,11 @@ moderate-marker-repeatPost = Repeat comment
 moderate-marker-other = Other
 
 moderate-markers-details = Details
+moderate-flagDetails-latestReports = Latest reports
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
 
 moderate-flagDetails-toxicityScore = Toxicity Score
@@ -1070,6 +1096,9 @@ moderate-user-drawer-created-at =
   .title = Account creation date
 moderate-user-drawer-member-id =
   .title = Member ID
+moderate-user-drawer-external-profile-URL =
+  .title = External profile URL
+moderate-user-drawer-external-profile-URL-link = External profile URL
 moderate-user-drawer-tab-all-comments = All Comments
 moderate-user-drawer-tab-rejected-comments = Rejected
 moderate-user-drawer-tab-account-history = Account History
@@ -1241,14 +1270,20 @@ community-filter-statusSelectField =
 community-changeRoleButton =
   .aria-label = Change role
 
-community-assignMySites = Assign my sites
-community-removeMySites = Remove my sites
+community-assignMySitesToModerator = Assign moderator to my sites
+community-removeMySitesFromModerator = Remove moderator from my sites
+community-assignMySitesToMember = Assign member to my sites
+community-removeMySitesFromMember = Remove member from my sites
 community-stillHaveSiteModeratorPrivileges = They will still have Site Moderator privileges for:
+community-stillHaveMemberPrivileges = They will still have Member privileges for:
 community-userNoLongerPermitted = User will no longer be permitted to make moderation decisions or assign suspensions on:
+community-memberNoLongerPermitted = User will no longer receive Member privileges on:
 community-assignThisUser = Assign this user to
 community-assignYourSitesTo = Assign your sites to <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
+community-membersArePermitted = Members are permitted to receive a badge on the sites they are assigned.
 community-removeSiteModeratorPermissions = Remove Site Moderator permissions
+community-removeMemberPermissions = Remove Member permissions
 
 community-filter-optGroupAudience =
   .label = Audience
@@ -1271,7 +1306,7 @@ community-column-status = Status
 community-role-popover =
   .description = A dropdown to change the user role
 
-community-siteModeratorActions-popover =
+community-siteRoleActions-popover =
   .description = A dropdown to promote/demote a user to/from sites
 
 community-userStatus-popover =
@@ -1341,15 +1376,16 @@ community-premodModal-consequence =
 community-premodModal-cancel = Cancel
 community-premodModal-premodUser = Yes, always pre-moderate
 
-community-siteModeratorModal-assignSites =
+community-siteRoleModal-assignSites =
   Assign sites for <strong>{ $username }</strong>
-community-siteModeratorModal-assignSitesDescription =
+community-siteRoleModal-assignSitesDescription-siteModerator =
   Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
-community-siteModeratorModal-cancel = Cancel
-community-siteModeratorModal-assign = Assign
-community-siteModeratorModal-remove = Remove
-community-siteModeratorModal-selectSites = Select sites to moderate
-community-siteModeratorModal-noSites = No sites
+community-siteRoleModal-cancel = Cancel
+community-siteRoleModal-assign = Assign
+community-siteRoleModal-remove = Remove
+community-siteRoleModal-selectSites-siteModerator = Select sites to moderate
+community-siteRoleModal-selectSites-member = Select sites for this user to be a member of
+community-siteRoleModal-noSites = No sites
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
@@ -1502,23 +1538,24 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
-configure-general-staff-title = Staff member badge
-configure-general-staff-explanation =
-  Show a custom badge for staff members of your organization. This badge
-  appears on the comment stream and in the admin interface.
-configure-general-staff-label = Badge text
-configure-general-staff-input =
+configure-general-badges-title = Member badges
+configure-general-badges-explanation =
+  Show a custom badge for users with specified roles. This badge appears
+  on the comment stream and in the admin interface.
+configure-general-badges-label = Badge text
+configure-general-badges-staff-member-input =
   .placeholder = E.g. Staff
-configure-general-staff-moderator-input =
+configure-general-badges-moderator-input =
   .placeholder = E.g. Moderator
-configure-general-staff-admin-input =
+configure-general-badges-admin-input =
   .placeholder = E.g. Admin
-configure-general-staff-preview = Preview
-configure-general-staff-moderator-preview = Preview
-configure-general-staff-admin-preview = Preview
-configure-general-staff-member-label = Staff member badge text
-configure-general-staff-admin-label = Admin badge text
-configure-general-staff-moderator-label = Moderator badge text
+configure-general-badges-member-input =
+  .placeholder = E.g. Member
+configure-general-badges-preview = Preview
+configure-general-badges-staff-member-label = Staff member badge text
+configure-general-badges-admin-label = Admin badge text
+configure-general-badges-moderator-label = Moderator badge text
+configure-general-badges-member-label = Member badge text
 
 configure-general-rte-title = Rich-text comments
 configure-general-rte-express = Give your community more ways to express themselves beyond plain text with rich-text formatting.

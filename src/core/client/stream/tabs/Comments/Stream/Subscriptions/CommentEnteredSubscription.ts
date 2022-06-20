@@ -7,6 +7,7 @@ import {
 
 import {
   createSubscription,
+  LOCAL_ID,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -154,6 +155,13 @@ function insertReply(
   } else {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
+
+    const local = store.get(LOCAL_ID);
+    if (local) {
+      const currentRepliesCount =
+        (local.getValue("viewNewRepliesCount") as number) || 0;
+      local.setValue(currentRepliesCount + 1, "viewNewRepliesCount");
+    }
   }
 }
 

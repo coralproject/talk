@@ -5,22 +5,20 @@ import { graphql } from "react-relay";
 import {
   QueryRenderData,
   QueryRenderer,
-  withLocalStateContainer,
+  useLocal,
 } from "coral-framework/lib/relay";
 import { Delay, Flex, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { AnsweredCommentsQuery as QueryTypes } from "coral-stream/__generated__/AnsweredCommentsQuery.graphql";
-import { AnsweredCommentsQueryLocal as Local } from "coral-stream/__generated__/AnsweredCommentsQueryLocal.graphql";
+import { AnsweredCommentsQueryLocal } from "coral-stream/__generated__/AnsweredCommentsQueryLocal.graphql";
 
 import AnsweredCommentsContainer from "./AnsweredCommentsContainer";
 
-interface Props {
-  local: Local;
-  preload?: boolean;
-}
-
 export const render = (data: QueryRenderData<QueryTypes>) => {
+  if (!data) {
+    return;
+  }
   if (data.error) {
     return <QueryError error={data.error} />;
   }
@@ -60,10 +58,16 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
-  const {
-    local: { storyID, storyURL, commentsOrderBy },
-  } = props;
+const AnsweredCommentsQuery: FunctionComponent = () => {
+  const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
+    AnsweredCommentsQueryLocal
+  >(graphql`
+    fragment AnsweredCommentsQueryLocal on Local {
+      storyID
+      storyURL
+      commentsOrderBy
+    }
+  `);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -89,19 +93,9 @@ const AnsweredCommentsQuery: FunctionComponent<Props> = (props) => {
         storyURL,
         commentsOrderBy,
       }}
-      render={(data) => (props.preload ? null : render(data))}
+      render={(data) => render(data)}
     />
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment AnsweredCommentsQueryLocal on Local {
-      storyID
-      storyURL
-      commentsOrderBy
-    }
-  `
-)(AnsweredCommentsQuery);
-
-export default enhanced;
+export default AnsweredCommentsQuery;

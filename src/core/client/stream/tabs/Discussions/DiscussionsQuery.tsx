@@ -3,49 +3,36 @@ import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 import { graphql } from "react-relay";
 
-import { polyfillCSSVars } from "coral-framework/helpers";
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import {
   QueryRenderData,
   QueryRenderer,
-  withLocalStateContainer,
+  useLocal,
 } from "coral-framework/lib/relay";
 import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
 import { DiscussionsQuery as QueryTypes } from "coral-stream/__generated__/DiscussionsQuery.graphql";
-import { DiscussionsQueryLocal as Local } from "coral-stream/__generated__/DiscussionsQueryLocal.graphql";
+import { DiscussionsQueryLocal } from "coral-stream/__generated__/DiscussionsQueryLocal.graphql";
 
 const loadDiscussionsContainer = () =>
   import("./DiscussionsContainer" /* webpackChunkName: "profile" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
-const preloadAndPolyfill = once((window: Window) =>
+const preload = once(() =>
   setTimeout(() => {
-    void loadDiscussionsContainer().then((x) => {
-      // New css is loaded, take care of polyfilling those css vars for IE11.
-      void polyfillCSSVars(window);
-      return x;
-    });
+    void loadDiscussionsContainer();
   }, 0)
 );
 
 const LazyDiscussionsContainer = React.lazy(loadDiscussionsContainer);
 
-interface Props {
-  local: Local;
-}
-
-export const render = (
-  { error, props }: QueryRenderData<QueryTypes>,
-  window: Window
-) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return <QueryError error={error} />;
   }
 
-  preloadAndPolyfill(window);
+  preload();
 
   if (props) {
     if (!props.viewer) {
@@ -82,10 +69,13 @@ export const render = (
   );
 };
 
-const DiscussionsQuery: FunctionComponent<Props> = ({
-  local: { storyID, storyURL },
-}) => {
-  const { window } = useCoralContext();
+const DiscussionsQuery: FunctionComponent = () => {
+  const [{ storyID, storyURL }] = useLocal<DiscussionsQueryLocal>(graphql`
+    fragment DiscussionsQueryLocal on Local {
+      storyID
+      storyURL
+    }
+  `);
   const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <QueryRenderer<QueryTypes>
@@ -110,19 +100,10 @@ const DiscussionsQuery: FunctionComponent<Props> = ({
         if (handleIncompleteAccount(data)) {
           return null;
         }
-        return render(data, window);
+        return render(data);
       }}
     />
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment DiscussionsQueryLocal on Local {
-      storyID
-      storyURL
-    }
-  `
-)(DiscussionsQuery);
-
-export default enhanced;
+export default DiscussionsQuery;

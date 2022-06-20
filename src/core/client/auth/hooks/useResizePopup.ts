@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import useResizeObserver from "use-resize-observer/polyfilled";
+import useResizeObserver from "use-resize-observer";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 

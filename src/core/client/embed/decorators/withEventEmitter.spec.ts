@@ -2,36 +2,160 @@ import sinon from "sinon";
 
 import withEventEmitter from "./withEventEmitter";
 
-it("should emit events from pym to eventEmitter", () => {
-  const eventEmitterMock = {
-    emit: sinon.mock().once().withArgs("eventName", "value"),
-  };
-  const fakePym = {
-    onMessage: (type: string, callback: (raw: string) => void) => {
-      if (type !== "event") {
-        return;
-      }
-      callback(JSON.stringify({ eventName: "eventName", value: "value" }));
+it("should emit special events like `ready`", () => {
+  const emitStub = sinon.stub();
+  const cases = [
+    {
+      eventName: "ready",
+      streamEventName: "ready",
+      value: "",
     },
-    el: document.createElement("div"),
+  ];
+  cases.forEach((c) => {
+    emitStub.withArgs(c.eventName, c.value);
+  });
+  const embedEventEmitterMock = {
+    emit: emitStub,
   };
-  withEventEmitter(eventEmitterMock as any)(fakePym as any, null as any);
-  eventEmitterMock.emit.verify();
+  const fakeStreamEventEmitter = {
+    onAny: (callback: (eventName: string, value: string) => void) => {
+      cases.forEach((c) => {
+        callback(c.streamEventName, c.value);
+      });
+    },
+  };
+  withEventEmitter(fakeStreamEventEmitter as any, embedEventEmitterMock as any);
+  expect(emitStub.callCount).toBe(cases.length);
 });
 
-it("should emit ready event from pym to eventEmitter", () => {
-  const eventEmitterMock = {
-    emit: sinon.mock().once().withArgs("ready"),
-  };
-  const fakePym = {
-    onMessage: (type: string, callback: () => void) => {
-      if (type !== "ready") {
-        return;
-      }
-      callback();
+it("should emit viewer events", () => {
+  const emitStub = sinon.stub();
+  const cases = [
+    {
+      eventName: "eventName",
+      streamEventName: "viewer.eventName",
+      value: "value",
     },
-    el: document.createElement("div"),
+  ];
+  cases.forEach((c) => {
+    emitStub.withArgs(c.eventName, c.value);
+  });
+  const embedEventEmitterMock = {
+    emit: emitStub,
   };
-  withEventEmitter(eventEmitterMock as any)(fakePym as any, null as any);
-  eventEmitterMock.emit.verify();
+  const fakeStreamEventEmitter = {
+    onAny: (callback: (eventName: string, value: string) => void) => {
+      cases.forEach((c) => {
+        callback(c.streamEventName, c.value);
+      });
+    },
+  };
+  withEventEmitter(fakeStreamEventEmitter as any, embedEventEmitterMock as any);
+  expect(emitStub.callCount).toBe(cases.length);
+});
+
+it("should emit deprecated events when activated", () => {
+  const enableDeprecatedEvents = true;
+  const emitStub = sinon.stub();
+  const cases = [
+    {
+      eventName: "ready",
+      streamEventName: "ready",
+      value: "value",
+    },
+    {
+      eventName: "mutation.eventName",
+      streamEventName: "mutation.eventName",
+      value: "value",
+    },
+    {
+      eventName: "subscription.eventName",
+      streamEventName: "subscription.eventName",
+      value: "value",
+    },
+    {
+      eventName: "fetch.eventName",
+      streamEventName: "fetch.eventName",
+      value: "value",
+    },
+  ];
+  cases.forEach((c) => {
+    emitStub.withArgs(c.eventName, c.value);
+  });
+  const embedEventEmitterMock = {
+    emit: emitStub,
+  };
+  const fakeStreamEventEmitter = {
+    onAny: (callback: (eventName: string, value: string) => void) => {
+      cases.forEach((c) => {
+        callback(c.streamEventName, c.value);
+      });
+    },
+  };
+  withEventEmitter(
+    fakeStreamEventEmitter as any,
+    embedEventEmitterMock as any,
+    enableDeprecatedEvents
+  );
+  expect(emitStub.callCount).toBe(cases.length);
+});
+
+it("should not emit deprecated events when activated", () => {
+  const enableDeprecatedEvents = false;
+  const emitStub = sinon.stub();
+  const cases = [
+    {
+      eventName: "ready",
+      streamEventName: "ready",
+      value: "value",
+    },
+    {
+      eventName: "mutation.eventName",
+      streamEventName: "mutation.eventName",
+      value: "value",
+    },
+    {
+      eventName: "subscription.eventName",
+      streamEventName: "subscription.eventName",
+      value: "value",
+    },
+    {
+      eventName: "fetch.eventName",
+      streamEventName: "fetch.eventName",
+      value: "value",
+    },
+  ];
+  cases.forEach((c) => {
+    emitStub.withArgs(c.eventName, c.value);
+  });
+  const embedEventEmitterMock = {
+    emit: emitStub,
+  };
+  const fakeStreamEventEmitter = {
+    onAny: (callback: (eventName: string, value: string) => void) => {
+      cases.forEach((c) => {
+        callback(c.streamEventName, c.value);
+      });
+    },
+  };
+  withEventEmitter(
+    fakeStreamEventEmitter as any,
+    embedEventEmitterMock as any,
+    enableDeprecatedEvents
+  );
+  expect(emitStub.callCount).toBe(1);
+});
+
+it("should not emit unknown events", () => {
+  const emitStub = sinon.stub();
+  const embedEventEmitterMock = {
+    emit: emitStub,
+  };
+  const fakeStreamEventEmitter = {
+    onAny: (callback: (eventName: string, value: string) => void) => {
+      callback("unknown", "value");
+    },
+  };
+  withEventEmitter(fakeStreamEventEmitter as any, embedEventEmitterMock as any);
+  expect(emitStub.callCount).toBe(0);
 });

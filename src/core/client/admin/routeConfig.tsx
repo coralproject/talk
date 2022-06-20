@@ -1,7 +1,8 @@
 import { makeRouteConfig, Redirect, Route } from "found";
-import React from "react";
+import React, { FunctionComponent } from "react";
 
 import { GQLUSER_ROLE } from "coral-framework/schema";
+import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
 
 import MainRoute from "./App/MainRoute";
 import { Ability } from "./permissions";
@@ -47,8 +48,13 @@ import {
 import SingleModerateRoute from "./routes/Moderate/SingleModerate";
 import StoriesRoute from "./routes/Stories";
 
+/** Small wrapper that omits router props */
+const CoralContainer: FunctionComponent = ({ children }) => (
+  <CoralWindowContainer>{children}</CoralWindowContainer>
+);
+
 export default makeRouteConfig(
-  <Route path="admin">
+  <Route path="admin" Component={CoralContainer}>
     <Route
       {...createAuthCheckRoute({ role: GQLUSER_ROLE.MODERATOR }).routeConfig}
     >

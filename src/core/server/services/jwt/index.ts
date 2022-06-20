@@ -453,7 +453,12 @@ export function verifyJWT(
       clockTimestamp: Math.floor(now.getTime() / 1000),
     }) as object;
   } catch (err) {
-    throw new TokenInvalidError(tokenString, "token validation error", err);
+    throw new TokenInvalidError(
+      tokenString,
+      "token validation error",
+      undefined,
+      err
+    );
   }
 }
 
@@ -461,6 +466,11 @@ export function decodeJWT(tokenString: string) {
   try {
     return jwt.decode(tokenString, {}) as StandardClaims;
   } catch (err) {
-    throw new TokenInvalidError(tokenString, "token validation error", err);
+    throw new TokenInvalidError(
+      tokenString,
+      "token validation error",
+      undefined,
+      err
+    );
   }
 }

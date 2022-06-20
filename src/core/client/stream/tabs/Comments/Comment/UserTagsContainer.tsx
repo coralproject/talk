@@ -11,7 +11,7 @@ import { UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsCo
 import { UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
 import { UserTagsContainer_story } from "coral-stream/__generated__/UserTagsContainer_story.graphql";
 
-import StaffTagContainer from "./StaffTagContainer";
+import BadgeTagContainer from "./BadgeTagContainer";
 
 import styles from "./UserTagsContainer.css";
 
@@ -28,6 +28,10 @@ function storyIsInQAMode(story: UserTagsContainer_story) {
 
 function tagStrings(comment: UserTagsContainer_comment): GQLTAG_RL[] {
   return comment.tags.map((t) => t.code);
+}
+
+function hasMemberTag(comment: UserTagsContainer_comment) {
+  return comment.tags.some((t) => t.code === GQLTAG.MEMBER);
 }
 
 function hasStaffTag(comment: UserTagsContainer_comment) {
@@ -53,7 +57,8 @@ function hasExpertTag(
 export function commentHasTags(story: any, comment: any) {
   const staffTag = hasStaffTag(comment);
   const expertTag = hasExpertTag(story, comment);
-  const hasTags = staffTag || expertTag;
+  const memberTag = hasMemberTag(comment);
+  const hasTags = staffTag || expertTag || memberTag;
 
   return hasTags;
 }
@@ -66,6 +71,7 @@ const UserTagsContainer: FunctionComponent<Props> = ({
 }) => {
   const staffTag = hasStaffTag(comment);
   const expertTag = hasExpertTag(story, comment);
+  const memberTag = hasMemberTag(comment);
   const hasTags = commentHasTags(story, comment);
 
   if (!hasTags) {
@@ -84,8 +90,8 @@ const UserTagsContainer: FunctionComponent<Props> = ({
           </Flex>
         </Tag>
       )}
-      {staffTag && (
-        <StaffTagContainer
+      {(staffTag || memberTag) && (
+        <BadgeTagContainer
           settings={settings}
           tags={tagStrings(comment)}
           className={className}
@@ -112,7 +118,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment UserTagsContainer_settings on Settings {
-      ...StaffTagContainer_settings
+      ...BadgeTagContainer_settings
     }
   `,
 })(UserTagsContainer);

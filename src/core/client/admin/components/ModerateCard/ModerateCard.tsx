@@ -229,7 +229,7 @@ const ModerateCard: FunctionComponent<Props> = ({
                   <CommentAuthorContainer comment={comment} />
                 </>
               )}
-              <Timestamp>{createdAt}</Timestamp>
+              <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
               {edited && (
                 <Localized id="moderate-comment-edited">
                   <span className={styles.edited}>(edited)</span>
@@ -242,11 +242,9 @@ const ModerateCard: FunctionComponent<Props> = ({
               />
             </Flex>
             {inReplyTo && inReplyTo.username && (
-              <div className={styles.inReplyTo}>
-                <InReplyTo onUsernameClick={commentParentAuthorClick}>
-                  {inReplyTo.username}
-                </InReplyTo>
-              </div>
+              <InReplyTo onUsernameClick={commentParentAuthorClick}>
+                {inReplyTo.username}
+              </InReplyTo>
             )}
           </div>
           {rating && (

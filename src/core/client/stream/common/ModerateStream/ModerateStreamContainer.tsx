@@ -2,11 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-framework/helpers";
-import {
-  withFragmentContainer,
-  withLocalStateContainer,
-} from "coral-framework/lib/relay";
+import { useModerationLink } from "coral-framework/hooks";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import CLASSES from "coral-stream/classes";
 import { Button } from "coral-ui/components/v3";
@@ -17,29 +14,33 @@ import { ModerateStreamContainer_viewer } from "coral-stream/__generated__/Moder
 import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
 
 interface Props {
-  local: ModerateStreamContainerLocal;
   settings: ModerateStreamContainer_settings;
   viewer: ModerateStreamContainer_viewer | null;
   story: ModerateStreamContainer_story;
 }
 
 const ModerateStreamContainer: FunctionComponent<Props> = ({
-  local: { accessToken },
   settings,
   story: { id, canModerate, isArchived, isArchiving },
   viewer,
 }) => {
+  const link = useModerationLink({ storyID: id });
+  const [{ accessToken }] = useLocal<ModerateStreamContainerLocal>(graphql`
+    fragment ModerateStreamContainerLocal on Local {
+      accessToken
+    }
+  `);
   const href = useMemo(() => {
-    let link = getModerationLink({ storyID: id });
+    let ret = link;
     if (
       accessToken &&
       settings.auth.integrations.sso.enabled &&
       settings.auth.integrations.sso.targetFilter.admin
     ) {
-      link += `#accessToken=${accessToken}`;
+      ret += `#accessToken=${accessToken}`;
     }
 
-    return link;
+    return ret;
   }, [accessToken, settings, id]);
 
   if (!canModerate || !viewer || !can(viewer, Ability.MODERATE)) {
@@ -94,12 +95,6 @@ const enhanced = withFragmentContainer<Props>({
       role
     }
   `,
-})(
-  withLocalStateContainer(graphql`
-    fragment ModerateStreamContainerLocal on Local {
-      accessToken
-    }
-  `)(ModerateStreamContainer)
-);
+})(ModerateStreamContainer);
 
 export default enhanced;

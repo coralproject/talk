@@ -2,8 +2,6 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes, useCallback } from "react";
 
-import getAriaPoliteMacOSWorkaround from "coral-framework/helpers/getAriaPoliteMacOSWorkaround";
-import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { BaseButton, Icon } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 
@@ -58,7 +56,6 @@ const CallOut: FunctionComponent<Props> = ({
   role,
   ...rest
 }) => {
-  const { window } = useCoralContext();
   const rootClasses = cn(
     classes.root,
     {
@@ -104,17 +101,7 @@ const CallOut: FunctionComponent<Props> = ({
       {iconPosition === "left" && icon !== null && (
         <div className={iconClasses}>{icon}</div>
       )}
-      <div
-        className={classes.content}
-        role={role}
-        aria-live={
-          // TODO: (cvle) VoiceOver on mac has a bug reading this message twice when
-          // content is in an iframe...
-          ariaLive === "polite"
-            ? getAriaPoliteMacOSWorkaround(window)
-            : ariaLive
-        }
-      >
+      <div className={classes.content} role={role} aria-live={ariaLive}>
         {title !== null && <div className={titleClasses}>{title}</div>}
         <div className={classes.body}>{children}</div>
       </div>

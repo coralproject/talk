@@ -27,8 +27,8 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
+  getDefaultBadgeConfiguration,
   getDefaultReactionConfiguration,
-  getDefaultStaffConfiguration,
 } from "./helpers";
 
 /**
@@ -256,7 +256,7 @@ export async function createTenant(
       },
     },
     reaction: getDefaultReactionConfiguration(bundle),
-    staff: getDefaultStaffConfiguration(bundle),
+    badges: getDefaultBadgeConfiguration(bundle),
     stories: {
       scraping: {
         enabled: true,
@@ -272,6 +272,10 @@ export async function createTenant(
     newCommenters: {
       premodEnabled: false,
       approvedCommentsThreshold: 2,
+      moderation: {
+        mode: GQLMODERATION_MODE.POST,
+        premodSites: [],
+      },
     },
     premoderateSuspectWords: false,
     createdAt: now,
@@ -282,7 +286,9 @@ export async function createTenant(
     rte: defaultRTEConfiguration,
     amp: false,
     flattenReplies: false,
+    disableDefaultFonts: false,
     emailDomainModeration: [],
+    loadAllComments: true,
   };
 
   // Create the new Tenant by merging it together with the defaults.

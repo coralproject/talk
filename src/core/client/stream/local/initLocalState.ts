@@ -2,11 +2,9 @@ import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
 import { StaticConfig } from "coral-common/config";
 import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
-import { parseQuery } from "coral-common/utils";
 import { isStoryMode } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
 import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";
-import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import {
   createAndRetain,
   fetchQuery,
@@ -22,6 +20,7 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 interface ResolvedConfig {
   readonly featureFlags: string[];
   readonly flattenReplies?: boolean | null;
+  readonly loadAllComments: boolean;
 }
 
 async function resolveConfig(
@@ -52,29 +51,30 @@ async function resolveConfig(
   return {
     featureFlags: [],
     flattenReplies: false,
+    loadAllComments: true,
   };
+}
+
+interface Options {
+  storyID?: string;
+  storyURL?: string;
+  storyMode?: string;
+  commentID?: string;
+  customCSSURL?: string;
+  accessToken?: string;
+  version?: string;
+  amp?: boolean;
 }
 
 /**
  * Initializes the local state, before we start the App.
  */
-const initLocalState: InitLocalState = async ({
-  environment,
-  context,
-  auth = null,
-  staticConfig,
-  ...rest
-}) => {
-  const config = await getExternalConfig(context.window, context.pym);
-  if (config) {
-    if (config.accessToken) {
-      // Access tokens passed via the config should not be persisted.
-      auth = parseAccessToken(config.accessToken);
-    }
-    // append body class name if set in config.
-    if (config.bodyClassName) {
-      context.window.document.body.classList.add(config.bodyClassName);
-    }
+export const createInitLocalState: (options: Options) => InitLocalState = (
+  options
+) => async ({ environment, context, auth = null, staticConfig, ...rest }) => {
+  if (options.accessToken) {
+    // Access tokens passed via the config should not be persisted.
+    auth = parseAccessToken(options.accessToken);
   }
 
   await initLocalBaseState({
@@ -98,24 +98,21 @@ const initLocalState: InitLocalState = async ({
     const root = s.getRoot();
     const localRecord = root.getLinkedRecord("local")!;
 
-    // Parse query params
-    const query = parseQuery(location.search);
-
-    if (query.storyID) {
-      localRecord.setValue(query.storyID, "storyID");
+    if (options.storyID) {
+      localRecord.setValue(options.storyID, "storyID");
     }
 
-    if (query.storyURL) {
-      localRecord.setValue(query.storyURL, "storyURL");
+    if (options.storyURL) {
+      localRecord.setValue(options.storyURL, "storyURL");
     }
 
-    if (query.storyMode && isStoryMode(query.storyMode)) {
-      localRecord.setValue(query.storyMode, "storyMode");
+    if (options.storyMode && isStoryMode(options.storyMode)) {
+      localRecord.setValue(options.storyMode, "storyMode");
     }
 
     // This will trigger single comment view.
-    if (query.commentID) {
-      localRecord.setValue(query.commentID, "commentID");
+    if (options.commentID) {
+      localRecord.setValue(options.commentID, "commentID");
     }
 
     // Set sort
@@ -157,9 +154,11 @@ const initLocalState: InitLocalState = async ({
     );
 
     // Version as reported by the embed.js
-    localRecord.setValue(config?.version, "embedVersion");
+    localRecord.setValue(options?.version, "embedVersion");
 
-    localRecord.setValue(Boolean(config?.amp), "amp");
+    localRecord.setValue(Boolean(options?.amp), "amp");
+
+    localRecord.setValue(options?.customCSSURL, "customCSSURL");
 
     const archivingEnabled = staticConfig?.archivingEnabled || false;
     const autoArchiveOlderThanMs =
@@ -168,5 +167,3 @@ const initLocalState: InitLocalState = async ({
     localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
   });
 };
-
-export default initLocalState;

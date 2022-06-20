@@ -1,16 +1,22 @@
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { pureMerge } from "coral-common/utils";
 import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
-  waitForElement,
-  waitUntilThrow,
-  within,
 } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
-import { featuredTag, moderators, settings, stories } from "../../fixtures";
-import create from "./create";
+import {
+  featuredTag,
+  moderators,
+  settings,
+  settingsWithMultisite,
+  stories,
+} from "../../fixtures";
+import { createContext } from "../create";
 
 function createStory() {
   const base = stories[0];
@@ -30,7 +36,7 @@ const viewer = moderators[0];
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -50,48 +56,38 @@ async function createTestRenderer(
       }
     },
   });
-
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
-  );
+  customRenderAppWithContext(context);
+  const tabPane = await screen.findByTestId("current-tab-pane");
 
   return {
-    testRenderer,
     context,
     tabPane,
   };
 }
 
 it("render moderation view link", async () => {
-  const { testRenderer } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  );
+  await createTestRenderer();
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
-  const link = within(comment).getByText("Moderation view", {
-    selector: "a",
-    exact: false,
-  });
-  expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
+  userEvent.click(caretButton);
+  const link = within(comment).getByRole("link", { name: "Moderation view" });
+  expect(link).toHaveAttribute(
+    "href",
+    `/admin/moderate/comment/${firstComment.id}`
+  );
 });
 
 it("render moderate story link", async () => {
-  const { testRenderer } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  );
+  await createTestRenderer();
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
-  const link = within(comment).getByText("Moderate story", {
-    selector: "a",
-    exact: false,
-  });
-  expect(link.props.href).toBe(`/admin/moderate/stories/${story.id}`);
+  userEvent.click(caretButton);
+  const link = within(comment).getByRole("link", { name: "Moderate story" });
+  expect(link).toHaveAttribute("href", `/admin/moderate/stories/${story.id}`);
 });
 
 it("feature and unfeature comment", async () => {
-  const { testRenderer } = await createTestRenderer({
+  await createTestRenderer({
     logNetwork: false,
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
@@ -116,51 +112,34 @@ it("feature and unfeature comment", async () => {
       },
     }),
   });
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  );
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
 
   // Feature
-  act(() => {
-    caretButton.props.onClick();
+  userEvent.click(caretButton);
+  const featureButton = within(comment).getByRole("button", {
+    name: "Feature",
   });
-  const featureButton = await waitForElement(() =>
-    within(comment).getByText("Feature", {
-      selector: "button",
-    })
-  );
-  await act(async () => {
-    featureButton.props.onClick();
-    await waitForElement(() =>
-      within(comment).getByText("Featured", { exact: false })
-    );
-  });
-
-  within(
-    within(testRenderer.root).getByTestID("comments-featuredCount")
-  ).getByText("1");
+  fireEvent.click(featureButton);
+  expect(within(comment).getByText("Featured")).toBeVisible();
+  expect(
+    within(screen.getByTestId("comments-featuredCount")).getByText("1")
+  ).toBeVisible();
 
   // Unfeature
-  act(() => {
-    caretButton.props.onClick();
+  userEvent.click(caretButton);
+  const unfeatureButton = within(comment).getByRole("button", {
+    name: "Un-feature",
   });
-  const UnfeatureButton = within(comment).getByText("Un-feature", {
-    selector: "button",
-  });
-  await act(async () => {
-    UnfeatureButton.props.onClick();
-    await waitUntilThrow(() =>
-      within(comment).getByText("Featured", { exact: false })
-    );
-  });
-  expect(() =>
-    within(testRenderer.root).getByTestID("comments-featuredCount")
-  ).toThrow();
+  fireEvent.click(unfeatureButton);
+  expect(await within(comment).findByText("Featured")).not.toBeInTheDocument();
+  expect(
+    screen.queryByTestId("comments-featuredCount")
+  ).not.toBeInTheDocument();
 });
 
 it("approve comment", async () => {
-  const { testRenderer } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         approveComment: ({ variables }) => {
@@ -177,22 +156,18 @@ it("approve comment", async () => {
       },
     }),
   });
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  );
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
-  const approveButton = within(comment).getByText("Approve", {
-    selector: "button",
+  userEvent.click(caretButton);
+  const approveButton = within(comment).getByRole("button", {
+    name: "Approve",
   });
-  approveButton.props.onClick();
-  await waitForElement(() =>
-    within(comment).getByText("Approved", { exact: false })
-  );
+  fireEvent.click(approveButton);
+  expect(await within(comment).findByText("Approved")).toBeInTheDocument();
 });
 
 it("reject comment", async () => {
-  const { testRenderer, tabPane } = await createTestRenderer({
+  const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         rejectComment: ({ variables }) => {
@@ -209,34 +184,25 @@ it("reject comment", async () => {
       },
     }),
   });
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  );
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
-  const rejectButton = within(comment).getByText("Reject", {
-    selector: "button",
+  userEvent.click(caretButton);
+  const rejectButton = within(comment).getByRole("button", { name: "Reject" });
+  fireEvent.click(rejectButton);
+  expect(
+    within(tabPane).getByText("You have rejected this comment.")
+  ).toBeVisible();
+  const link = within(tabPane).getByRole("link", {
+    name: "Go to moderate to review this decision",
   });
-  act(() => {
-    rejectButton.props.onClick();
-  });
-  await waitForElement(() =>
-    within(tabPane).getByText("You have rejected this comment", {
-      exact: false,
-    })
+  expect(link).toHaveAttribute(
+    "href",
+    `/admin/moderate/comment/${firstComment.id}`
   );
-  const link = within(tabPane).getByText(
-    "Go to moderate to review this decision",
-    {
-      selector: "a",
-      exact: false,
-    }
-  );
-  expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
 });
 
 it("ban user", async () => {
-  const { testRenderer, tabPane } = await createTestRenderer({
+  const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         user: ({ variables }) => {
@@ -249,6 +215,7 @@ it("ban user", async () => {
           expectAndFail(variables).toMatchObject({
             userID: firstComment.author!.id,
             rejectExistingComments: false,
+            siteIDs: [],
           });
           return {
             user: pureMerge<typeof firstComment.author>(firstComment.author, {
@@ -274,39 +241,28 @@ it("ban user", async () => {
       },
     }),
   });
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  );
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
-
-  await act(async () => {
-    const banButton = await waitForElement(() => {
-      const el = within(comment).getByText("Ban User", {
-        selector: "button",
-      });
-      expect(el.props.disabled).toBeFalsy();
-      return el;
-    });
-    banButton.props.onClick();
+  userEvent.click(caretButton);
+  await waitFor(() => {
+    expect(
+      within(comment).getByRole("button", { name: "Ban User" })
+    ).not.toBeDisabled();
   });
-
-  await act(async () => {
-    const banButtonDialog = within(comment).getByText("Ban", {
-      selector: "button",
-    });
-    banButtonDialog.props.onClick();
-  });
-
-  await waitForElement(() =>
-    within(tabPane).getByText("You have rejected this comment", {
-      exact: false,
-    })
-  );
+  // this is not multisite, so there should be no Site Ban option
+  expect(
+    within(comment).queryByRole("button", { name: "Site Ban" })
+  ).not.toBeInTheDocument();
+  fireEvent.click(within(comment).getByRole("button", { name: "Ban User" }));
+  const banButtonDialog = await screen.findByRole("button", { name: "Ban" });
+  fireEvent.click(banButtonDialog);
+  expect(
+    await within(tabPane).findByText("You have rejected this comment.")
+  ).toBeVisible();
 });
 
 it("cancel ban user", async () => {
-  const { testRenderer } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         user: ({ variables }) => {
@@ -316,33 +272,97 @@ it("cancel ban user", async () => {
       },
     }),
   });
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
-  );
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  caretButton.props.onClick();
-
-  await act(async () => {
-    const banButton = await waitForElement(() => {
-      const el = within(comment).getByText("Ban User", {
-        selector: "button",
-      });
-      expect(el.props.disabled).toBeFalsy();
-      return el;
-    });
-    banButton.props.onClick();
+  userEvent.click(caretButton);
+  await waitFor(() => {
+    expect(
+      within(comment).getByRole("button", { name: "Ban User" })
+    ).not.toBeDisabled();
   });
-
-  await act(async () => {
-    const cancelButtonDialog = within(comment).getByText("Cancel", {
-      selector: "button",
-    });
-    cancelButtonDialog.props.onClick();
+  fireEvent.click(within(comment).getByRole("button", { name: "Ban User" }));
+  const cancelButtonDialog = await screen.findByRole("button", {
+    name: "Cancel",
   });
+  fireEvent.click(cancelButtonDialog);
 
   expect(
-    within(comment).queryByText("Ban", {
-      selector: "button",
-    })
-  ).toBeNull();
+    within(comment).queryByRole("button", { name: "Ban" })
+  ).not.toBeInTheDocument();
+});
+
+it("site moderator can site ban commenter", async () => {
+  const { tabPane } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        user: ({ variables }) => {
+          expectAndFail(variables.id).toBe(firstComment.author!.id);
+          return firstComment.author!;
+        },
+        settings: () => settingsWithMultisite,
+        viewer: () => moderators[1],
+      },
+      Mutation: {
+        banUser: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            userID: firstComment.author!.id,
+            rejectExistingComments: false,
+            siteIDs: ["site-id"],
+          });
+          return {
+            user: pureMerge<typeof firstComment.author>(firstComment.author, {
+              status: {
+                ban: {
+                  active: true,
+                },
+              },
+            }),
+          };
+        },
+        rejectComment: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            commentID: firstComment.id,
+            commentRevisionID: firstComment.revision!.id,
+          });
+          return {
+            comment: pureMerge<typeof firstComment>(firstComment, {
+              status: GQLCOMMENT_STATUS.REJECTED,
+            }),
+          };
+        },
+      },
+    }),
+  });
+
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+  const caretButton = within(comment).getByLabelText("Moderate");
+  userEvent.click(caretButton);
+
+  // Site moderator has Site Ban option but not Ban User option
+  const siteBanButton = await within(comment).findByRole("button", {
+    name: "Site Ban",
+  });
+  await waitFor(() => {
+    expect(siteBanButton).not.toBeDisabled();
+  });
+  expect(
+    within(comment).queryByRole("button", { name: "Ban User" })
+  ).not.toBeInTheDocument();
+  fireEvent.click(siteBanButton);
+  expect(
+    await screen.findByText("Ban Markus from this site?")
+  ).toBeInTheDocument();
+
+  const banButtonDialog = screen.getByRole("button", { name: "Ban" });
+  fireEvent.click(banButtonDialog);
+  expect(
+    within(tabPane).getByText("You have rejected this comment.")
+  ).toBeVisible();
+  const link = within(tabPane).getByRole("link", {
+    name: "Go to moderate to review this decision",
+  });
+  expect(link).toHaveAttribute(
+    "href",
+    `/admin/moderate/comment/${firstComment.id}`
+  );
 });

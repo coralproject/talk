@@ -9,13 +9,13 @@ exports[`renders correctly 1`] = `
   }
   id="userMenu-popover"
 >
-  <withPropsOnChange(withUIContext(Popover))
+  <withPropsOnChange(Popover)
     body={[Function]}
     description="A dialog of the user menu with related links and actions"
     id="userMenu"
     placement="bottom-end"
   >
     [Function]
-  </withPropsOnChange(withUIContext(Popover))>
+  </withPropsOnChange(Popover)>
 </Localized>
 `;

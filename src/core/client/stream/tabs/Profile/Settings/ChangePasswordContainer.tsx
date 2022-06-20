@@ -2,10 +2,11 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
+  useLocal,
   useMutation,
   withFragmentContainer,
-  withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import SetAuthPopupStateMutation from "coral-stream/common/AuthPopup/SetAuthPopupStateMutation";
@@ -17,27 +18,29 @@ import { ChangePasswordContainerLocal } from "coral-stream/__generated__/ChangeP
 import ChangePassword from "./ChangePassword";
 
 interface Props {
-  local: ChangePasswordContainerLocal;
   settings: ChangePasswordContainer_settings;
 }
 
-const ChangePasswordContainer: FunctionComponent<Props> = ({
-  settings,
-  local: {
-    authPopup: { open, focus, view },
-  },
-}) => {
+const ChangePasswordContainer: FunctionComponent<Props> = ({ settings }) => {
+  const [
+    {
+      authPopup: { open, focus, view },
+    },
+  ] = useLocal<ChangePasswordContainerLocal>(graphql`
+    fragment ChangePasswordContainerLocal on Local {
+      authPopup {
+        open
+        focus
+        view
+      }
+    }
+  `);
+  const { rootURL } = useCoralContext();
   const setAuthPopupState = useMutation(SetAuthPopupStateMutation);
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const onResetPassword = useCallback(() => {
     void showAuthPopup({ view: "FORGOT_PASSWORD" });
   }, [showAuthPopup]);
-  const onFocus = useCallback(() => {
-    void setAuthPopupState({ focus: true });
-  }, [setAuthPopupState]);
-  const onBlur = useCallback(() => {
-    void setAuthPopupState({ focus: true });
-  }, [setAuthPopupState]);
   const onClose = useCallback(() => {
     void setAuthPopupState({ open: false });
   }, [setAuthPopupState]);
@@ -52,12 +55,10 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({
   return (
     <>
       <Popup
-        href={`${urls.embed.auth}?view=${view}`}
+        href={`${rootURL}${urls.embed.auth}?view=${view}`}
         title="Coral Auth"
         open={open}
         focus={focus}
-        onFocus={onFocus}
-        onBlur={onBlur}
         onClose={onClose}
       />
       <ChangePassword onResetPassword={onResetPassword} />
@@ -65,33 +66,21 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment ChangePasswordContainerLocal on Local {
-      authPopup {
-        open
-        focus
-        view
-      }
-    }
-  `
-)(
-  withFragmentContainer<Props>({
-    settings: graphql`
-      fragment ChangePasswordContainer_settings on Settings {
-        auth {
-          integrations {
-            local {
-              enabled
-              targetFilter {
-                stream
-              }
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment ChangePasswordContainer_settings on Settings {
+      auth {
+        integrations {
+          local {
+            enabled
+            targetFilter {
+              stream
             }
           }
         }
       }
-    `,
-  })(ChangePasswordContainer)
-);
+    }
+  `,
+})(ChangePasswordContainer);
 
 export default enhanced;

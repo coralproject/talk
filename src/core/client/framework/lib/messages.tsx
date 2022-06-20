@@ -129,3 +129,12 @@ export const INVALID_MEDIA_URL = () => (
     <span>Please enter a valid image URL (.png, .jpg, or .gif)</span>
   </Localized>
 );
+
+export const INVALID_EXTERNAL_PROFILE_URL = () => (
+  <Localized id="framework-validation-invalidExternalProfileURL">
+    <span>
+      All external profile URL patterns must contain either $USER_NAME or
+      $USER_ID.
+    </span>
+  </Localized>
+);

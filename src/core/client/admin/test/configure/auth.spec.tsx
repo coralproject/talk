@@ -1,4 +1,4 @@
-import { cloneDeep } from "lodash";
+import { cloneDeep, noop } from "lodash";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
@@ -153,7 +153,9 @@ it("prevents admin lock out", async () => {
 
   // Send form
   await act(async () =>
-    findParentWithType(container, "form")!.props.onSubmit()
+    findParentWithType(container, "form")!.props.onSubmit({
+      preventDefault: noop,
+    })
   );
   await waitForElement(() =>
     within(testRenderer.root).getByText(
@@ -206,7 +208,7 @@ it("prevents stream lock out", async () => {
     act(() => streamTarget.props.onChange(false));
 
     // Send form
-    await act(async () => await form.props.onSubmit());
+    await act(async () => await form.props.onSubmit({ preventDefault: noop }));
 
     // Submit button should not be disabled because we canceled the submit.
     await wait(() => expect(saveChanges.props.disabled).toBe(false));
@@ -216,7 +218,7 @@ it("prevents stream lock out", async () => {
 
     window.confirm = stubContinue;
     // Send form
-    await act(async () => await form.props.onSubmit());
+    await act(async () => await form.props.onSubmit({ preventDefault: noop }));
 
     expect(stubContinue.calledOnce).toBe(true);
   } finally {
@@ -314,7 +316,7 @@ it("change settings", async () => {
 
   // Send form
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
   // Submit button should be disabled.
   expect(saveChanges.props.disabled).toBe(true);
@@ -337,7 +339,7 @@ it("change settings", async () => {
 
   // Try to submit form, this will give validation error messages.
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
 
   within(oidcContainer).getAllByText("This field is required", {
@@ -376,7 +378,7 @@ it("change settings", async () => {
 
   // Try to submit again, this should work now.
   act(() => {
-    form.props.onSubmit();
+    form.props.onSubmit({ preventDefault: noop });
   });
   // Submit button should be disabled.
   expect(saveChanges.props.disabled).toBe(true);

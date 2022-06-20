@@ -38,6 +38,20 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
   flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),
   forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
+  disableDefaultFonts: ({ disableDefaultFonts }) =>
+    Boolean(disableDefaultFonts),
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
+  loadAllComments: ({ loadAllComments = true }) => loadAllComments,
+  badges: ({ badges, staff }, args, ctx) => {
+    const badgeConfig = badges || staff;
+
+    return badgeConfig;
+  },
+  staff: ({ staff, badges }, args, ctx) => {
+    // Default to new badges config if present
+    const deprecated = badges || staff;
+
+    return deprecated;
+  },
 };

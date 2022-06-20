@@ -2,7 +2,7 @@ import { omit } from "lodash";
 import sinon from "sinon";
 
 import { Fixture } from "./createFixture";
-import { Resolver } from "./createTestRenderer";
+import { Resolver } from "./createTestContext";
 
 export type NoClientMutationID<T> = T extends { clientMutationId: any }
   ? Omit<T, "clientMutationId">

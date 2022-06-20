@@ -113,6 +113,7 @@ createComment.error
 - <a href="#requestAccountDeletion">requestAccountDeletion</a>
 - <a href="#requestDownloadCommentHistory">requestDownloadCommentHistory</a>
 - <a href="#resendEmailVerification">resendEmailVerification</a>
+- <a href="#scrollCommentUpOutOfView">scrollCommentUpOutOfView</a>
 - <a href="#setCommentsOrderBy">setCommentsOrderBy</a>
 - <a href="#setCommentsTab">setCommentsTab</a>
 - <a href="#setMainTab">setMainTab</a>
@@ -144,6 +145,7 @@ createComment.error
 - <a href="#viewFullDiscussion">viewFullDiscussion</a>
 - <a href="#viewNewComments">viewNewComments</a>
 - <a href="#viewNewCommentsNetwork">viewNewCommentsNetwork</a>
+- <a href="#viewNewRepliesNetwork">viewNewRepliesNetwork</a>
 
 ### Events
 - <a id="approveComment">**approveComment.success**, **approveComment.error**</a>: This event is emitted when the viewer approves a comment.
@@ -466,6 +468,12 @@ createComment.error
       };
   }
   ```
+- <a id="scrollCommentUpOutOfView">**scrollCommentUpOutOfView**</a>: This event is emitted when the viewer scrolls a comment up and out of view on the stream.
+  ```ts
+  {
+      commentID?: string | undefined;
+  }
+  ```
 - <a id="setCommentsOrderBy">**setCommentsOrderBy**</a>: This event is emitted when the viewer changes the sort order of the comments.
   ```ts
   {
@@ -668,6 +676,22 @@ createComment.error
   }
   ```
 - <a id="viewNewCommentsNetwork">**viewNewCommentsNetwork.success**, **viewNewCommentsNetwork.error**</a>: This event is emitted when the viewer reveals new live comments.
+  ```ts
+  {
+      storyID?: string | undefined;
+      keyboardShortcutsConfig: {
+          source: string;
+          key: string;
+          reverse: boolean;
+      } | null;
+      success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
+  }
+  ```
+- <a id="viewNewRepliesNetwork">**viewNewRepliesNetwork.success**, **viewNewRepliesNetwork.error**</a>: This event is emitted when the viewer reveals new live replies to comments.
   ```ts
   {
       storyID?: string | undefined;

@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
@@ -68,21 +69,23 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
               return (
                 <>
                   <DeletedTombstoneContainer comment={comment}>
-                    <CommentContainer
-                      viewer={viewer}
-                      comment={comment}
-                      story={story}
-                      collapsed={collapsed && collapseEnabled}
-                      settings={settings}
-                      indentLevel={indentLevel}
-                      localReply={localReply}
-                      disableReplies={disableReplies}
-                      showConversationLink={!!showConversationLink}
-                      toggleCollapsed={
-                        collapseEnabled ? toggleCollapsed : undefined
-                      }
-                      showRemoveAnswered={showRemoveAnswered}
-                    />
+                    <IntersectionProvider threshold={[0, 1]}>
+                      <CommentContainer
+                        viewer={viewer}
+                        comment={comment}
+                        story={story}
+                        collapsed={collapsed && collapseEnabled}
+                        settings={settings}
+                        indentLevel={indentLevel}
+                        localReply={localReply}
+                        disableReplies={disableReplies}
+                        showConversationLink={!!showConversationLink}
+                        toggleCollapsed={
+                          collapseEnabled ? toggleCollapsed : undefined
+                        }
+                        showRemoveAnswered={showRemoveAnswered}
+                      />
+                    </IntersectionProvider>
                   </DeletedTombstoneContainer>
                   <div
                     className={cn({

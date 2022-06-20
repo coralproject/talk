@@ -98,7 +98,7 @@ comments-postCommentForm-submit = Kirim
 comments-replyList-showAll = Tampilkan semua
 comments-replyList-showMoreReplies = Tampilkan semua balasan
 
-comments-postCommentForm-gifSearch = Cari GIF
+comments-postComment-gifSearch = Cari GIF
 comments-postComment-gifSearch-search =
   .aria-label = Cari
 comments-postComment-gifSearch-loading = Memuat...

@@ -7,7 +7,6 @@ import { PropTypesOf } from "coral-ui/types";
 import Backdrop from "../Backdrop";
 import NoScroll from "../NoScroll";
 import TrapFocus from "../TrapFocus";
-import Portal from "./Portal";
 
 import styles from "./Modal.css";
 
@@ -26,7 +25,6 @@ export interface ModalProps {
   open?: boolean;
   children?: PropTypesOf<typeof TrapFocus>["children"];
   disableScroll?: boolean;
-  PortalElement?: React.ReactElement;
 }
 
 export const Modal: FunctionComponent<ModalProps> = ({
@@ -38,7 +36,6 @@ export const Modal: FunctionComponent<ModalProps> = ({
   onEscapeKeyDown,
   children,
   disableScroll = false,
-  PortalElement,
   ...rest
 }) => {
   const rootClassName = cn(classes.root, className);
@@ -96,16 +93,10 @@ export const Modal: FunctionComponent<ModalProps> = ({
         </div>
       </div>
     );
-    if (!PortalElement) {
-      return content;
-    }
-    return React.cloneElement(PortalElement, { children: content });
+
+    return content;
   }
   return null;
-};
-
-Modal.defaultProps = {
-  PortalElement: <Portal />,
 };
 
 const enhanced = withStyles(styles)(Modal);

@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Match, Router, withRouter } from "found";
+import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -33,8 +33,6 @@ enum NEW_USER_MODERATION {
 }
 
 interface Props {
-  router: Router;
-  match: Match;
   emailDomain?: {
     readonly domain: string;
     readonly id: string;
@@ -42,9 +40,10 @@ interface Props {
   };
 }
 
-const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
+const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain }) => {
   const create = useMutation(CreateEmailDomainMutation);
   const update = useMutation(UpdateEmailDomainMutation);
+  const { router } = useRouter();
   const onSubmit = useCallback(async (input) => {
     try {
       if (emailDomain) {
@@ -187,6 +186,4 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain, router }) => {
   );
 };
 
-const enhanced = withRouter(EmailDomainForm);
-
-export default enhanced;
+export default EmailDomainForm;
