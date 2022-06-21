@@ -27,7 +27,7 @@ export class RegenerateStoryTreesQueue {
       jobName: JOB_NAME,
       jobProcessor: createJobProcessor(options),
       queue,
-      timeout: 0,
+      timeout: 8 * 60 * 60 * 1000, // 8 hours * 60 min * 60 secs * 1000 ms
     });
 
     this.tenantCache = options.tenantCache;
