@@ -59,8 +59,8 @@ export const jobStatusHandler = ({
 }: AppOptions): RequestHandler<TenantCoralRequest> => {
   const ipLimiter = new RequestLimiter({
     redis,
-    ttl: "10m",
-    max: 10,
+    ttl: "1m",
+    max: 2,
     prefix: "ip",
     config,
   });
@@ -82,7 +82,7 @@ export const jobStatusHandler = ({
 
       const { name }: JobStatusQuery = validate(JobStatusQuerySchema, req.body);
 
-      const status = getJobStatus(name, mongo, tenant.id);
+      const status = await getJobStatus(name, mongo, tenant.id);
 
       if (!status) {
         return res.status(400).end();

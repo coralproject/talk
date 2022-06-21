@@ -47,7 +47,6 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { healthHandler, versionHandler } from "./handlers";
-import { jobStatusHandler } from "./handlers/api/jobStatus";
 import { compileTrust } from "./helpers";
 import { basicAuth } from "./middleware/basicAuth";
 import { accessLogger } from "./middleware/logging";
@@ -118,9 +117,6 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
   // Configure the version route.
   parent.get("/api/version", versionHandler);
-
-  // Configure job status route.
-  parent.get("/api/jobStatus", jobStatusHandler(options));
 
   // Configure the SSL requirement after the health check endpoint.
   configureApplicationHTTPS(options);
