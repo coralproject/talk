@@ -370,6 +370,7 @@ class Server {
       reporter: this.reporter,
       schema: this.schema,
       scraperQueue: this.tasks.scraper,
+      regenerateStoryTreesQueue: this.tasks.regenerateStoryTrees,
       signingConfig: this.signingConfig,
       tenantCache: this.tenantCache,
       webhookQueue: this.tasks.webhook,
