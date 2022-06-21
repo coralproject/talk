@@ -33,6 +33,7 @@ import {
   GQLGenerateStoryTreeInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
+  GQLRegenerateStoryTreesInput,
   GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
@@ -194,8 +195,15 @@ export const Stories = (ctx: GraphContext) => ({
     await generateTreeForStory(ctx.mongo, ctx.tenant.id, input.storyID);
     return { storyID: input.storyID };
   },
-  regenerateStoryTrees: async () => {
-    await ctx.regenerateStoryTreesQueue.add({ tenantID: ctx.tenant.id });
+  regenerateStoryTrees: async ({
+    disableCommenting,
+    disableCommentingMessage,
+  }: GQLRegenerateStoryTreesInput) => {
+    await ctx.regenerateStoryTreesQueue.add({
+      tenantID: ctx.tenant.id,
+      disableCommenting: !!disableCommenting,
+      disableCommentingMessage,
+    });
 
     return true;
   },

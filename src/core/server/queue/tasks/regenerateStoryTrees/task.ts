@@ -13,6 +13,8 @@ import {
 
 export interface RegenerateStoryTreesInput {
   tenantID: string;
+  disableCommenting: boolean;
+  disableCommentingMessage?: string;
 }
 
 export class RegenerateStoryTreesQueue {
@@ -37,7 +39,11 @@ export class RegenerateStoryTreesQueue {
     return this.task.counts();
   }
 
-  public async add({ tenantID }: RegenerateStoryTreesInput) {
+  public async add({
+    tenantID,
+    disableCommenting,
+    disableCommentingMessage,
+  }: RegenerateStoryTreesInput) {
     const log = logger.child(
       {
         jobName: JOB_NAME,
@@ -54,6 +60,8 @@ export class RegenerateStoryTreesQueue {
 
     return this.task.add({
       tenantID,
+      disableCommenting,
+      disableCommentingMessage,
     });
   }
 
