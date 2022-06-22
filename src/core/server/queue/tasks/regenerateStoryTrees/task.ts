@@ -13,6 +13,7 @@ import {
 
 export interface RegenerateStoryTreesInput {
   tenantID: string;
+  jobID: string;
   disableCommenting: boolean;
   disableCommentingMessage?: string;
 }
@@ -41,6 +42,7 @@ export class RegenerateStoryTreesQueue {
 
   public async add({
     tenantID,
+    jobID,
     disableCommenting,
     disableCommentingMessage,
   }: RegenerateStoryTreesInput) {
@@ -60,6 +62,7 @@ export class RegenerateStoryTreesQueue {
 
     return this.task.add({
       tenantID,
+      jobID,
       disableCommenting,
       disableCommentingMessage,
     });

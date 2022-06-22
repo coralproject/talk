@@ -21,6 +21,7 @@ import {
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
+import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
   GQLCOMMENT_SORT,
@@ -1454,10 +1455,24 @@ async function executeBulkStoryTreeWrites(
 
 export async function regenerateStoryTrees(
   mongo: MongoContext,
+  redis: AugmentedRedis,
   tenantID: string,
+  jobID: string,
   logger: Logger
 ) {
   const BATCH_SIZE = 25;
+
+  const expectedTotal = await mongo
+    .stories()
+    .find({
+      tenantID,
+      isArchived: { $in: [null, false] },
+      isArchiving: { $in: [null, false] },
+    })
+    .count();
+
+  await redis.set(`jobStatus:${jobID}:expectedTotal`, expectedTotal);
+  await redis.set(`jobStatus:${jobID}:completed`, 0);
 
   const cursor = mongo.stories().find({
     tenantID,
@@ -1507,6 +1522,8 @@ export async function regenerateStoryTrees(
       } finally {
         operations = [];
         count = 0;
+
+        await redis.set(`jobStatus:${jobID}:completed`, totalCount);
       }
     }
   }

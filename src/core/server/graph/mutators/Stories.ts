@@ -1,4 +1,5 @@
 import { isNull, omitBy } from "lodash";
+import { v4 as uuid } from "uuid";
 
 import { ERROR_CODES } from "coral-common/errors";
 import GraphContext from "coral-server/graph/context";
@@ -199,12 +200,18 @@ export const Stories = (ctx: GraphContext) => ({
     disableCommenting,
     disableCommentingMessage,
   }: GQLRegenerateStoryTreesInput) => {
+    const jobID = uuid();
+
     await ctx.regenerateStoryTreesQueue.add({
       tenantID: ctx.tenant.id,
+      jobID,
       disableCommenting: !!disableCommenting,
       disableCommentingMessage,
     });
 
-    return true;
+    return {
+      accepted: true,
+      jobID,
+    };
   },
 });

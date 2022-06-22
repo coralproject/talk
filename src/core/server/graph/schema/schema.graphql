@@ -8785,6 +8785,11 @@ type RegenerateStoryTreesPayload {
   accepted is whether the regeneration request was accepted.
   """
   accepted: Boolean!
+
+  """
+  jobID is the jobID for the regeneration request.
+  """
+  jobID: String
 }
 
 ##################

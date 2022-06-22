@@ -4,17 +4,19 @@ import Joi from "joi";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
-import { MongoContext } from "coral-server/data/context";
+import { AugmentedRedis } from "coral-server/services/redis";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 const JobStatusQuerySchema = Joi.object().keys({
   name: Joi.string().required(),
+  jobID: Joi.string().required(),
 });
 
 interface JobStatusQuery {
   name: string;
+  jobID: string;
 }
 
 interface JobStatus {
@@ -26,20 +28,16 @@ interface JobStatus {
 
 const getJobStatus = async (
   name: string,
-  mongo: MongoContext,
-  tenantID: string
+  redis: AugmentedRedis,
+  jobID: string
 ): Promise<JobStatus | null> => {
   const lowerName = name.toLowerCase();
   if (lowerName === "regeneratestorytrees") {
-    const total = await mongo
-      .stories()
-      .find({ tenantID, isArchived: { $exists: false } })
-      .count();
+    const totalStr = await redis.get(`jobStatus:${jobID}:expectedTotal`);
+    const completeStr = await redis.get(`jobStatus:${jobID}:completed`);
 
-    const processed = await mongo
-      .stories()
-      .find({ tenantID, tree: { $exists: true } })
-      .count();
+    const total = totalStr ? parseInt(totalStr, 10) : 0;
+    const processed = completeStr ? parseInt(completeStr, 10) : 0;
 
     return {
       name,
@@ -53,7 +51,6 @@ const getJobStatus = async (
 };
 
 export const jobStatusHandler = ({
-  mongo,
   redis,
   config,
 }: AppOptions): RequestHandler<TenantCoralRequest> => {
@@ -69,8 +66,6 @@ export const jobStatusHandler = ({
     try {
       await ipLimiter.test(req, req.ip);
 
-      const { tenant } = req.coral;
-
       const requestingUser = req.user;
       if (!requestingUser) {
         throw new AuthenticationError("no user on request");
@@ -80,9 +75,12 @@ export const jobStatusHandler = ({
         throw new AuthenticationError("user must be an admin");
       }
 
-      const { name }: JobStatusQuery = validate(JobStatusQuerySchema, req.body);
+      const { name, jobID }: JobStatusQuery = validate(
+        JobStatusQuerySchema,
+        req.body
+      );
 
-      const status = await getJobStatus(name, mongo, tenant.id);
+      const status = await getJobStatus(name, redis, jobID);
 
       if (!status) {
         return res.status(400).end();

@@ -26,12 +26,14 @@ export interface RegenerateStoryTreesProcessorOptions {
 
 export interface RegenerateStoryTreesData {
   tenantID: string;
+  jobID: string;
   disableCommenting: boolean;
   disableCommentingMessage?: string;
 }
 
 const RegenerateStoryTreeDataSchema = Joi.object().keys({
   tenantID: Joi.string(),
+  jobID: Joi.string(),
   disableCommenting: Joi.boolean(),
   disableCommentingMessage: Joi.string().optional(),
 });
@@ -64,6 +66,7 @@ export const createJobProcessor = (
 
     const {
       tenantID,
+      jobID,
       disableCommenting,
       disableCommentingMessage,
     }: RegenerateStoryTreesData = data;
@@ -127,7 +130,7 @@ export const createJobProcessor = (
     }
 
     // Do the story tree regeneration
-    await regenerateStoryTrees(mongo, tenantID, log);
+    await regenerateStoryTrees(mongo, redis, tenantID, jobID, log);
 
     // Re-enable commenting if we previously disabled it because
     // of the disableCommenting flag
