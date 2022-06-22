@@ -964,7 +964,23 @@ async function findChildren(
     });
 }
 
+function flattenForDeepNestedComment(
+  comment: StoryTreeComment,
+  rootIndex: number,
+  result: FlattenedTreeComment[]
+) {
+  result.push({ ...comment, rootIndex });
+
+  // Default ordering in story tree is newest first, but replies are
+  // always oldest first order, so we need to flip this around.
+  for (let i = 0; i <= comment.replies.length; i++) {
+    const reply = comment.replies[i];
+    flattenForDeepNestedComment(reply, rootIndex, result);
+  }
+}
+
 async function createTree(
+  depth: number,
   root: Readonly<StoryTreeComment>,
   comments: Readonly<Comment>[]
 ) {
@@ -977,8 +993,15 @@ async function createTree(
 
   const children = await findChildren(root, comments);
   for (const child of children) {
-    const subTree = await createTree(child, comments);
+    const subTree = await createTree(depth + 1, child, comments);
     tree.replies.push(subTree);
+  }
+
+  // Handle super deep comment streams
+  if (depth >= MAX_ANCESTORS) {
+    const flattenedTree: FlattenedTreeComment[] = [];
+    flattenForDeepNestedComment(tree, 0, flattenedTree);
+    tree.replies = flattenedTree.length > 1 ? flattenedTree.slice(1) : [];
   }
 
   return tree;
@@ -1012,6 +1035,7 @@ async function createTreeFromComments(comments: Readonly<Comment>[]) {
 
   for (const rootComment of rootComments) {
     const subTree = await createTree(
+      1,
       {
         id: rootComment.id,
         authorID: rootComment.authorID,
