@@ -127,7 +127,7 @@ export const createJobProcessor = (
     }
 
     // Do the story tree regeneration
-    await regenerateStoryTrees(mongo, tenantID);
+    await regenerateStoryTrees(mongo, tenantID, log);
 
     // Re-enable commenting if we previously disabled it because
     // of the disableCommenting flag

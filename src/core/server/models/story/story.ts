@@ -10,6 +10,7 @@ import {
   StoryNotFoundError,
   UserNotFoundError,
 } from "coral-server/errors";
+import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import {
   Connection,
@@ -1429,20 +1430,28 @@ async function executeBulkStoryTreeWrites(
 
 export async function regenerateStoryTrees(
   mongo: MongoContext,
-  tenantID: string
+  tenantID: string,
+  logger: Logger
 ) {
   const BATCH_SIZE = 100;
 
   const cursor = mongo.stories().find({
     tenantID,
-    isArchiving: { $in: [null, false] },
     isArchived: { $in: [null, false] },
+    isArchiving: { $in: [null, false] },
   });
 
   let operations = [];
   let count = 0;
+  let totalCount = 0;
   let story = await cursor.next();
   while (story !== null) {
+    // We don't want to process archiving/archived stories.
+    // They will be processed when they are un-archived.
+    if (story.isArchived || story.isArchiving) {
+      continue;
+    }
+
     const comments = await mongo
       .comments()
       .find({ tenantID, storyID: story.id })
@@ -1455,16 +1464,23 @@ export async function regenerateStoryTrees(
 
     story = await cursor.next();
     count++;
+    totalCount++;
 
     if (count >= BATCH_SIZE) {
       await executeBulkStoryTreeWrites(mongo, operations);
       operations = [];
+      count = 0;
     }
   }
 
   if (operations.length > 0) {
     await executeBulkStoryTreeWrites(mongo, operations);
   }
+
+  logger.info(
+    { totalCount },
+    "finished regenerating story trees bulk operation"
+  );
 
   return true;
 }
