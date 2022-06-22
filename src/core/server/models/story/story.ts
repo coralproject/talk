@@ -1444,8 +1444,15 @@ export async function regenerateStoryTrees(
   let operations = [];
   let count = 0;
   let totalCount = 0;
-  let story = await cursor.next();
-  while (story !== null) {
+  while (await cursor.hasNext()) {
+    const story = await cursor.next();
+
+    // If the story is null for whatever reason, continue and
+    // let the cursor.hasNext() handle it to break the loop
+    if (story === null) {
+      continue;
+    }
+
     // We don't want to process archiving/archived stories.
     // They will be processed when they are un-archived.
     if (story.isArchived || story.isArchiving) {
@@ -1462,7 +1469,6 @@ export async function regenerateStoryTrees(
     const operation = computeWriteStoryToTreeUpdate(tenantID, story.id, tree);
     operations.push(operation);
 
-    story = await cursor.next();
     count++;
     totalCount++;
 
