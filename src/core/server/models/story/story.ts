@@ -1433,7 +1433,7 @@ export async function regenerateStoryTrees(
   tenantID: string,
   logger: Logger
 ) {
-  const BATCH_SIZE = 100;
+  const BATCH_SIZE = 25;
 
   const cursor = mongo.stories().find({
     tenantID,
@@ -1441,7 +1441,7 @@ export async function regenerateStoryTrees(
     isArchiving: { $in: [null, false] },
   });
 
-  let operations = [];
+  let operations: StoryTreeUpdate[] = [];
   let count = 0;
   let totalCount = 0;
   while (await cursor.hasNext()) {
@@ -1473,9 +1473,17 @@ export async function regenerateStoryTrees(
     totalCount++;
 
     if (count >= BATCH_SIZE) {
-      await executeBulkStoryTreeWrites(mongo, operations);
-      operations = [];
-      count = 0;
+      try {
+        await executeBulkStoryTreeWrites(mongo, operations);
+      } catch (err) {
+        logger.warn(
+          { tenantID, storyIDs: operations.map((s) => s.filter.id) },
+          err.message
+        );
+      } finally {
+        operations = [];
+        count = 0;
+      }
     }
   }
 
