@@ -1321,6 +1321,7 @@ function flattenTree(
 
 export async function findNextUnseenVisibleCommentID(
   mongo: MongoContext,
+  logger: Logger,
   tenantID: string,
   storyID: string,
   userID: string,
@@ -1338,9 +1339,30 @@ export async function findNextUnseenVisibleCommentID(
     );
   }
 
-  const story = await mongo.stories().findOne({ tenantID, id: storyID });
+  let story = await mongo.stories().findOne({ tenantID, id: storyID });
   if (!story) {
     throw new StoryNotFoundError(storyID);
+  }
+
+  if (story && story.isArchived && !story.tree) {
+    await generateTreeForStory(
+      mongo,
+      logger,
+      tenantID,
+      storyID,
+      !!story.isArchived
+    );
+
+    story = await mongo.stories().findOne({ tenantID, id: storyID });
+  }
+
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  // We have no story tree, return nothing and no next index
+  if (!story.tree || story.tree.length === 0) {
+    return { commentID: null, index: null };
   }
 
   const user = await mongo.users().findOne({ tenantID, id: userID });
