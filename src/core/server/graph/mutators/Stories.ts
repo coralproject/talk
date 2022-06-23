@@ -193,7 +193,12 @@ export const Stories = (ctx: GraphContext) => ({
     return stories;
   },
   generateStoryTree: async (input: GQLGenerateStoryTreeInput) => {
-    await generateTreeForStory(ctx.mongo, ctx.tenant.id, input.storyID);
+    await generateTreeForStory(
+      ctx.mongo,
+      ctx.logger,
+      ctx.tenant.id,
+      input.storyID
+    );
     return { storyID: input.storyID };
   },
   regenerateStoryTrees: async ({

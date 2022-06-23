@@ -126,7 +126,7 @@ export async function unarchiveStory(
 
   logger.info("story is able to be unarchived, proceeding");
 
-  await generateTreeForStory(mongo, tenantID, id, true);
+  await generateTreeForStory(mongo, logger, tenantID, id, true);
 
   const targetComments = {
     tenantID,

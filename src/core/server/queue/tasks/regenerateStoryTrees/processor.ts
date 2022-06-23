@@ -74,6 +74,7 @@ export const createJobProcessor = (
     const log = logger.child(
       {
         jobID: job.id,
+        jobStatusID: jobID,
         jobName: JOB_NAME,
         tenantID,
       },

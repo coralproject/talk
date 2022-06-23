@@ -949,7 +949,7 @@ interface StoryTreeComment {
   replies: StoryTreeComment[];
 }
 
-async function findChildren(
+function findChildren(
   root: Readonly<StoryTreeComment>,
   comments: Readonly<Comment>[]
 ) {
@@ -965,30 +965,28 @@ async function findChildren(
     });
 }
 
-function flattenForDeepNestedComment(
-  comment: StoryTreeComment,
-  rootIndex: number,
-  result: FlattenedTreeComment[]
-) {
-  result.push({ ...comment, rootIndex });
-
-  if (!comment.replies || comment.replies.length === 0) {
-    return;
-  }
-
-  // Default ordering in story tree is newest first, but replies are
-  // always oldest first order, so we need to flip this around.
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
-  for (let i = 0; i < comment.replies.length; i++) {
-    const reply = comment.replies[i];
-    flattenForDeepNestedComment(reply, rootIndex, result);
-  }
-}
-
-async function createTree(
-  depth: number,
+function findOffspring(
   root: Readonly<StoryTreeComment>,
   comments: Readonly<Comment>[]
+) {
+  return comments
+    .filter((c) => c.ancestorIDs.includes(root.id))
+    .map((c) => {
+      return {
+        id: c.id,
+        authorID: c.authorID,
+        status: c.status,
+        replies: [],
+      };
+    });
+}
+
+function createTree(
+  storyID: string,
+  depth: number,
+  root: Readonly<StoryTreeComment>,
+  comments: Readonly<Comment>[],
+  logger: Logger
 ) {
   const tree: StoryTreeComment = {
     id: root.id,
@@ -997,17 +995,22 @@ async function createTree(
     replies: [],
   };
 
-  const children = await findChildren(root, comments);
-  for (const child of children) {
-    const subTree = await createTree(depth + 1, child, comments);
-    tree.replies.push(subTree);
-  }
-
-  // Handle super deep comment streams
   if (depth >= MAX_ANCESTORS) {
-    const flattenedTree: FlattenedTreeComment[] = [];
-    flattenForDeepNestedComment(tree, 0, flattenedTree);
-    tree.replies = flattenedTree.length > 1 ? flattenedTree.slice(1) : [];
+    logger.info(
+      { commentID: root.id, storyID },
+      "depth surpassed max ancestors"
+    );
+
+    const offspring = findOffspring(root, comments);
+    for (const child of offspring) {
+      tree.replies.push(child);
+    }
+  } else {
+    const children = findChildren(root, comments);
+    for (const child of children) {
+      const subTree = createTree(storyID, depth + 1, child, comments, logger);
+      tree.replies.push(subTree);
+    }
   }
 
   return tree;
@@ -1015,6 +1018,7 @@ async function createTree(
 
 export async function generateTreeForStory(
   mongo: MongoContext,
+  logger: Logger,
   tenantID: string,
   storyID: string,
   archived = false
@@ -1028,11 +1032,15 @@ export async function generateTreeForStory(
     .sort({ createdAt: -1 })
     .toArray();
 
-  const tree = await createTreeFromComments(result);
+  const tree = await createTreeFromComments(storyID, result, logger);
   await writeTreeToStory(mongo, tenantID, storyID, tree);
 }
 
-async function createTreeFromComments(comments: Readonly<Comment>[]) {
+async function createTreeFromComments(
+  storyID: string,
+  comments: Readonly<Comment>[],
+  logger: Logger
+) {
   const rootComments = comments.filter(
     (c) => c.parentID === null || c.parentID === undefined
   );
@@ -1040,7 +1048,8 @@ async function createTreeFromComments(comments: Readonly<Comment>[]) {
   const tree: StoryTreeComment[] = [];
 
   for (const rootComment of rootComments) {
-    const subTree = await createTree(
+    const subTree = createTree(
+      storyID,
       1,
       {
         id: rootComment.id,
@@ -1048,7 +1057,8 @@ async function createTreeFromComments(comments: Readonly<Comment>[]) {
         status: rootComment.status,
         replies: [],
       },
-      comments
+      comments,
+      logger
     );
     tree.push(subTree);
   }
@@ -1465,7 +1475,7 @@ export async function regenerateStoryTrees(
   jobID: string,
   logger: Logger
 ) {
-  const BATCH_SIZE = 15;
+  const BATCH_SIZE = 25;
 
   const expectedTotal = await mongo
     .stories()
@@ -1508,7 +1518,7 @@ export async function regenerateStoryTrees(
       .find({ tenantID, storyID: story.id })
       .sort({ createdAt: -1 })
       .toArray();
-    const tree = await createTreeFromComments(comments);
+    const tree = await createTreeFromComments(story.id, comments, logger);
 
     const operation = computeWriteStoryToTreeUpdate(tenantID, story.id, tree);
     operations.push(operation);
