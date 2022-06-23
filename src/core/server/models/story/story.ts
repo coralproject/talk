@@ -1117,30 +1117,34 @@ const createArrayKeyChar = (i: number) => {
 };
 
 const createKey = (ids: string[]) => {
-  if (ids.length > MAX_ANCESTORS) {
-    throw new Error("too many ancestors");
-  }
-
   let key = "tree";
 
   // ancestorIDs are in reverse order. So process this in reverse.
+  let depth = 0;
   for (let i = ids.length - 1; i >= 0; i--) {
+    if (depth >= MAX_ANCESTORS) {
+      break;
+    }
+
     key += `.$[${createArrayKeyChar(i)}].replies`;
+    depth++;
   }
 
   return key;
 };
 
 const createArrayFilters = (ids: string[]) => {
-  if (ids.length > MAX_ANCESTORS) {
-    throw new Error("too many ancestors");
-  }
-
   const filters = [];
 
   // ancestorIDs are in reverse order. So process this in reverse.
+  let depth = 0;
   for (let i = ids.length - 1; i >= 0; i--) {
+    if (depth >= MAX_ANCESTORS) {
+      break;
+    }
+
     filters.push({ [`${createArrayKeyChar(i)}.id`]: ids[i] });
+    depth++;
   }
 
   return filters;
