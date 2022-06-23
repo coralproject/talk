@@ -1570,8 +1570,22 @@ export async function regenerateStoryTrees(
   }
 
   if (operations.length > 0) {
-    await executeBulkStoryTreeWrites(mongo, operations);
+    try {
+      await executeBulkStoryTreeWrites(mongo, operations);
+    } catch (err) {
+      logger.warn(
+        { tenantID, storyIDs: operations.map((s) => s.filter.id) },
+        err.message
+      );
+    } finally {
+      operations = [];
+      count = 0;
+
+      await redis.set(`jobStatus:${jobID}:completed`, totalCount);
+    }
   }
+
+  await redis.set(`jobStatus:${jobID}:ended`, new Date().toUTCString());
 
   logger.info(
     { totalCount },

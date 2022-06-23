@@ -24,6 +24,8 @@ interface JobStatus {
   processed: number;
   total: number;
   percentage: number;
+  started?: string | null;
+  ended?: string | null;
 }
 
 const getJobStatus = async (
@@ -33,6 +35,9 @@ const getJobStatus = async (
 ): Promise<JobStatus | null> => {
   const lowerName = name.toLowerCase();
   if (lowerName === "regeneratestorytrees") {
+    const started = await redis.get(`jobStatus:${jobID}:started`);
+    const ended = await redis.get(`jobStatus:${jobID}:ended`);
+
     const totalStr = await redis.get(`jobStatus:${jobID}:expectedTotal`);
     const completeStr = await redis.get(`jobStatus:${jobID}:completed`);
 
@@ -44,6 +49,8 @@ const getJobStatus = async (
       processed,
       total,
       percentage: (processed / total) * 100.0,
+      started,
+      ended,
     };
   }
 

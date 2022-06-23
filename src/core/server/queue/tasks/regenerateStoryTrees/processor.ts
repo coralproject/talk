@@ -89,6 +89,8 @@ export const createJobProcessor = (
 
     log.info("beginning regeneration of story trees");
 
+    await redis.set(`jobStatus:${jobID}:started`, new Date().toUTCString());
+
     const previousMessage = tenant.disableCommenting.message;
     const hasZKey = hasFeatureFlag(tenant, GQLFEATURE_FLAG.Z_KEY);
     const hasCommentSeen = hasFeatureFlag(tenant, GQLFEATURE_FLAG.COMMENT_SEEN);
