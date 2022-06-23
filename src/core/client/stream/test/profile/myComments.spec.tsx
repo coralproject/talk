@@ -5,9 +5,9 @@ import sinon from "sinon";
 import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
 import { createSinonStub } from "coral-framework/testHelpers";
 
-import { createWithContext } from "./create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { comments, settings, stories, viewerWithComments } from "../fixtures";
+import { createWithContext } from "./create";
 
 interface Options {
   archivingEnabled: boolean;

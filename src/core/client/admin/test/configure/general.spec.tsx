@@ -1,4 +1,5 @@
 import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { SinonStub } from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
@@ -12,9 +13,8 @@ import {
 } from "coral-framework/testHelpers";
 
 import { createContext } from "../create";
-import { settings, users } from "../fixtures";
 import customRenderAppWithContext from "../customRenderAppWithContext";
-import userEvent from "@testing-library/user-event";
+import { settings, users } from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/general");

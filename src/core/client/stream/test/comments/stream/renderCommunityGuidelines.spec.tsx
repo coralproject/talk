@@ -3,8 +3,8 @@ import sinon from "sinon";
 
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
-import { createContext } from "../create";
 import { settings, stories } from "../../fixtures";
+import { createContext } from "../create";
 
 function createTestRenderer() {
   const resolvers = {
@@ -31,7 +31,7 @@ function createTestRenderer() {
   customRenderAppWithContext(context);
 }
 it("renders comment stream with community guidelines", async () => {
-  await createTestRenderer();
+  createTestRenderer();
   const communityGuidelines = await screen.findByText("Community Guidelines");
   expect(communityGuidelines).toBeVisible();
   expect(screen.getByTestId("comments-allComments-log")).toBeVisible();
