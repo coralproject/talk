@@ -1465,7 +1465,7 @@ export async function regenerateStoryTrees(
   jobID: string,
   logger: Logger
 ) {
-  const BATCH_SIZE = 25;
+  const BATCH_SIZE = 15;
 
   const expectedTotal = await mongo
     .stories()
