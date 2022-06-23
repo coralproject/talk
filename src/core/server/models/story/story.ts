@@ -972,9 +972,14 @@ function flattenForDeepNestedComment(
 ) {
   result.push({ ...comment, rootIndex });
 
+  if (!comment.replies || comment.replies.length === 0) {
+    return;
+  }
+
   // Default ordering in story tree is newest first, but replies are
   // always oldest first order, so we need to flip this around.
-  for (let i = 0; i <= comment.replies.length; i++) {
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let i = 0; i < comment.replies.length; i++) {
     const reply = comment.replies[i];
     flattenForDeepNestedComment(reply, rootIndex, result);
   }
