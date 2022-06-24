@@ -14,6 +14,7 @@ import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
+import { RegenerateStoryTreesQueue } from "coral-server/queue/tasks/regenerateStoryTrees/task";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
@@ -47,6 +48,7 @@ export interface GraphContextOptions {
   rejectorQueue: RejectorQueue;
   scraperQueue: ScraperQueue;
   webhookQueue: WebhookQueue;
+  regenerateStoryTreesQueue: RegenerateStoryTreesQueue;
   notifierQueue: NotifierQueue;
   mongo: MongoContext;
   pubsub: RedisPubSub;
@@ -72,6 +74,7 @@ export default class GraphContext {
   public readonly scraperQueue: ScraperQueue;
   public readonly webhookQueue: WebhookQueue;
   public readonly notifierQueue: NotifierQueue;
+  public readonly regenerateStoryTreesQueue: RegenerateStoryTreesQueue;
   public readonly mongo: MongoContext;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
@@ -116,6 +119,7 @@ export default class GraphContext {
     this.rejectorQueue = options.rejectorQueue;
     this.notifierQueue = options.notifierQueue;
     this.webhookQueue = options.webhookQueue;
+    this.regenerateStoryTreesQueue = options.regenerateStoryTreesQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
     this.reporter = options.reporter;

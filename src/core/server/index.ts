@@ -312,6 +312,7 @@ class Server {
       this.tasks.webhook.process();
       this.tasks.rejector.process();
       this.tasks.archiver.process();
+      this.tasks.regenerateStoryTrees.process();
 
       // Start up the cron job processors.
       this.scheduledTasks = startScheduledTasks({
@@ -370,6 +371,7 @@ class Server {
       reporter: this.reporter,
       schema: this.schema,
       scraperQueue: this.tasks.scraper,
+      regenerateStoryTreesQueue: this.tasks.regenerateStoryTrees,
       signingConfig: this.signingConfig,
       tenantCache: this.tenantCache,
       webhookQueue: this.tasks.webhook,

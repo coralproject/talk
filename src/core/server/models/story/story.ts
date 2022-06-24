@@ -10,6 +10,7 @@ import {
   StoryNotFoundError,
   UserNotFoundError,
 } from "coral-server/errors";
+import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import {
   Connection,
@@ -20,6 +21,7 @@ import {
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
+import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
   GQLCOMMENT_SORT,
@@ -947,7 +949,7 @@ interface StoryTreeComment {
   replies: StoryTreeComment[];
 }
 
-async function findChildren(
+function findChildren(
   root: Readonly<StoryTreeComment>,
   comments: Readonly<Comment>[]
 ) {
@@ -963,9 +965,28 @@ async function findChildren(
     });
 }
 
-async function createTree(
+function findOffspring(
   root: Readonly<StoryTreeComment>,
   comments: Readonly<Comment>[]
+) {
+  return comments
+    .filter((c) => c.ancestorIDs.includes(root.id))
+    .map((c) => {
+      return {
+        id: c.id,
+        authorID: c.authorID,
+        status: c.status,
+        replies: [],
+      };
+    });
+}
+
+function createTree(
+  storyID: string,
+  depth: number,
+  root: Readonly<StoryTreeComment>,
+  comments: Readonly<Comment>[],
+  logger: Logger
 ) {
   const tree: StoryTreeComment = {
     id: root.id,
@@ -974,10 +995,22 @@ async function createTree(
     replies: [],
   };
 
-  const children = await findChildren(root, comments);
-  for (const child of children) {
-    const subTree = await createTree(child, comments);
-    tree.replies.push(subTree);
+  if (depth >= MAX_ANCESTORS) {
+    logger.info(
+      { commentID: root.id, storyID },
+      "depth surpassed max ancestors"
+    );
+
+    const offspring = findOffspring(root, comments);
+    for (const child of offspring) {
+      tree.replies.push(child);
+    }
+  } else {
+    const children = findChildren(root, comments);
+    for (const child of children) {
+      const subTree = createTree(storyID, depth + 1, child, comments, logger);
+      tree.replies.push(subTree);
+    }
   }
 
   return tree;
@@ -985,6 +1018,7 @@ async function createTree(
 
 export async function generateTreeForStory(
   mongo: MongoContext,
+  logger: Logger,
   tenantID: string,
   storyID: string,
   archived = false
@@ -998,11 +1032,15 @@ export async function generateTreeForStory(
     .sort({ createdAt: -1 })
     .toArray();
 
-  const tree = await createTreeFromComments(result);
+  const tree = await createTreeFromComments(storyID, result, logger);
   await writeTreeToStory(mongo, tenantID, storyID, tree);
 }
 
-async function createTreeFromComments(comments: Readonly<Comment>[]) {
+async function createTreeFromComments(
+  storyID: string,
+  comments: Readonly<Comment>[],
+  logger: Logger
+) {
   const rootComments = comments.filter(
     (c) => c.parentID === null || c.parentID === undefined
   );
@@ -1010,14 +1048,17 @@ async function createTreeFromComments(comments: Readonly<Comment>[]) {
   const tree: StoryTreeComment[] = [];
 
   for (const rootComment of rootComments) {
-    const subTree = await createTree(
+    const subTree = createTree(
+      storyID,
+      1,
       {
         id: rootComment.id,
         authorID: rootComment.authorID,
         status: rootComment.status,
         replies: [],
       },
-      comments
+      comments,
+      logger
     );
     tree.push(subTree);
   }
@@ -1076,30 +1117,34 @@ const createArrayKeyChar = (i: number) => {
 };
 
 const createKey = (ids: string[]) => {
-  if (ids.length > MAX_ANCESTORS) {
-    throw new Error("too many ancestors");
-  }
-
   let key = "tree";
 
   // ancestorIDs are in reverse order. So process this in reverse.
+  let depth = 0;
   for (let i = ids.length - 1; i >= 0; i--) {
+    if (depth >= MAX_ANCESTORS) {
+      break;
+    }
+
     key += `.$[${createArrayKeyChar(i)}].replies`;
+    depth++;
   }
 
   return key;
 };
 
 const createArrayFilters = (ids: string[]) => {
-  if (ids.length > MAX_ANCESTORS) {
-    throw new Error("too many ancestors");
-  }
-
   const filters = [];
 
   // ancestorIDs are in reverse order. So process this in reverse.
+  let depth = 0;
   for (let i = ids.length - 1; i >= 0; i--) {
+    if (depth >= MAX_ANCESTORS) {
+      break;
+    }
+
     filters.push({ [`${createArrayKeyChar(i)}.id`]: ids[i] });
+    depth++;
   }
 
   return filters;
@@ -1276,6 +1321,7 @@ function flattenTree(
 
 export async function findNextUnseenVisibleCommentID(
   mongo: MongoContext,
+  logger: Logger,
   tenantID: string,
   storyID: string,
   userID: string,
@@ -1293,9 +1339,30 @@ export async function findNextUnseenVisibleCommentID(
     );
   }
 
-  const story = await mongo.stories().findOne({ tenantID, id: storyID });
+  let story = await mongo.stories().findOne({ tenantID, id: storyID });
   if (!story) {
     throw new StoryNotFoundError(storyID);
+  }
+
+  if (story && story.isArchived && !story.tree) {
+    await generateTreeForStory(
+      mongo,
+      logger,
+      tenantID,
+      storyID,
+      !!story.isArchived
+    );
+
+    story = await mongo.stories().findOne({ tenantID, id: storyID });
+  }
+
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  // We have no story tree, return nothing and no next index
+  if (!story.tree || story.tree.length === 0) {
+    return { commentID: null, index: null };
   }
 
   const user = await mongo.users().findOne({ tenantID, id: userID });
@@ -1429,42 +1496,101 @@ async function executeBulkStoryTreeWrites(
 
 export async function regenerateStoryTrees(
   mongo: MongoContext,
-  tenantID: string
+  redis: AugmentedRedis,
+  tenantID: string,
+  jobID: string,
+  logger: Logger
 ) {
-  const BATCH_SIZE = 100;
+  const BATCH_SIZE = 25;
+
+  const expectedTotal = await mongo
+    .stories()
+    .find({
+      tenantID,
+      isArchived: { $in: [null, false] },
+      isArchiving: { $in: [null, false] },
+    })
+    .count();
+
+  await redis.set(`jobStatus:${jobID}:expectedTotal`, expectedTotal);
+  await redis.set(`jobStatus:${jobID}:completed`, 0);
 
   const cursor = mongo.stories().find({
     tenantID,
-    isArchiving: { $in: [null, false] },
     isArchived: { $in: [null, false] },
+    isArchiving: { $in: [null, false] },
   });
 
-  let operations = [];
+  let operations: StoryTreeUpdate[] = [];
   let count = 0;
-  let story = await cursor.next();
-  while (story !== null) {
+  let totalCount = 0;
+  while (await cursor.hasNext()) {
+    const story = await cursor.next();
+
+    // If the story is null for whatever reason, continue and
+    // let the cursor.hasNext() handle it to break the loop
+    if (story === null) {
+      continue;
+    }
+
+    // We don't want to process archiving/archived stories.
+    // They will be processed when they are un-archived.
+    if (story.isArchived || story.isArchiving) {
+      continue;
+    }
+
     const comments = await mongo
       .comments()
       .find({ tenantID, storyID: story.id })
       .sort({ createdAt: -1 })
       .toArray();
-    const tree = await createTreeFromComments(comments);
+    const tree = await createTreeFromComments(story.id, comments, logger);
 
     const operation = computeWriteStoryToTreeUpdate(tenantID, story.id, tree);
     operations.push(operation);
 
-    story = await cursor.next();
     count++;
+    totalCount++;
 
     if (count >= BATCH_SIZE) {
-      await executeBulkStoryTreeWrites(mongo, operations);
-      operations = [];
+      try {
+        await executeBulkStoryTreeWrites(mongo, operations);
+      } catch (err) {
+        logger.warn(
+          { tenantID, storyIDs: operations.map((s) => s.filter.id) },
+          err.message
+        );
+      } finally {
+        operations = [];
+        count = 0;
+
+        await redis.set(`jobStatus:${jobID}:completed`, totalCount);
+      }
     }
   }
 
   if (operations.length > 0) {
-    await executeBulkStoryTreeWrites(mongo, operations);
+    try {
+      await executeBulkStoryTreeWrites(mongo, operations);
+    } catch (err) {
+      logger.warn(
+        { tenantID, storyIDs: operations.map((s) => s.filter.id) },
+        err.message
+      );
+    } finally {
+      operations = [];
+      count = 0;
+
+      await redis.set(`jobStatus:${jobID}:completed`, totalCount);
+    }
   }
+
+  await redis.set(`jobStatus:${jobID}:ended`, new Date().toUTCString());
+
+  logger.info(
+    { totalCount },
+    "finished regenerating story trees bulk operation"
+  );
 
   return true;
 }

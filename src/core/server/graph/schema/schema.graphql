@@ -8760,6 +8760,19 @@ input RegenerateStoryTreesInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  disableCommenting determines whether the regeneration task should disable
+  commenting across the organization before regenerating the story trees.
+  """
+  disableCommenting: Boolean
+
+  """
+  disableCommentingMessage is an optional message to show as the message to
+  users if the disableCommenting flag is set to true for the regenerate
+  stories input.
+  """
+  disableCommentingMessage: String
 }
 
 type RegenerateStoryTreesPayload {
@@ -8772,6 +8785,11 @@ type RegenerateStoryTreesPayload {
   accepted is whether the regeneration request was accepted.
   """
   accepted: Boolean!
+
+  """
+  jobID is the jobID for the regeneration request.
+  """
+  jobID: String
 }
 
 ##################
