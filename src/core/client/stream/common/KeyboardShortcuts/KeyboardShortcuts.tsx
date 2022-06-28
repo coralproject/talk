@@ -802,7 +802,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 >
                   <ButtonIcon>done_all</ButtonIcon>
                   <Localized id="comments-mobileToolbar-unmarkAll">
-                    <span>Unmark all</span>
+                    <span>Mark all as read</span>
                   </Localized>
                 </Button>
               </div>
