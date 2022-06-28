@@ -35,7 +35,7 @@ const RegenerateStoryTreeDataSchema = Joi.object().keys({
   tenantID: Joi.string(),
   jobID: Joi.string(),
   disableCommenting: Joi.boolean(),
-  disableCommentingMessage: Joi.string().optional(),
+  disableCommentingMessage: Joi.string().optional().allow(""),
 });
 
 export const createJobProcessor = (
