@@ -9,7 +9,7 @@ export function createJobStatusRouter(app: AppOptions): Router {
   const router = createAPIRouter();
 
   // Configure job status route.
-  router.get("/", jobStatusHandler(app));
+  router.post("/", jobStatusHandler(app));
 
   return router;
 }

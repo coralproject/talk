@@ -11,6 +11,7 @@ import {
   retrieveStory,
   Story,
 } from "coral-server/models/story";
+import { validateJobData } from "coral-server/queue/tasks/regenerateStoryTrees/processor";
 import { archiveStory, unarchiveStory } from "coral-server/services/archive";
 import {
   addExpert,
@@ -207,12 +208,27 @@ export const Stories = (ctx: GraphContext) => ({
   }: GQLRegenerateStoryTreesInput) => {
     const jobID = uuid();
 
-    await ctx.regenerateStoryTreesQueue.add({
+    const jobData = {
       tenantID: ctx.tenant.id,
       jobID,
       disableCommenting: !!disableCommenting,
       disableCommentingMessage,
-    });
+    };
+
+    const { success, error } = validateJobData(jobData);
+    if (!success || error) {
+      ctx.logger.error(
+        { err: error, jobData },
+        "rejecting regenerateStoryTrees request: validation of job data failed"
+      );
+
+      return {
+        accepted: false,
+        jobID: "",
+      };
+    }
+
+    await ctx.regenerateStoryTreesQueue.add(jobData);
 
     return {
       accepted: true,
