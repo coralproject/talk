@@ -64,7 +64,7 @@ export const jobStatusHandler = ({
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "1m",
-    max: 2,
+    max: 10,
     prefix: "ip",
     config,
   });
