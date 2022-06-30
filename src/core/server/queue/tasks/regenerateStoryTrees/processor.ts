@@ -35,8 +35,36 @@ const RegenerateStoryTreeDataSchema = Joi.object().keys({
   tenantID: Joi.string(),
   jobID: Joi.string(),
   disableCommenting: Joi.boolean(),
-  disableCommentingMessage: Joi.string().optional(),
+  disableCommentingMessage: Joi.string().optional().allow(""),
 });
+
+interface ValidateDataResult {
+  success: boolean;
+  error?: Error;
+  data?: RegenerateStoryTreesData;
+}
+
+export const validateJobData = (
+  data: RegenerateStoryTreesData
+): ValidateDataResult => {
+  const { value, error } = RegenerateStoryTreeDataSchema.validate(data, {
+    stripUnknown: true,
+    presence: "required",
+    abortEarly: false,
+  });
+
+  if (error) {
+    return {
+      success: false,
+      error,
+    };
+  } else {
+    return {
+      success: true,
+      data: value,
+    };
+  }
+};
 
 export const createJobProcessor = (
   options: RegenerateStoryTreesProcessorOptions
@@ -44,15 +72,8 @@ export const createJobProcessor = (
   const { tenantCache, mongo, redis } = options;
 
   return async (job) => {
-    const { value: data, error: err } = RegenerateStoryTreeDataSchema.validate(
-      job.data,
-      {
-        stripUnknown: true,
-        presence: "required",
-        abortEarly: false,
-      }
-    );
-    if (err) {
+    const { success, error: err, data } = validateJobData(job.data);
+    if (!success || err || !data) {
       logger.error(
         {
           jobID: job.id,
