@@ -175,12 +175,10 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = (props) => {
             />
           )}
           <div className={styles.borderedFooter}>
-            <IntersectionProvider threshold={1}>
-              <CommentsLinks
-                showGoToDiscussions={showGoToDiscussions}
-                showGoToProfile={!!props.viewer}
-              />
-            </IntersectionProvider>
+            <CommentsLinks
+              showGoToDiscussions={showGoToDiscussions}
+              showGoToProfile={!!props.viewer}
+            />
           </div>
         </HorizontalGutter>
       )}

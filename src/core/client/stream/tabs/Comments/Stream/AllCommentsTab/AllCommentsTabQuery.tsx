@@ -22,13 +22,11 @@ import SpinnerWhileRendering from "./SpinnerWhileRendering";
 
 interface Props {
   tag?: GQLTAG;
-  currentScrollRef: any;
 }
 
 export const render = (
   data: QueryRenderData<QueryTypes>,
   flattenReplies: boolean,
-  currentScrollRef: any,
   tag?: GQLTAG
 ) => {
   if (!data) {
@@ -54,7 +52,6 @@ export const render = (
           story={data.props.story}
           tag={tag}
           flattenReplies={flattenReplies}
-          currentScrollRef={currentScrollRef}
         />
       </SpinnerWhileRendering>
     );
@@ -66,10 +63,7 @@ export const render = (
   );
 };
 
-const AllCommentsTabQuery: FunctionComponent<Props> = ({
-  tag,
-  currentScrollRef,
-}) => {
+const AllCommentsTabQuery: FunctionComponent<Props> = ({ tag }) => {
   const [
     { storyID, storyURL, storyMode, ratingFilter, commentsOrderBy },
     setLocal,
@@ -126,7 +120,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         storyMode: coerceStoryMode(storyMode),
         flattenReplies,
       }}
-      render={(data) => render(data, flattenReplies, currentScrollRef, tag)}
+      render={(data) => render(data, flattenReplies, tag)}
     />
   );
 };

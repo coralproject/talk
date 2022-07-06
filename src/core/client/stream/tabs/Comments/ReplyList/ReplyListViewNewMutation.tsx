@@ -7,20 +7,49 @@ import {
 } from "coral-framework/lib/relay";
 import { ShowMoreRepliesEvent } from "coral-stream/events";
 
+import { MarkCommentsAsSeenInput } from "coral-stream/__generated__/MarkCommentsAsSeenMutation.graphql";
+
 import { incrementStoryCommentCounts } from "../helpers";
 
 interface ReplyListViewNewMutationInput {
   storyID: string;
   commentID: string;
+
+  viewerID?: string;
+  markSeen: boolean;
+  markAsSeen?: (
+    input: Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
+      updateSeen: boolean;
+    }
+  ) => Promise<
+    Omit<
+      {
+        readonly comments: ReadonlyArray<{
+          readonly id: string;
+          readonly seen: boolean | null;
+        }>;
+        readonly clientMutationId: string;
+      },
+      "clientMutationId"
+    >
+  >;
 }
 
 const ReplyListViewNewMutation = createMutation(
   "viewNew",
   async (
     environment: Environment,
-    { commentID, storyID }: ReplyListViewNewMutationInput,
+    {
+      commentID,
+      storyID,
+      viewerID,
+      markSeen,
+      markAsSeen,
+    }: ReplyListViewNewMutationInput,
     { eventEmitter }: CoralContext
   ) => {
+    let commentIDs: string[] = [];
+
     await commitLocalUpdatePromisified(environment, async (store) => {
       const parentProxy = store.get(commentID);
       if (!parentProxy) {
@@ -47,12 +76,20 @@ const ReplyListViewNewMutation = createMutation(
         incrementStoryCommentCounts(store, storyID, edge);
       });
 
+      commentIDs = viewNewEdges.map(
+        (edge) => edge.getLinkedRecord("node")!.getValue("id") as string
+      );
+
       connection.setLinkedRecords([], "viewNewEdges");
       ShowMoreRepliesEvent.emit(eventEmitter, {
         commentID,
         count: viewNewEdges.length,
       });
     });
+
+    if (viewerID && markSeen && commentIDs.length > 0 && markAsSeen) {
+      await markAsSeen({ storyID, commentIDs, updateSeen: false });
+    }
   }
 );
 

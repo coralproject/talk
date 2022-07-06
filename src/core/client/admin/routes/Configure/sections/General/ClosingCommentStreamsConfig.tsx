@@ -47,7 +47,6 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
       </Localized>
     }
     container={<FieldSet />}
-    data-testid="closing-comment-streams-config-box"
   >
     <Localized
       id="configure-general-closingCommentStreams-explanation"

@@ -15,7 +15,6 @@ const ExternalMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
       id={id}
       src={`/api/external-media?url=${component}&siteID=${siteID}`}
       sandbox
-      showFullHeight
     />
   );
 };

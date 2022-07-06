@@ -13,12 +13,8 @@ exports[`renders loading 1`] = `
 `;
 
 exports[`renders permalink view container 1`] = `
-<IntersectionProvider
-  threshold={1}
->
-  <Relay(PermalinkViewContainer)
-    comment={Object {}}
-    story={Object {}}
-  />
-</IntersectionProvider>
+<Relay(PermalinkViewContainer)
+  comment={Object {}}
+  story={Object {}}
+/>
 `;

@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -45,15 +44,14 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
+import MarkCommentsAsSeenMutation from "../../Comment/MarkCommentsAsSeenMutation";
 import { useCommentSeenEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
+import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
-import AllCommentsTabVirtualizedComments, {
-  NextUnseenComment,
-} from "./AllCommentsTabVirtualizedComments";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
@@ -64,7 +62,6 @@ interface Props {
   viewer: AllCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
   flattenReplies: boolean;
-  currentScrollRef: any;
   tag?: GQLTAG;
 }
 
@@ -74,7 +71,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   viewer,
   relay,
   tag,
-  currentScrollRef,
 }) => {
   const [
     { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
@@ -177,6 +173,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     }
   }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
+  const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewMore = useCallback(async () => {
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: story.id,
@@ -185,6 +182,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     try {
       await viewMore({
         storyID: story.id,
+        markSeen: !!viewer,
+        viewerID: viewer?.id,
+        markAsSeen,
       });
       viewNewCommentsEvent.success();
     } catch (error) {
@@ -192,7 +192,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [beginViewNewCommentsEvent, story.id, keyboardShortcutsConfig, viewMore]);
+  }, [
+    beginViewNewCommentsEvent,
+    story.id,
+    keyboardShortcutsConfig,
+    viewMore,
+    tag,
+    viewer,
+    markAsSeen,
+  ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
   // TODO: extract to separate function
@@ -226,25 +234,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [viewer, settings]
   );
 
-  const [
-    nextUnseenComment,
-    setNextUnseenComment,
-  ] = useState<NextUnseenComment | null>(null);
-
-  const onNextUnseenCommentFetched = useCallback(
-    (nextUnseen: NextUnseenComment) => {
-      setNextUnseenComment(nextUnseen);
-    },
-    [setNextUnseenComment]
-  );
   return (
     <>
-      <KeyboardShortcuts
-        loggedIn={!!viewer}
-        storyID={story.id}
-        currentScrollRef={currentScrollRef}
-        nextUnseenComment={nextUnseenComment}
-      />
+      <KeyboardShortcuts loggedIn={!!viewer} storyID={story.id} />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
           rating={ratingFilter}
@@ -292,27 +284,42 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             tag={tag}
           />
         )}
-        <AllCommentsTabVirtualizedComments
-          settings={settings}
-          viewer={viewer}
-          story={story}
-          isLoadingMore={isLoadingMore}
-          loadMoreAndEmit={loadMoreAndEmit}
-          hasMore={hasMore}
-          currentScrollRef={currentScrollRef}
-          alternateOldestViewEnabled={alternateOldestViewEnabled}
-          commentsOrderBy={commentsOrderBy}
-          nextUnseenComment={nextUnseenComment}
-          onNextUnseenCommentFetched={onNextUnseenCommentFetched}
-          viewNewCount={viewNewCount}
-        />
-        {!alternateOldestViewEnabled && (
-          <IntersectionProvider threshold={1}>
-            <CommentsLinks
-              showGoToDiscussions={showGoToDiscussions}
-              showGoToProfile={!!viewer}
+        {story.comments.edges.length > 0 &&
+          story.comments.edges.map(({ node: comment }, index) => (
+            <AllCommentsTabCommentContainer
+              key={comment.id}
+              viewer={viewer}
+              comment={comment}
+              story={story}
+              settings={settings}
+              isLast={index === story.comments.edges.length - 1}
             />
-          </IntersectionProvider>
+          ))}
+        {hasMore && (
+          <Localized id="comments-loadMore">
+            <Button
+              key={`comments-loadMore-${story.comments.edges.length}`}
+              id="comments-loadMore"
+              onClick={loadMoreAndEmit}
+              color="secondary"
+              variant="outlined"
+              fullWidth
+              disabled={isLoadingMore}
+              aria-controls="comments-allComments-log"
+              className={CLASSES.allCommentsTabPane.loadMoreButton}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
+            >
+              Load More
+            </Button>
+          </Localized>
+        )}
+        {!alternateOldestViewEnabled && (
+          <CommentsLinks
+            showGoToDiscussions={showGoToDiscussions}
+            showGoToProfile={!!viewer}
+          />
         )}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
@@ -329,12 +336,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.borderedFooter}>
-            <IntersectionProvider threshold={1}>
-              <CommentsLinks
-                showGoToDiscussions={showGoToDiscussions}
-                showGoToProfile={!!viewer}
-              />
-            </IntersectionProvider>
+            <CommentsLinks
+              showGoToDiscussions={showGoToDiscussions}
+              showGoToProfile={!!viewer}
+            />
           </div>
         </HorizontalGutter>
       )}
@@ -349,7 +354,7 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Omit<Props, "currentScrollRef">,
+  Props,
   AllCommentsTabContainerPaginationQueryVariables,
   FragmentVariables
 >(
@@ -428,7 +433,6 @@ const enhanced = withPaginationContainer<
           enabled
         }
         featureFlags
-        loadAllComments
         ...PostCommentFormContainer_settings
         ...ViewersWatchingContainer_settings
         ...AllCommentsTabCommentContainer_settings

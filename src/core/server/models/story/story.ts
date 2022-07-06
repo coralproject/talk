@@ -8,10 +8,7 @@ import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
   StoryNotFoundError,
-  UserNotFoundError,
 } from "coral-server/errors";
-import { Logger } from "coral-server/logger";
-import { Comment } from "coral-server/models/comment";
 import {
   Connection,
   NodeToCursorTransformer,
@@ -21,11 +18,8 @@ import {
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
-import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
-  GQLCOMMENT_SORT,
-  GQLCOMMENT_STATUS,
   GQLSTORY_MODE,
   GQLStoryMetadata,
   GQLStorySettings,
@@ -36,12 +30,9 @@ import {
   RelatedCommentCounts,
   updateRelatedCommentCounts,
 } from "../comment/counts";
-import {
-  findSeenComments,
-  reduceCommentIDs,
-} from "../seenComments/seenComments";
 
 export * from "./helpers";
+
 export interface StreamModeSettings {
   /**
    * mode is whether the story stream is in commenting or Q&A mode.
@@ -116,8 +107,6 @@ export interface Story extends TenantResource {
 
   isArchiving?: boolean;
   isArchived?: boolean;
-
-  tree: StoryTreeComment[];
 }
 
 export interface UpsertStoryInput {
@@ -148,7 +137,6 @@ export async function upsertStory(
     createdAt: now,
     commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
-    tree: [],
   };
 
   if (mode) {
@@ -302,7 +290,6 @@ export async function createStory(
     closedAt,
     commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
-    tree: [],
   };
 
   if (mode) {
@@ -331,9 +318,7 @@ export async function retrieveStoryByURL(
   tenantID: string,
   url: string
 ) {
-  return mongo
-    .stories()
-    .findOne({ url, tenantID }, { projection: { tree: 0 } });
+  return mongo.stories().findOne({ url, tenantID });
 }
 
 export async function retrieveStory(
@@ -341,7 +326,7 @@ export async function retrieveStory(
   tenantID: string,
   id: string
 ) {
-  return mongo.stories().findOne({ id, tenantID }, { projection: { tree: 0 } });
+  return mongo.stories().findOne({ id, tenantID });
 }
 
 export async function retrieveManyStories(
@@ -349,13 +334,10 @@ export async function retrieveManyStories(
   tenantID: string,
   ids: ReadonlyArray<string>
 ) {
-  const cursor = mongo.stories().find(
-    {
-      id: { $in: ids },
-      tenantID,
-    },
-    { projection: { tree: 0 } }
-  );
+  const cursor = mongo.stories().find({
+    id: { $in: ids },
+    tenantID,
+  });
 
   const stories = await cursor.toArray();
 
@@ -367,13 +349,10 @@ export async function retrieveManyStoriesByURL(
   tenantID: string,
   urls: ReadonlyArray<string>
 ) {
-  const cursor = mongo.stories().find(
-    {
-      url: { $in: urls },
-      tenantID,
-    },
-    { projection: { tree: 0 } }
-  );
+  const cursor = mongo.stories().find({
+    url: { $in: urls },
+    tenantID,
+  });
 
   const stories = await cursor.toArray();
 
@@ -616,17 +595,14 @@ export async function retrieveActiveStories(
 ) {
   const stories = await mongo
     .stories()
-    .find(
-      {
-        tenantID,
-        // We limit this query to stories that have the following field. This
-        // allows us to use the index.
-        lastCommentedAt: {
-          $exists: true,
-        },
+    .find({
+      tenantID,
+      // We limit this query to stories that have the following field. This
+      // allows us to use the index.
+      lastCommentedAt: {
+        $exists: true,
       },
-      { projection: { tree: 0 } }
-    )
+    })
     .sort({ lastCommentedAt: -1 })
     .limit(limit)
     .toArray();
@@ -870,26 +846,20 @@ export async function retrieveStoriesToBeArchived(
 ): Promise<Readonly<Story>[]> {
   const result = await mongo
     .stories()
-    .find(
-      {
-        tenantID,
-        $or: [
-          { lastCommentedAt: { $lte: olderThan } },
-          {
-            $and: [
-              { lastCommentedAt: null },
-              { createdAt: { $lte: olderThan } },
-            ],
-          },
-        ],
-        isArchiving: { $in: [null, false] },
-        isArchived: { $in: [null, false] },
-        startedUnarchivingAt: { $in: [null, false] },
-        unarchivedAt: { $in: [null, false] },
-        "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
-      },
-      { projection: { tree: 0 } }
-    )
+    .find({
+      tenantID,
+      $or: [
+        { lastCommentedAt: { $lte: olderThan } },
+        {
+          $and: [{ lastCommentedAt: null }, { createdAt: { $lte: olderThan } }],
+        },
+      ],
+      isArchiving: { $in: [null, false] },
+      isArchived: { $in: [null, false] },
+      startedUnarchivingAt: { $in: [null, false] },
+      unarchivedAt: { $in: [null, false] },
+      "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
+    })
     .limit(count)
     .toArray();
 
@@ -940,657 +910,4 @@ export async function markStoryAsUnarchived(
   );
 
   return result.value;
-}
-
-interface StoryTreeComment {
-  id: string;
-  authorID: string | null;
-  status: GQLCOMMENT_STATUS;
-  replies: StoryTreeComment[];
-}
-
-function findChildren(
-  root: Readonly<StoryTreeComment>,
-  comments: Readonly<Comment>[]
-) {
-  return comments
-    .filter((c) => c.parentID === root.id)
-    .map((c) => {
-      return {
-        id: c.id,
-        authorID: c.authorID,
-        status: c.status,
-        replies: [],
-      };
-    });
-}
-
-function findOffspring(
-  root: Readonly<StoryTreeComment>,
-  comments: Readonly<Comment>[]
-) {
-  return comments
-    .filter((c) => c.ancestorIDs.includes(root.id))
-    .map((c) => {
-      return {
-        id: c.id,
-        authorID: c.authorID,
-        status: c.status,
-        replies: [],
-      };
-    });
-}
-
-function createTree(
-  storyID: string,
-  depth: number,
-  root: Readonly<StoryTreeComment>,
-  comments: Readonly<Comment>[],
-  logger: Logger
-) {
-  const tree: StoryTreeComment = {
-    id: root.id,
-    authorID: root.authorID,
-    status: root.status,
-    replies: [],
-  };
-
-  if (depth >= MAX_ANCESTORS) {
-    logger.info(
-      { commentID: root.id, storyID },
-      "depth surpassed max ancestors"
-    );
-
-    const offspring = findOffspring(root, comments);
-    for (const child of offspring) {
-      tree.replies.push(child);
-    }
-  } else {
-    const children = findChildren(root, comments);
-    for (const child of children) {
-      const subTree = createTree(storyID, depth + 1, child, comments, logger);
-      tree.replies.push(subTree);
-    }
-  }
-
-  return tree;
-}
-
-export async function generateTreeForStory(
-  mongo: MongoContext,
-  logger: Logger,
-  tenantID: string,
-  storyID: string,
-  archived = false
-) {
-  const comments = archived ? mongo.archivedComments() : mongo.comments();
-  const result = await comments
-    .find({
-      tenantID,
-      storyID,
-    })
-    .sort({ createdAt: -1 })
-    .toArray();
-
-  const tree = await createTreeFromComments(storyID, result, logger);
-  await writeTreeToStory(mongo, tenantID, storyID, tree);
-}
-
-async function createTreeFromComments(
-  storyID: string,
-  comments: Readonly<Comment>[],
-  logger: Logger
-) {
-  const rootComments = comments.filter(
-    (c) => c.parentID === null || c.parentID === undefined
-  );
-
-  const tree: StoryTreeComment[] = [];
-
-  for (const rootComment of rootComments) {
-    const subTree = createTree(
-      storyID,
-      1,
-      {
-        id: rootComment.id,
-        authorID: rootComment.authorID,
-        status: rootComment.status,
-        replies: [],
-      },
-      comments,
-      logger
-    );
-    tree.push(subTree);
-  }
-
-  return tree;
-}
-
-interface StoryTreeUpdate {
-  filter: any;
-  update: any;
-}
-
-function computeWriteStoryToTreeUpdate(
-  tenantID: string,
-  storyID: string,
-  tree: StoryTreeComment[]
-): StoryTreeUpdate {
-  return {
-    filter: { tenantID, id: storyID },
-    update: {
-      $set: {
-        tree,
-      },
-    },
-  };
-}
-
-async function writeTreeToStory(
-  mongo: MongoContext,
-  tenantID: string,
-  storyID: string,
-  tree: StoryTreeComment[]
-) {
-  const operation = computeWriteStoryToTreeUpdate(tenantID, storyID, tree);
-
-  await mongo.stories().updateOne(operation.filter, operation.update);
-}
-
-/**
- * Max level of nesting from MongoDB.
- *
- * @see https://www.mongodb.com/docs/manual/reference/limits/#mongodb-limit-Nested-Depth-for-BSON-Documents
- */
-const MAX_LEVEL_NESTING = 100;
-
-/**
- * Max level of ancestors is nesting max, halved (because of the structure of
- * the tree) and minus two (because the root and tree element itself count).
- */
-const MAX_ANCESTORS = Math.ceil(MAX_LEVEL_NESTING / 2) - 2;
-
-const KEYS = "abcdefghijklmnopqrstuvwxyz";
-
-const createArrayKeyChar = (i: number) => {
-  return KEYS[i % KEYS.length].repeat(Math.floor(i / KEYS.length) + 1);
-};
-
-const createKey = (ids: string[]) => {
-  let key = "tree";
-
-  // ancestorIDs are in reverse order. So process this in reverse.
-  let depth = 0;
-  for (let i = ids.length - 1; i >= 0; i--) {
-    if (depth >= MAX_ANCESTORS) {
-      break;
-    }
-
-    key += `.$[${createArrayKeyChar(i)}].replies`;
-    depth++;
-  }
-
-  return key;
-};
-
-const createArrayFilters = (ids: string[]) => {
-  const filters = [];
-
-  // ancestorIDs are in reverse order. So process this in reverse.
-  let depth = 0;
-  for (let i = ids.length - 1; i >= 0; i--) {
-    if (depth >= MAX_ANCESTORS) {
-      break;
-    }
-
-    filters.push({ [`${createArrayKeyChar(i)}.id`]: ids[i] });
-    depth++;
-  }
-
-  return filters;
-};
-
-const createNode = ({
-  id,
-  status,
-  authorID,
-}: Readonly<Comment>): StoryTreeComment => ({
-  id,
-  status,
-  authorID,
-  replies: [],
-});
-
-export async function addCommentToStoryTree(
-  mongo: MongoContext,
-  tenantID: string,
-  storyID: string,
-  comment: Readonly<Comment>
-) {
-  const query = { tenantID, id: storyID };
-  const update = {
-    $push: {
-      [createKey(comment.ancestorIDs)]: {
-        $each: [createNode(comment)],
-        $position: 0,
-      },
-    },
-  };
-  const options = {
-    arrayFilters: createArrayFilters(comment.ancestorIDs),
-    returnDocument: "after",
-  };
-
-  const result = await mongo.stories().findOneAndUpdate(query, update, options);
-
-  return result.value;
-}
-
-export async function updateCommentOnStoryTree(
-  mongo: MongoContext,
-  tenantID: string,
-  storyID: string,
-  comment: Readonly<Comment>
-) {
-  let key = createKey([comment.id, ...comment.ancestorIDs]);
-
-  // key now contains a `.replies` we want to replace with `.status`.
-  key = key.replace(/\.replies$/, ".status");
-
-  const query = { tenantID, id: storyID };
-  const update = {
-    $set: {
-      [key]: comment.status,
-    },
-  };
-  const options = {
-    arrayFilters: createArrayFilters([comment.id, ...comment.ancestorIDs]),
-    returnDocument: "after",
-  };
-
-  const result = await mongo.stories().findOneAndUpdate(query, update, options);
-
-  return result.value;
-}
-
-const VISIBLE_STATUSES = [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE];
-
-function pruneCommentForVisibleComments(
-  comment: StoryTreeComment,
-  visibleStatuses: GQLCOMMENT_STATUS[],
-  ignoredAuthorIDs: string[]
-) {
-  // If a comment is not visible to the stream, the user cannot
-  // tab/Z_KEY/c-key to it, ignore it and continue on.
-  if (!VISIBLE_STATUSES.includes(comment.status)) {
-    return null;
-  }
-  // Ignore any ignored users, we do not stop to read these comments
-  // as they are not visible to the current user.
-  if (comment.authorID && ignoredAuthorIDs.includes(comment.authorID)) {
-    return null;
-  }
-
-  // Recursively check all our replies the same as we did the root above.
-  // We'll walk down each level and if it's null, we don't include it.
-  const visibleReplies: StoryTreeComment[] = [];
-  for (const reply of comment.replies) {
-    const result = pruneCommentForVisibleComments(
-      reply,
-      visibleStatuses,
-      ignoredAuthorIDs
-    );
-    if (result) {
-      visibleReplies.push(result);
-    }
-  }
-
-  // Return the us + the valid replies under ourself.
-  return {
-    ...comment,
-    replies: visibleReplies,
-  };
-}
-
-// Helper function to iterate over all the linear first array of
-// root comments at the start of the story's comment tree. This is
-// essentially just a filter in a for-loop that starts the recursion
-// down the tree with the above actual recursive op function.
-function pruneTreeForVisibleComments(
-  tree: StoryTreeComment[],
-  visibleStatuses: GQLCOMMENT_STATUS[],
-  ignoredAuthorIDs: string[]
-) {
-  const visibleRootComments: StoryTreeComment[] = [];
-  for (const rootComment of tree) {
-    // Start the recursion
-    const result = pruneCommentForVisibleComments(
-      rootComment,
-      visibleStatuses,
-      ignoredAuthorIDs
-    );
-
-    // If it's null, the comment is ignored or not visible, only
-    // add to visible list if the comment isn't null.
-    if (result) {
-      visibleRootComments.push(result);
-    }
-  }
-
-  return visibleRootComments;
-}
-
-interface FlattenedTreeComment extends StoryTreeComment {
-  rootIndex: number;
-}
-
-function flattenComment(
-  comment: StoryTreeComment,
-  rootIndex: number,
-  result: FlattenedTreeComment[]
-) {
-  result.push({ ...comment, rootIndex });
-
-  // Default ordering in story tree is newest first, but replies are
-  // always oldest first order, so we need to flip this around.
-  for (let i = comment.replies.length - 1; i >= 0; i--) {
-    const reply = comment.replies[i];
-    flattenComment(reply, rootIndex, result);
-  }
-}
-
-function flattenTree(
-  tree: StoryTreeComment[],
-  orderBy: GQLCOMMENT_SORT,
-  result: FlattenedTreeComment[]
-) {
-  if (orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-    for (let i = 0; i < tree.length; i++) {
-      const rootComment = tree[i];
-      flattenComment(rootComment, i, result);
-    }
-  } else if (orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-    let index = 0;
-    for (let i = tree.length - 1; i >= 0; i--) {
-      const rootComment = tree[i];
-      flattenComment(rootComment, index, result);
-      index++;
-    }
-  }
-}
-
-export async function findNextUnseenVisibleCommentID(
-  mongo: MongoContext,
-  logger: Logger,
-  tenantID: string,
-  storyID: string,
-  userID: string,
-  orderBy: GQLCOMMENT_SORT,
-  currentCommentID?: string,
-  viewNewCount?: number
-) {
-  if (
-    ![GQLCOMMENT_SORT.CREATED_AT_ASC, GQLCOMMENT_SORT.CREATED_AT_DESC].includes(
-      orderBy
-    )
-  ) {
-    throw new Error(
-      "invalid orderBy detected: only ascending and descending order is supported."
-    );
-  }
-
-  let story = await mongo.stories().findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
-  if (story && story.isArchived && !story.tree) {
-    await generateTreeForStory(
-      mongo,
-      logger,
-      tenantID,
-      storyID,
-      !!story.isArchived
-    );
-
-    story = await mongo.stories().findOne({ tenantID, id: storyID });
-  }
-
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
-  // We have no story tree, return nothing and no next index
-  if (!story.tree || story.tree.length === 0) {
-    return { commentID: null, index: null };
-  }
-
-  const user = await mongo.users().findOne({ tenantID, id: userID });
-  if (!user) {
-    throw new UserNotFoundError(userID);
-  }
-  const ignoredUserIDs = user.ignoredUsers.map((u) => u.id);
-
-  // Grab the user's seen comments collection and handle if it is null.
-  // Our dictionary/map of id -> Date will be the `seen` variable.
-  const seenComments = await findSeenComments(mongo, tenantID, {
-    storyID,
-    userID,
-  });
-  const seen = seenComments
-    ? seenComments.comments
-    : reduceCommentIDs([], new Date());
-
-  // Find a tree of only the visible comments. A comment is deemed
-  // visible if its status is in the VISIBLE_STATUSES or it is not
-  // authored by one of the user's ignored users.
-  const prunedTree = pruneTreeForVisibleComments(
-    story.tree,
-    VISIBLE_STATUSES,
-    ignoredUserIDs
-  );
-
-  // Flatten our pruned tree with only visible comments
-  const stack: FlattenedTreeComment[] = [];
-  flattenTree(prunedTree, orderBy, stack);
-
-  // Find our current position in the stack by the passed in
-  // commentID that our commenter is currently focused on
-  // with Z_KEY traversal.
-  // If currentCommentID is null, set cursor so we start at
-  // beginning of stack if order is ascending and end of stack if
-  // order is descending.
-  let cursor = 0;
-  if (!currentCommentID) {
-    cursor = -1;
-  } else {
-    cursor = stack.findIndex((c) => c.id === currentCommentID);
-    if (cursor === -1) {
-      return { commentID: null, index: null };
-    }
-  }
-
-  // We are going to walk the full length of the stack now, but
-  // we will use the cursor position we found to determine our start
-  // position for our search.
-  //
-  // If we hit the end of the stack, we will loop around to the
-  // "start" depending on the direction we're going so that
-  // we search the whole stream for unseen comments even if we are
-  // at the bottom/top of the stream.
-  //
-  // Because of this weird offset traversal, we are doing one loop
-  // with i through the whole stack length, but we will also increment
-  // the cursor we computed earlier. Some folks might prefer using one
-  // variable to traverse this with an offset, but I tend to like
-  // abstracting the "do the whole loop" (with `i`) and the "where am
-  // I in the search?" (with `cursor`) as two separate variables.
-
-  let loopedAround = false;
-
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
-  for (let i = 0; i < stack.length; i++) {
-    cursor++;
-
-    // If we hit the end of the stack, start at the beginning
-    // and "loopAround" until we get to right behind where our
-    // cursor started
-    if (cursor >= stack.length) {
-      loopedAround = true;
-      cursor = 0;
-    }
-
-    // Pull the comment out via the cursor
-    const comment = stack[cursor];
-
-    // We don't count our own comments as unread stops, we have always
-    // seen our own comments
-    if (comment.authorID === userID) {
-      continue;
-    }
-
-    // If this is true, we have found a new unseen comment
-    // return it, we're done!
-    if (!(comment.id in seen)) {
-      // Offset by the client's provided viewNewCount so that our
-      // indices are accurate
-      const computedIndex =
-        viewNewCount && viewNewCount > 0
-          ? comment.rootIndex - viewNewCount
-          : comment.rootIndex;
-
-      let needToLoadNew = false;
-      // If the user did not provide a comment ID (at start of stream)
-      // and they have a viewNewCount, tell them to load in the new
-      // comments
-      if (!currentCommentID && viewNewCount && viewNewCount > 0) {
-        needToLoadNew = true;
-      }
-      // If the user looped around and they have have a viewNewCount,
-      // they likely want to load in the new comments before traversing
-      // to the next comment
-      if (loopedAround && viewNewCount && viewNewCount > 0) {
-        needToLoadNew = true;
-      }
-
-      return { commentID: comment.id, index: computedIndex, needToLoadNew };
-    }
-  }
-
-  // If we get here, we traversed the whole stream and found no unseen
-  // comments. We're done, return nothing.
-  return { commentID: null, index: null };
-}
-
-async function executeBulkStoryTreeWrites(
-  mongo: MongoContext,
-  operations: StoryTreeUpdate[]
-) {
-  const bulk = mongo.stories().initializeUnorderedBulkOp();
-  for (const operation of operations) {
-    bulk.find(operation.filter).updateOne(operation.update);
-  }
-
-  await bulk.execute();
-}
-
-export async function regenerateStoryTrees(
-  mongo: MongoContext,
-  redis: AugmentedRedis,
-  tenantID: string,
-  jobID: string,
-  logger: Logger
-) {
-  const BATCH_SIZE = 25;
-
-  const expectedTotal = await mongo
-    .stories()
-    .find({
-      tenantID,
-      isArchived: { $in: [null, false] },
-      isArchiving: { $in: [null, false] },
-    })
-    .count();
-
-  await redis.set(`jobStatus:${jobID}:expectedTotal`, expectedTotal);
-  await redis.set(`jobStatus:${jobID}:completed`, 0);
-
-  const cursor = mongo.stories().find({
-    tenantID,
-    isArchived: { $in: [null, false] },
-    isArchiving: { $in: [null, false] },
-  });
-
-  let operations: StoryTreeUpdate[] = [];
-  let count = 0;
-  let totalCount = 0;
-  while (await cursor.hasNext()) {
-    const story = await cursor.next();
-
-    // If the story is null for whatever reason, continue and
-    // let the cursor.hasNext() handle it to break the loop
-    if (story === null) {
-      continue;
-    }
-
-    // We don't want to process archiving/archived stories.
-    // They will be processed when they are un-archived.
-    if (story.isArchived || story.isArchiving) {
-      continue;
-    }
-
-    const comments = await mongo
-      .comments()
-      .find({ tenantID, storyID: story.id })
-      .sort({ createdAt: -1 })
-      .toArray();
-    const tree = await createTreeFromComments(story.id, comments, logger);
-
-    const operation = computeWriteStoryToTreeUpdate(tenantID, story.id, tree);
-    operations.push(operation);
-
-    count++;
-    totalCount++;
-
-    if (count >= BATCH_SIZE) {
-      try {
-        await executeBulkStoryTreeWrites(mongo, operations);
-      } catch (err) {
-        logger.warn(
-          { tenantID, storyIDs: operations.map((s) => s.filter.id) },
-          err.message
-        );
-      } finally {
-        operations = [];
-        count = 0;
-
-        await redis.set(`jobStatus:${jobID}:completed`, totalCount);
-      }
-    }
-  }
-
-  if (operations.length > 0) {
-    try {
-      await executeBulkStoryTreeWrites(mongo, operations);
-    } catch (err) {
-      logger.warn(
-        { tenantID, storyIDs: operations.map((s) => s.filter.id) },
-        err.message
-      );
-    } finally {
-      operations = [];
-      count = 0;
-
-      await redis.set(`jobStatus:${jobID}:completed`, totalCount);
-    }
-  }
-
-  await redis.set(`jobStatus:${jobID}:ended`, new Date().toUTCString());
-
-  logger.info(
-    { totalCount },
-    "finished regenerating story trees bulk operation"
-  );
-
-  return true;
 }
