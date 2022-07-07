@@ -739,7 +739,9 @@ exports[`renders story info 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <div>
+          <div
+            data-testid="moderate-comment-storyInfo"
+          >
             <div
               className="ModerateCard-storyLabel"
             >
