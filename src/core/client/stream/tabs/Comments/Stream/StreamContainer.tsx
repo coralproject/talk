@@ -1,11 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -138,7 +133,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         siteID
         commentsTab
         commentsOrderBy
-        viewNewRepliesCount
       }
     `
   );
@@ -160,7 +154,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         return;
       }
 
-      setLocal({ commentsTab: tab, viewNewRepliesCount: null });
+      setLocal({ commentsTab: tab });
 
       if (emit) {
         emitSetCommentsTabEvent({ tab });
@@ -204,8 +198,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     !suspended &&
     // If we aren't warned.
     !warned;
-
-  const currentScrollRef = useRef<null | HTMLElement>(null);
 
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
@@ -273,10 +265,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         {isRatingsAndReviews && <StoryRatingContainer story={props.story} />}
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
-            <AddACommentButton
-              isQA={isQA}
-              currentScrollRef={currentScrollRef}
-            />
+            <AddACommentButton isQA={isQA} />
           ) : (
             <>
               <IntersectionProvider>
@@ -552,7 +541,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="ALL_COMMENTS"
               >
-                <AllCommentsTab currentScrollRef={currentScrollRef} />
+                <AllCommentsTab />
               </TabPane>
             )}
             {isRatingsAndReviews && (
@@ -560,10 +549,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="REVIEWS"
               >
-                <AllCommentsTab
-                  tag={GQLTAG.REVIEW}
-                  currentScrollRef={currentScrollRef}
-                />
+                <AllCommentsTab tag={GQLTAG.REVIEW} />
               </TabPane>
             )}
             {isRatingsAndReviews && (
@@ -571,10 +557,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="QUESTIONS"
               >
-                <AllCommentsTab
-                  tag={GQLTAG.QUESTION}
-                  currentScrollRef={currentScrollRef}
-                />
+                <AllCommentsTab tag={GQLTAG.QUESTION} />
               </TabPane>
             )}
           </TabContent>

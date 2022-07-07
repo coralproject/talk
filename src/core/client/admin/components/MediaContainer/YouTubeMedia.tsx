@@ -58,7 +58,6 @@ const YouTubeMedia: FunctionComponent<Props> = ({
         <Frame
           id={id}
           src={`/api/oembed?type=youtube&url=${component}&siteID=${siteID}`}
-          showFullHeight
         />
       )}
     </div>

@@ -42,7 +42,6 @@ const RTEConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
     }
     container={<FieldSet />}
-    data-testid="rte-config-box"
   >
     <Localized id="configure-general-rte-express">
       <FormFieldDescription>

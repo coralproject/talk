@@ -6,6 +6,7 @@ import {
   Label,
 } from "coral-ui/components/v2";
 import React, { FunctionComponent } from "react";
+// import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

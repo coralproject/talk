@@ -5,13 +5,11 @@ import {
   getEmailDomain,
   getExternalModerationPhase,
 } from "coral-server/models/settings";
-import { findNextUnseenVisibleCommentID } from "coral-server/models/story";
-import { getWebhookEndpoint, hasFeatureFlag } from "coral-server/models/tenant";
+import { getWebhookEndpoint } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_FLAG_REPORTED_REASON,
   GQLCOMMENT_SORT,
-  GQLFEATURE_FLAG,
   GQLQueryTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -73,66 +71,4 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
         },
       },
     }),
-  nextUnseenComment: async (
-    source,
-    { id, storyID, orderBy, viewNewCount },
-    ctx
-  ) => {
-    // unseen comments is only available to logged in users
-    if (!ctx.user) {
-      return null;
-    }
-    if (!storyID) {
-      return null;
-    }
-    // unseen comments is only compatible with newest or oldest first
-    // sort orders.
-    if (
-      ![
-        GQLCOMMENT_SORT.CREATED_AT_ASC,
-        GQLCOMMENT_SORT.CREATED_AT_DESC,
-      ].includes(orderBy)
-    ) {
-      return null;
-    }
-    // unseen comments is only enabled if Z_KEY is turned on
-    if (!hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.Z_KEY)) {
-      return null;
-    }
-
-    const {
-      commentID,
-      index,
-      needToLoadNew,
-    } = await findNextUnseenVisibleCommentID(
-      ctx.mongo,
-      ctx.logger,
-      ctx.tenant.id,
-      storyID,
-      ctx.user.id,
-      orderBy,
-      id,
-      viewNewCount
-    );
-
-    if (commentID) {
-      const comment = await ctx.loaders.Comments.comment.load(commentID);
-
-      if (comment) {
-        const rootCommentID =
-          comment?.ancestorIDs?.length > 0
-            ? comment?.ancestorIDs[comment.ancestorIDs.length - 1]
-            : comment.id;
-
-        return {
-          commentID: comment.id,
-          parentID: comment.parentID,
-          rootCommentID,
-          index,
-          needToLoadNew,
-        };
-      }
-    }
-    return null;
-  },
 };

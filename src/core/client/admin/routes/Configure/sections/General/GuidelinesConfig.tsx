@@ -47,14 +47,7 @@ const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Localized id="configure-general-guidelines-showCommunityGuidelines">
         <Label component="legend">Show community guidelines summary</Label>
       </Localized>
-      <OnOffField
-        name="communityGuidelines.enabled"
-        disabled={disabled}
-        testIDs={{
-          on: "community-guidelines-on",
-          off: "community-guidelines-off",
-        }}
-      />
+      <OnOffField name="communityGuidelines.enabled" disabled={disabled} />
     </FormField>
 
     <FormField>

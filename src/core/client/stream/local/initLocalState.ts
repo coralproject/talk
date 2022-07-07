@@ -20,7 +20,6 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 interface ResolvedConfig {
   readonly featureFlags: string[];
   readonly flattenReplies?: boolean | null;
-  readonly loadAllComments: boolean;
 }
 
 async function resolveConfig(
@@ -51,7 +50,6 @@ async function resolveConfig(
   return {
     featureFlags: [],
     flattenReplies: false,
-    loadAllComments: true,
   };
 }
 
