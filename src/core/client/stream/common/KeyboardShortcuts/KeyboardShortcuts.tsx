@@ -302,6 +302,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
   const [disableZAction, setDisableZAction] = useState<boolean>(true);
   const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
+  const [zKeyClickedButton, setZKeyClickedButton] = useState(false);
+
   const updateButtonStates = useCallback(() => {
     const nextAction = getNextAction(root, relayEnvironment, {
       skipSeen: true,
@@ -439,6 +441,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
             prevOrNextStop.element.focus();
           }
         }
+        setZKeyClickedButton(true);
         stop.element.click();
       } else {
         void setTraversalFocus({
@@ -561,7 +564,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
 
         // after more comments/replies have loaded, we want to traverse
         // to the next comment/reply based on the configuration
-        if (data.keyboardShortcutsConfig) {
+        // zKeyClickedButton keeps track of whether a user just clicked on
+        // a load more, or if Z key did and we want to traverse
+        if (data.keyboardShortcutsConfig && zKeyClickedButton) {
+          setZKeyClickedButton(false);
           traverse(data.keyboardShortcutsConfig);
         }
       }
@@ -575,7 +581,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, traverse, updateButtonStates]);
+  }, [eventEmitter, traverse, updateButtonStates, zKeyClickedButton]);
 
   // Subscribe to keypress events.
   useEffect(() => {
