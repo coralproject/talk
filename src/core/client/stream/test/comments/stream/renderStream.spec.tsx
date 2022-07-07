@@ -37,7 +37,7 @@ async function createTestRenderer(
 }
 
 it("renders comment stream", async () => {
-  createTestRenderer();
+  await createTestRenderer();
   const allComments = await screen.findByTestId("comments-allComments-log");
   expect(allComments).toBeVisible();
 
