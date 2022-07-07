@@ -871,69 +871,6 @@ export const reportedComments = createFixtures<GQLComment>(
             },
             cursor: "2021-06-01T14:21:21.890Z",
           },
-          // {
-          //   node: {
-          //     id: "comment-0-flag-2",
-          //     reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
-          //     flagger: users.commenters[1],
-          //     additionalDetails: "",
-          //   },
-          //   cursor: "2021-06-01T14:21:21.890Z",
-          // },
-          // {
-          //   node: {
-          //     id: "comment-0-flag-3",
-          //     reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_RECENT_HISTORY,
-          //     flagger: users.commenters[1],
-          //     additionalDetails: "",
-          //   },
-          //   cursor: "2021-06-01T14:21:21.890Z",
-          // },
-          // {
-          //   node: {
-          //     id: "comment-0-flag-4",
-          //     reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_REPEAT_POST,
-          //     flagger: users.commenters[1],
-          //     additionalDetails: "",
-          //   },
-          //   cursor: "2021-06-01T14:21:21.890Z",
-          // },
-          // {
-          //   node: {
-          //     id: "comment-0-flag-5",
-          //     reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
-          //     flagger: users.commenters[1],
-          //     additionalDetails: "",
-          //   },
-          //   cursor: "2021-06-01T14:21:21.890Z",
-          // },
-          // {
-          //   node: {
-          //     id: "comment-0-flag-6",
-          //     reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
-          //     flagger: users.commenters[1],
-          //     additionalDetails: "",
-          //   },
-          //   cursor: "2021-06-01T14:21:21.890Z",
-          // },
-          // {
-          //   node: {
-          //     id: "comment-0-flag-7",
-          //     reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
-          //     flagger: users.commenters[1],
-          //     additionalDetails: "",
-          //   },
-          //   cursor: "2021-06-01T14:21:21.890Z",
-          // },
-          // {
-          //   node: {
-          //     id: "comment-0-flag-8",
-          //     reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
-          //     flagger: users.commenters[1],
-          //     additionalDetails: "",
-          //   },
-          //   cursor: "2021-06-01T14:21:21.890Z",
-          // },
         ],
         pageInfo: { endCursor: "2021-06-01T14:21:21.890Z", hasNextPage: true },
         nodes: [
@@ -949,48 +886,6 @@ export const reportedComments = createFixtures<GQLComment>(
             flagger: users.commenters[1],
             additionalDetails: "",
           },
-          // {
-          //   id: "comment-0-flag-2",
-          //   reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
-          //   flagger: users.commenters[1],
-          //   additionalDetails: "",
-          // },
-          // {
-          //   id: "comment-0-flag-3",
-          //   reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_RECENT_HISTORY,
-          //   flagger: users.commenters[1],
-          //   additionalDetails: "",
-          // },
-          // {
-          //   id: "comment-0-flag-4",
-          //   reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_REPEAT_POST,
-          //   flagger: users.commenters[1],
-          //   additionalDetails: "",
-          // },
-          // {
-          //   id: "comment-0-flag-5",
-          //   reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
-          //   flagger: users.commenters[1],
-          //   additionalDetails: "",
-          // },
-          // {
-          //   id: "comment-0-flag-6",
-          //   reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
-          //   flagger: users.commenters[1],
-          //   additionalDetails: "",
-          // },
-          // {
-          //   id: "comment-0-flag-7",
-          //   reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
-          //   flagger: users.commenters[1],
-          //   additionalDetails: "",
-          // },
-          // {
-          //   id: "comment-0-flag-8",
-          //   reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
-          //   flagger: users.commenters[1],
-          //   additionalDetails: "",
-          // },
         ],
       },
       reactions: {
