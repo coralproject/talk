@@ -950,3 +950,13 @@ export class CannotMergeAnArchivedStory extends CoralError {
     });
   }
 }
+
+export class CannotReplyToRejectedComment extends CoralError {
+  constructor(tenantID: string, commentID: string) {
+    super({
+      code: ERROR_CODES.CANNOT_REPLY_TO_REJECTED_COMMENT,
+      status: 400,
+      context: { tenantID, pub: { commentID }, pvt: { commentID } },
+    });
+  }
+}
