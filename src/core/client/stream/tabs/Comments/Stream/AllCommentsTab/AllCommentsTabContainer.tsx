@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -51,9 +50,7 @@ import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
-import AllCommentsTabVirtualizedComments, {
-  NextUnseenComment,
-} from "./AllCommentsTabVirtualizedComments";
+import AllCommentsTabVirtualizedComments from "./AllCommentsTabVirtualizedComments";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
@@ -77,7 +74,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const [
-    { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
+    {
+      commentsOrderBy,
+      ratingFilter,
+      keyboardShortcutsConfig,
+      oldestFirstNewCommentsToShow,
+    },
     setLocal,
   ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
@@ -89,6 +91,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           source
           reverse
         }
+        oldestFirstNewCommentsToShow
       }
     `
   );
@@ -156,7 +159,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   );
 
   const commentSeenEnabled = useCommentSeenEnabled();
-  const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 99999);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
     ViewNewCommentsNetworkEvent
@@ -226,24 +229,50 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [viewer, settings]
   );
 
-  const [
-    nextUnseenComment,
-    setNextUnseenComment,
-  ] = useState<NextUnseenComment | null>(null);
+  const { comments, newCommentsToShow } = useMemo(() => {
+    // If in oldest first view, filter out new comments to show as they will
+    // be included in the stream at the bottom after initial number of comments.
+    // When the new comments are cleared on rerender, they will be shown in chronological position.
+    if (oldestFirstNewCommentsToShow) {
+      const newCommentsToShowIds = oldestFirstNewCommentsToShow.split(" ");
+      const commentsWithoutNew = story.comments.edges.filter(
+        (c) => !newCommentsToShowIds.includes(c.node.id)
+      );
+      const newComments = story.comments.edges.filter((c) =>
+        newCommentsToShowIds.includes(c.node.id)
+      );
+      return {
+        comments: commentsWithoutNew,
+        newCommentsToShow: newComments,
+      };
+    }
+    return { comments: story.comments.edges, newCommentsToShow: null };
+  }, [story.comments.edges, oldestFirstNewCommentsToShow]);
 
-  const onNextUnseenCommentFetched = useCallback(
-    (nextUnseen: NextUnseenComment) => {
-      setNextUnseenComment(nextUnseen);
-    },
-    [setNextUnseenComment]
-  );
+  // TODO: Insert these into the comments if needed so can properly be factored into next unseen
+  // {/* If in oldest first view, show any newly posted
+  //               comments above Load All Comments button */}
+  // {index === NUM_INITIAL_COMMENTS - 1 &&
+  //   newCommentsToShow?.map((newComment) => {
+  //     return (
+  //       <AllCommentsTabCommentContainer
+  //         key={newComment.node.id}
+  //         viewer={viewer}
+  //         comment={newComment.node}
+  //         story={story}
+  //         settings={settings}
+  //         isLast={false}
+  //       />
+  //     );
+  //   })}
+
   return (
     <>
       <KeyboardShortcuts
         loggedIn={!!viewer}
         storyID={story.id}
         currentScrollRef={currentScrollRef}
-        nextUnseenComment={nextUnseenComment}
+        comments={comments}
       />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
@@ -302,17 +331,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           currentScrollRef={currentScrollRef}
           alternateOldestViewEnabled={alternateOldestViewEnabled}
           commentsOrderBy={commentsOrderBy}
-          nextUnseenComment={nextUnseenComment}
-          onNextUnseenCommentFetched={onNextUnseenCommentFetched}
-          viewNewCount={viewNewCount}
+          comments={comments}
+          newCommentsToShow={newCommentsToShow}
         />
         {!alternateOldestViewEnabled && (
-          <IntersectionProvider threshold={1}>
-            <CommentsLinks
-              showGoToDiscussions={showGoToDiscussions}
-              showGoToProfile={!!viewer}
-            />
-          </IntersectionProvider>
+          <CommentsLinks
+            showGoToDiscussions={showGoToDiscussions}
+            showGoToProfile={!!viewer}
+          />
         )}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
@@ -329,12 +355,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.borderedFooter}>
-            <IntersectionProvider threshold={1}>
-              <CommentsLinks
-                showGoToDiscussions={showGoToDiscussions}
-                showGoToProfile={!!viewer}
-              />
-            </IntersectionProvider>
+            <CommentsLinks
+              showGoToDiscussions={showGoToDiscussions}
+              showGoToProfile={!!viewer}
+            />
           </div>
         </HorizontalGutter>
       )}
@@ -357,7 +381,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
+          count: { type: "Int", defaultValue: 99999 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
           tag: { type: "TAG" }
@@ -390,12 +414,30 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
+              seen
+              allChildComments {
+                edges {
+                  node {
+                    id
+                    seen
+                  }
+                }
+              }
               ...AllCommentsTabCommentContainer_comment
             }
           }
           edges {
             node {
               id
+              seen
+              allChildComments {
+                edges {
+                  node {
+                    id
+                    seen
+                  }
+                }
+              }
               ...AllCommentsTabCommentContainer_comment
             }
           }

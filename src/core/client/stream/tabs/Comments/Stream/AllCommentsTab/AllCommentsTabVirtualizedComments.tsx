@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import { ListenerFn } from "eventemitter2";
 import React, {
   FunctionComponent,
   useCallback,
@@ -10,9 +9,8 @@ import React, {
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { useFetch, useLocal } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLFEATURE_FLAG } from "coral-framework/schema";
+import { useLocal } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { Button } from "coral-ui/components/v3";
@@ -25,7 +23,6 @@ import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainer
 import { AllCommentsTabVirtualizedCommentsLocal } from "coral-stream/__generated__/AllCommentsTabVirtualizedCommentsLocal.graphql";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
-import NextUnseenCommentFetch from "./NextUnseenCommentFetch";
 
 export interface NextUnseenComment {
   commentID?: string | null;
@@ -45,18 +42,15 @@ interface Props {
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
-  nextUnseenComment: NextUnseenComment | null;
-  onNextUnseenCommentFetched: (
-    nextUnseenComment: NextUnseenComment | null
-  ) => void;
-  viewNewCount: number;
+  comments: any;
+  newCommentsToShow: any;
 }
 
 // Virtuoso settings
 const overscan = 50;
 const increaseViewportBy = 2000;
 const virtuosoHeight = 600;
-const scrollSeekShowPlaceholderVelocity = 1200;
+const scrollSeekShowPlaceholderVelocity = 5000;
 
 const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   story,
@@ -68,9 +62,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   currentScrollRef,
   alternateOldestViewEnabled,
   commentsOrderBy,
-  nextUnseenComment,
-  onNextUnseenCommentFetched,
-  viewNewCount,
+  comments,
+  newCommentsToShow,
 }) => {
   const [local, setLocal] = useLocal<
     AllCommentsTabVirtualizedCommentsLocal
@@ -85,7 +78,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       addACommentButtonClicked
     }
   `);
-  const { eventEmitter } = useCoralContext();
 
   // We need to know if the Load all button has been clicked to help determine whether
   // to display the Load all button or not.
@@ -101,28 +93,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     hasMore: boolean;
   }>(null);
 
-  const { comments, newCommentsToShow } = useMemo(() => {
-    // If in oldest first view, filter out new comments to show as they will
-    // be included in the stream at the bottom after initial number of comments.
-    // When the new comments are cleared on rerender, they will be shown in chronological position.
-    if (local.oldestFirstNewCommentsToShow) {
-      const newCommentsToShowIds = local.oldestFirstNewCommentsToShow.split(
-        " "
-      );
-      const commentsWithoutNew = story.comments.edges.filter(
-        (c) => !newCommentsToShowIds.includes(c.node.id)
-      );
-      const newComments = story.comments.edges.filter((c) =>
-        newCommentsToShowIds.includes(c.node.id)
-      );
-      return {
-        comments: commentsWithoutNew,
-        newCommentsToShow: newComments,
-      };
-    }
-    return { comments: story.comments.edges, newCommentsToShow: null };
-  }, [story.comments.edges, local.oldestFirstNewCommentsToShow]);
-
+  // TODO: This will no longer be necessarily once these comments are just inserted into comments in container
   // Total comments length is either the number of comments that have been loaded OR,
   // for oldest first view, the number of comments loaded PLUS any new comments
   // that have been added via the Add new comments box.
@@ -203,86 +174,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
         (comments.length >= NUM_INITIAL_COMMENTS && !displayLoadAllButton))
     );
   }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
-
-  // This is the fetch for the next unseen comment, which is used for Z key traversal
-  // in keyboard shortcuts if Z_KEY is enabled.
-  const fetchNextUnseenComment = useFetch(NextUnseenCommentFetch);
-  const findNextUnseen = useCallback(() => {
-    const findNext = async () => {
-      const { nextUnseenComment: nextUnseen } = await fetchNextUnseenComment({
-        id: local.commentWithTraversalFocus,
-        storyID: story.id,
-        orderBy: commentsOrderBy,
-        viewNewCount,
-      });
-      onNextUnseenCommentFetched(nextUnseen);
-    };
-
-    void findNext();
-  }, [
-    fetchNextUnseenComment,
-    local.commentWithTraversalFocus,
-    story.id,
-    commentsOrderBy,
-    viewNewCount,
-    onNextUnseenCommentFetched,
-    showLoadMoreForOldestFirstNewComments,
-  ]);
-
-  // Whenever we initially render, we find the next unseen and set it for keyboard shortcuts
-  // if Z_KEY is enabled.
-  useEffect(() => {
-    if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
-      findNextUnseen();
-    }
-  }, []);
-
-  // Whenever new comments come in via subscription, or the comment with
-  // traversal focus changes, we find the next unseen and set it for
-  // keyboard shortcuts if Z_KEY is enabled.
-  useEffect(() => {
-    if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
-      findNextUnseen();
-    }
-  }, [
-    viewNewCount,
-    local.viewNewRepliesCount,
-    local.commentWithTraversalFocus,
-    findNextUnseen,
-    settings.featureFlags,
-  ]);
-
-  // Whenever comments are scrolled up and out of view, and therefore marked as seen,
-  // we find the next unseen and set it for keyboard shortcuts if Z_KEY is enabled.
-  useEffect(() => {
-    const listener: ListenerFn = async (e) => {
-      if (settings.featureFlags.includes(GQLFEATURE_FLAG.Z_KEY)) {
-        if (e === "viewer.scrollCommentUpOutOfView") {
-          findNextUnseen();
-        }
-      }
-    };
-    eventEmitter.onAny(listener);
-    return () => {
-      eventEmitter.offAny(listener);
-    };
-  }, [eventEmitter, settings.featureFlags, findNextUnseen]);
-
-  // Whenever the next unseen comment changes, we need to check to make sure
-  // that it's included in the comments that are loaded for Virtuoso. If it's
-  // not, then we need to load more comments until it is loaded. This is so that if Z key
-  // is pressed, Virtuoso will be able to scroll to the next unseen comment.
-  useEffect(() => {
-    if (nextUnseenComment && nextUnseenComment.index) {
-      const nextUnseenInComments =
-        nextUnseenComment.index <= comments.length - 1;
-      if (!nextUnseenInComments) {
-        if (hasMore && !isLoadingMore) {
-          void loadMoreAndEmit();
-        }
-      }
-    }
-  }, [nextUnseenComment, comments, hasMore, isLoadingMore, loadMoreAndEmit]);
 
   // If the Load All Comments button is clicked, we need to set that it has been
   // clicked so that we know it should no longer be displayed.
@@ -482,25 +373,10 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
                   settings={settings}
                   isLast={index === comments.length - 1}
                 />
-                {/* If in oldest first view, show any newly posted
-                comments above Load All Comments button */}
-                {index === NUM_INITIAL_COMMENTS - 1 &&
-                  newCommentsToShow?.map((newComment) => {
-                    return (
-                      <AllCommentsTabCommentContainer
-                        key={newComment.node.id}
-                        viewer={viewer}
-                        comment={newComment.node}
-                        story={story}
-                        settings={settings}
-                        isLast={false}
-                      />
-                    );
-                  })}
               </>
             );
           },
-          [story, comments, settings, viewer, newCommentsToShow]
+          [story, comments, settings, viewer]
         )}
         components={{ ScrollSeekPlaceholder, Footer }}
         scrollSeekConfiguration={{

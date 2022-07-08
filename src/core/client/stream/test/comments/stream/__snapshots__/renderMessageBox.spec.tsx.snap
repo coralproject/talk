@@ -304,57 +304,55 @@ exports[`renders message box when commenting disabled 1`] = `
               <div />
             </div>
           </div>
-          <div>
-            <nav
-              aria-label="Comments Footer"
-              className="CommentsLinks-container coral coral-streamFooter"
+          <nav
+            aria-label="Comments Footer"
+            className="CommentsLinks-container coral coral-streamFooter"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
             >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of comments"
-                type="button"
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  forum
-                </i>
-                <span>
-                  Top of comments
-                </span>
-              </button>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of article"
-                type="button"
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  description
-                </i>
-                <span>
-                  Top of article
-                </span>
-              </button>
-            </nav>
-          </div>
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
+          </nav>
         </div>
       </section>
     </div>
@@ -777,79 +775,77 @@ exports[`renders message box when logged in 1`] = `
               <div />
             </div>
           </div>
-          <div>
-            <nav
-              aria-label="Comments Footer"
-              className="CommentsLinks-container coral coral-streamFooter"
+          <nav
+            aria-label="Comments Footer"
+            className="CommentsLinks-container coral coral-streamFooter"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-profileLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to profile and replies"
+              type="button"
             >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-profileLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to profile and replies"
-                type="button"
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  account_box
-                </i>
-                <span>
-                  Profile & Replies
-                </span>
-              </button>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of comments"
-                type="button"
+                account_box
+              </i>
+              <span>
+                Profile & Replies
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  forum
-                </i>
-                <span>
-                  Top of comments
-                </span>
-              </button>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of article"
-                type="button"
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  description
-                </i>
-                <span>
-                  Top of article
-                </span>
-              </button>
-            </nav>
-          </div>
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
+          </nav>
         </div>
       </section>
     </div>
@@ -1250,57 +1246,55 @@ exports[`renders message box when not logged in 1`] = `
               <div />
             </div>
           </div>
-          <div>
-            <nav
-              aria-label="Comments Footer"
-              className="CommentsLinks-container coral coral-streamFooter"
+          <nav
+            aria-label="Comments Footer"
+            className="CommentsLinks-container coral coral-streamFooter"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
             >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of comments"
-                type="button"
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  forum
-                </i>
-                <span>
-                  Top of comments
-                </span>
-              </button>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of article"
-                type="button"
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  description
-                </i>
-                <span>
-                  Top of article
-                </span>
-              </button>
-            </nav>
-          </div>
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
+          </nav>
         </div>
       </section>
     </div>
@@ -1602,57 +1596,55 @@ exports[`renders message box when story isClosed 1`] = `
               <div />
             </div>
           </div>
-          <div>
-            <nav
-              aria-label="Comments Footer"
-              className="CommentsLinks-container coral coral-streamFooter"
+          <nav
+            aria-label="Comments Footer"
+            className="CommentsLinks-container coral coral-streamFooter"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of comments"
+              type="button"
             >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of comments"
-                type="button"
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  forum
-                </i>
-                <span>
-                  Top of comments
-                </span>
-              </button>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-                data-variant="textUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                title="Go to top of article"
-                type="button"
+                forum
+              </i>
+              <span>
+                Top of comments
+              </span>
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+              data-variant="textUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              title="Go to top of article"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
-                >
-                  description
-                </i>
-                <span>
-                  Top of article
-                </span>
-              </button>
-            </nav>
-          </div>
+                description
+              </i>
+              <span>
+                Top of article
+              </span>
+            </button>
+          </nav>
         </div>
       </section>
     </div>
