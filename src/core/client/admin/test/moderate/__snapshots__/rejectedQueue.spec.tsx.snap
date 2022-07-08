@@ -16,7 +16,7 @@ exports[`approves comment in rejected queue: count should be 1 1`] = `
 exports[`approves comment in rejected queue: dangling 1`] = `
 <div
   className="Card-root ModerateCard-root ModerateCard-dangling ModerateCard-selected"
-  data-testid="moderate-comment-comment-0"
+  data-testid="moderate-comment-card-comment-0"
   id="moderate-comment-comment-0"
   onClick={[Function]}
   tabIndex={0}
@@ -338,7 +338,7 @@ exports[`renders rejected queue with comments 1`] = `
     >
       <div
         className="Card-root ModerateCard-root ModerateCard-selected"
-        data-testid="moderate-comment-comment-0"
+        data-testid="moderate-comment-card-comment-0"
         id="moderate-comment-comment-0"
         onClick={[Function]}
         tabIndex={0}
@@ -657,7 +657,7 @@ exports[`renders rejected queue with comments 1`] = `
       </div>
       <div
         className="Card-root ModerateCard-root"
-        data-testid="moderate-comment-comment-1"
+        data-testid="moderate-comment-card-comment-1"
         id="moderate-comment-comment-1"
         onClick={[Function]}
         tabIndex={0}
@@ -968,7 +968,7 @@ exports[`renders rejected queue with comments 1`] = `
 exports[`renders rejected queue with comments and load more 1`] = `
 <div
   className="Card-root ModerateCard-root"
-  data-testid="moderate-comment-comment-2"
+  data-testid="moderate-comment-card-comment-2"
   id="moderate-comment-comment-2"
   onClick={[Function]}
   tabIndex={0}
@@ -1086,7 +1086,9 @@ exports[`renders rejected queue with comments and load more 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
         >
-          <div>
+          <div
+            data-testid="moderate-comment-storyInfo"
+          >
             <div
               className="ModerateCard-storyLabel"
             >

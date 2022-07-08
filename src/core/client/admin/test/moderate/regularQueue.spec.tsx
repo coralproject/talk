@@ -291,7 +291,7 @@ it("renders reported queue with comments with banned words correctly", async () 
   });
   const moderateContainer = await screen.findByTestId("moderate-container");
   const comment = within(moderateContainer).getByTestId(
-    "moderate-comment-comment-4"
+    "moderate-comment-card-comment-4"
   );
   const commentText = within(comment).getByText(
     "This is a very long comment with",
@@ -343,7 +343,7 @@ it("show details of comment with flags", async () => {
     }),
   });
   const reported = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
 
   // all markers should be rendered for comment's flags
@@ -418,7 +418,7 @@ it("show reaction details for a comment with reactions", async () => {
     }),
   });
   const reported = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
   const detailsButton = within(reported).getByRole("button", {
     name: "Details",
@@ -471,7 +471,7 @@ it("shows story info and navigates to a moderate story", async () => {
       },
     }),
   });
-  const comment = await screen.findByTestId("moderate-comment-comment-0");
+  const comment = await screen.findByTestId("moderate-comment-card-comment-0");
   const storyInfo = within(comment).getByTestId("moderate-comment-storyInfo");
   expect(storyInfo).toHaveTextContent("Comment On:Finally a Cure for Cancer");
 
@@ -550,7 +550,9 @@ it("renders reported queue with comments and load more", async () => {
 
   // Get previous count of comments.
   const previousCount = (
-    await within(moderateContainer).findAllByTestId(/^moderate-comment-.*$/)
+    await within(moderateContainer).findAllByTestId(
+      /^moderate-comment-card-.*$/
+    )
   ).length;
 
   const loadMore = screen.getByRole("button", { name: "Load More" });
@@ -562,13 +564,13 @@ it("renders reported queue with comments and load more", async () => {
   });
 
   // Verify we have one more item now.
-  const comments = screen.getAllByTestId(/^moderate-comment-.*$/);
+  const comments = screen.getAllByTestId(/^moderate-comment-card-.*$/);
   expect(comments.length).toBe(previousCount + 1);
 
   // Verify last one added was our new one
   expect(comments[comments.length - 1]).toHaveAttribute(
     "data-testid",
-    `moderate-comment-${reportedComments[2].id}`
+    `moderate-comment-card-${reportedComments[2].id}`
   );
 });
 
@@ -649,7 +651,7 @@ it("approves comment in reported queue", async () => {
   });
 
   const comment = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
   const approveButton = within(comment).getByRole("button", {
     name: "Approve",
@@ -666,7 +668,7 @@ it("approves comment in reported queue", async () => {
   // Wait until comment is gone.
   await waitFor(() => {
     expect(
-      screen.queryByTestId(`moderate-comment-${reportedComments[0].id}`)
+      screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
   });
 
@@ -755,7 +757,7 @@ it("rejects comment in reported queue", async () => {
   });
 
   const comment = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
   const rejectButton = within(comment).getByRole("button", {
     name: "Reject",
@@ -772,7 +774,7 @@ it("rejects comment in reported queue", async () => {
   // Wait until comment is gone.
   await waitFor(() => {
     expect(
-      screen.queryByTestId(`moderate-comment-${reportedComments[0].id}`)
+      screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
   });
 
