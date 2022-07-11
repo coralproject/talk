@@ -15,7 +15,7 @@ const createTestRenderer = async () => {
       s.callsFake((input: any) => {
         if (
           isMatch(input, {
-            first: 20,
+            first: 99999,
             orderBy: "CREATED_AT_DESC",
             after: loadMoreDateCursor,
           })
@@ -35,7 +35,7 @@ const createTestRenderer = async () => {
         }
         if (
           isMatch(input, {
-            first: 20,
+            first: 99999,
             orderBy: "CREATED_AT_DESC",
           })
         ) {

@@ -430,6 +430,94 @@ exports[`renders configure general 1`] = `
               </div>
             </div>
           </div>
+          <div
+            className="Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <h2
+                  className="Header-root"
+                >
+                  Load everything
+                </h2>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  Change how long streams display. When enabled, the reader will have to scroll past all of the comments to get to any content below, no matter how many comments are on the page. When disabled, long comment streams will be paused with a "Load All Comments" button after 20 top-level comments, so that readers can easily move past the comments if they don't want to read them all.
+                </p>
+                <fieldset
+                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    Load everything enabled
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="loadAllComments-true"
+                        name="loadAllComments"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="loadAllComments-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="loadAllComments-false"
+                        name="loadAllComments"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="loadAllComments-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
           <fieldset
             className="FieldSet-root Box-root ConfigBox-root"
           >
@@ -631,6 +719,7 @@ reactions, be reported, and be shared.
                       <input
                         checked={false}
                         className="RadioButton-input"
+                        data-testid="community-guidelines-on"
                         disabled={false}
                         id="communityGuidelines.enabled-true"
                         name="communityGuidelines.enabled"
@@ -722,6 +811,7 @@ here:
           </fieldset>
           <fieldset
             className="FieldSet-root Box-root ConfigBox-root"
+            data-testid="rte-config-box"
           >
             <div
               className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -879,6 +969,7 @@ dark background until the reader chooses to reveal the text.
           </fieldset>
           <fieldset
             className="FieldSet-root Box-root ConfigBox-root"
+            data-testid="comment-length-config-box"
           >
             <div
               className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -1054,6 +1145,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
           </fieldset>
           <div
             className="Box-root ConfigBox-root"
+            data-testid="comment-editing-config-box"
           >
             <div
               className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -1157,6 +1249,7 @@ moderation panel.
           </div>
           <fieldset
             className="FieldSet-root Box-root ConfigBox-root"
+            data-testid="closing-comment-streams-config-box"
           >
             <div
               className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
