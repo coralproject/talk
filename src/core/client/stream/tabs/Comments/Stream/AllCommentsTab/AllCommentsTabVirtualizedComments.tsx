@@ -50,7 +50,7 @@ interface Props {
 const overscan = 50;
 const increaseViewportBy = 2000;
 const virtuosoHeight = 600;
-const scrollSeekShowPlaceholderVelocity = 5000;
+const scrollSeekShowPlaceholderVelocity = 8000;
 
 const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   story,
