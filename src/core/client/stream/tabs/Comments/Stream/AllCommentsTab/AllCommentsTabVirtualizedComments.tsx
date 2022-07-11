@@ -42,7 +42,7 @@ interface Props {
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
-  comments: any;
+  comments: AllCommentsTabContainer_story["comments"];
   newCommentsLength: number;
 }
 
@@ -73,7 +73,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
       totalCommentsLength
-      viewNewRepliesCount
       zKeyClickedLoadAll
       addACommentButtonClicked
     }
