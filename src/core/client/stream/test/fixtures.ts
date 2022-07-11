@@ -130,6 +130,7 @@ export const settings = createFixture<GQLSettings>({
     sarcasm: false,
   },
   flattenReplies: false,
+  loadAllComments: true,
 });
 
 export const site = createFixtures<GQLSite>([
@@ -533,6 +534,11 @@ export const comments = denormalizeComments(
       },
       {
         id: "comment-20",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-21",
         author: commenters[2],
         body: "Comment Body 5",
       },

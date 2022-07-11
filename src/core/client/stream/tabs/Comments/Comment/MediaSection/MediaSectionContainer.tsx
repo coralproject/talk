@@ -1,8 +1,13 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   ExternalMedia,
   GiphyMedia,
@@ -13,6 +18,7 @@ import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
 
 import { MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
 import { MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
+import { MediaSectionContainerLocal } from "coral-stream/__generated__/MediaSectionContainerLocal.graphql";
 
 import styles from "./MediaSectionContainer.css";
 
@@ -21,22 +27,56 @@ interface Props {
   settings: MediaSectionContainer_settings;
   defaultExpanded?: boolean;
 }
-
 const MediaSectionContainer: FunctionComponent<Props> = ({
   comment,
   settings,
   defaultExpanded = false,
 }) => {
-  const [expanded, setExpanded] = useState(defaultExpanded);
+  const [{ expandedMediaSettings }, setLocal] = useLocal<
+    MediaSectionContainerLocal
+  >(graphql`
+    fragment MediaSectionContainerLocal on Local {
+      expandedMediaSettings {
+        commentIDs
+      }
+    }
+  `);
+  const [isToggled, setIsToggled] = useState(false);
   const onToggleExpand = useCallback(() => {
-    setExpanded((v) => !v);
-  }, []);
+    const initialMediaSettings = expandedMediaSettings
+      ? expandedMediaSettings
+      : { commentIDs: [] };
+    const indexOfComment = initialMediaSettings.commentIDs.indexOf(comment.id);
+    if (indexOfComment === -1) {
+      setIsToggled(defaultExpanded ? false : true);
+      setLocal({
+        expandedMediaSettings: {
+          commentIDs: initialMediaSettings.commentIDs.concat(comment.id),
+        },
+      });
+    } else {
+      setIsToggled(defaultExpanded ? true : false);
+      setLocal({
+        expandedMediaSettings: {
+          commentIDs: initialMediaSettings.commentIDs.filter(
+            (c: string) => c !== comment.id
+          ),
+        },
+      });
+    }
+  }, [comment, expandedMediaSettings, setLocal, setIsToggled, defaultExpanded]);
+
+  const expanded = useMemo(() => {
+    const commentInSettings = expandedMediaSettings?.commentIDs.includes(
+      comment.id
+    );
+    return defaultExpanded ? !commentInSettings : commentInSettings;
+  }, [expandedMediaSettings, comment, defaultExpanded]);
 
   const media = comment.revision?.media;
   if (!media) {
     return null;
   }
-
   if (
     (media.__typename === "TwitterMedia" && !settings.media.twitter.enabled) ||
     (media.__typename === "YouTubeMedia" && !settings.media.youtube.enabled) ||
@@ -45,7 +85,6 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   ) {
     return null;
   }
-
   if (!expanded) {
     return (
       <Button
@@ -78,7 +117,6 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       </Button>
     );
   }
-
   return (
     <HorizontalGutter>
       <div>
@@ -116,6 +154,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
+          isToggled={isToggled}
         />
       )}
       {media.__typename === "TwitterMedia" && (
@@ -123,6 +162,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
+          isToggled={isToggled}
         />
       )}
       {media.__typename === "YouTubeMedia" && (
@@ -130,6 +170,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
+          isToggled={isToggled}
         />
       )}
       {media.__typename === "GiphyMedia" && (
@@ -144,7 +185,6 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
     </HorizontalGutter>
   );
 };
-
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment MediaSectionContainer_comment on Comment {
@@ -198,5 +238,4 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
 })(MediaSectionContainer);
-
 export default enhanced;

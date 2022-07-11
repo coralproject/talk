@@ -1,19 +1,25 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import {
+  ConnectionHandler,
+  Environment,
+  RecordProxy,
+  RecordSourceSelectorProxy,
+} from "relay-runtime";
 
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 import {
   MarkCommentsAsSeenInput,
   MarkCommentsAsSeenMutation,
+  MarkCommentsAsSeenMutationResponse,
 } from "coral-stream/__generated__/MarkCommentsAsSeenMutation.graphql";
 
 import { COMMIT_SEEN_EVENT, CommitSeenEventData } from "../commentSeen";
-
 const mutation = graphql`
   mutation MarkCommentsAsSeenMutation($input: MarkCommentsAsSeenInput!) {
     markCommentsAsSeen(input: $input) {
@@ -25,9 +31,58 @@ const mutation = graphql`
     }
   }
 `;
-
 type Input = Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
   updateSeen: boolean;
+};
+
+const updateRepliesToSeen = (
+  proxy: RecordProxy<{}>,
+  store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
+  input: Input
+) => {
+  const replyConnectionKey = "ReplyList_replies";
+  const replyConnection = ConnectionHandler.getConnection(
+    proxy,
+    replyConnectionKey,
+    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
+  );
+  const replies = replyConnection?.getLinkedRecords("edges");
+  const newReplies = replyConnection?.getLinkedRecords("viewNewEdges") || [];
+  const combinedReplies = replies?.concat(newReplies);
+  let replyProxy: RecordProxy<{}> | null | undefined = null;
+  if (combinedReplies) {
+    for (const reply of combinedReplies) {
+      const replyID = reply.getLinkedRecord("node")?.getValue("id");
+      if (replyID) {
+        replyProxy = store.get(replyID.toString());
+        if (replyProxy) {
+          replyProxy.setValue(!!input.updateSeen, "seen");
+        }
+      }
+    }
+  }
+  return replyProxy;
+};
+
+const updateCommentsAndRepliesToSeen = (
+  comments: RecordProxy[],
+  store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
+  input: Input
+) => {
+  for (const comment of comments) {
+    const commentID = comment.getLinkedRecord("node")?.getValue("id");
+    if (commentID) {
+      const proxy = store.get(commentID.toString());
+      if (proxy) {
+        proxy.setValue(!!input.updateSeen, "seen");
+        let replyProxy: RecordProxy<{}> | null | undefined = proxy;
+        // Have to check and update all levels of replies on a comment to seen
+        while (replyProxy) {
+          replyProxy = updateRepliesToSeen(replyProxy, store, input);
+        }
+      }
+    }
+  }
 };
 
 const enhanced = createMutation(
@@ -46,6 +101,7 @@ const enhanced = createMutation(
         input: {
           storyID: input.storyID,
           commentIDs: input.commentIDs,
+          markAllAsSeen: input.markAllAsSeen,
           clientMutationId: clientMutationId.toString(),
         },
       },
@@ -58,6 +114,23 @@ const enhanced = createMutation(
         },
       },
       updater: (store, data) => {
+        if (input.markAllAsSeen) {
+          const story = store.get(input.storyID)!;
+          const connection = ConnectionHandler.getConnection(
+            story,
+            "Stream_comments",
+            {
+              orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+            }
+          )!;
+          const comments = connection.getLinkedRecords("edges");
+          const newComments = connection.getLinkedRecords("viewNewEdges") || [];
+          const combinedComments = comments?.concat(newComments);
+          if (combinedComments) {
+            updateCommentsAndRepliesToSeen(combinedComments, store, input);
+          }
+        }
+
         if (
           !data.markCommentsAsSeen ||
           !data.markCommentsAsSeen.comments ||
@@ -65,7 +138,6 @@ const enhanced = createMutation(
         ) {
           return;
         }
-
         for (const comment of data.markCommentsAsSeen.comments) {
           const proxy = store.get(comment.id);
           if (proxy) {
@@ -74,15 +146,15 @@ const enhanced = createMutation(
         }
       },
     });
-
-    if (input.commentIDs && input.commentIDs.length > 0) {
+    if (
+      input.markAllAsSeen ||
+      (input.commentIDs && input.commentIDs.length > 0)
+    ) {
       eventEmitter.emit(COMMIT_SEEN_EVENT, {
         commentIDs: input.commentIDs,
       } as CommitSeenEventData);
     }
-
     return result;
   }
 );
-
 export default enhanced;

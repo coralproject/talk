@@ -2174,6 +2174,13 @@ type Settings @cacheControl(maxAge: 30) {
   emailDomainModeration: [EmailDomain!]!
 
   """
+  loadAllComments is whether or not all comments should be loaded in infinite scroll
+  for the stream, or a Load all comments button should be shown after the initial
+  comments. Show infinite scroll if true, load all comments if false.
+  """
+  loadAllComments: Boolean!
+
+  """
   externalProfileURL is a string template for a link to a user's
   external profile.
   """
@@ -3662,6 +3669,15 @@ type Comment @cacheControl(maxAge: 5) {
   parentCount: Int!
 
   """
+  allChildComments is a CommentsConnection that includes all comments that are
+  children of a comment (i.e. that have the comment included in their ancestorIDs)
+  """
+  allChildComments(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
+  ): CommentsConnection!
+
+  """
   depth is the number of levels that a given comment is deep.
   """
   depth: Int!
@@ -4054,7 +4070,7 @@ type Story @cacheControl(maxAge: 30) {
   comments are the comments on the Story.
   """
   comments(
-    first: Int = 20 @constraint(max: 50)
+    first: Int = 20 @constraint(max: 99999)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
 
@@ -5641,6 +5657,13 @@ input SettingsInput {
   (European Directive 2000/31/CE).
   """
   forReviewQueue: Boolean
+
+  """
+  loadAllComments is whether or not all comments should be loaded in infinite scroll
+  for the stream, or a Load all comments button should be shown after the initial
+  comments. Show infinite scroll if true, load all comments if false.
+  """
+  loadAllComments: Boolean
 
   """
   externalProfileURL is a string template for a link to a user's
@@ -8656,6 +8679,11 @@ input MarkCommentsAsSeenInput {
   commentID is the comment to be marked as seen.
   """
   commentIDs: [ID!]!
+
+  """
+  markAllAsSeen marks all comments as seen.
+  """
+  markAllAsSeen: Boolean
 }
 
 type MarkCommentsAsSeenPayload {
