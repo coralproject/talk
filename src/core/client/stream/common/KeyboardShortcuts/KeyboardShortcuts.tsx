@@ -49,6 +49,7 @@ interface Props {
   storyID: string;
   currentScrollRef: any;
   comments: any;
+  viewNewCount: number;
 }
 
 export interface KeyboardEventData {
@@ -248,6 +249,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   storyID,
   currentScrollRef,
   comments,
+  viewNewCount,
 }) => {
   const {
     relayEnvironment,
@@ -456,6 +458,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     virtuosoIndex?: number;
     isRoot: boolean;
     rootCommentID?: string;
+    isNew?: boolean;
   }
 
   // If the next unseen comment is a reply, then this finds that comment beneath
@@ -494,7 +497,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             // We have to set load all replies to the comment id to load
             // more replies for to make sure that we load after Virtuoso has
             // remounted the reply list component after scrolling
-            setLocal({ loadAllReplies: nextKeyStop.id.substr(34) });
+            if (nextKeyStop.isViewNew) {
+              setLocal({ loadAllReplies: nextKeyStop.id.substr(42) });
+            } else {
+              setLocal({ loadAllReplies: nextKeyStop.id.substr(34) });
+            }
           } else {
             // go to the first unseen reply to the root comment and set focus to it
             // JumpToNextUnseenCommentEvent.emit(eventEmitter, {
@@ -519,7 +526,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   );
 
   const findNextUnseenComment = useCallback(
-    (commentsHere, commentWithTraversalFocusHere) => {
+    (commentsHere, commentWithTraversalFocusHere, viewNewCountHere) => {
+      const nextUnseenComment: UnseenComment = { isRoot: true };
+      // TODO: Check here if there is no traversal focus for new comments via subscription
+      if (!commentWithTraversalFocusHere && viewNewCountHere > 0) {
+        nextUnseenComment.isNew = true;
+        return nextUnseenComment;
+      }
+
       // determine current traversal focus and what slice of comments to search for next unseen in
       const indexOfTraversalFocus = commentsHere.findIndex(
         (comment: {
@@ -539,7 +553,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       const nextSlice = commentsHere.slice(sliceIndex);
 
       // actually find the next unseen comment
-      const nextUnseenComment: UnseenComment = { isRoot: true };
       const nextUnseenExists = nextSlice.find(
         (comment: {
           node: {
@@ -588,6 +601,68 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           nextUnseenComment.rootCommentID = nextUnseenComment.nodeID;
         }
         return nextUnseenComment;
+      } else {
+        // TODO: Here we need to check the first slice (circle back around to check)
+        const nextUnseenCommentFirst: UnseenComment = { isRoot: true };
+
+        // including for new comments via subscription
+        if (viewNewCountHere > 0) {
+          nextUnseenCommentFirst.isNew = true;
+          return nextUnseenCommentFirst;
+        }
+
+        const firstSlice = commentsHere.slice(0, sliceIndex);
+
+        // actually find the next unseen comment
+        const nextUnseenFirstExists = firstSlice.find(
+          (comment: {
+            node: {
+              seen: boolean;
+              id: string;
+              allChildComments: { edges: any[] };
+            };
+          }) => {
+            if (comment.node.seen === false) {
+              nextUnseenCommentFirst.nodeID = comment.node.id;
+              return true;
+            }
+            if (
+              comment.node.allChildComments &&
+              comment.node.allChildComments.edges.some((c) => {
+                if (c.node.seen === false) {
+                  nextUnseenCommentFirst.nodeID = c.node.id;
+                  return true;
+                }
+                return false;
+              })
+            ) {
+              nextUnseenCommentFirst.isRoot = false;
+              nextUnseenCommentFirst.rootCommentID = comment.node.id;
+              return true;
+            }
+            return false;
+          }
+        );
+        if (nextUnseenFirstExists) {
+          nextUnseenCommentFirst.virtuosoIndex = commentsHere.findIndex(
+            (comment: {
+              node: { id: any; allChildComments: { edges: any[] } };
+            }) => {
+              return (
+                comment.node.id === nextUnseenFirstExists.node.id ||
+                (comment.node.allChildComments &&
+                  comment.node.allChildComments.edges.some(
+                    (c) => c.node.id === nextUnseenFirstExists.node.id
+                  ))
+              );
+            }
+          );
+          if (nextUnseenCommentFirst.isRoot) {
+            nextUnseenCommentFirst.rootCommentID =
+              nextUnseenCommentFirst.nodeID;
+          }
+          return nextUnseenCommentFirst;
+        }
       }
       return undefined;
     },
@@ -598,8 +673,56 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     async (source: "keyboard" | "mobileToolbar") => {
       const nextUnseenComment = findNextUnseenComment(
         comments,
-        commentWithTraversalFocus
+        commentWithTraversalFocus,
+        viewNewCount
       );
+
+      if (nextUnseenComment?.isNew) {
+        // TODO: need to check if need to scroll to make things not potentially jump around
+        // --> see if ViewNewCommentsButton is already available in the root
+        // scroll to Virtuoso 0 if needed
+        currentScrollRef.current.scrollIntoView({
+          align: "center",
+          index: 0,
+          behavior: "auto",
+          done: () => {
+            // After Virtuoso scrolls, we have to make sure the new comment button
+            // is available before setting focus to it or one of its replies.
+            let count = 0;
+            const viewNewCommentsButtonExists = setInterval(async () => {
+              count += 1;
+              const viewNewCommentsButton = root.getElementById(
+                "comments-allComments-viewNewButton"
+              );
+              if (
+                viewNewCommentsButton !== undefined &&
+                viewNewCommentsButton !== null
+              ) {
+                clearInterval(viewNewCommentsButtonExists);
+                if (viewNewCommentsButton) {
+                  viewNewCommentsButton.click();
+                  const stops = getKeyStops(root);
+                  const firstStop = getFirstKeyStop(stops);
+                  if (firstStop) {
+                    setTimeout(() => {
+                      void setTraversalFocus({
+                        commentID: parseCommentElementID(firstStop.id),
+                        commentSeenEnabled,
+                      });
+                      firstStop.element.focus();
+                    }, 0);
+                  }
+                }
+              }
+              if (count > 10) {
+                clearInterval(viewNewCommentsButtonExists);
+              }
+            }, 100);
+          },
+        });
+      }
+      // TODO: Should everything else be in an else?
+
       // If a Load all comments button is currently displayed, but the next
       // unseen comment is at a Virtuoso index greater than the initial number
       // of comments we display, we need to hide the button and show those comments
@@ -611,21 +734,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       ) {
         setLocal({ zKeyClickedLoadAll: true });
       }
-
-      // TODO: Reimplement finding this
-      // If we need to load new comments that entered via subscription,
-      // we scroll to the top of the comments, click the view new comments
-      // button, and then set focus and mark as seen the next unseen comment.
-      // if (nextUnseenComment?.needToLoadNew) {
-      //   scrollToBeginning(root, renderWindow);
-      //   const viewNewCommentsButton = root.getElementById(
-      //     "comments-allComments-viewNewButton"
-      //   );
-      //   if (viewNewCommentsButton) {
-      //     viewNewCommentsButton.click();
-      //     setFocusAndMarkSeen(nextUnseenComment.commentID!);
-      //   }
-      // }
 
       const isRootComment = nextUnseenComment?.isRoot;
 
@@ -704,6 +812,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       commentWithTraversalFocus,
       comments,
       findNextUnseenComment,
+      viewNewCount,
+      commentSeenEnabled,
     ]
   );
 

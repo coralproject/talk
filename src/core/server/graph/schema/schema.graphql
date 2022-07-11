@@ -8680,6 +8680,8 @@ input MarkCommentsAsSeenInput {
   """
   commentIDs: [ID!]!
 
+  updateSeen: Boolean
+
   """
   markAllAsSeen marks all comments as seen.
   """

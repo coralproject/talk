@@ -19,6 +19,7 @@ import {
   determineDepthTillAncestor,
   determineDepthTillStory,
   getFlattenedReplyAncestorID,
+  getReplyAncestorID,
   lookupFlattenReplies,
 } from "../../helpers";
 
@@ -158,10 +159,26 @@ function insertReply(
 
     const local = store.get(LOCAL_ID);
     if (local) {
+      // TODO: Do we still need this currentRepliesCount?
       const currentRepliesCount =
         (local.getValue("viewNewRepliesCount") as number) || 0;
       local.setValue(currentRepliesCount + 1, "viewNewRepliesCount");
     }
+  }
+
+  const ancestorIDHere =
+    ancestorID || (getReplyAncestorID(comment, depth) as string);
+  const ancestorProxy = store.get(ancestorIDHere);
+  const allChildCommentsAncestor = ancestorProxy?.getLinkedRecord(
+    "allChildComments"
+  );
+  if (allChildCommentsAncestor) {
+    const allChildEdges =
+      allChildCommentsAncestor.getLinkedRecords("edges") || [];
+    allChildCommentsAncestor.setLinkedRecords(
+      allChildEdges.concat(commentsEdge),
+      "edges"
+    );
   }
 }
 

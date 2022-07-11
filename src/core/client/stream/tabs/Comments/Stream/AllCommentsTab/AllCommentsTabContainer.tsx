@@ -278,6 +278,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         storyID={story.id}
         currentScrollRef={currentScrollRef}
         comments={comments}
+        viewNewCount={viewNewCount}
       />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu

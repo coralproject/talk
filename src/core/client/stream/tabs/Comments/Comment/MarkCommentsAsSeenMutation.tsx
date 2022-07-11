@@ -102,6 +102,7 @@ const enhanced = createMutation(
           storyID: input.storyID,
           commentIDs: input.commentIDs,
           markAllAsSeen: input.markAllAsSeen,
+          updateSeen: input.updateSeen,
           clientMutationId: clientMutationId.toString(),
         },
       },
