@@ -43,7 +43,7 @@ interface Props {
   alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
   comments: any;
-  newCommentsToShow: any;
+  newCommentsLength: number;
 }
 
 // Virtuoso settings
@@ -63,7 +63,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   alternateOldestViewEnabled,
   commentsOrderBy,
   comments,
-  newCommentsToShow,
+  newCommentsLength,
 }) => {
   const [local, setLocal] = useLocal<
     AllCommentsTabVirtualizedCommentsLocal
@@ -93,19 +93,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     hasMore: boolean;
   }>(null);
 
-  // TODO: This will no longer be necessarily once these comments are just inserted into comments in container
-  // Total comments length is either the number of comments that have been loaded OR,
-  // for oldest first view, the number of comments loaded PLUS any new comments
-  // that have been added via the Add new comments box.
-  const totalCommentsLength = useMemo(() => {
-    return newCommentsToShow
-      ? comments.length + newCommentsToShow.length
-      : comments.length;
-  }, [newCommentsToShow, comments]);
-
   useEffect(() => {
-    setLocal({ totalCommentsLength });
-  }, [totalCommentsLength, setLocal]);
+    setLocal({ totalCommentsLength: comments.length });
+  }, [comments.length, setLocal]);
 
   // This determines if there are more comments to display than the initial 20.
   // It also takes into account the initial comments loaded since if we start
@@ -113,13 +103,13 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // come in.
   const moreCommentsForLoadAll = useMemo(() => {
     return (
-      totalCommentsLength > NUM_INITIAL_COMMENTS &&
+      comments.length > NUM_INITIAL_COMMENTS &&
       ((initialComments && initialComments.length > NUM_INITIAL_COMMENTS) ||
         (initialComments &&
           initialComments.length === NUM_INITIAL_COMMENTS &&
           initialComments.hasMore))
     );
-  }, [totalCommentsLength, initialComments]);
+  }, [comments.length, initialComments]);
 
   // We determine whether to display the Load all comments button based on whether:
   // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.
@@ -150,7 +140,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     }
   }, [
     settings.loadAllComments,
-    totalCommentsLength,
     initialComments,
     alternateOldestViewEnabled,
     loadAllButtonHasBeenClicked,
@@ -247,7 +236,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     setLocal,
     displayLoadAllButton,
     showLoadMoreForOldestFirstNewComments,
-    totalCommentsLength,
     initialComments,
     loadMoreAndEmit,
     onDisplayLoadAllButtonClick,
@@ -352,7 +340,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
           bottom: increaseViewportBy,
         }}
         totalCount={
-          displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length
+          displayLoadAllButton
+            ? NUM_INITIAL_COMMENTS + newCommentsLength
+            : comments.length
         }
         overscan={overscan}
         endReached={() => {

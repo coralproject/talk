@@ -27,6 +27,7 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
+import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
   LoadMoreAllCommentsEvent,
   ViewNewCommentsNetworkEvent,
@@ -234,7 +235,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [viewer, settings]
   );
 
-  const { comments, newCommentsToShow } = useMemo(() => {
+  const { comments, newCommentsLength } = useMemo(() => {
     // If in oldest first view, filter out new comments to show as they will
     // be included in the stream at the bottom after initial number of comments.
     // When the new comments are cleared on rerender, they will be shown in chronological position.
@@ -246,30 +247,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       const newComments = story.comments.edges.filter((c) =>
         newCommentsToShowIds.includes(c.node.id)
       );
+      commentsWithoutNew.splice(NUM_INITIAL_COMMENTS, 0, ...newComments);
       return {
         comments: commentsWithoutNew,
-        newCommentsToShow: newComments,
+        newCommentsLength: newComments.length,
       };
     }
-    return { comments: story.comments.edges, newCommentsToShow: null };
+    return { comments: story.comments.edges, newCommentsLength: 0 };
   }, [story.comments.edges, oldestFirstNewCommentsToShow]);
-
-  // TODO: Insert these into the comments if needed so can properly be factored into next unseen
-  // {/* If in oldest first view, show any newly posted
-  //               comments above Load All Comments button */}
-  // {index === NUM_INITIAL_COMMENTS - 1 &&
-  //   newCommentsToShow?.map((newComment) => {
-  //     return (
-  //       <AllCommentsTabCommentContainer
-  //         key={newComment.node.id}
-  //         viewer={viewer}
-  //         comment={newComment.node}
-  //         story={story}
-  //         settings={settings}
-  //         isLast={false}
-  //       />
-  //     );
-  //   })}
 
   return (
     <>
@@ -338,7 +323,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           alternateOldestViewEnabled={alternateOldestViewEnabled}
           commentsOrderBy={commentsOrderBy}
           comments={comments}
-          newCommentsToShow={newCommentsToShow}
+          newCommentsLength={newCommentsLength}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks
