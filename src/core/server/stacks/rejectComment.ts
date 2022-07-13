@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision, hasTag } from "coral-server/models/comment";
@@ -62,6 +63,8 @@ const rejectComment = async (
     return result.before;
   }
 
+  await disableRepliesToChildren(commentID, mongo);
+
   await updateCommentOnStoryTree(
     mongo,
     tenant.id,
@@ -88,6 +91,25 @@ const rejectComment = async (
 
   // Return the resulting comment.
   return result.after;
+};
+
+const disableRepliesToChildren = async (
+  commentID: string,
+  mongo: MongoContext
+) => {
+  const children = await mongo
+    .comments()
+    .find({
+      ancestorIDs: commentID,
+    })
+    .toArray();
+
+  const childIDs = children.map(({ id }) => id);
+
+  await mongo.comments().updateMany(
+    { id: { $in: childIDs } },
+    { $set: { rejectedAncestor: true } },
+  );
 };
 
 export default rejectComment;

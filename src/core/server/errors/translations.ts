@@ -1,6 +1,7 @@
 import { ERROR_CODES } from "coral-common/errors";
 
 export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
+  CANNOT_REPLY_TO_REJECTED_COMMENT: "error-cannotReplyToRejectedComment",
   COMMENT_BODY_EXCEEDS_MAX_LENGTH: "error-commentBodyExceedsMaxLength",
   COMMENT_BODY_TOO_SHORT: "error-commentBodyTooShort",
   COMMENT_NOT_FOUND: "error-commentNotFound",
