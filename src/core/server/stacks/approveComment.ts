@@ -51,10 +51,7 @@ const approveComment = async (
     await submitCommentAsNotSpam(mongo, tenant, result.before, request);
   }
 
-  await enableRepliesToChildren(
-    result.before.id,
-    mongo,
-  );
+  await enableRepliesToChildren(result.before.id, mongo);
 
   // If the comment hasn't been updated, skip the rest of the steps.
   if (!result.after) {
