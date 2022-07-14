@@ -45,11 +45,19 @@ import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
 
+interface Comment {
+  node: {
+    seen: boolean;
+    id: string;
+    allChildComments: { edges: { node: { seen: boolean; id: string } }[] };
+  };
+}
+
 interface Props {
   loggedIn: boolean;
   storyID: string;
   currentScrollRef: any;
-  comments: any;
+  comments: Comment[];
   viewNewCount: number;
 }
 
@@ -73,6 +81,14 @@ interface TraverseOptions {
   noCircle?: boolean;
   skipSeen?: boolean;
   skipLoadMore?: boolean;
+}
+
+interface UnseenComment {
+  isRoot: boolean;
+  nodeID?: string;
+  virtuosoIndex?: number;
+  rootCommentID?: string;
+  isNew?: boolean;
 }
 
 const toKeyStop = (element: HTMLElement): KeyStop => {
@@ -233,7 +249,7 @@ const findPreviousKeyStop = (
   return getLastKeyStop(stops, options);
 };
 
-const loadMoreRepliesEvents = [
+const loadMoreEvents = [
   ShowAllRepliesEvent.nameSuccess,
   ViewNewRepliesNetworkEvent.nameSuccess,
   LoadMoreAllCommentsEvent.nameSuccess,
@@ -293,13 +309,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
     }
-    const unseenComment = comments.find((comment: any) => {
+    const unseenComment = comments.find((comment: Comment) => {
       if (comment.node.seen === false) {
         return true;
       }
       if (
         comment.node.allChildComments &&
-        comment.node.allChildComments.edges.some((c: any) => {
+        comment.node.allChildComments.edges.some((c: Comment) => {
           if (c.node.seen === false) {
             return true;
           }
@@ -505,26 +521,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     [renderWindow]
   );
 
-  interface UnseenComment {
-    isRoot: boolean;
-    nodeID?: string;
-    virtuosoIndex?: number;
-    rootCommentID?: string;
-    isNew?: boolean;
-  }
-
-  interface Comment {
-    node: {
-      seen: boolean;
-      id: string;
-      allChildComments: { edges: { node: { seen: boolean; id: string } }[] };
-    };
-  }
-
-  // If the next unseen comment is a reply, then this finds that comment beneath
-  // its Virtuoso index root comment. If the next unseen is behind a Show more or
-  // View new comments button, then this clicks that button and loads in the needed
-  // replies. Once the comment is found, focus is set and the comment is marked as seen.
+  // If next unseen comment is a root comment, scroll to it, set focus, and mark seen.
+  // If the next unseen comment is a reply, find that comment beneath its root comment.
+  // If the next unseen is behind a Show more or View new comments button, then click that
+  // button and loads in the needed replies. Once the comment is found, focus is set and
+  // the comment is marked as seen.
   const findCommentAndSetFocus = useCallback(
     (nextUnseen: UnseenComment, isRootComment, rootCommentElement, source) => {
       // If next unseen is a root comment, we can just scroll to it, set focus, and
@@ -564,12 +565,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             JumpToNextUnseenCommentEvent.emit(eventEmitter, {
               source,
             });
-            const offset =
-              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-              root.getElementById(nextKeyStop.id)!.getBoundingClientRect().top +
-              renderWindow.pageYOffset -
-              150;
-            setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
+            scrollToComment(nextKeyStop.element);
             setTimeout(
               () => setFocusAndMarkSeen(parseCommentElementID(nextKeyStop.id)),
               0
@@ -968,7 +964,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // Traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
     const listener: ListenerFn = async (e, data) => {
-      if (loadMoreRepliesEvents.includes(e)) {
+      if (loadMoreEvents.includes(e)) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
         // instead of waiting for polling to update it
@@ -978,27 +974,23 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // to the next reply based on the configuration.
         // Focus has already been set to the comment/reply that is directly
         // before the next unseen that we want to end up on.
-        if (
-          e === LoadMoreAllCommentsEvent.nameSuccess &&
-          data.keyboardShortcutsConfig &&
-          zKeyClickedButton
-        ) {
-          let count = 0;
-          const stopExists: any = setInterval(async () => {
-            count += 1;
-            const stopElement = root.getElementById("comments-loadAll");
-            if (stopElement === null) {
-              clearInterval(stopExists);
-              setZKeyClickedButton(false);
-              await traverse(data.keyboardShortcutsConfig, true, true);
-            }
-            if (count > 10) {
-              clearInterval(stopExists);
-              setZKeyClickedButton(false);
-            }
-          }, 100);
-        } else {
-          if (data.keyboardShortcutsConfig && zKeyClickedButton) {
+        if (data.keyboardShortcutConfig && zKeyClickedButton) {
+          if (e === LoadMoreAllCommentsEvent.nameSuccess) {
+            let count = 0;
+            const stopExists: any = setInterval(async () => {
+              count += 1;
+              const stopElement = root.getElementById("comments-loadAll");
+              if (stopElement === null) {
+                clearInterval(stopExists);
+                setZKeyClickedButton(false);
+                await traverse(data.keyboardShortcutsConfig, true, true);
+              }
+              if (count > 10) {
+                clearInterval(stopExists);
+                setZKeyClickedButton(false);
+              }
+            }, 100);
+          } else {
             setZKeyClickedButton(false);
             await traverse(data.keyboardShortcutsConfig, true, true);
           }
