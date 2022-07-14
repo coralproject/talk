@@ -55,9 +55,20 @@ const AddACommentButton: FunctionComponent<Props> = ({
             index: indexToScroll,
             behavior: "auto",
             done: () => {
-              setTimeout(() => {
-                postCommentForm.scrollIntoView();
-              }, 0);
+              let count = 0;
+              const stopExists: any = setInterval(async () => {
+                count += 1;
+                const stopElement = root.querySelector(
+                  `[data-index="${indexToScroll}"]`
+                );
+                if (stopElement !== undefined && stopElement !== null) {
+                  clearInterval(stopExists);
+                  postCommentForm.scrollIntoView();
+                }
+                if (count > 10) {
+                  clearInterval(stopExists);
+                }
+              }, 100);
             },
           });
         }

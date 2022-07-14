@@ -370,139 +370,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     CloseMobileToolbarEvent.emit(eventEmitter);
   }, [eventEmitter, setToolbarClosed]);
 
-  // Traverse is used for C key traversal and for Z key traversal
-  const traverse = useCallback(
-    async (
-      config: {
-        key: "z" | "c";
-        reverse: boolean;
-        source: "keyboard" | "mobileToolbar";
-      },
-      noCircle?: boolean,
-      calledByEventListener?: boolean
-    ) => {
-      let stop: KeyStop | null = null;
-      let traverseOptions: TraverseOptions | undefined;
-
-      if (config.key === "c" || (config.key === "z" && zKeyEnabled)) {
-        if (config.key === "z") {
-          traverseOptions = {
-            skipSeen: true,
-            noCircle: noCircle ? noCircle : false,
-          };
-        }
-        const currentStop = getCurrentKeyStop(root, relayEnvironment);
-        if (config.reverse) {
-          stop = findPreviousKeyStop(root, currentStop, traverseOptions);
-        } else {
-          stop = findNextKeyStop(
-            root,
-            currentStop,
-            traverseOptions,
-            currentScrollRef
-          );
-        }
-      }
-
-      if (!stop) {
-        // If traverse was called by the event listener after more comments/replies
-        // have loaded, and no next unread stop is found, then we need to search
-        // through comments for the next unseen comment
-        if (calledByEventListener) {
-          const currentStop = getCurrentKeyStop(root, relayEnvironment);
-          const currentVirtuosoIndex = currentStop?.element
-            .closest("[data-index]")
-            ?.getAttribute("data-index");
-          if (currentVirtuosoIndex) {
-            findAndNavigateToNextUnseen(
-              comments,
-              commentWithTraversalFocus,
-              viewNewCount,
-              parseInt(currentVirtuosoIndex, 10) + 1,
-              config.source
-            );
-          }
-        }
-        return false;
-      }
-
-      if (config.key === "c") {
-        if (config.reverse) {
-          JumpToPreviousCommentEvent.emit(eventEmitter, {
-            source: config.source,
-          });
-        } else {
-          JumpToNextCommentEvent.emit(eventEmitter, { source: config.source });
-        }
-      } else if (config.key === "z") {
-        if (config.reverse) {
-          JumpToPreviousUnseenCommentEvent.emit(eventEmitter, {
-            source: config.source,
-          });
-        } else {
-          JumpToNextUnseenCommentEvent.emit(eventEmitter, {
-            source: config.source,
-          });
-        }
-      }
-
-      const offset =
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        root.getElementById(stop.id)!.getBoundingClientRect().top +
-        renderWindow.pageYOffset -
-        150;
-      renderWindow.scrollTo({ top: offset });
-
-      if (stop.isLoadMore) {
-        if (!stop.isViewNew) {
-          let prevOrNextStop = findPreviousKeyStop(root, stop, {
-            skipLoadMore: true,
-            noCircle: true,
-          });
-          if (!prevOrNextStop) {
-            prevOrNextStop = findNextKeyStop(root, stop, {
-              skipLoadMore: true,
-              noCircle: true,
-            });
-          }
-          if (prevOrNextStop) {
-            void setTraversalFocus({
-              commentID: parseCommentElementID(prevOrNextStop.id),
-              commentSeenEnabled,
-            });
-            prevOrNextStop.element.focus();
-          }
-        }
-        setZKeyClickedButton(true);
-        stop.element.click();
-        return true;
-      } else {
-        setTimeout(() => {
-          void setTraversalFocus({
-            commentID: parseCommentElementID(stop!.id),
-            commentSeenEnabled,
-          });
-          stop!.element.focus();
-        }, 0);
-        return true;
-      }
-    },
-    [
-      commentSeenEnabled,
-      eventEmitter,
-      relayEnvironment,
-      root,
-      renderWindow,
-      setTraversalFocus,
-      zKeyEnabled,
-      currentScrollRef,
-      commentWithTraversalFocus,
-      comments,
-      viewNewCount,
-      findAndNavigateToNextUnseen,
-    ]
-  );
-
   const setFocusAndMarkSeen = useCallback(
     (commentID: string) => {
       void setTraversalFocus({
@@ -699,6 +566,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       );
 
       if (nextUnseenComment?.isNew) {
+        // TODO: Will it ever be in the root since we are traversing first??
         const virtuosoZeroElement = root.querySelector('[data-index="0"]');
 
         if (virtuosoZeroElement) {
@@ -774,6 +642,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           // Check if next unseen comment is already rendered by Virtuoso.
           // if it is, we can just find the comment, scroll to it, set focus to it,
           // and mark it as seen.
+          // TODO: Will this ever be the case that it's in the root now that we are
+          // traversing first?
           const nextUnseenInRoot = root.getElementById(
             computeCommentElementID(nextUnseenComment.rootCommentID)
           );
@@ -832,6 +702,139 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       setZKeyClickedButton,
       root,
       setLocal,
+    ]
+  );
+
+  // Traverse is used for C key traversal and for Z key traversal
+  const traverse = useCallback(
+    async (
+      config: {
+        key: "z" | "c";
+        reverse: boolean;
+        source: "keyboard" | "mobileToolbar";
+      },
+      noCircle?: boolean,
+      calledByEventListener?: boolean
+    ) => {
+      let stop: KeyStop | null = null;
+      let traverseOptions: TraverseOptions | undefined;
+
+      if (config.key === "c" || (config.key === "z" && zKeyEnabled)) {
+        if (config.key === "z") {
+          traverseOptions = {
+            skipSeen: true,
+            noCircle: noCircle ? noCircle : false,
+          };
+        }
+        const currentStop = getCurrentKeyStop(root, relayEnvironment);
+        if (config.reverse) {
+          stop = findPreviousKeyStop(root, currentStop, traverseOptions);
+        } else {
+          stop = findNextKeyStop(
+            root,
+            currentStop,
+            traverseOptions,
+            currentScrollRef
+          );
+        }
+      }
+
+      if (!stop) {
+        // If traverse was called by the event listener after more comments/replies
+        // have loaded, and no next unread stop is found, then we need to search
+        // through comments for the next unseen comment
+        if (calledByEventListener) {
+          const currentStop = getCurrentKeyStop(root, relayEnvironment);
+          const currentVirtuosoIndex = currentStop?.element
+            .closest("[data-index]")
+            ?.getAttribute("data-index");
+          if (currentVirtuosoIndex) {
+            findAndNavigateToNextUnseen(
+              comments,
+              commentWithTraversalFocus,
+              viewNewCount,
+              parseInt(currentVirtuosoIndex, 10) + 1,
+              config.source
+            );
+          }
+        }
+        return false;
+      }
+
+      if (config.key === "c") {
+        if (config.reverse) {
+          JumpToPreviousCommentEvent.emit(eventEmitter, {
+            source: config.source,
+          });
+        } else {
+          JumpToNextCommentEvent.emit(eventEmitter, { source: config.source });
+        }
+      } else if (config.key === "z") {
+        if (config.reverse) {
+          JumpToPreviousUnseenCommentEvent.emit(eventEmitter, {
+            source: config.source,
+          });
+        } else {
+          JumpToNextUnseenCommentEvent.emit(eventEmitter, {
+            source: config.source,
+          });
+        }
+      }
+
+      const offset =
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+        root.getElementById(stop.id)!.getBoundingClientRect().top +
+        renderWindow.pageYOffset -
+        150;
+      renderWindow.scrollTo({ top: offset });
+
+      if (stop.isLoadMore) {
+        if (!stop.isViewNew) {
+          let prevOrNextStop = findPreviousKeyStop(root, stop, {
+            skipLoadMore: true,
+            noCircle: true,
+          });
+          if (!prevOrNextStop) {
+            prevOrNextStop = findNextKeyStop(root, stop, {
+              skipLoadMore: true,
+              noCircle: true,
+            });
+          }
+          if (prevOrNextStop) {
+            void setTraversalFocus({
+              commentID: parseCommentElementID(prevOrNextStop.id),
+              commentSeenEnabled,
+            });
+            prevOrNextStop.element.focus();
+          }
+        }
+        setZKeyClickedButton(true);
+        stop.element.click();
+        return true;
+      } else {
+        setTimeout(() => {
+          void setTraversalFocus({
+            commentID: parseCommentElementID(stop!.id),
+            commentSeenEnabled,
+          });
+          stop!.element.focus();
+        }, 0);
+        return true;
+      }
+    },
+    [
+      commentSeenEnabled,
+      eventEmitter,
+      relayEnvironment,
+      root,
+      renderWindow,
+      setTraversalFocus,
+      zKeyEnabled,
+      currentScrollRef,
+      commentWithTraversalFocus,
+      comments,
+      viewNewCount,
+      findAndNavigateToNextUnseen,
     ]
   );
 
