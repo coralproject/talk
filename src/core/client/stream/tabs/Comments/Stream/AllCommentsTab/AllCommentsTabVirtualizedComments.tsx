@@ -9,10 +9,12 @@ import React, {
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
+import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import { useLocal } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
+import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import { Button } from "coral-ui/components/v3";
 import colors from "coral-ui/theme/colors";
 
@@ -42,7 +44,7 @@ interface Props {
   currentScrollRef: any;
   alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
-  comments: AllCommentsTabContainer_story["comments"];
+  comments: AllCommentsTabContainer_story["comments"]["edges"];
   newCommentsLength: number;
 }
 
@@ -75,6 +77,11 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       totalCommentsLength
       zKeyClickedLoadAll
       addACommentButtonClicked
+      keyboardShortcutsConfig {
+        key
+        source
+        reverse
+      }
     }
   `);
 
@@ -163,13 +170,29 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     );
   }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
 
+  const beginLoadMoreAllCommentsEvent = useViewerNetworkEvent(
+    LoadMoreAllCommentsEvent
+  );
+
   // If the Load All Comments button is clicked, we need to set that it has been
   // clicked so that we know it should no longer be displayed.
   const onDisplayLoadAllButtonClick = useCallback(() => {
     setLoadAllButtonHasBeenClicked(true);
     setLocal({ zKeyClickedLoadAll: false });
     setLocal({ addACommentButtonClicked: false });
-  }, [setLocal, setLoadAllButtonHasBeenClicked]);
+
+    const loadAllCommentsEvent = beginLoadMoreAllCommentsEvent({
+      storyID: story.id,
+      keyboardShortcutsConfig: local.keyboardShortcutsConfig,
+    });
+
+    loadAllCommentsEvent.success();
+  }, [
+    setLocal,
+    setLoadAllButtonHasBeenClicked,
+    story,
+    local.keyboardShortcutsConfig,
+  ]);
 
   useEffect(() => {
     // on rerender, clear the newly added comments to display if it's
