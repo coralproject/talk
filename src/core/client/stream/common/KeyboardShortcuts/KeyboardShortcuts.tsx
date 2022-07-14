@@ -45,11 +45,17 @@ import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
 
+interface AllChildComments {
+  readonly node: { readonly seen: boolean | null; readonly id: string };
+}
+
 interface Comment {
-  node: {
-    seen: boolean;
-    id: string;
-    allChildComments: { edges: { node: { seen: boolean; id: string } }[] };
+  readonly node: {
+    readonly seen: boolean | null;
+    readonly id: string;
+    readonly allChildComments: {
+      readonly edges: ReadonlyArray<AllChildComments>;
+    };
   };
 }
 
@@ -57,7 +63,7 @@ interface Props {
   loggedIn: boolean;
   storyID: string;
   currentScrollRef: any;
-  comments: Comment[];
+  comments: ReadonlyArray<Comment>;
   viewNewCount: number;
 }
 
@@ -493,6 +499,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       commentWithTraversalFocus,
       comments,
       viewNewCount,
+      findAndNavigateToNextUnseen,
     ]
   );
 
@@ -574,7 +581,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
       }
     },
-    [root, setFocusAndMarkSeen, setLocal, scrollToComment]
+    [root, setFocusAndMarkSeen, setLocal, scrollToComment, eventEmitter]
   );
 
   const searchInComments = (
@@ -823,6 +830,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       currentScrollRef,
       searchInComments,
       setZKeyClickedButton,
+      root,
+      setLocal,
     ]
   );
 
@@ -974,7 +983,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // to the next reply based on the configuration.
         // Focus has already been set to the comment/reply that is directly
         // before the next unseen that we want to end up on.
-        if (data.keyboardShortcutConfig && zKeyClickedButton) {
+        if (data.keyboardShortcutsConfig && zKeyClickedButton) {
           if (e === LoadMoreAllCommentsEvent.nameSuccess) {
             let count = 0;
             const stopExists: any = setInterval(async () => {
