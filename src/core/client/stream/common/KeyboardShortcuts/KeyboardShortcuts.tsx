@@ -354,11 +354,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         updateSeen: true,
         markAllAsSeen: true,
       });
-      if (!disableUnreadButtons) {
-        setDisableUnreadButtons(true);
-      }
     },
-    [disableUnreadButtons, eventEmitter, markSeen, storyID]
+    [eventEmitter, markSeen, storyID]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
@@ -565,132 +562,126 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         virtuosoIndexToSearchFrom
       );
 
-      if (nextUnseenComment?.isNew) {
-        // TODO: Will it ever be in the root since we are traversing first??
-        const virtuosoZeroElement = root.querySelector('[data-index="0"]');
+      if (nextUnseenComment) {
+        if (nextUnseenComment.isNew) {
+          const virtuosoZeroElement = root.querySelector('[data-index="0"]');
 
-        if (virtuosoZeroElement) {
-          const newCommentsButtonInRoot = root.getElementById(
-            "comments-allComments-viewNewButton"
-          );
-          if (newCommentsButtonInRoot) {
-            setZKeyClickedButton(true);
-            newCommentsButtonInRoot.click();
-          }
-        } else {
-          currentScrollRef.current.scrollIntoView({
-            align: "center",
-            index: 0,
-            behavior: "auto",
-            done: () => {
-              // After Virtuoso scrolls, we have to make sure the new comment button
-              // is available before setting focus to it or one of its replies.
-              let count = 0;
-              const virtuosoZeroExists = setInterval(async () => {
-                count += 1;
-                const virtuosoZeroElementAfter = root.querySelector(
-                  '[data-index="0"]'
-                );
-                if (
-                  virtuosoZeroElementAfter !== undefined &&
-                  virtuosoZeroElementAfter !== null
-                ) {
-                  clearInterval(virtuosoZeroExists);
-                  const newCommentsButtonInRoot = root.getElementById(
-                    "comments-allComments-viewNewButton"
-                  );
-                  if (newCommentsButtonInRoot) {
-                    setZKeyClickedButton(true);
-                    newCommentsButtonInRoot.click();
-                  }
-                }
-                if (count > 10) {
-                  clearInterval(virtuosoZeroExists);
-                }
-              }, 100);
-            },
-          });
-        }
-      } else {
-        // If a Load all comments button is currently displayed, but the next
-        // unseen comment is at a Virtuoso index greater than the initial number
-        // of comments we display, we need to hide the button and show those comments
-        // so we can scroll to that next unseen.
-        if (
-          nextUnseenComment &&
-          nextUnseenComment.virtuosoIndex &&
-          nextUnseenComment.virtuosoIndex >= NUM_INITIAL_COMMENTS
-        ) {
-          setLocal({ zKeyClickedLoadAll: true });
-        }
-
-        const isRootComment = nextUnseenComment?.isRoot;
-
-        // Scroll to the Virtuoso index for the next unseen comment!
-        // (unless we are already on that index, then don't scroll again)
-        // Then find the next unseen comment and set traversal focus to it.
-        if (
-          nextUnseenComment &&
-          nextUnseenComment.nodeID &&
-          nextUnseenComment.rootCommentID &&
-          (nextUnseenComment.virtuosoIndex ||
-            nextUnseenComment.virtuosoIndex === 0)
-        ) {
-          // JumpToNextUnseenCommentEvent.emit(eventEmitter, {
-          //   source,
-          // });
-          // Check if next unseen comment is already rendered by Virtuoso.
-          // if it is, we can just find the comment, scroll to it, set focus to it,
-          // and mark it as seen.
-          // TODO: Will this ever be the case that it's in the root now that we are
-          // traversing first?
-          const nextUnseenInRoot = root.getElementById(
-            computeCommentElementID(nextUnseenComment.rootCommentID)
-          );
-          if (nextUnseenInRoot) {
-            findCommentAndSetFocus(
-              nextUnseenComment,
-              isRootComment,
-              nextUnseenInRoot,
-              source
+          if (virtuosoZeroElement) {
+            const newCommentsButtonInRoot = root.getElementById(
+              "comments-allComments-viewNewButton"
             );
+            if (newCommentsButtonInRoot) {
+              setZKeyClickedButton(true);
+              newCommentsButtonInRoot.click();
+            }
           } else {
             currentScrollRef.current.scrollIntoView({
               align: "center",
-              index: nextUnseenComment.virtuosoIndex,
+              index: 0,
               behavior: "auto",
               done: () => {
-                // After Virtuoso scrolls, we have to make sure the root comment
+                // After Virtuoso scrolls, we have to make sure the new comment button
                 // is available before setting focus to it or one of its replies.
                 let count = 0;
-                const rootCommentElementExists = setInterval(async () => {
+                const virtuosoZeroExists = setInterval(async () => {
                   count += 1;
-                  const rootCommentElement = root.getElementById(
-                    computeCommentElementID(nextUnseenComment.rootCommentID!)
+                  const virtuosoZeroElementAfter = root.querySelector(
+                    '[data-index="0"]'
                   );
                   if (
-                    rootCommentElement !== undefined &&
-                    rootCommentElement !== null
+                    virtuosoZeroElementAfter !== undefined &&
+                    virtuosoZeroElementAfter !== null
                   ) {
-                    clearInterval(rootCommentElementExists);
-                    if (rootCommentElement) {
-                      // Once we've found the root comment element in the DOM,
-                      // we can find the next unseen comment, scroll to it, set focus,
-                      // and mark it as seen.
-                      findCommentAndSetFocus(
-                        nextUnseenComment,
-                        isRootComment,
-                        rootCommentElement,
-                        source
-                      );
+                    clearInterval(virtuosoZeroExists);
+                    const newCommentsButtonInRoot = root.getElementById(
+                      "comments-allComments-viewNewButton"
+                    );
+                    if (newCommentsButtonInRoot) {
+                      setZKeyClickedButton(true);
+                      newCommentsButtonInRoot.click();
                     }
                   }
                   if (count > 10) {
-                    clearInterval(rootCommentElementExists);
+                    clearInterval(virtuosoZeroExists);
                   }
                 }, 100);
               },
             });
+          }
+        } else {
+          // If a Load all comments button is currently displayed, but the next
+          // unseen comment is at a Virtuoso index greater than the initial number
+          // of comments we display, we need to hide the button and show those comments
+          // so we can scroll to that next unseen.
+          if (
+            nextUnseenComment.virtuosoIndex &&
+            nextUnseenComment.virtuosoIndex >= NUM_INITIAL_COMMENTS
+          ) {
+            setLocal({ zKeyClickedLoadAll: true });
+          }
+
+          const isRootComment = nextUnseenComment.isRoot;
+
+          // Scroll to the Virtuoso index for the next unseen comment!
+          // (unless we are already on that index, then don't scroll again)
+          // Then find the next unseen comment and set traversal focus to it.
+          if (
+            nextUnseenComment.nodeID &&
+            nextUnseenComment.rootCommentID &&
+            (nextUnseenComment.virtuosoIndex ||
+              nextUnseenComment.virtuosoIndex === 0)
+          ) {
+            // Check if next unseen comment is already rendered by Virtuoso.
+            // if it is, we can just find the comment, scroll to it, set focus to it,
+            // and mark it as seen.
+            const nextUnseenInRoot = root.getElementById(
+              computeCommentElementID(nextUnseenComment.rootCommentID)
+            );
+            if (nextUnseenInRoot) {
+              findCommentAndSetFocus(
+                nextUnseenComment,
+                isRootComment,
+                nextUnseenInRoot,
+                source
+              );
+            } else {
+              currentScrollRef.current.scrollIntoView({
+                align: "center",
+                index: nextUnseenComment.virtuosoIndex,
+                behavior: "auto",
+                done: () => {
+                  // After Virtuoso scrolls, we have to make sure the root comment
+                  // is available before setting focus to it or one of its replies.
+                  let count = 0;
+                  const rootCommentElementExists = setInterval(async () => {
+                    count += 1;
+                    const rootCommentElement = root.getElementById(
+                      computeCommentElementID(nextUnseenComment.rootCommentID!)
+                    );
+                    if (
+                      rootCommentElement !== undefined &&
+                      rootCommentElement !== null
+                    ) {
+                      clearInterval(rootCommentElementExists);
+                      if (rootCommentElement) {
+                        // Once we've found the root comment element in the DOM,
+                        // we can find the next unseen comment, scroll to it, set focus,
+                        // and mark it as seen.
+                        findCommentAndSetFocus(
+                          nextUnseenComment,
+                          isRootComment,
+                          rootCommentElement,
+                          source
+                        );
+                      }
+                    }
+                    if (count > 10) {
+                      clearInterval(rootCommentElementExists);
+                    }
+                  }, 100);
+                },
+              });
+            }
           }
         }
       }
@@ -813,11 +804,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return true;
       } else {
         setTimeout(() => {
-          void setTraversalFocus({
-            commentID: parseCommentElementID(stop!.id),
-            commentSeenEnabled,
-          });
-          stop!.element.focus();
+          setFocusAndMarkSeen(parseCommentElementID(stop!.id));
         }, 0);
         return true;
       }
@@ -828,7 +815,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       relayEnvironment,
       root,
       renderWindow,
-      setTraversalFocus,
+      setFocusAndMarkSeen,
       zKeyEnabled,
       currentScrollRef,
       commentWithTraversalFocus,
