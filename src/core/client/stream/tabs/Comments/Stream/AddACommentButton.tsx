@@ -56,7 +56,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
             behavior: "auto",
             done: () => {
               let count = 0;
-              const stopExists: any = setInterval(async () => {
+              const stopExists = setInterval(async () => {
                 count += 1;
                 const stopElement = root.querySelector(
                   `[data-index="${indexToScroll}"]`

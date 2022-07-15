@@ -46,9 +46,10 @@ const updateCommentsAndRepliesToSeen = (
       const proxy = store.get(commentID.toString());
       if (proxy) {
         proxy.setValue(!!input.updateSeen, "seen");
-        const allChildComments = proxy.getLinkedRecord("allChildComments");
         const allChildCommentsEdges =
-          allChildComments?.getLinkedRecords("edges") || [];
+          proxy
+            .getLinkedRecord("allChildComments")
+            ?.getLinkedRecords("edges") || [];
         for (const reply of allChildCommentsEdges) {
           const replyID = reply.getLinkedRecord("node")?.getValue("id");
           if (replyID) {

@@ -157,9 +157,12 @@ function insertReply(
     connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
   }
 
-  const ancestorIDHere =
+  // This adds the new reply to the allChildComments for the root-level ancestor
+  // comment of the reply. This enables the new reply to be found as a next
+  // unseen comment by keyboard shortcuts.
+  const replyAncestorID =
     ancestorID || (getReplyAncestorID(comment, depth) as string);
-  const ancestorProxy = store.get(ancestorIDHere);
+  const ancestorProxy = store.get(replyAncestorID);
   const allChildCommentsAncestor = ancestorProxy?.getLinkedRecord(
     "allChildComments"
   );

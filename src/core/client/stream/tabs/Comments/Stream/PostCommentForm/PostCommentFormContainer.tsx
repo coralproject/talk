@@ -22,7 +22,12 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLTAG,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
@@ -118,6 +123,13 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const isRatingsAndReviews =
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+  const alternateOldestViewEnabled =
+    settings.featureFlags.includes(
+      GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
+    ) &&
+    commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    !story.isClosed &&
+    !settings.disableCommenting.enabled;
   const PostCommentSection: FC = useMemo(
     () => (props) => {
       if (isRatingsAndReviews) {
@@ -155,11 +167,8 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         media: input.media,
       });
 
-      // If in oldest first view, add this response to new comments to show that have been added
-      if (
-        commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
-        local.showLoadAllCommentsButton
-      ) {
+      // If in alternate oldest view, add this response to new comments to show that have been added
+      if (alternateOldestViewEnabled && local.showLoadAllCommentsButton) {
         if (!local.oldestFirstNewCommentsToShow) {
           setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
         } else {
