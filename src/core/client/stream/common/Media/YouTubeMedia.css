@@ -1,0 +1,4 @@
+.container {
+  display: block;
+  width: calc(100% - var(--spacing-3));
+}

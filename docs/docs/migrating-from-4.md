@@ -1,37 +1,31 @@
 ---
-title: Migrating from v4.x to v5+
+title: Migrating from Talk v4.x to Coral v7+
 ---
 
-## **⏰It is currently not possible to upgrade directly from 4.x.x versions to version 5.x**+ ⏰
+When we started building Talk, the precursor to our Coral platform, we wanted it to be as flexible as possible, so we could learn what publishers needed, and allow companies to customize almost every aspect of the experience.
 
-**Trying will break your install of Coral!**
+We learned two key things:
 
-Coral version 5+ is more than just a version bump, it includes a fundamental rewrite of underlying core components, changes to the database schema, and the introduction of Typescript strong data types. This means migrating is a bit more complicated than running a simple database migration.
+1. More than 90% of publishers used the same plugin setup
+2. A handful of publishers created plugins that made the platform more challenging to use, and would have required significant re-architecture of the Coral platform to support properly
 
-### Migration Path
+Taking everything we learned, in 2019 we relaunched with a complete rewrite of the platform, calling the new version Coral. The new version no longer has custom plugins.
 
-A step-by-step migration path is currently in development, and we will be announcing it here once it’s ready.
+We added a new application model structure using Typescript, switched out the plugins for core configurations, built in SSO support via JWTs, and hugely improved our APIs.
 
-The process for migration will include:
+Talk, (v4.x.x) , is no longer supported. Since 2019, we have almost exclusively been developing features for Coral (currently v7.x.x).
 
-- Create a mongodump export of your 4.x.x database
-- Use an import tool to transform the data for v5+, and import it to a new mongo database
-- Deploy & configure v5 on your production infrastructure (pointing to new DB)
-- Update your embed script to the new version
+In order to upgrade to the latest version, you need to [create a new instance](https://docs.coralproject.net/) of the latest Coral version, then migrate your data from the previous version into the new instance.
 
-Downtime will be required to complete the migration, and you should carefully plan your migration accordingly depending on your infrastructure setup, and amount of data to be migrated.
+This guide will give you instructions on how to do the migration.
 
-### Migrating Plugins
+## Steps to migrate from Talk (v4.x) to Coral (v7.x+)
 
-Plugins are no longer supported and will not work with any instance of Coral >= v5. Most of the optional `talk-plugin` features have been built right into core so you no longer need install, manage, and worry about plugins. If you were using plugins to achieve custom functionality, please contact us to learn about some of the new ways to solve custom use cases in v5 and beyond.
+**Note: if you plan on importing data from v4.x, complete all import steps _first_ before you create any data (stories, users, comments) in your v6 instance to avoid conflicts.**
 
-### Supporting your Migration
-
-We would love to help!
-
-If you’re currently running any open source version 4.x/5.x+ and would like
-assistance with planning and/or executing a migration please reach out to us at
-support@coralproject.net.
-
-We can help you figure out the best path forward, and give you early access to
-the migration tools we’re working on.
+1. [Set up a new instance of Coral based off the latest docker image](/)
+2. [Configure or reconfigure authentication strategies](/migrate-auth)
+3. [Find alternatives for any functionality introduced in custom plugins](/migrate-custom)
+4. [Update embed code, including any custom event tracking](/cms)
+5. [Update custom CSS](/css)
+6. [Export historical Talk(v4) data and translate for import to Coral(v7) with Importer Tools](/migrate-data)
