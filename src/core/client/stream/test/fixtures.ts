@@ -427,6 +427,7 @@ export const baseComment = createFixture<GQLComment>({
   deleted: NULL_VALUE,
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   seen: false,
+  canRespond: true,
 });
 
 export const comments = denormalizeComments(
