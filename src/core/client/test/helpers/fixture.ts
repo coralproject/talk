@@ -159,6 +159,7 @@ export function createComment(
       viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
       parent: NULL_VALUE,
       canModerate: !!data.canModerate,
+      canRespond: true,
     })
   );
 

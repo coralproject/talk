@@ -80,19 +80,18 @@ afterAll(() => {
 it("disables comment stream", async () => {
   /* eslint-disable */
   timekeeper.freeze(firstComment.createdAt);
-  const { testRenderer, /* tabPane */ } = await createTestRenderer();
-  require("fs").writeFileSync("delete-me.html", within(testRenderer.root).toHTML());
+  const { testRenderer, tabPane } = await createTestRenderer();
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
-  // within(tabPane).getAllByText("Your account has been banned", {
-  //   exact: false,
-  // });
-  // BOOKMARK: this is probably diff now
-  // expect(within(tabPane).queryByTestID("comment-reply-button")).toBeNull();
-  // expect(within(tabPane).queryByTestID("comment-report-button")).toBeNull();
-  // expect(within(tabPane).queryByTestID("comment-edit-button")).toBeNull();
-  // expect(
-  //   within(tabPane).getByTestID("comment-reaction-button").props.disabled
-  // ).toBe(true);
+  within(tabPane).getAllByText("Your account has been banned", {
+    exact: false,
+  });
+
+  expect(within(tabPane).queryByTestID("comment-reply-button")).toBeNull();
+  expect(within(tabPane).queryByTestID("comment-report-button")).toBeNull();
+  expect(within(tabPane).queryByTestID("comment-edit-button")).toBeNull();
+  expect(
+    within(tabPane).getByTestID("comment-reaction-button").props.disabled
+  ).toBe(true);
 });
