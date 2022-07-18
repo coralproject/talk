@@ -301,12 +301,15 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
 
+  // Used to enable/disable the mobile toolbar buttons for Unmark all and Next unread
   const [disableUnreadButtons, setDisableUnreadButtons] = useState<boolean>(
     true
   );
+  // Used to let the event listener know when the Z key has clicked a load more button
+  // and it should therefore traverse to the next unread comment
   const [zKeyClickedButton, setZKeyClickedButton] = useState(false);
 
-  // This keeps the unread button states updated whenever comments or the
+  // Keeps the mobile toolbar button states updated whenever comments or the
   // viewNewCount changes
   useEffect(() => {
     if (viewNewCount > 0) {
@@ -322,10 +325,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       if (
         comment.node.allChildComments &&
         comment.node.allChildComments.edges.some((c: Comment) => {
-          if (c.node.seen === false) {
-            return true;
-          }
-          return false;
+          return c.node.seen === false;
         })
       ) {
         return true;
@@ -392,10 +392,20 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     [renderWindow]
   );
 
+  const findViewNewCommentButtonAndClick = useCallback(() => {
+    const newCommentsButtonInRoot = root.getElementById(
+      "comments-allComments-viewNewButton"
+    );
+    if (newCommentsButtonInRoot) {
+      setZKeyClickedButton(true);
+      newCommentsButtonInRoot.click();
+    }
+  }, [root, setZKeyClickedButton]);
+
   // If next unseen comment is a root comment, scroll to it, set focus, and mark seen.
   // If the next unseen comment is a reply, find that comment beneath its root comment.
   // If the next unseen is behind a Show more or View new comments button, then click that
-  // button and loads in the needed replies. Once the comment is found, focus is set and
+  // button and load in the needed replies. Once the comment is found, focus is set and
   // the comment is marked as seen.
   const findCommentAndSetFocus = useCallback(
     (nextUnseen: UnseenComment, isRootComment, rootCommentElement, source) => {
@@ -424,11 +434,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             // We have to set load all replies to the comment id to load
             // more replies for to make sure that we load after Virtuoso has
             // remounted the reply list component after scrolling
+            setZKeyClickedButton(true);
             if (nextKeyStop.isViewNew) {
-              setZKeyClickedButton(true);
               setLocal({ loadAllReplies: nextKeyStop.id.substr(42) });
             } else {
-              setZKeyClickedButton(true);
               setLocal({ loadAllReplies: nextKeyStop.id.substr(34) });
             }
           } else {
@@ -448,6 +457,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     [root, setFocusAndMarkSeen, setLocal, scrollToComment, eventEmitter]
   );
 
+  // This searches through root-level comments and all of their children to find the next
+  // unseen comment. It searches from either (1) the provided Virtuoso index or (2) the
+  // comment that currently has traversal focus.
   const searchInComments = (
     allComments: Comment[],
     commentWithTraversalFocusHere: string,
@@ -567,13 +579,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           const virtuosoZeroElement = root.querySelector('[data-index="0"]');
 
           if (virtuosoZeroElement) {
-            const newCommentsButtonInRoot = root.getElementById(
-              "comments-allComments-viewNewButton"
-            );
-            if (newCommentsButtonInRoot) {
-              setZKeyClickedButton(true);
-              newCommentsButtonInRoot.click();
-            }
+            findViewNewCommentButtonAndClick();
           } else {
             currentScrollRef.current.scrollIntoView({
               align: "center",
@@ -593,13 +599,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     virtuosoZeroElementAfter !== null
                   ) {
                     clearInterval(virtuosoZeroExists);
-                    const newCommentsButtonInRoot = root.getElementById(
-                      "comments-allComments-viewNewButton"
-                    );
-                    if (newCommentsButtonInRoot) {
-                      setZKeyClickedButton(true);
-                      newCommentsButtonInRoot.click();
-                    }
+                    findViewNewCommentButtonAndClick();
                   }
                   if (count > 10) {
                     clearInterval(virtuosoZeroExists);
@@ -693,6 +693,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       setZKeyClickedButton,
       root,
       setLocal,
+      findViewNewCommentButtonAndClick,
     ]
   );
 
@@ -838,8 +839,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
 
-      // If no next unseen is found in the DOM, then search through
-      // comments to find and navigate to next unseen
+      // If no next unseen is found in the DOM during traversal, then
+      // search through comments to find and navigate to next unseen
       findAndNavigateToNextUnseen(
         comments,
         commentWithTraversalFocus,

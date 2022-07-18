@@ -6,33 +6,15 @@ import { pureMerge } from "coral-common/utils";
 import { createSinonStub } from "coral-framework/testHelpers";
 import { createContext } from "coral-stream/test/create";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
+
 import { comments, settings, stories } from "../../fixtures";
+
 const loadMoreDateCursor = "2019-07-06T18:24:00.000Z";
 const createTestRenderer = async () => {
   const storyStub = {
     ...stories[0],
     comments: createSinonStub((s) =>
       s.callsFake((input: any) => {
-        if (
-          isMatch(input, {
-            first: 99999,
-            orderBy: "CREATED_AT_DESC",
-            after: loadMoreDateCursor,
-          })
-        ) {
-          return {
-            edges: [
-              {
-                node: comments[21],
-                cursor: "2019-08-06T18:24:00.000Z",
-              },
-            ],
-            pageInfo: {
-              endCursor: "2019-08-06T18:24:00.000Z",
-              hasNextPage: false,
-            },
-          };
-        }
         if (
           isMatch(input, {
             first: 99999,
@@ -185,25 +167,10 @@ const createTestRenderer = async () => {
   const stream = await screen.findByTestId("comments-allComments-log");
   return { context, stream };
 };
+
 it("renders comment stream with load all comments button when enabled", async () => {
   const { stream } = await createTestRenderer();
   expect(
     within(stream).queryByRole("button", { name: "Load All Comments" })
   ).toBeInTheDocument();
 });
-// Unable to trigger the end being reached and more comments actually loading in test
-// it("loads all comments", async () => {
-//   const { stream } = await createTestRenderer();
-//   // Get amount of comments before.
-//   within(stream).getAllByTestId(/^comment[-]comment[-]/).length;
-//   const loadMore = within(stream).getByRole("button", {
-//     name: "Load All Comments",
-//   });
-//   userEvent.click(loadMore);
-
-// await waitFor(() =>
-//   expect(within(stream).getAllByTestId(/^comment[-]comment[-]/)).toHaveLength(
-//     commentsBefore + 1
-//   )
-// );
-// });
