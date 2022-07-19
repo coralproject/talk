@@ -254,8 +254,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             if (
               childComment.node.author &&
               viewer &&
-              !viewer.ignoredUsers.some((u) =>
-                Boolean(u.id === comment.node.author?.id)
+              viewer.ignoredUsers.some((u) =>
+                Boolean(u.id === childComment.node.author?.id)
               )
             ) {
               ignoredReplies.add(childComment.node.id);
