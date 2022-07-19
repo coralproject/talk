@@ -21,7 +21,7 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
-    "build:client": "ts-node --transpile-only ./scripts/build.ts",
+    "build:client": "ts-node --transpile-only ./build/client/build.ts",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
     "build:server": "gulp server",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:client build:server",
@@ -102,6 +102,7 @@
     "dotenv": "^8.2.0",
     "emailjs": "^3.4.0",
     "env-rewrite": "^1.0.2",
+    "esbuild": "^0.14.49",
     "express": "^4.17.1",
     "express-enforces-ssl": "^1.1.0",
     "express-static-gzip": "^2.0.6",

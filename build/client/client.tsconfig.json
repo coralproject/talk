@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "esnext",
+    "jsx": "preserve",
+    "allowJs": false,
+    "lib": ["dom", "es7", "scripthost", "es2015", "esnext.asynciterable"],
+    "noEmit": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "baseUrl": "../../",
+    "paths": {
+      "coral-account/*": ["./src/core/client/account/*"],
+      "coral-admin/*": ["./src/core/client/admin/*"],
+      "coral-auth/*": ["./src/core/client/auth/*"],
+      "coral-count/*": ["./src/core/client/count/*"],
+      "coral-embed/*": ["./src/core/client/embed/*"],
+      "coral-stream/*": ["./src/core/client/stream/*"],
+      "coral-framework/*": ["./src/core/client/framework/*"],
+      "coral-ui/*": ["./src/core/client/ui/*"],
+      "coral-test/*": ["./src/core/client/test/*"],
+      "coral-common/*": ["/src/core/common/*"]
+    }
+  },
+  "include": [
+    "./src/core/client/**/*",
+    "./src/types/**/*.d.ts"
+  ],
+  "exclude": ["node_modules"]
+}
