@@ -6,14 +6,16 @@ const gulp = require("gulp");
 const ts = require("gulp-typescript");
 const sourcemaps = require("gulp-sourcemaps");
 const babel = require("gulp-babel");
-const generateTypescriptTypes = require("./scripts/generateSchemaTypes");
+const generateTypescriptTypes = require("./build/server/generateSchemaTypes");
 const _ = require("lodash");
 
 // Parse the tsconfig.json file (which contains comments).
-const tsconfig = json.parse(fs.readFileSync("./src/tsconfig.json").toString());
+const tsconfig = json.parse(
+  fs.readFileSync("./build/server/server.tsconfig.json").toString()
+);
 
 // Create the typescript project.
-const tsProject = ts.createProject("./src/tsconfig.json");
+const tsProject = ts.createProject("./build/server/server.tsconfig.json");
 
 const resolveDistFolder = (...paths) => "./" + path.join("dist", ...paths);
 

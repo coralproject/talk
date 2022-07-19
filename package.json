@@ -23,7 +23,7 @@
   "scripts": {
     "build:client": "ts-node --transpile-only ./build/client/build.ts",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
-    "build:server": "gulp server",
+    "build:server": "gulp server --gulpfile=server.gulpfile.js",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:client build:server",
     "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
     "clean": "gulp clean",
@@ -41,7 +41,7 @@
     "generate:relay:install": "ts-node --transpile-only ./scripts/compileRelay --bundle install",
     "generate:relay:stream": "ts-node --transpile-only ./scripts/compileRelay --bundle stream",
     "generate:relay": "npm-run-all --parallel generate:relay:*",
-    "generate:schema": "node ./scripts/generateSchemaTypes.js",
+    "generate:schema": "node ./build/server/generateSchemaTypes.js",
     "generate:supportedBrowsersRegExp": "ts-node --transpile-only ./scripts/generateSupportedBrowsersRegExp.ts ./src/core/client/framework/helpers/supportedBrowsersRegExp.ts",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:scripts -- --fix",

@@ -28,7 +28,7 @@
       "coral-framework/*": ["./src/core/client/framework/*"],
       "coral-ui/*": ["./src/core/client/ui/*"],
       "coral-test/*": ["./src/core/client/test/*"],
-      "coral-common/*": ["/src/core/common/*"]
+      "coral-common/*": ["./src/core/common/*"]
     }
   },
   "include": [

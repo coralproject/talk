@@ -12,7 +12,7 @@ async function main() {
       name: "tenant",
       fileName: path.join(
         __dirname,
-        "../src/core/server/graph/schema/__generated__/types.ts"
+        "../../src/core/server/graph/schema/__generated__/types.ts"
       ),
       config: {
         contextType: "GraphContext",
@@ -27,7 +27,7 @@ async function main() {
       name: "tenant",
       fileName: path.join(
         __dirname,
-        "../src/core/client/framework/schema/__generated__/types.ts"
+        "../../src/core/client/framework/schema/__generated__/types.ts"
       ),
       config: {
         smartTResult: true,
