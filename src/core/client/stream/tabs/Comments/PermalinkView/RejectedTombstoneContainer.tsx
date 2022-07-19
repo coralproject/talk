@@ -22,7 +22,7 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({
     return <>{children}</>;
   }
   return (
-    <Tombstone className={CLASSES.rejectedTombstone} fullWidth>
+    <Tombstone className={CLASSES.rejectedTombstone} fullWidth noWrapper>
       <Localized id="comments-tombstone-rejected">
         This commenter has been removed by a moderator for violating our
         community guidelines.

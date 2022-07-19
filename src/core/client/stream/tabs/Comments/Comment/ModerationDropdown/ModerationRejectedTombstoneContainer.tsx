@@ -47,7 +47,11 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
     return ret;
   }, [link, moderationLinkSuffix]);
   return (
-    <Tombstone className={CLASSES.moderationRejectedTombstone.$root} fullWidth>
+    <Tombstone
+      className={CLASSES.moderationRejectedTombstone.$root}
+      fullWidth
+      noBottomBorder
+    >
       <Localized id="comments-moderationRejectedTombstone-title">
         <div>You have rejected this comment.</div>
       </Localized>
