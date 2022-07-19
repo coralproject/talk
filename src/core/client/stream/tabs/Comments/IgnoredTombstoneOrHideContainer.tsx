@@ -62,45 +62,42 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
     return <>{children}</>;
   }
 
-  if (tombstone) {
-    return (
-      <Tombstone className={CLASSES.ignoredTombstone} fullWidth>
-        <Flex alignItems="center" justifyContent="center" itemGutter>
-          <Localized
-            id="comments-tombstone-ignore"
-            $username={comment.author!.username}
-          >
-            <div>
-              This comment is hidden because you ignored{" "}
-              {comment.author!.username}
-            </div>
+  return (
+    <Tombstone className={CLASSES.ignoredTombstone} fullWidth>
+      <Flex alignItems="center" justifyContent="center" itemGutter>
+        <Localized
+          id="comments-tombstone-ignore"
+          $username={comment.author!.username}
+        >
+          <div>
+            This comment is hidden because you ignored{" "}
+            {comment.author!.username}
+          </div>
+        </Localized>
+        {allowTombstoneReveal && (
+          <Localized id="comments-tombstone-showComment">
+            <Button
+              variant="outlined"
+              fontSize="small"
+              paddingSize="small"
+              color="secondary"
+              onClick={onShowComment}
+              upperCase
+              classes={{
+                outlined: styles.outlined,
+                active: styles.active,
+                disabled: styles.disabled,
+                mouseHover: styles.mouseHover,
+                colorSecondary: styles.colorSecondary,
+              }}
+            >
+              Show Comment
+            </Button>
           </Localized>
-          {allowTombstoneReveal && (
-            <Localized id="comments-tombstone-showComment">
-              <Button
-                variant="outlined"
-                fontSize="small"
-                paddingSize="small"
-                color="secondary"
-                onClick={onShowComment}
-                upperCase
-                classes={{
-                  outlined: styles.outlined,
-                  active: styles.active,
-                  disabled: styles.disabled,
-                  mouseHover: styles.mouseHover,
-                  colorSecondary: styles.colorSecondary,
-                }}
-              >
-                Show Comment
-              </Button>
-            </Localized>
-          )}
-        </Flex>
-      </Tombstone>
-    );
-  }
-  return null;
+        )}
+      </Flex>
+    </Tombstone>
+  );
 };
 
 const enhanced = withFragmentContainer<Props>({

@@ -56,6 +56,8 @@ interface Comment {
     readonly allChildComments: {
       readonly edges: ReadonlyArray<AllChildComments>;
     };
+    ignored?: boolean | null;
+    ignoredReplies?: string[];
   };
 }
 
@@ -489,7 +491,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         indexToSearchFromOrCurrentTraversalFocusPassed ||
         !loopBackAroundUnseenComment
       ) {
-        if (comment.node.seen === false) {
+        if (comment.node.seen === false && !(comment.node.ignored === true)) {
           const unseen = {
             isRoot: true,
             nodeID: comment.node.id,
@@ -506,9 +508,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           }
         }
         if (
+          !(comment.node.ignored === true) &&
           comment.node.allChildComments &&
           comment.node.allChildComments.edges.some((c) => {
-            if (c.node.seen === false) {
+            if (
+              c.node.seen === false &&
+              !comment.node.ignoredReplies?.includes(c.node.id)
+            ) {
               const unseen = {
                 isRoot: false,
                 nodeID: c.node.id,

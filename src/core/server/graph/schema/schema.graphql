@@ -3678,6 +3678,11 @@ type Comment @cacheControl(maxAge: 5) {
   ): CommentsConnection!
 
   """
+  ancestorIDs
+  """
+  ancestorIDs: [String]!
+
+  """
   depth is the number of levels that a given comment is deep.
   """
   depth: Int!

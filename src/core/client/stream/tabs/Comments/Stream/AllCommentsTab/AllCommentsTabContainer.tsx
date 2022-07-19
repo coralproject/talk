@@ -46,7 +46,7 @@ import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllComm
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
 import MarkCommentsAsSeenMutation from "../../Comment/MarkCommentsAsSeenMutation";
-import { useCommentSeenEnabled } from "../../commentSeen";
+import { useCommentSeenEnabled, useZKeyEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
@@ -235,16 +235,67 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [viewer, settings]
   );
 
+  const zKeyEnabled = useZKeyEnabled();
+
   const { comments, newCommentsLength } = useMemo(() => {
+    let commentsWithIgnored = story.comments.edges;
+
+    // If there is at least one ignored user, then we go through and add that information
+    // for next unseen to use
+    // Only need to do this in cases where Z_KEY is enabled since it's for keyboard shortcuts
+    if (zKeyEnabled) {
+      // If there are ignored users, we need to add to each comment and its replies
+      // whether it is ignored for use by Z key navigation
+      if (viewer?.ignoredUsers && viewer.ignoredUsers.length > 0) {
+        commentsWithIgnored = story.comments.edges.map((comment) => {
+          const ignoredReplies: Set<string> = new Set();
+          // add all replies with authorIDs of ignored users
+          comment.node.allChildComments.edges.forEach((childComment) => {
+            if (
+              childComment.node.author &&
+              viewer &&
+              !viewer.ignoredUsers.some((u) =>
+                Boolean(u.id === comment.node.author?.id)
+              )
+            ) {
+              ignoredReplies.add(childComment.node.id);
+            }
+          });
+          // add all replies with ancestorIDs of replies of ignored users
+          comment.node.allChildComments.edges.forEach((childComment) => {
+            childComment.node.ancestorIDs.forEach((ancestor) => {
+              if (ancestor && ignoredReplies.has(ancestor)) {
+                ignoredReplies.add(childComment.node.id);
+              }
+            });
+          });
+          const rootComment = {
+            node: {
+              ignored: !(
+                comment.node.author &&
+                viewer &&
+                !viewer.ignoredUsers.some((u) =>
+                  Boolean(u.id === comment.node.author?.id)
+                )
+              ),
+              ignoredReplies: [...ignoredReplies],
+              ...comment.node,
+            },
+          };
+          return rootComment;
+        });
+      }
+    }
+
     // If in oldest first view, filter out new comments to show as they will
     // be included in the stream at the bottom after initial number of comments.
     // When the new comments are cleared on rerender, they will be shown in chronological position.
     if (oldestFirstNewCommentsToShow) {
       const newCommentsToShowIds = oldestFirstNewCommentsToShow.split(" ");
-      const commentsWithoutNew = story.comments.edges.filter(
+      const commentsWithoutNew = commentsWithIgnored.filter(
         (c) => !newCommentsToShowIds.includes(c.node.id)
       );
-      const newComments = story.comments.edges.filter((c) =>
+      const newComments = commentsWithIgnored.filter((c) =>
         newCommentsToShowIds.includes(c.node.id)
       );
       commentsWithoutNew.splice(NUM_INITIAL_COMMENTS, 0, ...newComments);
@@ -253,8 +304,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         newCommentsLength: newComments.length,
       };
     }
-    return { comments: story.comments.edges, newCommentsLength: 0 };
-  }, [story.comments.edges, oldestFirstNewCommentsToShow]);
+    return { comments: commentsWithIgnored, newCommentsLength: 0 };
+  }, [
+    story.comments.edges,
+    oldestFirstNewCommentsToShow,
+    viewer?.ignoredUsers,
+  ]);
 
   return (
     <>
@@ -406,11 +461,18 @@ const enhanced = withPaginationContainer<
             node {
               id
               seen
+              author {
+                id
+              }
               allChildComments {
                 edges {
                   node {
+                    ancestorIDs
                     id
                     seen
+                    author {
+                      id
+                    }
                   }
                 }
               }
@@ -421,11 +483,18 @@ const enhanced = withPaginationContainer<
             node {
               id
               seen
+              author {
+                id
+              }
               allChildComments {
                 edges {
                   node {
+                    ancestorIDs
                     id
                     seen
+                    author {
+                      id
+                    }
                   }
                 }
               }
@@ -449,6 +518,9 @@ const enhanced = withPaginationContainer<
         id
         status {
           current
+        }
+        ignoredUsers {
+          id
         }
       }
     `,
