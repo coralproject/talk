@@ -65,14 +65,8 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   return (
     <Tombstone className={CLASSES.ignoredTombstone} fullWidth>
       <Flex alignItems="center" justifyContent="center" itemGutter>
-        <Localized
-          id="comments-tombstone-ignore"
-          $username={comment.author!.username}
-        >
-          <div>
-            This comment is hidden because you ignored{" "}
-            {comment.author!.username}
-          </div>
+        <Localized id="comments-tombstone-ignore-user">
+          <div>This comment is hidden because you ignored this user.</div>
         </Localized>
         {allowTombstoneReveal && (
           <Localized id="comments-tombstone-showComment">

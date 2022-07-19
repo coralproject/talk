@@ -250,25 +250,27 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         commentsWithIgnored = story.comments.edges.map((comment) => {
           const ignoredReplies: Set<string> = new Set();
           // add all replies with authorIDs of ignored users
-          comment.node.allChildComments.edges.forEach((childComment) => {
-            if (
-              childComment.node.author &&
-              viewer &&
-              viewer.ignoredUsers.some((u) =>
-                Boolean(u.id === childComment.node.author?.id)
-              )
-            ) {
-              ignoredReplies.add(childComment.node.id);
-            }
-          });
-          // add all replies with ancestorIDs of replies of ignored users
-          comment.node.allChildComments.edges.forEach((childComment) => {
-            childComment.node.ancestorIDs.forEach((ancestor) => {
-              if (ancestor && ignoredReplies.has(ancestor)) {
+          if (comment.node.allChildComments) {
+            comment.node.allChildComments.edges.forEach((childComment) => {
+              if (
+                childComment.node.author &&
+                viewer &&
+                viewer.ignoredUsers.some((u) =>
+                  Boolean(u.id === childComment.node.author?.id)
+                )
+              ) {
                 ignoredReplies.add(childComment.node.id);
               }
             });
-          });
+            // add all replies with ancestorIDs of replies of ignored users
+            comment.node.allChildComments.edges.forEach((childComment) => {
+              childComment.node.ancestorIDs.forEach((ancestor) => {
+                if (ancestor && ignoredReplies.has(ancestor)) {
+                  ignoredReplies.add(childComment.node.id);
+                }
+              });
+            });
+          }
           const rootComment = {
             node: {
               ignored: !(
