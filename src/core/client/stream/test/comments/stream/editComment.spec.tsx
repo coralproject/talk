@@ -96,13 +96,12 @@ it("edit a comment", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot(
     "render comment with edit button"
   );
+  expect(within(comment).queryByText("Edited")).toBe(null);
 
   // Open edit form.
   act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
-  await act(async () => {
-    expect(await within(comment).axe()).toHaveNoViolations();
-  });
+  expect(await within(comment).axe()).toHaveNoViolations();
 
   act(() =>
     testRenderer.root
@@ -127,6 +126,8 @@ it("edit a comment", async () => {
 
   // Test after server response.
   expect(within(comment).toJSON()).toMatchSnapshot("server response");
+
+  expect(within(comment).getByText("Edited"));
 });
 
 it("edit a comment and handle non-published comment state", async () => {

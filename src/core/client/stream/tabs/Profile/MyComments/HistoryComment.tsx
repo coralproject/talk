@@ -40,7 +40,7 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
       container="article"
       aria-labelledby={`historyComment-${props.id}-label`}
     >
-      <div>
+      <div data-testid={`profile-historyComment-${props.id}-onStory`}>
         <Localized
           id="profile-historyComment-commentLabel"
           RelativeTime={<RelativeTime date={props.createdAt} />}

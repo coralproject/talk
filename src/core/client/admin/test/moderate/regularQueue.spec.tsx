@@ -65,6 +65,53 @@ async function createTestRenderer(
   return { context };
 }
 
+it("renders moderate navigation with correct links and comment counts", async () => {
+  await createTestRenderer();
+  const pendingNav = await screen.findByText("Pending");
+  expect(pendingNav).toBeDefined();
+  expect(pendingNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/pending"
+  );
+  expect(
+    screen.getByTestId("moderate-navigation-pending-count")
+  ).toHaveTextContent("0");
+
+  const reportedNav = screen.getByText("reported");
+  expect(reportedNav).toBeDefined();
+  expect(reportedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/reported"
+  );
+  expect(
+    screen.getByTestId("moderate-navigation-reported-count")
+  ).toHaveTextContent("0");
+
+  const unmoderatedNav = screen.getByText("unmoderated");
+  expect(unmoderatedNav).toBeDefined();
+  expect(unmoderatedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/unmoderated"
+  );
+  expect(
+    screen.getByTestId("moderate-navigation-unmoderated-count")
+  ).toHaveTextContent("0");
+
+  const approvedNav = screen.getByText("approved");
+  expect(approvedNav).toBeDefined();
+  expect(approvedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/approved"
+  );
+
+  const rejectedNav = screen.getByText("rejected");
+  expect(rejectedNav).toBeDefined();
+  expect(rejectedNav.closest("a")).toHaveAttribute(
+    "href",
+    "/admin/moderate/rejected"
+  );
+});
+
 it("renders empty reported queue", async () => {
   await createTestRenderer();
   const reportedQueue = await screen.findByText("no more reported", {
@@ -153,7 +200,7 @@ it("renders reported queue with comments", async () => {
   ).toBeVisible();
 });
 
-it("renders reported queue with comments", async () => {
+it("renders reported queue with comments correctly rendered", async () => {
   await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
@@ -192,15 +239,74 @@ it("renders reported queue with comments", async () => {
   });
   const moderateContainer = await screen.findByTestId("moderate-container");
 
-  // make sure comment bodies are present
+  // make sure comment bodies, authors, and whether they are replies are correctly rendered
+  // first comment
   expect(
     await within(moderateContainer).findByText(
       "This is the last random sentence I will be writing and I am going to stop mid-sent"
     )
   ).toBeVisible();
+  expect(within(moderateContainer).getByText("Isabelle")).toBeVisible();
+
+  // second comment
   expect(
     await within(moderateContainer).findByText("Don't fool with me")
   ).toBeVisible();
+  expect(within(moderateContainer).getByText("Reply to")).toBeVisible();
+  expect(within(moderateContainer).getByText("Ngoc")).toBeVisible();
+});
+
+it("renders reported queue with comments with banned words correctly", async () => {
+  await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        moderationQueues: () =>
+          pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 2,
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[4],
+                      cursor: reportedComments[4].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[4].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }),
+            },
+          }),
+      },
+    }),
+  });
+  const moderateContainer = await screen.findByTestId("moderate-container");
+  const comment = within(moderateContainer).getByTestId(
+    "moderate-comment-card-comment-4"
+  );
+  const commentText = within(comment).getByText(
+    "This is a very long comment with",
+    {
+      exact: false,
+    }
+  );
+  expect(commentText).toBeDefined();
+  expect(commentText).toHaveTextContent(
+    "This is a very long comment with bad words. Let's try bad and bad. Now bad bad. Bad BAD bad."
+  );
+  // banned words should be highlighted in the comment text
+  expect(commentText.innerHTML).toContain(
+    "This is a very long comment with <mark>bad</mark> words. Let's try <mark>bad</mark> and <mark>bad</mark>. Now <mark>bad</mark> <mark>bad</mark>.\nBad BAD <mark>bad</mark>.\n"
+  );
 });
 
 it("show details of comment with flags", async () => {
@@ -237,8 +343,19 @@ it("show details of comment with flags", async () => {
     }),
   });
   const reported = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
+
+  // all markers should be rendered for comment's flags
+  expect(within(reported).getByText("Spam")).toBeVisible();
+  expect(within(reported).getByText("Link")).toBeVisible();
+  expect(within(reported).getByText("Banned word")).toBeVisible();
+  expect(within(reported).getByText("Suspect word")).toBeVisible();
+  expect(within(reported).getByText("Spam detected")).toBeVisible();
+  expect(within(reported).getByText("Toxic")).toBeVisible();
+  expect(within(reported).getByText("Repeat comment")).toBeVisible();
+  expect(within(reported).getByText("Recent history")).toBeVisible();
+  expect(within(reported).getByText("Offensive")).toBeVisible();
   expect(
     within(reported).queryByText(
       reportedComments[0].flags.nodes[0].additionalDetails!
@@ -301,7 +418,7 @@ it("show reaction details for a comment with reactions", async () => {
     }),
   });
   const reported = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
   const detailsButton = within(reported).getByRole("button", {
     name: "Details",
@@ -317,7 +434,7 @@ it("show reaction details for a comment with reactions", async () => {
   expect(within(modal).getByText("Ngoc")).toBeVisible();
 });
 
-it("shows a moderate story", async () => {
+it("shows story info and navigates to a moderate story", async () => {
   const { context } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
@@ -354,9 +471,13 @@ it("shows a moderate story", async () => {
       },
     }),
   });
-  const moderateStory = (
-    await screen.findAllByRole("link", { name: "Moderate Story" })
-  )[0];
+  const comment = await screen.findByTestId("moderate-comment-card-comment-0");
+  const storyInfo = within(comment).getByTestId("moderate-comment-storyInfo");
+  expect(storyInfo).toHaveTextContent("Comment On:Finally a Cure for Cancer");
+
+  const moderateStory = screen.getAllByRole("link", {
+    name: "Moderate Story",
+  })[0];
   context.transitionControl.allowTransition = false;
   userEvent.click(moderateStory);
 
@@ -429,7 +550,9 @@ it("renders reported queue with comments and load more", async () => {
 
   // Get previous count of comments.
   const previousCount = (
-    await within(moderateContainer).findAllByTestId(/^moderate-comment-.*$/)
+    await within(moderateContainer).findAllByTestId(
+      /^moderate-comment-card-.*$/
+    )
   ).length;
 
   const loadMore = screen.getByRole("button", { name: "Load More" });
@@ -441,13 +564,13 @@ it("renders reported queue with comments and load more", async () => {
   });
 
   // Verify we have one more item now.
-  const comments = screen.getAllByTestId(/^moderate-comment-.*$/);
+  const comments = screen.getAllByTestId(/^moderate-comment-card-.*$/);
   expect(comments.length).toBe(previousCount + 1);
 
   // Verify last one added was our new one
   expect(comments[comments.length - 1]).toHaveAttribute(
     "data-testid",
-    `moderate-comment-${reportedComments[2].id}`
+    `moderate-comment-card-${reportedComments[2].id}`
   );
 });
 
@@ -528,7 +651,7 @@ it("approves comment in reported queue", async () => {
   });
 
   const comment = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
   const approveButton = within(comment).getByRole("button", {
     name: "Approve",
@@ -545,7 +668,7 @@ it("approves comment in reported queue", async () => {
   // Wait until comment is gone.
   await waitFor(() => {
     expect(
-      screen.queryByTestId(`moderate-comment-${reportedComments[0].id}`)
+      screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
   });
 
@@ -634,7 +757,7 @@ it("rejects comment in reported queue", async () => {
   });
 
   const comment = await screen.findByTestId(
-    `moderate-comment-${reportedComments[0].id}`
+    `moderate-comment-card-${reportedComments[0].id}`
   );
   const rejectButton = within(comment).getByRole("button", {
     name: "Reject",
@@ -651,7 +774,7 @@ it("rejects comment in reported queue", async () => {
   // Wait until comment is gone.
   await waitFor(() => {
     expect(
-      screen.queryByTestId(`moderate-comment-${reportedComments[0].id}`)
+      screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
   });
 
