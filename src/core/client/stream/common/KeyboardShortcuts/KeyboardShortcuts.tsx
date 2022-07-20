@@ -50,6 +50,7 @@ interface AllChildComments {
     readonly seen: boolean | null;
     readonly id: string;
     readonly ancestorIDs: ReadonlyArray<string | null>;
+    readonly deleted: boolean | null;
   };
 }
 
@@ -60,6 +61,7 @@ interface Comment {
     readonly allChildComments: {
       readonly edges: ReadonlyArray<AllChildComments>;
     };
+    readonly deleted: boolean | null;
     ignored?: boolean | null;
     ignoredReplies?: string[];
   };
@@ -496,7 +498,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         !loopBackAroundUnseenComment
       ) {
         if (!comment.node.ignored === true) {
-          if (comment.node.seen === false) {
+          if (comment.node.seen === false && !comment.node.deleted) {
             const unseen = {
               isRoot: true,
               nodeID: comment.node.id,
@@ -522,6 +524,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             comment.node.allChildComments.edges.some((c) => {
               if (
                 c.node.seen === false &&
+                !c.node.deleted &&
                 !comment.node.ignoredReplies?.includes(c.node.id)
               ) {
                 // Need to check that all of this replies' ancestorIDs are included in

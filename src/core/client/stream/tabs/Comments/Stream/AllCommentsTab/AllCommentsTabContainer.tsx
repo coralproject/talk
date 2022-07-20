@@ -466,6 +466,7 @@ const enhanced = withPaginationContainer<
               author {
                 id
               }
+              deleted
               allChildComments {
                 edges {
                   node {
@@ -475,6 +476,7 @@ const enhanced = withPaginationContainer<
                     author {
                       id
                     }
+                    deleted
                   }
                 }
               }
@@ -488,6 +490,7 @@ const enhanced = withPaginationContainer<
               author {
                 id
               }
+              deleted
               allChildComments {
                 edges {
                   node {
@@ -497,6 +500,7 @@ const enhanced = withPaginationContainer<
                     author {
                       id
                     }
+                    deleted
                   }
                 }
               }
