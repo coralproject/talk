@@ -480,7 +480,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
       }
     },
-    [root, setFocusAndMarkSeen, setLocal, scrollToComment, eventEmitter]
+    [root, setFocusAndMarkSeen, scrollToComment, eventEmitter]
   );
 
   // This searches through root-level comments and all of their children to find the next
@@ -548,13 +548,16 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 // Need to check that all of this replies' ancestorIDs are included in
                 // the root comment's childIDs; otherwise, an ancestor is not visible
                 // for some reason (i.e. is rejected)
-                const allAncestorIDsInChildIDs = c.node.ancestorIDs.filter(
-                  (ancestorID) =>
-                    !(
-                      allChildCommentIDs.includes(ancestorID || "") ||
-                      ancestorID === comment.node.id
-                    )
-                );
+                let allAncestorIDsInChildIDs = [];
+                if (c.node.ancestorIDs) {
+                  allAncestorIDsInChildIDs = c.node.ancestorIDs.filter(
+                    (ancestorID) =>
+                      !(
+                        allChildCommentIDs.includes(ancestorID || "") ||
+                        ancestorID === comment.node.id
+                      )
+                  );
+                }
                 if (allAncestorIDsInChildIDs.length === 0) {
                   const unseen = {
                     isRoot: false,
@@ -738,7 +741,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       findCommentAndSetFocus,
       currentScrollRef,
       searchInComments,
-      setZKeyClickedButton,
       root,
       setLocal,
       findViewNewCommentButtonAndClick,
@@ -871,6 +873,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       comments,
       viewNewCount,
       findAndNavigateToNextUnseen,
+      setTraversalFocus,
     ]
   );
 

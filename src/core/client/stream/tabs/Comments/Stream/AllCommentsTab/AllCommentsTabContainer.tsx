@@ -264,11 +264,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             });
             // add all replies with ancestorIDs of replies of ignored users
             comment.node.allChildComments.edges.forEach((childComment) => {
-              childComment.node.ancestorIDs.forEach((ancestor) => {
-                if (ancestor && ignoredReplies.has(ancestor)) {
-                  ignoredReplies.add(childComment.node.id);
-                }
-              });
+              if (childComment.node.ancestorIDs) {
+                childComment.node.ancestorIDs.forEach((ancestor) => {
+                  if (ancestor && ignoredReplies.has(ancestor)) {
+                    ignoredReplies.add(childComment.node.id);
+                  }
+                });
+              }
             });
           }
           const rootComment = {
