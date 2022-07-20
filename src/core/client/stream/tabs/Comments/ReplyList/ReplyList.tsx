@@ -36,7 +36,6 @@ export interface ReplyListProps {
   viewNewCount?: number;
   onViewNew?: () => void;
   allowIgnoredTombstoneReveal?: boolean;
-  disableHideIgnoredTombstone?: boolean;
   showRemoveAnswered?: boolean;
 }
 
@@ -59,7 +58,6 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           story={props.story}
           settings={props.settings}
           allowIgnoredTombstoneReveal={props.allowIgnoredTombstoneReveal}
-          disableHideIgnoredTombstone={props.disableHideIgnoredTombstone}
           localReply={props.localReply}
           indentLevel={props.indentLevel}
           disableReplies={props.disableReplies}
