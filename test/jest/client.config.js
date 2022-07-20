@@ -17,10 +17,10 @@ module.exports = {
   transform: {
     "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
     "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest",
-    "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-    "^.+\\.ftl$": "<rootDir>/config/jest/contentTransform.js",
+    "^.+\\.css$": "<rootDir>/test/jest/cssTransform.js",
+    "^.+\\.ftl$": "<rootDir>/test/jest/contentTransform.js",
     "^(?!.*\\.(js|jsx|mjs|ts|tsx|css|json|ftl)$)":
-      "<rootDir>/config/jest/fileTransform.js",
+      "<rootDir>/test/jest/fileTransform.js",
   },
   transformIgnorePatterns: [
     "[/\\\\]node_modules[/\\\\](?!(fluent|react-relay-network-modern|@coralproject/rte/lib)[/\\\\]).+\\.(js|jsx|mjs|ts|tsx)$",
@@ -41,7 +41,10 @@ module.exports = {
   globals: {
     "ts-jest": {
       babelConfig: true,
-      tsConfig: path.resolve(__dirname, "../../src/core/client/tsconfig.json"),
+      tsConfig: path.resolve(
+        __dirname,
+        "../../build/client/client.tsconfig.json"
+      ),
     },
   },
   preset: "ts-jest/presets/js-with-babel",

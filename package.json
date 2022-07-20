@@ -52,7 +52,7 @@
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}' --ignore-pattern 'src/core/client/**'",
     "lint": "npm-run-all --parallel lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
-    "test": "node --trace-warnings scripts/test.js --env=jsdom",
+    "test": "node --trace-warnings ./test/run.js --env=jsdom",
     "tscheck:client": "tsc --project ./build/client/client.tsconfig.json --noEmit",
     "tscheck:scripts": "tsc --project ./scripts/tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./build/server/server.tsconfig.json --noEmit",

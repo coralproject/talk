@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
 "use strict";
+
+const path = require("path");
+
+const APP_JEST_CONFIG = path.resolve(__dirname, "./jest.config.js");
+
 // Set timezone to UTC for stable tests.
 process.env.TZ = "UTC";
 
@@ -21,11 +26,9 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-const paths = require("../config/paths.ts").default;
-
 const jest = require("jest");
 const argv = process.argv.slice(2);
-argv.push("--config", paths.appJestConfig);
+argv.push("--config", APP_JEST_CONFIG);
 
 // Watch unless on CI or in coverage mode
 if (
