@@ -1,16 +1,32 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "allowJs": false,
     "sourceMap": true,
     "pretty": false,
     "removeComments": true,
     "noEmit": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
     "outDir": "../../dist",
     // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
     // have to include "dom" here.
     "lib": ["dom", "es2018", "esnext.asynciterable"],
+    "plugins": [
+      {
+        "name": "typescript-snapshots-plugin"
+      }
+    ],
     "baseUrl": "../../src/",
     "paths": {
       "coral-server/*": ["./core/server/*"],

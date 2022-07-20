@@ -23,11 +23,11 @@
     ]
   },
   "include": [
-    "./src/**/.*.js",
-    "./src/types/**/*.d.ts",
-    "./scripts/**/*",
-    "./config/**/*",
-    "*.js"
+    "../src/**/.*.js",
+    "../src/types/**/*.d.ts",
+    "../scripts/**/*",
+    "../config/**/*",
+    "../*.js"
   ],
   "exclude": ["node_modules"]
 }
