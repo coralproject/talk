@@ -208,7 +208,7 @@ const ModerateCard: FunctionComponent<Props> = ({
       )}
       ref={div}
       tabIndex={0}
-      data-testid={`moderate-comment-${id}`}
+      data-testid={`moderate-comment-card-${id}`}
       id={`moderate-comment-${id}`}
       onClick={onFocusOrClick}
     >
@@ -282,7 +282,7 @@ const ModerateCard: FunctionComponent<Props> = ({
           <div className={styles.footer}>
             <HorizontalGutter spacing={3}>
               {showStory && (
-                <div>
+                <div data-testid="moderate-comment-storyInfo">
                   <div className={styles.storyLabel}>
                     <Localized id="moderate-comment-storyLabel">
                       <span>Comment on</span>

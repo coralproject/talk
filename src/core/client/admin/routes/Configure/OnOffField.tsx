@@ -62,17 +62,23 @@ const OnOffField: FunctionComponent<Props> = ({
       parse={parse}
       format={format}
       value={JSON.stringify(invert)}
-      data-testid={testIDs ? testIDs.off : undefined}
     >
-      {({ input }) => (
-        <RadioButton {...input} id={`${input.name}-false`} disabled={disabled}>
-          {offLabel || (
-            <Localized id="configure-onOffField-off">
-              <span>Off</span>
-            </Localized>
-          )}
-        </RadioButton>
-      )}
+      {({ input }) => {
+        return (
+          <RadioButton
+            {...input}
+            id={`${input.name}-false`}
+            disabled={disabled}
+            data-testid={testIDs ? testIDs.off : undefined}
+          >
+            {offLabel || (
+              <Localized id="configure-onOffField-off">
+                <span>Off</span>
+              </Localized>
+            )}
+          </RadioButton>
+        );
+      }}
     </Field>
   </div>
 );

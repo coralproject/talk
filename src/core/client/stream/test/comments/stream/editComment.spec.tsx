@@ -96,6 +96,7 @@ it("edit a comment", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot(
     "render comment with edit button"
   );
+  expect(within(comment).queryByText("Edited")).toBe(null);
 
   // Open edit form.
   act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
@@ -127,6 +128,8 @@ it("edit a comment", async () => {
 
   // Test after server response.
   expect(within(comment).toJSON()).toMatchSnapshot("server response");
+
+  expect(within(comment).getByText("Edited"));
 });
 
 it("edit a comment and handle non-published comment state", async () => {
