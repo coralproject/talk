@@ -45,7 +45,7 @@ import { SetTraversalFocus } from "./SetTraversalFocus";
 
 import styles from "./KeyboardShortcuts.css";
 
-interface AllChildComments {
+interface ChildComment {
   readonly node: {
     readonly seen: boolean | null;
     readonly id: string;
@@ -59,7 +59,7 @@ interface Comment {
     readonly seen: boolean | null;
     readonly id: string;
     readonly allChildComments: {
-      readonly edges: ReadonlyArray<AllChildComments>;
+      readonly edges: ReadonlyArray<ChildComment>;
     };
     readonly deleted: boolean | null;
     ignored?: boolean | null;
@@ -327,16 +327,42 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       }
     }
     const unseenComment = comments.find((comment: Comment) => {
-      if (comment.node.seen === false) {
-        return true;
-      }
-      if (
-        comment.node.allChildComments &&
-        comment.node.allChildComments.edges.some((c: AllChildComments) => {
-          return c.node.seen === false;
-        })
-      ) {
-        return true;
+      if (!comment.node.ignored === true) {
+        if (comment.node.seen === false && !comment.node.deleted) {
+          return true;
+        }
+        const allChildCommentIDs = comment.node.allChildComments?.edges.map(
+          (childComment) => {
+            return childComment.node.id;
+          }
+        );
+        if (
+          comment.node.allChildComments &&
+          comment.node.allChildComments.edges.some(
+            (childComment: ChildComment) => {
+              if (
+                childComment.node.seen === false &&
+                !childComment.node.deleted &&
+                !comment.node.ignoredReplies?.includes(childComment.node.id)
+              ) {
+                if (childComment.node.ancestorIDs) {
+                  const allAncestorIDsInChildIDs = childComment.node.ancestorIDs?.filter(
+                    (ancestorID) =>
+                      !(
+                        allChildCommentIDs.includes(ancestorID || "") ||
+                        ancestorID === comment.node.id
+                      )
+                  );
+                  return allAncestorIDsInChildIDs.length === 0;
+                }
+                return true;
+              }
+              return false;
+            }
+          )
+        ) {
+          return true;
+        }
       }
       return false;
     });
@@ -654,7 +680,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           const isRootComment = nextUnseenComment.isRoot;
 
           // Scroll to the Virtuoso index for the next unseen comment!
-          // (unless we are already on that index, then don't scroll again)
           // Then find the next unseen comment and set traversal focus to it.
           if (
             nextUnseenComment.nodeID &&

@@ -311,6 +311,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     story.comments.edges,
     oldestFirstNewCommentsToShow,
     viewer?.ignoredUsers,
+    zKeyEnabled,
   ]);
 
   return (
