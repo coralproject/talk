@@ -102,7 +102,6 @@
     "dotenv": "^8.2.0",
     "emailjs": "^3.4.0",
     "env-rewrite": "^1.0.2",
-    "esbuild": "^0.14.49",
     "express": "^4.17.1",
     "express-enforces-ssl": "^1.1.0",
     "express-static-gzip": "^2.0.6",
