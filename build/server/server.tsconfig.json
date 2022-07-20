@@ -11,10 +11,10 @@
     // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
     // have to include "dom" here.
     "lib": ["dom", "es2018", "esnext.asynciterable"],
-    "baseUrl": "../../",
+    "baseUrl": "../../src/",
     "paths": {
-      "coral-server/*": ["./src/core/server/*"],
-      "coral-common/*": ["./src/core/common/*"]
+      "coral-server/*": ["./core/server/*"],
+      "coral-common/*": ["./core/common/*"]
     }
   },
   "include": ["../../src/**/*"],
