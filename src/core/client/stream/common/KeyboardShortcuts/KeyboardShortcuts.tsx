@@ -46,7 +46,11 @@ import { SetTraversalFocus } from "./SetTraversalFocus";
 import styles from "./KeyboardShortcuts.css";
 
 interface AllChildComments {
-  readonly node: { readonly seen: boolean | null; readonly id: string };
+  readonly node: {
+    readonly seen: boolean | null;
+    readonly id: string;
+    readonly ancestorIDs: ReadonlyArray<string | null>;
+  };
 }
 
 interface Comment {
@@ -326,7 +330,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       }
       if (
         comment.node.allChildComments &&
-        comment.node.allChildComments.edges.some((c: Comment) => {
+        comment.node.allChildComments.edges.some((c: AllChildComments) => {
           return c.node.seen === false;
         })
       ) {
@@ -491,49 +495,67 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         indexToSearchFromOrCurrentTraversalFocusPassed ||
         !loopBackAroundUnseenComment
       ) {
-        if (comment.node.seen === false && !(comment.node.ignored === true)) {
-          const unseen = {
-            isRoot: true,
-            nodeID: comment.node.id,
-            virtuosoIndex: i,
-            rootCommentID: comment.node.id,
-          };
-          if (indexToSearchFromOrCurrentTraversalFocusPassed) {
-            nextUnseenComment = unseen;
-            return true;
-          } else {
-            if (!loopBackAroundUnseenComment) {
-              loopBackAroundUnseenComment = unseen;
-            }
-          }
-        }
-        if (
-          !(comment.node.ignored === true) &&
-          comment.node.allChildComments &&
-          comment.node.allChildComments.edges.some((c) => {
-            if (
-              c.node.seen === false &&
-              !comment.node.ignoredReplies?.includes(c.node.id)
-            ) {
-              const unseen = {
-                isRoot: false,
-                nodeID: c.node.id,
-                virtuosoIndex: i,
-                rootCommentID: comment.node.id,
-              };
-              if (indexToSearchFromOrCurrentTraversalFocusPassed) {
-                nextUnseenComment = unseen;
-                return true;
-              } else {
-                if (!loopBackAroundUnseenComment) {
-                  loopBackAroundUnseenComment = unseen;
-                }
+        if (!comment.node.ignored === true) {
+          if (comment.node.seen === false) {
+            const unseen = {
+              isRoot: true,
+              nodeID: comment.node.id,
+              virtuosoIndex: i,
+              rootCommentID: comment.node.id,
+            };
+            if (indexToSearchFromOrCurrentTraversalFocusPassed) {
+              nextUnseenComment = unseen;
+              return true;
+            } else {
+              if (!loopBackAroundUnseenComment) {
+                loopBackAroundUnseenComment = unseen;
               }
             }
-            return false;
-          })
-        ) {
-          return true;
+          }
+          const allChildCommentIDs = comment.node.allChildComments.edges.map(
+            (childComment) => {
+              return childComment.node.id;
+            }
+          );
+          if (
+            comment.node.allChildComments &&
+            comment.node.allChildComments.edges.some((c) => {
+              if (
+                c.node.seen === false &&
+                !comment.node.ignoredReplies?.includes(c.node.id)
+              ) {
+                // Need to check that all of this replies' ancestorIDs are included in
+                // the root comment's childIDs; otherwise, an ancestor is not visible
+                // for some reason (i.e. is rejected)
+                const allAncestorIDsInChildIDs = c.node.ancestorIDs.filter(
+                  (ancestorID) =>
+                    !(
+                      allChildCommentIDs.includes(ancestorID || "") ||
+                      ancestorID === comment.node.id
+                    )
+                );
+                if (allAncestorIDsInChildIDs.length === 0) {
+                  const unseen = {
+                    isRoot: false,
+                    nodeID: c.node.id,
+                    virtuosoIndex: i,
+                    rootCommentID: comment.node.id,
+                  };
+                  if (indexToSearchFromOrCurrentTraversalFocusPassed) {
+                    nextUnseenComment = unseen;
+                    return true;
+                  } else {
+                    if (!loopBackAroundUnseenComment) {
+                      loopBackAroundUnseenComment = unseen;
+                    }
+                  }
+                }
+              }
+              return false;
+            })
+          ) {
+            return true;
+          }
         }
       }
 
