@@ -301,7 +301,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         source
         reverse
       }
-      loadAllReplies
       zKeyClickedLoadAll
     }
   `);
@@ -465,15 +464,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             if (prevStop) {
               setFocusAndMarkSeen(parseCommentElementID(prevStop.id));
             }
-            // We have to set load all replies to the comment id to load
-            // more replies for to make sure that we load after Virtuoso has
-            // remounted the reply list component after scrolling
             setZKeyClickedButton(true);
-            if (nextKeyStop.isViewNew) {
-              setLocal({ loadAllReplies: nextKeyStop.id.substr(42) });
-            } else {
-              setLocal({ loadAllReplies: nextKeyStop.id.substr(34) });
-            }
+            nextKeyStop.element.click();
           } else {
             // go to the first unseen reply to the root comment and set focus to it
             JumpToNextUnseenCommentEvent.emit(eventEmitter, {

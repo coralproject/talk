@@ -101,9 +101,6 @@ extend type Local {
 
   # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
   commentWithTraversalFocus: String
-  # used by keyboard shortcuts. Set to a comment id if all replies for that comment
-  # should be loaded by the reply list container.
-  loadAllReplies: String
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 

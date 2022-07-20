@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   createFragmentContainer as createRelayFragmentContainer,
   graphql,
@@ -204,9 +204,7 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig, loadAllReplies }, setLocal] = useLocal<
-    ReplyListContainerLocal
-  >(
+  const [{ keyboardShortcutsConfig }] = useLocal<ReplyListContainerLocal>(
     graphql`
       fragment ReplyListContainerLocal on Local {
         keyboardShortcutsConfig {
@@ -214,7 +212,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
           source
           reverse
         }
-        loadAllReplies
       }
     `
   );
@@ -229,7 +226,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
-    setLocal({ loadAllReplies: null });
     try {
       await showAll();
       showAllEvent.success();
@@ -238,21 +234,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [
-    showAll,
-    beginShowAllEvent,
-    props.comment.id,
-    keyboardShortcutsConfig,
-    setLocal,
-  ]);
-
-  useEffect(() => {
-    // This supports when we need to load all replies navigating through with
-    // the Z key via keyboard shortcuts
-    if (loadAllReplies && loadAllReplies === props.comment.id) {
-      void showAllAndEmit();
-    }
-  }, [loadAllReplies, showAllAndEmit, props.comment.id]);
+  }, [showAll, beginShowAllEvent, props.comment.id, keyboardShortcutsConfig]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewRepliesEvent = useViewerNetworkEvent(

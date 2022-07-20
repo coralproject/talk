@@ -16,7 +16,6 @@ import CLASSES from "coral-stream/classes";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import { Button } from "coral-ui/components/v3";
-import colors from "coral-ui/theme/colors";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
@@ -52,7 +51,6 @@ interface Props {
 const overscan = 50;
 const increaseViewportBy = 2000;
 const virtuosoHeight = 600;
-const scrollSeekShowPlaceholderVelocity = 8000;
 
 const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   story,
@@ -264,87 +262,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     story.comments.edges.length,
   ]);
 
-  // The scroll seek placeholder is displayed in place of comments when the user is
-  // scrolling up/down the page at a velocity that is greater than the
-  // scrollSeekShowPlaceholderVelocity that is set for Virtuoso.
-  const ScrollSeekPlaceholder = useCallback(
-    ({ height }: { height: number }) => {
-      return (
-        <div
-          style={{
-            height,
-            boxSizing: "border-box",
-          }}
-        >
-          <div style={{ display: "flex", flexFlow: "column", height: "100%" }}>
-            <div
-              style={{
-                flex: "0 1 auto",
-              }}
-            >
-              <hr style={{ border: `1px solid ${colors.grey200}` }} />
-            </div>
-            <div
-              style={{
-                flex: "0 1 auto",
-                backgroundColor: `${colors.grey100}`,
-                width: "50%",
-                height: "2rem",
-              }}
-            ></div>
-            <div
-              style={{
-                flex: "0 1 auto",
-                backgroundColor: `${colors.pure.white}`,
-                width: "100%",
-                height: "1rem",
-              }}
-            ></div>
-            <div
-              style={{
-                flex: "1 1 auto",
-                backgroundColor: `${colors.grey200}`,
-                width: "100%",
-                height: "95%",
-              }}
-            ></div>
-            <div
-              style={{
-                flex: "0 1 auto",
-                backgroundColor: `${colors.pure.white}`,
-                width: "100%",
-                height: "1rem",
-              }}
-            ></div>
-            <div
-              style={{
-                flex: "0 1 1.5rem",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: `${colors.grey100}`,
-                  height: "100%",
-                  width: "12rem",
-                }}
-              ></div>
-              <div
-                style={{
-                  backgroundColor: `${colors.grey100}`,
-                  height: "100%",
-                  width: "3rem",
-                }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      );
-    },
-    []
-  );
-
   return (
     <>
       <Virtuoso
@@ -390,18 +307,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
           },
           [story, comments, settings, viewer]
         )}
-        components={{ ScrollSeekPlaceholder, Footer }}
-        scrollSeekConfiguration={{
-          enter: (velocity) => {
-            const shouldEnter =
-              Math.abs(velocity) >= scrollSeekShowPlaceholderVelocity;
-            return shouldEnter;
-          },
-          exit: (velocity) => {
-            const shouldExit = Math.abs(velocity) === 0;
-            return shouldExit;
-          },
-        }}
+        components={{ Footer }}
       />
     </>
   );
