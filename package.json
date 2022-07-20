@@ -56,9 +56,9 @@
     "start:webpackDevServer": "ts-node --transpile-only ./scripts/start.ts",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "node --trace-warnings scripts/test.js --env=jsdom",
-    "tscheck:client": "tsc --project ./src/core/client/tsconfig.json --noEmit",
+    "tscheck:client": "tsc --project ./build/client/client.tsconfig.json --noEmit",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
-    "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
+    "tscheck:server": "tsc --project ./build/server/server.tsconfig.json --noEmit",
     "tscheck": "npm-run-all --parallel tscheck:*",
     "watch": "NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },

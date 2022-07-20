@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2015",
     "module": "esnext",
-    "jsx": "preserve",
+    "jsx": "react",
     "allowJs": false,
     "lib": ["dom", "es7", "scripthost", "es2015", "esnext.asynciterable"],
     "noEmit": true,
@@ -17,23 +17,23 @@
     "noErrorTruncation": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "baseUrl": "../../",
+    "baseUrl": "../../src/core/client/",
     "paths": {
-      "coral-account/*": ["./src/core/client/account/*"],
-      "coral-admin/*": ["./src/core/client/admin/*"],
-      "coral-auth/*": ["./src/core/client/auth/*"],
-      "coral-count/*": ["./src/core/client/count/*"],
-      "coral-embed/*": ["./src/core/client/embed/*"],
-      "coral-stream/*": ["./src/core/client/stream/*"],
-      "coral-framework/*": ["./src/core/client/framework/*"],
-      "coral-ui/*": ["./src/core/client/ui/*"],
-      "coral-test/*": ["./src/core/client/test/*"],
-      "coral-common/*": ["./src/core/common/*"]
+      "coral-account/*": ["./account/*"],
+      "coral-admin/*": ["./admin/*"],
+      "coral-auth/*": ["./auth/*"],
+      "coral-count/*": ["./count/*"],
+      "coral-embed/*": ["./embed/*"],
+      "coral-stream/*": ["./stream/*"],
+      "coral-framework/*": ["./framework/*"],
+      "coral-ui/*": ["./ui/*"],
+      "coral-test/*": ["./test/*"],
+      "coral-common/*": ["../common/*"]
     }
   },
   "include": [
-    "./src/core/client/**/*",
-    "./src/types/**/*.d.ts"
+    "../../src/core/client/**/*",
+    "../../src/types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }

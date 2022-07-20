@@ -6,7 +6,7 @@ import ignoredFiles from "react-dev-utils/ignoredFiles";
 import noopServiceWorkerMiddleware from "react-dev-utils/noopServiceWorkerMiddleware";
 import { Configuration } from "webpack-dev-server";
 
-import paths from "./paths";
+import paths from "../build/client/paths";
 
 interface WebpackDevServerConfig {
   allowedHost: any;

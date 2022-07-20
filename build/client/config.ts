@@ -82,7 +82,7 @@ const config = convict({
   maxCores: {
     doc: "Set maximum of available cores",
     format: "nat",
-    default: os.cpus().length,
+    default: Math.min(6, os.cpus().length),
     env: "WEBPACK_MAX_CORES",
     arg: "maxCores",
   },

@@ -11,9 +11,9 @@ import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import { createCompiler, prepareUrls } from "./WebpackDevServerUtils";
 
+import config from "../build/client/config";
+import createWebpackConfig from "../build/client/createWebpackConfig";
 import createDevServerConfig from "../config/webpackDevServer.config";
-import config from "../src/core/build/config";
-import createWebpackConfig from "../src/core/build/createWebpackConfig";
 
 /* eslint-disable no-console */
 
