@@ -515,7 +515,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         indexToSearchFromOrCurrentTraversalFocusPassed ||
         !loopBackAroundUnseenComment
       ) {
-        if (!comment.node.ignored === true) {
+        if (!comment.node.ignored) {
           if (comment.node.seen === false && !comment.node.deleted) {
             const unseen = {
               isRoot: true,
@@ -532,11 +532,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               }
             }
           }
-          const allChildCommentIDs = comment.node.allChildComments.edges.map(
-            (childComment) => {
+          const allChildCommentIDs =
+            comment.node.allChildComments?.edges.map((childComment) => {
               return childComment.node.id;
-            }
-          );
+            }) || [];
           if (
             comment.node.allChildComments &&
             comment.node.allChildComments.edges.some((c) => {
@@ -831,6 +830,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       renderWindow.scrollTo({ top: offset });
 
       if (stop.isLoadMore) {
+        if (stop.id === "comments-loadAll") {
+          stop.element.click();
+          return false;
+        }
         if (!stop.isViewNew) {
           let prevOrNextStop = findPreviousKeyStop(root, stop, {
             skipLoadMore: true,
