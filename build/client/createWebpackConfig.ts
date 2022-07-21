@@ -7,10 +7,11 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity, uniq } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import os from "os";
 import path from "path";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
-import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 import webpack, { Configuration, Plugin } from "webpack";
 import WebpackAssetsManifest from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -194,33 +195,26 @@ export default function createWebpackConfig(
       },
       minimize: minimize || treeShake,
       minimizer: [
-        // Minify the code.
-        new TerserPlugin({
-          terserOptions: {
+        new UglifyJsPlugin({
+          parallel: Math.min(6, os.cpus().length),
+          sourceMap: !disableSourcemaps,
+          extractComments: !minimize,
+          uglifyOptions: {
+            mangle: minimize,
+            keep_classnames: profilerSupport,
+            keep_fnames: profilerSupport,
+            safari10: true,
             compress: minimize
               ? {}
               : {
-                  defaults: false,
+                  default: false,
                   dead_code: true,
                   pure_getters: true,
                   side_effects: true,
                   unused: true,
                   passes: 2,
                 },
-            mangle: minimize,
-            keep_classnames: profilerSupport,
-            keep_fnames: profilerSupport,
-            output: {
-              comments: !minimize,
-              // Turned on because emoji and regex is not minified properly using default
-              // https://github.com/facebookincubator/create-react-app/issues/2488
-              ascii_only: true,
-            },
-            safari10: true,
           },
-          cache: enableBuildCache,
-          parallel: 4,
-          sourceMap: !disableSourcemaps,
         }),
       ],
     },
