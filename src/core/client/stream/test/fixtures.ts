@@ -870,6 +870,49 @@ export const storyWithDeepestReplies = denormalizeStory(
   )
 );
 
+export const replyableComment: GQLComment = {
+  ...comments[0],
+  canRespond: true,
+};
+
+export const rejectedComment: GQLComment = {
+  ...comments[1],
+  status: GQLCOMMENT_STATUS.REJECTED,
+};
+
+export const unreplyableComment: GQLComment = {
+  ...comments[2],
+  canRespond: false,
+};
+
+export const commentWithRejectedReply: GQLComment = denormalizeComment(
+  createFixture<GQLComment>({
+    ...replyableComment,
+    replies: {
+      nodes: [rejectedComment],
+      pageInfo: { hasNextPage: false, hasPreviousPage: false },
+      edges: [
+        {
+          cursor: "cursor",
+          node: {
+            ...rejectedComment,
+            replies: {
+              edges: [
+                {
+                  cursor: "cursor",
+                  node: unreplyableComment,
+                },
+              ],
+              nodes: [rejectedComment],
+              pageInfo: { hasNextPage: false, hasPreviousPage: false },
+            },
+          },
+        },
+      ],
+    },
+  })
+);
+
 export const storyWithOnlyStaffComments = denormalizeStory(
   createFixture<GQLStory>(
     {
