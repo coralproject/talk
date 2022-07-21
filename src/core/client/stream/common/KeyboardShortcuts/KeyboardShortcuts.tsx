@@ -345,14 +345,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 !comment.node.ignoredReplies?.includes(childComment.node.id)
               ) {
                 if (childComment.node.ancestorIDs) {
-                  const allAncestorIDsInChildIDs = childComment.node.ancestorIDs?.filter(
+                  const ancestorIDMissingFromChildIDs = childComment.node.ancestorIDs?.some(
                     (ancestorID) =>
                       !(
                         allChildCommentIDs.includes(ancestorID || "") ||
                         ancestorID === comment.node.id
                       )
                   );
-                  return allAncestorIDsInChildIDs.length === 0;
+                  return !ancestorIDMissingFromChildIDs;
                 }
                 return true;
               }
@@ -420,7 +420,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       const offset =
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         comment.getBoundingClientRect().top + renderWindow.pageYOffset - 150;
-      setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
+      renderWindow.scrollTo({ top: offset });
     },
     [renderWindow]
   );
@@ -472,10 +472,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               source,
             });
             scrollToComment(nextKeyStop.element);
-            setTimeout(
-              () => setFocusAndMarkSeen(parseCommentElementID(nextKeyStop.id)),
-              0
-            );
+            setFocusAndMarkSeen(parseCommentElementID(nextKeyStop.id));
           }
         }
       }
@@ -547,9 +544,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 // Need to check that all of this replies' ancestorIDs are included in
                 // the root comment's childIDs; otherwise, an ancestor is not visible
                 // for some reason (i.e. is rejected)
-                let allAncestorIDsInChildIDs = [];
+                let ancestorIDMissingFromChildIDs = false;
                 if (c.node.ancestorIDs) {
-                  allAncestorIDsInChildIDs = c.node.ancestorIDs.filter(
+                  ancestorIDMissingFromChildIDs = c.node.ancestorIDs.some(
                     (ancestorID) =>
                       !(
                         allChildCommentIDs.includes(ancestorID || "") ||
@@ -557,7 +554,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                       )
                   );
                 }
-                if (allAncestorIDsInChildIDs.length === 0) {
+                if (!ancestorIDMissingFromChildIDs) {
                   const unseen = {
                     isRoot: false,
                     nodeID: c.node.id,
@@ -857,9 +854,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         stop.element.click();
         return true;
       } else {
-        setTimeout(() => {
-          setFocusAndMarkSeen(parseCommentElementID(stop!.id));
-        }, 0);
+        setFocusAndMarkSeen(parseCommentElementID(stop!.id));
         return true;
       }
     },
@@ -1008,11 +1003,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         source: "mobileToolbar",
       },
     });
-    // Need to setTimeout to make sure that the Z key press is handled
-    // after keyboardShortcutConfig is set
-    setTimeout(() => {
-      void handleZKeyPress("mobileToolbar");
-    }, 0);
+    void handleZKeyPress("mobileToolbar");
   }, [setLocal, handleZKeyPress]);
 
   // Traverse to next comment/reply after loading more/new comments and replies
