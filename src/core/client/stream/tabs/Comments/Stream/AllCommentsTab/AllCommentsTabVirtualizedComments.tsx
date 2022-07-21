@@ -25,14 +25,6 @@ import { AllCommentsTabVirtualizedCommentsLocal } from "coral-stream/__generated
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 
-export interface NextUnseenComment {
-  commentID?: string | null;
-  parentID?: string | null;
-  rootCommentID?: string | null;
-  index?: number | null;
-  needToLoadNew?: boolean | null;
-}
-
 interface Props {
   settings: AllCommentsTabContainer_settings;
   viewer: AllCommentsTabContainer_viewer | null;
@@ -69,7 +61,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     AllCommentsTabVirtualizedCommentsLocal
   >(graphql`
     fragment AllCommentsTabVirtualizedCommentsLocal on Local {
-      commentWithTraversalFocus
       showLoadAllCommentsButton
       oldestFirstNewCommentsToShow
       totalCommentsLength

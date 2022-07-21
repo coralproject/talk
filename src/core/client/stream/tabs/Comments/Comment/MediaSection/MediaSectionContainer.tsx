@@ -48,14 +48,14 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       : { commentIDs: [] };
     const indexOfComment = initialMediaSettings.commentIDs.indexOf(comment.id);
     if (indexOfComment === -1) {
-      setIsToggled(defaultExpanded ? false : true);
+      setIsToggled(!defaultExpanded);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.concat(comment.id),
         },
       });
     } else {
-      setIsToggled(defaultExpanded ? true : false);
+      setIsToggled(defaultExpanded);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.filter(
