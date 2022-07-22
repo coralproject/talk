@@ -426,7 +426,7 @@ export const baseComment = createFixture<GQLComment>({
   deleted: NULL_VALUE,
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   seen: false,
-  canRespond: true,
+  canReply: true,
 });
 
 export const comments = denormalizeComments(
@@ -872,7 +872,7 @@ export const storyWithDeepestReplies = denormalizeStory(
 
 export const replyableComment: GQLComment = {
   ...comments[0],
-  canRespond: true,
+  canReply: true,
 };
 
 export const rejectedComment: GQLComment = {
@@ -882,7 +882,7 @@ export const rejectedComment: GQLComment = {
 
 export const unreplyableComment: GQLComment = {
   ...comments[2],
-  canRespond: false,
+  canReply: false,
 };
 
 export const commentWithRejectedReply: GQLComment = denormalizeComment(

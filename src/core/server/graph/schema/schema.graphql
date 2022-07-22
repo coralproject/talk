@@ -3755,9 +3755,9 @@ type Comment @cacheControl(maxAge: 5) {
   canModerate: Boolean!
 
   """
-  canRespond returns true if the comment is able to be responded to.
+  canReply returns true if the comment is able to be responded to.
   """
-  canRespond: Boolean!
+  canReply: Boolean!
 
   """
   site is the Site referenced by the Story for this Comment.

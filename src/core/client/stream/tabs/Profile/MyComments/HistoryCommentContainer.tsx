@@ -75,7 +75,6 @@ const enhanced = withFragmentContainer<Props>({
       id
       body
       createdAt
-      ...HistoryCommentFooterContainer_comment
       ...MediaSectionContainer_comment
       parent {
         id

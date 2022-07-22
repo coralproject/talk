@@ -59,7 +59,7 @@ const createTestRenderer = async () => {
   };
 };
 
-it("allows replies to comments with canRespond = true", async () => {
+it("allows replies to comments with canReply = true", async () => {
   const {
     replyableComment: replyableCommentElement,
   } = await createTestRenderer();
@@ -70,7 +70,7 @@ it("allows replies to comments with canRespond = true", async () => {
   expect(replyButton).toBeEnabled();
 });
 
-it("disallows replies to comments with canRespond = false", async () => {
+it("disallows replies to comments with canReply = false", async () => {
   const {
     unreplyableComment: unreplyableCommentElement,
   } = await createTestRenderer();

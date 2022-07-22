@@ -362,7 +362,7 @@ async function commit(
                   id: uuidGenerator(),
                   media: null,
                 },
-                canRespond: true,
+                canReply: true,
                 rating: null,
                 parent: {
                   id: parentComment.id,
