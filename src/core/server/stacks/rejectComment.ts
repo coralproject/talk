@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision, hasTag } from "coral-server/models/comment";
@@ -98,10 +97,12 @@ const disableRepliesToChildren = async (
 
   const childIDs = children.map(({ id }) => id);
 
-  await mongo.comments().updateMany(
-    { id: { $in: childIDs } },
-    { $set: { rejectedAncestor: true } },
-  );
+  await mongo
+    .comments()
+    .updateMany(
+      { id: { $in: childIDs } },
+      { $set: { rejectedAncestor: true } }
+    );
 };
 
 export default rejectComment;

@@ -78,7 +78,6 @@ afterAll(() => {
 });
 
 it("disables comment stream", async () => {
-  /* eslint-disable */
   timekeeper.freeze(firstComment.createdAt);
   const { testRenderer, tabPane } = await createTestRenderer();
   await waitForElement(() =>
