@@ -61,9 +61,10 @@ function createCountElementEnhancer({
   if (storyID && showNew) {
     const previousCount = getPreviousCount(storyID) ?? 0;
 
-    // The new count is just the current count subtracting from the previous
-    // count.
-    const newCount = currentCount - previousCount;
+    // The new count is the current count subtracted from the previous
+    // count if the counts are different, otherwise, zero.
+    const newCount =
+      previousCount < currentCount ? currentCount - previousCount : 0;
 
     // Add the counts to the dataset so it can be targeted by CSS if you want.
     dataset.coralPreviousCount = previousCount.toString();
