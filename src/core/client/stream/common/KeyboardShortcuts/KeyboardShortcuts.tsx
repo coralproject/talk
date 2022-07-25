@@ -897,7 +897,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
       if (stop.isLoadMore) {
         if (stop.id === "comments-loadAll") {
-          stop.element.click();
           return false;
         }
         if (!stop.isViewNew) {

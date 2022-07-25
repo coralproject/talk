@@ -110,11 +110,6 @@ extend type Local {
   addACommentButtonClicked: Boolean
   # Whether the Z key button clicked to Load all comments
   zKeyClickedLoadAll: Boolean
-  # If new comments have been added while in alternate oldest first view that need to
-  # be displayed.
-  oldestFirstNewCommentsToShow: String
-  # Keeps track of comments loaded in plus any new comments added in alternate oldest first view.
-  totalCommentsLength: Int
   # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
   # media settings)
   expandedMediaSettings: ExpandedMediaSettings

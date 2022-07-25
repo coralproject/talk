@@ -33,7 +33,6 @@ interface Props {
   hasMore: boolean;
   isLoadingMore: boolean;
   currentScrollRef: any;
-  alternateOldestViewEnabled: boolean;
   commentsOrderBy: COMMENT_SORT;
   comments: AllCommentsTabContainer_story["comments"]["edges"];
   newCommentsLength: number;
@@ -52,7 +51,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   hasMore,
   isLoadingMore,
   currentScrollRef,
-  alternateOldestViewEnabled,
   commentsOrderBy,
   comments,
   newCommentsLength,
@@ -62,10 +60,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   >(graphql`
     fragment AllCommentsTabVirtualizedCommentsLocal on Local {
       showLoadAllCommentsButton
-      oldestFirstNewCommentsToShow
-      totalCommentsLength
-      zKeyClickedLoadAll
       addACommentButtonClicked
+      zKeyClickedLoadAll
       keyboardShortcutsConfig {
         key
         source
@@ -88,10 +84,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     hasMore: boolean;
   }>(null);
 
-  useEffect(() => {
-    setLocal({ totalCommentsLength: comments.length });
-  }, [comments.length, setLocal]);
-
   // This determines if there are more comments to display than the initial 20.
   // It also takes into account the initial comments loaded since if we start
   // with fewer than 20, we will never want to display load all as new comments
@@ -108,35 +100,21 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
 
   // We determine whether to display the Load all comments button based on whether:
   // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.
-  // 2. Don't display if Z key has clicked the Load all button to open it and go to next unseen.
-  // 3. Display if the Add a comment button has been clicked in alternate oldest view.
-  // 4. If alternate oldest view enabled, don't display if Load all button has been clicked;
-  // otherwise, default to the admin configuration.
-  // 5. Last, we check the admin configuration and displayed based on that and whether or not
+  // 2. Don't display if Z key has clicked the Load all button to open it and go to next unseen OR
+  // if the add a comment button has been clicked in alternate oldest view.
+  // 3. Last, we check the admin configuration and displayed based on that and whether or not
   // the Load all button has already been clicked.
   const displayLoadAllButton = useMemo(() => {
     if (moreCommentsForLoadAll) {
-      if (local.zKeyClickedLoadAll) {
+      if (local.zKeyClickedLoadAll || local.addACommentButtonClicked) {
         return false;
       }
-      if (local.addACommentButtonClicked) {
-        return true;
-      }
-      if (alternateOldestViewEnabled) {
-        return loadAllButtonHasBeenClicked ? false : !settings.loadAllComments;
-      }
-      if (!settings.loadAllComments) {
-        return !loadAllButtonHasBeenClicked;
-      } else {
-        return false;
-      }
+      return settings.loadAllComments ? false : !loadAllButtonHasBeenClicked;
     } else {
       return false;
     }
   }, [
     settings.loadAllComments,
-    initialComments,
-    alternateOldestViewEnabled,
     loadAllButtonHasBeenClicked,
     local.zKeyClickedLoadAll,
     local.addACommentButtonClicked,
@@ -184,9 +162,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   ]);
 
   useEffect(() => {
-    // on rerender, clear the newly added comments to display if it's
-    // alternate oldest view
-    setLocal({ oldestFirstNewCommentsToShow: "" });
     // on rerender, clear initial comments info
     setInitialComments({
       length: story.comments.edges.length,

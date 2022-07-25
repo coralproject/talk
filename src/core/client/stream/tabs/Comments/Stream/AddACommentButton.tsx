@@ -3,7 +3,6 @@ import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useLocal } from "coral-framework/lib/relay";
-import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -22,12 +21,10 @@ const AddACommentButton: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const { renderWindow } = useCoralContext();
-  const [{ totalCommentsLength }, setLocal] = useLocal<AddACommentButtonLocal>(
+  const [, setLocal] = useLocal<AddACommentButtonLocal>(
     graphql`
       fragment AddACommentButtonLocal on Local {
         addACommentButtonClicked
-        totalCommentsLength
-        zKeyClickedLoadAll
       }
     `
   );
@@ -43,38 +40,35 @@ const AddACommentButton: FunctionComponent<Props> = ({
       // Then scroll to last comment, which is right above the Add a comment box,
       // and scroll the post comment form into view.
       setLocal({ addACommentButtonClicked: true });
-      setLocal({ zKeyClickedLoadAll: false });
-      if (totalCommentsLength) {
-        const indexToScroll =
-          totalCommentsLength < NUM_INITIAL_COMMENTS
-            ? totalCommentsLength - 1
-            : NUM_INITIAL_COMMENTS - 1;
-        if (currentScrollRef.current) {
-          currentScrollRef.current.scrollIntoView({
-            align: "center",
-            index: indexToScroll,
-            behavior: "auto",
-            done: () => {
-              let count = 0;
-              const stopExists = setInterval(async () => {
-                count += 1;
-                const stopElement = root.querySelector(
-                  `[data-index="${indexToScroll}"]`
-                );
-                if (stopElement !== undefined && stopElement !== null) {
-                  clearInterval(stopExists);
-                  postCommentForm.scrollIntoView();
-                }
-                if (count > 10) {
-                  clearInterval(stopExists);
-                }
-              }, 100);
-            },
-          });
-        }
+      if (currentScrollRef.current) {
+        currentScrollRef.current.scrollToIndex({
+          align: "center",
+          index: "LAST",
+          behavior: "auto",
+          done: () => {
+            let count = 0;
+            const stopExists = setInterval(async () => {
+              count += 1;
+              const postCommentFormElement = root.getElementById(
+                POST_COMMENT_FORM_ID
+              );
+              if (
+                postCommentFormElement !== undefined &&
+                postCommentFormElement !== null
+              ) {
+                clearInterval(stopExists);
+                postCommentForm.scrollIntoView();
+              }
+              if (count > 10) {
+                clearInterval(stopExists);
+              }
+            }, 100);
+          },
+        });
+        // }
       }
     }
-  }, [renderWindow, root, setLocal, currentScrollRef, totalCommentsLength]);
+  }, [renderWindow, root, setLocal, currentScrollRef]);
 
   return (
     <div className={styles.root}>
