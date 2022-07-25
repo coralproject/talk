@@ -298,7 +298,7 @@ comments-jumpToComment-GoToReply = Go to reply
 
 comments-mobileToolbar-closeButton =
   .aria-label = Close
-comments-mobileToolbar-unmarkAll = Unmark all
+comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
 comments-replyChangedWarning-theCommentHasJust =
