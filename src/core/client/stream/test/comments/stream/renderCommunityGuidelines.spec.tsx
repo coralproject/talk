@@ -1,9 +1,10 @@
+import { screen } from "@testing-library/react";
 import sinon from "sinon";
 
-import { waitForElement, within } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import { settings, stories } from "../../fixtures";
-import create from "./create";
+import { createContext } from "../create";
 
 function createTestRenderer() {
   const resolvers = {
@@ -19,7 +20,7 @@ function createTestRenderer() {
     },
   };
 
-  const { testRenderer } = create({
+  const { context } = createContext({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
@@ -27,15 +28,11 @@ function createTestRenderer() {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });
-  return { testRenderer, resolvers };
+  customRenderAppWithContext(context);
 }
 it("renders comment stream with community guidelines", async () => {
-  const { testRenderer } = createTestRenderer();
-  await waitForElement(() =>
-    within(testRenderer.root).getByText("Community Guidelines", {
-      exact: false,
-    })
-  );
-  const tabPane = within(testRenderer.root).getByTestID("current-tab-pane");
-  expect(within(tabPane).toJSON()).toMatchSnapshot();
+  createTestRenderer();
+  const communityGuidelines = await screen.findByText("Community Guidelines");
+  expect(communityGuidelines).toBeVisible();
+  expect(screen.getByTestId("comments-allComments-log")).toBeVisible();
 });

@@ -73,7 +73,14 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Localized id="configure-general-commentLength-limitCommentLength">
         <Label>Limit comment length</Label>
       </Localized>
-      <OnOffField name="charCount.enabled" disabled={disabled} />
+      <OnOffField
+        name="charCount.enabled"
+        disabled={disabled}
+        testIDs={{
+          on: "comment-length-limit-on",
+          off: "comment-length-limit-off",
+        }}
+      />
     </FormField>
 
     <FormField>
