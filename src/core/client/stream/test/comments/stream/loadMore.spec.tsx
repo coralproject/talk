@@ -1,8 +1,8 @@
-import { screen, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { isMatch } from "lodash";
 import sinon from "sinon";
 
-import { pureMerge } from "coral-common/utils";
 import { createSinonStub } from "coral-framework/testHelpers";
 import { createContext } from "coral-stream/test/create";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
@@ -26,7 +26,7 @@ const createTestRenderer = async () => {
           return {
             edges: [
               {
-                node: comments[21],
+                node: comments[2],
                 cursor: "2019-08-06T18:24:00.000Z",
               },
             ],
@@ -51,82 +51,6 @@ const createTestRenderer = async () => {
               },
               {
                 node: comments[1],
-                cursor: comments[1].createdAt,
-              },
-              {
-                node: comments[2],
-                cursor: comments[2].createdAt,
-              },
-              {
-                node: comments[3],
-                cursor: comments[3].createdAt,
-              },
-              {
-                node: comments[4],
-                cursor: comments[4].createdAt,
-              },
-              {
-                node: comments[5],
-                cursor: comments[5].createdAt,
-              },
-              {
-                node: comments[6],
-                cursor: comments[6].createdAt,
-              },
-              {
-                node: comments[7],
-                cursor: comments[7].createdAt,
-              },
-              {
-                node: comments[8],
-                cursor: comments[8].createdAt,
-              },
-              {
-                node: comments[9],
-                cursor: comments[9].createdAt,
-              },
-              {
-                node: comments[10],
-                cursor: comments[10].createdAt,
-              },
-              {
-                node: comments[11],
-                cursor: comments[11].createdAt,
-              },
-              {
-                node: comments[12],
-                cursor: comments[12].createdAt,
-              },
-              {
-                node: comments[13],
-                cursor: comments[13].createdAt,
-              },
-              {
-                node: comments[14],
-                cursor: comments[14].createdAt,
-              },
-              {
-                node: comments[15],
-                cursor: comments[15].createdAt,
-              },
-              {
-                node: comments[16],
-                cursor: comments[16].createdAt,
-              },
-              {
-                node: comments[17],
-                cursor: comments[17].createdAt,
-              },
-              {
-                node: comments[18],
-                cursor: comments[18].createdAt,
-              },
-              {
-                node: comments[19],
-                cursor: comments[19].createdAt,
-              },
-              {
-                node: comments[20],
                 cursor: loadMoreDateCursor,
               },
             ],
@@ -141,10 +65,6 @@ const createTestRenderer = async () => {
       })
     ),
   };
-
-  const settingsWithLoadAllCommentsDisabled = pureMerge(settings, {
-    loadAllComments: false,
-  });
 
   const resolvers = {
     Query: {
@@ -172,7 +92,7 @@ const createTestRenderer = async () => {
             )
             .returns(storyStub)
       ),
-      settings: sinon.stub().returns(settingsWithLoadAllCommentsDisabled),
+      settings: sinon.stub().returns(settings),
     },
   };
 
@@ -183,7 +103,6 @@ const createTestRenderer = async () => {
       localRecord.setValue("ALL_COMMENTS", "commentsTab");
       localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
       localRecord.setValue(storyStub.id, "storyID");
-      localRecord.setValue(true, "showLoadAllCommentsButton");
     },
   });
 
@@ -193,29 +112,28 @@ const createTestRenderer = async () => {
   return { context, stream };
 };
 
-it("renders comment stream with load all comments button when enabled", async () => {
+it("renders comment stream with load more button", async () => {
   const { stream } = await createTestRenderer();
 
-  expect(
-    within(stream).queryByRole("button", { name: "Load All Comments" })
-  ).toBeInTheDocument();
+  expect(within(stream).queryByText("Load More")).toBeInTheDocument();
 });
 
-// Unable to trigger the end being reached and more comments actually loading in test
-// it("loads all comments", async () => {
-//   const { stream } = await createTestRenderer();
+it("loads more comments", async () => {
+  const { stream } = await createTestRenderer();
 
-//   // Get amount of comments before.
-//   within(stream).getAllByTestId(/^comment[-]comment[-]/).length;
+  // Get amount of comments before.
+  const commentsBefore = within(stream).getAllByTestId(/^comment[-]comment[-]/)
+    .length;
 
-//   const loadMore = within(stream).getByRole("button", {
-//     name: "Load All Comments",
-//   });
-//   userEvent.click(loadMore);
+  const loadMore = within(stream).getByRole("button", {
+    name: "Load More",
+  });
+  userEvent.click(loadMore);
+  expect(within(stream).queryByText("Load More")).toBeDisabled();
 
-// await waitFor(() =>
-//   expect(within(stream).getAllByTestId(/^comment[-]comment[-]/)).toHaveLength(
-//     commentsBefore + 1
-//   )
-// );
-// });
+  await waitFor(() =>
+    expect(within(stream).getAllByTestId(/^comment[-]comment[-]/).length).toBe(
+      commentsBefore + 1
+    )
+  );
+});

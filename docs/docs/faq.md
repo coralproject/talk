@@ -28,6 +28,10 @@ Yes! For version 4.x.x we have a community-supported [import framework](https://
 
 Import tools are still in development for version 5, but will be coming soon! Contact us at [support@coralproject.net](mailto:support@coralproject.net) if you need an importer for version 5.x.x.
 
+## Does Coral enforce unique usernames?
+
+We don't do this because your [SSO](https://docs.coralproject.net/sso) should be the single source of truth for all user account management, including usernames. If Coral were to reject or change usernames supplied by the SSO, there would be a conflict, as we only receive from your SSO and don't push changes to your user database. 
+
 ## What support is available?
 
 You can always email us at [support@coralproject.net](mailto:support@coralproject.net), and if we are able to help we will answer your questions. In some cases, we are able to offer paid support packages. You can inquire about this via the support email address above.

@@ -17,8 +17,6 @@ const TwitterMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
       <Frame
         id={id}
         src={`/api/oembed?type=twitter&url=${component}&siteID=${siteID}`}
-        width="100%"
-        showFullHeight
       />
     </div>
   );
