@@ -9,6 +9,7 @@ Coral v7 includes a major change in the technology underlying the stream embed. 
 - Minimum browser requirements have changed: Coral 7.0.0 will only work in browser that support the Shadow DOM API, which includes all currently supported versions of Chrome, Firefox, Safari, and Edge. Coral 7.0.0 is not compatible with Internet Explorer 11.
 - Custom font declarations must now be referenced in a new "Custom CSS Stylesheet URL for Font Faces" field
 - Custom CSS targeting `body`, `html` or `:root` will no longer work, as Coral no longer renders a full HTML document
+- the property `bodyClassName` in the `createStreamEmbed` options has been changed to `containerClassName`
 - All network requests will now originate in the main page context instead of inside the iframe, this may cause problems if you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP). Test Coral v7 in a staging environment to be sure. You may need to whitelist Coral URLs in your Content Security Policy.
 
 ## How to update from Coral v6.18 to v7 without losing your styling
@@ -52,7 +53,9 @@ html {
 }
 ```
 
-3. If your site has a Content Security Policy that prohibits websocket (`wss://`) requests, you will need to update it to whitelist `wss://[your coral URL]/api/graphql/live` in order for live updates to function.
+3. If you specify a `bodyClassName` property in the `createStreamEmbed` options, you will need to replace it with the new property `containerClassName`
+
+4. If your site has a Content Security Policy that prohibits websocket (`wss://`) requests, you will need to update it to whitelist `wss://[your coral URL]/api/graphql/live` in order for live updates to function.
 
 ## After Coral has been updated to v7
 

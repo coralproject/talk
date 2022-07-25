@@ -1,9 +1,10 @@
+import { screen } from "@testing-library/react";
 import sinon from "sinon";
 
-import { waitForElement, within } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import { settings, stories } from "../../fixtures";
-import create from "./create";
+import { createContext } from "../create";
 
 const story = stories[2];
 
@@ -23,7 +24,7 @@ async function createTestRenderer(
     },
   };
 
-  const { testRenderer, context } = create({
+  const { context } = createContext({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
@@ -32,19 +33,54 @@ async function createTestRenderer(
       localRecord.setValue(story.id, "storyID");
     },
   });
-
-  return {
-    testRenderer,
-    context,
-  };
+  customRenderAppWithContext(context);
 }
 
 it("renders comment stream", async () => {
-  const { testRenderer } = await createTestRenderer();
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
-  expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
+  await createTestRenderer();
+  const allComments = await screen.findByTestId("comments-allComments-log");
+  expect(allComments).toBeVisible();
+
+  // renders first comment with username, buttons, and body
+  expect(
+    screen.getByRole("article", {
+      name: "Comment from Markus 2018-07-06T18:24:00.000Z",
+    })
+  ).toBeVisible();
+  expect(screen.getByRole("button", { name: "Markus" })).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Respect comment by Markus" })
+  ).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Reply to comment by Markus" })
+  ).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Share comment by Markus" })
+  ).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Report comment by Markus" })
+  ).toBeVisible();
+  expect(screen.queryAllByText("Joining Too")).toHaveLength(2);
+
+  // renders second comment with username, buttons, and body
+  expect(
+    screen.getByRole("article", {
+      name: "Comment from Moderator 2018-07-06T18:24:00.000Z",
+    })
+  ).toBeVisible();
+  expect(screen.getByRole("button", { name: "Moderator" })).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Respect comment by Moderator" })
+  ).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Reply to comment by Moderator" })
+  ).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Share comment by Moderator" })
+  ).toBeVisible();
+  expect(
+    screen.getByRole("button", { name: "Report comment by Moderator" })
+  ).toBeVisible();
 
   // TODO (Nick): this is failing due to axe. Tried upgrading react-axe,
   //   jest-axe, and their types. That didn't work, and also noticed that
