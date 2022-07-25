@@ -734,7 +734,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         source: "keyboard" | "mobileToolbar";
       },
       noCircle?: boolean,
-      calledByEventListener?: boolean
+      calledByEventListener?: boolean,
+      initialTraverse?: boolean
     ) => {
       let stop: KeyStop | null = null;
       let traverseOptions: TraverseOptions | undefined;
@@ -756,6 +757,92 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             traverseOptions,
             currentScrollRef
           );
+        }
+      }
+
+      // We check here that comment with current traversal focus is actually in the DOM
+      // if this is the initial traverse called by Z key press / Next unread button.
+      // This ensures that if someone scrolls up/down the page and comment with current
+      // traversal focus is no longer in Virtuoso, we will get a predictable next unseen
+      // comment, and not just the first unseen in what is currently rendered by Virtuoso.
+      if (initialTraverse) {
+        if (commentWithTraversalFocus) {
+          const commentWithCurrentFocus = root.getElementById(
+            computeCommentElementID(commentWithTraversalFocus)
+          );
+          if (!commentWithCurrentFocus) {
+            // Need to find the index of the comment in Virtuoso and scroll to it in this
+            // case and then traverse again, and search for next unseen if nothing found when
+            // traversing. Otherwise, may skip replies in a comment that are unseen.
+            const indexToScroll = comments.findIndex((comment) => {
+              if (comment.node.id === commentWithTraversalFocus) {
+                return true;
+              }
+              const childComments = comment.node.allChildComments?.edges.map(
+                (c) => {
+                  return c.node.id;
+                }
+              );
+              if (
+                childComments &&
+                childComments.includes(commentWithTraversalFocus)
+              ) {
+                return true;
+              }
+              return false;
+            });
+            if (indexToScroll) {
+              currentScrollRef.current.scrollIntoView({
+                align: "center",
+                index: indexToScroll,
+                behavior: "auto",
+                done: () => {
+                  // After Virtuoso scrolls, we have to make sure the root comment
+                  // is available before setting focus to it or one of its replies.
+                  let count = 0;
+                  const commentWithFocusElementExists = setInterval(
+                    async () => {
+                      count += 1;
+                      const commentWithFocusElement = root.getElementById(
+                        computeCommentElementID(commentWithTraversalFocus)
+                      );
+                      if (
+                        commentWithFocusElement !== undefined &&
+                        commentWithFocusElement !== null
+                      ) {
+                        clearInterval(commentWithFocusElementExists);
+                        if (commentWithFocusElement) {
+                          const traversed = await traverse(config);
+                          if (traversed) {
+                            return;
+                          }
+
+                          // If no next unseen is found in the DOM during traversal, then
+                          // search through comments to find and navigate to next unseen
+                          findAndNavigateToNextUnseen(
+                            comments,
+                            commentWithTraversalFocus,
+                            viewNewCount,
+                            undefined,
+                            config.source
+                          );
+                        }
+                      }
+                      if (count > 10) {
+                        clearInterval(commentWithFocusElementExists);
+                      }
+                    },
+                    100
+                  );
+                },
+              });
+            }
+            // Returning true because the traversal and finding next unseen is now being
+            // handled after rootCommentElement is found
+            return true;
+          }
+        } else {
+          return false;
         }
       }
 
@@ -854,6 +941,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       viewNewCount,
       findAndNavigateToNextUnseen,
       setTraversalFocus,
+      computeCommentElementID,
     ]
   );
 
@@ -863,6 +951,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // if it's already loaded up in the DOM
       const traversed = await traverse(
         { key: "z", reverse: false, source },
+        true,
+        undefined,
         true
       );
 
