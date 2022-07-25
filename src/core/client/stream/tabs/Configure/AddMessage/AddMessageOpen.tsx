@@ -118,7 +118,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
             id="message-box-form"
             data-testid="configure-addMessage-form"
           >
-            <MessageBoxConfig disabled={false} />
+            <MessageBoxConfig />
             {storySettings.messageBox.content ? (
               <div className={styles.actions}>
                 <Button
