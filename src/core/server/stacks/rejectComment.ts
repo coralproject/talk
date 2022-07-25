@@ -1,7 +1,6 @@
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision, hasTag } from "coral-server/models/comment";
-import { updateCommentOnStoryTree } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
@@ -61,13 +60,6 @@ const rejectComment = async (
   if (!result.after) {
     return result.before;
   }
-
-  await updateCommentOnStoryTree(
-    mongo,
-    tenant.id,
-    result.after.storyID,
-    result.after
-  );
 
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira

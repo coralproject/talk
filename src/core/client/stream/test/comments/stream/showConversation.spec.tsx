@@ -62,9 +62,7 @@ it("renders deepest comment with link", async () => {
   const deepestReply = within(streamLog).getByTestID(
     "comment-comment-with-deepest-replies-3"
   );
-  within(streamLog).getByText("Read More of this Conversation", {
-    exact: false,
-  });
+  within(streamLog).getByText("Read More of this Conversation >");
   expect(within(deepestReply).toJSON()).toMatchSnapshot();
 });
 
@@ -76,9 +74,7 @@ describe("flatten replies", () => {
       },
     });
     expect(() =>
-      within(streamLog).getByText("Read More of this Conversation", {
-        exact: false,
-      })
+      within(streamLog).getByText("Read More of this Conversation >")
     ).toThrow();
   });
 });
@@ -90,7 +86,7 @@ it("shows conversation", async () => {
   const { streamLog, testRenderer } = await createTestRenderer();
   await act(async () => {
     within(streamLog)
-      .getByText("Read More of this Conversation", { exact: false })
+      .getByText("Read More of this Conversation >")
       .props.onClick(mockEvent);
 
     await waitForElement(() =>

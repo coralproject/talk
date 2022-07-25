@@ -43,42 +43,110 @@ async function createTestRenderer(
     },
   });
   customRenderAppWithContext(context);
-  const configureContainer = await screen.findByTestId("configure-container");
-  const generalContainer = screen.getByTestId("configure-generalContainer");
+  const generalContainer = await screen.findByTestId(
+    "configure-generalContainer"
+  );
   const saveChangesButton = screen.getByRole("button", {
     name: "Save Changes",
   });
   return {
     context,
-    configureContainer,
     generalContainer,
     saveChangesButton,
   };
 }
 
-it("renders configure general with expected configuration sections", async () => {
+it("renders configure general with correct navigation", async () => {
   await createTestRenderer();
-  expect(screen.getByLabelText("Language")).toBeInTheDocument();
-  expect(
-    screen.getByRole("heading", { name: "Flatten replies" })
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole("heading", { name: "Load everything" })
-  ).toBeInTheDocument();
-  expect(screen.getByText("Sitewide commenting")).toBeInTheDocument();
-  expect(screen.getByText("Community announcement")).toBeInTheDocument();
-  expect(
-    screen.getByLabelText("Community guidelines summary")
-  ).toBeInTheDocument();
-  expect(screen.getByText("Comment length")).toBeInTheDocument();
-  expect(
-    screen.getByRole("heading", { name: "Comment editing" })
-  ).toBeInTheDocument();
-  expect(screen.getByText("Closing comment streams")).toBeInTheDocument();
-  expect(screen.getByText("Closed comment stream message")).toBeInTheDocument();
-  expect(screen.getByText("Member badges")).toBeInTheDocument();
-  expect(screen.getByText("Commenter bios")).toBeInTheDocument();
-  expect(screen.getByText("Embedded media")).toBeInTheDocument();
+  const generalLink = screen.getByRole("link", { name: "General" });
+  expect(generalLink).toBeVisible();
+  expect(generalLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/general"
+  );
+
+  const organizationLink = screen.getByRole("link", { name: "Organization" });
+  expect(organizationLink).toBeVisible();
+  expect(organizationLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/organization"
+  );
+
+  const moderationLink = screen.getByRole("link", { name: "Moderation" });
+  expect(moderationLink).toBeVisible();
+  expect(moderationLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/moderation"
+  );
+
+  const commentsLink = screen.getByRole("button", { name: "Comments" });
+  expect(commentsLink).toBeVisible();
+
+  const usersLink = screen.getByRole("button", { name: "Users" });
+  expect(usersLink).toBeVisible();
+
+  const moderationPhasesLink = screen.getByRole("link", {
+    name: "Moderation Phases",
+  });
+  expect(moderationPhasesLink).toBeVisible();
+  expect(moderationPhasesLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/moderation/phases"
+  );
+
+  const wordListLink = screen.getByRole("link", {
+    name: "Banned and Suspect Words",
+  });
+  expect(wordListLink).toBeVisible();
+  expect(wordListLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/wordList"
+  );
+
+  const authLink = screen.getByRole("link", {
+    name: "Authentication",
+  });
+  expect(authLink).toBeVisible();
+  expect(authLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/auth"
+  );
+
+  const emailLink = screen.getByRole("link", {
+    name: "Email",
+  });
+  expect(emailLink).toBeVisible();
+  expect(emailLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/email"
+  );
+
+  const slackLink = screen.getByRole("link", {
+    name: "Slack",
+  });
+  expect(slackLink).toBeVisible();
+  expect(slackLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/slack"
+  );
+
+  const webhooksLink = screen.getByRole("link", {
+    name: "Webhooks",
+  });
+  expect(webhooksLink).toBeVisible();
+  expect(webhooksLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/webhooks"
+  );
+
+  const advancedLink = screen.getByRole("link", {
+    name: "Advanced",
+  });
+  expect(advancedLink).toBeVisible();
+  expect(advancedLink).toHaveProperty(
+    "href",
+    "http://localhost/admin/configure/advanced"
+  );
 });
 
 it("change language", async () => {
@@ -102,8 +170,11 @@ it("change language", async () => {
 
   // Let's change the language.
   userEvent.selectOptions(languageField, "es");
+
+  // Send form
   userEvent.click(saveChangesButton);
 
+  // Submit button and text field should be disabled.
   expect(saveChangesButton).toBeDisabled();
 
   // Wait for submission to be finished
@@ -131,14 +202,14 @@ it("change site wide commenting", async () => {
       },
     },
   });
-  const { generalContainer, saveChangesButton } = await createTestRenderer({
+  const { saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const offField = within(generalContainer).getByRole("radio", {
+  const offField = screen.getByRole("radio", {
     name: "Off - Comment streams closed for new comments",
   });
-  const contentField = within(generalContainer).getByRole("textbox", {
+  const contentField = screen.getByRole("textbox", {
     name: "Sitewide closed comments message",
   });
 
@@ -158,14 +229,14 @@ it("change site wide commenting", async () => {
 
   // Wait for submission to be finished
   await waitFor(() => {
-    expect(offField).not.toBeDisabled();
+    expect(offField).toBeEnabled();
   });
 
   // Should have successfully sent with server.
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
-it("change community guidelines", async () => {
+it("change community guidlines", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
@@ -182,14 +253,12 @@ it("change community guidelines", async () => {
     },
   });
 
-  const { generalContainer, saveChangesButton } = await createTestRenderer({
+  const { saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const onField = within(generalContainer).getByTestId(
-    "community-guidelines-on"
-  );
-  const contentField = within(generalContainer).getByRole("textbox", {
+  const onField = screen.getByTestId("community-guidelines-on");
+  const contentField = screen.getByRole("textbox", {
     name: "Community guidelines summary",
   });
 
@@ -209,7 +278,7 @@ it("change community guidelines", async () => {
 
   // Wait for submission to be finished
   await waitFor(() => {
-    expect(onField).not.toBeDisabled();
+    expect(onField).toBeEnabled();
   });
 
   // Should have successfully sent with server.
@@ -229,13 +298,11 @@ it("change closed stream message", async () => {
       },
     },
   });
-  const { generalContainer, saveChangesButton } = await createTestRenderer({
-    resolvers,
-  });
+  const { saveChangesButton } = await createTestRenderer({ resolvers });
 
-  const contentField = within(generalContainer).getByLabelText(
-    "Closed comment stream message"
-  );
+  const contentField = screen.getByRole("textbox", {
+    name: "Closed comment stream message",
+  });
 
   // Let's change the content.
   userEvent.clear(contentField);
@@ -266,15 +333,14 @@ it("change comment editing time", async () => {
       },
     },
   });
-  const { generalContainer, saveChangesButton } = await createTestRenderer({
-    resolvers,
+  const { saveChangesButton } = await createTestRenderer({ resolvers });
+  const durationFieldset = screen.getByRole("group", {
+    name: "Comment edit timeframe",
   });
-
-  const commentEditingConfigBox = within(generalContainer).getByTestId(
-    "comment-editing-config-box"
-  );
-  const valueField = within(commentEditingConfigBox).getByLabelText("value");
-  const unitField = within(commentEditingConfigBox).getByLabelText("unit");
+  const valueField = within(durationFieldset).getByRole("textbox", {
+    name: "value",
+  });
+  const unitField = within(durationFieldset).getByLabelText("unit");
 
   // Let's turn on and set some invalid values.
   userEvent.clear(valueField);
@@ -282,9 +348,7 @@ it("change comment editing time", async () => {
   // Send form
   userEvent.click(saveChangesButton);
 
-  expect(
-    within(generalContainer).queryAllByText("This field is required.").length
-  ).toBe(1);
+  expect(screen.queryAllByText("This field is required.").length).toBe(1);
 
   // Let's change to sth valid.
   userEvent.clear(valueField);
@@ -292,7 +356,7 @@ it("change comment editing time", async () => {
   userEvent.selectOptions(unitField, "Hours");
 
   expect(
-    within(generalContainer).queryAllByText(
+    screen.queryAllByText(
       "Please enter a whole number greater than or equal to 0"
     ).length
   ).toBe(0);
@@ -327,17 +391,13 @@ it("change comment length limitations", async () => {
   const { generalContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
-
-  const commentLengthContainer = within(generalContainer).getByTestId(
-    "comment-length-config-box"
-  );
-  const onField = within(commentLengthContainer).getByLabelText("On");
-  const minField = within(commentLengthContainer).getByLabelText(
-    "Minimum comment length"
-  );
-  const maxField = within(commentLengthContainer).getByLabelText(
-    "Maximum comment length"
-  );
+  const onField = screen.getByTestId("comment-length-limit-on");
+  const minField = screen.getByRole("textbox", {
+    name: "Minimum comment length",
+  });
+  const maxField = screen.getByRole("textbox", {
+    name: "Maximum comment length",
+  });
 
   // Let's turn on and set some invalid values.
   userEvent.click(onField);
@@ -388,8 +448,8 @@ it("change comment length limitations", async () => {
 
   // Wait for submission to be finished
   await waitFor(() => {
-    expect(minField).not.toBeDisabled();
-    expect(maxField).not.toBeDisabled();
+    expect(minField).toBeEnabled();
+    expect(maxField).toBeEnabled();
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
@@ -412,16 +472,14 @@ it("change closing comment streams", async () => {
     resolvers,
   });
 
-  const closingCommentStreamsContainer = within(generalContainer).getByTestId(
-    "closing-comment-streams-config-box"
-  );
-  const onField = within(closingCommentStreamsContainer).getByLabelText("On");
-  const valueField = within(closingCommentStreamsContainer).getByLabelText(
-    "value"
-  );
-  const unitField = within(closingCommentStreamsContainer).getByLabelText(
-    "unit"
-  );
+  const onField = screen.getByTestId("close-commenting-streams-on");
+  const durationFieldset = screen.getByRole("group", {
+    name: "Close comments after",
+  });
+  const valueField = within(durationFieldset).getByRole("textbox", {
+    name: "value",
+  });
+  const unitField = within(durationFieldset).getByLabelText("unit");
 
   // Let's turn on and set some invalid values.
   userEvent.click(onField);
@@ -435,6 +493,7 @@ it("change closing comment streams", async () => {
   ).toBe(1);
 
   // Let's change to sth valid.
+  userEvent.clear(valueField);
   userEvent.type(valueField, "30");
   userEvent.selectOptions(unitField, "Days");
 
@@ -448,8 +507,8 @@ it("change closing comment streams", async () => {
 
   // Wait for submission to be finished
   await waitFor(() => {
-    expect(valueField).not.toBeDisabled();
-    expect(unitField).not.toBeDisabled();
+    expect(valueField).toBeEnabled();
+    expect(unitField).toBeEnabled();
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
@@ -466,18 +525,14 @@ it("handle server error", async () => {
     },
   });
 
-  const {
-    configureContainer,
-    generalContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
+  const { generalContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
     muteNetworkErrors: true,
   });
 
-  const contentField = within(generalContainer).getByLabelText(
-    "Closed comment stream message"
-  );
+  const contentField = within(generalContainer).getByRole("textbox", {
+    name: "Closed comment stream message",
+  });
 
   // Let's change the content.
   userEvent.clear(contentField);
@@ -487,9 +542,7 @@ it("handle server error", async () => {
   userEvent.click(saveChangesButton);
 
   // Look for internal error being displayed.
-  expect(
-    await within(configureContainer).findByText("INTERNAL_ERROR")
-  ).toBeVisible();
+  expect(await screen.findByText("INTERNAL_ERROR")).toBeDefined();
 });
 
 it("change rte config", async () => {
@@ -507,18 +560,15 @@ it("change rte config", async () => {
       },
     },
   });
-  const { generalContainer, saveChangesButton } = await createTestRenderer({
+  const { saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const rteContainer = within(generalContainer).getByTestId("rte-config-box");
-  const onField = within(rteContainer).getByLabelText(
-    "On - bold, italics, block quotes, and bulleted lists"
-  );
-  const offField = within(rteContainer).getByLabelText("Off");
-  const strikethroughField = within(rteContainer).getByLabelText(
-    "Strikethrough"
-  );
+  const onField = screen.getByRole("radio", {
+    name: "On - bold, italics, block quotes, and bulleted lists",
+  });
+  const offField = screen.getByTestId("rte-config-offField");
+  const strikethroughField = screen.getByLabelText("Strikethrough");
 
   // Turn off rte will disable additional options.
   userEvent.click(offField);
@@ -526,7 +576,7 @@ it("change rte config", async () => {
 
   // Turn on rte will enable additional options.
   userEvent.click(onField);
-  expect(strikethroughField).not.toBeDisabled();
+  expect(strikethroughField).toBeEnabled();
 
   // Enable strikethrough option.
   userEvent.click(strikethroughField);
@@ -541,8 +591,8 @@ it("change rte config", async () => {
 
   // Wait for submission to be finished
   await waitFor(() => {
-    expect(onField).not.toBeDisabled();
-    expect(strikethroughField).not.toBeDisabled();
+    expect(onField).toBeEnabled();
+    expect(strikethroughField).toBeEnabled();
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });

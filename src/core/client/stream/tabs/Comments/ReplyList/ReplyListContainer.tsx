@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   createFragmentContainer as createRelayFragmentContainer,
   graphql,
@@ -19,7 +19,7 @@ import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Overwrite } from "coral-framework/types";
 import {
   ShowAllRepliesEvent,
-  ViewNewRepliesNetworkEvent,
+  ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 
 import { ReplyListContainer1_comment } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
@@ -48,6 +48,7 @@ import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 import { ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
 
+import MarkCommentsAsSeenMutation from "../Comment/MarkCommentsAsSeenMutation";
 import { isPublished, useStaticFlattenReplies } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
@@ -204,9 +205,7 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig, loadAllReplies }, setLocal] = useLocal<
-    ReplyListContainerLocal
-  >(
+  const [{ keyboardShortcutsConfig }] = useLocal<ReplyListContainerLocal>(
     graphql`
       fragment ReplyListContainerLocal on Local {
         keyboardShortcutsConfig {
@@ -214,7 +213,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
           source
           reverse
         }
-        loadAllReplies
       }
     `
   );
@@ -229,7 +227,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
-    setLocal({ loadAllReplies: null });
     try {
       await showAll();
       showAllEvent.success();
@@ -238,28 +235,15 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [
-    showAll,
-    beginShowAllEvent,
-    props.comment.id,
-    keyboardShortcutsConfig,
-    setLocal,
-  ]);
-
-  useEffect(() => {
-    // This supports when we need to load all replies navigating through with
-    // the Z key via keyboard shortcuts
-    if (loadAllReplies && loadAllReplies === props.comment.id) {
-      void showAllAndEmit();
-    }
-  }, [loadAllReplies, showAllAndEmit, props.comment.id]);
+  }, [showAll, beginShowAllEvent, props.comment.id]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
-  const beginViewNewRepliesEvent = useViewerNetworkEvent(
-    ViewNewRepliesNetworkEvent
+  const beginViewNewCommentsEvent = useViewerNetworkEvent(
+    ViewNewCommentsNetworkEvent
   );
+  const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewNew = useCallback(async () => {
-    const viewNewRepliesEvent = beginViewNewRepliesEvent({
+    const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: props.story.id,
       keyboardShortcutsConfig,
     });
@@ -267,20 +251,17 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       void (await viewNew({
         commentID: props.comment.id,
         storyID: props.story.id,
+        markSeen: !!props.viewer,
+        viewerID: props.viewer?.id,
+        markAsSeen,
       }));
-      viewNewRepliesEvent.success();
+      viewNewCommentsEvent.success();
     } catch (error) {
-      viewNewRepliesEvent.error({ message: error.message, code: error.code });
+      viewNewCommentsEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [
-    props.comment.id,
-    props.story.id,
-    viewNew,
-    beginViewNewRepliesEvent,
-    keyboardShortcutsConfig,
-  ]);
+  }, [props.comment.id, props.story.id, viewNew, beginViewNewCommentsEvent]);
 
   if (!("replies" in props.comment)) {
     return null;

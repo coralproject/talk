@@ -33,7 +33,6 @@ import CoralEventListenerBroker from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
-import { RegenerateStoryTreesQueue } from "coral-server/queue/tasks/regenerateStoryTrees/task";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
@@ -71,7 +70,6 @@ export interface AppOptions {
   reporter?: ErrorReporter;
   schema: GraphQLSchema;
   scraperQueue: ScraperQueue;
-  regenerateStoryTreesQueue: RegenerateStoryTreesQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
   webhookQueue: WebhookQueue;

@@ -102,7 +102,6 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
               fullWidth
               data-key-stop
               data-is-load-more
-              data-is-view-new
             >
               Show More Replies
             </Button>

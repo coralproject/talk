@@ -288,7 +288,6 @@ export async function createTenant(
     flattenReplies: false,
     disableDefaultFonts: false,
     emailDomainModeration: [],
-    loadAllComments: true,
   };
 
   // Create the new Tenant by merging it together with the defaults.

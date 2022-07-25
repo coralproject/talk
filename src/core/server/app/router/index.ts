@@ -33,7 +33,6 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     graphQLSubscriptionURI: app.config.get("graphql_subscription_uri") || "",
     featureFlags: [],
     flattenReplies: false,
-    loadAllComments: true,
     forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
     archivingEnabled: isArchivingEnabled(app.config),
     autoArchiveOlderThanMs: app.config.get("auto_archive_older_than"),

@@ -86,7 +86,7 @@ async function createTestRenderer(
   );
 
   const comment = within(container).getByTestID(
-    `moderate-comment-${commentData.id}`
+    `moderate-comment-card-${commentData.id}`
   );
 
   return { testRenderer, context, container, comment, subscriptionHandler };
