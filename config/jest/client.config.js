@@ -37,7 +37,6 @@ module.exports = {
     "^coral-test/(.*)$": "<rootDir>/src/core/client/test/$1",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node", "ftl"],
-  snapshotSerializers: ["enzyme-to-json/serializer"],
   globals: {
     "ts-jest": {
       babelConfig: true,

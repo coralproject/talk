@@ -5,10 +5,9 @@ import styles from "./HorizontalRule.css";
 
 interface Props {
   className?: string;
-  children?: any;
 }
 
-const HorizontalRule: FunctionComponent<Props> = ({ children, className }) => (
+const HorizontalRule: FunctionComponent<Props> = ({ className }) => (
   <hr className={cn(styles.root, className)} />
 );
 
