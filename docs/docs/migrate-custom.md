@@ -1,8 +1,6 @@
 ---
-title: "Migrating to v7: Replacing plugin functionality"
+title: "Migrating from Talk v4.x to Coral v7+: Replacing plugin functionality"
 ---
-
-# Replacing plugin functionality
 
 Coral v7+ does not support custom plugins, however there are other options for customizing the functionality of the platform to suit your use cases. The functionality from all of the [default plugins](https://legacy.docs.coralproject.net/talk/plugins-directory/?q=default) is now built in to Coral.
 
