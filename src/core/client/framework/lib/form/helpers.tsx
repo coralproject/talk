@@ -1,3 +1,4 @@
+import DOMPurify from "dompurify";
 import { FormApi } from "final-form";
 import { ReactNode } from "react";
 import { FieldRenderProps } from "react-final-form";
@@ -21,6 +22,13 @@ export const parseEmptyAsNull = (v: any) => {
     return null;
   }
   return v;
+};
+
+export const parseWithDOMPurify: any = (v: any) => {
+  if (v === "") {
+    return null;
+  }
+  return DOMPurify.sanitize(v);
 };
 
 export const formatEmpty = (v: any) => {

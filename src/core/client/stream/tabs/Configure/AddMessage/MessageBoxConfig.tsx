@@ -4,7 +4,11 @@ import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
-import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
+import {
+  formatEmpty,
+  parseEmptyAsNull,
+  parseWithDOMPurify,
+} from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
@@ -35,15 +39,11 @@ graphql`
   }
 `;
 
-interface Props {
-  disabled: boolean;
-}
-
-const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
+const MessageBoxConfig: FunctionComponent = () => (
   <HorizontalGutter size="oneAndAHalf">
     <Field name="messageBox.icon" parse={parseEmptyAsNull} format={formatEmpty}>
       {({ input: iconInput }) => (
-        <Field name="messageBox.content" parse={parseEmptyAsNull}>
+        <Field name="messageBox.content" parse={parseWithDOMPurify}>
           {({ input: contentInput, meta }) => (
             <>
               <HorizontalGutter size="half" container="section">
