@@ -20,6 +20,7 @@ const CommunityGuidelines: FunctionComponent<Props> = (props) => {
       <section
         className={cn(styles.root, CLASSES.guidelines.container)}
         aria-label="Community Guidelines"
+        data-testid="community-guidelines"
       >
         <Markdown className={CLASSES.guidelines.content}>
           {props.children}
