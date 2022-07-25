@@ -58,6 +58,10 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
         3000
       );
     } catch (error) {
+      if (error.code === "RATE_LIMIT_EXCEEDED") {
+        setLoading(false);
+      }
+
       setSubmitError(error.message);
     }
   }, []);

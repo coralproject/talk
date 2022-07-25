@@ -17,7 +17,7 @@ function emitFileContent(outFile: string, verify = false) {
       "--allowHigherVersions",
     ])
     .toString()
-    .replace("\n", "");
+    .replace(/\n/g, "");
   const newContent =
     stripIndent`
       /**

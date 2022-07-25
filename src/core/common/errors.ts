@@ -407,4 +407,10 @@ export enum ERROR_CODES {
    * story that is archived or actively being archived.
    */
   CANNOT_MERGE_AN_ARCHIVED_STORY = "CANNOT_MERGE_AN_ARCHIVED_STORY",
+
+  /**
+   * USERNAME_ALREADY_EXISTS is thrown when a user is signing up or changing
+   * their username and the provided username has already been taken.
+   */
+  USERNAME_ALREADY_EXISTS = "USERNAME_ALREADY_EXISTS",
 }
