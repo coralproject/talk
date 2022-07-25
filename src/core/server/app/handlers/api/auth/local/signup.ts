@@ -5,10 +5,13 @@ import { AppOptions } from "coral-server/app";
 import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
-import { IntegrationDisabled } from "coral-server/errors";
+import {
+  IntegrationDisabled,
+  UsernameAlreadyExists,
+} from "coral-server/errors";
 import { hasEnabledAuthIntegration } from "coral-server/models/tenant";
 import { LocalProfile, User } from "coral-server/models/user";
-import { create } from "coral-server/services/users";
+import { create, usernameAlreadyExists } from "coral-server/services/users";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
@@ -69,6 +72,15 @@ export const signupHandler = ({
         SignupBodySchema,
         req.body
       );
+
+      const alreadyExists = await usernameAlreadyExists(
+        mongo,
+        tenant,
+        username
+      );
+      if (alreadyExists) {
+        return next(new UsernameAlreadyExists(tenant.id, username));
+      }
 
       // Configure with profile.
       const profile: LocalProfile = {

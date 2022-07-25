@@ -9329,7 +9329,7 @@ type Mutation {
   """
   testSMTP sends a test email.
   """
-  testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN])
+  testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN]) @rate(seconds: 10)
 
   """
   reviewCommentFlag marks comment flag as reviewed
