@@ -94,7 +94,7 @@ it("allows viewing new when new comments come in", async () => {
   // View New Button should disappear.
   expect(() => within(container).getByText(/View \d+ new/)).toThrow();
   // New comment should appear.
-  within(container).getByTestID(`moderate-comment-${commentData.id}`);
+  within(container).getByTestID(`moderate-comment-card-${commentData.id}`);
 });
 
 it("limits view new comments to a fixed amount", async () => {
@@ -147,7 +147,7 @@ it("limits view new comments to a fixed amount", async () => {
   const result =
     within(container)
       .toHTML()
-      .match(/data-testid="moderate-comment-/g)?.length || 0;
+      .match(/data-testid="moderate-comment-card-/g)?.length || 0;
   expect(result).toBe(LIMIT);
 
   // There should also be a load more button.

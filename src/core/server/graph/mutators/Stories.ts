@@ -4,10 +4,8 @@ import { ERROR_CODES } from "coral-common/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import {
-  generateTreeForStory,
   markStoryForArchiving,
   markStoryForUnarchiving,
-  regenerateStoryTrees,
   retrieveStory,
   Story,
 } from "coral-server/models/story";
@@ -31,7 +29,6 @@ import {
   GQLArchiveStoriesInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
-  GQLGenerateStoryTreeInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
   GQLRemoveStoryExpertInput,
@@ -190,12 +187,5 @@ export const Stories = (ctx: GraphContext) => ({
     }
 
     return stories;
-  },
-  generateStoryTree: async (input: GQLGenerateStoryTreeInput) => {
-    await generateTreeForStory(ctx.mongo, ctx.tenant.id, input.storyID);
-    return { storyID: input.storyID };
-  },
-  regenerateStoryTrees: async () => {
-    return await regenerateStoryTrees(ctx.mongo, ctx.tenant.id);
   },
 });

@@ -9,7 +9,6 @@ import {
 } from "coral-server/models/comment/counts";
 import { updateSiteCounts } from "coral-server/models/site";
 import {
-  generateTreeForStory,
   markStoryAsArchived,
   markStoryAsUnarchived,
 } from "coral-server/models/story";
@@ -125,8 +124,6 @@ export async function unarchiveStory(
   }
 
   logger.info("story is able to be unarchived, proceeding");
-
-  await generateTreeForStory(mongo, tenantID, id, true);
 
   const targetComments = {
     tenantID,

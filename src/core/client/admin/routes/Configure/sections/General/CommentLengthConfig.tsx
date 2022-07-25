@@ -52,7 +52,6 @@ interface Props {
 
 const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
-    data-testid="comment-length-config-box"
     title={
       <Localized id="configure-general-commentLength-title">
         <Header container={<legend />}>Comment length</Header>
@@ -74,7 +73,14 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Localized id="configure-general-commentLength-limitCommentLength">
         <Label>Limit comment length</Label>
       </Localized>
-      <OnOffField name="charCount.enabled" disabled={disabled} />
+      <OnOffField
+        name="charCount.enabled"
+        disabled={disabled}
+        testIDs={{
+          on: "comment-length-limit-on",
+          off: "comment-length-limit-off",
+        }}
+      />
     </FormField>
 
     <FormField>
