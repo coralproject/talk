@@ -43,6 +43,12 @@ comment-count-text =
     *[other] Comments
   }
 
+comment-count-text-ratings =
+  { $count  ->
+    [one] Rating
+    *[other] Ratings
+  }
+
 ## Comments Tab
 
 comments-allCommentsTab = All Comments
