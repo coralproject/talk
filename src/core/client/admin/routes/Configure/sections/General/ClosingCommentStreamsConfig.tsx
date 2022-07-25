@@ -47,7 +47,6 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
       </Localized>
     }
     container={<FieldSet />}
-    data-testid="closing-comment-streams-config-box"
   >
     <Localized
       id="configure-general-closingCommentStreams-explanation"
@@ -62,7 +61,14 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
       <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">
         <Label component="legend">Close comments automatically</Label>
       </Localized>
-      <OnOffField name="closeCommenting.auto" disabled={disabled} />
+      <OnOffField
+        name="closeCommenting.auto"
+        disabled={disabled}
+        testIDs={{
+          on: "close-commenting-streams-on",
+          off: "close-commenting-streams-off",
+        }}
+      />
     </FormField>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-closingCommentStreams-closeCommentsAfter">

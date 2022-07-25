@@ -34,7 +34,6 @@ interface Props {
 
 const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
-    data-testid="comment-editing-config-box"
     title={
       <Localized id="configure-general-commentEditing-title">
         <Header container="h2">Comment editing</Header>

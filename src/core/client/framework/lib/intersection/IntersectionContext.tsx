@@ -16,14 +16,7 @@ const IntersectionContext = React.createContext<IntersectionContext>({} as any);
 export const useIntersectionContext = () =>
   React.useContext(IntersectionContext);
 
-interface Props {
-  threshold?: number | number[];
-}
-
-export const IntersectionProvider: React.FunctionComponent<Props> = ({
-  threshold,
-  children,
-}) => {
+export const IntersectionProvider: React.FunctionComponent = ({ children }) => {
   const callbacks = useRef(new Map<Element, IntersectionCallback>());
 
   const onIntersect = useCallback(
@@ -46,7 +39,7 @@ export const IntersectionProvider: React.FunctionComponent<Props> = ({
     () =>
       new IntersectionObserver(onIntersect, {
         rootMargin: "0px",
-        threshold: threshold ? threshold : 0.25,
+        threshold: 0.25,
       }),
     [onIntersect]
   );

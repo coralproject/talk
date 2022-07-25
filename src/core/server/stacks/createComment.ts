@@ -30,7 +30,6 @@ import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
 import { markSeenComments } from "coral-server/models/seenComments/seenComments";
 import { retrieveSite } from "coral-server/models/site";
 import {
-  addCommentToStoryTree,
   isUserStoryExpert,
   resolveStoryMode,
   retrieveStory,
@@ -332,7 +331,6 @@ export default async function create(
 
   // Updating some associated data.
   await Promise.all([
-    addCommentToStoryTree(mongo, tenant.id, story.id, comment),
     updateUserLastCommentID(redis, tenant, author, comment.id),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
     markCommentAsAnswered(
