@@ -110,6 +110,8 @@ extend type Local {
   addACommentButtonClicked: Boolean
   # Whether the Z key button clicked to Load all comments
   zKeyClickedLoadAll: Boolean
+  zKeyPressedInitially: Boolean
+  loadAllButtonHasBeenClicked: Boolean
   # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
   # media settings)
   expandedMediaSettings: ExpandedMediaSettings

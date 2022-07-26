@@ -123,6 +123,7 @@ comments-viewNew =
   }
 comments-loadMore = Load More
 comments-loadAll = Load All Comments
+comments-loadAll-loading = Loading...
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment

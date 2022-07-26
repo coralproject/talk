@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from "react";
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
@@ -61,7 +60,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     fragment AllCommentsTabVirtualizedCommentsLocal on Local {
       showLoadAllCommentsButton
       addACommentButtonClicked
+      zKeyPressedInitially
       zKeyClickedLoadAll
+      loadAllButtonHasBeenClicked
       keyboardShortcutsConfig {
         key
         source
@@ -69,20 +70,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       }
     }
   `);
-
-  // We need to know if the Load all button has been clicked to help determine whether
-  // to display the Load all button or not.
-  const [
-    loadAllButtonHasBeenClicked,
-    setLoadAllButtonHasBeenClicked,
-  ] = useState(false);
-
-  // Initial comments are used to determine whether the Load all comments button should be
-  // displayed or not.
-  const [initialComments, setInitialComments] = useState<null | {
-    length: number;
-    hasMore: boolean;
-  }>(null);
 
   // This determines if there are more comments to display than the initial 20.
   // It also takes into account the initial comments loaded since if we start
@@ -94,13 +81,14 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     } else {
       return (
         comments.length > NUM_INITIAL_COMMENTS &&
-        ((initialComments && initialComments.length > NUM_INITIAL_COMMENTS) ||
-          (initialComments &&
-            initialComments.length === NUM_INITIAL_COMMENTS &&
-            initialComments.hasMore))
+        ((story.comments.edges &&
+          story.comments.edges.length > NUM_INITIAL_COMMENTS) ||
+          (story.comments.edges &&
+            story.comments.edges.length === NUM_INITIAL_COMMENTS &&
+            hasMore))
       );
     }
-  }, [comments.length, initialComments, commentsFullyLoaded, hasMore]);
+  }, [comments.length, story.comments.edges, commentsFullyLoaded, hasMore]);
 
   // We determine whether to display the Load all comments button based on whether:
   // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.
@@ -113,16 +101,21 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       if (local.zKeyClickedLoadAll || local.addACommentButtonClicked) {
         return false;
       }
-      return settings.loadAllComments ? false : !loadAllButtonHasBeenClicked;
+      return settings.loadAllComments
+        ? false
+        : !commentsFullyLoaded
+        ? true
+        : !local.loadAllButtonHasBeenClicked;
     } else {
       return false;
     }
   }, [
     settings.loadAllComments,
-    loadAllButtonHasBeenClicked,
+    local.loadAllButtonHasBeenClicked,
     local.zKeyClickedLoadAll,
     local.addACommentButtonClicked,
     moreCommentsForLoadAll,
+    commentsFullyLoaded,
   ]);
 
   useEffect(() => {
@@ -148,7 +141,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // If the Load All Comments button is clicked, we need to set that it has been
   // clicked so that we know it should no longer be displayed.
   const onDisplayLoadAllButtonClick = useCallback(() => {
-    setLoadAllButtonHasBeenClicked(true);
+    setLocal({ loadAllButtonHasBeenClicked: true });
     setLocal({ zKeyClickedLoadAll: false });
     setLocal({ addACommentButtonClicked: false });
 
@@ -160,28 +153,21 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     loadAllCommentsEvent.success();
   }, [
     setLocal,
-    setLoadAllButtonHasBeenClicked,
+    local.loadAllButtonHasBeenClicked,
     story,
     local.keyboardShortcutsConfig,
   ]);
 
-  useEffect(() => {
-    // on rerender, clear initial comments info
-    setInitialComments({
-      length: story.comments.edges.length,
-      hasMore,
-    });
-    // on rerender, reset whether the Load All Comments button has been clicked
-    setLoadAllButtonHasBeenClicked(false);
-  }, []);
-
   const Footer = useCallback(() => {
+    const loadAllButtonDisabled =
+      !commentsFullyLoaded &&
+      (local.zKeyPressedInitially || local.loadAllButtonHasBeenClicked);
     return (
       <>
         {showLoadMoreForOldestFirstNewComments && (
           <Localized id="comments-loadMore">
             <Button
-              key={`comments-loadMore-${story.comments.edges.length}`}
+              key={`comments-loadMore-${comments.length}`}
               id="comments-loadMore"
               onClick={loadMoreAndEmit}
               color="secondary"
@@ -199,7 +185,13 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
           </Localized>
         )}
         {displayLoadAllButton && (
-          <Localized id="comments-loadAll">
+          <Localized
+            id={
+              loadAllButtonDisabled
+                ? "comments-loadAll-loading"
+                : "comments-loadAll"
+            }
+          >
             <Button
               key={`comments-loadAll-${comments.length}`}
               id="comments-loadAll"
@@ -207,7 +199,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
               color="secondary"
               variant="outlined"
               fullWidth
-              disabled={!commentsFullyLoaded || isLoadingMore}
+              disabled={!!loadAllButtonDisabled}
               aria-controls="comments-allComments-log"
               className={CLASSES.allCommentsTabPane.loadMoreButton}
               // Added for keyboard shortcut support.
@@ -226,11 +218,11 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     setLocal,
     displayLoadAllButton,
     showLoadMoreForOldestFirstNewComments,
-    initialComments,
     loadMoreAndEmit,
     onDisplayLoadAllButtonClick,
-    story.comments.edges.length,
     commentsFullyLoaded,
+    local.zKeyPressedInitially,
+    local.loadAllButtonHasBeenClicked,
   ]);
 
   return (

@@ -304,6 +304,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         reverse
       }
       zKeyClickedLoadAll
+      zKeyPressedInitially
     }
   `);
   const amp = useAMP();
@@ -984,6 +985,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // while comments are loading in so the loading state is visible. Once they
       // load in, then we will find and navigate to the next unseen.
       if (!commentsFullyLoaded) {
+        setLocal({ zKeyPressedInitially: true });
         setFindAndNavigateAfterLoad({ findAndNavigate: true, source });
         const loadAllButton = root.getElementById("comments-loadAll");
         if (loadAllButton) {
