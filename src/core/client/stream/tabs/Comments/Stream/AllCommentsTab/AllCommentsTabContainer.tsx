@@ -186,7 +186,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
+  const [viewMoreClicked, setViewMoreClicked] = useState(false);
   const onViewMore = useCallback(async () => {
+    setViewMoreClicked(true);
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: story.id,
       keyboardShortcutsConfig,
@@ -199,6 +201,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         markAsSeen,
       });
       viewNewCommentsEvent.success();
+      setViewMoreClicked(false);
     } catch (error) {
       viewNewCommentsEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
@@ -210,6 +213,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     keyboardShortcutsConfig,
     viewMore,
     setCommentsFullyLoaded,
+    setViewMoreClicked,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
@@ -326,6 +330,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             color="primary"
             onClick={onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
+            disabled={viewMoreClicked}
             aria-controls="comments-allComments-log"
             data-key-stop
             data-is-load-more
@@ -333,11 +338,21 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
-              <Localized id="qa-viewNew" $count={viewNewCount}>
+              <Localized
+                id={viewMoreClicked ? "qa-viewNew-loading" : "qa-viewNew"}
+                $count={viewNewCount}
+              >
                 <span>View {viewNewCount} New Questions</span>
               </Localized>
             ) : (
-              <Localized id="comments-viewNew" $count={viewNewCount}>
+              <Localized
+                id={
+                  viewMoreClicked
+                    ? "comments-viewNew-loading"
+                    : "comments-viewNew"
+                }
+                $count={viewNewCount}
+              >
                 <span>View {viewNewCount} New Comments</span>
               </Localized>
             )}

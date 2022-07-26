@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -23,6 +24,8 @@ import { COMMENT_SORT } from "coral-stream/__generated__/AllCommentsTabContainer
 import { AllCommentsTabVirtualizedCommentsLocal } from "coral-stream/__generated__/AllCommentsTabVirtualizedCommentsLocal.graphql";
 
 import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
+
+import styles from "./AllCommentsTabVirtualizedComments.css";
 
 interface Props {
   settings: AllCommentsTabContainer_settings;
@@ -201,7 +204,10 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
               fullWidth
               disabled={!!loadAllButtonDisabled}
               aria-controls="comments-allComments-log"
-              className={CLASSES.allCommentsTabPane.loadMoreButton}
+              className={cn(
+                CLASSES.allCommentsTabPane.loadMoreButton,
+                styles.loadAll
+              )}
               // Added for keyboard shortcut support.
               data-key-stop
               data-is-load-more

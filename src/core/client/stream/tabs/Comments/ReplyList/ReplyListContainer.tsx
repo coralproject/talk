@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   createFragmentContainer as createRelayFragmentContainer,
   graphql,
@@ -241,7 +241,9 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     ViewNewRepliesNetworkEvent
   );
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
+  const [viewNewClicked, setViewNewClicked] = useState(false);
   const onViewNew = useCallback(async () => {
+    setViewNewClicked(true);
     const viewNewRepliesEvent = beginViewNewRepliesEvent({
       storyID: props.story.id,
       keyboardShortcutsConfig,
@@ -255,6 +257,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
         markAsSeen,
       }));
       viewNewRepliesEvent.success();
+      setViewNewClicked(false);
     } catch (error) {
       viewNewRepliesEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
@@ -340,6 +343,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       localReply={atLastLevelLocalReply}
       viewNewCount={viewNewCount}
       onViewNew={onViewNew}
+      viewNewClicked={viewNewClicked}
       allowIgnoredTombstoneReveal={props.allowIgnoredTombstoneReveal}
       showRemoveAnswered={props.showRemoveAnswered}
     />

@@ -96,6 +96,7 @@ comments-postCommentForm-section =
   .aria-label = Post a Comment
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
+comments-replyList-showMoreReplies-loading = Loading...
 comments-replyList-showMoreReplies = Show More Replies
 
 comments-postComment-gifSearch = Search for a GIF
@@ -116,6 +117,7 @@ comments-postComment-confirmMedia-add-tweet = Add Tweet
 comments-postComment-confirmMedia-add-video = Add video
 comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove
+comments-viewNew-loading = Loading...
 comments-viewNew =
   { $count ->
     [1] View {$count} New Comment
@@ -320,6 +322,7 @@ qa-noQuestionsAtAll =
   There are no questions on this story.
 qa-noQuestionsYet =
   There are no questions yet. Why don't you ask one?
+qa-viewNew-loading = Loading...
 qa-viewNew =
   { $count ->
     [1] View {$count} New Question
