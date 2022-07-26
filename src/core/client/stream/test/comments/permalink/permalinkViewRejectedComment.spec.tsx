@@ -1,11 +1,5 @@
-import { render, screen, within } from "@testing-library/react";
-import React from "react";
-
-import {
-  CoralContext,
-  CoralContextProvider,
-} from "coral-framework/lib/bootstrap";
-import { AppContainer } from "coral-stream/App";
+import { screen } from "@testing-library/react";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import create from "./create";
 
@@ -18,14 +12,6 @@ import {
 } from "../../fixtures";
 
 const story = stories[0];
-
-function customRenderWithContext(context: CoralContext) {
-  render(
-    <CoralContextProvider value={context}>
-      <AppContainer disableListeners />
-    </CoralContextProvider>
-  );
-}
 
 const createTestRenderer = async () => {
   const resolvers = {
@@ -44,39 +30,26 @@ const createTestRenderer = async () => {
     },
   });
 
-  customRenderWithContext(context);
-
-  const enabledComment = await screen.findByTestId(
-    `comment-${replyableComment.id}`
-  );
-  const disabledComment = await screen.findByTestId(
-    `comment-${unreplyableComment.id}`
-  );
-
-  return {
-    replyableComment: enabledComment,
-    unreplyableComment: disabledComment,
-  };
+  customRenderAppWithContext(context);
 };
 
 it("allows replies to comments with canReply = true", async () => {
-  const {
-    replyableComment: replyableCommentElement,
-  } = await createTestRenderer();
+  await createTestRenderer();
 
-  const replyButton = await within(replyableCommentElement).findByTestId(
-    "comment-reply-button"
+  const shouldBeEnabled = await screen.findByLabelText(
+    `Reply to comment by ${replyableComment.author?.username}`,
+    { exact: false }
   );
-  expect(replyButton).toBeEnabled();
+  expect(shouldBeEnabled).toBeEnabled();
 });
 
 it("disallows replies to comments with canReply = false", async () => {
-  const {
-    unreplyableComment: unreplyableCommentElement,
-  } = await createTestRenderer();
+  await createTestRenderer();
 
-  const replyButton = await within(unreplyableCommentElement).findByTestId(
-    "comment-reply-button"
+  const shouldBeDisabled = await screen.findByLabelText(
+    `Reply to comment by ${unreplyableComment.author?.username}`,
+    { exact: false }
   );
-  expect(replyButton).toBeDisabled();
+
+  expect(shouldBeDisabled).toBeDisabled();
 });

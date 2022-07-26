@@ -872,16 +872,28 @@ export const storyWithDeepestReplies = denormalizeStory(
 
 export const replyableComment: GQLComment = {
   ...comments[0],
+  author: {
+    ...comments[0].author!,
+    username: "replyable comment author",
+  },
   canReply: true,
 };
 
 export const rejectedComment: GQLComment = {
   ...comments[1],
+  author: {
+    ...comments[1].author!,
+    username: "rejected comment author",
+  },
   status: GQLCOMMENT_STATUS.REJECTED,
 };
 
 export const unreplyableComment: GQLComment = {
   ...comments[2],
+  author: {
+    ...comments[2].author!,
+    username: "unreplyable comment author",
+  },
   canReply: false,
 };
 
