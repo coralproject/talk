@@ -113,8 +113,8 @@ const typescriptTypeCheckingOverrides = {
   parserOptions: {
     project: [
       "./tsconfig.json",
-      "./build/server/server.tsconfig.json",
-      "./build/client/client.tsconfig.json",
+      "./src/tsconfig.json",
+      "./src/core/client/tsconfig.json",
     ],
     // TODO: (cvle) this is a workaround, see: https://github.com/typescript-eslint/typescript-eslint/issues/1091.
     createDefaultProgram: true,

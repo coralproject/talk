@@ -13,7 +13,7 @@ const resolveSrc = (relativePath: string) =>
 export default {
   appPostCssConfig: resolveApp("build/client/postcss.config.js"),
   appLoaders: resolveApp("build/client/loaders"),
-  appTsconfig: resolveApp("build/client/client.tsconfig.json"),
+  appTsconfig: resolveApp("src/core/client/tsconfig.json"),
 
   appSrc: resolveSrc("."),
 

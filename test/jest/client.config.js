@@ -41,10 +41,7 @@ module.exports = {
   globals: {
     "ts-jest": {
       babelConfig: true,
-      tsConfig: path.resolve(
-        __dirname,
-        "../../build/client/client.tsconfig.json"
-      ),
+      tsConfig: path.resolve(__dirname, "../../src/core/client/tsconfig.json"),
     },
   },
   preset: "ts-jest/presets/js-with-babel",

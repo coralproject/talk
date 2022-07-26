@@ -17,7 +17,7 @@
     "noErrorTruncation": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "baseUrl": "../../src/core/client/",
+    "baseUrl": "./",
     "paths": {
       "coral-account/*": ["./account/*"],
       "coral-admin/*": ["./admin/*"],
@@ -32,8 +32,8 @@
     }
   },
   "include": [
-    "../../src/core/client/**/*",
-    "../../src/types/**/*.d.ts"
+    "./**/*",
+    "../../types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }

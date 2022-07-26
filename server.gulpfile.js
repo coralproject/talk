@@ -10,12 +10,10 @@ const generateTypescriptTypes = require("./build/server/generateSchemaTypes");
 const _ = require("lodash");
 
 // Parse the tsconfig.json file (which contains comments).
-const tsconfig = json.parse(
-  fs.readFileSync("./build/server/server.tsconfig.json").toString()
-);
+const tsconfig = json.parse(fs.readFileSync("./src/tsconfig.json").toString());
 
 // Create the typescript project.
-const tsProject = ts.createProject("./build/server/server.tsconfig.json");
+const tsProject = ts.createProject("./src/tsconfig.json");
 
 const resolveDistFolder = (...paths) => "./" + path.join("dist", ...paths);
 

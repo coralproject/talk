@@ -22,10 +22,7 @@ module.exports = {
   globals: {
     "ts-jest": {
       babelConfig: true,
-      tsConfig: path.resolve(
-        __dirname,
-        "../../build/server/server.tsconfig.json"
-      ),
+      tsConfig: path.resolve(__dirname, "../../src/tsconfig.json"),
     },
   },
   preset: "ts-jest",

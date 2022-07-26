@@ -18,7 +18,7 @@
     "noErrorTruncation": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "outDir": "../../dist",
+    "outDir": "../dist",
     // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
     // have to include "dom" here.
     "lib": ["dom", "es2018", "esnext.asynciterable"],
@@ -27,12 +27,12 @@
         "name": "typescript-snapshots-plugin"
       }
     ],
-    "baseUrl": "../../src/",
+    "baseUrl": "./",
     "paths": {
       "coral-server/*": ["./core/server/*"],
       "coral-common/*": ["./core/common/*"]
     }
   },
-  "include": ["../../src/**/*"],
-  "exclude": ["node_modules", "../../src/core/client"]
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "./core/client"]
 }
