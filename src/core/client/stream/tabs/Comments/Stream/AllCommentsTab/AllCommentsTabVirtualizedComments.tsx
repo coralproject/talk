@@ -35,7 +35,7 @@ interface Props {
   currentScrollRef: any;
   commentsOrderBy: COMMENT_SORT;
   comments: AllCommentsTabContainer_story["comments"]["edges"];
-  newCommentsLength: number;
+  commentsFullyLoaded: boolean;
 }
 
 // Virtuoso settings
@@ -53,7 +53,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   currentScrollRef,
   commentsOrderBy,
   comments,
-  newCommentsLength,
+  commentsFullyLoaded,
 }) => {
   const [local, setLocal] = useLocal<
     AllCommentsTabVirtualizedCommentsLocal
@@ -89,14 +89,18 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // with fewer than 20, we will never want to display load all as new comments
   // come in.
   const moreCommentsForLoadAll = useMemo(() => {
-    return (
-      comments.length > NUM_INITIAL_COMMENTS &&
-      ((initialComments && initialComments.length > NUM_INITIAL_COMMENTS) ||
-        (initialComments &&
-          initialComments.length === NUM_INITIAL_COMMENTS &&
-          initialComments.hasMore))
-    );
-  }, [comments.length, initialComments]);
+    if (!commentsFullyLoaded && hasMore) {
+      return true;
+    } else {
+      return (
+        comments.length > NUM_INITIAL_COMMENTS &&
+        ((initialComments && initialComments.length > NUM_INITIAL_COMMENTS) ||
+          (initialComments &&
+            initialComments.length === NUM_INITIAL_COMMENTS &&
+            initialComments.hasMore))
+      );
+    }
+  }, [comments.length, initialComments, commentsFullyLoaded, hasMore]);
 
   // We determine whether to display the Load all comments button based on whether:
   // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.
@@ -203,7 +207,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
               color="secondary"
               variant="outlined"
               fullWidth
-              disabled={isLoadingMore}
+              disabled={!commentsFullyLoaded || isLoadingMore}
               aria-controls="comments-allComments-log"
               className={CLASSES.allCommentsTabPane.loadMoreButton}
               // Added for keyboard shortcut support.
@@ -226,6 +230,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     loadMoreAndEmit,
     onDisplayLoadAllButtonClick,
     story.comments.edges.length,
+    commentsFullyLoaded,
   ]);
 
   return (
@@ -245,16 +250,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
           bottom: increaseViewportBy,
         }}
         totalCount={
-          displayLoadAllButton
-            ? NUM_INITIAL_COMMENTS + newCommentsLength
-            : comments.length
+          displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length
         }
         overscan={overscan}
-        endReached={() => {
-          if (hasMore && !isLoadingMore) {
-            void loadMoreAndEmit();
-          }
-        }}
         itemContent={useCallback(
           (index) => {
             const comment = comments[index];

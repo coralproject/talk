@@ -73,6 +73,7 @@ interface Props {
   currentScrollRef: any;
   comments: ReadonlyArray<Comment>;
   viewNewCount: number;
+  commentsFullyLoaded: boolean;
 }
 
 export interface KeyboardEventData {
@@ -276,6 +277,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   currentScrollRef,
   comments,
   viewNewCount,
+  commentsFullyLoaded,
 }) => {
   const {
     relayEnvironment,
@@ -842,7 +844,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             return true;
           }
         } else {
-          return false;
+          if (stop?.id === "comments-loadAll") {
+            return false;
+          }
         }
       }
 
@@ -944,6 +948,23 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     ]
   );
 
+  const [findAndNavigateAfterLoad, setFindAndNavigateAfterLoad] = useState<{
+    findAndNavigate: boolean;
+    source?: "keyboard" | "mobileToolbar";
+  }>({ findAndNavigate: false });
+
+  useEffect(() => {
+    if (commentsFullyLoaded && findAndNavigateAfterLoad.findAndNavigate) {
+      findAndNavigateToNextUnseen(
+        comments,
+        commentWithTraversalFocus,
+        viewNewCount,
+        undefined,
+        findAndNavigateAfterLoad.source
+      );
+    }
+  }, [findAndNavigateAfterLoad, commentsFullyLoaded]);
+
   const handleZKeyPress = useCallback(
     async (source: "keyboard" | "mobileToolbar") => {
       // First, try to just traverse to the next unseen comment
@@ -956,6 +977,19 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       );
 
       if (traversed) {
+        return;
+      }
+
+      // If comments aren't yet fully loaded in, we scroll to the Load all button
+      // while comments are loading in so the loading state is visible. Once they
+      // load in, then we will find and navigate to the next unseen.
+      if (!commentsFullyLoaded) {
+        setFindAndNavigateAfterLoad({ findAndNavigate: true, source });
+        const loadAllButton = root.getElementById("comments-loadAll");
+        if (loadAllButton) {
+          const loadAllKeyStop = toKeyStop(loadAllButton);
+          scrollToComment(loadAllKeyStop?.element);
+        }
         return;
       }
 
@@ -975,6 +1009,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       commentWithTraversalFocus,
       comments,
       viewNewCount,
+      commentsFullyLoaded,
+      root,
     ]
   );
 

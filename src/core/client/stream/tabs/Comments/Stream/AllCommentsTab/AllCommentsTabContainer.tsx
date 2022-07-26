@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -160,6 +161,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     ViewNewCommentsNetworkEvent
   );
 
+  const [commentsFullyLoaded, setCommentsFullyLoaded] = useState(!hasMore);
+
+  useEffect(() => {
+    if (hasMore && !isLoadingMore) {
+      void loadMoreAndEmit();
+    }
+  }, []);
+
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({
       storyID: story.id,
@@ -167,6 +176,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     });
     try {
       await loadMore();
+      setCommentsFullyLoaded(true);
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
@@ -194,7 +204,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [beginViewNewCommentsEvent, story.id, keyboardShortcutsConfig, viewMore]);
+  }, [
+    beginViewNewCommentsEvent,
+    story.id,
+    keyboardShortcutsConfig,
+    viewMore,
+    setCommentsFullyLoaded,
+  ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
   // TODO: extract to separate function
@@ -230,7 +246,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const zKeyEnabled = useZKeyEnabled();
 
-  const { comments, newCommentsLength } = useMemo(() => {
+  const { comments } = useMemo(() => {
     let commentsWithIgnored = story.comments.edges;
 
     // If there is at least one ignored user, then we go through and add that information
@@ -283,7 +299,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         });
       }
     }
-    return { comments: commentsWithIgnored, newCommentsLength: 0 };
+    return { comments: commentsWithIgnored };
   }, [story.comments.edges, viewer?.ignoredUsers, zKeyEnabled]);
 
   return (
@@ -294,6 +310,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         currentScrollRef={currentScrollRef}
         comments={comments}
         viewNewCount={viewNewCount}
+        commentsFullyLoaded={commentsFullyLoaded}
       />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
@@ -352,7 +369,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           currentScrollRef={currentScrollRef}
           commentsOrderBy={commentsOrderBy}
           comments={comments}
-          newCommentsLength={newCommentsLength}
+          commentsFullyLoaded={commentsFullyLoaded}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks
@@ -401,7 +418,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 99999 }
+          count: { type: "Int", defaultValue: 20 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
           tag: { type: "TAG" }
