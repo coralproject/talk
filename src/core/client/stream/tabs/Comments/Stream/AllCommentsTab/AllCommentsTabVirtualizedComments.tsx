@@ -159,12 +159,21 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     local.loadAllButtonHasBeenClicked,
     story,
     local.keyboardShortcutsConfig,
+    beginLoadMoreAllCommentsEvent,
+  ]);
+
+  const loadAllButtonDisabled = useMemo(() => {
+    return (
+      !commentsFullyLoaded &&
+      (local.zKeyPressedInitially || local.loadAllButtonHasBeenClicked)
+    );
+  }, [
+    commentsFullyLoaded,
+    local.zKeyPressedInitially,
+    local.loadAllButtonHasBeenClicked,
   ]);
 
   const Footer = useCallback(() => {
-    const loadAllButtonDisabled =
-      !commentsFullyLoaded &&
-      (local.zKeyPressedInitially || local.loadAllButtonHasBeenClicked);
     return (
       <>
         {showLoadMoreForOldestFirstNewComments && (
@@ -221,14 +230,11 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   }, [
     comments,
     isLoadingMore,
-    setLocal,
     displayLoadAllButton,
     showLoadMoreForOldestFirstNewComments,
     loadMoreAndEmit,
     onDisplayLoadAllButtonClick,
-    commentsFullyLoaded,
-    local.zKeyPressedInitially,
-    local.loadAllButtonHasBeenClicked,
+    loadAllButtonDisabled,
   ]);
 
   return (

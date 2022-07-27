@@ -27,6 +27,7 @@ export interface ReplyListProps {
     } & PropTypesOf<typeof ReplyListCommentContainer>["comment"]
   >;
   settings: PropTypesOf<typeof ReplyListCommentContainer>["settings"];
+  newRepliesLoading?: { readonly commentIDs: ReadonlyArray<string> } | null;
   onShowAll?: () => void;
   hasMore?: boolean;
   disableShowAll?: boolean;
@@ -35,13 +36,15 @@ export interface ReplyListProps {
   disableReplies?: boolean;
   viewNewCount?: number;
   onViewNew?: () => void;
-  viewNewClicked: boolean;
   allowIgnoredTombstoneReveal?: boolean;
   showRemoveAnswered?: boolean;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
   const commentSeenEnabled = useCommentSeenEnabled();
+  const repliesLoading = props.newRepliesLoading?.commentIDs.includes(
+    props.comment.id
+  );
   return (
     <HorizontalGutter
       id={`coral-comments-replyList-log--${props.comment.id}`}
@@ -92,7 +95,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
         <Indent level={props.indentLevel} noBorder>
           <Localized
             id={
-              props.viewNewClicked
+              repliesLoading
                 ? "comments-replyList-showMoreReplies-loading"
                 : "comments-replyList-showMoreReplies"
             }
@@ -104,7 +107,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
               className={CLASSES.replyList.showMoreReplies}
               variant="outlined"
               color="secondary"
-              disabled={props.viewNewClicked}
+              disabled={repliesLoading}
               fullWidth
               data-key-stop
               data-is-load-more
