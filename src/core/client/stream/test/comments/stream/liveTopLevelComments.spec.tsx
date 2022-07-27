@@ -82,7 +82,9 @@ it("should view more when ordering by newest", async () => {
   const viewMoreButton = await screen.findByRole("button", {
     name: "View 1 New Comment",
   });
-  userEvent.click(viewMoreButton);
+  await act(async () => {
+    userEvent.click(viewMoreButton);
+  });
   expect(
     within(container).getByTestId(`comment-${commentData.id}`)
   ).toBeVisible();

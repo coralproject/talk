@@ -543,7 +543,6 @@ const enhanced = withPaginationContainer<
           enabled
         }
         featureFlags
-        loadAllComments
         ...PostCommentFormContainer_settings
         ...ViewersWatchingContainer_settings
         ...AllCommentsTabCommentContainer_settings

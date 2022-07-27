@@ -130,7 +130,6 @@ export const settings = createFixture<GQLSettings>({
     sarcasm: false,
   },
   flattenReplies: false,
-  loadAllComments: true,
 });
 
 export const site = createFixtures<GQLSite>([

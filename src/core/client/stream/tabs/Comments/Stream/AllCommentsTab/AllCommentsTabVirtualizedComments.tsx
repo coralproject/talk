@@ -97,23 +97,18 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.
   // 2. Don't display if Z key has clicked the Load all button to open it and go to next unseen OR
   // if the add a comment button has been clicked in alternate oldest view.
-  // 3. Last, we check the admin configuration and displayed based on that and whether or not
-  // the Load all button has already been clicked.
+  // 3. Last, we check if the comments are fully loaded; if not, we show the button. If they are,
+  // it is displayed if it hasn't been clicked.
   const displayLoadAllButton = useMemo(() => {
     if (moreCommentsForLoadAll) {
       if (local.zKeyClickedLoadAll || local.addACommentButtonClicked) {
         return false;
       }
-      return settings.loadAllComments
-        ? false
-        : !commentsFullyLoaded
-        ? true
-        : !local.loadAllButtonHasBeenClicked;
+      return !commentsFullyLoaded ? true : !local.loadAllButtonHasBeenClicked;
     } else {
       return false;
     }
   }, [
-    settings.loadAllComments,
     local.loadAllButtonHasBeenClicked,
     local.zKeyClickedLoadAll,
     local.addACommentButtonClicked,

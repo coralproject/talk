@@ -2,7 +2,6 @@ import { screen, within } from "@testing-library/react";
 import { isMatch } from "lodash";
 import sinon from "sinon";
 
-import { pureMerge } from "coral-common/utils";
 import { createSinonStub } from "coral-framework/testHelpers";
 import { createContext } from "coral-stream/test/create";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
@@ -17,7 +16,7 @@ const createTestRenderer = async () => {
       s.callsFake((input: any) => {
         if (
           isMatch(input, {
-            first: 99999,
+            first: 20,
             orderBy: "CREATED_AT_DESC",
           })
         ) {
@@ -119,9 +118,6 @@ const createTestRenderer = async () => {
     ),
   };
 
-  const settingsWithLoadAllCommentsDisabled = pureMerge(settings, {
-    loadAllComments: false,
-  });
   const resolvers = {
     Query: {
       story: createSinonStub(
@@ -148,7 +144,7 @@ const createTestRenderer = async () => {
             )
             .returns(storyStub)
       ),
-      settings: sinon.stub().returns(settingsWithLoadAllCommentsDisabled),
+      settings: sinon.stub().returns(settings),
     },
   };
 
@@ -168,7 +164,7 @@ const createTestRenderer = async () => {
   return { context, stream };
 };
 
-it("renders comment stream with load all comments button when enabled", async () => {
+it("renders comment stream with load all comments button", async () => {
   const { stream } = await createTestRenderer();
   expect(
     within(stream).queryByRole("button", { name: "Load All Comments" })

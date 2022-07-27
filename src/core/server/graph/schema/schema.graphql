@@ -2174,13 +2174,6 @@ type Settings @cacheControl(maxAge: 30) {
   emailDomainModeration: [EmailDomain!]!
 
   """
-  loadAllComments is whether or not all comments should be loaded in infinite scroll
-  for the stream, or a Load all comments button should be shown after the initial
-  comments. Show infinite scroll if true, load all comments if false.
-  """
-  loadAllComments: Boolean!
-
-  """
   externalProfileURL is a string template for a link to a user's
   external profile.
   """
@@ -5662,13 +5655,6 @@ input SettingsInput {
   (European Directive 2000/31/CE).
   """
   forReviewQueue: Boolean
-
-  """
-  loadAllComments is whether or not all comments should be loaded in infinite scroll
-  for the stream, or a Load all comments button should be shown after the initial
-  comments. Show infinite scroll if true, load all comments if false.
-  """
-  loadAllComments: Boolean
 
   """
   externalProfileURL is a string template for a link to a user's

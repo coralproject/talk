@@ -37,13 +37,13 @@ it("renders app with comment stream", async () => {
     s.callsFake((input: any) => {
       if (!changedSort) {
         expectAndFail(input).toMatchObject({
-          first: 99999,
+          first: 20,
           orderBy: "CREATED_AT_DESC",
         });
         return stories[0].comments;
       }
       expectAndFail(input).toMatchObject({
-        first: 99999,
+        first: 20,
         orderBy: "CREATED_AT_ASC",
       });
       return stories[1].comments;
