@@ -2,13 +2,13 @@ const esbuild = require("esbuild");
 const nativeNodeModulesPlugin = require("../../plugins/nativeNodeModules");
 
 esbuild.build({
-  entryPoints: ["dev/host/src/index.ts"],
+  entryPoints: ["dev/cdn/src/index.ts"],
   bundle: true,
-  outdir: "dev/host/output/",
+  outdir: "dev/cdn/output/",
   minify: false,
   sourcemap: true,
   platform: "node",
   target: "esnext",
-  tsconfig: "dev/host/tsconfig.json",
+  tsconfig: "dev/cdn/tsconfig.json",
   plugins: [nativeNodeModulesPlugin],
 });
