@@ -384,7 +384,7 @@ export default (ctx: GraphContext) => ({
       ctx.tenant.id,
       comment,
       {
-        first: 999,
+        first: 9999,
         orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_ASC),
       },
       story.isArchived

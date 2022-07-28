@@ -9,8 +9,8 @@ import {
   CommentConnectionInput,
   removeCommentTag,
   retrieveAllCommentsUserConnection as retrieveAllCommentsUserConnectionModel,
+  retrieveChildrenForParentConnection as retrieveChildrenForParentConnectionModel,
   retrieveComment as retrieveCommentModel,
-  retrieveCommentAllChildCommentsConnection as retrieveCommentAllChildCommentsConnectionModel,
   retrieveCommentConnection as retrieveCommentConnectionModel,
   retrieveCommentParentsConnection as retrieveCommentParentsConnectionModel,
   retrieveCommentRepliesConnection as retrieveCommentRepliesConnectionModel,
@@ -450,7 +450,7 @@ export function retrieveCommentParentsConnection(
  * the live or the archived comments databases.
  * @returns a connection of comments.
  */
-export function retrieveCommentAllChildCommentsConnection(
+export function retrieveChildrenForParentConnection(
   mongo: MongoContext,
   tenantID: string,
   comment: Comment,
@@ -459,7 +459,7 @@ export function retrieveCommentAllChildCommentsConnection(
 ) {
   const collection =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
-  return retrieveCommentAllChildCommentsConnectionModel(
+  return retrieveChildrenForParentConnectionModel(
     collection,
     tenantID,
     comment,

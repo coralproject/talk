@@ -79,19 +79,13 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // with fewer than 20, we will never want to display load all as new comments
   // come in.
   const moreCommentsForLoadAll = useMemo(() => {
-    if (!commentsFullyLoaded && hasMore) {
-      return true;
-    } else {
-      return (
-        comments.length > NUM_INITIAL_COMMENTS &&
-        ((story.comments.edges &&
-          story.comments.edges.length > NUM_INITIAL_COMMENTS) ||
-          (story.comments.edges &&
-            story.comments.edges.length === NUM_INITIAL_COMMENTS &&
-            hasMore))
-      );
-    }
-  }, [comments.length, story.comments.edges, commentsFullyLoaded, hasMore]);
+    const commentsOnLoad = { length: comments.length, hasMore };
+    const commentsOnLoadLessThanInitialComments =
+      commentsOnLoad.length < NUM_INITIAL_COMMENTS;
+    return commentsOnLoadLessThanInitialComments
+      ? false
+      : commentsOnLoad.hasMore;
+  }, []);
 
   // We determine whether to display the Load all comments button based on whether:
   // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.

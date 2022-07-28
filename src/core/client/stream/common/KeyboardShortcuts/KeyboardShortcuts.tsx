@@ -89,7 +89,6 @@ interface KeyStop {
   isLoadMore: boolean;
   element: HTMLElement;
   notSeen: boolean;
-  isViewNew: boolean;
 }
 
 interface TraverseOptions {
@@ -112,7 +111,6 @@ const toKeyStop = (element: HTMLElement): KeyStop => {
     id: element.id,
     isLoadMore: "isLoadMore" in element.dataset,
     notSeen: "notSeen" in element.dataset,
-    isViewNew: "isViewNew" in element.dataset,
   };
 };
 
@@ -903,25 +901,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       if (stop.isLoadMore) {
         if (stop.id === "comments-loadAll") {
           return false;
-        }
-        if (!stop.isViewNew) {
-          let prevOrNextStop = findPreviousKeyStop(root, stop, {
-            skipLoadMore: true,
-            noCircle: true,
-          });
-          if (!prevOrNextStop) {
-            prevOrNextStop = findNextKeyStop(root, stop, {
-              skipLoadMore: true,
-              noCircle: true,
-            });
-          }
-          if (prevOrNextStop) {
-            void setTraversalFocus({
-              commentID: parseCommentElementID(prevOrNextStop.id),
-              commentSeenEnabled,
-            });
-            prevOrNextStop.element.focus();
-          }
         }
         setZKeyClickedButton(true);
         stop.element.click();

@@ -473,7 +473,7 @@ export const retrieveCommentRepliesConnection = (
 };
 
 /**
- * retrieveCommentAllChildCommentsConnection returns a Connection<Comment> for
+ * retrieveChildrenForParentConnection returns a Connection<Comment> for
  * a given comment's child comments
  *
  * @param mongo database connection
@@ -482,7 +482,7 @@ export const retrieveCommentRepliesConnection = (
  * @param comment the comment to retrieve child comments of
  * @param input connection configuration
  */
-export async function retrieveCommentAllChildCommentsConnection(
+export async function retrieveChildrenForParentConnection(
   collection: Collection<Readonly<Comment>>,
   tenantID: string,
   comment: Comment,

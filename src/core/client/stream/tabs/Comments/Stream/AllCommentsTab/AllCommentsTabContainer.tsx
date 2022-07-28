@@ -334,7 +334,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             aria-controls="comments-allComments-log"
             data-key-stop
             data-is-load-more
-            data-is-view-new
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
