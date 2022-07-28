@@ -1,4 +1,5 @@
 import Logger from "bunyan";
+import cors from "cors";
 import express from "express";
 
 const PORT = 3001;
@@ -15,6 +16,8 @@ const createLogger = () => {
 const run = () => {
   const logger = createLogger();
   const app = express();
+
+  app.use(cors());
 
   app.use("/", express.static("dist/static"));
 

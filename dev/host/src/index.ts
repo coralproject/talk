@@ -1,4 +1,5 @@
 import Logger from "bunyan";
+import cors from "cors";
 import express from "express";
 import { readFileSync } from "fs";
 import jwt from "jsonwebtoken";
@@ -115,6 +116,8 @@ const startServer = async (logger: Logger, site: Site) => {
   const app = express();
 
   nunjucks.configure("dev/host/src/views", { autoescape: true });
+
+  app.use(cors());
 
   app.use("/static", express.static("dev/host/static"));
 
