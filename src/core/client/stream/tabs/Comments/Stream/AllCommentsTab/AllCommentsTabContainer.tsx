@@ -192,9 +192,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   ]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
-  const [viewMoreClicked, setViewMoreClicked] = useState(false);
+  const [viewMoreLoading, setViewMoreLoading] = useState(false);
   const onViewMore = useCallback(async () => {
-    setViewMoreClicked(true);
+    setViewMoreLoading(true);
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: story.id,
       keyboardShortcutsConfig,
@@ -207,7 +207,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         markAsSeen,
       });
       viewNewCommentsEvent.success();
-      setViewMoreClicked(false);
+      setViewMoreLoading(false);
     } catch (error) {
       viewNewCommentsEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
@@ -218,7 +218,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     story.id,
     keyboardShortcutsConfig,
     viewMore,
-    setViewMoreClicked,
+    setViewMoreLoading,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
@@ -334,7 +334,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             color="primary"
             onClick={onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
-            disabled={viewMoreClicked}
+            disabled={viewMoreLoading}
             aria-controls="comments-allComments-log"
             data-key-stop
             data-is-load-more
@@ -342,7 +342,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
               <Localized
-                id={viewMoreClicked ? "qa-viewNew-loading" : "qa-viewNew"}
+                id={viewMoreLoading ? "qa-viewNew-loading" : "qa-viewNew"}
                 $count={viewNewCount}
               >
                 <span>View {viewNewCount} New Questions</span>
@@ -350,7 +350,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             ) : (
               <Localized
                 id={
-                  viewMoreClicked
+                  viewMoreLoading
                     ? "comments-viewNew-loading"
                     : "comments-viewNew"
                 }

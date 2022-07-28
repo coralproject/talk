@@ -79,10 +79,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
 
   // We determine whether to display the Load all comments button based on whether:
   // 1. If there are more comments to display than 20 AND fewer than 20 weren't initially loaded.
-  // 2. Don't display if Z key has clicked the Load all button to open it and go to next unseen OR
-  // if the add a comment button has been clicked in alternate oldest view.
-  // 3. Last, we check if the comments are fully loaded; if not, we show the button. If they are,
-  // it is displayed if it hasn't been clicked.
+  // 2. If comments haven't fully loaded, we display.
+  // 3. If Load all button hasn't been clicked yet, then we display.
   const displayLoadAllButton = useMemo(() => {
     if (moreCommentsForLoadAll) {
       return !local.commentsFullyLoaded
