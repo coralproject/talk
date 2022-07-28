@@ -62,6 +62,8 @@ const Frame: FunctionComponent<Props> = ({
         width={width}
         sandbox={sandboxStr}
         scrolling="no"
+        allowFullScreen
+        allow="fullscreen;"
       />
     </div>
   );
