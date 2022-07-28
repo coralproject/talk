@@ -110,12 +110,10 @@ extend type Local {
 
   # Whether the Load all comments button should be shown instead of infinite scroll
   showLoadAllCommentsButton: Boolean!
-  # Whether the add a comment button in alternate oldest view was clicked
-  addACommentButtonClicked: Boolean
-  # Whether the Z key button clicked to Load all comments
-  zKeyClickedLoadAll: Boolean
-  zKeyPressedInitially: Boolean
+  # Whether the load all button has been clicked, could be by the user, Z key, or
+  # the Add a comment button in alternate oldest view
   loadAllButtonHasBeenClicked: Boolean
+  commentsFullyLoaded: Boolean
   # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
   # media settings)
   expandedMediaSettings: ExpandedMediaSettings

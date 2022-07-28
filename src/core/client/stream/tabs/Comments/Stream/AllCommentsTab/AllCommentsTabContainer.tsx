@@ -83,6 +83,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       fragment AllCommentsTabContainerLocal on Local {
         ratingFilter
         commentsOrderBy
+        commentsFullyLoaded
         keyboardShortcutsConfig {
           key
           source
@@ -161,9 +162,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     ViewNewCommentsNetworkEvent
   );
 
-  const [commentsFullyLoaded, setCommentsFullyLoaded] = useState(!hasMore);
-
   useEffect(() => {
+    setLocal({ commentsFullyLoaded: !hasMore });
     if (hasMore && !isLoadingMore) {
       void loadMoreAndEmit();
     }
@@ -176,14 +176,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     });
     try {
       await loadMore();
-      setCommentsFullyLoaded(true);
+      setLocal({ commentsFullyLoaded: true });
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
+  }, [
+    beginLoadMoreEvent,
+    story.id,
+    keyboardShortcutsConfig,
+    loadMore,
+    setLocal,
+  ]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const [viewMoreClicked, setViewMoreClicked] = useState(false);
@@ -212,7 +218,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     story.id,
     keyboardShortcutsConfig,
     viewMore,
-    setCommentsFullyLoaded,
     setViewMoreClicked,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
@@ -314,7 +319,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         currentScrollRef={currentScrollRef}
         comments={comments}
         viewNewCount={viewNewCount}
-        commentsFullyLoaded={commentsFullyLoaded}
       />
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
@@ -383,7 +387,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           currentScrollRef={currentScrollRef}
           commentsOrderBy={commentsOrderBy}
           comments={comments}
-          commentsFullyLoaded={commentsFullyLoaded}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks

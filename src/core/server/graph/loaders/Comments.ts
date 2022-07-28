@@ -19,7 +19,7 @@ import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   retrieveAllCommentsUserConnection,
-  retrieveCommentAllChildCommentsConnection,
+  retrieveChildrenForParentConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
@@ -379,7 +379,7 @@ export default (ctx: GraphContext) => ({
     if (!story) {
       throw new StoryNotFoundError(comment.storyID);
     }
-    return retrieveCommentAllChildCommentsConnection(
+    return retrieveChildrenForParentConnection(
       ctx.mongo,
       ctx.tenant.id,
       comment,

@@ -73,7 +73,6 @@ interface Props {
   currentScrollRef: any;
   comments: ReadonlyArray<Comment>;
   viewNewCount: number;
-  commentsFullyLoaded: boolean;
 }
 
 export interface KeyboardEventData {
@@ -275,7 +274,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   currentScrollRef,
   comments,
   viewNewCount,
-  commentsFullyLoaded,
 }) => {
   const {
     relayEnvironment,
@@ -291,9 +289,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markSeen = useMutation(MarkCommentsAsSeenMutation);
-  const [{ commentWithTraversalFocus }, setLocal] = useLocal<
-    KeyboardShortcuts_local
-  >(graphql`
+  const [
+    { commentWithTraversalFocus, commentsFullyLoaded },
+    setLocal,
+  ] = useLocal<KeyboardShortcuts_local>(graphql`
     fragment KeyboardShortcuts_local on Local {
       commentWithTraversalFocus
       keyboardShortcutsConfig {
@@ -301,8 +300,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         source
         reverse
       }
-      zKeyClickedLoadAll
-      zKeyPressedInitially
+      loadAllButtonHasBeenClicked
+      commentsFullyLoaded
     }
   `);
   const amp = useAMP();
@@ -666,7 +665,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
             nextUnseenComment.virtuosoIndex &&
             nextUnseenComment.virtuosoIndex >= NUM_INITIAL_COMMENTS
           ) {
-            setLocal({ zKeyClickedLoadAll: true });
+            setLocal({ loadAllButtonHasBeenClicked: true });
           }
 
           // Scroll to the Virtuoso index for the next unseen comment!
@@ -964,7 +963,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // while comments are loading in so the loading state is visible. Once they
       // load in, then we will find and navigate to the next unseen.
       if (!commentsFullyLoaded) {
-        setLocal({ zKeyPressedInitially: true });
+        setLocal({ loadAllButtonHasBeenClicked: true });
         setFindAndNavigateAfterLoad({ findAndNavigate: true, source });
         const loadAllButton = root.getElementById("comments-loadAll");
         if (loadAllButton) {

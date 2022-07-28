@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -21,54 +26,72 @@ const AddACommentButton: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const { renderWindow } = useCoralContext();
-  const [, setLocal] = useLocal<AddACommentButtonLocal>(
+  const [{ commentsFullyLoaded }, setLocal] = useLocal<AddACommentButtonLocal>(
     graphql`
       fragment AddACommentButtonLocal on Local {
-        addACommentButtonClicked
+        loadAllButtonHasBeenClicked
+        commentsFullyLoaded
       }
     `
   );
   const root = useShadowRootOrDocument();
+
+  const [scrollIntoViewAfterLoad, setScrollIntoViewAfterLoad] = useState(false);
+
+  const scrollToLastCommentAndPostCommentForm = useCallback(() => {
+    if (currentScrollRef.current) {
+      currentScrollRef.current.scrollToIndex({
+        align: "center",
+        index: "LAST",
+        behavior: "auto",
+        done: () => {
+          let count = 0;
+          const stopExists = setInterval(async () => {
+            count += 1;
+            const postCommentFormElement = root.getElementById(
+              POST_COMMENT_FORM_ID
+            );
+            if (
+              postCommentFormElement !== undefined &&
+              postCommentFormElement !== null
+            ) {
+              clearInterval(stopExists);
+              postCommentFormElement.scrollIntoView();
+            }
+            if (count > 10) {
+              clearInterval(stopExists);
+            }
+          }, 100);
+        },
+      });
+    }
+  }, [currentScrollRef, root]);
+
+  useEffect(() => {
+    if (commentsFullyLoaded && scrollIntoViewAfterLoad) {
+      scrollToLastCommentAndPostCommentForm();
+    }
+  }, [scrollIntoViewAfterLoad, commentsFullyLoaded]);
+
   const onClick = useCallback(() => {
     if (!renderWindow) {
       return;
     }
-    const postCommentForm = root.getElementById(POST_COMMENT_FORM_ID);
-    if (postCommentForm) {
-      // Make sure that the Load all comments button is displayed even if it
-      // was previously clicked and no longer displayed.
-      // Then scroll to last comment, which is right above the Add a comment box,
-      // and scroll the post comment form into view.
-      setLocal({ addACommentButtonClicked: true });
-      if (currentScrollRef.current) {
-        currentScrollRef.current.scrollToIndex({
-          align: "center",
-          index: "LAST",
-          behavior: "auto",
-          done: () => {
-            let count = 0;
-            const stopExists = setInterval(async () => {
-              count += 1;
-              const postCommentFormElement = root.getElementById(
-                POST_COMMENT_FORM_ID
-              );
-              if (
-                postCommentFormElement !== undefined &&
-                postCommentFormElement !== null
-              ) {
-                clearInterval(stopExists);
-                postCommentForm.scrollIntoView();
-              }
-              if (count > 10) {
-                clearInterval(stopExists);
-              }
-            }, 100);
-          },
-        });
-        // }
-      }
+    setLocal({ loadAllButtonHasBeenClicked: true });
+    if (!commentsFullyLoaded) {
+      scrollToLastCommentAndPostCommentForm();
+      setScrollIntoViewAfterLoad(true);
+    } else {
+      scrollToLastCommentAndPostCommentForm();
     }
-  }, [renderWindow, root, setLocal, currentScrollRef]);
+  }, [
+    renderWindow,
+    root,
+    setLocal,
+    scrollToLastCommentAndPostCommentForm,
+    commentsFullyLoaded,
+    setScrollIntoViewAfterLoad,
+  ]);
 
   return (
     <div className={styles.root}>

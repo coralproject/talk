@@ -37,7 +37,6 @@ interface Props {
   currentScrollRef: any;
   commentsOrderBy: COMMENT_SORT;
   comments: AllCommentsTabContainer_story["comments"]["edges"];
-  commentsFullyLoaded: boolean;
 }
 
 // Virtuoso settings
@@ -55,16 +54,13 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   currentScrollRef,
   commentsOrderBy,
   comments,
-  commentsFullyLoaded,
 }) => {
   const [local, setLocal] = useLocal<
     AllCommentsTabVirtualizedCommentsLocal
   >(graphql`
     fragment AllCommentsTabVirtualizedCommentsLocal on Local {
+      commentsFullyLoaded
       showLoadAllCommentsButton
-      addACommentButtonClicked
-      zKeyPressedInitially
-      zKeyClickedLoadAll
       loadAllButtonHasBeenClicked
       keyboardShortcutsConfig {
         key
@@ -95,19 +91,16 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // it is displayed if it hasn't been clicked.
   const displayLoadAllButton = useMemo(() => {
     if (moreCommentsForLoadAll) {
-      if (local.zKeyClickedLoadAll || local.addACommentButtonClicked) {
-        return false;
-      }
-      return !commentsFullyLoaded ? true : !local.loadAllButtonHasBeenClicked;
+      return !local.commentsFullyLoaded
+        ? true
+        : !local.loadAllButtonHasBeenClicked;
     } else {
       return false;
     }
   }, [
     local.loadAllButtonHasBeenClicked,
-    local.zKeyClickedLoadAll,
-    local.addACommentButtonClicked,
     moreCommentsForLoadAll,
-    commentsFullyLoaded,
+    local.commentsFullyLoaded,
   ]);
 
   useEffect(() => {
@@ -134,8 +127,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // clicked so that we know it should no longer be displayed.
   const onDisplayLoadAllButtonClick = useCallback(() => {
     setLocal({ loadAllButtonHasBeenClicked: true });
-    setLocal({ zKeyClickedLoadAll: false });
-    setLocal({ addACommentButtonClicked: false });
 
     const loadAllCommentsEvent = beginLoadMoreAllCommentsEvent({
       storyID: story.id,
@@ -145,22 +136,14 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     loadAllCommentsEvent.success();
   }, [
     setLocal,
-    local.loadAllButtonHasBeenClicked,
-    story,
+    story.id,
     local.keyboardShortcutsConfig,
     beginLoadMoreAllCommentsEvent,
   ]);
 
   const loadAllButtonDisabled = useMemo(() => {
-    return (
-      !commentsFullyLoaded &&
-      (local.zKeyPressedInitially || local.loadAllButtonHasBeenClicked)
-    );
-  }, [
-    commentsFullyLoaded,
-    local.zKeyPressedInitially,
-    local.loadAllButtonHasBeenClicked,
-  ]);
+    return !local.commentsFullyLoaded && local.loadAllButtonHasBeenClicked;
+  }, [local.commentsFullyLoaded, local.loadAllButtonHasBeenClicked]);
 
   const Footer = useCallback(() => {
     return (
