@@ -108,11 +108,10 @@ extend type Local {
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 
-  # Whether the Load all comments button should be shown instead of infinite scroll
-  showLoadAllCommentsButton: Boolean!
   # Whether the load all button has been clicked, could be by the user, Z key, or
   # the Add a comment button in alternate oldest view
   loadAllButtonHasBeenClicked: Boolean
+  # Whether all comments have finished loading for the stream yet or not.
   commentsFullyLoaded: Boolean
   # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
   # media settings)

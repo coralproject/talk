@@ -155,7 +155,6 @@ const createTestRenderer = async () => {
       localRecord.setValue("ALL_COMMENTS", "commentsTab");
       localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
       localRecord.setValue(storyStub.id, "storyID");
-      localRecord.setValue(true, "showLoadAllCommentsButton");
     },
   });
 

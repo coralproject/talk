@@ -1,11 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
@@ -60,7 +55,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   >(graphql`
     fragment AllCommentsTabVirtualizedCommentsLocal on Local {
       commentsFullyLoaded
-      showLoadAllCommentsButton
       loadAllButtonHasBeenClicked
       keyboardShortcutsConfig {
         key
@@ -102,10 +96,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     moreCommentsForLoadAll,
     local.commentsFullyLoaded,
   ]);
-
-  useEffect(() => {
-    setLocal({ showLoadAllCommentsButton: displayLoadAllButton });
-  }, [displayLoadAllButton, setLocal]);
 
   // When comments are sorted oldest first, this determines if there are new comments
   // that have come in via subscription for which a Load more button should be
