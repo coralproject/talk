@@ -3,6 +3,7 @@ export interface CountJSONPData {
   html: string;
   count: number;
   id?: string | null;
+  showNew?: boolean;
 }
 
 export interface PreviousCountData {

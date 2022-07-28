@@ -122,4 +122,6 @@ extend type Local {
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
+
+  showCommentIDs: Boolean
 }

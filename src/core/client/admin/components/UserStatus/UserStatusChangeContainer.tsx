@@ -289,7 +289,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           open
           onClose={handleBanModalClose}
           onConfirm={handleUpdateBan}
-          moderationScopesEnabled={moderationScopesEnabled}
+          isMultisite={settings.multisite}
           viewerScopes={{
             role: viewer.role,
             sites: viewer.moderationScopes?.sites?.map((s) => s),

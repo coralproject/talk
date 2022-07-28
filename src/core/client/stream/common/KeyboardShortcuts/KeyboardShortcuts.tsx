@@ -302,6 +302,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       }
       loadAllButtonHasBeenClicked
       commentsFullyLoaded
+      showCommentIDs
     }
   `);
   const amp = useAMP();
@@ -994,6 +995,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     ]
   );
 
+  const toggleShowCommentIDs = useCallback(() => {
+    const showCommentIDs = !!lookup(relayEnvironment, LOCAL_ID).showCommentIDs;
+    setLocal({ showCommentIDs: !showCommentIDs });
+  }, [relayEnvironment, setLocal]);
+
   const handleKeypress = useCallback(
     async (event: React.KeyboardEvent | KeyboardEvent | string) => {
       let data: KeyboardEventData;
@@ -1018,6 +1024,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
 
+      const pressedKey = data.key.toLocaleLowerCase();
+
+      // Alt + H
+      if (data.altKey && pressedKey === "˙") {
+        toggleShowCommentIDs();
+      }
+
       if (data.ctrlKey || data.metaKey || data.altKey) {
         return;
       }
@@ -1027,7 +1040,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
 
-      const pressedKey = data.key.toLocaleLowerCase();
       if (pressedKey === "a" && data.shiftKey) {
         unmarkAll({ source: "keyboard" });
         return;
@@ -1187,7 +1199,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 >
                   <ButtonIcon>done_all</ButtonIcon>
                   <Localized id="comments-mobileToolbar-unmarkAll">
-                    <span>Unmark all</span>
+                    <span>Mark all as read</span>
                   </Localized>
                 </Button>
               </div>
