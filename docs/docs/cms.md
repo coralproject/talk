@@ -85,7 +85,7 @@ See [GraphQL API Overview](/api/schema) for help with the API.
 
 By default, stories have their metadata scraped when they are loaded. This provides the easiest way for newsrooms to integrate their CMS’s into Coral in a simple way. We use the meta tags in the table below on the target pages to allow us to extract some properties.
 
-Metadata scraping is performed by the `scraper` job which is enabled by default. If you see story Titles in the **Stories** list as `Not available`, this likely means the story could not be scraped automatically, and the first thing to try is to try re-running the scraper job by selecting `Re-scrape` from the menu in the **Actions** column.
+Metadata scraping is performed by the `scraper` job which is enabled by default. If you see story Titles in the **Stories** list as `Not available`, this likely means the story could not be scraped automatically. Try re-running the scraper job by selecting `Re-scrape` from the menu in the **Actions** column.
 
 If your production site is behind a paywall or otherwise prevents scraping, you might need to configure a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriate proxy as parsed by the npm proxy-agent package. A Scraper Proxy URL can be added in the coral Admin under "CONFIGURE" -> "Advanced" -> "Story creation".
 

@@ -75,4 +75,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
     "error-cannotCreateCommentOnArchivedStory",
   CANNOT_OPEN_AN_ARCHIVED_STORY: "error-cannotOpenAnArchivedStory",
   CANNOT_MERGE_AN_ARCHIVED_STORY: "error-cannotMergeAnArchivedStory",
+  USERNAME_ALREADY_EXISTS: "error-usernameAlreadyExists",
 };

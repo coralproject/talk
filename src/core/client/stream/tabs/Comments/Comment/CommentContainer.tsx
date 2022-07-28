@@ -14,7 +14,7 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useToggleState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { MutationProp, useMutation } from "coral-framework/lib/relay";
+import { MutationProp, useLocal, useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { Ability, can } from "coral-framework/permissions";
 import {
@@ -51,6 +51,7 @@ import { CommentContainer_comment as CommentData } from "coral-stream/__generate
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
+import { CommentContainerLocal } from "coral-stream/__generated__/CommentContainerLocal.graphql";
 
 import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
@@ -143,6 +144,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
   showRemoveAnswered,
   enableJumpToParent,
 }) => {
+  const [{ showCommentIDs }] = useLocal<CommentContainerLocal>(graphql`
+    fragment CommentContainerLocal on Local {
+      showCommentIDs
+    }
+  `);
   const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const { eventEmitter } = useCoralContext();
@@ -500,6 +506,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
       </Hidden>
       <HorizontalGutter>
         <IndentedComment
+          id={comment.id}
+          showCommentID={!!showCommentIDs}
           enableJumpToParent={enableJumpToParent}
           classNameIndented={cn(styles.indentedCommentRoot, {
             [styles.indented]: indentLevel && indentLevel > 0,

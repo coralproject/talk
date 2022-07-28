@@ -43,6 +43,12 @@ comment-count-text =
     *[other] Comments
   }
 
+comment-count-text-ratings =
+  { $count  ->
+    [one] Rating
+    *[other] Ratings
+  }
+
 ## Comments Tab
 
 comments-allCommentsTab = All Comments
@@ -292,7 +298,7 @@ comments-jumpToComment-GoToReply = Go to reply
 
 comments-mobileToolbar-closeButton =
   .aria-label = Close
-comments-mobileToolbar-unmarkAll = Unmark all
+comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
 comments-replyChangedWarning-theCommentHasJust =

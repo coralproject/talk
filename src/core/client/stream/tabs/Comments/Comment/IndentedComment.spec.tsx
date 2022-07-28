@@ -7,6 +7,8 @@ import IndentedComment from "./IndentedComment";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof IndentedComment> = {
+    id: "comment-0",
+    showCommentID: false,
     indentLevel: 1,
     username: "Marvin",
     staticUsername: "Marvin",

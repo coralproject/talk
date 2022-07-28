@@ -1,62 +1,44 @@
-import { mount } from "enzyme";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
-import simulant from "simulant";
 import sinon from "sinon";
 
 import { ClickOutside } from "./ClickOutside";
 
-let container: HTMLElement;
-
-beforeAll(() => {
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
-
-afterAll(() => {
-  document.body.removeChild(container);
-});
-
 it("should render correctly", () => {
   const noop = () => null;
-  const wrapper = mount(
+  render(
     <ClickOutside onClickOutside={noop}>
       <span>Hello World!</span>
     </ClickOutside>
   );
-  expect(wrapper.html()).toMatchSnapshot();
-  wrapper.unmount();
+  expect(screen.getByText("Hello World!"));
 });
 
 it("should detect click outside", () => {
   const onClickOutside = sinon.spy();
-  const wrapper = mount(
-    <ClickOutside onClickOutside={onClickOutside}>
-      <span>Hello World!</span>
-    </ClickOutside>,
-    {
-      attachTo: container,
-    }
+  render(
+    <div data-testid="outside">
+      <ClickOutside onClickOutside={onClickOutside}>
+        <span>Hello World!</span>
+      </ClickOutside>
+    </div>
   );
-  simulant.fire(container, "click");
+  const outsideDiv = screen.getByTestId("outside");
+  userEvent.click(outsideDiv);
 
   expect(onClickOutside.calledOnce).toEqual(true);
-  wrapper.unmount();
 });
 
 it("should ignore click inside", () => {
   const onClickOutside = sinon.spy();
-  const wrapper = mount(
+  render(
     <ClickOutside onClickOutside={onClickOutside}>
-      <button id="click-outside-test-button">Push Me</button>
-    </ClickOutside>,
-    {
-      attachTo: container,
-    }
+      <button data-testid="click-outside-test-button">Push Me</button>
+    </ClickOutside>
   );
 
-  const target = document.getElementById("click-outside-test-button")!;
-  simulant.fire(target, "click");
-
+  const insideButton = screen.getByTestId("click-outside-test-button");
+  userEvent.click(insideButton);
   expect(onClickOutside.calledOnce).toEqual(false);
-  wrapper.unmount();
 });
