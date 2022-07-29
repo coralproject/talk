@@ -50,9 +50,14 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   commentsOrderBy,
   comments,
 }) => {
-  const [local, setLocal] = useLocal<
-    AllCommentsTabVirtualizedCommentsLocal
-  >(graphql`
+  const [
+    {
+      commentsFullyLoaded,
+      loadAllButtonHasBeenClicked,
+      keyboardShortcutsConfig,
+    },
+    setLocal,
+  ] = useLocal<AllCommentsTabVirtualizedCommentsLocal>(graphql`
     fragment AllCommentsTabVirtualizedCommentsLocal on Local {
       commentsFullyLoaded
       loadAllButtonHasBeenClicked
@@ -83,16 +88,14 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   // 3. If Load all button hasn't been clicked yet, then we display.
   const displayLoadAllButton = useMemo(() => {
     if (moreCommentsForLoadAll) {
-      return !local.commentsFullyLoaded
-        ? true
-        : !local.loadAllButtonHasBeenClicked;
+      return !commentsFullyLoaded ? true : !loadAllButtonHasBeenClicked;
     } else {
       return false;
     }
   }, [
-    local.loadAllButtonHasBeenClicked,
+    loadAllButtonHasBeenClicked,
     moreCommentsForLoadAll,
-    local.commentsFullyLoaded,
+    commentsFullyLoaded,
   ]);
 
   // When comments are sorted oldest first, this determines if there are new comments
@@ -118,20 +121,20 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
 
     const loadAllCommentsEvent = beginLoadMoreAllCommentsEvent({
       storyID: story.id,
-      keyboardShortcutsConfig: local.keyboardShortcutsConfig,
+      keyboardShortcutsConfig,
     });
 
     loadAllCommentsEvent.success();
   }, [
     setLocal,
     story.id,
-    local.keyboardShortcutsConfig,
+    keyboardShortcutsConfig,
     beginLoadMoreAllCommentsEvent,
   ]);
 
   const loadAllButtonDisabled = useMemo(() => {
-    return !local.commentsFullyLoaded && local.loadAllButtonHasBeenClicked;
-  }, [local.commentsFullyLoaded, local.loadAllButtonHasBeenClicked]);
+    return !commentsFullyLoaded && loadAllButtonHasBeenClicked;
+  }, [commentsFullyLoaded, loadAllButtonHasBeenClicked]);
 
   const Footer = useCallback(() => {
     return (

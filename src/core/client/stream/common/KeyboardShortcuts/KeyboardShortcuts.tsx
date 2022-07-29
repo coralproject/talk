@@ -462,31 +462,31 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         scrollToComment(rootCommentElement);
         setFocusAndMarkSeen(nextUnseen.nodeID!);
       } else {
-        const rootKeyStop = toKeyStop(rootCommentElement);
-        const nextKeyStop = findNextKeyStop(root, rootKeyStop, {
+        const rootCommentKeyStop = toKeyStop(rootCommentElement);
+        const nextUnseenKeyStop = findNextKeyStop(root, rootCommentKeyStop, {
           skipSeen: true,
         });
 
-        if (nextKeyStop) {
+        if (nextUnseenKeyStop) {
           // if there are no unseen comments before the next show all replies
           // button, load all replies (traversal to next unseen comment will
           // be handled after the success event for all replies loading)
-          if (nextKeyStop.isLoadMore) {
-            const prevStop = findPreviousKeyStop(root, nextKeyStop, {
+          if (nextUnseenKeyStop.isLoadMore) {
+            const prevStop = findPreviousKeyStop(root, nextUnseenKeyStop, {
               skipLoadMore: true,
             });
             if (prevStop) {
               setFocusAndMarkSeen(parseCommentElementID(prevStop.id));
             }
             setZKeyClickedButton(true);
-            nextKeyStop.element.click();
+            nextUnseenKeyStop.element.click();
           } else {
             // go to the first unseen reply to the root comment and set focus to it
             JumpToNextUnseenCommentEvent.emit(eventEmitter, {
               source,
             });
-            scrollToComment(nextKeyStop.element);
-            setFocusAndMarkSeen(parseCommentElementID(nextKeyStop.id));
+            scrollToComment(nextUnseenKeyStop.element);
+            setFocusAndMarkSeen(parseCommentElementID(nextUnseenKeyStop.id));
           }
         }
       }
@@ -502,6 +502,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       allComments: Comment[],
       commentWithTraversalFocusHere: string,
       viewNewCountHere: number,
+      viewNewCountBeforeUnmarkAllHere: number,
       virtuosoIndexToSearchFrom?: number
     ) => {
       let indexToSearchFromOrCurrentTraversalFocusPassed = !commentWithTraversalFocusHere;
@@ -512,11 +513,17 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // if there's no comment with traversal focus. Otherwise, set as the
       // loopBackAroundUnseenComment in case we loop back around looking for the next unseen.
       if (viewNewCountHere > 0) {
-        if (!commentWithTraversalFocusHere) {
-          nextUnseenComment = { isNew: true, isRoot: true };
-          return nextUnseenComment;
-        } else {
-          loopBackAroundUnseenComment = { isNew: true, isRoot: true };
+        if (
+          viewNewCountBeforeUnmarkAllHere === 0 ||
+          (viewNewCountBeforeUnmarkAllHere > 0 &&
+            viewNewCountHere > viewNewCountBeforeUnmarkAllHere)
+        ) {
+          if (!commentWithTraversalFocusHere) {
+            nextUnseenComment = { isNew: true, isRoot: true };
+            return nextUnseenComment;
+          } else {
+            loopBackAroundUnseenComment = { isNew: true, isRoot: true };
+          }
         }
       }
 
@@ -625,12 +632,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // Determine the next unseen comment and then scroll Virtuoso to its index,
   // focus it, and mark it as seen.
   // We only call this if we've already tried traversing through the DOM to find
-  // the next unseen, so we don't need to check if it's in the root.
+  // the next unseen, so we don't need to check if it's in the DOM before scrolling.
   const findAndNavigateToNextUnseen = useCallback(
     (
       commentsHere,
       commentWithTraversalFocusHere,
       viewNewCountHere,
+      viewNewCountBeforeUnmarkAllHere,
       virtuosoIndexToSearchFrom,
       source
     ) => {
@@ -639,6 +647,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         commentsHere,
         commentWithTraversalFocusHere,
         viewNewCountHere,
+        viewNewCountBeforeUnmarkAllHere,
         virtuosoIndexToSearchFrom
       );
 
@@ -839,6 +848,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                             comments,
                             commentWithTraversalFocus,
                             viewNewCount,
+                            viewNewCountBeforeUnmarkAll,
                             undefined,
                             config.source
                           );
@@ -878,6 +888,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               comments,
               commentWithTraversalFocus,
               viewNewCount,
+              viewNewCountBeforeUnmarkAll,
               parseInt(currentVirtuosoIndex, 10) + 1,
               config.source
             );
@@ -937,6 +948,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       comments,
       viewNewCount,
       findAndNavigateToNextUnseen,
+      viewNewCountBeforeUnmarkAll,
     ]
   );
 
@@ -951,6 +963,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         comments,
         commentWithTraversalFocus,
         viewNewCount,
+        viewNewCountBeforeUnmarkAll,
         undefined,
         findAndNavigateAfterLoad.source
       );
@@ -992,6 +1005,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         comments,
         commentWithTraversalFocus,
         viewNewCount,
+        viewNewCountBeforeUnmarkAll,
         undefined,
         source
       );
@@ -1006,6 +1020,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       root,
       scrollToComment,
       setLocal,
+      viewNewCountBeforeUnmarkAll,
     ]
   );
 
