@@ -16,6 +16,26 @@ const createTestRenderer = async () => {
       s.callsFake((input: any) => {
         if (
           isMatch(input, {
+            first: 99999,
+            orderBy: "CREATED_AT_DESC",
+            after: loadMoreDateCursor,
+          })
+        ) {
+          return {
+            edges: [
+              {
+                node: comments[20],
+                cursor: loadMoreDateCursor,
+              },
+            ],
+            pageInfo: {
+              endCursor: "2019-08-06T18:24:00.000Z",
+              hasNextPage: false,
+            },
+          };
+        }
+        if (
+          isMatch(input, {
             first: 20,
             orderBy: "CREATED_AT_DESC",
           })
@@ -102,10 +122,6 @@ const createTestRenderer = async () => {
                 node: comments[19],
                 cursor: comments[19].createdAt,
               },
-              {
-                node: comments[20],
-                cursor: loadMoreDateCursor,
-              },
             ],
             pageInfo: {
               endCursor: loadMoreDateCursor,
@@ -163,7 +179,7 @@ const createTestRenderer = async () => {
   return { context, stream };
 };
 
-it("renders comment stream with load all comments button", async () => {
+it("renders comment stream with load all comments button when more than initial number comments", async () => {
   const { stream } = await createTestRenderer();
   expect(
     within(stream).queryByRole("button", { name: "Load All Comments" })

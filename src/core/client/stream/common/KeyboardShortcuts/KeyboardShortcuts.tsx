@@ -317,13 +317,27 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // and it should therefore traverse to the next unread comment
   const [zKeyClickedButton, setZKeyClickedButton] = useState(false);
 
+  // Used to compare view new count before/after unmark all to see if new comment subscriptions
+  // have come in since all comments (including the new ones) have been marked as seen
+  const [
+    viewNewCountBeforeUnmarkAll,
+    setViewNewCountBeforeUnmarkAll,
+  ] = useState(viewNewCount);
+
   // Keeps the mobile toolbar button states updated whenever comments or the
   // viewNewCount changes
   useEffect(() => {
     if (viewNewCount > 0) {
-      if (disableUnreadButtons) {
-        setDisableUnreadButtons(false);
-        return;
+      if (viewNewCountBeforeUnmarkAll > 0) {
+        if (viewNewCount > viewNewCountBeforeUnmarkAll) {
+          setDisableUnreadButtons(false);
+          return;
+        }
+      } else {
+        if (disableUnreadButtons) {
+          setDisableUnreadButtons(false);
+          return;
+        }
       }
     }
     const unseenComment = comments.find((comment: Comment) => {
@@ -369,19 +383,18 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     if (unseenComment) {
       if (disableUnreadButtons) {
         setDisableUnreadButtons(false);
-        return;
       }
-    }
-    if (viewNewCount === 0 && !unseenComment) {
+    } else {
       if (!disableUnreadButtons) {
         setDisableUnreadButtons(true);
       }
     }
-  }, [comments, viewNewCount]);
+  }, [comments, viewNewCount, viewNewCountBeforeUnmarkAll]);
 
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
       UnmarkAllEvent.emit(eventEmitter, { source: config.source });
+      setViewNewCountBeforeUnmarkAll(viewNewCount);
       void markSeen({
         storyID,
         commentIDs: [],
@@ -389,7 +402,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         markAllAsSeen: true,
       });
     },
-    [eventEmitter, markSeen, storyID]
+    [eventEmitter, markSeen, storyID, viewNewCount]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
@@ -484,128 +497,130 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // This searches through root-level comments and all of their children to find the next
   // unseen comment. It searches from either (1) the provided Virtuoso index or (2) the
   // comment that currently has traversal focus.
-  const searchInComments = (
-    allComments: Comment[],
-    commentWithTraversalFocusHere: string,
-    viewNewCountHere: number,
-    virtuosoIndexToSearchFrom?: number
-  ) => {
-    let indexToSearchFromOrCurrentTraversalFocusPassed = !commentWithTraversalFocusHere;
-    let loopBackAroundUnseenComment: UnseenComment | undefined;
-    let nextUnseenComment: UnseenComment | undefined;
+  const searchInComments = useCallback(
+    (
+      allComments: Comment[],
+      commentWithTraversalFocusHere: string,
+      viewNewCountHere: number,
+      virtuosoIndexToSearchFrom?: number
+    ) => {
+      let indexToSearchFromOrCurrentTraversalFocusPassed = !commentWithTraversalFocusHere;
+      let loopBackAroundUnseenComment: UnseenComment | undefined;
+      let nextUnseenComment: UnseenComment | undefined;
 
-    // If there are new comments via subscription, return next unseen with isNew
-    // if there's no comment with traversal focus. Otherwise, set as the
-    // loopBackAroundUnseenComment in case we loop back around looking for the next unseen.
-    if (viewNewCountHere > 0) {
-      if (!commentWithTraversalFocusHere) {
-        nextUnseenComment = { isNew: true, isRoot: true };
-        return nextUnseenComment;
-      } else {
-        loopBackAroundUnseenComment = { isNew: true, isRoot: true };
+      // If there are new comments via subscription, return next unseen with isNew
+      // if there's no comment with traversal focus. Otherwise, set as the
+      // loopBackAroundUnseenComment in case we loop back around looking for the next unseen.
+      if (viewNewCountHere > 0) {
+        if (!commentWithTraversalFocusHere) {
+          nextUnseenComment = { isNew: true, isRoot: true };
+          return nextUnseenComment;
+        } else {
+          loopBackAroundUnseenComment = { isNew: true, isRoot: true };
+        }
       }
-    }
 
-    // Search through the comments stream for the next unseen.
-    // If found, add its node id and whether it's a root comment or reply.
-    const nextUnseenExists = allComments.find((comment, i) => {
-      if (
-        indexToSearchFromOrCurrentTraversalFocusPassed ||
-        !loopBackAroundUnseenComment
-      ) {
-        if (!comment.node.ignored) {
-          if (comment.node.seen === false && !comment.node.deleted) {
-            const unseen = {
-              isRoot: true,
-              nodeID: comment.node.id,
-              virtuosoIndex: i,
-              rootCommentID: comment.node.id,
-            };
-            if (indexToSearchFromOrCurrentTraversalFocusPassed) {
-              nextUnseenComment = unseen;
-              return true;
-            } else {
-              if (!loopBackAroundUnseenComment) {
-                loopBackAroundUnseenComment = unseen;
+      // Search through the comments stream for the next unseen.
+      // If found, add its node id and whether it's a root comment or reply.
+      const nextUnseenExists = allComments.find((comment, i) => {
+        if (
+          indexToSearchFromOrCurrentTraversalFocusPassed ||
+          !loopBackAroundUnseenComment
+        ) {
+          if (!comment.node.ignored) {
+            if (comment.node.seen === false && !comment.node.deleted) {
+              const unseen = {
+                isRoot: true,
+                nodeID: comment.node.id,
+                virtuosoIndex: i,
+                rootCommentID: comment.node.id,
+              };
+              if (indexToSearchFromOrCurrentTraversalFocusPassed) {
+                nextUnseenComment = unseen;
+                return true;
+              } else {
+                if (!loopBackAroundUnseenComment) {
+                  loopBackAroundUnseenComment = unseen;
+                }
               }
             }
-          }
-          const allChildCommentIDs =
-            comment.node.allChildComments?.edges.map((childComment) => {
-              return childComment.node.id;
-            }) || [];
-          if (
-            comment.node.allChildComments &&
-            comment.node.allChildComments.edges.some((c) => {
-              if (
-                c.node.seen === false &&
-                !c.node.deleted &&
-                !comment.node.ignoredReplies?.includes(c.node.id)
-              ) {
-                // Need to check that all of this replies' ancestorIDs are included in
-                // the root comment's childIDs; otherwise, an ancestor is not visible
-                // for some reason (i.e. is rejected)
-                let ancestorIDMissingFromChildIDs = false;
-                if (c.node.ancestorIDs) {
-                  ancestorIDMissingFromChildIDs = c.node.ancestorIDs.some(
-                    (ancestorID) =>
-                      !(
-                        allChildCommentIDs.includes(ancestorID || "") ||
-                        ancestorID === comment.node.id
-                      )
-                  );
-                }
-                if (!ancestorIDMissingFromChildIDs) {
-                  const unseen = {
-                    isRoot: false,
-                    nodeID: c.node.id,
-                    virtuosoIndex: i,
-                    rootCommentID: comment.node.id,
-                  };
-                  if (indexToSearchFromOrCurrentTraversalFocusPassed) {
-                    nextUnseenComment = unseen;
-                    return true;
-                  } else {
-                    if (!loopBackAroundUnseenComment) {
-                      loopBackAroundUnseenComment = unseen;
+            const allChildCommentIDs =
+              comment.node.allChildComments?.edges.map((childComment) => {
+                return childComment.node.id;
+              }) || [];
+            if (
+              comment.node.allChildComments &&
+              comment.node.allChildComments.edges.some((c) => {
+                if (
+                  c.node.seen === false &&
+                  !c.node.deleted &&
+                  !comment.node.ignoredReplies?.includes(c.node.id)
+                ) {
+                  // Need to check that all of this replies' ancestorIDs are included in
+                  // the root comment's childIDs; otherwise, an ancestor is not visible
+                  // for some reason (i.e. is rejected)
+                  let ancestorIDMissingFromChildIDs = false;
+                  if (c.node.ancestorIDs) {
+                    ancestorIDMissingFromChildIDs = c.node.ancestorIDs.some(
+                      (ancestorID) =>
+                        !(
+                          allChildCommentIDs.includes(ancestorID || "") ||
+                          ancestorID === comment.node.id
+                        )
+                    );
+                  }
+                  if (!ancestorIDMissingFromChildIDs) {
+                    const unseen = {
+                      isRoot: false,
+                      nodeID: c.node.id,
+                      virtuosoIndex: i,
+                      rootCommentID: comment.node.id,
+                    };
+                    if (indexToSearchFromOrCurrentTraversalFocusPassed) {
+                      nextUnseenComment = unseen;
+                      return true;
+                    } else {
+                      if (!loopBackAroundUnseenComment) {
+                        loopBackAroundUnseenComment = unseen;
+                      }
                     }
                   }
                 }
-              }
-              return false;
-            })
-          ) {
-            return true;
+                return false;
+              })
+            ) {
+              return true;
+            }
           }
         }
-      }
 
-      // If Virtuoso index to search from or current traversal focus hasn't been passed yet,
-      // after we search for the next unseen in a comment and its replies, if it's not found,
-      // we check if this is the Virtuoso index to search from or the node id with current
-      // traversal focus
-      if (!indexToSearchFromOrCurrentTraversalFocusPassed) {
-        if (virtuosoIndexToSearchFrom) {
-          if (i === virtuosoIndexToSearchFrom) {
-            indexToSearchFromOrCurrentTraversalFocusPassed = true;
-          }
-        } else {
-          if (
-            comment.node.id === commentWithTraversalFocusHere ||
-            (comment.node.allChildComments &&
-              comment.node.allChildComments.edges.some(
-                (c) => c.node.id === commentWithTraversalFocusHere
-              ))
-          ) {
-            indexToSearchFromOrCurrentTraversalFocusPassed = true;
+        // If Virtuoso index to search from or current traversal focus hasn't been passed yet,
+        // after we search for the next unseen in a comment and its replies, if it's not found,
+        // we check if this is the Virtuoso index to search from or the node id with current
+        // traversal focus
+        if (!indexToSearchFromOrCurrentTraversalFocusPassed) {
+          if (virtuosoIndexToSearchFrom) {
+            if (i === virtuosoIndexToSearchFrom) {
+              indexToSearchFromOrCurrentTraversalFocusPassed = true;
+            }
+          } else {
+            if (
+              comment.node.id === commentWithTraversalFocusHere ||
+              (comment.node.allChildComments &&
+                comment.node.allChildComments.edges.some(
+                  (c) => c.node.id === commentWithTraversalFocusHere
+                ))
+            ) {
+              indexToSearchFromOrCurrentTraversalFocusPassed = true;
+            }
           }
         }
-      }
-      return false;
-    });
-
-    return nextUnseenExists ? nextUnseenComment : loopBackAroundUnseenComment;
-  };
+        return false;
+      });
+      return nextUnseenExists ? nextUnseenComment : loopBackAroundUnseenComment;
+    },
+    []
+  );
 
   // Determine the next unseen comment and then scroll Virtuoso to its index,
   // focus it, and mark it as seen.
@@ -911,7 +926,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       }
     },
     [
-      commentSeenEnabled,
       eventEmitter,
       relayEnvironment,
       root,
@@ -923,8 +937,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       comments,
       viewNewCount,
       findAndNavigateToNextUnseen,
-      setTraversalFocus,
-      computeCommentElementID,
     ]
   );
 
@@ -992,6 +1004,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       viewNewCount,
       commentsFullyLoaded,
       root,
+      scrollToComment,
+      setLocal,
     ]
   );
 
@@ -1078,6 +1092,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       unmarkAll,
       zKeyEnabled,
       handleZKeyPress,
+      toggleShowCommentIDs,
     ]
   );
 
