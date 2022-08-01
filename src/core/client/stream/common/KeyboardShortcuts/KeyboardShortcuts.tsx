@@ -311,7 +311,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   // Used to enable/disable the mobile toolbar buttons for Unmark all and Next unread
   const [disableUnreadButtons, setDisableUnreadButtons] = useState<boolean>(
-    true
+    commentsFullyLoaded ?? false
   );
   // Used to let the event listener know when the Z key has clicked a load more button
   // and it should therefore traverse to the next unread comment
@@ -327,6 +327,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // Keeps the mobile toolbar button states updated whenever comments or the
   // viewNewCount changes
   useEffect(() => {
+    if (!commentsFullyLoaded) {
+      if (disableUnreadButtons) {
+        setDisableUnreadButtons(false);
+        return;
+      }
+    }
     if (viewNewCount > 0) {
       if (viewNewCountBeforeUnmarkAll > 0) {
         if (viewNewCount > viewNewCountBeforeUnmarkAll) {
@@ -389,7 +395,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnreadButtons(true);
       }
     }
-  }, [comments, viewNewCount, viewNewCountBeforeUnmarkAll]);
+  }, [
+    comments,
+    viewNewCount,
+    viewNewCountBeforeUnmarkAll,
+    commentsFullyLoaded,
+  ]);
 
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
@@ -806,7 +817,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               }
               return false;
             });
-            if (indexToScroll) {
+            if (indexToScroll || indexToScroll === 0) {
               currentScrollRef.current.scrollIntoView({
                 align: "center",
                 index: indexToScroll,
@@ -838,6 +849,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                         }
                       }
                       if (count > 10) {
+                        findAndNavigateToNextUnseen(undefined, config.source);
                         clearInterval(commentWithFocusElementExists);
                       }
                     },
