@@ -759,7 +759,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         if (config.key === "z") {
           traverseOptions = {
             skipSeen: true,
-            noCircle: noCircle ? noCircle : false,
+            noCircle: noCircle ?? false,
           };
         }
         const currentStop = getCurrentKeyStop(root, relayEnvironment);
@@ -852,6 +852,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           }
         } else {
           if (stop?.id === "comments-loadAll") {
+            return false;
+          }
+          if (!commentsFullyLoaded) {
+            await traverse(config);
+          } else {
             return false;
           }
         }
@@ -947,6 +952,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       viewNewCount,
       findAndNavigateToNextUnseen,
       viewNewCountBeforeUnmarkAll,
+      setZKeyClickedButton,
+      commentsFullyLoaded,
     ]
   );
 
@@ -955,6 +962,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     source?: "keyboard" | "mobileToolbar";
   }>({ findAndNavigate: false });
 
+  // Once comments are fully loaded, if findAndNavigate was set (meaning Z key or next
+  // unread mobile button was pressed while comments were loading), then we find and
+  // navigate to the next unseen comment.
   useEffect(() => {
     if (commentsFullyLoaded && findAndNavigateAfterLoad.findAndNavigate) {
       findAndNavigateToNextUnseen(undefined, findAndNavigateAfterLoad.source);

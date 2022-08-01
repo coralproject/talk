@@ -243,9 +243,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
 
   const onNewRepliesLoading = useCallback(
     (commentID: string) => {
-      const initialNewRepliesLoading = newRepliesLoading
-        ? newRepliesLoading
-        : { commentIDs: [] };
+      const initialNewRepliesLoading = newRepliesLoading ?? { commentIDs: [] };
       setLocal({
         newRepliesLoading: {
           commentIDs: initialNewRepliesLoading.commentIDs.concat([commentID]),
