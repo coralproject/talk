@@ -106,7 +106,10 @@ import {
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
-import { sendConfirmationEmail } from "coral-server/services/users/auth";
+import {
+  sendConfirmationEmail,
+  validateRoleChange,
+} from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
@@ -780,8 +783,19 @@ export async function updateRole(
   userID: string,
   role: GQLUSER_ROLE
 ) {
-  if (viewer.id === userID) {
-    throw new Error("cannot update your own user role");
+  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (fullViewer === null) {
+    throw new UserNotFoundError(viewer.id);
+  }
+  if (user === null) {
+    throw new UserNotFoundError(userID);
+  }
+
+  const validUpdate = validateRoleChange(fullViewer, user, role);
+
+  if (!validUpdate) {
+    throw new UserForbiddenError("TODO: reason", "user", "updateRole");
   }
 
   return updateUserRole(mongo, tenant.id, userID, role);

@@ -5,9 +5,9 @@ import {
   createSiteFixture,
   createTenantFixture,
 } from "../../test/fixtures";
+import { UserForbiddenError } from "coral-server/errors";
 import { createMockMongoContex } from "coral-server/test/mocks";
 import { updateRole } from "./users";
-import { seenComments } from "../mongodb/collections";
 
 jest.mock("coral-server/models/user");
 
@@ -75,6 +75,7 @@ const inputStr = (
   `viewer role = ${viewerRole}, user from role = ${userFromRole},  userToRole = ${userToRole}`;
 
 describe("updateRole", () => {
+  // TODO: fix this naming
   let mongoCtx: ReturnType<typeof createMockMongoContex>;
 
   /* eslint-disable-next-line */
@@ -138,6 +139,53 @@ describe("updateRole", () => {
     }
   });
 
+  it("TODO: is this ok?! allows organization moderators to allocate site mods", async () => {
+    const nonMods = [site1Staff, site1Member, site1Commenter];
+    for (const user of nonMods) {
+      const res = await uut(
+        mongoCtx.ctx,
+        tenant,
+        orgMod,
+        user.id,
+        GQLUSER_ROLE.MODERATOR,
+      );
+
+      expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
+    }
+  });
+
+  it("does not allow site mods, staff, members, or commenters to change anyones role", async () => {
+    const cannotChangeRoles = [site1Mod, site1Staff, site1Member, site1Commenter];
+    for (const viewer of cannotChangeRoles) {
+      const otherUsers = users.filter(({ id }) => id !== viewer.id);
+      for (const user of otherUsers) {
+        for (const role of ROLES) {
+          await expect(
+            async () => {
+              await uut(
+                mongoCtx.ctx,
+                tenant,
+                viewer,
+                user.id,
+                role,
+              );
+            }
+          ).rejects.toThrow(UserForbiddenError);
+        }
+      }
+    }
+  });
+
+  it("does not allow users to change their own role", async () => {
+    for (const user of users) {
+      for (const role of ROLES) {
+        await expect(
+          async () => await uut(mongoCtx.ctx, tenant, user, user.id, role)
+        ).rejects.toThrow(UserForbiddenError);
+      }
+    }
+  });
+
   /**
    * IMPORTANT: this must be the last test in the suite!!!
    */
@@ -152,13 +200,7 @@ describe("updateRole", () => {
       "temp.json",
       JSON.stringify(unseenInputs, null, 2)
     );
-    expect(unseenInputs.length).toEqual(0);
+
     expect(unseenInputs).toEqual([]);
-    if (unseenInputs.length > 0) {
-      throw new Error(`
-      User permissions not exhaustively tested. Did not see:
-      ${unseenInputs.join("\n")}
-      `);
-    }
   });
 });
