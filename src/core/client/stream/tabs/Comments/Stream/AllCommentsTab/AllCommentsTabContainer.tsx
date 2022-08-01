@@ -313,13 +313,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <KeyboardShortcuts
-        loggedIn={!!viewer}
-        storyID={story.id}
-        currentScrollRef={currentScrollRef}
-        comments={comments}
-        viewNewCount={viewNewCount}
-      />
+      {!!viewer && (
+        <KeyboardShortcuts
+          storyID={story.id}
+          currentScrollRef={currentScrollRef}
+          comments={comments}
+          viewNewCount={viewNewCount}
+        />
+      )}
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
           rating={ratingFilter}
@@ -338,6 +339,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             aria-controls="comments-allComments-log"
             data-key-stop
             data-is-load-more
+            data-is-view-new
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
