@@ -68,6 +68,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     [updateUserMembershipScopes, user.id]
   );
 
+  /**
+   * Q: MMODERATOR can changeRole requires there be further restrictions on
+   * how they can changeRole (they cant make them an admin). Are there other
+   * roles for which this is true? I think a staff member can assign sites to
+   * an existing site mod, but not make them a mod? is that true?
+   */
   const canChangeRole =
     viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
 

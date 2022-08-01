@@ -9086,7 +9086,7 @@ type Mutation {
   updateUserRole will update a given User's role.
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   promoteModerator will allow the viewer to add one or many scopes that applies to
@@ -9126,7 +9126,7 @@ type Mutation {
   """
   updateUserModerationScopes(
     input: UpdateUserModerationScopesInput!
-  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
+  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
   updateUserMembershipScopes will update the membership scopes for a given user.
