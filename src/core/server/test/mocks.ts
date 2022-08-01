@@ -4,6 +4,7 @@ import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 
 const createMockCollection = () => ({
   findOneAndUpdate: jest.fn(),
+  findOne: jest.fn(),
 });
 
 /* eslint-disable */
