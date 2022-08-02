@@ -389,7 +389,6 @@ const enhanced = withFragmentContainer<Props>({
       rte {
         ...RTEContainer_config
       }
-      featureFlags
     }
   `,
   story: graphql`

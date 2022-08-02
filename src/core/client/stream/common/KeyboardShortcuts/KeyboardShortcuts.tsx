@@ -4,6 +4,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { Environment, graphql } from "react-relay";
@@ -324,26 +325,26 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     setViewNewCountBeforeUnmarkAll,
   ] = useState(viewNewCount);
 
+  const newCommentsAreStillMarkedUnseen = useMemo(() => {
+    const noNewCommentsHaveBeenMarkedSeenWithUnmarkAll =
+      viewNewCountBeforeUnmarkAll === 0;
+    const newCommentsHaveComeInSinceUnmarkAllWasPressed =
+      viewNewCountBeforeUnmarkAll > 0 &&
+      viewNewCount > viewNewCountBeforeUnmarkAll;
+    return (
+      viewNewCount > 0 &&
+      (noNewCommentsHaveBeenMarkedSeenWithUnmarkAll ||
+        newCommentsHaveComeInSinceUnmarkAllWasPressed)
+    );
+  }, [viewNewCount, viewNewCountBeforeUnmarkAll]);
+
   // Keeps the mobile toolbar button states updated whenever comments or the
   // viewNewCount changes
   useEffect(() => {
-    if (!commentsFullyLoaded) {
+    if (!commentsFullyLoaded || newCommentsAreStillMarkedUnseen) {
       if (disableUnreadButtons) {
         setDisableUnreadButtons(false);
         return;
-      }
-    }
-    if (viewNewCount > 0) {
-      if (viewNewCountBeforeUnmarkAll > 0) {
-        if (viewNewCount > viewNewCountBeforeUnmarkAll) {
-          setDisableUnreadButtons(false);
-          return;
-        }
-      } else {
-        if (disableUnreadButtons) {
-          setDisableUnreadButtons(false);
-          return;
-        }
       }
     }
     const unseenComment = comments.find((comment: Comment) => {
@@ -395,12 +396,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnreadButtons(true);
       }
     }
-  }, [
-    comments,
-    viewNewCount,
-    viewNewCountBeforeUnmarkAll,
-    commentsFullyLoaded,
-  ]);
+  }, [comments, newCommentsAreStillMarkedUnseen, commentsFullyLoaded]);
 
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
@@ -470,6 +466,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // If next unseen is a root comment, we can just scroll to it, set focus, and
       // mark it as seen.
       if (nextUnseen.isRoot) {
+        JumpToNextUnseenCommentEvent.emit(eventEmitter, {
+          source,
+        });
         scrollToComment(rootCommentElement);
         setFocusAndMarkSeen(nextUnseen.nodeID!);
       } else {
@@ -483,11 +482,17 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           // button, load all replies (traversal to next unseen comment will
           // be handled after the success event for all replies loading)
           if (nextUnseenKeyStop.isLoadMore) {
-            const prevStop = findPreviousKeyStop(root, nextUnseenKeyStop, {
-              skipLoadMore: true,
-            });
-            if (prevStop) {
-              setFocusAndMarkSeen(parseCommentElementID(prevStop.id));
+            const stopBeforeNextUnseen = findPreviousKeyStop(
+              root,
+              nextUnseenKeyStop,
+              {
+                skipLoadMore: true,
+              }
+            );
+            if (stopBeforeNextUnseen) {
+              setFocusAndMarkSeen(
+                parseCommentElementID(stopBeforeNextUnseen.id)
+              );
             }
             setZKeyClickedButton(true);
             nextUnseenKeyStop.element.click();
@@ -517,18 +522,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // If there are new comments via subscription, return next unseen with isNew
       // if there's no comment with traversal focus. Otherwise, set as the
       // loopBackAroundUnseenComment in case we loop back around looking for the next unseen.
-      if (viewNewCount > 0) {
-        if (
-          viewNewCountBeforeUnmarkAll === 0 ||
-          (viewNewCountBeforeUnmarkAll > 0 &&
-            viewNewCount > viewNewCountBeforeUnmarkAll)
-        ) {
-          if (!commentWithTraversalFocus) {
-            nextUnseenComment = { isNew: true, isRoot: true };
-            return nextUnseenComment;
-          } else {
-            loopBackAroundUnseenComment = { isNew: true, isRoot: true };
-          }
+      if (newCommentsAreStillMarkedUnseen) {
+        if (!commentWithTraversalFocus) {
+          nextUnseenComment = { isNew: true, isRoot: true };
+          return nextUnseenComment;
+        } else {
+          loopBackAroundUnseenComment = { isNew: true, isRoot: true };
         }
       }
 
@@ -631,12 +630,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       });
       return nextUnseenExists ? nextUnseenComment : loopBackAroundUnseenComment;
     },
-    [
-      comments,
-      commentWithTraversalFocus,
-      viewNewCount,
-      viewNewCountBeforeUnmarkAll,
-    ]
+    [comments, commentWithTraversalFocus, newCommentsAreStillMarkedUnseen]
   );
 
   // Determine the next unseen comment and then scroll Virtuoso to its index,
@@ -1209,13 +1203,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       renderWindow.removeEventListener("keypress", handleWindowKeypress);
       root.removeEventListener("keypress", handleKeypress as any);
     };
-  }, [
-    handleKeypress,
-    handleWindowKeypress,
-    renderWindow,
-    root,
-    zKeyClickedButton,
-  ]);
+  }, [handleKeypress, handleWindowKeypress, renderWindow, root]);
 
   if (amp || toolbarClosed || !zKeyEnabled) {
     return null;

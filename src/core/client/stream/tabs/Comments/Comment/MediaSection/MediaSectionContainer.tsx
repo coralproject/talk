@@ -43,9 +43,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   `);
   const [isToggled, setIsToggled] = useState(false);
   const onToggleExpand = useCallback(() => {
-    const initialMediaSettings = expandedMediaSettings
-      ? expandedMediaSettings
-      : { commentIDs: [] };
+    const initialMediaSettings = expandedMediaSettings ?? { commentIDs: [] };
     const indexOfComment = initialMediaSettings.commentIDs.indexOf(comment.id);
     if (indexOfComment === -1) {
       setIsToggled(!defaultExpanded);
