@@ -120,9 +120,15 @@ export async function findOrCreate(
   if (wasUpserted) {
     logger.info(
       {
-        storyID: input.id,
-        storyURL: input.url,
-        storyMode: input.mode,
+        upserted: {
+          id: story.id,
+          url: story.url,
+        },
+        input: {
+          id: input.id,
+          url: input.url,
+          mode: input.mode,
+        },
       },
       "story upserted"
     );
