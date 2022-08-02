@@ -1,3 +1,4 @@
+import Logger from "bunyan";
 import { defaultTo, uniq } from "lodash";
 import { DateTime } from "luxon";
 
@@ -118,6 +119,15 @@ export async function findOrCreate(
   }
 
   if (wasUpserted) {
+    logger.info(
+      {
+        storyID: story.id,
+        storyURL: story.url,
+        siteID: story.siteID,
+      },
+      "story upserted"
+    );
+
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,
