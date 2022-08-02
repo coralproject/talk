@@ -1,4 +1,3 @@
-import Logger from "bunyan";
 import { defaultTo, uniq } from "lodash";
 import { DateTime } from "luxon";
 
