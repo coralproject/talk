@@ -252,7 +252,6 @@ describe("updateUserBan", () => {
     expect(rejector.add).toHaveBeenCalledTimes(1);
   });
 });
-
 describe("updateRole", () => {
   afterEach(jest.clearAllMocks);
 

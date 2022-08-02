@@ -8,16 +8,11 @@ import {
 import { UserForbiddenError } from "coral-server/errors";
 import { createMockMongoContex } from "coral-server/test/mocks";
 import { updateRole } from "./users";
+import { MongoContext } from "coral-server/data/context";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
 
 jest.mock("coral-server/models/user");
-
-
-/**
- * Values:
- * - viewerRole: GQLUUSER_ROLEs
- * - userFromRole: GQLUSER_ROLEs
- * - userToRole: GQLUSER_ROLEs
- */
 
 const ROLES = Object.values(GQLUSER_ROLE);
 const tenant = createTenantFixture();
@@ -76,7 +71,7 @@ const inputStr = (
 
 describe("updateRole", () => {
   // TODO: fix this naming
-  let mongoCtx: ReturnType<typeof createMockMongoContex>;
+  let mongo: MongoContext;
 
   /* eslint-disable-next-line */
   require("coral-server/models/user").retrieveUser.mockImplementation(
@@ -89,28 +84,36 @@ describe("updateRole", () => {
     })
   );
 
-  let uut: typeof updateRole;
+  let uut: (
+    mongo: MongoContext,
+    tenant: Tenant,
+    viewer: User,
+    user: User,
+    role: GQLUSER_ROLE
+  ) => ReturnType<typeof updateRole>;
 
   const exhaustiveInputs = new Map<string, boolean>();
   beforeAll(() => {
+    ({ ctx: mongo } = createMockMongoContex());
+
+    // Wrapping our function to track what inputs have been tested
     uut = (
       mongo,
       tenant,
       viewer,
-      userID,
+      user,
       role,
     ) => {
       // TODO: improve this
       const inputHash = inputStr(
-        users.find(({ id }) => id === viewer.id)!.role,
-        users.find(({ id }) => id === userID)!.role,
+        viewer.role,
+        user.role,
         role,
       );
       exhaustiveInputs.set(inputHash, true);
 
-      return updateRole(mongo, tenant, viewer, userID, role);
+      return updateRole(mongo, tenant, viewer, user.id, role);
     }
-    mongoCtx = createMockMongoContex();
 
     for (const viewer of users) {
       for (const user of users) {
@@ -127,10 +130,10 @@ describe("updateRole", () => {
     for (const user of nonAdmins) {
       for (const role of ROLES) {
         const res = await uut(
-          mongoCtx.ctx,
+          mongo,
           tenant,
           admin,
-          user.id,
+          user,
           role,
         );
 
@@ -143,10 +146,10 @@ describe("updateRole", () => {
     const nonMods = [site1Staff, site1Member, site1Commenter];
     for (const user of nonMods) {
       const res = await uut(
-        mongoCtx.ctx,
+        mongo,
         tenant,
         orgMod,
-        user.id,
+        user,
         GQLUSER_ROLE.MODERATOR,
       );
 
@@ -163,10 +166,10 @@ describe("updateRole", () => {
           await expect(
             async () => {
               await uut(
-                mongoCtx.ctx,
+                mongo,
                 tenant,
                 viewer,
-                user.id,
+                user,
                 role,
               );
             }
@@ -180,7 +183,7 @@ describe("updateRole", () => {
     for (const user of users) {
       for (const role of ROLES) {
         await expect(
-          async () => await uut(mongoCtx.ctx, tenant, user, user.id, role)
+          async () => await uut(mongo, tenant, user, user, role)
         ).rejects.toThrow(UserForbiddenError);
       }
     }
