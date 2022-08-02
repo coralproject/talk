@@ -197,10 +197,6 @@ describe("updateRole", () => {
         unseenInputs.push(inputHash);
       }
     }
-    require("fs").writeFileSync(
-      "temp.json",
-      JSON.stringify(unseenInputs, null, 2)
-    );
 
     expect(unseenInputs).toEqual([]);
   });
