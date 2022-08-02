@@ -70,7 +70,6 @@ const inputStr = (
   `viewer role = ${viewerRole}, user from role = ${userFromRole},  userToRole = ${userToRole}`;
 
 describe("updateRole", () => {
-  // TODO: fix this naming
   let mongo: MongoContext;
 
   /* eslint-disable-next-line */
@@ -104,7 +103,6 @@ describe("updateRole", () => {
       user,
       role,
     ) => {
-      // TODO: improve this
       const inputHash = inputStr(
         viewer.role,
         user.role,
