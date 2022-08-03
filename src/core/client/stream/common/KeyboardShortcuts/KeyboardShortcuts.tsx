@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { Environment, graphql } from "react-relay";
 
+import { waitFor } from "coral-common/helpers";
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
@@ -15,31 +16,33 @@ import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
-import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
+import CLASSES from "coral-stream/classes";
 import {
   CloseMobileToolbarEvent,
   JumpToNextCommentEvent,
   JumpToNextUnseenCommentEvent,
   JumpToPreviousCommentEvent,
   JumpToPreviousUnseenCommentEvent,
+  LoadMoreAllCommentsEvent,
   ShowAllRepliesEvent,
   UnmarkAllEvent,
-  ViewNewRepliesNetworkEvent,
+  ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
 import MarkCommentsAsSeenMutation from "coral-stream/tabs/Comments/Comment/MarkCommentsAsSeenMutation";
 import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseCommentElementID";
-import { useCommentSeenEnabled } from "coral-stream/tabs/Comments/commentSeen/";
+import {
+  COMMIT_SEEN_EVENT,
+  useCommentSeenEnabled,
+} from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
-import { NextUnseenComment } from "coral-stream/tabs/Comments/Stream/AllCommentsTab/AllCommentsTabVirtualizedComments";
 import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { KeyboardShortcuts_local } from "coral-stream/__generated__/KeyboardShortcuts_local.graphql";
 
-import scrollToBeginning from "../scrollToBeginning";
 import MobileToolbar from "./MobileToolbar";
 import { SetTraversalFocus } from "./SetTraversalFocus";
 
@@ -48,8 +51,6 @@ import styles from "./KeyboardShortcuts.css";
 interface Props {
   loggedIn: boolean;
   storyID: string;
-  currentScrollRef: any;
-  nextUnseenComment: NextUnseenComment | null;
 }
 
 export interface KeyboardEventData {
@@ -72,7 +73,6 @@ interface TraverseOptions {
   noCircle?: boolean;
   skipSeen?: boolean;
   skipLoadMore?: boolean;
-  skipNonLoadMoreOrViewNew?: boolean;
 }
 
 const toKeyStop = (element: HTMLElement): KeyStop => {
@@ -92,12 +92,6 @@ const matchTraverseOptions = (stop: KeyStop, options: TraverseOptions) => {
   if (options.skipSeen && !stop.notSeen && !stop.isLoadMore) {
     return false;
   }
-  if (
-    options.skipNonLoadMoreOrViewNew &&
-    !(stop.isLoadMore || stop.isViewNew)
-  ) {
-    return false;
-  }
   return true;
 };
 
@@ -107,6 +101,12 @@ const getKeyStops = (root: ShadowRoot | Document) => {
     .querySelectorAll<HTMLElement>("[data-key-stop]")
     .forEach((el) => stops.push(toKeyStop(el)));
   return stops;
+};
+
+const shouldDisableUnmarkAll = (root: ShadowRoot | Document) => {
+  return (
+    root.querySelector<HTMLElement>(`.${CLASSES.comment.notSeen}`) === null
+  );
 };
 
 const getFirstKeyStop = (stops: KeyStop[], options: TraverseOptions = {}) => {
@@ -146,8 +146,7 @@ const getCurrentKeyStop = (
 const findNextKeyStop = (
   root: ShadowRoot | Document,
   currentStop: KeyStop | null,
-  options: TraverseOptions = {},
-  currentScrollRef?: any
+  options: TraverseOptions = {}
 ): KeyStop | null => {
   const stops = getKeyStops(root);
   if (stops.length === 0) {
@@ -180,23 +179,6 @@ const findNextKeyStop = (
 
   // We couldn't find your current element to get the next one! Go to the first
   // stop.
-  if (currentScrollRef) {
-    currentScrollRef.current.scrollIntoView({
-      align: "center",
-      index: 0,
-      behavior: "auto",
-      done: () => {
-        setTimeout(() => {
-          const newStops = getKeyStops(root);
-          const firstKeyStop = getFirstKeyStop(newStops, options);
-          if (firstKeyStop) {
-            firstKeyStop.element.focus();
-          }
-        }, 0);
-      },
-    });
-    return null;
-  }
   return getFirstKeyStop(stops, options);
 };
 
@@ -239,17 +221,54 @@ const findPreviousKeyStop = (
   return getLastKeyStop(stops, options);
 };
 
-const loadMoreRepliesEvents = [
+const NextUnread = (
+  <Localized id="comments-mobileToolbar-nextUnread">
+    <span>Next unread</span>
+  </Localized>
+);
+
+const getNextAction = (
+  root: ShadowRoot | Document,
+  relayEnvironment: Environment,
+  options: TraverseOptions = {}
+) => {
+  const currentStop = getCurrentKeyStop(root, relayEnvironment);
+  const next = findNextKeyStop(root, currentStop, options);
+  if (next) {
+    if (next.isLoadMore) {
+      return {
+        element: NextUnread,
+        disabled: Boolean((next.element as HTMLInputElement).disabled),
+      };
+    } else {
+      return {
+        element: NextUnread,
+        disabled: false,
+      };
+    }
+  }
+  return null;
+};
+
+// Every time one of these events happen, we update
+// the button state.
+const eventsOfInterest = [
+  "mutation.viewNew",
+  "mutation.SetTraversalFocus",
+  "subscription.subscribeToCommentEntered.data",
   ShowAllRepliesEvent.nameSuccess,
-  ViewNewRepliesNetworkEvent.nameSuccess,
+  LoadMoreAllCommentsEvent.nameSuccess,
+  ViewNewCommentsNetworkEvent.nameSuccess,
+  COMMIT_SEEN_EVENT,
 ];
 
-const KeyboardShortcuts: FunctionComponent<Props> = ({
-  loggedIn,
-  storyID,
-  currentScrollRef,
-  nextUnseenComment,
-}) => {
+const loadMoreEvents = [
+  ShowAllRepliesEvent.nameSuccess,
+  LoadMoreAllCommentsEvent.nameSuccess,
+  ViewNewCommentsNetworkEvent.nameSuccess,
+];
+
+const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
   const {
     relayEnvironment,
     renderWindow,
@@ -266,50 +285,76 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const markSeen = useMutation(MarkCommentsAsSeenMutation);
   const [, setLocal] = useLocal<KeyboardShortcuts_local>(graphql`
     fragment KeyboardShortcuts_local on Local {
-      commentWithTraversalFocus
       keyboardShortcutsConfig {
         key
         source
         reverse
       }
-      loadAllReplies
-      zKeyClickedLoadAll
+      showCommentIDs
     }
   `);
   const amp = useAMP();
   const zKeyEnabled = useZKeyEnabled();
   const commentSeenEnabled = useCommentSeenEnabled();
 
-  const [disableUnreadButtons, setDisableUnreadButtons] = useState<boolean>(
-    true
+  const [nextZAction, setNextZAction] = useState<React.ReactChild | null>(
+    NextUnread
   );
+  const [disableZAction, setDisableZAction] = useState<boolean>(true);
+  const [disableUnmarkAction, setDisableUnmarkAction] = useState<boolean>(true);
 
   const updateButtonStates = useCallback(() => {
-    if (!nextUnseenComment) {
-      if (!disableUnreadButtons) {
-        setDisableUnreadButtons(true);
+    const nextAction = getNextAction(root, relayEnvironment, {
+      skipSeen: true,
+    });
+    if (!nextAction) {
+      if (!disableZAction) {
+        setDisableZAction(true);
       }
-    } else {
-      if (disableUnreadButtons) {
-        setDisableUnreadButtons(false);
+      if (!disableUnmarkAction) {
+        setDisableUnmarkAction(true);
       }
+      return;
     }
-  }, [disableUnreadButtons, nextUnseenComment]);
+    if (nextAction.element !== nextZAction) {
+      setNextZAction(nextAction.element);
+    }
+    if (nextAction.disabled !== disableZAction) {
+      setDisableZAction(nextAction.disabled);
+    }
+    if (shouldDisableUnmarkAll(root) !== disableUnmarkAction) {
+      setDisableUnmarkAction(!disableUnmarkAction);
+    }
+  }, [
+    disableUnmarkAction,
+    disableZAction,
+    nextZAction,
+    relayEnvironment,
+    root,
+  ]);
 
   const unmarkAll = useCallback(
     (config: { source: "keyboard" | "mobileToolbar" }) => {
       UnmarkAllEvent.emit(eventEmitter, { source: config.source });
-      void markSeen({
-        storyID,
-        commentIDs: [],
-        updateSeen: true,
-        markAllAsSeen: true,
+
+      // eslint-disable-next-line no-restricted-globals
+      const notSeenComments = root.querySelectorAll<HTMLElement>(
+        "[data-not-seen=true]"
+      );
+      const commentIDs: string[] = [];
+      notSeenComments.forEach((c) => {
+        const id = c.getAttribute("id")?.replace("comment-", "");
+        if (id) {
+          commentIDs.push(id);
+        }
       });
-      if (!disableUnreadButtons) {
-        setDisableUnreadButtons(true);
+
+      void markSeen({ storyID, commentIDs, updateSeen: true });
+      if (!disableUnmarkAction) {
+        setDisableUnmarkAction(true);
       }
     },
-    [disableUnreadButtons, eventEmitter, markSeen, storyID]
+    [disableUnmarkAction, eventEmitter, markSeen, storyID]
   );
 
   const handleUnmarkAllButton = useCallback(() => {
@@ -321,9 +366,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     CloseMobileToolbarEvent.emit(eventEmitter);
   }, [eventEmitter, setToolbarClosed]);
 
-  // Traverse is used for C key traversal and for Z key traversal after more replies
-  // are loaded in and those events are successfully triggered (to navigate to the next unseen
-  // new reply after where the Load / View more buttons were).
   const traverse = useCallback(
     (config: {
       key: "z" | "c";
@@ -343,12 +385,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         if (config.reverse) {
           stop = findPreviousKeyStop(root, currentStop, traverseOptions);
         } else {
-          stop = findNextKeyStop(
-            root,
-            currentStop,
-            traverseOptions,
-            currentScrollRef
-          );
+          stop = findNextKeyStop(root, currentStop, traverseOptions);
         }
       }
 
@@ -420,222 +457,16 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       renderWindow,
       setTraversalFocus,
       zKeyEnabled,
-      currentScrollRef,
     ]
   );
 
-  const setFocusAndMarkSeen = useCallback(
-    (commentID: string) => {
-      void setTraversalFocus({
-        commentID,
-        commentSeenEnabled,
-      });
-      void markSeen({
-        storyID,
-        commentIDs: [commentID],
-        updateSeen: true,
-      });
-    },
-    [setTraversalFocus, markSeen, commentSeenEnabled, storyID]
-  );
-
-  const scrollToComment = useCallback(
-    (comment) => {
-      const offset =
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        comment.getBoundingClientRect().top + renderWindow.pageYOffset - 150;
-      setTimeout(() => renderWindow.scrollTo({ top: offset }), 0);
-    },
-    [renderWindow]
-  );
-
-  // If the next unseen comment is a reply, then this finds that comment beneath
-  // its Virtuoso index root comment. If the next unseen is behind a Show more or
-  // View new comments button, then this clicks that button and loads in the needed
-  // replies. Once the comment is found, focus is set and the comment is marked as seen.
-  const findCommentAndSetFocus = useCallback(
-    (nextUnseen, isRootComment, rootCommentElement) => {
-      // If next unseen is a root comment, we can just scroll to it, set focus, and
-      // mark it as seen.
-      if (isRootComment) {
-        scrollToComment(rootCommentElement);
-        setFocusAndMarkSeen(nextUnseen.commentID!);
-      } else {
-        const nextUnseenReply = root.getElementById(
-          computeCommentElementID(nextUnseen.commentID!)
-        );
-
-        // Once root comment is available, check to see if the next unseen
-        // reply comment is found already in the DOM.
-        // If so, we scroll to it, set focus, and mark as seen.
-        if (nextUnseenReply) {
-          scrollToComment(nextUnseenReply);
-          setFocusAndMarkSeen(nextUnseen.commentID!);
-          // If the next unseen reply comment is not found in the DOM, that means
-          // we need to load more comments to find it.
-        } else {
-          const rootKeyStop = toKeyStop(rootCommentElement);
-
-          // Find the next Load more button or View new replies button.
-          const nextLoadMoreOrViewNewKeyStop = findNextKeyStop(
-            root,
-            rootKeyStop,
-            {
-              skipNonLoadMoreOrViewNew: true,
-            }
-          );
-          if (nextLoadMoreOrViewNewKeyStop) {
-            const prevStop = findPreviousKeyStop(
-              root,
-              nextLoadMoreOrViewNewKeyStop,
-              {
-                skipLoadMore: true,
-              }
-            );
-
-            // Set focus to the comment before the Load/View more button
-            // while more replies are being loaded in.
-            if (prevStop) {
-              setFocusAndMarkSeen(parseCommentElementID(prevStop.id));
-            }
-
-            // We have to set load all replies to the comment id to load
-            // more replies for to make sure that we load after Virtuoso has
-            // remounted the reply list component after scrolling.
-            // New replies are actually loaded by ReplyListContainer, and then
-            // the next unseen reply is traversed to after the success of the
-            // Load More replies or View New replies events.
-            if (nextLoadMoreOrViewNewKeyStop.isViewNew) {
-              setTimeout(
-                () =>
-                  setLocal({
-                    loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(42),
-                  }),
-                0
-              );
-            } else {
-              setTimeout(
-                () =>
-                  setLocal({
-                    loadAllReplies: nextLoadMoreOrViewNewKeyStop.id.substr(34),
-                  }),
-                0
-              );
-            }
-          }
-        }
-      }
-    },
-    [root, setFocusAndMarkSeen, setLocal, scrollToComment]
-  );
-
-  const handleZKeyPress = useCallback(
-    async (source: "keyboard" | "mobileToolbar") => {
-      // If a Load all comments button is currently displayed, but the next
-      // unseen comment is at a Virtuoso index greater than the initial number
-      // of comments we display, we need to hide the button and show those comments
-      // so we can scroll to that next unseen.
-      if (
-        nextUnseenComment &&
-        nextUnseenComment.index &&
-        nextUnseenComment.index >= NUM_INITIAL_COMMENTS
-      ) {
-        setLocal({ zKeyClickedLoadAll: true });
-      }
-      // If we need to load new comments that entered via subscription,
-      // we scroll to the top of the comments, click the view new comments
-      // button, and then set focus and mark as seen the next unseen comment.
-      if (nextUnseenComment?.needToLoadNew) {
-        scrollToBeginning(root, renderWindow);
-        const viewNewCommentsButton = root.getElementById(
-          "comments-allComments-viewNewButton"
-        );
-        if (viewNewCommentsButton) {
-          viewNewCommentsButton.click();
-          setFocusAndMarkSeen(nextUnseenComment.commentID!);
-        }
-      }
-
-      const isRootComment =
-        nextUnseenComment?.commentID === nextUnseenComment?.rootCommentID;
-
-      // Scroll to the Virtuoso index for the next unseen comment!
-      // (unless we are already on that index, then don't scroll again)
-      // Then find the next unseen comment and set traversal focus to it.
-      if (
-        nextUnseenComment &&
-        nextUnseenComment.commentID &&
-        nextUnseenComment.rootCommentID &&
-        (nextUnseenComment.index || nextUnseenComment.index === 0)
-      ) {
-        JumpToNextUnseenCommentEvent.emit(eventEmitter, {
-          source,
-        });
-        // Check if next unseen comment is already loaded up in virtuoso.
-        // if it is, we can just find the comment, scroll to it, set focus to it,
-        // and mark it as seen.
-        const nextUnseenInRoot = root.getElementById(
-          computeCommentElementID(nextUnseenComment.rootCommentID)
-        );
-        if (nextUnseenInRoot) {
-          findCommentAndSetFocus(
-            nextUnseenComment,
-            isRootComment,
-            nextUnseenInRoot
-          );
-        } else {
-          currentScrollRef.current.scrollIntoView({
-            align: "center",
-            index: nextUnseenComment.index,
-            behavior: "auto",
-            done: () => {
-              // After Virtuoso scrolls, we have to make sure the root comment
-              // is available before setting focus to it or one of its replies.
-              let count = 0;
-              const rootCommentElementExists = setInterval(async () => {
-                count += 1;
-                const rootCommentElement = root.getElementById(
-                  computeCommentElementID(nextUnseenComment.rootCommentID!)
-                );
-                if (
-                  rootCommentElement !== undefined &&
-                  rootCommentElement !== null
-                ) {
-                  clearInterval(rootCommentElementExists);
-                  if (rootCommentElement) {
-                    // Once we've found the root comment element in the DOM,
-                    // we can find the next unseen comment, scroll to it, set focus,
-                    // and mark it as seen.
-                    findCommentAndSetFocus(
-                      nextUnseenComment,
-                      isRootComment,
-                      rootCommentElement
-                    );
-                  }
-                }
-                if (count > 10) {
-                  clearInterval(rootCommentElementExists);
-                }
-              }, 100);
-            },
-          });
-        }
-      }
-    },
-    [
-      root,
-      renderWindow,
-      eventEmitter,
-      findCommentAndSetFocus,
-      nextUnseenComment,
-      currentScrollRef,
-      setFocusAndMarkSeen,
-      setLocal,
-    ]
-  );
+  const toggleShowCommentIDs = useCallback(() => {
+    const showCommentIDs = !!lookup(relayEnvironment, LOCAL_ID).showCommentIDs;
+    setLocal({ showCommentIDs: !showCommentIDs });
+  }, [relayEnvironment, setLocal]);
 
   const handleKeypress = useCallback(
-    async (event: React.KeyboardEvent | KeyboardEvent | string) => {
+    (event: React.KeyboardEvent | KeyboardEvent | string) => {
       let data: KeyboardEventData;
       try {
         if (typeof event === "string") {
@@ -658,6 +489,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
 
+      const pressedKey = data.key.toLocaleLowerCase();
+
+      // Alt + H
+      if (data.altKey && pressedKey === "˙") {
+        toggleShowCommentIDs();
+      }
+
       if (data.ctrlKey || data.metaKey || data.altKey) {
         return;
       }
@@ -667,13 +505,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return;
       }
 
-      const pressedKey = data.key.toLocaleLowerCase();
       if (pressedKey === "a" && data.shiftKey) {
         unmarkAll({ source: "keyboard" });
         return;
       }
 
-      if (pressedKey === "c") {
+      if (pressedKey === "c" || (pressedKey === "z" && zKeyEnabled)) {
         setLocal({
           keyboardShortcutsConfig: {
             key: pressedKey,
@@ -687,26 +524,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           source: "keyboard",
         });
       }
-      if (pressedKey === "z" && zKeyEnabled) {
-        setLocal({
-          keyboardShortcutsConfig: {
-            key: pressedKey,
-            reverse: false,
-            source: "keyboard",
-          },
-        });
-        void handleZKeyPress("keyboard");
-      }
     },
-    [
-      renderWindow,
-      root,
-      setLocal,
-      traverse,
-      unmarkAll,
-      zKeyEnabled,
-      handleZKeyPress,
-    ]
+    [renderWindow, root, setLocal, traverse, unmarkAll, zKeyEnabled]
   );
 
   const handleWindowKeypress = useCallback(
@@ -730,38 +549,45 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         source: "mobileToolbar",
       },
     });
-    void handleZKeyPress("mobileToolbar");
-  }, [setLocal, handleZKeyPress]);
+    traverse({ key: "z", reverse: false, source: "mobileToolbar" });
+  }, [setLocal, traverse]);
 
-  // Update button states after first render and
-  // whenever the next unseen comment updates.
+  // Update button states after first render.
   useEffect(() => {
     updateButtonStates();
-  }, [nextUnseenComment, updateButtonStates]);
+  }, [updateButtonStates]);
 
-  // Traverse to next comment/reply after loading more/new comments and replies
+  // Update button states after certain events.
+  // Also traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
     const listener: ListenerFn = async (e, data) => {
-      if (loadMoreRepliesEvents.includes(e)) {
+      if (!eventsOfInterest.includes(e)) {
+        return;
+      }
+
+      if (loadMoreEvents.includes(e)) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
         // instead of waiting for polling to update it
         eventEmitter.emit("heightChange");
 
-        // After more replies have loaded, we traverse
-        // to the next reply based on the configuration.
-        // Focus has already been set to the comment/reply that is directly
-        // before the next unseen that we want to end up on.
+        // after more comments/replies have loaded, we want to traverse
+        // to the next comment/reply based on the configuration
         if (data.keyboardShortcutsConfig) {
           traverse(data.keyboardShortcutsConfig);
         }
       }
+
+      // Wait until current renderpass finishes.
+      // TODO: (cvle) revisit whenever we do async rendering.
+      await waitFor(50);
+      updateButtonStates();
     };
     eventEmitter.onAny(listener);
     return () => {
       eventEmitter.offAny(listener);
     };
-  }, [eventEmitter, traverse, commentSeenEnabled]);
+  }, [eventEmitter, traverse, updateButtonStates]);
 
   // Subscribe to keypress events.
   useEffect(() => {
@@ -792,7 +618,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   variant="text"
                   size="large"
                   uppercase={false}
-                  disabled={disableUnreadButtons}
+                  disabled={disableUnmarkAction}
                   onClick={handleUnmarkAllButton}
                   classes={{
                     variantText: styles.button,
@@ -802,7 +628,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 >
                   <ButtonIcon>done_all</ButtonIcon>
                   <Localized id="comments-mobileToolbar-unmarkAll">
-                    <span>Unmark all</span>
+                    <span>Mark all as read</span>
                   </Localized>
                 </Button>
               </div>
@@ -811,7 +637,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   variant="text"
                   size="large"
                   uppercase={false}
-                  disabled={disableUnreadButtons}
+                  disabled={disableZAction}
                   classes={{
                     variantText: styles.button,
                     disabled: styles.buttonDisabled,
@@ -819,9 +645,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   }}
                   onClick={handleZKeyButton}
                 >
-                  <Localized id="comments-mobileToolbar-nextUnread">
-                    <span>Next unread</span>
-                  </Localized>
+                  {nextZAction}
                   <ButtonIcon>skip_next</ButtonIcon>
                 </Button>
               </div>

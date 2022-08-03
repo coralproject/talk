@@ -3,7 +3,7 @@
 exports[`renders approved correctly 1`] = `
 <ForwardRef(forwardRef)
   className="ModerateCard-root"
-  data-testid="moderate-comment-comment-id"
+  data-testid="moderate-comment-card-comment-id"
   id="moderate-comment-comment-id"
   onClick={[Function]}
   tabIndex={0}
@@ -133,7 +133,7 @@ exports[`renders approved correctly 1`] = `
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   className="ModerateCard-root"
-  data-testid="moderate-comment-comment-id"
+  data-testid="moderate-comment-card-comment-id"
   id="moderate-comment-comment-id"
   onClick={[Function]}
   tabIndex={0}
@@ -262,7 +262,7 @@ exports[`renders correctly 1`] = `
 exports[`renders dangling correctly 1`] = `
 <ForwardRef(forwardRef)
   className="ModerateCard-root ModerateCard-dangling"
-  data-testid="moderate-comment-comment-id"
+  data-testid="moderate-comment-card-comment-id"
   id="moderate-comment-comment-id"
   onClick={[Function]}
   tabIndex={0}
@@ -393,7 +393,7 @@ exports[`renders dangling correctly 1`] = `
 exports[`renders rejected correctly 1`] = `
 <ForwardRef(forwardRef)
   className="ModerateCard-root"
-  data-testid="moderate-comment-comment-id"
+  data-testid="moderate-comment-card-comment-id"
   id="moderate-comment-comment-id"
   onClick={[Function]}
   tabIndex={0}
@@ -523,7 +523,7 @@ exports[`renders rejected correctly 1`] = `
 exports[`renders reply correctly 1`] = `
 <ForwardRef(forwardRef)
   className="ModerateCard-root"
-  data-testid="moderate-comment-comment-id"
+  data-testid="moderate-comment-card-comment-id"
   id="moderate-comment-comment-id"
   onClick={[Function]}
   tabIndex={0}
@@ -657,7 +657,7 @@ exports[`renders reply correctly 1`] = `
 exports[`renders story info 1`] = `
 <ForwardRef(forwardRef)
   className="ModerateCard-root"
-  data-testid="moderate-comment-comment-id"
+  data-testid="moderate-comment-card-comment-id"
   id="moderate-comment-comment-id"
   onClick={[Function]}
   tabIndex={0}
@@ -739,7 +739,9 @@ exports[`renders story info 1`] = `
         <ForwardRef(forwardRef)
           spacing={3}
         >
-          <div>
+          <div
+            data-testid="moderate-comment-storyInfo"
+          >
             <div
               className="ModerateCard-storyLabel"
             >
@@ -824,7 +826,7 @@ exports[`renders story info 1`] = `
 exports[`renders tombstoned when comment is deleted 1`] = `
 <ForwardRef(forwardRef)
   className="ModerateCard-root ModerateCard-deleted"
-  data-testid="moderate-comment-comment-id"
+  data-testid="moderate-comment-card-comment-id"
   id="moderate-comment-comment-id"
   onClick={[Function]}
   tabIndex={0}

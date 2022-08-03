@@ -223,7 +223,6 @@ export const Comments = (ctx: GraphContext) => ({
   markAsSeen: async ({
     commentIDs,
     storyID,
-    markAllAsSeen,
   }: WithoutMutationID<GQLMarkCommentsAsSeenInput>) => {
     if (ctx.user) {
       await markSeen(
@@ -232,8 +231,7 @@ export const Comments = (ctx: GraphContext) => ({
         storyID,
         ctx.user?.id,
         commentIDs,
-        ctx.now,
-        markAllAsSeen
+        ctx.now
       );
     }
 

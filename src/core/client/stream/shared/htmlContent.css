@@ -50,7 +50,7 @@ $commentsLinkColorHovered: var(--palette-primary-700);
     opacity: 1;
     color: var(--palette-text-900);
     background-color: transparent;
-    cursor: text;
+    cursor: inherit;
   }
   & :global(.coral-rte-sarcasm) {
     font-family: monospace;

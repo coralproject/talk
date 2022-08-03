@@ -6,23 +6,15 @@ interface Props {
   id?: string;
   url: string;
   siteID: string;
-  isToggled?: boolean;
 }
 
-const ExternalMedia: FunctionComponent<Props> = ({
-  id,
-  url,
-  siteID,
-  isToggled,
-}) => {
+const ExternalMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
   const component = encodeURIComponent(url);
   return (
     <Frame
       id={id}
       src={`/api/external-media?url=${component}&siteID=${siteID}`}
       sandbox
-      isToggled={isToggled}
-      type="external_media"
     />
   );
 };
