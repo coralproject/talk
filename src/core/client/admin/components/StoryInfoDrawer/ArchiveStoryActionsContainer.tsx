@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "relay-runtime";
 
-import { Ability, can } from "coral-admin/permissions";
+import { Ability, can } from "coral-admin/permissions/story";
 import {
   useLocal,
   useMutation,

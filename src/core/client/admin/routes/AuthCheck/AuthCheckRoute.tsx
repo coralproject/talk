@@ -8,7 +8,7 @@ import React, {
 import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
-import { AbilityType, can } from "coral-admin/permissions";
+import { canInGeneral, GeneralAbilityType } from "coral-admin/permissions";
 import { roleIsAtLeast } from "coral-framework/helpers";
 import { useMutation } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
@@ -27,11 +27,11 @@ interface Props {
 type CheckParams =
   | {
       role: GQLUSER_ROLE;
-      ability?: AbilityType;
+      ability?: GeneralAbilityType;
     }
   | {
       role?: GQLUSER_ROLE;
-      ability: AbilityType;
+      ability: GeneralAbilityType;
     };
 
 function createAuthCheckRoute(check: CheckParams) {
@@ -56,7 +56,7 @@ function createAuthCheckRoute(check: CheckParams) {
       if (viewer) {
         if (
           (check.role && !roleIsAtLeast(viewer.role, check.role)) ||
-          (check.ability && !can(viewer, check.ability))
+          (check.ability && !canInGeneral(viewer, check.ability))
         ) {
           return false;
         }

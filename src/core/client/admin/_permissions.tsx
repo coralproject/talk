@@ -30,7 +30,7 @@ const permissionMap: {
   CHANGE_CONFIGURATION: {
     [GQLUSER_ROLE.ADMIN]: () => true,
   },
-  // Mutation.updateUserRole\
+  // Mutation.updateUserRole
   CHANGE_ROLE: {
     [GQLUSER_ROLE.ADMIN]: () => true,
     [GQLUSER_ROLE.MODERATOR]: () => true,
@@ -51,7 +51,7 @@ const permissionMap: {
   },
   // Mutation.archiveStories, Mutation.unarchiveStories
   ARCHIVE_STORY: {
-    [GQLUSER_ROLE.ADMIN]: () => true,
+    [GQLUSER_ROLE.ADMIN]: () => false,
   },
 };
 
