@@ -113,6 +113,9 @@ extend type Local {
   loadAllButtonHasBeenClicked: Boolean
   # Whether all comments have finished loading for the stream yet or not.
   commentsFullyLoaded: Boolean
+  # If new comments have been added while in alternate oldest first view that need to
+  # be displayed.
+  oldestFirstNewCommentsToShow: String
   # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
   # media settings)
   expandedMediaSettings: ExpandedMediaSettings

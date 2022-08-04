@@ -28,6 +28,7 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
+import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
   LoadMoreAllCommentsEvent,
   ViewNewCommentsNetworkEvent,
@@ -76,7 +77,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const [
-    { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
+    {
+      commentsOrderBy,
+      ratingFilter,
+      keyboardShortcutsConfig,
+      oldestFirstNewCommentsToShow,
+    },
     setLocal,
   ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
@@ -89,6 +95,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           source
           reverse
         }
+        oldestFirstNewCommentsToShow
       }
     `
   );
@@ -255,7 +262,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const zKeyEnabled = useZKeyEnabled();
 
-  const { comments } = useMemo(() => {
+  const { comments, newCommentsLength } = useMemo(() => {
     let commentsWithIgnored = story.comments.edges;
 
     // If there is at least one ignored user, then we go through and add that information
@@ -308,8 +315,36 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         });
       }
     }
-    return { comments: commentsWithIgnored };
-  }, [story.comments.edges, viewer?.ignoredUsers, zKeyEnabled]);
+    // If in oldest first view, filter out new comments to show as they will
+    // be included in the stream at the bottom after initial number of comments.
+    // When the new comments are cleared on rerender, they will be shown in chronological position.
+    if (oldestFirstNewCommentsToShow) {
+      const newCommentsToShowIds = oldestFirstNewCommentsToShow.split(" ");
+      const commentsWithoutNew = commentsWithIgnored.filter(
+        (c) => !newCommentsToShowIds.includes(c.node.id)
+      );
+      const newComments = commentsWithIgnored.filter((c) =>
+        newCommentsToShowIds.includes(c.node.id)
+      );
+      commentsWithoutNew.splice(NUM_INITIAL_COMMENTS, 0, ...newComments);
+      return {
+        comments: commentsWithoutNew,
+        newCommentsLength: newComments.length,
+      };
+    }
+    return { comments: commentsWithIgnored, newCommentsLength: 0 };
+  }, [
+    story.comments.edges,
+    viewer?.ignoredUsers,
+    zKeyEnabled,
+    oldestFirstNewCommentsToShow,
+  ]);
+
+  useEffect(() => {
+    // on rerender, clear the newly added comments to display if it's
+    // alternate oldest view
+    setLocal({ oldestFirstNewCommentsToShow: "" });
+  }, []);
 
   return (
     <>
@@ -389,6 +424,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           currentScrollRef={currentScrollRef}
           commentsOrderBy={commentsOrderBy}
           comments={comments}
+          newCommentsLength={newCommentsLength}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks

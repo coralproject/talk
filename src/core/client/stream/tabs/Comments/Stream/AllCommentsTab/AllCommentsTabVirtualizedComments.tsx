@@ -32,6 +32,7 @@ interface Props {
   currentScrollRef: any;
   commentsOrderBy: COMMENT_SORT;
   comments: AllCommentsTabContainer_story["comments"]["edges"];
+  newCommentsLength: number;
 }
 
 // Virtuoso settings
@@ -49,6 +50,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   currentScrollRef,
   commentsOrderBy,
   comments,
+  newCommentsLength,
 }) => {
   const [
     {
@@ -217,7 +219,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
           bottom: increaseViewportBy,
         }}
         totalCount={
-          displayLoadAllButton ? NUM_INITIAL_COMMENTS : comments.length
+          displayLoadAllButton
+            ? NUM_INITIAL_COMMENTS + newCommentsLength
+            : comments.length
         }
         overscan={overscan}
         itemContent={useCallback(
