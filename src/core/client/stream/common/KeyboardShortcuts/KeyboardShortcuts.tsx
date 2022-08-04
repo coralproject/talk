@@ -1090,7 +1090,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       }
 
       if (pressedKey === "a" && data.shiftKey) {
-        unmarkAll({ source: "keyboard" });
+        await unmarkAll({ source: "keyboard" });
         return;
       }
 
