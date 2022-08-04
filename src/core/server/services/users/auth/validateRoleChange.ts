@@ -8,6 +8,9 @@ const validateModeratorRoleChange = (
   user: Readonly<User>,
   role: GQLUSER_ROLE
 ) => {
+  if (role === GQLUSER_ROLE.ADMIN && viewer.role !== GQLUSER_ROLE.ADMIN) {
+    return false;
+  }
   // Org mods may promote users to site moderators within their scope,
   // but only if the user < org mod
   const viewerIsOrgMod = !viewer.moderationScopes?.siteIDs?.length;
