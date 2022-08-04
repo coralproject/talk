@@ -11,7 +11,6 @@ import {
   commitMutationPromiseNormalized,
   createMutation,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 import {
   MarkCommentsAsSeenInput,
@@ -20,6 +19,7 @@ import {
 } from "coral-stream/__generated__/MarkCommentsAsSeenMutation.graphql";
 
 import { COMMIT_SEEN_EVENT, CommitSeenEventData } from "../commentSeen";
+
 const mutation = graphql`
   mutation MarkCommentsAsSeenMutation($input: MarkCommentsAsSeenInput!) {
     markCommentsAsSeen(input: $input) {
@@ -82,6 +82,7 @@ const enhanced = createMutation(
           commentIDs: input.commentIDs,
           markAllAsSeen: input.markAllAsSeen,
           updateSeen: input.updateSeen,
+          orderBy: input.orderBy,
           clientMutationId: clientMutationId.toString(),
         },
       },
@@ -100,11 +101,12 @@ const enhanced = createMutation(
             story,
             "Stream_comments",
             {
-              orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+              orderBy: input.orderBy,
             }
           )!;
-          const comments = connection.getLinkedRecords("edges");
-          const newComments = connection.getLinkedRecords("viewNewEdges") || [];
+          const comments = connection?.getLinkedRecords("edges");
+          const newComments =
+            connection?.getLinkedRecords("viewNewEdges") || [];
           const combinedComments = comments?.concat(newComments);
           if (combinedComments) {
             updateCommentsAndRepliesToSeen(combinedComments, store, input);

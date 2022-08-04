@@ -291,7 +291,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markSeen = useMutation(MarkCommentsAsSeenMutation);
   const [
-    { commentWithTraversalFocus, commentsFullyLoaded },
+    { commentWithTraversalFocus, commentsFullyLoaded, commentsOrderBy },
     setLocal,
   ] = useLocal<KeyboardShortcuts_local>(graphql`
     fragment KeyboardShortcuts_local on Local {
@@ -304,6 +304,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       loadAllButtonHasBeenClicked
       commentsFullyLoaded
       showCommentIDs
+      commentsOrderBy
     }
   `);
   const amp = useAMP();
@@ -399,17 +400,30 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   }, [comments, newCommentsAreStillMarkedUnseen, commentsFullyLoaded]);
 
   const unmarkAll = useCallback(
-    (config: { source: "keyboard" | "mobileToolbar" }) => {
+    async (config: { source: "keyboard" | "mobileToolbar" }) => {
       UnmarkAllEvent.emit(eventEmitter, { source: config.source });
       setViewNewCountBeforeUnmarkAll(viewNewCount);
-      void markSeen({
-        storyID,
-        commentIDs: [],
-        updateSeen: true,
-        markAllAsSeen: true,
-      });
+      try {
+        await markSeen({
+          storyID,
+          commentIDs: [],
+          updateSeen: true,
+          markAllAsSeen: true,
+          orderBy: commentsOrderBy,
+        });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
     },
-    [eventEmitter, markSeen, storyID, viewNewCount]
+    [
+      eventEmitter,
+      markSeen,
+      storyID,
+      viewNewCount,
+      setViewNewCountBeforeUnmarkAll,
+      commentsOrderBy,
+    ]
   );
 
   const handleUnmarkAllButton = useCallback(() => {

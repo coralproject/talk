@@ -8671,6 +8671,14 @@ input MarkCommentsAsSeenInput {
   """
   commentIDs: [ID!]!
 
+  """
+  orderBy is the current sort of comments in the stream.
+  """
+  orderBy: COMMENT_SORT
+
+  """
+  updateSeen is whether to update the comment(s) as seen.
+  """
   updateSeen: Boolean
 
   """
@@ -9350,7 +9358,9 @@ type Mutation {
   """
   testSMTP sends a test email.
   """
-  testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN]) @rate(seconds: 10)
+  testSMTP(input: TestSMTPInput!): TestSMTPPayload!
+    @auth(roles: [ADMIN])
+    @rate(seconds: 10)
 
   """
   reviewCommentFlag marks comment flag as reviewed
