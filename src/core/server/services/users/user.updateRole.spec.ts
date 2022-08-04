@@ -187,6 +187,18 @@ describe("updateRole", () => {
     }
   });
 
+  it("does not allow users < admin to allocate new admins", async () => {
+    const ltAdminUsers = users.filter(({ role }) => role !== GQLUSER_ROLE.ADMIN);
+    for (const user of ltAdminUsers) {
+      const otherUsers = users.filter(({ id }) => id !== user.id);
+      for (const otherUser of otherUsers) {
+        await expect(
+          async () => await uut(mongo, tenant, user, otherUser, GQLUSER_ROLE.ADMIN)
+        ).rejects.toThrow(UserForbiddenError);
+      }
+    }
+  })
+
   /**
    * IMPORTANT: this must be the last test in the suite!!!
    */
