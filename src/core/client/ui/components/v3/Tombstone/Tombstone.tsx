@@ -9,6 +9,7 @@ import styles from "./Tombstone.css";
 
 interface Props {
   classes: typeof styles;
+  id: string;
   className?: string;
   fullWidth?: boolean;
   noBottomBorder?: boolean;
@@ -19,6 +20,7 @@ const Tombstone: FunctionComponent<Props> = ({
   children,
   fullWidth,
   classes,
+  id,
   className,
   noBottomBorder,
   noWrapper,
@@ -32,10 +34,14 @@ const Tombstone: FunctionComponent<Props> = ({
   );
 
   return noWrapper ? (
-    <div className={rootClassName}>{children}</div>
+    <div className={rootClassName} id={id}>
+      {children}
+    </div>
   ) : (
     <TombstoneWrapper noBottomBorder={noBottomBorder}>
-      <div className={rootClassName}>{children}</div>
+      <div className={rootClassName} id={id}>
+        {children}
+      </div>
     </TombstoneWrapper>
   );
 };

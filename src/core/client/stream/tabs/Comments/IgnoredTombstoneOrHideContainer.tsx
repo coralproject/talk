@@ -15,6 +15,8 @@ import { Button, Tombstone } from "coral-ui/components/v3";
 import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
 import { IgnoredTombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
 
+import computeCommentElementID from "./Comment/computeCommentElementID";
+
 import styles from "./IgnoredTombstoneOrHideContainer.css";
 
 interface Props {
@@ -45,8 +47,14 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
     return <>{children}</>;
   }
 
+  const commentElementID = computeCommentElementID(comment.id);
+
   return (
-    <Tombstone className={CLASSES.ignoredTombstone} fullWidth>
+    <Tombstone
+      className={CLASSES.ignoredTombstone}
+      id={commentElementID}
+      fullWidth
+    >
       <Flex alignItems="center" justifyContent="center" itemGutter>
         <Localized id="comments-tombstone-ignore-user">
           <div>This comment is hidden because you ignored this user.</div>
@@ -87,6 +95,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   comment: graphql`
     fragment IgnoredTombstoneOrHideContainer_comment on Comment {
+      id
       author {
         id
         username

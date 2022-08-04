@@ -426,8 +426,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     ]
   );
 
-  const handleUnmarkAllButton = useCallback(() => {
-    unmarkAll({ source: "mobileToolbar" });
+  const handleUnmarkAllButton = useCallback(async () => {
+    await unmarkAll({ source: "mobileToolbar" });
   }, [unmarkAll]);
 
   const handleCloseToolbarButton = useCallback(() => {
