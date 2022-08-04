@@ -1,11 +1,18 @@
-import { GQLUser, GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import { mapValues } from "lodash";
 import { PermissionMap } from "./types";
 
+interface ContextUser {
+  role: GQLUSER_ROLE_RL;
+  moderationScopes: {
+    scoped: boolean;
+  } | null;
+}
+
 export type AbilityType = "CHANGE_ROLE";
 interface PermissionContext {
-  viewer: GQLUser;
-  user: GQLUser;
+  viewer: ContextUser;
+  user: ContextUser;
 }
 
 const permissionMap: PermissionMap<AbilityType, PermissionContext> = {

@@ -75,7 +75,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
    * an existing site mod, but not make them a mod? is that true?
    */
   const canChangeRole =
-    viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
+    viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE, { user, viewer });
 
   const moderationScopesEnabled = settings.multisite;
 
