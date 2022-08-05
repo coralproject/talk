@@ -10,10 +10,15 @@ const watcher = chokidar.watch([], {
 // eslint-disable-next-line no-console
 const log = console.log.bind(console);
 
-// This lets us process all the file updates for up to 1.5 seconds before
-// we trigger a new build. This prevents the modification of many files in
-// succession from causing more than 1 build to trigger.
-
+// This lets us ensure we are only running 1 build process
+// at a time. We use a isRunning lock to kill a previous build
+// if a new build is triggered by the watcher events.
+//
+// This is also rate limited by a setTimeout limiter that prevents
+// this from un-necessarily being triggered multiple times by file
+// events. This should keep you always building the newest version
+// of the code as little as possible within a couple seconds after
+// you have saved/changed a file.
 let buildProc = null;
 let isRunning = false;
 const buildAction = () => {
@@ -39,6 +44,9 @@ const buildAction = () => {
   });
 };
 
+// This lets us process all the file updates for up to 1.5 seconds before
+// we trigger a new build. This prevents the modification of many files in
+// succession from causing more than 1 build to trigger.
 let buildClientTimeout = null;
 const buildClient = () => {
   if (buildClientTimeout !== null && buildClientTimeout !== undefined) {
