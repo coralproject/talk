@@ -3,6 +3,7 @@ import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import bunyan from "bunyan";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
+import ESBuildPlugin from "esbuild-minimizer-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity, uniq } from "lodash";
@@ -195,27 +196,28 @@ export default function createWebpackConfig(
       },
       minimize: minimize || treeShake,
       minimizer: [
-        new UglifyJsPlugin({
-          parallel: Math.min(6, os.cpus().length),
-          sourceMap: !disableSourcemaps,
-          extractComments: !minimize,
-          uglifyOptions: {
-            mangle: minimize,
-            keep_classnames: profilerSupport,
-            keep_fnames: profilerSupport,
-            safari10: true,
-            compress: minimize
-              ? {}
-              : {
-                  default: false,
-                  dead_code: true,
-                  pure_getters: true,
-                  side_effects: true,
-                  unused: true,
-                  passes: 2,
-                },
-          },
-        }),
+        new ESBuildPlugin(),
+        // new UglifyJsPlugin({
+        //   parallel: Math.min(6, os.cpus().length),
+        //   sourceMap: !disableSourcemaps,
+        //   extractComments: !minimize,
+        //   uglifyOptions: {
+        //     mangle: minimize,
+        //     keep_classnames: profilerSupport,
+        //     keep_fnames: profilerSupport,
+        //     safari10: true,
+        //     compress: minimize
+        //       ? {}
+        //       : {
+        //           default: false,
+        //           dead_code: true,
+        //           pure_getters: true,
+        //           side_effects: true,
+        //           unused: true,
+        //           passes: 2,
+        //         },
+        //   },
+        // }),
       ],
     },
     devtool,

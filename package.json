@@ -21,6 +21,7 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
+    "watch:client": "node dev/watch/client.js",
     "start:development": "NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
     "start:webpackDevServer": "ts-node --transpile-only ./scripts/start.ts",
     "start": "NODE_ENV=production node dist/index.js",
@@ -292,6 +293,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.6.1",
+    "esbuild-minimizer-webpack-plugin": "^1.0.0-beta.2",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest-dom": "^4.0.1",
