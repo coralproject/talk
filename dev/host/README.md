@@ -123,6 +123,26 @@ Example site config in `config.json` setting all 3 parameters:
 }
 ```
 
+## Testing `STATIC_URI` with a site
+
+If you specify the `STATIC_URI` in your Coral environment variables, you can do so here on the host test bed to ensure you're fully testing the capabilities of a CDN loading Coral onto the page.
+
+To do so, simply set the `STATIC_URI` value via the `staticURI` property on a site in the `config.json`.
+
+```
+{
+  "sites": [
+    {
+      "port": 8000,
+      "coralURL": "http://localhost:3000",
+      "staticURI": "http://localhost:3001", <-- your static URI here
+      "stories": [
+        ...
+      ]
+    }
+}
+```
+
 ## Start it up
 
 ```

@@ -28,6 +28,7 @@ interface SSOConfig {
 interface Site {
   port: number;
   coralURL: string;
+  staticURI?: string;
   stories: Story[];
   sso?: SSOConfig;
   customCSSURL?: string;
@@ -112,7 +113,7 @@ const computeIn30DaysSecs = (): number => {
 };
 
 const startServer = async (logger: Logger, site: Site) => {
-  const { port, coralURL } = site;
+  const { port, coralURL, staticURI } = site;
   const app = express();
 
   nunjucks.configure("dev/host/src/views", { autoescape: true });
@@ -122,10 +123,13 @@ const startServer = async (logger: Logger, site: Site) => {
   app.use("/static", express.static("dev/host/static"));
 
   app.get("/", (req, res) => {
+    const countScriptURL = new URL("/assets/js/count.js", coralURL);
+
     const render = nunjucks.render("index.html", {
       title: `mst:${site.port}`,
       port: site.port,
       coralURL: site.coralURL,
+      countScriptURL,
       stories: site.stories.map((s) => {
         return {
           url: computeStoryURL(req, s).href,
@@ -203,7 +207,10 @@ const startServer = async (logger: Logger, site: Site) => {
         })
       : null;
 
-    const coralSrcURL = new URL("/assets/js/embed.js", coralURL);
+    const coralSrcURL = new URL(
+      "/assets/js/embed.js",
+      staticURI ? staticURI : coralURL
+    );
     const url = computeStoryURL(req, story);
 
     const template = story.amp ? "amp.html" : "story.html";
