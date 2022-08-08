@@ -2,11 +2,11 @@ import Logger from "bunyan";
 import cors from "cors";
 import express from "express";
 
-const PORT = 3001;
+import { config } from "dotenv";
 
 const createLogger = () => {
   return Logger.createLogger({
-    name: "coral-dev-host",
+    name: "coral-dev-cdn",
     src: true,
     level: "debug",
     color: true,
@@ -14,6 +14,10 @@ const createLogger = () => {
 };
 
 const run = () => {
+  config();
+
+  const port = process.env.CDN_PORT ? parseInt(process.env.CDN_PORT, 10) : 3001;
+
   const logger = createLogger();
   const app = express();
 
@@ -25,8 +29,8 @@ const run = () => {
     res.send("coral:fakeCDN");
   });
 
-  app.listen(PORT, () => {
-    logger.info({ port: PORT }, "server is listening");
+  app.listen(port, () => {
+    logger.info({ port }, "server is listening");
   });
 };
 
