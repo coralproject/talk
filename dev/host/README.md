@@ -143,6 +143,8 @@ To do so, simply set the `STATIC_URI` value via the `staticURI` property on a si
 }
 ```
 
+NOTE: the value of `http://localhost:3001` is the default CDN value hosted by the testing CDN found under `dev/cdn` in the Coral repo.
+
 ## Start it up
 
 ```
