@@ -1,21 +1,33 @@
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
-import { User } from "coral-server/models/user";
+type UserRole =
+  | "%future added value"
+  | "COMMENTER"
+  | "MEMBER"
+  | "STAFF"
+  | "MODERATOR"
+  | "ADMIN";
 
-const { ADMIN, MODERATOR } = GQLUSER_ROLE;
+interface User {
+  id: string;
+  role: UserRole;
+  moderationScopes?: null | {
+    scoped?: boolean;
+    siteIDs?: string[];
+  };
+}
 
 const validateModeratorRoleChange = (
   viewer: Readonly<User>,
   user: Readonly<User>,
-  role: GQLUSER_ROLE
+  role: UserRole
 ) => {
-  if (role === GQLUSER_ROLE.ADMIN && viewer.role !== GQLUSER_ROLE.ADMIN) {
+  if (role === "ADMIN" && viewer.role !== "ADMIN") {
     return false;
   }
   // Org mods may promote users to site moderators within their scope,
   // but only if the user < org mod
   const viewerIsOrgMod = !viewer.moderationScopes?.siteIDs?.length;
   const userIsSiteMod = !!user.moderationScopes?.siteIDs?.length;
-  const userIsNotMod = user.role !== MODERATOR;
+  const userIsNotMod = user.role !== "MODERATOR";
   if (viewerIsOrgMod && (userIsSiteMod || userIsNotMod)) {
     return true;
   }
@@ -26,10 +38,10 @@ const validateModeratorRoleChange = (
 export const validateRoleChange = (
   viewer: Readonly<User>,
   user: Readonly<User>,
-  role: GQLUSER_ROLE
+  role: UserRole
 ): boolean => {
   // User is admin
-  if (user.role === ADMIN) {
+  if (user.role === "ADMIN") {
     return false;
   }
 
@@ -39,12 +51,12 @@ export const validateRoleChange = (
   }
 
   // User is admin
-  if (viewer.role === ADMIN) {
+  if (viewer.role === "ADMIN") {
     return true;
   }
 
   // User is org/site moderator
-  if (viewer.role === MODERATOR) {
+  if (viewer.role === "MODERATOR") {
     return validateModeratorRoleChange(viewer, user, role);
   }
 

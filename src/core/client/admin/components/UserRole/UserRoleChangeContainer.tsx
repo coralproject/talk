@@ -102,7 +102,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   return (
     <UserRoleChange
-      username={user.username}
+      user={user}
       onChangeRole={handleOnChangeRole}
       onChangeModerationScopes={handleOnChangeModerationScopes}
       onChangeMembershipScopes={handleOnChangeMembershipScopes}
@@ -112,6 +112,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
       moderationScopes={user.moderationScopes}
       membershipScopes={user.membershipScopes}
       moderationScopesEnabled={moderationScopesEnabled}
+      viewer={viewer}
     />
   );
 };
@@ -123,6 +124,9 @@ const enhanced = withFragmentContainer<Props>({
       role
       moderationScopes {
         scoped
+        sites {
+          id
+        }
       }
       ...SiteRoleActions_viewer
     }
