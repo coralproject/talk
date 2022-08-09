@@ -10,6 +10,7 @@ import styles from "./UserRoleChangeButton.css";
 interface Props extends Omit<PropTypesOf<typeof TranslatedRole>, "container"> {
   active?: boolean;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 const UserRoleChangeButton: FunctionComponent<Props> = ({
@@ -26,6 +27,7 @@ const UserRoleChangeButton: FunctionComponent<Props> = ({
           adornment={
             props.scoped && active && <ButtonIcon>settings</ButtonIcon>
           }
+          disabled={props.disabled}
         >
           dummy
         </DropdownButton>
