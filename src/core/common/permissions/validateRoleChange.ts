@@ -1,34 +1,26 @@
-type UserRole =
-  | "%future added value"
-  | "COMMENTER"
-  | "MEMBER"
-  | "STAFF"
-  | "MODERATOR"
-  | "ADMIN";
-
-interface User {
-  id: string;
-  role: UserRole;
-  moderationScopes?: null | {
-    scoped?: boolean;
-    siteIDs?: string[];
-  };
-}
+import { isSiteModerationScoped } from "./isSiteModerationScoped";
+import { User, UserRole } from "./types";
 
 const validateModeratorRoleChange = (
   viewer: Readonly<User>,
   user: Readonly<User>,
   role: UserRole
 ) => {
-  if (role === "ADMIN" && viewer.role !== "ADMIN") {
-    return false;
-  }
   // Org mods may promote users to site moderators within their scope,
   // but only if the user < org mod
-  const viewerIsOrgMod = !viewer.moderationScopes?.siteIDs?.length;
-  const userIsSiteMod = !!user.moderationScopes?.siteIDs?.length;
+  const viewerIsMod = viewer.role === "MODERATOR";
+  const userIsMod = user.role === "MODERATOR";
+  const viewerIsOrgMod =
+    viewerIsMod && !isSiteModerationScoped(viewer.moderationScopes);
+  const userIsSiteMod =
+    userIsMod && isSiteModerationScoped(user.moderationScopes);
   const userIsNotMod = user.role !== "MODERATOR";
-  if (viewerIsOrgMod && (userIsSiteMod || userIsNotMod)) {
+
+  if (
+    viewerIsOrgMod &&
+    (userIsSiteMod || userIsNotMod) &&
+    role === "MODERATOR"
+  ) {
     return true;
   }
 
