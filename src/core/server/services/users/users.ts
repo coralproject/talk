@@ -9,7 +9,10 @@ import {
   SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
 import { formatDate } from "coral-common/date";
-import { validateRoleChange } from "coral-common/permissions";
+import {
+  isSiteModerationScoped,
+  validateRoleChange,
+} from "coral-common/permissions";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
@@ -102,7 +105,6 @@ import {
   getLocalProfile,
   hasLocalProfile,
   hasStaffRole,
-  isSiteModerationScoped,
 } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";

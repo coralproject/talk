@@ -4,14 +4,10 @@ import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
+import { isSiteModerationScoped } from "coral-common/permissions";
+
 import { MODERATOR_ROLES, STAFF_ROLES } from "./constants";
-import {
-  LocalProfile,
-  Profile,
-  SSOProfile,
-  User,
-  UserModerationScopes,
-} from "./user";
+import { LocalProfile, Profile, SSOProfile, User } from "./user";
 
 export function roleIsStaff(role: GQLUSER_ROLE) {
   if (STAFF_ROLES.includes(role)) {
@@ -35,16 +31,6 @@ function roleIsModerator(role: GQLUSER_ROLE) {
 
 export function hasModeratorRole(user: Pick<User, "role">) {
   return roleIsModerator(user.role);
-}
-
-export function isSiteModerationScoped(
-  moderationScopes?: UserModerationScopes
-): moderationScopes is Required<UserModerationScopes> {
-  return (
-    !!moderationScopes &&
-    !!moderationScopes.siteIDs &&
-    moderationScopes.siteIDs.length > 0
-  );
 }
 
 /**

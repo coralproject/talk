@@ -1,6 +1,5 @@
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
-import { User } from "coral-server/models/user";
-import { isSiteModerationScoped } from "coral-server/models/user/helpers";
+import { isSiteModerationScoped } from "./isSiteModerationScoped";
+import { User } from "./types";
 
 export interface ScopeChangeValidationParams {
   viewer: Readonly<User>;
@@ -15,16 +14,13 @@ export const validateScopeChange = ({
   additions,
   deletions,
 }: ScopeChangeValidationParams): boolean => {
-  if (viewer.tenantID !== user.tenantID) {
-    return false;
-  }
   // if viewer is admin, yes
-  if (viewer.role === GQLUSER_ROLE.ADMIN) {
+  if (viewer.role === "ADMIN") {
     return true;
   }
 
   // if viewer is moderator, sub function
-  if (viewer.role !== GQLUSER_ROLE.MODERATOR) {
+  if (viewer.role !== "MODERATOR") {
     return false;
   }
 
@@ -35,7 +31,7 @@ export const validateScopeChange = ({
 
   // if user is unscoped, false
   if (
-    user.role === GQLUSER_ROLE.MODERATOR &&
+    user.role === "MODERATOR" &&
     !isSiteModerationScoped(user.moderationScopes)
   ) {
     return false;

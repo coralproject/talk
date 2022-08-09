@@ -56,6 +56,8 @@ const UserRoleChange: FunctionComponent<Props> = ({
 }) => {
   const isDisallowed = useCallback(
     (newRole: GQLUSER_ROLE_RL) => {
+      /* eslint-disable */
+      console.log({ newRole }, "USE CALLBACK");
       const viewerUser = {
         ...viewer,
         moderationScopes: {
@@ -155,14 +157,14 @@ const UserRoleChange: FunctionComponent<Props> = ({
               <Dropdown>
                 <UserRoleChangeButton
                   active={role === GQLUSER_ROLE.COMMENTER}
-                  disabled={isDisallowed(role)}
+                  disabled={isDisallowed(GQLUSER_ROLE.COMMENTER)}
                   role={GQLUSER_ROLE.COMMENTER}
                   moderationScopesEnabled={moderationScopesEnabled}
                   onClick={onClick(GQLUSER_ROLE.COMMENTER)}
                 />
                 <UserRoleChangeButton
                   active={membershipScoped && role === GQLUSER_ROLE.MEMBER}
-                  disabled={isDisallowed(role)}
+                  disabled={isDisallowed(GQLUSER_ROLE.MEMBER)}
                   role={GQLUSER_ROLE.MEMBER}
                   moderationScopesEnabled={moderationScopesEnabled}
                   scoped
@@ -173,7 +175,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 />
                 <UserRoleChangeButton
                   active={role === GQLUSER_ROLE.STAFF}
-                  disabled={isDisallowed(role)}
+                  disabled={isDisallowed(GQLUSER_ROLE.STAFF)}
                   role={GQLUSER_ROLE.STAFF}
                   moderationScopesEnabled={moderationScopesEnabled}
                   onClick={onClick(GQLUSER_ROLE.STAFF)}
@@ -181,7 +183,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 {moderationScopesEnabled && (
                   <UserRoleChangeButton
                     active={moderationScoped && role === GQLUSER_ROLE.MODERATOR}
-                    disabled={isDisallowed(role)}
+                    disabled={isDisallowed(GQLUSER_ROLE.MODERATOR)}
                     role={GQLUSER_ROLE.MODERATOR}
                     scoped
                     moderationScopesEnabled
@@ -197,22 +199,14 @@ const UserRoleChange: FunctionComponent<Props> = ({
                       (moderationScopesEnabled && !moderationScoped)) &&
                     role === GQLUSER_ROLE.MODERATOR
                   }
-                  disabled={validateRoleChange(
-                    viewer,
-                    user,
-                    GQLUSER_ROLE.MODERATOR
-                  )}
+                  disabled={isDisallowed(GQLUSER_ROLE.MODERATOR)}
                   role={GQLUSER_ROLE.MODERATOR}
                   moderationScopesEnabled={moderationScopesEnabled}
                   onClick={onClick(GQLUSER_ROLE.MODERATOR)}
                 />
                 <UserRoleChangeButton
                   active={role === GQLUSER_ROLE.ADMIN}
-                  disabled={validateRoleChange(
-                    viewer,
-                    user,
-                    GQLUSER_ROLE.ADMIN
-                  )}
+                  disabled={isDisallowed(GQLUSER_ROLE.ADMIN)}
                   role={GQLUSER_ROLE.ADMIN}
                   moderationScopesEnabled={moderationScopesEnabled}
                   onClick={onClick(GQLUSER_ROLE.ADMIN)}
