@@ -95,6 +95,10 @@ const disableRepliesToChildren = async (
     })
     .toArray();
 
+  if (children.length === 0) {
+    return;
+  }
+
   const childIDs = children.map(({ id }) => id);
 
   await mongo
