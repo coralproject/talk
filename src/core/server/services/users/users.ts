@@ -12,6 +12,7 @@ import { formatDate } from "coral-common/date";
 import {
   isSiteModerationScoped,
   validateRoleChange,
+  validateScopeChange,
 } from "coral-common/permissions";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -760,13 +761,15 @@ export async function updateUsernameByID(
  * @param user the user making the request
  * @param userID the User's ID that we are updating
  * @param role the role that we are setting on the User
+ * @param siteIDs the ids of the sites on which the role is active
  */
 export async function updateRole(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: Pick<User, "id">,
   userID: string,
-  role: GQLUSER_ROLE
+  role: GQLUSER_ROLE,
+  siteIDs?: string[]
 ) {
   const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
   const user = await retrieveUser(mongo, tenant.id, userID);
@@ -777,13 +780,31 @@ export async function updateRole(
     throw new UserNotFoundError(userID);
   }
 
-  const validUpdate = validateRoleChange(fullViewer, user, role);
+  const isScoped = !!siteIDs?.length;
+
+  const validUpdate = validateRoleChange(fullViewer, user, role, isScoped);
 
   if (!validUpdate) {
     throw new UserForbiddenError("TODO: reason", "user", "updateRole");
   }
 
-  return updateUserRole(mongo, tenant.id, userID, role);
+  if (isScoped) {
+    const validScopeChange = validateScopeChange({
+      viewer: fullViewer,
+      user,
+      additions: siteIDs,
+    });
+
+    if (!validScopeChange) {
+      throw new UserForbiddenError(
+        "Viewer may not assign provided scopes",
+        "user",
+        "updateRole"
+      );
+    }
+  }
+
+  return updateUserRole(mongo, tenant.id, userID, role, siteIDs);
 }
 
 export async function promoteModerator(
