@@ -204,14 +204,9 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig, newRepliesLoading }, setLocal] = useLocal<
-    ReplyListContainerLocal
-  >(
+  const [{ keyboardShortcutsConfig }] = useLocal<ReplyListContainerLocal>(
     graphql`
       fragment ReplyListContainerLocal on Local {
-        newRepliesLoading {
-          commentIDs
-        }
         keyboardShortcutsConfig {
           key
           source
@@ -241,40 +236,12 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     }
   }, [showAll, beginShowAllEvent, props.comment.id, keyboardShortcutsConfig]);
 
-  const onNewRepliesLoading = useCallback(
-    (commentID: string) => {
-      const initialNewRepliesLoading = newRepliesLoading ?? { commentIDs: [] };
-      setLocal({
-        newRepliesLoading: {
-          commentIDs: initialNewRepliesLoading.commentIDs.concat([commentID]),
-        },
-      });
-    },
-    [setLocal, newRepliesLoading]
-  );
-
-  const onNewRepliesLoaded = useCallback(
-    (commentID: string) => {
-      if (newRepliesLoading) {
-        setLocal({
-          newRepliesLoading: {
-            commentIDs: newRepliesLoading.commentIDs.filter(
-              (reply) => reply !== commentID
-            ),
-          },
-        });
-      }
-    },
-    [setLocal, newRepliesLoading]
-  );
-
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewRepliesEvent = useViewerNetworkEvent(
     ViewNewRepliesNetworkEvent
   );
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewNew = useCallback(async () => {
-    onNewRepliesLoading(props.comment.id);
     const viewNewRepliesEvent = beginViewNewRepliesEvent({
       storyID: props.story.id,
       keyboardShortcutsConfig,
@@ -288,10 +255,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
         markAsSeen,
       }));
       viewNewRepliesEvent.success();
-      onNewRepliesLoaded(props.comment.id);
     } catch (error) {
       viewNewRepliesEvent.error({ message: error.message, code: error.code });
-      onNewRepliesLoaded(props.comment.id);
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -301,8 +266,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     viewNew,
     beginViewNewRepliesEvent,
     keyboardShortcutsConfig,
-    onNewRepliesLoading,
-    onNewRepliesLoaded,
     markAsSeen,
     props.viewer,
   ]);
@@ -374,7 +337,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       story={props.story}
       settings={props.settings}
       onShowAll={showAllAndEmit}
-      newRepliesLoading={newRepliesLoading}
       hasMore={props.relay.hasMore()}
       disableShowAll={isLoadingShowAll}
       indentLevel={indentLevel}

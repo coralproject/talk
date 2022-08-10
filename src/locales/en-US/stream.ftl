@@ -102,7 +102,6 @@ comments-postCommentForm-section =
   .aria-label = Post a Comment
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
-comments-replyList-showMoreReplies-loading = Loading...
 comments-replyList-showMoreReplies = Show More Replies
 
 comments-postComment-gifSearch = Search for a GIF
