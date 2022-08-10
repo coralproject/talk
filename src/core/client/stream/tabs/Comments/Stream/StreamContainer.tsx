@@ -280,10 +280,16 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         {isRatingsAndReviews && <StoryRatingContainer story={props.story} />}
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
-            <AddACommentButton
-              isQA={isQA}
-              currentScrollRef={currentScrollRef}
-            />
+            <MatchMedia gtDeviceWidth="mobileMax">
+              {(matches) =>
+                matches && (
+                  <AddACommentButton
+                    isQA={isQA}
+                    currentScrollRef={currentScrollRef}
+                  />
+                )
+              }
+            </MatchMedia>
           ) : (
             <>
               <IntersectionProvider>

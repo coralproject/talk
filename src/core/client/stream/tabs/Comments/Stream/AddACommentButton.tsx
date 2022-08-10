@@ -70,8 +70,13 @@ const AddACommentButton: FunctionComponent<Props> = ({
   useEffect(() => {
     if (commentsFullyLoaded && scrollIntoViewAfterLoad) {
       scrollToLastCommentAndPostCommentForm();
+      setScrollIntoViewAfterLoad(false);
     }
-  }, [scrollIntoViewAfterLoad, commentsFullyLoaded]);
+  }, [
+    scrollIntoViewAfterLoad,
+    commentsFullyLoaded,
+    setScrollIntoViewAfterLoad,
+  ]);
 
   const onClick = useCallback(() => {
     if (!renderWindow) {
@@ -79,7 +84,15 @@ const AddACommentButton: FunctionComponent<Props> = ({
     }
     setLocal({ loadAllButtonHasBeenClicked: true });
     if (!commentsFullyLoaded) {
-      scrollToLastCommentAndPostCommentForm();
+      const loadAllButton = root.querySelector("#comments-loadAll");
+      if (loadAllButton) {
+        const offset =
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+          loadAllButton.getBoundingClientRect().top +
+          renderWindow.pageYOffset -
+          150;
+        renderWindow.scrollTo({ top: offset });
+      }
       setScrollIntoViewAfterLoad(true);
     } else {
       scrollToLastCommentAndPostCommentForm();
