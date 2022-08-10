@@ -41,9 +41,6 @@ it("renders correctly", () => {
     );
   });
   expect(testRenderer!.toJSON()).toMatchSnapshot();
-  expect(document.body.lastElementChild!.getAttribute("data-portal")).toBe(
-    "modal"
-  );
   act(() => {
     testRenderer.unmount();
   });

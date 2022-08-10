@@ -61,6 +61,8 @@ function registerSpoilerTagHandler(window: Window) {
     el: HTMLElement,
     event: MouseEvent | KeyboardEvent
   ) => {
+    // in case text is a link
+    event.preventDefault();
     if (
       "key" in event &&
       event.key !== " " &&

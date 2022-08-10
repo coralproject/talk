@@ -163,5 +163,7 @@ export const createInitLocalState: (options: Options) => InitLocalState = (
       staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN;
     localRecord.setValue(archivingEnabled, "archivingEnabled");
     localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
+
+    localRecord.setValue(false, "showCommentIDs");
   });
 };

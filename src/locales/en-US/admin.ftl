@@ -1331,6 +1331,8 @@ community-banModal-specificSites-consequence =
   This action will affect which sites on which the user is able to comment, use reactions, and report comments.
 community-banModal-cancel = Cancel
 community-banModal-updateBan = Save
+community-banModal-ban = Ban
+community-banModal-unban = Unban
 community-banModal-customize = Customize ban email message
 community-banModal-reject-existing = Reject all comments by this user
 community-banModal-reject-existing-specificSites = Reject all comments on these sites

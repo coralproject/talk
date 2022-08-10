@@ -9,6 +9,7 @@ interface Props {
   src: string;
   sandbox?: boolean;
   title?: string;
+  width?: string;
 }
 
 export interface FrameHeightMessage {
@@ -18,7 +19,13 @@ export interface FrameHeightMessage {
 
 const iframeStyle = { display: "block" };
 
-const Frame: FunctionComponent<Props> = ({ id, src, sandbox, title }) => {
+const Frame: FunctionComponent<Props> = ({
+  id,
+  src,
+  sandbox,
+  title,
+  width,
+}) => {
   const { postMessage, rootURL } = useCoralContext();
   const [height, setHeight] = useState(0);
   const frameID = useMemo(
@@ -52,8 +59,11 @@ const Frame: FunctionComponent<Props> = ({ id, src, sandbox, title }) => {
         style={iframeStyle}
         src={url}
         height={height}
+        width={width}
         sandbox={sandboxStr}
         scrolling="no"
+        allowFullScreen
+        allow="fullscreen;"
       />
     </div>
   );

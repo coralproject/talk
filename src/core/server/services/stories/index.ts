@@ -118,6 +118,21 @@ export async function findOrCreate(
   }
 
   if (wasUpserted) {
+    logger.info(
+      {
+        upserted: {
+          id: story.id,
+          url: story.url,
+        },
+        input: {
+          id: input.id,
+          url: input.url,
+          mode: input.mode,
+        },
+      },
+      "story upserted"
+    );
+
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,

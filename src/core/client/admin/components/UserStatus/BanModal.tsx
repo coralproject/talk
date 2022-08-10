@@ -9,7 +9,6 @@ import React, {
 import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
@@ -28,9 +27,8 @@ import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserSt
 import ModalHeader from "../ModalHeader";
 import ModalHeaderUsername from "../ModalHeaderUsername";
 import ChangeStatusModal from "./ChangeStatusModal";
-import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
-
 import { getTextForUpdateType } from "./helpers";
+import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
@@ -52,20 +50,70 @@ interface Props {
     unbanSiteIDs?: string[] | null | undefined,
     message?: string
   ) => void;
-  moderationScopesEnabled?: boolean | null;
   viewerScopes: Scopes;
   userRole: string;
+  isMultisite: boolean;
 }
+
+interface BanButtonProps {
+  isMultisite: boolean;
+  isBanned: boolean;
+  lastFocusableRef: React.RefObject<any>;
+  disabled: boolean;
+}
+
+const BanButton: FunctionComponent<BanButtonProps> = ({
+  isMultisite,
+  isBanned,
+  lastFocusableRef,
+  disabled,
+}) => {
+  // When multisite, we return the humble Save button
+  if (isMultisite) {
+    return (
+      <Localized id="community-banModal-updateBan">
+        <Button type="submit" ref={lastFocusableRef} disabled={disabled}>
+          Save
+        </Button>
+      </Localized>
+    );
+  }
+
+  // Otherwise, we're doing a single-site ban flow, show appropriate
+  // ban/unban accordingly
+  if (isBanned) {
+    return (
+      <Localized id="community-banModal-unban">
+        <Button type="submit" ref={lastFocusableRef} disabled={disabled}>
+          Unban
+        </Button>
+      </Localized>
+    );
+  } else {
+    return (
+      <Localized id="community-banModal-ban">
+        <Button
+          type="submit"
+          ref={lastFocusableRef}
+          disabled={disabled}
+          color="alert"
+        >
+          Ban
+        </Button>
+      </Localized>
+    );
+  }
+};
 
 const BanModal: FunctionComponent<Props> = ({
   open,
   onClose,
   onConfirm,
   username,
-  moderationScopesEnabled,
   viewerScopes,
   userBanStatus,
   userRole,
+  isMultisite,
 }) => {
   const getMessage = useGetMessage();
   const getDefaultMessage = useMemo((): string => {
@@ -81,7 +129,7 @@ const BanModal: FunctionComponent<Props> = ({
   const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
 
   const viewerIsSiteMod =
-    !!moderationScopesEnabled &&
+    !!isMultisite &&
     viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
     !!viewerScopes.sites &&
     viewerScopes.sites?.length > 0;
@@ -124,7 +172,7 @@ const BanModal: FunctionComponent<Props> = ({
     if (viewerIsSingleSiteMod) {
       setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
     }
-  }, [viewerIsSingleSiteMod]);
+  }, [viewerIsSingleSiteMod, viewerScopes.sites]);
 
   const onFormSubmit = useCallback(() => {
     return onConfirm(
@@ -236,54 +284,55 @@ const BanModal: FunctionComponent<Props> = ({
                   )}
                   {(viewerIsAdmin ||
                     viewerIsOrgAdmin ||
-                    (viewerIsScoped && !viewerIsSingleSiteMod)) && (
-                    <Flex className={styles.sitesToggle} spacing={5}>
-                      {!(userRole === GQLUSER_ROLE.MODERATOR) && (
+                    (viewerIsScoped && !viewerIsSingleSiteMod)) &&
+                    isMultisite && (
+                      <Flex className={styles.sitesToggle} spacing={5}>
+                        {!(userRole === GQLUSER_ROLE.MODERATOR) && (
+                          <FormField>
+                            <Localized id="community-banModal-allSites">
+                              <RadioButton
+                                checked={updateType === UpdateType.ALL_SITES}
+                                onChange={() =>
+                                  setUpdateType(UpdateType.ALL_SITES)
+                                }
+                                disabled={userBanStatus?.active}
+                              >
+                                All sites
+                              </RadioButton>
+                            </Localized>
+                          </FormField>
+                        )}
                         <FormField>
-                          <Localized id="community-banModal-allSites">
+                          <Localized id="community-banModal-specificSites">
                             <RadioButton
-                              checked={updateType === UpdateType.ALL_SITES}
+                              checked={updateType === UpdateType.SPECIFIC_SITES}
                               onChange={() =>
-                                setUpdateType(UpdateType.ALL_SITES)
+                                setUpdateType(UpdateType.SPECIFIC_SITES)
                               }
-                              disabled={userBanStatus?.active}
                             >
-                              All sites
+                              Specific Sites
                             </RadioButton>
                           </Localized>
                         </FormField>
-                      )}
-                      <FormField>
-                        <Localized id="community-banModal-specificSites">
-                          <RadioButton
-                            checked={updateType === UpdateType.SPECIFIC_SITES}
-                            onChange={() =>
-                              setUpdateType(UpdateType.SPECIFIC_SITES)
-                            }
-                          >
-                            Specific Sites
-                          </RadioButton>
-                        </Localized>
-                      </FormField>
-                      {!viewerIsScoped && userHasAnyBan && (
-                        <FormField>
-                          <Localized id="community-banModal-noSites">
-                            <RadioButton
-                              checked={updateType === UpdateType.NO_SITES}
-                              onChange={() =>
-                                setUpdateType(UpdateType.NO_SITES)
-                              }
-                            >
-                              No Sites
-                            </RadioButton>
-                          </Localized>
-                        </FormField>
-                      )}
-                    </Flex>
-                  )}
+                        {!viewerIsScoped && userHasAnyBan && (
+                          <FormField>
+                            <Localized id="community-banModal-noSites">
+                              <RadioButton
+                                checked={updateType === UpdateType.NO_SITES}
+                                onChange={() =>
+                                  setUpdateType(UpdateType.NO_SITES)
+                                }
+                              >
+                                No Sites
+                              </RadioButton>
+                            </Localized>
+                          </FormField>
+                        )}
+                      </Flex>
+                    )}
 
                   {(viewerIsSingleSiteMod ||
-                    (!!moderationScopesEnabled &&
+                    (isMultisite &&
                       updateType === UpdateType.SPECIFIC_SITES)) && (
                     <UserStatusSitesList
                       userBanStatus={userBanStatus}
@@ -307,15 +356,12 @@ const BanModal: FunctionComponent<Props> = ({
                         Cancel
                       </Button>
                     </Localized>
-                    <Localized id="community-banModal-updateBan">
-                      <Button
-                        type="submit"
-                        ref={lastFocusableRef}
-                        disabled={disableForm}
-                      >
-                        Save
-                      </Button>
-                    </Localized>
+                    <BanButton
+                      isMultisite={isMultisite}
+                      isBanned={!!(userBanStatus && userBanStatus?.active)}
+                      lastFocusableRef={lastFocusableRef}
+                      disabled={disableForm}
+                    />
                   </Flex>
                 </HorizontalGutter>
               </form>
