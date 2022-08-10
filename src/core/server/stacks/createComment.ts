@@ -248,19 +248,19 @@ export default async function create(
       { ancestorIDs: ancestorIDs.length },
       "pushed parent ancestorIDs into comment"
     );
-  }
 
-  const ancestors = await retrieveManyComments(
-    mongo.comments(),
-    tenant.id,
-    ancestorIDs
-  );
-  const rejectedAncestor = ancestors.find(
-    (ancestor) => ancestor?.status === GQLCOMMENT_STATUS.REJECTED
-  );
+    const ancestors = await retrieveManyComments(
+      mongo.comments(),
+      tenant.id,
+      ancestorIDs
+    );
+    const rejectedAncestor = ancestors.find(
+      (ancestor) => ancestor?.status === GQLCOMMENT_STATUS.REJECTED
+    );
 
-  if (rejectedAncestor) {
-    throw new CannotReplyToRejectedComment(tenant.id, rejectedAncestor.id);
+    if (rejectedAncestor) {
+      throw new CannotReplyToRejectedComment(tenant.id, rejectedAncestor.id);
+    }
   }
 
   let media: CommentMedia | undefined;
