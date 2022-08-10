@@ -7540,6 +7540,12 @@ input UpdateUserRoleInput {
   role: USER_ROLE!
 
   """
+  siteIDs is a list of sites on which the user has this role. if empty,
+  the user has this role on all sites in the organization.
+  """
+  siteIDs: [ID!]
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!

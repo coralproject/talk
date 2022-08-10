@@ -4,8 +4,8 @@ import { User } from "./types";
 export interface ScopeChangeValidationParams {
   viewer: Readonly<User>;
   user: Readonly<User>;
-  additions: string[];
-  deletions: string[];
+  additions?: string[];
+  deletions?: string[];
 }
 
 export const validateScopeChange = ({
