@@ -56,8 +56,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
 }) => {
   const isDisallowed = useCallback(
     (newRole: GQLUSER_ROLE_RL) => {
-      /* eslint-disable */
-      console.log({ newRole }, "USE CALLBACK");
       const viewerUser = {
         ...viewer,
         moderationScopes: {
@@ -183,7 +181,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 {moderationScopesEnabled && (
                   <UserRoleChangeButton
                     active={moderationScoped && role === GQLUSER_ROLE.MODERATOR}
-                    disabled={isDisallowed(GQLUSER_ROLE.MODERATOR)}
+                    disabled={isDisallowed(GQLUSER_ROLE.MODERATOR, true)}
                     role={GQLUSER_ROLE.MODERATOR}
                     scoped
                     moderationScopesEnabled
