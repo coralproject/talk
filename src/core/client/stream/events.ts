@@ -354,6 +354,13 @@ export const ShowAllRepliesEvent = createViewerNetworkEvent<{
 }>("showAllReplies");
 
 /**
+ *
+ * This event is emitted when the viewer clicks the add a comment
+ * button in alternate oldest view.
+ */
+export const AddACommentButtonEvent = createViewerEvent("addACommentButton");
+
+/**
  * This event is emitted when the viewer does an
  * action that will prompt a login dialog.
  */

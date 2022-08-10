@@ -9,6 +9,7 @@ import { graphql } from "react-relay";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useLocal } from "coral-framework/lib/relay";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
+import { AddACommentButtonEvent } from "coral-stream/events";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
@@ -25,7 +26,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
   isQA = false,
   currentScrollRef,
 }) => {
-  const { renderWindow } = useCoralContext();
+  const { renderWindow, eventEmitter } = useCoralContext();
   const [{ commentsFullyLoaded }, setLocal] = useLocal<AddACommentButtonLocal>(
     graphql`
       fragment AddACommentButtonLocal on Local {
@@ -79,6 +80,8 @@ const AddACommentButton: FunctionComponent<Props> = ({
   ]);
 
   const onClick = useCallback(() => {
+    AddACommentButtonEvent.emit(eventEmitter);
+
     if (!renderWindow) {
       return;
     }
@@ -104,6 +107,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
     scrollToLastCommentAndPostCommentForm,
     commentsFullyLoaded,
     setScrollIntoViewAfterLoad,
+    eventEmitter,
   ]);
 
   return (
