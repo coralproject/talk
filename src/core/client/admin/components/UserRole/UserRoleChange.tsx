@@ -55,7 +55,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
   viewer,
 }) => {
   const isDisallowed = useCallback(
-    (newRole: GQLUSER_ROLE_RL) => {
+    (newRole: GQLUSER_ROLE_RL, siteScoped = false) => {
       const viewerUser = {
         ...viewer,
         moderationScopes: {
@@ -64,7 +64,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
       };
 
       // TODO: better
-      return !validateRoleChange(viewerUser, user, newRole);
+      return !validateRoleChange(viewerUser, user, newRole, siteScoped);
     },
     [viewer, user]
   );
