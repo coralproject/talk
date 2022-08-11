@@ -473,6 +473,33 @@ export const retrieveCommentRepliesConnection = (
 };
 
 /**
+ * retrieveChildrenForParentConnection returns a Connection<Comment> for
+ * a given comment's child comments
+ *
+ * @param mongo database connection
+ * @param tenantID the tenant id
+ * @param storyID the id of the story the comment belongs to
+ * @param comment the comment to retrieve child comments of
+ * @param input connection configuration
+ */
+export async function retrieveChildrenForParentConnection(
+  collection: Collection<Readonly<Comment>>,
+  tenantID: string,
+  comment: Comment,
+  input: CommentConnectionInput
+): Promise<Readonly<Connection<Readonly<Comment>>>> {
+  const filter = {
+    ancestorIDs: { $in: [comment.id] },
+    ...input.filter,
+  };
+
+  return retrieveCommentStoryConnection(collection, tenantID, comment.storyID, {
+    ...input,
+    filter,
+  });
+}
+
+/**
  * retrieveCommentParentsConnection will return a comment connection used to
  * represent the parents of a given comment.
  *

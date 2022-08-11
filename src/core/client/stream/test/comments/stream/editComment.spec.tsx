@@ -101,7 +101,9 @@ it("edit a comment", async () => {
   // Open edit form.
   act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
-  expect(await within(comment).axe()).toHaveNoViolations();
+  await act(async () => {
+    expect(await within(comment).axe()).toHaveNoViolations();
+  });
 
   act(() =>
     testRenderer.root
