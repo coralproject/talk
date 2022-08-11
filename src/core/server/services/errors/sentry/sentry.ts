@@ -44,6 +44,7 @@ export class SentryErrorReporter extends ErrorReporter {
       dsn,
       release: `coral@${version}`,
       debug: Boolean(options.offlineDebug),
+      sampleRate: 0.2,
       transport: options.offlineDebug ? FakeDebugTransport : undefined,
       integrations: [
         ...Sentry.defaultIntegrations,
