@@ -9,6 +9,7 @@ import {
   CommentConnectionInput,
   removeCommentTag,
   retrieveAllCommentsUserConnection as retrieveAllCommentsUserConnectionModel,
+  retrieveChildrenForParentConnection as retrieveChildrenForParentConnectionModel,
   retrieveComment as retrieveCommentModel,
   retrieveCommentConnection as retrieveCommentConnectionModel,
   retrieveCommentParentsConnection as retrieveCommentParentsConnectionModel,
@@ -434,5 +435,34 @@ export function retrieveCommentParentsConnection(
     tenantID,
     comment,
     paginationParameters
+  );
+}
+
+/**
+ * retrieves all child comments for a comment.
+ *
+ * @param mongo is the mongo context we retrieve comments from.
+ * @param tenantID is the filtering tenant for these comments.
+ * @param comment is the comment we want to find all child comments for.
+ * @param input is the filtered input to determine which comments to
+ * include in the connection.
+ * @param isArchived is whether this connection should retrieve from
+ * the live or the archived comments databases.
+ * @returns a connection of comments.
+ */
+export function retrieveChildrenForParentConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  comment: Comment,
+  input: CommentConnectionInput,
+  isArchived?: boolean
+) {
+  const collection =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+  return retrieveChildrenForParentConnectionModel(
+    collection,
+    tenantID,
+    comment,
+    input
   );
 }

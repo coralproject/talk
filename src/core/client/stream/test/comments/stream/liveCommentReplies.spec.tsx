@@ -137,22 +137,24 @@ it("should show more replies", async () => {
     within(container).getByTestID(`comment-${commentData.id}`)
   ).toThrow();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
-    "commentEntered",
-    (variables) => {
-      if (variables.storyID !== story.id) {
-        return;
+  await act(async () => {
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: pureMerge<typeof commentData>(commentData, {
+            parent: { ...baseComment, id: "my-comment" },
+          }),
+        };
       }
-      if (variables.ancestorID) {
-        return;
-      }
-      return {
-        comment: pureMerge<typeof commentData>(commentData, {
-          parent: { ...baseComment, id: "my-comment" },
-        }),
-      };
-    }
-  );
+    );
+  });
 
   const showMoreButton = await waitForElement(() =>
     within(testRenderer.root).getByText("Show More Replies", {
@@ -160,7 +162,9 @@ it("should show more replies", async () => {
       selector: "button",
     })
   );
-  showMoreButton.props.onClick();
+  await act(async () => {
+    showMoreButton.props.onClick();
+  });
   within(container).getByTestID(`comment-${commentData.id}`);
 });
 

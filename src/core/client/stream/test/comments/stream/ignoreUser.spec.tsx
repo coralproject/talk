@@ -99,7 +99,9 @@ it("ignore user", async () => {
       .props.onClick();
     // Check for a tombstone
     await waitForElement(() =>
-      within(tabPane).getByText("This comment is hidden", { exact: false })
+      within(tabPane).getByText(
+        "This comment is hidden because you ignored this user."
+      )
     );
   });
 });

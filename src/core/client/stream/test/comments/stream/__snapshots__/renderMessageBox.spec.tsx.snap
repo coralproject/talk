@@ -270,6 +270,40 @@ exports[`renders message box when commenting disabled 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
+          <div
+            data-virtuoso-scroller={true}
+            style={
+              Object {
+                "height": 0,
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              data-viewport-type="window"
+              style={
+                Object {
+                  "height": "100%",
+                  "position": "absolute",
+                  "top": 0,
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                data-test-id="virtuoso-item-list"
+                style={
+                  Object {
+                    "boxSizing": "border-box",
+                    "marginTop": 0,
+                    "paddingBottom": 0,
+                    "paddingTop": 0,
+                  }
+                }
+              />
+              <div />
+            </div>
+          </div>
           <nav
             aria-label="Comments Footer"
             className="CommentsLinks-container coral coral-streamFooter"
@@ -705,6 +739,40 @@ exports[`renders message box when logged in 1`] = `
               className="CallOut-inner"
             >
               There are no comments yet. Why don't you write one?
+            </div>
+          </div>
+          <div
+            data-virtuoso-scroller={true}
+            style={
+              Object {
+                "height": 0,
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              data-viewport-type="window"
+              style={
+                Object {
+                  "height": "100%",
+                  "position": "absolute",
+                  "top": 0,
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                data-test-id="virtuoso-item-list"
+                style={
+                  Object {
+                    "boxSizing": "border-box",
+                    "marginTop": 0,
+                    "paddingBottom": 0,
+                    "paddingTop": 0,
+                  }
+                }
+              />
+              <div />
             </div>
           </div>
           <nav
@@ -1144,6 +1212,40 @@ exports[`renders message box when not logged in 1`] = `
               There are no comments yet. Why don't you write one?
             </div>
           </div>
+          <div
+            data-virtuoso-scroller={true}
+            style={
+              Object {
+                "height": 0,
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              data-viewport-type="window"
+              style={
+                Object {
+                  "height": "100%",
+                  "position": "absolute",
+                  "top": 0,
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                data-test-id="virtuoso-item-list"
+                style={
+                  Object {
+                    "boxSizing": "border-box",
+                    "marginTop": 0,
+                    "paddingBottom": 0,
+                    "paddingTop": 0,
+                  }
+                }
+              />
+              <div />
+            </div>
+          </div>
           <nav
             aria-label="Comments Footer"
             className="CommentsLinks-container coral coral-streamFooter"
@@ -1458,6 +1560,40 @@ exports[`renders message box when story isClosed 1`] = `
               className="CallOut-inner"
             >
               There are no comments on this story.
+            </div>
+          </div>
+          <div
+            data-virtuoso-scroller={true}
+            style={
+              Object {
+                "height": 0,
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              data-viewport-type="window"
+              style={
+                Object {
+                  "height": "100%",
+                  "position": "absolute",
+                  "top": 0,
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                data-test-id="virtuoso-item-list"
+                style={
+                  Object {
+                    "boxSizing": "border-box",
+                    "marginTop": 0,
+                    "paddingBottom": 0,
+                    "paddingTop": 0,
+                  }
+                }
+              />
+              <div />
             </div>
           </div>
           <nav

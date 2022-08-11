@@ -58,7 +58,7 @@ export async function findSeenComments(
   return result ?? null;
 }
 
-function reduceCommentIDs(commentIDs: string[], now: Date) {
+export function reduceCommentIDs(commentIDs: string[], now: Date) {
   const comments = commentIDs.reduce<Record<string, Date>>((acc, commentID) => {
     acc[commentID] = now;
     return acc;
@@ -84,9 +84,21 @@ export async function markSeenComments(
   storyID: string,
   userID: string,
   commentIDs: string[],
-  now: Date
+  now: Date,
+  markAllAsSeen?: boolean
 ) {
-  const comments = reduceCommentIDs(commentIDs, now);
+  let comments;
+  if (markAllAsSeen) {
+    const markAllCommentIDs = (
+      await mongo
+        .comments()
+        .find({ tenantID, storyID }, { projection: { id: 1 } })
+        .toArray()
+    ).map((comment) => comment.id);
+    comments = reduceCommentIDs(markAllCommentIDs, now);
+  } else {
+    comments = reduceCommentIDs(commentIDs, now);
+  }
 
   const result = await mongo.seenComments().findOneAndUpdate(
     {

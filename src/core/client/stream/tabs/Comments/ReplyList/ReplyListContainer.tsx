@@ -19,7 +19,7 @@ import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Overwrite } from "coral-framework/types";
 import {
   ShowAllRepliesEvent,
-  ViewNewCommentsNetworkEvent,
+  ViewNewRepliesNetworkEvent,
 } from "coral-stream/events";
 
 import { ReplyListContainer1_comment } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
@@ -99,7 +99,6 @@ interface BaseProps {
   /* The following props are passed through nested ReplyLists */
   /* (don't forget to pass it down below in ReplyListContainer) */
   allowIgnoredTombstoneReveal?: boolean | undefined;
-  disableHideIgnoredTombstone?: boolean | undefined;
 
   /* The following props are *NOT* passed through nested ReplyLists */
   /**
@@ -235,15 +234,15 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [showAll, beginShowAllEvent, props.comment.id]);
+  }, [showAll, beginShowAllEvent, props.comment.id, keyboardShortcutsConfig]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
-  const beginViewNewCommentsEvent = useViewerNetworkEvent(
-    ViewNewCommentsNetworkEvent
+  const beginViewNewRepliesEvent = useViewerNetworkEvent(
+    ViewNewRepliesNetworkEvent
   );
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewNew = useCallback(async () => {
-    const viewNewCommentsEvent = beginViewNewCommentsEvent({
+    const viewNewRepliesEvent = beginViewNewRepliesEvent({
       storyID: props.story.id,
       keyboardShortcutsConfig,
     });
@@ -255,13 +254,21 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
         viewerID: props.viewer?.id,
         markAsSeen,
       }));
-      viewNewCommentsEvent.success();
+      viewNewRepliesEvent.success();
     } catch (error) {
-      viewNewCommentsEvent.error({ message: error.message, code: error.code });
+      viewNewRepliesEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [props.comment.id, props.story.id, viewNew, beginViewNewCommentsEvent]);
+  }, [
+    props.comment.id,
+    props.story.id,
+    viewNew,
+    beginViewNewRepliesEvent,
+    keyboardShortcutsConfig,
+    markAsSeen,
+    props.viewer,
+  ]);
 
   if (!("replies" in props.comment)) {
     return null;
@@ -304,9 +311,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                     allowIgnoredTombstoneReveal={
                       props.allowIgnoredTombstoneReveal
                     }
-                    disableHideIgnoredTombstone={
-                      props.disableHideIgnoredTombstone
-                    }
                   />
                 ),
                 showConversationLink:
@@ -319,12 +323,12 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                 props.settings,
                 indentLevel,
                 props.allowIgnoredTombstoneReveal,
-                props.disableHideIgnoredTombstone,
                 atLastLevelLocalReply,
                 props.NextReplyListComponent,
               ]
             )
         );
+
   return (
     <ReplyList
       viewer={props.viewer}
@@ -340,7 +344,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       viewNewCount={viewNewCount}
       onViewNew={onViewNew}
       allowIgnoredTombstoneReveal={props.allowIgnoredTombstoneReveal}
-      disableHideIgnoredTombstone={props.disableHideIgnoredTombstone}
       showRemoveAnswered={props.showRemoveAnswered}
     />
   );

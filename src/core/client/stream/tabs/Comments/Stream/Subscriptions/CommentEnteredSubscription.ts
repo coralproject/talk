@@ -18,6 +18,7 @@ import {
   determineDepthTillAncestor,
   determineDepthTillStory,
   getFlattenedReplyAncestorID,
+  getReplyAncestorID,
   lookupFlattenReplies,
 } from "../../helpers";
 
@@ -154,6 +155,24 @@ function insertReply(
   } else {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
+  }
+
+  // This adds the new reply to the allChildComments for the root-level ancestor
+  // comment of the reply. This enables the new reply to be found as a next
+  // unseen comment by keyboard shortcuts.
+  const replyAncestorID =
+    ancestorID || (getReplyAncestorID(comment, depth) as string);
+  const ancestorProxy = store.get(replyAncestorID);
+  const allChildCommentsAncestor = ancestorProxy?.getLinkedRecord(
+    "allChildComments"
+  );
+  if (allChildCommentsAncestor) {
+    const allChildEdges =
+      allChildCommentsAncestor.getLinkedRecords("edges") || [];
+    allChildCommentsAncestor.setLinkedRecords(
+      allChildEdges.concat(commentsEdge),
+      "edges"
+    );
   }
 }
 

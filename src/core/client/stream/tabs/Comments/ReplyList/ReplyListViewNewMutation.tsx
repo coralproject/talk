@@ -49,6 +49,7 @@ const ReplyListViewNewMutation = createMutation(
     { eventEmitter }: CoralContext
   ) => {
     let commentIDs: string[] = [];
+    const commentIDsAlreadySeen: string[] = [];
 
     await commitLocalUpdatePromisified(environment, async (store) => {
       const parentProxy = store.get(commentID);
@@ -74,6 +75,11 @@ const ReplyListViewNewMutation = createMutation(
       viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeAfter(connection, edge);
         incrementStoryCommentCounts(store, storyID, edge);
+        if (edge.getLinkedRecord("node")?.getValue("seen")) {
+          commentIDsAlreadySeen.push(
+            edge.getLinkedRecord("node")!.getValue("id") as string
+          );
+        }
       });
 
       commentIDs = viewNewEdges.map(
@@ -88,6 +94,11 @@ const ReplyListViewNewMutation = createMutation(
     });
 
     if (viewerID && markSeen && commentIDs.length > 0 && markAsSeen) {
+      // Filter out any new reply edges that have already been marked as seen,
+      // via mark all as read, for example
+      commentIDs = commentIDs.filter(
+        (id) => !commentIDsAlreadySeen.includes(id)
+      );
       await markAsSeen({ storyID, commentIDs, updateSeen: false });
     }
   }
