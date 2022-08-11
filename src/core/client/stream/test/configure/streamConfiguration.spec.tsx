@@ -1,22 +1,21 @@
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   MutationToUpdateStorySettingsResolver,
 } from "coral-framework/schema";
 import {
-  act,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
-  findParentWithType,
   replaceHistoryLocation,
-  wait,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
+import { createContext } from "./create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { moderators, settings, stories } from "../fixtures";
-import create from "./create";
 
 const viewer = moderators[0];
 const story = stories[0];
@@ -28,7 +27,7 @@ beforeEach(async () => {
 const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {}
 ) => {
-  const { testRenderer } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -51,26 +50,24 @@ const createTestRenderer = async (
     },
   });
 
-  return await act(async () => {
-    const tabPane = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("current-tab-pane")
-    );
-    const applyButton = within(tabPane).getByTestID("configure-stream-apply");
-    const form = findParentWithType(applyButton, "form")!;
+  customRenderAppWithContext(context);
 
-    return { testRenderer, tabPane, applyButton, form };
-  });
+  const tabPane = await screen.findByRole("region", { name: "Tab:" });
+  const applyButton = within(tabPane).getByTestId("configure-stream-apply");
+  const form = screen.getByRole("region", { name: "Configure this stream" });
+  return { tabPane, applyButton, form };
 };
 
 it("change premod", async () => {
-  const updateStorySettingsStub = createMutationResolverStub<
-    MutationToUpdateStorySettingsResolver
-  >(({ variables }) => {
-    expectAndFail(variables.settings.moderation).toEqual("PRE");
-    return {
-      story: pureMerge(story, { settings: variables.settings }),
-    };
-  });
+  const updateStorySettingsStub =
+    createMutationResolverStub<MutationToUpdateStorySettingsResolver>(
+      ({ variables }) => {
+        expectAndFail(variables.settings.moderation).toEqual("PRE");
+        return {
+          story: pureMerge(story, { settings: variables.settings }),
+        };
+      }
+    );
   const { form, applyButton } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
@@ -80,25 +77,21 @@ it("change premod", async () => {
   });
 
   const premodField = within(form).getByLabelText("Pre-moderate all comments");
+  expect(applyButton).toBeDisabled();
 
-  expect(applyButton.props.disabled).toBe(true);
   // Let's enable premod.
-  act(() => premodField.props.onChange({}));
-  expect(applyButton.props.disabled).toBe(false);
+  userEvent.click(premodField);
+  expect(applyButton).toBeEnabled();
+
+  userEvent.click(applyButton);
 
   // Send form
-  act(() => {
-    form.props.onSubmit();
-  });
+  expect(applyButton).toBeDisabled();
+  expect(premodField).toBeDisabled();
 
-  expect(applyButton.props.disabled).toBe(true);
-  expect(premodField.props.disabled).toBe(true);
-
-  // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(premodField.props.disabled).toBe(false);
-    });
+  // // Wait for submission to be finished
+  await waitFor(() => {
+    expect(premodField).toBeEnabled();
   });
 
   // Should have successfully sent with server.
@@ -106,14 +99,15 @@ it("change premod", async () => {
 });
 
 it("change premod links", async () => {
-  const updateStorySettingsStub = createMutationResolverStub<
-    MutationToUpdateStorySettingsResolver
-  >(({ variables }) => {
-    expectAndFail(variables.settings.premodLinksEnable).toEqual(true);
-    return {
-      story: pureMerge(story, { settings: variables.settings }),
-    };
-  });
+  const updateStorySettingsStub =
+    createMutationResolverStub<MutationToUpdateStorySettingsResolver>(
+      ({ variables }) => {
+        expectAndFail(variables.settings.premodLinksEnable).toEqual(true);
+        return {
+          story: pureMerge(story, { settings: variables.settings }),
+        };
+      }
+    );
   const { form, applyButton } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
@@ -126,24 +120,18 @@ it("change premod links", async () => {
     "Pre-moderate comments containing links"
   );
 
-  expect(applyButton.props.disabled).toBe(true);
+  expect(applyButton).toBeDisabled();
   // Let's enable premod.
-  act(() => premodLinksField.props.onChange({}));
-  expect(applyButton.props.disabled).toBe(false);
+  userEvent.click(premodLinksField);
+  expect(applyButton).toBeEnabled();
 
-  // Send form
-  act(() => {
-    form.props.onSubmit();
-  });
-
-  expect(applyButton.props.disabled).toBe(true);
-  expect(premodLinksField.props.disabled).toBe(true);
+  userEvent.click(applyButton);
+  expect(applyButton).toBeDisabled();
+  expect(premodLinksField).toBeDisabled();
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(premodLinksField.props.disabled).toBe(false);
-    });
+  await waitFor(() => {
+    expect(premodLinksField).toBeEnabled();
   });
 
   // Should have successfully sent with server.
@@ -151,18 +139,20 @@ it("change premod links", async () => {
 });
 
 it("change message box", async () => {
-  const updateStorySettingsStub = createMutationResolverStub<
-    MutationToUpdateStorySettingsResolver
-  >(({ variables }) => {
-    expectAndFail(variables.settings.messageBox).toEqual({
-      enabled: true,
-      content: "*What do you think?*",
-      icon: "question_answer",
-    });
-    return {
-      story: pureMerge(story, { settings: variables.settings }),
-    };
-  });
+  const updateStorySettingsStub =
+    createMutationResolverStub<MutationToUpdateStorySettingsResolver>(
+      ({ variables }) => {
+        // console.log(variables, "variables");
+        expectAndFail(variables.settings.messageBox).toEqual({
+          enabled: true,
+          content: "*What do you think?*",
+          icon: "question_answer",
+        });
+        return {
+          story: pureMerge(story, { settings: variables.settings }),
+        };
+      }
+    );
   const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
@@ -171,42 +161,48 @@ it("change message box", async () => {
     }),
   });
 
-  const enableField = within(tabPane).getByTestID("configure-addMessage");
-  act(() => enableField.props.onClick());
+  const enableField = within(tabPane).getByRole("button", {
+    name: "Add message",
+  });
+  userEvent.click(enableField);
 
   // Select icon
-  const iconButton = within(tabPane).getByLabelText("question_answer");
-
-  act(() =>
-    iconButton.props.onChange({ target: { value: iconButton.props.value } })
-  );
+  const conversationRadio = within(tabPane).getByRole("radio", {
+    name: "Conversation",
+  });
+  userEvent.click(conversationRadio);
 
   // Change content.
-  const messageText = await waitForElement(() =>
+  const messageText = await waitFor(() =>
     within(tabPane).getByLabelText("Write a message")
   );
-  act(() => messageText.props.onChange("*What do you think?*"));
+  userEvent.clear(messageText);
+  userEvent.type(messageText, "*What do you think?*");
 
-  const form = within(tabPane).getByTestID("configure-addMessage-form");
-  act(() => form.props.onSubmit());
+  const saveChanges = within(tabPane).getByRole("button", {
+    name: "Add message",
+  });
+  expect(saveChanges).toBeEnabled();
+  userEvent.click(saveChanges);
 
   // Should have successfully sent with server.
   expect(updateStorySettingsStub.called).toBe(true);
 });
 
 it("remove message icon", async () => {
-  const updateStorySettingsStub = createMutationResolverStub<
-    MutationToUpdateStorySettingsResolver
-  >(({ variables }) => {
-    expectAndFail(variables.settings.messageBox).toEqual({
-      enabled: true,
-      content: "*What do you think?*",
-      icon: null,
-    });
-    return {
-      story: pureMerge(story, { settings: variables.settings }),
-    };
-  });
+  const updateStorySettingsStub =
+    createMutationResolverStub<MutationToUpdateStorySettingsResolver>(
+      ({ variables }) => {
+        expectAndFail(variables.settings.messageBox).toEqual({
+          enabled: true,
+          content: "*What do you think?*",
+          icon: null,
+        });
+        return {
+          story: pureMerge(story, { settings: variables.settings }),
+        };
+      }
+    );
   const { tabPane } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
@@ -227,22 +223,17 @@ it("remove message icon", async () => {
     }),
   });
 
-  const noIconButton = await waitForElement(() =>
-    within(tabPane).getByLabelText("No icon", { exact: false })
-  );
-
-  act(() =>
-    noIconButton.props.onChange({ target: { value: noIconButton.props.value } })
-  );
+  const noIconRadio = within(tabPane).getByRole("radio", {
+    name: "No icon",
+  });
+  userEvent.click(noIconRadio);
 
   // Send form
-  const form = within(tabPane).getByTestID("configure-addMessage-form");
-  act(() => form.props.onSubmit());
+  const saveChanges = within(tabPane).getByTestId(
+    "configure-addMessage-submitUpdate"
+  );
+  expect(saveChanges).toBeEnabled();
+  userEvent.click(saveChanges);
 
-  // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(updateStorySettingsStub.called).toBe(true);
-    });
-  });
+  expect(updateStorySettingsStub.called).toBe(true);
 });

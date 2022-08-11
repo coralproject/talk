@@ -129,7 +129,6 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
                 CLASSES.deleteMyAccount.requestButton
               )}
               onClick={showPopover}
-              data-testid="deleteAccount-request"
               upperCase
             >
               Request

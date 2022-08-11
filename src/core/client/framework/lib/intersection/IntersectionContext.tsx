@@ -49,12 +49,13 @@ export const IntersectionProvider: React.FunctionComponent = ({ children }) => {
 
   const observe: Observe = useCallback(
     (element, callback) => {
-      callbacks.current.set(element, callback);
+      const instance = callbacks.current;
+      instance.set(element, callback);
       observer.observe(element);
 
       return () => {
         observer.unobserve(element);
-        callbacks.current.delete(element);
+        instance.delete(element);
       };
     },
     [observer]

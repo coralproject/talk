@@ -1,9 +1,10 @@
+import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
-import { act, waitForElement, within } from "coral-framework/testHelpers";
-
+import { createContext } from "./create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { moderators, settings, stories } from "../fixtures";
-import create from "./create";
 
 async function createTestRenderer(
   resolver: any = {},
@@ -19,7 +20,7 @@ async function createTestRenderer(
     },
   };
 
-  const { testRenderer } = create({
+  const { context } = createContext({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
@@ -29,11 +30,11 @@ async function createTestRenderer(
     },
   });
 
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
-  );
+  customRenderAppWithContext(context);
 
-  return { testRenderer, tabPane };
+  const tabPane = await screen.findByTestId("current-tab-pane");
+
+  return { tabPane };
 }
 
 it("close stream", async () => {
@@ -50,19 +51,14 @@ it("close stream", async () => {
     },
   });
 
-  const closeButton = within(tabPane).getByText("Close Stream", {
-    selector: "button",
+  const closeButton = within(tabPane).getByRole("button", {
+    name: "Close Stream",
   });
-  await act(async () => {
-    closeButton.props.onClick();
-  });
+  userEvent.click(closeButton);
 
-  // Stream should then appear closed.
-  await waitForElement(() =>
-    within(tabPane).getByText("Open Stream", {
-      selector: "button",
-    })
-  );
+  expect(
+    await within(tabPane).findByRole("button", { name: "Open Stream" })
+  ).toBeVisible();
 
   // Should have successfully sent with server.
   expect(closeStoryStub.called).toBe(true);
@@ -85,20 +81,16 @@ it("opens stream", async () => {
     },
   });
 
-  const button = within(tabPane).getByText("Open Stream", {
-    selector: "button",
-  });
+  const button = within(tabPane).getByRole("button", { name: "Open Stream" });
 
-  await act(async () => {
-    button.props.onClick();
-  });
+  userEvent.click(button);
 
   // Stream should then appear open.
-  await waitForElement(() =>
-    within(tabPane).getByText("Close Stream", {
-      selector: "button",
+  expect(
+    await within(tabPane).findByRole("button", {
+      name: "Close Stream",
     })
-  );
+  ).toBeVisible();
 
   // Should have successfully sent with server.
   expect(openStoryStub.called).toBe(true);
