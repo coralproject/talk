@@ -7,6 +7,7 @@ import CLASSES from "coral-stream/classes";
 import { Tombstone } from "coral-ui/components/v3";
 
 import { RejectedTombstoneContainer_comment } from "coral-stream/__generated__/RejectedTombstoneContainer_comment.graphql";
+import computeCommentElementID from "../Comment/computeCommentElementID";
 
 interface Props {
   comment: RejectedTombstoneContainer_comment;
@@ -21,8 +22,14 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({
   if (comment.status !== "REJECTED" || comment.lastViewerAction === "REJECT") {
     return <>{children}</>;
   }
+  const commentElementID = computeCommentElementID(comment.id);
   return (
-    <Tombstone className={CLASSES.rejectedTombstone} fullWidth>
+    <Tombstone
+      className={CLASSES.rejectedTombstone}
+      id={commentElementID}
+      fullWidth
+      noWrapper
+    >
       <Localized id="comments-tombstone-rejected">
         This commenter has been removed by a moderator for violating our
         community guidelines.
@@ -34,6 +41,7 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment RejectedTombstoneContainer_comment on Comment {
+      id
       status
       lastViewerAction
     }

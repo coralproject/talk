@@ -78,6 +78,7 @@ createComment.error
 <!-- START docs:events -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN npm run docs:events -->
 ### Index
+- <a href="#addACommentButton">addACommentButton</a>
 - <a href="#approveComment">approveComment</a>
 - <a href="#banUser">banUser</a>
 - <a href="#cancelAccountDeletion">cancelAccountDeletion</a>
@@ -144,8 +145,10 @@ createComment.error
 - <a href="#viewFullDiscussion">viewFullDiscussion</a>
 - <a href="#viewNewComments">viewNewComments</a>
 - <a href="#viewNewCommentsNetwork">viewNewCommentsNetwork</a>
+- <a href="#viewNewRepliesNetwork">viewNewRepliesNetwork</a>
 
 ### Events
+- <a id="addACommentButton">**addACommentButton**</a>: This event is emitted when the viewer clicks the add a comment button in alternate oldest view.
 - <a id="approveComment">**approveComment.success**, **approveComment.error**</a>: This event is emitted when the viewer approves a comment.
   ```ts
   {
@@ -668,6 +671,22 @@ createComment.error
   }
   ```
 - <a id="viewNewCommentsNetwork">**viewNewCommentsNetwork.success**, **viewNewCommentsNetwork.error**</a>: This event is emitted when the viewer reveals new live comments.
+  ```ts
+  {
+      storyID?: string | undefined;
+      keyboardShortcutsConfig: {
+          source: string;
+          key: string;
+          reverse: boolean;
+      } | null;
+      success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
+  }
+  ```
+- <a id="viewNewRepliesNetwork">**viewNewRepliesNetwork.success**, **viewNewRepliesNetwork.error**</a>: This event is emitted when the viewer reveals new live replies to comments.
   ```ts
   {
       storyID?: string | undefined;

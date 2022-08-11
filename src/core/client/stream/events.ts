@@ -314,6 +314,22 @@ export const ViewNewCommentsNetworkEvent = createViewerNetworkEvent<{
 }>("viewNewCommentsNetwork");
 
 /**
+ *
+ * This event is emitted when the viewer reveals
+ * new live replies to comments.
+ */
+export const ViewNewRepliesNetworkEvent = createViewerNetworkEvent<{
+  storyID?: string;
+  keyboardShortcutsConfig: {
+    source: string;
+    key: string;
+    reverse: boolean;
+  } | null;
+  success: {};
+  error: { message: string; code?: string };
+}>("viewNewRepliesNetwork");
+
+/**
  * This event is emitted when the viewer loads more
  * top level comments into the history comment stream.
  */
@@ -336,6 +352,13 @@ export const ShowAllRepliesEvent = createViewerNetworkEvent<{
   success: {};
   error: { message: string; code?: string };
 }>("showAllReplies");
+
+/**
+ *
+ * This event is emitted when the viewer clicks the add a comment
+ * button in alternate oldest view.
+ */
+export const AddACommentButtonEvent = createViewerEvent("addACommentButton");
 
 /**
  * This event is emitted when the viewer does an

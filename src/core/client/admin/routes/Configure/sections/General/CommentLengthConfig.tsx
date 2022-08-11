@@ -52,6 +52,7 @@ interface Props {
 
 const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
+    data-testid="comment-length-config-box"
     title={
       <Localized id="configure-general-commentLength-title">
         <Header container={<legend />}>Comment length</Header>
