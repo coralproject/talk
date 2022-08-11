@@ -131,7 +131,7 @@ const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
 export const StreamContainer: FunctionComponent<Props> = (props) => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
-  const { localStorage } = useCoralContext();
+  const { localStorage, browserInfo } = useCoralContext();
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
@@ -282,7 +282,12 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
           (alternateOldestViewEnabled ? (
             <MatchMedia gtDeviceWidth="mobileMax">
               {(matches) =>
-                matches && (
+                matches &&
+                !(
+                  browserInfo.mobile ||
+                  browserInfo.tablet ||
+                  browserInfo.iPadOS
+                ) && (
                   <AddACommentButton
                     isQA={isQA}
                     currentScrollRef={currentScrollRef}
