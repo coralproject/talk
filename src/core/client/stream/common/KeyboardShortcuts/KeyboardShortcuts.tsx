@@ -1034,6 +1034,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return true;
       } else {
         setFocusAndMarkSeen(parseCommentElementID(stop.id));
+        setTimeout(() => {
+          renderWindow.scrollTo({ top: offset });
+        }, 0);
         return true;
       }
     },
