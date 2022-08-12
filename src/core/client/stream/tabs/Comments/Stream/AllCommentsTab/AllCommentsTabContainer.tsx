@@ -211,6 +211,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         storyID: story.id,
         markSeen: !!viewer,
         viewerID: viewer?.id,
+        commentsOrderBy,
         markAsSeen,
       });
       viewNewCommentsEvent.success();
@@ -362,7 +363,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           onChangeRating={onChangeRating}
         />
       )}
-      {viewNewCount > 0 && (
+      {viewNewCount > 0 && commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_DESC && (
         <Box mb={4} clone>
           <Button
             id="comments-allComments-viewNewButton"
@@ -425,6 +426,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           commentsOrderBy={commentsOrderBy}
           comments={comments}
           newCommentsLength={newCommentsLength}
+          viewNewCount={viewNewCount}
+          onViewMore={onViewMore}
+          viewMoreLoading={viewMoreLoading}
         />
         {!alternateOldestViewEnabled && (
           <CommentsLinks

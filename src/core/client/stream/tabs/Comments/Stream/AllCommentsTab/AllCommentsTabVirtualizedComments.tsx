@@ -33,6 +33,9 @@ interface Props {
   commentsOrderBy: COMMENT_SORT;
   comments: AllCommentsTabContainer_story["comments"]["edges"];
   newCommentsLength: number;
+  viewNewCount: number;
+  onViewMore: () => void;
+  viewMoreLoading: boolean;
 }
 
 // Virtuoso settings
@@ -51,6 +54,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   commentsOrderBy,
   comments,
   newCommentsLength,
+  viewNewCount,
+  onViewMore,
+  viewMoreLoading,
 }) => {
   const [
     {
@@ -141,16 +147,16 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   const Footer = useCallback(() => {
     return (
       <>
-        {showLoadMoreForOldestFirstNewComments && (
+        {viewNewCount && commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC && (
           <Localized id="comments-loadMore">
             <Button
               key={`comments-loadMore-${comments.length}`}
               id="comments-loadMore"
-              onClick={loadMoreAndEmit}
+              onClick={onViewMore}
               color="secondary"
               variant="outlined"
               fullWidth
-              disabled={isLoadingMore}
+              disabled={viewMoreLoading}
               aria-controls="comments-allComments-log"
               className={CLASSES.allCommentsTabPane.loadMoreButton}
               // Added for keyboard shortcut support.
@@ -200,6 +206,9 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     loadMoreAndEmit,
     onDisplayLoadAllButtonClick,
     loadAllButtonDisabled,
+    viewNewCount,
+    onViewMore,
+    viewMoreLoading,
   ]);
 
   return (

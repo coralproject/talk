@@ -15,6 +15,7 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { LOCAL_ID } from "coral-framework/lib/relay/localState";
 import lookup from "coral-framework/lib/relay/lookup";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
@@ -536,7 +537,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // If there are new comments via subscription, return next unseen with isNew
       // if there's no comment with traversal focus. Otherwise, set as the
       // loopBackAroundUnseenComment in case we loop back around looking for the next unseen.
-      if (newCommentsAreStillMarkedUnseen) {
+      if (
+        newCommentsAreStillMarkedUnseen &&
+        commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_DESC
+      ) {
         if (!commentWithTraversalFocus) {
           nextUnseenComment = { isNew: true, isRoot: true };
           return nextUnseenComment;
@@ -642,9 +646,22 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
         return false;
       });
+      // check for new comments at the end when sorted by oldest first
+      if (commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+        return nextUnseenExists
+          ? nextUnseenComment
+          : newCommentsAreStillMarkedUnseen
+          ? { isNew: true, isRoot: true }
+          : loopBackAroundUnseenComment;
+      }
       return nextUnseenExists ? nextUnseenComment : loopBackAroundUnseenComment;
     },
-    [comments, commentWithTraversalFocus, newCommentsAreStillMarkedUnseen]
+    [
+      comments,
+      commentWithTraversalFocus,
+      newCommentsAreStillMarkedUnseen,
+      commentsOrderBy,
+    ]
   );
 
   // Determine the next unseen comment and then scroll Virtuoso to its index,
@@ -660,32 +677,88 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         // If next unseen is new, scroll to the 0 index, find the View New button,
         // and click it.
         if (nextUnseenComment.isNew) {
-          currentScrollRef.current.scrollIntoView({
-            align: "center",
-            index: 0,
-            behavior: "auto",
-            done: () => {
-              // After Virtuoso scrolls, we have to make sure the new comment button
-              // is available before setting focus to it or one of its replies.
-              let count = 0;
-              const virtuosoZeroExists = setInterval(async () => {
-                count += 1;
-                const virtuosoZeroElementAfter = root.querySelector(
-                  '[data-index="0"]'
-                );
-                if (
-                  virtuosoZeroElementAfter !== undefined &&
-                  virtuosoZeroElementAfter !== null
-                ) {
-                  clearInterval(virtuosoZeroExists);
-                  findViewNewCommentButtonAndClick();
-                }
-                if (count > 10) {
-                  clearInterval(virtuosoZeroExists);
-                }
-              }, 100);
-            },
-          });
+          // oldest first view new comments
+          if (commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
+            setLocal({ loadAllButtonHasBeenClicked: true });
+            if (!commentsFullyLoaded) {
+              setFindAndNavigateAfterLoad({ findAndNavigate: true, source });
+              const loadAllButton = root.getElementById("comments-loadAll");
+              if (loadAllButton) {
+                const loadAllKeyStop = toKeyStop(loadAllButton);
+                scrollToComment(loadAllKeyStop?.element);
+              }
+              return;
+            }
+            currentScrollRef.current.scrollIntoView({
+              align: "center",
+              index: comments.length - 1,
+              behavior: "auto",
+              done: () => {
+                // After Virtuoso scrolls, we have to make sure the new comment button
+                // is available before setting focus to it or one of its replies.
+                let count = 0;
+                const virtuosoZeroExists = setInterval(async () => {
+                  count += 1;
+                  const virtuosoLastElementAfter = root.querySelector(
+                    `[data-index="${comments.length - 1}"]`
+                  );
+                  if (
+                    virtuosoLastElementAfter !== undefined &&
+                    virtuosoLastElementAfter !== null
+                  ) {
+                    clearInterval(virtuosoZeroExists);
+                    // find Load more button and click
+                    const loadMoreButtonInRoot = root.getElementById(
+                      "comments-loadMore"
+                    );
+                    if (loadMoreButtonInRoot) {
+                      const comment = virtuosoLastElementAfter.querySelector(
+                        "[data-key-stop='true'"
+                      );
+                      const commentId = comment?.getAttribute("id");
+                      if (comment && commentId) {
+                        const parsedId = parseCommentElementID(commentId);
+                        setFocusAndMarkSeen(parsedId);
+                        setZKeyClickedButton(true);
+                        loadMoreButtonInRoot.click();
+                      }
+                    }
+                  }
+                  if (count > 10) {
+                    clearInterval(virtuosoZeroExists);
+                  }
+                }, 100);
+              },
+            });
+            // newest sort new comments
+          } else {
+            currentScrollRef.current.scrollIntoView({
+              align: "center",
+              index: 0,
+              behavior: "auto",
+              done: () => {
+                // After Virtuoso scrolls, we have to make sure the new comment button
+                // is available before setting focus to it or one of its replies.
+                let count = 0;
+                const virtuosoZeroExists = setInterval(async () => {
+                  count += 1;
+                  const virtuosoZeroElementAfter = root.querySelector(
+                    '[data-index="0"]'
+                  );
+                  if (
+                    virtuosoZeroElementAfter !== undefined &&
+                    virtuosoZeroElementAfter !== null
+                  ) {
+                    clearInterval(virtuosoZeroExists);
+                    findViewNewCommentButtonAndClick();
+                  }
+                  if (count > 10) {
+                    clearInterval(virtuosoZeroExists);
+                  }
+                }, 100);
+              },
+            });
+          }
         } else {
           // If a Load all comments button is currently displayed, but the next
           // unseen comment is at a Virtuoso index greater than the initial number
@@ -756,6 +829,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       commentWithTraversalFocus,
       viewNewCount,
       viewNewCountBeforeUnmarkAll,
+      commentsOrderBy,
+      setZKeyClickedButton,
+      setFocusAndMarkSeen,
+      parseCommentElementID,
+      commentsFullyLoaded,
     ]
   );
 

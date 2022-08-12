@@ -22,10 +22,11 @@ import {
   lookupFlattenReplies,
 } from "../../helpers";
 
-function updateForNewestFirst(
+function update(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
   storyConnectionKey: string,
+  orderBy: GQLCOMMENT_SORT_RL,
   tag?: string
 ) {
   const rootField = store.getRootField("commentEntered");
@@ -44,7 +45,7 @@ function updateForNewestFirst(
     story,
     storyConnectionKey,
     {
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      orderBy,
       tag,
     }
   )!;
@@ -52,31 +53,6 @@ function updateForNewestFirst(
 
   // QUESTION: connection here was undefined when using the RR review/question tabs
   connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
-}
-
-function updateForOldestFirst(
-  store: RecordSourceSelectorProxy<unknown>,
-  storyID: string,
-  storyConnectionKey: string,
-  tag?: string
-) {
-  const story = store.get(storyID)!;
-  const connection = ConnectionHandler.getConnection(
-    story,
-    storyConnectionKey,
-    {
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
-      tag,
-    }
-  )!;
-  const pageInfo = connection.getLinkedRecord("pageInfo")!;
-  // Should not be falsy because Relay uses this information to determine
-  // whether or not new data is available to load.
-  if (!pageInfo.getValue("endCursor")) {
-    // Set cursor to oldest date, to load from the beginning.
-    pageInfo.setValue(new Date(0).toISOString(), "endCursor");
-  }
-  pageInfo.setValue(true, "hasNextPage");
 }
 
 function insertReply(
@@ -274,18 +250,20 @@ const CommentEnteredSubscription = createSubscription(
         );
         return;
       } else if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
-        updateForNewestFirst(
+        update(
           store,
           variables.storyID,
           variables.storyConnectionKey,
+          variables.orderBy,
           variables.tag
         );
         return;
       } else if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
-        updateForOldestFirst(
+        update(
           store,
           variables.storyID,
           variables.storyConnectionKey,
+          variables.orderBy,
           variables.tag
         );
         return;
