@@ -1036,8 +1036,14 @@ export async function updateModerationScopes(
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
-  /* eslint-disable */
-  console.log("service method reached!");
+  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
+  if (isSiteModerationScoped(fullViewer?.moderationScopes)) {
+    throw new UserForbiddenError(
+      "Site moderators may not update moderation scopes",
+      "user",
+      "updateModerationScopes"
+    );
+  }
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
   }
@@ -1056,9 +1062,6 @@ export async function updateModerationScopes(
       "some or all of the sites specified in the moderation scopes do not exist"
     );
   }
-
-  // BOOKMARK(marcushaddon): now that mutation is open to moderators
-  // need to check that viewer is orgmod
 
   return updateUserModerationScopes(mongo, tenant.id, userID, moderationScopes);
 }
