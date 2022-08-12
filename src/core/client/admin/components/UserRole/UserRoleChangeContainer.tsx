@@ -28,7 +28,6 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
-  // BOOKMARK: todo = add siteIDs to UpdateUserRoleInput
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const updateUserModerationScopes = useMutation(
     UpdateUserModerationScopesMutation
