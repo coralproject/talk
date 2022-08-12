@@ -63,7 +63,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
         },
       };
 
-      // TODO: better
       return !validateRoleChange(viewerUser, user, newRole, siteScoped);
     },
     [viewer, user]
@@ -83,19 +82,8 @@ const UserRoleChange: FunctionComponent<Props> = ({
     async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
       // BOOKMARK: if role is new to having scopes, just pass scopes with changeRole
       await onChangeRole(r, siteIDs);
-
-      // if (r === GQLUSER_ROLE.MEMBER) {
-      //   await onChangeMembershipScopes(siteIDs);
-      // } else if (r === GQLUSER_ROLE.MODERATOR && moderationScopesEnabled) {
-      //   await onChangeModerationScopes(siteIDs);
-      // }
     },
-    [
-      onChangeMembershipScopes,
-      onChangeRole,
-      onChangeModerationScopes,
-      moderationScopesEnabled,
-    ]
+    [onChangeRole]
   );
   const onClick = useCallback(
     (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => async () => {
