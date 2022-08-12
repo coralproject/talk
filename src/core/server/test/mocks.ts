@@ -7,24 +7,23 @@ const createMockCollection = () => ({
   findOne: jest.fn(),
 });
 
-/* eslint-disable */
 export const createMockMongoContex = () => {
   const users = createMockCollection();
 
   return {
-    ctx: {
+    ctx: ({
       users: () => users,
-    } as unknown as MongoContext,
+    } as unknown) as MongoContext,
     users,
   };
-}
+};
 
 export const createMockMailer = () =>
-  ({
-    add: jest.fn().mockResolvedValue({})
-  }) as unknown as MailerQueue;
+  (({
+    add: jest.fn().mockResolvedValue({}),
+  } as unknown) as MailerQueue);
 
 export const createMockRejector = () =>
-  ({
-    add: jest.fn().mockResolvedValue({})
-  }) as unknown as RejectorQueue;
+  (({
+    add: jest.fn().mockResolvedValue({}),
+  } as unknown) as RejectorQueue);

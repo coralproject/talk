@@ -1,24 +1,26 @@
-/* eslint-disable */
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
-import {
-  createUserFixture,
-  createSiteFixture,
-  createTenantFixture,
-} from "../../test/fixtures";
-import { UserForbiddenError } from "coral-server/errors";
-import { createMockMongoContex } from "coral-server/test/mocks";
-import { updateRole } from "./users";
 import { MongoContext } from "coral-server/data/context";
+import { UserForbiddenError } from "coral-server/errors";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+
+import { createMockMongoContex } from "coral-server/test/mocks";
+
+import { updateRole } from "./users";
+
+import {
+  createSiteFixture,
+  createTenantFixture,
+  createUserFixture,
+} from "../../test/fixtures";
 
 jest.mock("coral-server/models/user");
 
 const ROLES = Object.values(GQLUSER_ROLE);
-const tenant = createTenantFixture();
-const tenantID = tenant.id;
+const mockTenant = createTenantFixture();
+const tenantID = mockTenant.id;
 const site1 = createSiteFixture({
-  tenantID: tenant.id,
+  tenantID: mockTenant.id,
 });
 const admin = createUserFixture({
   role: GQLUSER_ROLE.ADMIN,
@@ -65,7 +67,7 @@ const users = [
 const inputStr = (
   viewerRole: GQLUSER_ROLE,
   userFromRole: GQLUSER_ROLE,
-  userToRole: GQLUSER_ROLE,
+  userToRole: GQLUSER_ROLE
 ) =>
   `viewer role = ${viewerRole}, user from role = ${userFromRole},  userToRole = ${userToRole}`;
 
@@ -74,12 +76,20 @@ describe("updateRole", () => {
 
   /* eslint-disable-next-line */
   require("coral-server/models/user").retrieveUser.mockImplementation(
-    async (_mongo: any, _tenantID: any, userID: string) => users.find(({ id }) => id === userID)
+    async (_mongo: any, _tenantID: any, userID: string) =>
+      users.find(({ id }) => id === userID)
   );
+
+  /* eslint-disable-next-line */
   require("coral-server/models/user").updateUserRole.mockImplementation(
-    async (_mongo: any, _tenantID: any, userID: string, role: GQLUSER_ROLE) => ({
+    async (
+      _mongo: any,
+      _tenantID: any,
+      userID: string,
+      role: GQLUSER_ROLE
+    ) => ({
       ...users.find(({ id }) => id === userID),
-      role
+      role,
     })
   );
 
@@ -96,22 +106,12 @@ describe("updateRole", () => {
     ({ ctx: mongo } = createMockMongoContex());
 
     // Wrapping our function to track what inputs have been tested
-    uut = (
-      mongo,
-      tenant,
-      viewer,
-      user,
-      role,
-    ) => {
-      const inputHash = inputStr(
-        viewer.role,
-        user.role,
-        role,
-      );
+    uut = (mongoCtx, tenant, viewer, user, role) => {
+      const inputHash = inputStr(viewer.role, user.role, role);
       exhaustiveInputs.set(inputHash, true);
 
       return updateRole(mongo, tenant, viewer, user.id, role);
-    }
+    };
 
     for (const viewer of users) {
       for (const user of users) {
@@ -127,13 +127,7 @@ describe("updateRole", () => {
     const nonAdmins = users.filter(({ role }) => role !== GQLUSER_ROLE.ADMIN);
     for (const user of nonAdmins) {
       for (const role of ROLES) {
-        const res = await uut(
-          mongo,
-          tenant,
-          admin,
-          user,
-          role,
-        );
+        const res = await uut(mongo, mockTenant, admin, user, role);
 
         expect(res.role).toEqual(role);
       }
@@ -145,10 +139,10 @@ describe("updateRole", () => {
     for (const user of nonMods) {
       const res = await uut(
         mongo,
-        tenant,
+        mockTenant,
         orgMod,
         user,
-        GQLUSER_ROLE.MODERATOR,
+        GQLUSER_ROLE.MODERATOR
       );
 
       expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
@@ -156,22 +150,19 @@ describe("updateRole", () => {
   });
 
   it("does not allow site mods, staff, members, or commenters to change anyones role", async () => {
-    const cannotChangeRoles = [site1Mod, site1Staff, site1Member, site1Commenter];
+    const cannotChangeRoles = [
+      site1Mod,
+      site1Staff,
+      site1Member,
+      site1Commenter,
+    ];
     for (const viewer of cannotChangeRoles) {
       const otherUsers = users.filter(({ id }) => id !== viewer.id);
       for (const user of otherUsers) {
         for (const role of ROLES) {
-          await expect(
-            async () => {
-              await uut(
-                mongo,
-                tenant,
-                viewer,
-                user,
-                role,
-              );
-            }
-          ).rejects.toThrow(UserForbiddenError);
+          await expect(async () => {
+            await uut(mongo, mockTenant, viewer, user, role);
+          }).rejects.toThrow(UserForbiddenError);
         }
       }
     }
@@ -181,23 +172,26 @@ describe("updateRole", () => {
     for (const user of users) {
       for (const role of ROLES) {
         await expect(
-          async () => await uut(mongo, tenant, user, user, role)
+          async () => await uut(mongo, mockTenant, user, user, role)
         ).rejects.toThrow(UserForbiddenError);
       }
     }
   });
 
   it("does not allow users < admin to allocate new admins", async () => {
-    const ltAdminUsers = users.filter(({ role }) => role !== GQLUSER_ROLE.ADMIN);
+    const ltAdminUsers = users.filter(
+      ({ role }) => role !== GQLUSER_ROLE.ADMIN
+    );
     for (const user of ltAdminUsers) {
       const otherUsers = users.filter(({ id }) => id !== user.id);
       for (const otherUser of otherUsers) {
         await expect(
-          async () => await uut(mongo, tenant, user, otherUser, GQLUSER_ROLE.ADMIN)
+          async () =>
+            await uut(mongo, mockTenant, user, otherUser, GQLUSER_ROLE.ADMIN)
         ).rejects.toThrow(UserForbiddenError);
       }
     }
-  })
+  });
 
   /**
    * IMPORTANT: this must be the last test in the suite!!!
