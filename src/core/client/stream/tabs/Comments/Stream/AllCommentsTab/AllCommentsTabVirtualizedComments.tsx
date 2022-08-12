@@ -135,26 +135,27 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   const Footer = useCallback(() => {
     return (
       <>
-        {viewNewCount && commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC && (
-          <Localized id="comments-loadMore">
-            <Button
-              key={`comments-loadMore-${comments.length}`}
-              id="comments-loadMore"
-              onClick={onViewMore}
-              color="secondary"
-              variant="outlined"
-              fullWidth
-              disabled={viewMoreLoading}
-              aria-controls="comments-allComments-log"
-              className={CLASSES.allCommentsTabPane.loadMoreButton}
-              // Added for keyboard shortcut support.
-              data-key-stop
-              data-is-load-more
-            >
-              Load More
-            </Button>
-          </Localized>
-        )}
+        {viewNewCount > 0 &&
+          commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC && (
+            <Localized id="comments-loadMore">
+              <Button
+                key={`comments-loadMore-${comments.length}`}
+                id="comments-loadMore"
+                onClick={onViewMore}
+                color="secondary"
+                variant="outlined"
+                fullWidth
+                disabled={viewMoreLoading}
+                aria-controls="comments-allComments-log"
+                className={CLASSES.allCommentsTabPane.loadMoreButton}
+                // Added for keyboard shortcut support.
+                data-key-stop
+                data-is-load-more
+              >
+                Load More
+              </Button>
+            </Localized>
+          )}
         {displayLoadAllButton && (
           <Localized
             id={
