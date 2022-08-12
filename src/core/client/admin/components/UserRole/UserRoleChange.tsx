@@ -80,7 +80,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
    */
   const handleChangeRole = useCallback(
     async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
-      // BOOKMARK: if role is new to having scopes, just pass scopes with changeRole
       await onChangeRole(r, siteIDs);
     },
     [onChangeRole]
