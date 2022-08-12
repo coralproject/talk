@@ -1007,7 +1007,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       renderWindow.scrollTo({ top: offset });
 
       if (stop.isLoadMore) {
-        if (stop.id === "comments-loadAll") {
+        if (stop.id === "comments-loadAll" || stop.id === "comments-loadMore") {
           return false;
         }
         if (!stop.isViewNew) {
