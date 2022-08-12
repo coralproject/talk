@@ -109,8 +109,16 @@ const UserRoleChange: FunctionComponent<Props> = ({
 
   const onFinishModal = useCallback(
     async (siteIDs: string[]) => {
+      // BOOKMARK: potentially need to call
+      /* eslint-disable */
+      if (siteRole !== user.role) {
+        await handleChangeRole(siteRole!, siteIDs);
+      } else {
+        await siteRole === GQLUSER_ROLE.MODERATOR ?
+          onChangeModerationScopes(siteIDs) : onChangeMembershipScopes(siteIDs);
+      }
       // Set the user as new role and then update the siteIDs.
-      await handleChangeRole(siteRole!, siteIDs);
+
 
       setSiteRole(null);
     },
