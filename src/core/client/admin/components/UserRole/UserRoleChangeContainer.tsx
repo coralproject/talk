@@ -28,6 +28,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  // BOOKMARK: todo = add siteIDs to UpdateUserRoleInput
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const updateUserModerationScopes = useMutation(
     UpdateUserModerationScopesMutation
@@ -36,13 +37,13 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     UpdateUserMembershipScopesMutation
   );
   const handleOnChangeRole = useCallback(
-    async (role: GQLUSER_ROLE_RL) => {
+    async (role: GQLUSER_ROLE_RL, siteIDs?: string[]) => {
       if (role === user.role) {
         // No role change is needed! User already has the selected role.
         return;
       }
 
-      await updateUserRole({ userID: user.id, role });
+      await updateUserRole({ userID: user.id, role, siteIDs });
     },
     [user, updateUserRole]
   );
