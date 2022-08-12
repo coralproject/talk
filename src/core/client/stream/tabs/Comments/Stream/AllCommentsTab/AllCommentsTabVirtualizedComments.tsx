@@ -106,18 +106,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     commentsFullyLoaded,
   ]);
 
-  // When comments are sorted oldest first, this determines if there are new comments
-  // that have come in via subscription for which a Load more button should be
-  // displayed.
-  const showLoadMoreForOldestFirstNewComments = useMemo(() => {
-    return (
-      commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
-      hasMore &&
-      (comments.length < NUM_INITIAL_COMMENTS ||
-        (comments.length >= NUM_INITIAL_COMMENTS && !displayLoadAllButton))
-    );
-  }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
-
   const beginLoadMoreAllCommentsEvent = useViewerNetworkEvent(
     LoadMoreAllCommentsEvent
   );
@@ -202,7 +190,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     comments,
     isLoadingMore,
     displayLoadAllButton,
-    showLoadMoreForOldestFirstNewComments,
     loadMoreAndEmit,
     onDisplayLoadAllButtonClick,
     loadAllButtonDisabled,
