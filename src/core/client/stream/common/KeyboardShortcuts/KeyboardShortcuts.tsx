@@ -74,6 +74,7 @@ interface Props {
   currentScrollRef: any;
   comments: ReadonlyArray<Comment>;
   viewNewCount: number;
+  hasMore: boolean;
 }
 
 export interface KeyboardEventData {
@@ -276,6 +277,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   currentScrollRef,
   comments,
   viewNewCount,
+  hasMore,
 }) => {
   const {
     relayEnvironment,
@@ -327,6 +329,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     setViewNewCountBeforeUnmarkAll,
   ] = useState(viewNewCount);
 
+  const [hasMoreCommentsToLoad, setHasMoreCommentsToLoad] = useState(false);
+
+  useEffect(() => {
+    if (commentsFullyLoaded && hasMore) {
+      setHasMoreCommentsToLoad(true);
+    }
+  }, [hasMore, commentsFullyLoaded]);
+
   const newCommentsAreStillMarkedUnseen = useMemo(() => {
     const noNewCommentsHaveBeenMarkedSeenWithUnmarkAll =
       viewNewCountBeforeUnmarkAll === 0;
@@ -343,7 +353,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // Keeps the mobile toolbar button states updated whenever comments or the
   // viewNewCount changes
   useEffect(() => {
-    if (!commentsFullyLoaded || newCommentsAreStillMarkedUnseen) {
+    if (
+      !commentsFullyLoaded ||
+      newCommentsAreStillMarkedUnseen ||
+      hasMoreCommentsToLoad
+    ) {
       if (disableUnreadButtons) {
         setDisableUnreadButtons(false);
         return;
@@ -398,7 +412,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnreadButtons(true);
       }
     }
-  }, [comments, newCommentsAreStillMarkedUnseen, commentsFullyLoaded]);
+  }, [
+    comments,
+    newCommentsAreStillMarkedUnseen,
+    commentsFullyLoaded,
+    hasMoreCommentsToLoad,
+  ]);
 
   const unmarkAll = useCallback(
     async (config: { source: "keyboard" | "mobileToolbar" }) => {
@@ -537,10 +556,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // If there are new comments via subscription, return next unseen with isNew
       // if there's no comment with traversal focus. Otherwise, set as the
       // loopBackAroundUnseenComment in case we loop back around looking for the next unseen.
-      if (
-        newCommentsAreStillMarkedUnseen &&
-        commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_DESC
-      ) {
+      if (newCommentsAreStillMarkedUnseen) {
         if (!commentWithTraversalFocus) {
           nextUnseenComment = { isNew: true, isRoot: true };
           return nextUnseenComment;
@@ -650,7 +666,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       if (commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
         return nextUnseenExists
           ? nextUnseenComment
-          : newCommentsAreStillMarkedUnseen
+          : hasMoreCommentsToLoad
           ? { isNew: true, isRoot: true }
           : loopBackAroundUnseenComment;
       }
@@ -661,6 +677,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       commentWithTraversalFocus,
       newCommentsAreStillMarkedUnseen,
       commentsOrderBy,
+      hasMoreCommentsToLoad,
     ]
   );
 
@@ -680,15 +697,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           // oldest first view new comments
           if (commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC) {
             setLocal({ loadAllButtonHasBeenClicked: true });
-            if (!commentsFullyLoaded) {
-              setFindAndNavigateAfterLoad({ findAndNavigate: true, source });
-              const loadAllButton = root.getElementById("comments-loadAll");
-              if (loadAllButton) {
-                const loadAllKeyStop = toKeyStop(loadAllButton);
-                scrollToComment(loadAllKeyStop?.element);
-              }
-              return;
-            }
             currentScrollRef.current.scrollIntoView({
               align: "center",
               index: comments.length - 1,
@@ -833,7 +841,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       setZKeyClickedButton,
       setFocusAndMarkSeen,
       parseCommentElementID,
-      commentsFullyLoaded,
     ]
   );
 
@@ -999,9 +1006,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         }
       }
 
+      const stopElement = root.getElementById(stop.id);
+      if (!stopElement) {
+        return;
+      }
       const offset =
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        root.getElementById(stop.id)!.getBoundingClientRect().top +
+        stopElement.getBoundingClientRect().top +
         renderWindow.pageYOffset -
         150;
       renderWindow.scrollTo({ top: offset });
@@ -1050,9 +1061,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       currentScrollRef,
       commentWithTraversalFocus,
       comments,
-      viewNewCount,
       findAndNavigateToNextUnseen,
-      viewNewCountBeforeUnmarkAll,
       setZKeyClickedButton,
       commentsFullyLoaded,
     ]
@@ -1116,12 +1125,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       traverse,
       commentWithTraversalFocus,
       comments,
-      viewNewCount,
       commentsFullyLoaded,
       root,
       scrollToComment,
       setLocal,
-      viewNewCountBeforeUnmarkAll,
     ]
   );
 

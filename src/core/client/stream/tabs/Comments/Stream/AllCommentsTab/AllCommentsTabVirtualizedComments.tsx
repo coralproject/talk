@@ -33,9 +33,6 @@ interface Props {
   commentsOrderBy: COMMENT_SORT;
   comments: AllCommentsTabContainer_story["comments"]["edges"];
   newCommentsLength: number;
-  viewNewCount: number;
-  onViewMore: () => void;
-  viewMoreLoading: boolean;
 }
 
 // Virtuoso settings
@@ -54,9 +51,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
   commentsOrderBy,
   comments,
   newCommentsLength,
-  viewNewCount,
-  onViewMore,
-  viewMoreLoading,
 }) => {
   const [
     {
@@ -132,30 +126,41 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     return !commentsFullyLoaded && loadAllButtonHasBeenClicked;
   }, [commentsFullyLoaded, loadAllButtonHasBeenClicked]);
 
+  // When comments are sorted oldest first, this determines if there are new comments
+  // that have come in via subscription for which a Load more button should be
+  // displayed.
+  const showLoadMoreForOldestFirstNewComments = useMemo(() => {
+    return (
+      commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+      hasMore &&
+      (comments.length < NUM_INITIAL_COMMENTS ||
+        (comments.length >= NUM_INITIAL_COMMENTS && !displayLoadAllButton))
+    );
+  }, [hasMore, commentsOrderBy, comments, displayLoadAllButton]);
+
   const Footer = useCallback(() => {
     return (
       <>
-        {viewNewCount > 0 &&
-          commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC && (
-            <Localized id="comments-loadMore">
-              <Button
-                key={`comments-loadMore-${comments.length}`}
-                id="comments-loadMore"
-                onClick={onViewMore}
-                color="secondary"
-                variant="outlined"
-                fullWidth
-                disabled={viewMoreLoading}
-                aria-controls="comments-allComments-log"
-                className={CLASSES.allCommentsTabPane.loadMoreButton}
-                // Added for keyboard shortcut support.
-                data-key-stop
-                data-is-load-more
-              >
-                Load More
-              </Button>
-            </Localized>
-          )}
+        {showLoadMoreForOldestFirstNewComments && (
+          <Localized id="comments-loadMore">
+            <Button
+              key={`comments-loadMore-${comments.length}`}
+              id="comments-loadMore"
+              onClick={loadMoreAndEmit}
+              color="secondary"
+              variant="outlined"
+              fullWidth
+              disabled={isLoadingMore}
+              aria-controls="comments-allComments-log"
+              className={CLASSES.allCommentsTabPane.loadMoreButton}
+              // Added for keyboard shortcut support.
+              data-key-stop
+              data-is-load-more
+            >
+              Load More
+            </Button>
+          </Localized>
+        )}
         {displayLoadAllButton && (
           <Localized
             id={
@@ -194,9 +199,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     loadMoreAndEmit,
     onDisplayLoadAllButtonClick,
     loadAllButtonDisabled,
-    viewNewCount,
-    onViewMore,
-    viewMoreLoading,
+    showLoadMoreForOldestFirstNewComments,
   ]);
 
   return (
