@@ -354,6 +354,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           currentScrollRef={currentScrollRef}
           comments={comments}
           viewNewCount={viewNewCount}
+          hasMore={hasMore}
         />
       )}
       {tag === GQLTAG.REVIEW && (
