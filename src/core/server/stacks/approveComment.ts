@@ -82,10 +82,6 @@ const enableRepliesToChildren = async (
     })
     .toArray();
 
-  if (children.length === 0) {
-    return;
-  }
-
   const nonRejectedChildIDs = children
     .filter(({ status }) => status !== GQLCOMMENT_STATUS.REJECTED)
     .map(({ id }) => id);
