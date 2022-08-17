@@ -1,8 +1,8 @@
 import { screen } from "@testing-library/react";
+
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import create from "./create";
-
 import {
   commentWithRejectedReply,
   replyableComment,
