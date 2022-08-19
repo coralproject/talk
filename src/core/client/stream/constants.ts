@@ -4,7 +4,7 @@ export const VIEWER_STATUS_CONTAINER_ID = "viewer-status";
 
 export const POST_COMMENT_FORM_ID = "post-comment-form";
 
-export const MAX_REPLY_INDENT_DEPTH = 4;
+export const MAX_REPLY_INDENT_DEPTH = 6;
 
 export const NUM_INITIAL_COMMENTS = 20;
 

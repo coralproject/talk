@@ -37,6 +37,26 @@ import { ReplyListContainer3_settings } from "coral-stream/__generated__/ReplyLi
 import { ReplyListContainer3_story } from "coral-stream/__generated__/ReplyListContainer3_story.graphql";
 import { ReplyListContainer3_viewer } from "coral-stream/__generated__/ReplyListContainer3_viewer.graphql";
 import { ReplyListContainer3PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer3PaginationQuery.graphql";
+import { ReplyListContainer4_comment } from "coral-stream/__generated__/ReplyListContainer4_comment.graphql";
+import { ReplyListContainer4_settings } from "coral-stream/__generated__/ReplyListContainer4_settings.graphql";
+import { ReplyListContainer4_story } from "coral-stream/__generated__/ReplyListContainer4_story.graphql";
+import { ReplyListContainer4_viewer } from "coral-stream/__generated__/ReplyListContainer4_viewer.graphql";
+import { ReplyListContainer4PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer4PaginationQuery.graphql";
+import { ReplyListContainer5_comment } from "coral-stream/__generated__/ReplyListContainer5_comment.graphql";
+import { ReplyListContainer5_settings } from "coral-stream/__generated__/ReplyListContainer5_settings.graphql";
+import { ReplyListContainer5_story } from "coral-stream/__generated__/ReplyListContainer5_story.graphql";
+import { ReplyListContainer5_viewer } from "coral-stream/__generated__/ReplyListContainer5_viewer.graphql";
+import { ReplyListContainer5PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer5PaginationQuery.graphql";
+import { ReplyListContainer6_comment } from "coral-stream/__generated__/ReplyListContainer6_comment.graphql";
+import { ReplyListContainer6_settings } from "coral-stream/__generated__/ReplyListContainer6_settings.graphql";
+import { ReplyListContainer6_story } from "coral-stream/__generated__/ReplyListContainer6_story.graphql";
+import { ReplyListContainer6_viewer } from "coral-stream/__generated__/ReplyListContainer6_viewer.graphql";
+import { ReplyListContainer6PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer6PaginationQuery.graphql";
+import { ReplyListContainer7_comment } from "coral-stream/__generated__/ReplyListContainer7_comment.graphql";
+import { ReplyListContainer7_settings } from "coral-stream/__generated__/ReplyListContainer7_settings.graphql";
+import { ReplyListContainer7_story } from "coral-stream/__generated__/ReplyListContainer7_story.graphql";
+import { ReplyListContainer7_viewer } from "coral-stream/__generated__/ReplyListContainer7_viewer.graphql";
+import { ReplyListContainer7PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer7PaginationQuery.graphql";
 import { ReplyListContainerLast_comment } from "coral-stream/__generated__/ReplyListContainerLast_comment.graphql";
 import { ReplyListContainerLast_settings } from "coral-stream/__generated__/ReplyListContainerLast_settings.graphql";
 import { ReplyListContainerLast_story } from "coral-stream/__generated__/ReplyListContainerLast_story.graphql";
@@ -59,30 +79,50 @@ type Viewer =
   | ReplyListContainer1_viewer
   | ReplyListContainer2_viewer
   | ReplyListContainer3_viewer
+  | ReplyListContainer4_viewer
+  | ReplyListContainer5_viewer
+  | ReplyListContainer6_viewer
+  | ReplyListContainer7_viewer
   | ReplyListContainerLastFlattened_viewer;
 
 type Comment =
   | ReplyListContainer1_comment
   | ReplyListContainer2_comment
   | ReplyListContainer3_comment
+  | ReplyListContainer4_comment
+  | ReplyListContainer5_comment
+  | ReplyListContainer6_comment
+  | ReplyListContainer7_comment
   | ReplyListContainerLastFlattened_comment;
 
 type Story =
   | ReplyListContainer1_story
   | ReplyListContainer2_story
   | ReplyListContainer3_story
+  | ReplyListContainer4_story
+  | ReplyListContainer5_story
+  | ReplyListContainer6_story
+  | ReplyListContainer7_story
   | ReplyListContainerLastFlattened_story;
 
 type Settings =
   | ReplyListContainer1_settings
   | ReplyListContainer2_settings
   | ReplyListContainer3_settings
+  | ReplyListContainer4_settings
+  | ReplyListContainer5_settings
+  | ReplyListContainer6_settings
+  | ReplyListContainer7_settings
   | ReplyListContainerLastFlattened_settings;
 
 type PaginationQuery =
   | ReplyListContainer1PaginationQueryVariables
   | ReplyListContainer2PaginationQueryVariables
   | ReplyListContainer3PaginationQueryVariables
+  | ReplyListContainer4PaginationQueryVariables
+  | ReplyListContainer5PaginationQueryVariables
+  | ReplyListContainer6PaginationQueryVariables
+  | ReplyListContainer7PaginationQueryVariables
   | ReplyListContainerLastFlattenedPaginationQueryVariables;
 
 /**
@@ -513,30 +553,30 @@ const ReplyListContainerLast = createRelayFragmentContainer<
   }
 );
 
-const ReplyListContainer3 = createReplyListContainer({
+const ReplyListContainer7 = createReplyListContainer({
   NextReplyListComponent: ReplyListContainerLast,
   fragments: {
     viewer: graphql`
-      fragment ReplyListContainer3_viewer on User {
+      fragment ReplyListContainer7_viewer on User {
         id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainerLast_viewer
       }
     `,
     settings: graphql`
-      fragment ReplyListContainer3_settings on Settings {
+      fragment ReplyListContainer7_settings on Settings {
         ...ReplyListContainer_settings @relay(mask: false)
         ...ReplyListContainerLast_settings
       }
     `,
     story: graphql`
-      fragment ReplyListContainer3_story on Story {
+      fragment ReplyListContainer7_story on Story {
         ...ReplyListContainer_story @relay(mask: false)
         ...ReplyListContainerLast_story
       }
     `,
     comment: graphql`
-      fragment ReplyListContainer3_comment on Comment
+      fragment ReplyListContainer7_comment on Comment
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "Cursor" }
@@ -554,6 +594,266 @@ const ReplyListContainer3 = createReplyListContainer({
           edges {
             node {
               ...ReplyListContainerLast_comment
+            }
+          }
+        }
+      }
+    `,
+  },
+  query: graphql`
+    # Pagination query to be fetched upon calling 'loadMore'.
+    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+    query ReplyListContainer7PaginationQuery(
+      $count: Int!
+      $cursor: Cursor
+      $orderBy: COMMENT_SORT!
+      $commentID: ID!
+      $flattenReplies: Boolean!
+    ) {
+      comment(id: $commentID) {
+        ...ReplyListContainer7_comment
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+      }
+    }
+  `,
+});
+
+const ReplyListContainer6 = createReplyListContainer({
+  NextReplyListComponent: ReplyListContainer7,
+  fragments: {
+    viewer: graphql`
+      fragment ReplyListContainer6_viewer on User {
+        id
+        ...ReplyListContainer_viewer @relay(mask: false)
+        ...ReplyListContainer7_viewer
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainer6_settings on Settings {
+        ...ReplyListContainer_settings @relay(mask: false)
+        ...ReplyListContainer7_settings
+      }
+    `,
+    story: graphql`
+      fragment ReplyListContainer6_story on Story {
+        ...ReplyListContainer_story @relay(mask: false)
+        ...ReplyListContainer7_story
+      }
+    `,
+    comment: graphql`
+      fragment ReplyListContainer6_comment on Comment
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+        ) {
+        ...ReplyListContainer_comment @relay(mask: false)
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
+          ...ReplyListContainer_repliesConnection @relay(mask: false)
+          viewNewEdges {
+            node {
+              ...ReplyListContainer7_comment
+            }
+          }
+          edges {
+            node {
+              ...ReplyListContainer7_comment
+            }
+          }
+        }
+      }
+    `,
+  },
+  query: graphql`
+    # Pagination query to be fetched upon calling 'loadMore'.
+    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+    query ReplyListContainer6PaginationQuery(
+      $count: Int!
+      $cursor: Cursor
+      $orderBy: COMMENT_SORT!
+      $commentID: ID!
+      $flattenReplies: Boolean!
+    ) {
+      comment(id: $commentID) {
+        ...ReplyListContainer6_comment
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+      }
+    }
+  `,
+});
+
+const ReplyListContainer5 = createReplyListContainer({
+  NextReplyListComponent: ReplyListContainer6,
+  fragments: {
+    viewer: graphql`
+      fragment ReplyListContainer5_viewer on User {
+        id
+        ...ReplyListContainer_viewer @relay(mask: false)
+        ...ReplyListContainer6_viewer
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainer5_settings on Settings {
+        ...ReplyListContainer_settings @relay(mask: false)
+        ...ReplyListContainer6_settings
+      }
+    `,
+    story: graphql`
+      fragment ReplyListContainer5_story on Story {
+        ...ReplyListContainer_story @relay(mask: false)
+        ...ReplyListContainer6_story
+      }
+    `,
+    comment: graphql`
+      fragment ReplyListContainer5_comment on Comment
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+        ) {
+        ...ReplyListContainer_comment @relay(mask: false)
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
+          ...ReplyListContainer_repliesConnection @relay(mask: false)
+          viewNewEdges {
+            node {
+              ...ReplyListContainer6_comment
+            }
+          }
+          edges {
+            node {
+              ...ReplyListContainer6_comment
+            }
+          }
+        }
+      }
+    `,
+  },
+  query: graphql`
+    # Pagination query to be fetched upon calling 'loadMore'.
+    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+    query ReplyListContainer5PaginationQuery(
+      $count: Int!
+      $cursor: Cursor
+      $orderBy: COMMENT_SORT!
+      $commentID: ID!
+      $flattenReplies: Boolean!
+    ) {
+      comment(id: $commentID) {
+        ...ReplyListContainer5_comment
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+      }
+    }
+  `,
+});
+
+const ReplyListContainer4 = createReplyListContainer({
+  NextReplyListComponent: ReplyListContainer5,
+  fragments: {
+    viewer: graphql`
+      fragment ReplyListContainer4_viewer on User {
+        id
+        ...ReplyListContainer_viewer @relay(mask: false)
+        ...ReplyListContainer5_viewer
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainer4_settings on Settings {
+        ...ReplyListContainer_settings @relay(mask: false)
+        ...ReplyListContainer5_settings
+      }
+    `,
+    story: graphql`
+      fragment ReplyListContainer4_story on Story {
+        ...ReplyListContainer_story @relay(mask: false)
+        ...ReplyListContainer5_story
+      }
+    `,
+    comment: graphql`
+      fragment ReplyListContainer4_comment on Comment
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+        ) {
+        ...ReplyListContainer_comment @relay(mask: false)
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
+          ...ReplyListContainer_repliesConnection @relay(mask: false)
+          viewNewEdges {
+            node {
+              ...ReplyListContainer5_comment
+            }
+          }
+          edges {
+            node {
+              ...ReplyListContainer5_comment
+            }
+          }
+        }
+      }
+    `,
+  },
+  query: graphql`
+    # Pagination query to be fetched upon calling 'loadMore'.
+    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+    query ReplyListContainer4PaginationQuery(
+      $count: Int!
+      $cursor: Cursor
+      $orderBy: COMMENT_SORT!
+      $commentID: ID!
+      $flattenReplies: Boolean!
+    ) {
+      comment(id: $commentID) {
+        ...ReplyListContainer4_comment
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+      }
+    }
+  `,
+});
+
+const ReplyListContainer3 = createReplyListContainer({
+  NextReplyListComponent: ReplyListContainer4,
+  fragments: {
+    viewer: graphql`
+      fragment ReplyListContainer3_viewer on User {
+        id
+        ...ReplyListContainer_viewer @relay(mask: false)
+        ...ReplyListContainer4_viewer
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainer3_settings on Settings {
+        ...ReplyListContainer_settings @relay(mask: false)
+        ...ReplyListContainer4_settings
+      }
+    `,
+    story: graphql`
+      fragment ReplyListContainer3_story on Story {
+        ...ReplyListContainer_story @relay(mask: false)
+        ...ReplyListContainer4_story
+      }
+    `,
+    comment: graphql`
+      fragment ReplyListContainer3_comment on Comment
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+        ) {
+        ...ReplyListContainer_comment @relay(mask: false)
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
+          ...ReplyListContainer_repliesConnection @relay(mask: false)
+          viewNewEdges {
+            node {
+              ...ReplyListContainer4_comment
+            }
+          }
+          edges {
+            node {
+              ...ReplyListContainer4_comment
             }
           }
         }

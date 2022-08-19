@@ -22,6 +22,8 @@ const levels = [
   styles.level4,
   styles.level5,
   styles.level6,
+  styles.level7,
+  styles.level8,
 ];
 
 function getLevelClassName(level = 0) {

@@ -117,5 +117,5 @@ $commenterActionEditColorActive: var(--palette-primary-300);
 }
 
 .flattenedPadding {
-  padding-left: 18px;
+  padding-left: 18px; // BOOKMARK: i think we need to update this...
 }
