@@ -15,6 +15,7 @@ import {
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
+  createEmptyCommentTagCounts,
   createEmptyRelatedCommentCounts,
 } from "./empty";
 
@@ -157,6 +158,27 @@ export function mergeCommentModerationQueueCount(
     merged.queues.unmoderated += moderationQueue.queues.unmoderated;
     merged.queues.pending += moderationQueue.queues.pending;
     merged.queues.reported += moderationQueue.queues.reported;
+  }
+
+  return merged;
+}
+
+export function mergeCommentTagCounts(
+  ...tags: CommentTagCounts[]
+): CommentTagCounts {
+  const merged = createEmptyCommentTagCounts();
+
+  for (const tagSet of tags) {
+    merged.total += tagSet.total;
+
+    merged.tags.EXPERT += tagSet.tags.EXPERT;
+    merged.tags.FEATURED += tagSet.tags.FEATURED;
+    merged.tags.MEMBER += tagSet.tags.MEMBER;
+    merged.tags.MODERATOR += tagSet.tags.MODERATOR;
+    merged.tags.QUESTION += tagSet.tags.QUESTION;
+    merged.tags.REVIEW += tagSet.tags.REVIEW;
+    merged.tags.STAFF += tagSet.tags.STAFF;
+    merged.tags.UNANSWERED += tagSet.tags.UNANSWERED;
   }
 
   return merged;
