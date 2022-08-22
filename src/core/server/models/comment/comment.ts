@@ -1043,16 +1043,14 @@ export async function retrieveStoryCommentTagCounts(
 ): Promise<GQLCommentTagCounts[]> {
   const stories = await retrieveManyStories(mongo, tenantID, storyIDs);
 
-  const liveStories: string[] = [];
-  const archivedStories: string[] = [];
-
-  for (const s of stories) {
-    if (s !== null && s !== undefined && !s.isArchived && !s.isArchiving) {
-      liveStories.push(s.id);
-    } else if (s !== null && s !== undefined && s.isArchived) {
-      archivedStories.push(s.id);
-    }
-  }
+  const liveStories = stories
+    .filter((s) => s !== null && s !== undefined)
+    .filter((s) => !s?.isArchived && !s?.isArchiving)
+    .map((s) => s?.id) as string[];
+  const archivedStories = stories
+    .filter((s) => s !== null && s !== undefined)
+    .filter((s) => s?.isArchived)
+    .map((s) => s?.id) as string[];
 
   const liveCounts: StoryCommentTagCounts[] =
     liveStories.length > 0
@@ -1098,135 +1096,12 @@ interface StoryCommentTagCounts {
   counts: GQLCommentTagCounts;
 }
 
-interface CompareResult {
-  elapsed: number;
-  value: StoryCommentTagCounts[];
-}
-
-async function retrieveWithCursor(
+async function retrieveStoryCommentTagCountsFromDb(
   mongo: MongoContext,
   tenantID: string,
   storyIDs: ReadonlyArray<string>,
   isArchived: boolean
-): Promise<CompareResult> {
-  // Build up the $match query.
-  const $match: FilterQuery<Comment> = {
-    tenantID,
-    // ensure we are using the tags.type index, this
-    // currently includes FEATURED and UNANSWERED tags
-    "tags.type": { $exists: true },
-    // Only show published comment's tag counts.
-    status: { $in: PUBLISHED_STATUSES },
-  };
-  if (storyIDs.length > 1) {
-    $match.storyID = { $in: storyIDs };
-  } else {
-    $match.storyID = storyIDs[0];
-  }
-
-  // Get the start time.
-  const timer = createTimer();
-
-  const aggregation = [
-    { $match },
-    { $unwind: "$tags" },
-    {
-      $group: {
-        _id: { tag: "$tags.type", storyID: "$storyID" },
-        total: { $sum: 1 },
-      },
-    },
-  ];
-
-  // Load the counts from the database for this particular tag query.
-  const cursor =
-    isArchived && mongo.archive
-      ? mongo
-          .archivedComments()
-          .aggregate<{
-            _id: { tag: GQLTAG; storyID: string };
-            total: number;
-          }>(aggregation)
-          .batchSize(1001)
-      : mongo
-          .comments()
-          .aggregate<{
-            _id: { tag: GQLTAG; storyID: string };
-            total: number;
-          }>(aggregation)
-          .batchSize(1001);
-
-  const storyCounts = new Map<
-    string,
-    {
-      id: string;
-      counts: {
-        FEATURED: number;
-        UNANSWERED: number;
-        REVIEW: number;
-        QUESTION: number;
-        ADMIN: number;
-        MODERATOR: number;
-        STAFF: number;
-        MEMBER: number;
-        EXPERT: number;
-      };
-    }
-  >();
-
-  while (await cursor.hasNext()) {
-    const tag = await cursor.next();
-    if (!tag) {
-      continue;
-    }
-
-    if (!storyCounts.has(tag._id.storyID)) {
-      storyCounts.set(tag._id.storyID, {
-        id: tag._id.storyID,
-        counts: {
-          FEATURED: 0,
-          UNANSWERED: 0,
-          REVIEW: 0,
-          QUESTION: 0,
-          ADMIN: 0,
-          MODERATOR: 0,
-          STAFF: 0,
-          MEMBER: 0,
-          EXPERT: 0,
-        },
-      });
-    }
-
-    if (storyCounts.has(tag._id.storyID)) {
-      const storyCount = storyCounts.get(tag._id.storyID);
-      if (!storyCount) {
-        continue;
-      }
-
-      storyCount.counts[tag._id.tag] += tag.total;
-    }
-  }
-
-  const result = Array.from(storyCounts.values());
-
-  const elapsed = timer();
-
-  // Logging at the info level here to ensure we track any degrading performance
-  // issues from this query.
-  logger.info({ responseTime: elapsed, filter: $match }, "counting tags");
-
-  return {
-    elapsed,
-    value: result,
-  };
-}
-
-async function retrieveWithoutCursor(
-  mongo: MongoContext,
-  tenantID: string,
-  storyIDs: ReadonlyArray<string>,
-  isArchived: boolean
-): Promise<CompareResult> {
+): Promise<StoryCommentTagCounts[]> {
   // Build up the $match query.
   const $match: FilterQuery<Comment> = {
     tenantID,
@@ -1271,8 +1146,12 @@ async function retrieveWithoutCursor(
   // Get all of the counts.
   const tags = await cursor.toArray();
 
+  // Logging at the info level here to ensure we track any degrading performance
+  // issues from this query.
+  logger.info({ responseTime: timer(), filter: $match }, "counting tags");
+
   // For each of the storyIDs...
-  const result = storyIDs.map((storyID) => {
+  return storyIDs.map((storyID) => {
     // Get the tags associated with this storyID.
     const tagCounts = tags.filter(({ _id }) => _id.storyID === storyID) || [];
 
@@ -1297,44 +1176,6 @@ async function retrieveWithoutCursor(
       counts: reducedCounts,
     };
   });
-
-  const elapsed = timer();
-
-  // Logging at the info level here to ensure we track any degrading performance
-  // issues from this query.
-  logger.info({ responseTime: elapsed, filter: $match }, "counting tags");
-
-  return {
-    elapsed,
-    value: result,
-  };
-}
-
-async function retrieveStoryCommentTagCountsFromDb(
-  mongo: MongoContext,
-  tenantID: string,
-  storyIDs: ReadonlyArray<string>,
-  isArchived: boolean
-): Promise<StoryCommentTagCounts[]> {
-  const newRet = await retrieveWithCursor(
-    mongo,
-    tenantID,
-    storyIDs,
-    isArchived
-  );
-  const old = await retrieveWithoutCursor(
-    mongo,
-    tenantID,
-    storyIDs,
-    isArchived
-  );
-
-  logger.info(
-    { newRet: newRet.elapsed, old: old.elapsed },
-    "comparing count scripts"
-  );
-
-  return old.value;
 }
 
 export async function retrieveManyRecentStatusCounts(
