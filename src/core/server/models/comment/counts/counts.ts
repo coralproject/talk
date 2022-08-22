@@ -7,7 +7,10 @@ import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 import {
   createEmptyCommentModerationQueueCounts,
@@ -69,6 +72,24 @@ export interface CommentStatusCounts {
   [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
 }
 
+export interface CommentTagCounts {
+  total: number;
+
+  tags: CommentCountsPerTag;
+}
+
+export interface CommentCountsPerTag {
+  [GQLTAG.ADMIN]: number;
+  [GQLTAG.EXPERT]: number;
+  [GQLTAG.FEATURED]: number;
+  [GQLTAG.MEMBER]: number;
+  [GQLTAG.MODERATOR]: number;
+  [GQLTAG.QUESTION]: number;
+  [GQLTAG.REVIEW]: number;
+  [GQLTAG.STAFF]: number;
+  [GQLTAG.UNANSWERED]: number;
+}
+
 /**
  * RelatedCommentCounts stores all the Comment Counts that will be stored on
  * each related document (like a Story, or a Site).
@@ -91,6 +112,8 @@ export interface RelatedCommentCounts {
    * ModerationQueue's on this related document.
    */
   moderationQueue: CommentModerationQueueCounts;
+
+  tags: CommentTagCounts;
 }
 
 /**

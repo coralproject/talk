@@ -1091,6 +1091,25 @@ export async function retrieveStoryCommentTagCounts(
   });
 }
 
+export async function initializeCommentTagCountsForStory(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string
+) {
+  const story = await retrieveStory(mongo, tenantID, storyID);
+  if (story?.commentCounts.tags) {
+    return;
+  }
+
+  const tagCounts = await retrieveStoryCommentTagCounts(mongo, tenantID, [
+    storyID,
+  ]);
+
+  if (!tagCounts || tagCounts.length < 1) {
+    // TODO: generate the tag counts
+  }
+}
+
 interface StoryCommentTagCounts {
   id: string;
   counts: GQLCommentTagCounts;

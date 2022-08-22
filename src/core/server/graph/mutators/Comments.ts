@@ -18,6 +18,7 @@ import {
   createComment,
   editComment,
 } from "coral-server/stacks";
+import { updateTagCommentCounts } from "coral-server/stacks/helpers/updateAllCommentCounts";
 
 import {
   GQLCOMMENT_STATUS,
@@ -205,6 +206,16 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.now
       );
     }
+
+    await updateTagCommentCounts(
+      ctx.tenant.id,
+      comment.storyID,
+      ctx.site!.id,
+      ctx.mongo,
+      ctx.redis,
+      comment.tags.filter((t) => t.type !== GQLTAG.FEATURED),
+      comment.tags
+    );
 
     // Publish that the comment was featured.
     await publishCommentFeatured(ctx.broker, comment);
