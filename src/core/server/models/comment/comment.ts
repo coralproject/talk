@@ -39,7 +39,11 @@ import {
 
 import { retrieveManyStories, retrieveStory } from "../story";
 import { PUBLISHED_STATUSES } from "./constants";
-import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
+import {
+  CommentCountsPerTag,
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+} from "./counts";
 import { hasAncestors } from "./helpers";
 import { Revision } from "./revision";
 import { CommentTag } from "./tag";
@@ -1043,6 +1047,52 @@ export async function retrieveStoryCommentTagCounts(
 ): Promise<GQLCommentTagCounts[]> {
   const stories = await retrieveManyStories(mongo, tenantID, storyIDs);
 
+  const result = new Map<string, GQLCommentTagCounts>();
+
+  for (const story of stories) {
+    if (story === null || story === undefined) {
+      continue;
+    }
+
+    if (!story?.commentCounts.tags) {
+      const tags = await initializeCommentTagCountsForStory(
+        mongo,
+        tenantID,
+        story.id
+      );
+      result.set(story.id, tags);
+    } else {
+      result.set(story.id, story.commentCounts.tags.tags);
+    }
+  }
+
+  return storyIDs.map((id) => {
+    const tags = result.get(id);
+    if (!tags) {
+      return {
+        [GQLTAG.ADMIN]: 0,
+        [GQLTAG.EXPERT]: 0,
+        [GQLTAG.FEATURED]: 0,
+        [GQLTAG.MEMBER]: 0,
+        [GQLTAG.MODERATOR]: 0,
+        [GQLTAG.QUESTION]: 0,
+        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.STAFF]: 0,
+        [GQLTAG.UNANSWERED]: 0,
+      };
+    }
+
+    return tags;
+  });
+}
+
+export async function calculateCommentTagCounts(
+  mongo: MongoContext,
+  tenantID: string,
+  storyIDs: ReadonlyArray<string>
+): Promise<CommentCountsPerTag[]> {
+  const stories = await retrieveManyStories(mongo, tenantID, storyIDs);
+
   const liveStories = stories
     .filter((s) => s !== null && s !== undefined)
     .filter((s) => !s?.isArchived && !s?.isArchiving)
@@ -1082,10 +1132,15 @@ export async function retrieveStoryCommentTagCounts(
       return archivedCount.counts;
     } else {
       return {
+        [GQLTAG.ADMIN]: 0,
+        [GQLTAG.EXPERT]: 0,
         [GQLTAG.FEATURED]: 0,
-        [GQLTAG.UNANSWERED]: 0,
-        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.MEMBER]: 0,
+        [GQLTAG.MODERATOR]: 0,
         [GQLTAG.QUESTION]: 0,
+        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.STAFF]: 0,
+        [GQLTAG.UNANSWERED]: 0,
       };
     }
   });
@@ -1098,21 +1153,38 @@ export async function initializeCommentTagCountsForStory(
 ) {
   const story = await retrieveStory(mongo, tenantID, storyID);
   if (story?.commentCounts.tags) {
-    return;
+    return story.commentCounts.tags.tags;
   }
 
-  const tagCounts = await retrieveStoryCommentTagCounts(mongo, tenantID, [
-    storyID,
-  ]);
+  const tagCounts = await calculateCommentTagCounts(mongo, tenantID, [storyID]);
 
-  if (!tagCounts || tagCounts.length < 1) {
-    // TODO: generate the tag counts
+  if (!tagCounts || tagCounts.length <= 0) {
+    throw new Error("unable to initialize the comment tag counts");
   }
+
+  let total = 0;
+  for (const [, value] of Object.entries(tagCounts[0])) {
+    total += value;
+  }
+
+  await mongo.stories().findOneAndUpdate(
+    { id: storyID },
+    {
+      $set: {
+        "commentCounts.tags": {
+          total,
+          tags: tagCounts[0],
+        },
+      },
+    }
+  );
+
+  return tagCounts[0];
 }
 
 interface StoryCommentTagCounts {
   id: string;
-  counts: GQLCommentTagCounts;
+  counts: CommentCountsPerTag;
 }
 
 async function retrieveStoryCommentTagCountsFromDb(
@@ -1183,10 +1255,15 @@ async function retrieveStoryCommentTagCountsFromDb(
       // provide an accurate model. The type system should warn you if there is
       // missing/extra tags here.
       {
+        [GQLTAG.ADMIN]: 0,
+        [GQLTAG.EXPERT]: 0,
         [GQLTAG.FEATURED]: 0,
-        [GQLTAG.UNANSWERED]: 0,
-        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.MEMBER]: 0,
+        [GQLTAG.MODERATOR]: 0,
         [GQLTAG.QUESTION]: 0,
+        [GQLTAG.REVIEW]: 0,
+        [GQLTAG.STAFF]: 0,
+        [GQLTAG.UNANSWERED]: 0,
       }
     );
 
