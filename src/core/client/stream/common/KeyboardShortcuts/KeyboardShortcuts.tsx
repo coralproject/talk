@@ -792,7 +792,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               nextUnseenComment.virtuosoIndex === 0)
           ) {
             const rootComment = root.getElementById(
-              computeCommentElementID(nextUnseenComment.rootCommentID!)
+              computeCommentElementID(nextUnseenComment.rootCommentID)
             );
             if (rootComment) {
               setFocusAndMarkSeen(nextUnseenComment.rootCommentID);
