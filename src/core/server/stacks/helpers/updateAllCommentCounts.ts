@@ -101,14 +101,14 @@ export const calculateTags = (
 ): CommentTagCounts => {
   const tags: CommentCountsPerTag = {
     [GQLTAG.ADMIN]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.EXPERT]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.FEATURED]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.MEMBER]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.MODERATOR]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.QUESTION]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.REVIEW]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.STAFF]: tagChanged(before, after, GQLTAG.ADMIN),
-    [GQLTAG.UNANSWERED]: tagChanged(before, after, GQLTAG.ADMIN),
+    [GQLTAG.EXPERT]: tagChanged(before, after, GQLTAG.EXPERT),
+    [GQLTAG.FEATURED]: tagChanged(before, after, GQLTAG.FEATURED),
+    [GQLTAG.MEMBER]: tagChanged(before, after, GQLTAG.MEMBER),
+    [GQLTAG.MODERATOR]: tagChanged(before, after, GQLTAG.MODERATOR),
+    [GQLTAG.QUESTION]: tagChanged(before, after, GQLTAG.QUESTION),
+    [GQLTAG.REVIEW]: tagChanged(before, after, GQLTAG.REVIEW),
+    [GQLTAG.STAFF]: tagChanged(before, after, GQLTAG.STAFF),
+    [GQLTAG.UNANSWERED]: tagChanged(before, after, GQLTAG.UNANSWERED),
   };
 
   let total = 0;
