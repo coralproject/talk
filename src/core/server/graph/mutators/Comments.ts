@@ -36,6 +36,7 @@ import {
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { hasTag } from "coral-server/models/comment";
 import { validateUserModerationScopes } from "./helpers";
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
@@ -213,6 +214,9 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.site!.id,
       ctx.mongo,
       ctx.redis,
+      // Create a diff where "before" tags does not have a
+      // featured tag and the after does since the previous
+      // `addTag` put the featured tag onto the comment
       comment.tags.filter((t) => t.type !== GQLTAG.FEATURED),
       comment.tags
     );
@@ -229,7 +233,33 @@ export const Comments = (ctx: GraphContext) => ({
     // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, { commentID });
 
-    return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
+    const comment = await removeTag(
+      ctx.mongo,
+      ctx.tenant,
+      commentID,
+      GQLTAG.FEATURED
+    );
+
+    // If the tag is sucessfully removed (the tag is
+    // no longer present on the comment) then we can
+    // update the tag story counts.
+    const isFeatured = hasTag(comment, GQLTAG.FEATURED);
+    if (!isFeatured) {
+      await updateTagCommentCounts(
+        ctx.tenant.id,
+        comment.storyID,
+        ctx.site!.id,
+        ctx.mongo,
+        ctx.redis,
+        // Create a diff where "before" has the featured tag,
+        // and after does not since the result of the previous
+        // `removeTag` took the featured tag off of the comment
+        [...comment.tags, { type: GQLTAG.FEATURED, createdAt: new Date() }],
+        comment.tags
+      );
+    }
+
+    return comment;
   },
   markAsSeen: async ({
     commentIDs,
