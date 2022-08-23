@@ -1149,7 +1149,7 @@ export async function initializeCommentTagCountsForStory(
   }
 
   await mongo.stories().findOneAndUpdate(
-    { id: storyID },
+    { tenantID, id: storyID },
     {
       $set: {
         "commentCounts.tags": {
