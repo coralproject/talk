@@ -37,7 +37,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { retrieveManyStories, retrieveStory } from "../story";
+import { retrieveManyStories, retrieveStory, Story } from "../story";
 import { PUBLISHED_STATUSES } from "./constants";
 import {
   CommentCountsPerTag,
@@ -1056,12 +1056,12 @@ export async function retrieveStoryCommentTagCounts(
     }
 
     if (!story?.commentCounts.tags) {
-      const tags = await initializeCommentTagCountsForStory(
+      const tagsResult = await initializeCommentTagCountsForStory(
         mongo,
         tenantID,
         story.id
       );
-      result.set(story.id, tags);
+      result.set(story.id, tagsResult.tagCounts);
     } else {
       result.set(story.id, story.commentCounts.tags.tags);
     }
@@ -1127,14 +1127,26 @@ export async function calculateCommentTagCounts(
   });
 }
 
+interface InitializeCommentTagCountsResult {
+  story: Readonly<Story>;
+  tagCounts: CommentCountsPerTag;
+}
+
 export async function initializeCommentTagCountsForStory(
   mongo: MongoContext,
   tenantID: string,
   storyID: string
-) {
+): Promise<InitializeCommentTagCountsResult> {
   const story = await retrieveStory(mongo, tenantID, storyID);
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
   if (story?.commentCounts.tags) {
-    return story.commentCounts.tags.tags;
+    return {
+      story,
+      tagCounts: story.commentCounts.tags.tags,
+    };
   }
 
   const tagCounts = await calculateCommentTagCounts(mongo, tenantID, [storyID]);
@@ -1148,7 +1160,7 @@ export async function initializeCommentTagCountsForStory(
     total += value;
   }
 
-  await mongo.stories().findOneAndUpdate(
+  const result = await mongo.stories().findOneAndUpdate(
     { tenantID, id: storyID },
     {
       $set: {
@@ -1160,7 +1172,14 @@ export async function initializeCommentTagCountsForStory(
     }
   );
 
-  return tagCounts[0];
+  if (!result.ok || !result.value) {
+    throw new Error("unable to initialize the comment tag counts");
+  }
+
+  return {
+    story: result.value,
+    tagCounts: tagCounts[0],
+  };
 }
 
 interface StoryCommentTagCounts {

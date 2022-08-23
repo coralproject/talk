@@ -31,6 +31,7 @@ import {
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
+  GQLRefreshStoryCountsInput,
   GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
@@ -40,6 +41,7 @@ import {
   GQLUpdateStorySettingsInput,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
 import { validateUserModerationScopes } from "./helpers";
 
 export const Stories = (ctx: GraphContext) => ({
@@ -187,5 +189,18 @@ export const Stories = (ctx: GraphContext) => ({
     }
 
     return stories;
+  },
+  refreshStoryCounts: async (input: GQLRefreshStoryCountsInput) => {
+    if (input.tags) {
+      const result = await initializeCommentTagCountsForStory(
+        ctx.mongo,
+        ctx.tenant.id,
+        input.storyID
+      );
+
+      return result.story;
+    } else {
+      return await ctx.loaders.Stories.find.load({ id: input.storyID });
+    }
   },
 });
