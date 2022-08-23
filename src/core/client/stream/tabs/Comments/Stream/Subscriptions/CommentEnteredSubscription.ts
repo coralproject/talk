@@ -163,8 +163,10 @@ function insertReply(
   const replyAncestorID =
     ancestorID || (getReplyAncestorID(comment, depth) as string);
   const ancestorProxy = store.get(replyAncestorID);
-  const allChildCommentsAncestor = ancestorProxy?.getLinkedRecord(
-    "allChildComments"
+  const allChildCommentsAncestor = ancestorProxy?.getOrCreateLinkedRecord(
+    "allChildComments",
+    "allChildComments",
+    []
   );
   if (allChildCommentsAncestor) {
     const allChildEdges =
