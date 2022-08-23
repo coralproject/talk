@@ -785,7 +785,11 @@ export async function updateRole(
   const validUpdate = validateRoleChange(fullViewer, user, role, isScoped);
 
   if (!validUpdate) {
-    throw new UserForbiddenError("TODO: reason", "user", "updateRole");
+    throw new UserForbiddenError(
+      "Invalid role change operation",
+      "user",
+      "updateRole"
+    );
   }
 
   if (isScoped) {

@@ -3,16 +3,14 @@ import { UserForbiddenError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-
 import { createMockMongoContex } from "coral-server/test/mocks";
-
-import { updateRole } from "./users";
 
 import {
   createSiteFixture,
   createTenantFixture,
   createUserFixture,
 } from "../../test/fixtures";
+import { updateRole } from "./users";
 
 jest.mock("coral-server/models/user");
 

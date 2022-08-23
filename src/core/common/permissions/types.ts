@@ -1,4 +1,3 @@
-// TODO: this annoys me
 export type UserRole =
   | "%future added value"
   | "COMMENTER"
@@ -10,7 +9,6 @@ export type UserRole =
 export interface User {
   id: string;
   role: UserRole;
-  // tenantID: string;
   moderationScopes?: null | {
     scoped?: boolean;
     siteIDs?: string[];

@@ -253,6 +253,21 @@ it("change user role", async () => {
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
+it("can't change role as a moderator", async () => {
+  const moderator = users.moderators[0];
+  await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () => moderator,
+      },
+    }),
+  });
+
+  const userStatus = screen.getAllByLabelText("Change user status")[0];
+  expect(userStatus).toBeVisible();
+  expect(screen.queryByLabelText("Change role")).toBeNull();
+});
+
 it("change user role to Site Moderator and add sites to moderate", async () => {
   const user = users.commenters[0];
   const resolvers = createResolversStub<GQLResolver>({
