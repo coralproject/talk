@@ -171,6 +171,7 @@ export function mergeCommentTagCounts(
   for (const tagSet of tags) {
     merged.total += tagSet.total;
 
+    merged.tags.ADMIN += tagSet.tags.ADMIN;
     merged.tags.EXPERT += tagSet.tags.EXPERT;
     merged.tags.FEATURED += tagSet.tags.FEATURED;
     merged.tags.MEMBER += tagSet.tags.MEMBER;
