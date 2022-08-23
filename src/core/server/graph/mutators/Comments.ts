@@ -211,7 +211,7 @@ export const Comments = (ctx: GraphContext) => ({
     await updateTagCommentCounts(
       ctx.tenant.id,
       comment.storyID,
-      ctx.site!.id,
+      comment.siteID,
       ctx.mongo,
       ctx.redis,
       // Create a diff where "before" tags does not have a
@@ -248,7 +248,7 @@ export const Comments = (ctx: GraphContext) => ({
       await updateTagCommentCounts(
         ctx.tenant.id,
         comment.storyID,
-        ctx.site!.id,
+        comment.siteID,
         ctx.mongo,
         ctx.redis,
         // Create a diff where "before" has the featured tag,
