@@ -42,6 +42,7 @@ import { PUBLISHED_STATUSES } from "./constants";
 import {
   CommentCountsPerTag,
   CommentStatusCounts,
+  createEmptyCommentCountsPerTag,
   createEmptyCommentStatusCounts,
 } from "./counts";
 import { hasAncestors } from "./helpers";
@@ -1069,17 +1070,7 @@ export async function retrieveStoryCommentTagCounts(
   return storyIDs.map((id) => {
     const tags = result.get(id);
     if (!tags) {
-      return {
-        [GQLTAG.ADMIN]: 0,
-        [GQLTAG.EXPERT]: 0,
-        [GQLTAG.FEATURED]: 0,
-        [GQLTAG.MEMBER]: 0,
-        [GQLTAG.MODERATOR]: 0,
-        [GQLTAG.QUESTION]: 0,
-        [GQLTAG.REVIEW]: 0,
-        [GQLTAG.STAFF]: 0,
-        [GQLTAG.UNANSWERED]: 0,
-      };
+      return createEmptyCommentCountsPerTag();
     }
 
     return tags;
@@ -1131,17 +1122,7 @@ export async function calculateCommentTagCounts(
     } else if (archivedCount && !isCountEmpty(archivedCount.counts)) {
       return archivedCount.counts;
     } else {
-      return {
-        [GQLTAG.ADMIN]: 0,
-        [GQLTAG.EXPERT]: 0,
-        [GQLTAG.FEATURED]: 0,
-        [GQLTAG.MEMBER]: 0,
-        [GQLTAG.MODERATOR]: 0,
-        [GQLTAG.QUESTION]: 0,
-        [GQLTAG.REVIEW]: 0,
-        [GQLTAG.STAFF]: 0,
-        [GQLTAG.UNANSWERED]: 0,
-      };
+      return createEmptyCommentCountsPerTag();
     }
   });
 }
@@ -1254,17 +1235,7 @@ async function retrieveStoryCommentTagCountsFromDb(
       // Keep this collection of empty tag counts up to date to ensure we
       // provide an accurate model. The type system should warn you if there is
       // missing/extra tags here.
-      {
-        [GQLTAG.ADMIN]: 0,
-        [GQLTAG.EXPERT]: 0,
-        [GQLTAG.FEATURED]: 0,
-        [GQLTAG.MEMBER]: 0,
-        [GQLTAG.MODERATOR]: 0,
-        [GQLTAG.QUESTION]: 0,
-        [GQLTAG.REVIEW]: 0,
-        [GQLTAG.STAFF]: 0,
-        [GQLTAG.UNANSWERED]: 0,
-      }
+      createEmptyCommentCountsPerTag()
     );
 
     return {

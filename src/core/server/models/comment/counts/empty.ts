@@ -4,6 +4,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
+  CommentCountsPerTag,
   CommentModerationCountsPerQueue,
   CommentModerationQueueCounts,
   CommentStatusCounts,
@@ -36,20 +37,24 @@ export function createEmptyCommentStatusCounts(): CommentStatusCounts {
   };
 }
 
+export function createEmptyCommentCountsPerTag(): CommentCountsPerTag {
+  return {
+    [GQLTAG.ADMIN]: 0,
+    [GQLTAG.EXPERT]: 0,
+    [GQLTAG.FEATURED]: 0,
+    [GQLTAG.MEMBER]: 0,
+    [GQLTAG.MODERATOR]: 0,
+    [GQLTAG.QUESTION]: 0,
+    [GQLTAG.REVIEW]: 0,
+    [GQLTAG.STAFF]: 0,
+    [GQLTAG.UNANSWERED]: 0,
+  };
+}
+
 export function createEmptyCommentTagCounts(): CommentTagCounts {
   return {
     total: 0,
-    tags: {
-      [GQLTAG.ADMIN]: 0,
-      [GQLTAG.EXPERT]: 0,
-      [GQLTAG.FEATURED]: 0,
-      [GQLTAG.MEMBER]: 0,
-      [GQLTAG.MODERATOR]: 0,
-      [GQLTAG.QUESTION]: 0,
-      [GQLTAG.REVIEW]: 0,
-      [GQLTAG.STAFF]: 0,
-      [GQLTAG.UNANSWERED]: 0,
-    },
+    tags: createEmptyCommentCountsPerTag(),
   };
 }
 
