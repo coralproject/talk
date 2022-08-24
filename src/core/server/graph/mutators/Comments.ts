@@ -2,6 +2,7 @@ import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
+import { hasTag } from "coral-server/models/comment";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
@@ -36,7 +37,6 @@ import {
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { hasTag } from "coral-server/models/comment";
 import { validateUserModerationScopes } from "./helpers";
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
