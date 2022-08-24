@@ -253,19 +253,57 @@ it("change user role", async () => {
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
-it("can't change role as a moderator", async () => {
-  const moderator = users.moderators[0];
+it.only("org mods may allocate site mods", async () => {
+  /* eslint-disable */
+  const orgModerator = users.moderators[0];
+  const commenter = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => orgModerator,
+      user: () => commenter,
+    },
+    Mutation: {
+      updateUserRole: ({ variables }) => ({
+        clientMutationId: "1",
+        user: {
+          ...commenter,
+          role: variables.role,
+        },
+      }),
+    },
+  });
+
   await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        viewer: () => moderator,
-      },
-    }),
+    resolvers,
   });
 
   const userStatus = screen.getAllByLabelText("Change user status")[0];
   expect(userStatus).toBeVisible();
-  expect(screen.queryByLabelText("Change role")).toBeNull();
+
+  const userRow = await screen.findByTestId(`community-row-${commenter.id}`);
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+  userEvent.click(changeRoleButton);
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  expect(popup).toBeVisible();
+  const siteModeratorButton = await within(popup).findByRole("button", {
+    name: "Site Moderator", // BOOKMARK: this will find the staff button but not site moderator
+  });
+  fireEvent.click(siteModeratorButton);
+
+  // const siteRolePopup = within(userRow).getByLabelText(
+  //   "A dropdown to promote/demote a user to/from sites"
+  // );
+
+  /* eslint-disable */
+  // console.log(changeRoleButton);
+
+  // expect(siteRolePopup).toBeVisible();
+
+  // expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+  // expect(within(userStatus).queryByLabelText("Change role")).toBeVisible();
 });
 
 it("change user role to Site Moderator and add sites to moderate", async () => {
@@ -352,9 +390,6 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
 
   await waitFor(() =>
     expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
-  );
-  await waitFor(() =>
-    expect(resolvers.Mutation!.updateUserModerationScopes!.called).toBe(true)
   );
 });
 
