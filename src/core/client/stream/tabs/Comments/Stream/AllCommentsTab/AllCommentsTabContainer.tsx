@@ -72,22 +72,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   relay,
   tag,
 }) => {
-  const [
-    { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
-    setLocal,
-  ] = useLocal<AllCommentsTabContainerLocal>(
-    graphql`
-      fragment AllCommentsTabContainerLocal on Local {
-        ratingFilter
-        commentsOrderBy
-        keyboardShortcutsConfig {
-          key
-          source
-          reverse
+  const [{ commentsOrderBy, ratingFilter, keyboardShortcutsConfig }, setLocal] =
+    useLocal<AllCommentsTabContainerLocal>(
+      graphql`
+        fragment AllCommentsTabContainerLocal on Local {
+          ratingFilter
+          commentsOrderBy
+          keyboardShortcutsConfig {
+            key
+            source
+            reverse
+          }
         }
-      }
-    `
-  );
+      `
+    );
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
@@ -361,13 +359,13 @@ const enhanced = withPaginationContainer<
   {
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
-          tag: { type: "TAG" }
-          ratingFilter: { type: "Int" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 20 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+        tag: { type: "TAG" }
+        ratingFilter: { type: "Int" }
+      ) {
         id
         isClosed
         closedAt

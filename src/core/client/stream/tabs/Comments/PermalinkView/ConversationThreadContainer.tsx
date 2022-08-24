@@ -257,10 +257,10 @@ const enhanced = withPaginationContainer<
     `,
     comment: graphql`
       fragment ConversationThreadContainer_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 0 }
-          cursor: { type: "Cursor" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 0 }
+        cursor: { type: "Cursor" }
+      ) {
         id
         ...CommentContainer_comment
         ...IgnoredTombstoneOrHideContainer_comment

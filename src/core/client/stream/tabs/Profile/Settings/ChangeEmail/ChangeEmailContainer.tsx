@@ -52,9 +52,8 @@ import styles from "./ChangeEmailContainer.css";
 const fetcher = createFetch(
   "resendConfirmation",
   async (environment: Environment, variables, { eventEmitter, rest }) => {
-    const resendEmailVerificationEvent = ResendEmailVerificationEvent.begin(
-      eventEmitter
-    );
+    const resendEmailVerificationEvent =
+      ResendEmailVerificationEvent.begin(eventEmitter);
     try {
       const result = await rest.fetch<void>("/account/confirm", {
         method: "POST",

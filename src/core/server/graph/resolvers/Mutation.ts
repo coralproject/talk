@@ -458,9 +458,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     { input: { clientMutationId, ...input } },
     ctx
   ) => ({
-    phase: await ctx.mutators.Settings.rotateExternalModerationPhaseSigningSecret(
-      input
-    ),
+    phase:
+      await ctx.mutators.Settings.rotateExternalModerationPhaseSigningSecret(
+        input
+      ),
     clientMutationId,
   }),
   testSMTP: async (source, { input: { clientMutationId } }, ctx) => {

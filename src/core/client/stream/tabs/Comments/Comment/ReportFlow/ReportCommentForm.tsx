@@ -15,10 +15,12 @@ import { Button, ValidationMessage } from "coral-ui/components/v3";
 
 import styles from "./ReportCommentForm.css";
 
-const RadioField: FunctionComponent<Pick<
-  FieldProps<string, any>,
-  "validate" | "name" | "value" | "disabled" | "children"
->> = ({ name, value, disabled, children }) => (
+const RadioField: FunctionComponent<
+  Pick<
+    FieldProps<string, any>,
+    "validate" | "name" | "value" | "disabled" | "children"
+  >
+> = ({ name, value, disabled, children }) => (
   <Field name={name} type="radio" value={value}>
     {({ input }) => (
       <RadioButton

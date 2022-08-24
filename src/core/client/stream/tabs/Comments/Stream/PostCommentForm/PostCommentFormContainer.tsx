@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, {
-  FC,
+  // FC,
   FunctionComponent,
   useCallback,
   useEffect,
@@ -117,7 +117,8 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
-  const PostCommentSection: FC = useMemo(
+  const PostCommentSection: FunctionComponent = useMemo(
+    // eslint-disable-next-line react/display-name
     () => (props) => {
       if (isRatingsAndReviews) {
         return (

@@ -9,9 +9,9 @@ import {
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
 
-import { createWithContext } from "./create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { baseUser, settings, stories } from "../fixtures";
+import { createWithContext } from "./create";
 
 const story = stories[0];
 
@@ -92,7 +92,7 @@ describe("delete account steps", () => {
 
     // iterate through the delete account modal steps
     for (let i = 0; i < 3; i++) {
-      const nextButton = await within(modal).getByRole("button", {
+      const nextButton = within(modal).getByRole("button", {
         name: "Proceed",
       });
       userEvent.click(nextButton);
@@ -131,7 +131,7 @@ describe("delete account steps", () => {
 
     // iterate through the delete account modal steps
     for (let i = 0; i < 3; i++) {
-      const nextButton = await within(modal).getByRole("button", {
+      const nextButton = within(modal).getByRole("button", {
         name: "Proceed",
       });
       userEvent.click(nextButton);
@@ -160,7 +160,7 @@ describe("delete account steps", () => {
 
     // iterate through the delete account modal steps
     for (let i = 0; i < 3; i++) {
-      const nextButton = await within(modal).getByRole("button", {
+      const nextButton = within(modal).getByRole("button", {
         name: "Proceed",
       });
       userEvent.click(nextButton);

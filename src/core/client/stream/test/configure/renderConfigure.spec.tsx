@@ -2,9 +2,9 @@ import { screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import sinon from "sinon";
 
-import { createContext } from "./create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { moderators, settings, stories } from "../fixtures";
+import { createContext } from "./create";
 
 async function createTestRenderer(
   resolver: any = {},

@@ -9,10 +9,10 @@ import {
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
 
+import userEvent from "@testing-library/user-event";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { commenters, settings, stories, viewerPassive } from "../fixtures";
 import { createWithContext } from "./create";
-import customRenderAppWithContext from "../customRenderAppWithContext";
-import userEvent from "@testing-library/user-event";
 
 const story = stories[0];
 const viewer = viewerPassive;

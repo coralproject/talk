@@ -74,8 +74,10 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
             showStoryInfo
             mini
           />
-          {// Don't show horizontal rule after last comment
-          index !== comments.length - 1 && <Divider />}
+          {
+            // Don't show horizontal rule after last comment
+            index !== comments.length - 1 && <Divider />
+          }
         </div>
       ))}
       {hasMore && (
@@ -89,7 +91,8 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
   );
 };
 
-type FragmentVariables = UserHistoryDrawerRejectedCommentsPaginationQueryVariables;
+type FragmentVariables =
+  UserHistoryDrawerRejectedCommentsPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
   Props,
@@ -109,10 +112,10 @@ const enhanced = withPaginationContainer<
     `,
     user: graphql`
       fragment UserHistoryDrawerRejectedComments_user on User
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
-          cursor: { type: "Cursor" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 5 }
+        cursor: { type: "Cursor" }
+      ) {
         email
         username
         rejectedComments(first: $count, after: $cursor)

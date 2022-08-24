@@ -75,9 +75,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   }, [setShowEditForm, showEditForm]);
   const updateUsername = useMutation(UpdateUsernameMutation);
 
-  const closeSuccessMessage = useCallback(() => setShowSuccessMessage(false), [
-    setShowEditForm,
-  ]);
+  const closeSuccessMessage = useCallback(
+    () => setShowSuccessMessage(false),
+    [setShowEditForm]
+  );
 
   const canChangeLocalAuth = useMemo(() => {
     if (!settings.accountFeatures.changeUsername) {

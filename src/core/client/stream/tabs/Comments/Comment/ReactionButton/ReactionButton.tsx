@@ -83,14 +83,8 @@ function render(props: ReactionButtonProps) {
 
 class ReactionButton extends React.Component<ReactionButtonProps> {
   public render() {
-    const {
-      reacted,
-      label,
-      labelActive,
-      totalReactions,
-      isQA,
-      author,
-    } = this.props;
+    const { reacted, label, labelActive, totalReactions, isQA, author } =
+      this.props;
 
     if (isQA) {
       return (

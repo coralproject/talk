@@ -13,9 +13,9 @@ import {
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
 
-import { createContext } from "./create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { moderators, settings, stories } from "../fixtures";
+import { createContext } from "./create";
 
 const viewer = moderators[0];
 const story = stories[0];

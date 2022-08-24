@@ -50,9 +50,8 @@ const Queue: FunctionComponent<Props> = ({
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
   const [singleView, setSingleView] = useState(false);
-  const [conversationModalVisible, setConversationModalVisible] = useState(
-    false
-  );
+  const [conversationModalVisible, setConversationModalVisible] =
+    useState(false);
   const [conversationCommentID, setConversationCommentID] = useState("");
   const memoize = useMemoizer();
 

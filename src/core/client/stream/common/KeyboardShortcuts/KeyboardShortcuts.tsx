@@ -132,8 +132,10 @@ const getCurrentKeyStop = (
   root: ShadowRoot | Document,
   relayEnvironment: Environment
 ) => {
-  const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
-    .commentWithTraversalFocus;
+  const currentCommentID = lookup(
+    relayEnvironment,
+    LOCAL_ID
+  ).commentWithTraversalFocus;
   const currentCommentElement = root.getElementById(
     computeCommentElementID(currentCommentID)
   );
@@ -269,12 +271,8 @@ const loadMoreEvents = [
 ];
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({ loggedIn, storyID }) => {
-  const {
-    relayEnvironment,
-    renderWindow,
-    eventEmitter,
-    browserInfo,
-  } = useCoralContext();
+  const { relayEnvironment, renderWindow, eventEmitter, browserInfo } =
+    useCoralContext();
   const root = useShadowRootOrDocument();
   const [toolbarClosed, setToolbarClosed] = useInMemoryState(
     "keyboardShortcutMobileToolbarClosed",

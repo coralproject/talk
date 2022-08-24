@@ -2,9 +2,9 @@ import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
-import { createContext } from "./create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { moderators, settings, stories } from "../fixtures";
+import { createContext } from "./create";
 
 async function createTestRenderer(
   resolver: any = {},

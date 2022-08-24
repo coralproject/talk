@@ -34,10 +34,12 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 }
 
-export const withErrorBoundary = (
-  props: { errorContent?: React.ReactNode } = {}
-): InferableComponentEnhancer<{}> => (component: React.ComponentType<any>) => {
-  return nest(withProps<any, any>(props)(ErrorBoundary), component) as any;
-};
+export const withErrorBoundary =
+  (
+    props: { errorContent?: React.ReactNode } = {}
+  ): InferableComponentEnhancer<{}> =>
+  (component: React.ComponentType<any>) => {
+    return nest(withProps<any, any>(props)(ErrorBoundary), component) as any;
+  };
 
 export default ErrorBoundary;

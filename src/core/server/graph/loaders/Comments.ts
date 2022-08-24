@@ -112,18 +112,18 @@ const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
  *
  * @param ctx graph context to use to prime the loaders.
  */
-const primeCommentsFromConnection = (ctx: GraphContext) => (
-  connection: Readonly<Connection<Readonly<Comment>>>
-) => {
-  if (!ctx.disableCaching) {
-    // For each of the nodes, prime the comment loader.
-    connection.nodes.forEach((comment) => {
-      ctx.loaders.Comments.visible.prime(comment.id, comment);
-    });
-  }
+const primeCommentsFromConnection =
+  (ctx: GraphContext) =>
+  (connection: Readonly<Connection<Readonly<Comment>>>) => {
+    if (!ctx.disableCaching) {
+      // For each of the nodes, prime the comment loader.
+      connection.nodes.forEach((comment) => {
+        ctx.loaders.Comments.visible.prime(comment.id, comment);
+      });
+    }
 
-  return connection;
-};
+    return connection;
+  };
 
 /**
  * mapVisibleComment will provide a mapping function that will mark as null each
@@ -159,9 +159,12 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
  * @param user the User to determine the visibility status with based on
  * permissions
  */
-const mapVisibleComments = (user?: Pick<User, "role">) => (
-  comments: Array<Readonly<Comment> | null>
-): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
+const mapVisibleComments =
+  (user?: Pick<User, "role">) =>
+  (
+    comments: Array<Readonly<Comment> | null>
+  ): Array<Readonly<Comment> | null> =>
+    comments.map(mapVisibleComment(user));
 
 export default (ctx: GraphContext) => ({
   visible: new DataLoader<string, Readonly<Comment> | null>(

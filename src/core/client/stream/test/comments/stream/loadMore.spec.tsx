@@ -122,8 +122,9 @@ it("loads more comments", async () => {
   const { stream } = await createTestRenderer();
 
   // Get amount of comments before.
-  const commentsBefore = within(stream).getAllByTestId(/^comment[-]comment[-]/)
-    .length;
+  const commentsBefore = within(stream).getAllByTestId(
+    /^comment[-]comment[-]/
+  ).length;
 
   const loadMore = within(stream).getByRole("button", {
     name: "Load More",

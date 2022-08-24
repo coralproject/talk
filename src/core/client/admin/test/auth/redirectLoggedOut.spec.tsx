@@ -32,9 +32,10 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           sites: () => siteConnection,
-          moderationQueues: createQueryResolverStub<
-            QueryToModerationQueuesResolver
-          >(() => emptyModerationQueues),
+          moderationQueues:
+            createQueryResolverStub<QueryToModerationQueuesResolver>(
+              () => emptyModerationQueues
+            ),
           comments: () => emptyRejectedComments,
         },
       }),

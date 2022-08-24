@@ -10,9 +10,9 @@ interface Props {
   archivingThresholdMs: number;
 }
 
-export const ArchivedCommentsThresholdNotification: FunctionComponent<Props> = ({
-  archivingThresholdMs,
-}) => {
+export const ArchivedCommentsThresholdNotification: FunctionComponent<
+  Props
+> = ({ archivingThresholdMs }) => {
   const seconds = Math.floor(archivingThresholdMs / 1000);
   const { scaled, unit } = reduceSeconds(seconds, [
     TIME.DAY,

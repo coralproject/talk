@@ -9,9 +9,9 @@ import {
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
 
-import { createWithContext } from "./create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { settings, stories, userWithEmail } from "../fixtures";
+import { createWithContext } from "./create";
 
 const story = stories[0];
 

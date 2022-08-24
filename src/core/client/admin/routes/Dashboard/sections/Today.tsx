@@ -36,14 +36,13 @@ interface Props {
 }
 
 const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
-  const [{ archivingEnabled, autoArchiveOlderThanMs }] = useLocal<
-    TodayTotalsLocal
-  >(graphql`
-    fragment TodayTotalsLocal on Local {
-      archivingEnabled
-      autoArchiveOlderThanMs
-    }
-  `);
+  const [{ archivingEnabled, autoArchiveOlderThanMs }] =
+    useLocal<TodayTotalsLocal>(graphql`
+      fragment TodayTotalsLocal on Local {
+        archivingEnabled
+        autoArchiveOlderThanMs
+      }
+    `);
 
   const seconds = Math.floor(autoArchiveOlderThanMs / 1000);
   const { scaled, unit } = reduceSeconds(seconds, [

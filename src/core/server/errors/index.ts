@@ -339,10 +339,10 @@ export class UsernameAlreadySetError extends CoralError {
 
 export class UsernameUpdatedWithinWindowError extends CoralError {
   constructor(lastUpdate: Date) {
-    const {
-      scaled,
-      unit,
-    } = reduceSeconds(ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION, [TIME.DAY]);
+    const { scaled, unit } = reduceSeconds(
+      ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
+      [TIME.DAY]
+    );
     super({
       code: ERROR_CODES.USERNAME_UPDATED_WITHIN_WINDOW,
       context: {
@@ -611,9 +611,10 @@ export class InternalDevelopmentError extends CoralError {
     traceID: string
   ): CoralErrorExtensions {
     // Serialize the extensions from the public source.
-    const extensions = super.serializeExtensions(bundle, traceID) as Writable<
-      CoralErrorExtensions
-    >;
+    const extensions = super.serializeExtensions(
+      bundle,
+      traceID
+    ) as Writable<CoralErrorExtensions>;
 
     // Push in the internal message for this override.
     const cause = this.cause();

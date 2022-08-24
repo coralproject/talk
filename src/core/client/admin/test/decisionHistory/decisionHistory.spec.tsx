@@ -33,44 +33,45 @@ async function createTestRenderer(
           settings: () => settings,
           viewer: () =>
             pureMerge(viewer, {
-              commentModerationActionHistory: createQueryResolverStub<
-                UserToCommentModerationActionHistoryResolver
-              >(({ variables }) => {
-                if (variables.first === 5) {
-                  return {
-                    edges: [
-                      {
-                        node: moderationActions[0],
-                        cursor: moderationActions[0].createdAt,
+              commentModerationActionHistory:
+                createQueryResolverStub<UserToCommentModerationActionHistoryResolver>(
+                  ({ variables }) => {
+                    if (variables.first === 5) {
+                      return {
+                        edges: [
+                          {
+                            node: moderationActions[0],
+                            cursor: moderationActions[0].createdAt,
+                          },
+                          {
+                            node: moderationActions[1],
+                            cursor: moderationActions[1].createdAt,
+                          },
+                        ],
+                        pageInfo: {
+                          endCursor: moderationActions[1].createdAt,
+                          hasNextPage: true,
+                        },
+                      };
+                    }
+                    expectAndFail(variables).toEqual({
+                      first: 10,
+                      after: moderationActions[1].createdAt,
+                    });
+                    return {
+                      edges: [
+                        {
+                          node: moderationActions[2],
+                          cursor: moderationActions[2].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: moderationActions[2].createdAt,
+                        hasNextPage: false,
                       },
-                      {
-                        node: moderationActions[1],
-                        cursor: moderationActions[1].createdAt,
-                      },
-                    ],
-                    pageInfo: {
-                      endCursor: moderationActions[1].createdAt,
-                      hasNextPage: true,
-                    },
-                  };
-                }
-                expectAndFail(variables).toEqual({
-                  first: 10,
-                  after: moderationActions[1].createdAt,
-                });
-                return {
-                  edges: [
-                    {
-                      node: moderationActions[2],
-                      cursor: moderationActions[2].createdAt,
-                    },
-                  ],
-                  pageInfo: {
-                    endCursor: moderationActions[2].createdAt,
-                    hasNextPage: false,
-                  },
-                };
-              }),
+                    };
+                  }
+                ),
             }),
         },
       }),
@@ -113,19 +114,20 @@ it("renders empty state when no moderation actions", async () => {
       Query: {
         viewer: () =>
           pureMerge(viewer, {
-            commentModerationActionHistory: createQueryResolverStub<
-              UserToCommentModerationActionHistoryResolver
-            >(({ variables }) => {
-              expectAndFail(variables).toEqual({
-                first: 5,
-              });
-              return {
-                edges: [],
-                pageInfo: {
-                  hasNextPage: false,
-                },
-              };
-            }),
+            commentModerationActionHistory:
+              createQueryResolverStub<UserToCommentModerationActionHistoryResolver>(
+                ({ variables }) => {
+                  expectAndFail(variables).toEqual({
+                    first: 5,
+                  });
+                  return {
+                    edges: [],
+                    pageInfo: {
+                      hasNextPage: false,
+                    },
+                  };
+                }
+              ),
           }),
       },
     }),

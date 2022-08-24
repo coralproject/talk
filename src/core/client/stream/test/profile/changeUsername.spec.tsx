@@ -9,7 +9,6 @@ import {
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
 
-import { createWithContext } from "./create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   settings,
@@ -18,6 +17,7 @@ import {
   userWithNewUsername,
   viewerPassive,
 } from "../fixtures";
+import { createWithContext } from "./create";
 
 const story = stories[0];
 const viewer = viewerPassive;

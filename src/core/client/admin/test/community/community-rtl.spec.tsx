@@ -574,8 +574,7 @@ it("can't ban org moderators but can change other status for them", async () => 
   });
   await createTestRenderer({ resolvers });
   const orgModRow = screen.getByRole("row", {
-    name:
-      "Lukas lukas@test.com 07/06/18, 06:24 PM Organization Moderator Active",
+    name: "Lukas lukas@test.com 07/06/18, 06:24 PM Organization Moderator Active",
   });
   const changeStatusButton = within(orgModRow).getByRole("button", {
     name: "Change user status",

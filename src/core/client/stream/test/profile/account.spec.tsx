@@ -1,6 +1,6 @@
-import sinon from "sinon";
 import { act, screen, within } from "@testing-library/react";
 import { axe } from "jest-axe";
+import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
@@ -10,6 +10,7 @@ import {
 } from "coral-framework/testHelpers";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 
+import userEvent from "@testing-library/user-event";
 import {
   settings,
   settingsWithoutLocalAuth,
@@ -17,7 +18,6 @@ import {
   viewerPassive,
 } from "../fixtures";
 import { createWithContext } from "./create";
-import userEvent from "@testing-library/user-event";
 
 const story = stories[0];
 const viewer = viewerPassive;

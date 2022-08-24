@@ -177,11 +177,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   ]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
-  const [
-    showEditDialog,
-    setShowEditDialog,
-    toggleShowEditDialog,
-  ] = useToggleState(false);
+  const [showEditDialog, setShowEditDialog, toggleShowEditDialog] =
+    useToggleState(false);
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
   const handleShowConversation = useCallback(
     (e: MouseEvent) => {

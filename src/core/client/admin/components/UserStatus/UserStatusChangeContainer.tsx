@@ -59,9 +59,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showModMessage, setShowModMessage] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
-  const [showSendModMessageSuccess, setShowSendModMessageSuccess] = useState<
-    boolean
-  >(false);
+  const [showSendModMessageSuccess, setShowSendModMessageSuccess] =
+    useState<boolean>(false);
 
   const moderationScopesEnabled = settings.multisite;
   const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;

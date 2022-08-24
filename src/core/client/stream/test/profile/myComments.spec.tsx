@@ -141,9 +141,8 @@ it("loads more comments", async () => {
   const { commentHistory } = await createTestRenderer();
 
   // Get amount of comments before.
-  const commentsBefore = within(commentHistory).getAllByTestId(
-    /^historyComment-/
-  ).length;
+  const commentsBefore =
+    within(commentHistory).getAllByTestId(/^historyComment-/).length;
 
   const loadMoreButton = within(commentHistory).getByRole("button", {
     name: "Load More",
