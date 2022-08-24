@@ -142,19 +142,20 @@ const markCommentAsAnswered = async (
       author.id,
       now
     ),
-    updateTagCommentCounts(
-      tenant.id,
-      comment.storyID,
-      comment.siteID,
-      mongo,
-      redis,
-      // Since we removed the UNANSWERED tag, we need to recreate the
-      // before after state of having an UNANSWERED tag followed by
-      // not having an unanswered tag
-      [...parent.tags, { type: GQLTAG.UNANSWERED, createdAt: new Date() }],
-      parent.tags
-    ),
   ]);
+
+  await updateTagCommentCounts(
+    tenant.id,
+    comment.storyID,
+    comment.siteID,
+    mongo,
+    redis,
+    // Since we removed the UNANSWERED tag, we need to recreate the
+    // before after state of having an UNANSWERED tag followed by
+    // not having an unanswered tag
+    parent.tags,
+    parent.tags.filter((t) => t.type !== GQLTAG.UNANSWERED)
+  );
 };
 
 const RatingSchema = Joi.number().min(1).max(5).integer();
