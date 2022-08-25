@@ -7,6 +7,7 @@ import { MongoContext } from "coral-server/data/context";
 import {
   AuthorAlreadyHasRatedStory,
   CannotCreateCommentOnArchivedStory,
+  CommentNotFoundError,
   CoralError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -68,6 +69,7 @@ import {
   retrieveParent,
   updateAllCommentCounts,
 } from "./helpers";
+import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -117,6 +119,14 @@ const markCommentAsAnswered = async (
     return;
   }
 
+  const parent = await retrieveParent(mongo, tenant.id, {
+    parentID: comment.parentID,
+    parentRevisionID: comment.parentRevisionID,
+  });
+  if (!parent) {
+    throw new CommentNotFoundError(comment.parentID);
+  }
+
   // We need to mark the parent question as answered.
   // - Remove the unanswered tag.
   // - Approve it since an expert has replied to it.
@@ -133,6 +143,19 @@ const markCommentAsAnswered = async (
       now
     ),
   ]);
+
+  await updateTagCommentCounts(
+    tenant.id,
+    comment.storyID,
+    comment.siteID,
+    mongo,
+    redis,
+    // Since we removed the UNANSWERED tag, we need to recreate the
+    // before after state of having an UNANSWERED tag followed by
+    // not having an unanswered tag
+    parent.tags,
+    parent.tags.filter((t) => t.type !== GQLTAG.UNANSWERED)
+  );
 };
 
 const RatingSchema = Joi.number().min(1).max(5).integer();
