@@ -44,6 +44,8 @@ import {
   CommentStatusCounts,
   createEmptyCommentCountsPerTag,
   createEmptyCommentStatusCounts,
+  hasInvalidCommentTagCounts,
+  hasInvalidGQLCommentTagCounts,
 } from "./counts";
 import { hasAncestors } from "./helpers";
 import { Revision } from "./revision";
@@ -1055,7 +1057,7 @@ export async function retrieveStoryCommentTagCounts(
       continue;
     }
 
-    if (!story?.commentCounts.tags) {
+    if (hasInvalidCommentTagCounts(story?.commentCounts.tags)) {
       const tagsResult = await initializeCommentTagCountsForStory(
         mongo,
         tenantID,
@@ -1070,6 +1072,17 @@ export async function retrieveStoryCommentTagCounts(
   return storyIDs.map((id) => {
     const tags = result.get(id);
     if (!tags) {
+      logger.warn(
+        { tenantID, storyID: id },
+        "found undefined/null comment count tags"
+      );
+      return createEmptyCommentCountsPerTag();
+    }
+    if (hasInvalidGQLCommentTagCounts(tags)) {
+      logger.warn(
+        { tenantID, storyID: id },
+        "found invalid comment count tags"
+      );
       return createEmptyCommentCountsPerTag();
     }
 
@@ -1140,13 +1153,6 @@ export async function initializeCommentTagCountsForStory(
   const story = await retrieveStory(mongo, tenantID, storyID);
   if (!story) {
     throw new StoryNotFoundError(storyID);
-  }
-
-  if (story?.commentCounts.tags) {
-    return {
-      story,
-      tagCounts: story.commentCounts.tags.tags,
-    };
   }
 
   const tagCounts = await calculateCommentTagCounts(mongo, tenantID, [storyID]);
