@@ -1150,6 +1150,11 @@ export async function initializeCommentTagCountsForStory(
   tenantID: string,
   storyID: string
 ): Promise<InitializeCommentTagCountsResult> {
+  logger.info(
+    { tenantID, storyID },
+    "initializing comment tag counts for story"
+  );
+
   const story = await retrieveStory(mongo, tenantID, storyID);
   if (!story) {
     throw new StoryNotFoundError(storyID);
