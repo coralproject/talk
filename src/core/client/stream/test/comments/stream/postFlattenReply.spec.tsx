@@ -1,13 +1,15 @@
-import { fireEvent, prettyDOM, screen, within } from "@testing-library/react";
-
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
+  wait,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
-import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 import getCommentRecursively from "coral-stream/test/helpers/getCommentRecursively";
+import waitForRTE from "coral-stream/test/helpers/waitForRTE";
 
 import {
   baseComment,
@@ -20,7 +22,7 @@ import create from "./create";
 const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {}
 ) => {
-  const { context } = create({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -51,17 +53,21 @@ const createTestRenderer = async (
     },
   });
 
-  customRenderAppWithContext(context);
-
-  const streamLog = await screen.findByTestId("comments-allComments-log");
+  const streamLog = await act(
+    async () =>
+      await waitForElement(() =>
+        within(testRenderer.root).getByTestID("comments-allComments-log")
+      )
+  );
 
   return {
+    testRenderer,
     context,
     streamLog,
   };
 };
 
-it.only("post a flattened reply", async () => {
+it("post a flattened reply", async () => {
   const commentBody = "PostFlattenReply: Hello world!";
   const { streamLog } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
@@ -69,7 +75,7 @@ it.only("post a flattened reply", async () => {
         createCommentReply: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             storyID: storyWithDeepestReplies.id,
-            parentID: "comment-my-comment-7",
+            parentID: "my-comment-7",
             parentRevisionID: "revision-0",
             body: commentBody,
           });
@@ -83,7 +89,7 @@ it.only("post a flattened reply", async () => {
                 body: commentBody + " (from server)",
                 parent: getCommentRecursively(
                   storyWithDeepestReplies.comments,
-                  "comment-my-comment-7"
+                  "my-comment-7"
                 ),
               },
             },
@@ -93,47 +99,39 @@ it.only("post a flattened reply", async () => {
     }),
   });
 
-  const deepestReply = await within(streamLog).findByTestId(
-    "comment-my-comment-7"
-  );
+  const deepestReply = within(streamLog).getByTestID("comment-my-comment-7");
 
-  // Open reply form.
-  const replyButton = within(deepestReply).getByLabelText(
-    "Reply to comment by",
-    { exact: false }
-  );
-
-  /* eslint-disable */
-  console.log(prettyDOM(replyButton, 10000));
-
-  fireEvent.click(replyButton);
-
-  /* Wait for result */
-  const form = await within(deepestReply).findByRole("form");
-  // BOOKMARK: working on finding form
-
-  // Write reply
-  const rte = await screen.findByPlaceholderText("Post a comment", {
-    exact: false,
+  const form = await act(async () => {
+    /* Do stuff */
+    // Open reply form.
+    within(deepestReply)
+      .getByLabelText("Reply to comment by", { exact: false })
+      .props.onClick();
+    /* Wait for result */
+    return await waitForElement(() => within(deepestReply).getByType("form"));
   });
-  fireEvent.change(rte, { value: commentBody });
 
-  fireEvent.submit(form);
-  /* Wait for results */
-  const deepestReplyList = await within(streamLog).findByTestId(
-    "commentReplyList-comment-my-comment-7"
-  );
-
-  // No reply list after depth 4
-  await expect(
-    async () =>
-      await within(streamLog).findByTestId(
-        "commentReplyList-comment-my-comment-7"
-      )
-  ).rejects.toThrow();
-  // optimistic result
-  await within(deepestReplyList).findByText(commentBody, { exact: false });
-
-  // Final result
-  await within(deepestReplyList).findByText("(from server)", { exact: false });
+  await act(async () => {
+    /* Do stuff */
+    // Write reply
+    const rte = await waitForRTE(streamLog, "Write a reply");
+    rte.props.onChange(commentBody);
+    form.props.onSubmit();
+    /* Wait for results */
+    const deepestReplyList = await waitForElement(() =>
+      within(streamLog).getByTestID("commentReplyList-my-comment-6")
+    );
+    // No reply list after depth 4
+    expect(() =>
+      within(streamLog).getByTestID("commentReplyList-my-comment-8")
+    ).toThrow();
+    // optimistic result
+    await wait(() =>
+      within(deepestReplyList).getByText(commentBody, { exact: false })
+    );
+    // Final result
+    await waitForElement(() =>
+      within(deepestReplyList).getByText("(from server)", { exact: false })
+    );
+  });
 });
