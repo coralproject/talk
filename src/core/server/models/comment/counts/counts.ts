@@ -9,7 +9,7 @@ import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 
 import {
   GQLCOMMENT_STATUS,
-  GQLTAG,
+  GQLCommentTagCounts,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
@@ -76,19 +76,7 @@ export interface CommentStatusCounts {
 export interface CommentTagCounts {
   total: number;
 
-  tags: CommentCountsPerTag;
-}
-
-export interface CommentCountsPerTag {
-  [GQLTAG.ADMIN]: number;
-  [GQLTAG.EXPERT]: number;
-  [GQLTAG.FEATURED]: number;
-  [GQLTAG.MEMBER]: number;
-  [GQLTAG.MODERATOR]: number;
-  [GQLTAG.QUESTION]: number;
-  [GQLTAG.REVIEW]: number;
-  [GQLTAG.STAFF]: number;
-  [GQLTAG.UNANSWERED]: number;
+  tags: GQLCommentTagCounts;
 }
 
 /**

@@ -40,10 +40,9 @@ import {
 import { retrieveManyStories, retrieveStory, Story } from "../story";
 import { PUBLISHED_STATUSES } from "./constants";
 import {
-  CommentCountsPerTag,
   CommentStatusCounts,
-  createEmptyCommentCountsPerTag,
   createEmptyCommentStatusCounts,
+  createEmptyGQLCommentTagCounts,
   hasInvalidCommentTagCounts,
   hasInvalidGQLCommentTagCounts,
 } from "./counts";
@@ -1076,14 +1075,14 @@ export async function retrieveStoryCommentTagCounts(
         { tenantID, storyID: id },
         "found undefined/null comment count tags"
       );
-      return createEmptyCommentCountsPerTag();
+      return createEmptyGQLCommentTagCounts();
     }
     if (hasInvalidGQLCommentTagCounts(tags)) {
       logger.warn(
         { tenantID, storyID: id },
         "found invalid comment count tags"
       );
-      return createEmptyCommentCountsPerTag();
+      return createEmptyGQLCommentTagCounts();
     }
 
     return tags;
@@ -1094,7 +1093,7 @@ export async function calculateCommentTagCounts(
   mongo: MongoContext,
   tenantID: string,
   storyIDs: ReadonlyArray<string>
-): Promise<CommentCountsPerTag[]> {
+): Promise<GQLCommentTagCounts[]> {
   const stories = await retrieveManyStories(mongo, tenantID, storyIDs);
 
   const liveStories = stories
@@ -1135,14 +1134,14 @@ export async function calculateCommentTagCounts(
     } else if (archivedCount && !isCountEmpty(archivedCount.counts)) {
       return archivedCount.counts;
     } else {
-      return createEmptyCommentCountsPerTag();
+      return createEmptyGQLCommentTagCounts();
     }
   });
 }
 
 interface InitializeCommentTagCountsResult {
   story: Readonly<Story>;
-  tagCounts: CommentCountsPerTag;
+  tagCounts: GQLCommentTagCounts;
 }
 
 export async function initializeCommentTagCountsForStory(
@@ -1195,7 +1194,7 @@ export async function initializeCommentTagCountsForStory(
 
 interface StoryCommentTagCounts {
   id: string;
-  counts: CommentCountsPerTag;
+  counts: GQLCommentTagCounts;
 }
 
 async function retrieveStoryCommentTagCountsFromDb(
@@ -1265,7 +1264,7 @@ async function retrieveStoryCommentTagCountsFromDb(
       // Keep this collection of empty tag counts up to date to ensure we
       // provide an accurate model. The type system should warn you if there is
       // missing/extra tags here.
-      createEmptyCommentCountsPerTag()
+      createEmptyGQLCommentTagCounts()
     );
 
     return {

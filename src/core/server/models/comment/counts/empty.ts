@@ -5,7 +5,6 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
-  CommentCountsPerTag,
   CommentModerationCountsPerQueue,
   CommentModerationQueueCounts,
   CommentStatusCounts,
@@ -39,25 +38,8 @@ export function createEmptyCommentStatusCounts(): CommentStatusCounts {
 }
 
 export function hasInvalidGQLCommentTagCounts(
-  tags: GQLCommentTagCounts
+  counts: GQLCommentTagCounts
 ): boolean {
-  if (tags.FEATURED === null || tags.FEATURED === undefined) {
-    return true;
-  }
-  if (tags.UNANSWERED === null || tags.UNANSWERED === undefined) {
-    return true;
-  }
-  if (tags.REVIEW === null || tags.REVIEW === undefined) {
-    return true;
-  }
-  if (tags.QUESTION === null || tags.QUESTION === undefined) {
-    return true;
-  }
-
-  return false;
-}
-
-export function hasInvalidCommentTagCounts(tags: CommentTagCounts): boolean {
   const keys = [
     GQLTAG.ADMIN,
     GQLTAG.EXPERT,
@@ -70,16 +52,8 @@ export function hasInvalidCommentTagCounts(tags: CommentTagCounts): boolean {
     GQLTAG.UNANSWERED,
   ];
 
-  if (!tags) {
-    return true;
-  }
-
-  if (tags.total === undefined || tags.total === null) {
-    return true;
-  }
-
   for (const key of keys) {
-    const val = tags.tags[key];
+    const val = counts[key];
     if (val === undefined || val === null) {
       return true;
     }
@@ -88,7 +62,19 @@ export function hasInvalidCommentTagCounts(tags: CommentTagCounts): boolean {
   return false;
 }
 
-export function createEmptyCommentCountsPerTag(): CommentCountsPerTag {
+export function hasInvalidCommentTagCounts(tags: CommentTagCounts): boolean {
+  if (!tags) {
+    return true;
+  }
+
+  if (tags.total === undefined || tags.total === null) {
+    return true;
+  }
+
+  return hasInvalidGQLCommentTagCounts(tags.tags);
+}
+
+export function createEmptyGQLCommentTagCounts(): GQLCommentTagCounts {
   return {
     [GQLTAG.ADMIN]: 0,
     [GQLTAG.EXPERT]: 0,
@@ -105,7 +91,7 @@ export function createEmptyCommentCountsPerTag(): CommentCountsPerTag {
 export function createEmptyCommentTagCounts(): CommentTagCounts {
   return {
     total: 0,
-    tags: createEmptyCommentCountsPerTag(),
+    tags: createEmptyGQLCommentTagCounts(),
   };
 }
 
