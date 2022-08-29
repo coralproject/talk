@@ -17,6 +17,8 @@ import {
 } from "coral-framework/lib/relay";
 import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Overwrite } from "coral-framework/types";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
+
 import {
   ShowAllRepliesEvent,
   ViewNewRepliesNetworkEvent,
@@ -256,7 +258,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     `
   );
   // We do local replies at the last level when flatten replies are not set.
-  const atLastLevelLocalReply = props.indentLevel === 3 && !flattenReplies;
+  const atLastLevelLocalReply =
+    props.indentLevel === MAX_REPLY_INDENT_DEPTH && !flattenReplies;
 
   const memoize = useMemoizer();
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);

@@ -1,14 +1,12 @@
-import sinon from "sinon";
+import { fireEvent, screen, within } from "@testing-library/react";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import { comments, settings, storyWithDeepestReplies } from "../../fixtures";
 import create from "./create";
@@ -16,7 +14,7 @@ import create from "./create";
 const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {}
 ) => {
-  const { testRenderer, context } = create({
+  const { context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -24,10 +22,10 @@ const createTestRenderer = async (
           story: () => storyWithDeepestReplies,
           stream: () => storyWithDeepestReplies,
           comment: ({ variables }) => {
-            expectAndFail(variables.id).toBe("comment-with-deepest-replies-3");
+            expectAndFail(variables.id).toBe("my-comment-7");
             return {
               ...comments[0],
-              id: "comment-with-deepest-replies-3",
+              id: "comment-with-deepest-replies-7",
             };
           },
           settings: () => settings,
@@ -37,21 +35,18 @@ const createTestRenderer = async (
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(storyWithDeepestReplies.id, "storyID");
+      localRecord.setValue(false, "flattenReplies");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
     },
   });
 
-  const streamLog = await act(
-    async () =>
-      await waitForElement(() =>
-        within(testRenderer.root).getByTestID("comments-allComments-log")
-      )
-  );
+  customRenderAppWithContext(context);
+
+  const streamLog = await screen.findByTestId("comments-allComments-log");
 
   return {
-    testRenderer,
     context,
     streamLog,
   };
@@ -59,11 +54,11 @@ const createTestRenderer = async (
 
 it("renders deepest comment with link", async () => {
   const { streamLog } = await createTestRenderer();
-  const deepestReply = within(streamLog).getByTestID(
-    "comment-comment-with-deepest-replies-3"
-  );
-  within(streamLog).getByText("Read More of this Conversation >");
-  expect(within(deepestReply).toJSON()).toMatchSnapshot();
+  await within(streamLog).findByTestId("comment-comment-with-deepest-replies");
+
+  await within(streamLog).findByText("Read More of this Conversation", {
+    exact: false,
+  });
 });
 
 describe("flatten replies", () => {
@@ -73,29 +68,22 @@ describe("flatten replies", () => {
         local.setValue(true, "flattenReplies");
       },
     });
-    expect(() =>
-      within(streamLog).getByText("Read More of this Conversation >")
-    ).toThrow();
+    await expect(
+      async () =>
+        await within(streamLog).findByText("Read More of this Conversation >")
+    ).rejects.toThrow();
   });
 });
 
 it("shows conversation", async () => {
-  const mockEvent = {
-    preventDefault: sinon.mock().once(),
-  };
-  const { streamLog, testRenderer } = await createTestRenderer();
-  await act(async () => {
-    within(streamLog)
-      .getByText("Read More of this Conversation >")
-      .props.onClick(mockEvent);
+  const { streamLog } = await createTestRenderer();
+  const readMore = await within(
+    streamLog
+  ).findByText("Read More of this Conversation", { exact: false });
 
-    await waitForElement(() =>
-      within(testRenderer.root).getByText(
-        "You are currently viewing a single conversation",
-        {
-          exact: false,
-        }
-      )
-    );
+  fireEvent.click(readMore);
+
+  await screen.findByText("You are currently viewing a single conversation", {
+    exact: false,
   });
 });

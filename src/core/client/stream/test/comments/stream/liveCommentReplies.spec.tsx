@@ -224,41 +224,6 @@ it("should show more replies", async () => {
   within(container).getByTestID(`comment-${commentData.id}`);
 });
 
-it("should show Read More of this Conversation", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer();
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
-  expect(subscriptionHandler.has("commentEntered")).toBe(true);
-  expect(() =>
-    within(testRenderer.root).getByText("Read More of this Conversation", {
-      exact: false,
-      selector: "a",
-    })
-  ).toThrow();
-
-  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
-    "commentEntered",
-    (variables) => {
-      if (variables.storyID !== story.id) {
-        return;
-      }
-      if (variables.ancestorID) {
-        return;
-      }
-      return {
-        comment: pureMerge<typeof commentData>(commentData, {
-          parent: { ...baseComment, id: "my-comment-3" },
-        }),
-      };
-    }
-  );
-  within(container).getByText("Read More of this Conversation", {
-    exact: false,
-    selector: "a",
-  });
-});
-
 it("should not subscribe when story is closed", async () => {
   const { testRenderer, subscriptionHandler } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({

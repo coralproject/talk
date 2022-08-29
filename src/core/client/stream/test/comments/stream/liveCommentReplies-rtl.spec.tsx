@@ -102,7 +102,24 @@ const rootComment = denormalizeComment(
                                                             replyCount: 0,
                                                             replies: {
                                                               ...baseComment.replies,
-                                                              edges: [],
+                                                              edges: [
+                                                                {
+                                                                  cursor:
+                                                                    baseComment.createdAt,
+                                                                  node: {
+                                                                    ...baseComment,
+                                                                    id:
+                                                                      "my-comment-8",
+                                                                    body:
+                                                                      "body 8",
+                                                                    replyCount: 0,
+                                                                    replies: {
+                                                                      ...baseComment.replies,
+                                                                      edges: [],
+                                                                    },
+                                                                  },
+                                                                },
+                                                              ],
                                                             },
                                                           },
                                                         },
@@ -179,6 +196,53 @@ const createTestRenderer = async (
   return { context, subscriptionHandler };
 };
 
+beforeEach(() => replaceHistoryLocation("http://localhost/admin/community"));
+
+it("should show Read More of this Conversation", async () => {
+  const { subscriptionHandler } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        stream: () => story,
+      },
+    },
+    initLocalState(local) {
+      local.setValue(false, "flattenReplies");
+    },
+  });
+  const container = await screen.findByTestId("comments-allComments-log");
+
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
+  await expect(
+    async () =>
+      await within(container).findByText("Read More of this Conversation", {
+        exact: false,
+        selector: "a",
+      })
+  ).rejects.toThrow();
+
+  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+    "commentEntered",
+    (variables) => {
+      if (variables.storyID !== story.id) {
+        return;
+      }
+      if (variables.ancestorID) {
+        return;
+      }
+      return {
+        comment: pureMerge<typeof commentData>(commentData, {
+          parent: { ...baseComment, id: "my-comment-7" },
+        }),
+      };
+    }
+  );
+
+  await within(container).findByText("Read More of this Conversation", {
+    exact: false,
+    selector: "a",
+  });
+});
+
 it("should flatten replies", async () => {
   const { subscriptionHandler } = await createTestRenderer({
     resolvers: {
@@ -190,8 +254,6 @@ it("should flatten replies", async () => {
       local.setValue(true, "flattenReplies");
     },
   });
-
-  replaceHistoryLocation("http://localhost/admin/community");
 
   const container = await screen.findByTestId("comments-allComments-log");
   expect(subscriptionHandler.has("commentEntered")).toBe(true);
