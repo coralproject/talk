@@ -23,6 +23,7 @@ import {
   calculateTotalCommentCount,
   mergeCommentModerationQueueCount,
   mergeCommentStatusCount,
+  mergeCommentTagCounts,
   mergeManyCommentStories,
   removeStoryComments,
 } from "coral-server/models/comment";
@@ -482,6 +483,9 @@ export async function merge(
     ),
     action: mergeCommentActionCounts(
       ...sourceStories.map((s) => s.commentCounts.action)
+    ),
+    tags: mergeCommentTagCounts(
+      ...sourceStories.map((s) => s.commentCounts.tags)
     ),
   };
 
