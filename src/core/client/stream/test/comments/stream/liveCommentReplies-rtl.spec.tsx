@@ -1,27 +1,255 @@
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { GQLResolver } from "coral-framework/schema";
-import { CreateTestRendererParams } from "coral-framework/testHelpers";
 
+import { pureMerge } from "coral-common/utils";
+import {
+  GQLComment,
+  GQLResolver,
+  GQLStory,
+  SubscriptionToCommentEnteredResolver,
+} from "coral-framework/schema";
+import {
+  createFixture,
+  createResolversStub,
+  CreateTestRendererParams,
+  denormalizeComment,
+  denormalizeStory,
+  replaceHistoryLocation,
+} from "coral-framework/testHelpers";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
+import getCommentRecursively from "coral-stream/test/helpers/getCommentRecursively";
 
+import { baseComment, baseStory, comments, settings } from "../../fixtures";
 import { createContext } from "../create";
+
+const commentData = comments[0];
+
+const rootComment = denormalizeComment(
+  createFixture<GQLComment>({
+    ...baseComment,
+    id: "my-comment",
+    body: "body 0",
+    replyCount: 1,
+    replies: {
+      ...baseComment.replies,
+      edges: [
+        {
+          cursor: baseComment.createdAt,
+          node: {
+            ...baseComment,
+            id: "my-comment-1",
+            body: "body 1",
+            replyCount: 1,
+            replies: {
+              ...baseComment.replies,
+              edges: [
+                {
+                  cursor: baseComment.createdAt,
+                  node: {
+                    ...baseComment,
+                    id: "my-comment-2",
+                    body: "body 2",
+                    replyCount: 1,
+                    replies: {
+                      ...baseComment.replies,
+                      edges: [
+                        {
+                          cursor: baseComment.createdAt,
+                          node: {
+                            ...baseComment,
+                            id: "my-comment-3",
+                            body: "body 3",
+                            replyCount: 0,
+                            replies: {
+                              ...baseComment.replies,
+                              edges: [
+                                {
+                                  cursor: baseComment.createdAt,
+                                  node: {
+                                    ...baseComment,
+                                    id: "my-comment-4",
+                                    body: "body 4",
+                                    replyCount: 1,
+                                    replies: {
+                                      ...baseComment.replies,
+                                      edges: [
+                                        {
+                                          cursor: baseComment.createdAt,
+                                          node: {
+                                            ...baseComment,
+                                            id: "my-comment-5",
+                                            body: "body 5",
+                                            replyCount: 1,
+                                            replies: {
+                                              ...baseComment.replies,
+                                              edges: [
+                                                {
+                                                  cursor: baseComment.createdAt,
+                                                  node: {
+                                                    ...baseComment,
+                                                    id: "my-comment-6",
+                                                    body: "body 6",
+                                                    replyCount: 0,
+                                                    replies: {
+                                                      ...baseComment.replies,
+                                                      edges: [
+                                                        {
+                                                          cursor:
+                                                            baseComment.createdAt,
+                                                          node: {
+                                                            ...baseComment,
+                                                            id: "my-comment-7",
+                                                            body: "body 7",
+                                                            replyCount: 0,
+                                                            replies: {
+                                                              ...baseComment.replies,
+                                                              edges: [],
+                                                            },
+                                                          },
+                                                        },
+                                                      ],
+                                                    },
+                                                  },
+                                                },
+                                              ],
+                                            },
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
+    },
+  })
+);
+
+const story = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-with-deep-replies",
+      url: "http://localhost/stories/story-with-replies",
+      comments: {
+        edges: [
+          {
+            node: rootComment,
+            cursor: rootComment.createdAt,
+          },
+        ],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    },
+    baseStory
+  )
+);
 
 const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {}
 ) => {
-  const { context } = createContext({
+  const { context, subscriptionHandler } = createContext({
+    ...params,
     // ... base resolvers for this test suite
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+        },
+      }),
+      params.resolvers
+    ),
     // ... init relevant local state (probs flatten replies)
   });
 
   customRenderAppWithContext(context);
   // ... query and await for any elements that you need to
 
-  return context;
+  return { context, subscriptionHandler };
 };
 
 it("should flatten replies", async () => {
+  const { subscriptionHandler } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        stream: () => story,
+      },
+    },
+    initLocalState(local, source, environment) {
+      local.setValue(true, "flattenReplies");
+    },
+  });
 
+  replaceHistoryLocation("http://localhost/admin/community");
+
+  const container = await screen.findByTestId("comments-allComments-log");
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
+
+  const showMoreReplies = await waitFor(async () => {
+    /* Do stuff */
+    // Dispatch new comment.
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: pureMerge<typeof commentData>(comments[0], {
+            parent: getCommentRecursively(rootComment.replies, "my-comment-7"),
+          }),
+        };
+      }
+    );
+    // Dispatch new comment which is a reply to the comment above.
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: pureMerge<typeof commentData>(comments[1], {
+            parent: comments[0],
+          }),
+        };
+      }
+    );
+    /* Wait for results */
+    return await screen.findByText("Show More Replies", { selector: "button" });
+  });
+
+  expect(() =>
+    within(container).getByText("Read More of this Conversation", {
+      exact: false,
+      selector: "a",
+    })
+  ).toThrow();
+
+  fireEvent.click(showMoreReplies);
+
+  await within(container).findByTestId(`comment-${comments[0].id}`);
+  await within(container).findByTestId(`comment-${comments[1].id}`);
+
+  // No reply lists after depth 4
+  await expect(() =>
+    within(container).findByTestId(`commentReplyList-${comments[0].id}`)
+  ).rejects.toThrow();
 });
-
