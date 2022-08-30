@@ -2,6 +2,9 @@ FROM node:14-alpine
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
+# Install tzdata package for timezone.
+RUN apk --no-cache add tzdata
+
 # Install build dependancies.
 RUN apk --no-cache add git python3
 
