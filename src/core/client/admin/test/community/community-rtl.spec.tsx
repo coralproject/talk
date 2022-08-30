@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  // prettyDOM,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import customRenderAppWithContext from "coral-admin/test/customRenderAppWithContext";
@@ -253,23 +259,26 @@ it("change user role", async () => {
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
-it.only("org mods may allocate site mods", async () => {
-  /* eslint-disable */
+it("org mods may allocate site mods", async () => {
   const orgModerator = users.moderators[0];
   const commenter = users.commenters[0];
   const resolvers = createResolversStub<GQLResolver>({
     Query: {
       viewer: () => orgModerator,
       user: () => commenter,
+      settings: () => ({ ...settings, multisite: true }),
+      sites: () => siteConnection,
     },
     Mutation: {
-      updateUserRole: ({ variables }) => ({
-        clientMutationId: "1",
-        user: {
-          ...commenter,
-          role: variables.role,
-        },
-      }),
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables.siteIDs).toContain(sites[0].id);
+        return {
+          user: {
+            ...commenter,
+            role: variables.role,
+          },
+        };
+      },
     },
   });
 
@@ -288,22 +297,45 @@ it.only("org mods may allocate site mods", async () => {
     "A dropdown to change the user role"
   );
   expect(popup).toBeVisible();
+
   const siteModeratorButton = await within(popup).findByRole("button", {
-    name: "Site Moderator", // BOOKMARK: this will find the staff button but not site moderator
+    name: "Site Moderator",
   });
   fireEvent.click(siteModeratorButton);
 
-  // const siteRolePopup = within(userRow).getByLabelText(
-  //   "A dropdown to promote/demote a user to/from sites"
-  // );
+  const siteRolePopup = await within(userRow).findByLabelText(
+    "A modal for managing the scope of a site scoped role"
+  );
 
-  /* eslint-disable */
-  // console.log(changeRoleButton);
+  expect(siteRolePopup).toBeVisible();
 
-  // expect(siteRolePopup).toBeVisible();
+  const searchBar = within(siteRolePopup).getByLabelText(
+    "Search by site name",
+    {
+      exact: false,
+    }
+  );
 
-  // expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
-  // expect(within(userStatus).queryByLabelText("Change role")).toBeVisible();
+  // const form = within(siteRolePopup).getByRole("form");
+
+  userEvent.type(searchBar, sites[0].name);
+
+  const siteSearchButton = await screen.findByTestId("site-search-button");
+  userEvent.click(siteSearchButton);
+
+  // const siteSearchList = await screen.findByTestId("site-search-list");
+  const testSiteButton = await within(siteRolePopup).findByRole("button", {
+    name: sites[0].name,
+  });
+  userEvent.click(testSiteButton);
+
+  const assignButton = within(siteRolePopup).getByRole("button", {
+    name: "Assign",
+  });
+  expect(assignButton).toBeEnabled();
+  userEvent.click(assignButton);
+
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
 it("change user role to Site Moderator and add sites to moderate", async () => {

@@ -96,7 +96,8 @@ describe("updateRole", () => {
     tenant: Tenant,
     viewer: User,
     user: User,
-    role: GQLUSER_ROLE
+    role: GQLUSER_ROLE,
+    siteIDs?: string[]
   ) => ReturnType<typeof updateRole>;
 
   const exhaustiveInputs = new Map<string, boolean>();
@@ -104,11 +105,11 @@ describe("updateRole", () => {
     ({ ctx: mongo } = createMockMongoContex());
 
     // Wrapping our function to track what inputs have been tested
-    uut = (mongoCtx, tenant, viewer, user, role) => {
+    uut = (mongoCtx, tenant, viewer, user, role, siteIDs) => {
       const inputHash = inputStr(viewer.role, user.role, role);
       exhaustiveInputs.set(inputHash, true);
 
-      return updateRole(mongo, tenant, viewer, user.id, role);
+      return updateRole(mongo, tenant, viewer, user.id, role, siteIDs);
     };
 
     for (const viewer of users) {
@@ -132,7 +133,7 @@ describe("updateRole", () => {
     }
   });
 
-  it("TODO: is this ok?! allows organization moderators to allocate site mods", async () => {
+  it("allows org mods to allocate (site) mods", async () => {
     const nonMods = [site1Staff, site1Member, site1Commenter];
     for (const user of nonMods) {
       const res = await uut(
@@ -140,7 +141,8 @@ describe("updateRole", () => {
         mockTenant,
         orgMod,
         user,
-        GQLUSER_ROLE.MODERATOR
+        GQLUSER_ROLE.MODERATOR,
+        [site1.id]
       );
 
       expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
