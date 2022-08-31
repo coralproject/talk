@@ -3662,6 +3662,20 @@ type Comment @cacheControl(maxAge: 5) {
   parentCount: Int!
 
   """
+  allChildComments is a CommentsConnection that includes all comments that are
+  children of a comment (i.e. that have the comment included in their ancestorIDs)
+  """
+  allChildComments(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
+  ): CommentsConnection!
+
+  """
+  ancestorIDs
+  """
+  ancestorIDs: [String]!
+
+  """
   depth is the number of levels that a given comment is deep.
   """
   depth: Int!
@@ -4059,7 +4073,7 @@ type Story @cacheControl(maxAge: 30) {
   comments are the comments on the Story.
   """
   comments(
-    first: Int = 20 @constraint(max: 50)
+    first: Int = 20 @constraint(max: 99999)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
 
@@ -8661,6 +8675,21 @@ input MarkCommentsAsSeenInput {
   commentID is the comment to be marked as seen.
   """
   commentIDs: [ID!]!
+
+  """
+  orderBy is the current sort of comments in the stream.
+  """
+  orderBy: COMMENT_SORT
+
+  """
+  updateSeen is whether to update the comment(s) as seen.
+  """
+  updateSeen: Boolean
+
+  """
+  markAllAsSeen marks all comments as seen.
+  """
+  markAllAsSeen: Boolean
 }
 
 type MarkCommentsAsSeenPayload {
@@ -8673,6 +8702,35 @@ type MarkCommentsAsSeenPayload {
   comment is the comment that has been marked as seen.
   """
   comments: [Comment!]!
+}
+
+input RefreshStoryCountsInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story we want to update counts for.
+  """
+  storyID: String!
+
+  """
+  tags if true will update the tag counts for the story.
+  """
+  tags: Boolean!
+}
+
+type RefreshStoryCountsPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the story that was updated.
+  """
+  story: Story
 }
 
 ##################
@@ -9334,7 +9392,9 @@ type Mutation {
   """
   testSMTP sends a test email.
   """
-  testSMTP(input: TestSMTPInput!): TestSMTPPayload! @auth(roles: [ADMIN]) @rate(seconds: 10)
+  testSMTP(input: TestSMTPInput!): TestSMTPPayload!
+    @auth(roles: [ADMIN])
+    @rate(seconds: 10)
 
   """
   reviewCommentFlag marks comment flag as reviewed
@@ -9356,6 +9416,13 @@ type Mutation {
   markCommentsAsSeen(
     input: MarkCommentsAsSeenInput!
   ): MarkCommentsAsSeenPayload!
+
+  """
+  refreshStoryCounts will recompute the cached counts for a story based on
+  which flags are set to recompute in the operation input.
+  """
+  refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
+    @auth(roles: [ADMIN])
 }
 
 ##################

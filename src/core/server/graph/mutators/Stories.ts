@@ -3,6 +3,7 @@ import { isNull, omitBy } from "lodash";
 import { ERROR_CODES } from "coral-common/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
+import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
 import {
   markStoryForArchiving,
   markStoryForUnarchiving,
@@ -31,6 +32,7 @@ import {
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
+  GQLRefreshStoryCountsInput,
   GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
@@ -187,5 +189,18 @@ export const Stories = (ctx: GraphContext) => ({
     }
 
     return stories;
+  },
+  refreshStoryCounts: async (input: GQLRefreshStoryCountsInput) => {
+    if (input.tags) {
+      const result = await initializeCommentTagCountsForStory(
+        ctx.mongo,
+        ctx.tenant.id,
+        input.storyID
+      );
+
+      return result.story;
+    } else {
+      return await ctx.loaders.Stories.find.load({ id: input.storyID });
+    }
   },
 });

@@ -160,6 +160,10 @@ export function createComment(
       parent: NULL_VALUE,
       canModerate: !!data.canModerate,
       canReply: true,
+      allChildComments: {
+        edges: [],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      },
     })
   );
 

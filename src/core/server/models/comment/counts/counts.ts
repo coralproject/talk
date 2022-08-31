@@ -7,11 +7,15 @@ import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
+  createEmptyCommentTagCounts,
   createEmptyRelatedCommentCounts,
 } from "./empty";
 
@@ -69,6 +73,24 @@ export interface CommentStatusCounts {
   [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
 }
 
+export interface CommentTagCounts {
+  total: number;
+
+  tags: CommentCountsPerTag;
+}
+
+export interface CommentCountsPerTag {
+  [GQLTAG.ADMIN]: number;
+  [GQLTAG.EXPERT]: number;
+  [GQLTAG.FEATURED]: number;
+  [GQLTAG.MEMBER]: number;
+  [GQLTAG.MODERATOR]: number;
+  [GQLTAG.QUESTION]: number;
+  [GQLTAG.REVIEW]: number;
+  [GQLTAG.STAFF]: number;
+  [GQLTAG.UNANSWERED]: number;
+}
+
 /**
  * RelatedCommentCounts stores all the Comment Counts that will be stored on
  * each related document (like a Story, or a Site).
@@ -91,6 +113,8 @@ export interface RelatedCommentCounts {
    * ModerationQueue's on this related document.
    */
   moderationQueue: CommentModerationQueueCounts;
+
+  tags: CommentTagCounts;
 }
 
 /**
@@ -134,6 +158,28 @@ export function mergeCommentModerationQueueCount(
     merged.queues.unmoderated += moderationQueue.queues.unmoderated;
     merged.queues.pending += moderationQueue.queues.pending;
     merged.queues.reported += moderationQueue.queues.reported;
+  }
+
+  return merged;
+}
+
+export function mergeCommentTagCounts(
+  ...tags: CommentTagCounts[]
+): CommentTagCounts {
+  const merged = createEmptyCommentTagCounts();
+
+  for (const tagSet of tags) {
+    merged.total += tagSet.total;
+
+    merged.tags.ADMIN += tagSet.tags.ADMIN;
+    merged.tags.EXPERT += tagSet.tags.EXPERT;
+    merged.tags.FEATURED += tagSet.tags.FEATURED;
+    merged.tags.MEMBER += tagSet.tags.MEMBER;
+    merged.tags.MODERATOR += tagSet.tags.MODERATOR;
+    merged.tags.QUESTION += tagSet.tags.QUESTION;
+    merged.tags.REVIEW += tagSet.tags.REVIEW;
+    merged.tags.STAFF += tagSet.tags.STAFF;
+    merged.tags.UNANSWERED += tagSet.tags.UNANSWERED;
   }
 
   return merged;

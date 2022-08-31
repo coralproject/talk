@@ -2,6 +2,7 @@ import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
+import { hasTag } from "coral-server/models/comment";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
@@ -18,6 +19,7 @@ import {
   createComment,
   editComment,
 } from "coral-server/stacks";
+import { updateTagCommentCounts } from "coral-server/stacks/helpers/updateAllCommentCounts";
 
 import {
   GQLCOMMENT_STATUS,
@@ -206,6 +208,19 @@ export const Comments = (ctx: GraphContext) => ({
       );
     }
 
+    await updateTagCommentCounts(
+      ctx.tenant.id,
+      comment.storyID,
+      comment.siteID,
+      ctx.mongo,
+      ctx.redis,
+      // Create a diff where "before" tags does not have a
+      // featured tag and the after does since the previous
+      // `addTag` put the featured tag onto the comment
+      comment.tags.filter((t) => t.type !== GQLTAG.FEATURED),
+      comment.tags
+    );
+
     // Publish that the comment was featured.
     await publishCommentFeatured(ctx.broker, comment);
 
@@ -218,11 +233,38 @@ export const Comments = (ctx: GraphContext) => ({
     // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, { commentID });
 
-    return removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED);
+    const comment = await removeTag(
+      ctx.mongo,
+      ctx.tenant,
+      commentID,
+      GQLTAG.FEATURED
+    );
+
+    // If the tag is sucessfully removed (the tag is
+    // no longer present on the comment) then we can
+    // update the tag story counts.
+    const isFeatured = hasTag(comment, GQLTAG.FEATURED);
+    if (!isFeatured) {
+      await updateTagCommentCounts(
+        ctx.tenant.id,
+        comment.storyID,
+        comment.siteID,
+        ctx.mongo,
+        ctx.redis,
+        // Create a diff where "before" has the featured tag,
+        // and after does not since the result of the previous
+        // `removeTag` took the featured tag off of the comment
+        [...comment.tags, { type: GQLTAG.FEATURED, createdAt: new Date() }],
+        comment.tags
+      );
+    }
+
+    return comment;
   },
   markAsSeen: async ({
     commentIDs,
     storyID,
+    markAllAsSeen,
   }: WithoutMutationID<GQLMarkCommentsAsSeenInput>) => {
     if (ctx.user) {
       await markSeen(
@@ -231,7 +273,8 @@ export const Comments = (ctx: GraphContext) => ({
         storyID,
         ctx.user?.id,
         commentIDs,
-        ctx.now
+        ctx.now,
+        markAllAsSeen
       );
     }
 

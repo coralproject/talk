@@ -427,6 +427,10 @@ export const baseComment = createFixture<GQLComment>({
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   seen: false,
   canReply: true,
+  allChildComments: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
+  },
 });
 
 export const comments = denormalizeComments(
@@ -534,6 +538,11 @@ export const comments = denormalizeComments(
       },
       {
         id: "comment-20",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-21",
         author: commenters[2],
         body: "Comment Body 5",
       },

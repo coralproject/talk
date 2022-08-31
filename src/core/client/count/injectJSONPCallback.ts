@@ -45,7 +45,6 @@ function createCountElementEnhancer({
   html,
   count: currentCount,
   id: storyID,
-  showNew,
 }: CountJSONPData) {
   // Get the dataset together for setting properties on the enhancer.
   const dataset: CountElementDataset = {
@@ -58,7 +57,7 @@ function createCountElementEnhancer({
   // Update the innerHTML which contains the count and new value..
   element.innerHTML = html;
 
-  if (storyID && showNew) {
+  if (storyID) {
     const previousCount = getPreviousCount(storyID) ?? 0;
 
     // The new count is the current count subtracted from the previous

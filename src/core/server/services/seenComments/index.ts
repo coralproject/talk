@@ -20,7 +20,16 @@ export async function markSeen(
   storyID: string,
   userID: string,
   commentIDs: string[],
-  now: Date
+  now: Date,
+  markAllAsSeen?: boolean
 ) {
-  await markSeenComments(mongo, tenantID, storyID, userID, commentIDs, now);
+  await markSeenComments(
+    mongo,
+    tenantID,
+    storyID,
+    userID,
+    commentIDs,
+    now,
+    markAllAsSeen
+  );
 }
