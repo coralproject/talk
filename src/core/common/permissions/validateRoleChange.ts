@@ -42,7 +42,7 @@ export const validateRoleChange = (
   user: Readonly<User>,
   role: UserRole,
   /**
-   * TODO: this optional argument that is only relelvant
+   * TODO: this optional argument that is only relevant
    * for one subset of inputs is s a code smell! we need
    * to split the MODERATOR role into ORGANIZATION_MODERATOR + SITE_MODERATOR!!!
    */
