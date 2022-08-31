@@ -1,7 +1,6 @@
 import { isEqual } from "lodash";
 
 import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/verifiers/sso";
-
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 import { isSiteModerationScoped } from "coral-common/permissions";
