@@ -2,7 +2,6 @@ import { screen } from "@testing-library/react";
 
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
-import create from "./create";
 import {
   commentWithRejectedReply,
   replyableComment,
@@ -10,6 +9,7 @@ import {
   stories,
   unreplyableComment,
 } from "../../fixtures";
+import create from "./create";
 
 const story = stories[0];
 
