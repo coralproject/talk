@@ -897,11 +897,11 @@ export const rejectedComment: GQLComment = {
   status: GQLCOMMENT_STATUS.REJECTED,
 };
 
-export const unreplyableComment: GQLComment = {
+export const unrepliableComment: GQLComment = {
   ...comments[2],
   author: {
     ...comments[2].author!,
-    username: "unreplyable comment author",
+    username: "unrepliable comment author",
   },
   canReply: false,
 };
@@ -921,7 +921,7 @@ export const commentWithRejectedReply: GQLComment = denormalizeComment(
               edges: [
                 {
                   cursor: "cursor",
-                  node: unreplyableComment,
+                  node: unrepliableComment,
                 },
               ],
               nodes: [rejectedComment],

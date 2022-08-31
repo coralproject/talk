@@ -7,7 +7,7 @@ import {
   replyableComment,
   settings,
   stories,
-  unreplyableComment,
+  unrepliableComment,
 } from "../../fixtures";
 import create from "./create";
 
@@ -47,7 +47,7 @@ it("disallows replies to comments with canReply = false", async () => {
   await createTestRenderer();
 
   const shouldBeDisabled = await screen.findByLabelText(
-    `Reply to comment by ${unreplyableComment.author?.username}`,
+    `Reply to comment by ${unrepliableComment.author?.username}`,
     { exact: false }
   );
 
