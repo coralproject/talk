@@ -316,14 +316,11 @@ it("org mods may allocate site mods", async () => {
     }
   );
 
-  // const form = within(siteRolePopup).getByRole("form");
-
   userEvent.type(searchBar, sites[0].name);
 
   const siteSearchButton = await screen.findByTestId("site-search-button");
   userEvent.click(siteSearchButton);
 
-  // const siteSearchList = await screen.findByTestId("site-search-list");
   const testSiteButton = await within(siteRolePopup).findByRole("button", {
     name: sites[0].name,
   });
