@@ -3,7 +3,6 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
@@ -27,7 +26,6 @@ interface Props {
   settings: ReplyListCommentContainer_settings;
   story: ReplyListCommentContainer_story;
   allowIgnoredTombstoneReveal?: boolean;
-  disableHideIgnoredTombstone?: boolean;
   localReply?: boolean;
   indentLevel?: number;
   disableReplies?: boolean;
@@ -42,7 +40,6 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
   settings,
   story,
   allowIgnoredTombstoneReveal,
-  disableHideIgnoredTombstone,
   localReply,
   indentLevel,
   disableReplies,
@@ -57,7 +54,6 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         viewer={viewer}
         comment={comment}
         allowTombstoneReveal={allowIgnoredTombstoneReveal}
-        disableHide={disableHideIgnoredTombstone}
       >
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
           <CollapsableComment>
@@ -69,23 +65,21 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
               return (
                 <>
                   <DeletedTombstoneContainer comment={comment}>
-                    <IntersectionProvider threshold={[0, 1]}>
-                      <CommentContainer
-                        viewer={viewer}
-                        comment={comment}
-                        story={story}
-                        collapsed={collapsed && collapseEnabled}
-                        settings={settings}
-                        indentLevel={indentLevel}
-                        localReply={localReply}
-                        disableReplies={disableReplies}
-                        showConversationLink={!!showConversationLink}
-                        toggleCollapsed={
-                          collapseEnabled ? toggleCollapsed : undefined
-                        }
-                        showRemoveAnswered={showRemoveAnswered}
-                      />
-                    </IntersectionProvider>
+                    <CommentContainer
+                      viewer={viewer}
+                      comment={comment}
+                      story={story}
+                      collapsed={collapsed && collapseEnabled}
+                      settings={settings}
+                      indentLevel={indentLevel}
+                      localReply={localReply}
+                      disableReplies={disableReplies}
+                      showConversationLink={!!showConversationLink}
+                      toggleCollapsed={
+                        collapseEnabled ? toggleCollapsed : undefined
+                      }
+                      showRemoveAnswered={showRemoveAnswered}
+                    />
                   </DeletedTombstoneContainer>
                   <div
                     className={cn({

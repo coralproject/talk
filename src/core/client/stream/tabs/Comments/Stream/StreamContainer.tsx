@@ -131,14 +131,13 @@ const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
 export const StreamContainer: FunctionComponent<Props> = (props) => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
-  const { localStorage } = useCoralContext();
+  const { localStorage, browserInfo } = useCoralContext();
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
         siteID
         commentsTab
         commentsOrderBy
-        viewNewRepliesCount
       }
     `
   );
@@ -160,7 +159,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         return;
       }
 
-      setLocal({ commentsTab: tab, viewNewRepliesCount: null });
+      setLocal({ commentsTab: tab });
 
       if (emit) {
         emitSetCommentsTabEvent({ tab });
@@ -184,6 +183,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   const isQA = props.story.settings.mode === GQLSTORY_MODE.QA;
   const isRatingsAndReviews =
     props.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+  const ratingsCount = isRatingsAndReviews
+    ? props.story.ratings?.count || 0
+    : 0;
 
   // The alternate view is only enabled when we have the feature flag, the sort
   // as oldest first, the story is not closed, and comments are not disabled.
@@ -208,7 +210,12 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   const currentScrollRef = useRef<null | HTMLElement>(null);
 
   // Emit comment count event.
-  useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
+  useCommentCountEvent(
+    props.story.id,
+    props.story.url,
+    props.story.settings?.mode,
+    isRatingsAndReviews ? ratingsCount : allCommentsCount
+  );
 
   useEffect(() => {
     // If the comment tab is still in its uninitialized state, "NONE", then we
@@ -273,10 +280,21 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         {isRatingsAndReviews && <StoryRatingContainer story={props.story} />}
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
-            <AddACommentButton
-              isQA={isQA}
-              currentScrollRef={currentScrollRef}
-            />
+            <MatchMedia gtDeviceWidth="mobileMax">
+              {(matches) =>
+                matches &&
+                !(
+                  browserInfo.mobile ||
+                  browserInfo.tablet ||
+                  browserInfo.iPadOS
+                ) && (
+                  <AddACommentButton
+                    isQA={isQA}
+                    currentScrollRef={currentScrollRef}
+                  />
+                )
+              }
+            </MatchMedia>
           ) : (
             <>
               <IntersectionProvider>
@@ -602,6 +620,9 @@ const enhanced = withFragmentContainer<Props>({
           QUESTION
         }
       }
+      ratings {
+        count
+      }
       isArchived
       isArchiving
       ...CreateCommentMutation_story
@@ -612,6 +633,7 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...StoryRatingContainer_story
       ...ViewersWatchingContainer_story
+      ...useCommentCountEvent_story
     }
   `,
   viewer: graphql`

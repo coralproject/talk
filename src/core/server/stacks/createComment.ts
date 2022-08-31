@@ -7,6 +7,7 @@ import { MongoContext } from "coral-server/data/context";
 import {
   AuthorAlreadyHasRatedStory,
   CannotCreateCommentOnArchivedStory,
+  CommentNotFoundError,
   CoralError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -30,7 +31,6 @@ import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
 import { markSeenComments } from "coral-server/models/seenComments/seenComments";
 import { retrieveSite } from "coral-server/models/site";
 import {
-  addCommentToStoryTree,
   isUserStoryExpert,
   resolveStoryMode,
   retrieveStory,
@@ -69,6 +69,7 @@ import {
   retrieveParent,
   updateAllCommentCounts,
 } from "./helpers";
+import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -118,6 +119,14 @@ const markCommentAsAnswered = async (
     return;
   }
 
+  const parent = await retrieveParent(mongo, tenant.id, {
+    parentID: comment.parentID,
+    parentRevisionID: comment.parentRevisionID,
+  });
+  if (!parent) {
+    throw new CommentNotFoundError(comment.parentID);
+  }
+
   // We need to mark the parent question as answered.
   // - Remove the unanswered tag.
   // - Approve it since an expert has replied to it.
@@ -134,6 +143,19 @@ const markCommentAsAnswered = async (
       now
     ),
   ]);
+
+  await updateTagCommentCounts(
+    tenant.id,
+    comment.storyID,
+    comment.siteID,
+    mongo,
+    redis,
+    // Since we removed the UNANSWERED tag, we need to recreate the
+    // before after state of having an UNANSWERED tag followed by
+    // not having an unanswered tag
+    parent.tags,
+    parent.tags.filter((t) => t.type !== GQLTAG.UNANSWERED)
+  );
 };
 
 const RatingSchema = Joi.number().min(1).max(5).integer();
@@ -332,7 +354,6 @@ export default async function create(
 
   // Updating some associated data.
   await Promise.all([
-    addCommentToStoryTree(mongo, tenant.id, story.id, comment),
     updateUserLastCommentID(redis, tenant, author, comment.id),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
     markCommentAsAnswered(

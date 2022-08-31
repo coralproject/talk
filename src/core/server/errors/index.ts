@@ -950,3 +950,13 @@ export class CannotMergeAnArchivedStory extends CoralError {
     });
   }
 }
+
+export class UsernameAlreadyExists extends CoralError {
+  constructor(tenantID: string, username: string) {
+    super({
+      code: ERROR_CODES.USERNAME_ALREADY_EXISTS,
+      status: 400,
+      context: { tenantID, pvt: { tenantID, username } },
+    });
+  }
+}

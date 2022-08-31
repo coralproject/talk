@@ -78,6 +78,7 @@ createComment.error
 <!-- START docs:events -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN npm run docs:events -->
 ### Index
+- <a href="#addACommentButton">addACommentButton</a>
 - <a href="#approveComment">approveComment</a>
 - <a href="#banUser">banUser</a>
 - <a href="#cancelAccountDeletion">cancelAccountDeletion</a>
@@ -113,7 +114,6 @@ createComment.error
 - <a href="#requestAccountDeletion">requestAccountDeletion</a>
 - <a href="#requestDownloadCommentHistory">requestDownloadCommentHistory</a>
 - <a href="#resendEmailVerification">resendEmailVerification</a>
-- <a href="#scrollCommentUpOutOfView">scrollCommentUpOutOfView</a>
 - <a href="#setCommentsOrderBy">setCommentsOrderBy</a>
 - <a href="#setCommentsTab">setCommentsTab</a>
 - <a href="#setMainTab">setMainTab</a>
@@ -148,6 +148,7 @@ createComment.error
 - <a href="#viewNewRepliesNetwork">viewNewRepliesNetwork</a>
 
 ### Events
+- <a id="addACommentButton">**addACommentButton**</a>: This event is emitted when the viewer clicks the add a comment button in alternate oldest view.
 - <a id="approveComment">**approveComment.success**, **approveComment.error**</a>: This event is emitted when the viewer approves a comment.
   ```ts
   {
@@ -466,12 +467,6 @@ createComment.error
           message: string;
           code?: string | undefined;
       };
-  }
-  ```
-- <a id="scrollCommentUpOutOfView">**scrollCommentUpOutOfView**</a>: This event is emitted when the viewer scrolls a comment up and out of view on the stream.
-  ```ts
-  {
-      commentID?: string | undefined;
   }
   ```
 - <a id="setCommentsOrderBy">**setCommentsOrderBy**</a>: This event is emitted when the viewer changes the sort order of the comments.

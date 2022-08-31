@@ -162,7 +162,9 @@ it("should show more replies", async () => {
       selector: "button",
     })
   );
-  showMoreButton.props.onClick();
+  await act(async () => {
+    showMoreButton.props.onClick();
+  });
   within(container).getByTestID(`comment-${commentData.id}`);
 });
 

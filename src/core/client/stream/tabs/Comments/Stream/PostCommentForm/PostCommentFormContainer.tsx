@@ -22,7 +22,12 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT, GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+  GQLTAG,
+} from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { ShowAuthPopupMutation } from "coral-stream/common/AuthPopup";
 import WarningError from "coral-stream/common/WarningError";
@@ -69,7 +74,6 @@ interface Props {
   onChangeTab?: (tab: COMMENTS_TAB) => void;
   commentsOrderBy?: COMMENT_SORT;
 }
-
 export const PostCommentFormContainer: FunctionComponent<Props> = ({
   settings,
   viewer,
@@ -87,7 +91,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const [local, setLocal] = useLocal<PostCommentFormContainerLocal>(graphql`
     fragment PostCommentFormContainerLocal on Local {
       oldestFirstNewCommentsToShow
-      showLoadAllCommentsButton
+      loadAllButtonHasBeenClicked
     }
   `);
 
@@ -98,34 +102,34 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     () => !!viewer && !story.isClosed && !settings.disableCommenting.enabled,
     []
   );
-
   // nudge will turn on the nudging behavior on the server
   const [nudge, setNudge] = useState(true);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
-
   const [draft = "", setDraft, initialDraft] = usePersistedSessionState<string>(
     "PostCommentFormContainer:draft"
   );
   const [toggle, setToggle] = usePersistedSessionState<Toggle>(
     "PostCommentFormContainer:toggle"
   );
-
   const [initialValues, setInitialValues] = useState<FormProps>();
   useEffect(() => {
     setInitialValues({ body: initialDraft || "" });
   }, [initialDraft]);
-
   const initialized = !!initialValues;
-
   const disabled =
     settings.disableCommenting.enabled ||
     story.isClosed ||
     !!viewer?.scheduledDeletionDate;
-
   const isRatingsAndReviews =
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
-
+  const alternateOldestViewEnabled =
+    settings.featureFlags.includes(
+      GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
+    ) &&
+    commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
+    !story.isClosed &&
+    !settings.disableCommenting.enabled;
   const PostCommentSection: FC = useMemo(
     () => (props) => {
       if (isRatingsAndReviews) {
@@ -152,7 +156,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     },
     [isRatingsAndReviews, isQA]
   );
-
   const handleOnSubmit: OnSubmitHandler = async (input, form) => {
     try {
       const response = await createComment({
@@ -164,11 +167,8 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         media: input.media,
       });
 
-      // If in oldest first view, add this response to new comments to show that have been added
-      if (
-        commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
-        local.showLoadAllCommentsButton
-      ) {
+      // If in alternate oldest view, add this response to new comments to show that have been added
+      if (alternateOldestViewEnabled && !local.loadAllButtonHasBeenClicked) {
         if (!local.oldestFirstNewCommentsToShow) {
           setLocal({ oldestFirstNewCommentsToShow: response.edge.node.id });
         } else {
@@ -199,20 +199,17 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
           onChangeTab("ALL_COMMENTS");
         }
       }
-
       if (status !== "RETRY") {
         // We've submitted the comment, and it returned with a non-retry status,
         // so clear out the persisted values and reset the form.
         setToggle(undefined);
         setDraft(undefined);
-
         setInitialValues({ body: "" });
         form
           .getRegisteredFields()
           .forEach((name) => form.resetFieldState(name));
         form.initialize({ body: RTE_RESET_VALUE });
       }
-
       setNudge(true);
       setSubmitStatus(status);
     } catch (error) {
@@ -223,16 +220,13 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         if (shouldTriggerViewerRefresh(error.code)) {
           await refreshViewer();
         }
-
         if (error.code === ERROR_CODES.USER_WARNED) {
           return {
             [FORM_ERROR]: <WarningError />,
           };
         }
-
         return error.invalidArgs;
       }
-
       /**
        * Comment was caught in one of the moderation filters on the server.
        * We give the user another change to submit the comment, and we
@@ -247,15 +241,12 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     }
     return;
   };
-
   const handleOnChange: OnChangeHandler = useCallback(
     (state, form) => {
       if (submitStatus && state.dirty) {
         setSubmitStatus(null);
       }
-
       setDraft(state.values.body === RTE_RESET_VALUE ? "" : state.values.body);
-
       // Reset errors whenever user clears the form.
       if (
         state.touched &&
@@ -267,32 +258,25 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     },
     [setDraft, submitStatus]
   );
-
   const handleSignIn = () => {
     void showAuthPopup({ view: "SIGN_IN" });
   };
-
   const onToggle = (t: Toggle) => {
     if (!viewer) {
       handleSignIn();
       return;
     }
-
     setToggle(t);
   };
-
   const onClickReview = () => {
     if (!story.viewerRating?.tags.some(({ code }) => code === GQLTAG.REVIEW)) {
       return;
     }
-
     void setCommentID({ id: story.viewerRating.id });
   };
-
   if (!initialized) {
     return null;
   }
-
   if (!keepFormWhenClosed) {
     if (settings.disableCommenting.enabled) {
       return (
@@ -305,7 +289,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         </PostCommentSection>
       );
     }
-
     if (story.isClosed) {
       return (
         <PostCommentSection>
@@ -318,7 +301,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       );
     }
   }
-
   if (!viewer) {
     if (isRatingsAndReviews) {
       return (
@@ -327,7 +309,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
         </PostCommentSection>
       );
     }
-
     return (
       <PostCommentSection>
         <PostCommentFormFake
@@ -341,7 +322,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       </PostCommentSection>
     );
   }
-
   const disabledMessage =
     disabled &&
     (settings.disableCommenting.enabled ? (
@@ -353,12 +333,10 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     ) : (
       settings.closeCommenting.message
     ));
-
   const rating = story.viewerRating?.rating || undefined;
   const showReview =
     story.viewerRating?.tags.some(({ code }) => code === GQLTAG.REVIEW) &&
     isPublished(story.viewerRating.status);
-
   const mode = isRatingsAndReviews
     ? toggle === "RATE_AND_REVIEW"
       ? "rating"
@@ -366,7 +344,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     : isQA
     ? "question"
     : "comments";
-
   if (isRatingsAndReviews && !toggle) {
     return (
       <PostCommentSection>
@@ -380,7 +357,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
       </PostCommentSection>
     );
   }
-
   return (
     <PostCommentSection>
       <HorizontalGutter size="double">
@@ -412,7 +388,6 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     </PostCommentSection>
   );
 };
-
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment PostCommentFormContainer_settings on Settings {
@@ -484,7 +459,5 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
 })(PostCommentFormContainer);
-
 export type PostCommentFormContainerProps = PropTypesOf<typeof enhanced>;
-
 export default enhanced;

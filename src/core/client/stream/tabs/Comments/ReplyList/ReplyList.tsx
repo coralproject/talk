@@ -36,7 +36,6 @@ export interface ReplyListProps {
   viewNewCount?: number;
   onViewNew?: () => void;
   allowIgnoredTombstoneReveal?: boolean;
-  disableHideIgnoredTombstone?: boolean;
   showRemoveAnswered?: boolean;
 }
 
@@ -59,7 +58,6 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           story={props.story}
           settings={props.settings}
           allowIgnoredTombstoneReveal={props.allowIgnoredTombstoneReveal}
-          disableHideIgnoredTombstone={props.disableHideIgnoredTombstone}
           localReply={props.localReply}
           indentLevel={props.indentLevel}
           disableReplies={props.disableReplies}
@@ -91,7 +89,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
       )}
       {!!props.viewNewCount && (
         <Indent level={props.indentLevel} noBorder>
-          <Localized id="comments-replyList-showMoreReplies">
+          <Localized id={"comments-replyList-showMoreReplies"}>
             <Button
               id={`coral-comments-replyList-showMoreReplies--${props.comment.id}`}
               aria-controls={`coral-comments-replyList-log--${props.comment.id}`}

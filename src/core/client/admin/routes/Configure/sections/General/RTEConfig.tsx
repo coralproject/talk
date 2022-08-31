@@ -63,6 +63,7 @@ const RTEConfig: FunctionComponent<Props> = ({ disabled }) => (
             <span>On - bold, italics, block quotes, and bulleted lists</span>
           </Localized>
         }
+        testIDs={{ on: "rte-config-onField", off: "rte-config-offField" }}
       />
     </FormField>
     <FormSpy subscription={{ values: true }}>

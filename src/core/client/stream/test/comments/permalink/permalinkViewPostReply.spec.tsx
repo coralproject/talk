@@ -99,7 +99,7 @@ const createTestRenderer = async (
 };
 
 it("post a reply", async () => {
-  const { form, testRenderer, rte } = await createTestRenderer({
+  const { testRenderer, rte, form } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         createCommentReply: ({ variables }) => {

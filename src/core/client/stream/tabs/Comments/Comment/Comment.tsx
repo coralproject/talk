@@ -15,6 +15,8 @@ import InReplyTo from "./InReplyTo";
 import styles from "./Comment.css";
 
 export interface CommentProps {
+  id: string;
+  showCommentID: boolean;
   className?: string;
   username: React.ReactNode;
   body: string | null;
@@ -101,6 +103,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
       {props.rating && <StarRating rating={props.rating} />}
 
       <HorizontalGutter size="oneAndAHalf">
+        {props.showCommentID && <div>{props.id}</div>}
         <HTMLContent className={CLASSES.comment.content}>
           {props.body || ""}
         </HTMLContent>

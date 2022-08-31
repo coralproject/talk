@@ -1,17 +1,15 @@
 import { isNull, omitBy } from "lodash";
-import { v4 as uuid } from "uuid";
 
 import { ERROR_CODES } from "coral-common/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
+import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
 import {
-  generateTreeForStory,
   markStoryForArchiving,
   markStoryForUnarchiving,
   retrieveStory,
   Story,
 } from "coral-server/models/story";
-import { validateJobData } from "coral-server/queue/tasks/regenerateStoryTrees/processor";
 import { archiveStory, unarchiveStory } from "coral-server/services/archive";
 import {
   addExpert,
@@ -32,10 +30,9 @@ import {
   GQLArchiveStoriesInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
-  GQLGenerateStoryTreeInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
-  GQLRegenerateStoryTreesInput,
+  GQLRefreshStoryCountsInput,
   GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
@@ -193,46 +190,17 @@ export const Stories = (ctx: GraphContext) => ({
 
     return stories;
   },
-  generateStoryTree: async (input: GQLGenerateStoryTreeInput) => {
-    await generateTreeForStory(
-      ctx.mongo,
-      ctx.logger,
-      ctx.tenant.id,
-      input.storyID
-    );
-    return { storyID: input.storyID };
-  },
-  regenerateStoryTrees: async ({
-    disableCommenting,
-    disableCommentingMessage,
-  }: GQLRegenerateStoryTreesInput) => {
-    const jobID = uuid();
-
-    const jobData = {
-      tenantID: ctx.tenant.id,
-      jobID,
-      disableCommenting: !!disableCommenting,
-      disableCommentingMessage,
-    };
-
-    const { success, error } = validateJobData(jobData);
-    if (!success || error) {
-      ctx.logger.error(
-        { err: error, jobData },
-        "rejecting regenerateStoryTrees request: validation of job data failed"
+  refreshStoryCounts: async (input: GQLRefreshStoryCountsInput) => {
+    if (input.tags) {
+      const result = await initializeCommentTagCountsForStory(
+        ctx.mongo,
+        ctx.tenant.id,
+        input.storyID
       );
 
-      return {
-        accepted: false,
-        jobID: "",
-      };
+      return result.story;
+    } else {
+      return await ctx.loaders.Stories.find.load({ id: input.storyID });
     }
-
-    await ctx.regenerateStoryTreesQueue.add(jobData);
-
-    return {
-      accepted: true,
-      jobID,
-    };
   },
 });

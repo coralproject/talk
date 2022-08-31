@@ -74,3 +74,4 @@ error-authorAlreadyHasRatedStory = You’ve already submitted a rating on this p
 error-cannotCreateCommentOnArchivedStory = Cannot create a comment on an archived story without unarchiving.
 error-cannotOpenAnArchivedStory = Cannot open an archived story. The story must be unarchived first.
 error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story must be unarchived first.
+error-usernameAlreadyExists = This username already exists. Please choose another.

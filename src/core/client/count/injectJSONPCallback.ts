@@ -58,34 +58,34 @@ function createCountElementEnhancer({
   element.innerHTML = html;
 
   if (storyID) {
-    const previousCount = getPreviousCount(storyID);
-    if (previousCount !== null && previousCount < currentCount) {
-      // The new count is just the current count subtracting from the previous
-      // count.
-      const newCount = currentCount - previousCount;
+    const previousCount = getPreviousCount(storyID) ?? 0;
 
-      // Add the counts to the dataset so it can be targeted by CSS if you want.
-      dataset.coralPreviousCount = previousCount.toString();
-      dataset.coralNewCount = newCount.toString();
+    // The new count is the current count subtracted from the previous
+    // count if the counts are different, otherwise, zero.
+    const newCount =
+      previousCount < currentCount ? currentCount - previousCount : 0;
 
-      // Insert the divider " / "
-      const dividerElement = document.createElement("span");
-      dividerElement.className = "coral-new-count-divider";
-      dividerElement.innerText = " / ";
-      element.appendChild(dividerElement);
+    // Add the counts to the dataset so it can be targeted by CSS if you want.
+    dataset.coralPreviousCount = previousCount.toString();
+    dataset.coralNewCount = newCount.toString();
 
-      // Add the number of new comments to that.
-      const newCountNumber = document.createElement("span");
-      newCountNumber.className = "coral-new-count-number";
-      newCountNumber.innerText = newCount.toString();
-      element.appendChild(newCountNumber);
+    // Insert the divider " / "
+    const dividerElement = document.createElement("span");
+    dividerElement.className = "coral-new-count-divider";
+    dividerElement.innerText = " / ";
+    element.appendChild(dividerElement);
 
-      // Add the number of new comments to that.
-      const newCountText = document.createElement("span");
-      newCountText.className = "coral-new-count-text";
-      newCountText.innerText = " New";
-      element.appendChild(newCountText);
-    }
+    // Add the number of new comments to that.
+    const newCountNumber = document.createElement("span");
+    newCountNumber.className = "coral-new-count-number";
+    newCountNumber.innerText = newCount.toString();
+    element.appendChild(newCountNumber);
+
+    // Add the number of new comments to that.
+    const newCountText = document.createElement("span");
+    newCountText.className = "coral-new-count-text";
+    newCountText.innerText = " New";
+    element.appendChild(newCountText);
   }
 
   return (target: HTMLElement) => {

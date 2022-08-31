@@ -2,7 +2,6 @@ import { screen, within } from "@testing-library/react";
 import { isMatch } from "lodash";
 import sinon from "sinon";
 
-import { pureMerge } from "coral-common/utils";
 import { createSinonStub } from "coral-framework/testHelpers";
 import { createContext } from "coral-stream/test/create";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
@@ -10,7 +9,6 @@ import customRenderAppWithContext from "coral-stream/test/customRenderAppWithCon
 import { comments, settings, stories } from "../../fixtures";
 
 const loadMoreDateCursor = "2019-07-06T18:24:00.000Z";
-
 const createTestRenderer = async () => {
   const storyStub = {
     ...stories[0],
@@ -18,7 +16,7 @@ const createTestRenderer = async () => {
       s.callsFake((input: any) => {
         if (
           isMatch(input, {
-            first: 20,
+            first: 99999,
             orderBy: "CREATED_AT_DESC",
             after: loadMoreDateCursor,
           })
@@ -26,8 +24,8 @@ const createTestRenderer = async () => {
           return {
             edges: [
               {
-                node: comments[21],
-                cursor: "2019-08-06T18:24:00.000Z",
+                node: comments[20],
+                cursor: loadMoreDateCursor,
               },
             ],
             pageInfo: {
@@ -36,7 +34,6 @@ const createTestRenderer = async () => {
             },
           };
         }
-
         if (
           isMatch(input, {
             first: 20,
@@ -125,10 +122,6 @@ const createTestRenderer = async () => {
                 node: comments[19],
                 cursor: comments[19].createdAt,
               },
-              {
-                node: comments[20],
-                cursor: loadMoreDateCursor,
-              },
             ],
             pageInfo: {
               endCursor: loadMoreDateCursor,
@@ -136,15 +129,10 @@ const createTestRenderer = async () => {
             },
           };
         }
-
         throw new Error("Unexpected request");
       })
     ),
   };
-
-  const settingsWithLoadAllCommentsDisabled = pureMerge(settings, {
-    loadAllComments: false,
-  });
 
   const resolvers = {
     Query: {
@@ -172,7 +160,7 @@ const createTestRenderer = async () => {
             )
             .returns(storyStub)
       ),
-      settings: sinon.stub().returns(settingsWithLoadAllCommentsDisabled),
+      settings: sinon.stub().returns(settings),
     },
   };
 
@@ -183,39 +171,17 @@ const createTestRenderer = async () => {
       localRecord.setValue("ALL_COMMENTS", "commentsTab");
       localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
       localRecord.setValue(storyStub.id, "storyID");
-      localRecord.setValue(true, "showLoadAllCommentsButton");
     },
   });
 
   customRenderAppWithContext(context);
   const stream = await screen.findByTestId("comments-allComments-log");
-
   return { context, stream };
 };
 
-it("renders comment stream with load all comments button when enabled", async () => {
+it("renders comment stream with load all comments button when more than initial number comments", async () => {
   const { stream } = await createTestRenderer();
-
   expect(
     within(stream).queryByRole("button", { name: "Load All Comments" })
   ).toBeInTheDocument();
 });
-
-// Unable to trigger the end being reached and more comments actually loading in test
-// it("loads all comments", async () => {
-//   const { stream } = await createTestRenderer();
-
-//   // Get amount of comments before.
-//   within(stream).getAllByTestId(/^comment[-]comment[-]/).length;
-
-//   const loadMore = within(stream).getByRole("button", {
-//     name: "Load All Comments",
-//   });
-//   userEvent.click(loadMore);
-
-// await waitFor(() =>
-//   expect(within(stream).getAllByTestId(/^comment[-]comment[-]/)).toHaveLength(
-//     commentsBefore + 1
-//   )
-// );
-// });

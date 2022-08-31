@@ -18,7 +18,6 @@ import CommentEditingConfig from "./CommentEditingConfig";
 import CommentLengthConfig from "./CommentLengthConfig";
 import FlattenRepliesConfig from "./FlattenRepliesConfig";
 import GuidelinesConfig from "./GuidelinesConfig";
-import LoadAllCommentsConfig from "./LoadAllCommentsConfig";
 import LocaleConfig from "./LocaleConfig";
 import MediaLinksConfig from "./MediaLinksConfig";
 import MemberBioConfig from "./MemberBioConfig";
@@ -47,7 +46,6 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
     >
       <LocaleConfig disabled={submitting} />
       <FlattenRepliesConfig disabled={submitting} />
-      <LoadAllCommentsConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
       <AnnouncementConfigContainer disabled={submitting} settings={settings} />
       <GuidelinesConfig disabled={submitting} />
@@ -69,7 +67,6 @@ const enhanced = withFragmentContainer<Props>({
     fragment GeneralConfigContainer_settings on Settings {
       ...AnnouncementConfigContainer_settings
       ...FlattenRepliesConfig_formValues @relay(mask: false)
-      ...LoadAllCommentsConfig_formValues @relay(mask: false)
       ...LocaleConfig_formValues @relay(mask: false)
       ...GuidelinesConfig_formValues @relay(mask: false)
       ...CommentLengthConfig_formValues @relay(mask: false)

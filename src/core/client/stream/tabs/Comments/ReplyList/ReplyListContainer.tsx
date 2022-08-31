@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   createFragmentContainer as createRelayFragmentContainer,
   graphql,
@@ -48,6 +48,7 @@ import { ReplyListContainerLastFlattened_viewer } from "coral-stream/__generated
 import { ReplyListContainerLastFlattenedPaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainerLastFlattenedPaginationQuery.graphql";
 import { ReplyListContainerLocal } from "coral-stream/__generated__/ReplyListContainerLocal.graphql";
 
+import MarkCommentsAsSeenMutation from "../Comment/MarkCommentsAsSeenMutation";
 import { isPublished, useStaticFlattenReplies } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
@@ -98,7 +99,6 @@ interface BaseProps {
   /* The following props are passed through nested ReplyLists */
   /* (don't forget to pass it down below in ReplyListContainer) */
   allowIgnoredTombstoneReveal?: boolean | undefined;
-  disableHideIgnoredTombstone?: boolean | undefined;
 
   /* The following props are *NOT* passed through nested ReplyLists */
   /**
@@ -204,9 +204,7 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig, loadAllReplies }, setLocal] = useLocal<
-    ReplyListContainerLocal
-  >(
+  const [{ keyboardShortcutsConfig }] = useLocal<ReplyListContainerLocal>(
     graphql`
       fragment ReplyListContainerLocal on Local {
         keyboardShortcutsConfig {
@@ -214,7 +212,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
           source
           reverse
         }
-        loadAllReplies
       }
     `
   );
@@ -229,7 +226,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       commentID: props.comment.id,
       keyboardShortcutsConfig,
     });
-    setLocal({ loadAllReplies: null });
     try {
       await showAll();
       showAllEvent.success();
@@ -238,26 +234,13 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [
-    showAll,
-    beginShowAllEvent,
-    props.comment.id,
-    keyboardShortcutsConfig,
-    setLocal,
-  ]);
-
-  useEffect(() => {
-    // This supports when we need to load all replies navigating through with
-    // the Z key via keyboard shortcuts
-    if (loadAllReplies && loadAllReplies === props.comment.id) {
-      void showAllAndEmit();
-    }
-  }, [loadAllReplies, showAllAndEmit, props.comment.id]);
+  }, [showAll, beginShowAllEvent, props.comment.id, keyboardShortcutsConfig]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
   const beginViewNewRepliesEvent = useViewerNetworkEvent(
     ViewNewRepliesNetworkEvent
   );
+  const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const onViewNew = useCallback(async () => {
     const viewNewRepliesEvent = beginViewNewRepliesEvent({
       storyID: props.story.id,
@@ -267,6 +250,9 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       void (await viewNew({
         commentID: props.comment.id,
         storyID: props.story.id,
+        markSeen: !!props.viewer,
+        viewerID: props.viewer?.id,
+        markAsSeen,
       }));
       viewNewRepliesEvent.success();
     } catch (error) {
@@ -280,6 +266,8 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
     viewNew,
     beginViewNewRepliesEvent,
     keyboardShortcutsConfig,
+    markAsSeen,
+    props.viewer,
   ]);
 
   if (!("replies" in props.comment)) {
@@ -323,9 +311,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                     allowIgnoredTombstoneReveal={
                       props.allowIgnoredTombstoneReveal
                     }
-                    disableHideIgnoredTombstone={
-                      props.disableHideIgnoredTombstone
-                    }
                   />
                 ),
                 showConversationLink:
@@ -338,12 +323,12 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
                 props.settings,
                 indentLevel,
                 props.allowIgnoredTombstoneReveal,
-                props.disableHideIgnoredTombstone,
                 atLastLevelLocalReply,
                 props.NextReplyListComponent,
               ]
             )
         );
+
   return (
     <ReplyList
       viewer={props.viewer}
@@ -359,7 +344,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
       viewNewCount={viewNewCount}
       onViewNew={onViewNew}
       allowIgnoredTombstoneReveal={props.allowIgnoredTombstoneReveal}
-      disableHideIgnoredTombstone={props.disableHideIgnoredTombstone}
       showRemoveAnswered={props.showRemoveAnswered}
     />
   );

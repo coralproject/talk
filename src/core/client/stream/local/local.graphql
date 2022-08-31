@@ -101,31 +101,23 @@ extend type Local {
 
   # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
   commentWithTraversalFocus: String
-  # used by keyboard shortcuts. Set to a comment id if all replies for that comment
-  # should be loaded by the reply list container.
-  loadAllReplies: String
   # Current keyboard shortcuts config that the user last used to go through comments
   keyboardShortcutsConfig: KeyboardShortcutsConfig
 
-  # Whether the Load all comments button should be shown instead of infinite scroll
-  showLoadAllCommentsButton: Boolean!
-  addACommentButtonClicked: Boolean
-  zKeyClickedLoadAll: Boolean
+  # Whether the load all button has been clicked, could be by the user, Z key, or
+  # the Add a comment button in alternate oldest view
+  loadAllButtonHasBeenClicked: Boolean
+  # Whether all comments have finished loading for the stream yet or not.
+  commentsFullyLoaded: Boolean
   # If new comments have been added while in alternate oldest first view that need to
   # be displayed.
   oldestFirstNewCommentsToShow: String
-  # Keeps track of comments loaded in plus any new comments added in alternate oldest first view.
-  totalCommentsLength: Int
   # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
   # media settings)
   expandedMediaSettings: ExpandedMediaSettings
 
-  bottomOfCommentsInView: Boolean
-
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
 
-  # Used for Z key to know whether there are new replies that need
-  # to be checked for if they include the next unseen comment.
-  viewNewRepliesCount: Int
+  showCommentIDs: Boolean
 }

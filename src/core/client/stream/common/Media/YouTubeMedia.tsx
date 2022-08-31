@@ -48,5 +48,4 @@ const YouTubeMedia: FunctionComponent<Props> = ({
     </div>
   );
 };
-
 export default YouTubeMedia;

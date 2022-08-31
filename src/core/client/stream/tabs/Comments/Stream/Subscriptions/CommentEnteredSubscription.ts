@@ -7,7 +7,6 @@ import {
 
 import {
   createSubscription,
-  LOCAL_ID,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -19,6 +18,7 @@ import {
   determineDepthTillAncestor,
   determineDepthTillStory,
   getFlattenedReplyAncestorID,
+  getReplyAncestorID,
   lookupFlattenReplies,
 } from "../../helpers";
 
@@ -155,13 +155,26 @@ function insertReply(
   } else {
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
+  }
 
-    const local = store.get(LOCAL_ID);
-    if (local) {
-      const currentRepliesCount =
-        (local.getValue("viewNewRepliesCount") as number) || 0;
-      local.setValue(currentRepliesCount + 1, "viewNewRepliesCount");
-    }
+  // This adds the new reply to the allChildComments for the root-level ancestor
+  // comment of the reply. This enables the new reply to be found as a next
+  // unseen comment by keyboard shortcuts.
+  const replyAncestorID =
+    ancestorID || (getReplyAncestorID(comment, depth) as string);
+  const ancestorProxy = store.get(replyAncestorID);
+  const allChildCommentsAncestor = ancestorProxy?.getOrCreateLinkedRecord(
+    "allChildComments",
+    "allChildComments",
+    []
+  );
+  if (allChildCommentsAncestor) {
+    const allChildEdges =
+      allChildCommentsAncestor.getLinkedRecords("edges") || [];
+    allChildCommentsAncestor.setLinkedRecords(
+      allChildEdges.concat(commentsEdge),
+      "edges"
+    );
   }
 }
 

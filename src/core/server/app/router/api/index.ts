@@ -23,7 +23,6 @@ import { createNewAuthRouter } from "./auth";
 import { createCommentRouter } from "./comment";
 import { createDashboardRouter } from "./dashboard";
 import { createNewInstallRouter } from "./install";
-import { createJobStatusRouter } from "./jobStatus";
 import { createRemoteMediaRouter } from "./remoteMedia";
 import { createStoryRouter } from "./story";
 import { createNewUserRouter } from "./user";
@@ -93,15 +92,6 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     "/external-media",
     cspSiteMiddleware(app),
     externalMediaHandler(app)
-  );
-
-  router.use(
-    "/jobStatus",
-    authenticate(options.passport),
-    loggedInMiddleware,
-    roleMiddleware(STAFF_ROLES),
-    jsonMiddleware(app.config.get("max_request_size")),
-    createJobStatusRouter(app)
   );
 
   // General API error handler.

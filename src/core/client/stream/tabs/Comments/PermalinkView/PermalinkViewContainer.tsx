@@ -11,9 +11,7 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { useInView } from "coral-framework/lib/intersection";
 import {
-  useLocal,
   useMutation,
   useSubscription,
   withFragmentContainer,
@@ -37,8 +35,6 @@ import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__gene
 import { isPublished } from "../helpers";
 import ConversationThreadContainer from "./ConversationThreadContainer";
 
-import { PermalinkViewContainerLocal } from "coral-stream/__generated__/PermalinkViewContainerLocal.graphql";
-
 import styles from "./PermalinkViewContainer.css";
 
 interface Props {
@@ -53,14 +49,6 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const setCommentID = useMutation(SetCommentIDMutation);
   const { renderWindow, eventEmitter, window } = useCoralContext();
   const root = useShadowRootOrDocument();
-
-  const [, setLocal] = useLocal<PermalinkViewContainerLocal>(
-    graphql`
-      fragment PermalinkViewContainerLocal on Local {
-        bottomOfCommentsInView
-      }
-    `
-  );
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
@@ -103,12 +91,6 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   }, [window.location.href]);
 
   const commentVisible = comment && isPublished(comment.status);
-
-  const { intersectionRef, inView } = useInView();
-
-  useEffect(() => {
-    setLocal({ bottomOfCommentsInView: inView });
-  }, [inView]);
 
   return (
     <HorizontalGutter
@@ -181,14 +163,12 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
                   settings={settings}
                   liveDirectRepliesInsertion
                   allowIgnoredTombstoneReveal
-                  disableHideIgnoredTombstone
                 />
               </div>
             </HorizontalGutter>
           )}
         </HorizontalGutter>
       </Localized>
-      <div ref={intersectionRef}></div>
     </HorizontalGutter>
   );
 };

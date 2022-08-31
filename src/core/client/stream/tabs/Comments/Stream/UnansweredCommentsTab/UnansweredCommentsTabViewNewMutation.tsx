@@ -7,7 +7,6 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
-
 import { incrementStoryCommentCounts } from "../../helpers";
 
 interface Input {
@@ -43,7 +42,6 @@ const UnansweredCommentsTabViewNewMutation = createMutation(
         ConnectionHandler.insertEdgeBefore(connection, edge);
         incrementStoryCommentCounts(store, input.storyID, edge);
       });
-
       ViewNewCommentsEvent.emit(eventEmitter, {
         storyID: input.storyID,
         count: viewNewEdges.length,

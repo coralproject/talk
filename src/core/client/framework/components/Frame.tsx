@@ -30,9 +30,7 @@ export interface FrameHeightMessage {
   height: number;
   frameID: string;
 }
-
 const iframeStyle = { display: "block" };
-
 const Frame: FunctionComponent<Props> = ({
   id,
   src,
@@ -72,9 +70,7 @@ const Frame: FunctionComponent<Props> = ({
   const url = useMemo(() => {
     return modifyQuery(`${rootURL}${src}`, { frameID });
   }, [frameID, rootURL, src]);
-
   const sandboxStr = sandbox ? "allow-same-origin allow-scripts" : undefined;
-
   useEffect(() => {
     const unlisten = postMessage.on(
       "frameHeight",
@@ -109,6 +105,8 @@ const Frame: FunctionComponent<Props> = ({
           width={width}
           sandbox={sandboxStr}
           scrolling="no"
+          allowFullScreen
+          allow="fullscreen;"
         />
       </div>
       {(height === 0 || height > defaultUnexpandedHeight) && (

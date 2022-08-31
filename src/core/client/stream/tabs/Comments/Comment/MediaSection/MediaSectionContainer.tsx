@@ -27,7 +27,6 @@ interface Props {
   settings: MediaSectionContainer_settings;
   defaultExpanded?: boolean;
 }
-
 const MediaSectionContainer: FunctionComponent<Props> = ({
   comment,
   settings,
@@ -44,19 +43,17 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   `);
   const [isToggled, setIsToggled] = useState(false);
   const onToggleExpand = useCallback(() => {
-    const initialMediaSettings = expandedMediaSettings
-      ? expandedMediaSettings
-      : { commentIDs: [] };
+    const initialMediaSettings = expandedMediaSettings ?? { commentIDs: [] };
     const indexOfComment = initialMediaSettings.commentIDs.indexOf(comment.id);
     if (indexOfComment === -1) {
-      setIsToggled(defaultExpanded ? false : true);
+      setIsToggled(!defaultExpanded);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.concat(comment.id),
         },
       });
     } else {
-      setIsToggled(defaultExpanded ? true : false);
+      setIsToggled(defaultExpanded);
       setLocal({
         expandedMediaSettings: {
           commentIDs: initialMediaSettings.commentIDs.filter(
@@ -78,7 +75,6 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   if (!media) {
     return null;
   }
-
   if (
     (media.__typename === "TwitterMedia" && !settings.media.twitter.enabled) ||
     (media.__typename === "YouTubeMedia" && !settings.media.youtube.enabled) ||
@@ -87,7 +83,6 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   ) {
     return null;
   }
-
   if (!expanded) {
     return (
       <Button
@@ -120,7 +115,6 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       </Button>
     );
   }
-
   return (
     <HorizontalGutter>
       <div>
@@ -189,7 +183,6 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
     </HorizontalGutter>
   );
 };
-
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment MediaSectionContainer_comment on Comment {
@@ -243,5 +236,4 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
 })(MediaSectionContainer);
-
 export default enhanced;

@@ -798,6 +798,14 @@ export async function createUser(
   return user;
 }
 
+export async function retrieveUserByUsername(
+  mongo: MongoContext,
+  tenantID: string,
+  username: string
+) {
+  return mongo.users().findOne({ tenantID, username });
+}
+
 export async function retrieveUser(
   mongo: MongoContext,
   tenantID: string,

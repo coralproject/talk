@@ -130,7 +130,6 @@ export const settings = createFixture<GQLSettings>({
     sarcasm: false,
   },
   flattenReplies: false,
-  loadAllComments: true,
 });
 
 export const site = createFixtures<GQLSite>([
@@ -427,6 +426,10 @@ export const baseComment = createFixture<GQLComment>({
   deleted: NULL_VALUE,
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   seen: false,
+  allChildComments: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
+  },
 });
 
 export const comments = denormalizeComments(

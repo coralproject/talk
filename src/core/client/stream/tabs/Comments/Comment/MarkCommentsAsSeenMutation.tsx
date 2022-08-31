@@ -11,7 +11,6 @@ import {
   commitMutationPromiseNormalized,
   createMutation,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 import {
   MarkCommentsAsSeenInput,
@@ -32,38 +31,8 @@ const mutation = graphql`
     }
   }
 `;
-
 type Input = Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
   updateSeen: boolean;
-};
-
-const updateRepliesToSeen = (
-  proxy: RecordProxy<{}>,
-  store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
-  input: Input
-) => {
-  const replyConnectionKey = "ReplyList_replies";
-  const replyConnection = ConnectionHandler.getConnection(
-    proxy,
-    replyConnectionKey,
-    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
-  );
-  const replies = replyConnection?.getLinkedRecords("edges");
-  const newReplies = replyConnection?.getLinkedRecords("viewNewEdges") || [];
-  const combinedReplies = replies?.concat(newReplies);
-  let replyProxy: RecordProxy<{}> | null | undefined = null;
-  if (combinedReplies) {
-    for (const reply of combinedReplies) {
-      const replyID = reply.getLinkedRecord("node")?.getValue("id");
-      if (replyID) {
-        replyProxy = store.get(replyID.toString());
-        if (replyProxy) {
-          replyProxy.setValue(!!input.updateSeen, "seen");
-        }
-      }
-    }
-  }
-  return replyProxy;
 };
 
 const updateCommentsAndRepliesToSeen = (
@@ -77,10 +46,18 @@ const updateCommentsAndRepliesToSeen = (
       const proxy = store.get(commentID.toString());
       if (proxy) {
         proxy.setValue(!!input.updateSeen, "seen");
-        let replyProxy: RecordProxy<{}> | null | undefined = proxy;
-        // Have to check and update all levels of replies on a comment to seen
-        while (replyProxy) {
-          replyProxy = updateRepliesToSeen(replyProxy, store, input);
+        const allChildCommentsEdges =
+          proxy
+            .getLinkedRecord("allChildComments")
+            ?.getLinkedRecords("edges") || [];
+        for (const reply of allChildCommentsEdges) {
+          const replyID = reply.getLinkedRecord("node")?.getValue("id");
+          if (replyID) {
+            const replyProxy = store.get(replyID.toString());
+            if (replyProxy) {
+              replyProxy.setValue(!!input.updateSeen, "seen");
+            }
+          }
         }
       }
     }
@@ -104,6 +81,8 @@ const enhanced = createMutation(
           storyID: input.storyID,
           commentIDs: input.commentIDs,
           markAllAsSeen: input.markAllAsSeen,
+          updateSeen: input.updateSeen,
+          orderBy: input.orderBy,
           clientMutationId: clientMutationId.toString(),
         },
       },
@@ -122,11 +101,12 @@ const enhanced = createMutation(
             story,
             "Stream_comments",
             {
-              orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+              orderBy: input.orderBy,
             }
           )!;
-          const comments = connection.getLinkedRecords("edges");
-          const newComments = connection.getLinkedRecords("viewNewEdges") || [];
+          const comments = connection?.getLinkedRecords("edges");
+          const newComments =
+            connection?.getLinkedRecords("viewNewEdges") || [];
           const combinedComments = comments?.concat(newComments);
           if (combinedComments) {
             updateCommentsAndRepliesToSeen(combinedComments, store, input);
@@ -140,7 +120,6 @@ const enhanced = createMutation(
         ) {
           return;
         }
-
         for (const comment of data.markCommentsAsSeen.comments) {
           const proxy = store.get(comment.id);
           if (proxy) {
@@ -149,7 +128,6 @@ const enhanced = createMutation(
         }
       },
     });
-
     if (
       input.markAllAsSeen ||
       (input.commentIDs && input.commentIDs.length > 0)
@@ -158,9 +136,7 @@ const enhanced = createMutation(
         commentIDs: input.commentIDs,
       } as CommitSeenEventData);
     }
-
     return result;
   }
 );
-
 export default enhanced;

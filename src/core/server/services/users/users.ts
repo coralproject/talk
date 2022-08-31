@@ -33,6 +33,7 @@ import {
   UserBioTooLongError,
   UserCannotBeIgnoredError,
   UserForbiddenError,
+  UsernameAlreadyExists,
   UsernameAlreadySetError,
   UsernameUpdatedWithinWindowError,
   UserNotFoundError,
@@ -74,6 +75,7 @@ import {
   removeUserSiteBan,
   removeUserWarning,
   retrieveUser,
+  retrieveUserByUsername,
   retrieveUserWithEmail,
   scheduleDeletionDate,
   sendModMessageUser,
@@ -279,6 +281,14 @@ export async function processAutomaticPremodForUser(
   ) {
     await premodUser(mongo, tenant.id, user.id);
   }
+}
+
+export async function usernameAlreadyExists(
+  mongo: MongoContext,
+  tenant: Tenant,
+  username: string
+) {
+  return !!(await retrieveUserByUsername(mongo, tenant.id, username));
 }
 
 export async function create(
@@ -699,6 +709,11 @@ export async function updateUsername(
     if (lastUpdate.createdAt > lastUsernameEditAllowed) {
       throw new UsernameUpdatedWithinWindowError(lastUpdate.createdAt);
     }
+  }
+
+  const alreadyExists = await usernameAlreadyExists(mongo, tenant, username);
+  if (alreadyExists) {
+    throw new UsernameAlreadyExists(tenant.id, username);
   }
 
   const updated = await updateUserUsername(

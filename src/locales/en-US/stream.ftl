@@ -43,6 +43,12 @@ comment-count-text =
     *[other] Comments
   }
 
+comment-count-text-ratings =
+  { $count  ->
+    [one] Rating
+    *[other] Ratings
+  }
+
 ## Comments Tab
 
 comments-allCommentsTab = All Comments
@@ -116,6 +122,7 @@ comments-postComment-confirmMedia-add-tweet = Add Tweet
 comments-postComment-confirmMedia-add-video = Add video
 comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove
+comments-viewNew-loading = Loading...
 comments-viewNew =
   { $count ->
     [1] View {$count} New Comment
@@ -123,6 +130,7 @@ comments-viewNew =
   }
 comments-loadMore = Load More
 comments-loadAll = Load All Comments
+comments-loadAll-loading = Loading...
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment
@@ -293,7 +301,7 @@ comments-jumpToComment-GoToReply = Go to reply
 
 comments-mobileToolbar-closeButton =
   .aria-label = Close
-comments-mobileToolbar-unmarkAll = Unmark all
+comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
 comments-replyChangedWarning-theCommentHasJust =
@@ -319,6 +327,7 @@ qa-noQuestionsAtAll =
   There are no questions on this story.
 qa-noQuestionsYet =
   There are no questions yet. Why don't you ask one?
+qa-viewNew-loading = Loading...
 qa-viewNew =
   { $count ->
     [1] View {$count} New Question
@@ -846,7 +855,7 @@ configure-experts-none-yet = There are currently no experts for this Q&A.
 configure-experts-search-title = Search for an expert
 configure-experts-assigned-title = Experts
 configure-experts-noLongerAnExpert = is no longer an expert
-comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-ignore-user = This comment is hidden because you ignored this user.
 comments-tombstone-showComment = Show comment
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
