@@ -426,6 +426,11 @@ export const baseComment = createFixture<GQLComment>({
   deleted: NULL_VALUE,
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   seen: false,
+  canReply: true,
+  allChildComments: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
+  },
 });
 
 export const comments = denormalizeComments(
@@ -533,6 +538,11 @@ export const comments = denormalizeComments(
       },
       {
         id: "comment-20",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-21",
         author: commenters[2],
         body: "Comment Body 5",
       },
@@ -867,6 +877,61 @@ export const storyWithDeepestReplies = denormalizeStory(
     },
     baseStory
   )
+);
+
+export const replyableComment: GQLComment = {
+  ...comments[0],
+  author: {
+    ...comments[0].author!,
+    username: "replyable comment author",
+  },
+  canReply: true,
+};
+
+export const rejectedComment: GQLComment = {
+  ...comments[1],
+  author: {
+    ...comments[1].author!,
+    username: "rejected comment author",
+  },
+  status: GQLCOMMENT_STATUS.REJECTED,
+};
+
+export const unrepliableComment: GQLComment = {
+  ...comments[2],
+  author: {
+    ...comments[2].author!,
+    username: "unrepliable comment author",
+  },
+  canReply: false,
+};
+
+export const commentWithRejectedReply: GQLComment = denormalizeComment(
+  createFixture<GQLComment>({
+    ...replyableComment,
+    replies: {
+      nodes: [rejectedComment],
+      pageInfo: { hasNextPage: false, hasPreviousPage: false },
+      edges: [
+        {
+          cursor: "cursor",
+          node: {
+            ...rejectedComment,
+            replies: {
+              edges: [
+                {
+                  cursor: "cursor",
+                  node: unrepliableComment,
+                },
+              ],
+              nodes: [rejectedComment],
+              pageInfo: { hasNextPage: false, hasPreviousPage: false },
+            },
+          },
+        },
+      ],
+    },
+  })
 );
 
 export const storyWithOnlyStaffComments = denormalizeStory(

@@ -159,6 +159,11 @@ export function createComment(
       viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
       parent: NULL_VALUE,
       canModerate: !!data.canModerate,
+      canReply: true,
+      allChildComments: {
+        edges: [],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      },
     })
   );
 
@@ -313,11 +318,20 @@ export function createSite() {
   });
 }
 
-export function createSettings() {
+export function createSettings(): GQLSettings {
   return createFixture<GQLSettings>({
     id: "settings",
     moderation: GQLMODERATION_MODE.POST,
     premodLinksEnable: false,
+    featureFlags: [],
+    reaction: {
+      icon: "test-reaction-icon",
+      iconActive: "test-reaction-icon-active",
+      label: "test-reaction-label",
+      labelActive: "test-reaction-label-active",
+      color: "test-reaction-color",
+      sortLabel: "test-reaction-sort-label",
+    },
     live: {
       enabled: true,
       configurable: true,

@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "7.1.3",
+  "version": "7.3.0",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -357,6 +357,7 @@
     "react-timeago": "^4.4.0",
     "react-transition-group": "^4.3.0",
     "react-use": "^15.3.4",
+    "react-virtuoso": "^2.16.5",
     "recharts": "^1.8.5",
     "recompose": "^0.30.0",
     "regenerator-runtime": "^0.13.5",
