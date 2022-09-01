@@ -1099,6 +1099,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   const handleZKeyPress = useCallback(
     async (source: "keyboard" | "mobileToolbar") => {
+      if (disableUnreadButtons) {
+        return;
+      }
+
       // First, try to just traverse to the next unseen comment
       // if it's already loaded up in the DOM
       const traversed = await traverse(
@@ -1139,6 +1143,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       root,
       scrollToComment,
       setLocal,
+      disableUnreadButtons,
     ]
   );
 
