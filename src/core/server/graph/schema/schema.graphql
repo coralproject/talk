@@ -3769,6 +3769,11 @@ type Comment @cacheControl(maxAge: 5) {
   canModerate: Boolean!
 
   """
+  canReply returns true if the comment is able to be responded to.
+  """
+  canReply: Boolean!
+
+  """
   site is the Site referenced by the Story for this Comment.
   """
   site: Site!
@@ -8699,6 +8704,35 @@ type MarkCommentsAsSeenPayload {
   comments: [Comment!]!
 }
 
+input RefreshStoryCountsInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story we want to update counts for.
+  """
+  storyID: String!
+
+  """
+  tags if true will update the tag counts for the story.
+  """
+  tags: Boolean!
+}
+
+type RefreshStoryCountsPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the story that was updated.
+  """
+  story: Story
+}
+
 ##################
 ## Mutation
 ##################
@@ -9382,6 +9416,13 @@ type Mutation {
   markCommentsAsSeen(
     input: MarkCommentsAsSeenInput!
   ): MarkCommentsAsSeenPayload!
+
+  """
+  refreshStoryCounts will recompute the cached counts for a story based on
+  which flags are set to recompute in the operation input.
+  """
+  refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
+    @auth(roles: [ADMIN])
 }
 
 ##################

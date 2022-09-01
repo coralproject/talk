@@ -158,6 +158,7 @@ const enhanced = withPaginationContainer<
           }
         }
         replyCount
+        canReply
         actionCounts {
           reaction {
             total
