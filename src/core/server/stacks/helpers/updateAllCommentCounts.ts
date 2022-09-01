@@ -1,9 +1,7 @@
 import { MongoContext } from "coral-server/data/context";
-import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
   Comment,
-  CommentCountsPerTag,
   CommentModerationQueueCounts,
   CommentStatusCounts,
   CommentTagCounts,
@@ -19,6 +17,11 @@ import {
   calculateCountsDiff,
 } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
+
+import {
+  GQLCommentTagCounts,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 interface UpdateAllCommentCountsInput {
   tenant: Readonly<Tenant>;
@@ -99,7 +102,7 @@ export const calculateTags = (
   before: CommentTag[] | null | undefined,
   after: CommentTag[]
 ): CommentTagCounts => {
-  const tags: CommentCountsPerTag = {
+  const tags: GQLCommentTagCounts = {
     [GQLTAG.ADMIN]: tagChanged(before, after, GQLTAG.ADMIN),
     [GQLTAG.EXPERT]: tagChanged(before, after, GQLTAG.EXPERT),
     [GQLTAG.FEATURED]: tagChanged(before, after, GQLTAG.FEATURED),

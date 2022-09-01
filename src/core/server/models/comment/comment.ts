@@ -40,10 +40,11 @@ import {
 import { retrieveManyStories, retrieveStory, Story } from "../story";
 import { PUBLISHED_STATUSES } from "./constants";
 import {
-  CommentCountsPerTag,
   CommentStatusCounts,
-  createEmptyCommentCountsPerTag,
   createEmptyCommentStatusCounts,
+  createEmptyGQLCommentTagCounts,
+  hasInvalidCommentTagCounts,
+  hasInvalidGQLCommentTagCounts,
 } from "./counts";
 import { hasAncestors } from "./helpers";
 import { Revision } from "./revision";
@@ -1061,7 +1062,7 @@ export async function retrieveStoryCommentTagCounts(
       continue;
     }
 
-    if (!story?.commentCounts.tags) {
+    if (hasInvalidCommentTagCounts(story?.commentCounts.tags)) {
       const tagsResult = await initializeCommentTagCountsForStory(
         mongo,
         tenantID,
@@ -1076,7 +1077,18 @@ export async function retrieveStoryCommentTagCounts(
   return storyIDs.map((id) => {
     const tags = result.get(id);
     if (!tags) {
-      return createEmptyCommentCountsPerTag();
+      logger.warn(
+        { tenantID, storyID: id },
+        "found undefined/null comment count tags"
+      );
+      return createEmptyGQLCommentTagCounts();
+    }
+    if (hasInvalidGQLCommentTagCounts(tags)) {
+      logger.warn(
+        { tenantID, storyID: id },
+        "found invalid comment count tags"
+      );
+      return createEmptyGQLCommentTagCounts();
     }
 
     return tags;
@@ -1087,7 +1099,7 @@ export async function calculateCommentTagCounts(
   mongo: MongoContext,
   tenantID: string,
   storyIDs: ReadonlyArray<string>
-): Promise<CommentCountsPerTag[]> {
+): Promise<GQLCommentTagCounts[]> {
   const stories = await retrieveManyStories(mongo, tenantID, storyIDs);
 
   const liveStories = stories
@@ -1128,14 +1140,14 @@ export async function calculateCommentTagCounts(
     } else if (archivedCount && !isCountEmpty(archivedCount.counts)) {
       return archivedCount.counts;
     } else {
-      return createEmptyCommentCountsPerTag();
+      return createEmptyGQLCommentTagCounts();
     }
   });
 }
 
 interface InitializeCommentTagCountsResult {
   story: Readonly<Story>;
-  tagCounts: CommentCountsPerTag;
+  tagCounts: GQLCommentTagCounts;
 }
 
 export async function initializeCommentTagCountsForStory(
@@ -1143,16 +1155,14 @@ export async function initializeCommentTagCountsForStory(
   tenantID: string,
   storyID: string
 ): Promise<InitializeCommentTagCountsResult> {
+  logger.info(
+    { tenantID, storyID },
+    "initializing comment tag counts for story"
+  );
+
   const story = await retrieveStory(mongo, tenantID, storyID);
   if (!story) {
     throw new StoryNotFoundError(storyID);
-  }
-
-  if (story?.commentCounts.tags) {
-    return {
-      story,
-      tagCounts: story.commentCounts.tags.tags,
-    };
   }
 
   const tagCounts = await calculateCommentTagCounts(mongo, tenantID, [storyID]);
@@ -1190,7 +1200,7 @@ export async function initializeCommentTagCountsForStory(
 
 interface StoryCommentTagCounts {
   id: string;
-  counts: CommentCountsPerTag;
+  counts: GQLCommentTagCounts;
 }
 
 async function retrieveStoryCommentTagCountsFromDb(
@@ -1260,7 +1270,7 @@ async function retrieveStoryCommentTagCountsFromDb(
       // Keep this collection of empty tag counts up to date to ensure we
       // provide an accurate model. The type system should warn you if there is
       // missing/extra tags here.
-      createEmptyCommentCountsPerTag()
+      createEmptyGQLCommentTagCounts()
     );
 
     return {

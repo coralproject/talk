@@ -1,10 +1,10 @@
 import {
   GQLCOMMENT_STATUS,
+  GQLCommentTagCounts,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
-  CommentCountsPerTag,
   CommentModerationCountsPerQueue,
   CommentModerationQueueCounts,
   CommentStatusCounts,
@@ -37,7 +37,44 @@ export function createEmptyCommentStatusCounts(): CommentStatusCounts {
   };
 }
 
-export function createEmptyCommentCountsPerTag(): CommentCountsPerTag {
+export function hasInvalidGQLCommentTagCounts(
+  counts: GQLCommentTagCounts
+): boolean {
+  const keys = [
+    GQLTAG.ADMIN,
+    GQLTAG.EXPERT,
+    GQLTAG.FEATURED,
+    GQLTAG.MEMBER,
+    GQLTAG.MODERATOR,
+    GQLTAG.QUESTION,
+    GQLTAG.REVIEW,
+    GQLTAG.STAFF,
+    GQLTAG.UNANSWERED,
+  ];
+
+  for (const key of keys) {
+    const val = counts[key];
+    if (val === undefined || val === null) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function hasInvalidCommentTagCounts(tags: CommentTagCounts): boolean {
+  if (!tags) {
+    return true;
+  }
+
+  if (tags.total === undefined || tags.total === null) {
+    return true;
+  }
+
+  return hasInvalidGQLCommentTagCounts(tags.tags);
+}
+
+export function createEmptyGQLCommentTagCounts(): GQLCommentTagCounts {
   return {
     [GQLTAG.ADMIN]: 0,
     [GQLTAG.EXPERT]: 0,
@@ -54,7 +91,7 @@ export function createEmptyCommentCountsPerTag(): CommentCountsPerTag {
 export function createEmptyCommentTagCounts(): CommentTagCounts {
   return {
     total: 0,
-    tags: createEmptyCommentCountsPerTag(),
+    tags: createEmptyGQLCommentTagCounts(),
   };
 }
 
