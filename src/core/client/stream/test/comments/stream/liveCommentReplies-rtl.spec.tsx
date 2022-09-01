@@ -1,3 +1,5 @@
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -6,18 +8,18 @@ import {
   SubscriptionToCommentEnteredResolver,
 } from "coral-framework/schema";
 import {
-  act,
   createFixture,
   createResolversStub,
   CreateTestRendererParams,
   denormalizeComment,
   denormalizeStory,
-  waitForElement,
-  within,
+  replaceHistoryLocation,
 } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
+import getCommentRecursively from "coral-stream/test/helpers/getCommentRecursively";
 
 import { baseComment, baseStory, comments, settings } from "../../fixtures";
-import create from "./create";
+import { createContext } from "../create";
 
 const commentData = comments[0];
 
@@ -100,7 +102,24 @@ const rootComment = denormalizeComment(
                                                             replyCount: 0,
                                                             replies: {
                                                               ...baseComment.replies,
-                                                              edges: [],
+                                                              edges: [
+                                                                {
+                                                                  cursor:
+                                                                    baseComment.createdAt,
+                                                                  node: {
+                                                                    ...baseComment,
+                                                                    id:
+                                                                      "my-comment-8",
+                                                                    body:
+                                                                      "body 8",
+                                                                    replyCount: 0,
+                                                                    replies: {
+                                                                      ...baseComment.replies,
+                                                                      edges: [],
+                                                                    },
+                                                                  },
+                                                                },
+                                                              ],
                                                             },
                                                           },
                                                         },
@@ -154,46 +173,94 @@ const story = denormalizeStory(
   )
 );
 
-async function createTestRenderer(
+const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {}
-) {
-  const { testRenderer, context, subscriptionHandler } = create({
+) => {
+  const { context, subscriptionHandler } = createContext({
     ...params,
+    // ... base resolvers for this test suite
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          stream: () => story,
         },
       }),
       params.resolvers
     ),
-    initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(story.id, "storyID");
-      if (params.initLocalState) {
-        params.initLocalState(localRecord, source, environment);
+    // ... init relevant local state (probs flatten replies)
+  });
+
+  customRenderAppWithContext(context);
+  // ... query and await for any elements that you need to
+
+  return { context, subscriptionHandler };
+};
+
+beforeEach(() => replaceHistoryLocation("http://localhost/admin/community"));
+
+it("should show Read More of this Conversation", async () => {
+  const { subscriptionHandler } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        stream: () => story,
+      },
+    },
+    initLocalState(local) {
+      local.setValue(false, "flattenReplies");
+    },
+  });
+  const container = await screen.findByTestId("comments-allComments-log");
+
+  expect(subscriptionHandler.has("commentEntered")).toBe(true);
+  await expect(
+    async () =>
+      await within(container).findByText("Read More of this Conversation", {
+        exact: false,
+        selector: "a",
+      })
+  ).rejects.toThrow();
+
+  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+    "commentEntered",
+    (variables) => {
+      if (variables.storyID !== story.id) {
+        return;
       }
+      if (variables.ancestorID) {
+        return;
+      }
+      return {
+        comment: pureMerge<typeof commentData>(commentData, {
+          parent: { ...baseComment, id: "my-comment-7" },
+        }),
+      };
+    }
+  );
+
+  await within(container).findByText("Read More of this Conversation", {
+    exact: false,
+    selector: "a",
+  });
+});
+
+it("should flatten replies", async () => {
+  const { subscriptionHandler } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        stream: () => story,
+      },
+    },
+    initLocalState(local, source, environment) {
+      local.setValue(true, "flattenReplies");
     },
   });
 
-  return {
-    testRenderer,
-    context,
-    subscriptionHandler,
-  };
-}
-
-it("should show more replies", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer();
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
+  const container = await screen.findByTestId("comments-allComments-log");
   expect(subscriptionHandler.has("commentEntered")).toBe(true);
-  expect(() =>
-    within(container).getByTestID(`comment-${commentData.id}`)
-  ).toThrow();
 
-  await act(async () => {
+  const showMoreReplies = await waitFor(async () => {
+    /* Do stuff */
+    // Dispatch new comment.
     subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
       "commentEntered",
       (variables) => {
@@ -204,55 +271,47 @@ it("should show more replies", async () => {
           return;
         }
         return {
-          comment: pureMerge<typeof commentData>(commentData, {
-            parent: { ...baseComment, id: "my-comment" },
+          comment: pureMerge<typeof commentData>(comments[0], {
+            parent: getCommentRecursively(rootComment.replies, "my-comment-7"),
           }),
         };
       }
     );
-  });
-
-  const showMoreButton = await waitForElement(() =>
-    within(testRenderer.root).getByText("Show More Replies", {
-      exact: false,
-      selector: "button",
-    })
-  );
-  await act(async () => {
-    showMoreButton.props.onClick();
-  });
-  within(container).getByTestID(`comment-${commentData.id}`);
-});
-
-it("should not subscribe when story is closed", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        stream: () => pureMerge<typeof story>(story, { isClosed: true }),
-      },
-    }),
-  });
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
-  expect(subscriptionHandler.has("commentEntered")).toBe(false);
-});
-
-it("should not subscribe when commenting is disabled", async () => {
-  const { testRenderer, subscriptionHandler } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        settings: () =>
-          pureMerge<typeof settings>(settings, {
-            disableCommenting: {
-              enabled: true,
-            },
+    // Dispatch new comment which is a reply to the comment above.
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: pureMerge<typeof commentData>(comments[1], {
+            parent: comments[0],
           }),
-      },
-    }),
+        };
+      }
+    );
+    /* Wait for results */
+    return await screen.findByText("Show More Replies", { selector: "button" });
   });
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-allComments-log")
-  );
-  expect(subscriptionHandler.has("commentEntered")).toBe(false);
+
+  expect(() =>
+    within(container).getByText("Read More of this Conversation", {
+      exact: false,
+      selector: "a",
+    })
+  ).toThrow();
+
+  fireEvent.click(showMoreReplies);
+
+  await within(container).findByTestId(`comment-${comments[0].id}`);
+  await within(container).findByTestId(`comment-${comments[1].id}`);
+
+  // No reply lists after depth 4
+  await expect(() =>
+    within(container).findByTestId(`commentReplyList-${comments[0].id}`)
+  ).rejects.toThrow();
 });
