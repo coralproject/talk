@@ -66,6 +66,12 @@ export interface Comment extends TenantResource {
   ancestorIDs: string[];
 
   /**
+   * rejectedAncestor indicates that a comment somewhere up this comment's
+   * chain of ancestors has been rejected.
+   */
+  rejectedAncestor?: boolean;
+
+  /**
    * parentID is the ID of the parent Comment if this Comment is a reply.
    */
   parentID?: string;

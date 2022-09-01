@@ -64,6 +64,13 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
 
     return canModerate(ctx.user, { siteID: c.siteID });
   },
+  canReply: (c) => {
+    if (typeof c.rejectedAncestor === "undefined") {
+      return true;
+    }
+
+    return !c.rejectedAncestor;
+  },
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
     c.revisions.map((revision) => ({ revision, comment: c })),
