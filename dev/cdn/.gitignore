@@ -1,0 +1,4 @@
+output/
+
+.env
+.DS_Store
