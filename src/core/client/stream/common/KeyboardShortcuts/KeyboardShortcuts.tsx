@@ -724,13 +724,15 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                       "comments-loadMore"
                     );
                     if (loadMoreButtonInRoot) {
-                      const comment = virtuosoLastElementAfter.querySelector(
-                        "[data-key-stop='true'"
+                      const loadMoreKeyStop = toKeyStop(loadMoreButtonInRoot);
+                      const previousKeyStop = findPreviousKeyStop(
+                        root,
+                        loadMoreKeyStop
                       );
-                      const commentId = comment?.getAttribute("id");
-                      if (comment && commentId) {
-                        const parsedId = parseCommentElementID(commentId);
-                        setFocusAndMarkSeen(parsedId);
+                      if (previousKeyStop) {
+                        setFocusAndMarkSeen(
+                          parseCommentElementID(previousKeyStop.id)
+                        );
                         setZKeyClickedButton(true);
                         loadMoreButtonInRoot.click();
                       }
