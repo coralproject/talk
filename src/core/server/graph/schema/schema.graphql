@@ -3577,14 +3577,34 @@ CommentTagCounts provides count data for Tags made against Comment's.
 """
 type CommentTagCounts {
   """
+  ADMIN is the count of Comment's with the ADMIN tag.
+  """
+  ADMIN: Int!
+
+  """
+  EXPERT is the count of Comment's with the EXPERT tag.
+  """
+  EXPERT: Int!
+
+  """
   FEATURED is the count of Comment's with the FEATURED tag.
   """
   FEATURED: Int!
 
   """
-  UNANSWERED is the count of Comment's with the UNANSWERED tag.
+  MEMBER is the count of Comment's with the MEMBER tag.
   """
-  UNANSWERED: Int!
+  MEMBER: Int!
+
+  """
+  MODERATOR is the count of Comment's with the MODERATOR tag.
+  """
+  MODERATOR: Int!
+
+  """
+  QUESTION is the count of Comment's with the QUESTION tag.
+  """
+  QUESTION: Int!
 
   """
   REVIEW is the count of Comment's with the REVIEW tag.
@@ -3592,9 +3612,14 @@ type CommentTagCounts {
   REVIEW: Int!
 
   """
-  QUESTION is the count of Comment's with the QUESTION tag.
+  STAFF is the count of Comment's with the STAFF tag.
   """
-  QUESTION: Int!
+  STAFF: Int!
+
+  """
+  UNANSWERED is the count of Comment's with the UNANSWERED tag.
+  """
+  UNANSWERED: Int!
 }
 
 """
@@ -3767,6 +3792,11 @@ type Comment @cacheControl(maxAge: 5) {
   canModerate returns true if the current user can moderate this Comment.
   """
   canModerate: Boolean!
+
+  """
+  canReply returns true if the comment is able to be responded to.
+  """
+  canReply: Boolean!
 
   """
   site is the Site referenced by the Story for this Comment.
@@ -8699,6 +8729,35 @@ type MarkCommentsAsSeenPayload {
   comments: [Comment!]!
 }
 
+input RefreshStoryCountsInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story we want to update counts for.
+  """
+  storyID: String!
+
+  """
+  tags if true will update the tag counts for the story.
+  """
+  tags: Boolean!
+}
+
+type RefreshStoryCountsPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the story that was updated.
+  """
+  story: Story
+}
+
 ##################
 ## Mutation
 ##################
@@ -9382,6 +9441,13 @@ type Mutation {
   markCommentsAsSeen(
     input: MarkCommentsAsSeenInput!
   ): MarkCommentsAsSeenPayload!
+
+  """
+  refreshStoryCounts will recompute the cached counts for a story based on
+  which flags are set to recompute in the operation input.
+  """
+  refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
+    @auth(roles: [ADMIN])
 }
 
 ##################
