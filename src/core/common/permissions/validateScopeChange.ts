@@ -1,5 +1,5 @@
 import { isSiteModerationScoped } from "./isSiteModerationScoped";
-import { User } from "./types";
+import { isModerator, User } from "./types";
 
 export interface ScopeChangeValidationParams {
   viewer: Readonly<User>;
@@ -19,8 +19,8 @@ export const validateScopeChange = ({
     return true;
   }
 
-  // if viewer is moderator, sub function
-  if (viewer.role !== "MODERATOR") {
+  // only admins and mods can change scopes
+  if (!isModerator(viewer)) {
     return false;
   }
 
@@ -37,5 +37,17 @@ export const validateScopeChange = ({
     return false;
   }
 
-  return true;
+  const invalidAdditions =
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !!additions?.find(
+      (addition) => !viewer.moderationScopes?.siteIDs?.includes(addition)
+    );
+
+  const invalidDeletions =
+    isSiteModerationScoped(viewer.moderationScopes) &&
+    !!deletions?.find(
+      (deletion) => !viewer.moderationScopes?.siteIDs?.includes(deletion)
+    );
+
+  return !(invalidAdditions || invalidDeletions);
 };
