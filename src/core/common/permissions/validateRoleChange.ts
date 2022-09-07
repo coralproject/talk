@@ -1,21 +1,12 @@
 import { isSiteModerationScoped } from "./isSiteModerationScoped";
-import { User, UserRole } from "./types";
-
-type Moderator = User & {
-  role: "MODERATOR";
-};
-
-type LTEModerator = User & {
-  role: "MODERATOR" | "STAFF" | "MEMBER" | "COMMENTER";
-};
-
-const isModerator = (user: User): user is Moderator => {
-  return user.role === "MODERATOR";
-};
-
-const isLTEModerator = (user: User): user is LTEModerator => {
-  return user.role !== "ADMIN";
-};
+import {
+  isLTEModerator,
+  isModerator,
+  LTEModerator,
+  Moderator,
+  User,
+  UserRole,
+} from "./types";
 
 const validateModeratorRoleChange = (
   viewer: Readonly<Moderator>,
