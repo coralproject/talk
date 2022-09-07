@@ -59,19 +59,19 @@ const RatingsFilterMenu: FunctionComponent<Props> = ({
       <Localized id="ratingsAndReviews-allReviewsFilter">
         <Option value="ALL">All reviews</Option>
       </Localized>
-      <Localized id="ratingsAndReviews-starReviewsFilter" $rating={5}>
+      <Localized id="ratingsAndReviews-starReviewsFilter" vars={{ rating: 5 }}>
         <Option value="5">5 Stars</Option>
       </Localized>
-      <Localized id="ratingsAndReviews-starReviewsFilter" $rating={4}>
+      <Localized id="ratingsAndReviews-starReviewsFilter" vars={{ rating: 4 }}>
         <Option value="4">4 Stars</Option>
       </Localized>
-      <Localized id="ratingsAndReviews-starReviewsFilter" $rating={3}>
+      <Localized id="ratingsAndReviews-starReviewsFilter" vars={{ rating: 3 }}>
         <Option value="3">3 Stars</Option>
       </Localized>
-      <Localized id="ratingsAndReviews-starReviewsFilter" $rating={2}>
+      <Localized id="ratingsAndReviews-starReviewsFilter" vars={{ rating: 2 }}>
         <Option value="2">2 Stars</Option>
       </Localized>
-      <Localized id="ratingsAndReviews-starReviewsFilter" $rating={1}>
+      <Localized id="ratingsAndReviews-starReviewsFilter" vars={{ rating: 1 }}>
         <Option value="1">1 Star</Option>
       </Localized>
     </SelectField>

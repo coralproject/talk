@@ -76,6 +76,8 @@ describe("user badges", () => {
       },
     });
 
+    customRenderAppWithContext(context);
+
     return context;
   }
 
@@ -87,11 +89,9 @@ describe("user badges", () => {
         },
       },
     });
-    const context = await createTestRenderer({
+    await createTestRenderer({
       resolvers,
     });
-
-    customRenderAppWithContext(context);
 
     const memberBadge = await screen.findByText(uniqueLabels.memberLabel);
     const staffBadge = await screen.findByText(uniqueLabels.staffLabel);

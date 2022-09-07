@@ -2,4 +2,4 @@
 
 exports[`renders correctly 1`] = `null`;
 
-exports[`renders correctly 2`] = `"Hello"`;
+exports[`renders correctly 2`] = `null`;

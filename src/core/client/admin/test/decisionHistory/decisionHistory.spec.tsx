@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { pureMerge } from "coral-common/utils";
 import {
@@ -87,25 +93,28 @@ async function createTestRenderer(
 }
 
 it("renders decision history popover button", async () => {
-  await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
   const popover = await screen.findByTestId("decisionHistory-popover");
   const popoverButton = within(popover).getByTestId("decisionHistory-toggle");
-  expect(popoverButton).toBeDefined();
+  expect(popoverButton).toBeVisible();
   expect(
     within(popover).getByLabelText("A dialog showing the decision history")
-  ).toBeDefined();
+  ).toBeVisible();
 });
 
 it("opens popover when clicked on button showing loading state", async () => {
-  await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
   const popoverButton = await screen.findByTestId("decisionHistory-toggle");
-  expect(
-    screen.queryByTestId("decisionHistory-loading-container")
-  ).not.toBeInTheDocument();
-  expect(screen.queryByText("Your Decision History")).not.toBeInTheDocument();
-  userEvent.click(popoverButton);
-  expect(screen.getByTestId("decisionHistory-loading-container")).toBeDefined();
-  expect(screen.getByText("Your Decision History")).toBeDefined();
+  expect(screen.queryByTestId("decisionHistory-loading-container")).toBeNull();
+  expect(screen.queryByText("Your Decision History")).toBeNull();
+  await act(async () => {
+    userEvent.click(popoverButton);
+  });
+  expect(screen.getByText("Your Decision History")).toBeInTheDocument();
 });
 
 it("renders empty state when no moderation actions", async () => {

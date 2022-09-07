@@ -48,10 +48,14 @@ import {
 import SingleModerateRoute from "./routes/Moderate/SingleModerate";
 import StoriesRoute from "./routes/Stories";
 
+interface CoralContainerProps {
+  children?: React.ReactNode;
+}
+
 /** Small wrapper that omits router props */
-const CoralContainer: FunctionComponent = ({ children }) => (
-  <CoralWindowContainer>{children}</CoralWindowContainer>
-);
+const CoralContainer: FunctionComponent<CoralContainerProps> = ({
+  children,
+}) => <CoralWindowContainer>{children}</CoralWindowContainer>;
 
 export default makeRouteConfig(
   <Route path="admin" Component={CoralContainer}>

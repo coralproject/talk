@@ -1,45 +1,49 @@
+import { screen, waitFor, within } from "@testing-library/react";
+import { axe } from "jest-axe";
 import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createAccessToken,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "./create";
+import { createContext } from "./create";
+import customRenderAppWithContext from "./customRenderAppWithContext";
+import userEvent from "@testing-library/user-event";
 
 const token = createAccessToken();
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create();
+  const { context } = createContext();
+  customRenderAppWithContext(context);
   return {
     context,
-    testRenderer,
-    root: testRenderer.root,
   };
 }
 
 it("renders missing reset token", async () => {
   replaceHistoryLocation("http://localhost/account/password/reset");
-  const { root } = await createTestRenderer();
-  await waitForElement(() => within(root).getByTestID("invalid-link"));
-  expect(within(root).toJSON()).toMatchSnapshot();
-  expect(await within(root).axe()).toHaveNoViolations();
+  await createTestRenderer();
+  const invalidLink = await screen.findByTestId("invalid-link");
+  expect(invalidLink).toBeVisible();
+  const invalidLinkText = within(invalidLink).getByText(
+    "The specified link is invalid, check to see if it was copied correctly."
+  );
+  expect(invalidLinkText).toBeVisible();
+  expect(await axe(invalidLink)).toHaveNoViolations();
 });
 
 it("renders form", async () => {
   replaceHistoryLocation(
     `http://localhost/account/password/reset#resetToken=${token}`
   );
-  const { root, context } = await createTestRenderer();
+  const { context } = await createTestRenderer();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -50,15 +54,16 @@ it("renders form", async () => {
     })
     .once();
 
-  await act(async () => {
-    await waitForElement(() =>
-      within(root).getByText("Reset your password", {
-        exact: false,
-      })
-    );
+  const resetPasswordTitle = await screen.findByText("Reset your password");
+  const resetPasswordDescription = screen.getByText(
+    "Please enter a new password to use to sign in to your account. Make sure it is unique and be sure to keep it secure."
+  );
+  const resetPasswordButton = screen.getByRole("button", {
+    name: "Reset Password",
   });
-  expect(within(root).toJSON()).toMatchSnapshot();
-  expect(await within(root).axe()).toHaveNoViolations();
+  expect(resetPasswordTitle).toBeVisible();
+  expect(resetPasswordDescription).toBeVisible();
+  expect(resetPasswordButton).toBeVisible();
   restMock.verify();
 });
 
@@ -76,7 +81,7 @@ it("renders error from server", async () => {
   ];
 
   for (const code of codes) {
-    const { root, context } = await createTestRenderer();
+    const { context } = await createTestRenderer();
 
     const restMock = sinon.mock(context.rest);
     restMock
@@ -93,15 +98,10 @@ it("renders error from server", async () => {
         })
       );
 
-    await act(async () => {
-      await waitForElement(() =>
-        within(root).getByText(code, {
-          exact: false,
-        })
-      );
+    await screen.findByText(code, {
+      exact: false,
     });
     restMock.verify();
-    expect(await within(root).axe()).toHaveNoViolations();
   }
 });
 
@@ -109,7 +109,7 @@ it("submits form", async () => {
   replaceHistoryLocation(
     `http://localhost/account/password/reset#resetToken=${token}`
   );
-  const { root, context } = await createTestRenderer();
+  const { context } = await createTestRenderer();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -131,42 +131,38 @@ it("submits form", async () => {
     })
     .once();
 
-  await act(async () => {
-    await waitForElement(() =>
-      within(root).getByText("Reset your password", {
-        exact: false,
-      })
-    );
+  await screen.findByText("Reset your password");
+  const resetPasswordButton = screen.getByRole("button", {
+    name: "Reset Password",
   });
-  const form = within(root).getByType("form");
-  const textField = within(root).getByLabelText("Password");
+  const textField = screen.getByLabelText("Password");
 
   // Submit an empty form.
-  act(() => {
-    form.props.onSubmit();
-  });
-  within(root).getByText("field is required", {
+  userEvent.click(resetPasswordButton);
+  screen.getByText("field is required", {
     exact: false,
   });
 
   // Password too short.
-  act(() => {
-    textField.props.onChange("test");
-  });
-  within(root).getByText("Password must contain at least 8 characters", {
-    exact: false,
-  });
+  userEvent.type(textField, "test");
+  expect(
+    screen.getByText("Password must contain at least 8 characters", {
+      exact: false,
+    })
+  ).toBeVisible();
 
   // Submit valid form.
-  await act(async () => {
-    textField.props.onChange("testtest");
-    form.props.onSubmit();
-    await waitForElement(() =>
-      within(root).getByText("successfully", {
+  userEvent.clear(textField);
+  userEvent.type(textField, "testtest");
+  userEvent.click(resetPasswordButton);
+
+  await waitFor(() =>
+    expect(
+      screen.getByText("successfully", {
         exact: false,
       })
-    );
-  });
+    ).toBeVisible()
+  );
 
   restMock.verify();
 });

@@ -5,6 +5,7 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 
 interface Props {
   errorContent?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 interface State {

@@ -16,7 +16,13 @@ const IntersectionContext = React.createContext<IntersectionContext>({} as any);
 export const useIntersectionContext = () =>
   React.useContext(IntersectionContext);
 
-export const IntersectionProvider: React.FunctionComponent = ({ children }) => {
+interface IntersectionProviderProps {
+  children?: React.ReactNode;
+}
+
+export const IntersectionProvider: React.FunctionComponent<
+  IntersectionProviderProps
+> = ({ children }) => {
   const callbacks = useRef(new Map<Element, IntersectionCallback>());
 
   const onIntersect = useCallback(

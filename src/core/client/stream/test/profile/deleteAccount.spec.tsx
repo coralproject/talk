@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { act, fireEvent, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 
@@ -47,22 +47,24 @@ async function createTestRenderer(
 
 describe("delete account steps", () => {
   beforeEach(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => baseUser,
-        },
-        Mutation: {
-          requestAccountDeletion: ({ variables }) => {
-            return {
-              user: {
-                ...baseUser,
-                scheduledDeletionDate: new Date().toISOString(),
-              },
-            };
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => baseUser,
           },
-        },
-      }),
+          Mutation: {
+            requestAccountDeletion: ({ variables }) => {
+              return {
+                user: {
+                  ...baseUser,
+                  scheduledDeletionDate: new Date().toISOString(),
+                },
+              };
+            },
+          },
+        }),
+      });
     });
   });
 
@@ -154,7 +156,7 @@ describe("delete account steps", () => {
     const requestDeletionButton = within(deleteAccount).getByRole("button", {
       name: "Request",
     });
-    userEvent.click(requestDeletionButton);
+    fireEvent.click(requestDeletionButton);
 
     const modal = await screen.findByTestId("delete-account-modal");
 

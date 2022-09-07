@@ -256,11 +256,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
-              <Localized id="qa-viewNew" $count={viewNewCount}>
+              <Localized id="qa-viewNew" vars={{ count: viewNewCount }}>
                 <span>View {viewNewCount} New Questions</span>
               </Localized>
             ) : (
-              <Localized id="comments-viewNew" $count={viewNewCount}>
+              <Localized id="comments-viewNew" vars={{ count: viewNewCount }}>
                 <span>View {viewNewCount} New Comments</span>
               </Localized>
             )}

@@ -30,6 +30,7 @@ import { EmotionShadowRoot } from "./shadow";
 // Import css variables.
 import "coral-ui/theme/streamEmbed.css";
 import "coral-ui/theme/typography.css";
+import { createRoot } from "react-dom/client";
 
 export interface AttachOptions {
   locale?: LanguageCode;
@@ -243,8 +244,9 @@ export async function attach(options: AttachOptions) {
     );
   };
 
-  // eslint-disable-next-line no-restricted-globals
-  ReactDOM.render(<Index />, options.element);
+  const container = options.element;
+  const root = createRoot(container);
+  root.render(<Index />);
 }
 
 /**

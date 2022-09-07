@@ -44,8 +44,8 @@ const ModMessageModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-modMessageModal-success"
-                $username={username}
-                strong={<ModalHeaderUsername />}
+                elems={{ strong: <ModalHeaderUsername /> }}
+                vars={{ username: username ?? "" }}
               >
                 <ModalHeader>
                   A message has been sent to{" "}
@@ -64,10 +64,15 @@ const ModMessageModal: FunctionComponent<Props> = ({
           )}
           {!success && (
             <HorizontalGutter spacing={3}>
+              {/* TODO: Test out username elem update */}
               <Localized
                 id="community-modMessageModal-areYouSure"
-                strong={<ModalHeaderUsername />}
-                $username={username || <NotAvailable />}
+                elems={{
+                  strong: <ModalHeaderUsername />,
+                  username: React.createElement(() => (
+                    <>{username || <NotAvailable />}</>
+                  )),
+                }}
               >
                 <ModalHeader id="modMessageModal-title">
                   Message{" "}

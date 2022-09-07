@@ -57,7 +57,7 @@ const StoryTableContainer: FunctionComponent<Props> = ({
       ? moderateScopeSites
       : null,
   });
-  const onSelect = useCallback((siteID) => {
+  const onSelect = useCallback((siteID: string) => {
     if (siteID) {
       setSiteFilter([siteID]);
     } else {

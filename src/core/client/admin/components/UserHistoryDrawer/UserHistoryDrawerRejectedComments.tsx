@@ -51,7 +51,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
       <CallOut fullWidth>
         <Localized
           id="moderate-user-drawer-rejected-no-comments"
-          $username={user.username || user.email}
+          vars={{ username: user.username || user.email || "" }}
         >
           <div>
             {user.username || user.email} does not have any rejected comments.

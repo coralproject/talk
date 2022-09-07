@@ -54,12 +54,14 @@ async function createTestRenderer(
 
 describe("with recently changed username", () => {
   beforeEach(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithChangedUsername,
-        },
-      }),
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithChangedUsername,
+          },
+        }),
+      });
     });
   });
 
@@ -86,12 +88,14 @@ describe("with recently changed username", () => {
 
 describe("with new username", () => {
   beforeEach(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithNewUsername,
-        },
-      }),
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithNewUsername,
+          },
+        }),
+      });
     });
   });
 
@@ -120,25 +124,27 @@ describe("with new username", () => {
 
 describe("change username form", () => {
   beforeEach(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithNewUsername,
-        },
-        Mutation: {
-          updateUsername: ({ variables }) => {
-            expectAndFail(variables).toMatchObject({
-              username: "updated_username",
-            });
-            return {
-              user: {
-                ...userWithNewUsername,
-                username: "updated_username",
-              },
-            };
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithNewUsername,
           },
-        },
-      }),
+          Mutation: {
+            updateUsername: ({ variables }) => {
+              expectAndFail(variables).toMatchObject({
+                username: "updated_username",
+              });
+              return {
+                user: {
+                  ...userWithNewUsername,
+                  username: "updated_username",
+                },
+              };
+            },
+          },
+        }),
+      });
     });
   });
 

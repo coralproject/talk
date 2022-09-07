@@ -68,7 +68,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
             <Icon className={styles.repliesIcon}>reply</Icon>
             <Localized
               id="profile-historyComment-replies"
-              $replyCount={comment.replyCount}
+              vars={{ replyCount: comment.replyCount }}
             >
               <span>Replies {comment.replyCount}</span>
             </Localized>

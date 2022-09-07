@@ -125,12 +125,7 @@ export const timeagoFormatter: Formatter = (value, unit, suffix) => {
   }
 
   return (
-    <Localized
-      id="framework-timeago"
-      $value={value}
-      $unit={unit}
-      $suffix={ourSuffix}
-    >
+    <Localized id="framework-timeago" vars={{ value, unit, suffix: ourSuffix }}>
       <span>now</span>
     </Localized>
   );
@@ -203,12 +198,12 @@ function createManagedCoralContextProvider(
   clientID: string,
   initLocalState: InitLocalState,
   localesData: LocalesData,
-  ErrorBoundary?: React.ComponentType,
+  ErrorBoundary?: React.ComponentType<{ children?: React.ReactNode }>,
   refreshAccessTokenPromise?: RefreshAccessTokenPromise,
   staticConfig?: StaticConfig | null
 ) {
   const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
-    {},
+    { children?: React.ReactNode },
     { context: CoralContext }
   > {
     constructor(props: {}) {
@@ -396,7 +391,9 @@ export default async function createManaged({
   graphQLSubscriptionURI,
   refreshAccessTokenPromise,
   staticConfig = getStaticConfig(window),
-}: CreateContextArguments): Promise<ComponentType> {
+}: CreateContextArguments): Promise<
+  ComponentType<{ children?: React.ReactNode }>
+> {
   if (!staticConfig) {
     // eslint-disable-next-line no-console
     console.warn("No static config found or provided");

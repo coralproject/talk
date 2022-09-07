@@ -52,9 +52,14 @@ const createTestRenderer = async (
 
   customRenderAppWithContext(context);
 
-  const tabPane = await screen.findByRole("region", { name: "Tab:" });
-  const applyButton = within(tabPane).getByTestId("configure-stream-apply");
-  const form = screen.getByRole("region", { name: "Configure this stream" });
+  let tabPane: HTMLElement | undefined;
+  await waitFor(async () => {
+    tabPane = await screen.findByRole("region", { name: "Tab:" });
+  });
+  const applyButton = await screen.findByTestId("configure-stream-apply");
+  const form = screen.getByRole("region", {
+    name: "Configure this stream",
+  });
   return { tabPane, applyButton, form };
 };
 
@@ -68,6 +73,7 @@ it("change premod", async () => {
         };
       }
     );
+
   const { form, applyButton } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
@@ -81,7 +87,9 @@ it("change premod", async () => {
 
   // Let's enable premod.
   userEvent.click(premodField);
-  expect(applyButton).toBeEnabled();
+  await waitFor(() => {
+    expect(applyButton).toBeEnabled();
+  });
 
   userEvent.click(applyButton);
 
@@ -89,7 +97,7 @@ it("change premod", async () => {
   expect(applyButton).toBeDisabled();
   expect(premodField).toBeDisabled();
 
-  // // Wait for submission to be finished
+  // Wait for submission to be finished
   await waitFor(() => {
     expect(premodField).toBeEnabled();
   });
@@ -123,7 +131,9 @@ it("change premod links", async () => {
   expect(applyButton).toBeDisabled();
   // Let's enable premod.
   userEvent.click(premodLinksField);
-  expect(applyButton).toBeEnabled();
+  await waitFor(() => {
+    expect(applyButton).toBeEnabled();
+  });
 
   userEvent.click(applyButton);
   expect(applyButton).toBeDisabled();
@@ -161,25 +171,25 @@ it("change message box", async () => {
     }),
   });
 
-  const enableField = within(tabPane).getByRole("button", {
+  const enableField = within(tabPane!).getByRole("button", {
     name: "Add message",
   });
   userEvent.click(enableField);
 
   // Select icon
-  const conversationRadio = within(tabPane).getByRole("radio", {
+  const conversationRadio = within(tabPane!).getByRole("radio", {
     name: "Conversation",
   });
   userEvent.click(conversationRadio);
 
   // Change content.
   const messageText = await waitFor(() =>
-    within(tabPane).getByLabelText("Write a message")
+    within(tabPane!).getByLabelText("Write a message")
   );
   userEvent.clear(messageText);
   userEvent.type(messageText, "*What do you think?*");
 
-  const saveChanges = within(tabPane).getByRole("button", {
+  const saveChanges = within(tabPane!).getByRole("button", {
     name: "Add message",
   });
   expect(saveChanges).toBeEnabled();
@@ -223,16 +233,18 @@ it("remove message icon", async () => {
     }),
   });
 
-  const noIconRadio = within(tabPane).getByRole("radio", {
+  const noIconRadio = within(tabPane!).getByRole("radio", {
     name: "No icon",
   });
   userEvent.click(noIconRadio);
 
   // Send form
-  const saveChanges = within(tabPane).getByTestId(
+  const saveChanges = within(tabPane!).getByTestId(
     "configure-addMessage-submitUpdate"
   );
-  expect(saveChanges).toBeEnabled();
+  await waitFor(() => {
+    expect(saveChanges).toBeEnabled();
+  });
   userEvent.click(saveChanges);
 
   expect(updateStorySettingsStub.called).toBe(true);

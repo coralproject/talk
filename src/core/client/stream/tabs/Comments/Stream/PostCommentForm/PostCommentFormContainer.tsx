@@ -117,7 +117,9 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
-  const PostCommentSection: FunctionComponent = useMemo(
+  const PostCommentSection: FunctionComponent<{
+    children?: React.ReactNode;
+  }> = useMemo(
     // eslint-disable-next-line react/display-name
     () => (props) => {
       if (isRatingsAndReviews) {

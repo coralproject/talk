@@ -23,8 +23,7 @@ export const ArchivedCommentsThresholdNotification: FunctionComponent<
   return (
     <Localized
       id="moderate-user-drawer-all-comments-archiveThreshold-allOfThisUsers"
-      $value={scaled}
-      $unit={unit}
+      vars={{ value: scaled, unit }}
     >
       <div className={styles.text}>
         All of this user’s comments from the previous {scaled} {unit}.

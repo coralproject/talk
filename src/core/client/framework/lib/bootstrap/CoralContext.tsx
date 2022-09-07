@@ -1,5 +1,5 @@
 import { FluentBundle } from "@fluent/bundle/compat";
-import { LocalizationProvider } from "@fluent/react/compat";
+import { LocalizationProvider, ReactLocalization } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
 import React, { FunctionComponent } from "react";
 import { MediaQueryMatchers } from "react-responsive";
@@ -116,16 +116,20 @@ export function getUIContextPropsFromCoralContext(ctx: CoralContext) {
 
 /**
  * In addition to just providing the context, CoralContextProvider also
- * renders the `LocalizationProvider` with the appropite data.
+ * renders the `LocalizationProvider` with the appropriate data.
  */
 export const CoralContextProvider: FunctionComponent<{
   value: CoralContext;
-}> = ({ value, children }) => (
-  <CoralReactContext.Provider value={value}>
-    <LocalizationProvider bundles={value.localeBundles}>
-      <UIContext.Provider value={getUIContextPropsFromCoralContext(value)}>
-        {children}
-      </UIContext.Provider>
-    </LocalizationProvider>
-  </CoralReactContext.Provider>
-);
+  children?: React.ReactNode;
+}> = ({ value, children }) => {
+  const l10n = new ReactLocalization(value.localeBundles);
+  return (
+    <CoralReactContext.Provider value={value}>
+      <LocalizationProvider l10n={l10n}>
+        <UIContext.Provider value={getUIContextPropsFromCoralContext(value)}>
+          {children}
+        </UIContext.Provider>
+      </LocalizationProvider>
+    </CoralReactContext.Provider>
+  );
+};

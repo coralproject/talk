@@ -18,6 +18,7 @@ import CompleteAccountMutation from "./CompleteAccountMutation";
 interface Props {
   auth: AccountCompletionContainer_auth;
   viewer: AccountCompletionContainer_viewer | null;
+  children?: React.ReactNode;
 }
 
 const AccountCompletionContainer: FunctionComponent<Props> = ({

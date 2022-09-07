@@ -54,7 +54,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   const [activeTab, setActiveTab] = useState<DetailsTabs>("INFO");
 
   const onTabClick = useCallback(
-    (id) => setActiveTab(id as DetailsTabs),
+    (id: string) => setActiveTab(id as DetailsTabs),
     [setActiveTab]
   );
 

@@ -213,7 +213,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   );
 
   const handleOnChange: ReplyCommentFormProps["onChange"] = useCallback(
-    (state, form) => {
+    (state: any, form: any) => {
       if (state.values.body) {
         void sessionStorage.setItem(contextKey, state.values.body);
       } else {

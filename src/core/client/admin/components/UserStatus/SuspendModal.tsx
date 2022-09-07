@@ -62,9 +62,8 @@ const SuspendModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-suspendModal-success"
-                $username={username}
-                strong={<ModalHeaderUsername />}
-                $duration={successDuration}
+                vars={{ username: username ?? "", duration: successDuration }}
+                elems={{ strong: <ModalHeaderUsername /> }}
               >
                 <ModalHeader>
                   <ModalHeaderUsername>{username}</ModalHeaderUsername> has been
@@ -85,8 +84,8 @@ const SuspendModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-suspendModal-areYouSure"
-                strong={<ModalHeaderUsername />}
-                $username={username || notAvailableTranslation}
+                elems={{ strong: <ModalHeaderUsername /> }}
+                vars={{ username: username || notAvailableTranslation }}
               >
                 <ModalHeader id="suspendModal-title">
                   Suspend{" "}

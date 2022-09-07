@@ -23,8 +23,7 @@ export const ArchivedCommentsThresholdNotification: FunctionComponent<
   return (
     <Localized
       id="profile-commentHistory-archived-thisIsAllYourComments"
-      $value={scaled}
-      $unit={unit}
+      vars={{ value: scaled, unit }}
     >
       <div className={styles.text}>
         This is all of your comments from the previous {scaled} {unit}. To view

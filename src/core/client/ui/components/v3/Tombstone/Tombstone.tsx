@@ -9,6 +9,7 @@ interface Props {
   classes: typeof styles;
   className?: string;
   fullWidth?: boolean;
+  children?: React.ReactNode;
 }
 
 const Tombstone: FunctionComponent<Props> = ({

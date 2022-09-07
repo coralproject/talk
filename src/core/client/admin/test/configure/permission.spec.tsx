@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver, GQLUSER_ROLE } from "coral-framework/schema";
@@ -67,6 +67,8 @@ it("allows access to admins", async () => {
         },
       }),
     });
-    expect(await screen.findByTestId("configure-container")).toBeVisible();
+    await waitFor(async () => {
+      expect(await screen.findByTestId("configure-container")).toBeVisible();
+    });
   }
 });

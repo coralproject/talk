@@ -139,7 +139,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
             className={CLASSES.allCommentsTabPane.viewNewButton}
             fullWidth
           >
-            <Localized id="qa-viewNew" $count={viewNewCount}>
+            <Localized id="qa-viewNew" vars={{ count: viewNewCount }}>
               <span>View {viewNewCount} New Questions</span>
             </Localized>
           </Button>

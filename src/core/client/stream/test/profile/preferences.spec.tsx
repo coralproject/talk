@@ -40,13 +40,10 @@ async function createTestRenderer(
     },
   });
   customRenderAppWithContext(context);
-  const ignoredCommenters = await screen.findByTestId(
-    "profile-account-ignoredCommenters"
-  );
 
   return {
     context,
-    ignoredCommenters,
+    // ignoredCommenters,
   };
 }
 
@@ -68,13 +65,16 @@ it("render notifications form", async () => {
         clientMutationId,
       };
     });
-  await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        updateNotificationSettings,
-      },
-    }),
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          updateNotificationSettings,
+        },
+      }),
+    });
   });
+
   const container = await screen.findByTestId("profile-account-notifications");
   expect(await axe(container)).toHaveNoViolations();
 
@@ -131,14 +131,19 @@ it("render notifications form", async () => {
   expect(save).toBeEnabled();
 
   // Change a notification back (making it pristine).
-  userEvent.click(onReply);
+  await act(async () => {
+    userEvent.click(onReply);
+  });
 
   // The save button should now be disabled.
   expect(save).toBeDisabled();
 });
 
 it("render empty ignored users list", async () => {
-  const { ignoredCommenters } = await createTestRenderer();
+  await createTestRenderer();
+  const ignoredCommenters = await screen.findByTestId(
+    "profile-account-ignoredCommenters"
+  );
   const editButton = within(ignoredCommenters).getByRole("button", {
     name: "Manage",
   });
@@ -149,7 +154,7 @@ it("render empty ignored users list", async () => {
 });
 
 it("render ignored users list", async () => {
-  const { ignoredCommenters } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         viewer: () =>
@@ -169,6 +174,9 @@ it("render ignored users list", async () => {
       },
     }),
   });
+  const ignoredCommenters = await screen.findByTestId(
+    "profile-account-ignoredCommenters"
+  );
   const editButton = within(ignoredCommenters).getByRole("button", {
     name: "Manage",
   });

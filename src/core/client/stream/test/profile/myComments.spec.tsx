@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
@@ -89,13 +89,17 @@ const createTestRenderer = async (
   });
 
   customRenderAppWithContext(context);
-  const commentHistory = await screen.findByTestId("profile-commentHistory");
+  // const commentHistory = await screen.findByTestId("profile-commentHistory");
 
-  return { commentHistory };
+  return;
 };
 
 it("renders profile with comment history", async () => {
-  const { commentHistory } = await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
+  const commentHistory = await screen.findByTestId("profile-commentHistory");
+
   expect(commentHistory).toBeVisible();
 
   // renders first comment with body, view conversation link, timestamp, etc.
@@ -138,7 +142,8 @@ it("renders profile with comment history", async () => {
 });
 
 it("loads more comments", async () => {
-  const { commentHistory } = await createTestRenderer();
+  await createTestRenderer();
+  const commentHistory = await screen.findByTestId("profile-commentHistory");
 
   // Get amount of comments before.
   const commentsBefore =
@@ -162,9 +167,10 @@ it("loads more comments", async () => {
 });
 
 it("shows archived notification when archiving enabled", async () => {
-  const { commentHistory } = await createTestRenderer({
+  await createTestRenderer({
     archivingEnabled: true,
   });
+  const commentHistory = await screen.findByTestId("profile-commentHistory");
 
   expect(
     within(commentHistory).getByText(
@@ -177,9 +183,10 @@ it("shows archived notification when archiving enabled", async () => {
 });
 
 it("doesn't show archived notification when archiving disabled", async () => {
-  const { commentHistory } = await createTestRenderer({
+  await createTestRenderer({
     archivingEnabled: false,
   });
+  const commentHistory = await screen.findByTestId("profile-commentHistory");
 
   expect(
     within(commentHistory).queryByText(

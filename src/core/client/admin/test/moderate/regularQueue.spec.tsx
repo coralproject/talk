@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
@@ -66,7 +66,10 @@ async function createTestRenderer(
 }
 
 it("renders moderate navigation with correct links and comment counts", async () => {
-  await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
+
   const pendingNav = await screen.findByText("Pending");
   expect(pendingNav).toBeDefined();
   expect(pendingNav.closest("a")).toHaveAttribute(
@@ -259,38 +262,40 @@ it("renders reported queue with comments correctly rendered", async () => {
 });
 
 it("renders reported queue with comments with banned words correctly", async () => {
-  await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        moderationQueues: () =>
-          pureMerge(emptyModerationQueues, {
-            reported: {
-              count: 2,
-              comments:
-                createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                  ({ variables }) => {
-                    expectAndFail(variables).toEqual({
-                      first: 5,
-                      orderBy: "CREATED_AT_DESC",
-                    });
-                    return {
-                      edges: [
-                        {
-                          node: reportedComments[4],
-                          cursor: reportedComments[4].createdAt,
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () =>
+            pureMerge(emptyModerationQueues, {
+              reported: {
+                count: 2,
+                comments:
+                  createQueryResolverStub<ModerationQueueToCommentsResolver>(
+                    ({ variables }) => {
+                      expectAndFail(variables).toEqual({
+                        first: 5,
+                        orderBy: "CREATED_AT_DESC",
+                      });
+                      return {
+                        edges: [
+                          {
+                            node: reportedComments[4],
+                            cursor: reportedComments[4].createdAt,
+                          },
+                        ],
+                        pageInfo: {
+                          endCursor: reportedComments[4].createdAt,
+                          hasNextPage: false,
                         },
-                      ],
-                      pageInfo: {
-                        endCursor: reportedComments[4].createdAt,
-                        hasNextPage: false,
-                      },
-                    };
-                  }
-                ),
-            },
-          }),
-      },
-    }),
+                      };
+                    }
+                  ),
+              },
+            }),
+        },
+      }),
+    });
   });
   const moderateContainer = await screen.findByTestId("moderate-container");
   const comment = within(moderateContainer).getByTestId(
@@ -431,9 +436,14 @@ it("show reaction details for a comment with reactions", async () => {
   const reactionsButton = within(reported).getByRole("tab", {
     name: "Tab: Reactions",
   });
-  userEvent.click(reactionsButton);
+  await act(async () => {
+    userEvent.click(reactionsButton);
+  });
+
   const ngocButton = await screen.findByRole("button", { name: "Ngoc" });
-  userEvent.click(ngocButton);
+  await act(async () => {
+    userEvent.click(ngocButton);
+  });
   const modal = await screen.findByTestId("userHistoryDrawer-modal");
   expect(within(modal).getByText("Ngoc")).toBeVisible();
 });

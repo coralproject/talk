@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import sinon from "sinon";
 
@@ -35,13 +35,15 @@ async function createTestRenderer(
 
   customRenderAppWithContext(context);
 
-  const tabPane = await screen.findByTestId("current-tab-pane");
-
-  return { tabPane };
+  return;
 }
 
 it("renders configure", async () => {
-  const { tabPane } = await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
+  const tabPane = await screen.findByTestId("current-tab-pane");
+
   expect(tabPane).toMatchSnapshot();
   expect(await axe(tabPane)).toHaveNoViolations();
 });

@@ -227,13 +227,15 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       {!canChangeUsername && !showSuccessMessage && (
         <div data-testid="profile-changeUsername-cantChange">
           <Localized
-            date={canChangeUsernameDate}
             id="profile-changeUsername-youChangedYourUsernameWithin"
-            $value={FREQUENCYSCALED.scaled}
-            $unit={FREQUENCYSCALED.unit}
-            $nextUpdate={
-              canChangeUsernameDate ? formatter(canChangeUsernameDate) : null
-            }
+            vars={{
+              date: canChangeUsernameDate || "",
+              value: FREQUENCYSCALED.scaled,
+              unit: FREQUENCYSCALED.unit,
+              nextUpdate: canChangeUsernameDate
+                ? formatter(canChangeUsernameDate)
+                : "",
+            }}
           >
             <div className={cn(styles.tooSoon, CLASSES.myUsername.tooSoon)}>
               You changed your username within the last {FREQUENCYSCALED.scaled}{" "}
@@ -255,8 +257,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             </Localized>
             <Localized
               id="profile-changeUsername-desc-text"
-              $value={FREQUENCYSCALED.scaled}
-              $unit={FREQUENCYSCALED.unit}
+              vars={{
+                value: FREQUENCYSCALED.scaled,
+                unit: FREQUENCYSCALED.unit,
+              }}
             >
               <div
                 className={cn(

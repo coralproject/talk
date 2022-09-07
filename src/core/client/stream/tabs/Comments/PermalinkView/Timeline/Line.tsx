@@ -6,6 +6,7 @@ import styles from "./Line.css";
 interface LineProps {
   className?: string;
   dotted?: boolean;
+  children?: React.ReactNode;
 }
 
 const Line: FunctionComponent<LineProps> = (props) => {

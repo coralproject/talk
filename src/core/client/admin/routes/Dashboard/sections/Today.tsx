@@ -78,8 +78,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             {archivingEnabled ? (
               <Localized
                 id="dashboard-alltime-new-comments-archiveEnabled"
-                $value={scaled}
-                $unit={unit}
+                vars={{ value: scaled, unit }}
               >
                 <span>
                   {scaled} {unit} total
@@ -120,8 +119,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             {archivingEnabled ? (
               <Localized
                 id="dashboard-alltime-rejections-archiveEnabled"
-                $value={scaled}
-                $unit={unit}
+                vars={{ value: scaled, unit }}
               >
                 <span>
                   {scaled} {unit} average
@@ -147,8 +145,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             {archivingEnabled ? (
               <Localized
                 id="dashboard-alltime-staff-comments-archiveEnabled"
-                $value={scaled}
-                $unit={unit}
+                vars={{ value: scaled, unit }}
               >
                 <span>
                   {scaled} {unit} total

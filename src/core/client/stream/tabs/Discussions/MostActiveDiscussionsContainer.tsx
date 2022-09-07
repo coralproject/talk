@@ -37,7 +37,7 @@ const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
         subHeader={
           <Localized
             id="discussions-mostActiveDiscussions-subhead"
-            $siteName={site.name}
+            vars={{ siteName: site.name }}
           >
             <>
               Ranked by the most comments received over the last 24 hours on{" "}

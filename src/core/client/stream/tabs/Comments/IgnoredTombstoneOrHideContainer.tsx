@@ -68,7 +68,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
         <Flex alignItems="center" justifyContent="center" itemGutter>
           <Localized
             id="comments-tombstone-ignore"
-            $username={comment.author!.username}
+            vars={{ username: comment.author!.username! }}
           >
             <div>
               This comment is hidden because you ignored{" "}

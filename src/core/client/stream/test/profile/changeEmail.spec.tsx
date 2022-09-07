@@ -46,25 +46,27 @@ async function createTestRenderer(
 
 describe("change email form", () => {
   beforeEach(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithEmail,
-        },
-        Mutation: {
-          updateEmail: ({ variables }) => {
-            expectAndFail(variables).toMatchObject({
-              email: "updated_email@test.com",
-            });
-            return {
-              user: {
-                ...userWithEmail,
-                email: "updated_email@test.com",
-              },
-            };
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithEmail,
           },
-        },
-      }),
+          Mutation: {
+            updateEmail: ({ variables }) => {
+              expectAndFail(variables).toMatchObject({
+                email: "updated_email@test.com",
+              });
+              return {
+                user: {
+                  ...userWithEmail,
+                  email: "updated_email@test.com",
+                },
+              };
+            },
+          },
+        }),
+      });
     });
   });
 

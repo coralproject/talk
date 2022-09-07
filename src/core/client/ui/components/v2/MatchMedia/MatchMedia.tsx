@@ -48,7 +48,7 @@ interface Props {
   className?: string;
   component?:
     | string
-    | React.SFC<any>
+    | React.FC<any>
     | React.ClassType<any, any, any>
     | React.ComponentClass<any>;
   all?: boolean;

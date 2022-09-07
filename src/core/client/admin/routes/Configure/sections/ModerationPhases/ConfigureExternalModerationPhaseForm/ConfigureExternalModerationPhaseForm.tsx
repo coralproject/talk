@@ -61,7 +61,7 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
   const update = useMutation(UpdateExternalModerationPhaseMutation);
   const { router } = useRouter();
   const onSubmit = useCallback(
-    async (values) => {
+    async (values: any) => {
       try {
         if (phase) {
           // The external moderation phase was defined, update it.

@@ -139,7 +139,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
             </Icon>
             <Localized
               id="comments-conversationThread-showMoreOfThisConversation"
-              $count={remaining}
+              vars={{ count: remaining }}
             >
               <Button
                 className={CLASSES.conversationThread.showMore}

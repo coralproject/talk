@@ -88,7 +88,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
             <>
               <Localized
                 id="profile-account-deleteAccount-cancelDelete-description"
-                $date={deletionDate}
+                vars={{ date: deletionDate }}
               >
                 <div
                   className={cn(

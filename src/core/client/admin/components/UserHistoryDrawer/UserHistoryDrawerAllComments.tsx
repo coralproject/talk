@@ -61,7 +61,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
       <CallOut fullWidth>
         <Localized
           id="moderate-user-drawer-all-no-comments"
-          $username={user.username || user.email}
+          vars={{ username: user.username || user.email || "" }}
         >
           <div>
             {user.username || user.email} has not submitted any comments.

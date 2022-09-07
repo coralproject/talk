@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SinonStub } from "sinon";
 
@@ -42,7 +42,9 @@ async function createTestRenderer(
       }
     },
   });
-  customRenderAppWithContext(context);
+  await act(() => {
+    customRenderAppWithContext(context);
+  });
   const generalContainer = await screen.findByTestId(
     "configure-generalContainer"
   );
@@ -58,6 +60,7 @@ async function createTestRenderer(
 
 it("renders configure general with correct navigation", async () => {
   await createTestRenderer();
+
   const generalLink = screen.getByRole("link", { name: "General" });
   expect(generalLink).toBeVisible();
   expect(generalLink).toHaveProperty(

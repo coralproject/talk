@@ -444,7 +444,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           <>
             <Localized
               id="comments-commentContainer-threadLevelLabel"
-              $level={indentLevel}
+              vars={{ level: indentLevel }}
             >
               <span>Thread Level {indentLevel}:</span>
             </Localized>{" "}
@@ -467,8 +467,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         {comment.parent && (
           <Localized
             id="comments-commentContainer-replyLabel"
-            $username={comment.author?.username}
-            RelativeTime={<RelativeTime date={comment.createdAt} />}
+            vars={{ username: comment.author?.username ?? "" }}
+            elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
           >
             <span>
               Reply from {comment.author?.username}{" "}
@@ -479,8 +479,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         {!comment.parent && isQA && (
           <Localized
             id="comments-commentContainer-questionLabel"
-            $username={comment.author?.username}
-            RelativeTime={<RelativeTime date={comment.createdAt} />}
+            vars={{ username: comment.author?.username ?? "" }}
+            elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
           >
             <span>
               Question from {comment.author?.username}{" "}
@@ -491,8 +491,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         {!comment.parent && !isQA && (
           <Localized
             id="comments-commentContainer-commentLabel"
-            $username={comment.author?.username}
-            RelativeTime={<RelativeTime date={comment.createdAt} />}
+            vars={{ username: comment.author?.username ?? "" }}
+            elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
           >
             <span>
               Comment from {comment.author?.username}{" "}
@@ -622,7 +622,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                           <Localized
                             id="comments-commentContainer-avatar"
                             attrs={{ alt: true }}
-                            $username={comment.author.username}
+                            vars={{ username: comment.author.username! }}
                           >
                             <img
                               src={comment.author.avatar}

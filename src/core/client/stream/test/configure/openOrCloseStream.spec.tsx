@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
@@ -32,9 +32,7 @@ async function createTestRenderer(
 
   customRenderAppWithContext(context);
 
-  const tabPane = await screen.findByTestId("current-tab-pane");
-
-  return { tabPane };
+  return;
 }
 
 it("close stream", async () => {
@@ -45,11 +43,15 @@ it("close stream", async () => {
       clientMutationId: data.input.clientMutationId,
     };
   });
-  const { tabPane } = await createTestRenderer({
-    Mutation: {
-      closeStory: closeStoryStub,
-    },
+  await act(async () => {
+    await createTestRenderer({
+      Mutation: {
+        closeStory: closeStoryStub,
+      },
+    });
   });
+
+  const tabPane = await screen.findByTestId("current-tab-pane");
 
   const closeButton = within(tabPane).getByRole("button", {
     name: "Close Stream",
@@ -72,14 +74,19 @@ it("opens stream", async () => {
       clientMutationId: data.input.clientMutationId,
     };
   });
-  const { tabPane } = await createTestRenderer({
-    Query: {
-      story: sinon.stub().returns({ ...stories[0], isClosed: true }),
-    },
-    Mutation: {
-      openStory: openStoryStub,
-    },
+
+  await act(async () => {
+    await createTestRenderer({
+      Query: {
+        story: sinon.stub().returns({ ...stories[0], isClosed: true }),
+      },
+      Mutation: {
+        openStory: openStoryStub,
+      },
+    });
   });
+
+  const tabPane = await screen.findByTestId("current-tab-pane");
 
   const button = within(tabPane).getByRole("button", { name: "Open Stream" });
 

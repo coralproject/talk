@@ -32,7 +32,7 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
     <Box p={3} className={cn(styles.root, CLASSES.ignoreUserPopover.$root)}>
       <Localized
         id="comments-userIgnorePopover-ignoreUser"
-        $username={user.username}
+        vars={{ username: user.username! }}
       >
         <div className={styles.title}>Ignore {user.username}?</div>
       </Localized>

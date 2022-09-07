@@ -11,6 +11,7 @@ import styles from "./TodayDashboardBox.css";
 interface Props {
   icon: "forum" | "close" | "recent_actors" | "person_add" | "block";
   loading: boolean;
+  children?: React.ReactNode;
 }
 
 const TodayDashboardBox: FunctionComponent<Props> = ({

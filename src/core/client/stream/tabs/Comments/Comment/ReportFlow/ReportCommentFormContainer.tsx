@@ -6,6 +6,7 @@ import { graphql } from "react-relay";
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
+  MutationInput,
   useFetch,
   useMutation,
   withFragmentContainer,
@@ -14,6 +15,7 @@ import WarningError from "coral-stream/common/WarningError";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
+import { CreateCommentFlagMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentFlagMutation.graphql";
 import { ReportCommentFormContainer_comment } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
 import { ReportCommentFormContainer_settings } from "coral-stream/__generated__/ReportCommentFormContainer_settings.graphql";
 
@@ -39,8 +41,13 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
   const flagMutation = useMutation(CreateCommentFlagMutation);
   const refreshViewer = useFetch(RefreshViewerFetch);
   const onSubmit = useCallback(
-    async (input) => {
+    async (
+      input:
+        | MutationInput<MutationTypes>
+        | { reason: "DISAGREE"; additionalDetails: string }
+    ) => {
       try {
+        // TODO: Fix this issue?
         if (input.reason === "DISAGREE") {
           await dontAgreeMutation({
             commentID: comment.id,
