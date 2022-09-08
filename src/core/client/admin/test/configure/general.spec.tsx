@@ -42,7 +42,7 @@ async function createTestRenderer(
       }
     },
   });
-  await act(() => {
+  await act(async () => {
     customRenderAppWithContext(context);
   });
   const generalContainer = await screen.findByTestId(
