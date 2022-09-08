@@ -34,7 +34,6 @@ declare module "@fluent/react/compat" {
 
   export interface LocalizationProviderProps {
     l10n: ReactLocalization;
-    // bundles: FluentBundle[];
     parseMarkup?: (s: string) => ChildNode[];
     children?: React.ReactNode;
   }

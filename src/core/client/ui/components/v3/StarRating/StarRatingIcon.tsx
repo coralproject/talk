@@ -40,7 +40,6 @@ const StarRatingIcon: FunctionComponent<Props> = ({
     <Localized
       id="framework-starRating"
       vars={{ value }}
-      // $value={value}
       attrs={{ "aria-label": true }}
     >
       <Icon

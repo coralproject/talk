@@ -60,7 +60,6 @@ async function createTestRenderer(
 
 it("renders configure general with correct navigation", async () => {
   await createTestRenderer();
-
   const generalLink = screen.getByRole("link", { name: "General" });
   expect(generalLink).toBeVisible();
   expect(generalLink).toHaveProperty(

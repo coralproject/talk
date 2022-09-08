@@ -1425,7 +1425,7 @@ community-userStatus-message = Message
 
 community-modMessageModal-success = A message has been sent to <strong>{ $username }</strong>.
 community-modMessageModal-success-close = Ok
-community-modMessageModal-areYouSure = Message <strong><username></username></strong>?
+community-modMessageModal-areYouSure = Message <strong>{ $username }</strong>?
 community-modMessageModal-consequence = Send a message to a commenter that is visible only to them.
 community-modMessageModal-message-label = Message
 community-modMessageModal-message-required = Required

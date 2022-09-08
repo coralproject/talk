@@ -1229,7 +1229,7 @@ community-userStatus-message = 消息
 
 community-modMessageModal-success = 一条消息已经发送<strong>{ $username }</strong>.
 community-modMessageModal-success-close = Ok
-community-modMessageModal-areYouSure = 给 <strong><username></username></strong>发消息?
+community-modMessageModal-areYouSure = 给 <strong>{ $username }</strong>发消息?
 community-modMessageModal-consequence = 向留言者者发送仅对其可见的消息。
 community-modMessageModal-message-label = 消息
 community-modMessageModal-message-required = 必需的

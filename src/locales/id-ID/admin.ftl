@@ -1521,7 +1521,7 @@ community-userStatus-message = Pesan
 
 community-modMessageModal-success = Pesan telah dikirim ke <strong>{ $username }</strong>.
 community-modMessageModal-success-close = Oke
-community-modMessageModal-areYouSure = Pesan <strong><username></username></strong>?
+community-modMessageModal-areYouSure = Pesan <strong>{ $username }</strong>?
 community-modMessageModal-consequence = Kirim pesan ke pemberi komentar yang hanya terlihat oleh mereka.
 community-modMessageModal-message-label = Pesan
 community-modMessageModal-message-required = Dibutuhkan

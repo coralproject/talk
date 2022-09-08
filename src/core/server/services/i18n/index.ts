@@ -1,8 +1,4 @@
-import {
-  FluentBundle,
-  FluentResource,
-  // FluentArgument,
-} from "@fluent/bundle/compat";
+import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
 import fs from "fs-extra";
 import path from "path";
 
@@ -120,7 +116,7 @@ export function translate(
   bundle: FluentBundle,
   defaultValue: string,
   id: string,
-  args?: object | undefined,
+  args?: object,
   errors?: Error[]
 ): string {
   const message = bundle.getMessage(id);

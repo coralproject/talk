@@ -1,11 +1,11 @@
-import { FluentArgument, FluentBundle } from "@fluent/bundle";
+import { FluentBundle } from "@fluent/bundle/compat";
 
 import { globalErrorReporter } from "../errors";
 
 export default function format(
   bundles: FluentBundle[],
   key: string,
-  args?: Record<string, FluentArgument> | null | undefined
+  args?: object
 ): string {
   const res = bundles.reduce((val, bundle) => {
     const message = bundle.getMessage(key);

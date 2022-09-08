@@ -1,7 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, {
-  // FC,
   FunctionComponent,
   useCallback,
   useEffect,

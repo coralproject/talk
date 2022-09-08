@@ -1,4 +1,5 @@
 import { act, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import sinon from "sinon";
 
@@ -9,7 +10,6 @@ import {
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
 
-import userEvent from "@testing-library/user-event";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import { commenters, settings, stories, viewerPassive } from "../fixtures";
 import { createWithContext } from "./create";
@@ -43,7 +43,6 @@ async function createTestRenderer(
 
   return {
     context,
-    // ignoredCommenters,
   };
 }
 

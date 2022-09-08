@@ -50,7 +50,7 @@ const WarnModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-warnModal-success"
-                vars={{ username: username! }}
+                vars={{ username: username || notAvailableTranslation }}
                 elems={{ strong: <ModalHeaderUsername /> }}
               >
                 <ModalHeader>

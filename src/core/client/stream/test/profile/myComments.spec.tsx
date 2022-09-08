@@ -89,7 +89,6 @@ const createTestRenderer = async (
   });
 
   customRenderAppWithContext(context);
-  // const commentHistory = await screen.findByTestId("profile-commentHistory");
 
   return;
 };

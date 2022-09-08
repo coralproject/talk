@@ -23,7 +23,9 @@ const SignUpWithOIDCContainer: FunctionComponent<Props> = ({ auth }) => {
       id="signUp-signUpWithOIDC"
       vars={{ name: auth.integrations.oidc.name! }}
     >
-      <OIDCButton onClick={handleOnClick}>Sign in with $name</OIDCButton>
+      <OIDCButton onClick={handleOnClick}>
+        Sign in with {auth.integrations.oidc.name}
+      </OIDCButton>
     </Localized>
   );
 };

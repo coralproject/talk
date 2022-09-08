@@ -1,8 +1,6 @@
 import {
   act,
-  // act,
   fireEvent,
-  // logRoles,
   screen,
   waitFor,
   within,
@@ -68,7 +66,6 @@ const createTestRenderer = async (
   });
 
   customRenderAppWithContext(context);
-  // await screen.findByTestId("community-container");
 
   return context;
 };

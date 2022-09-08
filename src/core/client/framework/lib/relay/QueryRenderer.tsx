@@ -8,7 +8,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { CoralContextConsumer } from "../bootstrap/CoralContext";
 
 interface OperationDefaults {
-  readonly variables: any;
+  readonly variables: {};
   readonly response: unknown;
 }
 

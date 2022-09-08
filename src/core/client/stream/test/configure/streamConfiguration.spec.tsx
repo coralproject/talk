@@ -152,7 +152,6 @@ it("change message box", async () => {
   const updateStorySettingsStub =
     createMutationResolverStub<MutationToUpdateStorySettingsResolver>(
       ({ variables }) => {
-        // console.log(variables, "variables");
         expectAndFail(variables.settings.messageBox).toEqual({
           enabled: true,
           content: "*What do you think?*",

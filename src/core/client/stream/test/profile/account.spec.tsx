@@ -1,4 +1,5 @@
 import { act, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import sinon from "sinon";
 
@@ -8,9 +9,8 @@ import {
   createResolversStub,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
-import customRenderAppWithContext from "../customRenderAppWithContext";
 
-import userEvent from "@testing-library/user-event";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   settings,
   settingsWithoutLocalAuth,

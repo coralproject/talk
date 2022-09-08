@@ -63,11 +63,9 @@ async function createTestRenderer(
     },
   });
   customRenderAppWithContext(context);
-  // const tabPane = await screen.findByTestId("current-tab-pane");
 
   return {
     context,
-    // tabPane,
   };
 }
 

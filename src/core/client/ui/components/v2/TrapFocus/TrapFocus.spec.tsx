@@ -58,10 +58,10 @@ it("return focus to last active element", async () => {
     createNodeMock,
   });
   bodyMock.expects("focus");
-  testRenderer.unmount();
   await wait(async () => {
-    bodyMock.verify();
+    testRenderer.unmount();
   });
+  bodyMock.verify();
 });
 
 it("Change focus to `lastFocusable` when focus reaches beginning", () => {
