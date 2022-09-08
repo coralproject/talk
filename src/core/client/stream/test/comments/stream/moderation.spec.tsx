@@ -10,7 +10,6 @@ import userEvent from "@testing-library/user-event";
 import { pureMerge } from "coral-common/utils";
 import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {
-  // act,
   createResolversStub,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
@@ -20,7 +19,7 @@ import {
   featuredTag,
   moderators,
   settings,
-  // settingsWithMultisite,
+  settingsWithMultisite,
   stories,
 } from "../../fixtures";
 import { createContext } from "../create";
@@ -278,7 +277,9 @@ it("ban user", async () => {
   const tabPane = await screen.findByTestId("current-tab-pane");
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   await waitFor(() => {
     expect(
       within(comment).getByRole("button", { name: "Ban User" })
@@ -330,78 +331,82 @@ it("cancel ban user", async () => {
   ).not.toBeInTheDocument();
 });
 
-// it("site moderator can site ban commenter", async () => {
-//   const { tabPane } = await createTestRenderer({
-//     resolvers: createResolversStub<GQLResolver>({
-//       Query: {
-//         user: ({ variables }) => {
-//           expectAndFail(variables.id).toBe(firstComment.author!.id);
-//           return firstComment.author!;
-//         },
-//         settings: () => settingsWithMultisite,
-//         viewer: () => moderators[1],
-//       },
-//       Mutation: {
-//         banUser: ({ variables }) => {
-//           expectAndFail(variables).toMatchObject({
-//             userID: firstComment.author!.id,
-//             rejectExistingComments: false,
-//             siteIDs: ["site-id"],
-//           });
-//           return {
-//             user: pureMerge<typeof firstComment.author>(firstComment.author, {
-//               status: {
-//                 ban: {
-//                   active: true,
-//                 },
-//               },
-//             }),
-//           };
-//         },
-//         rejectComment: ({ variables }) => {
-//           expectAndFail(variables).toMatchObject({
-//             commentID: firstComment.id,
-//             commentRevisionID: firstComment.revision!.id,
-//           });
-//           return {
-//             comment: pureMerge<typeof firstComment>(firstComment, {
-//               status: GQLCOMMENT_STATUS.REJECTED,
-//             }),
-//           };
-//         },
-//       },
-//     }),
-//   });
+it("site moderator can site ban commenter", async () => {
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          user: ({ variables }) => {
+            expectAndFail(variables.id).toBe(firstComment.author!.id);
+            return firstComment.author!;
+          },
+          settings: () => settingsWithMultisite,
+          viewer: () => moderators[1],
+        },
+        Mutation: {
+          banUser: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              userID: firstComment.author!.id,
+              rejectExistingComments: false,
+              siteIDs: ["site-id"],
+            });
+            return {
+              user: pureMerge<typeof firstComment.author>(firstComment.author, {
+                status: {
+                  ban: {
+                    active: true,
+                  },
+                },
+              }),
+            };
+          },
+          rejectComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.REJECTED,
+              }),
+            };
+          },
+        },
+      }),
+    });
+  });
+  const tabPane = await screen.findByTestId("current-tab-pane");
 
-//   const comment = screen.getByTestId(`comment-${firstComment.id}`);
-//   const caretButton = within(comment).getByLabelText("Moderate");
-//   userEvent.click(caretButton);
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+  const caretButton = within(comment).getByLabelText("Moderate");
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
+  // Site moderator has Site Ban option but not Ban User option
+  const siteBanButton = await within(comment).findByRole("button", {
+    name: "Site Ban",
+  });
+  await waitFor(() => {
+    expect(siteBanButton).not.toBeDisabled();
+  });
+  expect(
+    within(comment).queryByRole("button", { name: "Ban User" })
+  ).not.toBeInTheDocument();
+  fireEvent.click(siteBanButton);
+  expect(
+    await screen.findByText("Ban Markus from this site?")
+  ).toBeInTheDocument();
 
-//   // Site moderator has Site Ban option but not Ban User option
-//   const siteBanButton = await within(comment).findByRole("button", {
-//     name: "Site Ban",
-//   });
-//   await waitFor(() => {
-//     expect(siteBanButton).not.toBeDisabled();
-//   });
-//   expect(
-//     within(comment).queryByRole("button", { name: "Ban User" })
-//   ).not.toBeInTheDocument();
-//   fireEvent.click(siteBanButton);
-//   expect(
-//     await screen.findByText("Ban Markus from this site?")
-//   ).toBeInTheDocument();
-
-//   const banButtonDialog = screen.getByRole("button", { name: "Ban" });
-//   fireEvent.click(banButtonDialog);
-//   expect(
-//     within(tabPane).getByText("You have rejected this comment.")
-//   ).toBeVisible();
-//   const link = within(tabPane).getByRole("link", {
-//     name: "Go to moderate to review this decision",
-//   });
-//   expect(link).toHaveAttribute(
-//     "href",
-//     `/admin/moderate/comment/${firstComment.id}`
-//   );
-// });
+  const banButtonDialog = screen.getByRole("button", { name: "Ban" });
+  fireEvent.click(banButtonDialog);
+  expect(
+    within(tabPane).getByText("You have rejected this comment.")
+  ).toBeVisible();
+  const link = within(tabPane).getByRole("link", {
+    name: "Go to moderate to review this decision",
+  });
+  expect(link).toHaveAttribute(
+    "href",
+    `/admin/moderate/comment/${firstComment.id}`
+  );
+});

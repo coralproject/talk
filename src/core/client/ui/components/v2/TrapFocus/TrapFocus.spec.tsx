@@ -3,10 +3,11 @@ import { noop } from "lodash";
 import React from "react";
 import { create } from "react-test-renderer";
 import sinon from "sinon";
-import { UIContextProps } from "../UIContext";
 
+import { wait } from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-ui/types";
 
+import { UIContextProps } from "../UIContext";
 import TrapFocus from "./TrapFocus";
 
 const FakeFocusable: any = class FakeFocusable extends React.Component {
@@ -50,7 +51,7 @@ it.skip("autofocus", () => {
   expect(autoFocus.called).toBe(true);
 });
 
-it("return focus to last active element", () => {
+it("return focus to last active element", async () => {
   expect(document.activeElement).toBe(document.body);
   const bodyMock = sinon.mock(document.body);
   const testRenderer = create(<TrapFocus />, {
@@ -58,7 +59,9 @@ it("return focus to last active element", () => {
   });
   bodyMock.expects("focus");
   testRenderer.unmount();
-  bodyMock.verify();
+  await wait(async () => {
+    bodyMock.verify();
+  });
 });
 
 it("Change focus to `lastFocusable` when focus reaches beginning", () => {

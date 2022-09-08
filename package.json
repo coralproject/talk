@@ -106,7 +106,6 @@
     "express-enforces-ssl": "^1.1.0",
     "express-static-gzip": "^2.0.6",
     "fs-extra": "^8.1.0",
-    "gatsby-plugin-typescript": "^4.21.0",
     "graphql": "^14.6.0",
     "graphql-config": "^3.2.0",
     "graphql-fields": "2.0.3",
