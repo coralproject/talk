@@ -397,6 +397,13 @@ export enum ERROR_CODES {
   CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY = "CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY",
 
   /**
+   * CANNOT_REPLY_TO_REJECTED_COMMENT is thrown when a user attempts to publish
+   * a reply to a comment that has been rejected, or is a descendent of a rejected
+   * comment.
+   */
+  CANNOT_REPLY_TO_REJECTED_COMMENT = "CANNOT_REPLY_TO_REJECTED_COMMENT",
+
+  /**
    * CANNOT_OPEN_AN_ARCHIVED_STORY is thrown when a user attempts to open a
    * story that is archived or actively being archived.
    */

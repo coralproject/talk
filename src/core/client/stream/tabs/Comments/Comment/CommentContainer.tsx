@@ -695,6 +695,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         onClick={toggleShowReplyDialog}
                         active={showReplyDialog}
                         disabled={
+                          !comment.canReply ||
                           settings.disableCommenting.enabled ||
                           story.isClosed ||
                           story.isArchived ||
@@ -856,6 +857,7 @@ const enhanced = withShowAuthPopupMutation(
         }
         hasTraversalFocus
         seen
+        canReply
         ...CaretContainer_comment
         ...EditCommentFormContainer_comment
         ...MediaSectionContainer_comment

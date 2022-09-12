@@ -11,6 +11,7 @@ import {
   createEmptyRelatedCommentCounts,
   mergeCommentModerationQueueCount,
   mergeCommentStatusCount,
+  mergeCommentTagCounts,
 } from "coral-server/models/comment";
 import {
   createSite,
@@ -237,6 +238,11 @@ export default class extends Migration {
       counts.moderationQueue = mergeCommentModerationQueueCount(
         counts.moderationQueue,
         story.commentCounts.moderationQueue
+      );
+
+      counts.tags = mergeCommentTagCounts(
+        counts.tags,
+        story.commentCounts.tags
       );
     }
 

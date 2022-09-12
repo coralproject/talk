@@ -1,6 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -126,7 +131,7 @@ const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
 export const StreamContainer: FunctionComponent<Props> = (props) => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
-  const { localStorage } = useCoralContext();
+  const { localStorage, browserInfo } = useCoralContext();
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
@@ -202,6 +207,8 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     // If we aren't warned.
     !warned;
 
+  const currentScrollRef = useRef<null | HTMLElement>(null);
+
   // Emit comment count event.
   useCommentCountEvent(
     props.story.id,
@@ -273,7 +280,21 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
         {isRatingsAndReviews && <StoryRatingContainer story={props.story} />}
         {showCommentForm &&
           (alternateOldestViewEnabled ? (
-            <AddACommentButton isQA={isQA} />
+            <MatchMedia gtDeviceWidth="mobileMax">
+              {(matches) =>
+                matches &&
+                !(
+                  browserInfo.mobile ||
+                  browserInfo.tablet ||
+                  browserInfo.iPadOS
+                ) && (
+                  <AddACommentButton
+                    isQA={isQA}
+                    currentScrollRef={currentScrollRef}
+                  />
+                )
+              }
+            </MatchMedia>
           ) : (
             <>
               <IntersectionProvider>
@@ -553,7 +574,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="ALL_COMMENTS"
               >
-                <AllCommentsTab />
+                <AllCommentsTab currentScrollRef={currentScrollRef} />
               </TabPane>
             )}
             {isRatingsAndReviews && (
@@ -561,7 +582,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="REVIEWS"
               >
-                <AllCommentsTab tag={GQLTAG.REVIEW} />
+                <AllCommentsTab
+                  tag={GQLTAG.REVIEW}
+                  currentScrollRef={currentScrollRef}
+                />
               </TabPane>
             )}
             {isRatingsAndReviews && (
@@ -569,7 +593,10 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="QUESTIONS"
               >
-                <AllCommentsTab tag={GQLTAG.QUESTION} />
+                <AllCommentsTab
+                  tag={GQLTAG.QUESTION}
+                  currentScrollRef={currentScrollRef}
+                />
               </TabPane>
             )}
           </TabContent>

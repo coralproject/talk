@@ -71,7 +71,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
           viewer={viewer}
           comment={comment}
           allowTombstoneReveal
-          disableHide
         >
           <RejectedTombstoneContainer comment={comment}>
             <DeletedTombstoneContainer comment={comment}>
@@ -102,7 +101,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                   viewer={viewer}
                   comment={rootParent}
                   allowTombstoneReveal
-                  disableHide
                 >
                   <RejectedTombstoneContainer comment={rootParent}>
                     <DeletedTombstoneContainer comment={rootParent}>
@@ -168,7 +166,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                     viewer={viewer}
                     comment={parent}
                     allowTombstoneReveal
-                    disableHide
                   >
                     <RejectedTombstoneContainer comment={parent}>
                       <DeletedTombstoneContainer comment={parent}>
@@ -205,7 +202,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               comment={comment}
               allowTombstoneReveal
-              disableHide
             >
               <RejectedTombstoneContainer comment={comment}>
                 <DeletedTombstoneContainer comment={comment}>

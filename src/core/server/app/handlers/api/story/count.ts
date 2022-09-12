@@ -7,15 +7,12 @@ import { MongoContext } from "coral-server/data/context";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { Story } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
+import { Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import {
-  GQLFEATURE_FLAG,
-  GQLSTORY_MODE,
-} from "coral-server/graph/schema/__generated__/types";
+import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
@@ -82,16 +79,6 @@ function getCountHTML(
   return html;
 }
 
-function canShowNew(
-  tenant: Readonly<Tenant>,
-  storyMode: GQLSTORY_MODE | undefined | null
-) {
-  return (
-    storyMode === GQLSTORY_MODE.COMMENTS &&
-    hasFeatureFlag(tenant, GQLFEATURE_FLAG.NEW_COMMENT_COUNT)
-  );
-}
-
 /**
  * countHandler returns translated comment counts using JSONP.
  */
@@ -128,7 +115,6 @@ export const countJSONPHandler =
         html,
         count,
         id: story?.id || null,
-        showNew: canShowNew(tenant, story?.settings.mode),
       };
 
       // Respond using jsonp.
@@ -169,9 +155,8 @@ export const countHandler =
       }
 
       const count = await calculateStoryCount(mongo, story);
-      const showNew = canShowNew(req.coral.tenant, story?.settings.mode);
 
-      return res.json({ count, showNew });
+      return res.json({ count });
     } catch (err) {
       return next(err);
     }

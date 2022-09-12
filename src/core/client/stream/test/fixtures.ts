@@ -426,6 +426,11 @@ export const baseComment = createFixture<GQLComment>({
   deleted: NULL_VALUE,
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   seen: false,
+  canReply: true,
+  allChildComments: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
+  },
 });
 
 export const comments = denormalizeComments(
@@ -536,6 +541,11 @@ export const comments = denormalizeComments(
         author: commenters[2],
         body: "Comment Body 5",
       },
+      {
+        id: "comment-21",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
     ],
     baseComment
   )
@@ -617,7 +627,7 @@ export const commentWithDeepestReplies = denormalizeComment(
           cursor: baseComment.createdAt,
           node: {
             ...baseComment,
-            id: "comment-with-deepest-replies-1",
+            id: "my-comment-1",
             body: "body 1",
             replyCount: 1,
             replies: {
@@ -627,7 +637,7 @@ export const commentWithDeepestReplies = denormalizeComment(
                   cursor: baseComment.createdAt,
                   node: {
                     ...baseComment,
-                    id: "comment-with-deepest-replies-2",
+                    id: "my-comment-2",
                     body: "body 2",
                     replyCount: 1,
                     replies: {
@@ -637,9 +647,9 @@ export const commentWithDeepestReplies = denormalizeComment(
                           cursor: baseComment.createdAt,
                           node: {
                             ...baseComment,
-                            id: "comment-with-deepest-replies-3",
+                            id: "my-comment-3",
                             body: "body 3",
-                            replyCount: 1,
+                            replyCount: 0,
                             replies: {
                               ...baseComment.replies,
                               edges: [
@@ -647,12 +657,70 @@ export const commentWithDeepestReplies = denormalizeComment(
                                   cursor: baseComment.createdAt,
                                   node: {
                                     ...baseComment,
-                                    id: "comment-with-deepest-replies-4",
-                                    body: "body 1",
+                                    id: "my-comment-4",
+                                    body: "body 4",
                                     replyCount: 1,
                                     replies: {
                                       ...baseComment.replies,
-                                      edges: [],
+                                      edges: [
+                                        {
+                                          cursor: baseComment.createdAt,
+                                          node: {
+                                            ...baseComment,
+                                            id: "my-comment-5",
+                                            body: "body 5",
+                                            replyCount: 1,
+                                            replies: {
+                                              ...baseComment.replies,
+                                              edges: [
+                                                {
+                                                  cursor: baseComment.createdAt,
+                                                  node: {
+                                                    ...baseComment,
+                                                    id: "my-comment-6",
+                                                    body: "body 6",
+                                                    replyCount: 1,
+                                                    replies: {
+                                                      ...baseComment.replies,
+                                                      edges: [
+                                                        {
+                                                          cursor:
+                                                            baseComment.createdAt,
+                                                          node: {
+                                                            ...baseComment,
+                                                            id: "my-comment-7",
+                                                            body: "body 7",
+                                                            replyCount: 1,
+                                                            replies: {
+                                                              ...baseComment.replies,
+                                                              edges: [
+                                                                {
+                                                                  cursor:
+                                                                    baseComment.createdAt,
+                                                                  node: {
+                                                                    ...baseComment,
+                                                                    id: "my-comment-8",
+                                                                    body: "body 8",
+                                                                    replyCount: 0,
+                                                                    replies: {
+                                                                      ...baseComment.replies,
+                                                                      edges: [],
+                                                                    },
+                                                                  },
+                                                                },
+                                                              ],
+                                                            },
+                                                          },
+                                                        },
+                                                      ],
+                                                    },
+                                                  },
+                                                },
+                                              ],
+                                            },
+                                          },
+                                        },
+                                      ],
                                     },
                                   },
                                 },
@@ -867,6 +935,61 @@ export const storyWithDeepestReplies = denormalizeStory(
     },
     baseStory
   )
+);
+
+export const replyableComment: GQLComment = {
+  ...comments[0],
+  author: {
+    ...comments[0].author!,
+    username: "replyable comment author",
+  },
+  canReply: true,
+};
+
+export const rejectedComment: GQLComment = {
+  ...comments[1],
+  author: {
+    ...comments[1].author!,
+    username: "rejected comment author",
+  },
+  status: GQLCOMMENT_STATUS.REJECTED,
+};
+
+export const unrepliableComment: GQLComment = {
+  ...comments[2],
+  author: {
+    ...comments[2].author!,
+    username: "unrepliable comment author",
+  },
+  canReply: false,
+};
+
+export const commentWithRejectedReply: GQLComment = denormalizeComment(
+  createFixture<GQLComment>({
+    ...replyableComment,
+    replies: {
+      nodes: [rejectedComment],
+      pageInfo: { hasNextPage: false, hasPreviousPage: false },
+      edges: [
+        {
+          cursor: "cursor",
+          node: {
+            ...rejectedComment,
+            replies: {
+              edges: [
+                {
+                  cursor: "cursor",
+                  node: unrepliableComment,
+                },
+              ],
+              nodes: [rejectedComment],
+              pageInfo: { hasNextPage: false, hasPreviousPage: false },
+            },
+          },
+        },
+      ],
+    },
+  })
 );
 
 export const storyWithOnlyStaffComments = denormalizeStory(

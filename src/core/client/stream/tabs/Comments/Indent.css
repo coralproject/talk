@@ -43,6 +43,16 @@ $rootMargin: calc(var(--spacing-5) + 2px);
   border-left: 2px solid #e1e2e3;
 }
 
+.level7 {
+  margin-left: calc(6 * var(--spacing-3) + $rootMargin);
+  border-left: 2px solid #e1e2e3;
+}
+
+.level8 {
+  margin-left: calc(7 * var(--spacing-3) + $rootMargin);
+  border-left: 2px solid #e1e2e3;
+}
+
 .noBorder {
   border: 0;
 }

@@ -7,6 +7,8 @@ import { MongoContext } from "coral-server/data/context";
 import {
   AuthorAlreadyHasRatedStory,
   CannotCreateCommentOnArchivedStory,
+  CannotReplyToRejectedComment,
+  CommentNotFoundError,
   CoralError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -25,6 +27,7 @@ import {
   CreateCommentInput,
   hasAuthorStoryRating,
   pushChildCommentIDOntoParent,
+  retrieveManyComments,
 } from "coral-server/models/comment";
 import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
 import { markSeenComments } from "coral-server/models/seenComments/seenComments";
@@ -57,6 +60,7 @@ import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
 import {
+  GQLCOMMENT_STATUS,
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
@@ -68,6 +72,7 @@ import {
   retrieveParent,
   updateAllCommentCounts,
 } from "./helpers";
+import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -117,6 +122,14 @@ const markCommentAsAnswered = async (
     return;
   }
 
+  const parent = await retrieveParent(mongo, tenant.id, {
+    parentID: comment.parentID,
+    parentRevisionID: comment.parentRevisionID,
+  });
+  if (!parent) {
+    throw new CommentNotFoundError(comment.parentID);
+  }
+
   // We need to mark the parent question as answered.
   // - Remove the unanswered tag.
   // - Approve it since an expert has replied to it.
@@ -133,6 +146,19 @@ const markCommentAsAnswered = async (
       now
     ),
   ]);
+
+  await updateTagCommentCounts(
+    tenant.id,
+    comment.storyID,
+    comment.siteID,
+    mongo,
+    redis,
+    // Since we removed the UNANSWERED tag, we need to recreate the
+    // before after state of having an UNANSWERED tag followed by
+    // not having an unanswered tag
+    parent.tags,
+    parent.tags.filter((t) => t.type !== GQLTAG.UNANSWERED)
+  );
 };
 
 const RatingSchema = Joi.number().min(1).max(5).integer();
@@ -245,6 +271,19 @@ export default async function create(
       { ancestorIDs: ancestorIDs.length },
       "pushed parent ancestorIDs into comment"
     );
+
+    const ancestors = await retrieveManyComments(
+      mongo.comments(),
+      tenant.id,
+      ancestorIDs
+    );
+    const rejectedAncestor = ancestors.find(
+      (ancestor) => ancestor?.status === GQLCOMMENT_STATUS.REJECTED
+    );
+
+    if (rejectedAncestor) {
+      throw new CannotReplyToRejectedComment(tenant.id, rejectedAncestor.id);
+    }
   }
 
   let media: CommentMedia | undefined;

@@ -50,6 +50,8 @@ const approveComment = async (
     await submitCommentAsNotSpam(mongo, tenant, result.before, request);
   }
 
+  await enableRepliesToChildren(result.before.id, mongo);
+
   // If the comment hasn't been updated, skip the rest of the steps.
   if (!result.after) {
     return result.before;
@@ -67,6 +69,39 @@ const approveComment = async (
 
   // Return the resulting comment.
   return result.after;
+};
+
+const enableRepliesToChildren = async (
+  commentID: string,
+  mongo: MongoContext
+) => {
+  const children = await mongo
+    .comments()
+    .find({
+      parentID: commentID,
+    })
+    .toArray();
+
+  if (children.length === 0) {
+    return;
+  }
+
+  const nonRejectedChildIDs = children
+    .filter(({ status }) => status !== GQLCOMMENT_STATUS.REJECTED)
+    .map(({ id }) => id);
+
+  const allChildIDs = children.map(({ id }) => id);
+
+  await mongo
+    .comments()
+    .updateMany(
+      { id: { $in: allChildIDs } },
+      { $set: { rejectedAncestor: false } }
+    );
+
+  await Promise.all(
+    nonRejectedChildIDs.map((id) => enableRepliesToChildren(id, mongo))
+  );
 };
 
 export default approveComment;
