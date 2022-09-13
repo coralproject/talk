@@ -60,9 +60,7 @@
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
     "tscheck": "npm-run-all --parallel tscheck:*",
-    "watch": "NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts",
-    "start:cdn": "node dev/cdn/build/cdn.esbuild.js && node dev/cdn/output/index.js",
-    "start:host": "node dev/host/build/host.esbuild.js && node dev/host/output/index.js"
+    "watch": "NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -104,7 +102,6 @@
     "dotenv": "^8.2.0",
     "emailjs": "^3.4.0",
     "env-rewrite": "^1.0.2",
-    "esbuild": "^0.14.54",
     "express": "^4.17.1",
     "express-enforces-ssl": "^1.1.0",
     "express-static-gzip": "^2.0.6",
