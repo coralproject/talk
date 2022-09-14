@@ -800,10 +800,6 @@ export async function updateRole(
     user,
     newUserRole: role,
     scopeAdditions: siteIDs,
-    // TODO: we should make this more explicit
-    scopeDeletions: user.moderationScopes?.siteIDs?.filter(
-      (siteID) => !siteIDs?.includes(siteID)
-    ),
   };
 
   const validUpdate = validatePermissionsAction(action);
