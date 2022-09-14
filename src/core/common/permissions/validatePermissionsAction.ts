@@ -5,8 +5,9 @@ import { PermissionsAction } from "./types";
 /* eslint-disable */
 export const validatePermissionsAction = (action: PermissionsAction) => {
   for (const predicate of predicates) {
-    const { pass} = predicate(action);
+    const { pass, reason } = predicate(action);
     if (!pass) {
+      console.log("FAILED FOR REASON ", reason);
       return false;
     }
   }

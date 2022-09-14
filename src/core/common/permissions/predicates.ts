@@ -8,4 +8,25 @@ const usersCantUpdateSelves: PermissionsActionPredicate = ({
   reason: "Users cannot update their own roles or scopes",
 });
 
-export const predicates: PermissionsActionPredicate[] = [usersCantUpdateSelves];
+const onlyAdminsCanAllocateStaff: PermissionsActionPredicate = ({
+  viewer,
+  user,
+  newUserRole,
+}) => ({
+  pass: !(viewer.role !== "ADMIN" && newUserRole === "STAFF"),
+  reason: "Only admins may allocate staff",
+});
+
+const onlyAdminsCanDemoteStaffDirectly: PermissionsActionPredicate = ({
+  viewer,
+  user,
+}) => ({
+  pass: !(viewer.role !== "ADMIN" && user.role === "STAFF"),
+  reason: "Only admins may change staffs roles",
+});
+
+export const predicates: PermissionsActionPredicate[] = [
+  usersCantUpdateSelves,
+  onlyAdminsCanAllocateStaff,
+  onlyAdminsCanDemoteStaffDirectly,
+];

@@ -46,6 +46,10 @@ const site1Staff = createUserFixture({
     siteIDs: [site1.id],
   },
 });
+const site1Staff2 = {
+  ...site1Staff,
+  id: "second-site-1-staff",
+};
 const site1Member = createUserFixture({
   tenantID,
   role: GQLUSER_ROLE.MEMBER,
@@ -61,10 +65,14 @@ const users = [
   admin,
   orgMod,
   site1Mod,
+  site1Mod2,
   site1Staff,
+  site1Staff2,
   site1Member,
   site1Commenter,
 ];
+
+const ltAdmins = users.filter(({ role }) => role !== GQLUSER_ROLE.ADMIN);
 
 const inputStr = (
   viewerRole: GQLUSER_ROLE,
@@ -88,10 +96,19 @@ describe("updateRole", () => {
       _mongo: any,
       _tenantID: any,
       userID: string,
-      role: GQLUSER_ROLE
+      role: GQLUSER_ROLE,
+      siteIDs?: string[]
     ) => ({
       ...users.find(({ id }) => id === userID),
       role,
+      moderationScopes:
+        role === GQLUSER_ROLE.MODERATOR && siteIDs
+          ? { scoped: !!siteIDs.length, siteIDs }
+          : undefined,
+      membershipScopes:
+        role === GQLUSER_ROLE.MEMBER && siteIDs
+          ? { scoped: !!siteIDs.length, siteIDs }
+          : undefined,
     })
   );
 
@@ -113,15 +130,15 @@ describe("updateRole", () => {
       const inputHash = inputStr(viewer.role, user.role, role);
       exhaustiveInputs.set(inputHash, true);
 
-      /* eslint-disable */
-      require("fs").appendFileSync("seen-hashes.txt", inputHash + "\n");
-
       return updateRole(mongo, tenant, viewer, user.id, role, siteIDs);
     };
 
     for (const viewer of users) {
       for (const user of users) {
         for (const newRole of ROLES) {
+          if (newRole === user.role) {
+            continue;
+          }
           const inputHash = inputStr(viewer.role, user.role, newRole);
           exhaustiveInputs.set(inputHash, false);
         }
@@ -141,7 +158,7 @@ describe("updateRole", () => {
   });
 
   it("allows org mods to allocate (site) mods", async () => {
-    const nonMods = [site1Staff, site1Member, site1Commenter];
+    const nonMods = [site1Member, site1Commenter];
     for (const user of nonMods) {
       const res = await uut(
         mongo,
@@ -156,49 +173,68 @@ describe("updateRole", () => {
     }
   });
 
+  it("doesn't allow org/site mods to allocate staff", async () => {
+    const nonStaffUsers = users.filter(
+      ({ role }) => role !== GQLUSER_ROLE.STAFF
+    );
+    for (const mod of [site1Mod, orgMod]) {
+      for (const user of nonStaffUsers) {
+        await expect(
+          async () =>
+            await uut(mongo, mockTenant, mod, user, GQLUSER_ROLE.STAFF)
+        ).rejects.toThrow();
+      }
+    }
+  });
+
   it("allows site mods to allocate site mods within their scopes", async () => {
-    const lteSiteMods = [
-      site1Mod2,
-      site1Commenter,
-      site1Member,
-      site1Staff,
-    ];
+    const lteSiteMods = [site1Mod2, site1Commenter, site1Member];
 
     for (const user of lteSiteMods) {
-      const res = await uut(mongo, mockTenant, site1Mod, user, GQLUSER_ROLE.MODERATOR, [site1.id]);
+      const res = await uut(
+        mongo,
+        mockTenant,
+        site1Mod,
+        user,
+        GQLUSER_ROLE.MODERATOR,
+        [site1.id]
+      );
       expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
       expect(res.moderationScopes?.siteIDs).toContain(site1.id);
     }
   });
 
-  it("allows site moderators to remove sites within their scope from other site mods", async () => {
-    for (const role of [GQLUSER_ROLE.MEMBER, GQLUSER_ROLE.STAFF, GQLUSER_ROLE.COMMENTER]) {
-      const res = await uut(mongo, mockTenant, site1Mod, site1Mod2, role);
-      expect(res.role).toEqual(role);
-    }
-  });
-
   it("allows site mods to allocate site members within their scopes", async () => {
-    const res = await uut(mongo, mockTenant, site1Mod, site1Commenter, GQLUSER_ROLE.MEMBER, [site1.id]);
+    const res = await uut(
+      mongo,
+      mockTenant,
+      site1Mod,
+      site1Commenter,
+      GQLUSER_ROLE.MEMBER,
+      [site1.id]
+    );
     expect(res.role).toEqual(GQLUSER_ROLE.MEMBER);
     expect(res.membershipScopes?.siteIDs).toContain(site1.id);
   });
 
-  // it("doesn't allow site mods to allocate anything besides site mods", async () => {
-  //   for (const role of [GQLUSER_ROLE.])
-  // });
+  it("allows org mods to demote members to commenters", async () => {
+    const res = await uut(
+      mongo,
+      mockTenant,
+      orgMod,
+      site1Member,
+      GQLUSER_ROLE.COMMENTER
+    );
+
+    expect(res.role).toEqual(GQLUSER_ROLE.COMMENTER);
+  });
 
   it("does not allow staff, members, or commenters to change anyones role", async () => {
-    const cannotChangeRoles = [
-      site1Staff,
-      site1Member,
-      site1Commenter,
-    ];
+    const cannotChangeRoles = [site1Staff, site1Member, site1Commenter];
     for (const viewer of cannotChangeRoles) {
       const otherUsers = users.filter(({ id }) => id !== viewer.id);
       for (const user of otherUsers) {
         for (const role of ROLES) {
-          console.log("testing plebe roles");
           await expect(async () => {
             await uut(mongo, mockTenant, viewer, user, role);
           }).rejects.toThrow();
@@ -218,16 +254,37 @@ describe("updateRole", () => {
   });
 
   it("does not allow users < admin to allocate new admins", async () => {
-    const ltAdminUsers = users.filter(
-      ({ role }) => role !== GQLUSER_ROLE.ADMIN
-    );
-    for (const user of ltAdminUsers) {
+    for (const user of ltAdmins) {
       const otherUsers = users.filter(({ id }) => id !== user.id);
       for (const otherUser of otherUsers) {
         await expect(
           async () =>
             await uut(mongo, mockTenant, user, otherUser, GQLUSER_ROLE.ADMIN)
         ).rejects.toThrow(UserForbiddenError);
+      }
+    }
+  });
+
+  it("doesn't allow anyone to demote an admin", async () => {
+    for (const user of ltAdmins) {
+      for (const role of Object.keys(GQLUSER_ROLE) as GQLUSER_ROLE[]) {
+        await expect(
+          async () => await uut(mongo, mockTenant, user, admin, role)
+        ).rejects.toThrow();
+      }
+    }
+  });
+
+  it("doesn't allow anyone but admins and org mods to change staff roles", async () => {
+    for (const user of [site1Commenter, site1Member, site1Mod, site1Staff2]) {
+      for (const role of [
+        GQLUSER_ROLE.COMMENTER,
+        GQLUSER_ROLE.MEMBER,
+        GQLUSER_ROLE.MODERATOR,
+      ]) {
+        await expect(
+          async () => await uut(mongo, mockTenant, user, site1Staff, role)
+        ).rejects.toThrow();
       }
     }
   });
