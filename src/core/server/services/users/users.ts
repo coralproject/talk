@@ -11,8 +11,7 @@ import {
 import { formatDate } from "coral-common/date";
 import {
   isSiteModerationScoped,
-  validateRoleChange,
-  validateScopeChange,
+  validatePermissionsAction,
 } from "coral-common/permissions";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -128,6 +127,7 @@ import {
   validatePassword,
   validateUsername,
 } from "./helpers";
+import { runSideEffects } from "./permissions";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -795,9 +795,18 @@ export async function updateRole(
     throw new UserNotFoundError(userID);
   }
 
-  const isScoped = !!siteIDs?.length;
+  const action = {
+    viewer: fullViewer,
+    user,
+    newUserRole: role,
+    scopeAdditions: siteIDs,
+    // TODO: we should make this more explicit
+    scopeDeletions: user.moderationScopes?.siteIDs?.filter(
+      (siteID) => !siteIDs?.includes(siteID)
+    ),
+  };
 
-  const validUpdate = validateRoleChange(fullViewer, user, role, isScoped);
+  const validUpdate = validatePermissionsAction(action);
 
   if (!validUpdate) {
     throw new UserForbiddenError(
@@ -807,21 +816,7 @@ export async function updateRole(
     );
   }
 
-  if (isScoped) {
-    const validScopeChange = validateScopeChange({
-      viewer: fullViewer,
-      user,
-      additions: siteIDs,
-    });
-
-    if (!validScopeChange) {
-      throw new UserForbiddenError(
-        "Viewer may not assign provided scopes",
-        "user",
-        "updateRole"
-      );
-    }
-  }
+  await runSideEffects(action);
 
   return updateUserRole(mongo, tenant.id, userID, role, siteIDs);
 }

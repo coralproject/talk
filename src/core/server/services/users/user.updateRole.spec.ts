@@ -35,6 +35,10 @@ const site1Mod = createUserFixture({
     siteIDs: [site1.id],
   },
 });
+const site1Mod2 = {
+  ...site1Mod,
+  id: "second-site-1-moderator",
+};
 const site1Staff = createUserFixture({
   tenantID,
   role: GQLUSER_ROLE.STAFF, // Hmm, the way we determine staff status in src/server/services/comment/pipeline/phases/tagStaff.ts seems to just tag site mods?
@@ -67,7 +71,7 @@ const inputStr = (
   userFromRole: GQLUSER_ROLE,
   userToRole: GQLUSER_ROLE
 ) =>
-  `viewer role = ${viewerRole}, user from role = ${userFromRole},  userToRole = ${userToRole}`;
+  `viewer role = ${viewerRole}, user from role = ${userFromRole}, userToRole = ${userToRole}`;
 
 describe("updateRole", () => {
   let mongo: MongoContext;
@@ -109,6 +113,9 @@ describe("updateRole", () => {
       const inputHash = inputStr(viewer.role, user.role, role);
       exhaustiveInputs.set(inputHash, true);
 
+      /* eslint-disable */
+      require("fs").appendFileSync("seen-hashes.txt", inputHash + "\n");
+
       return updateRole(mongo, tenant, viewer, user.id, role, siteIDs);
     };
 
@@ -149,9 +156,40 @@ describe("updateRole", () => {
     }
   });
 
-  it("does not allow site mods, staff, members, or commenters to change anyones role", async () => {
+  it("allows site mods to allocate site mods within their scopes", async () => {
+    const lteSiteMods = [
+      site1Mod2,
+      site1Commenter,
+      site1Member,
+      site1Staff,
+    ];
+
+    for (const user of lteSiteMods) {
+      const res = await uut(mongo, mockTenant, site1Mod, user, GQLUSER_ROLE.MODERATOR, [site1.id]);
+      expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
+      expect(res.moderationScopes?.siteIDs).toContain(site1.id);
+    }
+  });
+
+  it("allows site moderators to remove sites within their scope from other site mods", async () => {
+    for (const role of [GQLUSER_ROLE.MEMBER, GQLUSER_ROLE.STAFF, GQLUSER_ROLE.COMMENTER]) {
+      const res = await uut(mongo, mockTenant, site1Mod, site1Mod2, role);
+      expect(res.role).toEqual(role);
+    }
+  });
+
+  it("allows site mods to allocate site members within their scopes", async () => {
+    const res = await uut(mongo, mockTenant, site1Mod, site1Commenter, GQLUSER_ROLE.MEMBER, [site1.id]);
+    expect(res.role).toEqual(GQLUSER_ROLE.MEMBER);
+    expect(res.membershipScopes?.siteIDs).toContain(site1.id);
+  });
+
+  // it("doesn't allow site mods to allocate anything besides site mods", async () => {
+  //   for (const role of [GQLUSER_ROLE.])
+  // });
+
+  it("does not allow staff, members, or commenters to change anyones role", async () => {
     const cannotChangeRoles = [
-      site1Mod,
       site1Staff,
       site1Member,
       site1Commenter,
@@ -160,9 +198,10 @@ describe("updateRole", () => {
       const otherUsers = users.filter(({ id }) => id !== viewer.id);
       for (const user of otherUsers) {
         for (const role of ROLES) {
+          console.log("testing plebe roles");
           await expect(async () => {
             await uut(mongo, mockTenant, viewer, user, role);
-          }).rejects.toThrow(UserForbiddenError);
+          }).rejects.toThrow();
         }
       }
     }

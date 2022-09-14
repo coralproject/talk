@@ -1,10 +1,10 @@
 export interface UserModerationScopes {
-  siteIDs?: string[];
-  sites?: any[];
+  siteIDs?: Readonly<string[]> | null;
+  sites?: Readonly<any[]> | null;
 }
 
 export function isSiteModerationScoped(
-  moderationScopes?: UserModerationScopes | null
+  moderationScopes?: Readonly<UserModerationScopes> | null
 ): moderationScopes is Required<UserModerationScopes> {
   const scopeSites = moderationScopes?.siteIDs || moderationScopes?.sites;
 
