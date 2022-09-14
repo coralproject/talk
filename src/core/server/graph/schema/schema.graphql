@@ -2779,6 +2779,12 @@ type UserModerationScopes {
   on. When null, it means that the user is allowed to moderate on all sites.
   """
   sites: [Site!]
+
+  """
+  sites (when not null) list the sites that the user is only allowed to moderate
+  on. When null, it means that the user is allowed to moderate on all sites.
+  """
+  siteIDs: [String!]
 }
 
 """
@@ -2797,6 +2803,12 @@ type UserMembershipScopes {
   When null, it means that the user is a member of all sites within the organization.
   """
   sites: [Site!]
+
+  """
+  siteIDs (when not null) list the sites that the user is a member of
+  When null, it means that the user is a member of all sites within the organization.
+  """
+  siteIDs: [String!]
 }
 
 """

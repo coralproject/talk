@@ -24,12 +24,10 @@ export const validateScopeChange = ({
     return false;
   }
 
-  // if viewer moderator is scoped, false
-  if (isSiteModerationScoped(viewer.moderationScopes)) {
+  if (user.role === "ADMIN") {
     return false;
   }
 
-  // if user is unscoped, false
   if (
     user.role === "MODERATOR" &&
     !isSiteModerationScoped(user.moderationScopes)
@@ -48,6 +46,14 @@ export const validateScopeChange = ({
     !!deletions?.find(
       (deletion) => !viewer.moderationScopes?.siteIDs?.includes(deletion)
     );
+
+  // if user is unscoped, false
+  if (
+    user.role === "MODERATOR" &&
+    !isSiteModerationScoped(user.moderationScopes)
+  ) {
+    return false;
+  }
 
   return !(invalidAdditions || invalidDeletions);
 };

@@ -1,39 +1,24 @@
-import { User, UserRole } from "./types";
-import { validateRoleChange } from "./validateRoleChange";
-import { validateScopeChange } from "./validateScopeChange";
+import { predicates } from "./predicates";
+import { validationRules } from "./rules";
+import { PermissionsAction } from "./types";
 
-interface PermissionsAction {
-  viewer: User;
-  user: User;
-  newUserRole?: UserRole;
-  scopeAdditions?: string[];
-  scopeDeletions?: string[];
-}
+/* eslint-disable */
+export const validatePermissionsAction = (action: PermissionsAction) => {
+  for (const predicate of predicates) {
+    const { pass} = predicate(action);
+    if (!pass) {
+      return false;
+    }
+  }
 
-export const validatePermissionsAction = ({
-  viewer,
-  user,
-  newUserRole,
-  scopeAdditions,
-  scopeDeletions,
-}: PermissionsAction): boolean => {
-  const scoped = !!scopeAdditions?.length;
-  const validRoleChange = validateRoleChange(
-    viewer,
-    user,
-    newUserRole || user.role,
-    scoped
-  );
+  for (const rule of validationRules) {
+    const { applies } = rule(action);
+    if (applies) {
+      // TODO: Log reason
+      // TODO: RUN SIDE EFFECTS
+      return true;
+    }
+  }
 
-  const validScopeChange = validateScopeChange({
-    viewer,
-    user: {
-      ...user,
-      role: newUserRole || user.role,
-    },
-    additions: scopeAdditions,
-    deletions: scopeDeletions,
-  });
-
-  return validScopeChange && validRoleChange;
+  return false;
 };
