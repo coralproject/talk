@@ -22,23 +22,15 @@ const validateModeratorRoleChange = (
     isSiteModerationScoped(user.moderationScopes) || user.role !== "MODERATOR";
 
   if (viewerIsOrgMod && userLTOrgMod && roleIsSiteMod) {
-    log("org mods may promote < org mods to site mods, TRUE");
     return true;
   }
 
-  log(JSON.stringify({ viewerRole: viewer.role, scoped, role, roleIsSiteMod }));
-
   if (roleIsSiteMod) {
-    log("site mods can add scopes to other site mods, TRUE");
     return true;
   }
 
   return false;
 };
-
-/* eslint-disable */
-const log = (msg: string) => require("fs")
-  .appendFileSync("test.log", msg + " <> VALIDATE ROLE CHANGE\n");
 
 export const validateRoleChange = (
   viewer: Readonly<User>,
@@ -53,19 +45,16 @@ export const validateRoleChange = (
 ): boolean => {
   // User is admin
   if (user.role === "ADMIN") {
-    log("user is admin, FALSE");
     return false;
   }
 
   // Viewer is changing their own role
   if (user.id === viewer.id) {
-    log("user is viewer, FALSE");
     return false;
   }
 
   // User is admin
   if (viewer.role === "ADMIN") {
-    log("viewer is admin, TRUE");
     return true;
   }
 

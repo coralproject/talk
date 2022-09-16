@@ -15,6 +15,10 @@ export interface User {
     scoped?: Readonly<boolean> | null;
     siteIDs?: Readonly<string[]> | null;
   }>;
+  membershipScopes?: null | Readonly<{
+    scoped?: Readonly<boolean> | null;
+    siteIDs?: Readonly<string[]> | null;
+  }>;
 }
 
 export type Moderator = User & {
@@ -24,6 +28,14 @@ export type Moderator = User & {
 export type SiteModerator = User & {
   role: "MODERATOR";
   moderationScopes: {
+    scoped: true;
+    siteIDs: string[];
+  };
+};
+
+export type SiteMember = User & {
+  role: "MEMBER";
+  membershipScopes: {
     scoped: true;
     siteIDs: string[];
   };
@@ -46,6 +58,10 @@ export type LTEModerator = User & {
 };
 
 export type LTESiteModerator = User;
+
+export const isSiteMember = (user: Readonly<User>): user is SiteMember => {
+  return user.role === "MEMBER" && !!user.membershipScopes?.scoped;
+};
 
 export const isModerator = (user: Readonly<User>): user is Moderator => {
   return user.role === "MODERATOR";

@@ -127,7 +127,7 @@ import {
   validatePassword,
   validateUsername,
 } from "./helpers";
-import { runSideEffects } from "./permissions";
+import { getSideEffects } from "./permissions";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -812,7 +812,9 @@ export async function updateRole(
     );
   }
 
-  await runSideEffects(action);
+  const sideEffects = getSideEffects(action);
+
+  await Promise.all(sideEffects.map((se) => se(mongo, tenant.id)));
 
   return updateUserRole(mongo, tenant.id, userID, role, siteIDs);
 }
