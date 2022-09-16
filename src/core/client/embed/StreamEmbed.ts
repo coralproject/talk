@@ -48,6 +48,7 @@ export interface StreamEmbedConfig {
   refreshAccessToken?: RefreshAccessTokenCallback;
   amp?: boolean;
   graphQLSubscriptionURI?: string;
+  customScrollParent?: React.RefObject<any>;
 }
 export class StreamEmbed {
   /**
@@ -371,6 +372,7 @@ export class StreamEmbed {
       // the stream will cause stream pages to cache bust.
       version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
       defaultFontsCSSURL: this.defaultFontsCSSURL,
+      customScrollParent: this.config.customScrollParent,
     });
   }
 

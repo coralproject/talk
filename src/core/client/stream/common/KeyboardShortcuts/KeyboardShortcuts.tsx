@@ -474,15 +474,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     [setTraversalFocus, markSeen, commentSeenEnabled, storyID]
   );
 
-  const scrollToComment = useCallback(
-    (comment) => {
-      const offset =
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        comment.getBoundingClientRect().top + renderWindow.pageYOffset - 150;
-      renderWindow.scrollTo({ top: offset });
-    },
-    [renderWindow]
-  );
+  const scrollToComment = useCallback((comment) => {
+    comment.scrollIntoView();
+  }, []);
 
   const findViewNewCommentButtonAndClick = useCallback(() => {
     const newCommentsButtonInRoot = root.getElementById(
@@ -1025,12 +1019,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       if (stop.id === "comments-loadAll" || stop.id === "comments-loadMore") {
         return false;
       }
-      const offset =
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        stopElement.getBoundingClientRect().top +
-        renderWindow.pageYOffset -
-        150;
-      renderWindow.scrollTo({ top: offset });
+      stopElement.scrollIntoView();
 
       if (stop.isLoadMore) {
         if (!stop.isViewNew) {
@@ -1058,7 +1047,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       } else {
         setFocusAndMarkSeen(parseCommentElementID(stop.id));
         setTimeout(() => {
-          renderWindow.scrollTo({ top: offset });
+          stopElement.scrollIntoView();
         }, 0);
         return true;
       }

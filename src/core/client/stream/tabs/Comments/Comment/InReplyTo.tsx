@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
@@ -23,7 +23,10 @@ const InReplyTo: FunctionComponent<Props> = ({
   parent,
   enableJumpToParent,
 }) => {
-  const { renderWindow } = useCoralContext();
+  const { renderWindow, customScrollParent } = useCoralContext();
+  const scrollContainer = useMemo(() => {
+    return customScrollParent?.current ?? renderWindow;
+  }, [renderWindow, customScrollParent]);
   const root = useShadowRootOrDocument();
 
   const navigateToParent = useCallback(() => {
@@ -34,8 +37,8 @@ const InReplyTo: FunctionComponent<Props> = ({
     const elemID = computeCommentElementID(parent.id);
     const elem = root.getElementById(elemID);
     if (elem) {
-      renderWindow.scrollTo({
-        top: getElementWindowTopOffset(renderWindow, elem),
+      scrollContainer.scrollTo({
+        top: getElementWindowTopOffset(scrollContainer, elem),
       });
       elem.focus();
     } else {
@@ -43,7 +46,7 @@ const InReplyTo: FunctionComponent<Props> = ({
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  }, [parent, root, renderWindow]);
+  }, [parent, root, renderWindow, customScrollParent]);
 
   const Username = () => (
     <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>

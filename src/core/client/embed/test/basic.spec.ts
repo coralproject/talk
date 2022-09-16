@@ -74,6 +74,7 @@ describe("Basic integration test", () => {
           ],
           "customCSSURL": undefined,
           "customFontsCSSURL": undefined,
+          "customScrollParent": undefined,
           "defaultFontsCSSURL": undefined,
           "disableDefaultFonts": undefined,
           "element": <div

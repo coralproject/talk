@@ -65,7 +65,12 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
   const root = useShadowRootOrDocument();
-  const { renderWindow, sessionStorage, browserInfo } = useCoralContext();
+  const {
+    renderWindow,
+    sessionStorage,
+    browserInfo,
+    customScrollParent,
+  } = useCoralContext();
   // Disable autofocus on ios and enable for the rest.
   const autofocus = !browserInfo.ios;
   const commentSeenEnabled = useCommentSeenEnabled();
@@ -245,16 +250,27 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
     setTimeout(() => {
       const elem = root.getElementById(elementID);
       if (elem) {
-        const offset =
-          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-          elem.getBoundingClientRect().top +
-          renderWindow.pageYOffset -
-          (commentSeenEnabled ? 150 : 0);
-        renderWindow.scrollTo({ top: offset });
+        if (customScrollParent) {
+          elem.scrollIntoView();
+        } else {
+          const offset =
+            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+            elem.getBoundingClientRect().top +
+            renderWindow.pageYOffset -
+            (commentSeenEnabled ? 150 : 0);
+          renderWindow.scrollTo({ top: offset });
+        }
         elem.focus();
       }
     }, 300);
-  }, [commentSeenEnabled, jumpToCommentID, onClose, renderWindow, root]);
+  }, [
+    commentSeenEnabled,
+    jumpToCommentID,
+    onClose,
+    renderWindow,
+    root,
+    customScrollParent,
+  ]);
 
   if (!initialized) {
     return null;
