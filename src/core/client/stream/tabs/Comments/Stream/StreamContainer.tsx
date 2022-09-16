@@ -7,6 +7,7 @@ import React, {
   useRef,
 } from "react";
 import { graphql } from "react-relay";
+import { VirtuosoHandle } from "react-virtuoso";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
@@ -207,7 +208,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     // If we aren't warned.
     !warned;
 
-  const currentScrollRef = useRef<null | HTMLElement>(null);
+  const currentScrollRef = useRef<VirtuosoHandle>(null);
 
   // Emit comment count event.
   useCommentCountEvent(

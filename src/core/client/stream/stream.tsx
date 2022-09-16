@@ -52,6 +52,7 @@ export interface AttachOptions {
   defaultFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   containerClassName?: string;
+  customScrollParent?: React.RefObject<null>;
 }
 
 function extractBundleConfig() {
@@ -109,6 +110,7 @@ export async function attach(options: AttachOptions) {
     eventEmitter: options.eventEmitter,
     refreshAccessTokenPromise,
     staticConfig: options.staticConfig,
+    customScrollParent: options.customScrollParent,
   });
 
   // Amount of initial css files to be loaded.

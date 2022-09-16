@@ -47,7 +47,12 @@ interface Props {
 const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
-  const { renderWindow, eventEmitter, window } = useCoralContext();
+  const {
+    renderWindow,
+    eventEmitter,
+    window,
+    customScrollParent,
+  } = useCoralContext();
   const root = useShadowRootOrDocument();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
@@ -71,8 +76,11 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
     if (!renderWindow) {
       return;
     }
-    setTimeout(() => scrollToBeginning(root, renderWindow), 100);
-  }, [root, renderWindow]);
+    setTimeout(
+      () => scrollToBeginning(root, renderWindow, customScrollParent),
+      100
+    );
+  }, [root, renderWindow, customScrollParent]);
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {
