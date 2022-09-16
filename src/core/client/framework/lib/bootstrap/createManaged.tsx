@@ -107,7 +107,10 @@ interface CreateContextArguments {
   /** Static Config from the server necessary to start the client*/
   staticConfig?: StaticConfig | null;
 
-  customScrollParent?: React.RefObject<any>;
+  /** Supports a custom scroll container ref if Coral is rendered outside
+   * of the render window
+   */
+  customScrollContainer?: React.RefObject<any>;
 }
 
 /**
@@ -398,7 +401,7 @@ export default async function createManaged({
   graphQLSubscriptionURI,
   refreshAccessTokenPromise,
   staticConfig = getStaticConfig(window),
-  customScrollParent,
+  customScrollContainer,
 }: CreateContextArguments): Promise<ComponentType> {
   if (!staticConfig) {
     // eslint-disable-next-line no-console
@@ -497,7 +500,7 @@ export default async function createManaged({
     window,
     renderWindow: window,
     rootURL,
-    customScrollParent,
+    customScrollContainer,
   };
 
   // Initialize local state.

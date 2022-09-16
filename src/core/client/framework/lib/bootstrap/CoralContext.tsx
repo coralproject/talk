@@ -95,7 +95,10 @@ export interface CoralContext {
   /** rootURL to the Coral Server */
   rootURL: string;
 
-  customScrollParent?: React.RefObject<any>;
+  /** Supports a custom scroll container ref if Coral is rendered outside
+   * of the render window
+   */
+  customScrollContainer?: React.RefObject<any>;
 }
 
 export const CoralReactContext = React.createContext<CoralContext>({} as any);

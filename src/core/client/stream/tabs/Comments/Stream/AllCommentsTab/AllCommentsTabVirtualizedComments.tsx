@@ -72,7 +72,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
     }
   `);
 
-  const { customScrollParent } = useCoralContext();
+  const { customScrollContainer } = useCoralContext();
 
   // This determines if there are more comments to display than the initial 20.
   // It also takes into account the initial comments loaded since if we start
@@ -214,7 +214,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
               key: comments.length,
             }
           : {})}
-        customScrollParent={customScrollParent?.current}
+        customScrollParent={customScrollContainer?.current}
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: comments.length > 0 ? virtuosoHeight : 0 }}

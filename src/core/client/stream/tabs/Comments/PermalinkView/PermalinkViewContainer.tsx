@@ -51,7 +51,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
     renderWindow,
     eventEmitter,
     window,
-    customScrollParent,
+    customScrollContainer,
   } = useCoralContext();
   const root = useShadowRootOrDocument();
 
@@ -77,10 +77,10 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
       return;
     }
     setTimeout(
-      () => scrollToBeginning(root, renderWindow, customScrollParent),
+      () => scrollToBeginning(root, renderWindow, customScrollContainer),
       100
     );
-  }, [root, renderWindow, customScrollParent]);
+  }, [root, renderWindow, customScrollContainer]);
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {
