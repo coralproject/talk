@@ -3,7 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-// import { validatePermissionsAction } from "coral-common/permissions";
+import { validatePermissionsAction } from "coral-common/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -16,8 +16,6 @@ import {
   DropdownButton,
   Popover,
 } from "coral-ui/components/v2";
-
-import { validatePermissionsAction } from "coral-common/permissions";
 
 import { SiteRoleActions_user } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
 import { SiteRoleActions_viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
@@ -136,24 +134,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     user,
     newUserRole: GQLUSER_ROLE.MODERATOR,
     scopeAdditions: uniqueViewerModerationSites.map(({ id }) => id),
-  }); // BOOKMARK: this is returning false when below used to return true
-
-  const couldHavePromotedToModerator =
-    user.role === GQLUSER_ROLE.STAFF ||
-    user.role === GQLUSER_ROLE.MEMBER ||
-    user.role === GQLUSER_ROLE.COMMENTER;
-
-  /* eslint-disable */
-  if (canPromoteToModerator !== couldHavePromotedToModerator)
-    console.log({
-      canPromoteToModerator,
-      couldHavePromotedToModerator,
-      uniqueViewerModerationSites,
-      viewerRole: viewer.role,
-      userRole: user.role,
-      newRole: GQLUSER_ROLE.MODERATOR,
-      scopeAdditions: uniqueViewerModerationSites.map(({ id }) => id)
-    }, "CONFIRMATION");
+  });
 
   // If the user is a site moderator and some of the sites on the user are the
   // same as the sites on the viewer, then we can demote this user.

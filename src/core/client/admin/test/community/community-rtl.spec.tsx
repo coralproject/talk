@@ -1,10 +1,4 @@
-import {
-  fireEvent,
-  // prettyDOM,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import customRenderAppWithContext from "coral-admin/test/customRenderAppWithContext";

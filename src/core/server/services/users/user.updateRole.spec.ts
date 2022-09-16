@@ -41,7 +41,7 @@ const site1Mod2 = {
 };
 const site1Staff = createUserFixture({
   tenantID,
-  role: GQLUSER_ROLE.STAFF, // Hmm, the way we determine staff status in src/server/services/comment/pipeline/phases/tagStaff.ts seems to just tag site mods?
+  role: GQLUSER_ROLE.STAFF,
   moderationScopes: {
     siteIDs: [site1.id],
   },
