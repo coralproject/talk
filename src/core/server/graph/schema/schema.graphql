@@ -2781,7 +2781,7 @@ type UserModerationScopes {
   sites: [Site!]
 
   """
-  sites (when not null) list the sites that the user is only allowed to moderate
+  siteIDs (when not null) list the sites that the user is only allowed to moderate
   on. When null, it means that the user is allowed to moderate on all sites.
   """
   siteIDs: [String!]

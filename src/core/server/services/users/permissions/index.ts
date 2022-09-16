@@ -91,7 +91,7 @@ export const sideEffectRules: PermissionsActionSideEffectTest[] = [
  * runSideEffects assumes an action has been deemed valid, and
  * checks for what actions need to be taken (if any) for the given action.
  */
-export const getSideEffects = (action: PermissionsAction): SideEffect[] => {
+export const resolveSideEffects = (action: PermissionsAction): SideEffect[] => {
   const sideEffects = sideEffectRules
     .map((rule) => rule(action))
     .filter((sideEffect) => !!sideEffect) as SideEffect[];

@@ -127,7 +127,7 @@ import {
   validatePassword,
   validateUsername,
 } from "./helpers";
-import { getSideEffects } from "./permissions";
+import { resolveSideEffects } from "./permissions";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -812,7 +812,7 @@ export async function updateRole(
     );
   }
 
-  const sideEffects = getSideEffects(action);
+  const sideEffects = resolveSideEffects(action);
 
   await Promise.all(sideEffects.map((se) => se(mongo, tenant.id)));
 
