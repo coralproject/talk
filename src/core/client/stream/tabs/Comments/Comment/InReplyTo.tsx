@@ -23,10 +23,10 @@ const InReplyTo: FunctionComponent<Props> = ({
   parent,
   enableJumpToParent,
 }) => {
-  const { renderWindow, customScrollParent } = useCoralContext();
+  const { renderWindow, customScrollContainer } = useCoralContext();
   const scrollContainer = useMemo(() => {
-    return customScrollParent?.current ?? renderWindow;
-  }, [renderWindow, customScrollParent]);
+    return customScrollContainer?.current ?? renderWindow;
+  }, [renderWindow, customScrollContainer]);
   const root = useShadowRootOrDocument();
 
   const navigateToParent = useCallback(() => {
@@ -46,7 +46,7 @@ const InReplyTo: FunctionComponent<Props> = ({
         `Assertion Error: Expected to find parent comment with id ${parent?.id} but could not`
       );
     }
-  }, [parent, root, renderWindow, customScrollParent]);
+  }, [parent, root, scrollContainer]);
 
   const Username = () => (
     <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>

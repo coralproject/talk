@@ -69,7 +69,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
     renderWindow,
     sessionStorage,
     browserInfo,
-    customScrollParent,
+    customScrollContainer,
   } = useCoralContext();
   // Disable autofocus on ios and enable for the rest.
   const autofocus = !browserInfo.ios;
@@ -250,7 +250,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
     setTimeout(() => {
       const elem = root.getElementById(elementID);
       if (elem) {
-        if (customScrollParent) {
+        if (customScrollContainer) {
           elem.scrollIntoView();
         } else {
           const offset =
@@ -269,7 +269,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
     onClose,
     renderWindow,
     root,
-    customScrollParent,
+    customScrollContainer,
   ]);
 
   if (!initialized) {
