@@ -5,6 +5,7 @@ import { Form } from "react-final-form";
 import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
+import { isOrgModerator } from "coral-common/permissions/types";
 import {
   Button,
   CallOut,
@@ -52,7 +53,13 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
   );
 
   const userSites = siteRoleScopes?.sites || [];
-  const viewerSites = viewer.moderationScopes?.sites || [];
+  const viewerSites = isOrgModerator(viewer)
+    ? userSites
+    : viewer.moderationScopes?.sites || [];
+  const viewerIsOrgMod = isOrgModerator(viewer);
+
+  /* eslint-disable */
+  console.log({ userSites });
 
   // These are sites that only the user has and the viewer does not.
   const uniqueUserSites = userSites.filter(
@@ -127,22 +134,24 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
                     userSites={userSites}
                     mode={mode}
                   />
-                  {mode === "demote" && uniqueUserSites.length > 0 && (
-                    <>
-                      <Localized id="community-stillHaveSiteModeratorPrivileges">
-                        <ModalBodyText>
-                          They will still have Site Moderator privileges for:
-                        </ModalBodyText>
-                      </Localized>
-                      <ListGroup>
-                        {uniqueUserSites.map((site) => (
-                          <ListGroupRow key={site.id}>
-                            <Typography>{site.name}</Typography>
-                          </ListGroupRow>
-                        ))}
-                      </ListGroup>
-                    </>
-                  )}
+                  {mode === "demote" &&
+                    !viewerIsOrgMod &&
+                    uniqueUserSites.length > 0 && (
+                      <>
+                        <Localized id="community-stillHaveSiteModeratorPrivileges">
+                          <ModalBodyText>
+                            They will still have Site Moderator privileges for:
+                          </ModalBodyText>
+                        </Localized>
+                        <ListGroup>
+                          {uniqueUserSites.map((site) => (
+                            <ListGroupRow key={site.id}>
+                              <Typography>{site.name}</Typography>
+                            </ListGroupRow>
+                          ))}
+                        </ListGroup>
+                      </>
+                    )}
                   <Flex justifyContent="flex-end" itemGutter="half">
                     <Localized id="community-siteRoleModal-cancel">
                       <Button variant="flat" onClick={onCancel}>
