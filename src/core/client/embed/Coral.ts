@@ -38,7 +38,7 @@ export interface Config {
   customFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   amp?: boolean;
-  customScrollContainer?: React.RefObject<any>;
+  customScrollContainer?: HTMLElement;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {

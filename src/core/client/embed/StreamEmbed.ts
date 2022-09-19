@@ -48,7 +48,7 @@ export interface StreamEmbedConfig {
   refreshAccessToken?: RefreshAccessTokenCallback;
   amp?: boolean;
   graphQLSubscriptionURI?: string;
-  customScrollContainer?: React.RefObject<any>;
+  customScrollContainer?: HTMLElement;
 }
 export class StreamEmbed {
   /**

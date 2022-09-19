@@ -52,7 +52,7 @@ export interface AttachOptions {
   defaultFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   containerClassName?: string;
-  customScrollContainer?: React.RefObject<null>;
+  customScrollContainer?: HTMLElement;
 }
 
 function extractBundleConfig() {
