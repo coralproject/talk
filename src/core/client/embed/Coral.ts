@@ -38,6 +38,7 @@ export interface Config {
   customFontsCSSURL?: string;
   disableDefaultFonts?: boolean;
   amp?: boolean;
+  customScrollContainer?: HTMLElement;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -76,5 +77,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     autoRender: config.autoRender,
     enableDeprecatedEvents: config.enableDeprecatedEvents,
     containerClassName: config.containerClassName || config.bodyClassName,
+    customScrollContainer: config.customScrollContainer || undefined,
   });
 }
