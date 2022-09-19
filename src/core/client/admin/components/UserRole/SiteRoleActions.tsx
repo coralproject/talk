@@ -3,10 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import {
-  isSiteModerationScoped,
-  validatePermissionsAction,
-} from "coral-common/permissions";
+import { isSiteModerationScoped, validatePermissionsAction } from "coral-common/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -52,10 +49,40 @@ type SiteRoleScopeChange = (change: {
 
 const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   const changeRole = useMutation(UpdateUserRoleMutation);
-  const promoteModerator = useMutation(PromoteModeratorMutation);
-  const demoteModerator = useMutation(DemoteModeratorMutation);
-  const promoteMember = useMutation(PromoteMemberMutation);
-  const demoteMember = useMutation(DemoteMemberMutation);
+  const promoteModerator = useCallback(async (user: SiteRoleActions_user, siteIDs: string) => {
+    const existingSiteIDs = user.moderationScopes?.siteIDs || []''
+    await changeRole({
+      userID: user.id,
+      role: GQLUSER_ROLE.MODERATOR,
+      siteIDs: [...existingSiteIDs, ...siteIDs],
+    });
+  }, [changeRole]);
+
+  const demoteModerator = useCallback(async (user: SiteRoleActions_user, siteIDs: string) => {
+    console.log("Demoting mod", { user, siteIDs });
+    await changeRole({
+      userID: user.id,
+      role: GQLUSER_ROLE.MODERATOR,
+      siteIDs: user.moderationScopes.siteIDs.filter((id) => !siteIDs.includes(id)),
+    });
+  }, [changeRole, user]);
+
+  const promoteMember = useCallback(async (user: SiteRoleActions_user, siteIDs: string) => {
+    const existingSiteIDs = user.moderationScopes?.siteIDs || [];
+    await changeRole({
+      userID: user.id,
+      role: GQLUSER_ROLE.MEMBER,
+      siteIDs: [...existingSiteIDs, ...siteIDs],
+    });
+  }, [changeRole]);
+
+  const demoteMember = useCallback(async (user: SiteRoleActions_user, siteIDs: string) => {
+    await changeRole({
+      userID: user.id,
+      role: GQLUSER_ROLE.MODERATOR,
+      siteIDs: user.membershipScopes!.siteIDs!.filter((id) => !siteIDs.includes(id)),
+    });
+  }, [changeRole]);
 
   const [mode, setMode] = useState<"promote" | "demote" | null>(null);
   const [isModalVisible, , toggleModalVisibility] = useToggleState();
@@ -110,11 +137,12 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     (promoter: SiteRoleScopeChange, demoter: SiteRoleScopeChange) => async (
       input: any
     ) => {
+      console.log({ input });
       try {
         if (mode === "promote") {
-          await promoter({ userID: user.id, siteIDs: input.siteIDs });
+          await promoter({ user, siteIDs: input.siteIDs });
         } else if (mode === "demote") {
-          await demoter({ userID: user.id, siteIDs: input.siteIDs });
+          await demoter({ user, siteIDs: input.siteIDs });
         }
 
         setMode(null);
