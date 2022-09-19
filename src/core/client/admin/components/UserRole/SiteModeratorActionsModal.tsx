@@ -58,9 +58,6 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
     : viewer.moderationScopes?.sites || [];
   const viewerIsOrgMod = isOrgModerator(viewer);
 
-  /* eslint-disable */
-  console.log({ userSites });
-
   // These are sites that only the user has and the viewer does not.
   const uniqueUserSites = userSites.filter(
     (s) => !viewerSites.find(({ id }) => s.id === id)
