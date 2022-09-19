@@ -214,7 +214,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
               key: comments.length,
             }
           : {})}
-        customScrollParent={customScrollContainer?.current}
+        customScrollParent={customScrollContainer}
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: comments.length > 0 ? virtuosoHeight : 0 }}
