@@ -73,12 +73,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   const moderationScopesEnabled = settings.multisite;
 
-  const canPromoteDemote =
-    viewer.id !== user.id &&
-    viewer.role === GQLUSER_ROLE.MODERATOR &&
-    !!viewer.moderationScopes?.scoped;
-
-  if (canPromoteDemote) {
+  if (viewer.role !== GQLUSER_ROLE.ADMIN) {
     return <SiteRoleActions viewer={viewer} user={user} />;
   }
 

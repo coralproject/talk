@@ -3,7 +3,10 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import { validatePermissionsAction } from "coral-common/permissions";
+import {
+  isSiteModerationScoped,
+  validatePermissionsAction,
+} from "coral-common/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -30,6 +33,7 @@ import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
 
 import styles from "./SiteRoleActions.css";
+import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 
 interface Props {
   viewer: SiteRoleActions_viewer;
@@ -47,6 +51,7 @@ type SiteRoleScopeChange = (change: {
 }) => Promise<any>;
 
 const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
+  const changeRole = useMutation(UpdateUserRoleMutation);
   const promoteModerator = useMutation(PromoteModeratorMutation);
   const demoteModerator = useMutation(DemoteModeratorMutation);
   const promoteMember = useMutation(PromoteMemberMutation);
@@ -54,7 +59,11 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   const [mode, setMode] = useState<"promote" | "demote" | null>(null);
   const [isModalVisible, , toggleModalVisibility] = useToggleState();
-  const [isPopoverVisible, , togglePopoverVisibility] = useToggleState();
+  const [
+    isPopoverVisible,
+    setIsPopoverVisible,
+    togglePopoverVisibility,
+  ] = useToggleState();
 
   const viewerSites = viewer.moderationScopes?.sites || [];
   const userModerationSites = user.moderationScopes?.sites || [];
@@ -62,6 +71,15 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   const [siteRoleType, setSiteRoleType] = useState<SiteRoleType>(
     SiteRoleType.MODERATOR
   );
+
+  const changeToCommenter = useCallback(async () => {
+    await changeRole({
+      userID: user.id,
+      role: GQLUSER_ROLE.COMMENTER,
+    });
+
+    setIsPopoverVisible(false);
+  }, [user, changeRole, setIsPopoverVisible]);
 
   const startPromoting = useCallback(
     (roleType: SiteRoleType) => {
@@ -113,6 +131,12 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     [mode, toggleModalVisibility, user.id]
   );
 
+  const canChangeToCommenter = validatePermissionsAction({
+    viewer,
+    user,
+    newUserRole: GQLUSER_ROLE.COMMENTER,
+  });
+
   // These are sites that only the viewer can moderate, and not the user.
   const uniqueViewerModerationSites = viewerSites.filter(
     (s) => !userModerationSites.find(({ id }) => s.id === id)
@@ -141,7 +165,10 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   const canDemoteModerator =
     user.role === GQLUSER_ROLE.MODERATOR &&
     !!user.moderationScopes?.scoped &&
-    userModerationSites.some((s) => viewerSites.find(({ id }) => s.id === id));
+    (userModerationSites.some((s) =>
+      viewerSites.find(({ id }) => s.id === id)
+    ) ||
+      !isSiteModerationScoped(viewer.moderationScopes));
 
   // If the user is a site moderator, staff, or commenter and some of the sites
   // on the viewer are not on the user, then we can promote this user.
@@ -210,6 +237,13 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           body={
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
+                {canChangeToCommenter && (
+                  <UserRoleChangeButton
+                    role={GQLUSER_ROLE.COMMENTER}
+                    onClick={changeToCommenter}
+                    moderationScopesEnabled
+                  />
+                )}
                 {canPromoteToModerator && (
                   <UserRoleChangeButton
                     role={GQLUSER_ROLE.MODERATOR}
