@@ -281,8 +281,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   viewNewCount,
   hasMore,
 }) => {
-  const { relayEnvironment, renderWindow, eventEmitter, browserInfo } =
-    useCoralContext();
+  const {
+    relayEnvironment,
+    renderWindow,
+    eventEmitter,
+    browserInfo,
+    customScrollContainer,
+  } = useCoralContext();
+
   const root = useShadowRootOrDocument();
   const [toolbarClosed, setToolbarClosed] = useInMemoryState(
     "keyboardShortcutMobileToolbarClosed",
@@ -473,12 +479,16 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   const scrollToComment = useCallback(
     (comment: HTMLElement) => {
-      const offset =
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        comment.getBoundingClientRect().top + renderWindow.pageYOffset - 150;
-      renderWindow.scrollTo({ top: offset });
+      if (customScrollContainer) {
+        comment.scrollIntoView();
+      } else {
+        const offset =
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+          comment.getBoundingClientRect().top + renderWindow.pageYOffset - 150;
+        renderWindow.scrollTo({ top: offset });
+      }
     },
-    [renderWindow]
+    [renderWindow, customScrollContainer]
   );
 
   const findViewNewCommentButtonAndClick = useCallback(() => {
@@ -1033,7 +1043,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         stopElement.getBoundingClientRect().top +
         renderWindow.pageYOffset -
         150;
-      renderWindow.scrollTo({ top: offset });
+      if (customScrollContainer) {
+        stopElement.scrollIntoView();
+      } else {
+        renderWindow.scrollTo({ top: offset });
+      }
 
       if (stop.isLoadMore) {
         if (!stop.isViewNew) {
@@ -1061,7 +1075,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       } else {
         setFocusAndMarkSeen(parseCommentElementID(stop.id));
         setTimeout(() => {
-          renderWindow.scrollTo({ top: offset });
+          if (customScrollContainer) {
+            stopElement.scrollIntoView();
+          } else {
+            renderWindow.scrollTo({ top: offset });
+          }
         }, 0);
         return true;
       }
@@ -1079,6 +1097,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       findAndNavigateToNextUnseen,
       setZKeyClickedButton,
       commentsFullyLoaded,
+      customScrollContainer,
     ]
   );
 
