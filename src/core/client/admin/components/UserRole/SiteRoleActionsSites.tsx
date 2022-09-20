@@ -34,7 +34,7 @@ const SiteRoleActionsSites: FunctionComponent<Props> = ({
 
   useEffect(() => {
     siteIDsInput.onChange(candidateSites.map((site) => site.id));
-  }, [candidateSites]);
+  }, [candidateSites]); // TODO (marcushaddon): can we avoid this by supplying initialValues to our form parent?
 
   const onAddSite = useCallback(
     (siteID: string) => {
