@@ -4,6 +4,7 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 import { Virtuoso } from "react-virtuoso";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import { useLocal } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
@@ -70,6 +71,8 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
       }
     }
   `);
+
+  const { customScrollContainer } = useCoralContext();
 
   // This determines if there are more comments to display than the initial 20.
   // It also takes into account the initial comments loaded since if we start
@@ -211,6 +214,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
               key: comments.length,
             }
           : {})}
+        customScrollParent={customScrollContainer}
         useWindowScroll
         ref={currentScrollRef}
         style={{ height: comments.length > 0 ? virtuosoHeight : 0 }}
