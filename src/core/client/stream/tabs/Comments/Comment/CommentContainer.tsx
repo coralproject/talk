@@ -622,7 +622,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
                           <Localized
                             id="comments-commentContainer-avatar"
                             attrs={{ alt: true }}
-                            vars={{ username: comment.author.username! }}
+                            vars={{
+                              username: comment.author.username,
+                            }}
                           >
                             <img
                               src={comment.author.avatar}

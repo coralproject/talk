@@ -20,7 +20,7 @@ const ReplyButton: FunctionComponent<Props> = (props) => (
   <Localized
     id="comments-replyButton"
     attrs={{ "aria-label": true }}
-    vars={{ username: props.author! }}
+    vars={{ username: props.author }}
   >
     <Button
       className={props.className}

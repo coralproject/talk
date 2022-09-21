@@ -85,7 +85,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                         strong: <strong />,
                       }}
                       vars={{
-                        username: activeWarning.createdBy.username || "",
+                        username: activeWarning.createdBy.username,
                       }}
                     >
                       <p className={styles.root}>
@@ -121,7 +121,9 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                       elems={{
                         strong: <strong />,
                       }}
-                      vars={{ username: activeBan.createdBy.username || "" }}
+                      vars={{
+                        username: activeBan.createdBy.username,
+                      }}
                     >
                       <p className={styles.root}>
                         <strong>by </strong>
@@ -140,7 +142,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                         strong: <strong />,
                       }}
                       vars={{
-                        username: activeSuspension.createdBy.username || "",
+                        username: activeSuspension.createdBy.username,
                       }}
                     >
                       <p className={styles.root}>

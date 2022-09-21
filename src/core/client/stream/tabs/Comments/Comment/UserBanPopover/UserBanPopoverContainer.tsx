@@ -78,7 +78,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       {siteBan ? (
         <Localized
           id="comments-userSiteBanPopover-title"
-          vars={{ username: user.username! }}
+          vars={{ username: user.username }}
         >
           <div className={styles.title}>
             Ban {user.username} from this site?
@@ -87,7 +87,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized
           id="comments-userBanPopover-title"
-          vars={{ username: user.username! }}
+          vars={{ username: user.username }}
         >
           <div className={styles.title}>Ban {user.username}?</div>
         </Localized>

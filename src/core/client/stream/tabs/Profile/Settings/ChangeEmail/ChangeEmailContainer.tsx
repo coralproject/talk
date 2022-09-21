@@ -252,7 +252,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                   </div>
                   <Localized
                     id="profile-changeEmail-please-verify-details"
-                    vars={{ email: viewer.email! }}
+                    vars={{ email: viewer.email }}
                   >
                     <div>
                       An email has been sent to {viewer.email} to verify your

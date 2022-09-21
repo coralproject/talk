@@ -104,7 +104,7 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
         attrs={{ "aria-label": true }}
         vars={{
           reaction: reacted ? labelActive : label,
-          username: author!,
+          username: author,
           count: totalReactions,
         }}
       >

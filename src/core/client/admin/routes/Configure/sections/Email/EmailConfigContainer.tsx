@@ -52,7 +52,7 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
       setMessage(
         <Localized
           id="configure-smtp-test-success"
-          vars={{ email: viewer.email! }}
+          vars={{ email: viewer.email }}
         >
           <AppNotification icon="check_circle_outline" onClose={clearMessage}>
             Test email has been sent to {viewer.email}

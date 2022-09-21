@@ -47,7 +47,6 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         | { reason: "DISAGREE"; additionalDetails: string }
     ) => {
       try {
-        // TODO: Fix this issue?
         if (input.reason === "DISAGREE") {
           await dontAgreeMutation({
             commentID: comment.id,
