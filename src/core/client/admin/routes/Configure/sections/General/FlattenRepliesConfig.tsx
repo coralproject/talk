@@ -33,9 +33,9 @@ const FlattenRepliesConfig: FunctionComponent<Props> = ({ disabled }) => (
     <Localized id="configure-general-flattenReplies-explanation">
       <FormFieldDescription>
         Change how levels of replies display. When enabled, replies to comments\
-        can go up to four levels deep before they are no longer indented on the\
-        page. When disabled, after a depth of four replies, the rest of the\
-        conversation is displayed in a dedicated view away from the other\
+        can go up to eight levels deep before they are no longer indented on
+        the\ page. When disabled, after a depth of four replies, the rest of
+        the\ conversation is displayed in a dedicated view away from the other\
         comments.
       </FormFieldDescription>
     </Localized>

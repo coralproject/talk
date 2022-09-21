@@ -499,7 +499,7 @@ configure-general-commentEditing-seconds = Seconds
 configure-general-flattenReplies-title = Flatten replies
 configure-general-flattenReplies-enabled = Flatten replies enabled
 configure-general-flattenReplies-explanation =
-  Change how levels of replies display. When enabled, replies to comments can go up to four levels deep before they are no longer indented on the page. When disabled, after a depth of four replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
+  Change how levels of replies display. When enabled, replies to comments can go up to eight levels deep before they are no longer indented on the page. When disabled, after a depth of eight replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
 
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
