@@ -46,10 +46,7 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
   const update = useMutation(UpdateWebhookEndpointMutation);
   const { router } = useRouter();
   const onSubmit = useCallback(
-    async (
-      // TODO: Improve this to not be any
-      values: any
-    ) => {
+    async (values: { id: string; url: string; all: boolean; events: any }) => {
       try {
         if (webhookEndpoint) {
           // The webhook endpoint was defined, update it.

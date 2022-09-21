@@ -184,7 +184,6 @@ module.exports = {
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
-    // "plugin:react/jsx-runtime",
     "prettier",
   ],
   parserOptions: {
