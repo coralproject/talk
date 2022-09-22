@@ -7,6 +7,6 @@ export const isReplyFlattened = (
   return (
     flattenedRepliesEnabled &&
     indentLevel &&
-    indentLevel >= MAX_REPLY_INDENT_DEPTH
+    indentLevel > MAX_REPLY_INDENT_DEPTH
   );
 };
