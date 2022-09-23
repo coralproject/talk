@@ -45,14 +45,14 @@ const CommentsLinks: FunctionComponent<Props> = ({
   showGoToDiscussions,
   showGoToProfile,
 }) => {
-  const { renderWindow } = useCoralContext();
+  const { renderWindow, customScrollContainer } = useCoralContext();
   const root = useShadowRootOrDocument();
   const onGoToArticleTop = useCallback(() => {
     renderWindow.scrollTo({ top: 0 });
   }, [renderWindow]);
   const onGoToCommentsTop = useCallback(() => {
-    scrollToBeginning(root, renderWindow);
-  }, [root, renderWindow]);
+    scrollToBeginning(root, renderWindow, customScrollContainer);
+  }, [root, renderWindow, customScrollContainer]);
 
   const setActiveTab = useMutation(SetActiveTabMutation);
 

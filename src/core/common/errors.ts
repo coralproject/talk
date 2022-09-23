@@ -221,6 +221,12 @@ export enum ERROR_CODES {
   PARENT_COMMENT_REJECTED = "PARENT_COMMENT_REJECTED",
 
   /**
+   * ANCESTOR_REJECTED is returned when a Comment's ancestor
+   * has been rejected.
+   */
+  ANCESTOR_REJECTED = "ANCESTOR_REJECTED",
+
+  /**
    * AUTHENTICATION_ERROR is returned when a general authentication error has
    * occurred and the request can not be processed.
    */
@@ -395,13 +401,6 @@ export enum ERROR_CODES {
    * or replies on archived comment data.
    */
   CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY = "CANNOT_CREATE_COMMENT_ON_ARCHIVED_STORY",
-
-  /**
-   * CANNOT_REPLY_TO_REJECTED_COMMENT is thrown when a user attempts to publish
-   * a reply to a comment that has been rejected, or is a descendent of a rejected
-   * comment.
-   */
-  CANNOT_REPLY_TO_REJECTED_COMMENT = "CANNOT_REPLY_TO_REJECTED_COMMENT",
 
   /**
    * CANNOT_OPEN_AN_ARCHIVED_STORY is thrown when a user attempts to open a
