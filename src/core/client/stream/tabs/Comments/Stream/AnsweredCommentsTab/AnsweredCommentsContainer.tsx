@@ -35,10 +35,10 @@ import {
 } from "coral-stream/__generated__/AnsweredCommentsContainerLocal.graphql";
 import { AnsweredCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/AnsweredCommentsContainerPaginationQuery.graphql";
 
-import AnsweredCommentContainer from "./AnsweredCommentContainer";
 import CommentsLinks from "../CommentsLinks";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
+import AnsweredCommentContainer from "./AnsweredCommentContainer";
 
 import styles from "./AnsweredCommentsContainer.css";
 
