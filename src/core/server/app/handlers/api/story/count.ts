@@ -14,8 +14,8 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
 
-export const NUMBER_CLASS_NAME = "coral-count-number";
-export const TEXT_CLASS_NAME = "coral-count-text";
+const NUMBER_CLASS_NAME = "coral-count-number";
+const TEXT_CLASS_NAME = "coral-count-text";
 
 export type JSONPCountOptions = Pick<
   AppOptions,
