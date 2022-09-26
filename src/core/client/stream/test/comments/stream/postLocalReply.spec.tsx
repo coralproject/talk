@@ -70,7 +70,7 @@ it("post a local reply", async () => {
         createCommentReply: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             storyID: storyWithDeepestReplies.id,
-            parentID: "my-comment-7",
+            parentID: "comment-with-deepest-replies-6",
             parentRevisionID: "revision-0",
             body: commentBody,
           });
@@ -90,7 +90,9 @@ it("post a local reply", async () => {
     }),
   });
 
-  const deepestReply = within(streamLog).getByTestID("comment-my-comment-7");
+  const deepestReply = within(streamLog).getByTestID(
+    "comment-comment-with-deepest-replies-6"
+  );
 
   const form = await act(async () => {
     /* Do stuff */
@@ -110,8 +112,11 @@ it("post a local reply", async () => {
     form.props.onSubmit();
     /* Wait for results */
     const deepestReplyList = await waitForElement(() =>
-      within(streamLog).getByTestID("commentReplyList-my-comment-7")
+      within(streamLog).getByTestID(
+        "commentReplyList-comment-with-deepest-replies-6"
+      )
     );
+
     // optimistic result
     await wait(() =>
       within(deepestReplyList).getByText(commentBody, { exact: false })

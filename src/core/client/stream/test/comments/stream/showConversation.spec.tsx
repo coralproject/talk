@@ -22,10 +22,10 @@ const createTestRenderer = async (
           story: () => storyWithDeepestReplies,
           stream: () => storyWithDeepestReplies,
           comment: ({ variables }) => {
-            expectAndFail(variables.id).toBe("my-comment-7");
+            expectAndFail(variables.id).toBe("comment-with-deepest-replies-6");
             return {
               ...comments[0],
-              id: "comment-with-deepest-replies-7",
+              id: "comment-with-deepest-replies-6",
             };
           },
           settings: () => settings,
@@ -54,7 +54,9 @@ const createTestRenderer = async (
 
 it("renders deepest comment with link", async () => {
   const { streamLog } = await createTestRenderer();
-  await within(streamLog).findByTestId("comment-comment-with-deepest-replies");
+  await within(streamLog).findByTestId(
+    "comment-comment-with-deepest-replies-6"
+  );
 
   await within(streamLog).findByText("Read More of this Conversation", {
     exact: false,

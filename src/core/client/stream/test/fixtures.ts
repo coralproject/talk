@@ -627,7 +627,7 @@ export const commentWithDeepestReplies = denormalizeComment(
           cursor: baseComment.createdAt,
           node: {
             ...baseComment,
-            id: "my-comment-1",
+            id: "comment-with-deepest-replies-1",
             body: "body 1",
             replyCount: 1,
             replies: {
@@ -637,7 +637,7 @@ export const commentWithDeepestReplies = denormalizeComment(
                   cursor: baseComment.createdAt,
                   node: {
                     ...baseComment,
-                    id: "my-comment-2",
+                    id: "comment-with-deepest-replies-2",
                     body: "body 2",
                     replyCount: 1,
                     replies: {
@@ -647,7 +647,7 @@ export const commentWithDeepestReplies = denormalizeComment(
                           cursor: baseComment.createdAt,
                           node: {
                             ...baseComment,
-                            id: "my-comment-3",
+                            id: "comment-with-deepest-replies-3",
                             body: "body 3",
                             replyCount: 0,
                             replies: {
@@ -657,7 +657,7 @@ export const commentWithDeepestReplies = denormalizeComment(
                                   cursor: baseComment.createdAt,
                                   node: {
                                     ...baseComment,
-                                    id: "my-comment-4",
+                                    id: "comment-with-deepest-replies-4",
                                     body: "body 4",
                                     replyCount: 1,
                                     replies: {
@@ -667,7 +667,8 @@ export const commentWithDeepestReplies = denormalizeComment(
                                           cursor: baseComment.createdAt,
                                           node: {
                                             ...baseComment,
-                                            id: "my-comment-5",
+                                            id:
+                                              "comment-with-deepest-replies-5",
                                             body: "body 5",
                                             replyCount: 1,
                                             replies: {
@@ -677,7 +678,8 @@ export const commentWithDeepestReplies = denormalizeComment(
                                                   cursor: baseComment.createdAt,
                                                   node: {
                                                     ...baseComment,
-                                                    id: "my-comment-6",
+                                                    id:
+                                                      "comment-with-deepest-replies-6",
                                                     body: "body 6",
                                                     replyCount: 1,
                                                     replies: {
@@ -688,29 +690,13 @@ export const commentWithDeepestReplies = denormalizeComment(
                                                             baseComment.createdAt,
                                                           node: {
                                                             ...baseComment,
-                                                            id: "my-comment-7",
+                                                            id:
+                                                              "comment-with-deepest-replies-7",
                                                             body: "body 7",
                                                             replyCount: 1,
                                                             replies: {
                                                               ...baseComment.replies,
-                                                              edges: [
-                                                                {
-                                                                  cursor:
-                                                                    baseComment.createdAt,
-                                                                  node: {
-                                                                    ...baseComment,
-                                                                    id:
-                                                                      "my-comment-8",
-                                                                    body:
-                                                                      "body 8",
-                                                                    replyCount: 0,
-                                                                    replies: {
-                                                                      ...baseComment.replies,
-                                                                      edges: [],
-                                                                    },
-                                                                  },
-                                                                },
-                                                              ],
+                                                              edges: [],
                                                             },
                                                           },
                                                         },
