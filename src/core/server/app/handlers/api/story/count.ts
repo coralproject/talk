@@ -1,9 +1,5 @@
 import Joi from "joi";
 
-import {
-  COUNT_NUMBER_CLASS_NAME,
-  COUNT_TEXT_CLASS_NAME,
-} from "coral-common/constants";
 import { CountJSONPData } from "coral-common/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
@@ -17,6 +13,9 @@ import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
+
+export const NUMBER_CLASS_NAME = "coral-count-number";
+export const TEXT_CLASS_NAME = "coral-count-text";
 
 export type JSONPCountOptions = Pick<
   AppOptions,
@@ -56,23 +55,23 @@ function getCountHTML(
   if (storyMode === GQLSTORY_MODE.RATINGS_AND_REVIEWS) {
     html = translate(
       bundle,
-      `<span class="${COUNT_NUMBER_CLASS_NAME}">${count}</span> <span class="${COUNT_TEXT_CLASS_NAME}">Ratings</span>`,
+      `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Ratings</span>`,
       "comment-counts-ratings-and-reviews",
       {
         number: count,
-        numberClass: COUNT_NUMBER_CLASS_NAME,
-        textClass: COUNT_TEXT_CLASS_NAME,
+        numberClass: NUMBER_CLASS_NAME,
+        textClass: TEXT_CLASS_NAME,
       }
     );
   } else {
     html = translate(
       bundle,
-      `<span class="${COUNT_NUMBER_CLASS_NAME}">${count}</span> <span class="${COUNT_TEXT_CLASS_NAME}">Comments</span>`,
+      `<span class="${NUMBER_CLASS_NAME}">${count}</span> <span class="${TEXT_CLASS_NAME}">Comments</span>`,
       "comment-count",
       {
         number: count,
-        numberClass: COUNT_NUMBER_CLASS_NAME,
-        textClass: COUNT_TEXT_CLASS_NAME,
+        numberClass: NUMBER_CLASS_NAME,
+        textClass: TEXT_CLASS_NAME,
       }
     );
   }
@@ -114,7 +113,7 @@ export const countJSONPHandler = ({
     let html = "";
     if (notext === "true") {
       // We only need the count without the text.
-      html = `<span class="${COUNT_NUMBER_CLASS_NAME}">${count}</span>`;
+      html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
     } else {
       html = getCountHTML(tenant, story?.settings.mode, i18n, count);
     }

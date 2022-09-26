@@ -1,7 +1,8 @@
-import { COUNT_TEXT_CLASS_NAME } from "coral-common/constants";
 import { CountJSONPData } from "coral-common/types/count";
 import { COUNT_SELECTOR } from "coral-framework/constants";
 import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
+
+const TEXT_CLASS_NAME = "coral-count-text";
 
 type GetCountFunction = (opts?: { reset?: boolean }) => void;
 
@@ -55,7 +56,7 @@ function createCountElementEnhancer({
   // Create the root element we're using for this.
   const element = document.createElement("span");
 
-  const showText = html.includes(COUNT_TEXT_CLASS_NAME);
+  const showText = html.includes(TEXT_CLASS_NAME);
 
   // Update the innerHTML which contains the count and new value..
   element.innerHTML = html;

@@ -104,11 +104,3 @@ export const MAX_BIO_LENGTH = 100;
 export const REDIRECT_TO_PARAM = "redirectTo";
 
 export const DEFAULT_AUTO_ARCHIVE_OLDER_THAN = ms("120 days");
-
-/**
- * These are used to generate and find the coral count scripts
- * used when placing a 12 Comments / 3 New counter beside articles
- * on a host site.
- */
-export const COUNT_NUMBER_CLASS_NAME = "coral-count-number";
-export const COUNT_TEXT_CLASS_NAME = "coral-count-text";
