@@ -31,8 +31,8 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({
       noWrapper
     >
       <Localized id="comments-tombstone-rejected">
-        This commenter has been removed by a moderator for violating our
-        community guidelines.
+        This comment has been removed by a moderator for violating our community
+        guidelines.
       </Localized>
     </Tombstone>
   );

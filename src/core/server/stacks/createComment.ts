@@ -5,9 +5,9 @@ import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
+  AncestorRejectedError,
   AuthorAlreadyHasRatedStory,
   CannotCreateCommentOnArchivedStory,
-  CannotReplyToRejectedComment,
   CommentNotFoundError,
   CoralError,
   StoryNotFoundError,
@@ -282,7 +282,7 @@ export default async function create(
     );
 
     if (rejectedAncestor) {
-      throw new CannotReplyToRejectedComment(tenant.id, rejectedAncestor.id);
+      throw new AncestorRejectedError(tenant.id, rejectedAncestor.id);
     }
   }
 

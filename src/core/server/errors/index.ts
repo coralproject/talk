@@ -526,6 +526,15 @@ export class ParentCommentRejectedError extends CoralError {
   }
 }
 
+export class AncestorRejectedError extends CoralError {
+  constructor(tenantID: string, commentID: string) {
+    super({
+      code: ERROR_CODES.ANCESTOR_REJECTED,
+      context: { tenantID, pub: { commentID }, pvt: { commentID } },
+    });
+  }
+}
+
 export class AuthorAlreadyHasRatedStory extends CoralError {
   constructor(userID: string, storyID: string) {
     super({
@@ -948,16 +957,6 @@ export class CannotMergeAnArchivedStory extends CoralError {
       code: ERROR_CODES.CANNOT_MERGE_AN_ARCHIVED_STORY,
       status: 400,
       context: { tenantID, pub: { storyID }, pvt: { tenantID, storyID } },
-    });
-  }
-}
-
-export class CannotReplyToRejectedComment extends CoralError {
-  constructor(tenantID: string, commentID: string) {
-    super({
-      code: ERROR_CODES.CANNOT_REPLY_TO_REJECTED_COMMENT,
-      status: 400,
-      context: { tenantID, pub: { commentID }, pvt: { commentID } },
     });
   }
 }
