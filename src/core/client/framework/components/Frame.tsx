@@ -57,11 +57,8 @@ const Frame: FunctionComponent<Props> = ({
     if (type === "twitter") {
       return "550px";
     }
-    if (type === "youtube") {
-      return width;
-    }
-    // this is for external media
-    return "300px";
+    // use width for youtube and external media
+    return width;
   }, [type]);
   const frameID = useMemo(
     () => (id ? `frame-id-${id}-${uuid()}` : `frame-uuid-${uuid()}`),
