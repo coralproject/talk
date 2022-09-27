@@ -2,43 +2,36 @@
 
 exports[`renders the empty settings pane 1`] = `
 <div
-  className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  class="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   data-testid="profile-manageAccount"
 >
   <div
-    className="Box-root HorizontalGutter-root AccountSettingsContainer-root HorizontalGutter-full"
+    class="Box-root HorizontalGutter-root AccountSettingsContainer-root HorizontalGutter-full"
   >
     <section
       aria-labelledby="profile-changeUsername-title"
-      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+      class="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
       data-testid="profile-changeUsername"
     >
       <div>
         <div
-          className="ChangeUsernameContainer-title coral coral-myUsername-title"
+          class="ChangeUsernameContainer-title coral coral-myUsername-title"
           id="profile-changeUsername-title"
         >
           Username
         </div>
         <div
-          className="ChangeUsernameContainer-username coral coral-myUsername"
+          class="ChangeUsernameContainer-username coral coral-myUsername"
         >
           Passivo
         </div>
       </div>
       <div
-        className="ChangeUsernameContainer-changeButton"
+        class="ChangeUsernameContainer-changeButton"
       >
         <button
-          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myUsername-editButton coral coral-myUsername-change"
+          class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myUsername-editButton coral coral-myUsername-change"
           data-variant="flat"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
           type="button"
         >
           Change
@@ -47,67 +40,67 @@ exports[`renders the empty settings pane 1`] = `
     </section>
     <section
       aria-labelledby="profile-changeEmail-title"
-      className="Box-root HorizontalGutter-root coral coral-myEmail HorizontalGutter-full"
+      class="Box-root HorizontalGutter-root coral coral-myEmail HorizontalGutter-full"
       data-testid="profile-changeEmail"
     >
       <div
-        className="ChangeEmailContainer-footer coral coral-changeMyEmail-footer"
+        class="ChangeEmailContainer-footer coral coral-changeMyEmail-footer"
       >
         <div
-          className="ChangeEmailContainer-title coral coral-myEmail-title"
+          class="ChangeEmailContainer-title coral coral-myEmail-title"
           id="profile-changeEmail-title"
         >
           Email address
         </div>
         <div
-          className="Box-root Flex-root Flex-flex"
+          class="Box-root Flex-root Flex-flex"
         >
           <div
-            className="ChangeEmailContainer-currentEmail coral coral-myEmail-currentEmail"
+            class="ChangeEmailContainer-currentEmail coral coral-myEmail-currentEmail"
           />
           <span>
              
           </span>
           <div
-            className="ChangeEmailContainer-currentEmail coral coral-myEmail-currentEmail"
+            class="ChangeEmailContainer-currentEmail coral coral-myEmail-currentEmail"
           >
             (Unverified)
           </div>
         </div>
       </div>
       <div
-        className="ChangeEmailContainer-verifyContainer coral coral-verifyEmail-container"
+        class="ChangeEmailContainer-verifyContainer coral coral-verifyEmail-container"
       >
         <section
           aria-labelledby="profile-changeEmail-pleaseVerify-title"
-          className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-verifyEmail"
+          class="CallOut-root CallOut-mono CallOut-leftBorder coral coral-verifyEmail"
         >
           <div
-            className="CallOut-container"
+            class="CallOut-container"
           >
             <div
-              className="CallOut-content"
+              class="CallOut-content"
             >
               <div
-                className="CallOut-body"
+                class="CallOut-body"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                  class="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                 >
                   <div>
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-lg"
+                      class="Icon-root Icon-lg"
                     >
                       email
                     </i>
                   </div>
                   <div>
                     <div
-                      className="ChangeEmailContainer-verifyContent coral coral-verifyEmail-content"
+                      class="ChangeEmailContainer-verifyContent coral coral-verifyEmail-content"
                     >
                       <div
-                        className="ChangeEmailContainer-verifyTitle coral coral-verifyEmail-title"
+                        class="ChangeEmailContainer-verifyTitle coral coral-verifyEmail-title"
                       >
                         <div
                           id="profile-changeEmail-pleaseVerify-title"
@@ -122,15 +115,8 @@ to sign in to your account or to receive notifications.
                       </div>
                     </div>
                     <button
-                      className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
+                      class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
                       data-variant="flat"
-                      disabled={false}
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
                       type="button"
                     >
                       Resend verification
@@ -143,18 +129,11 @@ to sign in to your account or to receive notifications.
         </section>
       </div>
       <div
-        className="ChangeEmailContainer-changeButton"
+        class="ChangeEmailContainer-changeButton"
       >
         <button
-          className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myEmail-editButton"
+          class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myEmail-editButton"
           data-variant="flat"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
           type="button"
         >
           Change
@@ -163,25 +142,18 @@ to sign in to your account or to receive notifications.
     </section>
     <section
       aria-labelledby="profile-account-changePassword-title"
-      className="coral coral-myPassword"
+      class="coral coral-myPassword"
       data-testid="profile-account-changePassword"
     >
       <div
-        className="ChangePassword-title coral coral-myPassword-title"
+        class="ChangePassword-title coral coral-myPassword-title"
         id="profile-account-changePassword-title"
       >
         Password
       </div>
       <button
-        className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary ChangePassword-changeButton coral coral-myPassword-editButton"
+        class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary ChangePassword-changeButton coral coral-myPassword-editButton"
         data-variant="flat"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
         type="button"
       >
         Change
@@ -189,38 +161,30 @@ to sign in to your account or to receive notifications.
     </section>
     <section
       aria-labelledby="profile-account-deleteAccount-title"
-      className="DeleteAccountContainer-root coral coral-deleteMyAccount"
+      class="DeleteAccountContainer-root coral coral-deleteMyAccount"
     >
       <div
         data-testid="profile-account-deleteAccount"
       >
         <div
-          className="DeleteAccountContainer-content coral coral-deleteMyAccount-content"
+          class="DeleteAccountContainer-content coral coral-deleteMyAccount-content"
         >
           <div
-            className="DeleteAccountContainer-title coral coral-deleteMyAccount-title"
+            class="DeleteAccountContainer-title coral coral-deleteMyAccount-title"
             id="profile-account-deleteAccount-title"
           >
             Delete my account
           </div>
           <div
-            className="DeleteAccountContainer-section coral coral-deleteMyAccount-section"
+            class="DeleteAccountContainer-section coral coral-deleteMyAccount-section"
           >
             Deleting your account will permanently erase your profile and remove
 all your comments from this site.
           </div>
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
-          data-testid="deleteAccount-request"
+          class="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
           data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
           type="button"
         >
           Request

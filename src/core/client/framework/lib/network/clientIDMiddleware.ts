@@ -7,14 +7,13 @@ import { CLIENT_ID_HEADER } from "coral-common/constants";
  *
  * @param clientID an identifier for this client.
  */
-const clientIDMiddleware: (clientID: string) => Middleware = (clientID) => (
-  next
-) => async (req) => {
-  if (!req.fetchOpts.headers) {
-    req.fetchOpts.headers = {};
-  }
-  req.fetchOpts.headers[CLIENT_ID_HEADER] = clientID;
-  return next(req);
-};
+const clientIDMiddleware: (clientID: string) => Middleware =
+  (clientID) => (next) => async (req) => {
+    if (!req.fetchOpts.headers) {
+      req.fetchOpts.headers = {};
+    }
+    req.fetchOpts.headers[CLIENT_ID_HEADER] = clientID;
+    return next(req);
+  };
 
 export default clientIDMiddleware;

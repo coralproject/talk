@@ -18,8 +18,10 @@ interface ModerationNudgeExtensions {
  * ModeratioNudgeError wraps the `MODERATION_NUDGE_ERROR` error returned from the
  * server.
  */
-export default class ModeratioNudgeError extends TraceableError
-  implements ModerationNudgeExtensions {
+export default class ModeratioNudgeError
+  extends TraceableError
+  implements ModerationNudgeExtensions
+{
   // Keep extension of original server response.
   public readonly extensions: ModerationNudgeExtensions;
   public readonly code: ERROR_CODES;

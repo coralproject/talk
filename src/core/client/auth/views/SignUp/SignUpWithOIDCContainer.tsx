@@ -19,8 +19,11 @@ const SignUpWithOIDCContainer: FunctionComponent<Props> = ({ auth }) => {
     redirectOAuth2(window, auth.integrations.oidc.redirectURL!);
   }, [auth.integrations.oidc.redirectURL, window]);
   return (
-    <Localized id="signUp-signUpWithOIDC" $name={auth.integrations.oidc.name}>
-      <OIDCButton onClick={handleOnClick}>Sign in with $name</OIDCButton>
+    <Localized
+      id="signUp-signUpWithOIDC"
+      vars={{ name: auth.integrations.oidc.name! }}
+    >
+      <OIDCButton onClick={handleOnClick}>Sign up with $name</OIDCButton>
     </Localized>
   );
 };

@@ -60,11 +60,8 @@ const Bar: FunctionComponent<Props> = ({
   );
   const searchInput = useRef<HTMLInputElement>(null);
   const blurOnEscProps = useBlurOnEsc(focused);
-  const [
-    mappedOptions,
-    activeDescendant,
-    keyboardNavigationHandlers,
-  ] = useComboBox("moderate-searchBar-listBoxOption", options);
+  const [mappedOptions, activeDescendant, keyboardNavigationHandlers] =
+    useComboBox("moderate-searchBar-listBoxOption", options);
 
   useEffect(() => {
     key(HOTKEYS.SEARCH, () => {

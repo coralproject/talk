@@ -1,45 +1,50 @@
+import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
 import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createAccessToken,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "./create";
+import { createContext } from "./create";
+import customRenderAppWithContext from "./customRenderAppWithContext";
 
 const token = createAccessToken();
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create();
+  const { context } = createContext();
+  customRenderAppWithContext(context);
   return {
     context,
-    testRenderer,
-    root: testRenderer.root,
   };
 }
 
 it("renders missing confirm token", async () => {
   replaceHistoryLocation("http://localhost/account/notifications/unsubscribe");
-  const { root } = await createTestRenderer();
-  await waitForElement(() => within(root).getByTestID("invalid-link"));
-  expect(within(root).toJSON()).toMatchSnapshot();
-  expect(await within(root).axe()).toHaveNoViolations();
+  await createTestRenderer();
+  const invalidLink = await screen.findByTestId("invalid-link");
+  const invalidLinkText = screen.getByText(
+    "The specified link is invalid, check to see if it was copied correctly."
+  );
+  const invalidLinkHeader = screen.getByText("Oops Sorry!");
+  expect(invalidLinkText).toBeVisible();
+  expect(invalidLinkHeader).toBeVisible();
+  expect(await axe(invalidLink)).toHaveNoViolations();
 });
 
 it("renders form", async () => {
   replaceHistoryLocation(
     `http://localhost/account/notifications/unsubscribe#unsubscribeToken=${token}`
   );
-  const { root, context } = await createTestRenderer();
+  const { context } = await createTestRenderer();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -50,11 +55,18 @@ it("renders form", async () => {
     })
     .once();
 
-  await act(async () => {
-    await waitForElement(() => within(root).getByTestID("unsubscribe-form"));
-  });
-  expect(within(root).toJSON()).toMatchSnapshot();
-  expect(await within(root).axe()).toHaveNoViolations();
+  const unsubscribeForm = await screen.findByTestId("unsubscribe-form");
+  const unsubscribeTitle = screen.getByText(
+    "Unsubscribe from email notifications"
+  );
+  const unsubscribeDescription = screen.getByText(
+    "Click below to confirm that you want to unsubscribe from all notifications."
+  );
+  const unsubscribeButton = screen.getByRole("button", { name: "Unsubscribe" });
+  expect(unsubscribeTitle).toBeVisible();
+  expect(unsubscribeDescription).toBeVisible();
+  expect(unsubscribeButton).toBeVisible();
+  expect(await axe(unsubscribeForm)).toHaveNoViolations();
   restMock.verify();
 });
 
@@ -71,7 +83,7 @@ it("renders error from server", async () => {
   ];
 
   for (const code of codes) {
-    const { root, context } = await createTestRenderer();
+    const { context } = await createTestRenderer();
 
     const restMock = sinon.mock(context.rest);
     restMock
@@ -88,15 +100,10 @@ it("renders error from server", async () => {
         })
       );
 
-    await act(async () => {
-      await waitForElement(() =>
-        within(root).getByText(code, {
-          exact: false,
-        })
-      );
+    await screen.findByText(code, {
+      exact: false,
     });
     restMock.verify();
-    expect(await within(root).axe()).toHaveNoViolations();
   }
 });
 
@@ -104,7 +111,7 @@ it("submits form", async () => {
   replaceHistoryLocation(
     `http://localhost/account/notifications/unsubscribe#unsubscribeToken=${token}`
   );
-  const { root, context } = await createTestRenderer();
+  const { context } = await createTestRenderer();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -123,16 +130,15 @@ it("submits form", async () => {
     })
     .once();
 
-  await act(async () => {
-    await waitForElement(() => within(root).getByTestID("unsubscribe-form"));
-  });
-  const form = within(root).getByType("form");
+  const unsubscribeTitle = await screen.findByText(
+    "Unsubscribe from email notifications"
+  );
+  expect(unsubscribeTitle).toBeVisible();
+  const unsubscribeButton = screen.getByRole("button", { name: "Unsubscribe" });
+  userEvent.click(unsubscribeButton);
 
-  // Submit valid form.
-  await act(async () => {
-    form.props.onSubmit();
-    await waitForElement(() => within(root).getByTestID("success"));
-  });
+  const success = await screen.findByText("successfully", { exact: false });
+  expect(success).toBeVisible();
 
   restMock.verify();
 });

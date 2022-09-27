@@ -53,7 +53,7 @@ const InReplyTo: FunctionComponent<Props> = ({
       container="span"
     >
       <Icon className={styles.icon}>reply</Icon>{" "}
-      <Localized id="comments-inReplyTo" Username={<Username />}>
+      <Localized id="comments-inReplyTo" elems={{ Username: <Username /> }}>
         <span className={cn(styles.inReplyTo, CLASSES.comment.inReplyTo.text)}>
           {"In reply to <Username></Username>"}
         </span>

@@ -29,7 +29,8 @@ export async function deactivateTenantSSOSigningSecret(
     { id },
     {
       $set: {
-        "auth.integrations.sso.signingSecrets.$[signingSecrets].inactiveAt": inactiveAt,
+        "auth.integrations.sso.signingSecrets.$[signingSecrets].inactiveAt":
+          inactiveAt,
         "auth.integrations.sso.signingSecrets.$[signingSecrets].rotatedAt": now,
       },
     },

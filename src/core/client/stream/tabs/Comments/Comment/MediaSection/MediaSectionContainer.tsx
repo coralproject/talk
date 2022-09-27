@@ -32,15 +32,14 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   settings,
   defaultExpanded = false,
 }) => {
-  const [{ expandedMediaSettings }, setLocal] = useLocal<
-    MediaSectionContainerLocal
-  >(graphql`
-    fragment MediaSectionContainerLocal on Local {
-      expandedMediaSettings {
-        commentIDs
+  const [{ expandedMediaSettings }, setLocal] =
+    useLocal<MediaSectionContainerLocal>(graphql`
+      fragment MediaSectionContainerLocal on Local {
+        expandedMediaSettings {
+          commentIDs
+        }
       }
-    }
-  `);
+    `);
   const [isToggled, setIsToggled] = useState(false);
   const onToggleExpand = useCallback(() => {
     const initialMediaSettings = expandedMediaSettings ?? { commentIDs: [] };
