@@ -51,10 +51,7 @@ const Success: React.FunctionComponent<Props> = ({
             Go to Coral Admin
           </Link>
         </Localized>
-        <Localized
-          id="invite-goToOrganization"
-          $organizationName={organizationName}
-        >
+        <Localized id="invite-goToOrganization" vars={{ organizationName }}>
           <ExternalLink href={organizationURL} className={styles.link}>
             {"Go to {$organizationName}"}
           </ExternalLink>

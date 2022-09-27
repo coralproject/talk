@@ -29,17 +29,17 @@ const SignupActivityTick: FunctionComponent<Props> = ({
     day: "numeric",
     month: "numeric",
   });
-  const date = useMemo(() => dateFormatter(payload.value), [
-    payload.value,
-    dateFormatter,
-  ]);
+  const date = useMemo(
+    () => dateFormatter(payload.value),
+    [payload.value, dateFormatter]
+  );
   const dayOfWeekFormatter = useDateTimeFormatter({
     weekday: "short",
   });
-  const dayOfWeek = useMemo(() => dayOfWeekFormatter(payload.value), [
-    dayOfWeekFormatter,
-    payload.value,
-  ]);
+  const dayOfWeek = useMemo(
+    () => dayOfWeekFormatter(payload.value),
+    [dayOfWeekFormatter, payload.value]
+  );
   return (
     <g transform={`translate(${x},${y})`}>
       <text

@@ -91,9 +91,8 @@ export function determineDepthTillStory(
     return 0;
   }
 
-  const firstParent: RecordProxy | null | undefined = comment.getLinkedRecord(
-    "parent"
-  );
+  const firstParent: RecordProxy | null | undefined =
+    comment.getLinkedRecord("parent");
   // When first parent is null and it is not in the story connection: Return null;
   if (!firstParent) {
     return null;
@@ -139,9 +138,8 @@ export function determineDepthTillAncestor(
   if (comment.getDataID() === ancestorID) {
     return 0;
   }
-  const firstParent: RecordProxy | null | undefined = comment.getLinkedRecord(
-    "parent"
-  );
+  const firstParent: RecordProxy | null | undefined =
+    comment.getLinkedRecord("parent");
   if (!firstParent) {
     // It's a top level comment, so can't determine depth till ancestor.
     return null;

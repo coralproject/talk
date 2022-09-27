@@ -11,6 +11,8 @@ export interface TabBarProps {
   tabID: string;
 
   "aria-labelledBy"?: string;
+
+  children?: React.ReactNode;
 }
 
 const TabPane: FunctionComponent<TabBarProps> = (props) => {

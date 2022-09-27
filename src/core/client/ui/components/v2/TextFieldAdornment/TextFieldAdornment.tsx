@@ -5,6 +5,7 @@ import styles from "./TextFieldAdornment.css";
 
 interface Props {
   className?: string;
+  children?: React.ReactNode;
 }
 
 const TextFieldAdornment: FunctionComponent<Props> = ({

@@ -36,67 +36,70 @@ interface ActiveHandlerResponse {
   }>;
 }
 
-export const activeJSONPHandler = ({
-  mongo,
-}: Options): RequestHandler<TenantCoralRequest> => async (req, res, next) => {
-  try {
-    // Grab the Tenant.
-    const { tenant, now } = req.coral;
+export const activeJSONPHandler =
+  ({ mongo }: Options): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
+    try {
+      // Grab the Tenant.
+      const { tenant, now } = req.coral;
 
-    // Ensure we have a siteID on the query.
-    const { siteID }: ActiveStoriesQuery = validate(
-      ActiveStoriesQuerySchema,
-      req.query
-    );
+      // Ensure we have a siteID on the query.
+      const { siteID }: ActiveStoriesQuery = validate(
+        ActiveStoriesQuerySchema,
+        req.query
+      );
 
-    // Check to see that this site does exist for this Tenant.
-    const site = await retrieveSite(mongo, tenant.id, siteID);
-    if (!site) {
-      throw new Error("site not found");
+      // Check to see that this site does exist for this Tenant.
+      const site = await retrieveSite(mongo, tenant.id, siteID);
+      if (!site) {
+        throw new Error("site not found");
+      }
+
+      // Find top active stories in the last 24 hours.
+      const start = DateTime.fromJSDate(now).minus({ hours: 24 }).toJSDate();
+      const results = await retrieveTopStoryMetrics(
+        mongo,
+        tenant.id,
+        siteID,
+        5,
+        start,
+        now
+      );
+
+      // Fetch all the stories for each count. This will be returned in the same
+      // ordering of the counts.
+      const stories = await retrieveManyStories(
+        mongo,
+        tenant.id,
+        results.map(({ _id }) => _id)
+      );
+
+      // Ensure that all entries are not null.
+      if (
+        !stories.every((story) => story) ||
+        results.length !== stories.length
+      ) {
+        throw new Error("some stories with comments were not found");
+      }
+
+      // Generate the response using the existing order of the stories.
+      const response: ActiveHandlerResponse = {
+        // We verified above that there was no null stories in the array.
+        stories: (stories as Story[]).map(
+          ({ id, url, metadata, commentCounts }) => ({
+            id,
+            url,
+            title: metadata?.title || null,
+            image: metadata?.image || null,
+            publishedAt: metadata?.publishedAt || null,
+            count: calculateTotalPublishedCommentCount(commentCounts.status),
+          })
+        ),
+      };
+
+      // Respond using jsonp.
+      return res.jsonp(response);
+    } catch (err) {
+      return next(err);
     }
-
-    // Find top active stories in the last 24 hours.
-    const start = DateTime.fromJSDate(now).minus({ hours: 24 }).toJSDate();
-    const results = await retrieveTopStoryMetrics(
-      mongo,
-      tenant.id,
-      siteID,
-      5,
-      start,
-      now
-    );
-
-    // Fetch all the stories for each count. This will be returned in the same
-    // ordering of the counts.
-    const stories = await retrieveManyStories(
-      mongo,
-      tenant.id,
-      results.map(({ _id }) => _id)
-    );
-
-    // Ensure that all entries are not null.
-    if (!stories.every((story) => story) || results.length !== stories.length) {
-      throw new Error("some stories with comments were not found");
-    }
-
-    // Generate the response using the existing order of the stories.
-    const response: ActiveHandlerResponse = {
-      // We verified above that there was no null stories in the array.
-      stories: (stories as Story[]).map(
-        ({ id, url, metadata, commentCounts }) => ({
-          id,
-          url,
-          title: metadata?.title || null,
-          image: metadata?.image || null,
-          publishedAt: metadata?.publishedAt || null,
-          count: calculateTotalPublishedCommentCount(commentCounts.status),
-        })
-      ),
-    };
-
-    // Respond using jsonp.
-    return res.jsonp(response);
-  } catch (err) {
-    return next(err);
-  }
-};
+  };

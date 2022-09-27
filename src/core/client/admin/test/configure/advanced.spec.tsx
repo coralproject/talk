@@ -76,13 +76,10 @@ it("change custom css", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    advancedContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
-    resolvers,
-  });
+  const { configureContainer, advancedContainer, saveChangesButton } =
+    await createTestRenderer({
+      resolvers,
+    });
 
   const customCSSField = within(advancedContainer).getByLabelText("Custom CSS");
 

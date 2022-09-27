@@ -14,25 +14,26 @@ export interface ModerationQueueInput {
   count: number | null;
 }
 
-export const ModerationQueue: GQLModerationQueueTypeResolver<ModerationQueueInput> = {
-  id: ({ selector, connection: { filter } }) => {
-    // NOTE: (wyattjoh) when the queues change shape in the future, investigate adding more dynamicness to this id generation
-    if (filter && filter.storyID) {
-      return selector + "::storyID:" + (filter.storyID as string);
-    }
+export const ModerationQueue: GQLModerationQueueTypeResolver<ModerationQueueInput> =
+  {
+    id: ({ selector, connection: { filter } }) => {
+      // NOTE: (wyattjoh) when the queues change shape in the future, investigate adding more dynamicness to this id generation
+      if (filter && filter.storyID) {
+        return selector + "::storyID:" + (filter.storyID as string);
+      }
 
-    return selector;
-  },
-  comments: (
-    { connection },
-    { first, after, orderBy },
-    { mongo, tenant, logger }
-  ) => {
-    return retrieveCommentConnection(mongo, tenant.id, {
-      ...connection,
-      first: defaultTo(first, 10),
-      after,
-      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-    });
-  },
-};
+      return selector;
+    },
+    comments: (
+      { connection },
+      { first, after, orderBy },
+      { mongo, tenant, logger }
+    ) => {
+      return retrieveCommentConnection(mongo, tenant.id, {
+        ...connection,
+        first: defaultTo(first, 10),
+        after,
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+      });
+    },
+  };

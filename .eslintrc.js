@@ -1,5 +1,6 @@
-const typescriptEslintRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended")
-  .overrides[0];
+const typescriptEslintRecommended =
+  require("@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended")
+    .overrides[0];
 const typescriptRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/recommended.js");
 const typescriptRecommendedTypeChecking = require("@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.js");
 const typescriptEslintPrettier = require("eslint-config-prettier/@typescript-eslint");
@@ -182,9 +183,16 @@ module.exports = {
     "plugin:jsdoc/recommended",
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "prettier",
   ],
   parserOptions: {
     ecmaVersion: 2018,
+  },
+  settings: {
+    react: {
+      version: "detect",
+    },
   },
   rules: {
     "arrow-body-style": "off",

@@ -99,20 +99,19 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const { match, router } = useRouter();
 
-  const [{ moderationQueueSort }] = useLocal<
-    ModerateCardContainerLocal
-  >(graphql`
-    fragment ModerateCardContainerLocal on Local {
-      moderationQueueSort
-    }
-  `);
+  const [{ moderationQueueSort }] =
+    useLocal<ModerateCardContainerLocal>(graphql`
+      fragment ModerateCardContainerLocal on Local {
+        moderationQueueSort
+      }
+    `);
 
   const scoped = useMemo(() => !!viewer.moderationScopes?.scoped, [viewer]);
 
-  const readOnly = useMemo(() => scoped && !comment.canModerate, [
-    scoped,
-    comment,
-  ]);
+  const readOnly = useMemo(
+    () => scoped && !comment.canModerate,
+    [scoped, comment]
+  );
 
   const [showBanModal, setShowBanModal] = useState(false);
   const handleApprove = useCallback(async () => {
