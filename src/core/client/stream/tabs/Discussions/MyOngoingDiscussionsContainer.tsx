@@ -44,7 +44,7 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
         subHeader={
           <Localized
             id="discussions-myOngoingDiscussions-subhead"
-            $orgName={settings.organization.name}
+            vars={{ orgName: settings.organization.name }}
           >
             <>Where you’ve commented across {settings.organization.name}</>
           </Localized>

@@ -34,7 +34,7 @@ const CommentStreamLiveUpdates: FunctionComponent<Props> = ({ disabled }) => (
     <FormField>
       <Localized
         id="configure-advanced-liveUpdates-explanation"
-        strong={<strong />}
+        elems={{ strong: <strong /> }}
       >
         <FormFieldDescription>
           When enabled, there will be real-time loading and updating of comments

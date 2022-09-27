@@ -59,9 +59,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const [showModMessage, setShowModMessage] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showWarnSuccess, setShowWarnSuccess] = useState<boolean>(false);
-  const [showSendModMessageSuccess, setShowSendModMessageSuccess] = useState<
-    boolean
-  >(false);
+  const [showSendModMessageSuccess, setShowSendModMessageSuccess] =
+    useState<boolean>(false);
 
   const moderationScopesEnabled = settings.multisite;
   const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
@@ -158,7 +157,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   }, [setShowBanned]);
 
   const handleSuspendConfirm = useCallback(
-    (timeout, message) => {
+    (timeout: number, message: string) => {
       void suspendUser({
         userID: user.id,
         timeout,
@@ -171,11 +170,11 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 
   const handleUpdateBan = useCallback(
     async (
-      updateType,
-      rejectExistingComments,
-      banSiteIDs,
-      unbanSiteIDs,
-      message
+      updateType: UpdateType,
+      rejectExistingComments: boolean | null | undefined,
+      banSiteIDs: string[] | null | undefined,
+      unbanSiteIDs: string[] | null | undefined,
+      message: string
     ) => {
       switch (updateType) {
         case UpdateType.ALL_SITES:
@@ -270,7 +269,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       />
       <WarnModal
         username={user.username}
-        organizationName={settings.organization.name}
         open={showWarn}
         onClose={hideWarn}
         onConfirm={handleWarnConfirm}

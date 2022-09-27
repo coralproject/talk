@@ -5,6 +5,7 @@ import styles from "./TombstoneWrapper.css";
 
 interface Props {
   noBottomBorder?: boolean;
+  children?: React.ReactNode;
 }
 
 const TombstoneWrapper: FunctionComponent<Props> = ({

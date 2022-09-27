@@ -22,6 +22,7 @@ import RestrictedContainer from "./RestrictedContainer";
 interface Props {
   data: AuthCheckRouteQueryResponse;
   error: Error | null;
+  children?: React.ReactNode;
 }
 
 type CheckParams =

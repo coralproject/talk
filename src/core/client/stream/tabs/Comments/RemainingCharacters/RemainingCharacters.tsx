@@ -19,7 +19,10 @@ const RemainingCharacters: FunctionComponent<Props> = (props) => {
       itemGutter="half"
     >
       {belowZero && <Icon color="error">warning</Icon>}
-      <Localized id="comments-remainingCharacters" $remaining={props.remaining}>
+      <Localized
+        id="comments-remainingCharacters"
+        vars={{ remaining: props.remaining }}
+      >
         <Typography
           variant="detail"
           container="div"

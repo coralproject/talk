@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
@@ -57,19 +63,23 @@ async function createTestRenderer(
     },
   });
   customRenderAppWithContext(context);
-  const tabPane = await screen.findByTestId("current-tab-pane");
 
   return {
     context,
-    tabPane,
   };
 }
 
 it("render moderation view link", async () => {
-  await createTestRenderer();
-  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+  await act(async () => {
+    await createTestRenderer();
+  });
+
+  const comment = await screen.findByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
+
   const link = within(comment).getByRole("link", { name: "Moderation view" });
   expect(link).toHaveAttribute(
     "href",
@@ -78,45 +88,53 @@ it("render moderation view link", async () => {
 });
 
 it("render moderate story link", async () => {
-  await createTestRenderer();
-  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+  await act(async () => {
+    await createTestRenderer();
+  });
+  const comment = await screen.findByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   const link = within(comment).getByRole("link", { name: "Moderate story" });
   expect(link).toHaveAttribute("href", `/admin/moderate/stories/${story.id}`);
 });
 
 it("feature and unfeature comment", async () => {
-  await createTestRenderer({
-    logNetwork: false,
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        featureComment: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
-          });
-          return {
-            comment: pureMerge<typeof firstComment>(firstComment, {
-              tags: [featuredTag],
-              status: GQLCOMMENT_STATUS.APPROVED,
-            }),
-          };
+  await act(async () => {
+    await createTestRenderer({
+      logNetwork: false,
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          featureComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                tags: [featuredTag],
+                status: GQLCOMMENT_STATUS.APPROVED,
+              }),
+            };
+          },
+          unfeatureComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+            });
+            return { comment: firstComment };
+          },
         },
-        unfeatureComment: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            commentID: firstComment.id,
-          });
-          return { comment: firstComment };
-        },
-      },
-    }),
+      }),
+    });
   });
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
 
   // Feature
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   const featureButton = within(comment).getByRole("button", {
     name: "Feature",
   });
@@ -127,38 +145,46 @@ it("feature and unfeature comment", async () => {
   ).toBeVisible();
 
   // Unfeature
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   const unfeatureButton = within(comment).getByRole("button", {
     name: "Un-feature",
   });
   fireEvent.click(unfeatureButton);
-  expect(await within(comment).findByText("Featured")).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(within(comment).queryByText("Featured")).toBeNull();
+  });
   expect(
     screen.queryByTestId("comments-featuredCount")
   ).not.toBeInTheDocument();
 });
 
 it("approve comment", async () => {
-  await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        approveComment: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
-          });
-          return {
-            comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.APPROVED,
-            }),
-          };
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          approveComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.APPROVED,
+              }),
+            };
+          },
         },
-      },
-    }),
+      }),
+    });
   });
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   const approveButton = within(comment).getByRole("button", {
     name: "Approve",
   });
@@ -167,23 +193,26 @@ it("approve comment", async () => {
 });
 
 it("reject comment", async () => {
-  const { tabPane } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        rejectComment: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
-          });
-          return {
-            comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.REJECTED,
-            }),
-          };
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          rejectComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.REJECTED,
+              }),
+            };
+          },
         },
-      },
-    }),
+      }),
+    });
   });
+  const tabPane = await screen.findByTestId("current-tab-pane");
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
   userEvent.click(caretButton);
@@ -202,48 +231,53 @@ it("reject comment", async () => {
 });
 
 it("ban user", async () => {
-  const { tabPane } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        user: ({ variables }) => {
-          expectAndFail(variables.id).toBe(firstComment.author!.id);
-          return firstComment.author!;
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          user: ({ variables }) => {
+            expectAndFail(variables.id).toBe(firstComment.author!.id);
+            return firstComment.author!;
+          },
         },
-      },
-      Mutation: {
-        banUser: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            userID: firstComment.author!.id,
-            rejectExistingComments: false,
-            siteIDs: [],
-          });
-          return {
-            user: pureMerge<typeof firstComment.author>(firstComment.author, {
-              status: {
-                ban: {
-                  active: true,
+        Mutation: {
+          banUser: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              userID: firstComment.author!.id,
+              rejectExistingComments: false,
+              siteIDs: [],
+            });
+            return {
+              user: pureMerge<typeof firstComment.author>(firstComment.author, {
+                status: {
+                  ban: {
+                    active: true,
+                  },
                 },
-              },
-            }),
-          };
+              }),
+            };
+          },
+          rejectComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.REJECTED,
+              }),
+            };
+          },
         },
-        rejectComment: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
-          });
-          return {
-            comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.REJECTED,
-            }),
-          };
-        },
-      },
-    }),
+      }),
+    });
   });
+  const tabPane = await screen.findByTestId("current-tab-pane");
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   await waitFor(() => {
     expect(
       within(comment).getByRole("button", { name: "Ban User" })
@@ -262,19 +296,23 @@ it("ban user", async () => {
 });
 
 it("cancel ban user", async () => {
-  await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        user: ({ variables }) => {
-          expectAndFail(variables.id).toBe(firstComment.author!.id);
-          return firstComment.author!;
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          user: ({ variables }) => {
+            expectAndFail(variables.id).toBe(firstComment.author!.id);
+            return firstComment.author!;
+          },
         },
-      },
-    }),
+      }),
+    });
   });
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  userEvent.click(caretButton);
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   await waitFor(() => {
     expect(
       within(comment).getByRole("button", { name: "Ban User" })
@@ -292,52 +330,56 @@ it("cancel ban user", async () => {
 });
 
 it("site moderator can site ban commenter", async () => {
-  const { tabPane } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        user: ({ variables }) => {
-          expectAndFail(variables.id).toBe(firstComment.author!.id);
-          return firstComment.author!;
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          user: ({ variables }) => {
+            expectAndFail(variables.id).toBe(firstComment.author!.id);
+            return firstComment.author!;
+          },
+          settings: () => settingsWithMultisite,
+          viewer: () => moderators[1],
         },
-        settings: () => settingsWithMultisite,
-        viewer: () => moderators[1],
-      },
-      Mutation: {
-        banUser: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            userID: firstComment.author!.id,
-            rejectExistingComments: false,
-            siteIDs: ["site-id"],
-          });
-          return {
-            user: pureMerge<typeof firstComment.author>(firstComment.author, {
-              status: {
-                ban: {
-                  active: true,
+        Mutation: {
+          banUser: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              userID: firstComment.author!.id,
+              rejectExistingComments: false,
+              siteIDs: ["site-id"],
+            });
+            return {
+              user: pureMerge<typeof firstComment.author>(firstComment.author, {
+                status: {
+                  ban: {
+                    active: true,
+                  },
                 },
-              },
-            }),
-          };
+              }),
+            };
+          },
+          rejectComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.REJECTED,
+              }),
+            };
+          },
         },
-        rejectComment: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            commentID: firstComment.id,
-            commentRevisionID: firstComment.revision!.id,
-          });
-          return {
-            comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.REJECTED,
-            }),
-          };
-        },
-      },
-    }),
+      }),
+    });
   });
+  const tabPane = await screen.findByTestId("current-tab-pane");
 
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
   const caretButton = within(comment).getByLabelText("Moderate");
-  userEvent.click(caretButton);
-
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
   // Site moderator has Site Ban option but not Ban User option
   const siteBanButton = await within(comment).findByRole("button", {
     name: "Site Ban",

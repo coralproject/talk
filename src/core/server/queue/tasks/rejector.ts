@@ -182,46 +182,39 @@ const rejectLiveComments = async (
   }
 };
 
-const createJobProcessor = ({
-  mongo,
-  redis,
-  tenantCache,
-}: RejectorProcessorOptions): JobProcessor<RejectorData> => async (job) => {
-  // Pull out the job data.
-  const { authorID, moderatorID, tenantID, siteIDs } = job.data;
-  const log = logger.child(
-    {
-      jobID: job.id,
-      jobName: JOB_NAME,
-      authorID,
-      moderatorID,
-      tenantID,
-      siteIDs,
-    },
-    true
-  );
-  // Mark the start time.
-  const timer = createTimer();
-
-  log.debug("starting to reject author comments");
-
-  // Get the tenant.
-  const tenant = await tenantCache.retrieveByID(tenantID);
-  if (!tenant) {
-    log.error("referenced tenant was not found");
-    return;
-  }
-
-  await rejectLiveComments(
+const createJobProcessor =
+  ({
     mongo,
     redis,
-    tenant,
-    authorID,
-    moderatorID,
-    siteIDs
-  );
-  if (mongo.archive) {
-    await rejectArchivedComments(
+    tenantCache,
+  }: RejectorProcessorOptions): JobProcessor<RejectorData> =>
+  async (job) => {
+    // Pull out the job data.
+    const { authorID, moderatorID, tenantID, siteIDs } = job.data;
+    const log = logger.child(
+      {
+        jobID: job.id,
+        jobName: JOB_NAME,
+        authorID,
+        moderatorID,
+        tenantID,
+        siteIDs,
+      },
+      true
+    );
+    // Mark the start time.
+    const timer = createTimer();
+
+    log.debug("starting to reject author comments");
+
+    // Get the tenant.
+    const tenant = await tenantCache.retrieveByID(tenantID);
+    if (!tenant) {
+      log.error("referenced tenant was not found");
+      return;
+    }
+
+    await rejectLiveComments(
       mongo,
       redis,
       tenant,
@@ -229,11 +222,20 @@ const createJobProcessor = ({
       moderatorID,
       siteIDs
     );
-  }
+    if (mongo.archive) {
+      await rejectArchivedComments(
+        mongo,
+        redis,
+        tenant,
+        authorID,
+        moderatorID,
+        siteIDs
+      );
+    }
 
-  // Compute the end time.
-  log.debug({ took: timer() }, "rejected the author's comments");
-};
+    // Compute the end time.
+    log.debug({ took: timer() }, "rejected the author's comments");
+  };
 
 export type RejectorQueue = Task<RejectorData>;
 

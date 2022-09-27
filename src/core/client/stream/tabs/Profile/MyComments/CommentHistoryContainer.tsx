@@ -30,14 +30,13 @@ export const CommentHistoryContainer: FunctionComponent<Props> = ({
   story,
   settings,
 }) => {
-  const [{ archivingEnabled, autoArchiveOlderThanMs }] = useLocal<
-    CommentHistoryContainerLocal
-  >(graphql`
-    fragment CommentHistoryContainerLocal on Local {
-      archivingEnabled
-      autoArchiveOlderThanMs
-    }
-  `);
+  const [{ archivingEnabled, autoArchiveOlderThanMs }] =
+    useLocal<CommentHistoryContainerLocal>(graphql`
+      fragment CommentHistoryContainerLocal on Local {
+        archivingEnabled
+        autoArchiveOlderThanMs
+      }
+    `);
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const beginLoadMoreEvent = useViewerNetworkEvent(
     LoadMoreHistoryCommentsEvent
@@ -91,10 +90,10 @@ const enhanced = withPaginationContainer<
     `,
     viewer: graphql`
       fragment CommentHistoryContainer_viewer on User
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
-          cursor: { type: "Cursor" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 5 }
+        cursor: { type: "Cursor" }
+      ) {
         comments(first: $count, after: $cursor)
           @connection(key: "CommentHistory_comments") {
           edges {

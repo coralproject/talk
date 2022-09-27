@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import { FormApi } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
@@ -22,6 +21,7 @@ import {
 
 import { EditSiteForm_settings as SettingsData } from "coral-admin/__generated__/EditSiteForm_settings.graphql";
 import { EditSiteForm_site as SiteData } from "coral-admin/__generated__/EditSiteForm_site.graphql";
+import { UpdateSite } from "coral-admin/__generated__/UpdateSiteMutation.graphql";
 
 import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
@@ -41,7 +41,7 @@ const EditSiteForm: FunctionComponent<Props> = ({
 }) => {
   const updateSite = useMutation(UpdateSiteMutation);
   const [submitError, setSubmitError] = useState<null | string>(null);
-  const onSubmit = useCallback(async (input, form: FormApi) => {
+  const onSubmit = useCallback(async (input: UpdateSite) => {
     try {
       const result = await updateSite({ site: input, id: site.id });
       if (result) {

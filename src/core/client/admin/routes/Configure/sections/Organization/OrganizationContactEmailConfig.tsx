@@ -39,7 +39,10 @@ const OrganizationContactEmailConfig: FunctionComponent<Props> = ({
       </Localized>
     }
   >
-    <Localized id="configure-organization-emailExplanation" strong={<strong />}>
+    <Localized
+      id="configure-organization-emailExplanation"
+      elems={{ strong: <strong /> }}
+    >
       <FormFieldDescription>
         This email address will be used as in emails and across the platform for
         community members to get in touch with the organization should they have

@@ -57,14 +57,16 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
 
       <Localized
         id="comments-archivedReportPopover-doesThisComment"
-        a={
-          <a
-            href={`mailto:${settings.organization.contactEmail}?subject=${subject}&body=${emailBody}`}
-          >
-            {settings.organization.name}
-          </a>
-        }
-        $orgName={settings.organization.name}
+        elems={{
+          a: (
+            <a
+              href={`mailto:${settings.organization.contactEmail}?subject=${subject}&body=${emailBody}`}
+            >
+              {settings.organization.name}
+            </a>
+          ),
+        }}
+        vars={{ orgName: settings.organization.name }}
       >
         <div className={styles.body}>
           Does this comment violate our community guidelines? Is this offensive
