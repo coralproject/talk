@@ -78,9 +78,8 @@ it("shows moderation message at the top of the stream", async () => {
   ).toBeDefined();
 
   // the moderation message can be acknowledged and is no longer shown once acknowledged
-  const acknowledgeModMessageButton = within(modMessageCallout).getByText(
-    "Acknowledge"
-  );
+  const acknowledgeModMessageButton =
+    within(modMessageCallout).getByText("Acknowledge");
   act(() => {
     acknowledgeModMessageButton.props.onClick();
   });

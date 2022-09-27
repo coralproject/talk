@@ -64,9 +64,8 @@ const Flex: FunctionComponent<Props> = (props) => {
   };
 
   if (justifyContent) {
-    classObject[
-      (classes as any)[`justify${pascalCase(justifyContent)}`]
-    ] = true;
+    classObject[(classes as any)[`justify${pascalCase(justifyContent)}`]] =
+      true;
   }
 
   if (alignItems) {

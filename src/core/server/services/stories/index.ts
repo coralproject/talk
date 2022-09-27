@@ -183,9 +183,8 @@ export async function remove(
 
   if (includeComments) {
     // Remove the moderation actions associated with the comments we just removed.
-    const {
-      deletedCount: removedModerationActions,
-    } = await removeStoryModerationActions(mongo, tenant.id, story.id);
+    const { deletedCount: removedModerationActions } =
+      await removeStoryModerationActions(mongo, tenant.id, story.id);
 
     log.debug(
       { removedModerationActions },
@@ -193,9 +192,8 @@ export async function remove(
     );
 
     if (mongo.archive) {
-      const {
-        deletedCount: removedArchivedModerationActions,
-      } = await removeStoryModerationActions(mongo, tenant.id, story.id, true);
+      const { deletedCount: removedArchivedModerationActions } =
+        await removeStoryModerationActions(mongo, tenant.id, story.id, true);
 
       log.debug(
         { removedArchivedModerationActions },
@@ -236,9 +234,8 @@ export async function remove(
     log.debug({ removedComments }, "removed comments while deleting story");
 
     if (mongo.archive) {
-      const {
-        deletedCount: removedArchivedComments,
-      } = await removeStoryComments(mongo, tenant.id, story.id, true);
+      const { deletedCount: removedArchivedComments } =
+        await removeStoryComments(mongo, tenant.id, story.id, true);
 
       log.debug(
         { removedArchivedComments },

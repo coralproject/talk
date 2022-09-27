@@ -47,9 +47,11 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
       >
         <Localized
           id="configure-moderationPhases-description"
-          externalLink={
-            <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing" />
-          }
+          elems={{
+            externalLink: (
+              <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing" />
+            ),
+          }}
         >
           <FormFieldDescription>
             Configure a external moderation phase to automate some moderation

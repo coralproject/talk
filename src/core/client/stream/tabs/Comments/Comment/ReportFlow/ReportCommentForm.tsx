@@ -15,12 +15,14 @@ import { Button, ValidationMessage } from "coral-ui/components/v3";
 
 import styles from "./ReportCommentForm.css";
 
-const RadioField: FunctionComponent<Pick<
-  FieldProps<string, any>,
-  "validate" | "name" | "value" | "disabled" | "children"
->> = ({ name, value, disabled, children }) => (
+const RadioField: FunctionComponent<
+  Pick<
+    FieldProps<string, any>,
+    "validate" | "name" | "value" | "disabled" | "children"
+  >
+> = ({ name, value, disabled, children }) => (
   <Field name={name} type="radio" value={value}>
-    {({ input }) => (
+    {({ input }: { input: any }) => (
       <RadioButton
         {...input}
         id={`reportComment-popover--${input.name}-${value}`}
@@ -153,7 +155,7 @@ class ReportCommentForm extends React.Component<Props> {
                 </ul>
                 <Localized
                   id="comments-reportPopover-additionalInformation"
-                  optional={<span className={styles.detail} />}
+                  elems={{ optional: <span className={styles.detail} /> }}
                 >
                   <label
                     className={styles.heading}
@@ -175,7 +177,7 @@ class ReportCommentForm extends React.Component<Props> {
                       validateMaxLength(500),
                       <Localized
                         id="comments-reportPopover-restrictToMaxCharacters"
-                        $maxCharacters={500}
+                        vars={{ maxCharacters: 500 }}
                       >
                         <span>
                           Please restrict your report to 500 characters
@@ -201,7 +203,7 @@ class ReportCommentForm extends React.Component<Props> {
                           )) || (
                             <Localized
                               id="comments-reportPopover-maxCharacters"
-                              $maxCharacters={500}
+                              vars={{ maxCharacters: 500 }}
                             >
                               <div>Max. 500 Characters</div>
                             </Localized>

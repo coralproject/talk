@@ -39,7 +39,7 @@ const SuspendedInfo: FunctionComponent<Props> = ({ until, organization }) => {
       }
     >
       <Localized
-        $organization={organization}
+        vars={{ organization }}
         id="suspendInfo-description-inAccordanceWith"
       >
         <div className={styles.description}>
@@ -48,7 +48,10 @@ const SuspendedInfo: FunctionComponent<Props> = ({ until, organization }) => {
           to comment, respect or report comments.
         </div>
       </Localized>
-      <Localized $until={untilDate} id="suspendInfo-until-pleaseRejoinThe">
+      <Localized
+        id="suspendInfo-until-pleaseRejoinThe"
+        vars={{ until: untilDate }}
+      >
         <div className={styles.until}>
           Please rejoin the conversation on {untilDate}.
         </div>

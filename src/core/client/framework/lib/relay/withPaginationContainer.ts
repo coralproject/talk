@@ -46,22 +46,23 @@ export interface ConnectionConfig<
  * from Relay.
  */
 export default <T, QueryVariables, FragmentVariables>(
-  fragmentSpec: { [P in FragmentKeysNoLocal<T>]: GraphQLTaggedNode } & {
-    _?: never;
-  },
-  connectionConfig: ConnectionConfig<T, QueryVariables, FragmentVariables>
-): InferableComponentEnhancerWithProps<
-  { [P in FragmentKeysNoLocal<T>]: T[P] } & { relay: RelayPaginationProp },
-  { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
-> => (component: React.ComponentType<any>) => {
-  const result = createPaginationContainer(
-    component,
-    resolveModuleObject(fragmentSpec),
-    {
-      ...connectionConfig,
-      query: resolveModule(connectionConfig.query),
-    }
-  );
-  result.displayName = wrapDisplayName(component, "Relay");
-  return result as any;
-};
+    fragmentSpec: { [P in FragmentKeysNoLocal<T>]: GraphQLTaggedNode } & {
+      _?: never;
+    },
+    connectionConfig: ConnectionConfig<T, QueryVariables, FragmentVariables>
+  ): InferableComponentEnhancerWithProps<
+    { [P in FragmentKeysNoLocal<T>]: T[P] } & { relay: RelayPaginationProp },
+    { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
+  > =>
+  (component: React.ComponentType<any>) => {
+    const result = createPaginationContainer(
+      component,
+      resolveModuleObject(fragmentSpec),
+      {
+        ...connectionConfig,
+        query: resolveModule(connectionConfig.query),
+      }
+    );
+    result.displayName = wrapDisplayName(component, "Relay");
+    return result as any;
+  };

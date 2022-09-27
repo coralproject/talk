@@ -74,8 +74,7 @@ it("Calls JSONP again with reset", async () => {
 it("Inject counts", async () => {
   (window as any).CoralCount.setCount({
     ref: "ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw==",
-    html:
-      '<span class="coral-count-number">5</span> <span class="coral-count-text">Comments</span>',
+    html: '<span class="coral-count-number">5</span> <span class="coral-count-text">Comments</span>',
     count: 5,
   });
   expect(document.body).toMatchSnapshot();

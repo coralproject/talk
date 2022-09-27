@@ -33,7 +33,10 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
     }
   >
-    <Localized id="configure-organization-nameExplanation" strong={<strong />}>
+    <Localized
+      id="configure-organization-nameExplanation"
+      elems={{ strong: <strong /> }}
+    >
       <FormFieldDescription>
         Your organization name will appear on emails sent by Coral to your
         community and organization members

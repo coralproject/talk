@@ -5,6 +5,7 @@ import styles from "./OptionDetail.css";
 
 interface Props {
   variant?: "bold" | "muted";
+  children?: React.ReactNode;
 }
 
 const OptionDetail: FunctionComponent<Props> = ({ children, variant }) => (

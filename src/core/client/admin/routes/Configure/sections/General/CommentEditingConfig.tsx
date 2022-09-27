@@ -43,7 +43,7 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   >
     <Localized
       id="configure-general-commentEditing-explanation"
-      strong={<strong />}
+      elems={{ strong: <strong /> }}
     >
       <FormFieldDescription>
         Set a limit on how long commenters have to edit their comments sitewide.

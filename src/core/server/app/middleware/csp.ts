@@ -132,35 +132,33 @@ type Options = Pick<AppOptions, "mongo" | "config"> & {
 /**
  * cspMiddleware handles adding the CSP middleware to each outgoing request.
  */
-export const cspSiteMiddleware = ({
-  mongo,
-  config,
-  frameAncestorsDeny,
-}: Options): RequestHandler => async (req, res, next) => {
-  // If the frame ancestors is being set to deny, then use an empty list,
-  // otherwise look it up from the request.
-  const origins = frameAncestorsDeny
-    ? []
-    : await retrieveOriginsFromRequest(mongo, config, req);
+export const cspSiteMiddleware =
+  ({ mongo, config, frameAncestorsDeny }: Options): RequestHandler =>
+  async (req, res, next) => {
+    // If the frame ancestors is being set to deny, then use an empty list,
+    // otherwise look it up from the request.
+    const origins = frameAncestorsDeny
+      ? []
+      : await retrieveOriginsFromRequest(mongo, config, req);
 
-  const frameOptions = generateFrameOptions(req, origins);
-  if (frameOptions) {
-    res.setHeader("X-Frame-Options", frameOptions);
-  }
+    const frameOptions = generateFrameOptions(req, origins);
+    if (frameOptions) {
+      res.setHeader("X-Frame-Options", frameOptions);
+    }
 
-  // If we have AMP enabled, then we cannot send frame-ancestors because we
-  // can't predict the top level ancestor!
-  if (req.coral.tenant && isAMPEnabled(req.coral.tenant)) {
+    // If we have AMP enabled, then we cannot send frame-ancestors because we
+    // can't predict the top level ancestor!
+    if (req.coral.tenant && isAMPEnabled(req.coral.tenant)) {
+      return next();
+    }
+
+    res.setHeader(
+      "Content-Security-Policy",
+      generateContentSecurityPolicy(origins)
+    );
+
     return next();
-  }
-
-  res.setHeader(
-    "Content-Security-Policy",
-    generateContentSecurityPolicy(origins)
-  );
-
-  return next();
-};
+  };
 
 function generateContentSecurityPolicy(allowedOrigins: string[]) {
   // Only the domains that are allowed by the tenant may embed Coral.

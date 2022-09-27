@@ -707,10 +707,8 @@ export const commentWithDeepestReplies = denormalizeComment(
                                                                     baseComment.createdAt,
                                                                   node: {
                                                                     ...baseComment,
-                                                                    id:
-                                                                      "my-comment-8",
-                                                                    body:
-                                                                      "body 8",
+                                                                    id: "my-comment-8",
+                                                                    body: "body 8",
                                                                     replyCount: 0,
                                                                     replies: {
                                                                       ...baseComment.replies,

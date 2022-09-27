@@ -154,9 +154,8 @@ function createCompiler({
         tsMessagesPromises.push(tsMessagesPromise);
       });
 
-      const tsCheckerHooks = forkTsCheckerWebpackPlugin.getCompilerHooks(
-        singleCompiler
-      );
+      const tsCheckerHooks =
+        forkTsCheckerWebpackPlugin.getCompilerHooks(singleCompiler);
 
       // now access hooks just like before
       // TODO: (cvle) this doesn't work currently.

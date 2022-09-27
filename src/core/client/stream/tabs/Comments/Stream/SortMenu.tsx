@@ -25,9 +25,10 @@ interface Props {
 
 const SortMenu: FunctionComponent<Props> = (props) => {
   const emitOpenSortMenuEvent = useViewerEvent(OpenSortMenuEvent);
-  const onClickSelectField = useCallback(() => emitOpenSortMenuEvent(), [
-    emitOpenSortMenuEvent,
-  ]);
+  const onClickSelectField = useCallback(
+    () => emitOpenSortMenuEvent(),
+    [emitOpenSortMenuEvent]
+  );
   let label = (
     <Localized id="comments-sortMenu-sortBy">
       <label className={styles.label} htmlFor="coral-comments-sortMenu">

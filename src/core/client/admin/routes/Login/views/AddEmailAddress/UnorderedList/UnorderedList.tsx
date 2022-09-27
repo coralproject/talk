@@ -2,7 +2,11 @@ import React, { FunctionComponent } from "react";
 
 import styles from "./UnorderedList.css";
 
-const UnorderedList: FunctionComponent = (props) => (
+interface UnorderedListProps {
+  children?: React.ReactNode;
+}
+
+const UnorderedList: FunctionComponent<UnorderedListProps> = (props) => (
   <ul className={styles.root}>{props.children}</ul>
 );
 

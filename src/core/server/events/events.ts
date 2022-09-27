@@ -19,9 +19,10 @@ export type CommentEnteredModerationQueueCoralEventPayload = CoralEventPayload<
   CommentEnteredModerationQueueInput
 >;
 
-export const CommentEnteredModerationQueueCoralEvent = createCoralEvent<
-  CommentEnteredModerationQueueCoralEventPayload
->(CoralEventType.COMMENT_ENTERED_MODERATION_QUEUE);
+export const CommentEnteredModerationQueueCoralEvent =
+  createCoralEvent<CommentEnteredModerationQueueCoralEventPayload>(
+    CoralEventType.COMMENT_ENTERED_MODERATION_QUEUE
+  );
 
 export type CommentReactionCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_REACTION_CREATED,
@@ -35,9 +36,10 @@ export type CommentReactionCreatedCoralEventPayload = CoralEventPayload<
   }
 >;
 
-export const CommentReactionCreatedCoralEvent = createCoralEvent<
-  CommentReactionCreatedCoralEventPayload
->(CoralEventType.COMMENT_REACTION_CREATED);
+export const CommentReactionCreatedCoralEvent =
+  createCoralEvent<CommentReactionCreatedCoralEventPayload>(
+    CoralEventType.COMMENT_REACTION_CREATED
+  );
 
 export type CommentFlagCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_FLAG_CREATED,
@@ -52,78 +54,89 @@ export type CommentFlagCreatedCoralEventPayload = CoralEventPayload<
   }
 >;
 
-export const CommentFlagCreatedCoralEvent = createCoralEvent<
-  CommentFlagCreatedCoralEventPayload
->(CoralEventType.COMMENT_FLAG_CREATED);
+export const CommentFlagCreatedCoralEvent =
+  createCoralEvent<CommentFlagCreatedCoralEventPayload>(
+    CoralEventType.COMMENT_FLAG_CREATED
+  );
 
 export type CommentLeftModerationQueueCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_LEFT_MODERATION_QUEUE,
   CommentLeftModerationQueueInput
 >;
 
-export const CommentLeftModerationQueueCoralEvent = createCoralEvent<
-  CommentLeftModerationQueueCoralEventPayload
->(CoralEventType.COMMENT_LEFT_MODERATION_QUEUE);
+export const CommentLeftModerationQueueCoralEvent =
+  createCoralEvent<CommentLeftModerationQueueCoralEventPayload>(
+    CoralEventType.COMMENT_LEFT_MODERATION_QUEUE
+  );
 
 export type CommentStatusUpdatedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_STATUS_UPDATED,
   CommentStatusUpdatedInput
 >;
 
-export const CommentStatusUpdatedCoralEvent = createCoralEvent<
-  CommentStatusUpdatedCoralEventPayload
->(CoralEventType.COMMENT_STATUS_UPDATED);
+export const CommentStatusUpdatedCoralEvent =
+  createCoralEvent<CommentStatusUpdatedCoralEventPayload>(
+    CoralEventType.COMMENT_STATUS_UPDATED
+  );
 
 export type CommentEnteredCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_ENTERED,
   CommentEnteredInput
 >;
 
-export const CommentEnteredCoralEvent = createCoralEvent<
-  CommentEnteredCoralEventPayload
->(CoralEventType.COMMENT_ENTERED);
+export const CommentEnteredCoralEvent =
+  createCoralEvent<CommentEnteredCoralEventPayload>(
+    CoralEventType.COMMENT_ENTERED
+  );
 
 export type CommentReplyCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_REPLY_CREATED,
   CommentReplyCreatedInput
 >;
 
-export const CommentReplyCreatedCoralEvent = createCoralEvent<
-  CommentReplyCreatedCoralEventPayload
->(CoralEventType.COMMENT_REPLY_CREATED, {
-  forward: [CommentEnteredCoralEvent],
-});
+export const CommentReplyCreatedCoralEvent =
+  createCoralEvent<CommentReplyCreatedCoralEventPayload>(
+    CoralEventType.COMMENT_REPLY_CREATED,
+    {
+      forward: [CommentEnteredCoralEvent],
+    }
+  );
 
 export type CommentCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_CREATED,
   CommentCreatedInput
 >;
 
-export const CommentCreatedCoralEvent = createCoralEvent<
-  CommentCreatedCoralEventPayload
->(CoralEventType.COMMENT_CREATED, {
-  forward: [CommentEnteredCoralEvent],
-});
+export const CommentCreatedCoralEvent =
+  createCoralEvent<CommentCreatedCoralEventPayload>(
+    CoralEventType.COMMENT_CREATED,
+    {
+      forward: [CommentEnteredCoralEvent],
+    }
+  );
 
 export type CommentFeaturedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_FEATURED,
   CommentFeaturedInput
 >;
 
-export const CommentFeaturedCoralEvent = createCoralEvent<
-  CommentFeaturedCoralEventPayload
->(CoralEventType.COMMENT_FEATURED);
+export const CommentFeaturedCoralEvent =
+  createCoralEvent<CommentFeaturedCoralEventPayload>(
+    CoralEventType.COMMENT_FEATURED
+  );
 
 export type CommentReleasedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_RELEASED,
   CommentReleasedInput
 >;
 
-export const CommentReleasedCoralEvent = createCoralEvent<
-  CommentReleasedCoralEventPayload
->(CoralEventType.COMMENT_RELEASED, {
-  forward: [CommentEnteredCoralEvent],
-});
+export const CommentReleasedCoralEvent =
+  createCoralEvent<CommentReleasedCoralEventPayload>(
+    CoralEventType.COMMENT_RELEASED,
+    {
+      forward: [CommentEnteredCoralEvent],
+    }
+  );
 
 export type StoryCreatedCoralEventPayload = CoralEventPayload<
   CoralEventType.STORY_CREATED,
@@ -134,13 +147,13 @@ export type StoryCreatedCoralEventPayload = CoralEventPayload<
   }
 >;
 
-export const StoryCreatedCoralEvent = createCoralEvent<
-  StoryCreatedCoralEventPayload
->(CoralEventType.STORY_CREATED);
+export const StoryCreatedCoralEvent =
+  createCoralEvent<StoryCreatedCoralEventPayload>(CoralEventType.STORY_CREATED);
 
-export const CommentEditedCoralEvent = createCoralEvent<
-  CommentEditedCoralEventPayload
->(CoralEventType.COMMENT_EDITED);
+export const CommentEditedCoralEvent =
+  createCoralEvent<CommentEditedCoralEventPayload>(
+    CoralEventType.COMMENT_EDITED
+  );
 
 export type CommentEditedCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_EDITED,

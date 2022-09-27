@@ -2,7 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  MutationInput,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -11,6 +15,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { AnnouncementConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AnnouncementConfigContainer_settings.graphql";
+import { CreateAnnouncementMutation } from "coral-admin/__generated__/CreateAnnouncementMutation.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -35,15 +40,18 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   const onClose = useCallback(() => {
     setShowForm(false);
   }, [showForm]);
-  const onCreate = useCallback((values) => {
-    try {
-      setSubmitError(null);
-      void createAnnouncement(values);
-      setShowForm(false);
-    } catch (error) {
-      setSubmitError(error.message);
-    }
-  }, []);
+  const onCreate = useCallback(
+    (values: MutationInput<CreateAnnouncementMutation>) => {
+      try {
+        setSubmitError(null);
+        void createAnnouncement(values);
+        setShowForm(false);
+      } catch (error) {
+        setSubmitError(error.message);
+      }
+    },
+    []
+  );
   const onDelete = useCallback(() => {
     try {
       setSubmitError(null);
