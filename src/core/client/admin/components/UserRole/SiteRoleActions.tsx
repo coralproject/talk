@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
