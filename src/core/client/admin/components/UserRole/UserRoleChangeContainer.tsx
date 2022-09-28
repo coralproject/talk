@@ -8,6 +8,7 @@ import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
 import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
+import { isOrgModerator } from "coral-common/permissions/types";
 
 import ButtonPadding from "../ButtonPadding";
 import SiteRoleActions from "./SiteRoleActions";
@@ -73,7 +74,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   const moderationScopesEnabled = settings.multisite;
 
-  if (viewer.role !== GQLUSER_ROLE.ADMIN) {
+  if (viewer.role !== GQLUSER_ROLE.ADMIN && !isOrgModerator(viewer)) {
     return <SiteRoleActions viewer={viewer} user={user} />;
   }
 

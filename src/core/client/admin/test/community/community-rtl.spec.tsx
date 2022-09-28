@@ -425,7 +425,7 @@ it("promote user role as a site moderator", async () => {
       settings: () => settingsWithMultisite,
     },
     Mutation: {
-      promoteModerator: ({ variables }) => {
+      updateUserRole: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: user.id,
           siteIDs: [sites[0].id],
@@ -461,7 +461,7 @@ it("promote user role as a site moderator", async () => {
   userEvent.click(assignButton);
 
   await waitFor(() =>
-    expect(resolvers.Mutation!.promoteModerator!.called).toBe(true)
+    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
   );
 });
 
@@ -475,10 +475,10 @@ it("demote user role as a site moderator", async () => {
       settings: () => settingsWithMultisite,
     },
     Mutation: {
-      demoteModerator: ({ variables }) => {
+      updateUserRole: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: siteModeratorUser.id,
-          siteIDs: [sites[0].id],
+          siteIDs: siteModeratorViewer.moderationScopes?.siteIDs,
         });
         const userRecord = pureMerge<typeof siteModeratorUser>(
           siteModeratorUser,
@@ -515,7 +515,7 @@ it("demote user role as a site moderator", async () => {
   userEvent.click(removeButton);
 
   await waitFor(() =>
-    expect(resolvers.Mutation!.demoteModerator!.called).toBe(true)
+    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
   );
 });
 
