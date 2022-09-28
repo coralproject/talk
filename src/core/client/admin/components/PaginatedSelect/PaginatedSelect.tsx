@@ -24,6 +24,7 @@ interface Props {
   loading?: boolean;
   selected: React.ReactNode;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const PaginatedSelect: FunctionComponent<Props> = ({

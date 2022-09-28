@@ -40,7 +40,10 @@ const UserStatus: FunctionComponent<Props> = (props) => {
   ) {
     return render(
       styles.error,
-      <Localized id="userStatus-banned-count" $count={props.bannedSiteCount}>
+      <Localized
+        id="userStatus-banned-count"
+        vars={{ count: props.bannedSiteCount }}
+      >
         <div>Banned ({props.bannedSiteCount})</div>
       </Localized>
     );

@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
@@ -13,6 +19,7 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
+  TransitionControlData,
 } from "coral-framework/testHelpers";
 
 import { createContext } from "../create";
@@ -62,12 +69,16 @@ async function createTestRenderer(
     },
   });
   customRenderAppWithContext(context);
-  const container = await screen.findByTestId("stories-container");
-  return { container, context };
+  return { context };
 }
 
 it("renders stories", async () => {
-  const { container } = await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
+
+  const container = await screen.findByTestId("stories-container");
+
   expect(
     within(container).getByRole("row", {
       name: "Finally a Cure for Cancer Vin Hoa 11/29/2018, 4:01 PM 3 2 5 Open",
@@ -81,13 +92,17 @@ it("renders stories", async () => {
 });
 
 it("renders empty stories", async () => {
-  const { container } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        stories: () => emptyStories,
-      },
-    }),
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          stories: () => emptyStories,
+        },
+      }),
+    });
   });
+  const container = await screen.findByTestId("stories-container");
+
   // renders only the row of table headings
   expect(within(container).getAllByRole("row").length).toEqual(1);
   expect(
@@ -96,13 +111,17 @@ it("renders empty stories", async () => {
 });
 
 it("goes to moderation when clicking on title", async () => {
-  const {
-    container,
-    context: { transitionControl },
-  } = await createTestRenderer();
+  let transitionControlData: TransitionControlData;
+  await act(async () => {
+    const {
+      context: { transitionControl },
+    } = await createTestRenderer();
+    transitionControlData = transitionControl;
+  });
+  const container = await screen.findByTestId("stories-container");
 
   // Prevent router transitions.
-  transitionControl.allowTransition = false;
+  transitionControlData!.allowTransition = false;
 
   const story = storyConnection.edges[0].node;
   const storyLink = within(container).getByRole("link", {
@@ -111,28 +130,32 @@ it("goes to moderation when clicking on title", async () => {
   userEvent.click(storyLink);
 
   await waitFor(() => {
-    expect(transitionControl.history[0].pathname).toBe(
+    expect(transitionControlData!.history[0].pathname).toBe(
       `/admin/moderate/stories/${story.id}`
     );
   });
 });
 
 it("filter by status", async () => {
-  const { container } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        stories: ({ variables, callCount }) => {
-          switch (callCount) {
-            case 0:
-              return storyConnection;
-            default:
-              expectAndFail(variables.status).toBe(GQLSTORY_STATUS.CLOSED);
-              return emptyStories;
-          }
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          stories: ({ variables, callCount }) => {
+            switch (callCount) {
+              case 0:
+                return storyConnection;
+              default:
+                expectAndFail(variables.status).toBe(GQLSTORY_STATUS.CLOSED);
+                return emptyStories;
+            }
+          },
         },
-      },
-    }),
+      }),
+    });
   });
+  const container = await screen.findByTestId("stories-container");
+
   const selectField = within(container).getByRole("combobox", {
     name: "Search by status",
   });
@@ -179,14 +202,17 @@ it("change story status", async () => {
     }
   );
 
-  const { container } = await createTestRenderer({
-    resolvers: {
-      Mutation: { openStory, closeStory },
-      Query: {
-        story: () => story,
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: {
+        Mutation: { openStory, closeStory },
+        Query: {
+          story: () => story,
+        },
       },
-    },
+    });
   });
+  const container = await screen.findByTestId("stories-container");
 
   const storyRow = within(container).getByRole("row", {
     name: "First Colony on Mars Linh Nguyen 11/29/2018, 4:01 PM 3 2 5 Open",
@@ -213,35 +239,39 @@ it("change story status", async () => {
 });
 
 it("load more", async () => {
-  const { container } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        stories: ({ callCount }) => {
-          switch (callCount) {
-            case 0:
-              return {
-                edges: [
-                  { node: stories[0], cursor: stories[0].createdAt },
-                  { node: stories[1], cursor: stories[1].createdAt },
-                ],
-                pageInfo: {
-                  endCursor: stories[1].createdAt,
-                  hasNextPage: true,
-                },
-              };
-            default:
-              return {
-                edges: [{ node: stories[2], cursor: stories[2].createdAt }],
-                pageInfo: {
-                  endCursor: stories[2].createdAt,
-                  hasNextPage: false,
-                },
-              };
-          }
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          stories: ({ callCount }) => {
+            switch (callCount) {
+              case 0:
+                return {
+                  edges: [
+                    { node: stories[0], cursor: stories[0].createdAt },
+                    { node: stories[1], cursor: stories[1].createdAt },
+                  ],
+                  pageInfo: {
+                    endCursor: stories[1].createdAt,
+                    hasNextPage: true,
+                  },
+                };
+              default:
+                return {
+                  edges: [{ node: stories[2], cursor: stories[2].createdAt }],
+                  pageInfo: {
+                    endCursor: stories[2].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+            }
+          },
         },
-      },
-    }),
+      }),
+    });
   });
+  const container = await screen.findByTestId("stories-container");
+
   const loadMore = within(container).getByText("Load More");
   userEvent.click(loadMore);
   await waitFor(() => {
@@ -256,21 +286,25 @@ it("load more", async () => {
 });
 
 it("filter by search", async () => {
-  const { container } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        stories: ({ variables, callCount }) => {
-          switch (callCount) {
-            case 0:
-              return storyConnection;
-            default:
-              expectAndFail(variables.query).toBe("search");
-              return emptyStories;
-          }
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          stories: ({ variables, callCount }) => {
+            switch (callCount) {
+              case 0:
+                return storyConnection;
+              default:
+                expectAndFail(variables.query).toBe("search");
+                return emptyStories;
+            }
+          },
         },
-      },
-    }),
+      }),
+    });
   });
+  const container = await screen.findByTestId("stories-container");
+
   const searchField = within(container).getByRole("textbox", {
     name: "Search by story title or author",
   });
@@ -284,31 +318,35 @@ it("filter by search", async () => {
 });
 
 it("search by site name", async () => {
-  const { container } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        settings: () => settingsWithMultisite,
-        sites: ({ variables, callCount }) => {
-          switch (callCount) {
-            case 0:
-              expectAndFail(variables.query).toBe("Test");
-              return {
-                edges: [{ node: sites[0], cursor: sites[0].createdAt }],
-                pageInfo: { endCursor: null, hasNextPage: false },
-              };
-            case 1:
-              expectAndFail(variables.query).toBe("Not a site");
-              return {
-                edges: [],
-                pageInfo: { endCursor: null, hasNextPage: false },
-              };
-            default:
-              return siteConnection;
-          }
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settingsWithMultisite,
+          sites: ({ variables, callCount }) => {
+            switch (callCount) {
+              case 0:
+                expectAndFail(variables.query).toBe("Test");
+                return {
+                  edges: [{ node: sites[0], cursor: sites[0].createdAt }],
+                  pageInfo: { endCursor: null, hasNextPage: false },
+                };
+              case 1:
+                expectAndFail(variables.query).toBe("Not a site");
+                return {
+                  edges: [],
+                  pageInfo: { endCursor: null, hasNextPage: false },
+                };
+              default:
+                return siteConnection;
+            }
+          },
         },
-      },
-    }),
+      }),
+    });
   });
+  const container = await screen.findByTestId("stories-container");
+
   const siteSearchField = within(container).getByRole("textbox", {
     name: "Search by site name",
   });
@@ -333,7 +371,7 @@ it("search by site name", async () => {
 it("use searchFilter from url", async () => {
   const searchFilter = "CandyMountain";
   replaceHistoryLocation(`http://localhost/admin/stories?q=${searchFilter}`);
-  const { container } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         stories: ({ variables }) => {
@@ -343,6 +381,8 @@ it("use searchFilter from url", async () => {
       },
     }),
   });
+  const container = await screen.findByTestId("stories-container");
+
   const searchField = within(container).getByRole("textbox", {
     name: "Search by story title or author",
   });
@@ -352,24 +392,28 @@ it("use searchFilter from url", async () => {
 });
 
 it("shows stories only for sites within a site moderator's scope and single-site mods have no site search", async () => {
-  const { container } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        viewer: () => users.moderators[1],
-        stories: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            first: 10,
-            query: null,
-            siteIDs: ["site-1"],
-          });
-          return {
-            edges: [{ node: stories[0], cursor: stories[0].createdAt }],
-            pageInfo: { endCursor: null, hasNextPage: false },
-          };
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          viewer: () => users.moderators[1],
+          stories: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              first: 10,
+              query: null,
+              siteIDs: ["site-1"],
+            });
+            return {
+              edges: [{ node: stories[0], cursor: stories[0].createdAt }],
+              pageInfo: { endCursor: null, hasNextPage: false },
+            };
+          },
         },
-      },
-    }),
+      }),
+    });
   });
+  const container = await screen.findByTestId("stories-container");
+
   expect(
     within(container).getByRole("row", {
       name: "Finally a Cure for Cancer Vin Hoa 11/29/2018, 4:01 PM 3 2 5 Open",

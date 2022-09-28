@@ -49,7 +49,7 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
         </div>
         <Localized
           id="comments-userPopover-memberSince"
-          $timestamp={new Date(user.createdAt)}
+          vars={{ timestamp: new Date(user.createdAt) }}
         >
           <div className={styles.memberSince}>
             Member since: {user.createdAt}

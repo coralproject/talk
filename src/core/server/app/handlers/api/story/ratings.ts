@@ -55,46 +55,42 @@ function respond(res: Response, story: StoryRatingsData["story"]) {
   });
 }
 
-export const ratingsJSONPHandler = ({
-  mongo,
-}: AppOptions): RequestHandler<TenantCoralRequest> => async (
-  req,
-  res,
-  next
-) => {
-  const { tenant } = req.coral;
+export const ratingsJSONPHandler =
+  ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
+    const { tenant } = req.coral;
 
-  try {
-    // Ensure the feature flag is enabled.
-    if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)) {
-      return respond(res, null);
+    try {
+      // Ensure the feature flag is enabled.
+      if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)) {
+        return respond(res, null);
+      }
+
+      // Ensure we have something to query with.
+      const { id, url }: StoryRatingsQuery = validate(
+        StoryRatingsQuerySchema,
+        req.query
+      );
+
+      const story = await find(mongo, tenant, {
+        id,
+        url,
+      });
+      if (!story) {
+        return respond(res, null);
+      }
+
+      if (
+        resolveStoryMode(story.settings, tenant) !==
+        GQLSTORY_MODE.RATINGS_AND_REVIEWS
+      ) {
+        return respond(res, null);
+      }
+
+      const ratings = await retrieveStoryRatings(mongo, tenant.id, story.id);
+
+      return respond(res, { id: story.id, url: story.url, ratings });
+    } catch (err) {
+      return res.status(400).end();
     }
-
-    // Ensure we have something to query with.
-    const { id, url }: StoryRatingsQuery = validate(
-      StoryRatingsQuerySchema,
-      req.query
-    );
-
-    const story = await find(mongo, tenant, {
-      id,
-      url,
-    });
-    if (!story) {
-      return respond(res, null);
-    }
-
-    if (
-      resolveStoryMode(story.settings, tenant) !==
-      GQLSTORY_MODE.RATINGS_AND_REVIEWS
-    ) {
-      return respond(res, null);
-    }
-
-    const ratings = await retrieveStoryRatings(mongo, tenant.id, story.id);
-
-    return respond(res, { id: story.id, url: story.url, ratings });
-  } catch (err) {
-    return res.status(400).end();
-  }
-};
+  };

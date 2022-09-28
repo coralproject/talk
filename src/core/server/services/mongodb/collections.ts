@@ -31,13 +31,11 @@ export const archivedCommentActions = createCollection<CommentAction>(
 
 export const sites = createCollection<Site>("sites");
 
-export const commentModerationActions = createCollection<
-  CommentModerationAction
->("commentModerationActions");
+export const commentModerationActions =
+  createCollection<CommentModerationAction>("commentModerationActions");
 
-export const archivedCommentModerationActions = createCollection<
-  CommentModerationAction
->("archivedCommentModerationActions");
+export const archivedCommentModerationActions =
+  createCollection<CommentModerationAction>("archivedCommentModerationActions");
 
 export const seenComments = createCollection<SeenComments>("seenComments");
 

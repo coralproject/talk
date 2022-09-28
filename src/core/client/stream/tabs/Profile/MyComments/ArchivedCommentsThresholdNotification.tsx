@@ -10,9 +10,9 @@ interface Props {
   archivingThresholdMs: number;
 }
 
-export const ArchivedCommentsThresholdNotification: FunctionComponent<Props> = ({
-  archivingThresholdMs,
-}) => {
+export const ArchivedCommentsThresholdNotification: FunctionComponent<
+  Props
+> = ({ archivingThresholdMs }) => {
   const seconds = Math.floor(archivingThresholdMs / 1000);
   const { scaled, unit } = reduceSeconds(seconds, [
     TIME.DAY,
@@ -23,8 +23,7 @@ export const ArchivedCommentsThresholdNotification: FunctionComponent<Props> = (
   return (
     <Localized
       id="profile-commentHistory-archived-thisIsAllYourComments"
-      $value={scaled}
-      $unit={unit}
+      vars={{ value: scaled, unit }}
     >
       <div className={styles.text}>
         This is all of your comments from the previous {scaled} {unit}. To view

@@ -381,7 +381,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             {story.settings.mode === GQLSTORY_MODE.QA ? (
               <Localized
                 id={viewMoreLoading ? "qa-viewNew-loading" : "qa-viewNew"}
-                $count={viewNewCount}
+                vars={{ count: viewNewCount }}
               >
                 <span>View {viewNewCount} New Questions</span>
               </Localized>
@@ -392,7 +392,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                     ? "comments-viewNew-loading"
                     : "comments-viewNew"
                 }
-                $count={viewNewCount}
+                vars={{ count: viewNewCount }}
               >
                 <span>View {viewNewCount} New Comments</span>
               </Localized>
@@ -473,13 +473,13 @@ const enhanced = withPaginationContainer<
   {
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
-          tag: { type: "TAG" }
-          ratingFilter: { type: "Int" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 20 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+        tag: { type: "TAG" }
+        ratingFilter: { type: "Int" }
+      ) {
         id
         isClosed
         closedAt

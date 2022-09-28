@@ -5,7 +5,8 @@ import {
 
 import { reconstructTenantURLResolver } from "./util";
 
-export const FacebookAuthIntegration: GQLFacebookAuthIntegrationTypeResolver<GQLFacebookAuthIntegration> = {
-  callbackURL: reconstructTenantURLResolver("/api/auth/facebook/callback"),
-  redirectURL: reconstructTenantURLResolver("/api/auth/facebook"),
-};
+export const FacebookAuthIntegration: GQLFacebookAuthIntegrationTypeResolver<GQLFacebookAuthIntegration> =
+  {
+    callbackURL: reconstructTenantURLResolver("/api/auth/facebook/callback"),
+    redirectURL: reconstructTenantURLResolver("/api/auth/facebook"),
+  };

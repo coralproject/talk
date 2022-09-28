@@ -48,8 +48,12 @@ const SignIn: FunctionComponent<SignInForm> = ({
       <div role="banner">
         <Localized
           id="signIn-signInToJoinHeader"
-          title={<div className={cn(CLASSES.login.title, styles.title)} />}
-          subtitle={<div className={cn(CLASSES.login.header, styles.header)} />}
+          elems={{
+            title: <div className={cn(CLASSES.login.title, styles.title)} />,
+            subtitle: (
+              <div className={cn(CLASSES.login.header, styles.header)} />
+            ),
+          }}
         >
           <div className={cn(CLASSES.login.bar, styles.bar)}>
             <div className={cn(CLASSES.login.title, styles.title)}>Sign In</div>
@@ -66,20 +70,22 @@ const SignIn: FunctionComponent<SignInForm> = ({
         >
           <Localized
             id="signIn-noAccountSignUp"
-            textlink={
-              <Button
-                color="primary"
-                variant="flat"
-                paddingSize="none"
-                fontSize="small"
-                fontFamily="secondary"
-                fontWeight="semiBold"
-                underline
-                onClick={onGotoSignUp}
-                href={signUpHref}
-                className={styles.signUp}
-              />
-            }
+            elems={{
+              textlink: (
+                <Button
+                  color="primary"
+                  variant="flat"
+                  paddingSize="none"
+                  fontSize="small"
+                  fontFamily="secondary"
+                  fontWeight="semiBold"
+                  underline
+                  onClick={onGotoSignUp}
+                  href={signUpHref}
+                  className={styles.signUp}
+                />
+              ),
+            }}
           >
             <div
               className={cn(CLASSES.login.signIn.noAccount, styles.noAccount)}

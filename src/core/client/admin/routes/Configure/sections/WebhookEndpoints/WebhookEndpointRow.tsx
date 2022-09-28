@@ -32,7 +32,7 @@ const WebhookEndpointRow: FunctionComponent<Props> = ({ endpoint }) => (
       <Flex justifyContent="flex-end">
         <Localized
           id="configure-webhooks-detailsButton"
-          icon={<Icon>keyboard_arrow_right</Icon>}
+          elems={{ icon: <Icon>keyboard_arrow_right</Icon> }}
         >
           <Button variant="text" to={getEndpointLink(endpoint.id)} iconRight>
             Details

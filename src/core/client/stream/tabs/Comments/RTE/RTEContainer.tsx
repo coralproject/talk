@@ -18,9 +18,8 @@ interface Props extends Omit<PropTypesOf<typeof RTE>, "ref"> {
 }
 
 const RTEContainer: React.FunctionComponent<Props> = ({ config, ...rest }) => {
-  const features: Partial<
-    PropTypesOf<typeof RTE>["features"]
-  > = convertGQLRTEConfigToRTEFeatures(config);
+  const features: Partial<PropTypesOf<typeof RTE>["features"]> =
+    convertGQLRTEConfigToRTEFeatures(config);
   return <RTE features={features} {...rest} />;
 };
 

@@ -379,7 +379,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         <Localized
                           id="comments-counter-shortNum"
-                          $count={featuredCommentsCount}
+                          vars={{ count: featuredCommentsCount }}
                         >
                           {featuredCommentsCount}
                         </Localized>
@@ -451,7 +451,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         <Localized
                           id="comments-counter-shortNum"
-                          $count={allCommentsCount}
+                          vars={{ count: allCommentsCount }}
                         >
                           {allCommentsCount}
                         </Localized>
@@ -482,7 +482,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         <Localized
                           id="comments-counter-shortNum"
-                          $count={props.story.commentCounts.tags.REVIEW}
+                          vars={{
+                            count: props.story.commentCounts.tags.REVIEW,
+                          }}
                         >
                           {props.story.commentCounts.tags.REVIEW}
                         </Localized>
@@ -513,7 +515,9 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       >
                         <Localized
                           id="comments-counter-shortNum"
-                          $count={props.story.commentCounts.tags.QUESTION}
+                          vars={{
+                            count: props.story.commentCounts.tags.QUESTION,
+                          }}
                         >
                           {props.story.commentCounts.tags.QUESTION}
                         </Localized>

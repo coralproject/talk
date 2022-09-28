@@ -68,7 +68,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
             <Icon className={styles.repliesIcon}>reply</Icon>
             <Localized
               id="profile-historyComment-replies"
-              $replyCount={comment.replyCount}
+              vars={{ replyCount: comment.replyCount }}
             >
               <span>Replies {comment.replyCount}</span>
             </Localized>
@@ -134,10 +134,10 @@ const enhanced = withPaginationContainer<
   {
     comment: graphql`
       fragment HistoryCommentFooterContainer_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
-          cursor: { type: "Cursor" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 20 }
+        cursor: { type: "Cursor" }
+      ) {
         id
         reactions(first: $count, after: $cursor)
           @connection(key: "HistoryCommentFooter_reactions") {
