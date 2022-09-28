@@ -27,17 +27,16 @@ const AddACommentButton: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const { renderWindow, eventEmitter } = useCoralContext();
-  const [{ commentsFullyLoaded, commentsTab }, setLocal] = useLocal<
-    AddACommentButtonLocal
-  >(
-    graphql`
-      fragment AddACommentButtonLocal on Local {
-        loadAllButtonHasBeenClicked
-        commentsFullyLoaded
-        commentsTab
-      }
-    `
-  );
+  const [{ commentsFullyLoaded, commentsTab }, setLocal] =
+    useLocal<AddACommentButtonLocal>(
+      graphql`
+        fragment AddACommentButtonLocal on Local {
+          loadAllButtonHasBeenClicked
+          commentsFullyLoaded
+          commentsTab
+        }
+      `
+    );
   const root = useShadowRootOrDocument();
 
   const [scrollIntoViewAfterLoad, setScrollIntoViewAfterLoad] = useState(false);

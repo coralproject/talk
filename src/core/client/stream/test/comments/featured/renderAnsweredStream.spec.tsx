@@ -16,6 +16,7 @@ import customRenderAppWithContext from "coral-stream/test/customRenderAppWithCon
 import {
   settingsWithAlternateOldestFirstView,
   storyWithAnsweredComments,
+  viewerWithComments,
 } from "../../fixtures";
 import { createContext } from "./create";
 
@@ -29,6 +30,7 @@ async function createTestRenderer(
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
+          viewer: () => viewerWithComments,
           settings: () => settingsWithAlternateOldestFirstView,
           stream: () => ({
             ...story,
@@ -99,5 +101,7 @@ it("renders oldest first sort answered comments tab with post comment form", asy
       name: "Answer from Lukas 2018-07-06T18:24:00.000Z",
     })
   ).toBeVisible();
-  expect(screen.getByRole("region", { name: "Post a Question" })).toBeVisible();
+  expect(
+    await screen.findByRole("region", { name: "Post a Question" })
+  ).toBeVisible();
 });
