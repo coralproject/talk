@@ -146,64 +146,71 @@ const UserRoleChange: FunctionComponent<Props> = ({
           body={
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
-                <UserRoleChangeButton
-                  active={user.role === GQLUSER_ROLE.COMMENTER}
-                  disabled={isDisallowed(GQLUSER_ROLE.COMMENTER)}
-                  role={GQLUSER_ROLE.COMMENTER}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.COMMENTER)}
-                />
-                <UserRoleChangeButton
-                  active={membershipScoped && user.role === GQLUSER_ROLE.MEMBER}
-                  disabled={isDisallowed(GQLUSER_ROLE.MEMBER)}
-                  role={GQLUSER_ROLE.MEMBER}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  scoped
-                  onClick={() => {
-                    setSiteRole(GQLUSER_ROLE.MEMBER);
-                    setPopoverVisibility(false);
-                  }}
-                />
-                <UserRoleChangeButton
-                  active={user.role === GQLUSER_ROLE.STAFF}
-                  disabled={isDisallowed(GQLUSER_ROLE.STAFF)}
-                  role={GQLUSER_ROLE.STAFF}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.STAFF)}
-                />
-                {moderationScopesEnabled && (
+                {!isDisallowed(GQLUSER_ROLE.COMMENTER) && (
+                  <UserRoleChangeButton
+                    active={user.role === GQLUSER_ROLE.COMMENTER}
+                    role={GQLUSER_ROLE.COMMENTER}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.COMMENTER)}
+                  />
+                )}
+                {!isDisallowed(GQLUSER_ROLE.MEMBER) && (
                   <UserRoleChangeButton
                     active={
-                      moderationScoped && user.role === GQLUSER_ROLE.MODERATOR
+                      membershipScoped && user.role === GQLUSER_ROLE.MEMBER
                     }
-                    disabled={isDisallowed(GQLUSER_ROLE.MODERATOR, true)}
-                    role={GQLUSER_ROLE.MODERATOR}
+                    role={GQLUSER_ROLE.MEMBER}
+                    moderationScopesEnabled={moderationScopesEnabled}
                     scoped
-                    moderationScopesEnabled
                     onClick={() => {
-                      setSiteRole(GQLUSER_ROLE.MODERATOR);
+                      setSiteRole(GQLUSER_ROLE.MEMBER);
                       setPopoverVisibility(false);
                     }}
                   />
                 )}
-                <UserRoleChangeButton
-                  active={
-                    (!moderationScopesEnabled ||
-                      (moderationScopesEnabled && !moderationScoped)) &&
-                    user.role === GQLUSER_ROLE.MODERATOR
-                  }
-                  disabled={isDisallowed(GQLUSER_ROLE.MODERATOR)}
-                  role={GQLUSER_ROLE.MODERATOR}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.MODERATOR)}
-                />
-                <UserRoleChangeButton
-                  active={user.role === GQLUSER_ROLE.ADMIN}
-                  disabled={isDisallowed(GQLUSER_ROLE.ADMIN)}
-                  role={GQLUSER_ROLE.ADMIN}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.ADMIN)}
-                />
+                {!isDisallowed(GQLUSER_ROLE.STAFF) && (
+                  <UserRoleChangeButton
+                    active={user.role === GQLUSER_ROLE.STAFF}
+                    role={GQLUSER_ROLE.STAFF}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.STAFF)}
+                  />
+                )}
+                {moderationScopesEnabled &&
+                  !isDisallowed(GQLUSER_ROLE.MODERATOR, true) && (
+                    <UserRoleChangeButton
+                      active={
+                        moderationScoped && user.role === GQLUSER_ROLE.MODERATOR
+                      }
+                      role={GQLUSER_ROLE.MODERATOR}
+                      scoped
+                      moderationScopesEnabled
+                      onClick={() => {
+                        setSiteRole(GQLUSER_ROLE.MODERATOR);
+                        setPopoverVisibility(false);
+                      }}
+                    />
+                  )}
+                {!isDisallowed(GQLUSER_ROLE.MODERATOR) && (
+                  <UserRoleChangeButton
+                    active={
+                      (!moderationScopesEnabled ||
+                        (moderationScopesEnabled && !moderationScoped)) &&
+                      user.role === GQLUSER_ROLE.MODERATOR
+                    }
+                    role={GQLUSER_ROLE.MODERATOR}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.MODERATOR)}
+                  />
+                )}
+                {!isDisallowed(GQLUSER_ROLE.ADMIN) && (
+                  <UserRoleChangeButton
+                    active={user.role === GQLUSER_ROLE.ADMIN}
+                    role={GQLUSER_ROLE.ADMIN}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.ADMIN)}
+                  />
+                )}
               </Dropdown>
             </ClickOutside>
           }
