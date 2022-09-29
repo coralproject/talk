@@ -9153,7 +9153,7 @@ type Mutation {
   """
   updateUserMembershipScopes(
     input: UpdateUserMembershipScopesInput!
-  ): UpdateUserMembershipScopesPayload! @auth(roles: [ADMIN])
+  ): UpdateUserMembershipScopesPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
   banUser will ban a specific User from interacting with Comments.
