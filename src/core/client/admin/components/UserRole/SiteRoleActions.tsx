@@ -175,6 +175,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     [mode, toggleModalVisibility, user]
   );
 
+  // BOOKMARKUS: how is this true here but false in UserRoleChange for org mod?
   const canChangeToCommenter = validatePermissionsAction({
     viewer,
     user,
