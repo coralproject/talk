@@ -229,7 +229,7 @@ describe("updateRole", () => {
     expect(res.role).toEqual(GQLUSER_ROLE.COMMENTER);
   });
 
-  it("does not allow staff, members, or commenters to change anyones role without supplying scopes", async () => {
+  it("does not allow staff, members, or commenters to change anyones role", async () => {
     const cannotChangeRoles = [site1Staff, site1Member, site1Commenter];
     for (const viewer of cannotChangeRoles) {
       const otherUsers = users.filter(({ id }) => id !== viewer.id);
