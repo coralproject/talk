@@ -59,32 +59,26 @@ export default class NotificationContext {
   /**
    * users is a `DataLoader` used to retrieve users efficiently.
    */
-  public readonly users: DataLoader<
-    string,
-    Readonly<User> | null
-  > = new DataLoader((userIDs) =>
-    retrieveManyUsers(this.mongo, this.tenant.id, userIDs)
-  );
+  public readonly users: DataLoader<string, Readonly<User> | null> =
+    new DataLoader((userIDs) =>
+      retrieveManyUsers(this.mongo, this.tenant.id, userIDs)
+    );
 
   /**
    * comments is a `DataLoader` used to retrieve comments efficiently.
    */
-  public readonly comments: DataLoader<
-    string,
-    Readonly<Comment> | null
-  > = new DataLoader((commentIDs) =>
-    retrieveManyComments(this.mongo.comments(), this.tenant.id, commentIDs)
-  );
+  public readonly comments: DataLoader<string, Readonly<Comment> | null> =
+    new DataLoader((commentIDs) =>
+      retrieveManyComments(this.mongo.comments(), this.tenant.id, commentIDs)
+    );
 
   /**
    * stories is a `DataLoader` used to retrieve stories efficiently.
    */
-  public readonly stories: DataLoader<
-    string,
-    Readonly<Story> | null
-  > = new DataLoader((storyIDs) =>
-    retrieveManyStories(this.mongo, this.tenant.id, storyIDs)
-  );
+  public readonly stories: DataLoader<string, Readonly<Story> | null> =
+    new DataLoader((storyIDs) =>
+      retrieveManyStories(this.mongo, this.tenant.id, storyIDs)
+    );
 
   constructor({
     mongo,

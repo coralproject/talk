@@ -66,7 +66,7 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
         title={
           <Localized
             id="profile-accountDeletion-deletionDesc"
-            $date={deletionDate}
+            vars={{ date: deletionDate ?? "" }}
           >
             <div id="profile-accountDeletion-title">
               Your account is scheduled to be deleted on {deletionDate}.

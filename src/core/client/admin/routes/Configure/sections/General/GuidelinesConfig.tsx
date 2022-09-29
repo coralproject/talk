@@ -66,8 +66,10 @@ const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Localized>
         <Localized
           id="configure-general-guidelines-explanation"
-          strong={<strong />}
-          externalLink={<ExternalLink href="#" />}
+          elems={{
+            strong: <strong />,
+            externalLink: <ExternalLink href="#" />,
+          }}
         >
           <HelperText>
             Write a summary of your community guidelines that will appear at the

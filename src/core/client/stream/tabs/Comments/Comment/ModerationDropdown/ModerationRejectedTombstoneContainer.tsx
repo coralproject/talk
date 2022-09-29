@@ -25,13 +25,12 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
-  const [{ accessToken }] = useLocal<
-    ModerationRejectedTombstoneContainer_local
-  >(graphql`
-    fragment ModerationRejectedTombstoneContainer_local on Local {
-      accessToken
-    }
-  `);
+  const [{ accessToken }] =
+    useLocal<ModerationRejectedTombstoneContainer_local>(graphql`
+      fragment ModerationRejectedTombstoneContainer_local on Local {
+        accessToken
+      }
+    `);
 
   const link = useModerationLink({ commentID: comment.id });
   const moderationLinkSuffix =

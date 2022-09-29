@@ -100,11 +100,11 @@ const enhanced = withPaginationContainer<
     `,
     comment: graphql`
       fragment ConversationModalRepliesContainer_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 5 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         id
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ConversationModalReplies_replies") {

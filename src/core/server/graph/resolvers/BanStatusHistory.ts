@@ -2,9 +2,9 @@ import * as user from "coral-server/models/user";
 
 import { GQLBanStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
-export const BanStatusHistory: Required<GQLBanStatusHistoryTypeResolver<
-  user.BanStatusHistory
->> = {
+export const BanStatusHistory: Required<
+  GQLBanStatusHistoryTypeResolver<user.BanStatusHistory>
+> = {
   active: ({ active }) => active,
   createdBy: ({ createdBy }, input, ctx) => {
     if (createdBy) {

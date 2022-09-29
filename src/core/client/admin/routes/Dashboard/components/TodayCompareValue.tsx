@@ -6,6 +6,7 @@ import styles from "./TodayCompareValue.css";
 
 interface Props {
   value?: string;
+  children?: React.ReactNode;
 }
 
 const TodayCompareValue: FunctionComponent<Props> = ({

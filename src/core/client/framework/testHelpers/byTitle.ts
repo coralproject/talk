@@ -2,18 +2,18 @@ import { ReactTestInstance } from "react-test-renderer";
 
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
-const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
-  i: ReactTestInstance
-) => {
-  // Only look at dom components.
-  if (typeof i.type !== "string" || !i.props.title) {
-    return false;
-  }
-  return matchText(pattern, i.props.title, {
-    collapseWhitespace: false,
-    ...options,
-  });
-};
+const matcher =
+  (pattern: TextMatchPattern, options?: TextMatchOptions) =>
+  (i: ReactTestInstance) => {
+    // Only look at dom components.
+    if (typeof i.type !== "string" || !i.props.title) {
+      return false;
+    }
+    return matchText(pattern, i.props.title, {
+      collapseWhitespace: false,
+      ...options,
+    });
+  };
 
 export function getByTitle(
   container: ReactTestInstance,

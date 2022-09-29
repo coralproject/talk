@@ -8,9 +8,9 @@ export interface WrappedCommentRevision {
   comment: Comment;
 }
 
-export const CommentRevision: Required<GQLCommentRevisionTypeResolver<
-  WrappedCommentRevision
->> = {
+export const CommentRevision: Required<
+  GQLCommentRevisionTypeResolver<WrappedCommentRevision>
+> = {
   id: (w) => {
     return w.revision.id;
   },

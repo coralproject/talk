@@ -26,9 +26,8 @@ export type CommentLeftModerationQueueSubscription = SubscriptionType<
   CommentLeftModerationQueueInput
 >;
 
-export const commentLeftModerationQueue: SubscriptionToCommentLeftModerationQueueResolver<CommentLeftModerationQueueInput> = createIterator(
-  SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
-  {
+export const commentLeftModerationQueue: SubscriptionToCommentLeftModerationQueueResolver<CommentLeftModerationQueueInput> =
+  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE, {
     filter: (source, { storyID, siteID, section, queue }, ctx) => {
       // If we're filtering by storyID, then only send back comments with the
       // specific storyID.
@@ -63,5 +62,4 @@ export const commentLeftModerationQueue: SubscriptionToCommentLeftModerationQueu
 
       return true;
     },
-  }
-);
+  });

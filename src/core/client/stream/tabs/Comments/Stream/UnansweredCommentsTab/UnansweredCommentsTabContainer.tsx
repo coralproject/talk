@@ -40,20 +40,19 @@ interface Props {
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   props
 ) => {
-  const [{ commentsOrderBy, keyboardShortcutsConfig }] = useLocal<
-    UnansweredCommentsTabContainerLocal
-  >(
-    graphql`
-      fragment UnansweredCommentsTabContainerLocal on Local {
-        commentsOrderBy
-        keyboardShortcutsConfig {
-          key
-          source
-          reverse
+  const [{ commentsOrderBy, keyboardShortcutsConfig }] =
+    useLocal<UnansweredCommentsTabContainerLocal>(
+      graphql`
+        fragment UnansweredCommentsTabContainerLocal on Local {
+          commentsOrderBy
+          keyboardShortcutsConfig {
+            key
+            source
+            reverse
+          }
         }
-      }
-    `
-  );
+      `
+    );
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
 
@@ -120,10 +119,10 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     }
   }, [loadMore, beginLoadMoreEvent, props.story.id]);
   const viewMore = useMutation(UnansweredCommentsTabViewNewMutation);
-  const onViewMore = useCallback(() => viewMore({ storyID: props.story.id }), [
-    props.story.id,
-    viewMore,
-  ]);
+  const onViewMore = useCallback(
+    () => viewMore({ storyID: props.story.id }),
+    [props.story.id, viewMore]
+  );
   const comments = props.story.comments.edges.map((edge) => edge.node);
   const viewNewCount =
     (props.story.comments.viewNewEdges &&
@@ -140,7 +139,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
             className={CLASSES.allCommentsTabPane.viewNewButton}
             fullWidth
           >
-            <Localized id="qa-viewNew" $count={viewNewCount}>
+            <Localized id="qa-viewNew" vars={{ count: viewNewCount }}>
               <span>View {viewNewCount} New Questions</span>
             </Localized>
           </Button>
@@ -202,12 +201,12 @@ const enhanced = withPaginationContainer<
   {
     story: graphql`
       fragment UnansweredCommentsTabContainer_story on Story
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
-          tag: { type: "TAG!", defaultValue: UNANSWERED }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 20 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+        tag: { type: "TAG!", defaultValue: UNANSWERED }
+      ) {
         id
         isClosed
         settings {

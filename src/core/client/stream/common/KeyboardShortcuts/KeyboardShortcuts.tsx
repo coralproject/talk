@@ -158,8 +158,10 @@ const getCurrentKeyStop = (
   root: ShadowRoot | Document,
   relayEnvironment: Environment
 ) => {
-  const currentCommentID = lookup(relayEnvironment, LOCAL_ID)
-    .commentWithTraversalFocus;
+  const currentCommentID = lookup(
+    relayEnvironment,
+    LOCAL_ID
+  ).commentWithTraversalFocus;
   const currentCommentElement = root.getElementById(
     computeCommentElementID(currentCommentID)
   );
@@ -286,6 +288,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     browserInfo,
     customScrollContainer,
   } = useCoralContext();
+
   const root = useShadowRootOrDocument();
   const [toolbarClosed, setToolbarClosed] = useInMemoryState(
     "keyboardShortcutMobileToolbarClosed",
@@ -325,10 +328,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   // Used to compare view new count before/after unmark all to see if new comment subscriptions
   // have come in since all comments (including the new ones) have been marked as seen
-  const [
-    viewNewCountBeforeUnmarkAll,
-    setViewNewCountBeforeUnmarkAll,
-  ] = useState(viewNewCount);
+  const [viewNewCountBeforeUnmarkAll, setViewNewCountBeforeUnmarkAll] =
+    useState(viewNewCount);
 
   const [hasMoreCommentsToLoad, setHasMoreCommentsToLoad] = useState(false);
 
@@ -388,13 +389,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 !comment.node.ignoredReplies?.includes(childComment.node.id)
               ) {
                 if (childComment.node.ancestorIDs) {
-                  const ancestorIDMissingFromChildIDs = childComment.node.ancestorIDs?.some(
-                    (ancestorID) =>
-                      !(
-                        allChildCommentIDs.includes(ancestorID || "") ||
-                        ancestorID === comment.node.id
-                      )
-                  );
+                  const ancestorIDMissingFromChildIDs =
+                    childComment.node.ancestorIDs?.some(
+                      (ancestorID) =>
+                        !(
+                          allChildCommentIDs.includes(ancestorID || "") ||
+                          ancestorID === comment.node.id
+                        )
+                    );
                   return !ancestorIDMissingFromChildIDs;
                 }
                 return true;
@@ -476,7 +478,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   );
 
   const scrollToComment = useCallback(
-    (comment) => {
+    (comment: HTMLElement) => {
       if (customScrollContainer) {
         comment.scrollIntoView();
       } else {
@@ -505,7 +507,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // button and load in the needed replies. Once the comment is found, focus is set and
   // the comment is marked as seen.
   const findCommentAndSetFocus = useCallback(
-    (nextUnseen: UnseenComment, rootCommentElement, source) => {
+    (
+      nextUnseen: UnseenComment,
+      rootCommentElement: HTMLElement,
+      source: "keyboard" | "mobileToolbar"
+    ) => {
       // If next unseen is a root comment, we can just scroll to it, set focus, and
       // mark it as seen.
       if (nextUnseen.isRoot) {
@@ -558,7 +564,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // comment that currently has traversal focus.
   const searchInComments = useCallback(
     (virtuosoIndexToSearchFrom?: number) => {
-      let indexToSearchFromOrCurrentTraversalFocusPassed = !commentWithTraversalFocus;
+      let indexToSearchFromOrCurrentTraversalFocusPassed =
+        !commentWithTraversalFocus;
       let loopBackAroundUnseenComment: UnseenComment | undefined;
       let nextUnseenComment: UnseenComment | undefined;
 
@@ -695,7 +702,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // We only call this if we've already tried traversing through the DOM to find
   // the next unseen, so we don't need to check if it's in the DOM before scrolling.
   const findAndNavigateToNextUnseen = useCallback(
-    (virtuosoIndexToSearchFrom, source) => {
+    (
+      virtuosoIndexToSearchFrom: number | undefined,
+      source: "keyboard" | "mobileToolbar"
+    ) => {
       // Search through comments for next unseen
       const nextUnseenComment = searchInComments(virtuosoIndexToSearchFrom);
 
@@ -725,9 +735,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   ) {
                     clearInterval(virtuosoZeroExists);
                     // find Load more button and click
-                    const loadMoreButtonInRoot = root.getElementById(
-                      "comments-loadMore"
-                    );
+                    const loadMoreButtonInRoot =
+                      root.getElementById("comments-loadMore");
                     if (loadMoreButtonInRoot) {
                       const loadMoreKeyStop = toKeyStop(loadMoreButtonInRoot);
                       const previousKeyStop = findPreviousKeyStop(
@@ -761,9 +770,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                 let count = 0;
                 const virtuosoZeroExists = setInterval(async () => {
                   count += 1;
-                  const virtuosoZeroElementAfter = root.querySelector(
-                    '[data-index="0"]'
-                  );
+                  const virtuosoZeroElementAfter =
+                    root.querySelector('[data-index="0"]');
                   if (
                     virtuosoZeroElementAfter !== undefined &&
                     virtuosoZeroElementAfter !== null
@@ -1102,7 +1110,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // unread mobile button was pressed while comments were loading), then we find and
   // navigate to the next unseen comment.
   useEffect(() => {
-    if (commentsFullyLoaded && findAndNavigateAfterLoad.findAndNavigate) {
+    if (
+      commentsFullyLoaded &&
+      findAndNavigateAfterLoad.findAndNavigate &&
+      findAndNavigateAfterLoad.source
+    ) {
       findAndNavigateToNextUnseen(undefined, findAndNavigateAfterLoad.source);
       setFindAndNavigateAfterLoad({ findAndNavigate: false });
     }

@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 
 import { pureMerge } from "coral-common/utils";
 import {
@@ -108,10 +114,8 @@ const rootComment = denormalizeComment(
                                                                     baseComment.createdAt,
                                                                   node: {
                                                                     ...baseComment,
-                                                                    id:
-                                                                      "my-comment-8",
-                                                                    body:
-                                                                      "body 8",
+                                                                    id: "my-comment-8",
+                                                                    body: "body 8",
                                                                     replyCount: 0,
                                                                     replies: {
                                                                       ...baseComment.replies,
@@ -220,22 +224,24 @@ it("should show Read More of this Conversation", async () => {
       })
   ).rejects.toThrow();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
-    "commentEntered",
-    (variables) => {
-      if (variables.storyID !== story.id) {
-        return;
+  act(() => {
+    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+      "commentEntered",
+      (variables) => {
+        if (variables.storyID !== story.id) {
+          return;
+        }
+        if (variables.ancestorID) {
+          return;
+        }
+        return {
+          comment: pureMerge<typeof commentData>(commentData, {
+            parent: { ...baseComment, id: "my-comment-7" },
+          }),
+        };
       }
-      if (variables.ancestorID) {
-        return;
-      }
-      return {
-        comment: pureMerge<typeof commentData>(commentData, {
-          parent: { ...baseComment, id: "my-comment-7" },
-        }),
-      };
-    }
-  );
+    );
+  });
 
   await within(container).findByText("Read More of this Conversation", {
     exact: false,

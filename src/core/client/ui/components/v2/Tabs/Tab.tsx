@@ -44,6 +44,7 @@ export interface TabProps {
 
   "aria-label"?: string;
   title?: string;
+  children?: React.ReactNode;
 }
 
 class Tab extends React.Component<TabProps> {
