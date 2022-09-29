@@ -43,7 +43,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
   moderationScopesEnabled = false,
   viewer,
 }) => {
-  const isDisallowed = useCallback(
+  const isAllowed = useCallback(
     (newRole: GQLUSER_ROLE_RL, siteScoped = false) => {
       const viewerUser = {
         ...viewer,
@@ -52,7 +52,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
         },
       };
 
-      return !validateRoleChange(viewerUser, user, newRole, siteScoped);
+      return validateRoleChange(viewerUser, user, newRole, siteScoped);
     },
     [viewer, user]
   );
@@ -146,7 +146,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
           body={
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
-                {!isDisallowed(GQLUSER_ROLE.COMMENTER) && (
+                {isAllowed(GQLUSER_ROLE.COMMENTER) && (
                   <UserRoleChangeButton
                     active={user.role === GQLUSER_ROLE.COMMENTER}
                     role={GQLUSER_ROLE.COMMENTER}
@@ -154,7 +154,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                     onClick={onClick(GQLUSER_ROLE.COMMENTER)}
                   />
                 )}
-                {!isDisallowed(GQLUSER_ROLE.MEMBER) && (
+                {isAllowed(GQLUSER_ROLE.MEMBER) && (
                   <UserRoleChangeButton
                     active={
                       membershipScoped && user.role === GQLUSER_ROLE.MEMBER
@@ -168,7 +168,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                     }}
                   />
                 )}
-                {!isDisallowed(GQLUSER_ROLE.STAFF) && (
+                {isAllowed(GQLUSER_ROLE.STAFF) && (
                   <UserRoleChangeButton
                     active={user.role === GQLUSER_ROLE.STAFF}
                     role={GQLUSER_ROLE.STAFF}
@@ -177,7 +177,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   />
                 )}
                 {moderationScopesEnabled &&
-                  !isDisallowed(GQLUSER_ROLE.MODERATOR, true) && (
+                  isAllowed(GQLUSER_ROLE.MODERATOR, true) && (
                     <UserRoleChangeButton
                       active={
                         moderationScoped && user.role === GQLUSER_ROLE.MODERATOR
@@ -191,7 +191,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                       }}
                     />
                   )}
-                {!isDisallowed(GQLUSER_ROLE.MODERATOR) && (
+                {isAllowed(GQLUSER_ROLE.MODERATOR) && (
                   <UserRoleChangeButton
                     active={
                       (!moderationScopesEnabled ||
@@ -203,7 +203,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                     onClick={onClick(GQLUSER_ROLE.MODERATOR)}
                   />
                 )}
-                {!isDisallowed(GQLUSER_ROLE.ADMIN) && (
+                {isAllowed(GQLUSER_ROLE.ADMIN) && (
                   <UserRoleChangeButton
                     active={user.role === GQLUSER_ROLE.ADMIN}
                     role={GQLUSER_ROLE.ADMIN}

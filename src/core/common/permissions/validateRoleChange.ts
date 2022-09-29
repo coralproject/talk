@@ -2,6 +2,7 @@ import { isSiteModerationScoped } from "./isSiteModerationScoped";
 import {
   isLTEModerator,
   isModerator,
+  isOrgModerator,
   LTEModerator,
   Moderator,
   User,
@@ -16,18 +17,24 @@ const validateModeratorRoleChange = (
 ) => {
   // Org mods may promote users to site moderators within their scope,
   // but only if the user < org mod
-  const viewerIsOrgMod = !isSiteModerationScoped(viewer.moderationScopes);
+  const viewerIsOrgMod = isOrgModerator(viewer);
   const roleIsSiteMod = role === "MODERATOR" && scoped;
   const userLTOrgMod =
     isSiteModerationScoped(user.moderationScopes) || user.role !== "MODERATOR";
 
-  if (viewerIsOrgMod && userLTOrgMod && roleIsSiteMod) {
+  if (
+    viewerIsOrgMod &&
+    userLTOrgMod &&
+    (roleIsSiteMod || role === "COMMENTER" || role === "MEMBER")
+  ) {
     return true;
   }
 
   if (roleIsSiteMod) {
     return true;
   }
+
+  // BOOKMARCUS: we need to handle if role === COMMENTER and user is orgMod OR user is siteMod with all of users scopes
 
   return false;
 };
