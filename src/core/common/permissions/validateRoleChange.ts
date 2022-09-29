@@ -34,8 +34,6 @@ const validateModeratorRoleChange = (
     return true;
   }
 
-  // BOOKMARCUS: we need to handle if role === COMMENTER and user is orgMod OR user is siteMod with all of users scopes
-
   return false;
 };
 

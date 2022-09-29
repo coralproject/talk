@@ -61,7 +61,7 @@ const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest = (
       );
   }
 
-  return async () => null; // believe it or not it is yelling at me unless i do this
+  return undefined;
 };
 
 const userShouldHaveMembershipScopesRemoved: PermissionsActionSideEffectTest = ({
