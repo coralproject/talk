@@ -57,11 +57,8 @@ const UserRoleChange: FunctionComponent<Props> = ({
     [viewer, user]
   );
   // Setup state and callbacks for the popover.
-  const [
-    isPopoverVisible,
-    setPopoverVisibility,
-    togglePopoverVisibility,
-  ] = useToggleState();
+  const [isPopoverVisible, setPopoverVisibility, togglePopoverVisibility] =
+    useToggleState();
 
   /**
    * handleChangeRole combines the change role function with the change
@@ -74,10 +71,11 @@ const UserRoleChange: FunctionComponent<Props> = ({
     [onChangeRole]
   );
   const onClick = useCallback(
-    (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => async () => {
-      await handleChangeRole(r, siteIDs);
-      togglePopoverVisibility();
-    },
+    (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) =>
+      async () => {
+        await handleChangeRole(r, siteIDs);
+        togglePopoverVisibility();
+      },
     [handleChangeRole, togglePopoverVisibility]
   );
 

@@ -1,15 +1,15 @@
-import { ReactTestRenderer } from "react-test-renderer";
+import { act, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   settings,
   stories,
@@ -17,7 +17,7 @@ import {
   userWithNewUsername,
   viewerPassive,
 } from "../fixtures";
-import create from "./create";
+import { createWithContext } from "./create";
 
 const story = stories[0];
 const viewer = viewerPassive;
@@ -25,7 +25,7 @@ const viewer = viewerPassive;
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { context } = createWithContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -45,71 +45,73 @@ async function createTestRenderer(
     },
   });
 
+  customRenderAppWithContext(context);
+
   return {
-    testRenderer,
     context,
   };
 }
 
 describe("with recently changed username", () => {
-  let testRenderer: ReactTestRenderer;
   beforeEach(async () => {
-    const setup = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithChangedUsername,
-        },
-      }),
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithChangedUsername,
+          },
+        }),
+      });
     });
-    testRenderer = setup.testRenderer;
   });
 
   it("does not allow editing", async () => {
-    const changeUsername = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-changeUsername")
-    );
+    const changeUsername = await screen.findByTestId("profile-changeUsername");
     within(changeUsername).getByText("u_changed");
-    const editButton = within(changeUsername).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const editButton = within(changeUsername).getByRole("button", {
+      name: "Change",
     });
-    const form = within(changeUsername).queryByType("form");
-    const message = within(changeUsername).queryByText(
+    userEvent.click(editButton);
+    const form = within(changeUsername).queryByTestId(
+      "profile-changeUsername-form"
+    );
+    const message = within(changeUsername).getByText(
       "You changed your username within the last 14 days",
       {
         exact: false,
       }
     );
     expect(form).toBeNull();
-    expect(message).toBeTruthy();
+    expect(message).toBeVisible();
   });
 });
 
 describe("with new username", () => {
-  let testRenderer: ReactTestRenderer;
   beforeEach(async () => {
-    const setup = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithNewUsername,
-        },
-      }),
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithNewUsername,
+          },
+        }),
+      });
     });
-    testRenderer = setup.testRenderer;
   });
 
   it("shows username change form", async () => {
-    const changeUsername = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-changeUsername")
-    );
+    const changeUsername = await screen.findByTestId("profile-changeUsername");
 
     within(changeUsername).getByText("u_original");
-    const editButton = within(changeUsername).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const editButton = within(changeUsername).getByRole("button", {
+      name: "Change",
     });
-    expect(await within(changeUsername).axe()).toHaveNoViolations();
-    within(changeUsername).getByType("form");
+    userEvent.click(editButton);
+    expect(await axe(changeUsername)).toHaveNoViolations();
+    const form = within(changeUsername).queryByTestId(
+      "profile-changeUsername-form"
+    );
+    expect(form).toBeVisible();
     const message = within(changeUsername).queryByText(
       "Your username has been changed in the last 14 days",
       {
@@ -121,104 +123,89 @@ describe("with new username", () => {
 });
 
 describe("change username form", () => {
-  let testRenderer: ReactTestRenderer;
   beforeEach(async () => {
-    const setup = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithNewUsername,
-        },
-        Mutation: {
-          updateUsername: ({ variables }) => {
-            expectAndFail(variables).toMatchObject({
-              username: "updated_username",
-            });
-            return {
-              user: {
-                ...userWithNewUsername,
-                username: "updated_username",
-              },
-            };
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithNewUsername,
           },
-        },
-      }),
+          Mutation: {
+            updateUsername: ({ variables }) => {
+              expectAndFail(variables).toMatchObject({
+                username: "updated_username",
+              });
+              return {
+                user: {
+                  ...userWithNewUsername,
+                  username: "updated_username",
+                },
+              };
+            },
+          },
+        }),
+      });
     });
-    testRenderer = setup.testRenderer;
   });
 
   it("ensures username field is required", async () => {
-    const changeUsername = within(testRenderer.root).getByTestID(
-      "profile-changeUsername"
-    );
-    const editButton = within(changeUsername).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const changeUsername = await screen.findByTestId("profile-changeUsername");
+    const editButton = within(changeUsername).getByRole("button", {
+      name: "Change",
     });
-    const form = within(changeUsername).getByType("form");
-    act(() => {
-      form.props.onSubmit();
+    userEvent.click(editButton);
+    const saveChanges = within(changeUsername).getByRole("button", {
+      name: "Save Changes",
     });
-    within(changeUsername).getAllByText("This field is required", {
-      exact: false,
-    });
-    const button = within(changeUsername).getByTestID(
-      "profile-changeUsername-save"
-    );
-    expect(button.props.disabled).toBeTruthy();
+    expect(saveChanges).toBeDisabled();
   });
 
   it("ensures username confirmation matches", async () => {
-    const changeUsername = within(testRenderer.root).getByTestID(
-      "profile-changeUsername"
-    );
-    const editButton = within(changeUsername).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const changeUsername = await screen.findByTestId("profile-changeUsername");
+    const editButton = within(changeUsername).getByRole("button", {
+      name: "Change",
     });
-    const form = within(changeUsername).getByType("form");
-    const username = within(changeUsername).getByTestID(
-      "profile-changeUsername-username"
-    );
-    const usernameConfirm = within(changeUsername).getByTestID(
-      "profile-changeUsername-username-confirm"
-    );
-    act(() => {
-      username.props.onChange("testusername");
-      usernameConfirm.props.onChange("test");
-      form.props.onSubmit();
+    userEvent.click(editButton);
+    const username = within(changeUsername).getByRole("textbox", {
+      name: "New username",
     });
-    within(changeUsername).getByText("Usernames do not match. Try again.", {
-      exact: false,
+    const usernameConfirm = within(changeUsername).getByRole("textbox", {
+      name: "Confirm new username",
     });
-    const button = within(changeUsername).getByTestID(
-      "profile-changeUsername-save"
-    );
-    expect(button.props.disabled).toBeTruthy();
+    userEvent.type(username, "testusername");
+    userEvent.type(usernameConfirm, "test");
+    const saveChanges = within(changeUsername).getByRole("button", {
+      name: "Save Changes",
+    });
+    expect(saveChanges).toBeDisabled();
   });
 
   it("updates username if fields are valid", async () => {
-    const changeUsername = within(testRenderer.root).getByTestID(
-      "profile-changeUsername"
-    );
-    const editButton = within(changeUsername).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const changeUsername = await screen.findByTestId("profile-changeUsername");
+    const editButton = within(changeUsername).getByRole("button", {
+      name: "Change",
     });
-    const form = within(changeUsername).getByType("form");
-    const username = within(changeUsername).getByTestID(
-      "profile-changeUsername-username"
-    );
-    const usernameConfirm = within(changeUsername).getByTestID(
-      "profile-changeUsername-username-confirm"
-    );
+    userEvent.click(editButton);
+    const username = within(changeUsername).getByRole("textbox", {
+      name: "New username",
+    });
+    const usernameConfirm = within(changeUsername).getByRole("textbox", {
+      name: "Confirm new username",
+    });
+    userEvent.type(username, "updated_username");
+    userEvent.type(usernameConfirm, "updated_username");
+    const saveChanges = within(changeUsername).getByRole("button", {
+      name: "Save Changes",
+    });
+    expect(saveChanges).toBeEnabled();
     await act(async () => {
-      username.props.onChange("updated_username");
-      usernameConfirm.props.onChange("updated_username");
-      await form.props.onSubmit();
+      userEvent.click(saveChanges);
     });
 
-    within(changeUsername).getByText(
-      "Your username has been successfully updated"
-    );
+    expect(
+      within(changeUsername).getByText(
+        "Your username has been successfully updated"
+      )
+    ).toBeVisible();
   });
 });

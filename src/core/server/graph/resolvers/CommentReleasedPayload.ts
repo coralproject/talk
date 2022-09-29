@@ -3,7 +3,8 @@ import { GQLCommentReleasedPayloadTypeResolver } from "coral-server/graph/schema
 import { maybeLoadOnlyID } from "./Comment";
 import { CommentReleasedInput } from "./Subscription/commentReleased";
 
-export const CommentReleasedPayload: GQLCommentReleasedPayloadTypeResolver<CommentReleasedInput> = {
-  comment: ({ commentID }, args, ctx, info) =>
-    maybeLoadOnlyID(ctx, info, commentID),
-};
+export const CommentReleasedPayload: GQLCommentReleasedPayloadTypeResolver<CommentReleasedInput> =
+  {
+    comment: ({ commentID }, args, ctx, info) =>
+      maybeLoadOnlyID(ctx, info, commentID),
+  };

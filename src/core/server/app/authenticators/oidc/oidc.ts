@@ -90,60 +90,58 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
     return token;
   }
 
-  public authenticate: RequestHandler<
-    TenantCoralRequest,
-    Promise<void>
-  > = async (req, res, next) => {
-    const { tenant, now } = req.coral;
+  public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
+    async (req, res, next) => {
+      const { tenant, now } = req.coral;
 
-    let response: ExchangeResponse;
+      let response: ExchangeResponse;
 
-    try {
-      // If we don't have a code on the request, then we should redirect the user.
-      if (!req.query.code) {
-        // We're starting the authentication flow! Create the nonce.
-        const nonce = storeNonce(req, res, req.secure || this.secure);
+      try {
+        // If we don't have a code on the request, then we should redirect the user.
+        if (!req.query.code) {
+          // We're starting the authentication flow! Create the nonce.
+          const nonce = storeNonce(req, res, req.secure || this.secure);
 
-        // Redirect the user (Adding the nonce value to the authorization
-        // params).
-        return this.redirect(req, res, { nonce });
+          // Redirect the user (Adding the nonce value to the authorization
+          // params).
+          return this.redirect(req, res, { nonce });
+        }
+
+        // Exchange the code for tokens.
+        response = await this.exchange(req, res);
+      } catch (err) {
+        return next(err);
       }
 
-      // Exchange the code for tokens.
-      response = await this.exchange(req, res);
-    } catch (err) {
-      return next(err);
-    }
+      const {
+        state,
+        tokens: {
+          params: { id_token: idToken },
+        },
+      } = response;
 
-    const {
-      state,
-      tokens: {
-        params: { id_token: idToken },
-      },
-    } = response;
+      try {
+        // Try to get the id_token out of the params.
+        if (!idToken || typeof idToken !== "string") {
+          throw new Error("no id_token provided");
+        }
 
-    try {
-      // Try to get the id_token out of the params.
-      if (!idToken || typeof idToken !== "string") {
-        throw new Error("no id_token provided");
+        // Verify the id_token.
+        const token = await this.verifyToken(req, res, idToken);
+
+        // Find or create the user.
+        const user = await findOrCreateOIDCUser(
+          this.config,
+          this.mongo,
+          tenant,
+          this.integration,
+          token,
+          now
+        );
+
+        return this.success(state, user, req, res);
+      } catch (err) {
+        return this.fail(state, err, req, res);
       }
-
-      // Verify the id_token.
-      const token = await this.verifyToken(req, res, idToken);
-
-      // Find or create the user.
-      const user = await findOrCreateOIDCUser(
-        this.config,
-        this.mongo,
-        tenant,
-        this.integration,
-        token,
-        now
-      );
-
-      return this.success(state, user, req, res);
-    } catch (err) {
-      return this.fail(state, err, req, res);
-    }
-  };
+    };
 }

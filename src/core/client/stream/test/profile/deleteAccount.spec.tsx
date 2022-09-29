@@ -1,24 +1,24 @@
-import { ReactTestRenderer } from "react-test-renderer";
+import { act, fireEvent, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { baseUser, settings, stories } from "../fixtures";
-import create from "./create";
+import { createWithContext } from "./create";
 
 const story = stories[0];
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { context } = createWithContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -38,166 +38,141 @@ async function createTestRenderer(
     },
   });
 
+  customRenderAppWithContext(context);
+
   return {
-    testRenderer,
     context,
   };
 }
 
 describe("delete account steps", () => {
-  let testRenderer: ReactTestRenderer;
   beforeEach(async () => {
-    const setup = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => baseUser,
-        },
-        Mutation: {
-          requestAccountDeletion: ({ variables }) => {
-            return {
-              user: {
-                ...baseUser,
-                scheduledDeletionDate: new Date().toISOString(),
-              },
-            };
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => baseUser,
           },
-        },
-      }),
+          Mutation: {
+            requestAccountDeletion: ({ variables }) => {
+              return {
+                user: {
+                  ...baseUser,
+                  scheduledDeletionDate: new Date().toISOString(),
+                },
+              };
+            },
+          },
+        }),
+      });
     });
-    testRenderer = setup.testRenderer;
   });
 
   it("request account deletion button shows deletion modal", async () => {
-    const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
+    const deleteAccount = await screen.findByTestId(
+      "profile-account-deleteAccount"
     );
-
-    const requestDeletionButton = within(deleteAccount).getByTestID(
-      "deleteAccount-request"
-    );
-    act(() => {
-      requestDeletionButton.props.onClick();
+    const requestDeletionButton = within(deleteAccount).getByRole("button", {
+      name: "Request",
     });
 
-    const modal = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("delete-account-modal")
-    );
+    userEvent.click(requestDeletionButton);
 
-    expect(modal).toBeDefined();
+    const modal = await screen.findByTestId("delete-account-modal");
+    expect(modal).toBeVisible();
   });
 
   it("schedules deletion if deletion steps are followed", async () => {
-    const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
+    const deleteAccount = await screen.findByTestId(
+      "profile-account-deleteAccount"
     );
-
-    const requestDeletionButton = within(deleteAccount).getByTestID(
-      "deleteAccount-request"
-    );
-    act(() => {
-      requestDeletionButton.props.onClick();
+    const requestDeletionButton = within(deleteAccount).getByRole("button", {
+      name: "Request",
     });
-    const modal = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("delete-account-modal")
-    );
+    userEvent.click(requestDeletionButton);
+    const modal = await screen.findByTestId("delete-account-modal");
+
     // iterate through the delete account modal steps
     for (let i = 0; i < 3; i++) {
-      const nextButton = await waitForElement(() =>
-        within(modal).getByText("Proceed", { selector: "button" })
-      );
-      act(() => {
-        nextButton.props.onClick();
+      const nextButton = within(modal).getByRole("button", {
+        name: "Proceed",
       });
+      userEvent.click(nextButton);
     }
 
-    expect(await within(modal).axe()).toHaveNoViolations();
-    const form = within(modal).getByType("form");
-    const confirm = within(modal).getByTestID("confirm-page-confirmation");
-    const password = within(modal).getByTestID("password-field");
-
-    await act(async () => {
-      confirm.props.onChange("delete");
-      password.props.onChange("password");
-      await form.props.onSubmit();
+    expect(await axe(modal)).toHaveNoViolations();
+    const confirm = within(modal).getByTestId("confirm-page-confirmation");
+    const password = within(modal).getByTestId("password-field");
+    const submitButton = within(modal).getByRole("button", {
+      name: "Delete my account",
     });
 
-    const successHeader = within(modal).getByText("Request submitted", {
+    userEvent.type(confirm, "delete");
+    userEvent.type(password, "password");
+
+    userEvent.click(submitButton);
+
+    const successHeader = await within(modal).findByText("Request submitted", {
       exact: false,
     });
     expect(successHeader).toBeDefined();
   });
 
   it("deletion confirmation is required during deletion steps", async () => {
-    const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
+    const deleteAccount = await screen.findByTestId(
+      "profile-account-deleteAccount"
     );
 
-    const requestDeletionButton = within(deleteAccount).getByTestID(
-      "deleteAccount-request"
-    );
-    act(() => {
-      requestDeletionButton.props.onClick();
+    const requestDeletionButton = within(deleteAccount).getByRole("button", {
+      name: "Request",
     });
-    const modal = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("delete-account-modal")
-    );
+
+    userEvent.click(requestDeletionButton);
+
+    const modal = await screen.findByTestId("delete-account-modal");
+
     // iterate through the delete account modal steps
     for (let i = 0; i < 3; i++) {
-      const nextButton = await waitForElement(() =>
-        within(modal).getByText("Proceed", { selector: "button" })
-      );
-      act(() => {
-        nextButton.props.onClick();
+      const nextButton = within(modal).getByRole("button", {
+        name: "Proceed",
       });
+      userEvent.click(nextButton);
     }
-    const form = within(modal).getByType("form");
-    const password = within(modal).getByTestID("password-field");
+    const password = within(modal).getByTestId("password-field");
 
-    await act(async () => {
-      password.props.onChange("password");
-      await form.props.onSubmit();
+    userEvent.type(password, "password");
+
+    const submitButton = within(modal).getByRole("button", {
+      name: "Delete my account",
     });
-
-    const confirmRequiredWarning = within(
-      modal
-    ).getByText("This field is required.", { exact: false });
-    expect(confirmRequiredWarning).toBeDefined();
+    expect(submitButton).toBeDisabled();
   });
 
   it("password is required during deletion steps", async () => {
-    const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
+    const deleteAccount = await screen.findByTestId(
+      "profile-account-deleteAccount"
     );
 
-    const requestDeletionButton = within(deleteAccount).getByTestID(
-      "deleteAccount-request"
-    );
-    act(() => {
-      requestDeletionButton.props.onClick();
+    const requestDeletionButton = within(deleteAccount).getByRole("button", {
+      name: "Request",
     });
-    const modal = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("delete-account-modal")
-    );
+    fireEvent.click(requestDeletionButton);
+
+    const modal = await screen.findByTestId("delete-account-modal");
+
     // iterate through the delete account modal steps
     for (let i = 0; i < 3; i++) {
-      const nextButton = await waitForElement(() =>
-        within(modal).getByText("Proceed", { selector: "button" })
-      );
-      act(() => {
-        nextButton.props.onClick();
+      const nextButton = within(modal).getByRole("button", {
+        name: "Proceed",
       });
+      userEvent.click(nextButton);
     }
-    const form = within(modal).getByType("form");
-    const confirm = within(modal).getByTestID("confirm-page-confirmation");
+    const confirm = within(modal).getByTestId("confirm-page-confirmation");
 
-    await act(async () => {
-      confirm.props.onChange("delete");
-      await form.props.onSubmit();
+    userEvent.type(confirm, "delete");
+    const submitButton = within(modal).getByRole("button", {
+      name: "Delete my account",
     });
-
-    const passwordRequiredWarning = within(
-      modal
-    ).getByText("This field is required.", { exact: false });
-    expect(passwordRequiredWarning).toBeDefined();
+    expect(submitButton).toBeDisabled();
   });
 });

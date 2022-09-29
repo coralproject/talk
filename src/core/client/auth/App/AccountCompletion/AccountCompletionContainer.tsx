@@ -18,6 +18,7 @@ import CompleteAccountMutation from "./CompleteAccountMutation";
 interface Props {
   auth: AccountCompletionContainer_auth;
   viewer: AccountCompletionContainer_viewer | null;
+  children?: React.ReactNode;
 }
 
 const AccountCompletionContainer: FunctionComponent<Props> = ({
@@ -28,15 +29,14 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   const completeAccount = useMutation(CompleteAccountMutation);
   const setView = useMutation(SetViewMutation);
 
-  const [{ view: currentView, accessToken, duplicateEmail }] = useLocal<
-    AccountCompletionContainerLocal
-  >(graphql`
-    fragment AccountCompletionContainerLocal on Local {
-      accessToken
-      view
-      duplicateEmail
-    }
-  `);
+  const [{ view: currentView, accessToken, duplicateEmail }] =
+    useLocal<AccountCompletionContainerLocal>(graphql`
+      fragment AccountCompletionContainerLocal on Local {
+        accessToken
+        view
+        duplicateEmail
+      }
+    `);
 
   const localProfileEnabled =
     auth.integrations.local.enabled &&

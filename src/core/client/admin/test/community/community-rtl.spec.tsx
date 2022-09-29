@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import customRenderAppWithContext from "coral-admin/test/customRenderAppWithContext";
@@ -60,7 +66,6 @@ const createTestRenderer = async (
   });
 
   customRenderAppWithContext(context);
-  await screen.findByTestId("community-container");
 
   return context;
 };
@@ -279,6 +284,7 @@ it("org mods may allocate site mods", async () => {
   await createTestRenderer({
     resolvers,
   });
+  await screen.findByTestId("community-container");
 
   const userStatus = screen.getAllByLabelText("Change user status")[0];
   expect(userStatus).toBeVisible();
@@ -561,7 +567,7 @@ it("load more", async () => {
     }),
   });
 
-  const loadMore = screen.getByText("Load More");
+  const loadMore = await screen.findByText("Load More");
   userEvent.click(loadMore);
 
   await waitFor(() =>
@@ -589,11 +595,15 @@ it("filter by search", async () => {
     }),
   });
 
-  const searchField = screen.getByLabelText("Search by username", {
+  const searchField = await screen.findByLabelText("Search by username", {
     exact: false,
   });
   userEvent.click(searchField);
-  userEvent.type(searchField, "search{enter}");
+  fireEvent.change(searchField, { target: { value: "search" } });
+  const searchButton = await screen.findByRole("button", { name: "Search" });
+  await act(async () => {
+    userEvent.click(searchButton);
+  });
 
   await waitFor(() =>
     expect(
@@ -607,7 +617,7 @@ it("filter by search", async () => {
 
 it("can't change admin status but can for mods and staff", async () => {
   await createTestRenderer();
-  const admin = screen.getByRole("row", {
+  const admin = await screen.findByRole("row", {
     name: "Markus markus@test.com 07/06/18, 06:24 PM Admin Active",
   });
   expect(
@@ -631,9 +641,8 @@ it("can't ban org moderators but can change other status for them", async () => 
     },
   });
   await createTestRenderer({ resolvers });
-  const orgModRow = screen.getByRole("row", {
-    name:
-      "Lukas lukas@test.com 07/06/18, 06:24 PM Organization Moderator Active",
+  const orgModRow = await screen.findByRole("row", {
+    name: "Lukas lukas@test.com 07/06/18, 06:24 PM Organization Moderator Active",
   });
   const changeStatusButton = within(orgModRow).getByRole("button", {
     name: "Change user status",
@@ -673,8 +682,10 @@ it("doesn't show All Sites option when banning moderators and bans them on speci
       },
     },
   });
-  await createTestRenderer({ resolvers });
-  const moderatorRow = screen.getByRole("row", {
+  await act(async () => {
+    await createTestRenderer({ resolvers });
+  });
+  const moderatorRow = await screen.findByRole("row", {
     name: "Ginger ginger@test.com 07/06/18, 06:24 PM Site Moderator Active",
   });
   const changeStatusButton = within(moderatorRow).getByRole("button", {
@@ -684,7 +695,11 @@ it("doesn't show All Sites option when banning moderators and bans them on speci
   const dropdown = within(moderatorRow).getByLabelText(
     "A dropdown to change the user status"
   );
-  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
+  const manageBan = within(dropdown).getByRole("button", {
+    name: "Manage Ban",
+  });
+  fireEvent.click(manageBan);
+
   const modal = screen.getByLabelText(
     "Are you sure you want to manage the ban status of Ginger?"
   );

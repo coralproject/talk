@@ -85,8 +85,8 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                   <HorizontalGutter spacing={3}>
                     <Localized
                       id="community-siteRoleModal-assignSites"
-                      strong={<ModalHeaderUsername />}
-                      $username={username || notAvailableTranslation}
+                      elems={{ strong: <ModalHeaderUsername /> }}
+                      vars={{ username: username || notAvailableTranslation }}
                     >
                       <ModalHeader>
                         Assign sites for{" "}

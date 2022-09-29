@@ -2,7 +2,11 @@ import React, { FunctionComponent } from "react";
 
 import styles from "./ButtonPadding.css";
 
-const ButtonPadding: FunctionComponent = (props) => (
+interface ButtonPaddingProps {
+  children?: React.ReactNode;
+}
+
+const ButtonPadding: FunctionComponent<ButtonPaddingProps> = (props) => (
   <div className={styles.root}>{props.children}</div>
 );
 

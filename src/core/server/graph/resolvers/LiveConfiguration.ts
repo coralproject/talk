@@ -9,10 +9,11 @@ import {
 
 export type LiveConfigurationInput = Story | settings.LiveConfiguration;
 
-export const LiveConfiguration: GQLLiveConfigurationTypeResolver<LiveConfigurationInput> = {
-  configurable: (source, args, ctx) =>
-    !ctx.config.get("disable_live_updates") &&
-    !ctx.tenant.featureFlags?.includes(GQLFEATURE_FLAG.DISABLE_LIVE_UPDATES),
-  enabled: (source, args, ctx) =>
-    isLiveEnabled(ctx.config, ctx.tenant, source, ctx.now),
-};
+export const LiveConfiguration: GQLLiveConfigurationTypeResolver<LiveConfigurationInput> =
+  {
+    configurable: (source, args, ctx) =>
+      !ctx.config.get("disable_live_updates") &&
+      !ctx.tenant.featureFlags?.includes(GQLFEATURE_FLAG.DISABLE_LIVE_UPDATES),
+    enabled: (source, args, ctx) =>
+      isLiveEnabled(ctx.config, ctx.tenant, source, ctx.now),
+  };

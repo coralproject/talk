@@ -36,13 +36,12 @@ interface Props {
 }
 
 const LocalAuthConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
-  const [{ forceAdminLocalAuth }] = useLocal<
-    LocalAuthConfigContainerLocal
-  >(graphql`
-    fragment LocalAuthConfigContainerLocal on Local {
-      forceAdminLocalAuth
-    }
-  `);
+  const [{ forceAdminLocalAuth }] =
+    useLocal<LocalAuthConfigContainerLocal>(graphql`
+      fragment LocalAuthConfigContainerLocal on Local {
+        forceAdminLocalAuth
+      }
+    `);
 
   return (
     <ConfigBoxWithToggleField

@@ -7,6 +7,7 @@ import styles from "./ListGroup.css";
 
 interface Props {
   className?: string;
+  children?: React.ReactNode;
 }
 
 const ListGroup: FunctionComponent<Props> = ({ className, children }) => {

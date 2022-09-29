@@ -36,59 +36,57 @@ async function get(
   };
 }
 
-const cacheMiddleware = (redis: Redis, ttl: number): RequestHandler => async (
-  req,
-  res,
-  next
-) => {
-  // Compute the cache key.
-  const key = `rmc:${req.hostname}:${req.originalUrl}`;
-  const log = logger.child({ key }, true);
+const cacheMiddleware =
+  (redis: Redis, ttl: number): RequestHandler =>
+  async (req, res, next) => {
+    // Compute the cache key.
+    const key = `rmc:${req.hostname}:${req.originalUrl}`;
+    const log = logger.child({ key }, true);
 
-  // Try to lookup the entry in the cache.
-  let entry = await get(redis, ttl, key);
-  if (entry) {
-    log.debug("request was in the cache");
+    // Try to lookup the entry in the cache.
+    let entry = await get(redis, ttl, key);
+    if (entry) {
+      log.debug("request was in the cache");
 
-    // Set the headers on the request.
-    res.set(entry.headers);
+      // Set the headers on the request.
+      res.set(entry.headers);
 
-    // Set the status on the request.
-    res.status(entry.status);
+      // Set the status on the request.
+      res.status(entry.status);
 
-    // Send the body on the request.
-    return res.send(entry.body);
-  }
+      // Send the body on the request.
+      return res.send(entry.body);
+    }
 
-  log.debug("request was not in the cache");
+    log.debug("request was not in the cache");
 
-  const send = res.send.bind(res);
-  res.send = (body) => {
-    // Send the response to the client.
-    const ret = send(body);
+    const send = res.send.bind(res);
+    res.send = (body) => {
+      // Send the response to the client.
+      const ret = send(body);
 
-    // Create a new cache entry.
-    entry = {
-      headers: res.getHeaders(),
-      status: res.statusCode,
-      body,
-      createdAt: Date.now(),
+      // Create a new cache entry.
+      entry = {
+        headers: res.getHeaders(),
+        status: res.statusCode,
+        body,
+        createdAt: Date.now(),
+      };
+
+      // Add it in Redis.
+      redis
+        .set(key, JSON.stringify(entry), "PX", ttl)
+        .then(() => {
+          log.debug("request added to cache");
+        })
+        .catch((err) => {
+          log.error({ err }, "could not add request to cache");
+        });
+
+      return ret;
     };
 
-    // Add it in Redis.
-    redis
-      .set(key, JSON.stringify(entry), "PX", ttl)
-      .then(() => {
-        log.debug("request added to cache");
-      })
-      .catch((err) => {
-        log.error({ err }, "could not add request to cache");
-      });
-
-    return ret;
+    return next();
   };
-
-  return next();
-};
 
 export default cacheMiddleware;

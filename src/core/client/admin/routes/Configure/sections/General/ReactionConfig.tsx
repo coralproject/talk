@@ -54,7 +54,10 @@ const ReactionsConfig: FunctionComponent<Props> = ({
     }
     container={<FieldSet />}
   >
-    <Localized id="configure-general-reactions-explanation" strong={<strong />}>
+    <Localized
+      id="configure-general-reactions-explanation"
+      elems={{ strong: <strong /> }}
+    >
       <FormFieldDescription>
         Allow your community to engage with one another and express themselves
         with one-click reactions. By default, Coral allows commenters to

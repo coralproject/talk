@@ -24,8 +24,7 @@ const SuspensionAction: FunctionComponent<SuspensionActionProps> = ({
     return (
       <Localized
         id="moderate-user-drawer-suspension"
-        $unit={unit}
-        $value={scaled}
+        vars={{ unit, value: scaled }}
       >
         <span>
           Suspension, {scaled} {unit}
