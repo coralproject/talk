@@ -416,7 +416,7 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
   );
 });
 
-it("promote user role as a site moderator", async () => {
+it("add moderation scopes as a site moderator", async () => {
   const siteModerator = users.moderators[1];
   const user = users.commenters[0];
   const resolvers = createResolversStub<GQLResolver>({
@@ -425,7 +425,7 @@ it("promote user role as a site moderator", async () => {
       settings: () => settingsWithMultisite,
     },
     Mutation: {
-      updateUserRole: ({ variables }) => {
+      promoteModerator: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: user.id,
           siteIDs: [sites[0].id],
@@ -461,11 +461,11 @@ it("promote user role as a site moderator", async () => {
   userEvent.click(assignButton);
 
   await waitFor(() =>
-    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
+    expect(resolvers.Mutation!.promoteModerator!.called).toBe(true)
   );
 });
 
-it("demote user role as a site moderator", async () => {
+it("remove moderation scopes as a site moderator", async () => {
   const siteModeratorViewer = users.moderators[1];
   const siteModeratorUser = users.moderators[2];
 
@@ -475,7 +475,7 @@ it("demote user role as a site moderator", async () => {
       settings: () => settingsWithMultisite,
     },
     Mutation: {
-      updateUserRole: ({ variables }) => {
+      demoteModerator: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: siteModeratorUser.id,
           siteIDs: siteModeratorViewer.moderationScopes?.siteIDs,
@@ -515,7 +515,7 @@ it("demote user role as a site moderator", async () => {
   userEvent.click(removeButton);
 
   await waitFor(() =>
-    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
+    expect(resolvers.Mutation!.demoteModerator!.called).toBe(true)
   );
 });
 

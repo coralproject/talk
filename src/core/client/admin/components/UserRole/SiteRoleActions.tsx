@@ -31,6 +31,10 @@ import UserRoleText from "./UserRoleText";
 
 import styles from "./SiteRoleActions.css";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
+import PromoteModeratorMutation from "./PromoteModeratorMutation";
+import DemoteModeratorMutation from "./DemoteModeratorMutation";
+import PromoteMemberMutation from "./PromoteMemberMutation";
+import DemoteMemberMutation from "./DemoteMemberMutation";
 
 interface Props {
   viewer: SiteRoleActions_viewer;
@@ -43,62 +47,55 @@ enum SiteRoleType {
 }
 
 type SiteRoleScopeChange = (change: {
-  changee: SiteRoleActions_user;
+  userID: string;
   siteIDs: string[];
 }) => Promise<any>;
 
 const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   const changeRole = useMutation(UpdateUserRoleMutation);
+  const promoteModerator = useMutation(PromoteModeratorMutation);
+  const demoteModerator = useMutation(DemoteModeratorMutation);
+  const promoteMember = useMutation(PromoteMemberMutation);
+  const demoteMember = useMutation(DemoteMemberMutation);
 
-  const promoteModerator: SiteRoleScopeChange = useCallback(
-    async ({ changee, siteIDs }) => {
-      const existingSiteIDs = user.moderationScopes?.siteIDs || [];
-      await changeRole({
-        userID: changee.id,
-        role: GQLUSER_ROLE.MODERATOR,
-        siteIDs: [...existingSiteIDs, ...siteIDs],
+  const addModerationScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await promoteModerator({
+        userID,
+        siteIDs: siteIDs,
       });
     },
-    [changeRole, user.moderationScopes?.siteIDs]
+    [promoteModerator]
   );
 
-  // TODO: dont shadow outer `user` x 4
-  const demoteModerator: SiteRoleScopeChange = useCallback(
-    async ({ changee, siteIDs }) => {
-      await changeRole({
-        userID: changee.id,
-        role: GQLUSER_ROLE.MODERATOR,
-        siteIDs: changee.moderationScopes!.siteIDs!.filter(
-          (id) => !siteIDs.includes(id)
-        ),
+  const removeModerationScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await demoteModerator({
+        userID,
+        siteIDs,
       });
     },
-    [changeRole]
+    [demoteModerator]
   );
 
-  const promoteMember: SiteRoleScopeChange = useCallback(
-    async ({ changee, siteIDs }) => {
-      const existingSiteIDs = user.moderationScopes?.siteIDs || [];
-      await changeRole({
-        userID: changee.id,
-        role: GQLUSER_ROLE.MEMBER,
-        siteIDs: [...existingSiteIDs, ...siteIDs],
+  const addMembershipScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await promoteMember({
+        userID,
+        siteIDs: siteIDs,
       });
     },
-    [changeRole, user.moderationScopes?.siteIDs]
+    [promoteMember]
   );
 
-  const demoteMember: SiteRoleScopeChange = useCallback(
-    async ({ changee, siteIDs }) => {
-      await changeRole({
-        userID: changee.id,
-        role: GQLUSER_ROLE.MODERATOR,
-        siteIDs: user.membershipScopes!.siteIDs!.filter(
-          (id) => !siteIDs.includes(id)
-        ),
+  const removeMembershipScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await demoteMember({
+        userID,
+        siteIDs,
       });
     },
-    [changeRole, user.membershipScopes]
+    [demoteMember]
   );
 
   const [mode, setMode] = useState<"promote" | "demote" | null>(null);
@@ -156,9 +153,9 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     ) => {
       try {
         if (mode === "promote") {
-          await promoter({ changee: user, siteIDs: input.siteIDs });
+          await promoter({ userID: user.id, siteIDs: input.siteIDs });
         } else if (mode === "demote") {
-          await demoter({ changee: user, siteIDs: input.siteIDs });
+          await demoter({ userID: user.id, siteIDs: input.siteIDs });
         }
 
         setMode(null);
@@ -255,7 +252,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           username={user.username}
           siteRoleScopes={user.moderationScopes}
           viewer={viewer}
-          onSubmit={onSubmit(promoteModerator, demoteModerator)}
+          onSubmit={onSubmit(addModerationScopes, removeModerationScopes)}
           onCancel={onCancel}
         />
       )}
@@ -266,7 +263,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           username={user.username}
           siteRoleScopes={user.membershipScopes}
           viewer={viewer}
-          onSubmit={onSubmit(promoteMember, demoteMember)}
+          onSubmit={onSubmit(addMembershipScopes, removeMembershipScopes)}
           onCancel={onCancel}
         />
       )}
