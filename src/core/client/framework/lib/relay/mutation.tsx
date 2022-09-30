@@ -28,15 +28,14 @@ export type MutationResponsePromise<
   U extends string | number | symbol
 > = Promise<MutationResponse<T, U>>;
 
-export type MutationProp<
-  T extends Mutation<any, any, any>
-> = T extends Mutation<any, infer I, infer R>
-  ? Parameters<T["commit"]>[1] extends undefined
-    ? () => R
-    : keyof Parameters<T["commit"]>[1] extends never
-    ? () => R
-    : (input: I) => R
-  : never;
+export type MutationProp<T extends Mutation<any, any, any>> =
+  T extends Mutation<any, infer I, infer R>
+    ? Parameters<T["commit"]>[1] extends undefined
+      ? () => R
+      : keyof Parameters<T["commit"]>[1] extends never
+      ? () => R
+      : (input: I) => R
+    : never;
 
 type RemoveClientMutationID<T> = T extends Promise<infer U>
   ? Promise<

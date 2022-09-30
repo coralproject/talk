@@ -34,6 +34,7 @@ interface Props {
 
 const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
+    data-testid="comment-editing-config-box"
     title={
       <Localized id="configure-general-commentEditing-title">
         <Header container="h2">Comment editing</Header>
@@ -42,7 +43,7 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   >
     <Localized
       id="configure-general-commentEditing-explanation"
-      strong={<strong />}
+      elems={{ strong: <strong /> }}
     >
       <FormFieldDescription>
         Set a limit on how long commenters have to edit their comments sitewide.

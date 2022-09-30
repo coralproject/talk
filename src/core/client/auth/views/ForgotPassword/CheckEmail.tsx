@@ -29,7 +29,7 @@ const CheckEmail: FunctionComponent<Props> = ({ email }) => {
       <Main data-testid="forgotPassword-checkEmail-main">
         <Localized
           id="forgotPassword-checkEmail-receiveEmail"
-          email={<UserEmail />}
+          elems={{ email: <UserEmail /> }}
         >
           <div className={styles.description}>
             {

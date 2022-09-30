@@ -13,6 +13,7 @@ export { default as useStaticFlattenReplies } from "./useStaticFlattenReplies";
 export { default as useAMP } from "./useAMP";
 export { default as lookupFlattenReplies } from "./lookupFlattenReplies";
 export { default as getFlattenedReplyAncestorID } from "./getFlattenedReplyAncestorID";
+export { default as getReplyAncestorID } from "./getReplyAncestorID";
 export {
   determineDepthTillAncestor,
   determineDepthTillStory,

@@ -60,7 +60,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
     >
       <Localized
         id="configure-moderation-akismet-explanation"
-        strong={<strong />}
+        elems={{ strong: <strong /> }}
       >
         <FormFieldDescription>
           Submitted comments are passed to the Akismet API for spam detection.
@@ -86,12 +86,15 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
         <OnOffField name="integrations.akismet.ipBased" disabled={disabled} />
       </FormField>
       <HorizontalGutter spacing={3}>
-        <Localized id="configure-configurationSubHeader" strong={<strong />}>
+        <Localized
+          id="configure-configurationSubHeader"
+          elems={{ strong: <strong /> }}
+        >
           <Subheader>Configuration</Subheader>
         </Localized>
         <Localized
           id="configure-moderation-akismet-accountNote"
-          externalLink={<ExternalLink />}
+          elems={{ externalLink: <ExternalLink /> }}
         >
           <HelperText>
             Note: You must add your active domain(s) in your Akismet account:

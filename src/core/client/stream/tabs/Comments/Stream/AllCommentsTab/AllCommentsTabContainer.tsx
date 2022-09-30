@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -27,6 +28,7 @@ import {
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
+import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
   LoadMoreAllCommentsEvent,
   ViewNewCommentsNetworkEvent,
@@ -45,13 +47,13 @@ import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllComm
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 
 import MarkCommentsAsSeenMutation from "../../Comment/MarkCommentsAsSeenMutation";
-import { useCommentSeenEnabled } from "../../commentSeen";
+import { useCommentSeenEnabled, useZKeyEnabled } from "../../commentSeen";
 import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
-import AllCommentsTabCommentContainer from "./AllCommentsTabCommentContainer";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
+import AllCommentsTabVirtualizedComments from "./AllCommentsTabVirtualizedComments";
 import RatingsFilterMenu from "./RatingsFilterMenu";
 
 import styles from "./AllCommentsTabContainer.css";
@@ -62,6 +64,7 @@ interface Props {
   viewer: AllCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
   flattenReplies: boolean;
+  currentScrollRef: any;
   tag?: GQLTAG;
 }
 
@@ -71,20 +74,28 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   viewer,
   relay,
   tag,
+  currentScrollRef,
 }) => {
   const [
-    { commentsOrderBy, ratingFilter, keyboardShortcutsConfig },
+    {
+      commentsOrderBy,
+      ratingFilter,
+      keyboardShortcutsConfig,
+      oldestFirstNewCommentsToShow,
+    },
     setLocal,
   ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
         ratingFilter
         commentsOrderBy
+        commentsFullyLoaded
         keyboardShortcutsConfig {
           key
           source
           reverse
         }
+        oldestFirstNewCommentsToShow
       }
     `
   );
@@ -152,11 +163,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   );
 
   const commentSeenEnabled = useCommentSeenEnabled();
-  const [loadMore, isLoadingMore] = useLoadMore(relay, 20);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 99999);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const beginViewNewCommentsEvent = useViewerNetworkEvent(
     ViewNewCommentsNetworkEvent
   );
+
+  useEffect(() => {
+    setLocal({ commentsFullyLoaded: !hasMore });
+    if (hasMore && !isLoadingMore) {
+      void loadMoreAndEmit();
+    }
+  }, []);
 
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({
@@ -165,16 +183,25 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     });
     try {
       await loadMore();
+      setLocal({ commentsFullyLoaded: true });
       loadMoreEvent.success();
     } catch (error) {
       loadMoreEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
       console.error(error);
     }
-  }, [beginLoadMoreEvent, story.id, keyboardShortcutsConfig, loadMore]);
+  }, [
+    beginLoadMoreEvent,
+    story.id,
+    keyboardShortcutsConfig,
+    loadMore,
+    setLocal,
+  ]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
+  const [viewMoreLoading, setViewMoreLoading] = useState(false);
   const onViewMore = useCallback(async () => {
+    setViewMoreLoading(true);
     const viewNewCommentsEvent = beginViewNewCommentsEvent({
       storyID: story.id,
       keyboardShortcutsConfig,
@@ -187,6 +214,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         markAsSeen,
       });
       viewNewCommentsEvent.success();
+      setViewMoreLoading(false);
     } catch (error) {
       viewNewCommentsEvent.error({ message: error.message, code: error.code });
       // eslint-disable-next-line no-console
@@ -197,9 +225,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     story.id,
     keyboardShortcutsConfig,
     viewMore,
-    tag,
-    viewer,
-    markAsSeen,
+    setViewMoreLoading,
   ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
@@ -234,9 +260,103 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     [viewer, settings]
   );
 
+  const zKeyEnabled = useZKeyEnabled();
+
+  const { comments, newCommentsLength } = useMemo(() => {
+    let commentsWithIgnored = story.comments.edges;
+
+    // If there is at least one ignored user, then we go through and add that information
+    // for next unseen to use
+    // Only need to do this in cases where Z_KEY is enabled since it's for keyboard shortcuts
+    if (zKeyEnabled) {
+      // If there are ignored users, we need to add to each comment and its replies
+      // whether it is ignored for use by Z key navigation
+      if (viewer?.ignoredUsers && viewer.ignoredUsers.length > 0) {
+        commentsWithIgnored = story.comments.edges.map((comment) => {
+          const ignoredReplies: Set<string> = new Set();
+          // add all replies with authorIDs of ignored users
+          if (comment.node.allChildComments) {
+            comment.node.allChildComments.edges.forEach((childComment) => {
+              if (
+                childComment.node.author &&
+                viewer &&
+                viewer.ignoredUsers.some((u) =>
+                  Boolean(u.id === childComment.node.author?.id)
+                )
+              ) {
+                ignoredReplies.add(childComment.node.id);
+              }
+            });
+            // add all replies with ancestorIDs of replies of ignored users
+            comment.node.allChildComments.edges.forEach((childComment) => {
+              if (childComment.node.ancestorIDs) {
+                childComment.node.ancestorIDs.forEach((ancestor) => {
+                  if (ancestor && ignoredReplies.has(ancestor)) {
+                    ignoredReplies.add(childComment.node.id);
+                  }
+                });
+              }
+            });
+          }
+          const rootComment = {
+            node: {
+              ignored: !(
+                comment.node.author &&
+                viewer &&
+                !viewer.ignoredUsers.some((u) =>
+                  Boolean(u.id === comment.node.author?.id)
+                )
+              ),
+              ignoredReplies: [...ignoredReplies],
+              ...comment.node,
+            },
+          };
+          return rootComment;
+        });
+      }
+    }
+    // If in oldest first view, filter out new comments to show as they will
+    // be included in the stream at the bottom after initial number of comments.
+    // When the new comments are cleared on rerender, they will be shown in chronological position.
+    if (oldestFirstNewCommentsToShow) {
+      const newCommentsToShowIds = oldestFirstNewCommentsToShow.split(" ");
+      const commentsWithoutNew = commentsWithIgnored.filter(
+        (c) => !newCommentsToShowIds.includes(c.node.id)
+      );
+      const newComments = commentsWithIgnored.filter((c) =>
+        newCommentsToShowIds.includes(c.node.id)
+      );
+      commentsWithoutNew.splice(NUM_INITIAL_COMMENTS, 0, ...newComments);
+      return {
+        comments: commentsWithoutNew,
+        newCommentsLength: newComments.length,
+      };
+    }
+    return { comments: commentsWithIgnored, newCommentsLength: 0 };
+  }, [
+    story.comments.edges,
+    viewer?.ignoredUsers,
+    zKeyEnabled,
+    oldestFirstNewCommentsToShow,
+  ]);
+
+  useEffect(() => {
+    // on rerender, clear the newly added comments to display if it's
+    // alternate oldest view
+    setLocal({ oldestFirstNewCommentsToShow: "" });
+  }, []);
+
   return (
     <>
-      <KeyboardShortcuts loggedIn={!!viewer} storyID={story.id} />
+      {!!viewer && (
+        <KeyboardShortcuts
+          storyID={story.id}
+          currentScrollRef={currentScrollRef}
+          comments={comments}
+          viewNewCount={viewNewCount}
+          hasMore={hasMore}
+        />
+      )}
       {tag === GQLTAG.REVIEW && (
         <RatingsFilterMenu
           rating={ratingFilter}
@@ -251,6 +371,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             color="primary"
             onClick={onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
+            disabled={viewMoreLoading}
             aria-controls="comments-allComments-log"
             data-key-stop
             data-is-load-more
@@ -258,11 +379,21 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             fullWidth
           >
             {story.settings.mode === GQLSTORY_MODE.QA ? (
-              <Localized id="qa-viewNew" $count={viewNewCount}>
+              <Localized
+                id={viewMoreLoading ? "qa-viewNew-loading" : "qa-viewNew"}
+                vars={{ count: viewNewCount }}
+              >
                 <span>View {viewNewCount} New Questions</span>
               </Localized>
             ) : (
-              <Localized id="comments-viewNew" $count={viewNewCount}>
+              <Localized
+                id={
+                  viewMoreLoading
+                    ? "comments-viewNew-loading"
+                    : "comments-viewNew"
+                }
+                vars={{ count: viewNewCount }}
+              >
                 <span>View {viewNewCount} New Comments</span>
               </Localized>
             )}
@@ -284,37 +415,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             tag={tag}
           />
         )}
-        {story.comments.edges.length > 0 &&
-          story.comments.edges.map(({ node: comment }, index) => (
-            <AllCommentsTabCommentContainer
-              key={comment.id}
-              viewer={viewer}
-              comment={comment}
-              story={story}
-              settings={settings}
-              isLast={index === story.comments.edges.length - 1}
-            />
-          ))}
-        {hasMore && (
-          <Localized id="comments-loadMore">
-            <Button
-              key={`comments-loadMore-${story.comments.edges.length}`}
-              id="comments-loadMore"
-              onClick={loadMoreAndEmit}
-              color="secondary"
-              variant="outlined"
-              fullWidth
-              disabled={isLoadingMore}
-              aria-controls="comments-allComments-log"
-              className={CLASSES.allCommentsTabPane.loadMoreButton}
-              // Added for keyboard shortcut support.
-              data-key-stop
-              data-is-load-more
-            >
-              Load More
-            </Button>
-          </Localized>
-        )}
+        <AllCommentsTabVirtualizedComments
+          settings={settings}
+          viewer={viewer}
+          story={story}
+          isLoadingMore={isLoadingMore}
+          loadMoreAndEmit={loadMoreAndEmit}
+          hasMore={hasMore}
+          currentScrollRef={currentScrollRef}
+          commentsOrderBy={commentsOrderBy}
+          comments={comments}
+          newCommentsLength={newCommentsLength}
+        />
         {!alternateOldestViewEnabled && (
           <CommentsLinks
             showGoToDiscussions={showGoToDiscussions}
@@ -354,20 +466,20 @@ type FragmentVariables = Omit<
 >;
 
 const enhanced = withPaginationContainer<
-  Props,
+  Omit<Props, "currentScrollRef">,
   AllCommentsTabContainerPaginationQueryVariables,
   FragmentVariables
 >(
   {
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 20 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
-          tag: { type: "TAG" }
-          ratingFilter: { type: "Int" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 20 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+        tag: { type: "TAG" }
+        ratingFilter: { type: "Int" }
+      ) {
         id
         isClosed
         closedAt
@@ -395,12 +507,48 @@ const enhanced = withPaginationContainer<
             cursor
             node {
               id
+              seen
+              author {
+                id
+              }
+              deleted
+              allChildComments {
+                edges {
+                  node {
+                    ancestorIDs
+                    id
+                    seen
+                    author {
+                      id
+                    }
+                    deleted
+                  }
+                }
+              }
               ...AllCommentsTabCommentContainer_comment
             }
           }
           edges {
             node {
               id
+              seen
+              author {
+                id
+              }
+              deleted
+              allChildComments {
+                edges {
+                  node {
+                    ancestorIDs
+                    id
+                    seen
+                    author {
+                      id
+                    }
+                    deleted
+                  }
+                }
+              }
               ...AllCommentsTabCommentContainer_comment
             }
           }
@@ -421,6 +569,9 @@ const enhanced = withPaginationContainer<
         id
         status {
           current
+        }
+        ignoredUsers {
+          id
         }
       }
     `,

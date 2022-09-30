@@ -64,6 +64,13 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
 
     return canModerate(ctx.user, { siteID: c.siteID });
   },
+  canReply: (c) => {
+    if (typeof c.rejectedAncestor === "undefined") {
+      return true;
+    }
+
+    return !c.rejectedAncestor;
+  },
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
     c.revisions.map((revision) => ({ revision, comment: c })),
@@ -146,6 +153,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     hasAncestors(c)
       ? ctx.loaders.Comments.parents(c, input)
       : createConnection(),
+  allChildComments: (c, input, ctx) =>
+    ctx.loaders.Comments.allChildComments(c, input),
   story: (c, input, ctx) => ctx.loaders.Stories.story.load(c.storyID),
   site: (c, input, ctx) => ctx.loaders.Sites.site.load(c.siteID),
   permalink: async ({ id, storyID }, input, ctx) => {

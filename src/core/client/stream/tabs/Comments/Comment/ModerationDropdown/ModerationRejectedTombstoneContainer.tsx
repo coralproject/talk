@@ -12,6 +12,8 @@ import { ModerationRejectedTombstoneContainer_comment as CommentData } from "cor
 import { ModerationRejectedTombstoneContainer_local } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_local.graphql";
 import { ModerationRejectedTombstoneContainer_settings as SettingsData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_settings.graphql";
 
+import computeCommentElementID from "../computeCommentElementID";
+
 import styles from "./ModerationRejectedTombstoneContainer.css";
 
 interface Props {
@@ -23,13 +25,12 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
   comment,
   settings,
 }) => {
-  const [{ accessToken }] = useLocal<
-    ModerationRejectedTombstoneContainer_local
-  >(graphql`
-    fragment ModerationRejectedTombstoneContainer_local on Local {
-      accessToken
-    }
-  `);
+  const [{ accessToken }] =
+    useLocal<ModerationRejectedTombstoneContainer_local>(graphql`
+      fragment ModerationRejectedTombstoneContainer_local on Local {
+        accessToken
+      }
+    `);
 
   const link = useModerationLink({ commentID: comment.id });
   const moderationLinkSuffix =
@@ -46,8 +47,14 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
 
     return ret;
   }, [link, moderationLinkSuffix]);
+  const commentElementID = computeCommentElementID(comment.id);
   return (
-    <Tombstone className={CLASSES.moderationRejectedTombstone.$root} fullWidth>
+    <Tombstone
+      className={CLASSES.moderationRejectedTombstone.$root}
+      id={commentElementID}
+      fullWidth
+      noBottomBorder
+    >
       <Localized id="comments-moderationRejectedTombstone-title">
         <div>You have rejected this comment.</div>
       </Localized>

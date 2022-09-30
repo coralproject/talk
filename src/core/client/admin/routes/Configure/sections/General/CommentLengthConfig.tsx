@@ -52,6 +52,7 @@ interface Props {
 
 const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
+    data-testid="comment-length-config-box"
     title={
       <Localized id="configure-general-commentLength-title">
         <Header container={<legend />}>Comment length</Header>
@@ -61,7 +62,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   >
     <Localized
       id="configure-general-commentLength-setLimit"
-      strong={<strong />}
+      elems={{ strong: <strong /> }}
     >
       <FormFieldDescription>
         Set minimum and maximum comment length requirements. Blank spaces at the

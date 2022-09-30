@@ -1,9 +1,10 @@
+import { act, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
-import { act, waitForElement, within } from "coral-framework/testHelpers";
-
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { moderators, settings, stories } from "../fixtures";
-import create from "./create";
+import { createContext } from "./create";
 
 async function createTestRenderer(
   resolver: any = {},
@@ -19,7 +20,7 @@ async function createTestRenderer(
     },
   };
 
-  const { testRenderer } = create({
+  const { context } = createContext({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
@@ -29,11 +30,9 @@ async function createTestRenderer(
     },
   });
 
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
-  );
+  customRenderAppWithContext(context);
 
-  return { testRenderer, tabPane };
+  return;
 }
 
 it("close stream", async () => {
@@ -44,25 +43,24 @@ it("close stream", async () => {
       clientMutationId: data.input.clientMutationId,
     };
   });
-  const { tabPane } = await createTestRenderer({
-    Mutation: {
-      closeStory: closeStoryStub,
-    },
-  });
-
-  const closeButton = within(tabPane).getByText("Close Stream", {
-    selector: "button",
-  });
   await act(async () => {
-    closeButton.props.onClick();
+    await createTestRenderer({
+      Mutation: {
+        closeStory: closeStoryStub,
+      },
+    });
   });
 
-  // Stream should then appear closed.
-  await waitForElement(() =>
-    within(tabPane).getByText("Open Stream", {
-      selector: "button",
-    })
-  );
+  const tabPane = await screen.findByTestId("current-tab-pane");
+
+  const closeButton = within(tabPane).getByRole("button", {
+    name: "Close Stream",
+  });
+  userEvent.click(closeButton);
+
+  expect(
+    await within(tabPane).findByRole("button", { name: "Open Stream" })
+  ).toBeVisible();
 
   // Should have successfully sent with server.
   expect(closeStoryStub.called).toBe(true);
@@ -76,29 +74,30 @@ it("opens stream", async () => {
       clientMutationId: data.input.clientMutationId,
     };
   });
-  const { tabPane } = await createTestRenderer({
-    Query: {
-      story: sinon.stub().returns({ ...stories[0], isClosed: true }),
-    },
-    Mutation: {
-      openStory: openStoryStub,
-    },
-  });
-
-  const button = within(tabPane).getByText("Open Stream", {
-    selector: "button",
-  });
 
   await act(async () => {
-    button.props.onClick();
+    await createTestRenderer({
+      Query: {
+        story: sinon.stub().returns({ ...stories[0], isClosed: true }),
+      },
+      Mutation: {
+        openStory: openStoryStub,
+      },
+    });
   });
 
+  const tabPane = await screen.findByTestId("current-tab-pane");
+
+  const button = within(tabPane).getByRole("button", { name: "Open Stream" });
+
+  userEvent.click(button);
+
   // Stream should then appear open.
-  await waitForElement(() =>
-    within(tabPane).getByText("Close Stream", {
-      selector: "button",
+  expect(
+    await within(tabPane).findByRole("button", {
+      name: "Close Stream",
     })
-  );
+  ).toBeVisible();
 
   // Should have successfully sent with server.
   expect(openStoryStub.called).toBe(true);

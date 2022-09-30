@@ -11,8 +11,8 @@ export default async function polyfillIntlLocale(
 ) {
   if (!browser.supports.intl) {
     await Promise.all(
-      locales.map((locale) =>
-        import("intl/locale-data/jsonp/" + locale + ".js")
+      locales.map(
+        (locale) => import("intl/locale-data/jsonp/" + locale + ".js")
       )
     );
   }

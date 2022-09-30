@@ -28,17 +28,19 @@ exports[`renders correctly with logout button 1`] = `
     >
       <Username />
       <Localized
-        button={
-          <ForwardRef(forwardRef)
-            className="UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
-            color="primary"
-            fontSize="small"
-            fontWeight="semiBold"
-            onClick={[Function]}
-            paddingSize="none"
-            underline={true}
-            variant="flat"
-          />
+        elems={
+          Object {
+            "button": <ForwardRef(forwardRef)
+              className="UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+              color="primary"
+              fontSize="small"
+              fontWeight="semiBold"
+              onClick={[Function]}
+              paddingSize="none"
+              underline={true}
+              variant="flat"
+            />,
+          }
         }
         id="general-userBoxAuthenticated-notYou"
       >

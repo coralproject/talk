@@ -38,8 +38,8 @@ const PremodModal: FunctionComponent<Props> = ({
         <HorizontalGutter spacing={3}>
           <Localized
             id="community-premodModal-areYouSure"
-            strong={<ModalHeaderUsername />}
-            $username={username || notAvailableTranslation}
+            elems={{ strong: <ModalHeaderUsername /> }}
+            vars={{ username: username || notAvailableTranslation }}
           >
             <ModalHeader id="PremodModal-title">
               Are you sure you want to always premoderate{" "}

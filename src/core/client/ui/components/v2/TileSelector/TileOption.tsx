@@ -7,6 +7,7 @@ import styles from "./TileOption.css";
 
 interface Props extends SelectorChildProps {
   className?: string;
+  children?: React.ReactNode;
 }
 
 const TileOption: FunctionComponent<Props> = ({

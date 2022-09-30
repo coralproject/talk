@@ -16,19 +16,21 @@ const SignInWithLocalHeader: FunctionComponent<Props> = ({ onSignIn }) => {
     <div role="contentinfo" className={cn(CLASSES.login.subBar, styles.root)}>
       <Localized
         id="signUp-accountAvailableSignIn"
-        textlink={
-          <Button
-            color="primary"
-            variant="flat"
-            paddingSize="none"
-            fontSize="small"
-            fontFamily="secondary"
-            fontWeight="semiBold"
-            underline
-            onClick={onSignIn}
-            className={styles.signIn}
-          />
-        }
+        elems={{
+          textlink: (
+            <Button
+              color="primary"
+              variant="flat"
+              paddingSize="none"
+              fontSize="small"
+              fontFamily="secondary"
+              fontWeight="semiBold"
+              underline
+              onClick={onSignIn}
+              className={styles.signIn}
+            />
+          ),
+        }}
       >
         <div
           className={cn(

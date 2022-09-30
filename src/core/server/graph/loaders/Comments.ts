@@ -19,6 +19,7 @@ import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   retrieveAllCommentsUserConnection,
+  retrieveChildrenForParentConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
@@ -112,18 +113,18 @@ const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
  *
  * @param ctx graph context to use to prime the loaders.
  */
-const primeCommentsFromConnection = (ctx: GraphContext) => (
-  connection: Readonly<Connection<Readonly<Comment>>>
-) => {
-  if (!ctx.disableCaching) {
-    // For each of the nodes, prime the comment loader.
-    connection.nodes.forEach((comment) => {
-      ctx.loaders.Comments.visible.prime(comment.id, comment);
-    });
-  }
+const primeCommentsFromConnection =
+  (ctx: GraphContext) =>
+  (connection: Readonly<Connection<Readonly<Comment>>>) => {
+    if (!ctx.disableCaching) {
+      // For each of the nodes, prime the comment loader.
+      connection.nodes.forEach((comment) => {
+        ctx.loaders.Comments.visible.prime(comment.id, comment);
+      });
+    }
 
-  return connection;
-};
+    return connection;
+  };
 
 /**
  * mapVisibleComment will provide a mapping function that will mark as null each
@@ -159,9 +160,12 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
  * @param user the User to determine the visibility status with based on
  * permissions
  */
-const mapVisibleComments = (user?: Pick<User, "role">) => (
-  comments: Array<Readonly<Comment> | null>
-): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
+const mapVisibleComments =
+  (user?: Pick<User, "role">) =>
+  (
+    comments: Array<Readonly<Comment> | null>
+  ): Array<Readonly<Comment> | null> =>
+    comments.map(mapVisibleComment(user));
 
 export default (ctx: GraphContext) => ({
   visible: new DataLoader<string, Readonly<Comment> | null>(
@@ -322,13 +326,6 @@ export default (ctx: GraphContext) => ({
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
 
-    if (ctx.user) {
-      // Append comments to seenComments update list.
-      // These will be set after the GraphQL request has completed.
-      const commentIDs = connection.nodes.map((n) => n.id);
-      ctx.seenComments.insertMany(ctx.user.id, storyID, commentIDs);
-    }
-
     return connection;
   },
   forParent: async (
@@ -357,13 +354,6 @@ export default (ctx: GraphContext) => ({
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
 
-    if (ctx.user) {
-      // Append comments to seenComments update list.
-      // These will be set after the GraphQL request has completed.
-      const commentIDs = connection.nodes.map((n) => n.id);
-      ctx.seenComments.insertMany(ctx.user.id, storyID, commentIDs);
-    }
-
     return connection;
   },
   parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
@@ -380,6 +370,25 @@ export default (ctx: GraphContext) => ({
         last: defaultTo(last, 1),
         // The cursor passed here is always going to be a number.
         before: before as number,
+      },
+      story.isArchived
+    ).then(primeCommentsFromConnection(ctx));
+  },
+  allChildComments: async (
+    comment: Comment,
+    { first, orderBy }: CommentToRepliesArgs
+  ) => {
+    const story = await ctx.loaders.Stories.story.load(comment.storyID);
+    if (!story) {
+      throw new StoryNotFoundError(comment.storyID);
+    }
+    return retrieveChildrenForParentConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      comment,
+      {
+        first: 9999,
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_ASC),
       },
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));

@@ -64,7 +64,13 @@ const SuspendForm: FunctionComponent<Props> = ({
   );
 
   const onFormSubmit = useCallback(
-    ({ duration, emailMessage }) => {
+    ({
+      duration,
+      emailMessage,
+    }: {
+      duration: ScaledUnit["value"];
+      emailMessage: string;
+    }) => {
       const unit = DURATIONS.find((d) => d.value === duration);
       onSubmit(unit!, emailMessage);
     },
@@ -135,8 +141,7 @@ const SuspendForm: FunctionComponent<Props> = ({
                       {({ input }) => (
                         <Localized
                           id="framework-timeago-time"
-                          $value={scaled}
-                          $unit={unit}
+                          vars={{ value: scaled, unit }}
                         >
                           <RadioButton
                             {...input}

@@ -47,7 +47,8 @@ interface Props {
 const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
-  const { renderWindow, eventEmitter, window } = useCoralContext();
+  const { renderWindow, eventEmitter, window, customScrollContainer } =
+    useCoralContext();
   const root = useShadowRootOrDocument();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
@@ -71,8 +72,11 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
     if (!renderWindow) {
       return;
     }
-    setTimeout(() => scrollToBeginning(root, renderWindow), 100);
-  }, [root, renderWindow]);
+    setTimeout(
+      () => scrollToBeginning(root, renderWindow, customScrollContainer),
+      100
+    );
+  }, [root, renderWindow, customScrollContainer]);
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {
@@ -163,7 +167,6 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
                   settings={settings}
                   liveDirectRepliesInsertion
                   allowIgnoredTombstoneReveal
-                  disableHideIgnoredTombstone
                 />
               </div>
             </HorizontalGutter>

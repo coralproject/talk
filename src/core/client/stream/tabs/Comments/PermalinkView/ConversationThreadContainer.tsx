@@ -71,7 +71,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
           viewer={viewer}
           comment={comment}
           allowTombstoneReveal
-          disableHide
         >
           <RejectedTombstoneContainer comment={comment}>
             <DeletedTombstoneContainer comment={comment}>
@@ -102,7 +101,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                   viewer={viewer}
                   comment={rootParent}
                   allowTombstoneReveal
-                  disableHide
                 >
                   <RejectedTombstoneContainer comment={rootParent}>
                     <DeletedTombstoneContainer comment={rootParent}>
@@ -139,7 +137,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
             </Icon>
             <Localized
               id="comments-conversationThread-showMoreOfThisConversation"
-              $count={remaining}
+              vars={{ count: remaining }}
             >
               <Button
                 className={CLASSES.conversationThread.showMore}
@@ -168,7 +166,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                     viewer={viewer}
                     comment={parent}
                     allowTombstoneReveal
-                    disableHide
                   >
                     <RejectedTombstoneContainer comment={parent}>
                       <DeletedTombstoneContainer comment={parent}>
@@ -205,7 +202,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
               viewer={viewer}
               comment={comment}
               allowTombstoneReveal
-              disableHide
             >
               <RejectedTombstoneContainer comment={comment}>
                 <DeletedTombstoneContainer comment={comment}>
@@ -257,10 +253,10 @@ const enhanced = withPaginationContainer<
     `,
     comment: graphql`
       fragment ConversationThreadContainer_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 0 }
-          cursor: { type: "Cursor" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 0 }
+        cursor: { type: "Cursor" }
+      ) {
         id
         ...CommentContainer_comment
         ...IgnoredTombstoneOrHideContainer_comment

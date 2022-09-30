@@ -845,12 +845,10 @@ export const reportedComments = createFixtures<GQLComment>(
             score: 0.1,
           },
         },
-        body:
-          "This is the last random sentence I will be writing and I am going to stop mid-sent",
+        body: "This is the last random sentence I will be writing and I am going to stop mid-sent",
       },
       permalink: "http://localhost/comment/0",
-      body:
-        "This is the last random sentence I will be writing and I am going to stop mid-sent",
+      body: "This is the last random sentence I will be writing and I am going to stop mid-sent",
       flags: {
         edges: [
           {
@@ -1129,14 +1127,12 @@ export const reportedComments = createFixtures<GQLComment>(
             ],
           },
         },
-        body:
-          "This is a very long comment with bad words. Let's try bad and bad. Now bad bad.\nBad BAD bad.\n",
+        body: "This is a very long comment with bad words. Let's try bad and bad. Now bad bad.\nBad BAD bad.\n",
       },
       permalink: "http://localhost/comment/4",
       status: GQLCOMMENT_STATUS.PREMOD,
       author: users.commenters[3],
-      body:
-        "This is a very long comment with bad words. Let's try bad and bad. Now bad bad.\nBad BAD bad.\n",
+      body: "This is a very long comment with bad words. Let's try bad and bad. Now bad bad.\nBad BAD bad.\n",
       flags: {
         edges: [
           {

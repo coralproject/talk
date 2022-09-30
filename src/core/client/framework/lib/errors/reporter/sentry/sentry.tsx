@@ -43,7 +43,9 @@ export function getAppFilename(
 }
 
 export class SentryErrorReporter implements ErrorReporter {
-  public readonly ErrorBoundary?: FunctionComponent;
+  public readonly ErrorBoundary?: FunctionComponent<{
+    children?: React.ReactNode;
+  }>;
 
   constructor(
     reporterFeedbackPrompt: boolean,
@@ -67,7 +69,8 @@ export class SentryErrorReporter implements ErrorReporter {
       release: `coral@${process.env.TALK_VERSION}`,
       debug: Boolean(options.offlineDebug),
       transport: options.offlineDebug ? FakeDebugTransport : undefined,
-      whitelistUrls,
+      allowUrls: whitelistUrls,
+      sampleRate: 0.2,
       beforeSend: (event) => {
         // Drop all events if query string includes `fbclid` string
         // See: https://github.com/getsentry/sentry-javascript/issues/1811.

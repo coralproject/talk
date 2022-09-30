@@ -32,15 +32,14 @@ export const UserBoxContainer: FunctionComponent<Props> = ({
   settings,
   showAuthPopup,
 }) => {
-  const [{ accessToken, accessTokenJTI, accessTokenExp }] = useLocal<
-    UserBoxContainerLocal
-  >(graphql`
-    fragment UserBoxContainerLocal on Local {
-      accessToken
-      accessTokenJTI
-      accessTokenExp
-    }
-  `);
+  const [{ accessToken, accessTokenJTI, accessTokenExp }] =
+    useLocal<UserBoxContainerLocal>(graphql`
+      fragment UserBoxContainerLocal on Local {
+        accessToken
+        accessTokenJTI
+        accessTokenExp
+      }
+    `);
   const signOut = useMutation(SignOutMutation);
   const handleSignIn = () => showAuthPopup({ view: "SIGN_IN" });
   const handleRegister = () => showAuthPopup({ view: "SIGN_UP" });
