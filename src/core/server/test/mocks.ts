@@ -11,19 +11,19 @@ export const createMockMongoContex = () => {
   const users = createMockCollection();
 
   return {
-    ctx: ({
+    ctx: {
       users: () => users,
-    } as unknown) as MongoContext,
+    } as unknown as MongoContext,
     users,
   };
 };
 
 export const createMockMailer = () =>
-  (({
+  ({
     add: jest.fn().mockResolvedValue({}),
-  } as unknown) as MailerQueue);
+  } as unknown as MailerQueue);
 
 export const createMockRejector = () =>
-  (({
+  ({
     add: jest.fn().mockResolvedValue({}),
-  } as unknown) as RejectorQueue);
+  } as unknown as RejectorQueue);

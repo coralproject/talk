@@ -47,39 +47,35 @@ const userShouldBeDemotedToCommenter: PermissionsActionSideEffectTest = ({
   return async () => null;
 };
 
-const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest = ({
-  user,
-  newUserRole,
-}) => {
-  if (isSiteModerator(user) && newUserRole !== GQLUSER_ROLE.MODERATOR) {
-    return (mongo: MongoContext, tenantID: string) =>
-      pullUserSiteModerationScopes(
-        mongo,
-        tenantID,
-        user.id,
-        user.moderationScopes.siteIDs
-      );
-  }
+const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest =
+  ({ user, newUserRole }) => {
+    if (isSiteModerator(user) && newUserRole !== GQLUSER_ROLE.MODERATOR) {
+      return (mongo: MongoContext, tenantID: string) =>
+        pullUserSiteModerationScopes(
+          mongo,
+          tenantID,
+          user.id,
+          user.moderationScopes.siteIDs
+        );
+    }
 
-  return undefined;
-};
+    return undefined;
+  };
 
-const userShouldHaveMembershipScopesRemoved: PermissionsActionSideEffectTest = ({
-  user,
-  newUserRole,
-}) => {
-  if (isSiteMember(user) && newUserRole !== GQLUSER_ROLE.MEMBER) {
-    return (mongo: MongoContext, tenantID: string) =>
-      pullUserMembershipScopes(
-        mongo,
-        tenantID,
-        user.id,
-        user.membershipScopes.siteIDs
-      );
-  }
+const userShouldHaveMembershipScopesRemoved: PermissionsActionSideEffectTest =
+  ({ user, newUserRole }) => {
+    if (isSiteMember(user) && newUserRole !== GQLUSER_ROLE.MEMBER) {
+      return (mongo: MongoContext, tenantID: string) =>
+        pullUserMembershipScopes(
+          mongo,
+          tenantID,
+          user.id,
+          user.membershipScopes.siteIDs
+        );
+    }
 
-  return async () => null;
-};
+    return async () => null;
+  };
 
 export const sideEffectRules: PermissionsActionSideEffectTest[] = [
   userShouldHaveModerationScopesRemoved,
