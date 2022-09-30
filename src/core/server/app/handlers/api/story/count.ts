@@ -107,9 +107,6 @@ export const countJSONPHandler = ({
 
     const count = story ? await calculateStoryCount(mongo, story) : 0;
 
-    // eslint-disable-next-line no-console
-    console.log(`NOTEXT`, notext);
-
     let html = "";
     if (notext === "true") {
       // We only need the count without the text.
