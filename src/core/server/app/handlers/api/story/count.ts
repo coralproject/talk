@@ -82,14 +82,9 @@ function getCountHTML(
 /**
  * countHandler returns translated comment counts using JSONP.
  */
-export const countJSONPHandler = ({
-  mongo,
-  i18n,
-}: JSONPCountOptions): RequestHandler<TenantCoralRequest> => async (
-  req,
-  res,
-  next
-) => {
+export const countJSONPHandler =
+  ({ mongo, i18n }: JSONPCountOptions): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
     try {
       const { tenant } = req.coral;
 
@@ -140,19 +135,15 @@ const StoryCountQuerySchema = Joi.object()
 
 type StoryCountQuery =
   | {
-    id: string;
-  }
+      id: string;
+    }
   | {
-    url: string;
-  };
+      url: string;
+    };
 
-export const countHandler = ({
-  mongo,
-}: CountOptions): RequestHandler<TenantCoralRequest> => async (
-  req,
-  res,
-  next
-) => {
+export const countHandler =
+  ({ mongo }: CountOptions): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
     try {
       // Ensure we have something to query with.
       const query: StoryCountQuery = validate(StoryCountQuerySchema, req.query);
