@@ -18,21 +18,23 @@ const NoScroll: FunctionComponent<Props> = ({ active }) => {
     if (active) {
       if (instances++ === 0) {
         // Add className.
-        renderWindow.document.body.className = renderWindow.document.body.className
-          .split(/\s+/)
-          .filter((s) => s)
-          .concat(styles.noScroll)
-          .join(" ");
+        renderWindow.document.body.className =
+          renderWindow.document.body.className
+            .split(/\s+/)
+            .filter((s) => s)
+            .concat(styles.noScroll)
+            .join(" ");
       }
 
       // Cleanup hook.
       return () => {
         if (--instances === 0) {
           // Remove className.
-          renderWindow.document.body.className = renderWindow.document.body.className
-            .split(/\s+/)
-            .filter((s) => s && s !== styles.noScroll)
-            .join(" ");
+          renderWindow.document.body.className =
+            renderWindow.document.body.className
+              .split(/\s+/)
+              .filter((s) => s && s !== styles.noScroll)
+              .join(" ");
         }
       };
     }

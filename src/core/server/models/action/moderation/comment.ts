@@ -113,9 +113,8 @@ export async function retrieveCommentModerationActions(
   return result.toArray();
 }
 
-export type CommentModerationActionConnectionInput = ConnectionInput<
-  CommentModerationAction
->;
+export type CommentModerationActionConnectionInput =
+  ConnectionInput<CommentModerationAction>;
 
 export async function retrieveCommentModerationActionConnection(
   mongo: MongoContext,

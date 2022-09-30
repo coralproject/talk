@@ -158,66 +158,64 @@ interface Options {
   passNoTenant?: boolean;
 }
 
-export const tenantMiddleware = ({
-  mongo,
-  cache,
-  passNoTenant = false,
-}: Options): RequestHandler => async (req, res, next) => {
-  try {
-    if (!req.coral) {
-      const id = uuid();
+export const tenantMiddleware =
+  ({ mongo, cache, passNoTenant = false }: Options): RequestHandler =>
+  async (req, res, next) => {
+    try {
+      if (!req.coral) {
+        const id = uuid();
 
-      // Write the ID on the request.
-      res.set("X-Trace-ID", id);
+        // Write the ID on the request.
+        res.set("X-Trace-ID", id);
 
-      // The only call to `new Date()` as a part of the request process. This
-      // is passed around the request to ensure constant-time actions.
-      const now = new Date();
+        // The only call to `new Date()` as a part of the request process. This
+        // is passed around the request to ensure constant-time actions.
+        const now = new Date();
 
-      // Set Coral on the request.
-      req.coral = {
-        id,
-        now,
-        cache: {
-          // Attach the tenant cache to the request.
-          tenant: cache,
-        },
-        logger: logger.child({ context: "http", contextID: id }, true),
-      };
-    }
-
-    // Attach the tenant to the request.
-    const tenant = await cache.retrieveByDomain(req.hostname);
-    if (!tenant) {
-      if (passNoTenant) {
-        return next();
+        // Set Coral on the request.
+        req.coral = {
+          id,
+          now,
+          cache: {
+            // Attach the tenant cache to the request.
+            tenant: cache,
+          },
+          logger: logger.child({ context: "http", contextID: id }, true),
+        };
       }
 
-      return next(new TenantNotFoundError(req.hostname));
-    }
+      // Attach the tenant to the request.
+      const tenant = await cache.retrieveByDomain(req.hostname);
+      if (!tenant) {
+        if (passNoTenant) {
+          return next();
+        }
 
-    // Get the site associated with this request if it has a Tenant.
-    if (tenant) {
-      const site = await retrieveSiteFromRequest(mongo, tenant, req);
-      if (site) {
-        req.coral.site = site;
+        return next(new TenantNotFoundError(req.hostname));
       }
+
+      // Get the site associated with this request if it has a Tenant.
+      if (tenant) {
+        const site = await retrieveSiteFromRequest(mongo, tenant, req);
+        if (site) {
+          req.coral.site = site;
+        }
+      }
+
+      // Augment the logger with the tenantID.
+      req.coral.logger = req.coral.logger.child({ tenantID: tenant.id }, true);
+
+      // Attach the tenant to the request.
+      req.coral.tenant = tenant;
+
+      // Attach the tenant's language to the request.
+      res.setHeader("Content-Language", tenant.locale);
+
+      // Attach the tenant to the view locals.
+      res.locals.tenant = tenant;
+
+      next();
+    } catch (err) {
+      next(err);
     }
-
-    // Augment the logger with the tenantID.
-    req.coral.logger = req.coral.logger.child({ tenantID: tenant.id }, true);
-
-    // Attach the tenant to the request.
-    req.coral.tenant = tenant;
-
-    // Attach the tenant's language to the request.
-    res.setHeader("Content-Language", tenant.locale);
-
-    // Attach the tenant to the view locals.
-    res.locals.tenant = tenant;
-
-    next();
-  } catch (err) {
-    next(err);
-  }
-};
+  };

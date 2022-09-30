@@ -25,6 +25,13 @@ Any related Github issue should be linked by adding its URL to this section.
 
 -->
 
+## These changes will impact:
+
+- [ ] commenters
+- [ ] moderators
+- [ ] admins
+- [ ] developers
+
 ## What changes to the GraphQL/Database Schema does this PR introduce?
 
 <!--

@@ -26,7 +26,7 @@ const WarnForm: FunctionComponent<Props> = ({
   lastFocusableRef,
 }) => {
   const onFormSubmit = useCallback(
-    ({ message }) => {
+    ({ message }: { message: string }) => {
       onSubmit(message);
     },
     [onSubmit]

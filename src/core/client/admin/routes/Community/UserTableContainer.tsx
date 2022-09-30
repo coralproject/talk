@@ -32,10 +32,8 @@ const UserTableContainer: FunctionComponent<Props> = (props) => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [roleFilter, setRoleFilter] = useState<GQLUSER_ROLE_RL | null>(null);
-  const [
-    statusFilter,
-    setStatusFilter,
-  ] = useState<GQLUSER_STATUS_FILTER_RL | null>(null);
+  const [statusFilter, setStatusFilter] =
+    useState<GQLUSER_STATUS_FILTER_RL | null>(null);
   const [, isRefetching] = useRefetch(props.relay, 10, {
     searchFilter: searchFilter || null,
     roleFilter,
@@ -83,13 +81,13 @@ const enhanced = withPaginationContainer<
   {
     query: graphql`
       fragment UserTableContainer_query on Query
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          roleFilter: { type: "USER_ROLE" }
-          statusFilter: { type: "USER_STATUS_FILTER" }
-          searchFilter: { type: "String" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        roleFilter: { type: "USER_ROLE" }
+        statusFilter: { type: "USER_STATUS_FILTER" }
+        searchFilter: { type: "String" }
+      ) {
         viewer {
           ...UserRowContainer_viewer
           ...InviteUsersContainer_viewer

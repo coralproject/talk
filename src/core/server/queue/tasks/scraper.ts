@@ -20,33 +20,32 @@ export interface ScraperData {
   tenantID: string;
 }
 
-const createJobProcessor = ({
-  mongo,
-  config,
-}: ScrapeProcessorOptions) => async (job: Job<ScraperData>) => {
-  // Pull out the job data.
-  const { storyID, storyURL, tenantID } = job.data;
+const createJobProcessor =
+  ({ mongo, config }: ScrapeProcessorOptions) =>
+  async (job: Job<ScraperData>) => {
+    // Pull out the job data.
+    const { storyID, storyURL, tenantID } = job.data;
 
-  const log = logger.child(
-    {
-      jobID: job.id,
-      jobName: JOB_NAME,
-      storyID,
-      storyURL,
-      tenantID,
-    },
-    true
-  );
+    const log = logger.child(
+      {
+        jobID: job.id,
+        jobName: JOB_NAME,
+        storyID,
+        storyURL,
+        tenantID,
+      },
+      true
+    );
 
-  // Mark the start time.
-  const timer = createTimer();
+    // Mark the start time.
+    const timer = createTimer();
 
-  log.debug("starting to scrape the story");
-  await scrape(mongo, config, tenantID, storyID, storyURL);
+    log.debug("starting to scrape the story");
+    await scrape(mongo, config, tenantID, storyID, storyURL);
 
-  // Compute the end time.
-  log.debug({ responseTime: timer() }, "scraped the story");
-};
+    // Compute the end time.
+    log.debug({ responseTime: timer() }, "scraped the story");
+  };
 
 export type ScraperQueue = Task<ScraperData>;
 

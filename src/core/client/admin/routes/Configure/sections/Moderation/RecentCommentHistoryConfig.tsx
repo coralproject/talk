@@ -95,7 +95,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Localized>
           <Localized
             id="configure-moderation-recentCommentHistory-enabled-description"
-            strong={<strong />}
+            elems={{ strong: <strong /> }}
           >
             <HelperText>
               Prevents repeat offenders from publishing comments without

@@ -36,7 +36,7 @@ const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
   >
     <Localized
       id="configure-general-closedStreamMessage-explanation"
-      strong={<strong />}
+      elems={{ strong: <strong /> }}
     >
       <FormFieldDescription>
         Write a message to appear after a story is closed for commenting.

@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SinonStub } from "sinon";
 
@@ -42,7 +42,9 @@ async function createTestRenderer(
       }
     },
   });
-  customRenderAppWithContext(context);
+  await act(async () => {
+    customRenderAppWithContext(context);
+  });
   const generalContainer = await screen.findByTestId(
     "configure-generalContainer"
   );

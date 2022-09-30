@@ -2,7 +2,11 @@ import React, { FunctionComponent } from "react";
 
 import styles from "./DecisionList.css";
 
-const DecisionList: FunctionComponent = (props) => (
+interface DecisionListProps {
+  children?: React.ReactNode;
+}
+
+const DecisionList: FunctionComponent<DecisionListProps> = (props) => (
   <ul className={styles.root}>{props.children}</ul>
 );
 
