@@ -54,11 +54,6 @@ import { ReplyListContainer6_settings } from "coral-stream/__generated__/ReplyLi
 import { ReplyListContainer6_story } from "coral-stream/__generated__/ReplyListContainer6_story.graphql";
 import { ReplyListContainer6_viewer } from "coral-stream/__generated__/ReplyListContainer6_viewer.graphql";
 import { ReplyListContainer6PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer6PaginationQuery.graphql";
-import { ReplyListContainer7_comment } from "coral-stream/__generated__/ReplyListContainer7_comment.graphql";
-import { ReplyListContainer7_settings } from "coral-stream/__generated__/ReplyListContainer7_settings.graphql";
-import { ReplyListContainer7_story } from "coral-stream/__generated__/ReplyListContainer7_story.graphql";
-import { ReplyListContainer7_viewer } from "coral-stream/__generated__/ReplyListContainer7_viewer.graphql";
-import { ReplyListContainer7PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer7PaginationQuery.graphql";
 import { ReplyListContainerLast_comment } from "coral-stream/__generated__/ReplyListContainerLast_comment.graphql";
 import { ReplyListContainerLast_settings } from "coral-stream/__generated__/ReplyListContainerLast_settings.graphql";
 import { ReplyListContainerLast_story } from "coral-stream/__generated__/ReplyListContainerLast_story.graphql";
@@ -84,7 +79,6 @@ type Viewer =
   | ReplyListContainer4_viewer
   | ReplyListContainer5_viewer
   | ReplyListContainer6_viewer
-  | ReplyListContainer7_viewer
   | ReplyListContainerLastFlattened_viewer;
 
 type Comment =
@@ -94,7 +88,6 @@ type Comment =
   | ReplyListContainer4_comment
   | ReplyListContainer5_comment
   | ReplyListContainer6_comment
-  | ReplyListContainer7_comment
   | ReplyListContainerLastFlattened_comment;
 
 type Story =
@@ -104,7 +97,6 @@ type Story =
   | ReplyListContainer4_story
   | ReplyListContainer5_story
   | ReplyListContainer6_story
-  | ReplyListContainer7_story
   | ReplyListContainerLastFlattened_story;
 
 type Settings =
@@ -114,7 +106,6 @@ type Settings =
   | ReplyListContainer4_settings
   | ReplyListContainer5_settings
   | ReplyListContainer6_settings
-  | ReplyListContainer7_settings
   | ReplyListContainerLastFlattened_settings;
 
 type PaginationQuery =
@@ -124,7 +115,6 @@ type PaginationQuery =
   | ReplyListContainer4PaginationQueryVariables
   | ReplyListContainer5PaginationQueryVariables
   | ReplyListContainer6PaginationQueryVariables
-  | ReplyListContainer7PaginationQueryVariables
   | ReplyListContainerLastFlattenedPaginationQueryVariables;
 
 /**
@@ -261,7 +251,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   );
   // We do local replies at the last level when flatten replies are not set.
   const atLastLevelLocalReply =
-    props.indentLevel === MAX_REPLY_INDENT_DEPTH && !flattenReplies;
+    props.indentLevel === MAX_REPLY_INDENT_DEPTH - 1 && !flattenReplies;
 
   const memoize = useMemoizer();
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
@@ -558,91 +548,26 @@ const ReplyListContainerLast = createRelayFragmentContainer<
   }
 );
 
-const ReplyListContainer7 = createReplyListContainer({
+const ReplyListContainer6 = createReplyListContainer({
   NextReplyListComponent: ReplyListContainerLast,
   fragments: {
     viewer: graphql`
-      fragment ReplyListContainer7_viewer on User {
+      fragment ReplyListContainer6_viewer on User {
         id
         ...ReplyListContainer_viewer @relay(mask: false)
         ...ReplyListContainerLast_viewer
       }
     `,
     settings: graphql`
-      fragment ReplyListContainer7_settings on Settings {
+      fragment ReplyListContainer6_settings on Settings {
         ...ReplyListContainer_settings @relay(mask: false)
         ...ReplyListContainerLast_settings
       }
     `,
     story: graphql`
-      fragment ReplyListContainer7_story on Story {
-        ...ReplyListContainer_story @relay(mask: false)
-        ...ReplyListContainerLast_story
-      }
-    `,
-    comment: graphql`
-      fragment ReplyListContainer7_comment on Comment
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
-        cursor: { type: "Cursor" }
-        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-      ) {
-        ...ReplyListContainer_comment @relay(mask: false)
-        replies(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "ReplyList_replies") {
-          ...ReplyListContainer_repliesConnection @relay(mask: false)
-          viewNewEdges {
-            node {
-              ...ReplyListContainerLast_comment
-            }
-          }
-          edges {
-            node {
-              ...ReplyListContainerLast_comment
-            }
-          }
-        }
-      }
-    `,
-  },
-  query: graphql`
-    # Pagination query to be fetched upon calling 'loadMore'.
-    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-    query ReplyListContainer7PaginationQuery(
-      $count: Int!
-      $cursor: Cursor
-      $orderBy: COMMENT_SORT!
-      $commentID: ID!
-      $flattenReplies: Boolean!
-    ) {
-      comment(id: $commentID) {
-        ...ReplyListContainer7_comment
-          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
-      }
-    }
-  `,
-});
-
-const ReplyListContainer6 = createReplyListContainer({
-  NextReplyListComponent: ReplyListContainer7,
-  fragments: {
-    viewer: graphql`
-      fragment ReplyListContainer6_viewer on User {
-        id
-        ...ReplyListContainer_viewer @relay(mask: false)
-        ...ReplyListContainer7_viewer
-      }
-    `,
-    settings: graphql`
-      fragment ReplyListContainer6_settings on Settings {
-        ...ReplyListContainer_settings @relay(mask: false)
-        ...ReplyListContainer7_settings
-      }
-    `,
-    story: graphql`
       fragment ReplyListContainer6_story on Story {
         ...ReplyListContainer_story @relay(mask: false)
-        ...ReplyListContainer7_story
+        ...ReplyListContainerLast_story
       }
     `,
     comment: graphql`
@@ -658,12 +583,12 @@ const ReplyListContainer6 = createReplyListContainer({
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
-              ...ReplyListContainer7_comment
+              ...ReplyListContainerLast_comment
             }
           }
           edges {
             node {
-              ...ReplyListContainer7_comment
+              ...ReplyListContainerLast_comment
             }
           }
         }

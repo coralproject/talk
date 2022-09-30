@@ -1,4 +1,4 @@
-export const FlattenRepliesIndentLevel = 4 as const;
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 
 export const isReplyFlattened = (
   flattenedRepliesEnabled?: boolean | null,
@@ -7,6 +7,6 @@ export const isReplyFlattened = (
   return (
     flattenedRepliesEnabled &&
     indentLevel &&
-    indentLevel >= FlattenRepliesIndentLevel
+    indentLevel >= MAX_REPLY_INDENT_DEPTH
   );
 };
