@@ -25,6 +25,7 @@ interface Props {
     | "alert";
 
   size?: "sm" | "md";
+  children?: React.ReactNode;
 }
 
 const Counter: FunctionComponent<Props> = ({

@@ -5,6 +5,7 @@ import styles from "./DashboardComponentHeading.css";
 
 interface Props {
   className?: string;
+  children?: React.ReactNode;
 }
 
 const DashboardComponentHeading: FunctionComponent<Props> = ({

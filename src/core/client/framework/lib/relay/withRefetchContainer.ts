@@ -17,19 +17,20 @@ import { FragmentKeysNoLocal } from "./types";
  * from Relay.
  */
 export default <T>(
-  fragmentSpec: { [P in FragmentKeysNoLocal<T>]: GraphQLTaggedNode } & {
-    _?: never;
-  },
-  refetchQuery: GraphQLTaggedNode
-): InferableComponentEnhancerWithProps<
-  { [P in FragmentKeysNoLocal<T>]: T[P] } & { relay: RelayRefetchProp },
-  { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
-> => (component: React.ComponentType<any>) => {
-  const result = createRefetchContainer(
-    component,
-    resolveModule(fragmentSpec),
-    refetchQuery
-  );
-  result.displayName = wrapDisplayName(component, "Relay");
-  return result as any;
-};
+    fragmentSpec: { [P in FragmentKeysNoLocal<T>]: GraphQLTaggedNode } & {
+      _?: never;
+    },
+    refetchQuery: GraphQLTaggedNode
+  ): InferableComponentEnhancerWithProps<
+    { [P in FragmentKeysNoLocal<T>]: T[P] } & { relay: RelayRefetchProp },
+    { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
+  > =>
+  (component: React.ComponentType<any>) => {
+    const result = createRefetchContainer(
+      component,
+      resolveModule(fragmentSpec),
+      refetchQuery
+    );
+    result.displayName = wrapDisplayName(component, "Relay");
+    return result as any;
+  };

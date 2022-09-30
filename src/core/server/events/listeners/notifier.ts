@@ -15,7 +15,8 @@ export type NotifierCoralEventListenerPayloads =
   | CommentReplyCreatedCoralEventPayload;
 
 export class NotifierCoralEventListener
-  implements CoralEventListener<NotifierCoralEventListenerPayloads> {
+  implements CoralEventListener<NotifierCoralEventListenerPayloads>
+{
   public readonly name = "notifier";
 
   private readonly queue: NotifierQueue;
@@ -38,9 +39,10 @@ export class NotifierCoralEventListener
     return events;
   }, [] as CoralEventType[]);
 
-  public initialize: CoralEventPublisherFactory<
-    NotifierCoralEventListenerPayloads
-  > = ({ tenant: { id } }) => async (input) => {
-    await this.queue.add({ tenantID: id, input });
-  };
+  public initialize: CoralEventPublisherFactory<NotifierCoralEventListenerPayloads> =
+
+      ({ tenant: { id } }) =>
+      async (input) => {
+        await this.queue.add({ tenantID: id, input });
+      };
 }

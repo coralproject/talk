@@ -72,69 +72,71 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
     return validateSchema(GoogleUserProfileSchema, profile);
   }
 
-  public authenticate: RequestHandler<
-    TenantCoralRequest,
-    Promise<void>
-  > = async (req, res, next) => {
-    const { tenant, now } = req.coral;
+  public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
+    async (req, res, next) => {
+      const { tenant, now } = req.coral;
 
-    let response: ExchangeResponse;
+      let response: ExchangeResponse;
 
-    try {
-      // If we don't have a code on the request, then we should redirect the user.
-      if (!req.query.code) {
-        return this.redirect(req, res);
+      try {
+        // If we don't have a code on the request, then we should redirect the user.
+        if (!req.query.code) {
+          return this.redirect(req, res);
+        }
+
+        // Exchange the code for a token.
+        response = await this.exchange(req, res);
+      } catch (err) {
+        return next(err);
       }
 
-      // Exchange the code for a token.
-      response = await this.exchange(req, res);
-    } catch (err) {
-      return next(err);
-    }
+      const {
+        state,
+        tokens: { accessToken },
+      } = response;
 
-    const {
-      state,
-      tokens: { accessToken },
-    } = response;
+      try {
+        // Get the profile of the user.
+        const { sub: id, picture, email } = await this.getProfile(accessToken);
 
-    try {
-      // Get the profile of the user.
-      const { sub: id, picture, email } = await this.getProfile(accessToken);
+        // Create the user profile that will be used to lookup the User.
+        const profile: GoogleProfile = {
+          type: "google",
+          id,
+        };
 
-      // Create the user profile that will be used to lookup the User.
-      const profile: GoogleProfile = {
-        type: "google",
-        id,
-      };
+        let user = await retrieveUserWithProfile(
+          this.mongo,
+          tenant.id,
+          profile
+        );
+        if (user) {
+          return this.success(state, user, req, res);
+        }
 
-      let user = await retrieveUserWithProfile(this.mongo, tenant.id, profile);
-      if (user) {
+        if (!this.integration.allowRegistration) {
+          throw new Error("registration is disabled");
+        }
+
+        // Create the user this time.
+        user = await findOrCreate(
+          this.config,
+          this.mongo,
+          tenant,
+          {
+            role: GQLUSER_ROLE.COMMENTER,
+            email,
+            emailVerified: false,
+            avatar: picture,
+            profile,
+          },
+          {},
+          now
+        );
+
         return this.success(state, user, req, res);
+      } catch (err) {
+        return this.fail(state, err, req, res);
       }
-
-      if (!this.integration.allowRegistration) {
-        throw new Error("registration is disabled");
-      }
-
-      // Create the user this time.
-      user = await findOrCreate(
-        this.config,
-        this.mongo,
-        tenant,
-        {
-          role: GQLUSER_ROLE.COMMENTER,
-          email,
-          emailVerified: false,
-          avatar: picture,
-          profile,
-        },
-        {},
-        now
-      );
-
-      return this.success(state, user, req, res);
-    } catch (err) {
-      return this.fail(state, err, req, res);
-    }
-  };
+    };
 }

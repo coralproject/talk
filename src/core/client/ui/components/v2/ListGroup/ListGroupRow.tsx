@@ -5,6 +5,7 @@ import styles from "./ListGroupRow.css";
 
 interface Props {
   className?: string;
+  children?: React.ReactNode;
 }
 
 const ListGroupRow: FunctionComponent<Props> = ({ className, children }) => {

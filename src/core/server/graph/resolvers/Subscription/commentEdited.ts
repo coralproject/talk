@@ -17,9 +17,8 @@ export type CommentEditedSubscription = SubscriptionType<
   CommentEditedInput
 >;
 
-export const commentEdited: SubscriptionToCommentEditedResolver<CommentEditedInput> = createIterator(
-  SUBSCRIPTION_CHANNELS.COMMENT_EDITED,
-  {
+export const commentEdited: SubscriptionToCommentEditedResolver<CommentEditedInput> =
+  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_EDITED, {
     filter: (source, { storyID }) => {
       if (source.storyID !== storyID) {
         return false;
@@ -27,5 +26,4 @@ export const commentEdited: SubscriptionToCommentEditedResolver<CommentEditedInp
 
       return true;
     },
-  }
-);
+  });

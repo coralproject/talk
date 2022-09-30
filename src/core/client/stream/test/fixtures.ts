@@ -3,6 +3,7 @@ import {
   GQLComment,
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
+  GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLSite,
@@ -165,6 +166,13 @@ export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
 export const settingsWithMultisite = createFixture<GQLSettings>(
   {
     multisite: true,
+  },
+  settings
+);
+
+export const settingsWithAlternateOldestFirstView = createFixture<GQLSettings>(
+  {
+    featureFlags: [GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW],
   },
   settings
 );
@@ -667,8 +675,7 @@ export const commentWithDeepestReplies = denormalizeComment(
                                           cursor: baseComment.createdAt,
                                           node: {
                                             ...baseComment,
-                                            id:
-                                              "comment-with-deepest-replies-5",
+                                            id: "comment-with-deepest-replies-5",
                                             body: "body 5",
                                             replyCount: 1,
                                             replies: {
@@ -678,8 +685,7 @@ export const commentWithDeepestReplies = denormalizeComment(
                                                   cursor: baseComment.createdAt,
                                                   node: {
                                                     ...baseComment,
-                                                    id:
-                                                      "comment-with-deepest-replies-6",
+                                                    id: "comment-with-deepest-replies-6",
                                                     body: "body 6",
                                                     replyCount: 1,
                                                     replies: {
@@ -690,8 +696,7 @@ export const commentWithDeepestReplies = denormalizeComment(
                                                             baseComment.createdAt,
                                                           node: {
                                                             ...baseComment,
-                                                            id:
-                                                              "comment-with-deepest-replies-7",
+                                                            id: "comment-with-deepest-replies-7",
                                                             body: "body 7",
                                                             replyCount: 1,
                                                             replies: {
@@ -860,6 +865,40 @@ export const storyWithFeaturedComments = denormalizeStory(
       },
     },
     baseStory
+  )
+);
+
+export const storyQAMode = createFixture<GQLStory>(
+  {
+    settings: {
+      mode: GQLSTORY_MODE.QA,
+    },
+  },
+  baseStory
+);
+
+export const storyWithAnsweredComments = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-with-answered-comments",
+      url: "http://localhost/stories/story-with-answered-comments",
+      comments: {
+        edges: [
+          {
+            node: { ...comments[0], tags: [featuredTag] },
+            cursor: comments[0].createdAt,
+          },
+          {
+            node: { ...comments[1], tags: [featuredTag] },
+            cursor: comments[1].createdAt,
+          },
+        ],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    },
+    storyQAMode
   )
 );
 

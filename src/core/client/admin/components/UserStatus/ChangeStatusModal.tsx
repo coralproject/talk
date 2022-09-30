@@ -10,9 +10,11 @@ import {
 
 import styles from "./ChangeStatusModal.css";
 
-type RenderPropsCallback = (
-  lastFocusableRef: RefObject<any>
-) => React.ReactNode;
+interface RenderProps {
+  lastFocusableRef: RefObject<any>;
+}
+
+type RenderPropsCallback = (props: RenderProps) => React.ReactNode;
 
 function isRenderProp(
   children: ModalProps["children"]

@@ -8,24 +8,20 @@ export * from "./link";
 
 export type LogoutOptions = Pick<AppOptions, "redis">;
 
-export const logoutHandler = ({
-  redis,
-}: LogoutOptions): RequestHandler<TenantCoralRequest> => async (
-  req,
-  res,
-  next
-) => {
-  try {
-    // Get the user on the request.
-    const user = req.user;
-    if (!user) {
-      // If a user is already logged out, then there's no need to do it again!
-      return res.sendStatus(204);
-    }
+export const logoutHandler =
+  ({ redis }: LogoutOptions): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
+    try {
+      // Get the user on the request.
+      const user = req.user;
+      if (!user) {
+        // If a user is already logged out, then there's no need to do it again!
+        return res.sendStatus(204);
+      }
 
-    // Delegate to the logout handler.
-    return handleLogout(redis, req, res);
-  } catch (err) {
-    return next(err);
-  }
-};
+      // Delegate to the logout handler.
+      return handleLogout(redis, req, res);
+    } catch (err) {
+      return next(err);
+    }
+  };

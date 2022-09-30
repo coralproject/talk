@@ -7,7 +7,7 @@ const WarningError: FunctionComponent = () => (
   <Localized
     id="warning-notice"
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    a={<a href={`#${VIEWER_STATUS_CONTAINER_ID}`} />}
+    elems={{ a: <a href={`#${VIEWER_STATUS_CONTAINER_ID}`} /> }}
   >
     <div>
       Your account has been issued a warning. To continue participating please{" "}

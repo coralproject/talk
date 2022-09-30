@@ -27,14 +27,16 @@ const AddACommentButton: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const { renderWindow, eventEmitter } = useCoralContext();
-  const [{ commentsFullyLoaded }, setLocal] = useLocal<AddACommentButtonLocal>(
-    graphql`
-      fragment AddACommentButtonLocal on Local {
-        loadAllButtonHasBeenClicked
-        commentsFullyLoaded
-      }
-    `
-  );
+  const [{ commentsFullyLoaded, commentsTab }, setLocal] =
+    useLocal<AddACommentButtonLocal>(
+      graphql`
+        fragment AddACommentButtonLocal on Local {
+          loadAllButtonHasBeenClicked
+          commentsFullyLoaded
+          commentsTab
+        }
+      `
+    );
   const root = useShadowRootOrDocument();
 
   const [scrollIntoViewAfterLoad, setScrollIntoViewAfterLoad] = useState(false);
@@ -49,9 +51,8 @@ const AddACommentButton: FunctionComponent<Props> = ({
           let count = 0;
           const stopExists = setInterval(async () => {
             count += 1;
-            const postCommentFormElement = root.getElementById(
-              POST_COMMENT_FORM_ID
-            );
+            const postCommentFormElement =
+              root.getElementById(POST_COMMENT_FORM_ID);
             if (
               postCommentFormElement !== undefined &&
               postCommentFormElement !== null
@@ -77,6 +78,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
     scrollIntoViewAfterLoad,
     commentsFullyLoaded,
     setScrollIntoViewAfterLoad,
+    scrollToLastCommentAndPostCommentForm,
   ]);
 
   const onClick = useCallback(() => {
@@ -85,20 +87,30 @@ const AddACommentButton: FunctionComponent<Props> = ({
     if (!renderWindow) {
       return;
     }
-    setLocal({ loadAllButtonHasBeenClicked: true });
-    if (!commentsFullyLoaded) {
-      const loadAllButton = root.querySelector("#comments-loadAll");
-      if (loadAllButton) {
-        const offset =
-          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-          loadAllButton.getBoundingClientRect().top +
-          renderWindow.pageYOffset -
-          150;
-        renderWindow.scrollTo({ top: offset });
+
+    if (commentsTab === "FEATURED_COMMENTS") {
+      const postCommentForm = root.getElementById(POST_COMMENT_FORM_ID);
+      if (postCommentForm) {
+        postCommentForm.scrollIntoView();
       }
-      setScrollIntoViewAfterLoad(true);
-    } else {
-      scrollToLastCommentAndPostCommentForm();
+    }
+
+    if (commentsTab === "ALL_COMMENTS") {
+      setLocal({ loadAllButtonHasBeenClicked: true });
+      if (!commentsFullyLoaded) {
+        const loadAllButton = root.querySelector("#comments-loadAll");
+        if (loadAllButton) {
+          const offset =
+            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+            loadAllButton.getBoundingClientRect().top +
+            renderWindow.pageYOffset -
+            150;
+          renderWindow.scrollTo({ top: offset });
+        }
+        setScrollIntoViewAfterLoad(true);
+      } else {
+        scrollToLastCommentAndPostCommentForm();
+      }
     }
   }, [
     renderWindow,
@@ -108,6 +120,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
     commentsFullyLoaded,
     setScrollIntoViewAfterLoad,
     eventEmitter,
+    commentsTab,
   ]);
 
   return (

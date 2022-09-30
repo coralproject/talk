@@ -13,13 +13,13 @@ export const VALIDATION_REQUIRED = () => (
 );
 
 export const VALIDATION_TOO_SHORT = (minLength: number) => (
-  <Localized id="framework-validation-tooShort" $minLength={minLength}>
+  <Localized id="framework-validation-tooShort" vars={{ minLength }}>
     <span>Please enter at least {minLength} characters.</span>
   </Localized>
 );
 
 export const VALIDATION_TOO_LONG = (maxLength: number) => (
-  <Localized id="framework-validation-tooLong" $maxLength={maxLength}>
+  <Localized id="framework-validation-tooLong" vars={{ maxLength }}>
     <span>Please enter at max {maxLength} characters.</span>
   </Localized>
 );
@@ -43,19 +43,19 @@ export const INVALID_CHARACTERS = () => (
 );
 
 export const USERNAME_TOO_SHORT = (minLength: number) => (
-  <Localized id="framework-validation-usernameTooShort" $minLength={minLength}>
+  <Localized id="framework-validation-usernameTooShort" vars={{ minLength }}>
     <span>Usernames must contain at least {minLength} characters.</span>
   </Localized>
 );
 
 export const USERNAME_TOO_LONG = (maxLength: number) => (
-  <Localized id="framework-validation-usernameTooLong" $maxLength={maxLength}>
+  <Localized id="framework-validation-usernameTooLong" vars={{ maxLength }}>
     <span>Usernames cannot be longer than {maxLength} characters.</span>
   </Localized>
 );
 
 export const PASSWORD_TOO_SHORT = (minLength: number) => (
-  <Localized id="framework-validation-passwordTooShort" $minLength={minLength}>
+  <Localized id="framework-validation-passwordTooShort" vars={{ minLength }}>
     <span>Password must contain at least {minLength} characters.</span>
   </Localized>
 );
@@ -97,13 +97,16 @@ export const NOT_A_WHOLE_NUMBER = () => (
 );
 
 export const NOT_A_WHOLE_NUMBER_GREATER_THAN = (x: number) => (
-  <Localized id="framework-validation-notAWholeNumberGreaterThan" $x={x}>
+  <Localized id="framework-validation-notAWholeNumberGreaterThan" vars={{ x }}>
     <span>Please enter a valid whole number greater than {x}</span>
   </Localized>
 );
 
 export const NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL = (x: number) => (
-  <Localized id="framework-validation-notAWholeNumberGreaterThanOrEqual" $x={x}>
+  <Localized
+    id="framework-validation-notAWholeNumberGreaterThanOrEqual"
+    vars={{ x }}
+  >
     <span>Please enter a valid whole number greater than or equal to {x}</span>
   </Localized>
 );
@@ -111,8 +114,7 @@ export const NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL = (x: number) => (
 export const NOT_A_WHOLE_NUMBER_BETWEEN = (min: number, max: number) => (
   <Localized
     id="framework-validation-notAWholeNumberBetween"
-    $min={min}
-    $max={max}
+    vars={{ min, max }}
   >
     <span>Please enter a valid whole number between min and max</span>
   </Localized>

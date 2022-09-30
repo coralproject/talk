@@ -21,13 +21,13 @@ export default function waitForLocalState<T>(
   // Create an operation descriptor for the query
   return new Promise((resolve, reject) => {
     const snapshot = environment.lookup(selector);
-    if (condition((snapshot.data as any) as T)) {
-      resolve((snapshot.data as any) as T);
+    if (condition(snapshot.data as any as T)) {
+      resolve(snapshot.data as any as T);
     }
     const subscription = environment.subscribe(snapshot, (update) => {
-      if (condition((update.data as any) as T)) {
+      if (condition(update.data as any as T)) {
         subscription.dispose();
-        resolve((update.data as any) as T);
+        resolve(update.data as any as T);
       }
     });
   });

@@ -1,24 +1,24 @@
-import { ReactTestRenderer } from "react-test-renderer";
+import { act, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { settings, stories, userWithEmail } from "../fixtures";
-import create from "./create";
+import { createWithContext } from "./create";
 
 const story = stories[0];
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { context } = createWithContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -37,107 +37,90 @@ async function createTestRenderer(
       }
     },
   });
+  customRenderAppWithContext(context);
 
   return {
-    testRenderer,
     context,
   };
 }
 
 describe("change email form", () => {
-  let testRenderer: ReactTestRenderer;
   beforeEach(async () => {
-    const setup = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () => userWithEmail,
-        },
-        Mutation: {
-          updateEmail: ({ variables }) => {
-            expectAndFail(variables).toMatchObject({
-              email: "updated_email@test.com",
-            });
-            return {
-              user: {
-                ...userWithEmail,
-                email: "updated_email@test.com",
-              },
-            };
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            viewer: () => userWithEmail,
           },
-        },
-      }),
+          Mutation: {
+            updateEmail: ({ variables }) => {
+              expectAndFail(variables).toMatchObject({
+                email: "updated_email@test.com",
+              });
+              return {
+                user: {
+                  ...userWithEmail,
+                  email: "updated_email@test.com",
+                },
+              };
+            },
+          },
+        }),
+      });
     });
-    testRenderer = setup.testRenderer;
   });
 
   it("ensures email field is required", async () => {
-    const changeEmail = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("profile-changeEmail")
-    );
-    const editButton = within(changeEmail).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const changeEmail = await screen.findByTestId("profile-changeEmail");
+    const editButton = within(changeEmail).getByRole("button", {
+      name: "Change",
     });
-    expect(await within(changeEmail).axe()).toHaveNoViolations();
-    const form = within(changeEmail).getByType("form");
-    act(() => {
-      form.props.onSubmit();
+    userEvent.click(editButton);
+    expect(await axe(changeEmail)).toHaveNoViolations();
+    const submitButton = within(changeEmail).getByRole("button", {
+      name: "Save changes",
     });
-    within(changeEmail).getAllByText("This field is required", {
-      exact: false,
-    });
-    const button = within(changeEmail).getByText("Save changes", {
-      exact: false,
-    });
-    expect(button.props.disabled).toBeTruthy();
+    expect(submitButton).toBeDisabled();
   });
 
   it("ensures password field is required", async () => {
-    const changeEmail = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("profile-changeEmail")
-    );
-    const editButton = within(changeEmail).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const changeEmail = await screen.findByTestId("profile-changeEmail");
+    const editButton = within(changeEmail).getByRole("button", {
+      name: "Change",
     });
-    const form = within(changeEmail).getByType("form");
+    userEvent.click(editButton);
     const emailInput = within(changeEmail).getByLabelText("New email address", {
       exact: false,
     });
-    act(() => {
-      emailInput.props.onChange("test@test.com");
-      form.props.onSubmit();
+    const submitButton = within(changeEmail).getByRole("button", {
+      name: "Save changes",
     });
-    within(changeEmail).getByText("This field is required", {
-      exact: false,
-    });
-    const button = within(changeEmail).getByText("Save changes", {
-      exact: false,
-    });
-    expect(button.props.disabled).toBeTruthy();
+    userEvent.type(emailInput, "test@test.com");
+    expect(submitButton).toBeDisabled();
   });
 
   it("updates email if fields are valid", async () => {
-    const changeEmail = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("profile-changeEmail")
-    );
-    const editButton = within(changeEmail).getByText("Change");
-    act(() => {
-      editButton.props.onClick();
+    const changeEmail = await screen.findByTestId("profile-changeEmail");
+    const editButton = within(changeEmail).getByRole("button", {
+      name: "Change",
     });
-    const form = within(changeEmail).getByType("form");
+    userEvent.click(editButton);
     const emailInput = within(changeEmail).getByLabelText("New email address", {
       exact: false,
     });
     const password = within(changeEmail).getByLabelText("Password");
+    const submitButton = within(changeEmail).getByRole("button", {
+      name: "Save changes",
+    });
+    userEvent.type(emailInput, "updated_email@test.com");
+    userEvent.type(password, "test");
     await act(async () => {
-      emailInput.props.onChange("updated_email@test.com");
-      password.props.onChange("test");
-      await form.props.onSubmit();
+      userEvent.click(submitButton);
     });
-
-    within(changeEmail).getAllByText("updated_email@test.com", {
-      exact: false,
-    });
+    expect(
+      within(changeEmail).getByText(
+        "An email has been sent to updated_email@test.com to verify your account. You must verify your new email address before it can be used to sign in to your account or to receive notifications."
+      )
+    ).toBeVisible();
   });
 });

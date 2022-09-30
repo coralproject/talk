@@ -147,8 +147,10 @@ interface BaseProps {
  * Calculate the Props for the <NextReplyListComponent /> from BaseProps.
  * Essentially marking fragments to accept `any` and excluding `relay` property.
  */
-type NextReplyListProps = { [P in FragmentKeys<BaseProps>]: any } &
-  Pick<BaseProps, Exclude<keyof BaseProps, FragmentKeys<BaseProps> | "relay">>;
+type NextReplyListProps = { [P in FragmentKeys<BaseProps>]: any } & Pick<
+  BaseProps,
+  Exclude<keyof BaseProps, FragmentKeys<BaseProps> | "relay">
+>;
 
 /**
  * These props are injected by HOCs defined in `createReplyListContainer`.
@@ -454,11 +456,11 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
     `,
     comment: graphql`
       fragment ReplyListContainerLastFlattened_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         ...ReplyListContainer_comment @relay(mask: false)
         replies(
           first: $count
@@ -570,11 +572,11 @@ const ReplyListContainer6 = createReplyListContainer({
     `,
     comment: graphql`
       fragment ReplyListContainer6_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         ...ReplyListContainer_comment @relay(mask: false)
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
@@ -635,11 +637,11 @@ const ReplyListContainer5 = createReplyListContainer({
     `,
     comment: graphql`
       fragment ReplyListContainer5_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         ...ReplyListContainer_comment @relay(mask: false)
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
@@ -700,11 +702,11 @@ const ReplyListContainer4 = createReplyListContainer({
     `,
     comment: graphql`
       fragment ReplyListContainer4_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         ...ReplyListContainer_comment @relay(mask: false)
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
@@ -765,11 +767,11 @@ const ReplyListContainer3 = createReplyListContainer({
     `,
     comment: graphql`
       fragment ReplyListContainer3_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         ...ReplyListContainer_comment @relay(mask: false)
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
@@ -830,11 +832,11 @@ const ReplyListContainer2 = createReplyListContainer({
     `,
     comment: graphql`
       fragment ReplyListContainer2_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         ...ReplyListContainer_comment @relay(mask: false)
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
@@ -895,11 +897,11 @@ const ReplyListContainer1 = createReplyListContainer({
     `,
     comment: graphql`
       fragment ReplyListContainer1_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+      ) {
         ...ReplyListContainer_comment @relay(mask: false)
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
