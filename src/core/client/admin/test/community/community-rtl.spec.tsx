@@ -291,7 +291,10 @@ it("org mods may allocate site mods", async () => {
 
   const userRow = await screen.findByTestId(`community-row-${commenter.id}`);
   const changeRoleButton = within(userRow).getByLabelText("Change role");
-  userEvent.click(changeRoleButton);
+
+  await act(async () => {
+    userEvent.click(changeRoleButton);
+  });
 
   const popup = within(userRow).getByLabelText(
     "A dropdown to change the user role"
@@ -301,7 +304,9 @@ it("org mods may allocate site mods", async () => {
   const siteModeratorButton = await within(popup).findByRole("button", {
     name: "Site Moderator",
   });
-  fireEvent.click(siteModeratorButton);
+  await act(async () => {
+    fireEvent.click(siteModeratorButton);
+  });
 
   const siteRolePopup = await within(userRow).findByLabelText(
     "A modal for managing the scope of a site scoped role"
@@ -319,18 +324,24 @@ it("org mods may allocate site mods", async () => {
   userEvent.type(searchBar, sites[0].name);
 
   const siteSearchButton = await screen.findByTestId("site-search-button");
-  userEvent.click(siteSearchButton);
+  await act(async () => {
+    userEvent.click(siteSearchButton);
+  });
 
   const testSiteButton = await within(siteRolePopup).findByRole("button", {
     name: sites[0].name,
   });
-  userEvent.click(testSiteButton);
+  await act(async () => {
+    userEvent.click(testSiteButton);
+  });
 
   const assignButton = within(siteRolePopup).getByRole("button", {
     name: "Assign",
   });
   expect(assignButton).toBeEnabled();
-  userEvent.click(assignButton);
+  await act(async () => {
+    userEvent.click(assignButton);
+  });
 
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
@@ -394,7 +405,7 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
 
   const modal = await screen.findByTestId("site-role-modal");
 
-  // The submit button should be disabled until at least 1 site is selected
+  // // The submit button should be disabled until at least 1 site is selected
   const submitButton = await screen.findByTestId(
     "site-role-modal-submitButton"
   );
@@ -406,16 +417,22 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
   userEvent.type(siteSearchField, "Test");
 
   const siteSearchButton = await screen.findByTestId("site-search-button");
-  userEvent.click(siteSearchButton);
+  await act(async () => {
+    userEvent.click(siteSearchButton);
+  });
 
   const siteSearchList = await screen.findByTestId("site-search-list");
   const testSiteButton = within(siteSearchList).getByRole("button", {
     name: "Test Site",
   });
-  userEvent.click(testSiteButton);
+  await act(async () => {
+    userEvent.click(testSiteButton);
+  });
 
   const assignButton = within(modal).getByRole("button", { name: "Assign" });
-  userEvent.click(assignButton);
+  await act(async () => {
+    userEvent.click(assignButton);
+  });
 
   await waitFor(() =>
     expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)

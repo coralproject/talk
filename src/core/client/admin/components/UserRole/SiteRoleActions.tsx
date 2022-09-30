@@ -29,11 +29,12 @@ import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
 
 import styles from "./SiteRoleActions.css";
-import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
-import PromoteModeratorMutation from "./PromoteModeratorMutation";
+
+import DemoteMemberMutation from "./DemoteMemberMutation";
 import DemoteModeratorMutation from "./DemoteModeratorMutation";
 import PromoteMemberMutation from "./PromoteMemberMutation";
-import DemoteMemberMutation from "./DemoteMemberMutation";
+import PromoteModeratorMutation from "./PromoteModeratorMutation";
+import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 
 interface Props {
   viewer: SiteRoleActions_viewer;
@@ -61,7 +62,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     async ({ userID, siteIDs }) => {
       await promoteModerator({
         userID,
-        siteIDs: siteIDs,
+        siteIDs,
       });
     },
     [promoteModerator]
@@ -81,7 +82,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     async ({ userID, siteIDs }) => {
       await promoteMember({
         userID,
-        siteIDs: siteIDs,
+        siteIDs,
       });
     },
     [promoteMember]
@@ -99,11 +100,8 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   const [mode, setMode] = useState<"promote" | "demote" | null>(null);
   const [isModalVisible, , toggleModalVisibility] = useToggleState();
-  const [
-    isPopoverVisible,
-    setIsPopoverVisible,
-    togglePopoverVisibility,
-  ] = useToggleState();
+  const [isPopoverVisible, setIsPopoverVisible, togglePopoverVisibility] =
+    useToggleState();
 
   const viewerSites = viewer.moderationScopes?.sites || [];
   const userModerationSites = user.moderationScopes?.sites || [];
@@ -166,9 +164,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           }
           return { [FORM_ERROR]: err.message };
         }
-        return { [FORM_ERROR]: err.message };
-      }
-    },
+      },
     [mode, toggleModalVisibility, user]
   );
 
