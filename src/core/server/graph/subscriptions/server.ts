@@ -118,9 +118,7 @@ export function extractBundleConfig(
   return null;
 }
 
-function hasStoryViewer(
-  socket: any
-): socket is {
+function hasStoryViewer(socket: any): socket is {
   tenantID: string;
   siteID: string;
   storyID: string;

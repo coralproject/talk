@@ -5,6 +5,7 @@ import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
+  AncestorRejectedError,
   AuthorAlreadyHasRatedStory,
   CannotCreateCommentOnArchivedStory,
   CommentNotFoundError,
@@ -26,6 +27,7 @@ import {
   CreateCommentInput,
   hasAuthorStoryRating,
   pushChildCommentIDOntoParent,
+  retrieveManyComments,
 } from "coral-server/models/comment";
 import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
 import { markSeenComments } from "coral-server/models/seenComments/seenComments";
@@ -58,6 +60,7 @@ import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
 import {
+  GQLCOMMENT_STATUS,
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLTAG,
@@ -268,6 +271,19 @@ export default async function create(
       { ancestorIDs: ancestorIDs.length },
       "pushed parent ancestorIDs into comment"
     );
+
+    const ancestors = await retrieveManyComments(
+      mongo.comments(),
+      tenant.id,
+      ancestorIDs
+    );
+    const rejectedAncestor = ancestors.find(
+      (ancestor) => ancestor?.status === GQLCOMMENT_STATUS.REJECTED
+    );
+
+    if (rejectedAncestor) {
+      throw new AncestorRejectedError(tenant.id, rejectedAncestor.id);
+    }
   }
 
   let media: CommentMedia | undefined;

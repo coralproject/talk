@@ -3,42 +3,35 @@
 exports[`renders configure 1`] = `
 <section
   aria-labelledby="tab-CONFIGURE"
-  className="App-tabContent coral coral-configure"
+  class="App-tabContent coral coral-configure"
   data-testid="current-tab-pane"
   id="tabPane-CONFIGURE"
 >
   <div>
     <section
       aria-label="Authentication"
-      className="coral coral-viewerBox"
+      class="coral coral-viewerBox"
     >
       <div
-        className="UserBoxAuthenticated-text"
+        class="UserBoxAuthenticated-text"
       >
         Signed in as
       </div>
       <div
-        className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
+        class="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
       >
         <div
-          className="coral coral-viewerBox-username UserBoxAuthenticated-username"
+          class="coral coral-viewerBox-username UserBoxAuthenticated-username"
         >
           Moderator
         </div>
         <span
-          className="UserBoxAuthenticated-text UserBoxAuthenticated-signOut"
+          class="UserBoxAuthenticated-text UserBoxAuthenticated-signOut"
         >
           Not you? 
           <button
-            className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
+            class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
             data-variant="flat"
-            disabled={false}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
             type="button"
           >
             Sign Out
@@ -50,45 +43,39 @@ exports[`renders configure 1`] = `
       aria-labelledby="configure-stream-configureThisStream-title"
     >
       <form
-        autoComplete="off"
-        className="coral coral-configureCommentStream"
+        autocomplete="off"
+        class="coral coral-configureCommentStream"
         id="configure-form"
-        onSubmit={[Function]}
       >
         <div
-          className="ConfigureStream-heading"
+          class="ConfigureStream-heading"
           id="configure-stream-configureThisStream-title"
         >
           Configure this stream
         </div>
         <div
-          className="ConfigureStream-configureItems"
+          class="ConfigureStream-configureItems"
         >
           <div>
             <div
-              className="CheckBox-root CheckBox-streamBlue"
+              class="CheckBox-root CheckBox-streamBlue"
             >
               <input
-                checked={false}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
+                class="CheckBox-input CheckBox-streamBlue"
                 id="moderation"
                 name="moderation"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
                 type="checkbox"
-                value={false}
+                value="false"
               />
               <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="moderation"
+                class="CheckBox-label CheckBox-streamBlue"
+                for="moderation"
               >
                 <span
-                  className="CheckBox-labelSpan coral coral-checkbox-label"
+                  class="CheckBox-labelSpan coral coral-checkbox-label"
                 >
                   <div
-                    className="ToggleConfig-title"
+                    class="ToggleConfig-title"
                   >
                     <span>
                       Pre-moderate all comments
@@ -98,10 +85,10 @@ exports[`renders configure 1`] = `
               </label>
             </div>
             <div
-              className="ToggleConfig-details"
+              class="ToggleConfig-details"
             >
               <div
-                className="WidthLimitedDescription-root"
+                class="WidthLimitedDescription-root"
               >
                 Moderators must approve any comment before it is published to this story.
               </div>
@@ -109,29 +96,24 @@ exports[`renders configure 1`] = `
           </div>
           <div>
             <div
-              className="CheckBox-root CheckBox-streamBlue"
+              class="CheckBox-root CheckBox-streamBlue"
             >
               <input
-                checked={false}
-                className="CheckBox-input CheckBox-streamBlue"
-                disabled={false}
+                class="CheckBox-input CheckBox-streamBlue"
                 id="premodLinksEnable"
                 name="premodLinksEnable"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
                 type="checkbox"
-                value={false}
+                value="false"
               />
               <label
-                className="CheckBox-label CheckBox-streamBlue"
-                htmlFor="premodLinksEnable"
+                class="CheckBox-label CheckBox-streamBlue"
+                for="premodLinksEnable"
               >
                 <span
-                  className="CheckBox-labelSpan coral coral-checkbox-label"
+                  class="CheckBox-labelSpan coral coral-checkbox-label"
                 >
                   <div
-                    className="ToggleConfig-title"
+                    class="ToggleConfig-title"
                   >
                     <span>
                       Pre-moderate comments containing links
@@ -141,10 +123,10 @@ exports[`renders configure 1`] = `
               </label>
             </div>
             <div
-              className="ToggleConfig-details"
+              class="ToggleConfig-details"
             >
               <div
-                className="WidthLimitedDescription-root"
+                class="WidthLimitedDescription-root"
               >
                 Moderators must approve any comment that contains a link before it is published to this story.
               </div>
@@ -152,105 +134,86 @@ exports[`renders configure 1`] = `
           </div>
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
+          class="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorPrimary Button-disabled Button-upperCase coral coral-configureCommentStream-applyButton"
           data-testid="configure-stream-apply"
           data-variant="filled"
-          disabled={true}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
+          disabled=""
           type="submit"
         >
           Update
         </button>
         <div
-          className="ConfigureStream-footer"
+          class="ConfigureStream-footer"
         />
       </form>
     </section>
     <hr
-      className="HorizontalRule-root"
+      class="HorizontalRule-root"
     />
     <section
       aria-labelledby="configure-addMessage-title"
     >
       <div
-        className="coral coral-openCommentStream"
+        class="coral coral-openCommentStream"
       >
         <div
-          className="shared-heading"
+          class="shared-heading"
           id="configure-addMessage-title"
         >
           Add a message or question
         </div>
         <div
-          className="shared-description"
+          class="shared-description"
         >
           Add a message to the top of the comment box for your readers. Use this
 to pose a topic, ask a question or make announcements relating to this
 story.
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
+          class="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
           data-testid="configure-addMessage"
           data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
           type="button"
         >
           Add message
         </button>
       </div>
       <div
-        className="AddMessageContainer-messagesHidden"
+        class="AddMessageContainer-messagesHidden"
       />
     </section>
     <hr
-      className="HorizontalRule-root"
+      class="HorizontalRule-root"
     />
     <section
       aria-labelledby="configure-closeStream-title"
     >
       <div
-        className="coral coral-closeCommentStream"
+        class="coral coral-closeCommentStream"
       >
         <div
-          className="CloseStream-heading"
+          class="CloseStream-heading"
           id="configure-closeStream-title"
         >
           Close comment stream
         </div>
         <div
-          className="CloseStream-description"
+          class="CloseStream-description"
         >
           This comment stream is currently open. By closing this comment stream,
 no new comments may be submitted and all previously submitted comments
 will still be displayed.
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase coral coral-closeCommentStream-closeButton"
+          class="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorError Button-upperCase coral coral-closeCommentStream-closeButton"
           data-variant="filled"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
           type="button"
         >
           Close Stream
         </button>
       </div>
       <div
-        className="OpenOrCloseStreamContainer-calloutHidden"
+        class="OpenOrCloseStreamContainer-calloutHidden"
       />
     </section>
   </div>

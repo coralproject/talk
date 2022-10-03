@@ -6,7 +6,7 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 
 import styles from "./CommentActivityTooltip.css";
 
-type Props = TooltipProps;
+type Props = TooltipProps<any, any>;
 
 const CommentActivityTooltip: FunctionComponent<Props> = ({
   active,

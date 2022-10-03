@@ -14,6 +14,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { publishChanges } from "./helpers";
+import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
 
 const rejectComment = async (
   mongo: MongoContext,
@@ -61,6 +62,8 @@ const rejectComment = async (
     return result.before;
   }
 
+  await disableRepliesToChildren(commentID, mongo);
+
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira
   if (broker && counts) {
@@ -75,11 +78,56 @@ const rejectComment = async (
 
   // If there was a featured tag on this comment, remove it.
   if (hasTag(result.after, GQLTAG.FEATURED)) {
-    return removeTag(mongo, tenant, result.after.id, GQLTAG.FEATURED);
+    const tagResult = removeTag(
+      mongo,
+      tenant,
+      result.after.id,
+      GQLTAG.FEATURED
+    );
+
+    await updateTagCommentCounts(
+      tenant.id,
+      result.after.storyID,
+      result.after.siteID,
+      mongo,
+      redis,
+      // Create a diff where "before" tags have a featured tag and
+      // the "after" does not since the previous `removeTag` took
+      // away the featured tag on the comment
+      result.after.tags,
+      result.after.tags.filter((t) => t.type !== GQLTAG.FEATURED)
+    );
+
+    return tagResult;
   }
 
   // Return the resulting comment.
   return result.after;
+};
+
+const disableRepliesToChildren = async (
+  commentID: string,
+  mongo: MongoContext
+) => {
+  const children = await mongo
+    .comments()
+    .find({
+      ancestorIDs: commentID,
+    })
+    .toArray();
+
+  if (children.length === 0) {
+    return;
+  }
+
+  const childIDs = children.map(({ id }) => id);
+
+  await mongo
+    .comments()
+    .updateMany(
+      { id: { $in: childIDs } },
+      { $set: { rejectedAncestor: true } }
+    );
 };
 
 export default rejectComment;

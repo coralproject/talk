@@ -221,6 +221,12 @@ export enum ERROR_CODES {
   PARENT_COMMENT_REJECTED = "PARENT_COMMENT_REJECTED",
 
   /**
+   * ANCESTOR_REJECTED is returned when a Comment's ancestor
+   * has been rejected.
+   */
+  ANCESTOR_REJECTED = "ANCESTOR_REJECTED",
+
+  /**
    * AUTHENTICATION_ERROR is returned when a general authentication error has
    * occurred and the request can not be processed.
    */

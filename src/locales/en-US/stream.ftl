@@ -860,7 +860,7 @@ comments-tombstone-showComment = Show comment
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
 comments-tombstone-rejected =
-  This commenter has been removed by a moderator for violating our community guidelines.
+  This comment has been removed by a moderator for violating our community guidelines.
 
 suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =

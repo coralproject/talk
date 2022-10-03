@@ -14,9 +14,7 @@ interface DecisionHistoryContainerProps {
   onClosePopover: () => void;
 }
 
-export class DecisionHistoryContainer extends React.Component<
-  DecisionHistoryContainerProps
-> {
+export class DecisionHistoryContainer extends React.Component<DecisionHistoryContainerProps> {
   public state = {
     disableLoadMore: false,
   };
@@ -65,10 +63,10 @@ const enhanced = withPaginationContainer<
   {
     viewer: graphql`
       fragment DecisionHistoryContainer_viewer on User
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
-          cursor: { type: "Cursor" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 5 }
+        cursor: { type: "Cursor" }
+      ) {
         commentModerationActionHistory(first: $count, after: $cursor)
           @connection(key: "DecisionHistory_commentModerationActionHistory") {
           edges {

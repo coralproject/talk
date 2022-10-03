@@ -13,14 +13,12 @@ interface OperationDefaults {
 }
 
 // Omit environment as we are passing this from the context.
-export type QueryRendererProps<
-  T extends OperationType = OperationDefaults
-> = Omit<PropTypesOf<QueryRenderer<T>>, "environment">;
+export type QueryRendererProps<T extends OperationType = OperationDefaults> =
+  Omit<PropTypesOf<QueryRenderer<T>>, "environment">;
 
 // Omit environment as we are passing this from the context.
-export type QueryRenderData<
-  T extends OperationType = OperationDefaults
-> = Parameters<QueryRendererProps<T>["render"]>[0];
+export type QueryRenderData<T extends OperationType = OperationDefaults> =
+  Parameters<QueryRendererProps<T>["render"]>[0];
 
 /**
  * CoralQueryRenderer is a wrappper around  Relay's `QueryRenderer`.

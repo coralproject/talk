@@ -21,7 +21,7 @@ const AddSiteRoute: FunctionComponent<Props> = ({ data }) => {
   const onSiteEdit = useCallback(
     (name: string) => {
       setMessage(
-        <Localized id="configure-sites-edit-success" $site={name}>
+        <Localized id="configure-sites-edit-success" vars={{ site: name }}>
           <AppNotification icon="check_circle_outline" onClose={clearMessage}>
             Changes to {name} have been saved
           </AppNotification>
@@ -37,7 +37,7 @@ const AddSiteRoute: FunctionComponent<Props> = ({ data }) => {
   return (
     <ConfigBox
       title={
-        <Localized id="configure-sites-site-edit" $site={site.name}>
+        <Localized id="configure-sites-site-edit" vars={{ site: site.name }}>
           <Header>Edit {site.name} details</Header>
         </Localized>
       }

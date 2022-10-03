@@ -8,17 +8,17 @@ exports[`renders correctly 1`] = `
     role="banner"
   >
     <Localized
+      elems={
+        Object {
+          "subtitle": <div
+            className="coral coral-login-header SignUp-header"
+          />,
+          "title": <div
+            className="coral coral-login-title SignUp-title"
+          />,
+        }
+      }
       id="signUp-signUpToJoinHeader"
-      subtitle={
-        <div
-          className="coral coral-login-header SignUp-header"
-        />
-      }
-      title={
-        <div
-          className="coral coral-login-title SignUp-title"
-        />
-      }
     >
       <div
         className="coral coral-login-bar SignUp-bar"
@@ -67,17 +67,17 @@ exports[`renders without email sign up 1`] = `
     role="banner"
   >
     <Localized
+      elems={
+        Object {
+          "subtitle": <div
+            className="coral coral-login-header SignUp-header"
+          />,
+          "title": <div
+            className="coral coral-login-title SignUp-title"
+          />,
+        }
+      }
       id="signUp-signUpToJoinHeader"
-      subtitle={
-        <div
-          className="coral coral-login-header SignUp-header"
-        />
-      }
-      title={
-        <div
-          className="coral coral-login-title SignUp-title"
-        />
-      }
     >
       <div
         className="coral coral-login-bar SignUp-bar"
