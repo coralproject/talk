@@ -5,7 +5,6 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
-
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -23,12 +22,9 @@ import {
 } from "coral-framework/testHelpers";
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 import getCommentRecursively from "coral-stream/test/helpers/getCommentRecursively";
-
 import { baseComment, baseStory, comments, settings } from "../../fixtures";
 import { createContext } from "../create";
-
 const commentData = comments[0];
-
 const rootComment = denormalizeComment(
   createFixture<GQLComment>({
     ...baseComment,
@@ -97,37 +93,7 @@ const rootComment = denormalizeComment(
                                                     replyCount: 0,
                                                     replies: {
                                                       ...baseComment.replies,
-                                                      edges: [
-                                                        {
-                                                          cursor:
-                                                            baseComment.createdAt,
-                                                          node: {
-                                                            ...baseComment,
-                                                            id: "my-comment-7",
-                                                            body: "body 7",
-                                                            replyCount: 0,
-                                                            replies: {
-                                                              ...baseComment.replies,
-                                                              edges: [
-                                                                {
-                                                                  cursor:
-                                                                    baseComment.createdAt,
-                                                                  node: {
-                                                                    ...baseComment,
-                                                                    id: "my-comment-8",
-                                                                    body: "body 8",
-                                                                    replyCount: 0,
-                                                                    replies: {
-                                                                      ...baseComment.replies,
-                                                                      edges: [],
-                                                                    },
-                                                                  },
-                                                                },
-                                                              ],
-                                                            },
-                                                          },
-                                                        },
-                                                      ],
+                                                      edges: [],
                                                     },
                                                   },
                                                 },
@@ -155,7 +121,6 @@ const rootComment = denormalizeComment(
     },
   })
 );
-
 const story = denormalizeStory(
   createFixture<GQLStory>(
     {
@@ -176,7 +141,6 @@ const story = denormalizeStory(
     baseStory
   )
 );
-
 const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {}
 ) => {
@@ -201,7 +165,6 @@ const createTestRenderer = async (
 };
 
 beforeEach(() => replaceHistoryLocation("http://localhost/admin/community"));
-
 it("should show Read More of this Conversation", async () => {
   const { subscriptionHandler } = await createTestRenderer({
     resolvers: {
@@ -214,7 +177,6 @@ it("should show Read More of this Conversation", async () => {
     },
   });
   const container = await screen.findByTestId("comments-allComments-log");
-
   expect(subscriptionHandler.has("commentEntered")).toBe(true);
   await expect(
     async () =>
@@ -223,7 +185,6 @@ it("should show Read More of this Conversation", async () => {
         selector: "a",
       })
   ).rejects.toThrow();
-
   act(() => {
     subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
       "commentEntered",
@@ -236,7 +197,7 @@ it("should show Read More of this Conversation", async () => {
         }
         return {
           comment: pureMerge<typeof commentData>(commentData, {
-            parent: { ...baseComment, id: "my-comment-7" },
+            parent: { ...baseComment, id: "my-comment-6" },
           }),
         };
       }
@@ -260,10 +221,8 @@ it("should flatten replies", async () => {
       local.setValue(true, "flattenReplies");
     },
   });
-
   const container = await screen.findByTestId("comments-allComments-log");
   expect(subscriptionHandler.has("commentEntered")).toBe(true);
-
   const showMoreReplies = await waitFor(async () => {
     /* Do stuff */
     // Dispatch new comment.
@@ -278,7 +237,7 @@ it("should flatten replies", async () => {
         }
         return {
           comment: pureMerge<typeof commentData>(comments[0], {
-            parent: getCommentRecursively(rootComment.replies, "my-comment-7"),
+            parent: getCommentRecursively(rootComment.replies, "my-comment-6"),
           }),
         };
       }
@@ -303,19 +262,15 @@ it("should flatten replies", async () => {
     /* Wait for results */
     return await screen.findByText("Show More Replies", { selector: "button" });
   });
-
   expect(() =>
     within(container).getByText("Read More of this Conversation", {
       exact: false,
       selector: "a",
     })
   ).toThrow();
-
   fireEvent.click(showMoreReplies);
-
   await within(container).findByTestId(`comment-${comments[0].id}`);
   await within(container).findByTestId(`comment-${comments[1].id}`);
-
   // No reply lists after depth 4
   await expect(() =>
     within(container).findByTestId(`commentReplyList-${comments[0].id}`)

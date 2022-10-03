@@ -75,7 +75,7 @@ it("post a flattened reply", async () => {
         createCommentReply: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             storyID: storyWithDeepestReplies.id,
-            parentID: "my-comment-7",
+            parentID: "comment-with-deepest-replies-7",
             parentRevisionID: "revision-0",
             body: commentBody,
           });
@@ -89,7 +89,7 @@ it("post a flattened reply", async () => {
                 body: commentBody + " (from server)",
                 parent: getCommentRecursively(
                   storyWithDeepestReplies.comments,
-                  "my-comment-7"
+                  "comment-with-deepest-replies-7"
                 ),
               },
             },
@@ -99,7 +99,9 @@ it("post a flattened reply", async () => {
     }),
   });
 
-  const deepestReply = within(streamLog).getByTestID("comment-my-comment-7");
+  const deepestReply = within(streamLog).getByTestID(
+    "comment-comment-with-deepest-replies-7"
+  );
 
   const form = await act(async () => {
     /* Do stuff */
@@ -119,11 +121,15 @@ it("post a flattened reply", async () => {
     form.props.onSubmit();
     /* Wait for results */
     const deepestReplyList = await waitForElement(() =>
-      within(streamLog).getByTestID("commentReplyList-my-comment-6")
+      within(streamLog).getByTestID(
+        "commentReplyList-comment-with-deepest-replies-6"
+      )
     );
     // No reply list after depth 4
     expect(() =>
-      within(streamLog).getByTestID("commentReplyList-my-comment-8")
+      within(streamLog).getByTestID(
+        "commentReplyList-comment-with-deepest-replies-8"
+      )
     ).toThrow();
     // optimistic result
     await wait(() =>
