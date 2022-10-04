@@ -13,52 +13,50 @@ import {
 } from "coral-server/models/user";
 import { Request, TenantCoralRequest } from "coral-server/types/express";
 
-const verifyFactory =
-  (
-    mongo: MongoContext,
-    ipLimiter: RequestLimiter,
-    emailLimiter: RequestLimiter
-  ) =>
-  async (
-    req: Request<TenantCoralRequest>,
-    emailInput: string,
-    passwordInput: string,
-    done: VerifyCallback
-  ) => {
-    try {
-      // Validate that the email address and password are reasonable.
-      const email = Joi.attempt(
-        emailInput,
-        Joi.string().trim().lowercase().email()
-      );
-      const password = Joi.attempt(passwordInput, Joi.string());
+const verifyFactory = (
+  mongo: MongoContext,
+  ipLimiter: RequestLimiter,
+  emailLimiter: RequestLimiter
+) => async (
+  req: Request<TenantCoralRequest>,
+  emailInput: string,
+  passwordInput: string,
+  done: VerifyCallback
+) => {
+  try {
+    // Validate that the email address and password are reasonable.
+    const email = Joi.attempt(
+      emailInput,
+      Joi.string().trim().lowercase().email()
+    );
+    const password = Joi.attempt(passwordInput, Joi.string());
 
-      await ipLimiter.test(req, req.ip);
-      await emailLimiter.test(req, email);
+    await ipLimiter.test(req, req.ip);
+    await emailLimiter.test(req, email);
 
-      const { tenant } = req.coral;
+    const { tenant } = req.coral;
 
-      // Get the user from the database.
-      const user = await retrieveUserWithProfile(mongo, tenant.id, {
-        id: email,
-        type: "local",
-      });
-      if (!user) {
-        // The user didn't exist.
-        return done(new InvalidCredentialsError("user not found"));
-      }
-
-      // Verify the password.
-      const passwordVerified = await verifyUserPassword(user, password);
-      if (!passwordVerified) {
-        return done(new InvalidCredentialsError("invalid password"));
-      }
-
-      return done(null, user);
-    } catch (err) {
-      return done(err);
+    // Get the user from the database.
+    const user = await retrieveUserWithProfile(mongo, tenant.id, {
+      id: email,
+      type: "local",
+    });
+    if (!user) {
+      // The user didn't exist.
+      return done(new InvalidCredentialsError("user not found"));
     }
-  };
+
+    // Verify the password.
+    const passwordVerified = await verifyUserPassword(user, password);
+    if (!passwordVerified) {
+      return done(new InvalidCredentialsError("invalid password"));
+    }
+
+    return done(null, user);
+  } catch (err) {
+    return done(err);
+  }
+};
 
 export interface LocalStrategyOptions {
   mongo: MongoContext;

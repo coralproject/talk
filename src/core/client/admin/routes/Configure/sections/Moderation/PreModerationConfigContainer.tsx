@@ -103,7 +103,7 @@ const PreModerationConfigContainer: FunctionComponent<Props> = ({
         </Localized>
         <Localized
           id="configure-moderation-premModeration-premodSuspectWordsDescription"
-          elems={{ wordListLink: <Link href="/admin/configure/wordList" /> }}
+          wordListLink={<Link href="/admin/configure/wordList" />}
         >
           <FormFieldDescription>
             You can view and edit your Suspect Word list{" "}

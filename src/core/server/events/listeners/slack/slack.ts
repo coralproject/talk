@@ -23,8 +23,7 @@ type SlackCoralEventListenerPayloads =
   | CommentReplyCreatedCoralEventPayload;
 
 export class SlackCoralEventListener
-  implements CoralEventListener<SlackCoralEventListenerPayloads>
-{
+  implements CoralEventListener<SlackCoralEventListenerPayloads> {
   public readonly name = "slack";
   public readonly events = [
     CoralEventType.COMMENT_FEATURED,
@@ -77,73 +76,71 @@ export class SlackCoralEventListener
     return null;
   }
 
-  public initialize: CoralEventPublisherFactory<SlackCoralEventListenerPayloads> =
-    (ctx) => async (payload) => {
-      const {
-        tenant: { id: tenantID, slack },
-      } = ctx;
+  public initialize: CoralEventPublisherFactory<
+    SlackCoralEventListenerPayloads
+  > = (ctx) => async (payload) => {
+    const {
+      tenant: { id: tenantID, slack },
+    } = ctx;
 
-      if (
-        // If slack is not defined,
-        !slack ||
-        // Or there are no slack channels,
-        slack.channels.length === 0 ||
-        // Or each channel isn't enabled or configured right.
-        slack.channels.every((c) => !c.enabled || !c.hookURL)
-      ) {
-        // Exit out then.
-        return;
+    if (
+      // If slack is not defined,
+      !slack ||
+      // Or there are no slack channels,
+      slack.channels.length === 0 ||
+      // Or each channel isn't enabled or configured right.
+      slack.channels.every((c) => !c.enabled || !c.hookURL)
+    ) {
+      // Exit out then.
+      return;
+    }
+
+    const actionType = this.getActionType(payload);
+    if (!actionType) {
+      return;
+    }
+
+    const comment = await ctx.loaders.Comments.comment.load(
+      payload.data.commentID
+    );
+    if (!comment || !comment.authorID) {
+      return;
+    }
+
+    const author = await ctx.loaders.Users.user.load(comment.authorID);
+    if (!author) {
+      return;
+    }
+
+    const story = await ctx.loaders.Stories.story.load(payload.data.storyID);
+    if (!story) {
+      return;
+    }
+
+    const publishEvent = new SlackPublishEvent(
+      actionType,
+      comment,
+      story,
+      author
+    );
+
+    // For each channel that is enabled with configuration.
+    for (const channel of slack.channels) {
+      if (!channel.enabled || !channel.hookURL) {
+        continue;
       }
 
-      const actionType = this.getActionType(payload);
-      if (!actionType) {
-        return;
-      }
-
-      const comment = await ctx.loaders.Comments.comment.load(
-        payload.data.commentID
-      );
-      if (!comment || !comment.authorID) {
-        return;
-      }
-
-      const author = await ctx.loaders.Users.user.load(comment.authorID);
-      if (!author) {
-        return;
-      }
-
-      const story = await ctx.loaders.Stories.story.load(payload.data.storyID);
-      if (!story) {
-        return;
-      }
-
-      const publishEvent = new SlackPublishEvent(
-        actionType,
-        comment,
-        story,
-        author
-      );
-
-      // For each channel that is enabled with configuration.
-      for (const channel of slack.channels) {
-        if (!channel.enabled || !channel.hookURL) {
-          continue;
-        }
-
-        if (publishEvent.shouldPublishToChannel(channel)) {
-          try {
-            // Post the message to slack.
-            await this.postMessage(
-              channel.hookURL,
-              publishEvent.getContent(ctx)
-            );
-          } catch (err) {
-            logger.error(
-              { err, tenantID, payload, channel },
-              "could not post the comment to slack"
-            );
-          }
+      if (publishEvent.shouldPublishToChannel(channel)) {
+        try {
+          // Post the message to slack.
+          await this.postMessage(channel.hookURL, publishEvent.getContent(ctx));
+        } catch (err) {
+          logger.error(
+            { err, tenantID, payload, channel },
+            "could not post the comment to slack"
+          );
         }
       }
-    };
+    }
+  };
 }

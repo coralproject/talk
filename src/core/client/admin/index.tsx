@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
 
 import { createManaged } from "coral-framework/lib/bootstrap";
 
@@ -27,10 +27,7 @@ async function main() {
   );
 
   // eslint-disable-next-line no-restricted-globals
-  const container = document.getElementById("app");
-  const root = createRoot(container!);
-
-  root.render(<Index />);
+  ReactDOM.render(<Index />, document.getElementById("app"));
 }
 
 void main();

@@ -27,22 +27,20 @@ interface ModerationQueuesInput {
   counts?: CommentModerationCountsPerQueue;
 }
 
-const mergeModerationInputFilters =
-  (
-    filter: FilterQuery<Comment>,
-    selector: keyof CommentModerationCountsPerQueue
-  ) =>
-  (input: ModerationQueuesInput): ModerationQueueInput => ({
-    selector,
-    connection: {
-      ...input.connection,
-      filter: {
-        ...input.connection.filter,
-        ...filter,
-      },
+const mergeModerationInputFilters = (
+  filter: FilterQuery<Comment>,
+  selector: keyof CommentModerationCountsPerQueue
+) => (input: ModerationQueuesInput): ModerationQueueInput => ({
+  selector,
+  connection: {
+    ...input.connection,
+    filter: {
+      ...input.connection.filter,
+      ...filter,
     },
-    count: input.counts ? input.counts[selector] : null,
-  });
+  },
+  count: input.counts ? input.counts[selector] : null,
+});
 
 /**
  * siteModerationInputResolver can be used to retrieve the moderationQueue for
@@ -162,25 +160,24 @@ export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
   return sharedModerationInputResolver(source, args, ctx);
 };
 
-export const ModerationQueues: GQLModerationQueuesTypeResolver<ModerationQueuesInput> =
-  {
-    unmoderated: mergeModerationInputFilters(
-      {
-        status: { $in: UNMODERATED_STATUSES },
-      },
-      "unmoderated"
-    ),
-    reported: mergeModerationInputFilters(
-      {
-        status: { $in: REPORTED_STATUS },
-        "actionCounts.FLAG": { $gt: 0 },
-      },
-      "reported"
-    ),
-    pending: mergeModerationInputFilters(
-      {
-        status: { $in: PENDING_STATUS },
-      },
-      "pending"
-    ),
-  };
+export const ModerationQueues: GQLModerationQueuesTypeResolver<ModerationQueuesInput> = {
+  unmoderated: mergeModerationInputFilters(
+    {
+      status: { $in: UNMODERATED_STATUSES },
+    },
+    "unmoderated"
+  ),
+  reported: mergeModerationInputFilters(
+    {
+      status: { $in: REPORTED_STATUS },
+      "actionCounts.FLAG": { $gt: 0 },
+    },
+    "reported"
+  ),
+  pending: mergeModerationInputFilters(
+    {
+      status: { $in: PENDING_STATUS },
+    },
+    "pending"
+  ),
+};

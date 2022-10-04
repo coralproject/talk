@@ -25,8 +25,7 @@ import UpdateStorySettingsMutation from "./UpdateStorySettingsMutation";
 
 import styles from "./StorySettingsContainer.css";
 
-export type MODERATION_MODE =
-  StorySettingsContainer_storySettings["moderation"];
+export type MODERATION_MODE = StorySettingsContainer_storySettings["moderation"];
 
 export interface Props {
   storyID: string;

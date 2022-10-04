@@ -736,9 +736,9 @@ export async function retrieveStorySections(
   mongo: MongoContext,
   tenantID: string
 ): Promise<string[]> {
-  const results: Array<string | null> = await mongo
-    .stories()
-    .distinct("metadata.section", { tenantID });
+  const results: Array<
+    string | null
+  > = await mongo.stories().distinct("metadata.section", { tenantID });
 
   // We perform the type assertion here because we know that after filtering out
   // the null entries, the resulting array can not contain null.

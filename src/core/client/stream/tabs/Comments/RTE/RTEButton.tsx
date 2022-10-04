@@ -10,8 +10,14 @@ const RTEButton = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement> & Partial<InjectedProps>
 >(function RTEButtonForwarded(props, ref) {
-  const { ctrlKey, squire, ButtonComponent, className, rteElementID, ...rest } =
-    props;
+  const {
+    ctrlKey,
+    squire,
+    ButtonComponent,
+    className,
+    rteElementID,
+    ...rest
+  } = props;
   return (
     <BaseButton {...rest} className={cn(styles.button, className)} ref={ref} />
   );

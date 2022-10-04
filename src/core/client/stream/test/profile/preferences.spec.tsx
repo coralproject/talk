@@ -1,18 +1,17 @@
-import { act, screen, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { axe } from "jest-axe";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
 
-import customRenderAppWithContext from "../customRenderAppWithContext";
 import { commenters, settings, stories, viewerPassive } from "../fixtures";
-import { createWithContext } from "./create";
+import create from "./create";
 
 const story = stories[0];
 const viewer = viewerPassive;
@@ -20,7 +19,7 @@ const viewer = viewerPassive;
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { context } = createWithContext({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -39,10 +38,14 @@ async function createTestRenderer(
       }
     },
   });
-  customRenderAppWithContext(context);
+  const ignoredCommenters = await waitForElement(() =>
+    within(testRenderer.root).queryByTestID("profile-account-ignoredCommenters")
+  );
 
   return {
+    testRenderer,
     context,
+    ignoredCommenters,
   };
 }
 
@@ -64,96 +67,104 @@ it("render notifications form", async () => {
         clientMutationId,
       };
     });
-  await act(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Mutation: {
-          updateNotificationSettings,
-        },
-      }),
-    });
+  const { testRenderer } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        updateNotificationSettings,
+      },
+    }),
   });
-
-  const container = await screen.findByTestId("profile-account-notifications");
-  expect(await axe(container)).toHaveNoViolations();
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("profile-account-notifications")
+  );
+  expect(await within(container).axe()).toHaveNoViolations();
+  const form = within(container).getByType("form");
 
   // Get the form fields.
-  const onReply = within(container).getByRole("checkbox", {
-    name: "My comment receives a reply",
-  });
-  const onStaffReplies = within(container).getByRole("checkbox", {
-    name: "A staff member replies to my comment",
-  });
-  const onModeration = within(container).getByRole("checkbox", {
-    name: "My pending comment has been reviewed",
-  });
-  const onFeatured = within(container).getByRole("checkbox", {
-    name: "My comment is featured",
-  });
-  const digestFrequency = within(container).getByRole("combobox", {
-    name: "Send Notifications:",
-  });
-  const save = within(container).getByRole("button", { name: "Update" });
+  const onReply = await waitForElement(() =>
+    within(form).getByID("onReply", { exact: false })
+  );
+  const onStaffReplies = await waitForElement(() =>
+    within(form).getByID("onStaffReplies", { exact: false })
+  );
+  const onModeration = await waitForElement(() =>
+    within(form).getByID("onModeration", { exact: false })
+  );
+  const onFeatured = await waitForElement(() =>
+    within(form).getByID("onFeatured", { exact: false })
+  );
+  const digestFrequency = await waitForElement(() =>
+    within(form).getByID("digestFrequency", { exact: false })
+  );
+  const save = await waitForElement(() => within(form).getByType("button"));
 
   // The save button should be disabled for unchanged fields.
-  expect(save).toBeDisabled();
+  expect(save.props.disabled).toEqual(true);
 
   // The digest frequency select should be disabled with no options enabled.
-  expect(digestFrequency).toBeDisabled();
+  expect(digestFrequency.props.disabled).toEqual(true);
 
   // Enable the options.
-  userEvent.click(onReply);
-  userEvent.click(onStaffReplies);
-  userEvent.click(onModeration);
-  userEvent.click(onFeatured);
+  act(() => {
+    onReply.props.onChange(true);
+    onStaffReplies.props.onChange(true);
+    onModeration.props.onChange(true);
+    onFeatured.props.onChange(true);
+  });
 
   // The digest frequency select should now be enabled.
-  expect(digestFrequency).toBeEnabled();
+  expect(digestFrequency.props.disabled).toEqual(false);
 
   // Change the digest frequency.
-  userEvent.selectOptions(digestFrequency, "HOURLY");
+  act(() => {
+    digestFrequency.props.onChange("HOURLY");
+  });
 
   // Submit the form.
   await act(async () => {
-    userEvent.click(save);
+    await form.props.onSubmit();
   });
 
   // Ensure that the mutation was called and that the save button is now
   // disabled.
   expect(updateNotificationSettings.calledOnce).toEqual(true);
-  expect(save).toBeDisabled();
+  expect(save.props.disabled).toEqual(true);
 
   // Change a notification option.
-  userEvent.click(onReply);
+  act(() => {
+    onReply.props.onChange(false);
+  });
 
   // The save button should now be enabled.
-  expect(save).toBeEnabled();
+  expect(save.props.disabled).toEqual(false);
 
   // Change a notification back (making it pristine).
-  await act(async () => {
-    userEvent.click(onReply);
+  act(() => {
+    onReply.props.onChange(true);
   });
 
   // The save button should now be disabled.
-  expect(save).toBeDisabled();
+  expect(save.props.disabled).toEqual(true);
 });
 
 it("render empty ignored users list", async () => {
-  await createTestRenderer();
-  const ignoredCommenters = await screen.findByTestId(
-    "profile-account-ignoredCommenters"
-  );
-  const editButton = within(ignoredCommenters).getByRole("button", {
-    name: "Manage",
+  const { ignoredCommenters } = await createTestRenderer();
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
   });
-  userEvent.click(editButton);
-  expect(
-    within(ignoredCommenters).getByText("You are not currently ignoring anyone")
-  ).toBeVisible();
+  await waitForElement(() =>
+    within(ignoredCommenters).getByText(
+      "You are not currently ignoring anyone",
+      {
+        exact: false,
+      }
+    )
+  );
 });
 
 it("render ignored users list", async () => {
-  await createTestRenderer({
+  const { ignoredCommenters } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         viewer: () =>
@@ -173,28 +184,25 @@ it("render ignored users list", async () => {
       },
     }),
   });
-  const ignoredCommenters = await screen.findByTestId(
-    "profile-account-ignoredCommenters"
-  );
-  const editButton = within(ignoredCommenters).getByRole("button", {
-    name: "Manage",
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
   });
-  userEvent.click(editButton);
   within(ignoredCommenters).getByText(commenters[0].username!);
   within(ignoredCommenters).getByText(commenters[1].username!);
 
-  const stopIgnoreButtons = within(ignoredCommenters).getAllByRole("button", {
-    name: "Stop ignoring",
-  });
+  const stopIgnoreButtons = within(
+    ignoredCommenters
+  ).getAllByText("Stop ignoring", { selector: "button" });
 
   // Stop ignoring first users.
-  userEvent.click(stopIgnoreButtons[0]);
+  await act(async () => {
+    stopIgnoreButtons[0].props.onClick();
+  });
 
   // First user should be replaced with "you are no longer ignoring"
-  expect(
-    await within(ignoredCommenters).findByText("You are no longer ignoring")
-  ).toBeVisible();
-  expect(
-    within(ignoredCommenters).getByText(commenters[0].username!)
-  ).toBeVisible();
+  await waitForElement(() =>
+    within(ignoredCommenters).getByText("You are no longer ignoring")
+  );
+  within(ignoredCommenters).getByText(commenters[0].username!);
 });

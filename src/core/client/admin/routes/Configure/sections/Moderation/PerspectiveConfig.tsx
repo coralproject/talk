@@ -78,7 +78,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
     >
       <Localized
         id="configure-moderation-perspective-explanation"
-        elems={{ strong: <strong /> }}
+        strong={<strong />}
       >
         <FormFieldDescription>
           Using the Perspective API, the Toxic Comment filter warns users when
@@ -108,7 +108,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Localized>
           <Localized
             id="configure-moderation-perspective-toxicityThresholdDescription"
-            vars={{ default: TOXICITY_THRESHOLD_DEFAULT.toString() + "%" }}
+            $default={TOXICITY_THRESHOLD_DEFAULT.toString() + "%"}
           >
             <HelperText>
               This value can be set a percentage between 0 and 100. This number
@@ -153,16 +153,14 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Localized>
           <Localized
             id="configure-moderation-perspective-toxicityModelDescription"
-            elems={{
-              externalLink: (
-                <ExternalLink
-                  href={
-                    "https://github.com/conversationai/perspectiveapi/blob/master/2-api/models.md"
-                  }
-                />
-              ),
-            }}
-            vars={{ default: TOXICITY_MODEL_DEFAULT }}
+            externalLink={
+              <ExternalLink
+                href={
+                  "https://github.com/conversationai/perspectiveapi/blob/master/2-api/models.md"
+                }
+              />
+            }
+            $default={TOXICITY_MODEL_DEFAULT}
           >
             <HelperText>
               Choose your Perspective Model. The default is $default. You can
@@ -254,15 +252,12 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         />
       </FormField>
       <HorizontalGutter spacing={3}>
-        <Localized
-          id="configure-configurationSubHeader"
-          elems={{ strong: <strong /> }}
-        >
+        <Localized id="configure-configurationSubHeader" strong={<strong />}>
           <Subheader>Configuration</Subheader>
         </Localized>
         <Localized
           id="configure-moderation-perspective-accountNote"
-          elems={{ externalLink: <ExternalLink /> }}
+          externalLink={<ExternalLink />}
         >
           <HelperText>
             For additional information on how to set up the Perspective Toxic
@@ -284,7 +279,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <Localized
           id="configure-moderation-perspective-defaultEndpoint"
-          vars={{ default: TOXICITY_ENDPOINT_DEFAULT }}
+          $default={TOXICITY_ENDPOINT_DEFAULT}
         >
           <HelperText>
             By default the endpoint is set to $default. You may override this

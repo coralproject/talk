@@ -1,10 +1,9 @@
-import { act, screen } from "@testing-library/react";
-import { axe } from "jest-axe";
 import sinon from "sinon";
 
-import customRenderAppWithContext from "../customRenderAppWithContext";
+import { act, waitForElement, within } from "coral-framework/testHelpers";
+
 import { moderators, settings, stories } from "../fixtures";
-import { createContext } from "./create";
+import create from "./create";
 
 async function createTestRenderer(
   resolver: any = {},
@@ -23,7 +22,7 @@ async function createTestRenderer(
     ...resolver,
   };
 
-  const { context } = createContext({
+  const { testRenderer } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
@@ -33,17 +32,17 @@ async function createTestRenderer(
     },
   });
 
-  customRenderAppWithContext(context);
+  return await act(async () => {
+    const tabPane = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("current-tab-pane")
+    );
 
-  return;
+    return { testRenderer, tabPane };
+  });
 }
 
 it("renders configure", async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
-  const tabPane = await screen.findByTestId("current-tab-pane");
-
-  expect(tabPane).toMatchSnapshot();
-  expect(await axe(tabPane)).toHaveNoViolations();
+  const { tabPane, testRenderer } = await createTestRenderer();
+  expect(within(tabPane).toJSON()).toMatchSnapshot();
+  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });

@@ -88,7 +88,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
             <>
               <Localized
                 id="profile-account-deleteAccount-cancelDelete-description"
-                vars={{ date: deletionDate }}
+                $date={deletionDate}
               >
                 <div
                   className={cn(
@@ -129,6 +129,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
                 CLASSES.deleteMyAccount.requestButton
               )}
               onClick={showPopover}
+              data-testid="deleteAccount-request"
               upperCase
             >
               Request

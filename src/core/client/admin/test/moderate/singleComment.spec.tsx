@@ -93,36 +93,35 @@ it("renders single comment view with story info", async () => {
 });
 
 it("approves single comment", async () => {
-  const approveCommentStub =
-    createMutationResolverStub<MutationToApproveCommentResolver>(
-      ({ variables }) => {
-        expectAndFail(variables).toMatchObject({
-          commentID: comment.id,
-          commentRevisionID: comment.revision!.id,
-        });
-        return {
-          comment: {
-            ...comment,
-            status: GQLCOMMENT_STATUS.APPROVED,
-            statusHistory: {
-              edges: [
-                {
-                  node: {
-                    id: "mod-action",
-                    status: GQLCOMMENT_STATUS.APPROVED,
-                    moderator: {
-                      id: viewer.id,
-                      username: viewer.username,
-                    },
-                  },
+  const approveCommentStub = createMutationResolverStub<
+    MutationToApproveCommentResolver
+  >(({ variables }) => {
+    expectAndFail(variables).toMatchObject({
+      commentID: comment.id,
+      commentRevisionID: comment.revision!.id,
+    });
+    return {
+      comment: {
+        ...comment,
+        status: GQLCOMMENT_STATUS.APPROVED,
+        statusHistory: {
+          edges: [
+            {
+              node: {
+                id: "mod-action",
+                status: GQLCOMMENT_STATUS.APPROVED,
+                moderator: {
+                  id: viewer.id,
+                  username: viewer.username,
                 },
-              ],
+              },
             },
-          },
-          moderationQueues: emptyModerationQueues,
-        };
-      }
-    );
+          ],
+        },
+      },
+      moderationQueues: emptyModerationQueues,
+    };
+  });
 
   await createTestRenderer({
     resolvers: {
@@ -141,36 +140,35 @@ it("approves single comment", async () => {
 });
 
 it("rejects single comment", async () => {
-  const rejectCommentStub =
-    createMutationResolverStub<MutationToRejectCommentResolver>(
-      ({ variables }) => {
-        expectAndFail(variables).toMatchObject({
-          commentID: comment.id,
-          commentRevisionID: comment.revision!.id,
-        });
-        return {
-          comment: {
-            ...comment,
-            status: GQLCOMMENT_STATUS.REJECTED,
-            statusHistory: {
-              edges: [
-                {
-                  node: {
-                    id: "mod-action",
-                    status: GQLCOMMENT_STATUS.REJECTED,
-                    author: {
-                      id: viewer.id,
-                      username: viewer.username,
-                    },
-                  },
+  const rejectCommentStub = createMutationResolverStub<
+    MutationToRejectCommentResolver
+  >(({ variables }) => {
+    expectAndFail(variables).toMatchObject({
+      commentID: comment.id,
+      commentRevisionID: comment.revision!.id,
+    });
+    return {
+      comment: {
+        ...comment,
+        status: GQLCOMMENT_STATUS.REJECTED,
+        statusHistory: {
+          edges: [
+            {
+              node: {
+                id: "mod-action",
+                status: GQLCOMMENT_STATUS.REJECTED,
+                author: {
+                  id: viewer.id,
+                  username: viewer.username,
                 },
-              ],
+              },
             },
-          },
-          moderationQueues: emptyModerationQueues,
-        };
-      }
-    );
+          ],
+        },
+      },
+      moderationQueues: emptyModerationQueues,
+    };
+  });
 
   await createTestRenderer({
     resolvers: {

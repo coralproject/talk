@@ -5,7 +5,6 @@ import styles from "./DashboardBox.css";
 
 interface Props {
   className?: string;
-  children?: React.ReactNode;
 }
 
 const DashboardBox: FunctionComponent<Props> = ({ children, className }) => {

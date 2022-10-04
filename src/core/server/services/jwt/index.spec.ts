@@ -13,11 +13,11 @@ describe("extractJWTFromRequest", () => {
       url: "",
     };
 
-    expect(extractTokenFromRequest(req as any as Request)).toEqual("token");
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual("token");
 
     delete req.headers.authorization;
 
-    expect(extractTokenFromRequest(req as any as Request)).toEqual(null);
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual(null);
   });
 
   it("extracts the token from query string", () => {
@@ -25,11 +25,11 @@ describe("extractJWTFromRequest", () => {
       url: "",
       headers: {},
     };
-    expect(extractTokenFromRequest(req as any as Request)).toEqual(null);
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual(null);
 
     req.url = "https://coral.coralproject.net/api?accessToken=token";
 
-    expect(extractTokenFromRequest(req as any as Request)).toEqual("token");
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual("token");
   });
 
   it("does not extract the token from query string when it's disabled", () => {
@@ -38,7 +38,9 @@ describe("extractJWTFromRequest", () => {
       headers: {},
     };
 
-    expect(extractTokenFromRequest(req as any as Request, true)).toEqual(null);
+    expect(extractTokenFromRequest((req as any) as Request, true)).toEqual(
+      null
+    );
   });
 });
 

@@ -19,7 +19,7 @@ const StoryRating: FunctionComponent<Props> = ({ title, average, count }) => {
       </Typography>
       <Flex direction="column" alignItems="center" spacing={1}>
         <StarRating rating={average} precision={1} />
-        <Localized id="ratingsAndReviews-basedOnRatings" vars={{ count }}>
+        <Localized id="ratingsAndReviews-basedOnRatings" $count={count}>
           <Typography variant="heading5" color="textSecondary">
             Based on {count} ratings
           </Typography>

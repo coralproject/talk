@@ -20,10 +20,7 @@ const InReplyTo: FunctionComponent<Props> = ({ children, onUsernameClick }) => {
   return (
     <Flex alignItems="center">
       <Icon className={styles.icon}>reply</Icon>{" "}
-      <Localized
-        id="moderate-comment-inReplyTo"
-        elems={{ Username: <Username /> }}
-      >
+      <Localized id="moderate-comment-inReplyTo" Username={<Username />}>
         <span className={styles.inReplyTo}>
           Reply to
           <Username />

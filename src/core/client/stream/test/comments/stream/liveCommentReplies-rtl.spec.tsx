@@ -1,10 +1,5 @@
-import {
-  act,
-  fireEvent,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -185,24 +180,23 @@ it("should show Read More of this Conversation", async () => {
         selector: "a",
       })
   ).rejects.toThrow();
-  act(() => {
-    subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
-      "commentEntered",
-      (variables) => {
-        if (variables.storyID !== story.id) {
-          return;
-        }
-        if (variables.ancestorID) {
-          return;
-        }
-        return {
-          comment: pureMerge<typeof commentData>(commentData, {
-            parent: { ...baseComment, id: "my-comment-6" },
-          }),
-        };
+
+  subscriptionHandler.dispatch<SubscriptionToCommentEnteredResolver>(
+    "commentEntered",
+    (variables) => {
+      if (variables.storyID !== story.id) {
+        return;
       }
-    );
-  });
+      if (variables.ancestorID) {
+        return;
+      }
+      return {
+        comment: pureMerge<typeof commentData>(commentData, {
+          parent: { ...baseComment, id: "my-comment-7" },
+        }),
+      };
+    }
+  );
 
   await within(container).findByText("Read More of this Conversation", {
     exact: false,

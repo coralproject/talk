@@ -7,22 +7,21 @@ function getActiveSSOSigningSecret(keys: settings.SigningSecret[]) {
   return keys.find(filterFreshSigningSecrets());
 }
 
-export const SSOAuthIntegration: GQLSSOAuthIntegrationTypeResolver<settings.SSOAuthIntegration> =
-  {
-    key: ({ signingSecrets }) => {
-      const signingSecret = getActiveSSOSigningSecret(signingSecrets);
-      if (signingSecret) {
-        return signingSecret.secret;
-      }
+export const SSOAuthIntegration: GQLSSOAuthIntegrationTypeResolver<settings.SSOAuthIntegration> = {
+  key: ({ signingSecrets }) => {
+    const signingSecret = getActiveSSOSigningSecret(signingSecrets);
+    if (signingSecret) {
+      return signingSecret.secret;
+    }
 
-      return null;
-    },
-    keyGeneratedAt: ({ signingSecrets }) => {
-      const signingSecret = getActiveSSOSigningSecret(signingSecrets);
-      if (signingSecret) {
-        return signingSecret.createdAt;
-      }
+    return null;
+  },
+  keyGeneratedAt: ({ signingSecrets }) => {
+    const signingSecret = getActiveSSOSigningSecret(signingSecrets);
+    if (signingSecret) {
+      return signingSecret.createdAt;
+    }
 
-      return null;
-    },
-  };
+    return null;
+  },
+};

@@ -20,7 +20,7 @@ const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
         <Flex justifyContent="flex-end">
           <Localized
             id="configure-sites-site-details"
-            elems={{ icon: <Icon>keyboard_arrow_right</Icon> }}
+            icon={<Icon>keyboard_arrow_right</Icon>}
           >
             <Button
               variant="text"

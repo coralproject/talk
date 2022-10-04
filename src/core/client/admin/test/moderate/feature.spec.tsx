@@ -63,23 +63,22 @@ it("unmoderated and unfeatured comments available, feature button is present", a
           pureMerge(emptyModerationQueues, {
             unmoderated: {
               count: 1,
-              comments:
-                createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                  () => {
-                    return {
-                      edges: [
-                        {
-                          node: unmoderatedComments[0],
-                          cursor: unmoderatedComments[0].createdAt,
-                        },
-                      ],
-                      pageInfo: {
-                        endCursor: unmoderatedComments[0].createdAt,
-                        hasNextPage: false,
-                      },
-                    };
-                  }
-                ),
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(() => {
+                return {
+                  edges: [
+                    {
+                      node: unmoderatedComments[0],
+                      cursor: unmoderatedComments[0].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: unmoderatedComments[0].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }),
             },
           }),
       },

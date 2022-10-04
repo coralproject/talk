@@ -96,10 +96,10 @@ const enhanced = withPaginationContainer<
     `,
     comment: graphql`
       fragment ConversationModalContainer_comment on Comment
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 1 }
-        cursor: { type: "Cursor" }
-      ) {
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 1 }
+          cursor: { type: "Cursor" }
+        ) {
         id
         ...ConversationModalCommentContainer_comment
         rootParent {

@@ -282,14 +282,14 @@ const enhanced = withPaginationContainer<
   {
     query: graphql`
       fragment ExpertSelectionContainer_query on Query
-      @argumentDefinitions(
-        storyID: { type: "ID!" }
-        count: { type: "Int", defaultValue: 10 }
-        cursor: { type: "Cursor" }
-        roleFilter: { type: "USER_ROLE" }
-        statusFilter: { type: "USER_STATUS_FILTER" }
-        searchFilter: { type: "String" }
-      ) {
+        @argumentDefinitions(
+          storyID: { type: "ID!" }
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          roleFilter: { type: "USER_ROLE" }
+          statusFilter: { type: "USER_STATUS_FILTER" }
+          searchFilter: { type: "String" }
+        ) {
         viewer {
           id
           username

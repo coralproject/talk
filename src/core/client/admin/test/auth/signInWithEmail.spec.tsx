@@ -1,18 +1,20 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
+  wait,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
 
-import { createContext } from "../create";
-import customRenderAppWithContext from "../customRenderAppWithContext";
+import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
@@ -27,7 +29,7 @@ async function createTestRenderer(
   // it should be smart enough to reroute to /admin/login.
   replaceHistoryLocation("http://localhost/admin/moderate");
 
-  const { context } = createContext({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -48,90 +50,107 @@ async function createTestRenderer(
     },
   });
 
-  customRenderAppWithContext(context);
-  return { context };
+  let form: ReactTestInstance;
+  await act(async () => {
+    form = await waitForElement(() =>
+      within(testRenderer.root).getByType("form")
+    );
+  });
+  return { testRenderer, form: form!, context };
 }
 
 it("renders sign in form", async () => {
-  await createTestRenderer();
+  const { testRenderer } = await createTestRenderer();
 
-  expect(
-    await screen.findByRole("textbox", { name: "Email Address" })
-  ).toBeVisible();
-  expect(
-    screen.getByRole("button", { name: "Sign in with Email" })
-  ).toBeVisible();
-  expect(screen.getByText("Sign in to")).toBeVisible();
+  await act(async () => {
+    await wait(() => {
+      expect(testRenderer.toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows error when submitting empty form", async () => {
-  await createTestRenderer();
-  const signInButton = await screen.findByRole("button", {
-    name: "Sign in with Email",
+  const { form } = await createTestRenderer();
+  act(() => {
+    form.props.onSubmit();
   });
-  userEvent.click(signInButton);
 
-  expect(screen.getAllByText("This field is required.")).toHaveLength(2);
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("checks for invalid email", async () => {
-  await createTestRenderer();
+  const { form } = await createTestRenderer();
 
-  const emailField = await screen.findByRole("textbox", {
-    name: "Email Address",
+  act(() => {
+    within(form)
+      .getByTestID("email-field")
+      .props.onChange({ target: { value: "invalid-email" } });
   });
-  userEvent.type(emailField, "invalid-email");
-  const signInButton = await screen.findByRole("button", {
-    name: "Sign in with Email",
+  act(() => {
+    form.props.onSubmit();
   });
-  userEvent.click(signInButton);
 
-  expect(screen.getByText("Please enter a valid email address.")).toBeVisible();
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("accepts valid email", async () => {
-  await createTestRenderer();
+  const { form } = await createTestRenderer();
 
-  const emailField = await screen.findByRole("textbox", {
-    name: "Email Address",
+  act(() => {
+    within(form)
+      .getByTestID("email-field")
+      .props.onChange({ target: { value: "hans@test.com" } });
   });
-  fireEvent.change(emailField, { target: { value: "hans@test.com" } });
-
-  const signInButton = screen.getByRole("button", {
-    name: "Sign in with Email",
+  act(() => {
+    form.props.onSubmit();
   });
-  userEvent.click(signInButton);
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText("Please enter a valid email address.")
-    ).toBeNull();
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
   });
 });
 
 it("accepts correct password", async () => {
-  await createTestRenderer();
+  const { form } = await createTestRenderer();
 
-  const passwordField = await screen.findByLabelText("Password");
-  userEvent.type(passwordField, "testtest");
-
-  const signInButton = screen.getByRole("button", {
-    name: "Sign in with Email",
+  act(() => {
+    within(form)
+      .getByTestID("password-field")
+      .props.onChange({ target: { value: "testtest" } });
   });
-  userEvent.click(signInButton);
+  act(() => {
+    form.props.onSubmit();
+  });
 
-  expect(screen.getAllByText("This field is required.")).toHaveLength(1);
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows server error", async () => {
-  const { context } = await createTestRenderer();
-
-  const emailField = await screen.findByRole("textbox", {
-    name: "Email Address",
+  const { form, context } = await createTestRenderer();
+  act(() => {
+    within(form)
+      .getByTestID("email-field")
+      .props.onChange({ target: { value: "hans@test.com" } });
   });
-  fireEvent.change(emailField, { target: { value: "hans@test.com" } });
-  const passwordField = await screen.findByLabelText("Password");
-  fireEvent.change(passwordField, { target: { value: "testtest" } });
+  act(() => {
+    within(form)
+      .getByTestID("password-field")
+      .props.onChange({ target: { value: "testtest" } });
+  });
 
   const error = new Error("Server Error");
   const restMock = sinon.mock(context.rest);
@@ -147,29 +166,34 @@ it("shows server error", async () => {
     .once()
     .throws(error);
 
-  const signInButton = screen.getByRole("button", {
-    name: "Sign in with Email",
-  });
-  userEvent.click(signInButton);
-
-  expect(signInButton).toBeDisabled();
-
-  await waitFor(() => {
-    expect(signInButton).toBeEnabled();
+  act(() => {
+    form.props.onSubmit();
   });
 
-  expect(screen.getByText("Server Error"));
+  const submitButton = within(form).getByText("Sign in with Email", {
+    selector: "button",
+  });
+  expect(submitButton.props.disabled).toBe(true);
+
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
+  expect(within(form).toJSON()).toMatchSnapshot();
   restMock.verify();
 });
 
 it("submits form successfully", async () => {
-  const { context } = await createTestRenderer();
-  const emailField = await screen.findByRole("textbox", {
-    name: "Email Address",
+  const { form, context } = await createTestRenderer();
+  act(() => {
+    within(form)
+      .getByTestID("email-field")
+      .props.onChange({ target: { value: "hans@test.com" } });
   });
-  fireEvent.change(emailField, { target: { value: "hans@test.com" } });
-  const passwordField = await screen.findByLabelText("Password");
-  fireEvent.change(passwordField, { target: { value: "testtest" } });
+  act(() => {
+    within(form)
+      .getByTestID("password-field")
+      .props.onChange({ target: { value: "testtest" } });
+  });
 
   const accessToken = createAccessToken();
 
@@ -188,17 +212,18 @@ it("submits form successfully", async () => {
 
   const historyMock = sinon.mock(window.history);
 
-  const signInButton = screen.getByRole("button", {
-    name: "Sign in with Email",
+  act(() => {
+    form.props.onSubmit();
   });
-  userEvent.click(signInButton);
-  expect(signInButton).toBeDisabled();
-
-  await waitFor(() => {
-    expect(signInButton).toBeEnabled();
+  const submitButton = within(form).getByText("Sign in with Email", {
+    selector: "button",
   });
+  expect(submitButton.props.disabled).toBe(true);
 
-  expect(location.toString()).toEqual("http://localhost/admin/login");
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
+  expect(location.toString()).toMatchSnapshot();
   restMock.verify();
   historyMock.verify();
 });

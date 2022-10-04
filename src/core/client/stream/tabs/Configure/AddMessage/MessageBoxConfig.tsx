@@ -153,7 +153,6 @@ const MessageBoxConfig: FunctionComponent = () => (
                 <Suspense fallback={<Spinner />}>
                   <MarkdownEditor
                     id="configure-messageBox-content"
-                    data-testid="configure-messageBox-content"
                     name={contentInput.name}
                     onChange={contentInput.onChange}
                     value={contentInput.value}

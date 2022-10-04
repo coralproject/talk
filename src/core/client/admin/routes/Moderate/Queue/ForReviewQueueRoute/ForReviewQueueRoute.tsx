@@ -57,10 +57,11 @@ export const ForReviewQueueRoute: FunctionComponent<Props> = ({
     }
   `);
 
-  const [, isRefetching] =
-    useRefetch<ForReviewQueueRoutePaginationQueryVariables>(relay, 5, {
-      orderBy: moderationQueueSort,
-    });
+  const [, isRefetching] = useRefetch<
+    ForReviewQueueRoutePaginationQueryVariables
+  >(relay, 5, {
+    orderBy: moderationQueueSort,
+  });
 
   const loadMore = useCallback(() => {
     if (!relay.hasMore() || relay.isLoading()) {
@@ -151,14 +152,14 @@ const enhanced = withPaginationContainer<
   {
     query: graphql`
       fragment ForReviewQueueRoute_query on Query
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 15 }
-        cursor: { type: "Cursor" }
-        storyID: { type: "ID" }
-        siteID: { type: "ID" }
-        section: { type: "SectionFilter" }
-        orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
-      ) {
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 15 }
+          cursor: { type: "Cursor" }
+          storyID: { type: "ID" }
+          siteID: { type: "ID" }
+          section: { type: "SectionFilter" }
+          orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
+        ) {
         flags(
           first: $count
           after: $cursor
@@ -238,10 +239,8 @@ export const routeConfig = createRouteConfig<Props, ForReviewQueueRoute_query>({
     }
   `,
   prepareVariables: (params, match) => {
-    const initialOrderBy = lookup(
-      match.context.relayEnvironment,
-      LOCAL_ID
-    )!.moderationQueueSort;
+    const initialOrderBy = lookup(match.context.relayEnvironment, LOCAL_ID)!
+      .moderationQueueSort;
     return {
       ...params,
       initialOrderBy,

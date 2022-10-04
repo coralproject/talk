@@ -52,8 +52,9 @@ import styles from "./ChangeEmailContainer.css";
 const fetcher = createFetch(
   "resendConfirmation",
   async (environment: Environment, variables, { eventEmitter, rest }) => {
-    const resendEmailVerificationEvent =
-      ResendEmailVerificationEvent.begin(eventEmitter);
+    const resendEmailVerificationEvent = ResendEmailVerificationEvent.begin(
+      eventEmitter
+    );
     try {
       const result = await rest.fetch<void>("/account/confirm", {
         method: "POST",
@@ -252,7 +253,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                   </div>
                   <Localized
                     id="profile-changeEmail-please-verify-details"
-                    vars={{ email: viewer.email }}
+                    $email={viewer.email}
                   >
                     <div>
                       An email has been sent to {viewer.email} to verify your

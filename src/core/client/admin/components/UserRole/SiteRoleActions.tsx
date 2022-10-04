@@ -88,26 +88,27 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   }, [toggleModalVisibility]);
 
   const onSubmit = useCallback(
-    (promoter: SiteRoleScopeChange, demoter: SiteRoleScopeChange) =>
-      async (input: any) => {
-        try {
-          if (mode === "promote") {
-            await promoter({ userID: user.id, siteIDs: input.siteIDs });
-          } else if (mode === "demote") {
-            await demoter({ userID: user.id, siteIDs: input.siteIDs });
-          }
-
-          setMode(null);
-          toggleModalVisibility();
-
-          return;
-        } catch (err) {
-          if (err instanceof InvalidRequestError) {
-            return err.invalidArgs;
-          }
-          return { [FORM_ERROR]: err.message };
+    (promoter: SiteRoleScopeChange, demoter: SiteRoleScopeChange) => async (
+      input: any
+    ) => {
+      try {
+        if (mode === "promote") {
+          await promoter({ userID: user.id, siteIDs: input.siteIDs });
+        } else if (mode === "demote") {
+          await demoter({ userID: user.id, siteIDs: input.siteIDs });
         }
-      },
+
+        setMode(null);
+        toggleModalVisibility();
+
+        return;
+      } catch (err) {
+        if (err instanceof InvalidRequestError) {
+          return err.invalidArgs;
+        }
+        return { [FORM_ERROR]: err.message };
+      }
+    },
     [mode, toggleModalVisibility, user.id]
   );
 

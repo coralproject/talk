@@ -115,11 +115,9 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Localized>
         <Localized
           id="configure-advanced-stories-proxy-detail"
-          elems={{
-            externalLink: (
-              <ExternalLink href="https://www.npmjs.com/package/proxy-agent" />
-            ),
-          }}
+          externalLink={
+            <ExternalLink href="https://www.npmjs.com/package/proxy-agent" />
+          }
         >
           <HelperText>
             When specified, allows scraping requests to use the provided proxy.
@@ -157,7 +155,7 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Localized>
         <Localized
           id="configure-advanced-stories-custom-user-agent-detail"
-          elems={{ code: <code /> }}
+          code={<code />}
         >
           <HelperText>
             When specified, overrides the <code>User-Agent</code> header sent

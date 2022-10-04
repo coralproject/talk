@@ -5,7 +5,6 @@ import { globalErrorReporter } from "coral-framework/lib/errors";
 
 interface Props {
   errorContent?: React.ReactNode;
-  children?: React.ReactNode;
 }
 
 interface State {
@@ -35,12 +34,10 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 }
 
-export const withErrorBoundary =
-  (
-    props: { errorContent?: React.ReactNode } = {}
-  ): InferableComponentEnhancer<{}> =>
-  (component: React.ComponentType<any>) => {
-    return nest(withProps<any, any>(props)(ErrorBoundary), component) as any;
-  };
+export const withErrorBoundary = (
+  props: { errorContent?: React.ReactNode } = {}
+): InferableComponentEnhancer<{}> => (component: React.ComponentType<any>) => {
+  return nest(withProps<any, any>(props)(ErrorBoundary), component) as any;
+};
 
 export default ErrorBoundary;

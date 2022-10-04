@@ -84,10 +84,10 @@ const enhanced = withPaginationContainer<
   {
     comment: graphql`
       fragment ReactionDetailsContainer_comment on Comment
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
-        cursor: { type: "Cursor" }
-      ) {
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+        ) {
         id
         reactions(first: $count, after: $cursor)
           @connection(key: "ReactionDetails_reactions") {

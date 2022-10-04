@@ -8,17 +8,17 @@ exports[`renders correctly 1`] = `
     role="banner"
   >
     <Localized
-      elems={
-        Object {
-          "subtitle": <div
-            className="coral coral-login-header SignIn-header"
-          />,
-          "title": <div
-            className="coral coral-login-title SignIn-title"
-          />,
-        }
-      }
       id="signIn-signInToJoinHeader"
+      subtitle={
+        <div
+          className="coral coral-login-header SignIn-header"
+        />
+      }
+      title={
+        <div
+          className="coral coral-login-title SignIn-title"
+        />
+      }
     >
       <div
         className="coral coral-login-bar SignIn-bar"
@@ -41,23 +41,21 @@ exports[`renders correctly 1`] = `
     role="contentinfo"
   >
     <Localized
-      elems={
-        Object {
-          "textlink": <ForwardRef(forwardRef)
-            className="SignIn-signUp"
-            color="primary"
-            fontFamily="secondary"
-            fontSize="small"
-            fontWeight="semiBold"
-            href="/signUp"
-            onClick={[Function]}
-            paddingSize="none"
-            underline={true}
-            variant="flat"
-          />,
-        }
-      }
       id="signIn-noAccountSignUp"
+      textlink={
+        <ForwardRef(forwardRef)
+          className="SignIn-signUp"
+          color="primary"
+          fontFamily="secondary"
+          fontSize="small"
+          fontWeight="semiBold"
+          href="/signUp"
+          onClick={[Function]}
+          paddingSize="none"
+          underline={true}
+          variant="flat"
+        />
+      }
     >
       <div
         className="coral coral-login-signIn-noAccount SignIn-noAccount"
@@ -108,17 +106,17 @@ exports[`renders error 1`] = `
     role="banner"
   >
     <Localized
-      elems={
-        Object {
-          "subtitle": <div
-            className="coral coral-login-header SignIn-header"
-          />,
-          "title": <div
-            className="coral coral-login-title SignIn-title"
-          />,
-        }
-      }
       id="signIn-signInToJoinHeader"
+      subtitle={
+        <div
+          className="coral coral-login-header SignIn-header"
+        />
+      }
+      title={
+        <div
+          className="coral coral-login-title SignIn-title"
+        />
+      }
     >
       <div
         className="coral coral-login-bar SignIn-bar"
@@ -141,23 +139,21 @@ exports[`renders error 1`] = `
     role="contentinfo"
   >
     <Localized
-      elems={
-        Object {
-          "textlink": <ForwardRef(forwardRef)
-            className="SignIn-signUp"
-            color="primary"
-            fontFamily="secondary"
-            fontSize="small"
-            fontWeight="semiBold"
-            href="/signUp"
-            onClick={[Function]}
-            paddingSize="none"
-            underline={true}
-            variant="flat"
-          />,
-        }
-      }
       id="signIn-noAccountSignUp"
+      textlink={
+        <ForwardRef(forwardRef)
+          className="SignIn-signUp"
+          color="primary"
+          fontFamily="secondary"
+          fontSize="small"
+          fontWeight="semiBold"
+          href="/signUp"
+          onClick={[Function]}
+          paddingSize="none"
+          underline={true}
+          variant="flat"
+        />
+      }
     >
       <div
         className="coral coral-login-signIn-noAccount SignIn-noAccount"
@@ -217,17 +213,17 @@ exports[`renders without email login 1`] = `
     role="banner"
   >
     <Localized
-      elems={
-        Object {
-          "subtitle": <div
-            className="coral coral-login-header SignIn-header"
-          />,
-          "title": <div
-            className="coral coral-login-title SignIn-title"
-          />,
-        }
-      }
       id="signIn-signInToJoinHeader"
+      subtitle={
+        <div
+          className="coral coral-login-header SignIn-header"
+        />
+      }
+      title={
+        <div
+          className="coral coral-login-title SignIn-title"
+        />
+      }
     >
       <div
         className="coral coral-login-bar SignIn-bar"

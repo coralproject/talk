@@ -29,10 +29,7 @@ const SetPasswordField: FunctionComponent<Props> = (props) => (
         <Localized id="createPassword-passwordLabel">
           <InputLabel htmlFor={input.name}>Password</InputLabel>
         </Localized>
-        <Localized
-          id="createPassword-passwordDescription"
-          vars={{ minLength: 8 }}
-        >
+        <Localized id="createPassword-passwordDescription" $minLength={8}>
           <InputDescription>
             {"Must be at least {$minLength} characters"}
           </InputDescription>

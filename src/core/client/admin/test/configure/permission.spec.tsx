@@ -1,15 +1,14 @@
-import { screen, waitFor } from "@testing-library/react";
-
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver, GQLUSER_ROLE } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
 
-import { createContext } from "../create";
-import customRenderAppWithContext from "../customRenderAppWithContext";
+import create from "../create";
 import { settings, users } from "../fixtures";
 
 beforeEach(() => {
@@ -21,7 +20,7 @@ const viewer = users.admins[0];
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { context } = createContext({
+  const { testRenderer } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -38,37 +37,39 @@ async function createTestRenderer(
       }
     },
   });
-  customRenderAppWithContext(context);
+  return {
+    testRenderer,
+  };
 }
 
 it("denies access to moderators", async () => {
   const deniedRoles = [GQLUSER_ROLE.MODERATOR];
   for (const r of deniedRoles) {
-    await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           viewer: () => ({ ...viewer, role: r }),
         },
       }),
     });
-    expect(
-      await screen.findByText("Sign in with a different account")
-    ).toBeVisible();
+    await waitForElement(() =>
+      within(testRenderer.root).getByText("Sign in with a different account")
+    );
   }
 });
 
 it("allows access to admins", async () => {
   const deniedRoles = [GQLUSER_ROLE.ADMIN];
   for (const r of deniedRoles) {
-    await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           viewer: () => ({ ...viewer, role: r }),
         },
       }),
     });
-    await waitFor(async () => {
-      expect(await screen.findByTestId("configure-container")).toBeVisible();
-    });
+    await waitForElement(() =>
+      within(testRenderer.root).getByTestID("configure-container")
+    );
   }
 });

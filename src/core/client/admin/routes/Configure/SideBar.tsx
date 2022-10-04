@@ -2,11 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import styles from "./SideBar.css";
 
-interface SideBarProps {
-  children?: React.ReactNode;
-}
-
-const SideBar: FunctionComponent<SideBarProps> = ({ children }) => (
+const SideBar: FunctionComponent = ({ children }) => (
   <div className={styles.root}>{children}</div>
 );
 

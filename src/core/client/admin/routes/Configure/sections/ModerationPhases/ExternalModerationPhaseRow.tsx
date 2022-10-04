@@ -32,7 +32,7 @@ const ExternalModerationPhaseRow: FunctionComponent<Props> = ({ phase }) => (
       <Flex justifyContent="flex-end">
         <Localized
           id="configure-moderationPhases-detailsButton"
-          elems={{ icon: <Icon>keyboard_arrow_right</Icon> }}
+          icon={<Icon>keyboard_arrow_right</Icon>}
         >
           <Button
             variant="text"

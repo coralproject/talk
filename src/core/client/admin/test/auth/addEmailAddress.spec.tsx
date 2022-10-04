@@ -94,8 +94,11 @@ it("shows error when submitting empty form", async () => {
 });
 
 it("checks for invalid email", async () => {
-  const { form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer();
+  const {
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer();
 
   act(() =>
     emailAddressField.props.onChange({ target: { value: "invalid-email" } })
@@ -144,11 +147,14 @@ it("shows server error", async () => {
     },
   });
 
-  const { form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer({
-      resolvers,
-      muteNetworkErrors: true,
-    });
+  const {
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer({
+    resolvers,
+    muteNetworkErrors: true,
+  });
   const submitButton = form.find(
     (i) => i.type === "button" && i.props.type === "submit"
   );
@@ -193,10 +199,13 @@ it("successfully sets email", async () => {
     },
   });
 
-  const { form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer({
-      resolvers,
-    });
+  const {
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer({
+    resolvers,
+  });
   const submitButton = form.find(
     (i) => i.type === "button" && i.props.type === "submit"
   );
@@ -233,15 +242,19 @@ it("switch to link account", async () => {
       traceID: "traceID",
     });
   });
-  const { testRenderer, form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer({
-      resolvers: {
-        Mutation: {
-          setEmail,
-        },
+  const {
+    testRenderer,
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer({
+    resolvers: {
+      Mutation: {
+        setEmail,
       },
-      muteNetworkErrors: true,
-    });
+    },
+    muteNetworkErrors: true,
+  });
   const submitButton = form.find(
     (i) => i.type === "button" && i.props.type === "submit"
   );

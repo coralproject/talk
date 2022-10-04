@@ -33,10 +33,7 @@ const MemberBioConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
     container={<FieldSet />}
   >
-    <Localized
-      id="configure-general-memberBio-explanation"
-      elems={{ strong: <strong /> }}
-    >
+    <Localized id="configure-general-memberBio-explanation" strong={<strong />}>
       <FormFieldDescription>
         Allow commenters to add a bio to their profile. Note: this can increase
         moderator time as commenter bios can be reported.

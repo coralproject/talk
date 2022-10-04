@@ -229,8 +229,7 @@ async function deprecateOldSigningSecrets<T extends {}>(
   if (id) {
     update = {
       $set: {
-        [`${path}.$[resource].signingSecrets.$[signingSecret].inactiveAt`]:
-          inactiveAt,
+        [`${path}.$[resource].signingSecrets.$[signingSecret].inactiveAt`]: inactiveAt,
         [`${path}.$[resource].signingSecrets.$[signingSecret].rotatedAt`]: now,
       },
     };

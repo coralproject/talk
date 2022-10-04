@@ -47,27 +47,26 @@ async function createTestRenderer(
             pureMerge(emptyModerationQueues, {
               reported: {
                 count: 1,
-                comments:
-                  createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                    ({ variables }) => {
-                      expectAndFail(variables).toMatchObject({
-                        first: 5,
-                        orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-                      });
-                      return {
-                        edges: [
-                          {
-                            node: commentData,
-                            cursor: commentData.createdAt,
-                          },
-                        ],
-                        pageInfo: {
-                          endCursor: commentData.createdAt,
-                          hasNextPage: false,
-                        },
-                      };
-                    }
-                  ),
+                comments: createQueryResolverStub<
+                  ModerationQueueToCommentsResolver
+                >(({ variables }) => {
+                  expectAndFail(variables).toMatchObject({
+                    first: 5,
+                    orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+                  });
+                  return {
+                    edges: [
+                      {
+                        node: commentData,
+                        cursor: commentData.createdAt,
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: commentData.createdAt,
+                      hasNextPage: false,
+                    },
+                  };
+                }),
               },
             }),
           comments: () => emptyRejectedComments,
@@ -100,34 +99,33 @@ it("update comment status live", async () => {
     within(comment).getByText("Moderated By", { exact: false })
   ).toThrow();
 
-  subscriptionHandler.dispatch<SubscriptionToCommentLeftModerationQueueResolver>(
-    "commentLeftModerationQueue",
-    (variables) => {
-      if (
-        variables.storyID !== null ||
-        variables.queue !== GQLMODERATION_QUEUE.REPORTED
-      ) {
-        return;
-      }
-      return {
-        queue: GQLMODERATION_QUEUE.REPORTED,
-        comment: pureMerge<typeof commentData>(commentData, {
-          status: GQLCOMMENT_STATUS.APPROVED,
-          statusHistory: {
-            edges: [
-              {
-                node: {
-                  id: "mod-action-1",
-                  moderator: users.moderators[0],
-                  status: GQLCOMMENT_STATUS.APPROVED,
-                },
-              },
-            ],
-          },
-        }),
-      };
+  subscriptionHandler.dispatch<
+    SubscriptionToCommentLeftModerationQueueResolver
+  >("commentLeftModerationQueue", (variables) => {
+    if (
+      variables.storyID !== null ||
+      variables.queue !== GQLMODERATION_QUEUE.REPORTED
+    ) {
+      return;
     }
-  );
+    return {
+      queue: GQLMODERATION_QUEUE.REPORTED,
+      comment: pureMerge<typeof commentData>(commentData, {
+        status: GQLCOMMENT_STATUS.APPROVED,
+        statusHistory: {
+          edges: [
+            {
+              node: {
+                id: "mod-action-1",
+                moderator: users.moderators[0],
+                status: GQLCOMMENT_STATUS.APPROVED,
+              },
+            },
+          ],
+        },
+      }),
+    };
+  });
 
   await waitForElement(() =>
     within(comment).getByText("Moderated By", { exact: false })

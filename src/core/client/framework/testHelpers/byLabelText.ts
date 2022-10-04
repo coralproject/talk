@@ -4,18 +4,19 @@ import { ReactTestInstance } from "react-test-renderer";
 import { queryAllByText } from "./byText";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
-const ariaLabelMatcher =
-  (pattern: TextMatchPattern, options?: TextMatchOptions) =>
-  (i: ReactTestInstance) => {
-    // Only look at dom components.
-    if (typeof i.type !== "string" || !i.props["aria-label"]) {
-      return false;
-    }
-    return matchText(pattern, i.props["aria-label"], {
-      collapseWhitespace: false,
-      ...options,
-    });
-  };
+const ariaLabelMatcher = (
+  pattern: TextMatchPattern,
+  options?: TextMatchOptions
+) => (i: ReactTestInstance) => {
+  // Only look at dom components.
+  if (typeof i.type !== "string" || !i.props["aria-label"]) {
+    return false;
+  }
+  return matchText(pattern, i.props["aria-label"], {
+    collapseWhitespace: false,
+    ...options,
+  });
+};
 interface SelectorOptions {
   selector?: string;
 }

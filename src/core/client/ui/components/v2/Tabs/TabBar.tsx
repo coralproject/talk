@@ -35,7 +35,6 @@ export interface TabBarProps {
    * Action taken on tab click
    */
   onTabClick?: (tabID: string) => void;
-  children?: React.ReactNode;
 }
 
 const TabBar: FunctionComponent<TabBarProps> = (props) => {

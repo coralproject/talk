@@ -87,7 +87,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
           <HorizontalGutter className={styles.gutter}>
             <Localized
               id="comments-stream-deleteAccount-callOut-receivedDesc"
-              vars={{ date: requestDate! }}
+              $date={requestDate}
             >
               <div>
                 A request to delete your account was received on {requestDate}.
@@ -97,7 +97,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
           <HorizontalGutter className={styles.gutter}>
             <Localized
               id="comments-stream-deleteAccount-callOut-cancelDesc"
-              vars={{ date: deletionDate }}
+              $date={deletionDate}
             >
               <div>
                 If you would like to continue leaving comments, replies or

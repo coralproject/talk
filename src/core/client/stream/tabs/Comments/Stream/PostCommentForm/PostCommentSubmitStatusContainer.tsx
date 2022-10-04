@@ -12,7 +12,9 @@ interface State {
   dismissed: boolean;
 }
 
-export default class PostCommentSubmitStatusContainer extends React.Component<Props> {
+export default class PostCommentSubmitStatusContainer extends React.Component<
+  Props
+> {
   public state: State = {
     dismissed: false,
   };

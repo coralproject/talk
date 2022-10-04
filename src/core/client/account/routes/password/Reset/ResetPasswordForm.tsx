@@ -81,7 +81,7 @@ const ResetPasswordForm: React.FunctionComponent<Props> = ({
                       </Localized>
                       <Localized
                         id="resetPassword-passwordDescription"
-                        vars={{ minLength: 8 }}
+                        $minLength={8}
                       >
                         <div className={styles.labelDescription}>
                           {"Must be at least {$minLength} characters"}

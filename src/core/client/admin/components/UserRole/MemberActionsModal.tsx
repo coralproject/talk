@@ -73,8 +73,8 @@ const MemberActionsModal: FunctionComponent<Props> = ({
                   {mode === "promote" ? (
                     <Localized
                       id="community-assignYourSitesTo"
-                      elems={{ strong: <ModalHeaderUsername /> }}
-                      vars={{ username: username || notAvailableTranslation }}
+                      strong={<ModalHeaderUsername />}
+                      $username={username || notAvailableTranslation}
                     >
                       <ModalHeader>
                         Assign your sites to{" "}

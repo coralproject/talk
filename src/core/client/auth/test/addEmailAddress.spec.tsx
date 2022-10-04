@@ -88,8 +88,11 @@ it("shows error when submitting empty form", async () => {
 });
 
 it("checks for invalid email", async () => {
-  const { form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer();
+  const {
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer();
 
   act(() =>
     emailAddressField.props.onChange({ target: { value: "invalid-email" } })
@@ -132,15 +135,18 @@ it("shows server error", async () => {
   const setEmail = sinon.stub().callsFake((_: any, data: any) => {
     throw new Error("server error");
   });
-  const { form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer(
-      {
-        Mutation: {
-          setEmail,
-        },
+  const {
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer(
+    {
+      Mutation: {
+        setEmail,
       },
-      { muteNetworkErrors: true }
-    );
+    },
+    { muteNetworkErrors: true }
+  );
   const submitButton = form.find(
     (i) => i.type === "button" && i.props.type === "submit"
   );
@@ -183,12 +189,15 @@ it("successfully sets email", async () => {
     };
   });
 
-  const { form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer({
-      Mutation: {
-        setEmail,
-      },
-    });
+  const {
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer({
+    Mutation: {
+      setEmail,
+    },
+  });
 
   const event = { target: { value: email } };
 
@@ -210,15 +219,19 @@ it("switch to link account", async () => {
       traceID: "traceID",
     });
   });
-  const { testRenderer, form, emailAddressField, confirmEmailAddressField } =
-    await createTestRenderer(
-      {
-        Mutation: {
-          setEmail,
-        },
+  const {
+    testRenderer,
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer(
+    {
+      Mutation: {
+        setEmail,
       },
-      { muteNetworkErrors: true }
-    );
+    },
+    { muteNetworkErrors: true }
+  );
   const submitButton = form.find(
     (i) => i.type === "button" && i.props.type === "submit"
   );

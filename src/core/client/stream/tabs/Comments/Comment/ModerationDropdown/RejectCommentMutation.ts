@@ -22,8 +22,9 @@ const RejectCommentMutation = createMutation(
     input: MutationInput<MutationTypes> & { storyID: string; noEmit?: boolean },
     { eventEmitter }: CoralContext
   ) => {
-    let rejectCommentEvent: ReturnType<typeof RejectCommentEvent.begin> | null =
-      null;
+    let rejectCommentEvent: ReturnType<
+      typeof RejectCommentEvent.begin
+    > | null = null;
     if (!input.noEmit) {
       rejectCommentEvent = RejectCommentEvent.begin(eventEmitter, {
         commentID: input.commentID,

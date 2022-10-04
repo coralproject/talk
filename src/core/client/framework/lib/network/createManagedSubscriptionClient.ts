@@ -250,7 +250,7 @@ export default function createManagedSubscriptionClient(
           // If an error is thrown as a result of live updates being
           // disabled, then just close the subscription client.
           if (
-            (err as unknown as Error).message ===
+            ((err as unknown) as Error).message ===
               ERROR_CODES.LIVE_UPDATES_DISABLED &&
             subscriptionClient
           ) {

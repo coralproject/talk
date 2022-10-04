@@ -134,7 +134,7 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
         icon={<Icon size="md">people_alt</Icon>}
         color="primary"
         title={
-          <Localized id="comments-watchers" vars={{ count: viewerCount }}>
+          <Localized id="comments-watchers" $count={viewerCount}>
             <span>{viewerCount} online</span>
           </Localized>
         }

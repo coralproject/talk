@@ -9,26 +9,27 @@ function isRRNLRequestError(error: Error): error is RRNLRequestError {
   return error.name === "RRNLRequestError";
 }
 
-const customErrorMiddleware: (localeBundles: FluentBundle[]) => Middleware =
-  (localeBundles) => (next) => async (req) => {
-    try {
-      const res = await next(req);
-      if (res.errors) {
-        // Extract custom error.
-        const error = parseGraphQLResponseErrors(res.errors);
-        if (error) {
-          throw error;
-        }
+const customErrorMiddleware: (localeBundles: FluentBundle[]) => Middleware = (
+  localeBundles
+) => (next) => async (req) => {
+  try {
+    const res = await next(req);
+    if (res.errors) {
+      // Extract custom error.
+      const error = parseGraphQLResponseErrors(res.errors);
+      if (error) {
+        throw error;
       }
-      return res;
-    } catch (error) {
-      // Make sure we are online, otherwise throw.
-      assertOnline(error);
-      if (isRRNLRequestError(error)) {
-        throw new RelayNetworkRequestError(error, localeBundles);
-      }
-      throw error;
     }
-  };
+    return res;
+  } catch (error) {
+    // Make sure we are online, otherwise throw.
+    assertOnline(error);
+    if (isRRNLRequestError(error)) {
+      throw new RelayNetworkRequestError(error, localeBundles);
+    }
+    throw error;
+  }
+};
 
 export default customErrorMiddleware;

@@ -44,10 +44,11 @@ export const RejectedQueueRoute: FunctionComponent<Props> = (props) => {
     }
   `);
 
-  const [, isRefetching] =
-    useRefetch<RejectedQueueRoutePaginationQueryVariables>(props.relay, 5, {
-      orderBy: moderationQueueSort,
-    });
+  const [, isRefetching] = useRefetch<
+    RejectedQueueRoutePaginationQueryVariables
+  >(props.relay, 5, {
+    orderBy: moderationQueueSort,
+  });
 
   const loadMore = useCallback(() => {
     if (!props.relay.hasMore() || props.relay.isLoading()) {
@@ -113,14 +114,14 @@ const enhanced = withPaginationContainer<
   {
     query: graphql`
       fragment RejectedQueueRoute_query on Query
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 5 }
-        cursor: { type: "Cursor" }
-        storyID: { type: "ID" }
-        siteID: { type: "ID" }
-        section: { type: "SectionFilter" }
-        orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
-      ) {
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 5 }
+          cursor: { type: "Cursor" }
+          storyID: { type: "ID" }
+          siteID: { type: "ID" }
+          section: { type: "SectionFilter" }
+          orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
+        ) {
         comments(
           status: REJECTED
           storyID: $storyID
@@ -201,10 +202,8 @@ export const routeConfig = createRouteConfig<Props, RejectedQueueRoute_query>({
     }
   `,
   prepareVariables: (params, match) => {
-    const initialOrderBy = lookup(
-      match.context.relayEnvironment,
-      LOCAL_ID
-    )!.moderationQueueSort;
+    const initialOrderBy = lookup(match.context.relayEnvironment, LOCAL_ID)!
+      .moderationQueueSort;
     return {
       ...params,
       initialOrderBy,

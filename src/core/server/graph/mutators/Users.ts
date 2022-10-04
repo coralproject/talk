@@ -330,28 +330,26 @@ export const Users = (ctx: GraphContext) => ({
       siteIDs,
       ctx.now
     ),
-  updateUserBan:
-    async ({
+  updateUserBan: async ({
+    userID,
+    message,
+    rejectExistingComments = false,
+    banSiteIDs,
+    unbanSiteIDs,
+  }: GQLUpdateUserBanInput) => async () =>
+    updateUserBan(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.rejectorQueue,
+      ctx.tenant,
+      ctx.user!,
       userID,
       message,
-      rejectExistingComments = false,
+      rejectExistingComments,
       banSiteIDs,
       unbanSiteIDs,
-    }: GQLUpdateUserBanInput) =>
-    async () =>
-      updateUserBan(
-        ctx.mongo,
-        ctx.mailerQueue,
-        ctx.rejectorQueue,
-        ctx.tenant,
-        ctx.user!,
-        userID,
-        message,
-        rejectExistingComments,
-        banSiteIDs,
-        unbanSiteIDs,
-        ctx.now
-      ),
+      ctx.now
+    ),
   warn: async (input: GQLWarnUserInput) =>
     warn(
       ctx.mongo,

@@ -26,9 +26,7 @@ const ModMessageAction: FunctionComponent<ModMessageActionProps> = ({
     return (
       <Localized
         id="moderate-user-drawer-account-history-modMessage-acknowledged"
-        vars={{
-          acknowledgedAt: acknowledgedAt ? formatter(acknowledgedAt) : "",
-        }}
+        $acknowledgedAt={acknowledgedAt ? formatter(acknowledgedAt) : ""}
       >
         <span>
           Message acknowledged at{" "}

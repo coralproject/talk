@@ -1,17 +1,18 @@
-import { screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
+  wait,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
 
-import { createContext } from "./create";
-import customRenderAppWithContext from "./customRenderAppWithContext";
+import create from "./create";
 import { settings } from "./fixtures";
 import mockWindow from "./mockWindow";
 
@@ -23,7 +24,7 @@ const viewer = { id: "me", profiles: [] };
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { context } = createContext({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -42,9 +43,10 @@ async function createTestRenderer(
       }
     },
   });
-  customRenderAppWithContext(context);
   return {
     context,
+    testRenderer,
+    root: testRenderer.root,
   };
 }
 
@@ -57,15 +59,14 @@ afterEach(async () => {
 });
 
 it("renders addEmailAddress view", async () => {
-  await createTestRenderer();
-  const addEmailAddressContainer = await screen.findByTestId(
-    "addEmailAddress-container"
+  const { root } = await createTestRenderer();
+  await waitForElement(() =>
+    within(root).getByTestID("addEmailAddress-container")
   );
-  expect(addEmailAddressContainer).toBeVisible();
 });
 
 it("renders createUsername view", async () => {
-  await createTestRenderer({
+  const { root } = await createTestRenderer({
     resolvers: {
       Query: {
         viewer: () =>
@@ -75,18 +76,13 @@ it("renders createUsername view", async () => {
       },
     },
   });
-  const usernameTextField = await screen.findByRole("textbox", {
-    name: "Username",
-  });
-  const createUsernameButton = screen.getByRole("button", {
-    name: "Create username",
-  });
-  expect(usernameTextField).toBeVisible();
-  expect(createUsernameButton).toBeVisible();
+  await waitForElement(() =>
+    within(root).getByTestID("createUsername-container")
+  );
 });
 
 it("renders createPassword view", async () => {
-  await createTestRenderer({
+  const { root } = await createTestRenderer({
     resolvers: {
       Query: {
         viewer: () =>
@@ -97,20 +93,13 @@ it("renders createPassword view", async () => {
       },
     },
   });
-  const createPasswordTitle = await screen.findByText("Create a password");
-  const createPasswordDescription = screen.getByText(
-    "To protect against unauthorized changes to your account, we require users to create a password."
+  await waitForElement(() =>
+    within(root).getByTestID("createPassword-container")
   );
-  const createPasswordButton = screen.getByRole("button", {
-    name: "Create password",
-  });
-  expect(createPasswordTitle).toBeVisible();
-  expect(createPasswordDescription).toBeVisible();
-  expect(createPasswordButton).toBeVisible();
 });
 
 it("renders account linking view", async () => {
-  await createTestRenderer({
+  const { root } = await createTestRenderer({
     resolvers: {
       Query: {
         viewer: () =>
@@ -122,16 +111,16 @@ it("renders account linking view", async () => {
       },
     },
   });
-  const linkAccountContainer = await screen.findByTestId(
-    "linkAccount-container"
-  );
-  expect(linkAccountContainer).toBeVisible();
-  const email = screen.getByText("my@email.com", { exact: false });
-  expect(email).toBeVisible();
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByTestID("linkAccount-container")
+    );
+  });
+  within(root).getByText("my@email.com", { exact: false });
 });
 
 it("renders account linking view, but then switch to add email view", async () => {
-  await createTestRenderer({
+  const { testRenderer } = await createTestRenderer({
     resolvers: {
       Query: {
         viewer: () =>
@@ -143,24 +132,24 @@ it("renders account linking view, but then switch to add email view", async () =
       },
     },
   });
-  const linkAccountContainer = await screen.findByTestId(
-    "linkAccount-container"
+  await act(async () => {
+    await waitForElement(() =>
+      within(testRenderer.root).getByTestID("linkAccount-container")
+    );
+  });
+  const button = await waitForElement(() =>
+    within(testRenderer.root).getByText("Use a different email address", {
+      exact: false,
+    })
   );
-  expect(linkAccountContainer).toBeVisible();
-
-  const button = screen.getByRole("button", {
-    name: "Use a different email address",
+  await act(async () => {
+    button.props.onClick();
+    await waitForElement(() =>
+      within(testRenderer.root).queryByText("Add Email Address", {
+        exact: false,
+      })
+    );
   });
-  userEvent.click(button);
-
-  const emailAddressTextField = await screen.findByRole("textbox", {
-    name: "Email address",
-  });
-  const addEmailAddressButton = screen.getByRole("button", {
-    name: "Add email address",
-  });
-  expect(emailAddressTextField).toBeVisible();
-  expect(addEmailAddressButton).toBeVisible();
 });
 
 it("do not render createPassword view when local auth is disabled", async () => {
@@ -187,7 +176,7 @@ it("do not render createPassword view when local auth is disabled", async () => 
     },
   });
   // Wait till window is closed.
-  await waitFor(() => expect(windowMock.closeStub.called).toBe(true));
+  await wait(() => expect(windowMock.closeStub.called).toBe(true));
 });
 
 it("send back access token", async () => {
@@ -211,7 +200,7 @@ it("send back access token", async () => {
     .atLeast(1);
 
   // Wait till window is closed.
-  await waitFor(() => expect(windowMock.closeStub.called).toBe(true));
+  await wait(() => expect(windowMock.closeStub.called).toBe(true));
 
   postMessageMock.verify();
 });

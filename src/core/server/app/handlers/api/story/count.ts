@@ -82,47 +82,52 @@ function getCountHTML(
 /**
  * countHandler returns translated comment counts using JSONP.
  */
-export const countJSONPHandler =
-  ({ mongo, i18n }: JSONPCountOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      const { tenant } = req.coral;
+export const countJSONPHandler = ({
+  mongo,
+  i18n,
+}: JSONPCountOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { tenant } = req.coral;
 
-      // Ensure we have something to query with.
-      const { id, url, notext, ref }: StoryCountJSONPQuery = validate(
-        StoryCountJSONPQuerySchema,
-        req.query
-      );
+    // Ensure we have something to query with.
+    const { id, url, notext, ref }: StoryCountJSONPQuery = validate(
+      StoryCountJSONPQuerySchema,
+      req.query
+    );
 
-      // Try to query the story.
-      const story = await find(mongo, tenant, {
-        id,
-        url,
-      });
+    // Try to query the story.
+    const story = await find(mongo, tenant, {
+      id,
+      url,
+    });
 
-      const count = story ? await calculateStoryCount(mongo, story) : 0;
+    const count = story ? await calculateStoryCount(mongo, story) : 0;
 
-      let html = "";
-      if (notext === "true") {
-        // We only need the count without the text.
-        html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
-      } else {
-        html = getCountHTML(tenant, story?.settings.mode, i18n, count);
-      }
-
-      const data: CountJSONPData = {
-        ref,
-        html,
-        count,
-        id: story?.id || null,
-      };
-
-      // Respond using jsonp.
-      res.jsonp(data);
-    } catch (err) {
-      return next(err);
+    let html = "";
+    if (notext === "true") {
+      // We only need the count without the text.
+      html = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
+    } else {
+      html = getCountHTML(tenant, story?.settings.mode, i18n, count);
     }
-  };
+
+    const data: CountJSONPData = {
+      ref,
+      html,
+      count,
+      id: story?.id || null,
+    };
+
+    // Respond using jsonp.
+    res.jsonp(data);
+  } catch (err) {
+    return next(err);
+  }
+};
 
 export type CountOptions = Pick<AppOptions, "mongo" | "tenantCache">;
 
@@ -141,26 +146,30 @@ type StoryCountQuery =
       url: string;
     };
 
-export const countHandler =
-  ({ mongo }: CountOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      // Ensure we have something to query with.
-      const query: StoryCountQuery = validate(StoryCountQuerySchema, req.query);
+export const countHandler = ({
+  mongo,
+}: CountOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    // Ensure we have something to query with.
+    const query: StoryCountQuery = validate(StoryCountQuerySchema, req.query);
 
-      // Try to query the story.
-      const story = await find(mongo, req.coral.tenant, query);
-      if (!story) {
-        return res.json({ count: null });
-      }
-
-      const count = await calculateStoryCount(mongo, story);
-
-      return res.json({ count });
-    } catch (err) {
-      return next(err);
+    // Try to query the story.
+    const story = await find(mongo, req.coral.tenant, query);
+    if (!story) {
+      return res.json({ count: null });
     }
-  };
+
+    const count = await calculateStoryCount(mongo, story);
+
+    return res.json({ count });
+  } catch (err) {
+    return next(err);
+  }
+};
 
 async function calculateStoryCount(
   mongo: MongoContext,

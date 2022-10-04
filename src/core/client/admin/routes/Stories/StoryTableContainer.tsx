@@ -57,7 +57,7 @@ const StoryTableContainer: FunctionComponent<Props> = ({
       ? moderateScopeSites
       : null,
   });
-  const onSelect = useCallback((siteID: string) => {
+  const onSelect = useCallback((siteID) => {
     if (siteID) {
       setSiteFilter([siteID]);
     } else {
@@ -110,13 +110,13 @@ const enhanced = withPaginationContainer<
   {
     query: graphql`
       fragment StoryTableContainer_query on Query
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
-        cursor: { type: "Cursor" }
-        statusFilter: { type: "STORY_STATUS" }
-        searchFilter: { type: "String" }
-        siteIDs: { type: "[ID!]" }
-      ) {
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+          statusFilter: { type: "STORY_STATUS" }
+          searchFilter: { type: "String" }
+          siteIDs: { type: "[ID!]" }
+        ) {
         settings {
           multisite
         }

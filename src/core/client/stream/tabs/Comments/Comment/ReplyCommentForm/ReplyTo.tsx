@@ -29,7 +29,7 @@ const ReplyTo: FunctionComponent<Props> = ({ username }) => {
       className={cn(styles.root, CLASSES.createReplyComment.replyTo.$root)}
     >
       <Icon>reply</Icon>{" "}
-      <Localized id="comments-replyingTo" elems={{ Username: <Username /> }}>
+      <Localized id="comments-replyingTo" Username={<Username />}>
         <span
           className={cn(styles.text, CLASSES.createReplyComment.replyTo.text)}
         >

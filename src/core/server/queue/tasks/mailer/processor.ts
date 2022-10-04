@@ -1,5 +1,5 @@
 import { FluentBundle } from "@fluent/bundle/compat";
-import { DOMLocalization } from "@fluent/dom";
+import { DOMLocalization } from "@fluent/dom/compat";
 import createDOMPurify from "dompurify";
 import {
   Message,

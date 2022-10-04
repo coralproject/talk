@@ -30,13 +30,11 @@ function formatLink(type: MediaType, url: string): MediaLink {
 const patterns: ReadonlyArray<{ type: MediaType; pattern: RegExp }> = [
   {
     type: "youtube",
-    pattern:
-      /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[-_a-zA-z0-9]{1,12}|youtu\.be\/[-_a-zA-z0-9]{1,12})/g,
+    pattern: /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[-_a-zA-z0-9]{1,12}|youtu\.be\/[-_a-zA-z0-9]{1,12})/g,
   },
   {
     type: "twitter",
-    pattern:
-      /(https?:\/\/)?(www\.|mobile\.)?(twitter\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g,
+    pattern: /(https?:\/\/)?(www\.|mobile\.)?(twitter\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g,
   },
 ];
 

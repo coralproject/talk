@@ -66,7 +66,7 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
       <>
         <Localized
           id="configure-auth-google-toEnableIntegration"
-          elems={{ Link: <GoogleLink /> }}
+          Link={<GoogleLink />}
         >
           <FormFieldDescription>
             To enable the integration with Google Authentication you need to

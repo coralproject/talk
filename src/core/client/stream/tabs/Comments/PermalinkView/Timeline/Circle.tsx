@@ -7,7 +7,6 @@ export interface CircleProps {
   className?: string;
   hollow?: boolean;
   end?: boolean;
-  children?: React.ReactNode;
 }
 
 const Circle: FunctionComponent<CircleProps> = (props) => {

@@ -24,8 +24,9 @@ export type CommentStatusUpdatedSubscription = SubscriptionType<
   CommentStatusUpdatedInput
 >;
 
-export const commentStatusUpdated: SubscriptionToCommentStatusUpdatedResolver<CommentStatusUpdatedInput> =
-  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED, {
+export const commentStatusUpdated: SubscriptionToCommentStatusUpdatedResolver<CommentStatusUpdatedInput> = createIterator(
+  SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED,
+  {
     filter: (source, { id }) => {
       // If we're filtering by id, then only send back updates for the specified
       // comment.
@@ -35,4 +36,5 @@ export const commentStatusUpdated: SubscriptionToCommentStatusUpdatedResolver<Co
 
       return true;
     },
-  });
+  }
+);

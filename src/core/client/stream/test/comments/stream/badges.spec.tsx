@@ -1,4 +1,4 @@
-import { act, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver, GQLSettings, GQLStory } from "coral-framework/schema";
@@ -76,8 +76,6 @@ describe("user badges", () => {
       },
     });
 
-    customRenderAppWithContext(context);
-
     return context;
   }
 
@@ -89,11 +87,11 @@ describe("user badges", () => {
         },
       },
     });
-    await act(async () => {
-      await createTestRenderer({
-        resolvers,
-      });
+    const context = await createTestRenderer({
+      resolvers,
     });
+
+    customRenderAppWithContext(context);
 
     const memberBadge = await screen.findByText(uniqueLabels.memberLabel);
     const staffBadge = await screen.findByText(uniqueLabels.staffLabel);

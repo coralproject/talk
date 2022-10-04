@@ -44,8 +44,8 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({
   >
     {premoderateSuspectWords ? (
       <Localized
-        id="configure-wordList-suspect-explanationSuspectWordsList"
-        elems={{ strong: <strong /> }}
+        id="configure-wordList-suspect-explanationSuspectWordsList "
+        strong={<strong />}
       >
         <FormFieldDescription>
           Comments containing a word or phrase in the Suspect Words List are
@@ -56,7 +56,7 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({
     ) : (
       <Localized
         id="configure-wordList-suspect-explanation"
-        elems={{ strong: <strong /> }}
+        strong={<strong />}
       >
         <FormFieldDescription>
           Comments containing a word or phrase in the Suspect Words List are

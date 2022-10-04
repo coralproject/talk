@@ -42,18 +42,12 @@ exports[`renders correctly 1`] = `
     </div>
     <div>
       <Localized
-        elems={
-          Object {
-            "strong": <div
-              className="Restricted-username"
-            />,
-          }
-        }
+        $username="User"
         id="restricted-signedInAs"
-        vars={
-          Object {
-            "username": "User",
-          }
+        strong={
+          <div
+            className="Restricted-username"
+          />
         }
       >
         <div

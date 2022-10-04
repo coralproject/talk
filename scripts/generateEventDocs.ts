@@ -16,8 +16,7 @@ interface DocEntry {
  * We use this regexp to find a previous block that we
  * are going to update in the readme file.
  */
-const BLOCK_REGEXP =
-  /<!-- START docs:events -->(.|\n)*<!-- END docs:events -->/gm;
+const BLOCK_REGEXP = /<!-- START docs:events -->(.|\n)*<!-- END docs:events -->/gm;
 
 /** Build flags that affects AST generation */
 const buildFlags =

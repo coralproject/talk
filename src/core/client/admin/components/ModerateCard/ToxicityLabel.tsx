@@ -18,23 +18,20 @@ const ToxicityLabel: FunctionComponent<{
 
   if (score > threshold) {
     return (
-      <Localized id="moderate-toxicityLabel-likely" elems={{ score: counter }}>
+      <Localized id="moderate-toxicityLabel-likely" score={counter}>
         <p className={cn(styles.root, styles.likely)}>Likely</p>
       </Localized>
     );
   } else if (score <= 0.5) {
     return (
-      <Localized
-        id="moderate-toxicityLabel-unlikely"
-        elems={{ score: counter }}
-      >
+      <Localized id="moderate-toxicityLabel-unlikely" score={counter}>
         <p className={styles.root}>Unlikely</p>
       </Localized>
     );
   }
 
   return (
-    <Localized id="moderate-toxicityLabel-maybe" elems={{ score: counter }}>
+    <Localized id="moderate-toxicityLabel-maybe" score={counter}>
       <p className={styles.root}>Maybe</p>
     </Localized>
   );
