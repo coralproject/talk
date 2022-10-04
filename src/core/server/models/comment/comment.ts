@@ -67,12 +67,6 @@ export interface Comment extends TenantResource {
   ancestorIDs: string[];
 
   /**
-   * rejectedAncestor indicates that a comment somewhere up this comment's
-   * chain of ancestors has been rejected.
-   */
-  rejectedAncestor?: boolean;
-
-  /**
    * parentID is the ID of the parent Comment if this Comment is a reply.
    */
   parentID?: string;
@@ -1649,4 +1643,33 @@ export async function retrieveFeaturedComments(
     .toArray();
 
   return results;
+}
+
+export async function hasRejectedAncestors(
+  mongo: MongoContext,
+  tenantID: string,
+  commentID: string
+) {
+  const comment = await mongo.comments().findOne({ tenantID, id: commentID });
+  if (!comment) {
+    throw new CommentNotFoundError(commentID);
+  }
+
+  const { ancestorIDs } = comment;
+  if (!ancestorIDs || ancestorIDs.length === 0) {
+    return false;
+  }
+
+  const ancestors = await mongo
+    .comments()
+    .find({ tenantID, id: { $in: ancestorIDs } })
+    .toArray();
+
+  const rejectedAncestors = ancestors.filter(
+    (a) => a.status === GQLCOMMENT_STATUS.REJECTED
+  );
+  const hasRejectedStateAncestors =
+    rejectedAncestors && rejectedAncestors.length > 0;
+
+  return hasRejectedStateAncestors;
 }
