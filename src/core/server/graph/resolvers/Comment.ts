@@ -17,9 +17,12 @@ import {
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
-import { getURLWithCommentID, retrieveStory } from "coral-server/models/story";
+import { getURLWithCommentID } from "coral-server/models/story";
 import { canModerate } from "coral-server/models/user/helpers";
-import { getCommentEditableUntilDate } from "coral-server/services/comments";
+import {
+  getCommentEditableUntilDate,
+  hasRejectedAncestors,
+} from "coral-server/services/comments";
 
 import {
   GQLComment,
@@ -65,15 +68,16 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     return canModerate(ctx.user, { siteID: c.siteID });
   },
   canReply: async (c, input, ctx) => {
-    const story = await retrieveStory(ctx.mongo, ctx.tenant.id, c.storyID);
+    const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
     if (!story || story.isArchived || story.isArchiving) {
       return false;
     }
 
-    const rejectedAncestors = await comment.hasRejectedAncestors(
+    const rejectedAncestors = await hasRejectedAncestors(
       ctx.mongo,
       ctx.tenant.id,
-      c.id
+      c.id,
+      story.isArchived || story.isArchiving
     );
 
     return !rejectedAncestors;

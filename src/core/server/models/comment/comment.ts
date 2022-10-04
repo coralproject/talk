@@ -1644,32 +1644,3 @@ export async function retrieveFeaturedComments(
 
   return results;
 }
-
-export async function hasRejectedAncestors(
-  mongo: MongoContext,
-  tenantID: string,
-  commentID: string
-) {
-  const comment = await mongo.comments().findOne({ tenantID, id: commentID });
-  if (!comment) {
-    throw new CommentNotFoundError(commentID);
-  }
-
-  const { ancestorIDs } = comment;
-  if (!ancestorIDs || ancestorIDs.length === 0) {
-    return false;
-  }
-
-  const ancestors = await mongo
-    .comments()
-    .find({ tenantID, id: { $in: ancestorIDs } })
-    .toArray();
-
-  const rejectedAncestors = ancestors.filter(
-    (a) => a.status === GQLCOMMENT_STATUS.REJECTED
-  );
-  const hasRejectedStateAncestors =
-    rejectedAncestors && rejectedAncestors.length > 0;
-
-  return hasRejectedStateAncestors;
-}
