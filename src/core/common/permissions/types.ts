@@ -60,7 +60,11 @@ export type LTEModerator = User & {
 export type LTESiteModerator = User;
 
 export const isSiteMember = (user: Readonly<User>): user is SiteMember => {
-  return user.role === "MEMBER" && !!user.membershipScopes?.scoped;
+  return (
+    user.role === "MEMBER" &&
+    (!!user.membershipScopes?.scoped ||
+      !!user.membershipScopes?.siteIDs?.length)
+  );
 };
 
 export const isModerator = (user: Readonly<User>): user is Moderator => {
