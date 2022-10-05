@@ -10,8 +10,9 @@ import {
 import { CoralContext, useCoralContext } from "../bootstrap";
 import { resolveModule } from "./helpers";
 
-export type SubscriptionVariables<T extends { variables: any }> =
-  T["variables"];
+export type SubscriptionVariables<
+  T extends { variables: any }
+> = T["variables"];
 export interface Subscription<N, V> {
   name: N;
   subscribe: (
@@ -21,14 +22,15 @@ export interface Subscription<N, V> {
   ) => Disposable;
 }
 
-export type SubscriptionProp<T extends Subscription<any, any>> =
-  T extends Subscription<any, infer V>
-    ? Parameters<T["subscribe"]>[1] extends undefined
-      ? () => Disposable
-      : keyof Parameters<T["subscribe"]>[1] extends never
-      ? () => Disposable
-      : (variables: V) => Disposable
-    : never;
+export type SubscriptionProp<
+  T extends Subscription<any, any>
+> = T extends Subscription<any, infer V>
+  ? Parameters<T["subscribe"]>[1] extends undefined
+    ? () => Disposable
+    : keyof Parameters<T["subscribe"]>[1] extends never
+    ? () => Disposable
+    : (variables: V) => Disposable
+  : never;
 
 export function createSubscription<N extends string, V>(
   name: N,
@@ -114,9 +116,9 @@ export function useSubscription<V>(
  */
 export function withSubscription<N extends string, V, R>(
   subscription: Subscription<N, V>
-): InferableComponentEnhancer<{
-  [P in N]: SubscriptionProp<typeof subscription>;
-}> {
+): InferableComponentEnhancer<
+  { [P in N]: SubscriptionProp<typeof subscription> }
+> {
   return (BaseComponent: React.ComponentType<any>) => {
     {
       const sub = useSubscription(subscription);

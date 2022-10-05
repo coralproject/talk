@@ -81,7 +81,7 @@ const Navigation: FunctionComponent<Props> = ({
             <Counter data-testid="moderate-navigation-reported-count">
               <Localized
                 id="moderate-navigation-comment-count"
-                vars={{ count: reportedCount }}
+                $count={reportedCount}
               >
                 {reportedCount}
               </Localized>
@@ -98,7 +98,7 @@ const Navigation: FunctionComponent<Props> = ({
           <Counter data-testid="moderate-navigation-pending-count">
             <Localized
               id="moderate-navigation-comment-count"
-              vars={{ count: pendingCount }}
+              $count={pendingCount}
             >
               {pendingCount}
             </Localized>
@@ -114,7 +114,7 @@ const Navigation: FunctionComponent<Props> = ({
           <Counter data-testid="moderate-navigation-unmoderated-count">
             <Localized
               id="moderate-navigation-comment-count"
-              vars={{ count: unmoderatedCount }}
+              $count={unmoderatedCount}
             >
               {unmoderatedCount}
             </Localized>

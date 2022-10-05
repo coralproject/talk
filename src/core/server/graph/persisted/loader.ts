@@ -29,8 +29,9 @@ export function loadPersistedQueries(): PersistedQuery[] {
 
     // Load the queries from this file.
     const fullFilePath = path.join(dir, filePath);
-    const persistedQueries: Record<string, string> =
-      fs.readJSONSync(fullFilePath);
+    const persistedQueries: Record<string, string> = fs.readJSONSync(
+      fullFilePath
+    );
 
     // Go over each of the persisted queries and collect the ID and query to
     // merge in.

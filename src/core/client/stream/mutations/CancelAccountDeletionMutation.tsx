@@ -20,8 +20,9 @@ const CancelAccountDeletionMutation = createMutation(
     input: MutationInput<MutationTypes>,
     { eventEmitter }
   ) => {
-    const cancelAccountDeletionEvent =
-      CancelAccountDeletionEvent.begin(eventEmitter);
+    const cancelAccountDeletionEvent = CancelAccountDeletionEvent.begin(
+      eventEmitter
+    );
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
         environment,

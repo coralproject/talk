@@ -1,5 +1,3 @@
-import { screen, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
@@ -7,14 +5,16 @@ import { pureMerge } from "coral-common/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
 
-import { createContext } from "../create";
-import customRenderAppWithContext from "../customRenderAppWithContext";
+import create from "../create";
 import { settings, users } from "../fixtures";
 
 const user = users.moderators[0];
@@ -24,7 +24,7 @@ const token = createAccessToken({ email: user.email! });
 const createTestRenderer = async (
   params: CreateTestRendererParams<GQLResolver> = {}
 ) => {
-  const { context } = createContext({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -40,25 +40,19 @@ const createTestRenderer = async (
       }
     },
   });
-  customRenderAppWithContext(context);
-  return { context };
+  return { context, root: testRenderer.root };
 };
 
 it("renders missing the token", async () => {
   replaceHistoryLocation("http://localhost/admin/invite");
-  await createTestRenderer();
-  const invalidLink = await screen.findByTestId("invalid-link");
-  expect(invalidLink).toBeVisible();
-  expect(
-    within(invalidLink).getByText(
-      "The specified link is invalid, check to see if it was copied correctly."
-    )
-  ).toBeVisible();
+  const { root } = await createTestRenderer();
+  await waitForElement(() => within(root).getByTestID("invalid-link"));
+  expect(within(root).toJSON()).toMatchSnapshot();
 });
 
 it("renders form", async () => {
   replaceHistoryLocation(`http://localhost/admin/invite#inviteToken=${token}`);
-  const { context } = await createTestRenderer();
+  const { root, context } = await createTestRenderer();
   const mock = sinon.mock(context.rest);
 
   mock
@@ -69,12 +63,13 @@ it("renders form", async () => {
     })
     .once();
 
-  const inviteForm = await screen.findByTestId("invite-complete-form");
-  expect(inviteForm).toBeVisible();
-  expect(screen.getByText("You've been invited to join Coral")).toBeVisible();
-  expect(screen.getByText("Finish setting up the account for:")).toBeVisible();
-  expect(screen.getByRole("button", { name: "Create Account" })).toBeVisible();
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByTestID("invite-complete-form")
+    );
+  });
 
+  expect(within(root).toJSON()).toMatchSnapshot();
   mock.verify();
 });
 
@@ -89,7 +84,7 @@ it("renders error from server", async () => {
   ];
 
   for (const code of codes) {
-    const { context } = await createTestRenderer();
+    const { root, context } = await createTestRenderer();
 
     const mock = sinon.mock(context.rest);
 
@@ -107,8 +102,10 @@ it("renders error from server", async () => {
         })
       );
 
-    await screen.findByText(code, {
-      exact: false,
+    await act(async () => {
+      await waitForElement(() =>
+        within(root).getByTestID("invite-complete-sorry")
+      );
     });
 
     mock.verify();
@@ -117,7 +114,7 @@ it("renders error from server", async () => {
 
 it("submits form", async () => {
   replaceHistoryLocation(`http://localhost/admin/invite#inviteToken=${token}`);
-  const { context } = await createTestRenderer();
+  const { context, root } = await createTestRenderer();
   const mock = sinon.mock(context.rest);
 
   mock
@@ -140,35 +137,45 @@ it("submits form", async () => {
     })
     .once();
 
-  expect(await screen.findByText(user.email!, { exact: false }));
-
-  const usernameField = screen.getByLabelText("Username");
-  const passwordField = screen.getByLabelText("Password");
-
-  const createAccountButton = screen.getByRole("button", {
-    name: "Create Account",
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByTestID("invite-complete-form")
+    );
+    await waitForElement(() =>
+      within(root).getByText(user.email!, { exact: false })
+    );
   });
 
+  const form = within(root).getByType("form");
+  const usernameField = within(root).getByLabelText("Username");
+  const passwordField = within(root).getByLabelText("Password");
+
   // Submit an empty form.
-  userEvent.click(createAccountButton);
-  expect(
-    screen.getAllByText("field is required", { exact: false })
-  ).toHaveLength(2);
+  await act(async () => {
+    await form.props.onSubmit();
+  });
+  within(root).getAllByText("field is required", {
+    exact: false,
+  });
 
   // Password too short.
-  userEvent.type(usernameField, user.username!);
-  userEvent.type(passwordField, "test");
-  expect(
-    screen.getByText("Password must contain at least 8 characters", {
-      exact: false,
-    })
-  ).toBeVisible();
+  act(() => {
+    usernameField.props.onChange(user.username!);
+    passwordField.props.onChange("test");
+  });
+  within(root).getByText("Password must contain at least 8 characters", {
+    exact: false,
+  });
 
   // Submit valid form.
-  userEvent.clear(passwordField);
-  userEvent.type(passwordField, "testtest");
-  userEvent.click(createAccountButton);
-  expect(await screen.findByTestId("invite-complete-success")).toBeVisible();
+  await act(() => {
+    passwordField.props.onChange("testtest");
+    return form.props.onSubmit();
+  });
+
+  await waitForElement(() =>
+    within(root).getByTestID("invite-complete-success")
+  );
 
   mock.verify();
 });

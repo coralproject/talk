@@ -126,33 +126,31 @@ export async function handleSuccessfulLogin(
  * @param name the name of the authenticator to use
  * @param options any options to be passed to the authenticate call
  */
-export const wrapAuthn =
-  (
-    authenticator: passport.Authenticator,
-    signingConfig: JWTSigningConfig,
-    name: string,
-    options?: any
-  ): RequestHandler<TenantCoralRequest> =>
-  (req, res, next) =>
-    authenticator.authenticate(
-      name,
-      { ...options, session: false },
-      async (err: Error | null, user: User | null) => {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          return next(new AuthenticationError("user not on request"));
-        }
-
-        try {
-          // Pass the login off to be signed.
-          await handleSuccessfulLogin(user, signingConfig, req, res, next);
-        } catch (e) {
-          return next(e);
-        }
+export const wrapAuthn = (
+  authenticator: passport.Authenticator,
+  signingConfig: JWTSigningConfig,
+  name: string,
+  options?: any
+): RequestHandler<TenantCoralRequest> => (req, res, next) =>
+  authenticator.authenticate(
+    name,
+    { ...options, session: false },
+    async (err: Error | null, user: User | null) => {
+      if (err) {
+        return next(err);
       }
-    )(req, res, next);
+      if (!user) {
+        return next(new AuthenticationError("user not on request"));
+      }
+
+      try {
+        // Pass the login off to be signed.
+        await handleSuccessfulLogin(user, signingConfig, req, res, next);
+      } catch (e) {
+        return next(e);
+      }
+    }
+  )(req, res, next);
 
 /**
  * authenticate will wrap the authenticator to forward any error to the error
@@ -160,22 +158,22 @@ export const wrapAuthn =
  *
  * @param authenticator the authenticator to use
  */
-export const authenticate =
-  (authenticator: passport.Authenticator): RequestHandler<TenantCoralRequest> =>
-  (req, res, next) =>
-    authenticator.authenticate(
-      "jwt",
-      { session: false },
-      (err: Error | null, user: User | null) => {
-        if (err) {
-          return next(err);
-        }
-
-        // Attach the user to the request.
-        if (user) {
-          req.user = user;
-        }
-
-        return next();
+export const authenticate = (
+  authenticator: passport.Authenticator
+): RequestHandler<TenantCoralRequest> => (req, res, next) =>
+  authenticator.authenticate(
+    "jwt",
+    { session: false },
+    (err: Error | null, user: User | null) => {
+      if (err) {
+        return next(err);
       }
-    )(req, res, next);
+
+      // Attach the user to the request.
+      if (user) {
+        req.user = user;
+      }
+
+      return next();
+    }
+  )(req, res, next);

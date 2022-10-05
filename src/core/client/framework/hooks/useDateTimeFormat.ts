@@ -5,8 +5,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 export default function useDateTimeFormat(options: Intl.DateTimeFormatOptions) {
   const { locales } = useCoralContext();
-  return useMemo(
-    () => createDateFormatter(locales, options),
-    [locales, options]
-  );
+  return useMemo(() => createDateFormatter(locales, options), [
+    locales,
+    options,
+  ]);
 }

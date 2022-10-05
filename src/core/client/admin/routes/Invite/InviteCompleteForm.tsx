@@ -69,7 +69,10 @@ const InviteCompleteForm: React.FunctionComponent<Props> = ({
         alignItems="center"
         spacing={3}
       >
-        <Localized id="invite-youHaveBeenInvited" vars={{ organizationName }}>
+        <Localized
+          id="invite-youHaveBeenInvited"
+          $organizationName={organizationName}
+        >
           <Typography variant="heading1">
             You've been invited to join {organizationName}
           </Typography>

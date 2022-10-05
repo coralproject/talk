@@ -34,10 +34,9 @@ async function createTestRenderer(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          moderationQueues:
-            createQueryResolverStub<QueryToModerationQueuesResolver>(
-              () => emptyModerationQueues
-            ),
+          moderationQueues: createQueryResolverStub<
+            QueryToModerationQueuesResolver
+          >(() => emptyModerationQueues),
           comments: () => emptyRejectedComments,
           sites: () => siteConnection,
           viewer: () => viewer,

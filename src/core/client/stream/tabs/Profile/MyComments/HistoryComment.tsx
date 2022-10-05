@@ -43,8 +43,8 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
       <div data-testid={`profile-historyComment-${props.id}-onStory`}>
         <Localized
           id="profile-historyComment-commentLabel"
-          elems={{ RelativeTime: <RelativeTime date={props.createdAt} /> }}
-          vars={{ storyTitle: storyTitle ?? "" }}
+          RelativeTime={<RelativeTime date={props.createdAt} />}
+          $storyTitle={storyTitle}
         >
           <Hidden id={`historyComment-${props.id}-label`}>
             Comment <RelativeTime date={props.createdAt} /> on {storyTitle}

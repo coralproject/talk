@@ -27,8 +27,7 @@ type AnalyticsCoralEventListenerPayloads =
   | StoryCreatedCoralEventPayload;
 
 export class AnalyticsCoralEventListener
-  implements CoralEventListener<AnalyticsCoralEventListenerPayloads>
-{
+  implements CoralEventListener<AnalyticsCoralEventListenerPayloads> {
   public readonly name = "analytics";
   public readonly events = [
     CoralEventType.COMMENT_CREATED,
@@ -189,58 +188,59 @@ export class AnalyticsCoralEventListener
     }
   }
 
-  public initialize: CoralEventPublisherFactory<AnalyticsCoralEventListenerPayloads> =
-    (ctx) => async (event) => {
-      // Check to see if we should process this event.
-      if (!this.filter(event)) {
-        // The event should not be processed.
-        return;
-      }
+  public initialize: CoralEventPublisherFactory<
+    AnalyticsCoralEventListenerPayloads
+  > = (ctx) => async (event) => {
+    // Check to see if we should process this event.
+    if (!this.filter(event)) {
+      // The event should not be processed.
+      return;
+    }
 
-      // Create the event payload.
-      const details = await this.create(ctx, event);
-      if (!details) {
-        return;
-      }
+    // Create the event payload.
+    const details = await this.create(ctx, event);
+    if (!details) {
+      return;
+    }
 
-      // Pull some properties out of the context.
-      const {
-        id,
-        user,
-        tenant: { id: tenantID, domain: tenantDomain },
-      } = ctx;
+    // Pull some properties out of the context.
+    const {
+      id,
+      user,
+      tenant: { id: tenantID, domain: tenantDomain },
+    } = ctx;
 
-      // Assemble the track payload.
-      const payload: Event = {
-        event: details.event,
-        properties: {
-          ...details.properties,
-          tenantID,
-          tenantDomain,
-        },
-        timestamp: event.createdAt,
-      };
-
-      if (user) {
-        // If the user is available, attach it as the userId.
-        payload.userId = user.id;
-      } else {
-        // Otherwise use the traceID of the request as the anonomousId.
-        payload.anonymousId = id;
-      }
-
-      logger.debug({ payload }, "sending analytics event");
-
-      // Send the event payload to analytics. We don't await on the event to be
-      // sent because the analytics event system will batch these operations
-      // and may not send them for a few seconds (we can't make the user wait that
-      // long).
-      this.track(payload)
-        .then(() => {
-          logger.debug({ payload }, "analytics event sent");
-        })
-        .catch((err) => {
-          logger.error({ err, payload }, "could not send analytics event");
-        });
+    // Assemble the track payload.
+    const payload: Event = {
+      event: details.event,
+      properties: {
+        ...details.properties,
+        tenantID,
+        tenantDomain,
+      },
+      timestamp: event.createdAt,
     };
+
+    if (user) {
+      // If the user is available, attach it as the userId.
+      payload.userId = user.id;
+    } else {
+      // Otherwise use the traceID of the request as the anonomousId.
+      payload.anonymousId = id;
+    }
+
+    logger.debug({ payload }, "sending analytics event");
+
+    // Send the event payload to analytics. We don't await on the event to be
+    // sent because the analytics event system will batch these operations
+    // and may not send them for a few seconds (we can't make the user wait that
+    // long).
+    this.track(payload)
+      .then(() => {
+        logger.debug({ payload }, "analytics event sent");
+      })
+      .catch((err) => {
+        logger.error({ err, payload }, "could not send analytics event");
+      });
+  };
 }

@@ -26,10 +26,8 @@ const AddSiteRoute: FunctionComponent<Props> = (props) => {
       setMessage(
         <Localized
           id="configure-sites-add-success"
-          vars={{
-            site: name,
-            org: (props.data && props.data.settings.organization.name) ?? "",
-          }}
+          $site={name}
+          $org={props.data && props.data.settings.organization.name}
         >
           <AppNotification icon="check_circle_outline" onClose={clearMessage}>
             {name} has been added to{" "}
@@ -48,7 +46,7 @@ const AddSiteRoute: FunctionComponent<Props> = (props) => {
       title={
         <Localized
           id="configure-sites-add-new-site"
-          vars={{ site: props.data.settings.organization.name }}
+          $site={props.data.settings.organization.name}
         >
           <Header>
             Add a new site to {props.data.settings.organization.name}

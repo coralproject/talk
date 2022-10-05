@@ -119,9 +119,8 @@ export async function recalculateSharedModerationQueueQueueCounts(
 }
 
 function fillAndConvertStringToNumber<
-  T extends { [P in keyof T]?: string } & {
-    [P in Exclude<keyof T, keyof U>]?: never;
-  },
+  T extends { [P in keyof T]?: string } &
+    { [P in Exclude<keyof T, keyof U>]?: never },
   U extends { [P in keyof U]: number }
 >(input: T, initial: U): U {
   const result: U = Object.assign({}, initial);

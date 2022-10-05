@@ -210,10 +210,8 @@ const createQueueRoute = (
 ) => {
   const enhanced = withRouteConfig<Props, any>({
     prepareVariables: (params, match) => {
-      const initialOrderBy = lookup(
-        match.context.relayEnvironment,
-        LOCAL_ID
-      )!.moderationQueueSort;
+      const initialOrderBy = lookup(match.context.relayEnvironment, LOCAL_ID)!
+        .moderationQueueSort;
       return {
         ...params,
         initialOrderBy,
@@ -269,11 +267,11 @@ const createQueueRoute = (
       {
         queue: graphql`
           fragment QueueRoute_queue on ModerationQueue
-          @argumentDefinitions(
-            count: { type: "Int", defaultValue: 5 }
-            cursor: { type: "Cursor" }
-            orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
-          ) {
+            @argumentDefinitions(
+              count: { type: "Int", defaultValue: 5 }
+              cursor: { type: "Cursor" }
+              orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
+            ) {
             count
             comments(first: $count, after: $cursor, orderBy: $orderBy)
               @connection(key: "Queue_comments") {

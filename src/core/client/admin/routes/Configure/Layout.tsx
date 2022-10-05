@@ -4,11 +4,7 @@ import { Flex } from "coral-ui/components/v2";
 
 import styles from "./Layout.css";
 
-interface LayoutProps {
-  children?: React.ReactNode;
-}
-
-const Layout: FunctionComponent<LayoutProps> = ({ children }) => (
+const Layout: FunctionComponent = ({ children }) => (
   <Flex className={styles.root}>{children}</Flex>
 );
 

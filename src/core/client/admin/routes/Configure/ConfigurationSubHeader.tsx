@@ -4,10 +4,7 @@ import React, { FunctionComponent } from "react";
 import Subheader from "./Subheader";
 
 const ConfigurationSubHeader: FunctionComponent<{}> = () => (
-  <Localized
-    id="configure-configurationSubHeader"
-    elems={{ strong: <strong /> }}
-  >
+  <Localized id="configure-configurationSubHeader" strong={<strong />}>
     <Subheader>Configuration</Subheader>
   </Localized>
 );

@@ -1,4 +1,4 @@
-import { act, screen, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { isMatch } from "lodash";
 import sinon from "sinon";
 
@@ -175,14 +175,12 @@ const createTestRenderer = async () => {
   });
 
   customRenderAppWithContext(context);
-  return { context };
+  const stream = await screen.findByTestId("comments-allComments-log");
+  return { context, stream };
 };
 
 it("renders comment stream with load all comments button when more than initial number comments", async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
-  const stream = await screen.findByTestId("comments-allComments-log");
+  const { stream } = await createTestRenderer();
   expect(
     within(stream).queryByRole("button", { name: "Load All Comments" })
   ).toBeInTheDocument();

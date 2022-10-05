@@ -6,9 +6,9 @@ export type ModMessageStatusInput = user.ConsolidatedModMessageStatus & {
   userID: string;
 };
 
-export const ModMessageStatus: Required<
-  GQLModMessageStatusTypeResolver<ModMessageStatusInput>
-> = {
+export const ModMessageStatus: Required<GQLModMessageStatusTypeResolver<
+  ModMessageStatusInput
+>> = {
   active: ({ active }) => active,
   message: ({ message }) => message,
   history: ({ history, userID }) =>

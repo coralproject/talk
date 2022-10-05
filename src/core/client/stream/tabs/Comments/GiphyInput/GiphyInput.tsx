@@ -149,7 +149,7 @@ const GiphyInput: FunctionComponent<Props> = ({
               noResultsMessage={
                 <Localized
                   id="comments-postComment-gifSearch-no-results"
-                  vars={{ query }}
+                  $query={query}
                 >
                   <p className={styles.noResults}>
                     No results found for "{query}"{" "}

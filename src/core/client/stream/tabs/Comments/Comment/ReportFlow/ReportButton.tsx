@@ -81,7 +81,7 @@ const ReportButton: FunctionComponent<Props> = ({
     <Localized
       id="comments-reportButton-aria-report"
       attrs={{ "aria-label": true }}
-      vars={{ username: comment.author ? comment.author.username : "" }}
+      $username={comment.author ? comment.author.username : ""}
     >
       <Button
         className={cn(CLASSES.comment.actionBar.reportButton)}

@@ -114,53 +114,54 @@ export type IntermediateModerationPhase = (
  * compose will create a moderation pipeline for which is executable with the
  * passed actions.
  */
-export const compose =
-  (phases: IntermediateModerationPhase[]): RootModerationPhase =>
-  async (context) => {
-    const final: PhaseResult = {
-      status: GQLCOMMENT_STATUS.NONE,
-      body: context.comment.body,
-      actions: [],
-      metadata: {
-        // Merge in the passed comment metadata.
-        ...(context.comment.metadata || {}),
+export const compose = (
+  phases: IntermediateModerationPhase[]
+): RootModerationPhase => async (context) => {
+  const final: PhaseResult = {
+    status: GQLCOMMENT_STATUS.NONE,
+    body: context.comment.body,
+    actions: [],
+    metadata: {
+      // Merge in the passed comment metadata.
+      ...(context.comment.metadata || {}),
 
-        // Add the nudge to the comment metadata.
-        nudge: context.nudge,
+      // Add the nudge to the comment metadata.
+      nudge: context.nudge,
+    },
+    tags: [],
+  };
+
+  // Get text representation of the comment body so that filters that can't process
+  // HTML can reuse it.
+  const bodyText = getHTMLPlainText(final.body);
+
+  // Loop over all the moderation phases and see if we've resolved the status.
+  for (const phase of phases) {
+    const result = await phase({
+      ...context,
+      comment: {
+        ...context.comment,
+        body: final.body,
       },
-      tags: [],
-    };
-
-    // Get text representation of the comment body so that filters that can't process
-    // HTML can reuse it.
-    const bodyText = getHTMLPlainText(final.body);
-
-    // Loop over all the moderation phases and see if we've resolved the status.
-    for (const phase of phases) {
-      const result = await phase({
-        ...context,
-        comment: {
-          ...context.comment,
-          body: final.body,
-        },
-        tags: final.tags,
-        bodyText,
-        metadata: final.metadata,
-      });
-      if (result) {
-        // Merge the results in. If we're finished, break now!
-        const finished = mergePhaseResult(result, final);
-        if (finished) {
-          return final;
-        }
+      tags: final.tags,
+      bodyText,
+      metadata: final.metadata,
+    });
+    if (result) {
+      // Merge the results in. If we're finished, break now!
+      const finished = mergePhaseResult(result, final);
+      if (finished) {
+        return final;
       }
     }
+  }
 
-    return final;
-  };
+  return final;
+};
 
 /**
  * process the comment and return moderation details.
  */
-export const processForModeration: RootModerationPhase =
-  compose(moderationPhases);
+export const processForModeration: RootModerationPhase = compose(
+  moderationPhases
+);

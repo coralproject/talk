@@ -59,14 +59,15 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
 };
 
 const AnsweredCommentsQuery: FunctionComponent = () => {
-  const [{ storyID, storyURL, commentsOrderBy }] =
-    useLocal<AnsweredCommentsQueryLocal>(graphql`
-      fragment AnsweredCommentsQueryLocal on Local {
-        storyID
-        storyURL
-        commentsOrderBy
-      }
-    `);
+  const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
+    AnsweredCommentsQueryLocal
+  >(graphql`
+    fragment AnsweredCommentsQueryLocal on Local {
+      storyID
+      storyURL
+      commentsOrderBy
+    }
+  `);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`

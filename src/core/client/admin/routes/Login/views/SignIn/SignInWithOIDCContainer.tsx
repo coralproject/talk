@@ -18,12 +18,8 @@ const SignInWithOIDCContainer: FunctionComponent<Props> = ({ auth }) => {
   const handleOnClick = useCallback(() => {
     redirectOAuth2(window, auth.integrations.oidc.redirectURL!);
   }, [auth.integrations.oidc.redirectURL, window]);
-
   return (
-    <Localized
-      id="login-signInWithOIDC"
-      vars={{ name: auth.integrations.oidc.name }}
-    >
+    <Localized id="login-signInWithOIDC" $name={auth.integrations.oidc.name}>
       <OIDCButton onClick={handleOnClick}>Sign in with $name</OIDCButton>
     </Localized>
   );

@@ -36,7 +36,8 @@ const RecentHistory: FunctionComponent<Props> = ({
         </Localized>
         <Localized
           id="moderate-user-drawer-recent-history-calculated"
-          vars={{ unit, value: scaled }}
+          $unit={unit}
+          $value={scaled}
         >
           <p className={styles.subTitle}>
             Calculated over the last {scaled} {unit}

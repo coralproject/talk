@@ -90,8 +90,8 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
               <HorizontalGutter size="oneAndAHalf">
                 <Localized
                   id="linkAccount-alreadyAssociated"
-                  vars={{ email: duplicateEmail! }}
-                  elems={{ strong: <strong /> }}
+                  $email={duplicateEmail}
+                  strong={<strong />}
                 >
                   <div>
                     The email <strong>{duplicateEmail}</strong> is already

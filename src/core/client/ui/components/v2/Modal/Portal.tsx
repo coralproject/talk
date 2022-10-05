@@ -33,11 +33,7 @@ function useDOMNode(open: boolean) {
   return modalDOMNode;
 }
 
-interface PortalProps {
-  children?: React.ReactNode;
-}
-
-const Portal: FunctionComponent<PortalProps> = ({ children }) => {
+const Portal: FunctionComponent = ({ children }) => {
   const modalDOMNode = useDOMNode(Boolean(open));
   if (modalDOMNode) {
     return ReactDOM.createPortal(children, modalDOMNode);

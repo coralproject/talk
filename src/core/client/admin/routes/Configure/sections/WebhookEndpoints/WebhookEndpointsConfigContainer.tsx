@@ -45,11 +45,9 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
       >
         <Localized
           id="configure-webhooks-description"
-          elems={{
-            externalLink: (
-              <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md" />
-            ),
-          }}
+          externalLink={
+            <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md" />
+          }
         >
           <FormFieldDescription>
             Configure an endpoint to send events to when events occur within

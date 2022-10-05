@@ -5,7 +5,6 @@ import styles from "./HelperText.css";
 
 interface Props {
   className?: string;
-  children?: React.ReactNode;
 }
 
 const HelperText: FunctionComponent<Props> = ({ children, className }) => {

@@ -110,9 +110,9 @@ class Scraper {
 
     if (proxyURL) {
       // Force the type here because there's a slight mismatch.
-      options.agent = new ProxyAgent(
+      options.agent = (new ProxyAgent(
         proxyURL
-      ) as unknown as FetchOptions["agent"];
+      ) as unknown) as FetchOptions["agent"];
       log.debug("using proxy for scrape");
     }
 

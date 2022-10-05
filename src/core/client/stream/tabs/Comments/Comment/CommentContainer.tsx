@@ -177,8 +177,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
   ]);
   const setCommentID = useMutation(SetCommentIDMutation);
   const [showReplyDialog, setShowReplyDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog, toggleShowEditDialog] =
-    useToggleState(false);
+  const [
+    showEditDialog,
+    setShowEditDialog,
+    toggleShowEditDialog,
+  ] = useToggleState(false);
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
   const handleShowConversation = useCallback(
     (e: MouseEvent) => {
@@ -444,7 +447,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           <>
             <Localized
               id="comments-commentContainer-threadLevelLabel"
-              vars={{ level: indentLevel }}
+              $level={indentLevel}
             >
               <span>Thread Level {indentLevel}:</span>
             </Localized>{" "}
@@ -467,8 +470,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         {comment.parent && (
           <Localized
             id="comments-commentContainer-replyLabel"
-            vars={{ username: comment.author?.username ?? "" }}
-            elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
           >
             <span>
               Reply from {comment.author?.username}{" "}
@@ -479,8 +482,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         {!comment.parent && isQA && (
           <Localized
             id="comments-commentContainer-questionLabel"
-            vars={{ username: comment.author?.username ?? "" }}
-            elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
           >
             <span>
               Question from {comment.author?.username}{" "}
@@ -491,8 +494,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
         {!comment.parent && !isQA && (
           <Localized
             id="comments-commentContainer-commentLabel"
-            vars={{ username: comment.author?.username ?? "" }}
-            elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
+            $username={comment.author?.username}
+            RelativeTime={<RelativeTime date={comment.createdAt} />}
           >
             <span>
               Comment from {comment.author?.username}{" "}
@@ -622,9 +625,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                           <Localized
                             id="comments-commentContainer-avatar"
                             attrs={{ alt: true }}
-                            vars={{
-                              username: comment.author.username,
-                            }}
+                            $username={comment.author.username}
                           >
                             <img
                               src={comment.author.avatar}

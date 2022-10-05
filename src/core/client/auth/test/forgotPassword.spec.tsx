@@ -114,8 +114,12 @@ it("shows server error", async () => {
 });
 
 it("submits form successfully", async () => {
-  const { form, context, emailField, testRenderer } =
-    await createTestRenderer();
+  const {
+    form,
+    context,
+    emailField,
+    testRenderer,
+  } = await createTestRenderer();
   const restMock = sinon.mock(context.rest);
   restMock
     .expects("fetch")

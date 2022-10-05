@@ -1,4 +1,4 @@
-import { act, screen, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
@@ -8,7 +8,7 @@ import customRenderAppWithContext from "coral-stream/test/customRenderAppWithCon
 import { comments, settings, stories } from "../../fixtures";
 import { createContext } from "../create";
 
-async function createTestRenderer() {
+beforeEach(() => {
   const commentStub = {
     ...comments[0],
     replies: createSinonStub(
@@ -90,12 +90,6 @@ async function createTestRenderer() {
     },
   });
   customRenderAppWithContext(context);
-}
-
-beforeEach(async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
 });
 
 it("renders comment stream with comments", async () => {
@@ -117,17 +111,16 @@ it("show all replies", async () => {
   ).length;
 
   // show all button should be rendered and enabled
-  const showAllButton = await screen.findByRole("button", { name: "Show All" });
+  const showAllButton = screen.getByRole("button", { name: "Show All" });
   expect(showAllButton).toBeDefined();
   expect(showAllButton).toBeEnabled();
 
   // when clicked, show all button should be disabled and then not in the document
-  await act(async () => {
-    userEvent.click(showAllButton);
-  });
-
+  userEvent.click(showAllButton);
   expect(showAllButton).toBeDisabled();
-  expect(within(commentReplyList).queryByText("Show All")).toBeNull();
+  expect(
+    await within(commentReplyList).findByText("Show All")
+  ).not.toBeInTheDocument();
 
   // after show all has been clicked, we should see one additional reply included
   expect(

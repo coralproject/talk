@@ -33,8 +33,11 @@ const authControlQuery = graphql`
  * logic to `tokenRefreshProvider`.
  */
 const RefreshTokenHandler: FunctionComponent = () => {
-  const { tokenRefreshProvider, eventEmitter, relayEnvironment } =
-    useCoralContext();
+  const {
+    tokenRefreshProvider,
+    eventEmitter,
+    relayEnvironment,
+  } = useCoralContext();
   const showAuthPopup = useMutation(ShowAuthPopupMutation);
   const setAccessToken = useMutation(SetAccessTokenMutation);
   useEffect(() => {

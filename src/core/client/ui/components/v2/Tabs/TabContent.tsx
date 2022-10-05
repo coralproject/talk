@@ -10,7 +10,6 @@ export interface TabContentProps {
    * classNames
    */
   className?: string;
-  children?: React.ReactNode;
 }
 
 const TabContent: FunctionComponent<TabContentProps> = (props) => {

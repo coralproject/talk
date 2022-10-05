@@ -1,4 +1,4 @@
-import { act, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import sinon from "sinon";
 
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
@@ -6,7 +6,7 @@ import customRenderAppWithContext from "coral-stream/test/customRenderAppWithCon
 import { settings, stories } from "../../fixtures";
 import { createContext } from "../create";
 
-async function createTestRenderer() {
+function createTestRenderer() {
   const resolvers = {
     Query: {
       stream: sinon.stub().returns(stories[0]),
@@ -31,9 +31,7 @@ async function createTestRenderer() {
   customRenderAppWithContext(context);
 }
 it("renders comment stream with community guidelines", async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
+  createTestRenderer();
   const communityGuidelines = await screen.findByText("Community Guidelines");
   expect(communityGuidelines).toBeVisible();
   expect(screen.getByTestId("comments-allComments-log")).toBeVisible();

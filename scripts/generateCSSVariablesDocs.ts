@@ -22,8 +22,7 @@ interface DocEntry {
  * We use this regexp to find a previous block that we
  * are going to update in the readme file.
  */
-const BLOCK_REGEXP =
-  /<!-- START docs:css-variables -->(.|\n)*<!-- END docs:css-variables -->/gm;
+const BLOCK_REGEXP = /<!-- START docs:css-variables -->(.|\n)*<!-- END docs:css-variables -->/gm;
 
 /** Sort doc entries will sort childrenless entries first */
 function sortDocEntries(data: DocEntry[]) {

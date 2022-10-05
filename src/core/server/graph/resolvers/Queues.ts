@@ -8,10 +8,11 @@ import { QueueInput } from "./Queue";
  *
  * @param fn the function to map the ctx to the queue.
  */
-const get =
-  (fn: (ctx: GraphContext) => QueueInput) =>
-  (parent: any, args: any, ctx: GraphContext) =>
-    fn(ctx);
+const get = (fn: (ctx: GraphContext) => QueueInput) => (
+  parent: any,
+  args: any,
+  ctx: GraphContext
+) => fn(ctx);
 
 export const Queues: Required<GQLQueuesTypeResolver> = {
   mailer: get((ctx) => ctx.mailerQueue),

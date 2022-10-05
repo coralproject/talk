@@ -23,9 +23,9 @@ interface MarkersContainerProps {
 }
 
 let keyCounter = 0;
-const markers: Array<
-  (c: MarkersContainer_comment) => React.ReactElement<any> | null
-> = [
+const markers: Array<(
+  c: MarkersContainer_comment
+) => React.ReactElement<any> | null> = [
   (c) =>
     (c.status === "PREMOD" && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
@@ -184,9 +184,9 @@ const markers: Array<
     null,
 ];
 
-export const MarkersContainer: React.FunctionComponent<
-  MarkersContainerProps
-> = (props) => {
+export const MarkersContainer: React.FunctionComponent<MarkersContainerProps> = (
+  props
+) => {
   const elements = useMemo(
     () => markers.map((cb) => cb(props.comment)).filter((m) => m),
     [props.comment]

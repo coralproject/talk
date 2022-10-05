@@ -27,7 +27,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
   const [emailFieldCount, setEmailFieldCount] = useState(3);
   const inviteUsers = useMutation(InviteUsersMutation);
   const onSubmit = useCallback(
-    async ({ role, emails = [] }: { role: GQLUSER_ROLE; emails: string[] }) => {
+    async ({ role, emails = [] }) => {
       try {
         await inviteUsers({
           role,
@@ -81,7 +81,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                     return (
                       <Localized
                         id="community-invite-role-staff"
-                        elems={{ strong: <strong /> }}
+                        strong={<strong />}
                       >
                         <div className={styles.bodyText}>
                           Staff role: Receives a “Staff” badge, and comments are
@@ -94,7 +94,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                     return (
                       <Localized
                         id="community-invite-role-moderator"
-                        elems={{ strong: <strong /> }}
+                        strong={<strong />}
                       >
                         <div className={styles.bodyText}>
                           Moderator role: Receives a “Staff” badge, and comments
@@ -109,7 +109,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                     return (
                       <Localized
                         id="community-invite-role-admin"
-                        elems={{ strong: <strong /> }}
+                        strong={<strong />}
                       >
                         <div className={styles.bodyText}>
                           Admin role: Receives a “Staff” badge, and comments are
