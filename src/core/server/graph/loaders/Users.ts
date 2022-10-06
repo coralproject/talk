@@ -86,18 +86,17 @@ const statusFilter = (
  *
  * @param ctx graph context to use to prime the loaders.
  */
-const primeUsersFromConnection = (ctx: Context) => (
-  connection: Readonly<Connection<Readonly<User>>>
-) => {
-  if (!ctx.disableCaching) {
-    // For each of the nodes, prime the user loader.
-    connection.nodes.forEach((user) => {
-      ctx.loaders.Users.user.prime(user.id, user);
-    });
-  }
+const primeUsersFromConnection =
+  (ctx: Context) => (connection: Readonly<Connection<Readonly<User>>>) => {
+    if (!ctx.disableCaching) {
+      // For each of the nodes, prime the user loader.
+      connection.nodes.forEach((user) => {
+        ctx.loaders.Users.user.prime(user.id, user);
+      });
+    }
 
-  return connection;
-};
+    return connection;
+  };
 
 export default (ctx: Context) => {
   const user = new DataLoader<string, User | null>(

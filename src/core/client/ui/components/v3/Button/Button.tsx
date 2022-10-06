@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React, { Ref, SFC } from "react";
+import React, { FunctionComponent, Ref } from "react";
 
 import { BaseButton } from "coral-ui/components/v2";
 import { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
@@ -38,7 +38,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   forwardRef?: Ref<HTMLButtonElement>;
 }
 
-export const Button: SFC<Props> = ({
+export const Button: FunctionComponent<Props> = ({
   classes,
   className,
   variant = "filled",

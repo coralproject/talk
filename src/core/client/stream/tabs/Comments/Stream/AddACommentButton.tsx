@@ -27,17 +27,16 @@ const AddACommentButton: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const { renderWindow, eventEmitter } = useCoralContext();
-  const [{ commentsFullyLoaded, commentsTab }, setLocal] = useLocal<
-    AddACommentButtonLocal
-  >(
-    graphql`
-      fragment AddACommentButtonLocal on Local {
-        loadAllButtonHasBeenClicked
-        commentsFullyLoaded
-        commentsTab
-      }
-    `
-  );
+  const [{ commentsFullyLoaded, commentsTab }, setLocal] =
+    useLocal<AddACommentButtonLocal>(
+      graphql`
+        fragment AddACommentButtonLocal on Local {
+          loadAllButtonHasBeenClicked
+          commentsFullyLoaded
+          commentsTab
+        }
+      `
+    );
   const root = useShadowRootOrDocument();
 
   const [scrollIntoViewAfterLoad, setScrollIntoViewAfterLoad] = useState(false);
@@ -52,9 +51,8 @@ const AddACommentButton: FunctionComponent<Props> = ({
           let count = 0;
           const stopExists = setInterval(async () => {
             count += 1;
-            const postCommentFormElement = root.getElementById(
-              POST_COMMENT_FORM_ID
-            );
+            const postCommentFormElement =
+              root.getElementById(POST_COMMENT_FORM_ID);
             if (
               postCommentFormElement !== undefined &&
               postCommentFormElement !== null

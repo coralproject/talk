@@ -9,7 +9,7 @@ function getContentBoxSize(
     return Array.isArray(entryAny.contentBoxSize)
       ? entryAny.contentBoxSize[0]
       : // Firefox implements `contentBoxSize` as a single content rect, rather than an array
-        ((entryAny.contentBoxSize as unknown) as any);
+        (entryAny.contentBoxSize as unknown as any);
   }
   // Support older `contentRect` prop.
   if (entryAny.contentRect) {

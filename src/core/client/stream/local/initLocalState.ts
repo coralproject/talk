@@ -67,103 +67,103 @@ interface Options {
 /**
  * Initializes the local state, before we start the App.
  */
-export const createInitLocalState: (options: Options) => InitLocalState = (
-  options
-) => async ({ environment, context, auth = null, staticConfig, ...rest }) => {
-  if (options.accessToken) {
-    // Access tokens passed via the config should not be persisted.
-    auth = parseAccessToken(options.accessToken);
-  }
-
-  await initLocalBaseState({
-    environment,
-    context,
-    auth,
-    staticConfig,
-    ...rest,
-  });
-
-  const { featureFlags, flattenReplies } = await resolveConfig(
-    environment,
-    staticConfig
-  );
-
-  const commentsOrderBy =
-    (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
-    "CREATED_AT_DESC";
-
-  commitLocalUpdate(environment, (s) => {
-    const root = s.getRoot();
-    const localRecord = root.getLinkedRecord("local")!;
-
-    if (options.storyID) {
-      localRecord.setValue(options.storyID, "storyID");
+export const createInitLocalState: (options: Options) => InitLocalState =
+  (options) =>
+  async ({ environment, context, auth = null, staticConfig, ...rest }) => {
+    if (options.accessToken) {
+      // Access tokens passed via the config should not be persisted.
+      auth = parseAccessToken(options.accessToken);
     }
 
-    if (options.storyURL) {
-      localRecord.setValue(options.storyURL, "storyURL");
-    }
-
-    if (options.storyMode && isStoryMode(options.storyMode)) {
-      localRecord.setValue(options.storyMode, "storyMode");
-    }
-
-    // This will trigger single comment view.
-    if (options.commentID) {
-      localRecord.setValue(options.commentID, "commentID");
-    }
-
-    // Set sort
-    localRecord.setValue(commentsOrderBy, "commentsOrderBy");
-
-    // Create authPopup Record
-    const authPopupRecord = createAndRetain(
+    await initLocalBaseState({
       environment,
-      s,
-      AUTH_POPUP_ID,
-      AUTH_POPUP_TYPE
-    );
-    authPopupRecord.setValue(false, "open");
-    authPopupRecord.setValue(false, "focus");
-    authPopupRecord.setValue("", "href");
-    localRecord.setLinkedRecord(authPopupRecord, "authPopup");
+      context,
+      auth,
+      staticConfig,
+      ...rest,
+    });
 
-    // Set active tabs
-    localRecord.setValue("COMMENTS", "activeTab");
-    localRecord.setValue("MY_COMMENTS", "profileTab");
-
-    // Initialize the comments tab to NONE for now, it will be initialized to an
-    // actual tab when we find out how many feature comments there are.
-    localRecord.setValue("NONE", "commentsTab");
-
-    // Enable comment seen
-    localRecord.setValue(
-      featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN),
-      "enableCommentSeen"
+    const { featureFlags, flattenReplies } = await resolveConfig(
+      environment,
+      staticConfig
     );
 
-    // Enable flatten replies
-    localRecord.setValue(!!flattenReplies, "flattenReplies");
+    const commentsOrderBy =
+      (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
+      "CREATED_AT_DESC";
 
-    // Enable z-key comment seen
-    localRecord.setValue(
-      featureFlags.includes(GQLFEATURE_FLAG.Z_KEY),
-      "enableZKey"
-    );
+    commitLocalUpdate(environment, (s) => {
+      const root = s.getRoot();
+      const localRecord = root.getLinkedRecord("local")!;
 
-    // Version as reported by the embed.js
-    localRecord.setValue(options?.version, "embedVersion");
+      if (options.storyID) {
+        localRecord.setValue(options.storyID, "storyID");
+      }
 
-    localRecord.setValue(Boolean(options?.amp), "amp");
+      if (options.storyURL) {
+        localRecord.setValue(options.storyURL, "storyURL");
+      }
 
-    localRecord.setValue(options?.customCSSURL, "customCSSURL");
+      if (options.storyMode && isStoryMode(options.storyMode)) {
+        localRecord.setValue(options.storyMode, "storyMode");
+      }
 
-    const archivingEnabled = staticConfig?.archivingEnabled || false;
-    const autoArchiveOlderThanMs =
-      staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN;
-    localRecord.setValue(archivingEnabled, "archivingEnabled");
-    localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
+      // This will trigger single comment view.
+      if (options.commentID) {
+        localRecord.setValue(options.commentID, "commentID");
+      }
 
-    localRecord.setValue(false, "showCommentIDs");
-  });
-};
+      // Set sort
+      localRecord.setValue(commentsOrderBy, "commentsOrderBy");
+
+      // Create authPopup Record
+      const authPopupRecord = createAndRetain(
+        environment,
+        s,
+        AUTH_POPUP_ID,
+        AUTH_POPUP_TYPE
+      );
+      authPopupRecord.setValue(false, "open");
+      authPopupRecord.setValue(false, "focus");
+      authPopupRecord.setValue("", "href");
+      localRecord.setLinkedRecord(authPopupRecord, "authPopup");
+
+      // Set active tabs
+      localRecord.setValue("COMMENTS", "activeTab");
+      localRecord.setValue("MY_COMMENTS", "profileTab");
+
+      // Initialize the comments tab to NONE for now, it will be initialized to an
+      // actual tab when we find out how many feature comments there are.
+      localRecord.setValue("NONE", "commentsTab");
+
+      // Enable comment seen
+      localRecord.setValue(
+        featureFlags.includes(GQLFEATURE_FLAG.COMMENT_SEEN),
+        "enableCommentSeen"
+      );
+
+      // Enable flatten replies
+      localRecord.setValue(!!flattenReplies, "flattenReplies");
+
+      // Enable z-key comment seen
+      localRecord.setValue(
+        featureFlags.includes(GQLFEATURE_FLAG.Z_KEY),
+        "enableZKey"
+      );
+
+      // Version as reported by the embed.js
+      localRecord.setValue(options?.version, "embedVersion");
+
+      localRecord.setValue(Boolean(options?.amp), "amp");
+
+      localRecord.setValue(options?.customCSSURL, "customCSSURL");
+
+      const archivingEnabled = staticConfig?.archivingEnabled || false;
+      const autoArchiveOlderThanMs =
+        staticConfig?.autoArchiveOlderThanMs ?? DEFAULT_AUTO_ARCHIVE_OLDER_THAN;
+      localRecord.setValue(archivingEnabled, "archivingEnabled");
+      localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
+
+      localRecord.setValue(false, "showCommentIDs");
+    });
+  };

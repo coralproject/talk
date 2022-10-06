@@ -83,22 +83,15 @@ function render(props: ReactionButtonProps) {
 
 class ReactionButton extends React.Component<ReactionButtonProps> {
   public render() {
-    const {
-      reacted,
-      label,
-      labelActive,
-      totalReactions,
-      isQA,
-      author,
-    } = this.props;
+    const { reacted, label, labelActive, totalReactions, isQA, author } =
+      this.props;
 
     if (isQA) {
       return (
         <Localized
           id={reacted ? "qa-reaction-aria-voted" : "qa-reaction-aria-vote"}
           attrs={{ "aria-label": true }}
-          $username={author}
-          $count={totalReactions}
+          vars={{ username: author!, count: totalReactions }}
         >
           {render(this.props)}
         </Localized>
@@ -109,9 +102,11 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
       <Localized
         id={reacted ? "comments-reacted" : "comments-react"}
         attrs={{ "aria-label": true }}
-        $reaction={reacted ? labelActive : label}
-        $username={author}
-        $count={totalReactions}
+        vars={{
+          reaction: reacted ? labelActive : label,
+          username: author,
+          count: totalReactions,
+        }}
       >
         {render(this.props)}
       </Localized>

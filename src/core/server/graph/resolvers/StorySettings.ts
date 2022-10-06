@@ -11,9 +11,9 @@ export interface StorySettingsInput extends story.StorySettings {
   story: story.Story;
 }
 
-export const StorySettings: Required<GQLStorySettingsTypeResolver<
-  StorySettingsInput
->> = {
+export const StorySettings: Required<
+  GQLStorySettingsTypeResolver<StorySettingsInput>
+> = {
   live: (s): LiveConfigurationInput => s.story,
   moderation: (s, input, ctx) => {
     if (s.moderation) {

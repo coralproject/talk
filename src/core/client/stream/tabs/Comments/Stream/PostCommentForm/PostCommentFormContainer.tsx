@@ -1,7 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, {
-  FC,
   FunctionComponent,
   useCallback,
   useEffect,
@@ -123,6 +122,7 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   const isRatingsAndReviews =
     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+
   const alternateOldestViewEnabled =
     settings.featureFlags.includes(
       GQLFEATURE_FLAG.ALTERNATE_OLDEST_FIRST_VIEW
@@ -130,7 +130,11 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
     commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
     !story.isClosed &&
     !settings.disableCommenting.enabled;
-  const PostCommentSection: FC = useMemo(
+
+  const PostCommentSection: FunctionComponent<{
+    children?: React.ReactNode;
+  }> = useMemo(
+    // eslint-disable-next-line react/display-name
     () => (props) => {
       if (isRatingsAndReviews) {
         return (

@@ -229,8 +229,8 @@ it("handle moderation nudge error", async () => {
                 input: {
                   storyID: stories[0].id,
                   parentID: stories[0].comments.edges[0].node.id,
-                  parentRevisionID: stories[0].comments.edges[0].node.revision!
-                    .id,
+                  parentRevisionID:
+                    stories[0].comments.edges[0].node.revision!.id,
                   body: "<b>Hello world!</b>",
                   nudge: true,
                 },

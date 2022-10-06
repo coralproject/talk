@@ -20,33 +20,34 @@ function hasToken(req: RelayRequestAny): boolean {
  * The request data will be encoded in base64url and set in the GET query string under
  * the variable "d=".
  */
-const persistedQueriesGetMethodMiddleware: Middleware = (next) => async (
-  req
-) => {
-  if (queriesAreEmpty(req) && !hasMutations(req) && !hasToken(req)) {
-    // Pull the body out (serializing it) and delete it off of the original
-    // fetch options.
-    const body: Record<string, any> = JSON.parse(req.fetchOpts.body as string);
-    delete req.fetchOpts.body;
+const persistedQueriesGetMethodMiddleware: Middleware =
+  (next) => async (req) => {
+    if (queriesAreEmpty(req) && !hasMutations(req) && !hasToken(req)) {
+      // Pull the body out (serializing it) and delete it off of the original
+      // fetch options.
+      const body: Record<string, any> = JSON.parse(
+        req.fetchOpts.body as string
+      );
+      delete req.fetchOpts.body;
 
-    // Reconfigure the fetch for GET.
-    req.fetchOpts.method = "GET";
+      // Reconfigure the fetch for GET.
+      req.fetchOpts.method = "GET";
 
-    // Rebuild the query parameters for GET.
-    const params: Record<string, string> = { query: "" };
-    for (const key in body) {
-      if (!Object.prototype.hasOwnProperty.call(body, key)) {
-        continue;
+      // Rebuild the query parameters for GET.
+      const params: Record<string, string> = { query: "" };
+      for (const key in body) {
+        if (!Object.prototype.hasOwnProperty.call(body, key)) {
+          continue;
+        }
+
+        const value = body[key];
+        params[key] = typeof value === "string" ? value : JSON.stringify(value);
       }
 
-      const value = body[key];
-      params[key] = typeof value === "string" ? value : JSON.stringify(value);
+      // Combine the new parameters onto the URL.
+      req.fetchOpts.url = modifyQuery(req.fetchOpts.url as string, params);
     }
-
-    // Combine the new parameters onto the URL.
-    req.fetchOpts.url = modifyQuery(req.fetchOpts.url as string, params);
-  }
-  return next(req);
-};
+    return next(req);
+  };
 
 export default persistedQueriesGetMethodMiddleware;

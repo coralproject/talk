@@ -94,8 +94,8 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
             <form autoComplete="off" onSubmit={handleSubmit}>
               <Localized
                 id="linkAccount-alreadyAssociated"
-                $email={duplicateEmail}
-                strong={<span className={styles.strong} />}
+                vars={{ email: duplicateEmail }}
+                elems={{ strong: <span className={styles.strong} /> }}
               >
                 <div
                   className={cn(CLASSES.login.description, styles.description)}

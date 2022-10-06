@@ -44,7 +44,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
     [user]
   );
   const onSubmit = useCallback(
-    async ({ body }, form: FormApi) => {
+    async ({ body }: { body: string }, form: FormApi) => {
       await createNote({
         userID: user.id,
         body,

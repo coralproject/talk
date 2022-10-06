@@ -7,7 +7,9 @@ import { ExternalLink } from "coral-framework/lib/i18n/components";
 const ExperimentalExternalModerationPhaseCallOut: FunctionComponent = () => (
   <Localized
     id="configure-moderationPhases-experimentalFeature"
-    ContactUsLink={<ExternalLink href="https://coralproject.net/contact/" />}
+    elems={{
+      ContactUsLink: <ExternalLink href="https://coralproject.net/contact/" />,
+    }}
   >
     <ExperimentalCallOut>
       The custom moderation phases feature is currently in active development.
