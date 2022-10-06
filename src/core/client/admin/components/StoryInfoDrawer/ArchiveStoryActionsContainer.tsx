@@ -32,12 +32,13 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
   const archiveStory = useMutation(ArchiveStoriesMutation);
   const unarchiveStory = useMutation(UnarchiveStoriesMutation);
 
-  const [{ archivingEnabled }] =
-    useLocal<ArchiveStoryActionsContainer_local>(graphql`
-      fragment ArchiveStoryActionsContainer_local on Local {
-        archivingEnabled
-      }
-    `);
+  const [{ archivingEnabled }] = useLocal<
+    ArchiveStoryActionsContainer_local
+  >(graphql`
+    fragment ArchiveStoryActionsContainer_local on Local {
+      archivingEnabled
+    }
+  `);
 
   const [archiveTriggered, setArchiveTriggered] = useState(false);
 

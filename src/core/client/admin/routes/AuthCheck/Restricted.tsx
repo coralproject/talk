@@ -40,8 +40,8 @@ const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
           <div>
             <Localized
               id="restricted-signedInAs"
-              elems={{ strong: <div className={styles.username} /> }}
-              vars={{ username }}
+              strong={<div className={styles.username} />}
+              $username={username}
             >
               <div className={styles.copy}>
                 You are signed in as:{" "}

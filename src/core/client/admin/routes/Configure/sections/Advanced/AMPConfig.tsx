@@ -16,21 +16,13 @@ graphql`
   }
 `;
 
-interface LinkToAMPProps {
-  children?: React.ReactNode;
-}
-
-interface LinkToDocsProps {
-  children?: React.ReactNode;
-}
-
-const LinkToAMP: FC<LinkToAMPProps> = ({ children }) => (
+const LinkToAMP: FC = ({ children }) => (
   <TextLink href="https://amp.dev/" target="_blank">
     {children}
   </TextLink>
 );
 
-const LinkToDocs: FC<LinkToDocsProps> = ({ children }) => (
+const LinkToDocs: FC = ({ children }) => (
   <TextLink href="https://docs.coralproject.net/amp" target="_blank">
     {children}
   </TextLink>
@@ -53,7 +45,8 @@ const AMPConfig: FC<Props> = ({ disabled }) => (
     <FormField>
       <Localized
         id="configure-advanced-amp-explanation"
-        elems={{ LinkToAMP: <LinkToAMP />, LinkToDocs: <LinkToDocs /> }}
+        LinkToAMP={<LinkToAMP />}
+        LinkToDocs={<LinkToDocs />}
       >
         <FormFieldDescription>
           Enable support for <LinkToAMP>AMP</LinkToAMP> on the comment stream.

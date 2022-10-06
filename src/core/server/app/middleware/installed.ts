@@ -11,20 +11,18 @@ const defaultOptions: Required<Options> = {
   redirectURL: "/install",
 };
 
-export const installedMiddleware =
-  ({
-    redirectIfInstalled = defaultOptions.redirectIfInstalled,
-    redirectURL = defaultOptions.redirectURL,
-  }: Options = defaultOptions): RequestHandler =>
-  async (req, res, next) => {
-    const installed = await isInstalled(req.coral.cache.tenant, req.hostname);
+export const installedMiddleware = ({
+  redirectIfInstalled = defaultOptions.redirectIfInstalled,
+  redirectURL = defaultOptions.redirectURL,
+}: Options = defaultOptions): RequestHandler => async (req, res, next) => {
+  const installed = await isInstalled(req.coral.cache.tenant, req.hostname);
 
-    // If Coral is installed, and redirectIfInstall is true, then it will
-    // redirect. If Coral is not installed, and redirectIfInstall is false, then
-    // it will also redirect.
-    if (installed === redirectIfInstalled) {
-      return res.redirect(redirectURL);
-    }
+  // If Coral is installed, and redirectIfInstall is true, then it will
+  // redirect. If Coral is not installed, and redirectIfInstall is false, then
+  // it will also redirect.
+  if (installed === redirectIfInstalled) {
+    return res.redirect(redirectURL);
+  }
 
-    next();
-  };
+  next();
+};

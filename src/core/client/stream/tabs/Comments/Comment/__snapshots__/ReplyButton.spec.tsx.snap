@@ -8,11 +8,6 @@ exports[`renders correctly 1`] = `
     }
   }
   id="comments-replyButton"
-  vars={
-    Object {
-      "username": undefined,
-    }
-  }
 >
   <ForwardRef(forwardRef)
     active={true}

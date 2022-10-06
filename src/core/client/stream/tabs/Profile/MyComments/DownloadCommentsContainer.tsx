@@ -85,7 +85,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           </Localized>
           <Localized
             id="profile-account-download-comments-description"
-            elems={{ strong: <strong /> }}
+            strong={<strong />}
           >
             <div className={styles.description}>
               You will receive an email with a link to download your comment
@@ -107,7 +107,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           {lastDownloadedAt && !showSuccessMessage && (
             <Localized
               id="profile-account-download-comments-yourMostRecentRequest"
-              vars={{ timeStamp: formatter(canNextDownload) }}
+              $timeStamp={formatter(canNextDownload)}
             >
               <div
                 className={cn(
@@ -137,7 +137,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           title={
             <Localized
               id="profile-account-download-comments-requestSubmitted"
-              vars={{ value: scaled, unit }}
+              $value={scaled}
+              $unit={unit}
             >
               <span>
                 Your request has been successfully submitted. You may request to
@@ -162,7 +163,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           title={
             <Localized
               id="profile-account-download-comments-error"
-              vars={{ value: scaled, unit }}
+              $value={scaled}
+              $unit={unit}
             >
               <span>We were unable to complete your download request.</span>
             </Localized>

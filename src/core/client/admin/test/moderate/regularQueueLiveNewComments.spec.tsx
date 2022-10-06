@@ -66,22 +66,21 @@ it("allows viewing new when new comments come in", async () => {
   const commentData = reportedComments[0];
   expect(subscriptionHandler.has("commentEnteredModerationQueue")).toBe(true);
 
-  subscriptionHandler.dispatch<SubscriptionToCommentEnteredModerationQueueResolver>(
-    "commentEnteredModerationQueue",
-    (variables) => {
-      if (
-        variables.storyID !== null ||
-        variables.queue !== GQLMODERATION_QUEUE.REPORTED ||
-        variables.orderBy !== "CREATED_AT_DESC"
-      ) {
-        return;
-      }
-      return {
-        queue: GQLMODERATION_QUEUE.REPORTED,
-        comment: commentData,
-      };
+  subscriptionHandler.dispatch<
+    SubscriptionToCommentEnteredModerationQueueResolver
+  >("commentEnteredModerationQueue", (variables) => {
+    if (
+      variables.storyID !== null ||
+      variables.queue !== GQLMODERATION_QUEUE.REPORTED ||
+      variables.orderBy !== "CREATED_AT_DESC"
+    ) {
+      return;
     }
-  );
+    return {
+      queue: GQLMODERATION_QUEUE.REPORTED,
+      comment: commentData,
+    };
+  });
 
   const viewNewButton = await waitForElement(() =>
     within(container).getByText("View 1 new", {
@@ -105,21 +104,20 @@ it("limits view new comments to a fixed amount", async () => {
   expect(subscriptionHandler.has("commentEnteredModerationQueue")).toBe(true);
 
   const pushNewComment = () => {
-    subscriptionHandler.dispatch<SubscriptionToCommentEnteredModerationQueueResolver>(
-      "commentEnteredModerationQueue",
-      (variables) => {
-        if (
-          variables.storyID !== null ||
-          variables.queue !== GQLMODERATION_QUEUE.REPORTED
-        ) {
-          return;
-        }
-        return {
-          queue: GQLMODERATION_QUEUE.REPORTED,
-          comment: createComment(),
-        };
+    subscriptionHandler.dispatch<
+      SubscriptionToCommentEnteredModerationQueueResolver
+    >("commentEnteredModerationQueue", (variables) => {
+      if (
+        variables.storyID !== null ||
+        variables.queue !== GQLMODERATION_QUEUE.REPORTED
+      ) {
+        return;
       }
-    );
+      return {
+        queue: GQLMODERATION_QUEUE.REPORTED,
+        comment: createComment(),
+      };
+    });
   };
 
   for (let i = 0; i < PUSH_AMOUNT; i++) {
@@ -161,21 +159,20 @@ it("recognizes when same comment enters and leaves again", async () => {
   const commentData = reportedComments[0];
   expect(subscriptionHandler.has("commentEnteredModerationQueue")).toBe(true);
 
-  subscriptionHandler.dispatch<SubscriptionToCommentEnteredModerationQueueResolver>(
-    "commentEnteredModerationQueue",
-    (variables) => {
-      if (
-        variables.storyID !== null ||
-        variables.queue !== GQLMODERATION_QUEUE.REPORTED
-      ) {
-        return;
-      }
-      return {
-        queue: GQLMODERATION_QUEUE.REPORTED,
-        comment: commentData,
-      };
+  subscriptionHandler.dispatch<
+    SubscriptionToCommentEnteredModerationQueueResolver
+  >("commentEnteredModerationQueue", (variables) => {
+    if (
+      variables.storyID !== null ||
+      variables.queue !== GQLMODERATION_QUEUE.REPORTED
+    ) {
+      return;
     }
-  );
+    return {
+      queue: GQLMODERATION_QUEUE.REPORTED,
+      comment: commentData,
+    };
+  });
 
   await waitForElement(() =>
     within(container).getByText(/View \d+ new/, {
@@ -184,21 +181,20 @@ it("recognizes when same comment enters and leaves again", async () => {
     })
   );
 
-  subscriptionHandler.dispatch<SubscriptionToCommentLeftModerationQueueResolver>(
-    "commentLeftModerationQueue",
-    (variables) => {
-      if (
-        variables.storyID !== null ||
-        variables.queue !== GQLMODERATION_QUEUE.REPORTED
-      ) {
-        return;
-      }
-      return {
-        queue: GQLMODERATION_QUEUE.REPORTED,
-        comment: commentData,
-      };
+  subscriptionHandler.dispatch<
+    SubscriptionToCommentLeftModerationQueueResolver
+  >("commentLeftModerationQueue", (variables) => {
+    if (
+      variables.storyID !== null ||
+      variables.queue !== GQLMODERATION_QUEUE.REPORTED
+    ) {
+      return;
     }
-  );
+    return {
+      queue: GQLMODERATION_QUEUE.REPORTED,
+      comment: commentData,
+    };
+  });
 
   // View New Button should disappear.
   expect(() => within(container).getByText(/View \d+ new/)).toThrow();

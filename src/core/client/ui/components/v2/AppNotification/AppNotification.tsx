@@ -9,7 +9,6 @@ interface Props {
   icon?: string;
   onClose?: () => void;
   color?: "success" | "alert" | "mono";
-  children?: React.ReactNode;
 }
 
 const AppNotification: FunctionComponent<Props> = ({

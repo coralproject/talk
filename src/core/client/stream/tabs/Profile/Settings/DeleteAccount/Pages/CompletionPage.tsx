@@ -88,7 +88,7 @@ const CompletionPage: FunctionComponent<Props> = ({
 
         <Localized
           id="profile-account-deleteAccount-pages-completeTimeHeader"
-          vars={{ date: formattedDate }}
+          $date={formattedDate}
         >
           <div
             className={cn(
@@ -105,7 +105,7 @@ const CompletionPage: FunctionComponent<Props> = ({
         </Localized>
         <Localized
           id="profile-account-deleteAccount-pages-completeSignIntoYourAccount"
-          elems={{ strong: <strong /> }}
+          strong={<strong />}
         >
           <div
             className={cn(
@@ -123,7 +123,7 @@ const CompletionPage: FunctionComponent<Props> = ({
         </Localized>
         <Localized
           id="profile-account-deleteAccount-pages-completeWhyDeleteAccount"
-          vars={{ email: organizationEmail }}
+          $email={organizationEmail}
         >
           <div
             className={cn(

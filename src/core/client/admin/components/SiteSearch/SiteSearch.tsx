@@ -35,8 +35,9 @@ const SiteSearch: FunctionComponent<Props> = ({
 }) => {
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [searchTextFieldValue, setSearchTextFieldValue] = useState<string>("");
-  const [isSiteSearchListVisible, setIsSiteSearchListVisible] =
-    useState<boolean>(false);
+  const [isSiteSearchListVisible, setIsSiteSearchListVisible] = useState<
+    boolean
+  >(false);
   const [activeSiteID, setActiveSiteID] = useState<string | null>(null);
 
   const onSearch = useCallback(

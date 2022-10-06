@@ -21,7 +21,6 @@ import SetAuthViewMutation, { View } from "./SetAuthViewMutation";
 interface Props {
   auth: AccountCompletionContainer_auth;
   viewer: AccountCompletionContainer_viewer | null;
-  children?: React.ReactNode;
 }
 
 const AccountCompletionContainer: FunctionComponent<Props> = ({

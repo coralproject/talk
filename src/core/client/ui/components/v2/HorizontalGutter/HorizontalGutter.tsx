@@ -38,8 +38,15 @@ interface Props extends Omit<PropTypesOf<typeof Box>, "ref"> {
 }
 
 const HorizontalGutter: FunctionComponent<Props> = (props) => {
-  const { classes, className, size, forwardRef, container, spacing, ...rest } =
-    props;
+  const {
+    classes,
+    className,
+    size,
+    forwardRef,
+    container,
+    spacing,
+    ...rest
+  } = props;
   const spacingClass = spacing ? (classes as any)[`spacing-${spacing}`] : "";
   const rootClassName = cn(
     classes.root,

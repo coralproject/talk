@@ -13,8 +13,8 @@ import styles from "./PermalinkButton.css";
 interface PermalinkProps {
   commentID: string;
   url: string;
-  author?: string | null;
   className?: string;
+  author?: string | null;
 }
 
 const Permalink: FunctionComponent<PermalinkProps> = ({
@@ -49,7 +49,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
           <Localized
             id="comments-permalinkButton"
             attrs={{ "aria-label": true }}
-            vars={{ username: author }}
+            $username={author}
           >
             <Button
               onClick={toggleVisibility}

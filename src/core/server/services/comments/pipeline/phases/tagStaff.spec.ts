@@ -26,7 +26,7 @@ interface Case {
  */
 const testCase = (input: Case): GQLTAG | void => {
   const result = tagStaff(
-    input as unknown as IntermediateModerationPhaseContext
+    (input as unknown) as IntermediateModerationPhaseContext
   ) as any;
 
   if (result?.tags?.length > 1) {

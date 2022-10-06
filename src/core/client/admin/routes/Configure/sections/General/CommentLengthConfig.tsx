@@ -62,7 +62,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   >
     <Localized
       id="configure-general-commentLength-setLimit"
-      elems={{ strong: <strong /> }}
+      strong={<strong />}
     >
       <FormFieldDescription>
         Set minimum and maximum comment length requirements. Blank spaces at the

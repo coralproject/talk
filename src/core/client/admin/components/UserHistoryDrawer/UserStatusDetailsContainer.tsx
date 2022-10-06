@@ -68,10 +68,8 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                 <div>
                   <Localized
                     id="userDetails-warned-on"
-                    vars={{ timestamp: formatter(activeWarning.createdAt) }}
-                    elems={{
-                      strong: <strong />,
-                    }}
+                    $timestamp={formatter(activeWarning.createdAt)}
+                    strong={<strong />}
                   >
                     <p className={styles.root}>
                       <strong>Warned on </strong>{" "}
@@ -81,12 +79,8 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   {activeWarning.createdBy && (
                     <Localized
                       id="userDetails-warned-by"
-                      elems={{
-                        strong: <strong />,
-                      }}
-                      vars={{
-                        username: activeWarning.createdBy.username,
-                      }}
+                      strong={<strong />}
+                      $username={activeWarning.createdBy.username}
                     >
                       <p className={styles.root}>
                         <strong>by </strong>
@@ -105,10 +99,8 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                 <div>
                   <Localized
                     id="userDetails-banned-on"
-                    vars={{ timestamp: formatter(activeBan.createdAt) }}
-                    elems={{
-                      strong: <strong />,
-                    }}
+                    $timestamp={formatter(activeBan.createdAt)}
+                    strong={<strong />}
                   >
                     <p className={styles.root}>
                       <strong>Banned on </strong>{" "}
@@ -118,12 +110,8 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   {activeBan.createdBy && (
                     <Localized
                       id="userDetails-banned-by"
-                      elems={{
-                        strong: <strong />,
-                      }}
-                      vars={{
-                        username: activeBan.createdBy.username,
-                      }}
+                      strong={<strong />}
+                      $username={activeBan.createdBy.username}
                     >
                       <p className={styles.root}>
                         <strong>by </strong>
@@ -138,12 +126,8 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   {activeSuspension.createdBy && (
                     <Localized
                       id="userDetails-suspended-by"
-                      elems={{
-                        strong: <strong />,
-                      }}
-                      vars={{
-                        username: activeSuspension.createdBy.username,
-                      }}
+                      strong={<strong />}
+                      $username={activeSuspension.createdBy.username}
                     >
                       <p className={styles.root}>
                         <strong>Suspended by </strong>
@@ -153,10 +137,8 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   )}
                   <Localized
                     id="userDetails-suspension-start"
-                    elems={{
-                      strong: <strong />,
-                    }}
-                    vars={{ timestamp: formatter(activeSuspension.from.start) }}
+                    strong={<strong />}
+                    $timestamp={formatter(activeSuspension.from.start)}
                   >
                     <p className={styles.root}>
                       <strong>Start: </strong>
@@ -164,12 +146,8 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                     </p>
                   </Localized>
                   <Localized
-                    elems={{
-                      strong: <strong />,
-                    }}
-                    vars={{
-                      timestamp: formatter(activeSuspension.from.finish),
-                    }}
+                    strong={<strong />}
+                    $timestamp={formatter(activeSuspension.from.finish)}
                     id="userDetails-suspension-finish"
                   >
                     <p className={styles.root}>

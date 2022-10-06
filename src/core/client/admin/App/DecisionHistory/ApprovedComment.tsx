@@ -21,7 +21,7 @@ const ApprovedComment: FunctionComponent<Props> = (props) => (
   <DecisionItem icon={<ApprovedIcon />}>
     <Localized
       id="decisionHistory-approvedCommentBy"
-      elems={{ Username: <Username username={props.username} /> }}
+      Username={<Username username={props.username} />}
     >
       <Info>{"Approved comment by <Username></Username>"}</Info>
     </Localized>

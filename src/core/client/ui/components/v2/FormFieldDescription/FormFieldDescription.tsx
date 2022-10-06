@@ -5,7 +5,6 @@ import styles from "./FormFieldDescription.css";
 
 interface Props {
   className?: string;
-  children?: React.ReactNode;
 }
 
 const FormFieldDescription: FunctionComponent<Props> = ({

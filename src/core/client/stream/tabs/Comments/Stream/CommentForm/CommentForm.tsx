@@ -394,7 +394,7 @@ const CommentForm: FunctionComponent<Props> = ({
                   <MessageIcon>alarm</MessageIcon>
                   <Localized
                     id="comments-editCommentForm-editRemainingTime"
-                    elems={{ time: <RelativeTime date={editableUntil} live /> }}
+                    time={<RelativeTime date={editableUntil} live />}
                   >
                     <span>{"Edit: <time></time> remaining"}</span>
                   </Localized>

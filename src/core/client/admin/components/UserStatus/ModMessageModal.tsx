@@ -44,8 +44,8 @@ const ModMessageModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-modMessageModal-success"
-                elems={{ strong: <ModalHeaderUsername /> }}
-                vars={{ username: username ?? "" }}
+                $username={username}
+                strong={<ModalHeaderUsername />}
               >
                 <ModalHeader>
                   A message has been sent to{" "}
@@ -66,12 +66,8 @@ const ModMessageModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-modMessageModal-areYouSure"
-                elems={{
-                  strong: <ModalHeaderUsername />,
-                }}
-                vars={{
-                  username: username || <NotAvailable />,
-                }}
+                strong={<ModalHeaderUsername />}
+                $username={username || <NotAvailable />}
               >
                 <ModalHeader id="modMessageModal-title">
                   Message{" "}

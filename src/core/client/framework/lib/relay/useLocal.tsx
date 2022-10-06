@@ -85,10 +85,9 @@ function applySimplified(
 function useLocal<T>(
   fragmentSpec: GraphQLTaggedNode
 ): [OmitFragments<T>, (update: LocalUpdater<OmitFragments<T>>) => void] {
-  const selector = useMemo(
-    () => getLocalFragmentSelector(fragmentSpec),
-    [fragmentSpec]
-  );
+  const selector = useMemo(() => getLocalFragmentSelector(fragmentSpec), [
+    fragmentSpec,
+  ]);
 
   const { relayEnvironment } = useCoralContext();
 

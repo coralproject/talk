@@ -45,7 +45,6 @@ export interface SelectFieldProps {
   keyboardFocus: boolean;
 
   afterWrapper?: React.ReactElement<any>;
-  children?: React.ReactNode;
 }
 
 const SelectField: FunctionComponent<SelectFieldProps> = (props) => {

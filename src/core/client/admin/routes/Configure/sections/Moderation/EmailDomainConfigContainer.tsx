@@ -72,7 +72,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
       </Localized>
       <Localized
         id="configure-moderation-emailDomains-addDomain"
-        elems={{ icon: <ButtonIcon>add</ButtonIcon> }}
+        icon={<ButtonIcon>add</ButtonIcon>}
       >
         <Button to="/admin/configure/moderation/domains/add" iconLeft>
           Add domain
@@ -119,7 +119,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                       <Flex className={styles.buttons}>
                         <Localized
                           id="configure-moderation-emailDomains-table-edit"
-                          elems={{ icon: <ButtonIcon>edit</ButtonIcon> }}
+                          icon={<ButtonIcon>edit</ButtonIcon>}
                         >
                           <Button
                             variant="text"
@@ -132,7 +132,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                         </Localized>
                         <Localized
                           id="configure-moderation-emailDomains-table-delete"
-                          elems={{ icon: <ButtonIcon>delete</ButtonIcon> }}
+                          icon={<ButtonIcon>delete</ButtonIcon>}
                         >
                           <Button
                             variant="text"

@@ -219,12 +219,10 @@ const BanModal: FunctionComponent<Props> = ({
           <HorizontalGutter spacing={2}>
             <Localized
               id={titleLocalizationId}
-              elems={{
-                strong: <ModalHeaderUsername />,
-                username: React.createElement(() => (
-                  <strong>{username || <NotAvailable />}</strong>
-                )),
-              }}
+              strong={<ModalHeaderUsername />}
+              username={React.createElement(() => (
+                <strong>{username || <NotAvailable />}</strong>
+              ))}
             >
               <ModalHeader id="banModal-title">
                 {title + " "}

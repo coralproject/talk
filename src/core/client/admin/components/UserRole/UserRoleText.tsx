@@ -9,11 +9,7 @@ import styles from "./UserRoleText.css";
 
 type Props = Omit<PropTypesOf<typeof TranslatedRole>, "container">;
 
-interface UserRoleTextProps {
-  children?: React.ReactNode;
-}
-
-const UserRoleText: FunctionComponent<Props & UserRoleTextProps> = (props) => (
+const UserRoleText: FunctionComponent<Props> = (props) => (
   <TranslatedRole
     container={
       <span

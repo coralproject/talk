@@ -6,7 +6,6 @@ import styles from "./TodayValue.css";
 
 interface Props {
   value?: string;
-  children?: React.ReactNode;
 }
 
 const TodayValue: FunctionComponent<Props> = ({ value = "-", children }) => {

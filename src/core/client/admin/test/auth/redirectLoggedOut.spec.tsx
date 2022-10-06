@@ -1,5 +1,3 @@
-import { waitFor } from "@testing-library/react";
-
 import { pureMerge } from "coral-common/utils";
 import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
 import {
@@ -7,14 +5,15 @@ import {
   QueryToModerationQueuesResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
+  wait,
 } from "coral-framework/testHelpers";
 
-import { createContext } from "../create";
-import customRenderAppWithContext from "../customRenderAppWithContext";
+import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
@@ -26,17 +25,16 @@ async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
   replaceHistoryLocation("http://localhost/admin/moderate");
-  const { context } = createContext({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
           sites: () => siteConnection,
-          moderationQueues:
-            createQueryResolverStub<QueryToModerationQueuesResolver>(
-              () => emptyModerationQueues
-            ),
+          moderationQueues: createQueryResolverStub<
+            QueryToModerationQueuesResolver
+          >(() => emptyModerationQueues),
           comments: () => emptyRejectedComments,
         },
       }),
@@ -49,16 +47,17 @@ async function createTestRenderer(
       }
     },
   });
-  customRenderAppWithContext(context);
-  return { context };
+  return { testRenderer, context };
 }
 
 it("redirect when not logged in", async () => {
   const { context } = await createTestRenderer();
-  await waitFor(() => {
-    expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
-      "/admin/moderate"
-    );
-    expect(window.location.toString()).toBe("http://localhost/admin/login");
+  await act(async () => {
+    await wait(() => {
+      expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
+        "/admin/moderate"
+      );
+      expect(window.location.toString()).toBe("http://localhost/admin/login");
+    });
   });
 });

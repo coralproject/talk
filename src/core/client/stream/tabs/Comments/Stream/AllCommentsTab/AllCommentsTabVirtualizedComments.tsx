@@ -229,7 +229,7 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
         }
         overscan={overscan}
         itemContent={useCallback(
-          (index: number) => {
+          (index) => {
             const comment = comments[index];
             return (
               <>

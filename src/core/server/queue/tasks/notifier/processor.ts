@@ -52,68 +52,66 @@ export interface CategoryNotification {
  *
  * @param options options for the processor
  */
-export const createJobProcessor =
-  ({
-    mailerQueue,
+export const createJobProcessor = ({
+  mailerQueue,
+  mongo,
+  config,
+  registry,
+  tenantCache,
+  signingConfig,
+}: Options): JobProcessor<NotifierData> => async (job) => {
+  const now = new Date();
+
+  // Pull the data out of the model.
+  const { tenantID, input } = job.data;
+
+  // Create a new logger to handle logging for this job.
+  const log = logger.child(
+    {
+      jobID: job.id,
+      jobName: JOB_NAME,
+      tenantID,
+    },
+    true
+  );
+
+  log.debug("starting to handle a notify operation");
+
+  // Get all the handlers that are active for this channel.
+  const categories = registry.get(input.type);
+  if (!categories || categories.length === 0) {
+    return;
+  }
+
+  // Grab the tenant from the cache.
+  const tenant = await tenantCache.retrieveByID(tenantID);
+  if (!tenant) {
+    throw new Error("tenant not found with ID");
+  }
+
+  // Create a notification context to handle processing notifications.
+  const ctx = new NotificationContext({
     mongo,
     config,
-    registry,
-    tenantCache,
     signingConfig,
-  }: Options): JobProcessor<NotifierData> =>
-  async (job) => {
-    const now = new Date();
+    tenant,
+    now,
+  });
 
-    // Pull the data out of the model.
-    const { tenantID, input } = job.data;
+  // For each of the handler's we need to process, we should iterate to
+  // generate their notifications.
+  let notifications = await handleHandlers(ctx, categories, input);
 
-    // Create a new logger to handle logging for this job.
-    const log = logger.child(
-      {
-        jobID: job.id,
-        jobName: JOB_NAME,
-        tenantID,
-      },
-      true
-    );
+  // Check to see if some of the other notifications that are queued
+  // had this notification superseded.
+  notifications = notifications.filter(filterSuperseded);
 
-    log.debug("starting to handle a notify operation");
+  // Send all the notifications now.
+  await processNewNotifications(
+    ctx,
+    notifications.map(({ notification }) => notification),
+    mailerQueue
+  );
 
-    // Get all the handlers that are active for this channel.
-    const categories = registry.get(input.type);
-    if (!categories || categories.length === 0) {
-      return;
-    }
-
-    // Grab the tenant from the cache.
-    const tenant = await tenantCache.retrieveByID(tenantID);
-    if (!tenant) {
-      throw new Error("tenant not found with ID");
-    }
-
-    // Create a notification context to handle processing notifications.
-    const ctx = new NotificationContext({
-      mongo,
-      config,
-      signingConfig,
-      tenant,
-      now,
-    });
-
-    // For each of the handler's we need to process, we should iterate to
-    // generate their notifications.
-    let notifications = await handleHandlers(ctx, categories, input);
-
-    // Check to see if some of the other notifications that are queued
-    // had this notification superseded.
-    notifications = notifications.filter(filterSuperseded);
-
-    // Send all the notifications now.
-    await processNewNotifications(
-      ctx,
-      notifications.map(({ notification }) => notification),
-      mailerQueue
-    );
-
-    log.debug({ notifications: notifications.length }, "notifications handled");
-  };
+  log.debug({ notifications: notifications.length }, "notifications handled");
+};

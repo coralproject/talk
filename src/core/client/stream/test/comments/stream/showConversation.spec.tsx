@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
@@ -44,19 +44,17 @@ const createTestRenderer = async (
 
   customRenderAppWithContext(context);
 
+  const streamLog = await screen.findByTestId("comments-allComments-log");
+
   return {
     context,
+    streamLog,
   };
 };
 
 it("renders deepest comment with link", async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
-  const streamLog = await screen.findByTestId("comments-allComments-log");
-  await within(streamLog).findByTestId(
-    "comment-comment-with-deepest-replies-6"
-  );
+  const { streamLog } = await createTestRenderer();
+  await within(streamLog).findByTestId("comment-comment-with-deepest-replies");
 
   await within(streamLog).findByText("Read More of this Conversation", {
     exact: false,
@@ -65,15 +63,11 @@ it("renders deepest comment with link", async () => {
 
 describe("flatten replies", () => {
   it("doesn't renders deepest comment with link", async () => {
-    await act(async () => {
-      await createTestRenderer({
-        initLocalState: (local) => {
-          local.setValue(true, "flattenReplies");
-        },
-      });
+    const { streamLog } = await createTestRenderer({
+      initLocalState: (local) => {
+        local.setValue(true, "flattenReplies");
+      },
     });
-    const streamLog = await screen.findByTestId("comments-allComments-log");
-
     await expect(
       async () =>
         await within(streamLog).findByText("Read More of this Conversation >")
@@ -82,15 +76,10 @@ describe("flatten replies", () => {
 });
 
 it("shows conversation", async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
-  const streamLog = await screen.findByTestId("comments-allComments-log");
-
-  const readMore = await within(streamLog).findByText(
-    "Read More of this Conversation",
-    { exact: false }
-  );
+  const { streamLog } = await createTestRenderer();
+  const readMore = await within(
+    streamLog
+  ).findByText("Read More of this Conversation", { exact: false });
 
   fireEvent.click(readMore);
 

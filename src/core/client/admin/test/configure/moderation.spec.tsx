@@ -81,10 +81,9 @@ it("change pre-moderation to On for all comments for single-site tenants", async
     resolvers,
   });
 
-  const preModerationContainer = within(moderationContainer).getAllByRole(
-    "group",
-    { name: "Pre-moderate all comments" }
-  )[0];
+  const preModerationContainer = within(
+    moderationContainer
+  ).getAllByRole("group", { name: "Pre-moderate all comments" })[0];
 
   // Let's enable it and submit.
   const onField = within(preModerationContainer).getByLabelText("On");
@@ -129,10 +128,9 @@ it("change site wide pre-moderation to Specific sites", async () => {
     },
     settingsWithMultisite
   );
-  const preModerationContainer = within(moderationContainer).getAllByRole(
-    "group",
-    { name: "Pre-moderate all comments" }
-  )[0];
+  const preModerationContainer = within(
+    moderationContainer
+  ).getAllByRole("group", { name: "Pre-moderate all comments" })[0];
 
   // Let's enable it.
   const onField = within(preModerationContainer).getByLabelText(
@@ -230,8 +228,9 @@ it("change akismet settings", async () => {
     resolvers,
   });
 
-  const akismetContainer =
-    within(moderationContainer).getByTestId("akismet-config");
+  const akismetContainer = within(moderationContainer).getByTestId(
+    "akismet-config"
+  );
   const spamDetectionFieldset = within(moderationContainer).getAllByRole(
     "group",
     {
@@ -348,10 +347,9 @@ it("change new commenter approval settings on multisite tenant", async () => {
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 
   // Change pre-moderation to specific sites for
-  const specificSitesOption = within(enableNewCommenterApproval).getByRole(
-    "radio",
-    { name: "Specific sites" }
-  );
+  const specificSitesOption = within(
+    enableNewCommenterApproval
+  ).getByRole("radio", { name: "Specific sites" });
   userEvent.click(specificSitesOption);
 
   // Send form
@@ -496,10 +494,12 @@ it("change perspective settings", async () => {
     name: "Allow",
   })[0];
   const keyField = within(perspectiveContainer).getByLabelText("API key");
-  const thresholdField =
-    within(perspectiveContainer).getByLabelText("Toxicity threshold");
-  const endpointField =
-    within(perspectiveContainer).getByLabelText("Custom endpoint");
+  const thresholdField = within(perspectiveContainer).getByLabelText(
+    "Toxicity threshold"
+  );
+  const endpointField = within(perspectiveContainer).getByLabelText(
+    "Custom endpoint"
+  );
 
   // Let's turn it on.
   userEvent.click(onField);

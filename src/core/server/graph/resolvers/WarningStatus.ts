@@ -6,9 +6,9 @@ export type WarningStatusInput = user.ConsolidatedWarningStatus & {
   userID: string;
 };
 
-export const WarningStatus: Required<
-  GQLWarningStatusTypeResolver<WarningStatusInput>
-> = {
+export const WarningStatus: Required<GQLWarningStatusTypeResolver<
+  WarningStatusInput
+>> = {
   active: ({ active }) => active,
   message: ({ message }) => message,
   history: ({ history, userID }) =>

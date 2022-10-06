@@ -1,12 +1,12 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
-import { act, wait } from "coral-framework/testHelpers";
+import { act } from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-ui/types";
 
 import Delay from "./Delay";
 
-it("renders correctly", async () => {
+it("renders correctly", () => {
   jest.useFakeTimers();
   try {
     const props: PropTypesOf<typeof Delay> = {
@@ -14,15 +14,11 @@ it("renders correctly", async () => {
       ms: 3000,
     };
     const renderer = TestRenderer.create(<Delay {...props}>Hello</Delay>);
-    await wait(async () => {
-      expect(renderer.toJSON()).toMatchSnapshot();
-    });
+    expect(renderer.toJSON()).toMatchSnapshot();
     act(() => {
       jest.advanceTimersByTime(3000);
     });
-    await wait(async () => {
-      expect(renderer.toJSON()).toMatchSnapshot();
-    });
+    expect(renderer.toJSON()).toMatchSnapshot();
   } finally {
     jest.useRealTimers();
   }

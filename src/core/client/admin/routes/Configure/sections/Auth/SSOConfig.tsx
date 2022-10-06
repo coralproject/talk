@@ -46,14 +46,12 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled }) => (
       <>
         <Localized
           id="configure-auth-sso-description"
-          elems={{
-            IntroLink: (
-              <ExternalLink href="https://jwt.io/introduction/"></ExternalLink>
-            ),
-            DocLink: (
-              <ExternalLink href="https://docs.coralproject.net/sso"></ExternalLink>
-            ),
-          }}
+          IntroLink={
+            <ExternalLink href="https://jwt.io/introduction/"></ExternalLink>
+          }
+          DocLink={
+            <ExternalLink href="https://docs.coralproject.net/sso"></ExternalLink>
+          }
         >
           <FormFieldDescription>
             To enable integration with your existing authentication system, you

@@ -75,10 +75,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   }, [setShowEditForm, showEditForm]);
   const updateUsername = useMutation(UpdateUsernameMutation);
 
-  const closeSuccessMessage = useCallback(
-    () => setShowSuccessMessage(false),
-    [setShowEditForm]
-  );
+  const closeSuccessMessage = useCallback(() => setShowSuccessMessage(false), [
+    setShowEditForm,
+  ]);
 
   const canChangeLocalAuth = useMemo(() => {
     if (!settings.accountFeatures.changeUsername) {
@@ -227,15 +226,13 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       {!canChangeUsername && !showSuccessMessage && (
         <div data-testid="profile-changeUsername-cantChange">
           <Localized
+            date={canChangeUsernameDate}
             id="profile-changeUsername-youChangedYourUsernameWithin"
-            vars={{
-              date: canChangeUsernameDate || "",
-              value: FREQUENCYSCALED.scaled,
-              unit: FREQUENCYSCALED.unit,
-              nextUpdate: canChangeUsernameDate
-                ? formatter(canChangeUsernameDate)
-                : "",
-            }}
+            $value={FREQUENCYSCALED.scaled}
+            $unit={FREQUENCYSCALED.unit}
+            $nextUpdate={
+              canChangeUsernameDate ? formatter(canChangeUsernameDate) : null
+            }
           >
             <div className={cn(styles.tooSoon, CLASSES.myUsername.tooSoon)}>
               You changed your username within the last {FREQUENCYSCALED.scaled}{" "}
@@ -257,10 +254,8 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             </Localized>
             <Localized
               id="profile-changeUsername-desc-text"
-              vars={{
-                value: FREQUENCYSCALED.scaled,
-                unit: FREQUENCYSCALED.unit,
-              }}
+              $value={FREQUENCYSCALED.scaled}
+              $unit={FREQUENCYSCALED.unit}
             >
               <div
                 className={cn(

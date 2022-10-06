@@ -1,23 +1,22 @@
-import { act, screen, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { axe } from "jest-axe";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
 
-import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
   settings,
   settingsWithoutLocalAuth,
   stories,
   viewerPassive,
 } from "../fixtures";
-import { createWithContext } from "./create";
+import create from "./create";
 
 const story = stories[0];
 const viewer = viewerPassive;
@@ -25,7 +24,7 @@ const viewer = viewerPassive;
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { context } = createWithContext({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -44,32 +43,38 @@ async function createTestRenderer(
       }
     },
   });
-  customRenderAppWithContext(context);
 
   return {
+    testRenderer,
     context,
   };
 }
 
 it("renders the empty settings pane", async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
-  const account = await screen.findByTestId("profile-manageAccount");
-  expect(account).toMatchSnapshot();
-  expect(await axe(account)).toHaveNoViolations();
+  const {
+    testRenderer: { root },
+  } = await createTestRenderer();
+  const account = await waitForElement(() =>
+    within(root).getByTestID("profile-manageAccount")
+  );
+  expect(within(account).toJSON()).toMatchSnapshot();
+  expect(await within(account).axe()).toHaveNoViolations();
 });
 
 it("doesn't show the change password pane when local auth is disabled", async () => {
-  await createTestRenderer({
+  const {
+    testRenderer: { root },
+  } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         settings: () => settingsWithoutLocalAuth,
       },
     }),
   });
-  const account = await screen.findByTestId("profile-manageAccount");
-  const changePassword = within(account).queryByTestId(
+  const account = await waitForElement(() =>
+    within(root).getByTestID("profile-manageAccount")
+  );
+  const changePassword = within(account).queryByTestID(
     "profile-account-changePassword"
   );
   expect(changePassword).toBeNull();
@@ -85,49 +90,54 @@ it("render password change form", async () => {
       clientMutationId: input.clientMutationId,
     };
   });
-  await createTestRenderer({
+  const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         updatePassword,
       },
     }),
   });
-  const changePassword = await screen.findByTestId(
-    "profile-account-changePassword"
+  const changePassword = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("profile-account-changePassword")
   );
   const editButton = within(changePassword).getByText("Change");
-  userEvent.click(editButton);
-
-  const oldPassword = within(changePassword).getByLabelText("Old Password");
-  const newPassword = within(changePassword).getByLabelText("New Password");
-  expect(await axe(changePassword)).toHaveNoViolations();
-
-  const submitButton = within(changePassword).getByRole("button", {
-    name: "Change Password",
+  act(() => {
+    editButton.props.onClick();
   });
-  expect(submitButton).toBeDisabled();
+
+  const form = within(changePassword).getByType("form");
+  const oldPassword = await waitForElement(() =>
+    within(form).getByID("oldPassword", { exact: false })
+  );
+  const newPassword = await waitForElement(() =>
+    within(form).getByID("newPassword", { exact: false })
+  );
+  expect(await within(changePassword).axe()).toHaveNoViolations();
+
+  // Submit an empty form.
+  act(() => {
+    form.props.onSubmit();
+  });
+  within(changePassword).getAllByText("field is required", {
+    exact: false,
+  });
 
   // Password too short.
-  userEvent.clear(oldPassword);
-  userEvent.type(oldPassword, "test");
-  userEvent.clear(newPassword);
-  userEvent.type(newPassword, "test");
-  userEvent.click(submitButton);
-  expect(
-    await within(changePassword).findAllByText(
-      "Password must contain at least 8 characters",
-      {
-        exact: false,
-      }
-    )
-  ).toHaveLength(2);
+  act(() => {
+    oldPassword.props.onChange("test");
+    newPassword.props.onChange("test");
+  });
+  within(changePassword).getAllByText(
+    "Password must contain at least 8 characters",
+    {
+      exact: false,
+    }
+  );
 
-  userEvent.clear(oldPassword);
-  userEvent.type(oldPassword, "testtest");
-  userEvent.clear(newPassword);
-  userEvent.type(newPassword, "testtest");
   await act(async () => {
-    userEvent.click(submitButton);
+    oldPassword.props.onChange("testtest");
+    newPassword.props.onChange("testtest");
+    await form.props.onSubmit();
   });
 
   expect(updatePassword.calledOnce).toBeTruthy();

@@ -43,7 +43,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
   const system = (
     <Localized
       id="moderate-user-drawer-account-history-system"
-      elems={{ icon: <Icon size="md">computer</Icon> }}
+      icon={<Icon size="md">computer</Icon>}
     >
       <span>
         <Icon size="md">computer</Icon> System

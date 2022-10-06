@@ -27,18 +27,18 @@ const childrenToString = (children: ReactTestInstance["children"]) => {
   return result;
 };
 
-const matcher =
-  (pattern: TextMatchPattern, options?: TextMatchOptions) =>
-  (i: ReactTestInstance) => {
-    // Only look at dom components.
-    if (typeof i.type !== "string") {
-      return false;
-    }
-    const content = i.props.dangerouslySetInnerHTML
-      ? i.props.dangerouslySetInnerHTML.__html
-      : childrenToString(i.children);
-    return matchText(pattern, content, options);
-  };
+const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
+  i: ReactTestInstance
+) => {
+  // Only look at dom components.
+  if (typeof i.type !== "string") {
+    return false;
+  }
+  const content = i.props.dangerouslySetInnerHTML
+    ? i.props.dangerouslySetInnerHTML.__html
+    : childrenToString(i.children);
+  return matchText(pattern, content, options);
+};
 
 interface SelectorOptions {
   selector?: string | React.ComponentClass<any> | React.FunctionComponent<any>;

@@ -6,8 +6,7 @@ import {
   GQLRTEConfigurationTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const RTEConfiguration: GQLRTEConfigurationTypeResolver<settings.RTEConfiguration> =
-  {
-    sarcasm: (config, args, { tenant }) =>
-      hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM),
-  };
+export const RTEConfiguration: GQLRTEConfigurationTypeResolver<settings.RTEConfiguration> = {
+  sarcasm: (config, args, { tenant }) =>
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM),
+};

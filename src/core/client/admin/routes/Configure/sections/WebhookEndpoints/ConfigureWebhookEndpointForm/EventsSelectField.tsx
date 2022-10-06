@@ -79,11 +79,9 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
       </Flex>
       <Localized
         id="configure-webhooks-eventsToSendDescription"
-        elems={{
-          externalLink: (
-            <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#events-listing" />
-          ),
-        }}
+        externalLink={
+          <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#events-listing" />
+        }
       >
         <FormFieldDescription>
           These are the events that are registered to this particular endpoint.
@@ -121,14 +119,14 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
       ) : events.value.length > 0 ? (
         <Localized
           id="configure-webhooks-selectedEvents"
-          vars={{ count: events.value.length }}
+          $count={events.value.length}
         >
           <HelperText>{events.value.length} event selected.</HelperText>
         </Localized>
       ) : (
         <Localized
           id="configure-webhooks-selectAnEvent"
-          elems={{ button: <Button variant="text" onClick={onReceiveAll} /> }}
+          button={<Button variant="text" onClick={onReceiveAll} />}
         >
           <HelperText>
             Select events above or{" "}
