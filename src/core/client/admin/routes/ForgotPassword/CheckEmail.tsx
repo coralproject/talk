@@ -14,8 +14,8 @@ const CheckEmail: FunctionComponent<Props> = ({ email }) => (
       <HorizontalGutter size="full">
         <Localized
           id="forgotPassword-checkEmail-receiveEmail"
-          vars={{ email }}
-          elems={{ strong: <strong /> }}
+          $email={email}
+          strong={<strong />}
         >
           <Typography variant="bodyCopy">
             If there is an account associated with <strong>{email}</strong>, you

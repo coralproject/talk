@@ -37,23 +37,21 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
           {props.showLogoutButton && (
             <Localized
               id="general-userBoxAuthenticated-notYou"
-              elems={{
-                button: (
-                  <Button
-                    color="primary"
-                    fontSize="small"
-                    fontWeight="semiBold"
-                    paddingSize="none"
-                    onClick={props.onSignOut}
-                    variant="flat"
-                    underline
-                    className={cn(
-                      styles.userBoxButton,
-                      CLASSES.viewerBox.logoutButton
-                    )}
-                  />
-                ),
-              }}
+              button={
+                <Button
+                  color="primary"
+                  fontSize="small"
+                  fontWeight="semiBold"
+                  paddingSize="none"
+                  onClick={props.onSignOut}
+                  variant="flat"
+                  underline
+                  className={cn(
+                    styles.userBoxButton,
+                    CLASSES.viewerBox.logoutButton
+                  )}
+                />
+              }
             >
               <span className={cn(styles.text, styles.signOut)}>
                 {"Not you? <button>Sign Out</button>"}

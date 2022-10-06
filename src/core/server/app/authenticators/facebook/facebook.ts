@@ -108,71 +108,69 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
     return validateSchema(FacebookUserProfileSchema, profile);
   }
 
-  public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
-    async (req, res, next) => {
-      const { tenant, now } = req.coral;
+  public authenticate: RequestHandler<
+    TenantCoralRequest,
+    Promise<void>
+  > = async (req, res, next) => {
+    const { tenant, now } = req.coral;
 
-      let response: ExchangeResponse;
+    let response: ExchangeResponse;
 
-      try {
-        // If we don't have a code on the request, then we should redirect the user.
-        if (!req.query.code) {
-          return this.redirect(req, res);
-        }
-
-        // Exchange the code for a token.
-        response = await this.exchange(req, res);
-      } catch (err) {
-        return next(err);
+    try {
+      // If we don't have a code on the request, then we should redirect the user.
+      if (!req.query.code) {
+        return this.redirect(req, res);
       }
 
-      const {
-        state,
-        tokens: { accessToken },
-      } = response;
+      // Exchange the code for a token.
+      response = await this.exchange(req, res);
+    } catch (err) {
+      return next(err);
+    }
 
-      try {
-        // Get the profile of the user.
-        const { id, picture, email } = await this.getProfile(accessToken);
+    const {
+      state,
+      tokens: { accessToken },
+    } = response;
 
-        // Create the user profile that will be used to lookup the User.
-        const profile: FacebookProfile = {
-          type: "facebook",
-          id,
-        };
+    try {
+      // Get the profile of the user.
+      const { id, picture, email } = await this.getProfile(accessToken);
 
-        let user = await retrieveUserWithProfile(
-          this.mongo,
-          tenant.id,
-          profile
-        );
-        if (user) {
-          return this.success(state, user, req, res);
-        }
+      // Create the user profile that will be used to lookup the User.
+      const profile: FacebookProfile = {
+        type: "facebook",
+        id,
+      };
 
-        if (!this.integration.allowRegistration) {
-          throw new Error("registration is disabled");
-        }
-
-        // Create the user this time.
-        user = await findOrCreate(
-          this.config,
-          this.mongo,
-          tenant,
-          {
-            role: GQLUSER_ROLE.COMMENTER,
-            email,
-            emailVerified: false,
-            avatar: picture?.data.url,
-            profile,
-          },
-          {},
-          now
-        );
-
+      let user = await retrieveUserWithProfile(this.mongo, tenant.id, profile);
+      if (user) {
         return this.success(state, user, req, res);
-      } catch (err) {
-        return this.fail(state, err, req, res);
       }
-    };
+
+      if (!this.integration.allowRegistration) {
+        throw new Error("registration is disabled");
+      }
+
+      // Create the user this time.
+      user = await findOrCreate(
+        this.config,
+        this.mongo,
+        tenant,
+        {
+          role: GQLUSER_ROLE.COMMENTER,
+          email,
+          emailVerified: false,
+          avatar: picture?.data.url,
+          profile,
+        },
+        {},
+        now
+      );
+
+      return this.success(state, user, req, res);
+    } catch (err) {
+      return this.fail(state, err, req, res);
+    }
+  };
 }

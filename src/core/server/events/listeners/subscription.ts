@@ -27,8 +27,7 @@ type SubscriptionCoralEventListenerPayloads =
   | CommentEditedCoralEventPayload;
 
 export class SubscriptionCoralEventListener
-  implements CoralEventListener<SubscriptionCoralEventListenerPayloads>
-{
+  implements CoralEventListener<SubscriptionCoralEventListenerPayloads> {
   public readonly name = "subscription";
   public readonly events = [
     CoralEventType.COMMENT_ENTERED_MODERATION_QUEUE,
@@ -74,13 +73,12 @@ export class SubscriptionCoralEventListener
     return createSubscriptionChannelName(tenantID, this.translate(type));
   }
 
-  public initialize: CoralEventPublisherFactory<SubscriptionCoralEventListenerPayloads> =
-
-      ({ clientID, pubsub, tenant: { id } }) =>
-      async ({ type, data }) => {
-        await pubsub.publish(this.trigger(id, type), {
-          ...data,
-          clientID,
-        });
-      };
+  public initialize: CoralEventPublisherFactory<
+    SubscriptionCoralEventListenerPayloads
+  > = ({ clientID, pubsub, tenant: { id } }) => async ({ type, data }) => {
+    await pubsub.publish(this.trigger(id, type), {
+      ...data,
+      clientID,
+    });
+  };
 }

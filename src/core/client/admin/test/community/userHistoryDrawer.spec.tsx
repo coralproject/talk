@@ -1,4 +1,4 @@
-import { act, screen, waitFor, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
@@ -55,23 +55,21 @@ const createTestRenderer = async (
       }
     },
   });
-  customRenderAppWithContext(context);
   return { context };
 };
 
 it("user drawer is open and both user name and user id are visible", async () => {
-  await createTestRenderer();
+  const { context } = await createTestRenderer();
+  customRenderAppWithContext(context);
   await screen.findByTestId("community-container");
-  const isabelle = await screen.findByRole("button", { name: "Isabelle" });
-  await act(async () => {
-    userEvent.click(isabelle);
-  });
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
   const isabelleUserHistory = await screen.findByTestId(
     "userHistoryDrawer-modal"
   );
   expect(
-    await within(isabelleUserHistory).findByText("Isabelle")
-  ).toBeVisible();
+    within(isabelleUserHistory).queryByText("Isabelle")
+  ).toBeInTheDocument();
   expect(
     within(isabelleUserHistory).queryByText(users.commenters[0].id)
   ).toBeInTheDocument();
@@ -83,13 +81,12 @@ it("opens user drawer and shows external profile url link when has feature flag 
     GQLFEATURE_FLAG.CONFIGURE_PUBLIC_PROFILE_URL,
   ];
   settingsOverride.externalProfileURL = "https://example.com/users/$USER_NAME";
-  await createTestRenderer({}, settingsOverride);
+  const { context } = await createTestRenderer({}, settingsOverride);
+  customRenderAppWithContext(context);
 
   await screen.findByTestId("community-container");
-  const isabelle = await screen.findByRole("button", { name: "Isabelle" });
-  await act(async () => {
-    userEvent.click(isabelle);
-  });
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
 
   const isabelleUserHistory = await screen.findByTestId(
     "userHistoryDrawer-modal"
@@ -110,13 +107,12 @@ it("opens user drawer and does not show external profile url link when doesn't h
   const settingsOverride = settings;
   settingsOverride.featureFlags = [];
   settingsOverride.externalProfileURL = "https://example.com/users/$USER_NAME";
-  await createTestRenderer({}, settingsOverride);
+  const { context } = await createTestRenderer({}, settingsOverride);
+  customRenderAppWithContext(context);
 
   await screen.findByTestId("community-container");
-  const isabelle = await screen.findByRole("button", { name: "Isabelle" });
-  await act(async () => {
-    userEvent.click(isabelle);
-  });
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
 
   const isabelleUserHistory = await screen.findByTestId(
     "userHistoryDrawer-modal"
@@ -139,13 +135,17 @@ it("all comments selected, comment is visible in all comments", async () => {
       hasNextPage: false,
     },
   };
-  await createTestRenderer({}, settingsWithMultisite, usersOverride);
+  const { context } = await createTestRenderer(
+    {},
+    settingsWithMultisite,
+    usersOverride
+  );
+  customRenderAppWithContext(context);
 
   await screen.findByTestId("community-container");
-  const isabelle = await screen.findByRole("button", { name: "Isabelle" });
-  await act(async () => {
-    userEvent.click(isabelle);
-  });
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
+
   const isabelleUserHistory = await screen.findByTestId(
     "userHistoryDrawer-modal"
   );
@@ -174,19 +174,23 @@ it("select rejected comments, rejected comment is visible", async () => {
       hasNextPage: false,
     },
   };
-  await createTestRenderer({}, settingsWithMultisite, usersOverride);
+  const { context } = await createTestRenderer(
+    {},
+    settingsWithMultisite,
+    usersOverride
+  );
+  customRenderAppWithContext(context);
 
   await screen.findByTestId("community-container");
-  const isabelle = await screen.findByRole("button", { name: "Isabelle" });
-  await act(async () => {
-    userEvent.click(isabelle);
-  });
+  const isabelle = screen.getByRole("button", { name: "Isabelle" });
+  userEvent.click(isabelle);
 
   const isabelleUserHistory = await screen.findByTestId(
     "userHistoryDrawer-modal"
   );
-  const rejectedCommentsTab =
-    within(isabelleUserHistory).queryAllByRole("tab")[1];
+  const rejectedCommentsTab = within(isabelleUserHistory).queryAllByRole(
+    "tab"
+  )[1];
   userEvent.click(rejectedCommentsTab);
   await waitFor(() => {
     expect(

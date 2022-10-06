@@ -124,7 +124,8 @@ it("renders For Review queue with flags", async () => {
 
   // confirm that renders all comment rows with expected flags
   const firstCommentRow = within(modContainer).getByRole("row", {
-    name: "06/01/21, 02:21 PM This is the last random sentence I will Isabelle Abusive this is why",
+    name:
+      "06/01/21, 02:21 PM This is the last random sentence I will Isabelle Abusive this is why",
   });
   expect(
     within(firstCommentRow).getByRole("cell", { name: "Abusive" })
@@ -154,7 +155,8 @@ it("renders For Review queue with flags", async () => {
   ).toBeVisible();
 
   const fourthCommentRow = within(modContainer).getByRole("row", {
-    name: "06/01/21, 02:21 PM Don't fool with me Isabelle Abusive Looks abusive",
+    name:
+      "06/01/21, 02:21 PM Don't fool with me Isabelle Abusive Looks abusive",
   });
   expect(
     within(fourthCommentRow).getByRole("cell", { name: "Abusive" })
@@ -239,20 +241,19 @@ it("load more", async () => {
 });
 
 it("mark as reviewed", async () => {
-  const reviewCommentFlagStub =
-    createMutationResolverStub<MutationToReviewCommentFlagResolver>(
-      ({ variables }) => {
-        expectAndFail(variables).toMatchObject({
-          id: commentFlags[0].id,
-        });
-        return {
-          flag: {
-            ...commentFlags[0],
-            reviewed: true,
-          },
-        };
-      }
-    );
+  const reviewCommentFlagStub = createMutationResolverStub<
+    MutationToReviewCommentFlagResolver
+  >(({ variables }) => {
+    expectAndFail(variables).toMatchObject({
+      id: commentFlags[0].id,
+    });
+    return {
+      flag: {
+        ...commentFlags[0],
+        reviewed: true,
+      },
+    };
+  });
   const { modContainer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {

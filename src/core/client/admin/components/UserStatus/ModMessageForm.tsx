@@ -25,7 +25,7 @@ const ModMessageForm: FunctionComponent<Props> = ({
   lastFocusableRef,
 }) => {
   const onFormSubmit = useCallback(
-    ({ message }: { message: string }) => {
+    ({ message }) => {
       onSubmit(message);
     },
     [onSubmit]

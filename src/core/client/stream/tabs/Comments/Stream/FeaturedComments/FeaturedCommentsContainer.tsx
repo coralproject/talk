@@ -200,11 +200,11 @@ const enhanced = withPaginationContainer<
   {
     story: graphql`
       fragment FeaturedCommentsContainer_story on Story
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 5 }
-        cursor: { type: "Cursor" }
-        orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
-      ) {
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 5 }
+          cursor: { type: "Cursor" }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+        ) {
         id
         isClosed
         featuredComments(first: $count, after: $cursor, orderBy: $orderBy)

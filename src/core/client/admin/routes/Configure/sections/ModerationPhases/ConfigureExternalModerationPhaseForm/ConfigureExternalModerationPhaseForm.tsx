@@ -33,10 +33,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import {
-  COMMENT_BODY_FORMAT,
-  ConfigureExternalModerationPhaseForm_phase,
-} from "coral-admin/__generated__/ConfigureExternalModerationPhaseForm_phase.graphql";
+import { ConfigureExternalModerationPhaseForm_phase } from "coral-admin/__generated__/ConfigureExternalModerationPhaseForm_phase.graphql";
 
 import CreateExternalModerationPhaseMutation from "./CreateExternalModerationPhaseMutation";
 import UpdateExternalModerationPhaseMutation from "./UpdateExternalModerationPhaseMutation";
@@ -64,13 +61,7 @@ const ConfigureExternalModerationPhaseForm: FunctionComponent<Props> = ({
   const update = useMutation(UpdateExternalModerationPhaseMutation);
   const { router } = useRouter();
   const onSubmit = useCallback(
-    async (values: {
-      name: string;
-      url: string;
-      format: COMMENT_BODY_FORMAT;
-      timeout: number;
-      id: string;
-    }) => {
+    async (values) => {
       try {
         if (phase) {
           // The external moderation phase was defined, update it.

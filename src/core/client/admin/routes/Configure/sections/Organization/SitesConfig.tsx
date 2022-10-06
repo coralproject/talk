@@ -42,7 +42,7 @@ const SitesConfig: FunctionComponent<Props> = ({
       </Localized>
       <Localized
         id="configure-organization-sites-add-site"
-        elems={{ icon: <Icon>add</Icon> }}
+        icon={<Icon>add</Icon>}
       >
         <Button to="/admin/configure/organization/sites/new" iconLeft>
           <Icon>add</Icon>

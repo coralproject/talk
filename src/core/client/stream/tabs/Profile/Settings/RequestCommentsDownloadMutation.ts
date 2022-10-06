@@ -29,8 +29,9 @@ const RequestCommentsDownloadMutation = createMutation(
         user.setValue(now.toISOString(), "lastDownloadedAt");
       }
     };
-    const requestDownloadCommentHistoryEvent =
-      RequestDownloadCommentHistoryEvent.begin(eventEmitter);
+    const requestDownloadCommentHistoryEvent = RequestDownloadCommentHistoryEvent.begin(
+      eventEmitter
+    );
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
         environment,

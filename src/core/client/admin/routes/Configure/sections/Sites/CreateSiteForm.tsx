@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { FormApi } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -19,8 +20,6 @@ import {
   Label,
 } from "coral-ui/components/v2";
 
-import { CreateSite } from "coral-admin/__generated__/CreateSiteMutation.graphql";
-
 import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 import CreateSiteMutation from "./CreateSiteMutation";
@@ -33,7 +32,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
   const createSite = useMutation(CreateSiteMutation);
   const [submitError, setSubmitError] = useState<null | string>(null);
   const onSubmit = useCallback(
-    async (input: CreateSite) => {
+    async (input, form: FormApi) => {
       try {
         const response = await createSite({ site: input });
         if (response && response.site) {
@@ -125,7 +124,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
                 </Localized>
                 <Localized
                   id="configure-sites-site-form-submit"
-                  elems={{ icon: <ButtonIcon>add</ButtonIcon> }}
+                  icon={<ButtonIcon>add</ButtonIcon>}
                 >
                   <Button
                     disabled={submitting}

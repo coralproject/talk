@@ -46,70 +46,74 @@ const FeaturedCommentsSchema = Joi.object().keys({
   siteID: Joi.string().required(),
 });
 
-export const featuredHander =
-  ({ mongo }: FeaturedOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      const { tenant } = req.coral;
-      // Ensure we have a siteID on the query.
-      const { siteID }: FeaturedCommentsQuery = validate(
-        FeaturedCommentsSchema,
-        req.query
-      );
+export const featuredHander = ({
+  mongo,
+}: FeaturedOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { tenant } = req.coral;
+    // Ensure we have a siteID on the query.
+    const { siteID }: FeaturedCommentsQuery = validate(
+      FeaturedCommentsSchema,
+      req.query
+    );
 
-      const site = await retrieveSite(mongo, tenant.id, siteID);
-      if (!site) {
-        throw new Error("site not found");
-      }
-
-      const getStories = new DataLoader((ids: string[]) =>
-        retrieveManyStories(mongo, tenant.id, ids)
-      );
-      const getAuthors = new DataLoader((ids: string[]) =>
-        retrieveManyUsers(mongo, tenant.id, ids)
-      );
-
-      const comments = await retrieveFeaturedComments(
-        mongo,
-        tenant.id,
-        siteID,
-        FEATURED_COMMENTS_LIMIT
-      );
-
-      const authorIDs = compact(comments.map((c) => c.authorID));
-      const [stories, authors] = await Promise.all([
-        getStories
-          .loadMany(comments.map((comment) => comment.storyID))
-          .then(mapErrorsToNull),
-        getAuthors.loadMany(authorIDs).then(mapErrorsToNull),
-      ]);
-
-      const response: FeaturedHandlerResponse = {
-        comments: comments.map((comment) => {
-          const revision = getLatestRevision(comment);
-          const story = stories.find(
-            (s) => s && !(s instanceof Error) && s.id === comment.storyID
-          );
-          const author = authors.find((a) => a && a.id === comment.authorID);
-          return {
-            id: comment.id,
-            body: revision.body,
-            createdAt: revision.createdAt,
-            story: {
-              id: comment.storyID,
-              title: story?.metadata?.title || null,
-              url: story?.url || null,
-              publishedAt: story?.metadata?.publishedAt || null,
-            },
-            author: {
-              id: comment.authorID,
-              username: author?.username || null,
-            },
-          };
-        }),
-      };
-      res.jsonp(response);
-    } catch (err) {
-      return next(err);
+    const site = await retrieveSite(mongo, tenant.id, siteID);
+    if (!site) {
+      throw new Error("site not found");
     }
-  };
+
+    const getStories = new DataLoader((ids: string[]) =>
+      retrieveManyStories(mongo, tenant.id, ids)
+    );
+    const getAuthors = new DataLoader((ids: string[]) =>
+      retrieveManyUsers(mongo, tenant.id, ids)
+    );
+
+    const comments = await retrieveFeaturedComments(
+      mongo,
+      tenant.id,
+      siteID,
+      FEATURED_COMMENTS_LIMIT
+    );
+
+    const authorIDs = compact(comments.map((c) => c.authorID));
+    const [stories, authors] = await Promise.all([
+      getStories
+        .loadMany(comments.map((comment) => comment.storyID))
+        .then(mapErrorsToNull),
+      getAuthors.loadMany(authorIDs).then(mapErrorsToNull),
+    ]);
+
+    const response: FeaturedHandlerResponse = {
+      comments: comments.map((comment) => {
+        const revision = getLatestRevision(comment);
+        const story = stories.find(
+          (s) => s && !(s instanceof Error) && s.id === comment.storyID
+        );
+        const author = authors.find((a) => a && a.id === comment.authorID);
+        return {
+          id: comment.id,
+          body: revision.body,
+          createdAt: revision.createdAt,
+          story: {
+            id: comment.storyID,
+            title: story?.metadata?.title || null,
+            url: story?.url || null,
+            publishedAt: story?.metadata?.publishedAt || null,
+          },
+          author: {
+            id: comment.authorID,
+            username: author?.username || null,
+          },
+        };
+      }),
+    };
+    res.jsonp(response);
+  } catch (err) {
+    return next(err);
+  }
+};

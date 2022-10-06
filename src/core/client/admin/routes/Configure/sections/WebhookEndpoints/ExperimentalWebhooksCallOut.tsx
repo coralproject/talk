@@ -7,9 +7,7 @@ import { ExternalLink } from "coral-framework/lib/i18n/components";
 const ExperimentalWebhooksCallOut: FunctionComponent = () => (
   <Localized
     id="configure-webhooks-experimentalFeature"
-    elems={{
-      ContactUsLink: <ExternalLink href="https://coralproject.net/contact/" />,
-    }}
+    ContactUsLink={<ExternalLink href="https://coralproject.net/contact/" />}
   >
     <ExperimentalCallOut>
       The webhook feature is currently in active development. Events may be

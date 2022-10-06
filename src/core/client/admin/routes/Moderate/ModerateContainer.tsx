@@ -13,7 +13,6 @@ import Moderate from "./Moderate";
 
 interface Props {
   data: ModerateContainerQueryResponse | null;
-  children?: React.ReactNode;
 }
 
 const queueNames: QUEUE_NAME[] = [

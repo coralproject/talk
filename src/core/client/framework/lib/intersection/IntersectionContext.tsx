@@ -16,13 +16,7 @@ const IntersectionContext = React.createContext<IntersectionContext>({} as any);
 export const useIntersectionContext = () =>
   React.useContext(IntersectionContext);
 
-interface IntersectionProviderProps {
-  children?: React.ReactNode;
-}
-
-export const IntersectionProvider: React.FunctionComponent<
-  IntersectionProviderProps
-> = ({ children }) => {
+export const IntersectionProvider: React.FunctionComponent = ({ children }) => {
   const callbacks = useRef(new Map<Element, IntersectionCallback>());
 
   const onIntersect = useCallback(
@@ -55,13 +49,12 @@ export const IntersectionProvider: React.FunctionComponent<
 
   const observe: Observe = useCallback(
     (element, callback) => {
-      const instance = callbacks.current;
-      instance.set(element, callback);
+      callbacks.current.set(element, callback);
       observer.observe(element);
 
       return () => {
         observer.unobserve(element);
-        instance.delete(element);
+        callbacks.current.delete(element);
       };
     },
     [observer]

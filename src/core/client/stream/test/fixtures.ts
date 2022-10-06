@@ -675,7 +675,8 @@ export const commentWithDeepestReplies = denormalizeComment(
                                           cursor: baseComment.createdAt,
                                           node: {
                                             ...baseComment,
-                                            id: "comment-with-deepest-replies-5",
+                                            id:
+                                              "comment-with-deepest-replies-5",
                                             body: "body 5",
                                             replyCount: 1,
                                             replies: {
@@ -685,7 +686,8 @@ export const commentWithDeepestReplies = denormalizeComment(
                                                   cursor: baseComment.createdAt,
                                                   node: {
                                                     ...baseComment,
-                                                    id: "comment-with-deepest-replies-6",
+                                                    id:
+                                                      "comment-with-deepest-replies-6",
                                                     body: "body 6",
                                                     replyCount: 1,
                                                     replies: {
@@ -696,7 +698,8 @@ export const commentWithDeepestReplies = denormalizeComment(
                                                             baseComment.createdAt,
                                                           node: {
                                                             ...baseComment,
-                                                            id: "comment-with-deepest-replies-7",
+                                                            id:
+                                                              "comment-with-deepest-replies-7",
                                                             body: "body 7",
                                                             replyCount: 1,
                                                             replies: {

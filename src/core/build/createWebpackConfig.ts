@@ -466,8 +466,7 @@ export default function createWebpackConfig(
             {
               test: /\.js$/,
               include: /node_modules\//,
-              exclude:
-                /node_modules\/(@babel|babel|core-js|webpack\/|regenerator-runtime)/,
+              exclude: /node_modules\/(@babel|babel|core-js|webpack\/|regenerator-runtime)/,
               use: [
                 {
                   loader: require.resolve("babel-loader"),

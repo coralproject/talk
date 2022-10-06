@@ -151,28 +151,28 @@ const queryFilter = (query?: string): StoryConnectionInput["filter"] => {
  *
  * @param ctx graph context to use to prime the loaders.
  */
-const primeStoriesFromConnection =
-  (ctx: GraphContext) =>
-  (connection: Readonly<Connection<Readonly<Story>>>) => {
-    if (!ctx.disableCaching) {
-      // For each of these nodes, prime the story loader.
-      connection.nodes.forEach((story) => {
-        ctx.loaders.Stories.story.prime(story.id, story);
-      });
-    }
-
-    return connection;
-  };
-
-const primeStory =
-  (ctx: GraphContext) =>
-  (story: Readonly<Story> | null): Readonly<Story> | null => {
-    if (story) {
+const primeStoriesFromConnection = (ctx: GraphContext) => (
+  connection: Readonly<Connection<Readonly<Story>>>
+) => {
+  if (!ctx.disableCaching) {
+    // For each of these nodes, prime the story loader.
+    connection.nodes.forEach((story) => {
       ctx.loaders.Stories.story.prime(story.id, story);
-    }
+    });
+  }
 
-    return story;
-  };
+  return connection;
+};
+
+const primeStory = (ctx: GraphContext) => (
+  story: Readonly<Story> | null
+): Readonly<Story> | null => {
+  if (story) {
+    ctx.loaders.Stories.story.prime(story.id, story);
+  }
+
+  return story;
+};
 
 export default (ctx: GraphContext) => ({
   findOrCreate: new DataLoader(

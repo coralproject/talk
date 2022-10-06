@@ -43,9 +43,7 @@ export function getAppFilename(
 }
 
 export class SentryErrorReporter implements ErrorReporter {
-  public readonly ErrorBoundary?: FunctionComponent<{
-    children?: React.ReactNode;
-  }>;
+  public readonly ErrorBoundary?: FunctionComponent;
 
   constructor(
     reporterFeedbackPrompt: boolean,

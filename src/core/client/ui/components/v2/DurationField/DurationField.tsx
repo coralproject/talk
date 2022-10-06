@@ -144,10 +144,8 @@ const DurationField: FunctionComponent<Props> = ({
       {elementCallbacks.length === 1 ? (
         <Localized
           id="framework-durationField-unit"
-          vars={{
-            unit: elementCallbacks[0],
-            value: parseInt(computedValue, 10),
-          }}
+          $unit={elementCallbacks[0]}
+          $value={parseInt(computedValue, 10)}
         >
           <span className={styles.unit}>{elementCallbacks[0]}</span>
         </Localized>
@@ -167,7 +165,8 @@ const DurationField: FunctionComponent<Props> = ({
             return (
               <Localized
                 id="framework-durationField-unit"
-                vars={{ unit, value: parseInt(computedValue, 10) }}
+                $unit={unit}
+                $value={parseInt(computedValue, 10)}
                 key={i}
               >
                 <Option value={val.toString()}>{unit}</Option>

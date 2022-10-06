@@ -1,11 +1,13 @@
 import { GQLSubscription } from "coral-framework/schema";
 import { DeepPartial } from "coral-framework/types";
 
-export type SubscriptionVariables<T extends SubscriptionResolver<any, any>> =
-  T extends SubscriptionResolver<infer V, any> ? V : any;
+export type SubscriptionVariables<
+  T extends SubscriptionResolver<any, any>
+> = T extends SubscriptionResolver<infer V, any> ? V : any;
 
-export type SubscriptionResponse<T extends SubscriptionResolver<any, any>> =
-  T extends SubscriptionResolver<any, infer R> ? DeepPartial<R> : any;
+export type SubscriptionResponse<
+  T extends SubscriptionResolver<any, any>
+> = T extends SubscriptionResolver<any, infer R> ? DeepPartial<R> : any;
 
 /**
  * SubscriptionResolver matches the shape of Subscription

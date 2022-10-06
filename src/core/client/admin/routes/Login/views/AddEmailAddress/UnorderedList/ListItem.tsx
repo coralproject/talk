@@ -6,7 +6,6 @@ import styles from "./ListItem.css";
 
 interface Props {
   icon?: React.ReactNode;
-  children?: React.ReactNode;
 }
 
 const ListItem: FunctionComponent<Props> = (props) => (

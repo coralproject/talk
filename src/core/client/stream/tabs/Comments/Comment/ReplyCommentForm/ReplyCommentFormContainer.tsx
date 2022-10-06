@@ -65,8 +65,12 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
   const root = useShadowRootOrDocument();
-  const { renderWindow, sessionStorage, browserInfo, customScrollContainer } =
-    useCoralContext();
+  const {
+    renderWindow,
+    sessionStorage,
+    browserInfo,
+    customScrollContainer,
+  } = useCoralContext();
   // Disable autofocus on ios and enable for the rest.
   const autofocus = !browserInfo.ios;
   const commentSeenEnabled = useCommentSeenEnabled();
@@ -214,7 +218,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   );
 
   const handleOnChange: ReplyCommentFormProps["onChange"] = useCallback(
-    (state: any, form: any) => {
+    (state, form) => {
       if (state.values.body) {
         void sessionStorage.setItem(contextKey, state.values.body);
       } else {

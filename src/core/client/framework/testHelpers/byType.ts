@@ -3,18 +3,18 @@ import { ReactTestInstance } from "react-test-renderer";
 import findParent from "./findParent";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
-const matcher =
-  (pattern: TextMatchPattern, options?: TextMatchOptions) =>
-  (i: ReactTestInstance) => {
-    // Only look at dom components.
-    if (typeof i.type !== "string") {
-      return false;
-    }
-    return matchText(pattern, i.type, {
-      collapseWhitespace: false,
-      ...options,
-    });
-  };
+const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
+  i: ReactTestInstance
+) => {
+  // Only look at dom components.
+  if (typeof i.type !== "string") {
+    return false;
+  }
+  return matchText(pattern, i.type, {
+    collapseWhitespace: false,
+    ...options,
+  });
+};
 
 export function getParentByType(
   container: ReactTestInstance,

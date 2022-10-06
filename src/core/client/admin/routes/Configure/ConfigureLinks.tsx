@@ -29,13 +29,15 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
         }: {
           href: string;
           onClick: MouseEventHandler<HTMLButtonElement>;
-        }) => (
-          <Localized id="configure-sideBarNavigation-moderation-comments">
-            <SubLink href={href} onClick={onClick}>
-              Comments
-            </SubLink>
-          </Localized>
-        )}
+        }) => {
+          return (
+            <Localized id="configure-sideBarNavigation-moderation-comments">
+              <SubLink href={href} onClick={onClick}>
+                Comments
+              </SubLink>
+            </Localized>
+          );
+        }}
       </Link>
       <Link
         exact
@@ -47,13 +49,15 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
         }: {
           href: string;
           onClick: MouseEventHandler<HTMLButtonElement>;
-        }) => (
-          <Localized id="configure-sideBarNavigation-moderation-users">
-            <SubLink href={href} onClick={onClick}>
-              Users
-            </SubLink>
-          </Localized>
-        )}
+        }) => {
+          return (
+            <Localized id="configure-sideBarNavigation-moderation-users">
+              <SubLink href={href} onClick={onClick}>
+                Users
+              </SubLink>
+            </Localized>
+          );
+        }}
       </Link>
       <Localized id="configure-sideBarNavigation-moderationPhases">
         <Link to="/admin/configure/moderation/phases">Moderation Phases</Link>

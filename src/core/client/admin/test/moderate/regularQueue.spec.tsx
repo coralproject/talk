@@ -1,4 +1,4 @@
-import { act, screen, waitFor, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
@@ -66,10 +66,7 @@ async function createTestRenderer(
 }
 
 it("renders moderate navigation with correct links and comment counts", async () => {
-  await act(async () => {
-    await createTestRenderer();
-  });
-
+  await createTestRenderer();
   const pendingNav = await screen.findByText("Pending");
   expect(pendingNav).toBeDefined();
   expect(pendingNav.closest("a")).toHaveAttribute(
@@ -161,31 +158,30 @@ it("renders reported queue with comments", async () => {
           pureMerge(emptyModerationQueues, {
             reported: {
               count: 2,
-              comments:
-                createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                  ({ variables }) => {
-                    expectAndFail(variables).toEqual({
-                      first: 5,
-                      orderBy: "CREATED_AT_DESC",
-                    });
-                    return {
-                      edges: [
-                        {
-                          node: reportedComments[0],
-                          cursor: reportedComments[0].createdAt,
-                        },
-                        {
-                          node: reportedComments[1],
-                          cursor: reportedComments[1].createdAt,
-                        },
-                      ],
-                      pageInfo: {
-                        endCursor: reportedComments[1].createdAt,
-                        hasNextPage: false,
-                      },
-                    };
-                  }
-                ) as any,
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[0],
+                      cursor: reportedComments[0].createdAt,
+                    },
+                    {
+                      node: reportedComments[1],
+                      cursor: reportedComments[1].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[1].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }) as any,
             },
           }),
       },
@@ -212,31 +208,30 @@ it("renders reported queue with comments correctly rendered", async () => {
           pureMerge(emptyModerationQueues, {
             reported: {
               count: 2,
-              comments:
-                createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                  ({ variables }) => {
-                    expectAndFail(variables).toEqual({
-                      first: 5,
-                      orderBy: "CREATED_AT_DESC",
-                    });
-                    return {
-                      edges: [
-                        {
-                          node: reportedComments[0],
-                          cursor: reportedComments[0].createdAt,
-                        },
-                        {
-                          node: reportedComments[1],
-                          cursor: reportedComments[1].createdAt,
-                        },
-                      ],
-                      pageInfo: {
-                        endCursor: reportedComments[1].createdAt,
-                        hasNextPage: false,
-                      },
-                    };
-                  }
-                ),
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[0],
+                      cursor: reportedComments[0].createdAt,
+                    },
+                    {
+                      node: reportedComments[1],
+                      cursor: reportedComments[1].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[1].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }),
             },
           }),
       },
@@ -262,40 +257,37 @@ it("renders reported queue with comments correctly rendered", async () => {
 });
 
 it("renders reported queue with comments with banned words correctly", async () => {
-  await act(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () =>
-            pureMerge(emptyModerationQueues, {
-              reported: {
-                count: 2,
-                comments:
-                  createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                    ({ variables }) => {
-                      expectAndFail(variables).toEqual({
-                        first: 5,
-                        orderBy: "CREATED_AT_DESC",
-                      });
-                      return {
-                        edges: [
-                          {
-                            node: reportedComments[4],
-                            cursor: reportedComments[4].createdAt,
-                          },
-                        ],
-                        pageInfo: {
-                          endCursor: reportedComments[4].createdAt,
-                          hasNextPage: false,
-                        },
-                      };
-                    }
-                  ),
-              },
-            }),
-        },
-      }),
-    });
+  await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        moderationQueues: () =>
+          pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 2,
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[4],
+                      cursor: reportedComments[4].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[4].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }),
+            },
+          }),
+      },
+    }),
   });
   const moderateContainer = await screen.findByTestId("moderate-container");
   const comment = within(moderateContainer).getByTestId(
@@ -325,27 +317,26 @@ it("show details of comment with flags", async () => {
           pureMerge(emptyModerationQueues, {
             reported: {
               count: 1,
-              comments:
-                createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                  ({ variables }) => {
-                    expectAndFail(variables).toEqual({
-                      first: 5,
-                      orderBy: "CREATED_AT_DESC",
-                    });
-                    return {
-                      edges: [
-                        {
-                          node: reportedComments[0],
-                          cursor: reportedComments[0].createdAt,
-                        },
-                      ],
-                      pageInfo: {
-                        endCursor: reportedComments[0].createdAt,
-                        hasNextPage: false,
-                      },
-                    };
-                  }
-                ),
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[0],
+                      cursor: reportedComments[0].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[0].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }),
             },
           }),
       },
@@ -436,14 +427,9 @@ it("show reaction details for a comment with reactions", async () => {
   const reactionsButton = within(reported).getByRole("tab", {
     name: "Tab: Reactions",
   });
-  await act(async () => {
-    userEvent.click(reactionsButton);
-  });
-
+  userEvent.click(reactionsButton);
   const ngocButton = await screen.findByRole("button", { name: "Ngoc" });
-  await act(async () => {
-    userEvent.click(ngocButton);
-  });
+  userEvent.click(ngocButton);
   const modal = await screen.findByTestId("userHistoryDrawer-modal");
   expect(within(modal).getByText("Ngoc")).toBeVisible();
 });
@@ -456,31 +442,30 @@ it("shows story info and navigates to a moderate story", async () => {
           pureMerge(emptyModerationQueues, {
             reported: {
               count: 2,
-              comments:
-                createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                  ({ variables }) => {
-                    expectAndFail(variables).toEqual({
-                      first: 5,
-                      orderBy: "CREATED_AT_DESC",
-                    });
-                    return {
-                      edges: [
-                        {
-                          node: reportedComments[0],
-                          cursor: reportedComments[0].createdAt,
-                        },
-                        {
-                          node: reportedComments[1],
-                          cursor: reportedComments[1].createdAt,
-                        },
-                      ],
-                      pageInfo: {
-                        endCursor: reportedComments[1].createdAt,
-                        hasNextPage: false,
-                      },
-                    };
-                  }
-                ) as any,
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[0],
+                      cursor: reportedComments[0].createdAt,
+                    },
+                    {
+                      node: reportedComments[1],
+                      cursor: reportedComments[1].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[1].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }) as any,
             },
           }),
       },
@@ -590,40 +575,39 @@ it("renders reported queue with comments and load more", async () => {
 });
 
 it("approves comment in reported queue", async () => {
-  const approveCommentStub =
-    createMutationResolverStub<MutationToApproveCommentResolver>(
-      ({ variables }) => {
-        expectAndFail(variables).toMatchObject({
-          commentID: reportedComments[0].id,
-          commentRevisionID: reportedComments[0].revision!.id,
-        });
-        return {
-          comment: {
-            ...reportedComments[0],
-            status: GQLCOMMENT_STATUS.APPROVED,
-            statusHistory: {
-              edges: [
-                {
-                  node: {
-                    id: "mod-action",
-                    status: GQLCOMMENT_STATUS.APPROVED,
-                    moderator: {
-                      id: viewer.id,
-                      username: viewer.username,
-                    },
-                  },
+  const approveCommentStub = createMutationResolverStub<
+    MutationToApproveCommentResolver
+  >(({ variables }) => {
+    expectAndFail(variables).toMatchObject({
+      commentID: reportedComments[0].id,
+      commentRevisionID: reportedComments[0].revision!.id,
+    });
+    return {
+      comment: {
+        ...reportedComments[0],
+        status: GQLCOMMENT_STATUS.APPROVED,
+        statusHistory: {
+          edges: [
+            {
+              node: {
+                id: "mod-action",
+                status: GQLCOMMENT_STATUS.APPROVED,
+                moderator: {
+                  id: viewer.id,
+                  username: viewer.username,
                 },
-              ],
+              },
             },
-          },
-          moderationQueues: pureMerge(emptyModerationQueues, {
-            reported: {
-              count: 1,
-            },
-          }),
-        };
-      }
-    );
+          ],
+        },
+      },
+      moderationQueues: pureMerge(emptyModerationQueues, {
+        reported: {
+          count: 1,
+        },
+      }),
+    };
+  });
 
   const moderationQueuesStub = pureMerge(emptyModerationQueues, {
     reported: {
@@ -698,40 +682,39 @@ it("approves comment in reported queue", async () => {
 });
 
 it("rejects comment in reported queue", async () => {
-  const rejectCommentStub =
-    createMutationResolverStub<MutationToRejectCommentResolver>(
-      ({ variables }) => {
-        expectAndFail(variables).toMatchObject({
-          commentID: reportedComments[0].id,
-          commentRevisionID: reportedComments[0].revision!.id,
-        });
-        return {
-          comment: {
-            ...reportedComments[0],
-            status: GQLCOMMENT_STATUS.REJECTED,
-            statusHistory: {
-              edges: [
-                {
-                  node: {
-                    id: "mod-action",
-                    status: GQLCOMMENT_STATUS.REJECTED,
-                    moderator: {
-                      id: viewer.id,
-                      username: viewer.username,
-                    },
-                  },
+  const rejectCommentStub = createMutationResolverStub<
+    MutationToRejectCommentResolver
+  >(({ variables }) => {
+    expectAndFail(variables).toMatchObject({
+      commentID: reportedComments[0].id,
+      commentRevisionID: reportedComments[0].revision!.id,
+    });
+    return {
+      comment: {
+        ...reportedComments[0],
+        status: GQLCOMMENT_STATUS.REJECTED,
+        statusHistory: {
+          edges: [
+            {
+              node: {
+                id: "mod-action",
+                status: GQLCOMMENT_STATUS.REJECTED,
+                moderator: {
+                  id: viewer.id,
+                  username: viewer.username,
                 },
-              ],
+              },
             },
-          },
-          moderationQueues: pureMerge(emptyModerationQueues, {
-            reported: {
-              count: 1,
-            },
-          }),
-        };
-      }
-    );
+          ],
+        },
+      },
+      moderationQueues: pureMerge(emptyModerationQueues, {
+        reported: {
+          count: 1,
+        },
+      }),
+    };
+  });
 
   await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
@@ -740,31 +723,30 @@ it("rejects comment in reported queue", async () => {
           pureMerge(emptyModerationQueues, {
             reported: {
               count: 2,
-              comments:
-                createQueryResolverStub<ModerationQueueToCommentsResolver>(
-                  ({ variables }) => {
-                    expectAndFail(variables).toEqual({
-                      first: 5,
-                      orderBy: "CREATED_AT_DESC",
-                    });
-                    return {
-                      edges: [
-                        {
-                          node: reportedComments[0],
-                          cursor: reportedComments[0].createdAt,
-                        },
-                        {
-                          node: reportedComments[1],
-                          cursor: reportedComments[1].createdAt,
-                        },
-                      ],
-                      pageInfo: {
-                        endCursor: reportedComments[1].createdAt,
-                        hasNextPage: false,
-                      },
-                    };
-                  }
-                ) as any,
+              comments: createQueryResolverStub<
+                ModerationQueueToCommentsResolver
+              >(({ variables }) => {
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  orderBy: "CREATED_AT_DESC",
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[0],
+                      cursor: reportedComments[0].createdAt,
+                    },
+                    {
+                      node: reportedComments[1],
+                      cursor: reportedComments[1].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[1].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }) as any,
             },
           }),
       },

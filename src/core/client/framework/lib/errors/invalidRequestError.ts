@@ -21,10 +21,8 @@ interface InvalidRequestExtensions {
  * InvalidRequestError wraps the `INVALID_REQUEST_ERROR` error returned from the
  * server.
  */
-export default class InvalidRequestError
-  extends TraceableError
-  implements InvalidRequestExtensions
-{
+export default class InvalidRequestError extends TraceableError
+  implements InvalidRequestExtensions {
   // Keep extension of original server response.
   public readonly extensions: InvalidRequestExtensions;
   public readonly code: ERROR_CODES;

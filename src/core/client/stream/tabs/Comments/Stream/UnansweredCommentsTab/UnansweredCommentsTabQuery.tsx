@@ -56,14 +56,15 @@ export const render = (
 
 const UnansweredCommentsTabQuery: FunctionComponent = () => {
   const flattenReplies = useStaticFlattenReplies();
-  const [{ storyID, storyURL, commentsOrderBy }] =
-    useLocal<UnansweredCommentsTabQueryLocal>(graphql`
-      fragment UnansweredCommentsTabQueryLocal on Local {
-        storyID
-        storyURL
-        commentsOrderBy
-      }
-    `);
+  const [{ storyID, storyURL, commentsOrderBy }] = useLocal<
+    UnansweredCommentsTabQueryLocal
+  >(graphql`
+    fragment UnansweredCommentsTabQueryLocal on Local {
+      storyID
+      storyURL
+      commentsOrderBy
+    }
+  `);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`

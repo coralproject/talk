@@ -55,8 +55,13 @@ function getFiles(target, pathToLocale, context) {
 }
 
 function generateTarget(target, context) {
-  const { defaultLocale, fallbackLocale, pathToLocales, locales, bundled } =
-    context;
+  const {
+    defaultLocale,
+    fallbackLocale,
+    pathToLocales,
+    locales,
+    bundled,
+  } = context;
   const getLocalePath = (locale) => path.join(pathToLocales, locale);
   const getLocaleFiles = memoize((locale) =>
     getFiles(target, getLocalePath(locale), context)

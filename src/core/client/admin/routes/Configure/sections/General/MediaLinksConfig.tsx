@@ -237,13 +237,11 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
               </Localized>
               <Localized
                 id="configure-general-embedLinks-configuration-desc"
-                elems={{
-                  externalLink: (
-                    <ExternalLink
-                      href={"https://developers.giphy.com/docs/api"}
-                    />
-                  ),
-                }}
+                externalLink={
+                  <ExternalLink
+                    href={"https://developers.giphy.com/docs/api"}
+                  />
+                }
               >
                 <HelperText>
                   For additional information on GIPHY’s API please visit:

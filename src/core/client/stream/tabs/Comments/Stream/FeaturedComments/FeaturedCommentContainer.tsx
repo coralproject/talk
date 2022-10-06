@@ -81,8 +81,8 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
       >
         <Localized
           id="comments-featured-label"
-          elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
-          vars={{ username: comment.author?.username || "" }}
+          RelativeTime={<RelativeTime date={comment.createdAt} />}
+          $username={comment.author?.username || ""}
         >
           <Hidden id={`featuredComment-${comment.id}-label`}>
             Featured Comment from {comment.author?.username} {` `}

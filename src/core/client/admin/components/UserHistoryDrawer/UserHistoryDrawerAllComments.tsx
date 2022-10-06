@@ -37,13 +37,14 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
 
-  const [{ archivingEnabled, autoArchiveOlderThanMs }] =
-    useLocal<UserHistoryDrawerAllCommentsLocal>(graphql`
-      fragment UserHistoryDrawerAllCommentsLocal on Local {
-        archivingEnabled
-        autoArchiveOlderThanMs
-      }
-    `);
+  const [{ archivingEnabled, autoArchiveOlderThanMs }] = useLocal<
+    UserHistoryDrawerAllCommentsLocal
+  >(graphql`
+    fragment UserHistoryDrawerAllCommentsLocal on Local {
+      archivingEnabled
+      autoArchiveOlderThanMs
+    }
+  `);
 
   const onLoadMore = useCallback(() => {
     if (!loadMore || isLoadingMore) {
@@ -61,7 +62,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
       <CallOut fullWidth>
         <Localized
           id="moderate-user-drawer-all-no-comments"
-          vars={{ username: user.username || user.email || "" }}
+          $username={user.username || user.email}
         >
           <div>
             {user.username || user.email} has not submitted any comments.
@@ -90,10 +91,8 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
             mini
             onUsernameClicked={setUserID}
           />
-          {
-            // Don't show horizontal rule after last comment
-            index !== comments.length - 1 && <Divider />
-          }
+          {// Don't show horizontal rule after last comment
+          index !== comments.length - 1 && <Divider />}
         </div>
       ))}
       {hasMore && (
@@ -127,10 +126,10 @@ const enhanced = withPaginationContainer<
     `,
     user: graphql`
       fragment UserHistoryDrawerAllComments_user on User
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 5 }
-        cursor: { type: "Cursor" }
-      ) {
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 5 }
+          cursor: { type: "Cursor" }
+        ) {
         username
         email
         allComments(first: $count, after: $cursor)

@@ -53,10 +53,9 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<DetailsTabs>("INFO");
 
-  const onTabClick = useCallback(
-    (id: string) => setActiveTab(id as DetailsTabs),
-    [setActiveTab]
-  );
+  const onTabClick = useCallback((id) => setActiveTab(id as DetailsTabs), [
+    setActiveTab,
+  ]);
 
   const doesHaveFlagDetails = useMemo(() => hasFlagDetails(comment), [comment]);
   const hasRevisions = comment.editing.edited;

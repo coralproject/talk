@@ -48,153 +48,167 @@ function getMetricsOptions(req: Request<TenantCoralRequest>) {
   return { tenantID, siteID, tz, now };
 }
 
-export const todayMetricsHandler =
-  ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      const { tenantID, siteID, tz, now } = getMetricsOptions(req);
-      if (!siteID) {
-        throw new Error("siteID was not provided");
-      }
-
-      const [users, comments] = await Promise.all([
-        retrieveTodayUserMetrics(mongo, tenantID, tz, now),
-        retrieveTodayCommentMetrics(mongo, tenantID, siteID, tz, now),
-      ]);
-
-      const result: TodayMetricsJSON = {
-        users,
-        comments,
-      };
-
-      return res.json(result);
-    } catch (err) {
-      return next(err);
+export const todayMetricsHandler = ({
+  mongo,
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
     }
-  };
 
-export const totalMetricsHandler =
-  ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      const { tenantID, siteID } = getMetricsOptions(req);
-      if (!siteID) {
-        throw new Error("siteID was not provided");
-      }
+    const [users, comments] = await Promise.all([
+      retrieveTodayUserMetrics(mongo, tenantID, tz, now),
+      retrieveTodayCommentMetrics(mongo, tenantID, siteID, tz, now),
+    ]);
 
-      const site = await retrieveSite(mongo, tenantID, siteID);
-      if (!site) {
-        throw new Error("site specified was not found");
-      }
+    const result: TodayMetricsJSON = {
+      users,
+      comments,
+    };
 
-      const [users, staff] = await Promise.all([
-        retrieveAllTimeUserMetrics(mongo, tenantID),
-        retrieveAllTimeStaffCommentMetrics(mongo, tenantID, siteID),
-      ]);
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+};
 
-      const result: TodayMetricsJSON = {
-        users,
-        comments: {
-          total: calculateTotalCommentCount(site.commentCounts.status),
-          rejected: site.commentCounts.status.REJECTED,
-          staff,
-        },
-      };
-
-      return res.json(result);
-    } catch (err) {
-      return next(err);
+export const totalMetricsHandler = ({
+  mongo,
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { tenantID, siteID } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
     }
-  };
 
-export const hourlyCommentsMetricsHandler =
-  ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      const { tenantID, siteID, tz, now } = getMetricsOptions(req);
-      if (!siteID) {
-        throw new Error("siteID was not provided");
-      }
-
-      const [series, average] = await Promise.all([
-        retrieveHourlyCommentMetrics(mongo, tenantID, siteID, tz, now),
-        retrieveAverageCommentsMetric(mongo, tenantID, siteID, tz, now),
-      ]);
-
-      const result: TimeSeriesMetricsJSON = {
-        series,
-        average,
-      };
-
-      return res.json(result);
-    } catch (err) {
-      return next(err);
+    const site = await retrieveSite(mongo, tenantID, siteID);
+    if (!site) {
+      throw new Error("site specified was not found");
     }
-  };
 
-export const dailyUsersMetricsHandler =
-  ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      const { tenantID, tz, now } = getMetricsOptions(req);
+    const [users, staff] = await Promise.all([
+      retrieveAllTimeUserMetrics(mongo, tenantID),
+      retrieveAllTimeStaffCommentMetrics(mongo, tenantID, siteID),
+    ]);
 
-      const result: TimeSeriesMetricsJSON = {
-        series: await retrieveDailyUserMetrics(mongo, tenantID, tz, now),
-      };
+    const result: TodayMetricsJSON = {
+      users,
+      comments: {
+        total: calculateTotalCommentCount(site.commentCounts.status),
+        rejected: site.commentCounts.status.REJECTED,
+        staff,
+      },
+    };
 
-      return res.json(result);
-    } catch (err) {
-      return next(err);
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const hourlyCommentsMetricsHandler = ({
+  mongo,
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
     }
-  };
 
-export const todayStoriesMetricsHandler =
-  ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
-  async (req, res, next) => {
-    try {
-      const { tenantID, siteID, tz, now } = getMetricsOptions(req);
-      if (!siteID) {
-        throw new Error("siteID was not provided");
-      }
+    const [series, average] = await Promise.all([
+      retrieveHourlyCommentMetrics(mongo, tenantID, siteID, tz, now),
+      retrieveAverageCommentsMetric(mongo, tenantID, siteID, tz, now),
+    ]);
 
-      const results = await retrieveTodayTopStoryMetrics(
-        mongo,
-        tenantID,
-        siteID,
-        tz,
-        20,
-        now
-      );
+    const result: TimeSeriesMetricsJSON = {
+      series,
+      average,
+    };
 
-      // Fetch all the stories for each count.
-      const stories = await retrieveManyStories(
-        mongo,
-        tenantID,
-        results.map(({ _id }) => _id)
-      );
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+};
 
-      // Ensure that all entries are not null.
-      if (
-        !stories.every((story) => story) ||
-        results.length !== stories.length
-      ) {
-        throw new Error("some stories with comments were not found");
-      }
+export const dailyUsersMetricsHandler = ({
+  mongo,
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { tenantID, tz, now } = getMetricsOptions(req);
 
-      const result: TodayStoriesMetricsJSON = {
-        results: results.map(({ count }, idx) => {
-          // We verified above that there were no null values.
-          const story = stories[idx]!;
+    const result: TimeSeriesMetricsJSON = {
+      series: await retrieveDailyUserMetrics(mongo, tenantID, tz, now),
+    };
 
-          return {
-            count,
-            story: { id: story.id, title: story.metadata?.title },
-          };
-        }),
-      };
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+};
 
-      return res.json(result);
-    } catch (err) {
-      return next(err);
+export const todayStoriesMetricsHandler = ({
+  mongo,
+}: AppOptions): RequestHandler<TenantCoralRequest> => async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+    if (!siteID) {
+      throw new Error("siteID was not provided");
     }
-  };
+
+    const results = await retrieveTodayTopStoryMetrics(
+      mongo,
+      tenantID,
+      siteID,
+      tz,
+      20,
+      now
+    );
+
+    // Fetch all the stories for each count.
+    const stories = await retrieveManyStories(
+      mongo,
+      tenantID,
+      results.map(({ _id }) => _id)
+    );
+
+    // Ensure that all entries are not null.
+    if (!stories.every((story) => story) || results.length !== stories.length) {
+      throw new Error("some stories with comments were not found");
+    }
+
+    const result: TodayStoriesMetricsJSON = {
+      results: results.map(({ count }, idx) => {
+        // We verified above that there were no null values.
+        const story = stories[idx]!;
+
+        return { count, story: { id: story.id, title: story.metadata?.title } };
+      }),
+    };
+
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+};

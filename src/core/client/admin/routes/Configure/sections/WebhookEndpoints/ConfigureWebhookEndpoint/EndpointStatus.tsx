@@ -41,11 +41,9 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
         </Localized>
         <Localized
           id="configure-webhooks-signingSecretDescription"
-          elems={{
-            externalLink: (
-              <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#webhook-signing" />
-            ),
-          }}
+          externalLink={
+            <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#webhook-signing" />
+          }
         >
           <FormFieldDescription>
             The following signing secret is used to sign request payloads sent
@@ -66,7 +64,7 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
         </Flex>
         <Localized
           id="configure-webhooks-generatedAt"
-          vars={{ date: new Date(webhookEndpoint.signingSecret.createdAt) }}
+          $date={new Date(webhookEndpoint.signingSecret.createdAt)}
         >
           <HelperText>
             KEY GENERATED AT: {webhookEndpoint.signingSecret.createdAt}

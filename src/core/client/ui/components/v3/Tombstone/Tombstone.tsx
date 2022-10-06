@@ -12,7 +12,6 @@ interface Props {
   id: string;
   className?: string;
   fullWidth?: boolean;
-  children?: React.ReactNode;
   noBottomBorder?: boolean;
   noWrapper?: boolean;
 }

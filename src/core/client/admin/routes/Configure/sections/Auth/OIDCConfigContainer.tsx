@@ -26,10 +26,11 @@ const OIDCConfigContainer: FunctionComponent<Props> = ({ auth, disabled }) => {
     }
     setAwaitingResponse(true);
     try {
-      const { discoverOIDCConfiguration: config } =
-        await discoverOIDCConfiguration({
-          issuer,
-        });
+      const {
+        discoverOIDCConfiguration: config,
+      } = await discoverOIDCConfiguration({
+        issuer,
+      });
       if (config) {
         if (config.issuer) {
           form.change(

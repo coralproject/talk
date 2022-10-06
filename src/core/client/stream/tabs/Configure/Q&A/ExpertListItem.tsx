@@ -33,7 +33,7 @@ const ExpertListItem: FunctionComponent<Props> = ({
         {username && <span className={styles.username}>{username}</span>}
         {email && (
           <span className={styles.email}>
-            <Localized id="qa-expert-email" vars={{ email }}>
+            <Localized id="qa-expert-email" $email={email}>
               email
             </Localized>
           </span>

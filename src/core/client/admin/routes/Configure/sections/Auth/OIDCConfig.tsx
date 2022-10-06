@@ -90,10 +90,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
     >
       {(disabledInside) => (
         <>
-          <Localized
-            id="configure-auth-oidc-toLearnMore"
-            elems={{ Link: <OIDCLink /> }}
-          >
+          <Localized id="configure-auth-oidc-toLearnMore" Link={<OIDCLink />}>
             <FormFieldDescription>
               {"To learn more: https://openid.net/connect/"}
             </FormFieldDescription>

@@ -47,8 +47,12 @@ interface Props {
 const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
-  const { renderWindow, eventEmitter, window, customScrollContainer } =
-    useCoralContext();
+  const {
+    renderWindow,
+    eventEmitter,
+    window,
+    customScrollContainer,
+  } = useCoralContext();
   const root = useShadowRootOrDocument();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);

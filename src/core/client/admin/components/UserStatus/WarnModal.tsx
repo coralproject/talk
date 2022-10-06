@@ -18,6 +18,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onConfirm: (message: string) => void;
+  organizationName: string;
   success: boolean;
 }
 
@@ -26,6 +27,7 @@ const WarnModal: FunctionComponent<Props> = ({
   onClose,
   onConfirm,
   username,
+  organizationName,
   success,
 }) => {
   const notAvailableTranslation = useCommonTranslation(
@@ -50,8 +52,8 @@ const WarnModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-warnModal-success"
-                vars={{ username: username || notAvailableTranslation }}
-                elems={{ strong: <ModalHeaderUsername /> }}
+                $username={username}
+                strong={<ModalHeaderUsername />}
               >
                 <ModalHeader>
                   A warning has been sent to{" "}
@@ -72,8 +74,8 @@ const WarnModal: FunctionComponent<Props> = ({
             <HorizontalGutter spacing={3}>
               <Localized
                 id="community-warnModal-areYouSure"
-                elems={{ strong: <ModalHeaderUsername /> }}
-                vars={{ username: username || notAvailableTranslation }}
+                strong={<ModalHeaderUsername />}
+                $username={username || notAvailableTranslation}
               >
                 <ModalHeader id="warnModal-title">
                   Warn{" "}

@@ -68,32 +68,30 @@ it("live update count", async () => {
     ).getByText(no.toString());
   };
   const commentEntered = (queue: GQLMODERATION_QUEUE, comment: GQLComment) => {
-    subscriptionHandler.dispatch<SubscriptionToCommentEnteredModerationQueueResolver>(
-      "commentEnteredModerationQueue",
-      (variables) => {
-        if (variables.queue && variables.queue !== queue) {
-          return;
-        }
-        return {
-          queue,
-          comment,
-        };
+    subscriptionHandler.dispatch<
+      SubscriptionToCommentEnteredModerationQueueResolver
+    >("commentEnteredModerationQueue", (variables) => {
+      if (variables.queue && variables.queue !== queue) {
+        return;
       }
-    );
+      return {
+        queue,
+        comment,
+      };
+    });
   };
   const commentLeft = (queue: GQLMODERATION_QUEUE, comment: GQLComment) => {
-    subscriptionHandler.dispatch<SubscriptionToCommentEnteredModerationQueueResolver>(
-      "commentLeftModerationQueue",
-      (variables) => {
-        if (variables.queue && variables.queue !== queue) {
-          return;
-        }
-        return {
-          queue,
-          comment,
-        };
+    subscriptionHandler.dispatch<
+      SubscriptionToCommentEnteredModerationQueueResolver
+    >("commentLeftModerationQueue", (variables) => {
+      if (variables.queue && variables.queue !== queue) {
+        return;
       }
-    );
+      return {
+        queue,
+        comment,
+      };
+    });
   };
   await act(async () => {
     await wait(() =>

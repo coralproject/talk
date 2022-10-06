@@ -13,7 +13,9 @@ interface DecisionHistoryItemContainerProps {
   onClosePopover: () => void;
 }
 
-class DecisionHistoryItemContainer extends React.Component<DecisionHistoryItemContainerProps> {
+class DecisionHistoryItemContainer extends React.Component<
+  DecisionHistoryItemContainerProps
+> {
   public render() {
     // Comment might be deleted and null, because of database inconsistencies, handle this gracefully.
     const href = this.props.action.comment

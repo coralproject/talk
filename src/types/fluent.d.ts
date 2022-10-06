@@ -28,15 +28,11 @@ declare module "@fluent/dom/compat" {
 
 declare module "@fluent/react/compat" {
   import { FluentBundle } from "@fluent/bundle/compat";
-  import { ReactLocalization } from "@fluent/react/compat";
   import { ComponentType } from "react";
 
-  export const ReactLocalization: ReactLocalization;
-
   export interface LocalizationProviderProps {
-    l10n: ReactLocalization;
+    bundles: FluentBundle[];
     parseMarkup?: (s: string) => ChildNode[];
-    children?: React.ReactNode;
   }
   export const LocalizationProvider: ComponentType<LocalizationProviderProps>;
 

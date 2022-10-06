@@ -4,11 +4,7 @@ import { CallOut } from "coral-ui/components/v3";
 
 import styles from "./CSSLoadError.css";
 
-interface CSSLoadErrorProps {
-  children?: React.ReactNode;
-}
-
-const CSSLoadError: FunctionComponent<CSSLoadErrorProps> = (props) => (
+const CSSLoadError: FunctionComponent = (props) => (
   <CallOut color="error" className={styles.root}>
     {props.children}
   </CallOut>

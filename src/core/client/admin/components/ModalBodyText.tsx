@@ -2,11 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import styles from "./ModalBodyText.css";
 
-interface ModalBodyTextProps {
-  children?: React.ReactNode;
-}
-
-const ModalBodyText: FunctionComponent<ModalBodyTextProps> = ({ children }) => (
+const ModalBodyText: FunctionComponent = ({ children }) => (
   <p className={styles.root}>{children}</p>
 );
 

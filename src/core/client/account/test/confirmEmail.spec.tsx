@@ -1,49 +1,46 @@
-import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { axe } from "jest-axe";
 import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   CreateTestRendererParams,
   replaceHistoryLocation,
+  waitForElement,
+  within,
 } from "coral-framework/testHelpers";
 
-import { createContext } from "./create";
-import customRenderAppWithContext from "./customRenderAppWithContext";
+import create from "./create";
 
 const token = createAccessToken();
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { context } = createContext();
-  customRenderAppWithContext(context);
-
-  return { context };
+  const { testRenderer, context } = create();
+  return {
+    context,
+    testRenderer,
+    root: testRenderer.root,
+  };
 }
 
 it("renders missing confirm token", async () => {
   replaceHistoryLocation("http://localhost/account/email/confirm");
-  await createTestRenderer();
-  const invalidLink = await screen.findByTestId("invalid-link");
-  const invalidLinkText = screen.getByText(
-    "The specified link is invalid, check to see if it was copied correctly."
-  );
-  const invalidLinkHeader = screen.getByText("Oops Sorry!");
-  expect(invalidLinkText).toBeVisible();
-  expect(invalidLinkHeader).toBeVisible();
-  expect(await axe(invalidLink)).toHaveNoViolations();
+  const { root } = await createTestRenderer();
+  await waitForElement(() => within(root).getByTestID("invalid-link"));
+
+  expect(within(root).toJSON()).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
 });
 
 it("renders form", async () => {
   replaceHistoryLocation(
     `http://localhost/account/email/confirm#confirmToken=${token}`
   );
-  const { context } = await createTestRenderer();
+  const { root, context } = await createTestRenderer();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -54,19 +51,13 @@ it("renders form", async () => {
     })
     .once();
 
-  const confirmTitle = await screen.findByText("Confirm your email address");
-  const confirmDescription = screen.getByText(
-    "Click below to confirm your email address."
-  );
-  const confirmButton = screen.getByRole("button", { name: "Confirm email" });
-
-  expect(confirmTitle).toBeVisible();
-  expect(confirmDescription).toBeVisible();
-  expect(confirmButton).toBeVisible();
-
-  const mainLayout = screen.getByTestId("main-layout");
-  expect(await axe(mainLayout)).toHaveNoViolations();
-
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByText("Confirm your email address")
+    );
+  });
+  expect(within(root).toJSON()).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
   restMock.verify();
 });
 
@@ -84,7 +75,7 @@ it("renders error from server", async () => {
   ];
 
   for (const code of codes) {
-    const { context } = await createTestRenderer();
+    const { root, context } = await createTestRenderer();
 
     const restMock = sinon.mock(context.rest);
     restMock
@@ -101,10 +92,15 @@ it("renders error from server", async () => {
         })
       );
 
-    await screen.findByText(code, {
-      exact: false,
+    await act(async () => {
+      await waitForElement(() =>
+        within(root).getByText(code, {
+          exact: false,
+        })
+      );
     });
     restMock.verify();
+    expect(await within(root).axe()).toHaveNoViolations();
   }
 });
 
@@ -112,7 +108,7 @@ it("submits form", async () => {
   replaceHistoryLocation(
     `http://localhost/account/email/confirm#confirmToken=${token}`
   );
-  const { context } = await createTestRenderer();
+  const { root, context } = await createTestRenderer();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -131,15 +127,22 @@ it("submits form", async () => {
     })
     .once();
 
-  const confirmEmailTitle = await screen.findByText(
-    "Confirm your email address"
-  );
-  expect(confirmEmailTitle).toBeVisible();
-  const confirmEmail = screen.getByRole("button", { name: "Confirm email" });
-  userEvent.click(confirmEmail);
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByText("Confirm your email address")
+    );
+  });
+  const form = within(root).getByType("form");
 
-  const success = await screen.findByText("successfully", { exact: false });
-  expect(success).toBeVisible();
+  // Submit valid form.
+  await act(async () => {
+    form.props.onSubmit();
+    await waitForElement(() =>
+      within(root).getByText("successfully", {
+        exact: false,
+      })
+    );
+  });
 
   restMock.verify();
 });

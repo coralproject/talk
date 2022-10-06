@@ -10,7 +10,6 @@ import Main from "./Main";
 
 interface Props {
   data: MainRouteQueryResponse | null;
-  children?: React.ReactNode;
 }
 
 const MainRoute: React.FunctionComponent<Props> = (props) => {

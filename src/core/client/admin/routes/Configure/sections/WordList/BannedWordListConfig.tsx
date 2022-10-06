@@ -37,10 +37,7 @@ const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
     }
   >
-    <Localized
-      id="configure-wordList-banned-explanation"
-      elems={{ strong: <strong /> }}
-    >
+    <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
       <FormFieldDescription>
         Comments containing a word or phrase in the banned words list are
         automatically rejected and are not published.
