@@ -103,11 +103,11 @@ const enhanced = withPaginationContainer<
   {
     query: graphql`
       fragment SiteSearchListContainer_query on Query
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "Cursor" }
-          searchFilter: { type: "String" }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+        searchFilter: { type: "String" }
+      ) {
         viewer {
           moderationScopes {
             sites {

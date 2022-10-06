@@ -99,7 +99,7 @@ const CommentActivity: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
                 stroke={CHART_COLOR_PRIMARY_600}
               />
               <Tooltip
-                content={(tooltipProps: TooltipProps) => (
+                content={(tooltipProps: TooltipProps<any, any>) => (
                   <CommentActivityTooltip {...tooltipProps} />
                 )}
               />

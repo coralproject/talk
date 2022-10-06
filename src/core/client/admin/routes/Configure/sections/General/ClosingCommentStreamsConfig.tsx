@@ -51,7 +51,7 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
   >
     <Localized
       id="configure-general-closingCommentStreams-explanation"
-      strong={<strong />}
+      elems={{ strong: <strong /> }}
     >
       <FormFieldDescription>
         Set comment streams to close after a defined period of time after a

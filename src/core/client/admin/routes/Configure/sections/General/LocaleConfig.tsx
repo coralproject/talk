@@ -51,7 +51,7 @@ const LocaleConfig: React.FunctionComponent<Props> = (props) => {
                 {notExist && (
                   <Localized
                     id="configure-general-locale-invalidLanguage"
-                    Lang={<InvalidLanguage />}
+                    elems={{ Lang: <InvalidLanguage /> }}
                   >
                     <CallOut color="error">
                       The previously selected language <InvalidLanguage /> no

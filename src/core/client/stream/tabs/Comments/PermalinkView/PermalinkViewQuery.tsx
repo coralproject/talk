@@ -48,15 +48,14 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 const PermalinkViewQuery: FunctionComponent = () => {
   const handleIncompleteAccount = useHandleIncompleteAccount();
   const flattenReplies = useStaticFlattenReplies();
-  const [{ storyID, storyURL, commentID }] = useLocal<
-    PermalinkViewQueryLocal
-  >(graphql`
-    fragment PermalinkViewQueryLocal on Local {
-      storyID
-      storyURL
-      commentID
-    }
-  `);
+  const [{ storyID, storyURL, commentID }] =
+    useLocal<PermalinkViewQueryLocal>(graphql`
+      fragment PermalinkViewQueryLocal on Local {
+        storyID
+        storyURL
+        commentID
+      }
+    `);
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`

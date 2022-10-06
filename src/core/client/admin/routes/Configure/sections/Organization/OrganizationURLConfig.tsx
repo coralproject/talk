@@ -37,7 +37,10 @@ const OrganizationURLConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
     }
   >
-    <Localized id="configure-organization-urlExplanation" strong={<strong />}>
+    <Localized
+      id="configure-organization-urlExplanation"
+      elems={{ strong: <strong /> }}
+    >
       <FormFieldDescription>This URL will be used</FormFieldDescription>
     </Localized>
     <Field

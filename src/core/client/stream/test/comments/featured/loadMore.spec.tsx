@@ -75,8 +75,8 @@ it("loads more", async () => {
   );
 
   // Get amount of comments before.
-  const commentsBefore = within(streamLog).getAllByTestID(/^featuredComment-/)
-    .length;
+  const commentsBefore =
+    within(streamLog).getAllByTestID(/^featuredComment-/).length;
 
   const loadMoreButton = await waitForElement(() =>
     within(streamLog).getByText("Load More", {
@@ -94,7 +94,7 @@ it("loads more", async () => {
     );
   });
   // Get amount of comments after.
-  const commentsAfter = within(streamLog).getAllByTestID(/^featuredComment-/)
-    .length;
+  const commentsAfter =
+    within(streamLog).getAllByTestID(/^featuredComment-/).length;
   expect(commentsAfter).toBeGreaterThan(commentsBefore);
 });

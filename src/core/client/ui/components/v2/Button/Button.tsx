@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React, { Ref, SFC } from "react";
+import React, { FunctionComponent, Ref } from "react";
 
 import { withForwardRef } from "coral-ui/hocs";
 import useStyles from "coral-ui/hooks/useStyles";
@@ -68,7 +68,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   underline?: boolean;
 }
 
-export const Button: SFC<Props> = ({
+export const Button: FunctionComponent<Props> = ({
   active,
   classes,
   color,

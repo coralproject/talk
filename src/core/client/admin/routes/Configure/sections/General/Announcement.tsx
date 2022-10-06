@@ -53,7 +53,7 @@ const Announcement: FunctionComponent<Props> = ({
       />
       <Localized
         id="configure-general-announcements-current-duration"
-        $timestamp={formattedDate}
+        vars={{ timestamp: formattedDate }}
       >
         <FormFieldFooter>
           This announcement will automatically end on:{" "}

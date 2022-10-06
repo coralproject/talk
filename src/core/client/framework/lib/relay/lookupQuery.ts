@@ -25,7 +25,7 @@ function lookupQuery<T extends { response: any; variables: any }>(
 ): T["response"] {
   const request = getRequest(query);
   const operation = createOperationDescriptor(request, variables);
-  return (environment.lookup(operation.fragment).data as any) as T["response"];
+  return environment.lookup(operation.fragment).data as any as T["response"];
 }
 
 export default lookupQuery;
