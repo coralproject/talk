@@ -192,7 +192,7 @@ it("should show Read More of this Conversation", async () => {
       }
       return {
         comment: pureMerge<typeof commentData>(commentData, {
-          parent: { ...baseComment, id: "my-comment-7" },
+          parent: { ...baseComment, id: "my-comment-6" },
         }),
       };
     }
