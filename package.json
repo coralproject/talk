@@ -13,7 +13,7 @@
   },
   "engines": {
     "node": "^14.18",
-    "npm": "^8.0.0"
+    "npm": "^8.3.0"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
@@ -76,6 +76,7 @@
     "@sentry/integrations": "^6.19.7",
     "@sentry/node": "^6.19.7",
     "@sentry/types": "^6.19.7",
+    "@types/convict-format-with-validator": "^6.0.2",
     "@types/url-regex-safe": "^1.0.0",
     "abort-controller": "^3.0.0",
     "akismet-api": "^5.0.0",
@@ -92,7 +93,8 @@
     "cheerio": "^1.0.0-rc.3",
     "consolidate": "0.14.0",
     "content-security-policy-builder": "^2.1.0",
-    "convict": "^5.2.0",
+    "convict": "^6.2.3",
+    "convict-format-with-validator": "^6.2.0",
     "cookie": "^0.4.1",
     "cors": "^2.8.5",
     "cron": "^1.8.2",
@@ -144,7 +146,7 @@
     "permit": "^0.2.4",
     "postcss": "^8.3.5",
     "prom-client": "^12.0.0",
-    "proxy-agent": "^3.1.1",
+    "proxy-agent": "^5.0.0",
     "querystringify": "^2.1.1",
     "re2": "^1.16.0",
     "source-map-support": "^0.5.16",
