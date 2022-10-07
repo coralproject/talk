@@ -36,9 +36,6 @@ const SiteRoleActionsSites: FunctionComponent<Props> = ({
     siteIDsInput.onChange(candidateSites.map((site) => site.id));
   }, [candidateSites]); // TODO (marcushaddon): can we avoid this by supplying initialValues to our form parent?
 
-  /* eslint-disable */
-  console.log({ siteIDsInput, candidateSites });
-
   const onAddSite = useCallback(
     (siteID: string) => {
       const changed = [...siteIDsInput.value];

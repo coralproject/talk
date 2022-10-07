@@ -3,10 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import {
-  isSiteModerationScoped,
-  validatePermissionsAction,
-} from "coral-common/permissions";
+import { validatePermissionsAction } from "coral-common/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -176,50 +173,74 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   });
 
   // These are sites that only the viewer can moderate, and not the user.
-  const uniqueViewerModerationSites = viewerSites.filter(
-    (s) => !userModerationSites.find(({ id }) => s.id === id)
-  );
+  const moderationSitesToGive = viewerSites
+    .filter((s) => !userModerationSites.find(({ id }) => s.id === id))
+    .map(({ id }) => id);
 
-  const membershipSitesToGive = viewerSites.filter(
-    (s) => !userMembershipSites.find(({ id }) => id === s.id)
-  );
+  const moderationSitesToRemove = viewerSites
+    .filter((s) => userModerationSites.find(({ id }) => s.id === id))
+    .map(({ id }) => id);
+
+  const membershipSitesToGive = viewerSites
+    .filter((s) => !userMembershipSites.find(({ id }) => id === s.id))
+    .map(({ id }) => id);
+
+  const membershipSitesToRemove = viewerSites
+    .filter((s) => userMembershipSites.find(({ id }) => id === s.id))
+    .map(({ id }) => id);
 
   const canPromoteToMember = validatePermissionsAction({
     viewer,
     user,
     newUserRole: GQLUSER_ROLE.MEMBER,
-    scopeAdditions: membershipSitesToGive.map(({ id }) => id),
+    scopeAdditions: membershipSitesToGive,
   });
 
   const canPromoteToModerator = validatePermissionsAction({
     viewer,
     user,
     newUserRole: GQLUSER_ROLE.MODERATOR,
-    scopeAdditions: uniqueViewerModerationSites.map(({ id }) => id),
+    scopeAdditions: moderationSitesToGive,
   });
 
   // If the user is a site moderator and some of the sites on the user are the
   // same as the sites on the viewer, then we can demote this user.
   const canDemoteModerator =
-    user.role === GQLUSER_ROLE.MODERATOR &&
-    !!user.moderationScopes?.scoped &&
-    (userModerationSites.some((s) =>
-      viewerSites.find(({ id }) => s.id === id)
-    ) ||
-      !isSiteModerationScoped(viewer.moderationScopes));
+    !!moderationSitesToRemove.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MODERATOR,
+      scopeDeletions: moderationSitesToRemove,
+    });
 
   // If the user is a site moderator, staff, or commenter and some of the sites
   // on the viewer are not on the user, then we can promote this user.
   const canPromoteModerator =
-    user.role === GQLUSER_ROLE.MODERATOR &&
-    !!user.moderationScopes?.scoped &&
-    uniqueViewerModerationSites.length > 0;
+    !!moderationSitesToGive.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MODERATOR,
+      scopeAdditions: moderationSitesToGive,
+    });
 
   const canPromoteMember =
-    user.role === GQLUSER_ROLE.MEMBER && membershipSitesToGive.length > 0;
+    !!membershipSitesToGive.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MEMBER,
+      scopeAdditions: membershipSitesToGive,
+    });
   const canDemoteMember =
-    user.role === GQLUSER_ROLE.MEMBER &&
-    userMembershipSites.some((s) => viewerSites.find(({ id }) => id === s.id));
+    !!membershipSitesToRemove.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MEMBER,
+      scopeDeletions: membershipSitesToRemove,
+    });
 
   const canPerformActions =
     canPromoteToModerator ||
