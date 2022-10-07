@@ -2,7 +2,13 @@ import React, { FunctionComponent } from "react";
 
 import styles from "./ModalHeaderUsername.css";
 
-const ModalHeaderUsername: FunctionComponent = ({ children }) => {
+interface ModalHeaderUsernameProps {
+  children?: React.ReactNode;
+}
+
+const ModalHeaderUsername: FunctionComponent<ModalHeaderUsernameProps> = ({
+  children,
+}) => {
   return <strong className={styles.root}>{children}</strong>;
 };
 

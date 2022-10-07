@@ -44,12 +44,15 @@ const RotateWebhookEndpointSigningSecretModal: FunctionComponent<Props> = ({
   );
   const { setMessage, clearMessage } = useNotification();
   const onRotateSecret = useCallback(
-    async ({ inactiveIn: inactiveInString }) => {
+    async ({ inactiveIn }: { inactiveIn: number | string }) => {
       try {
-        const inactiveIn = parseInt(inactiveInString, 10);
+        const inactiveInNum =
+          typeof inactiveIn === "number"
+            ? inactiveIn
+            : parseInt(inactiveIn, 10);
         await rotateWebhookEndpointSigningSecret({
           id: endpointID,
-          inactiveIn,
+          inactiveIn: inactiveInNum,
         });
 
         // Post a notification about the successful change.

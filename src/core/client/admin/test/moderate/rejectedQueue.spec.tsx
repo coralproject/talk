@@ -244,39 +244,40 @@ it("renders rejected queue with comments and load more", async () => {
 });
 
 it("approves comment in rejected queue", async () => {
-  const approveCommentStub = createMutationResolverStub<
-    MutationToApproveCommentResolver
-  >(({ variables }) => {
-    expectAndFail(variables).toMatchObject({
-      commentID: rejectedComments[0].id,
-      commentRevisionID: rejectedComments[0].revision!.id,
-    });
-    return {
-      comment: {
-        ...rejectedComments[0],
-        status: GQLCOMMENT_STATUS.APPROVED,
-        statusHistory: {
-          edges: [
-            {
-              node: {
-                id: "mod-action",
-                status: GQLCOMMENT_STATUS.APPROVED,
-                moderator: {
-                  id: viewer.id,
-                  username: viewer.username,
+  const approveCommentStub =
+    createMutationResolverStub<MutationToApproveCommentResolver>(
+      ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          commentID: rejectedComments[0].id,
+          commentRevisionID: rejectedComments[0].revision!.id,
+        });
+        return {
+          comment: {
+            ...rejectedComments[0],
+            status: GQLCOMMENT_STATUS.APPROVED,
+            statusHistory: {
+              edges: [
+                {
+                  node: {
+                    id: "mod-action",
+                    status: GQLCOMMENT_STATUS.APPROVED,
+                    moderator: {
+                      id: viewer.id,
+                      username: viewer.username,
+                    },
+                  },
                 },
-              },
+              ],
             },
-          ],
-        },
-      },
-      moderationQueues: pureMerge(emptyModerationQueues, {
-        reported: {
-          count: 1,
-        },
-      }),
-    };
-  });
+          },
+          moderationQueues: pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 1,
+            },
+          }),
+        };
+      }
+    );
 
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({

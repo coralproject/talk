@@ -18,36 +18,36 @@ const ShadowRootWidthObserverMap = new WeakMap<
 /**
  * create observer callback that checks shadow root width for changes
  */
-const createObserve = (shadowRoot: ShadowRoot): ResizeObserverCallback => (
-  entries
-) => {
-  if (entries.length > 1) {
-    throw new Error("Not expected length to be > 1");
-  }
-  const entry = entries[0];
-  const contentBoxSize = getContentBoxSize(entry);
+const createObserve =
+  (shadowRoot: ShadowRoot): ResizeObserverCallback =>
+  (entries) => {
+    if (entries.length > 1) {
+      throw new Error("Not expected length to be > 1");
+    }
+    const entry = entries[0];
+    const contentBoxSize = getContentBoxSize(entry);
 
-  if (contentBoxSize === null) {
-    // eslint-disable-next-line no-console
-    console.warn("ResizeObserver contains invalid `contentBoxSize`", entries);
-    globalErrorReporter.report(
-      `ResizeObserver contains invalid contentBoxSize`
-    );
-    return;
-  }
+    if (contentBoxSize === null) {
+      // eslint-disable-next-line no-console
+      console.warn("ResizeObserver contains invalid `contentBoxSize`", entries);
+      globalErrorReporter.report(
+        `ResizeObserver contains invalid contentBoxSize`
+      );
+      return;
+    }
 
-  const newWidth = contentBoxSize.inlineSize;
+    const newWidth = contentBoxSize.inlineSize;
 
-  const val = ShadowRootWidthObserverMap.get(shadowRoot);
-  if (!val) {
-    return;
-  }
-  if (val.width !== newWidth) {
-    val.width = newWidth;
-    // Width change detected, call callbacks.
-    val.callbacks.forEach((cb) => cb(val.width));
-  }
-};
+    const val = ShadowRootWidthObserverMap.get(shadowRoot);
+    if (!val) {
+      return;
+    }
+    if (val.width !== newWidth) {
+      val.width = newWidth;
+      // Width change detected, call callbacks.
+      val.callbacks.forEach((cb) => cb(val.width));
+    }
+  };
 
 /**
  * Calls `callback` whenever a width change has been detected on `shadowRoot`.
@@ -70,6 +70,7 @@ export default function onShadowRootWidthChange(
     resizeObserver.observe(shadowRoot.firstChild! as Element);
   }
   const value = ShadowRootWidthObserverMap.get(shadowRoot)!;
+  const shadowRootFirstChild = shadowRoot.firstChild;
   const array = value.callbacks;
   array.push(callback);
 
@@ -81,7 +82,7 @@ export default function onShadowRootWidthChange(
     if (index > -1) {
       array.splice(index, 1);
       if (array.length === 0) {
-        value.resizeObserver.unobserve(shadowRoot.firstChild! as Element);
+        value.resizeObserver.unobserve(shadowRootFirstChild as Element);
         ShadowRootWidthObserverMap.delete(shadowRoot);
       }
     }

@@ -73,8 +73,7 @@ const FacebookConfig: FunctionComponent<Props> = ({
       <>
         <Localized
           id="configure-auth-facebook-toEnableIntegration"
-          Link={<FacebookLink />}
-          br={<br />}
+          elems={{ Link: <FacebookLink />, br: <br /> }}
         >
           <FormFieldDescription>
             To enable the integration with Facebook Authentication, you need to

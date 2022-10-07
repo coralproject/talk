@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { pureMerge } from "coral-common/utils";
 import {
@@ -33,44 +39,45 @@ async function createTestRenderer(
           settings: () => settings,
           viewer: () =>
             pureMerge(viewer, {
-              commentModerationActionHistory: createQueryResolverStub<
-                UserToCommentModerationActionHistoryResolver
-              >(({ variables }) => {
-                if (variables.first === 5) {
-                  return {
-                    edges: [
-                      {
-                        node: moderationActions[0],
-                        cursor: moderationActions[0].createdAt,
+              commentModerationActionHistory:
+                createQueryResolverStub<UserToCommentModerationActionHistoryResolver>(
+                  ({ variables }) => {
+                    if (variables.first === 5) {
+                      return {
+                        edges: [
+                          {
+                            node: moderationActions[0],
+                            cursor: moderationActions[0].createdAt,
+                          },
+                          {
+                            node: moderationActions[1],
+                            cursor: moderationActions[1].createdAt,
+                          },
+                        ],
+                        pageInfo: {
+                          endCursor: moderationActions[1].createdAt,
+                          hasNextPage: true,
+                        },
+                      };
+                    }
+                    expectAndFail(variables).toEqual({
+                      first: 10,
+                      after: moderationActions[1].createdAt,
+                    });
+                    return {
+                      edges: [
+                        {
+                          node: moderationActions[2],
+                          cursor: moderationActions[2].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: moderationActions[2].createdAt,
+                        hasNextPage: false,
                       },
-                      {
-                        node: moderationActions[1],
-                        cursor: moderationActions[1].createdAt,
-                      },
-                    ],
-                    pageInfo: {
-                      endCursor: moderationActions[1].createdAt,
-                      hasNextPage: true,
-                    },
-                  };
-                }
-                expectAndFail(variables).toEqual({
-                  first: 10,
-                  after: moderationActions[1].createdAt,
-                });
-                return {
-                  edges: [
-                    {
-                      node: moderationActions[2],
-                      cursor: moderationActions[2].createdAt,
-                    },
-                  ],
-                  pageInfo: {
-                    endCursor: moderationActions[2].createdAt,
-                    hasNextPage: false,
-                  },
-                };
-              }),
+                    };
+                  }
+                ),
             }),
         },
       }),
@@ -86,25 +93,28 @@ async function createTestRenderer(
 }
 
 it("renders decision history popover button", async () => {
-  await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
   const popover = await screen.findByTestId("decisionHistory-popover");
   const popoverButton = within(popover).getByTestId("decisionHistory-toggle");
-  expect(popoverButton).toBeDefined();
+  expect(popoverButton).toBeVisible();
   expect(
     within(popover).getByLabelText("A dialog showing the decision history")
-  ).toBeDefined();
+  ).toBeVisible();
 });
 
 it("opens popover when clicked on button showing loading state", async () => {
-  await createTestRenderer();
+  await act(async () => {
+    await createTestRenderer();
+  });
   const popoverButton = await screen.findByTestId("decisionHistory-toggle");
-  expect(
-    screen.queryByTestId("decisionHistory-loading-container")
-  ).not.toBeInTheDocument();
-  expect(screen.queryByText("Your Decision History")).not.toBeInTheDocument();
-  userEvent.click(popoverButton);
-  expect(screen.getByTestId("decisionHistory-loading-container")).toBeDefined();
-  expect(screen.getByText("Your Decision History")).toBeDefined();
+  expect(screen.queryByTestId("decisionHistory-loading-container")).toBeNull();
+  expect(screen.queryByText("Your Decision History")).toBeNull();
+  await act(async () => {
+    userEvent.click(popoverButton);
+  });
+  expect(screen.getByText("Your Decision History")).toBeInTheDocument();
 });
 
 it("renders empty state when no moderation actions", async () => {
@@ -113,19 +123,20 @@ it("renders empty state when no moderation actions", async () => {
       Query: {
         viewer: () =>
           pureMerge(viewer, {
-            commentModerationActionHistory: createQueryResolverStub<
-              UserToCommentModerationActionHistoryResolver
-            >(({ variables }) => {
-              expectAndFail(variables).toEqual({
-                first: 5,
-              });
-              return {
-                edges: [],
-                pageInfo: {
-                  hasNextPage: false,
-                },
-              };
-            }),
+            commentModerationActionHistory:
+              createQueryResolverStub<UserToCommentModerationActionHistoryResolver>(
+                ({ variables }) => {
+                  expectAndFail(variables).toEqual({
+                    first: 5,
+                  });
+                  return {
+                    edges: [],
+                    pageInfo: {
+                      hasNextPage: false,
+                    },
+                  };
+                }
+              ),
           }),
       },
     }),

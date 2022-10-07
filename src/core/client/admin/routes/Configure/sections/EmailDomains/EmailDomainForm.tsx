@@ -44,26 +44,32 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain }) => {
   const create = useMutation(CreateEmailDomainMutation);
   const update = useMutation(UpdateEmailDomainMutation);
   const { router } = useRouter();
-  const onSubmit = useCallback(async (input) => {
-    try {
-      if (emailDomain) {
-        await update({
-          domain: input.domain,
-          newUserModeration: input.newUserModeration,
-          id: emailDomain.id,
-        });
-      } else {
-        await create({
-          domain: input.domain,
-          newUserModeration: input.newUserModeration,
-        });
+  const onSubmit = useCallback(
+    async (input: {
+      domain: string | null;
+      newUserModeration: "BAN" | "PREMOD" | "%future added value";
+    }) => {
+      try {
+        if (emailDomain) {
+          await update({
+            domain: input.domain!,
+            newUserModeration: input.newUserModeration,
+            id: emailDomain.id,
+          });
+        } else {
+          await create({
+            domain: input.domain!,
+            newUserModeration: input.newUserModeration,
+          });
+        }
+        router.push(urls.admin.configureModeration + "#emailDomain");
+      } catch (error) {
+        return { [FORM_ERROR]: error.message };
       }
-      router.push(urls.admin.configureModeration + "#emailDomain");
-    } catch (error) {
-      return { [FORM_ERROR]: error.message };
-    }
-    return;
-  }, []);
+      return;
+    },
+    []
+  );
 
   return (
     <Form

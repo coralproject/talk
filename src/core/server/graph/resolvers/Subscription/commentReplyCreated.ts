@@ -19,9 +19,8 @@ export type CommentReplyCreatedSubscription = SubscriptionType<
   CommentReplyCreatedInput
 >;
 
-export const commentReplyCreated: SubscriptionToCommentReplyCreatedResolver<CommentReplyCreatedInput> = createIterator(
-  SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED,
-  {
+export const commentReplyCreated: SubscriptionToCommentReplyCreatedResolver<CommentReplyCreatedInput> =
+  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED, {
     filter: (source, { ancestorID }) => {
       if (!source.ancestorIDs.includes(ancestorID)) {
         return false;
@@ -29,5 +28,4 @@ export const commentReplyCreated: SubscriptionToCommentReplyCreatedResolver<Comm
 
       return true;
     },
-  }
-);
+  });

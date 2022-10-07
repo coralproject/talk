@@ -50,9 +50,8 @@ const Queue: FunctionComponent<Props> = ({
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
   const [singleView, setSingleView] = useState(false);
-  const [conversationModalVisible, setConversationModalVisible] = useState(
-    false
-  );
+  const [conversationModalVisible, setConversationModalVisible] =
+    useState(false);
   const [conversationCommentID, setConversationCommentID] = useState("");
   const memoize = useMemoizer();
 
@@ -135,7 +134,10 @@ const Queue: FunctionComponent<Props> = ({
     <HorizontalGutter className={styles.root} size="double">
       {Boolean(viewNewCount && viewNewCount > 0) && (
         <Flex justifyContent="center" className={styles.viewNewButtonContainer}>
-          <Localized id="moderate-queue-viewNew" $count={viewNewCount}>
+          <Localized
+            id="moderate-queue-viewNew"
+            vars={{ count: viewNewCount! }}
+          >
             <Button onClick={onViewNew} className={styles.viewNewButton}>
               View {viewNewCount} new comments
             </Button>

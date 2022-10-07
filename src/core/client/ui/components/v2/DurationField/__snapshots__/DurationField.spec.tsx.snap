@@ -31,9 +31,13 @@ exports[`accepts invalid input 1`] = `
     value="1"
   >
     <Localized
-      $unit="second"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "second",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="1"
@@ -42,9 +46,13 @@ exports[`accepts invalid input 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="minute"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "minute",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="60"
@@ -53,9 +61,13 @@ exports[`accepts invalid input 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="hour"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "hour",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="3600"
@@ -98,9 +110,13 @@ exports[`renders correctly with default units 1`] = `
     value="3600"
   >
     <Localized
-      $unit="hour"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "hour",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="3600"
@@ -109,9 +125,13 @@ exports[`renders correctly with default units 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="day"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "day",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="86400"
@@ -120,9 +140,13 @@ exports[`renders correctly with default units 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="week"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "week",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="604800"
@@ -165,9 +189,13 @@ exports[`renders correctly with specified units 1`] = `
     value="1"
   >
     <Localized
-      $unit="second"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "second",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="1"
@@ -176,9 +204,13 @@ exports[`renders correctly with specified units 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="hour"
-      $value={NaN}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "hour",
+          "value": NaN,
+        }
+      }
     >
       <Option
         value="3600"
@@ -221,9 +253,13 @@ exports[`use best matching unit 1`] = `
     value="3600"
   >
     <Localized
-      $unit="second"
-      $value={1}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "second",
+          "value": 1,
+        }
+      }
     >
       <Option
         value="1"
@@ -232,9 +268,13 @@ exports[`use best matching unit 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="minute"
-      $value={1}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "minute",
+          "value": 1,
+        }
+      }
     >
       <Option
         value="60"
@@ -243,9 +283,13 @@ exports[`use best matching unit 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="hour"
-      $value={1}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "hour",
+          "value": 1,
+        }
+      }
     >
       <Option
         value="3600"
@@ -288,9 +332,13 @@ exports[`use initial unit if 0 1`] = `
     value="1"
   >
     <Localized
-      $unit="second"
-      $value={0}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "second",
+          "value": 0,
+        }
+      }
     >
       <Option
         value="1"
@@ -299,9 +347,13 @@ exports[`use initial unit if 0 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="minute"
-      $value={0}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "minute",
+          "value": 0,
+        }
+      }
     >
       <Option
         value="60"
@@ -310,9 +362,13 @@ exports[`use initial unit if 0 1`] = `
       </Option>
     </Localized>
     <Localized
-      $unit="hour"
-      $value={0}
       id="framework-durationField-unit"
+      vars={
+        Object {
+          "unit": "hour",
+          "value": 0,
+        }
+      }
     >
       <Option
         value="3600"

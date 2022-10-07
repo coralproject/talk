@@ -31,7 +31,7 @@ const DateField: FunctionComponent<Props> = ({ status, dates }) => {
           </div>
           <Localized
             id="configure-auth-sso-rotate-date"
-            $date={new Date(dates.createdAt)}
+            vars={{ date: new Date(dates.createdAt) }}
           >
             <span className={styles.date}>{dates.createdAt}</span>
           </Localized>
@@ -52,11 +52,11 @@ const DateField: FunctionComponent<Props> = ({ status, dates }) => {
           >
             <Localized
               id="configure-auth-sso-rotate-date"
-              $date={
-                dates.inactiveAt
+              vars={{
+                date: dates.inactiveAt
                   ? new Date(dates.inactiveAt)
-                  : new Date(dates.createdAt)
-              }
+                  : new Date(dates.createdAt),
+              }}
             >
               {dates.inactiveAt}
             </Localized>
@@ -78,11 +78,11 @@ const DateField: FunctionComponent<Props> = ({ status, dates }) => {
           >
             <Localized
               id="configure-auth-sso-rotate-date"
-              $date={
-                dates.inactiveAt
+              vars={{
+                date: dates.inactiveAt
                   ? new Date(dates.inactiveAt)
-                  : new Date(dates.createdAt)
-              }
+                  : new Date(dates.createdAt),
+              }}
             >
               {dates.inactiveAt}
             </Localized>

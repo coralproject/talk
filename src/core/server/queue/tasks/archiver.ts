@@ -22,68 +22,75 @@ export interface ArchiverData {
   storyID: string;
 }
 
-const createJobProcessor = ({
-  mongo,
-  redis,
-  tenantCache,
-}: ArchiverProcessorOptions): JobProcessor<ArchiverData> => async (job) => {
-  const { storyID, tenantID } = job.data;
-
-  const log = logger.child(
-    {
-      jobID: job.id,
-      jobName: JOB_NAME,
-      storyID,
-      tenantID,
-    },
-    true
-  );
-
-  const timer = createTimer();
-
-  log.info("attempting to archive story");
-
-  // Get the tenant.
-  const tenant = await tenantCache.retrieveByID(tenantID);
-  if (!tenant) {
-    log.error("referenced tenant was not found");
-    return;
-  }
-
-  const now = new Date();
-
-  const story = await forceMarkStoryForArchiving(mongo, tenantID, storyID, now);
-
-  if (!story) {
-    log.warn(
-      { storyID },
-      "auto archiving was unable to lock story for archiving"
-    );
-    return;
-  }
-
-  log.info({ storyID }, "found story, proceeding with archiving");
-
-  // If we have the document, we have the archiving lock and
-  // can proceed to archive
-  const result = await archiveStory(
+const createJobProcessor =
+  ({
     mongo,
     redis,
-    tenant.id,
-    story.id,
-    log,
-    now
-  );
+    tenantCache,
+  }: ArchiverProcessorOptions): JobProcessor<ArchiverData> =>
+  async (job) => {
+    const { storyID, tenantID } = job.data;
 
-  if (result?.isArchived && !result?.isArchiving) {
-    log.info({ storyID }, "successfully archived story");
-  } else {
-    log.error({ storyID }, "unable to archive story");
-    throw new Error("unable to archive story");
-  }
+    const log = logger.child(
+      {
+        jobID: job.id,
+        jobName: JOB_NAME,
+        storyID,
+        tenantID,
+      },
+      true
+    );
 
-  log.debug({ took: timer() }, "attempted archive operation ended");
-};
+    const timer = createTimer();
+
+    log.info("attempting to archive story");
+
+    // Get the tenant.
+    const tenant = await tenantCache.retrieveByID(tenantID);
+    if (!tenant) {
+      log.error("referenced tenant was not found");
+      return;
+    }
+
+    const now = new Date();
+
+    const story = await forceMarkStoryForArchiving(
+      mongo,
+      tenantID,
+      storyID,
+      now
+    );
+
+    if (!story) {
+      log.warn(
+        { storyID },
+        "auto archiving was unable to lock story for archiving"
+      );
+      return;
+    }
+
+    log.info({ storyID }, "found story, proceeding with archiving");
+
+    // If we have the document, we have the archiving lock and
+    // can proceed to archive
+    const result = await archiveStory(
+      mongo,
+      redis,
+      tenant.id,
+      story.id,
+      log,
+      now
+    );
+
+    if (result?.isArchived && !result?.isArchiving) {
+      log.info({ storyID }, "successfully archived story");
+    } else {
+      log.error({ storyID }, "unable to archive story");
+      throw new Error("unable to archive story");
+    }
+
+    log.debug({ took: timer() }, "attempted archive operation ended");
+  };
 
 export type ArchiverQueue = Task<ArchiverData>;
 

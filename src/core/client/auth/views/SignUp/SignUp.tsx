@@ -46,8 +46,12 @@ const SignUp: FunctionComponent<Props> = ({
       <div role="banner">
         <Localized
           id="signUp-signUpToJoinHeader"
-          title={<div className={cn(CLASSES.login.title, styles.title)} />}
-          subtitle={<div className={cn(CLASSES.login.header, styles.header)} />}
+          elems={{
+            title: <div className={cn(CLASSES.login.title, styles.title)} />,
+            subtitle: (
+              <div className={cn(CLASSES.login.header, styles.header)} />
+            ),
+          }}
         >
           <div className={cn(CLASSES.login.bar, styles.bar)}>
             <div className={cn(CLASSES.login.title, styles.title)}>Sign Up</div>

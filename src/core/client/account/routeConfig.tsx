@@ -8,10 +8,14 @@ import ConfirmRoute from "./routes/email/Confirm";
 import UnsubscribeRoute from "./routes/notifications/Unsubscribe";
 import ResetRoute from "./routes/password/Reset";
 
+interface CoralContainerProps {
+  children?: React.ReactNode;
+}
+
 /** Small wrapper that omits router props */
-const CoralContainer: FunctionComponent = ({ children }) => (
-  <CoralWindowContainer>{children}</CoralWindowContainer>
-);
+const CoralContainer: FunctionComponent<CoralContainerProps> = ({
+  children,
+}) => <CoralWindowContainer>{children}</CoralWindowContainer>;
 
 export default makeRouteConfig(
   <Route path="account" Component={CoralContainer}>

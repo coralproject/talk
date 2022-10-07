@@ -18,9 +18,8 @@ export type CommentCreatedSubscription = SubscriptionType<
   CommentCreatedInput
 >;
 
-export const commentCreated: SubscriptionToCommentCreatedResolver<CommentCreatedInput> = createIterator(
-  SUBSCRIPTION_CHANNELS.COMMENT_CREATED,
-  {
+export const commentCreated: SubscriptionToCommentCreatedResolver<CommentCreatedInput> =
+  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_CREATED, {
     filter: (source, { storyID }) => {
       if (source.storyID !== storyID) {
         return false;
@@ -28,5 +27,4 @@ export const commentCreated: SubscriptionToCommentCreatedResolver<CommentCreated
 
       return true;
     },
-  }
-);
+  });

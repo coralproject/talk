@@ -39,7 +39,7 @@ const StarRatingIcon: FunctionComponent<Props> = ({
   const container = (
     <Localized
       id="framework-starRating"
-      $value={value}
+      vars={{ value }}
       attrs={{ "aria-label": true }}
     >
       <Icon
