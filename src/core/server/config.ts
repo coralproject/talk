@@ -12,6 +12,7 @@ import { ensureEndSlash } from "coral-common/utils";
 
 import { WrappedInternalError } from "./errors";
 
+// Needed for the url format.
 convict.addFormats(convict_format_with_validator);
 
 // Add custom format for the mongo uri scheme.
