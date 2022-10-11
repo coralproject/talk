@@ -70,6 +70,7 @@ export default function onShadowRootWidthChange(
     resizeObserver.observe(shadowRoot.firstChild! as Element);
   }
   const value = ShadowRootWidthObserverMap.get(shadowRoot)!;
+  const shadowRootFirstChild = shadowRoot.firstChild;
   const array = value.callbacks;
   array.push(callback);
 
@@ -81,7 +82,7 @@ export default function onShadowRootWidthChange(
     if (index > -1) {
       array.splice(index, 1);
       if (array.length === 0) {
-        value.resizeObserver.unobserve(shadowRoot.firstChild! as Element);
+        value.resizeObserver.unobserve(shadowRootFirstChild as Element);
         ShadowRootWidthObserverMap.delete(shadowRoot);
       }
     }

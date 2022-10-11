@@ -25,7 +25,10 @@ import { Connection } from "coral-server/models/helpers";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
-import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 export function getCollection(
   mongo: MongoContext,
@@ -465,4 +468,40 @@ export function retrieveChildrenForParentConnection(
     comment,
     input
   );
+}
+
+export async function hasRejectedAncestors(
+  mongo: MongoContext,
+  tenantID: string,
+  commentID: string,
+  isArchived = false
+) {
+  const comment = await retrieveComment(
+    mongo,
+    tenantID,
+    commentID,
+    !isArchived
+  );
+  if (!comment) {
+    throw new CommentNotFoundError(commentID);
+  }
+
+  const { ancestorIDs } = comment;
+  if (!ancestorIDs || ancestorIDs.length === 0) {
+    return false;
+  }
+
+  const ancestors = await retrieveManyComments(mongo, tenantID, ancestorIDs);
+
+  if (!ancestors || ancestors.length === 0) {
+    return false;
+  }
+
+  const rejectedAncestors = ancestors.filter(
+    (ancestor) => ancestor && ancestor.status === GQLCOMMENT_STATUS.REJECTED
+  );
+  const hasRejectedStateAncestors =
+    rejectedAncestors && rejectedAncestors.length > 0;
+
+  return hasRejectedStateAncestors;
 }
