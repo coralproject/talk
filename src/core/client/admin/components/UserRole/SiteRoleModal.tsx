@@ -125,14 +125,14 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="community-siteRoleModal-assign">
+                      <Localized id="community-siteRoleModal-update">
                         <Button
                           type="submit"
                           disabled={submitting || values.siteIDs.length === 0}
                           ref={lastFocusableRef}
                           data-testid="site-role-modal-submitButton"
                         >
-                          Assign
+                          Update
                         </Button>
                       </Localized>
                     </Flex>

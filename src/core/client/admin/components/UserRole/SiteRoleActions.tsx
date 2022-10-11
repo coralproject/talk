@@ -13,14 +13,12 @@ import {
   ButtonIcon,
   ClickOutside,
   Dropdown,
-  DropdownButton,
   Popover,
 } from "coral-ui/components/v2";
 
 import { SiteRoleActions_user } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
 import { SiteRoleActions_viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
 
-import MemberActionsModal from "./MemberActionsModal";
 import SiteModeratorActionsModal from "./SiteModeratorActionsModal";
 import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
@@ -95,7 +93,6 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     [demoteMember]
   );
 
-  const [mode, setMode] = useState<"promote" | "demote" | null>(null);
   const [isModalVisible, , toggleModalVisibility] = useToggleState();
   const [isPopoverVisible, setIsPopoverVisible, togglePopoverVisibility] =
     useToggleState();
@@ -116,20 +113,9 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     setIsPopoverVisible(false);
   }, [user, changeRole, setIsPopoverVisible]);
 
-  const startPromoting = useCallback(
+  const startManagingSiteRole = useCallback(
     (roleType: SiteRoleType) => {
       setSiteRoleType(roleType);
-      setMode("promote");
-      togglePopoverVisibility();
-      toggleModalVisibility();
-    },
-    [toggleModalVisibility, togglePopoverVisibility, setSiteRoleType]
-  );
-
-  const startDemoting = useCallback(
-    (roleType: SiteRoleType) => {
-      setSiteRoleType(roleType);
-      setMode("demote");
       togglePopoverVisibility();
       toggleModalVisibility();
     },
@@ -137,7 +123,6 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   );
 
   const onCancel = useCallback(() => {
-    setMode(null);
     toggleModalVisibility();
   }, [toggleModalVisibility]);
 
@@ -145,13 +130,14 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     (promoter: SiteRoleScopeChange, demoter: SiteRoleScopeChange) =>
       async (input: any) => {
         try {
-          if (mode === "promote") {
-            await promoter({ userID: user.id, siteIDs: input.siteIDs });
-          } else if (mode === "demote") {
-            await demoter({ userID: user.id, siteIDs: input.siteIDs });
+          if (input.scopeAdditions.length) {
+            await promoter({ userID: user.id, siteIDs: input.scopeAdditions });
           }
 
-          setMode(null);
+          if (input.scopeDeletions.length) {
+            await demoter({ userID: user.id, siteIDs: input.scopeDeletions });
+          }
+
           toggleModalVisibility();
 
           return;
@@ -162,7 +148,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           return { [FORM_ERROR]: err.message };
         }
       },
-    [mode, toggleModalVisibility, user]
+    [toggleModalVisibility, user]
   );
 
   // BOOKMARKUS: how is this true here but false in UserRoleChange for org mod?
@@ -262,21 +248,17 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   return (
     <>
-      {mode !== null && siteRoleType === SiteRoleType.MODERATOR && (
+      <SiteModeratorActionsModal
+        open={isModalVisible}
+        username={user.username}
+        siteRoleScopes={user.moderationScopes}
+        viewer={viewer}
+        onSubmit={onSubmit(addModerationScopes, removeModerationScopes)}
+        onCancel={onCancel}
+      />
+      {siteRoleType === SiteRoleType.MEMBER && (
         <SiteModeratorActionsModal
           open={isModalVisible}
-          mode={mode}
-          username={user.username}
-          siteRoleScopes={user.moderationScopes}
-          viewer={viewer}
-          onSubmit={onSubmit(addModerationScopes, removeModerationScopes)}
-          onCancel={onCancel}
-        />
-      )}
-      {mode !== null && siteRoleType === SiteRoleType.MEMBER && (
-        <MemberActionsModal
-          open={isModalVisible}
-          mode={mode}
           username={user.username}
           siteRoleScopes={user.membershipScopes}
           viewer={viewer}
@@ -303,57 +285,23 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                     moderationScopesEnabled
                   />
                 )}
-                {canPromoteToModerator && (
-                  <UserRoleChangeButton
-                    role={GQLUSER_ROLE.MODERATOR}
-                    scoped
-                    moderationScopesEnabled
-                    onClick={() => startPromoting(SiteRoleType.MODERATOR)}
-                  />
-                )}
-                {canPromoteModerator && (
-                  <Localized id="community-assignMySitesToModerator">
-                    <DropdownButton
-                      onClick={() => startPromoting(SiteRoleType.MODERATOR)}
-                    >
-                      Assign moderator to my sites
-                    </DropdownButton>
-                  </Localized>
-                )}
-                {canDemoteModerator && (
-                  <Localized id="community-removeMySitesFromModerator">
-                    <DropdownButton
-                      onClick={() => startDemoting(SiteRoleType.MODERATOR)}
-                    >
-                      Remove moderator from my sites
-                    </DropdownButton>
-                  </Localized>
-                )}
                 {canPromoteToMember && (
                   <UserRoleChangeButton
                     role={GQLUSER_ROLE.MEMBER}
                     scoped
                     moderationScopesEnabled
-                    onClick={() => startPromoting(SiteRoleType.MEMBER)}
+                    onClick={() => startManagingSiteRole(SiteRoleType.MEMBER)}
                   />
                 )}
-                {canPromoteMember && (
-                  <Localized id="community-assignMySitesToMember">
-                    <DropdownButton
-                      onClick={() => startPromoting(SiteRoleType.MEMBER)}
-                    >
-                      Assign member to my sites
-                    </DropdownButton>
-                  </Localized>
-                )}
-                {canDemoteMember && (
-                  <Localized id="community-removeMySitesFromMember">
-                    <DropdownButton
-                      onClick={() => startDemoting(SiteRoleType.MEMBER)}
-                    >
-                      Remove member from my sites
-                    </DropdownButton>
-                  </Localized>
+                {canPromoteToModerator && (
+                  <UserRoleChangeButton
+                    role={GQLUSER_ROLE.MODERATOR}
+                    scoped
+                    moderationScopesEnabled
+                    onClick={() =>
+                      startManagingSiteRole(SiteRoleType.MODERATOR)
+                    }
+                  />
                 )}
               </Dropdown>
             </ClickOutside>

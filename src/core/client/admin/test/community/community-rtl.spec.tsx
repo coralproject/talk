@@ -336,7 +336,7 @@ it("org mods may allocate site mods", async () => {
   });
 
   const assignButton = within(siteRolePopup).getByRole("button", {
-    name: "Assign",
+    name: "Update",
   });
   expect(assignButton).toBeEnabled();
   await act(async () => {
@@ -348,6 +348,7 @@ it("org mods may allocate site mods", async () => {
 
 it("change user role to Site Moderator and add sites to moderate", async () => {
   const user = users.commenters[0];
+  const site = sites[0];
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateUserRole: ({ variables }) => {
@@ -362,17 +363,15 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
           user: userRecord,
         };
       },
-      updateUserModerationScopes: ({ variables }) => {
+      promoteModerator: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
-          moderationScopes: {
-            siteIDs: ["site-1"],
-          },
+          siteIDs: [site.id],
           userID: user.id,
         });
         const userRecord = pureMerge<typeof user>(user, {
           moderationScopes: {
             scoped: true,
-            sites: [sites[0]],
+            sites: [site],
           },
           role: GQLUSER_ROLE.MODERATOR,
         });
@@ -405,10 +404,10 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
 
   const modal = await screen.findByTestId("site-role-modal");
 
-  // // The submit button should be disabled until at least 1 site is selected
-  const submitButton = await screen.findByTestId(
-    "site-role-modal-submitButton"
-  );
+  // The submit button should be disabled until at least 1 site is selected
+  const submitButton = await screen.findByRole("button", {
+    name: "Update",
+  });
   expect(submitButton).toBeDisabled();
 
   const siteSearchField = within(modal).getByRole("textbox", {
@@ -429,7 +428,7 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
     userEvent.click(testSiteButton);
   });
 
-  const assignButton = within(modal).getByRole("button", { name: "Assign" });
+  const assignButton = within(modal).getByRole("button", { name: "Update" });
   await act(async () => {
     userEvent.click(assignButton);
   });
@@ -480,7 +479,11 @@ it("add moderation scopes as a site moderator", async () => {
   fireEvent.click(siteModButton);
 
   await waitFor(() => screen.getByTestId("siteModeratorActions-modal"));
-  const assignButton = screen.getByRole("button", { name: "Assign" });
+
+  const siteCheckBoxes = screen.getAllByRole("checkbox");
+  siteCheckBoxes.forEach((checkbox) => fireEvent.click(checkbox));
+
+  const assignButton = screen.getByRole("button", { name: "Update" });
   userEvent.click(assignButton);
 
   await waitFor(() =>
@@ -529,13 +532,18 @@ it("remove moderation scopes as a site moderator", async () => {
     "A dropdown to promote/demote a user to/from sites"
   );
   const siteModButton = within(popup).getByRole("button", {
-    name: "Remove moderator from my sites",
+    name: "Site Moderator",
   });
   fireEvent.click(siteModButton);
 
   await screen.findByTestId("siteModeratorActions-modal");
-  const removeButton = screen.getByRole("button", { name: "Remove" });
-  userEvent.click(removeButton);
+
+  const siteCheckBoxes = screen.getAllByRole("checkbox");
+
+  siteCheckBoxes.forEach((checkbox) => fireEvent.click(checkbox));
+
+  const updateButton = screen.getByRole("button", { name: "Update" });
+  userEvent.click(updateButton);
 
   await waitFor(() =>
     expect(resolvers.Mutation!.demoteModerator!.called).toBe(true)

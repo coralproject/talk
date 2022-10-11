@@ -1378,8 +1378,7 @@ community-siteRoleModal-assignSites =
 community-siteRoleModal-assignSitesDescription-siteModerator =
   Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
 community-siteRoleModal-cancel = Cancel
-community-siteRoleModal-assign = Assign
-community-siteRoleModal-remove = Remove
+community-siteRoleModal-update = Update
 community-siteRoleModal-selectSites-siteModerator = Select sites to moderate
 community-siteRoleModal-selectSites-member = Select sites for this user to be a member of
 community-siteRoleModal-noSites = No sites

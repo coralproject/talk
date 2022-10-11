@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { useField } from "react-final-form";
 
 import { CheckBox, ListGroup, ListGroupRow } from "coral-ui/components/v2";
@@ -14,70 +9,49 @@ interface Props {
     readonly id: string;
     readonly name: string;
   }> | null;
-  mode: string | null;
 }
 
 const SiteRoleActionsSites: FunctionComponent<Props> = ({
   viewerSites,
   userSites,
-  mode,
 }) => {
-  const { input: siteIDsInput } = useField<string[]>("siteIDs");
-  const userScopedSitesInViewerScope = userSites?.filter((s) =>
-    viewerSites.find(({ id }) => s.id === id)
-  );
-  const candidateSites = useMemo(
-    () =>
-      mode === "promote" ? viewerSites : userScopedSitesInViewerScope || [],
-    []
-  );
-
-  useEffect(() => {
-    siteIDsInput.onChange(candidateSites.map((site) => site.id));
-  }, [candidateSites]); // TODO (marcushaddon): can we avoid this by supplying initialValues to our form parent?
-
-  const onAddSite = useCallback(
-    (siteID: string) => {
-      const changed = [...siteIDsInput.value];
-      const index = changed.indexOf(siteID);
-      if (index === -1) {
-        changed.push(siteID);
-      }
-      siteIDsInput.onChange(changed);
-    },
-    [siteIDsInput]
-  );
-
-  const onRemoveSite = useCallback(
-    (siteID: string) => {
-      const changed = [...siteIDsInput.value];
-      const index = changed.indexOf(siteID);
-      if (index >= 0) {
-        changed.splice(index, 1);
-      }
-      siteIDsInput.onChange(changed);
-    },
-    [siteIDsInput]
-  );
+  const { input: scopeAdditionsInput } = useField<string[]>("scopeAdditions");
+  const { input: scopeDeletionsInput } = useField<string[]>("scopeDeletions");
 
   const onToggle = useCallback(
-    (siteID: string, checked: boolean) =>
-      checked ? onRemoveSite(siteID) : onAddSite(siteID),
-    [onAddSite, onRemoveSite]
+    (siteID: string, wasChecked: boolean) => {
+      const checked = !wasChecked;
+      const userHasSite = userSites?.find(({ id }) => id === siteID);
+      if (userHasSite && !checked) {
+        scopeDeletionsInput.onChange([...scopeDeletionsInput.value, siteID]);
+      } else {
+        scopeDeletionsInput.onChange(
+          scopeDeletionsInput.value.filter((id) => id !== siteID)
+        );
+      }
+
+      if (!userHasSite && checked) {
+        scopeAdditionsInput.onChange([...scopeAdditionsInput.value, siteID]);
+      } else {
+        scopeAdditionsInput.onChange(
+          scopeAdditionsInput.value.filter((id) => id !== siteID)
+        );
+      }
+    },
+    [scopeAdditionsInput, scopeDeletionsInput, userSites]
   );
   return (
     <ListGroup>
-      {candidateSites.map((site) => {
-        const checked = siteIDsInput.value.includes(site.id);
-        const siteIsAlreadyIncludedInUserScopes = userSites
-          ?.map((s) => s.id)
-          .includes(site.id);
+      {viewerSites.map((site) => {
+        const checked =
+          scopeAdditionsInput.value.includes(site.id) ||
+          (!!userSites?.find(({ id }) => id === site.id) &&
+            !scopeDeletionsInput.value.find((id) => id === site.id));
 
         return (
           <ListGroupRow key={site.id}>
             <CheckBox
               checked={checked}
-              disabled={mode === "promote" && siteIsAlreadyIncludedInUserScopes}
               onChange={() => {
                 onToggle(site.id, checked);
               }}
