@@ -62,8 +62,6 @@ const rejectComment = async (
     return result.before;
   }
 
-  await disableRepliesToChildren(commentID, mongo);
-
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira
   if (broker && counts) {
@@ -103,31 +101,6 @@ const rejectComment = async (
 
   // Return the resulting comment.
   return result.after;
-};
-
-const disableRepliesToChildren = async (
-  commentID: string,
-  mongo: MongoContext
-) => {
-  const children = await mongo
-    .comments()
-    .find({
-      ancestorIDs: commentID,
-    })
-    .toArray();
-
-  if (children.length === 0) {
-    return;
-  }
-
-  const childIDs = children.map(({ id }) => id);
-
-  await mongo
-    .comments()
-    .updateMany(
-      { id: { $in: childIDs } },
-      { $set: { rejectedAncestor: true } }
-    );
 };
 
 export default rejectComment;
