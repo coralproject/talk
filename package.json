@@ -72,7 +72,7 @@
     "@graphql-tools/schema": "^6.2.4",
     "@graphql-tools/utils": "^6.2.4",
     "@metascraper/helpers": "^5.22.5",
-    "@rudderstack/rudder-sdk-node": "0.0.2",
+    "@rudderstack/rudder-sdk-node": "1.1.4",
     "@sentry/integrations": "^6.19.7",
     "@sentry/node": "^6.19.7",
     "@sentry/types": "^6.19.7",
