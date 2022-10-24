@@ -168,7 +168,7 @@
     "@fluent/react": "^0.12.0",
     "@giphy/js-fetch-api": "^4.1.2",
     "@giphy/react-components": "^5.4.0",
-    "@graphql-codegen/cli": "^1.19.4",
+    "@graphql-codegen/cli": "^1.20.0",
     "@graphql-codegen/introspection": "^1.18.1",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@sentry/react": "^6.19.7",
