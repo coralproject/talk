@@ -119,7 +119,7 @@
     "jsdom": "^16.3.0",
     "jsonwebtoken": "^8.5.1",
     "juice": "^6.0.0",
-    "jwks-rsa": "^1.7.0",
+    "jwks-rsa": "^1.8.0",
     "linkify-html": "^3.0.3",
     "linkifyjs": "^3.0.3",
     "lodash": "^4.17.19",
