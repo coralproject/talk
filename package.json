@@ -67,7 +67,7 @@
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.1",
     "@fluent/dom": "^0.7.0",
-    "@google-cloud/profiler": "^4.1.0",
+    "@google-cloud/profiler": "^5.0.3",
     "@graphql-tools/schema": "^6.2.4",
     "@graphql-tools/utils": "^6.2.4",
     "@metascraper/helpers": "^5.22.5",
