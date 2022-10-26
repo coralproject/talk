@@ -107,7 +107,7 @@
     "express-static-gzip": "^2.0.6",
     "fs-extra": "^8.1.0",
     "graphql": "^14.6.0",
-    "graphql-config": "^3.2.0",
+    "graphql-config": "^4.0.0",
     "graphql-fields": "2.0.3",
     "graphql-redis-subscriptions": "^2.2.1",
     "graphql-subscriptions": "^1.1.0",
