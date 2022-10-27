@@ -138,7 +138,7 @@
     "oauth": "^0.9.15",
     "on-finished": "^2.3.0",
     "p-timeout": "^3.2.0",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "passport-strategy": "^1.0.0",
     "permit": "^0.2.4",
