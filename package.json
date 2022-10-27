@@ -293,7 +293,6 @@
     "extract-loader": "^5.1.0",
     "fake-indexeddb": "^3.1.2",
     "farce": "^0.4.5",
-    "file-loader": "6.2.0",
     "final-form": "^4.20.1",
     "final-form-arrays": "^3.0.2",
     "flat": "^5.0.0",
