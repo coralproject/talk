@@ -1,7 +1,7 @@
 {% import "macros.html" as macros %}
 {% extends "templates/base.html" %}
 
-{% block title %}Coral{% endblock %}
+{% block title %}{{title if title else "Coral"}}{% endblock %}
 
 {% block meta %}
   {# Insert the link preload tags here. #}

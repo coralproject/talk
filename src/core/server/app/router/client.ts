@@ -91,6 +91,9 @@ export interface ClientTargetHandlerOptions {
    * iframe.
    */
   disableFraming?: true;
+
+  /* templateVariables are variables to be passed into the template */
+  templateVariables?: Record<string, any>;
 }
 
 function createClientTargetRouter(options: ClientTargetHandlerOptions) {
@@ -151,6 +154,7 @@ const clientHandler =
     enableCustomCSS,
     defaultLocale,
     template: viewTemplate = "client",
+    templateVariables = {},
   }: ClientTargetHandlerOptions): RequestHandler =>
   async (req, res, next) => {
     // Grab the locale code from the tenant configuration, if available.
@@ -168,6 +172,7 @@ const clientHandler =
     }
 
     res.render(viewTemplate, {
+      ...templateVariables,
       analytics,
       staticURI: staticConfig.staticURI || "/",
       entrypoint,
@@ -265,6 +270,7 @@ export async function mountClientRoutes(
       cacheDuration: false,
       disableFraming: true,
       entrypointLoader: manifestLoader.createEntrypointLoader("auth"),
+      templateVariables: { title: "Log In" },
     })
   );
 
