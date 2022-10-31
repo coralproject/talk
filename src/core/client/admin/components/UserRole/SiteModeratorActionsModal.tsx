@@ -99,8 +99,8 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
                   )}
                   <Localized id="community-siteModeratorsArePermitted">
                     <ModalBodyText>
-                      Site moderators are permitted to make moderation
-                      suspensions on the sites they are assigned.
+                      Site moderators are permitted to make moderation decisions
+                      and issue suspensions on the sites they are assigned.
                     </ModalBodyText>
                   </Localized>
                   <ModalBodyText>
