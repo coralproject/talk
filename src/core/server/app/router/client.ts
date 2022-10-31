@@ -92,7 +92,9 @@ export interface ClientTargetHandlerOptions {
    */
   disableFraming?: true;
 
-  /* templateVariables are variables to be passed into the template */
+  /**
+   * templateVariables are variables to be passed into the template.
+   */
   templateVariables?: Record<string, any>;
 }
 
