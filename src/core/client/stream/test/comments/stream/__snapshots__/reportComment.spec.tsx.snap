@@ -529,6 +529,7 @@ exports[`report comment as offensive 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root"
                       >
                         Markus

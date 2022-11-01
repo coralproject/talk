@@ -83,6 +83,7 @@ exports[`cancel edit 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root"
                       >
                         Markus
@@ -310,6 +311,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
       >
         <div>
           <span
+            aria-label="User Markus"
             className="Username-root"
           >
             Markus
@@ -531,6 +533,7 @@ exports[`edit a comment: edit form 1`] = `
       >
         <div>
           <span
+            aria-label="User Markus"
             className="Username-root"
           >
             Markus
@@ -752,6 +755,7 @@ exports[`edit a comment: optimistic response 1`] = `
       >
         <div>
           <span
+            aria-label="User Markus"
             className="Username-root"
           >
             Markus
@@ -1045,6 +1049,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root"
                       >
                         Markus
@@ -1344,6 +1349,7 @@ exports[`edit a comment: server response 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root"
                       >
                         Markus
@@ -1652,6 +1658,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root"
                       >
                         Markus
@@ -1879,6 +1886,7 @@ exports[`shows expiry message: edit time expired 1`] = `
       >
         <div>
           <span
+            aria-label="User Markus"
             className="Username-root"
           >
             Markus

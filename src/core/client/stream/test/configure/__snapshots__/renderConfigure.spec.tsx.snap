@@ -28,7 +28,7 @@ exports[`renders configure 1`] = `
         <span
           className="UserBoxAuthenticated-text UserBoxAuthenticated-signOut"
         >
-          Not you? 
+          Not you?
           <button
             className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-colorPrimary Button-underline UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
             data-variant="flat"

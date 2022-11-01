@@ -12,7 +12,7 @@ interface Props {
 const Username: FunctionComponent<Props> = (props) => {
   return (
     <Localized
-      id="username"
+      id="common-username"
       attrs={{ "aria-label": true }}
       vars={{ username: props.children }}
     >

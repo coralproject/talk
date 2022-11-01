@@ -83,6 +83,7 @@ exports[`post a reply: open reply form 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root"
                       >
                         Markus
@@ -306,6 +307,7 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   Replying to 
                   <span
+                    aria-label="User Markus"
                     className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
                   >
                     Markus
@@ -562,6 +564,7 @@ exports[`post a reply: optimistic response 1`] = `
                           type="button"
                         >
                           <span
+                            aria-label="User Markus"
                             className="Username-root"
                           >
                             Markus
@@ -661,6 +664,7 @@ exports[`post a reply: optimistic response 1`] = `
                       >
                         In reply to 
                         <span
+                          aria-label="User Markus"
                           className="InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus

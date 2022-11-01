@@ -194,6 +194,7 @@ exports[`renders permalink view 1`] = `
                                           type="button"
                                         >
                                           <span
+                                            aria-label="User Lukas"
                                             className="Username-root"
                                           >
                                             Lukas
@@ -478,6 +479,7 @@ exports[`renders permalink view 1`] = `
                                           type="button"
                                         >
                                           <span
+                                            aria-label="User Isabelle"
                                             className="Username-root"
                                           >
                                             Isabelle
@@ -760,6 +762,7 @@ exports[`renders permalink view 1`] = `
                                       type="button"
                                     >
                                       <span
+                                        aria-label="User Markus"
                                         className="Username-root"
                                       >
                                         Markus
@@ -1052,6 +1055,7 @@ exports[`renders permalink view 1`] = `
                                     type="button"
                                   >
                                     <span
+                                      aria-label="User Isabelle"
                                       className="Username-root"
                                     >
                                       Isabelle
@@ -1126,6 +1130,7 @@ exports[`renders permalink view 1`] = `
                                 >
                                   In reply to 
                                   <span
+                                    aria-label="User Markus"
                                     className="InReplyTo-username coral coral-comment-inReplyToUsername"
                                   >
                                     Markus
@@ -1372,6 +1377,7 @@ exports[`renders permalink view 1`] = `
                                     type="button"
                                   >
                                     <span
+                                      aria-label="User Isabelle"
                                       className="Username-root"
                                     >
                                       Isabelle
@@ -1446,6 +1452,7 @@ exports[`renders permalink view 1`] = `
                                 >
                                   In reply to 
                                   <span
+                                    aria-label="User Markus"
                                     className="InReplyTo-username coral coral-comment-inReplyToUsername"
                                   >
                                     Markus

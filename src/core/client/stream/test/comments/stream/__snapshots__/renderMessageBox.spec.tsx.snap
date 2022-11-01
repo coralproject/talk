@@ -352,6 +352,7 @@ exports[`renders message box when logged in 1`] = `
           className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
         >
           <div
+            aria-label="User Markus"
             className="coral coral-viewerBox-username UserBoxAuthenticated-username"
           >
             Markus

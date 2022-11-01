@@ -42,7 +42,7 @@ const InReplyTo: FunctionComponent<Props> = ({
 
   const Username = () => (
     <Localized
-      id="username"
+      id="common-username"
       attrs={{ "aria-label": true }}
       vars={{ username: parent?.author?.username }}
     >

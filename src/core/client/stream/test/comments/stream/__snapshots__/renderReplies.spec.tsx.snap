@@ -97,6 +97,7 @@ exports[`renders reply list 1`] = `
                           type="button"
                         >
                           <span
+                            aria-label="User Markus"
                             className="Username-root"
                           >
                             Markus
@@ -171,6 +172,7 @@ exports[`renders reply list 1`] = `
                       >
                         In reply to 
                         <span
+                          aria-label="User Markus"
                           className="InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
@@ -423,6 +425,7 @@ exports[`renders reply list 1`] = `
                                 type="button"
                               >
                                 <span
+                                  aria-label="User Isabelle"
                                   className="Username-root"
                                 >
                                   Isabelle
@@ -497,6 +500,7 @@ exports[`renders reply list 1`] = `
                             >
                               In reply to 
                               <span
+                                aria-label="User Markus"
                                 className="InReplyTo-username coral coral-comment-inReplyToUsername"
                               >
                                 Markus
@@ -743,6 +747,7 @@ exports[`renders reply list 1`] = `
                                 type="button"
                               >
                                 <span
+                                  aria-label="User Isabelle"
                                   className="Username-root"
                                 >
                                   Isabelle
@@ -817,6 +822,7 @@ exports[`renders reply list 1`] = `
                             >
                               In reply to 
                               <span
+                                aria-label="User Markus"
                                 className="InReplyTo-username coral coral-comment-inReplyToUsername"
                               >
                                 Markus
@@ -1066,6 +1072,7 @@ exports[`renders reply list 1`] = `
                           type="button"
                         >
                           <span
+                            aria-label="User Isabelle"
                             className="Username-root"
                           >
                             Isabelle
@@ -1140,6 +1147,7 @@ exports[`renders reply list 1`] = `
                       >
                         In reply to 
                         <span
+                          aria-label="User Markus"
                           className="InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
