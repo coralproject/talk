@@ -13,14 +13,17 @@ interface Props {
 
 const ReplyTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
-    <span
-      className={cn(
-        styles.username,
-        CLASSES.createReplyComment.replyTo.username
-      )}
-    >
-      {username}
-    </span>
+    <Localized id="username" attrs={{ "aria-label": true }} vars={{ username }}>
+      <span
+        className={cn(
+          styles.username,
+          CLASSES.createReplyComment.replyTo.username
+        )}
+        aria-label="untranslated"
+      >
+        {username}
+      </span>
+    </Localized>
   );
 
   return (
