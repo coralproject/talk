@@ -957,3 +957,6 @@ stream-footer-links-discussions = More discussions
   .title = Go to more discussions
 stream-footer-navigation =
   .aria-label = Comments Footer
+
+username = { $username }
+  .aria-label = User { $username }
