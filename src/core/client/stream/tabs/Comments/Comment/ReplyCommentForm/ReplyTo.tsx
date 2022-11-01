@@ -13,7 +13,11 @@ interface Props {
 
 const ReplyTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
-    <Localized id="username" attrs={{ "aria-label": true }} vars={{ username }}>
+    <Localized
+      id="common-username"
+      attrs={{ "aria-label": true }}
+      vars={{ username }}
+    >
       <span
         className={cn(
           styles.username,

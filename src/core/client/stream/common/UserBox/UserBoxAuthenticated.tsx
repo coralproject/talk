@@ -19,7 +19,7 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
 ) => {
   const Username = () => (
     <Localized
-      id="username"
+      id="common-username"
       attrs={{ "aria-label": true }}
       vars={{ username: props.username }}
     >

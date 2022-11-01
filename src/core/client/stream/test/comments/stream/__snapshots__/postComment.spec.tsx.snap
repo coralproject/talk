@@ -83,6 +83,7 @@ exports[`post a comment: optimistic response 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root"
                       >
                         Markus

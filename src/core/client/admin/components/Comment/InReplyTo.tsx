@@ -13,7 +13,7 @@ interface Props {
 const InReplyTo: FunctionComponent<Props> = ({ children, onUsernameClick }) => {
   const Username = () => (
     <Localized
-      id="username"
+      id="common-username"
       attrs={{ "aria-label": true }}
       vars={{ username: children }}
     >

@@ -134,6 +134,7 @@ exports[`renders app with comment stream 1`] = `
                                   type="button"
                                 >
                                   <span
+                                    aria-label="User Isabelle"
                                     className="Username-root"
                                   >
                                     Isabelle
@@ -421,6 +422,7 @@ exports[`renders app with comment stream 1`] = `
                                   type="button"
                                 >
                                   <span
+                                    aria-label="User Isabelle"
                                     className="Username-root"
                                   >
                                     Isabelle

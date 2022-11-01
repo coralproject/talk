@@ -741,6 +741,7 @@ exports[`renders rejected queue with comments 1`] = `
                 >
                   Reply to 
                   <button
+                    aria-label="User luke2"
                     className="BaseButton-root InReplyTo-usernameButton"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -750,11 +751,7 @@ exports[`renders rejected queue with comments 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <span
-                      className="InReplyTo-username"
-                    >
-                      luke2
-                    </span>
+                    luke2
                   </button>
                 </span>
               </div>

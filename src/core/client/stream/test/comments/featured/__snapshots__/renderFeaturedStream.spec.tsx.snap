@@ -521,6 +521,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Markus"
                         className="Username-root FeaturedCommentContainer-username"
                       >
                         Markus
@@ -668,6 +669,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
+                        aria-label="User Lukas"
                         className="Username-root FeaturedCommentContainer-username"
                       >
                         Lukas

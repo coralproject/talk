@@ -102,6 +102,7 @@ exports[`renders conversation thread 1`] = `
                                 type="button"
                               >
                                 <span
+                                  aria-label="User Moderator"
                                   className="Username-root"
                                 >
                                   Moderator
@@ -424,6 +425,7 @@ exports[`renders conversation thread 1`] = `
                               type="button"
                             >
                               <span
+                                aria-label="User Markus"
                                 className="Username-root"
                               >
                                 Markus
@@ -721,6 +723,7 @@ exports[`shows more of this conversation 1`] = `
                                 type="button"
                               >
                                 <span
+                                  aria-label="User Moderator"
                                   className="Username-root"
                                 >
                                   Moderator
@@ -1021,6 +1024,7 @@ exports[`shows more of this conversation 1`] = `
                                   type="button"
                                 >
                                   <span
+                                    aria-label="User Lukas"
                                     className="Username-root"
                                   >
                                     Lukas
@@ -1303,6 +1307,7 @@ exports[`shows more of this conversation 1`] = `
                               type="button"
                             >
                               <span
+                                aria-label="User Markus"
                                 className="Username-root"
                               >
                                 Markus
