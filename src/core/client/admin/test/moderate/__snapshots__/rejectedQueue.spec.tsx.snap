@@ -751,7 +751,11 @@ exports[`renders rejected queue with comments 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    luke2
+                    <span
+                      className="InReplyTo-username"
+                    >
+                      luke2
+                    </span>
                   </button>
                 </span>
               </div>

@@ -21,7 +21,6 @@ exports[`renders configure 1`] = `
         class="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
       >
         <div
-          aria-label="User Moderator"
           class="coral coral-viewerBox-username UserBoxAuthenticated-username"
         >
           Moderator

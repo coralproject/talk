@@ -87,6 +87,7 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-with-replies"
+                          aria-label="User Markus"
                           className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -97,7 +98,6 @@ exports[`renders reply list 1`] = `
                           type="button"
                         >
                           <span
-                            aria-label="User Markus"
                             className="Username-root"
                           >
                             Markus
@@ -172,7 +172,6 @@ exports[`renders reply list 1`] = `
                       >
                         In reply to 
                         <span
-                          aria-label="User Markus"
                           className="InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
@@ -415,6 +414,7 @@ exports[`renders reply list 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-3"
+                                aria-label="User Isabelle"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -425,7 +425,6 @@ exports[`renders reply list 1`] = `
                                 type="button"
                               >
                                 <span
-                                  aria-label="User Isabelle"
                                   className="Username-root"
                                 >
                                   Isabelle
@@ -500,7 +499,6 @@ exports[`renders reply list 1`] = `
                             >
                               In reply to 
                               <span
-                                aria-label="User Markus"
                                 className="InReplyTo-username coral coral-comment-inReplyToUsername"
                               >
                                 Markus
@@ -737,6 +735,7 @@ exports[`renders reply list 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-4"
+                                aria-label="User Isabelle"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -747,7 +746,6 @@ exports[`renders reply list 1`] = `
                                 type="button"
                               >
                                 <span
-                                  aria-label="User Isabelle"
                                   className="Username-root"
                                 >
                                   Isabelle
@@ -822,7 +820,6 @@ exports[`renders reply list 1`] = `
                             >
                               In reply to 
                               <span
-                                aria-label="User Markus"
                                 className="InReplyTo-username coral coral-comment-inReplyToUsername"
                               >
                                 Markus
@@ -1062,6 +1059,7 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-5"
+                          aria-label="User Isabelle"
                           className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -1072,7 +1070,6 @@ exports[`renders reply list 1`] = `
                           type="button"
                         >
                           <span
-                            aria-label="User Isabelle"
                             className="Username-root"
                           >
                             Isabelle
@@ -1147,7 +1144,6 @@ exports[`renders reply list 1`] = `
                       >
                         In reply to 
                         <span
-                          aria-label="User Markus"
                           className="InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
