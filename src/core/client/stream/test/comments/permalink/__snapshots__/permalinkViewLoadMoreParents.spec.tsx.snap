@@ -92,6 +92,7 @@ exports[`renders conversation thread 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-from-staff-0"
+                                aria-label="User Moderator"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -102,7 +103,6 @@ exports[`renders conversation thread 1`] = `
                                 type="button"
                               >
                                 <span
-                                  aria-label="User Moderator"
                                   className="Username-root"
                                 >
                                   Moderator
@@ -415,6 +415,7 @@ exports[`renders conversation thread 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
+                              aria-label="User Markus"
                               className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -425,7 +426,6 @@ exports[`renders conversation thread 1`] = `
                               type="button"
                             >
                               <span
-                                aria-label="User Markus"
                                 className="Username-root"
                               >
                                 Markus
@@ -713,6 +713,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-from-staff-0"
+                                aria-label="User Moderator"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -723,7 +724,6 @@ exports[`shows more of this conversation 1`] = `
                                 type="button"
                               >
                                 <span
-                                  aria-label="User Moderator"
                                   className="Username-root"
                                 >
                                   Moderator
@@ -1014,6 +1014,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-1"
+                                  aria-label="User Lukas"
                                   className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -1024,7 +1025,6 @@ exports[`shows more of this conversation 1`] = `
                                   type="button"
                                 >
                                   <span
-                                    aria-label="User Lukas"
                                     className="Username-root"
                                   >
                                     Lukas
@@ -1297,6 +1297,7 @@ exports[`shows more of this conversation 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
+                              aria-label="User Markus"
                               className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1307,7 +1308,6 @@ exports[`shows more of this conversation 1`] = `
                               type="button"
                             >
                               <span
-                                aria-label="User Markus"
                                 className="Username-root"
                               >
                                 Markus

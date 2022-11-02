@@ -184,6 +184,7 @@ exports[`renders permalink view 1`] = `
                                       >
                                         <button
                                           aria-controls="username-popover-comment-1"
+                                          aria-label="User Lukas"
                                           className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                           onBlur={[Function]}
                                           onClick={[Function]}
@@ -194,7 +195,6 @@ exports[`renders permalink view 1`] = `
                                           type="button"
                                         >
                                           <span
-                                            aria-label="User Lukas"
                                             className="Username-root"
                                           >
                                             Lukas
@@ -469,6 +469,7 @@ exports[`renders permalink view 1`] = `
                                       >
                                         <button
                                           aria-controls="username-popover-comment-2"
+                                          aria-label="User Isabelle"
                                           className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                           onBlur={[Function]}
                                           onClick={[Function]}
@@ -479,7 +480,6 @@ exports[`renders permalink view 1`] = `
                                           type="button"
                                         >
                                           <span
-                                            aria-label="User Isabelle"
                                             className="Username-root"
                                           >
                                             Isabelle
@@ -752,6 +752,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <button
                                       aria-controls="username-popover-comment-with-replies"
+                                      aria-label="User Markus"
                                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                       onBlur={[Function]}
                                       onClick={[Function]}
@@ -762,7 +763,6 @@ exports[`renders permalink view 1`] = `
                                       type="button"
                                     >
                                       <span
-                                        aria-label="User Markus"
                                         className="Username-root"
                                       >
                                         Markus
@@ -1045,6 +1045,7 @@ exports[`renders permalink view 1`] = `
                                 >
                                   <button
                                     aria-controls="username-popover-comment-3"
+                                    aria-label="User Isabelle"
                                     className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -1055,7 +1056,6 @@ exports[`renders permalink view 1`] = `
                                     type="button"
                                   >
                                     <span
-                                      aria-label="User Isabelle"
                                       className="Username-root"
                                     >
                                       Isabelle
@@ -1130,7 +1130,6 @@ exports[`renders permalink view 1`] = `
                                 >
                                   In reply to 
                                   <span
-                                    aria-label="User Markus"
                                     className="InReplyTo-username coral coral-comment-inReplyToUsername"
                                   >
                                     Markus
@@ -1367,6 +1366,7 @@ exports[`renders permalink view 1`] = `
                                 >
                                   <button
                                     aria-controls="username-popover-comment-4"
+                                    aria-label="User Isabelle"
                                     className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -1377,7 +1377,6 @@ exports[`renders permalink view 1`] = `
                                     type="button"
                                   >
                                     <span
-                                      aria-label="User Isabelle"
                                       className="Username-root"
                                     >
                                       Isabelle
@@ -1452,7 +1451,6 @@ exports[`renders permalink view 1`] = `
                                 >
                                   In reply to 
                                   <span
-                                    aria-label="User Markus"
                                     className="InReplyTo-username coral coral-comment-inReplyToUsername"
                                   >
                                     Markus

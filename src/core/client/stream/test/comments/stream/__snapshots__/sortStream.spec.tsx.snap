@@ -124,6 +124,7 @@ exports[`renders app with comment stream 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-2"
+                                  aria-label="User Isabelle"
                                   className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -411,6 +412,7 @@ exports[`renders app with comment stream 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-3"
+                                  aria-label="User Isabelle"
                                   className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
