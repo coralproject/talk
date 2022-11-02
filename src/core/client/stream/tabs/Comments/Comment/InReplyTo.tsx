@@ -41,15 +41,9 @@ const InReplyTo: FunctionComponent<Props> = ({
   }, [parent, pym, renderWindow.document]);
 
   const Username = () => (
-    <Localized
-      id="common-username"
-      attrs={{ "aria-label": true }}
-      vars={{ username: parent?.author?.username }}
-    >
-      <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>
-        {parent?.author?.username}
-      </span>
-    </Localized>
+    <span className={cn(styles.username, CLASSES.comment.inReplyTo.username)}>
+      {parent?.author?.username}
+    </span>
   );
 
   const Content = (

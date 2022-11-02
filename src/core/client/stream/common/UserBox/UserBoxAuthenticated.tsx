@@ -18,15 +18,9 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
   props
 ) => {
   const Username = () => (
-    <Localized
-      id="common-username"
-      attrs={{ "aria-label": true }}
-      vars={{ username: props.username }}
-    >
-      <div className={cn(CLASSES.viewerBox.username, styles.username)}>
-        {props.username}
-      </div>
-    </Localized>
+    <div className={cn(CLASSES.viewerBox.username, styles.username)}>
+      {props.username}
+    </div>
   );
 
   return (

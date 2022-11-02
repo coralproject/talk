@@ -1,4 +1,3 @@
-import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
@@ -11,13 +10,7 @@ interface Props {
 
 const Username: FunctionComponent<Props> = (props) => {
   return (
-    <Localized
-      id="common-username"
-      attrs={{ "aria-label": true }}
-      vars={{ username: props.children }}
-    >
-      <span className={cn(styles.root, props.className)}>{props.children}</span>
-    </Localized>
+    <span className={cn(styles.root, props.className)}>{props.children}</span>
   );
 };
 

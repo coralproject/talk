@@ -5,29 +5,22 @@ import React, { FunctionComponent } from "react";
 import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 
-import styles from "./ReplyTo.css";
+import styles from "./ReplyingTo.css";
 
 interface Props {
   username: string;
 }
 
-const ReplyTo: FunctionComponent<Props> = ({ username }) => {
+const ReplyingTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
-    <Localized
-      id="common-username"
-      attrs={{ "aria-label": true }}
-      vars={{ username }}
+    <span
+      className={cn(
+        styles.username,
+        CLASSES.createReplyComment.replyTo.username
+      )}
     >
-      <span
-        className={cn(
-          styles.username,
-          CLASSES.createReplyComment.replyTo.username
-        )}
-        aria-label="untranslated"
-      >
-        {username}
-      </span>
-    </Localized>
+      {username}
+    </span>
   );
 
   return (
@@ -47,4 +40,4 @@ const ReplyTo: FunctionComponent<Props> = ({ username }) => {
   );
 };
 
-export default ReplyTo;
+export default ReplyingTo;
