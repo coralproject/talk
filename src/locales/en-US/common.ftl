@@ -21,5 +21,5 @@ common-error-title = An error has occurred
 common-error-message = Message
 common-error-traceID = Trace ID
 
-common-username = { $username }
+common-username =
   .aria-label = User { $username }
