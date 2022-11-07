@@ -53,13 +53,11 @@ export class MailerQueue {
       true
     );
 
-    // This is to handle users we know do not have an email
-    // because their account was made using SSO and the login
-    // provider on the host was also SSO (Google/FB/Twitter)
-    // and did not provide an email. This is common on older
-    // host sites that don't attach an email after the 3rd
-    // party sign-on provider has finished validating their
-    // credentials. So we put an email similar to:
+    // This is to handle sbn users that don't have an email.
+    // These are users who signed up with a third-party login
+    // identity (typically Google, FB, or Twitter) and that provider
+    // does not disclose that identity's email address to us for
+    // whatever reason. So we put an email similar to:
     //
     // missing-{{userID}}
     //
