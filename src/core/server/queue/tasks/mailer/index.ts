@@ -59,9 +59,9 @@ export class MailerQueue {
     // and did not provide an email. This is common on older
     // host sites that don't attach an email after the 3rd
     // party sign-on provider has finished validating their
-    // credentials. So we putting an email similar to:
+    // credentials. So we put an email similar to:
     //
-    // missing-601057
+    // missing-{{userID}}
     //
     // It's easy to check for since it's missing an '@' and
     // has their id embedded into it for easy debugging should
