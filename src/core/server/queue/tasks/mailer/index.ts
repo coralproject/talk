@@ -53,6 +53,27 @@ export class MailerQueue {
       true
     );
 
+    // This is to handle users we know do not have an email
+    // because their account was made using SSO and the login
+    // provider on the host was also SSO (Google/FB/Twitter)
+    // and did not provide an email. This is common on older
+    // host sites that don't attach an email after the 3rd
+    // party sign-on provider has finished validating their
+    // credentials. So we putting an email similar to:
+    //
+    // missing-601057
+    //
+    // It's easy to check for since it's missing an '@' and
+    // has their id embedded into it for easy debugging should
+    // an error occur around it.
+    if (!to.includes("@") && to.startsWith("missing-")) {
+      log.error(
+        { email: to },
+        "not sending email, user does not have an email"
+      );
+      return;
+    }
+
     // All email templates require the tenant in order to insert the footer, so
     // load it from the tenant cache here.
     const tenant = await this.tenantCache.retrieveByID(tenantID);
