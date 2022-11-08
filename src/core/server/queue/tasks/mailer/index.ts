@@ -53,6 +53,25 @@ export class MailerQueue {
       true
     );
 
+    // This is to handle sbn users that don't have an email.
+    // These are users who signed up with a third-party login
+    // identity (typically Google, FB, or Twitter) and that provider
+    // does not disclose that identity's email address to us for
+    // whatever reason. So we put an email similar to:
+    //
+    // missing-{{userID}}
+    //
+    // It's easy to check for since it's missing an '@' and
+    // has their id embedded into it for easy debugging should
+    // an error occur around it.
+    if (!to.includes("@") && to.startsWith("missing-")) {
+      log.error(
+        { email: to },
+        "not sending email, user does not have an email"
+      );
+      return;
+    }
+
     // All email templates require the tenant in order to insert the footer, so
     // load it from the tenant cache here.
     const tenant = await this.tenantCache.retrieveByID(tenantID);
