@@ -2,6 +2,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -26,6 +27,14 @@ const AddACommentButton: FunctionComponent<Props> = ({
   isQA = false,
   currentScrollRef,
 }) => {
+  // TODO: Document decision to grab focus
+  const focusRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (focusRef.current) {
+      focusRef.current.focus();
+    }
+  }, []);
+
   const { renderWindow, eventEmitter } = useCoralContext();
   const [{ commentsFullyLoaded, commentsTab }, setLocal] =
     useLocal<AddACommentButtonLocal>(
@@ -132,6 +141,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
         upperCase
         className={styles.button}
         onClick={onClick}
+        ref={focusRef}
       >
         <Flex alignItems="center">
           <Icon className={styles.icon}>create</Icon>
