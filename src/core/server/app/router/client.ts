@@ -272,7 +272,7 @@ export async function mountClientRoutes(
       cacheDuration: false,
       disableFraming: true,
       entrypointLoader: manifestLoader.createEntrypointLoader("auth"),
-      templateVariables: { title: "Log In" },
+      templateVariables: { title: "Sign in" },
     })
   );
 
