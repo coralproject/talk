@@ -71,7 +71,7 @@ const MediaPreview: FunctionComponent<Props> = ({
             ) : media.type === "twitter" ? (
               <TwitterMedia url={media.url} siteID={siteID} />
             ) : media.type === "youtube" ? (
-              <YouTubeMedia url={media.url} siteID={siteID} />
+              <YouTubeMedia url={media.url} siteID={siteID} isToggled={true} />
             ) : null}
           </HorizontalGutter>
 
