@@ -76,12 +76,12 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
       <Flex justifyContent="space-between" alignItems="flex-start">
         <div>
           <Localized id="profile-account-download-comments-title">
-            <div
+            <h1
               className={styles.title}
               id="profile-account-download-comments-title"
             >
               Download my comment history
-            </div>
+            </h1>
           </Localized>
           <Localized
             id="profile-account-download-comments-description"
