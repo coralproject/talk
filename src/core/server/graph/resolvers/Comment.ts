@@ -19,7 +19,10 @@ import {
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
 import { canModerate } from "coral-server/models/user/helpers";
-import { getCommentEditableUntilDate } from "coral-server/services/comments";
+import {
+  getCommentEditableUntilDate,
+  hasRejectedAncestors,
+} from "coral-server/services/comments";
 
 import {
   GQLComment,
@@ -64,12 +67,20 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
 
     return canModerate(ctx.user, { siteID: c.siteID });
   },
-  canReply: (c) => {
-    if (typeof c.rejectedAncestor === "undefined") {
-      return true;
+  canReply: async (c, input, ctx) => {
+    const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
+    if (!story || story.isArchived || story.isArchiving) {
+      return false;
     }
 
-    return !c.rejectedAncestor;
+    const rejectedAncestors = await hasRejectedAncestors(
+      ctx.mongo,
+      ctx.tenant.id,
+      c.id,
+      story.isArchived || story.isArchiving
+    );
+
+    return !rejectedAncestors;
   },
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
