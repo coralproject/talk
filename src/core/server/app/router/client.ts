@@ -272,7 +272,7 @@ export async function mountClientRoutes(
       cacheDuration: false,
       disableFraming: true,
       entrypointLoader: manifestLoader.createEntrypointLoader("auth"),
-      templateVariables: { title: "Sign in" },
+      templateVariables: { title: options.config.get("signin_window_title") },
     })
   );
 
