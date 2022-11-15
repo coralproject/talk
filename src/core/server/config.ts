@@ -1,5 +1,6 @@
 import bytes from "bytes";
 import convict from "convict";
+import convict_format_with_validator from "convict-format-with-validator";
 import Joi from "joi";
 import { compact } from "lodash";
 import { parseConnectionString } from "mongodb-core";
@@ -10,6 +11,9 @@ import { LOCALES } from "coral-common/helpers/i18n/locales";
 import { ensureEndSlash } from "coral-common/utils";
 
 import { WrappedInternalError } from "./errors";
+
+// Needed for the url format.
+convict.addFormats(convict_format_with_validator);
 
 // Add custom format for the mongo uri scheme.
 convict.addFormat({
