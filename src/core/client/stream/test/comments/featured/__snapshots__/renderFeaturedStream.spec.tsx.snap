@@ -595,6 +595,7 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <a
+                        aria-label="Go to this featured comment by user {$username} in the main comment stream"
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
                         data-variant="flat"
                         disabled={false}
@@ -742,6 +743,7 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <a
+                        aria-label="Go to this featured comment by user {$username} in the main comment stream"
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
                         data-variant="flat"
                         disabled={false}
