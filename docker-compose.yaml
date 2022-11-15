@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  jobs:
+    image: coralproject/talk:7
+    restart: always
+    ports:
+      - "5000"
+    environment:
+      - MONGODB_URI=${MONGODB_URI:-mongodb://host.docker.internal:27017/coral}
+      - REDIS_URI=${REDIS_URI:-redis://host.docker.internal:6379}
+      - SIGNING_SECRET=${SIGNING_SECRET}
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - jobs
+    ports:
+      - "4000:4000"
+
+# https://github.com/docker/compose/issues/8530 would suggest that this issue is not specific to us and is still unresolved
+# https://pspdfkit.com/blog/2018/how-to-use-docker-compose-to-run-multiple-instances-of-a-service-in-development/ suggests using ephemeral ports and adding a load balancer
