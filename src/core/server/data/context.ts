@@ -14,6 +14,7 @@ import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { createMongoDB } from "coral-server/services/mongodb";
+import { DataCache } from "./cache/dataCache";
 
 export interface MongoContext {
   readonly live: Db;
@@ -35,15 +36,21 @@ export interface MongoContext {
     Readonly<CommentModerationAction>
   >;
   seenComments(): Collection<Readonly<SeenComments>>;
+
+  cache: DataCache;
 }
 
 export class MongoContextImpl implements MongoContext {
   public readonly live: Db;
   public readonly archive?: Db;
 
+  public readonly cache: DataCache;
+
   constructor(live: Db, archive?: Db) {
     this.live = live;
     this.archive = archive;
+
+    this.cache = new DataCache(this);
   }
 
   public users(): Collection<Readonly<User>> {

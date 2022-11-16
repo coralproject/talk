@@ -307,26 +307,41 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    const connection = await retrieveCommentStoryConnection(
-      ctx.mongo,
+    await ctx.mongo.cache.comments.loadCommentsForStory(
       ctx.tenant.id,
       storyID,
-      {
-        first: defaultTo(first, 10),
-        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-        after,
-        filter: {
-          ...tagFilter(tag),
-          ...ratingFilter(ctx.tenant, story, rating),
-          // Only get Comments that are top level. If the client wants to load
-          // another layer, they can request another nested connection.
-          parentID: null,
-        },
-      },
-      story.isArchived
-    ).then(primeCommentsFromConnection(ctx));
+      !!(story.isArchived || story.isArchiving)
+    );
 
-    return connection;
+    const conn = await ctx.mongo.cache.comments
+      .rootCommentsConnectionForStory(
+        storyID,
+        defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+      )
+      .then(primeCommentsFromConnection(ctx));
+
+    return conn;
+
+    // const connection = await retrieveCommentStoryConnection(
+    //   ctx.mongo,
+    //   ctx.tenant.id,
+    //   storyID,
+    //   {
+    //     first: defaultTo(first, 10),
+    //     orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+    //     after,
+    //     filter: {
+    //       ...tagFilter(tag),
+    //       ...ratingFilter(ctx.tenant, story, rating),
+    //       // Only get Comments that are top level. If the client wants to load
+    //       // another layer, they can request another nested connection.
+    //       parentID: null,
+    //     },
+    //   },
+    //   story.isArchived
+    // ).then(primeCommentsFromConnection(ctx));
+
+    // return connection;
   },
   forParent: async (
     storyID: string,
@@ -338,23 +353,33 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    const connection = await retrieveCommentRepliesConnection(
-      ctx.mongo,
-      ctx.tenant.id,
-      storyID,
-      parentID,
-      {
-        first: defaultTo(first, 10),
-        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
-        after,
-        filter: {
-          ...flattenFilter(parentID, { enabled: Boolean(flatten) }),
-        },
-      },
-      story.isArchived
-    ).then(primeCommentsFromConnection(ctx));
+    const conn = await ctx.mongo.cache.comments
+      .repliesConnectionForParent(
+        storyID,
+        parentID,
+        defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+      )
+      .then(primeCommentsFromConnection(ctx));
 
-    return connection;
+    return conn;
+
+    // const connection = await retrieveCommentRepliesConnection(
+    //   ctx.mongo,
+    //   ctx.tenant.id,
+    //   storyID,
+    //   parentID,
+    //   {
+    //     first: defaultTo(first, 10),
+    //     orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+    //     after,
+    //     filter: {
+    //       ...flattenFilter(parentID, { enabled: Boolean(flatten) }),
+    //     },
+    //   },
+    //   story.isArchived
+    // ).then(primeCommentsFromConnection(ctx));
+
+    // return connection;
   },
   parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
     const story = await ctx.loaders.Stories.story.load(comment.storyID);
