@@ -53,7 +53,7 @@ exports[`renders reply list 1`] = `
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
-                aria-label="Collapse comment thread"
+                aria-label="Hide comment by Markus and its replies"
                 className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -379,7 +379,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                   >
                     <button
-                      aria-label="Collapse comment thread"
+                      aria-label="Hide comment by Isabelle and its replies"
                       className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -699,7 +699,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                   >
                     <button
-                      aria-label="Collapse comment thread"
+                      aria-label="Hide comment by Isabelle and its replies"
                       className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1022,7 +1022,7 @@ exports[`renders reply list 1`] = `
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
-                aria-label="Collapse comment thread"
+                aria-label="Hide comment by Isabelle and its replies"
                 className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                 onBlur={[Function]}
                 onClick={[Function]}

@@ -75,10 +75,14 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
   .title = Toggle featured comments tooltip
 
-comments-collapse-toggle =
-  .aria-label = Collapse comment thread
-comments-expand-toggle =
-  .aria-label = Expand comment thread
+comments-collapse-toggle-with-username =
+  .aria-label = Hide comment by { $username } and its replies
+comments-collapse-toggle-without-username =
+  .aria-label = Hide comment and its replies
+comments-expand-toggle-with-username =
+  .aria-label = Show comment by { $username } and its replies
+comments-expand-toggle-without-username =
+  .aria-label = Show comment and its replies
 comments-bannedInfo-bannedFromCommenting = Your account has been banned from commenting.
 comments-bannedInfo-violatedCommunityGuidelines =
   Someone with access to your account has violated our community
