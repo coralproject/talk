@@ -1,6 +1,17 @@
+import { isNumber } from "lodash";
+
 import { MongoContext } from "coral-server/data/context";
-import { GQLCOMMENT_SORT } from "coral-server/graph/schema/__generated__/types";
 import { Comment } from "coral-server/models/comment";
+
+import {
+  GQLCOMMENT_SORT,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
+
+export interface Filter {
+  tag?: GQLTAG;
+  rating?: number;
+}
 
 export class CommentCache {
   private mongo: MongoContext;
@@ -15,8 +26,13 @@ export class CommentCache {
   public async loadCommentsForStory(
     tenantID: string,
     storyID: string,
-    isArchived: boolean
+    isArchived: boolean,
+    filter: Filter
   ) {
+    const { rating, tag } = filter;
+    const hasRatingFilter =
+      isNumber(rating) && Number.isInteger(rating) && rating < 1 && rating > 5;
+
     const collection =
       isArchived && this.mongo.archive
         ? this.mongo.archivedComments()
@@ -27,6 +43,16 @@ export class CommentCache {
     const map = new Map<string, Readonly<Comment>>();
 
     for (const comment of comments) {
+      // apply rating filter if available
+      if (hasRatingFilter && !comment.rating && comment.rating !== rating) {
+        continue;
+      }
+
+      // apply tag filter if available
+      if (tag && !comment.tags.find((t) => t.type === tag)) {
+        continue;
+      }
+
       map.set(comment.id, comment);
     }
 
@@ -71,6 +97,26 @@ export class CommentCache {
     const rootComments: Readonly<Comment>[] = [];
     for (const value of comments.values()) {
       if (value.parentID === parentID) {
+        rootComments.push(value);
+      }
+    }
+
+    return this.sortComments(rootComments, orderBy);
+  }
+
+  public flattenedChildCommentsForParent(
+    storyID: string,
+    parentID: string,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
+  ) {
+    const comments = this.commentsByStoryID.get(storyID);
+    if (!comments) {
+      return [];
+    }
+
+    const rootComments: Readonly<Comment>[] = [];
+    for (const value of comments.values()) {
+      if (value.ancestorIDs.includes(parentID)) {
         rootComments.push(value);
       }
     }
@@ -136,6 +182,19 @@ export class CommentCache {
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
     const comments = this.childCommentsForParent(storyID, parentID, orderBy);
+    return this.createConnection(comments);
+  }
+
+  public async flattenedRepliesConnectionForParent(
+    storyID: string,
+    parentID: string,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
+  ) {
+    const comments = this.flattenedChildCommentsForParent(
+      storyID,
+      parentID,
+      orderBy
+    );
     return this.createConnection(comments);
   }
 }
