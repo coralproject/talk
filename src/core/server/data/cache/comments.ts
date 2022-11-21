@@ -15,12 +15,19 @@ export interface Filter {
 
 export class CommentCache {
   private mongo: MongoContext;
-  private commentsByStoryID: Map<string, Map<string, Readonly<Comment>>>;
+
+  private commentsByStoryID: Map<
+    string,
+    Map<string | null, Readonly<Comment>[]>
+  >;
 
   constructor(mongo: MongoContext) {
     this.mongo = mongo;
 
-    this.commentsByStoryID = new Map<string, Map<string, Readonly<Comment>>>();
+    this.commentsByStoryID = new Map<
+      string,
+      Map<string, Readonly<Comment>[]>
+    >();
   }
 
   public async loadCommentsForStory(
@@ -40,7 +47,7 @@ export class CommentCache {
 
     const comments = await collection.find({ tenantID, storyID }).toArray();
 
-    const map = new Map<string, Readonly<Comment>>();
+    const map = new Map<string | null, Readonly<Comment>[]>();
 
     for (const comment of comments) {
       // apply rating filter if available
@@ -53,7 +60,16 @@ export class CommentCache {
         continue;
       }
 
-      map.set(comment.id, comment);
+      const parentID = comment.parentID ? comment.parentID : null;
+
+      if (!map.has(parentID)) {
+        map.set(parentID, new Array<Readonly<Comment>>());
+      }
+
+      const bucket = map.get(parentID);
+      if (bucket) {
+        bucket.push(comment);
+      }
     }
 
     this.commentsByStoryID.set(storyID, map);
@@ -94,14 +110,32 @@ export class CommentCache {
       return [];
     }
 
-    const rootComments: Readonly<Comment>[] = [];
-    for (const value of comments.values()) {
-      if (value.parentID === parentID) {
-        rootComments.push(value);
+    const childComments = comments.get(parentID);
+    if (!childComments) {
+      return [];
+    }
+
+    return this.sortComments(childComments, orderBy);
+  }
+
+  private recursivelyFindChildren(
+    comments: Readonly<Comment>[],
+    lookup: Map<string | null, Readonly<Comment>[]>
+  ) {
+    const result: Readonly<Comment>[] = [];
+    for (const comment of comments) {
+      result.push(comment);
+
+      const children = lookup.get(comment.id);
+      if (children) {
+        const subChildren = this.recursivelyFindChildren(children, lookup);
+        for (const subChild of subChildren) {
+          result.push(subChild);
+        }
       }
     }
 
-    return this.sortComments(rootComments, orderBy);
+    return result;
   }
 
   public flattenedChildCommentsForParent(
@@ -114,14 +148,13 @@ export class CommentCache {
       return [];
     }
 
-    const rootComments: Readonly<Comment>[] = [];
-    for (const value of comments.values()) {
-      if (value.ancestorIDs.includes(parentID)) {
-        rootComments.push(value);
-      }
+    const children = comments.get(parentID);
+    if (!children) {
+      return [];
     }
 
-    return this.sortComments(rootComments, orderBy);
+    const result = this.recursivelyFindChildren(children, comments);
+    return this.sortComments(result, orderBy);
   }
 
   public rootCommentsForStory(
@@ -133,12 +166,9 @@ export class CommentCache {
       return [];
     }
 
-    // Get all root level comments
-    const rootComments: Readonly<Comment>[] = [];
-    for (const value of comments.values()) {
-      if (!value.parentID) {
-        rootComments.push(value);
-      }
+    const rootComments = comments.get(null);
+    if (!rootComments) {
+      return [];
     }
 
     return this.sortComments(rootComments, orderBy);
