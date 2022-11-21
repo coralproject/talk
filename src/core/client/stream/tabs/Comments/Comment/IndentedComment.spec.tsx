@@ -11,6 +11,7 @@ it("renders correctly", () => {
     showCommentID: false,
     indentLevel: 1,
     username: "Marvin",
+    usernameEl: <span>Marvi</span>,
     staticUsername: "Marvin",
     body: "Woof",
     staticTopBarRight: "",
