@@ -21,6 +21,11 @@ exports[`renders correctly 1`] = `
         }
       }
       username="Marvin"
+      usernameEl={
+        <span>
+          Marvin
+        </span>
+      }
     />
   </ForwardRef(forwardRef)>
 </Indent>
