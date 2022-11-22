@@ -16,13 +16,11 @@ export class UserCache {
   }
 
   public async loadUsersForIDs(tenantID: string, userIDs: string[]) {
-    const uniqueUserIDs = Array.from(new Set(userIDs));
-
     const batches: string[][] = [];
     batches.push([]);
 
     let currentBatch = 0;
-    for (const userID of uniqueUserIDs) {
+    for (const userID of userIDs) {
       batches[currentBatch].push(userID);
 
       if (batches[currentBatch].length >= USER_BATCH_SIZE) {
