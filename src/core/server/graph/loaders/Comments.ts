@@ -275,7 +275,7 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    await ctx.mongo.cache.comments.loadCommentsForStory(
+    const authorIDs = await ctx.mongo.cache.comments.loadCommentsForStory(
       ctx.tenant.id,
       storyID,
       !!(story.isArchived || story.isArchiving),
@@ -284,6 +284,7 @@ export default (ctx: GraphContext) => ({
         rating: isRatingsAndReviews(ctx.tenant, story) ? rating : undefined,
       }
     );
+    await ctx.mongo.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
 
     const conn = await ctx.mongo.cache.comments
       .rootCommentsConnectionForStory(

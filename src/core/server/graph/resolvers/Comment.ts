@@ -97,8 +97,13 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         ? getCommentEditableUntilDate(ctx.tenant, createdAt)
         : null,
   }),
-  author: (c, input, ctx) =>
-    c.authorID ? ctx.loaders.Users.user.load(c.authorID) : null,
+  author: (c, input, ctx) => {
+    if (!c.authorID) {
+      return null;
+    }
+
+    return ctx.mongo.cache.users.findUser(c.tenantID, c.authorID);
+  },
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
   replies: (c, input, ctx) =>

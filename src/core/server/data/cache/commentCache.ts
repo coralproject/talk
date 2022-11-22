@@ -49,6 +49,8 @@ export class CommentCache {
 
     const map = new Map<string | null, Readonly<Comment>[]>();
 
+    const authorIDs = new Set<string>();
+
     for (const comment of comments) {
       // apply rating filter if available
       if (hasRatingFilter && !comment.rating && comment.rating !== rating) {
@@ -69,10 +71,16 @@ export class CommentCache {
       const bucket = map.get(parentID);
       if (bucket) {
         bucket.push(comment);
+
+        if (comment.authorID) {
+          authorIDs.add(comment.authorID);
+        }
       }
     }
 
     this.commentsByStoryID.set(storyID, map);
+
+    return Array.from(authorIDs);
   }
 
   private sortComments(
