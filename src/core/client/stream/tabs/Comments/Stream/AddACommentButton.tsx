@@ -2,7 +2,6 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -27,13 +26,29 @@ const AddACommentButton: FunctionComponent<Props> = ({
   isQA = false,
   currentScrollRef,
 }) => {
-  // TODO: Document decision to grab focus
-  const focusRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (focusRef.current) {
-      focusRef.current.focus();
-    }
-  }, []);
+  const pollForCommentFormElement = useCallback(
+    async () =>
+      new Promise<HTMLElement>((resolve, reject) => {
+        let count = 0;
+        const commentFormPolling = setInterval(async () => {
+          count += 1;
+          const postCommentFormElement =
+            root.getElementById(POST_COMMENT_FORM_ID);
+          if (
+            postCommentFormElement !== undefined &&
+            postCommentFormElement !== null
+          ) {
+            clearInterval(commentFormPolling);
+            resolve(postCommentFormElement);
+          }
+          if (count > 10) {
+            clearInterval(commentFormPolling);
+            reject("Unable to locate comment form");
+          }
+        }, 100);
+      }),
+    []
+  );
 
   const { renderWindow, eventEmitter } = useCoralContext();
   const [{ commentsFullyLoaded, commentsTab }, setLocal] =
@@ -56,23 +71,9 @@ const AddACommentButton: FunctionComponent<Props> = ({
         align: "center",
         index: "LAST",
         behavior: "auto",
-        done: () => {
-          let count = 0;
-          const stopExists = setInterval(async () => {
-            count += 1;
-            const postCommentFormElement =
-              root.getElementById(POST_COMMENT_FORM_ID);
-            if (
-              postCommentFormElement !== undefined &&
-              postCommentFormElement !== null
-            ) {
-              clearInterval(stopExists);
-              postCommentFormElement.scrollIntoView();
-            }
-            if (count > 10) {
-              clearInterval(stopExists);
-            }
-          }, 100);
+        done: async () => {
+          const postCommentFormElement = await pollForCommentFormElement();
+          postCommentFormElement.scrollIntoView();
         },
       });
     }
@@ -90,7 +91,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
     scrollToLastCommentAndPostCommentForm,
   ]);
 
-  const onClick = useCallback(() => {
+  const onClick = useCallback(async () => {
     AddACommentButtonEvent.emit(eventEmitter);
 
     if (!renderWindow) {
@@ -121,6 +122,16 @@ const AddACommentButton: FunctionComponent<Props> = ({
         scrollToLastCommentAndPostCommentForm();
       }
     }
+
+    // TODO for MARCUS: clean this up
+    const commentForm = await pollForCommentFormElement();
+    const iFrame = commentForm.querySelector("iframe");
+    if (iFrame !== null) {
+      const field = (iFrame as any).contentWindow.document.body.querySelector(
+        "#comments-postCommentForm-field"
+      );
+      field.focus();
+    }
   }, [
     renderWindow,
     root,
@@ -141,7 +152,6 @@ const AddACommentButton: FunctionComponent<Props> = ({
         upperCase
         className={styles.button}
         onClick={onClick}
-        ref={focusRef}
       >
         <Flex alignItems="center">
           <Icon className={styles.icon}>create</Icon>
