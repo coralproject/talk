@@ -212,6 +212,7 @@ export class CommentCache {
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
     const comments = this.childCommentsForParent(storyID, parentID, orderBy);
+
     return this.createConnection(comments);
   }
 
