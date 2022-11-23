@@ -20,7 +20,6 @@ import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   retrieveAllCommentsUserConnection,
-  retrieveChildrenForParentConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentStoryConnection,
