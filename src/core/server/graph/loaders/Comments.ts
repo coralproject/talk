@@ -11,6 +11,7 @@ import {
   retrieveManyRecentStatusCounts,
   retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection, createEmptyConnection } from "coral-server/models/helpers";
@@ -282,6 +283,7 @@ export default (ctx: GraphContext) => ({
       {
         tag,
         rating: isRatingsAndReviews(ctx.tenant, story) ? rating : undefined,
+        statuses: PUBLISHED_STATUSES,
       },
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );

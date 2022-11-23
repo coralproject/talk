@@ -5,12 +5,14 @@ import { Comment } from "coral-server/models/comment";
 
 import {
   GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 export interface Filter {
   tag?: GQLTAG;
   rating?: number;
+  statuses?: GQLCOMMENT_STATUS[];
 }
 
 export class CommentCache {
@@ -50,7 +52,7 @@ export class CommentCache {
     filter: Filter,
     orderBy: GQLCOMMENT_SORT
   ) {
-    const { rating, tag } = filter;
+    const { rating, tag, statuses } = filter;
     const hasRatingFilter =
       isNumber(rating) && Number.isInteger(rating) && rating < 1 && rating > 5;
 
@@ -78,6 +80,11 @@ export class CommentCache {
 
       // apply tag filter if available
       if (tag && !comment.tags.find((t) => t.type === tag)) {
+        continue;
+      }
+
+      // filter by status if available
+      if (statuses && !statuses.includes(comment.status)) {
         continue;
       }
 
