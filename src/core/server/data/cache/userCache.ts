@@ -2,7 +2,7 @@ import { UserNotFoundError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
 import { MongoContext } from "../context";
 
-const USER_BATCH_SIZE = 50;
+const USER_BATCH_SIZE = 5;
 
 export class UserCache {
   private mongo: MongoContext;

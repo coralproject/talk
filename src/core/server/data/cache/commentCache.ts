@@ -30,11 +30,25 @@ export class CommentCache {
     >();
   }
 
+  private computeSortFilter(orderBy: GQLCOMMENT_SORT) {
+    switch (orderBy) {
+      case GQLCOMMENT_SORT.CREATED_AT_DESC:
+        return { createdAt: -1 };
+      case GQLCOMMENT_SORT.CREATED_AT_ASC:
+        return { createdAt: 1 };
+      case GQLCOMMENT_SORT.REPLIES_DESC:
+        return { childCount: -1, createdAt: -1 };
+      case GQLCOMMENT_SORT.REACTION_DESC:
+        return { "actionCounts.REACTION": -1, createdAt: -1 };
+    }
+  }
+
   public async loadCommentsForStory(
     tenantID: string,
     storyID: string,
     isArchived: boolean,
-    filter: Filter
+    filter: Filter,
+    orderBy: GQLCOMMENT_SORT
   ) {
     const { rating, tag } = filter;
     const hasRatingFilter =
@@ -45,7 +59,12 @@ export class CommentCache {
         ? this.mongo.archivedComments()
         : this.mongo.comments();
 
-    const comments = await collection.find({ tenantID, storyID }).toArray();
+    const sortBy = this.computeSortFilter(orderBy);
+
+    const comments = await collection
+      .find({ tenantID, storyID })
+      .sort(sortBy)
+      .toArray();
 
     const map = new Map<string | null, Readonly<Comment>[]>();
 
@@ -179,7 +198,7 @@ export class CommentCache {
       return [];
     }
 
-    return this.sortComments(rootComments, orderBy);
+    return rootComments;
   }
 
   private async createConnection(comments: Readonly<Comment>[]) {

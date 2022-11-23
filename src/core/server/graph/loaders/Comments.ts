@@ -282,7 +282,8 @@ export default (ctx: GraphContext) => ({
       {
         tag,
         rating: isRatingsAndReviews(ctx.tenant, story) ? rating : undefined,
-      }
+      },
+      defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
     await ctx.mongo.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
 
