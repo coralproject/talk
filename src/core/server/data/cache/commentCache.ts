@@ -1,6 +1,7 @@
 import { isNumber } from "lodash";
 
 import { MongoContext } from "coral-server/data/context";
+import { CommentNotFoundError } from "coral-server/errors";
 import { Comment } from "coral-server/models/comment";
 
 import {
@@ -18,18 +19,21 @@ export interface Filter {
 export class CommentCache {
   private mongo: MongoContext;
 
-  private commentsByStoryID: Map<
+  private commentsByParentID: Map<
     string,
     Map<string | null, Readonly<Comment>[]>
   >;
+  private commentsByID: Map<string, Map<string, Readonly<Comment>>>;
 
   constructor(mongo: MongoContext) {
     this.mongo = mongo;
 
-    this.commentsByStoryID = new Map<
+    this.commentsByParentID = new Map<
       string,
       Map<string, Readonly<Comment>[]>
     >();
+
+    this.commentsByID = new Map<string, Map<string, Readonly<Comment>>>();
   }
 
   private computeSortFilter(orderBy: GQLCOMMENT_SORT) {
@@ -68,7 +72,8 @@ export class CommentCache {
       .sort(sortBy)
       .toArray();
 
-    const map = new Map<string | null, Readonly<Comment>[]>();
+    const parentMap = new Map<string | null, Readonly<Comment>[]>();
+    const commentMap = new Map<string, Readonly<Comment>>();
 
     const authorIDs = new Set<string>();
 
@@ -90,13 +95,14 @@ export class CommentCache {
 
       const parentID = comment.parentID ? comment.parentID : null;
 
-      if (!map.has(parentID)) {
-        map.set(parentID, new Array<Readonly<Comment>>());
+      if (!parentMap.has(parentID)) {
+        parentMap.set(parentID, new Array<Readonly<Comment>>());
       }
 
-      const bucket = map.get(parentID);
+      const bucket = parentMap.get(parentID);
       if (bucket) {
         bucket.push(comment);
+        commentMap.set(comment.id, comment);
 
         if (comment.authorID) {
           authorIDs.add(comment.authorID);
@@ -104,9 +110,45 @@ export class CommentCache {
       }
     }
 
-    this.commentsByStoryID.set(storyID, map);
+    this.commentsByParentID.set(storyID, parentMap);
 
     return Array.from(authorIDs);
+  }
+
+  public find(storyID: string, id: string): Readonly<Comment> | null {
+    const comments = this.commentsByID.get(storyID);
+    if (!comments) {
+      return null;
+    }
+
+    const comment = comments.get(id);
+    if (!comment) {
+      return null;
+    }
+
+    return comment;
+  }
+
+  public findAncestors(storyID: string, id: string) {
+    const comments = this.commentsByID.get(storyID);
+    if (!comments) {
+      return [];
+    }
+
+    const comment = comments.get(id);
+    if (!comment) {
+      return [];
+    }
+
+    const result: Readonly<Comment>[] = [];
+    for (const ancestorID of comment.ancestorIDs) {
+      const ancestor = comments.get(ancestorID);
+      if (ancestor) {
+        result.push(ancestor);
+      }
+    }
+
+    return result;
   }
 
   private sortComments(
@@ -139,7 +181,7 @@ export class CommentCache {
     parentID: string,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
-    const comments = this.commentsByStoryID.get(storyID);
+    const comments = this.commentsByParentID.get(storyID);
     if (!comments) {
       return [];
     }
@@ -178,7 +220,7 @@ export class CommentCache {
     parentID: string,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
-    const comments = this.commentsByStoryID.get(storyID);
+    const comments = this.commentsByParentID.get(storyID);
     if (!comments) {
       return [];
     }
@@ -196,7 +238,7 @@ export class CommentCache {
     storyID: string,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_DESC
   ) {
-    const comments = this.commentsByStoryID.get(storyID);
+    const comments = this.commentsByParentID.get(storyID);
     if (!comments) {
       return [];
     }
