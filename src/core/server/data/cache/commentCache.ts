@@ -233,7 +233,7 @@ export class CommentCache {
     };
   }
 
-  public async rootCommentsConnectionForStory(
+  public rootCommentsConnectionForStory(
     storyID: string,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_DESC
   ) {
