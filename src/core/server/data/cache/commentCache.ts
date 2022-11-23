@@ -1,7 +1,6 @@
 import { isNumber } from "lodash";
 
 import { MongoContext } from "coral-server/data/context";
-import { CommentNotFoundError } from "coral-server/errors";
 import { Comment } from "coral-server/models/comment";
 
 import {
