@@ -149,7 +149,8 @@ export class CommentCache {
       return [];
     }
 
-    return this.sortComments(childComments, orderBy);
+    const sorted = this.sortComments(childComments, orderBy);
+    return sorted;
   }
 
   private recursivelyFindChildren(
@@ -208,7 +209,7 @@ export class CommentCache {
     return rootComments;
   }
 
-  private async createConnection(comments: Readonly<Comment>[]) {
+  private createConnection(comments: Readonly<Comment>[]) {
     const edges: any[] = [];
     const nodes: any[] = [];
 
@@ -240,17 +241,18 @@ export class CommentCache {
     return this.createConnection(comments);
   }
 
-  public async repliesConnectionForParent(
+  public repliesConnectionForParent(
     storyID: string,
     parentID: string,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
     const comments = this.childCommentsForParent(storyID, parentID, orderBy);
+    const conn = this.createConnection(comments);
 
-    return this.createConnection(comments);
+    return conn;
   }
 
-  public async flattenedRepliesConnectionForParent(
+  public flattenedRepliesConnectionForParent(
     storyID: string,
     parentID: string,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC

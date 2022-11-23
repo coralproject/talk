@@ -289,12 +289,10 @@ export default (ctx: GraphContext) => ({
     );
     await ctx.mongo.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
 
-    const conn = await ctx.mongo.cache.comments
-      .rootCommentsConnectionForStory(
-        storyID,
-        defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-      )
-      .then(primeCommentsFromConnection(ctx));
+    const conn = await ctx.mongo.cache.comments.rootCommentsConnectionForStory(
+      storyID,
+      defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+    );
 
     return conn;
   },
@@ -308,7 +306,7 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    const conn = await (flatten
+    const conn = flatten
       ? ctx.mongo.cache.comments.flattenedRepliesConnectionForParent(
           storyID,
           parentID,
@@ -318,8 +316,7 @@ export default (ctx: GraphContext) => ({
           storyID,
           parentID,
           defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-        )
-    ).then(primeCommentsFromConnection(ctx));
+        );
 
     return conn;
   },
