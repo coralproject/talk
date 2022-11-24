@@ -2,8 +2,6 @@ import { UserNotFoundError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
 import { MongoContext } from "../context";
 
-const USER_BATCH_SIZE = 5;
-
 export class UserCache {
   private mongo: MongoContext;
 
@@ -19,41 +17,15 @@ export class UserCache {
     const batches: string[][] = [];
     batches.push([]);
 
-    let currentBatch = 0;
-    for (const userID of userIDs) {
-      batches[currentBatch].push(userID);
+    const cursor = this.mongo.users().find({ tenantID, id: { $in: userIDs } });
 
-      if (batches[currentBatch].length >= USER_BATCH_SIZE) {
-        batches.push([]);
-        currentBatch++;
+    while (await cursor.hasNext()) {
+      const user = await cursor.next();
+      if (!user) {
+        continue;
       }
-    }
 
-    const results = await Promise.all(
-      batches.map(async (batch) => {
-        const cursor = this.mongo
-          .users()
-          .find({ tenantID, id: { $in: batch } });
-
-        const result: Readonly<User>[] = [];
-
-        while (await cursor.hasNext()) {
-          const user = await cursor.next();
-          if (!user) {
-            continue;
-          }
-
-          result.push(user);
-        }
-
-        return result;
-      })
-    );
-
-    for (const batch of results) {
-      for (const user of batch) {
-        this.userLookup.set(user.id, user);
-      }
+      this.userLookup.set(user.id, user);
     }
   }
 
