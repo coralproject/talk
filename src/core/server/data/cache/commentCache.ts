@@ -66,17 +66,19 @@ export class CommentCache {
 
     const sortBy = this.computeSortFilter(orderBy);
 
-    const comments = await collection
-      .find({ tenantID, storyID })
-      .sort(sortBy)
-      .toArray();
+    const comments = collection.find({ tenantID, storyID }).sort(sortBy);
 
     const parentMap = new Map<string | null, Readonly<Comment>[]>();
     const commentMap = new Map<string, Readonly<Comment>>();
 
     const authorIDs = new Set<string>();
 
-    for (const comment of comments) {
+    while (await comments.hasNext()) {
+      const comment = await comments.next();
+      if (!comment) {
+        continue;
+      }
+
       // apply rating filter if available
       if (hasRatingFilter && !comment.rating && comment.rating !== rating) {
         continue;
