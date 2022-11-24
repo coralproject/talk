@@ -30,11 +30,23 @@ export class UserCache {
     }
 
     const results = await Promise.all(
-      batches.map((batch) => {
-        return this.mongo
+      batches.map(async (batch) => {
+        const cursor = this.mongo
           .users()
-          .find({ tenantID, id: { $in: batch } })
-          .toArray();
+          .find({ tenantID, id: { $in: batch } });
+
+        const result: Readonly<User>[] = [];
+
+        while (await cursor.hasNext()) {
+          const user = await cursor.next();
+          if (!user) {
+            continue;
+          }
+
+          result.push(user);
+        }
+
+        return result;
       })
     );
 
