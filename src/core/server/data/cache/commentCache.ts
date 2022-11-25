@@ -224,14 +224,14 @@ export class CommentCache {
     for (const reply of replies) {
       result.push(reply);
 
-      for (const childID of reply.childIDs) {
-        const childrenOfChildren = await this.flattenRepliesRecursive(
+      if (reply.childCount > 0) {
+        const childrenOfReplies = await this.flattenRepliesRecursive(
           tenantID,
           storyID,
-          childID,
+          reply.id,
           isArchived
         );
-        for (const child of childrenOfChildren) {
+        for (const child of childrenOfReplies) {
           result.push(child);
         }
       }
