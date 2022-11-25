@@ -317,15 +317,4 @@ export class CommentCache {
       createdAt: new Date(parsed.createdAt),
     };
   }
-
-  private selectAuthorIDs(comments: Readonly<Comment>[]) {
-    const result: string[] = [];
-    for (const comment of comments) {
-      if (comment.authorID) {
-        result.push(comment.authorID);
-      }
-    }
-
-    return result;
-  }
 }
