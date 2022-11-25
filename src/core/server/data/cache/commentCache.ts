@@ -189,6 +189,57 @@ export class CommentCache {
     return this.createConnection(sortedComments);
   }
 
+  public async flattenedReplies(
+    tenantID: string,
+    storyID: string,
+    parentID: string,
+    isArchived: boolean,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
+  ) {
+    const comments = await this.flattenRepliesRecursive(
+      tenantID,
+      storyID,
+      parentID,
+      isArchived
+    );
+    const sortedComments = this.sortComments(comments, orderBy);
+
+    return this.createConnection(sortedComments);
+  }
+
+  private async flattenRepliesRecursive(
+    tenantID: string,
+    storyID: string,
+    parentID: string,
+    isArchived: boolean
+  ) {
+    const result: Readonly<Comment>[] = [];
+
+    const replies = await this.retrieveReplies(
+      tenantID,
+      storyID,
+      parentID,
+      isArchived
+    );
+    for (const reply of replies) {
+      result.push(reply);
+
+      for (const childID of reply.childIDs) {
+        const childrenOfChildren = await this.flattenRepliesRecursive(
+          tenantID,
+          storyID,
+          childID,
+          isArchived
+        );
+        for (const child of childrenOfChildren) {
+          result.push(child);
+        }
+      }
+    }
+
+    return result;
+  }
+
   public async replies(
     tenantID: string,
     storyID: string,
@@ -196,15 +247,32 @@ export class CommentCache {
     isArchived: boolean,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
+    const comments = await this.retrieveReplies(
+      tenantID,
+      storyID,
+      parentID,
+      isArchived
+    );
+    const sortedComments = this.sortComments(comments, orderBy);
+
+    return this.createConnection(sortedComments);
+  }
+
+  private async retrieveReplies(
+    tenantID: string,
+    storyID: string,
+    parentID: string,
+    isArchived: boolean
+  ) {
     const parentKey = `${tenantID}:${storyID}:${parentID}:data`;
     const parentRecord = await this.redis.get(parentKey);
     if (!parentRecord) {
-      return this.createConnection([]);
+      return [];
     }
 
     const parent = this.parseJSONIntoComment(parentRecord);
     if (parent.childCount === 0) {
-      return this.createConnection([]);
+      return [];
     }
 
     const membersKey = `${tenantID}:${storyID}:${parentID}`;
@@ -219,7 +287,7 @@ export class CommentCache {
     }
 
     if (commentIDs.length === 0) {
-      return this.createConnection([]);
+      return [];
     }
 
     const rawRecords = await this.redis.mget(
@@ -235,9 +303,7 @@ export class CommentCache {
       comments.push(this.parseJSONIntoComment(rawRecord));
     }
 
-    const sortedComments = this.sortComments(comments, orderBy);
-
-    return this.createConnection(sortedComments);
+    return comments;
   }
 
   public async update(comment: Readonly<Comment>) {

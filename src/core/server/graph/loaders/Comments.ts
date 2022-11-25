@@ -290,25 +290,21 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    // const conn = flatten
-    //   ? ctx.cache.comments.flattenedReplies(
-    //       storyID,
-    //       parentID,
-    //       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-    //     )
-    //   : ctx.cache.comments.replies(
-    //       storyID,
-    //       parentID,
-    //       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-    //     );
-
-    const conn = await ctx.cache.comments.replies(
-      ctx.tenant.id,
-      storyID,
-      parentID,
-      !!(story.isArchived || story.isArchiving),
-      defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-    );
+    const conn = flatten
+      ? ctx.cache.comments.flattenedReplies(
+          ctx.tenant.id,
+          storyID,
+          parentID,
+          !!(story.isArchived || story.isArchiving),
+          defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+        )
+      : ctx.cache.comments.replies(
+          ctx.tenant.id,
+          storyID,
+          parentID,
+          !!(story.isArchived || story.isArchiving),
+          defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+        );
 
     return conn;
   },
