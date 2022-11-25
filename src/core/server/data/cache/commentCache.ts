@@ -1,5 +1,6 @@
 import { MongoContext } from "coral-server/data/context";
 import { Comment } from "coral-server/models/comment";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -232,6 +233,26 @@ export class CommentCache {
       conn: this.createConnection(sortedComments),
       authorIDs: this.selectAuthorIDs(comments),
     };
+  }
+
+  public async update(comment: Readonly<Comment>) {
+    if (!PUBLISHED_STATUSES.includes(comment.status)) {
+      return;
+    }
+
+    const cmd = this.redis.multi();
+
+    const dataKey = `${comment.tenantID}:${comment.storyID}:${comment.id}:data`;
+    cmd.set(dataKey, JSON.stringify(comment));
+    cmd.expire(dataKey, 24 * 60 * 60);
+
+    const parentKey = `${comment.tenantID}:${comment.storyID}:${
+      comment.parentID ?? "root"
+    }`;
+    cmd.sadd(parentKey, comment.id);
+    cmd.expire(parentKey, 24 * 60 * 60);
+
+    await cmd.exec();
   }
 
   private createConnection(comments: Readonly<Comment>[]) {

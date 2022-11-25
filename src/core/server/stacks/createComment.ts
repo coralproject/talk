@@ -3,6 +3,7 @@ import { isNumber } from "lodash";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import {
   AncestorRejectedError,
@@ -91,6 +92,7 @@ export type CreateComment = Omit<
 const markCommentAsAnswered = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
@@ -138,6 +140,7 @@ const markCommentAsAnswered = async (
     approveComment(
       mongo,
       redis,
+      cache,
       broker,
       tenant,
       comment.parentID,
@@ -192,6 +195,7 @@ const validateRating = async (
 export default async function create(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -375,6 +379,7 @@ export default async function create(
     markCommentAsAnswered(
       mongo,
       redis,
+      cache,
       broker,
       tenant,
       comment,
@@ -435,6 +440,8 @@ export default async function create(
     actionCounts,
     after: comment,
   });
+
+  await cache.comments.update(comment);
 
   // Publish changes to the event publisher.
   await publishChanges(broker, {

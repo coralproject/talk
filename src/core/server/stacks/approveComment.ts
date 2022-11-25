@@ -1,3 +1,4 @@
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision } from "coral-server/models/comment";
@@ -14,6 +15,7 @@ import { publishChanges } from "./helpers";
 const approveComment = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   commentID: string,
@@ -64,6 +66,8 @@ const approveComment = async (
       commentRevisionID,
     });
   }
+
+  await cache.comments.update(result.after);
 
   // Return the resulting comment.
   return result.after;

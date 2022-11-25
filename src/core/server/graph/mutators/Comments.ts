@@ -51,6 +51,7 @@ export const Comments = (ctx: GraphContext) => ({
       createComment(
         ctx.mongo,
         ctx.redis,
+        ctx.cache,
         ctx.config,
         ctx.broker,
         ctx.tenant,
@@ -79,6 +80,7 @@ export const Comments = (ctx: GraphContext) => ({
       editComment(
         ctx.mongo,
         ctx.redis,
+        ctx.cache,
         ctx.config,
         ctx.broker,
         ctx.tenant,
@@ -199,6 +201,7 @@ export const Comments = (ctx: GraphContext) => ({
       await approveComment(
         ctx.mongo,
         ctx.redis,
+        ctx.cache,
         ctx.broker,
         ctx.tenant,
         commentID,
