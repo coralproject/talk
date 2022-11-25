@@ -442,6 +442,9 @@ export default async function create(
   });
 
   await cache.comments.update(comment);
+  if (parent) {
+    await cache.comments.update(parent);
+  }
 
   // Publish changes to the event publisher.
   await publishChanges(broker, {
