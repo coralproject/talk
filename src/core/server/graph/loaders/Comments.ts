@@ -291,14 +291,14 @@ export default (ctx: GraphContext) => ({
     }
 
     const conn = flatten
-      ? ctx.cache.comments.flattenedReplies(
+      ? await ctx.cache.comments.flattenedReplies(
           ctx.tenant.id,
           storyID,
           parentID,
           !!(story.isArchived || story.isArchiving),
           defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
         )
-      : ctx.cache.comments.replies(
+      : await ctx.cache.comments.replies(
           ctx.tenant.id,
           storyID,
           parentID,
