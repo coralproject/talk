@@ -73,7 +73,7 @@ export class CommentCache {
         : this.mongo.comments();
 
     const comments = await collection.find({ tenantID, storyID }).toArray();
-    if (!comments) {
+    if (!comments || comments.length === 0) {
       return [];
     }
 
@@ -96,7 +96,7 @@ export class CommentCache {
     const comments = await collection
       .find({ tenantID, storyID, parentID })
       .toArray();
-    if (!comments) {
+    if (!comments || comments.length === 0) {
       return [];
     }
 
@@ -199,8 +199,19 @@ export class CommentCache {
     isArchived: boolean,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
-    const key = `${tenantID}:${storyID}:${parentID}`;
-    let commentIDs = await this.redis.smembers(key);
+    const parentKey = `${tenantID}:${storyID}:${parentID}:data`;
+    const parentRecord = await this.redis.get(parentKey);
+    if (!parentRecord) {
+      return { conn: this.createConnection([]), authorIDs: [] };
+    }
+
+    const parent = this.parseJSONIntoComment(parentRecord);
+    if (parent.childCount === 0) {
+      return { conn: this.createConnection([]), authorIDs: [] };
+    }
+
+    const membersKey = `${tenantID}:${storyID}:${parentID}`;
+    let commentIDs = await this.redis.smembers(membersKey);
     if (!commentIDs || commentIDs.length === 0) {
       commentIDs = await this.populateReplies(
         tenantID,
