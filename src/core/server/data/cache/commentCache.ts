@@ -28,7 +28,8 @@ export class CommentCache {
     storyID: string,
     comments: Readonly<Comment>[]
   ) {
-    const msetRecords: any = {};
+    const cmd = this.redis.multi();
+
     const commentIDs = new Map<string, string[]>();
     for (const comment of comments) {
       const parentID = comment.parentID ? comment.parentID : "root";
@@ -42,11 +43,8 @@ export class CommentCache {
       const key = `${tenantID}:${storyID}:${comment.id}:data`;
       const value = JSON.stringify(comment);
 
-      msetRecords[key] = value;
-    }
-
-    if (Object.keys(msetRecords).length !== 0) {
-      await this.redis.mset(msetRecords);
+      cmd.set(key, value);
+      cmd.expire(key, 24 * 60 * 60);
     }
 
     for (const parentID of commentIDs.keys()) {
@@ -56,8 +54,11 @@ export class CommentCache {
       }
 
       const key = `${tenantID}:${storyID}:${parentID}`;
-      await this.redis.sadd(key, ...childIDs);
+      cmd.sadd(key, ...childIDs);
+      cmd.expire(key, 24 * 60 * 60);
     }
+
+    await cmd.exec();
   }
 
   private async populateRootComments(

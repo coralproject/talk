@@ -19,14 +19,14 @@ export class UserCache {
       .find({ tenantID, id: { $in: userIDs } })
       .toArray();
 
-    const msetRecords: any = {};
+    const cmd = this.redis.multi();
+
     for (const user of users) {
-      msetRecords[`${tenantID}:${user.id}:data`] = JSON.stringify(user);
+      cmd.set(`${tenantID}:${user.id}:data`, JSON.stringify(user));
+      cmd.expire(`${tenantID}:${user.id}:data`, 24 * 60 * 60);
     }
 
-    if (Object.keys(msetRecords).length !== 0) {
-      await this.redis.mset(msetRecords);
-    }
+    await cmd.exec();
 
     return users;
   }
