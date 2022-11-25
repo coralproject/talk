@@ -271,7 +271,7 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    const { conn } = await ctx.cache.comments.rootComments(
+    const conn = await ctx.cache.comments.rootComments(
       ctx.tenant.id,
       storyID,
       !!(story.isArchived || story.isArchiving),
@@ -302,7 +302,7 @@ export default (ctx: GraphContext) => ({
     //       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     //     );
 
-    const { conn } = await ctx.cache.comments.replies(
+    const conn = await ctx.cache.comments.replies(
       ctx.tenant.id,
       storyID,
       parentID,
@@ -339,7 +339,7 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(comment.storyID);
     }
 
-    const { conn } = await ctx.cache.comments.replies(
+    const conn = await ctx.cache.comments.replies(
       ctx.tenant.id,
       story.id,
       comment.id,

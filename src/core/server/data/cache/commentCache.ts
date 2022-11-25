@@ -168,7 +168,7 @@ export class CommentCache {
     }
 
     if (rootCommentIDs.length === 0) {
-      return { conn: this.createConnection([]), authorIDs: [] };
+      return this.createConnection([]);
     }
 
     const rawRecords = await this.redis.mget(
@@ -186,10 +186,7 @@ export class CommentCache {
 
     const sortedComments = this.sortComments(comments, orderBy);
 
-    return {
-      conn: this.createConnection(sortedComments),
-      authorIDs: this.selectAuthorIDs(comments),
-    };
+    return this.createConnection(sortedComments);
   }
 
   public async replies(
@@ -202,12 +199,12 @@ export class CommentCache {
     const parentKey = `${tenantID}:${storyID}:${parentID}:data`;
     const parentRecord = await this.redis.get(parentKey);
     if (!parentRecord) {
-      return { conn: this.createConnection([]), authorIDs: [] };
+      return this.createConnection([]);
     }
 
     const parent = this.parseJSONIntoComment(parentRecord);
     if (parent.childCount === 0) {
-      return { conn: this.createConnection([]), authorIDs: [] };
+      return this.createConnection([]);
     }
 
     const membersKey = `${tenantID}:${storyID}:${parentID}`;
@@ -222,7 +219,7 @@ export class CommentCache {
     }
 
     if (commentIDs.length === 0) {
-      return { conn: this.createConnection([]), authorIDs: [] };
+      return this.createConnection([]);
     }
 
     const rawRecords = await this.redis.mget(
@@ -240,10 +237,7 @@ export class CommentCache {
 
     const sortedComments = this.sortComments(comments, orderBy);
 
-    return {
-      conn: this.createConnection(sortedComments),
-      authorIDs: this.selectAuthorIDs(comments),
-    };
+    return this.createConnection(sortedComments);
   }
 
   public async update(comment: Readonly<Comment>) {
