@@ -271,13 +271,12 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    const { conn, authorIDs } = await ctx.cache.comments.rootComments(
+    const { conn } = await ctx.cache.comments.rootComments(
       ctx.tenant.id,
       storyID,
       !!(story.isArchived || story.isArchiving),
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
-    await ctx.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
 
     return conn;
   },
@@ -303,14 +302,13 @@ export default (ctx: GraphContext) => ({
     //       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     //     );
 
-    const { conn, authorIDs } = await ctx.cache.comments.replies(
+    const { conn } = await ctx.cache.comments.replies(
       ctx.tenant.id,
       storyID,
       parentID,
       !!(story.isArchived || story.isArchiving),
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
-    await ctx.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
 
     return conn;
   },

@@ -16,6 +16,6 @@ export class DataCache {
     this.redis = redis;
 
     this.comments = new CommentCache(this.mongo, this.redis);
-    this.users = new UserCache(this.mongo);
+    this.users = new UserCache(this.mongo, this.redis);
   }
 }
