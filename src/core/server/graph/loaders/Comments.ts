@@ -11,12 +11,10 @@ import {
   retrieveManyRecentStatusCounts,
   retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
-import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection, createEmptyConnection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   retrieveAllCommentsUserConnection,
@@ -33,8 +31,6 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
-  GQLFEATURE_FLAG,
-  GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
@@ -57,15 +53,15 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   return {};
 };
 
-const isRatingsAndReviews = (
-  tenant: Pick<Tenant, "featureFlags">,
-  story: Story
-) => {
-  return (
-    hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS) &&
-    story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS
-  );
-};
+// const isRatingsAndReviews = (
+//   tenant: Pick<Tenant, "featureFlags">,
+//   story: Story
+// ) => {
+//   return (
+//     hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS) &&
+//     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS
+//   );
+// };
 
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
@@ -275,23 +271,13 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    const authorIDs = await ctx.mongo.cache.comments.loadCommentsForStory(
+    const { conn, authorIDs } = await ctx.cache.comments.rootComments(
       ctx.tenant.id,
       storyID,
       !!(story.isArchived || story.isArchiving),
-      {
-        tag,
-        rating: isRatingsAndReviews(ctx.tenant, story) ? rating : undefined,
-        statuses: PUBLISHED_STATUSES,
-      },
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
-    await ctx.mongo.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
-
-    const conn = ctx.mongo.cache.comments.rootCommentsConnectionForStory(
-      storyID,
-      defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-    );
+    await ctx.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
 
     return conn;
   },
@@ -305,17 +291,26 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    const conn = flatten
-      ? ctx.mongo.cache.comments.flattenedRepliesConnectionForParent(
-          storyID,
-          parentID,
-          defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-        )
-      : ctx.mongo.cache.comments.repliesConnectionForParent(
-          storyID,
-          parentID,
-          defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-        );
+    // const conn = flatten
+    //   ? ctx.cache.comments.flattenedReplies(
+    //       storyID,
+    //       parentID,
+    //       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+    //     )
+    //   : ctx.cache.comments.replies(
+    //       storyID,
+    //       parentID,
+    //       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+    //     );
+
+    const { conn, authorIDs } = await ctx.cache.comments.replies(
+      ctx.tenant.id,
+      storyID,
+      parentID,
+      !!(story.isArchived || story.isArchiving),
+      defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
+    );
+    await ctx.cache.users.loadUsersForIDs(ctx.tenant.id, authorIDs);
 
     return conn;
   },
@@ -346,9 +341,11 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(comment.storyID);
     }
 
-    const conn = ctx.mongo.cache.comments.repliesConnectionForParent(
-      comment.storyID,
+    const { conn } = await ctx.cache.comments.replies(
+      ctx.tenant.id,
+      story.id,
       comment.id,
+      !!(story.isArchived || story.isArchiving),
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
 

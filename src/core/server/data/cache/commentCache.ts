@@ -1,7 +1,6 @@
-import { isNumber } from "lodash";
-
 import { MongoContext } from "coral-server/data/context";
 import { Comment } from "coral-server/models/comment";
+import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
   GQLCOMMENT_SORT,
@@ -17,139 +16,245 @@ export interface Filter {
 
 export class CommentCache {
   private mongo: MongoContext;
+  private redis: AugmentedRedis;
 
-  private commentsByParentID: Map<
-    string,
-    Map<string | null, Readonly<Comment>[]>
-  >;
-  private commentsByID: Map<string, Map<string, Readonly<Comment>>>;
-
-  constructor(mongo: MongoContext) {
+  constructor(mongo: MongoContext, redis: AugmentedRedis) {
     this.mongo = mongo;
-
-    this.commentsByParentID = new Map<
-      string,
-      Map<string, Readonly<Comment>[]>
-    >();
-
-    this.commentsByID = new Map<string, Map<string, Readonly<Comment>>>();
+    this.redis = redis;
   }
 
-  private computeSortFilter(orderBy: GQLCOMMENT_SORT) {
-    switch (orderBy) {
-      case GQLCOMMENT_SORT.CREATED_AT_DESC:
-        return { createdAt: -1 };
-      case GQLCOMMENT_SORT.CREATED_AT_ASC:
-        return { createdAt: 1 };
-      case GQLCOMMENT_SORT.REPLIES_DESC:
-        return { childCount: -1, createdAt: -1 };
-      case GQLCOMMENT_SORT.REACTION_DESC:
-        return { "actionCounts.REACTION": -1, createdAt: -1 };
+  private async createCommentKeysInRedis(
+    tenantID: string,
+    storyID: string,
+    comments: Readonly<Comment>[]
+  ) {
+    const msetRecords: any = {};
+    const commentIDs = new Map<string, string[]>();
+    for (const comment of comments) {
+      const parentID = comment.parentID ? comment.parentID : "root";
+
+      if (!commentIDs.has(parentID)) {
+        commentIDs.set(parentID, []);
+      }
+
+      commentIDs.get(parentID)!.push(comment.id);
+
+      const key = `${tenantID}:${storyID}:${comment.id}:data`;
+      const value = JSON.stringify(comment);
+
+      msetRecords[key] = value;
+    }
+
+    if (Object.keys(msetRecords).length !== 0) {
+      await this.redis.mset(msetRecords);
+    }
+
+    for (const parentID of commentIDs.keys()) {
+      const childIDs = commentIDs.get(parentID);
+      if (!childIDs) {
+        continue;
+      }
+
+      const key = `${tenantID}:${storyID}:${parentID}`;
+      await this.redis.sadd(key, ...childIDs);
     }
   }
 
-  public async loadCommentsForStory(
+  private async populateRootComments(
     tenantID: string,
     storyID: string,
-    isArchived: boolean,
-    filter: Filter,
-    orderBy: GQLCOMMENT_SORT
-  ) {
-    const { rating, tag, statuses } = filter;
-    const hasRatingFilter =
-      isNumber(rating) && Number.isInteger(rating) && rating < 1 && rating > 5;
-
+    isArchived: boolean
+  ): Promise<string[]> {
     const collection =
       isArchived && this.mongo.archive
         ? this.mongo.archivedComments()
         : this.mongo.comments();
 
-    const sortBy = this.computeSortFilter(orderBy);
-
-    const comments = collection.find({ tenantID, storyID }).sort(sortBy);
-
-    const parentMap = new Map<string | null, Readonly<Comment>[]>();
-    const commentMap = new Map<string, Readonly<Comment>>();
-
-    const authorIDs = new Set<string>();
-
-    while (await comments.hasNext()) {
-      const comment = await comments.next();
-      if (!comment) {
-        continue;
-      }
-
-      // apply rating filter if available
-      if (hasRatingFilter && !comment.rating && comment.rating !== rating) {
-        continue;
-      }
-
-      // apply tag filter if available
-      if (tag && !comment.tags.find((t) => t.type === tag)) {
-        continue;
-      }
-
-      // filter by status if available
-      if (statuses && !statuses.includes(comment.status)) {
-        continue;
-      }
-
-      const parentID = comment.parentID ? comment.parentID : null;
-
-      if (!parentMap.has(parentID)) {
-        parentMap.set(parentID, new Array<Readonly<Comment>>());
-      }
-
-      const bucket = parentMap.get(parentID);
-      if (bucket) {
-        bucket.push(comment);
-        commentMap.set(comment.id, comment);
-
-        if (comment.authorID) {
-          authorIDs.add(comment.authorID);
-        }
-      }
+    const comments = await collection.find({ tenantID, storyID }).toArray();
+    if (!comments) {
+      return [];
     }
 
-    this.commentsByParentID.set(storyID, parentMap);
+    await this.createCommentKeysInRedis(tenantID, storyID, comments);
 
-    return Array.from(authorIDs);
+    return comments.map((c) => c.id);
   }
 
-  public find(storyID: string, id: string): Readonly<Comment> | null {
-    const comments = this.commentsByID.get(storyID);
+  private async populateReplies(
+    tenantID: string,
+    storyID: string,
+    parentID: string,
+    isArchived: boolean
+  ) {
+    const collection =
+      isArchived && this.mongo.archive
+        ? this.mongo.archivedComments()
+        : this.mongo.comments();
+
+    const comments = await collection
+      .find({ tenantID, storyID, parentID })
+      .toArray();
     if (!comments) {
+      return [];
+    }
+
+    await this.createCommentKeysInRedis(tenantID, storyID, comments);
+
+    return comments.map((c) => c.id);
+  }
+
+  public async find(
+    tenantID: string,
+    storyID: string,
+    id: string
+  ): Promise<Readonly<Comment> | null> {
+    const key = `${tenantID}:${storyID}:${id}:data`;
+    const record = await this.redis.get(key);
+    if (!record) {
       return null;
     }
 
-    const comment = comments.get(id);
-    if (!comment) {
-      return null;
-    }
-
+    const comment = JSON.parse(record) as Comment;
     return comment;
   }
 
-  public findAncestors(storyID: string, id: string) {
-    const comments = this.commentsByID.get(storyID);
-    if (!comments) {
+  public async findMany(tenantID: string, storyID: string, ids: string[]) {
+    if (ids.length === 0) {
       return [];
     }
 
-    const comment = comments.get(id);
+    const keys = ids.map((id) => `${tenantID}:${storyID}:${id}:data`);
+    const records = await this.redis.mget(...keys);
+
+    const result: Readonly<Comment>[] = [];
+    for (const record of records) {
+      if (!record) {
+        continue;
+      }
+
+      const comment = JSON.parse(record) as Comment;
+      result.push(comment);
+    }
+
+    return result;
+  }
+
+  public async findAncestors(tenantID: string, storyID: string, id: string) {
+    const comment = await this.find(tenantID, storyID, id);
     if (!comment) {
       return [];
     }
 
-    const result: Readonly<Comment>[] = [];
-    for (const ancestorID of comment.ancestorIDs) {
-      const ancestor = comments.get(ancestorID);
-      if (ancestor) {
-        result.push(ancestor);
-      }
+    return this.findMany(tenantID, storyID, comment.ancestorIDs);
+  }
+
+  public async rootComments(
+    tenantID: string,
+    storyID: string,
+    isArchived: boolean,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_DESC
+  ) {
+    let rootCommentIDs = await this.redis.smembers(
+      `${tenantID}:${storyID}:root`
+    );
+    if (!rootCommentIDs || rootCommentIDs.length === 0) {
+      rootCommentIDs = await this.populateRootComments(
+        tenantID,
+        storyID,
+        isArchived
+      );
     }
 
-    return result;
+    if (rootCommentIDs.length === 0) {
+      return { conn: this.createConnection([]), authorIDs: [] };
+    }
+
+    const rawRecords = await this.redis.mget(
+      ...rootCommentIDs.map((id) => `${tenantID}:${storyID}:${id}:data`)
+    );
+
+    const comments: Readonly<Comment>[] = [];
+    for (const rawRecord of rawRecords) {
+      if (rawRecord === null) {
+        continue;
+      }
+
+      comments.push(this.parseJSONIntoComment(rawRecord));
+    }
+
+    const sortedComments = this.sortComments(comments, orderBy);
+
+    return {
+      conn: this.createConnection(sortedComments),
+      authorIDs: this.selectAuthorIDs(comments),
+    };
+  }
+
+  public async replies(
+    tenantID: string,
+    storyID: string,
+    parentID: string,
+    isArchived: boolean,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
+  ) {
+    const key = `${tenantID}:${storyID}:${parentID}`;
+    let commentIDs = await this.redis.smembers(key);
+    if (!commentIDs || commentIDs.length === 0) {
+      commentIDs = await this.populateReplies(
+        tenantID,
+        storyID,
+        parentID,
+        isArchived
+      );
+    }
+
+    if (commentIDs.length === 0) {
+      return { conn: this.createConnection([]), authorIDs: [] };
+    }
+
+    const rawRecords = await this.redis.mget(
+      ...commentIDs.map((id) => `${tenantID}:${storyID}:${id}:data`)
+    );
+
+    const comments: Readonly<Comment>[] = [];
+    for (const rawRecord of rawRecords) {
+      if (rawRecord === null) {
+        continue;
+      }
+
+      comments.push(this.parseJSONIntoComment(rawRecord));
+    }
+
+    const sortedComments = this.sortComments(comments, orderBy);
+
+    return {
+      conn: this.createConnection(sortedComments),
+      authorIDs: this.selectAuthorIDs(comments),
+    };
+  }
+
+  private createConnection(comments: Readonly<Comment>[]) {
+    const edges: any[] = [];
+    const nodes: any[] = [];
+
+    for (const comment of comments) {
+      nodes.push(comment);
+      edges.push({
+        cursor: comment.createdAt,
+        node: comment,
+      });
+    }
+
+    return {
+      edges,
+      nodes,
+      pageInfo: {
+        endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null,
+        startCursor: null,
+        hasNextPage: false,
+        hasPreviousPage: false,
+      },
+    };
   }
 
   private sortComments(
@@ -177,134 +282,23 @@ export class CommentCache {
     });
   }
 
-  public childCommentsForParent(
-    storyID: string,
-    parentID: string,
-    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
-  ) {
-    const comments = this.commentsByParentID.get(storyID);
-    if (!comments) {
-      return [];
-    }
+  private parseJSONIntoComment(json: string): Readonly<Comment> {
+    const parsed = JSON.parse(json);
 
-    const childComments = comments.get(parentID);
-    if (!childComments) {
-      return [];
-    }
-
-    const sorted = this.sortComments(childComments, orderBy);
-    return sorted;
+    return {
+      ...parsed,
+      createdAt: new Date(parsed.createdAt),
+    };
   }
 
-  private recursivelyFindChildren(
-    comments: Readonly<Comment>[],
-    lookup: Map<string | null, Readonly<Comment>[]>
-  ) {
-    const result: Readonly<Comment>[] = [];
+  private selectAuthorIDs(comments: Readonly<Comment>[]) {
+    const result: string[] = [];
     for (const comment of comments) {
-      result.push(comment);
-
-      const children = lookup.get(comment.id);
-      if (children) {
-        const subChildren = this.recursivelyFindChildren(children, lookup);
-        for (const subChild of subChildren) {
-          result.push(subChild);
-        }
+      if (comment.authorID) {
+        result.push(comment.authorID);
       }
     }
 
     return result;
-  }
-
-  public flattenedChildCommentsForParent(
-    storyID: string,
-    parentID: string,
-    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
-  ) {
-    const comments = this.commentsByParentID.get(storyID);
-    if (!comments) {
-      return [];
-    }
-
-    const children = comments.get(parentID);
-    if (!children) {
-      return [];
-    }
-
-    const result = this.recursivelyFindChildren(children, comments);
-    return this.sortComments(result, orderBy);
-  }
-
-  public rootCommentsForStory(
-    storyID: string,
-    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_DESC
-  ) {
-    const comments = this.commentsByParentID.get(storyID);
-    if (!comments) {
-      return [];
-    }
-
-    const rootComments = comments.get(null);
-    if (!rootComments) {
-      return [];
-    }
-
-    return rootComments;
-  }
-
-  private createConnection(comments: Readonly<Comment>[]) {
-    const edges: any[] = [];
-    const nodes: any[] = [];
-
-    for (const comment of comments) {
-      nodes.push(comment);
-      edges.push({
-        cursor: comment.createdAt,
-        node: comment,
-      });
-    }
-
-    return {
-      edges,
-      nodes,
-      pageInfo: {
-        endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null,
-        startCursor: null,
-        hasNextPage: false,
-        hasPreviousPage: false,
-      },
-    };
-  }
-
-  public rootCommentsConnectionForStory(
-    storyID: string,
-    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_DESC
-  ) {
-    const comments = this.rootCommentsForStory(storyID, orderBy);
-    return this.createConnection(comments);
-  }
-
-  public repliesConnectionForParent(
-    storyID: string,
-    parentID: string,
-    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
-  ) {
-    const comments = this.childCommentsForParent(storyID, parentID, orderBy);
-    const conn = this.createConnection(comments);
-
-    return conn;
-  }
-
-  public flattenedRepliesConnectionForParent(
-    storyID: string,
-    parentID: string,
-    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
-  ) {
-    const comments = this.flattenedChildCommentsForParent(
-      storyID,
-      parentID,
-      orderBy
-    );
-    return this.createConnection(comments);
   }
 }

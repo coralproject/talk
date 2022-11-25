@@ -3,6 +3,7 @@ import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import CoralEventListenerBroker, {
   CoralEventPublisherBroker,
@@ -89,6 +90,8 @@ export default class GraphContext {
 
   public readonly seenComments: SeenCommentsCollection;
 
+  public readonly cache: DataCache;
+
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
     this.now = options.now || new Date();
@@ -125,5 +128,7 @@ export default class GraphContext {
     this.mutators = mutators(this);
 
     this.seenComments = new SeenCommentsCollection();
+
+    this.cache = new DataCache(this.mongo, this.redis);
   }
 }

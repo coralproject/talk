@@ -65,7 +65,11 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     return canModerate(ctx.user, { siteID: c.siteID });
   },
   canReply: async (c, input, ctx) => {
-    const ancestors = ctx.mongo.cache.comments.findAncestors(c.storyID, c.id);
+    const ancestors = await ctx.cache.comments.findAncestors(
+      c.tenantID,
+      c.storyID,
+      c.id
+    );
     const rejected = ancestors.filter(
       (a) => a.status === GQLCOMMENT_STATUS.REJECTED
     );
@@ -92,7 +96,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       return null;
     }
 
-    return ctx.mongo.cache.users.findUser(c.tenantID, c.authorID);
+    return ctx.cache.users.findUser(c.tenantID, c.authorID);
   },
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
@@ -108,8 +112,10 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       return 0;
     }
 
-    const children = childIDs.map((id) =>
-      ctx.mongo.cache.comments.find(storyID, id)
+    const children = await ctx.cache.comments.findMany(
+      ctx.tenant.id,
+      storyID,
+      childIDs
     );
     const count = children.filter((c) => c !== null).length;
 
@@ -153,9 +159,9 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     hasAncestors(c)
       ? maybeLoadOnlyID(ctx, info, c.ancestorIDs[c.ancestorIDs.length - 1])
       : null,
-  parent: (c, input, ctx, info) => {
+  parent: async (c, input, ctx, info) => {
     const parent = c.parentID
-      ? ctx.mongo.cache.comments.find(c.storyID, c.parentID)
+      ? await ctx.cache.comments.find(c.tenantID, c.storyID, c.parentID)
       : null;
     return parent;
   },
