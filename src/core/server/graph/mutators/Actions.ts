@@ -18,6 +18,7 @@ export const Actions = (ctx: GraphContext) => ({
     return approveComment(
       ctx.mongo,
       ctx.redis,
+      ctx.cache,
       ctx.broker,
       ctx.tenant,
       input.commentID,
