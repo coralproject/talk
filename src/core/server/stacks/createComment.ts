@@ -263,7 +263,7 @@ export default async function create(
   }
 
   const ancestorIDs: string[] = [];
-  const parent = await retrieveParent(mongo, tenant.id, input);
+  let parent = await retrieveParent(mongo, tenant.id, input);
   if (parent) {
     ancestorIDs.push(parent.id);
     if (hasAncestors(parent)) {
@@ -401,12 +401,13 @@ export default async function create(
 
   if (input.parentID) {
     // Push the child's ID onto the parent.
-    await pushChildCommentIDOntoParent(
-      mongo,
-      tenant.id,
-      input.parentID,
-      comment.id
-    );
+    parent =
+      (await pushChildCommentIDOntoParent(
+        mongo,
+        tenant.id,
+        input.parentID,
+        comment.id
+      )) ?? null;
 
     log.trace("pushed child comment id onto parent");
   }
