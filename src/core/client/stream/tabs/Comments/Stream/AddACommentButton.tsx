@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
   useCallback,
@@ -145,19 +146,22 @@ const AddACommentButton: FunctionComponent<Props> = ({
 
   return (
     <div className={styles.root}>
-      <Button
-        variant="outlined"
-        color="primary"
-        paddingSize="small"
-        upperCase
-        className={styles.button}
-        onClick={onClick}
-      >
-        <Flex alignItems="center">
-          <Icon className={styles.icon}>create</Icon>
-          {isQA ? <span>Ask a Question</span> : <span>Add a Comment</span>}
-        </Flex>
-      </Button>
+      <Localized id="addACommentButton" attrs={{ "aria-label": true }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          paddingSize="small"
+          upperCase
+          className={styles.button}
+          onClick={onClick}
+          aria-label="Add a comment. This button will move focus to the bottom of the comments."
+        >
+          <Flex alignItems="center">
+            <Icon className={styles.icon}>create</Icon>
+            {isQA ? <span>Ask a Question</span> : <span>Add a Comment</span>}
+          </Flex>
+        </Button>
+      </Localized>
     </div>
   );
 };
