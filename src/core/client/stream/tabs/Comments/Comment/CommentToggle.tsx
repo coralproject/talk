@@ -11,7 +11,8 @@ import styles from "./CommentToggle.css";
 
 export interface Props {
   className?: string;
-  username: React.ReactNode;
+  username?: string | null;
+  usernameEl: React.ReactNode;
   body: string | null;
   createdAt: string;
   topBarRight?: React.ReactNode;
@@ -25,8 +26,15 @@ export interface Props {
 }
 
 const CommentToggle: FunctionComponent<Props> = (props) => {
+  const ariaLocalizationId = props.username
+    ? "comments-expand-toggle-with-username"
+    : "comments-expand-toggle-username";
   return (
-    <Localized id="comments-expand-toggle" attrs={{ "aria-label": true }}>
+    <Localized
+      id={ariaLocalizationId}
+      attrs={{ "aria-label": true }}
+      vars={{ username: props.username }}
+    >
       <BaseButton
         onClick={props.toggleCollapsed}
         className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
@@ -57,7 +65,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
                 alignItems="center"
                 itemGutter="half"
               >
-                {props.username && props.username}
+                {props.usernameEl && props.usernameEl}
                 {props.userTags}
               </Flex>
               <Flex direction="row" alignItems="baseline" itemGutter wrap>
