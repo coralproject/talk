@@ -8,7 +8,7 @@ import React, {
 } from "react";
 
 import Icon from "coral-ui/components/v2/Icon";
-import { withStyles } from "coral-ui/hocs";
+import { withForwardRef, withStyles } from "coral-ui/hocs";
 
 import styles from "./PasswordField.css";
 
@@ -64,6 +64,7 @@ export interface PasswordFieldProps {
 
   showPasswordTitle?: string;
   hidePasswordTitle?: string;
+  forwardRef?: React.Ref<HTMLInputElement>;
 }
 
 interface State {
@@ -159,5 +160,6 @@ class PasswordField extends Component<PasswordFieldProps, State> {
   }
 }
 
-const enhanced = withStyles(styles)(PasswordField);
+const styled = withStyles(styles)(PasswordField);
+const enhanced = withForwardRef(styled);
 export default enhanced;

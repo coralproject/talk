@@ -1,7 +1,13 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FORM_ERROR, FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
@@ -40,6 +46,7 @@ interface FormProps {
 }
 
 const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
+  const newPasswordRef = useRef<HTMLInputElement>(null);
   const emitShowEvent = useViewerEvent(ShowEditPasswordDialogEvent);
   const updatePassword = useMutation(UpdatePasswordMutation);
   const [showForm, setShowForm] = useState(false);
@@ -77,6 +84,12 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
   const onCloseSuccess = useCallback(() => {
     setShowSuccess(false);
   }, [setShowSuccess]);
+
+  useEffect(() => {
+    if (newPasswordRef.current) {
+      newPasswordRef.current.focus();
+    }
+  });
 
   return (
     <section
@@ -202,6 +215,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                             disabled={submitting}
                             color={colorFromMeta(meta)}
                             autoComplete="new-password"
+                            ref={newPasswordRef}
                           />
                           <ValidationMessage
                             meta={meta}
