@@ -16,7 +16,7 @@ exports[`renders correctly 1`] = `
             Write a reply
           </ForwardRef(forwardRef)>
         </Localized>
-        <ReplyTo
+        <ReplyingTo
           username="parent-user-0"
         />
       </React.Fragment>

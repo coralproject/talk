@@ -183,7 +183,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -455,7 +455,7 @@ exports[`renders rejected queue with comments 1`] = `
                       <span>
                         Spam
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -624,40 +624,6 @@ exports[`renders rejected queue with comments 1`] = `
                   </span>
                 </button>
               </div>
-              <div
-                className="Box-root Flex-root Flex-flex Flex-alignCenter"
-              >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm InReplyTo-icon"
-                >
-                  reply
-                </i>
-                <span>
-
-                </span>
-                <span
-                  className="InReplyTo-inReplyTo"
-                >
-                  Reply to
-                  <button
-                    className="BaseButton-root InReplyTo-usernameButton"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
-                  >
-                    <span
-                      className="InReplyTo-username"
-                    >
-                      luke2
-                    </span>
-                  </button>
-                </span>
-              </div>
             </div>
             <div
               className="ModerateCard-contentArea"
@@ -758,7 +724,7 @@ exports[`renders rejected queue with comments 1`] = `
                       <span>
                         Offensive
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -1033,7 +999,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 <span>
                   Offensive
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -1046,7 +1012,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
