@@ -808,6 +808,17 @@ export async function markStoryForArchiving(
   return result.value;
 }
 
+function getMarkStoryForUnarchivingSetParam(now: Date) {
+  return {
+    $set: {
+      isArchiving: true,
+      closedAt: now,
+      updatedAt: now,
+      startedUnarchivingAt: now,
+    },
+  };
+}
+
 export async function markStoryForUnarchiving(
   mongo: MongoContext,
   tenantID: string,
@@ -821,14 +832,7 @@ export async function markStoryForUnarchiving(
       isArchiving: false,
       isArchived: true,
     },
-    {
-      $set: {
-        isArchiving: true,
-        closedAt: now,
-        updatedAt: now,
-        startedUnarchivingAt: now,
-      },
-    },
+    getMarkStoryForUnarchivingSetParam(now),
     {
       returnOriginal: false,
     }

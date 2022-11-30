@@ -4297,6 +4297,11 @@ type Queues {
   rejector is the Queue associated with the Rejector queue.
   """
   rejector: Queue!
+
+  """
+  unarchiver is the Queue associated with unarchiving stories.
+  """
+  unarchiver: Queue!
 }
 
 ################################################################################

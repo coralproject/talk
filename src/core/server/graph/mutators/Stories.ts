@@ -6,11 +6,10 @@ import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
 import {
   markStoryForArchiving,
-  markStoryForUnarchiving,
   retrieveStory,
   Story,
 } from "coral-server/models/story";
-import { archiveStory, unarchiveStory } from "coral-server/services/archive";
+import { archiveStory } from "coral-server/services/archive";
 import {
   addExpert,
   close,
@@ -164,23 +163,7 @@ export const Stories = (ctx: GraphContext) => ({
     const stories: Readonly<Story>[] = [];
 
     for (const storyID of input.storyIDs) {
-      const markResult = await markStoryForUnarchiving(
-        ctx.mongo,
-        ctx.tenant.id,
-        storyID,
-        ctx.now
-      );
-
-      if (markResult) {
-        await unarchiveStory(
-          ctx.mongo,
-          ctx.redis,
-          ctx.tenant.id,
-          storyID,
-          ctx.logger,
-          ctx.now
-        );
-      }
+      await ctx.unarchiverQueue.add({ storyID, tenantID: ctx.tenant.id });
 
       const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
       if (result) {
