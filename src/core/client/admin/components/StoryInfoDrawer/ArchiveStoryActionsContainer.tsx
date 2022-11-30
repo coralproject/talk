@@ -66,6 +66,16 @@ const ArchiveStoryActionsContainer: FunctionComponent<Props> = ({
     !story.isArchiving &&
     story.isArchived;
 
+  if (story.isUnarchiving) {
+    return (
+      <Localized id="stories-actions-isUnarchiving">
+        <Button className={styles.button} disabled={true} color="secondary">
+          Unarchiving
+        </Button>
+      </Localized>
+    );
+  }
+
   if (canArchive) {
     return (
       <Localized id="stories-actions-archive">
@@ -98,6 +108,7 @@ const enhanced = withFragmentContainer<Props>({
       id
       isArchiving
       isArchived
+      isUnarchiving
       isClosed
       status
       settings {

@@ -3,7 +3,7 @@ import { QueueOptions } from "bull";
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
-import { markStoryForUnarchiving } from "coral-server/models/story";
+import { retrieveStoryToBeUnarchived } from "coral-server/models/story";
 import Task, { JobProcessor } from "coral-server/queue/Task";
 import { unarchiveStory } from "coral-server/services/archive";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -22,13 +22,12 @@ export interface UnarchiverData {
   storyID: string;
 }
 
-const createJobProcessor =
-  ({
-    mongo,
-    redis,
-    tenantCache,
-  }: UnarchiverProcessorOptions): JobProcessor<UnarchiverData> =>
-  async (job) => {
+const createJobProcessor = ({
+  mongo,
+  redis,
+  tenantCache,
+}: UnarchiverProcessorOptions): JobProcessor<UnarchiverData> => {
+  return async (job) => {
     const { storyID, tenantID } = job.data;
 
     const log = logger.child(
@@ -53,8 +52,12 @@ const createJobProcessor =
 
     const now = new Date();
 
-    const story = await markStoryForUnarchiving(mongo, tenantID, storyID, now);
-
+    const story = await retrieveStoryToBeUnarchived(
+      mongo,
+      tenantID,
+      storyID,
+      now
+    );
     if (!story) {
       log.warn(
         { storyID },
@@ -83,6 +86,7 @@ const createJobProcessor =
 
     log.debug({ took: timer() }, "attempted unarchive operation ended");
   };
+};
 
 export type UnarchiverQueue = Task<UnarchiverData>;
 
@@ -94,7 +98,8 @@ export function createUnarchiverTask(
     jobName: JOB_NAME,
     jobProcessor: createJobProcessor(options),
     queue,
-    jobIdGenerator: ({ tenantID, storyID }) => `${tenantID}:${storyID}`,
+    jobIdGenerator: ({ tenantID, storyID }) =>
+      `${tenantID}:${storyID}:unarchive`,
     attempts: 1,
   });
 }

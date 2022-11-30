@@ -6,6 +6,7 @@ import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
 import {
   markStoryForArchiving,
+  markStoryForUnarchiving,
   retrieveStory,
   Story,
 } from "coral-server/models/story";
@@ -163,10 +164,15 @@ export const Stories = (ctx: GraphContext) => ({
     const stories: Readonly<Story>[] = [];
 
     for (const storyID of input.storyIDs) {
-      await ctx.unarchiverQueue.add({ storyID, tenantID: ctx.tenant.id });
+      const result = await markStoryForUnarchiving(
+        ctx.mongo,
+        ctx.tenant.id,
+        storyID,
+        ctx.now
+      );
 
-      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
-      if (result) {
+      if (result && result.isUnarchiving) {
+        await ctx.unarchiverQueue.add({ storyID, tenantID: ctx.tenant.id });
         stories.push(result);
       }
     }

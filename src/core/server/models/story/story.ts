@@ -107,6 +107,7 @@ export interface Story extends TenantResource {
 
   isArchiving?: boolean;
   isArchived?: boolean;
+  isUnarchiving?: boolean;
 }
 
 export interface UpsertStoryInput {
@@ -808,17 +809,6 @@ export async function markStoryForArchiving(
   return result.value;
 }
 
-function getMarkStoryForUnarchivingSetParam(now: Date) {
-  return {
-    $set: {
-      isArchiving: true,
-      closedAt: now,
-      updatedAt: now,
-      startedUnarchivingAt: now,
-    },
-  };
-}
-
 export async function markStoryForUnarchiving(
   mongo: MongoContext,
   tenantID: string,
@@ -829,10 +819,45 @@ export async function markStoryForUnarchiving(
     {
       id,
       tenantID,
-      isArchiving: false,
+      isArchiving: { $in: [null, false] },
+      isUnarchiving: { $in: [null, false] },
       isArchived: true,
     },
-    getMarkStoryForUnarchivingSetParam(now),
+    {
+      $set: {
+        isUnarchiving: true,
+        closedAt: now,
+        updatedAt: now,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  return result.value;
+}
+
+export async function retrieveStoryToBeUnarchived(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  now: Date
+) {
+  const result = await mongo.stories().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      isUnarchiving: true,
+      isArchiving: false,
+      isArchived: true,
+      startedUnarchivingAt: { $exists: false },
+    },
+    {
+      $set: {
+        startedUnarchivingAt: now,
+      },
+    },
     {
       returnOriginal: false,
     }
@@ -905,7 +930,11 @@ export async function markStoryAsUnarchived(
       $set: {
         isArchiving: false,
         isArchived: false,
+        isUnarchiving: false,
         unarchivedAt: now,
+      },
+      $unset: {
+        startedUnarchivingAt: "",
       },
     },
     {
