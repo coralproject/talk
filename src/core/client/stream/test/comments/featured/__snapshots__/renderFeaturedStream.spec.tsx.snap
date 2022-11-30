@@ -511,6 +511,7 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-0"
+                      aria-label="User Markus"
                       className="BaseButton-root coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -659,6 +660,7 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-1"
+                      aria-label="User Lukas"
                       className="BaseButton-root coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}

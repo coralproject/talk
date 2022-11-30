@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 import styles from "./Username.css";
 
 interface Props {
-  children: React.ReactNode;
+  children: string | null;
   className?: string;
 }
 

@@ -47,7 +47,7 @@ it("renders comment stream", async () => {
       name: "Comment from Markus 2018-07-06T18:24:00.000Z",
     })
   ).toBeVisible();
-  expect(screen.getByRole("button", { name: "Markus" })).toBeVisible();
+  expect(screen.getByRole("button", { name: "User Markus" })).toBeVisible();
   expect(
     screen.getByRole("button", { name: "Respect comment by Markus" })
   ).toBeVisible();
@@ -68,7 +68,7 @@ it("renders comment stream", async () => {
       name: "Comment from Moderator 2018-07-06T18:24:00.000Z",
     })
   ).toBeVisible();
-  expect(screen.getByRole("button", { name: "Moderator" })).toBeVisible();
+  expect(screen.getByRole("button", { name: "User Moderator" })).toBeVisible();
   expect(
     screen.getByRole("button", { name: "Respect comment by Moderator" })
   ).toBeVisible();
