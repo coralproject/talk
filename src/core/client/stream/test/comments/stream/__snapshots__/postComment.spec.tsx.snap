@@ -1,26 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders deepest comment with link 1`] = `
+exports[`post a comment: optimistic response 1`] = `
 <div
-  aria-labelledby="comment-comment-with-deepest-replies-3-label"
+  aria-labelledby="comment-comment-x-label"
   className="CommentContainer-root coral coral-comment coral coral-reacted-0"
   data-key-stop={true}
-  data-testid="comment-comment-with-deepest-replies-3"
-  id="comment-comment-with-deepest-replies-3"
+  data-testid="comment-comment-x"
+  id="comment-comment-x"
   onFocus={[Function]}
   role="article"
   tabIndex={-1}
 >
   <div
     className="Hidden-root"
-    id="comment-comment-with-deepest-replies-3-label"
+    id="comment-comment-x-label"
   >
     <span>
-      Thread Level 3:
-    </span>
-     
-    <span>
-      Reply from Markus 
+      Comment from Markus 
       <time
         className="RelativeTime-root"
         dateTime="2018-07-06T18:24:00.000Z"
@@ -37,7 +33,7 @@ exports[`renders deepest comment with link 1`] = `
       className="coral coral-comment-collapse-toggle-indent Indent-root"
     >
       <div
-        className="CommentContainer-indentedCommentRoot CommentContainer-indented Indent-level3 coral coral-indent coral-indent-3 Indent-open Indent-openPadded"
+        className="CommentContainer-indentedCommentRoot coral coral-indent coral-indent-0 Indent-open"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
@@ -76,7 +72,7 @@ exports[`renders deepest comment with link 1`] = `
                     className="Popover-root"
                   >
                     <button
-                      aria-controls="username-popover-comment-with-deepest-replies-3"
+                      aria-controls="username-popover-comment-x"
                       aria-label="User {$username}"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
@@ -96,7 +92,7 @@ exports[`renders deepest comment with link 1`] = `
                     <div
                       aria-hidden={true}
                       aria-label="A popover with more user information"
-                      id="username-popover-comment-with-deepest-replies-3"
+                      id="username-popover-comment-x"
                       role="dialog"
                     />
                   </div>
@@ -129,46 +125,33 @@ exports[`renders deepest comment with link 1`] = `
               >
                 <div
                   className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
-                />
-              </div>
-            </div>
-            <div
-              className="Comment-subBar"
-            >
-              <button
-                className="BaseButton-root InReplyTo-button"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
-              >
-                <span
-                  className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm InReplyTo-icon"
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantText Button-uppercase coral coral-comment-editButton CommentContainer-editButton"
+                    data-testid="comment-edit-button"
+                    data-variant="text"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    reply
-                  </i>
-                  <span>
-                     
-                  </span>
-                  <span
-                    className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
-                  >
-                    In reply to 
-                    <span
-                      className="InReplyTo-username coral coral-comment-inReplyToUsername"
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
-                      Markus
-                    </span>
-                  </span>
-                </span>
-              </button>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm CommentContainer-editIcon"
+                      >
+                        edit
+                      </i>
+                      Edit
+                    </div>
+                  </button>
+                </div>
+              </div>
             </div>
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -177,7 +160,7 @@ exports[`renders deepest comment with link 1`] = `
                 className="HTMLContent-root coral coral-content coral-comment-content"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "body 3",
+                    "__html": "<b>Hello world! (from server)</b>",
                   }
                 }
               />
@@ -220,7 +203,7 @@ exports[`renders deepest comment with link 1`] = `
                     data-testid="comment-reply-button"
                     data-variant="flat"
                     disabled={false}
-                    id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
+                    id="comments-commentContainer-replyButton-comment-x"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -244,7 +227,7 @@ exports[`renders deepest comment with link 1`] = `
                     className="Popover-root"
                   >
                     <button
-                      aria-controls="permalink-popover-comment-with-deepest-replies-3"
+                      aria-controls="permalink-popover-comment-x"
                       aria-label="Share comment by Markus"
                       aria-pressed={false}
                       className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimarySemiBold Button-paddingSizeExtraSmall Button-colorSecondary coral coral-comment-shareButton"
@@ -272,7 +255,7 @@ exports[`renders deepest comment with link 1`] = `
                     <div
                       aria-hidden={true}
                       aria-label="A dialog showing a permalink to the comment"
-                      id="permalink-popover-comment-with-deepest-replies-3"
+                      id="permalink-popover-comment-x"
                       role="dialog"
                     />
                   </div>
@@ -308,22 +291,6 @@ exports[`renders deepest comment with link 1`] = `
                   </button>
                 </div>
               </div>
-              <a
-                className="BaseButton-root Button-root Button-sizeRegular ShowConversationLink-sizeRegular Button-colorRegular ShowConversationLink-colorRegular Button-variantTextUnderlined Button-uppercase ShowConversationLink-conversationLink coral coral-comment-readMoreOfConveration"
-                data-variant="textUnderlined"
-                href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-3"
-                id="comments-commentContainer-showConversation-comment-with-deepest-replies-3"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Read More of this Conversation &gt;
-              </a>
             </div>
           </div>
         </div>

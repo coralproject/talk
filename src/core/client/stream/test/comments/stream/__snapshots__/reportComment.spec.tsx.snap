@@ -485,7 +485,7 @@ exports[`report comment as offensive 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Hide comment by Markus and its replies"
+            aria-label="Hide comment by {$username} and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -519,7 +519,7 @@ exports[`report comment as offensive 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-0"
-                      aria-label="User Markus"
+                      aria-label="User {$username}"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
