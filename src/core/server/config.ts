@@ -481,6 +481,12 @@ const config = convict({
     default: false,
     env: "FORCE_ADMIN_LOCAL_AUTH",
   },
+  signin_window_title: {
+    doc: "Will override the title of the window that opens when users are signing in via local auth.",
+    format: String,
+    default: "Sign in",
+    env: "SIGNIN_WINDOW_TITLE",
+  },
 });
 
 export type Config = typeof config;

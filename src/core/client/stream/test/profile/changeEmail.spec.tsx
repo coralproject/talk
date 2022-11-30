@@ -80,6 +80,7 @@ describe("change email form", () => {
     const submitButton = within(changeEmail).getByRole("button", {
       name: "Save changes",
     });
+
     expect(submitButton).toBeDisabled();
   });
 
