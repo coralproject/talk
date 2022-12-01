@@ -4100,6 +4100,12 @@ type Story @cacheControl(maxAge: 30) {
   isArchived: Boolean!
 
   """
+  isUnarchiving returns true when a story is in-between being unarchived and is
+  yet to be fully unarchived.
+  """
+  isUnarchiving: Boolean!
+
+  """
   commentCounts stores all the counts of Comments that are left on the Comment.
   """
   commentCounts: CommentCounts!
@@ -4240,6 +4246,11 @@ type Queues {
   rejector is the Queue associated with the Rejector queue.
   """
   rejector: Queue!
+
+  """
+  unarchiver is the Queue associated with unarchiving stories.
+  """
+  unarchiver: Queue!
 }
 
 ################################################################################
