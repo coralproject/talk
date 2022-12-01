@@ -349,6 +349,7 @@ export const baseStory = createFixture<GQLStory>({
   isClosed: false,
   isArchiving: false,
   isArchived: false,
+  isUnarchiving: false,
   comments: {
     edges: [],
     pageInfo: {
