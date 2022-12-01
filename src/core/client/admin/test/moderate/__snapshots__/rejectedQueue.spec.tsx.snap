@@ -741,6 +741,7 @@ exports[`renders rejected queue with comments 1`] = `
                 >
                   Reply to 
                   <button
+                    aria-label="User luke2"
                     className="BaseButton-root InReplyTo-usernameButton"
                     onBlur={[Function]}
                     onClick={[Function]}

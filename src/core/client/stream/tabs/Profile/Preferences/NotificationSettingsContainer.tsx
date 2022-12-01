@@ -85,12 +85,12 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
             <HorizontalGutter>
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-emailNotifications">
-                  <div
+                  <h1
                     className={styles.title}
                     id="profile-account-notifications-emailNotifications-title"
                   >
                     Email Notifications
-                  </div>
+                  </h1>
                 </Localized>
               </HorizontalGutter>
               <HorizontalGutter>
