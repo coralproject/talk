@@ -19,6 +19,16 @@ import { AddACommentButtonLocal } from "coral-stream/__generated__/AddACommentBu
 
 import styles from "./AddACommentButton.css";
 
+const getCommentField = (commentForm: HTMLElement) => {
+  const iFrame = commentForm.querySelector("iframe");
+  if (iFrame === null) {
+    return null;
+  }
+  return (iFrame as any).contentWindow.document.body.querySelector(
+    "#comments-postCommentForm-field"
+  ) as HTMLInputElement;
+};
+
 interface Props {
   currentScrollRef: any;
   isQA?: boolean;
@@ -126,11 +136,8 @@ const AddACommentButton: FunctionComponent<Props> = ({
 
     // TODO for MARCUS: clean this up
     const commentForm = await pollForCommentFormElement();
-    const iFrame = commentForm.querySelector("iframe");
-    if (iFrame !== null) {
-      const field = (iFrame as any).contentWindow.document.body.querySelector(
-        "#comments-postCommentForm-field"
-      );
+    const field = getCommentField(commentForm);
+    if (field !== null) {
       field.focus();
     }
   }, [
@@ -142,6 +149,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
     setScrollIntoViewAfterLoad,
     eventEmitter,
     commentsTab,
+    pollForCommentFormElement,
   ]);
 
   return (
