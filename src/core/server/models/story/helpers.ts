@@ -81,6 +81,10 @@ export function isStoryArchived(story: Pick<Story, "isArchived">) {
   return story.isArchived ?? false;
 }
 
+export function isStoryUnarchiving(story: Pick<Story, "isUnarchiving">) {
+  return story.isUnarchiving ?? false;
+}
+
 export function resolveStoryMode(
   storySettings: Story["settings"],
   tenant: Pick<Tenant, "featureFlags">
