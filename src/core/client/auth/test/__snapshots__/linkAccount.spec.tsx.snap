@@ -66,6 +66,7 @@ link these enter your password.
                     className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
                     data-testid="password-field"
                     disabled={false}
+                    forwardRef={null}
                     id="password"
                     name="password"
                     onBlur={[Function]}

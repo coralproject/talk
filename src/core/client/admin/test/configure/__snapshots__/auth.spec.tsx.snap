@@ -918,6 +918,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                           data-testid="password-field"
                           disabled={true}
+                          forwardRef={null}
                           id="auth.integrations.oidc.clientSecret"
                           name="auth.integrations.oidc.clientSecret"
                           onBlur={[Function]}
@@ -1369,6 +1370,7 @@ more about creating a JWT Token with
                                   autoCorrect="off"
                                   className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                                   data-testid="password-field"
+                                  forwardRef={null}
                                   id="configure-auth-sso-rotate-secretField"
                                   name="key"
                                   placeholder=""
@@ -1787,6 +1789,7 @@ to create and set up a web application. For more information visit:
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                           data-testid="password-field"
                           disabled={true}
+                          forwardRef={null}
                           id="auth.integrations.google.clientSecret"
                           name="auth.integrations.google.clientSecret"
                           onBlur={[Function]}
@@ -2107,6 +2110,7 @@ For more information visit:
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                           data-testid="password-field"
                           disabled={true}
+                          forwardRef={null}
                           id="auth.integrations.facebook.clientSecret"
                           name="auth.integrations.facebook.clientSecret"
                           onBlur={[Function]}
