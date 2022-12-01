@@ -4,6 +4,8 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { MongoContext } from "../context";
 
+export const USER_CACHE_DATA_EXPIRY = 24 * 60 * 60;
+
 export class UserCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
@@ -23,7 +25,7 @@ export class UserCache {
 
     for (const user of users) {
       cmd.set(`${tenantID}:${user.id}:data`, JSON.stringify(user));
-      cmd.expire(`${tenantID}:${user.id}:data`, 24 * 60 * 60);
+      cmd.expire(`${tenantID}:${user.id}:data`, USER_CACHE_DATA_EXPIRY);
     }
 
     await cmd.exec();

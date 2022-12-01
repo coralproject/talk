@@ -9,6 +9,8 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+export const COMMENT_CACHE_DATA_EXPIRY = 24 * 60 * 60;
+
 export interface Filter {
   tag?: GQLTAG;
   rating?: number;
@@ -45,7 +47,7 @@ export class CommentCache {
       const value = JSON.stringify(comment);
 
       cmd.set(key, value);
-      cmd.expire(key, 24 * 60 * 60);
+      cmd.expire(key, COMMENT_CACHE_DATA_EXPIRY);
     }
 
     for (const parentID of commentIDs.keys()) {
@@ -56,7 +58,7 @@ export class CommentCache {
 
       const key = `${tenantID}:${storyID}:${parentID}`;
       cmd.sadd(key, ...childIDs);
-      cmd.expire(key, 24 * 60 * 60);
+      cmd.expire(key, COMMENT_CACHE_DATA_EXPIRY);
     }
 
     await cmd.exec();
@@ -315,13 +317,13 @@ export class CommentCache {
 
     const dataKey = `${comment.tenantID}:${comment.storyID}:${comment.id}:data`;
     cmd.set(dataKey, JSON.stringify(comment));
-    cmd.expire(dataKey, 24 * 60 * 60);
+    cmd.expire(dataKey, COMMENT_CACHE_DATA_EXPIRY);
 
     const parentKey = `${comment.tenantID}:${comment.storyID}:${
       comment.parentID ?? "root"
     }`;
     cmd.sadd(parentKey, comment.id);
-    cmd.expire(parentKey, 24 * 60 * 60);
+    cmd.expire(parentKey, COMMENT_CACHE_DATA_EXPIRY);
 
     await cmd.exec();
   }
