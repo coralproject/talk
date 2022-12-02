@@ -51,12 +51,14 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           </TextLink>
           {story.isArchived || story.isArchiving ? (
             <Flex direction="column" className={styles.status}>
-              <Flex direction="column" className={styles.archived}>
+              <div className={styles.flexSizeToContentWidth}>
                 <ArchivedMarker />
-                {viewer && (
+              </div>
+              {viewer && (
+                <div className={styles.flexSizeToContentWidth}>
                   <ArchiveStoryActionsContainer story={story} viewer={viewer} />
-                )}
-              </Flex>
+                </div>
+              )}
             </Flex>
           ) : (
             <>
@@ -79,7 +81,9 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
               </Flex>
               <RescrapeStory storyID={story.id} />
               {viewer && (
-                <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+                <div className={styles.flexSizeToContentWidth}>
+                  <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+                </div>
               )}
               <StorySettingsContainer
                 settings={story.settings}
