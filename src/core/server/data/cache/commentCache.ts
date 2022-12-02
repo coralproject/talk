@@ -2,6 +2,7 @@ import { MongoContext } from "coral-server/data/context";
 import { Comment } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { AugmentedRedis } from "coral-server/services/redis";
+import zlib from "zlib";
 
 import {
   GQLCOMMENT_SORT,
@@ -66,7 +67,7 @@ export class CommentCache {
       commentIDs.get(parentID)!.push(comment.id);
 
       const key = this.computeDataKey(tenantID, storyID, comment.id);
-      const value = JSON.stringify(comment);
+      const value = this.serializeComment(comment);
 
       cmd.set(key, value);
       cmd.expire(key, COMMENT_CACHE_DATA_EXPIRY);
@@ -146,7 +147,7 @@ export class CommentCache {
       return null;
     }
 
-    const comment = this.parseJSONIntoComment(record);
+    const comment = this.parseDataIntoComment(record);
     this.commentsByKey.set(key, comment);
 
     return comment;
@@ -177,7 +178,7 @@ export class CommentCache {
           continue;
         }
 
-        const comment = this.parseJSONIntoComment(record);
+        const comment = this.parseDataIntoComment(record);
 
         this.commentsByKey.set(
           this.computeDataKey(comment.tenantID, comment.storyID, comment.id),
@@ -356,7 +357,7 @@ export class CommentCache {
       comment.storyID,
       comment.id
     );
-    cmd.set(dataKey, JSON.stringify(comment));
+    cmd.set(dataKey, this.serializeComment(comment));
     cmd.expire(dataKey, COMMENT_CACHE_DATA_EXPIRY);
 
     const parentKey = this.computeMembersKey(
@@ -426,7 +427,16 @@ export class CommentCache {
     });
   }
 
-  private parseJSONIntoComment(json: string): Readonly<Comment> {
+  private serializeComment(comment: Readonly<Comment>) {
+    const json = JSON.stringify(comment);
+    const data = zlib.brotliCompressSync(json).toString("base64");
+
+    return data;
+  }
+
+  private parseDataIntoComment(data: string): Readonly<Comment> {
+    const buffer = Buffer.from(data, "base64");
+    const json = zlib.brotliDecompressSync(buffer).toString();
     const parsed = JSON.parse(json);
 
     return {
