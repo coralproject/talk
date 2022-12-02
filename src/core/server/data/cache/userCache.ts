@@ -1,3 +1,5 @@
+import zlib from "zlib";
+
 import { UserNotFoundError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -33,7 +35,10 @@ export class UserCache {
     const cmd = this.redis.multi();
 
     for (const user of users) {
-      cmd.set(this.computeDataKey(tenantID, user.id), JSON.stringify(user));
+      cmd.set(
+        this.computeDataKey(tenantID, user.id),
+        this.serializeObject(user)
+      );
       cmd.expire(
         this.computeDataKey(tenantID, user.id),
         USER_CACHE_DATA_EXPIRY
@@ -54,12 +59,12 @@ export class UserCache {
         await this.populateUsers(tenantID, [id]);
       }
 
-      record = await this.redis.get(`${tenantID}:${id}:data`);
+      record = await this.redis.get(this.computeDataKey(tenantID, id));
       if (!record) {
         throw new UserNotFoundError(id);
       }
 
-      user = JSON.parse(record) as User;
+      user = this.deserializeObject(record);
       this.usersByKey.set(key, user);
     }
 
@@ -68,5 +73,23 @@ export class UserCache {
     }
 
     return user;
+  }
+
+  private serializeObject(comment: Readonly<User>) {
+    const json = JSON.stringify(comment);
+    const data = zlib.brotliCompressSync(json).toString("base64");
+
+    return data;
+  }
+
+  private deserializeObject(data: string): Readonly<User> {
+    const buffer = Buffer.from(data, "base64");
+    const json = zlib.brotliDecompressSync(buffer).toString();
+    const parsed = JSON.parse(json);
+
+    return {
+      ...parsed,
+      createdAt: new Date(parsed.createdAt),
+    };
   }
 }
