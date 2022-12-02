@@ -10,7 +10,7 @@ import {
   retrieveStory,
   Story,
 } from "coral-server/models/story";
-import { archiveStory, unarchiveStory } from "coral-server/services/archive";
+import { archiveStory } from "coral-server/services/archive";
 import {
   addExpert,
   close,
@@ -164,26 +164,15 @@ export const Stories = (ctx: GraphContext) => ({
     const stories: Readonly<Story>[] = [];
 
     for (const storyID of input.storyIDs) {
-      const markResult = await markStoryForUnarchiving(
+      const result = await markStoryForUnarchiving(
         ctx.mongo,
         ctx.tenant.id,
         storyID,
         ctx.now
       );
 
-      if (markResult) {
-        await unarchiveStory(
-          ctx.mongo,
-          ctx.redis,
-          ctx.tenant.id,
-          storyID,
-          ctx.logger,
-          ctx.now
-        );
-      }
-
-      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
-      if (result) {
+      if (result && result.isUnarchiving) {
+        await ctx.unarchiverQueue.add({ storyID, tenantID: ctx.tenant.id });
         stories.push(result);
       }
     }
