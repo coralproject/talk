@@ -10,9 +10,18 @@ export class UserCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
 
+  private usersByKey: Map<string, Readonly<User>>;
+
   constructor(mongo: MongoContext, redis: AugmentedRedis) {
     this.mongo = mongo;
     this.redis = redis;
+
+    this.usersByKey = new Map<string, Readonly<User>>();
+  }
+
+  private computeDataKey(tenantID: string, id: string) {
+    const key = `${tenantID}:${id}:data`;
+    return key;
   }
 
   private async populateUsers(tenantID: string, userIDs: string[]) {
@@ -24,8 +33,11 @@ export class UserCache {
     const cmd = this.redis.multi();
 
     for (const user of users) {
-      cmd.set(`${tenantID}:${user.id}:data`, JSON.stringify(user));
-      cmd.expire(`${tenantID}:${user.id}:data`, USER_CACHE_DATA_EXPIRY);
+      cmd.set(this.computeDataKey(tenantID, user.id), JSON.stringify(user));
+      cmd.expire(
+        this.computeDataKey(tenantID, user.id),
+        USER_CACHE_DATA_EXPIRY
+      );
     }
 
     await cmd.exec();
@@ -34,17 +46,26 @@ export class UserCache {
   }
 
   public async findUser(tenantID: string, id: string) {
-    let record = await this.redis.get(`${tenantID}:${id}:data`);
-    if (!record) {
-      await this.populateUsers(tenantID, [id]);
+    const key = this.computeDataKey(tenantID, id);
+    let user = this.usersByKey.get(key);
+    if (!user) {
+      let record = await this.redis.get(key);
+      if (!record) {
+        await this.populateUsers(tenantID, [id]);
+      }
+
+      record = await this.redis.get(`${tenantID}:${id}:data`);
+      if (!record) {
+        throw new UserNotFoundError(id);
+      }
+
+      user = JSON.parse(record) as User;
+      this.usersByKey.set(key, user);
     }
 
-    record = await this.redis.get(`${tenantID}:${id}:data`);
-    if (!record) {
+    if (!user) {
       throw new UserNotFoundError(id);
     }
-
-    const user = JSON.parse(record) as User;
 
     return user;
   }

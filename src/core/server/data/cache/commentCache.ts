@@ -21,9 +21,31 @@ export class CommentCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
 
+  private commentsByKey: Map<string, Readonly<Comment>>;
+  private membersLookup: Map<string, string[]>;
+
   constructor(mongo: MongoContext, redis: AugmentedRedis) {
     this.mongo = mongo;
     this.redis = redis;
+
+    this.commentsByKey = new Map<string, Readonly<Comment>>();
+    this.membersLookup = new Map<string, string[]>();
+  }
+
+  private computeDataKey(tenantID: string, storyID: string, commentID: string) {
+    const key = `${tenantID}:${storyID}:${commentID}:data`;
+    return key;
+  }
+
+  private computeMembersKey(
+    tenantID: string,
+    storyID: string,
+    parentID?: string | null
+  ) {
+    const key = parentID
+      ? `${tenantID}:${storyID}:${parentID}`
+      : `${tenantID}:${storyID}:root`;
+    return key;
   }
 
   private async createCommentKeysInRedis(
@@ -43,7 +65,7 @@ export class CommentCache {
 
       commentIDs.get(parentID)!.push(comment.id);
 
-      const key = `${tenantID}:${storyID}:${comment.id}:data`;
+      const key = this.computeDataKey(tenantID, storyID, comment.id);
       const value = JSON.stringify(comment);
 
       cmd.set(key, value);
@@ -56,7 +78,7 @@ export class CommentCache {
         continue;
       }
 
-      const key = `${tenantID}:${storyID}:${parentID}`;
+      const key = this.computeMembersKey(tenantID, storyID, parentID);
       cmd.sadd(key, ...childIDs);
       cmd.expire(key, COMMENT_CACHE_DATA_EXPIRY);
     }
@@ -112,13 +134,21 @@ export class CommentCache {
     storyID: string,
     id: string
   ): Promise<Readonly<Comment> | null> {
-    const key = `${tenantID}:${storyID}:${id}:data`;
+    const key = this.computeDataKey(tenantID, storyID, id);
+
+    const localComment = this.commentsByKey.get(key);
+    if (localComment) {
+      return localComment;
+    }
+
     const record = await this.redis.get(key);
     if (!record) {
       return null;
     }
 
-    const comment = JSON.parse(record) as Comment;
+    const comment = this.parseJSONIntoComment(record);
+    this.commentsByKey.set(key, comment);
+
     return comment;
   }
 
@@ -127,20 +157,45 @@ export class CommentCache {
       return [];
     }
 
-    const keys = ids.map((id) => `${tenantID}:${storyID}:${id}:data`);
-    const records = await this.redis.mget(...keys);
+    const results: Readonly<Comment>[] = [];
+    const keys = ids.map((id) => this.computeDataKey(tenantID, storyID, id));
 
-    const result: Readonly<Comment>[] = [];
-    for (const record of records) {
-      if (!record) {
-        continue;
+    const notFound: string[] = [];
+    for (const key of keys) {
+      const localComment = this.commentsByKey.get(key);
+      if (localComment) {
+        results.push(localComment);
+      } else {
+        notFound.push(key);
       }
-
-      const comment = JSON.parse(record) as Comment;
-      result.push(comment);
     }
 
-    return result;
+    if (notFound.length > 0) {
+      const records = await this.redis.mget(...notFound);
+      for (const record of records) {
+        if (!record) {
+          continue;
+        }
+
+        const comment = this.parseJSONIntoComment(record);
+
+        this.commentsByKey.set(
+          this.computeDataKey(comment.tenantID, comment.storyID, comment.id),
+          comment
+        );
+        results.push(comment);
+      }
+    }
+
+    const ordered: Readonly<Comment>[] = [];
+    for (const id of ids) {
+      const comment = results.find((c) => c.id === id);
+      if (comment) {
+        ordered.push(comment);
+      }
+    }
+
+    return ordered;
   }
 
   public async findAncestors(tenantID: string, storyID: string, id: string) {
@@ -158,34 +213,28 @@ export class CommentCache {
     isArchived: boolean,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_DESC
   ) {
-    let rootCommentIDs = await this.redis.smembers(
-      `${tenantID}:${storyID}:root`
-    );
-    if (!rootCommentIDs || rootCommentIDs.length === 0) {
-      rootCommentIDs = await this.populateRootComments(
-        tenantID,
-        storyID,
-        isArchived
-      );
+    const membersKey = this.computeMembersKey(tenantID, storyID);
+
+    let rootCommentIDs = this.membersLookup.get(membersKey);
+    if (!rootCommentIDs) {
+      rootCommentIDs = await this.redis.smembers(membersKey);
+
+      if (!rootCommentIDs || rootCommentIDs.length === 0) {
+        rootCommentIDs = await this.populateRootComments(
+          tenantID,
+          storyID,
+          isArchived
+        );
+      }
+
+      this.membersLookup.set(membersKey, rootCommentIDs);
     }
 
     if (rootCommentIDs.length === 0) {
       return this.createConnection([]);
     }
 
-    const rawRecords = await this.redis.mget(
-      ...rootCommentIDs.map((id) => `${tenantID}:${storyID}:${id}:data`)
-    );
-
-    const comments: Readonly<Comment>[] = [];
-    for (const rawRecord of rawRecords) {
-      if (rawRecord === null) {
-        continue;
-      }
-
-      comments.push(this.parseJSONIntoComment(rawRecord));
-    }
-
+    const comments = await this.findMany(tenantID, storyID, rootCommentIDs);
     const sortedComments = this.sortComments(comments, orderBy);
 
     return this.createConnection(sortedComments);
@@ -266,44 +315,32 @@ export class CommentCache {
     parentID: string,
     isArchived: boolean
   ) {
-    const parentKey = `${tenantID}:${storyID}:${parentID}:data`;
-    const parentRecord = await this.redis.get(parentKey);
-    if (!parentRecord) {
+    const parent = await this.find(tenantID, storyID, parentID);
+    if (!parent || parent.childCount === 0) {
       return [];
     }
 
-    const parent = this.parseJSONIntoComment(parentRecord);
-    if (parent.childCount === 0) {
-      return [];
-    }
+    const membersKey = this.computeMembersKey(tenantID, storyID, parentID);
+    let commentIDs = this.membersLookup.get(membersKey);
+    if (!commentIDs) {
+      commentIDs = await this.redis.smembers(membersKey);
+      if (!commentIDs || commentIDs.length === 0) {
+        commentIDs = await this.populateReplies(
+          tenantID,
+          storyID,
+          parentID,
+          isArchived
+        );
+      }
 
-    const membersKey = `${tenantID}:${storyID}:${parentID}`;
-    let commentIDs = await this.redis.smembers(membersKey);
-    if (!commentIDs || commentIDs.length === 0) {
-      commentIDs = await this.populateReplies(
-        tenantID,
-        storyID,
-        parentID,
-        isArchived
-      );
+      this.membersLookup.set(membersKey, commentIDs);
     }
 
     if (commentIDs.length === 0) {
       return [];
     }
 
-    const rawRecords = await this.redis.mget(
-      ...commentIDs.map((id) => `${tenantID}:${storyID}:${id}:data`)
-    );
-
-    const comments: Readonly<Comment>[] = [];
-    for (const rawRecord of rawRecords) {
-      if (rawRecord === null) {
-        continue;
-      }
-
-      comments.push(this.parseJSONIntoComment(rawRecord));
-    }
+    const comments = await this.findMany(tenantID, storyID, commentIDs);
 
     return comments;
   }
@@ -312,20 +349,32 @@ export class CommentCache {
     if (!PUBLISHED_STATUSES.includes(comment.status)) {
       return;
     }
-
     const cmd = this.redis.multi();
 
-    const dataKey = `${comment.tenantID}:${comment.storyID}:${comment.id}:data`;
+    const dataKey = this.computeDataKey(
+      comment.tenantID,
+      comment.storyID,
+      comment.id
+    );
     cmd.set(dataKey, JSON.stringify(comment));
     cmd.expire(dataKey, COMMENT_CACHE_DATA_EXPIRY);
 
-    const parentKey = `${comment.tenantID}:${comment.storyID}:${
-      comment.parentID ?? "root"
-    }`;
+    const parentKey = this.computeMembersKey(
+      comment.tenantID,
+      comment.storyID,
+      comment.parentID
+    );
     cmd.sadd(parentKey, comment.id);
     cmd.expire(parentKey, COMMENT_CACHE_DATA_EXPIRY);
 
     await cmd.exec();
+
+    this.commentsByKey.set(dataKey, comment);
+
+    if (!this.membersLookup.has(parentKey)) {
+      this.membersLookup.set(parentKey, []);
+    }
+    this.membersLookup.get(parentKey)!.push(comment.id);
   }
 
   private createConnection(comments: Readonly<Comment>[]) {
