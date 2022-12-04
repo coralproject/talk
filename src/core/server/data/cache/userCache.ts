@@ -50,6 +50,20 @@ export class UserCache {
     return users;
   }
 
+  public async loadUsers(tenantID: string, ids: string[]) {
+    const keys = ids.map((id) => this.computeDataKey(tenantID, id));
+    const records = await this.redis.mget(keys);
+
+    for (const record of records) {
+      if (!record) {
+        continue;
+      }
+
+      const user = this.deserializeObject(record);
+      this.usersByKey.set(this.computeDataKey(tenantID, user.id), user);
+    }
+  }
+
   public async findUser(tenantID: string, id: string) {
     const key = this.computeDataKey(tenantID, id);
     let user = this.usersByKey.get(key);

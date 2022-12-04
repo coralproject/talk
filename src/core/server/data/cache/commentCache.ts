@@ -172,6 +172,108 @@ export class CommentCache {
     }
 
     if (notFound.length > 0) {
+      const batches: string[][] = [];
+      let index = 0;
+      const batchSize = 25;
+
+      batches.push([]);
+
+      for (const key of notFound) {
+        const batch = batches[index];
+        batch.push(key);
+
+        if (batch.length >= batchSize) {
+          index++;
+          batches.push([]);
+        }
+      }
+
+      const pipeline = this.redis.pipeline();
+      for (const batch of batches) {
+        pipeline.mget(...batch);
+      }
+
+      const recordSets = await pipeline.exec();
+
+      const records: (string | null)[] = [];
+      for (const [err, set] of recordSets) {
+        if (!set || err) {
+          continue;
+        }
+
+        for (const record of set) {
+          records.push(record);
+        }
+      }
+
+      for (const record of records) {
+        if (!record) {
+          continue;
+        }
+
+        const comment = this.deserializeObject(record);
+
+        this.commentsByKey.set(
+          this.computeDataKey(comment.tenantID, comment.storyID, comment.id),
+          comment
+        );
+        results.push(comment);
+      }
+
+      // PIPELINE GET
+
+      // const pipeline = this.redis.pipeline();
+      // for (const key of notFound) {
+      //   pipeline.get(key);
+      // }
+
+      // const records = await pipeline.exec();
+
+      // for (const [err, record] of records) {
+      //   if (!record || err) {
+      //     continue;
+      //   }
+
+      //   const comment = this.deserializeObject(record);
+
+      //   this.commentsByKey.set(
+      //     this.computeDataKey(comment.tenantID, comment.storyID, comment.id),
+      //     comment
+      //   );
+      //   results.push(comment);
+      // }
+    }
+
+    const ordered: Readonly<Comment>[] = [];
+    for (const id of ids) {
+      const comment = results.find((c) => c.id === id);
+      if (comment) {
+        ordered.push(comment);
+      }
+    }
+
+    return ordered;
+  }
+
+  public async oldFindMany(tenantID: string, storyID: string, ids: string[]) {
+    if (ids.length === 0) {
+      return [];
+    }
+
+    const results: Readonly<Comment>[] = [];
+    const keys = ids.map((id) => this.computeDataKey(tenantID, storyID, id));
+
+    const notFound: string[] = [];
+    for (const key of keys) {
+      const localComment = this.commentsByKey.get(key);
+      if (localComment) {
+        results.push(localComment);
+      } else {
+        notFound.push(key);
+      }
+    }
+
+    if (notFound.length > 0) {
       const records = await this.redis.mget(...notFound);
       for (const record of records) {
         if (!record) {
@@ -350,6 +452,7 @@ export class CommentCache {
     if (!PUBLISHED_STATUSES.includes(comment.status)) {
       return;
     }
+
     const cmd = this.redis.multi();
 
     const dataKey = this.computeDataKey(

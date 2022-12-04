@@ -278,6 +278,11 @@ export default (ctx: GraphContext) => ({
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
 
+    await ctx.cache.users.loadUsers(
+      ctx.tenant.id,
+      conn.nodes.map((n) => n.authorID)
+    );
+
     return conn;
   },
   forParent: async (
