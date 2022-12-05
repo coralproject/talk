@@ -548,7 +548,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
               </Flex>
             )
           }
-          username={
+          username={comment.author?.username}
+          usernameEl={
             comment.author && (
               <UsernameWithPopoverContainer
                 className={cn(

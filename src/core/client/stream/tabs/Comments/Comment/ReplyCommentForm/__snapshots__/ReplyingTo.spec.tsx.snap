@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   alignItems="center"
-  className="ReplyTo-root coral coral-createReplyComment-replyTo"
+  className="ReplyingTo-root coral coral-createReplyComment-replyTo"
 >
   <ForwardRef(forwardRef)>
     reply
@@ -14,7 +14,7 @@ exports[`renders correctly 1`] = `
     id="comments-replyingTo"
   >
     <span
-      className="ReplyTo-text coral coral-createReplyComment-replyToText"
+      className="ReplyingTo-text coral coral-createReplyComment-replyToText"
     >
       Replying to &lt;Username&gt;&lt;/Username&gt;
     </span>

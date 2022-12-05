@@ -21,6 +21,7 @@ export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   tags?: React.ReactNode | null;
   badges?: React.ReactNode | null;
   enableJumpToParent?: boolean;
+  username?: string | null;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
@@ -32,6 +33,9 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
   classNameIndented,
   ...rest
 }) => {
+  const collapseCommentsLocalizationId = rest.username
+    ? "comments-collapse-toggle-with-username"
+    : "comments-collapse-toggle-without-username";
   return (
     <Indent
       level={indentLevel}
@@ -49,19 +53,21 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
         <CommentToggle
           {...rest}
           toggleCollapsed={toggleCollapsed}
-          username={staticUsername}
+          usernameEl={staticUsername}
+          username={rest.username}
           topBarRight={staticTopBarRight}
         />
       ) : (
         <Flex alignItems="flex-start" spacing={1}>
           {toggleCollapsed && (
             <Localized
-              id="comments-collapse-toggle"
+              id={collapseCommentsLocalizationId}
               attrs={{ "aria-label": true }}
+              vars={{ username: rest.username }}
             >
               <BaseButton
                 onClick={toggleCollapsed}
-                aria-label="Collapse comment thread"
+                aria-label={`Hide comment by ${rest.username} and its replies`}
                 className={cn(
                   styles.toggleButton,
                   CLASSES.comment.collapseToggle.$root

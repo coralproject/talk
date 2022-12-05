@@ -92,6 +92,7 @@ exports[`renders conversation thread 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-from-staff-0"
+                                aria-label="User {$username}"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -414,6 +415,7 @@ exports[`renders conversation thread 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
+                              aria-label="User {$username}"
                               className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -711,6 +713,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-from-staff-0"
+                                aria-label="User {$username}"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1011,6 +1014,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-1"
+                                  aria-label="User {$username}"
                                   className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -1293,6 +1297,7 @@ exports[`shows more of this conversation 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
+                              aria-label="User {$username}"
                               className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}

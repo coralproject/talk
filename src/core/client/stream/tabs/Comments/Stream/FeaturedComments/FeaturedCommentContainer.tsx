@@ -72,6 +72,11 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
     [emitViewConversationEvent, comment.id, setCommentID]
   );
 
+  // TEMPORARY MARCUS
+  const gotoConvAriaLabelId = comment.author?.username
+    ? "comments-featured-gotoConversation-label-with-username"
+    : "comments-featured-gotoConversation-label-without-username";
+
   return (
     <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
       <article
@@ -169,25 +174,31 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
               </Flex>
             )}
             <Flex alignItems="center">
-              <Button
-                className={cn(
-                  CLASSES.featuredComment.actionBar.goToConversation,
-                  styles.gotoConversation
-                )}
-                variant="flat"
-                fontSize="small"
-                color="none"
-                paddingSize="none"
-                onClick={onGotoConversation}
-                href={getURLWithCommentID(story.url, comment.id)}
+              <Localized
+                id={gotoConvAriaLabelId}
+                attrs={{ "aria-label": true }}
+                vars={{ username: undefined }}
               >
-                <Icon size="sm" className={styles.icon}>
-                  forum
-                </Icon>
-                <Localized id="comments-featured-gotoConversation">
-                  <span>Go to conversation</span>
-                </Localized>
-              </Button>
+                <Button
+                  className={cn(
+                    CLASSES.featuredComment.actionBar.goToConversation,
+                    styles.gotoConversation
+                  )}
+                  variant="flat"
+                  fontSize="small"
+                  color="none"
+                  paddingSize="none"
+                  onClick={onGotoConversation}
+                  href={getURLWithCommentID(story.url, comment.id)}
+                >
+                  <Icon size="sm" className={styles.icon}>
+                    forum
+                  </Icon>
+                  <Localized id="comments-featured-gotoConversation">
+                    <span>Go to conversation</span>
+                  </Localized>
+                </Button>
+              </Localized>
             </Flex>
           </Flex>
         </Flex>

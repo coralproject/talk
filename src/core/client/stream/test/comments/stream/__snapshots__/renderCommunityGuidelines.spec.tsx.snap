@@ -386,7 +386,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                     >
                       <button
-                        aria-label="Collapse comment thread"
+                        aria-label="Hide comment by {$username} and its replies"
                         className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -420,6 +420,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-0"
+                                  aria-label="User {$username}"
                                   className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -662,7 +663,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                     >
                       <button
-                        aria-label="Collapse comment thread"
+                        aria-label="Hide comment by {$username} and its replies"
                         className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -696,6 +697,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-1"
+                                  aria-label="User {$username}"
                                   className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}

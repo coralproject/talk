@@ -7,7 +7,7 @@ import Comment from "./Comment";
 
 it("renders username and body", () => {
   const props: PropTypesOf<typeof Comment> = {
-    username: "Marvin",
+    usernameEl: <div>"Marvin"</div>,
     tags: "",
     badges: "",
     body: "Woof",

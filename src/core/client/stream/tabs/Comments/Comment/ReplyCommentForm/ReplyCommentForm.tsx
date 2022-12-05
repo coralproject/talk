@@ -17,7 +17,7 @@ import { PropTypesOf } from "coral-ui/types";
 import RTEContainer from "../../RTE";
 import CommentForm from "../../Stream/CommentForm";
 import { OnChangeHandler } from "../../Stream/CommentForm/CommentForm";
-import ReplyTo from "./ReplyTo";
+import ReplyingTo from "./ReplyingTo";
 
 export interface ReplyCommentFormProps {
   id: string;
@@ -71,7 +71,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
               </AriaInfo>
             </Localized>
             {props.parentUsername && (
-              <ReplyTo username={props.parentUsername} />
+              <ReplyingTo username={props.parentUsername} />
             )}
           </>
         }

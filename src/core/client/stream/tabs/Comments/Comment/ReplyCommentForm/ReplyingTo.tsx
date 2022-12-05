@@ -5,13 +5,13 @@ import React, { FunctionComponent } from "react";
 import CLASSES from "coral-stream/classes";
 import { Flex, Icon } from "coral-ui/components/v2";
 
-import styles from "./ReplyTo.css";
+import styles from "./ReplyingTo.css";
 
 interface Props {
   username: string;
 }
 
-const ReplyTo: FunctionComponent<Props> = ({ username }) => {
+const ReplyingTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
     <span
       className={cn(
@@ -40,4 +40,4 @@ const ReplyTo: FunctionComponent<Props> = ({ username }) => {
   );
 };
 
-export default ReplyTo;
+export default ReplyingTo;

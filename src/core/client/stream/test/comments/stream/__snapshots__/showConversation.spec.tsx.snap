@@ -43,7 +43,7 @@ exports[`renders deepest comment with link 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by {$username} and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -77,6 +77,7 @@ exports[`renders deepest comment with link 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-deepest-replies-3"
+                      aria-label="User {$username}"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
