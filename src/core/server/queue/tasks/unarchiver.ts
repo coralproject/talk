@@ -101,5 +101,6 @@ export function createUnarchiverTask(
     jobIdGenerator: ({ tenantID, storyID }) =>
       `${tenantID}:${storyID}:unarchive`,
     attempts: 1,
+    timeout: 2 * 60 * 60 * 1000, // 2 hours
   });
 }
