@@ -72,7 +72,6 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
     [emitViewConversationEvent, comment.id, setCommentID]
   );
 
-  // TEMPORARY MARCUS
   const gotoConvAriaLabelId = comment.author?.username
     ? "comments-featured-gotoConversation-label-with-username"
     : "comments-featured-gotoConversation-label-without-username";
