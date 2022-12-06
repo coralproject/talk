@@ -177,7 +177,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
               <Localized
                 id={gotoConvAriaLabelId}
                 attrs={{ "aria-label": true }}
-                vars={{ username: undefined }}
+                vars={{ username: comment.author?.username }}
               >
                 <Button
                   className={cn(
