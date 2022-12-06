@@ -189,6 +189,7 @@ interface MoveDocumentsOptions<T> {
   destination: Collection<T>;
   returnMovedIDs?: boolean;
   batchSize?: number;
+  maxTimeMs?: number;
 }
 
 async function moveDocuments<T extends { id: string }>({
@@ -198,12 +199,13 @@ async function moveDocuments<T extends { id: string }>({
   destination,
   returnMovedIDs = false,
   batchSize = 100,
+  maxTimeMs = 15 * 60 * 1000, // 15 minutes
 }: MoveDocumentsOptions<T>) {
   let insertBatch: T[] = [];
   let deleteIDs: string[] = [];
   const allIDs: string[] = [];
 
-  const selectionCursor = source.find(filter);
+  const selectionCursor = source.find(filter).maxTimeMS(maxTimeMs);
 
   while (await selectionCursor.hasNext()) {
     const document = await selectionCursor.next();
