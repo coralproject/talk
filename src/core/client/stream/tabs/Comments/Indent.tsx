@@ -30,7 +30,7 @@ function getLevelClassName(level = 0) {
   if (!(level in levels)) {
     throw new Error(`Indent level ${level} does not exist`);
   }
-  return cn(levels[level], CLASSES.comment.indent[level]);
+  return cn(levels[level], CLASSES.comment.indent(level));
 }
 
 const Indent: FunctionComponent<IndentProps> = (props) => {
