@@ -39,7 +39,7 @@ exports[`post a reply: open reply form 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by Markus and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -73,6 +73,7 @@ exports[`post a reply: open reply form 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-0"
+                      aria-label="User Markus"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -290,7 +291,7 @@ exports[`post a reply: open reply form 1`] = `
                 Write a reply
               </label>
               <div
-                className="Box-root Flex-root ReplyTo-root coral coral-createReplyComment-replyTo Flex-flex Flex-alignCenter"
+                className="Box-root Flex-root ReplyingTo-root coral coral-createReplyComment-replyTo Flex-flex Flex-alignCenter"
               >
                 <i
                   aria-hidden="true"
@@ -302,11 +303,11 @@ exports[`post a reply: open reply form 1`] = `
                    
                 </span>
                 <span
-                  className="ReplyTo-text coral coral-createReplyComment-replyToText"
+                  className="ReplyingTo-text coral coral-createReplyComment-replyToText"
                 >
                   Replying to 
                   <span
-                    className="ReplyTo-username coral coral-createReplyComment-replyToUsername"
+                    className="ReplyingTo-username coral coral-createReplyComment-replyToUsername"
                   >
                     Markus
                   </span>
@@ -518,7 +519,7 @@ exports[`post a reply: optimistic response 1`] = `
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
-                aria-label="Collapse comment thread"
+                aria-label="Hide comment by Markus and its replies"
                 className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -552,6 +553,7 @@ exports[`post a reply: optimistic response 1`] = `
                       >
                         <button
                           aria-controls="username-popover-uuid-0"
+                          aria-label="User Markus"
                           className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
