@@ -31,7 +31,7 @@ export class CommentCache {
   constructor(mongo: MongoContext, redis: AugmentedRedis, logger: Logger) {
     this.mongo = mongo;
     this.redis = redis;
-    this.logger = logger.child({ dataCache: "UserCache" });
+    this.logger = logger.child({ dataCache: "CommentCache" });
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
     this.membersLookup = new Map<string, string[]>();
