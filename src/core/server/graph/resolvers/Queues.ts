@@ -19,4 +19,5 @@ export const Queues: Required<GQLQueuesTypeResolver> = {
   notifier: get((ctx) => ctx.notifierQueue),
   webhook: get((ctx) => ctx.webhookQueue),
   rejector: get((ctx) => ctx.rejectorQueue),
+  unarchiver: get((ctx) => ctx.unarchiverQueue),
 };

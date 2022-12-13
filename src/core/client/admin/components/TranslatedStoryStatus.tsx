@@ -8,6 +8,7 @@ interface Props {
   children: GQLSTORY_STATUS_RL;
   isArchiving?: boolean;
   isArchived?: boolean;
+  isUnarchiving?: boolean;
 }
 
 function createElement(
@@ -26,6 +27,14 @@ const TranslatedRole: React.FunctionComponent<Props> = (props) => {
     return (
       <Localized id="storyStatus-open">
         {createElement(props.container!, "Open")}
+      </Localized>
+    );
+  }
+
+  if (props.children === GQLSTORY_STATUS.CLOSED && props.isUnarchiving) {
+    return (
+      <Localized id="storyStatus-unarchiving">
+        {createElement(props.container!, "Unarchiving")}
       </Localized>
     );
   }
