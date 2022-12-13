@@ -2,9 +2,12 @@ import cn from "classnames";
 import React, {
   AllHTMLAttributes,
   ChangeEvent,
-  Component,
   EventHandler,
+  FunctionComponent,
   KeyboardEvent,
+  RefObject,
+  useCallback,
+  useState,
 } from "react";
 
 import Icon from "coral-ui/components/v2/Icon";
@@ -64,102 +67,90 @@ export interface PasswordFieldProps {
 
   showPasswordTitle?: string;
   hidePasswordTitle?: string;
-  forwardRef?: React.Ref<HTMLInputElement>;
+
+  forwardRef?: RefObject<HTMLInputElement>;
 }
 
 interface State {
   reveal: boolean;
 }
 
-class PasswordField extends Component<PasswordFieldProps, State> {
-  public static defaultProps: Partial<PasswordFieldProps> = {
-    color: "regular",
-    placeholder: "",
-    showPasswordTitle: "Hide password",
-    hidePasswordTitle: "Show password",
-    autoCapitalize: "off",
-    autoCorrect: "off",
-    autoComplete: "off",
-    spellCheck: false,
-  };
+const PasswordField: FunctionComponent<PasswordFieldProps> = ({
+  color = "regular",
+  placeholder = "",
+  showPasswordTitle = "Hide password",
+  hidePasswordTitle = "Show password",
+  autoCapitalize = "off",
+  autoCorrect = "off",
+  autoComplete = "off",
+  spellCheck = false,
+  className,
+  classes,
+  fullWidth,
+  value,
+  forwardRef,
+  ...rest
+}) => {
+  const [reveal, setReveal] = useState(false);
 
-  public state = {
-    reveal: false,
-  };
+  const toggleVisibility = useCallback(() => {
+    setReveal((revealed) => !revealed);
+  }, []);
 
-  private handleVisibilityKeyUp = (e: KeyboardEvent) => {
-    // Number 13 is the "Enter" key on the keyboard
-    if (e.keyCode === 13) {
-      this.toggleVisibility();
-    }
-  };
+  const handleVisibilityKeyUp = useCallback(
+    (e: KeyboardEvent) => {
+      // Number 13 is the "Enter" key on the keyboard
+      if (e.keyCode === 13) {
+        toggleVisibility();
+      }
+    },
+    [toggleVisibility]
+  );
 
-  private toggleVisibility = () => {
-    this.setState((state) => ({
-      reveal: !state.reveal,
-    }));
-  };
+  const rootClassName = cn(
+    {
+      [classes.fullWidth]: fullWidth,
+    },
+    classes.root,
+    className
+  );
 
-  public render() {
-    const {
-      className,
-      classes,
-      color,
-      fullWidth,
-      value,
-      placeholder,
-      hidePasswordTitle,
-      showPasswordTitle,
-      ...rest
-    } = this.props;
+  const inputClassName = cn(
+    {
+      [classes.colorRegular]: color === "regular",
+      [classes.colorStreamBlue]: color === "streamBlue",
+      [classes.colorError]: color === "error",
+      [classes.fullWidth]: fullWidth,
+    },
+    classes.input
+  );
 
-    const rootClassName = cn(
-      {
-        [classes.fullWidth]: fullWidth,
-      },
-      classes.root,
-      className
-    );
-
-    const inputClassName = cn(
-      {
-        [classes.colorRegular]: color === "regular",
-        [classes.colorStreamBlue]: color === "streamBlue",
-        [classes.colorError]: color === "error",
-        [classes.fullWidth]: fullWidth,
-      },
-      classes.input
-    );
-
-    const reveal = this.state.reveal;
-
-    return (
-      <div className={rootClassName}>
-        <div className={classes.wrapper}>
-          <input
-            {...rest}
-            className={inputClassName}
-            placeholder={placeholder}
-            value={value}
-            type={reveal ? "text" : "password"}
-            data-testid="password-field"
-          />
-          <div
-            role="button"
-            className={styles.icon}
-            title={reveal ? hidePasswordTitle : showPasswordTitle}
-            onClick={this.toggleVisibility}
-            onKeyUp={this.handleVisibilityKeyUp}
-            tabIndex={0}
-          >
-            <Icon>{reveal ? "visibility_off" : "visibility"}</Icon>
-          </div>
+  return (
+    <div className={rootClassName}>
+      <div className={classes.wrapper}>
+        <input
+          {...rest}
+          className={inputClassName}
+          placeholder={placeholder}
+          value={value}
+          type={reveal ? "text" : "password"}
+          data-testid="password-field"
+          ref={forwardRef}
+        />
+        <div
+          role="button"
+          className={styles.icon}
+          title={reveal ? hidePasswordTitle : showPasswordTitle}
+          onClick={toggleVisibility}
+          onKeyUp={handleVisibilityKeyUp}
+          tabIndex={0}
+        >
+          <Icon>{reveal ? "visibility_off" : "visibility"}</Icon>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-const styled = withStyles(styles)(PasswordField);
-const enhanced = withForwardRef(styled);
+const enhanced = withForwardRef(withStyles(styles)(PasswordField));
 export default enhanced;
