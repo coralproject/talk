@@ -129,6 +129,6 @@ export default class GraphContext {
 
     this.seenComments = new SeenCommentsCollection();
 
-    this.cache = new DataCache(this.mongo, this.redis);
+    this.cache = new DataCache(this.mongo, this.redis, this.logger);
   }
 }

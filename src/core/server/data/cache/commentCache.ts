@@ -1,8 +1,10 @@
+import zlib from "zlib";
+
 import { MongoContext } from "coral-server/data/context";
+import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { AugmentedRedis } from "coral-server/services/redis";
-import zlib from "zlib";
 
 import {
   GQLCOMMENT_SORT,
@@ -21,13 +23,15 @@ export interface Filter {
 export class CommentCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
+  private logger: Logger;
 
   private commentsByKey: Map<string, Readonly<Comment>>;
   private membersLookup: Map<string, string[]>;
 
-  constructor(mongo: MongoContext, redis: AugmentedRedis) {
+  constructor(mongo: MongoContext, redis: AugmentedRedis, logger: Logger) {
     this.mongo = mongo;
     this.redis = redis;
+    this.logger = logger.child({ dataCache: "UserCache" });
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
     this.membersLookup = new Map<string, string[]>();
@@ -142,7 +146,11 @@ export class CommentCache {
       return localComment;
     }
 
+    const start = Date.now();
     const record = await this.redis.get(key);
+    const end = Date.now();
+    this.logger.info({ elapsedMs: end - start }, "find");
+
     if (!record) {
       return null;
     }
@@ -193,7 +201,10 @@ export class CommentCache {
         pipeline.mget(...batch);
       }
 
+      const start = Date.now();
       const recordSets = await pipeline.exec();
+      const end = Date.now();
+      this.logger.info({ elapsedMs: end - start }, "findMany");
 
       const records: (string | null)[] = [];
       for (const [err, set] of recordSets) {
@@ -274,7 +285,11 @@ export class CommentCache {
     }
 
     if (notFound.length > 0) {
+      const start = Date.now();
       const records = await this.redis.mget(...notFound);
+      const end = Date.now();
+      this.logger.info({ elapsedMs: end - start }, "oldFindMany");
+
       for (const record of records) {
         if (!record) {
           continue;
@@ -320,7 +335,10 @@ export class CommentCache {
 
     let rootCommentIDs = this.membersLookup.get(membersKey);
     if (!rootCommentIDs) {
+      const start = Date.now();
       rootCommentIDs = await this.redis.smembers(membersKey);
+      const end = Date.now();
+      this.logger.info({ elapsedMs: end - start }, "rootComments - smembers");
 
       if (!rootCommentIDs || rootCommentIDs.length === 0) {
         rootCommentIDs = await this.populateRootComments(
@@ -426,7 +444,10 @@ export class CommentCache {
     const membersKey = this.computeMembersKey(tenantID, storyID, parentID);
     let commentIDs = this.membersLookup.get(membersKey);
     if (!commentIDs) {
+      const start = Date.now();
       commentIDs = await this.redis.smembers(membersKey);
+      const end = Date.now();
+      this.logger.info({ elapsedMs: end - start }, "replies - smembers");
       if (!commentIDs || commentIDs.length === 0) {
         commentIDs = await this.populateReplies(
           tenantID,

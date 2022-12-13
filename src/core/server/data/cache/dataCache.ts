@@ -1,4 +1,5 @@
 import { MongoContext } from "coral-server/data/context";
+import { Logger } from "coral-server/logger";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import { CommentCache } from "./commentCache";
@@ -7,15 +8,19 @@ import { UserCache } from "./userCache";
 export class DataCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
+  private logger: Logger;
 
   public readonly comments: CommentCache;
   public readonly users: UserCache;
 
-  constructor(mongo: MongoContext, redis: AugmentedRedis) {
+  private traceID = "c2603e5c-1de3-46f1-80fb-9dcc3b4e2c22";
+
+  constructor(mongo: MongoContext, redis: AugmentedRedis, logger: Logger) {
     this.mongo = mongo;
     this.redis = redis;
+    this.logger = logger.child({ traceID: this.traceID });
 
-    this.comments = new CommentCache(this.mongo, this.redis);
-    this.users = new UserCache(this.mongo, this.redis);
+    this.comments = new CommentCache(this.mongo, this.redis, this.logger);
+    this.users = new UserCache(this.mongo, this.redis, this.logger);
   }
 }

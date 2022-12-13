@@ -1,6 +1,7 @@
 import zlib from "zlib";
 
 import { UserNotFoundError } from "coral-server/errors";
+import { Logger } from "coral-server/logger";
 import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
 
@@ -11,12 +12,14 @@ export const USER_CACHE_DATA_EXPIRY = 24 * 60 * 60;
 export class UserCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
+  private logger: Logger;
 
   private usersByKey: Map<string, Readonly<User>>;
 
-  constructor(mongo: MongoContext, redis: AugmentedRedis) {
+  constructor(mongo: MongoContext, redis: AugmentedRedis, logger: Logger) {
     this.mongo = mongo;
     this.redis = redis;
+    this.logger = logger.child({ dataCache: "UserCache" });
 
     this.usersByKey = new Map<string, Readonly<User>>();
   }
@@ -52,7 +55,11 @@ export class UserCache {
 
   public async loadUsers(tenantID: string, ids: string[]) {
     const keys = ids.map((id) => this.computeDataKey(tenantID, id));
+
+    const start = Date.now();
     const records = await this.redis.mget(keys);
+    const end = Date.now();
+    this.logger.info({ elapsedMs: end - start }, "loadUsers - mget");
 
     for (const record of records) {
       if (!record) {
@@ -68,12 +75,18 @@ export class UserCache {
     const key = this.computeDataKey(tenantID, id);
     let user = this.usersByKey.get(key);
     if (!user) {
+      const start = Date.now();
       let record = await this.redis.get(key);
+      const end = Date.now();
+      this.logger.info({ elapsedMs: end - start }, "findUser - get(1)");
+
       if (!record) {
         await this.populateUsers(tenantID, [id]);
+        record = await this.redis.get(key);
       }
 
-      record = await this.redis.get(this.computeDataKey(tenantID, id));
+      // check that we have a record after trying to ensure
+      // it exists via populate users
       if (!record) {
         throw new UserNotFoundError(id);
       }
