@@ -12,7 +12,7 @@ import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { colorFromMeta } from "coral-framework/lib/form";
+import { hasError } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -172,7 +172,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                             fullWidth
                             id={input.name}
                             disabled={submitting}
-                            color={colorFromMeta(meta)}
+                            color={hasError(meta) ? "error" : "streamBlue"}
                             autoComplete="current-password"
                             ref={oldPasswordRef}
                           />
@@ -214,7 +214,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                             fullWidth
                             id={input.name}
                             disabled={submitting}
-                            color={colorFromMeta(meta)}
+                            color={hasError(meta) ? "error" : "streamBlue"}
                             autoComplete="new-password"
                           />
                           <ValidationMessage
