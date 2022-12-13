@@ -78,7 +78,7 @@ export class UserCache {
       const start = Date.now();
       let record = await this.redis.get(key);
       const end = Date.now();
-      this.logger.info({ elapsedMs: end - start }, "findUser - get(1)");
+      this.logger.info({ elapsedMs: end - start }, "findUser - get");
 
       if (!record) {
         await this.populateUsers(tenantID, [id]);

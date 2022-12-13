@@ -149,7 +149,7 @@ export class CommentCache {
     const start = Date.now();
     const record = await this.redis.get(key);
     const end = Date.now();
-    this.logger.info({ elapsedMs: end - start }, "find");
+    this.logger.info({ elapsedMs: end - start }, "find - get");
 
     if (!record) {
       return null;
@@ -204,7 +204,7 @@ export class CommentCache {
       const start = Date.now();
       const recordSets = await pipeline.exec();
       const end = Date.now();
-      this.logger.info({ elapsedMs: end - start }, "findMany");
+      this.logger.info({ elapsedMs: end - start }, "findMany - pipeline(mget)");
 
       const records: (string | null)[] = [];
       for (const [err, set] of recordSets) {
@@ -288,7 +288,7 @@ export class CommentCache {
       const start = Date.now();
       const records = await this.redis.mget(...notFound);
       const end = Date.now();
-      this.logger.info({ elapsedMs: end - start }, "oldFindMany");
+      this.logger.info({ elapsedMs: end - start }, "oldFindMany - mget");
 
       for (const record of records) {
         if (!record) {
