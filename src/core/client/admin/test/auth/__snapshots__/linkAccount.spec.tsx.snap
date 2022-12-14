@@ -72,20 +72,15 @@ link these enter your password.
                           className="PasswordField-wrapper"
                         >
                           <input
-                            autoCapitalize="off"
-                            autoComplete="off"
-                            autoCorrect="off"
                             className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                             data-testid="password-field"
                             disabled={false}
-                            forwardRef={null}
                             id="password"
                             name="password"
                             onBlur={[Function]}
                             onChange={[Function]}
                             onFocus={[Function]}
                             placeholder="Password"
-                            spellCheck={false}
                             type="password"
                             value=""
                           />
