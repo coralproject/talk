@@ -71,10 +71,6 @@ export interface PasswordFieldProps {
   forwardRef?: RefObject<HTMLInputElement>;
 }
 
-interface State {
-  reveal: boolean;
-}
-
 const PasswordField: FunctionComponent<PasswordFieldProps> = ({
   color = "regular",
   placeholder = "",
