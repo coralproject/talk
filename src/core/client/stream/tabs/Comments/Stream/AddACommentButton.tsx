@@ -134,7 +134,6 @@ const AddACommentButton: FunctionComponent<Props> = ({
       }
     }
 
-    // TODO for MARCUS: clean this up
     const commentForm = await pollForCommentFormElement();
     const field = getCommentField(commentForm);
     if (field !== null) {
