@@ -16,6 +16,7 @@ const StoryStatusContainer: FunctionComponent<Props> = (props) => {
     <StoryStatusText
       isArchived={props.story.isArchived}
       isArchiving={props.story.isArchiving}
+      isUnarchiving={props.story.isUnarchiving}
     >
       {props.story.status}
     </StoryStatusText>
@@ -29,6 +30,7 @@ const enhanced = withFragmentContainer<Props>({
       status
       isArchiving
       isArchived
+      isUnarchiving
     }
   `,
 })(StoryStatusContainer);

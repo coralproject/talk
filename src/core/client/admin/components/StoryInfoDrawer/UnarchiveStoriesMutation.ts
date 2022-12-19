@@ -24,6 +24,7 @@ const UnarchiveStoriesMutation = createMutation(
               status
               isArchived
               isArchiving
+              isUnarchiving
             }
             clientMutationId
           }
@@ -37,6 +38,7 @@ const UnarchiveStoriesMutation = createMutation(
               status: GQLSTORY_STATUS.CLOSED,
               isArchived: true,
               isArchiving: false,
+              isUnarchiving: true,
             },
           ],
           clientMutationId: clientMutationId.toString(),

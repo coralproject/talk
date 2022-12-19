@@ -49,20 +49,19 @@ export async function archiveStory(
     tenantID,
     storyID: id,
   };
+  const targetCommentModerationActions = {
+    tenantID,
+    storyID: id,
+  };
 
   logger.info("archiving comments");
-  const targetCommentIDs = await moveDocuments({
+  await moveDocuments({
     tenantID,
     source: mongo.comments(),
     filter: targetComments,
     destination: mongo.archivedComments(),
     returnMovedIDs: true,
   });
-
-  const targetCommentModerationActions = {
-    tenantID,
-    commentID: { $in: targetCommentIDs },
-  };
 
   logger.info("archiving comment actions");
   await moveDocuments({
@@ -133,20 +132,19 @@ export async function unarchiveStory(
     tenantID,
     storyID: id,
   };
+  const targetCommentModerationActions = {
+    tenantID,
+    storyID: id,
+  };
 
   logger.info("unarchiving comments");
-  const targetCommentIDs = await moveDocuments({
+  await moveDocuments({
     tenantID,
     source: mongo.archivedComments(),
     filter: targetComments,
     destination: mongo.comments(),
     returnMovedIDs: true,
   });
-
-  const targetCommentModerationActions = {
-    tenantID,
-    commentID: { $in: targetCommentIDs },
-  };
 
   logger.info("unarchiving comment actions");
   await moveDocuments({

@@ -604,6 +604,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     isArchived: false,
     isArchiving: false,
+    isUnarchiving: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
     url: "",
@@ -637,6 +638,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     isArchived: false,
     isArchiving: false,
+    isUnarchiving: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
     url: "",
@@ -674,6 +676,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: true,
     isArchived: false,
     isArchiving: false,
+    isUnarchiving: false,
     status: GQLSTORY_STATUS.CLOSED,
     url: "",
     commentCounts: {

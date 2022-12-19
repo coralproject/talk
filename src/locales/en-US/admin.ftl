@@ -11,6 +11,7 @@ storyStatus-open = Open
 storyStatus-closed = Closed
 storyStatus-archiving = Archiving
 storyStatus-archived = Archived
+storyStatus-unarchiving = Unarchiving
 
 ## Roles
 role-admin = Admin
@@ -573,6 +574,7 @@ stories-actions-close = Close story
 stories-actions-open = Open story
 stories-actions-archive = Archive story
 stories-actions-unarchive = Unarchive story
+stories-actions-isUnarchiving = Unarchiving
 
 ### Sections
 
