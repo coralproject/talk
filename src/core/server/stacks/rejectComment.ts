@@ -56,7 +56,7 @@ const rejectComment = async (
       (actionCounts.flag.reasons.COMMENT_REPORTED_SPAM > 0 ||
         actionCounts.flag.reasons.COMMENT_DETECTED_SPAM > 0)
     ) {
-      await submitCommentAsSpam(mongo, tenant, result.before, request);
+      await submitCommentAsSpam(mongo, tenant, result.before);
     }
   }
 

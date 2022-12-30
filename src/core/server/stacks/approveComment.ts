@@ -49,7 +49,7 @@ const approveComment = async (
       (actionCounts.flag.reasons.COMMENT_REPORTED_SPAM > 0 ||
         actionCounts.flag.reasons.COMMENT_DETECTED_SPAM > 0)
     ) {
-      await submitCommentAsNotSpam(mongo, tenant, result.before, request);
+      await submitCommentAsNotSpam(mongo, tenant, result.before);
     }
   }
 
