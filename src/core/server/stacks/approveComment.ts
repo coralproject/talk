@@ -1,5 +1,6 @@
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
+import { decodeActionCounts } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
@@ -41,13 +42,15 @@ const approveComment = async (
   );
 
   const revision = getLatestRevision(result.before);
-  if (
-    revision &&
-    tenant.integrations.akismet.enabled &&
-    (revision.actionCounts.COMMENT_REPORTED_SPAM > 0 ||
-      revision.actionCounts.COMMENT_DETECTED_SPAM > 0)
-  ) {
-    await submitCommentAsNotSpam(mongo, tenant, result.before, request);
+  if (revision) {
+    const actionCounts = decodeActionCounts(revision.actionCounts);
+    if (
+      tenant.integrations.akismet.enabled &&
+      (actionCounts.flag.reasons.COMMENT_REPORTED_SPAM > 0 ||
+        actionCounts.flag.reasons.COMMENT_DETECTED_SPAM > 0)
+    ) {
+      await submitCommentAsNotSpam(mongo, tenant, result.before, request);
+    }
   }
 
   // If the comment hasn't been updated, skip the rest of the steps.
