@@ -52,8 +52,6 @@ const createBody = (params: Parameters) => {
     api_key: apiKey,
     blog,
     user_ip: userIP || "",
-    user_agent: userAgent || "",
-    referrer: referrer || "",
 
     permalink: story.url,
 
@@ -71,6 +69,13 @@ const createBody = (params: Parameters) => {
   // This key has to be missing if it's not a recheck, we can't just leave it blank
   if (recheckReason) {
     res.recheck_reason = recheckReason;
+  }
+  // Only send these if we had a request object so we know them
+  if (userAgent !== undefined) {
+    res.user_agent = userAgent;
+  }
+  if (referrer !== undefined) {
+    res.referrer = referrer;
   }
   return new URLSearchParams(res);
 };
@@ -189,8 +194,12 @@ const prepareParams = (
   if (tenant.integrations.akismet.ipBased !== false) {
     userIP = request?.ip || "";
   }
-  const userAgent = request?.get("User-Agent") || "";
-  const referrer = request?.get("Referrer") || "";
+  let userAgent;
+  let referrer;
+  if (request) {
+    userAgent = request.get("User-Agent") || "";
+    referrer = request.get("Referrer") || "";
+  }
 
   return {
     apiKey,
