@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
+import { validatePermissionsAction } from "coral-common/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -12,23 +13,23 @@ import {
   ButtonIcon,
   ClickOutside,
   Dropdown,
-  DropdownButton,
   Popover,
 } from "coral-ui/components/v2";
 
 import { SiteRoleActions_user } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
 import { SiteRoleActions_viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
 
-import DemoteMemberMutation from "./DemoteMemberMutation";
-import DemoteModeratorMutation from "./DemoteModeratorMutation";
-import MemberActionsModal from "./MemberActionsModal";
-import PromoteMemberMutation from "./PromoteMemberMutation";
-import PromoteModeratorMutation from "./PromoteModeratorMutation";
 import SiteModeratorActionsModal from "./SiteModeratorActionsModal";
 import UserRoleChangeButton from "./UserRoleChangeButton";
 import UserRoleText from "./UserRoleText";
 
 import styles from "./SiteRoleActions.css";
+
+import DemoteMemberMutation from "./DemoteMemberMutation";
+import DemoteModeratorMutation from "./DemoteModeratorMutation";
+import PromoteMemberMutation from "./PromoteMemberMutation";
+import PromoteModeratorMutation from "./PromoteModeratorMutation";
+import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
 
 interface Props {
   viewer: SiteRoleActions_viewer;
@@ -46,14 +47,55 @@ type SiteRoleScopeChange = (change: {
 }) => Promise<any>;
 
 const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
+  const changeRole = useMutation(UpdateUserRoleMutation);
   const promoteModerator = useMutation(PromoteModeratorMutation);
   const demoteModerator = useMutation(DemoteModeratorMutation);
   const promoteMember = useMutation(PromoteMemberMutation);
   const demoteMember = useMutation(DemoteMemberMutation);
 
-  const [mode, setMode] = useState<"promote" | "demote" | null>(null);
+  const addModerationScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await promoteModerator({
+        userID,
+        siteIDs,
+      });
+    },
+    [promoteModerator]
+  );
+
+  const removeModerationScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await demoteModerator({
+        userID,
+        siteIDs,
+      });
+    },
+    [demoteModerator]
+  );
+
+  const addMembershipScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await promoteMember({
+        userID,
+        siteIDs,
+      });
+    },
+    [promoteMember]
+  );
+
+  const removeMembershipScopes: SiteRoleScopeChange = useCallback(
+    async ({ userID, siteIDs }) => {
+      await demoteMember({
+        userID,
+        siteIDs,
+      });
+    },
+    [demoteMember]
+  );
+
   const [isModalVisible, , toggleModalVisibility] = useToggleState();
-  const [isPopoverVisible, , togglePopoverVisibility] = useToggleState();
+  const [isPopoverVisible, setIsPopoverVisible, togglePopoverVisibility] =
+    useToggleState();
 
   const viewerSites = viewer.moderationScopes?.sites || [];
   const userModerationSites = user.moderationScopes?.sites || [];
@@ -62,20 +104,18 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     SiteRoleType.MODERATOR
   );
 
-  const startPromoting = useCallback(
-    (roleType: SiteRoleType) => {
-      setSiteRoleType(roleType);
-      setMode("promote");
-      togglePopoverVisibility();
-      toggleModalVisibility();
-    },
-    [toggleModalVisibility, togglePopoverVisibility, setSiteRoleType]
-  );
+  const changeToCommenter = useCallback(async () => {
+    await changeRole({
+      userID: user.id,
+      role: GQLUSER_ROLE.COMMENTER,
+    });
 
-  const startDemoting = useCallback(
+    setIsPopoverVisible(false);
+  }, [user, changeRole, setIsPopoverVisible]);
+
+  const startManagingSiteRole = useCallback(
     (roleType: SiteRoleType) => {
       setSiteRoleType(roleType);
-      setMode("demote");
       togglePopoverVisibility();
       toggleModalVisibility();
     },
@@ -83,7 +123,6 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
   );
 
   const onCancel = useCallback(() => {
-    setMode(null);
     toggleModalVisibility();
   }, [toggleModalVisibility]);
 
@@ -91,13 +130,14 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     (promoter: SiteRoleScopeChange, demoter: SiteRoleScopeChange) =>
       async (input: any) => {
         try {
-          if (mode === "promote") {
-            await promoter({ userID: user.id, siteIDs: input.siteIDs });
-          } else if (mode === "demote") {
-            await demoter({ userID: user.id, siteIDs: input.siteIDs });
+          if (input.scopeAdditions.length) {
+            await promoter({ userID: user.id, siteIDs: input.scopeAdditions });
           }
 
-          setMode(null);
+          if (input.scopeDeletions.length) {
+            await demoter({ userID: user.id, siteIDs: input.scopeDeletions });
+          }
+
           toggleModalVisibility();
 
           return;
@@ -108,44 +148,85 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           return { [FORM_ERROR]: err.message };
         }
       },
-    [mode, toggleModalVisibility, user.id]
+    [toggleModalVisibility, user]
   );
+
+  // BOOKMARKUS: how is this true here but false in UserRoleChange for org mod?
+  const canChangeToCommenter = validatePermissionsAction({
+    viewer,
+    user,
+    newUserRole: GQLUSER_ROLE.COMMENTER,
+  });
 
   // These are sites that only the viewer can moderate, and not the user.
-  const uniqueViewerModerationSites = viewerSites.filter(
-    (s) => !userModerationSites.find(({ id }) => s.id === id)
-  );
+  const moderationSitesToGive = viewerSites
+    .filter((s) => !userModerationSites.find(({ id }) => s.id === id))
+    .map(({ id }) => id);
 
-  const membershipSitesToGive = viewerSites.filter(
-    (s) => !userMembershipSites.find(({ id }) => id === s.id)
-  );
+  const moderationSitesToRemove = viewerSites
+    .filter((s) => userModerationSites.find(({ id }) => s.id === id))
+    .map(({ id }) => id);
 
-  const canPromoteToMember = user.role === GQLUSER_ROLE.COMMENTER;
+  const membershipSitesToGive = viewerSites
+    .filter((s) => !userMembershipSites.find(({ id }) => id === s.id))
+    .map(({ id }) => id);
 
-  const canPromoteToModerator =
-    user.role === GQLUSER_ROLE.STAFF ||
-    user.role === GQLUSER_ROLE.MEMBER ||
-    user.role === GQLUSER_ROLE.COMMENTER;
+  const membershipSitesToRemove = viewerSites
+    .filter((s) => userMembershipSites.find(({ id }) => id === s.id))
+    .map(({ id }) => id);
+
+  const canPromoteToMember = validatePermissionsAction({
+    viewer,
+    user,
+    newUserRole: GQLUSER_ROLE.MEMBER,
+    scopeAdditions: membershipSitesToGive,
+  });
+
+  const canPromoteToModerator = validatePermissionsAction({
+    viewer,
+    user,
+    newUserRole: GQLUSER_ROLE.MODERATOR,
+    scopeAdditions: moderationSitesToGive,
+  });
 
   // If the user is a site moderator and some of the sites on the user are the
   // same as the sites on the viewer, then we can demote this user.
   const canDemoteModerator =
-    user.role === GQLUSER_ROLE.MODERATOR &&
-    !!user.moderationScopes?.scoped &&
-    userModerationSites.some((s) => viewerSites.find(({ id }) => s.id === id));
+    !!moderationSitesToRemove.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MODERATOR,
+      scopeDeletions: moderationSitesToRemove,
+    });
 
   // If the user is a site moderator, staff, or commenter and some of the sites
   // on the viewer are not on the user, then we can promote this user.
   const canPromoteModerator =
-    user.role === GQLUSER_ROLE.MODERATOR &&
-    !!user.moderationScopes?.scoped &&
-    uniqueViewerModerationSites.length > 0;
+    !!moderationSitesToGive.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MODERATOR,
+      scopeAdditions: moderationSitesToGive,
+    });
 
   const canPromoteMember =
-    user.role === GQLUSER_ROLE.MEMBER && membershipSitesToGive.length > 0;
+    !!membershipSitesToGive.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MEMBER,
+      scopeAdditions: membershipSitesToGive,
+    });
   const canDemoteMember =
-    user.role === GQLUSER_ROLE.MEMBER &&
-    userMembershipSites.some((s) => viewerSites.find(({ id }) => id === s.id));
+    !!membershipSitesToRemove.length &&
+    validatePermissionsAction({
+      viewer,
+      user,
+      newUserRole: GQLUSER_ROLE.MEMBER,
+      scopeDeletions: membershipSitesToRemove,
+    });
 
   const canPerformActions =
     canPromoteToModerator ||
@@ -167,25 +248,21 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
 
   return (
     <>
-      {mode !== null && siteRoleType === SiteRoleType.MODERATOR && (
+      <SiteModeratorActionsModal
+        open={isModalVisible}
+        username={user.username}
+        siteRoleScopes={user.moderationScopes}
+        viewer={viewer}
+        onSubmit={onSubmit(addModerationScopes, removeModerationScopes)}
+        onCancel={onCancel}
+      />
+      {siteRoleType === SiteRoleType.MEMBER && (
         <SiteModeratorActionsModal
           open={isModalVisible}
-          mode={mode}
-          username={user.username}
-          siteRoleScopes={user.moderationScopes}
-          viewer={viewer}
-          onSubmit={onSubmit(promoteModerator, demoteModerator)}
-          onCancel={onCancel}
-        />
-      )}
-      {mode !== null && siteRoleType === SiteRoleType.MEMBER && (
-        <MemberActionsModal
-          open={isModalVisible}
-          mode={mode}
           username={user.username}
           siteRoleScopes={user.membershipScopes}
           viewer={viewer}
-          onSubmit={onSubmit(promoteMember, demoteMember)}
+          onSubmit={onSubmit(addMembershipScopes, removeMembershipScopes)}
           onCancel={onCancel}
         />
       )}
@@ -201,57 +278,30 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
           body={
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
-                {canPromoteToModerator && (
+                {canChangeToCommenter && (
                   <UserRoleChangeButton
-                    role={GQLUSER_ROLE.MODERATOR}
-                    scoped
+                    role={GQLUSER_ROLE.COMMENTER}
+                    onClick={changeToCommenter}
                     moderationScopesEnabled
-                    onClick={() => startPromoting(SiteRoleType.MODERATOR)}
                   />
-                )}
-                {canPromoteModerator && (
-                  <Localized id="community-assignMySitesToModerator">
-                    <DropdownButton
-                      onClick={() => startPromoting(SiteRoleType.MODERATOR)}
-                    >
-                      Assign moderator to my sites
-                    </DropdownButton>
-                  </Localized>
-                )}
-                {canDemoteModerator && (
-                  <Localized id="community-removeMySitesFromModerator">
-                    <DropdownButton
-                      onClick={() => startDemoting(SiteRoleType.MODERATOR)}
-                    >
-                      Remove moderator from my sites
-                    </DropdownButton>
-                  </Localized>
                 )}
                 {canPromoteToMember && (
                   <UserRoleChangeButton
                     role={GQLUSER_ROLE.MEMBER}
                     scoped
                     moderationScopesEnabled
-                    onClick={() => startPromoting(SiteRoleType.MEMBER)}
+                    onClick={() => startManagingSiteRole(SiteRoleType.MEMBER)}
                   />
                 )}
-                {canPromoteMember && (
-                  <Localized id="community-assignMySitesToMember">
-                    <DropdownButton
-                      onClick={() => startPromoting(SiteRoleType.MEMBER)}
-                    >
-                      Assign member to my sites
-                    </DropdownButton>
-                  </Localized>
-                )}
-                {canDemoteMember && (
-                  <Localized id="community-removeMySitesFromMember">
-                    <DropdownButton
-                      onClick={() => startDemoting(SiteRoleType.MEMBER)}
-                    >
-                      Remove member from my sites
-                    </DropdownButton>
-                  </Localized>
+                {canPromoteToModerator && (
+                  <UserRoleChangeButton
+                    role={GQLUSER_ROLE.MODERATOR}
+                    scoped
+                    moderationScopesEnabled
+                    onClick={() =>
+                      startManagingSiteRole(SiteRoleType.MODERATOR)
+                    }
+                  />
                 )}
               </Dropdown>
             </ClickOutside>
@@ -293,7 +343,9 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment SiteRoleActions_viewer on User {
       id
+      role
       moderationScopes {
+        siteIDs
         sites {
           id
           name
@@ -307,6 +359,8 @@ const enhanced = withFragmentContainer<Props>({
       username
       role
       membershipScopes {
+        scoped
+        siteIDs
         sites {
           id
           name
@@ -314,6 +368,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       moderationScopes {
         scoped
+        siteIDs
         sites {
           id
           name

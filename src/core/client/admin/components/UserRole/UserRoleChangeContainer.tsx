@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
-import { Ability, can } from "coral-admin/permissions";
+import { Ability, can } from "coral-admin/permissions/user";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 import { UserRoleChangeContainer_settings } from "coral-admin/__generated__/UserRoleChangeContainer_settings.graphql";
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
 import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
+import { isOrgModerator } from "coral-common/permissions/types";
 
 import ButtonPadding from "../ButtonPadding";
 import SiteRoleActions from "./SiteRoleActions";
@@ -36,13 +37,13 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
     UpdateUserMembershipScopesMutation
   );
   const handleOnChangeRole = useCallback(
-    async (role: GQLUSER_ROLE_RL) => {
+    async (role: GQLUSER_ROLE_RL, siteIDs?: string[]) => {
       if (role === user.role) {
         // No role change is needed! User already has the selected role.
         return;
       }
 
-      await updateUserRole({ userID: user.id, role });
+      await updateUserRole({ userID: user.id, role, siteIDs });
     },
     [user, updateUserRole]
   );
@@ -58,6 +59,8 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   const handleOnChangeMembershipScopes = useCallback(
     async (siteIDs: string[]) => {
+      /* eslint-disable */
+      console.log("changing membership scopes");
       await updateUserMembershipScopes({
         userID: user.id,
         membershipScopes: {
@@ -69,16 +72,11 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   );
 
   const canChangeRole =
-    viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE);
+    viewer.id !== user.id && can(viewer, Ability.CHANGE_ROLE, { user, viewer });
 
   const moderationScopesEnabled = settings.multisite;
 
-  const canPromoteDemote =
-    viewer.id !== user.id &&
-    viewer.role === GQLUSER_ROLE.MODERATOR &&
-    !!viewer.moderationScopes?.scoped;
-
-  if (canPromoteDemote) {
+  if (viewer.role !== GQLUSER_ROLE.ADMIN && !isOrgModerator(viewer)) {
     return <SiteRoleActions viewer={viewer} user={user} />;
   }
 
@@ -96,16 +94,12 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   return (
     <UserRoleChange
-      username={user.username}
+      user={user}
       onChangeRole={handleOnChangeRole}
       onChangeModerationScopes={handleOnChangeModerationScopes}
       onChangeMembershipScopes={handleOnChangeMembershipScopes}
-      role={user.role}
-      moderationScoped={user.moderationScopes?.scoped}
-      membershipScoped={user.membershipScopes?.scoped}
-      moderationScopes={user.moderationScopes}
-      membershipScopes={user.membershipScopes}
       moderationScopesEnabled={moderationScopesEnabled}
+      viewer={viewer}
     />
   );
 };
@@ -117,6 +111,9 @@ const enhanced = withFragmentContainer<Props>({
       role
       moderationScopes {
         scoped
+        sites {
+          id
+        }
       }
       ...SiteRoleActions_viewer
     }
