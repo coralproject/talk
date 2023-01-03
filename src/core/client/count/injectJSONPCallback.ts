@@ -135,6 +135,7 @@ function injectJSONPCallback(getCount: GetCountFunction) {
       });
     },
     getCount,
+    reload: () => getCount(),
   };
 }
 
