@@ -6,6 +6,7 @@ import { AppOptions } from "coral-server/app";
 import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
+import { TenantNotFoundError } from "coral-server/errors";
 import {
   retrieveSite,
   retrieveSiteByOrigin,
@@ -135,10 +136,22 @@ type Options = Pick<AppOptions, "mongo" | "config"> & {
 export const cspSiteMiddleware =
   ({ mongo, config, frameAncestorsDeny }: Options): RequestHandler =>
   async (req, res, next) => {
-    // If the frame ancestors is being set to deny, then use an empty list,
+    const {
+      coral: { tenant },
+    } = req;
+    if (!tenant) {
+      throw new TenantNotFoundError(req.hostname);
+    }
+
+    const domain =
+      config.get("env") === "development"
+        ? `http://${tenant.domain}:${config.get("port")}`
+        : tenant.domain;
+
+    // If the frame ancestors is being set to deny, then use our tenant domain,
     // otherwise look it up from the request.
     const origins = frameAncestorsDeny
-      ? []
+      ? [domain]
       : await retrieveOriginsFromRequest(mongo, config, req);
 
     const frameOptions = generateFrameOptions(req, origins);
