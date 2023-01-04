@@ -9,6 +9,7 @@ import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/Us
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
+import BanDomainMutation from "./BanDomainMutation";
 import BanModal, { UpdateType } from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
@@ -52,6 +53,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const warnUser = useMutation(WarnUserMutation);
   const sendModMessage = useMutation(SendModMessageMutation);
   const removeUserWarning = useMutation(RemoveUserWarningMutation);
+  const banDomain = useMutation(BanDomainMutation);
   const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
@@ -172,6 +174,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     async (
       updateType: UpdateType,
       rejectExistingComments: boolean | null | undefined,
+      domainToBan: string,
       banSiteIDs: string[] | null | undefined,
       unbanSiteIDs: string[] | null | undefined,
       message: string
@@ -205,10 +208,17 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
             userID: user.id,
           });
       }
+
+      if (domainToBan) {
+        void banDomain({
+          domain: domainToBan,
+        });
+      }
       setShowBanned(false);
       return;
     },
     [
+      banDomain,
       banUser,
       user.id,
       viewerIsScoped,
@@ -284,6 +294,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       {showBanned && (
         <BanModal
           username={user.username}
+          userEmail={user.email}
           open
           onClose={handleBanModalClose}
           onConfirm={handleUpdateBan}
@@ -292,6 +303,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
             role: viewer.role,
             sites: viewer.moderationScopes?.sites?.map((s) => s),
           }}
+          emailDomainModeration={settings.emailDomainModeration}
           userBanStatus={user.status.ban}
           userRole={user.role}
         />
@@ -306,6 +318,7 @@ const enhanced = withFragmentContainer<Props>({
       id
       role
       username
+      email
       moderationScopes {
         scoped
       }
@@ -334,6 +347,10 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserStatusChangeContainer_settings on Settings {
       organization {
         name
+      }
+      emailDomainModeration {
+        domain
+        newUserModeration
       }
       multisite
     }

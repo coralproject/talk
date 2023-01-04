@@ -275,6 +275,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     async (
       updateType: UpdateType,
       rejectExistingComments: boolean,
+      domainToBan: string, // TODO (marcushaddon): add feature here?
       banSiteIDs: string[] | null | undefined,
       unbanSiteIDs: string[] | null | undefined,
       message: string
@@ -406,7 +407,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
             role: viewer.role,
             sites: viewer.moderationScopes?.sites?.map((s) => s),
           }}
+          emailDomainModeration={settings.emailDomainModeration}
           userBanStatus={comment.author.status.ban}
+          userEmail={comment.author.email}
           userRole={comment.author.role}
           isMultisite={settings.multisite}
         />
@@ -421,6 +424,7 @@ const enhanced = withFragmentContainer<Props>({
       id
       author {
         id
+        email
         username
         status {
           current
@@ -509,6 +513,10 @@ const enhanced = withFragmentContainer<Props>({
       wordList {
         banned
         suspect
+      }
+      emailDomainModeration {
+        domain
+        newUserModeration
       }
       multisite
       ...MarkersContainer_settings
