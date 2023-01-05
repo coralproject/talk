@@ -91,6 +91,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
         <Localized
           id="profile-account-ignoredCommenters-manage"
           key="toggleButton"
+          attrs={{ "aria-label": true }}
         >
           <Button
             variant="outlined"
@@ -101,6 +102,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
               styles.manageButton,
               CLASSES.ignoredCommenters.manageButton
             )}
+            aria-label="Manage ignored commenters"
           >
             Manage
           </Button>
