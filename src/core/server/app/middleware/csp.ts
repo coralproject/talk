@@ -6,7 +6,6 @@ import { AppOptions } from "coral-server/app";
 import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { TenantNotFoundError } from "coral-server/errors";
 import {
   retrieveSite,
   retrieveSiteByOrigin,
@@ -139,19 +138,23 @@ export const cspSiteMiddleware =
     const {
       coral: { tenant },
     } = req;
-    if (!tenant) {
-      throw new TenantNotFoundError(req.hostname);
+
+    // if we have a tenant (should come through on all admin pages)
+    // then we can pull our domain for admin handlers and set it in
+    // our CSP headers.
+    const domains: string[] = [];
+    if (tenant) {
+      const domain =
+        config.get("env") === "development"
+          ? `http://${tenant.domain}:${config.get("port")}`
+          : tenant.domain;
+      domains.push(domain);
     }
 
-    const domain =
-      config.get("env") === "development"
-        ? `http://${tenant.domain}:${config.get("port")}`
-        : tenant.domain;
-
-    // If the frame ancestors is being set to deny, then use our tenant domain,
-    // otherwise look it up from the request.
+    // If the frame ancestors is being set to deny (admin pages), then
+    // use our domains, otherwise look it up from the request (stream).
     const origins = frameAncestorsDeny
-      ? [domain]
+      ? domains
       : await retrieveOriginsFromRequest(mongo, config, req);
 
     const frameOptions = generateFrameOptions(req, origins);
