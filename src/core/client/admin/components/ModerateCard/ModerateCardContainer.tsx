@@ -34,9 +34,9 @@ import { ModerateCardContainer_viewer } from "coral-admin/__generated__/Moderate
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 
 import BanDomainMutation from "../BanDomainMutation";
+import BanUserMutation from "../UserStatus/BanUserMutation";
 import RemoveUserBanMutation from "../UserStatus/RemoveUserBanMutation";
 import UpdateUserBanMutation from "../UserStatus/UpdateUserBanMutation";
-import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -95,7 +95,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   const rejectComment = useMutation(RejectCommentMutation);
   const featureComment = useMutation(FeatureCommentMutation);
   const unfeatureComment = useMutation(UnfeatureCommentMutation);
-  const banUser = useMutation(BanCommentUserMutation);
+  const banUser = useMutation(BanUserMutation);
   const updateUserBan = useMutation(UpdateUserBanMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
 
@@ -314,7 +314,15 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       }
       setShowBanModal(false);
     },
-    [comment, banUser, setShowBanModal, removeUserBan, updateUserBan, viewer]
+    [
+      comment,
+      banDomain,
+      banUser,
+      setShowBanModal,
+      removeUserBan,
+      updateUserBan,
+      viewer,
+    ]
   );
 
   // Only highlight comments that have been flagged for containing a banned or
