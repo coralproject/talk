@@ -1,4 +1,4 @@
-import { UpdateType } from "./BanModal";
+import { UpdateType } from "../BanModal";
 
 export const getTextForUpdateType = (mode: UpdateType) => {
   switch (mode) {

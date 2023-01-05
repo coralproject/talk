@@ -7,10 +7,8 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
+import BanModal from "coral-admin/components/BanModal";
 import NotAvailable from "coral-admin/components/NotAvailable";
-import BanModal, {
-  UpdateType,
-} from "coral-admin/components/UserStatus/BanModal";
 import {
   ApproveCommentMutation,
   RejectCommentMutation,
@@ -33,10 +31,6 @@ import { ModerateCardContainer_settings } from "coral-admin/__generated__/Modera
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 
-import BanDomainMutation from "../BanDomainMutation";
-import BanUserMutation from "../UserStatus/BanUserMutation";
-import RemoveUserBanMutation from "../UserStatus/RemoveUserBanMutation";
-import UpdateUserBanMutation from "../UserStatus/UpdateUserBanMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -91,13 +85,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   loadNext,
 }) => {
   const approveComment = useMutation(ApproveCommentMutation);
-  const banDomain = useMutation(BanDomainMutation);
   const rejectComment = useMutation(RejectCommentMutation);
   const featureComment = useMutation(FeatureCommentMutation);
   const unfeatureComment = useMutation(UnfeatureCommentMutation);
-  const banUser = useMutation(BanUserMutation);
-  const updateUserBan = useMutation(UpdateUserBanMutation);
-  const removeUserBan = useMutation(RemoveUserBanMutation);
 
   const { match, router } = useRouter();
 
@@ -273,57 +263,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     setShowBanModal(true);
   }, [comment, setShowBanModal]);
 
-  const handleBanConfirm = useCallback(
-    async (
-      updateType: UpdateType,
-      rejectExistingComments: boolean,
-      domainToBan: string, // TODO (marcushaddon): add feature here?
-      banSiteIDs: string[] | null | undefined,
-      unbanSiteIDs: string[] | null | undefined,
-      message: string
-    ) => {
-      const viewerIsScoped = !!viewer.moderationScopes?.sites?.length;
-      switch (updateType) {
-        case UpdateType.ALL_SITES:
-          await banUser({
-            userID: comment.author!.id, // Should be defined because the modal shouldn't open if author is null
-            message,
-            rejectExistingComments,
-            siteIDs: viewerIsScoped
-              ? viewer.moderationScopes!.sites!.map(({ id }) => id)
-              : [],
-          });
-          break;
-        case UpdateType.SPECIFIC_SITES:
-          await updateUserBan({
-            userID: comment.author!.id,
-            message,
-            banSiteIDs,
-            unbanSiteIDs,
-          });
-          break;
-        case UpdateType.NO_SITES:
-          await removeUserBan({
-            userID: comment.author!.id,
-          });
-      }
-      if (domainToBan) {
-        void banDomain({
-          domain: domainToBan,
-        });
-      }
-      setShowBanModal(false);
-    },
-    [
-      comment,
-      banDomain,
-      banUser,
-      setShowBanModal,
-      removeUserBan,
-      updateUserBan,
-      viewer,
-    ]
-  );
+  const handleBanConfirm = useCallback(() => setShowBanModal(false), []);
 
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
@@ -410,6 +350,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       </FadeInTransition>
       {comment.author && (
         <BanModal
+          userID={comment.author.id}
           username={
             comment.author && comment.author.username
               ? comment.author.username

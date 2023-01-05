@@ -1,4 +1,3 @@
-import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
@@ -9,20 +8,16 @@ import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/Us
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
-import BanDomainMutation from "../BanDomainMutation";
-import BanModal, { UpdateType } from "./BanModal";
-import BanUserMutation from "./BanUserMutation";
+import BanModal from "../BanModal";
 import ModMessageModal from "./ModMessageModal";
 import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
-import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMutation from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
 import RemoveUserWarningMutation from "./RemoveUserWarningMutation";
 import SendModMessageMutation from "./SendModMessageMutation";
 import SuspendModal from "./SuspendModal";
 import SuspendUserMutation from "./SuspendUserMutation";
-import UpdateUserBanMutation from "./UpdateUserBanMutation";
 import UserStatusChange from "./UserStatusChange";
 import UserStatusContainer from "./UserStatusContainer";
 import WarnModal from "./WarnModal";
@@ -43,9 +38,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   bordered,
   viewer,
 }) => {
-  const banUser = useMutation(BanUserMutation);
-  const updateUserBan = useMutation(UpdateUserBanMutation);
-  const unbanUser = useMutation(RemoveUserBanMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
@@ -53,7 +45,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   const warnUser = useMutation(WarnUserMutation);
   const sendModMessage = useMutation(SendModMessageMutation);
   const removeUserWarning = useMutation(RemoveUserWarningMutation);
-  const banDomain = useMutation(BanDomainMutation);
   const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
@@ -170,63 +161,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     [user, suspendUser, setShowSuspendSuccess]
   );
 
-  const handleUpdateBan = useCallback(
-    async (
-      updateType: UpdateType,
-      rejectExistingComments: boolean | null | undefined,
-      domainToBan: string,
-      banSiteIDs: string[] | null | undefined,
-      unbanSiteIDs: string[] | null | undefined,
-      message: string
-    ) => {
-      switch (updateType) {
-        case UpdateType.ALL_SITES:
-          void banUser({
-            userID: user.id,
-            message,
-            rejectExistingComments,
-            siteIDs: viewerIsScoped
-              ? viewer?.moderationScopes?.sites?.map((s) => s.id)
-              : [],
-          });
-          break;
-        case UpdateType.SPECIFIC_SITES:
-          try {
-            await updateUserBan({
-              userID: user.id,
-              message,
-              rejectExistingComments,
-              banSiteIDs,
-              unbanSiteIDs,
-            });
-          } catch (err) {
-            return { [FORM_ERROR]: err.message };
-          }
-          break;
-        case UpdateType.NO_SITES:
-          void unbanUser({
-            userID: user.id,
-          });
-      }
-
-      if (domainToBan) {
-        void banDomain({
-          domain: domainToBan,
-        });
-      }
-      setShowBanned(false);
-      return;
-    },
-    [
-      banDomain,
-      banUser,
-      user.id,
-      viewerIsScoped,
-      viewer?.moderationScopes?.sites,
-      updateUserBan,
-      unbanUser,
-    ]
-  );
+  const handleUpdateBan = useCallback(() => setShowBanned(false), []);
 
   if (user.role === GQLUSER_ROLE.ADMIN || user.id === viewer.id) {
     return (
@@ -293,6 +228,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       />
       {showBanned && (
         <BanModal
+          userID={user.id}
           username={user.username}
           userEmail={user.email}
           open
