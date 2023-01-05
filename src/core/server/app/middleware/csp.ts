@@ -6,7 +6,6 @@ import { AppOptions } from "coral-server/app";
 import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { TenantNotFoundError } from "coral-server/errors";
 import {
   retrieveSite,
   retrieveSiteByOrigin,
