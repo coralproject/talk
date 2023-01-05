@@ -33,6 +33,7 @@ import { ModerateCardContainer_settings } from "coral-admin/__generated__/Modera
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 
+import BanDomainMutation from "../BanDomainMutation";
 import RemoveUserBanMutation from "../UserStatus/RemoveUserBanMutation";
 import UpdateUserBanMutation from "../UserStatus/UpdateUserBanMutation";
 import BanCommentUserMutation from "./BanCommentUserMutation";
@@ -90,6 +91,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   loadNext,
 }) => {
   const approveComment = useMutation(ApproveCommentMutation);
+  const banDomain = useMutation(BanDomainMutation);
   const rejectComment = useMutation(RejectCommentMutation);
   const featureComment = useMutation(FeatureCommentMutation);
   const unfeatureComment = useMutation(UnfeatureCommentMutation);
@@ -304,6 +306,11 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           await removeUserBan({
             userID: comment.author!.id,
           });
+      }
+      if (domainToBan) {
+        void banDomain({
+          domain: domainToBan,
+        });
       }
       setShowBanModal(false);
     },

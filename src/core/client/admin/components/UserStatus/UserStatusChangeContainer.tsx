@@ -9,7 +9,7 @@ import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/Us
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
-import BanDomainMutation from "./BanDomainMutation";
+import BanDomainMutation from "../BanDomainMutation";
 import BanModal, { UpdateType } from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import ModMessageModal from "./ModMessageModal";
