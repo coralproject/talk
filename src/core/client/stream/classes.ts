@@ -47,6 +47,7 @@ const CLASSES = {
     placeholder: "coral coral-rte-placeholder",
     toolbar: "coral coral-rte-toolbar",
     container: "coral coral-rte-container",
+    fakeContainer: "coral coral-rte-fake-container",
   },
 
   /**
@@ -82,6 +83,7 @@ const CLASSES = {
    * tabBarComments is all the components in the comments secondary tab bar selector.
    */
   tabBarComments: {
+    row: "coral coral-tabBarSecondary-row",
     /**
      * $root represents the container for the tab buttons.
      */
@@ -398,29 +400,41 @@ const CLASSES = {
        * reactButton is the reaction button.
        */
       reactButton: "coral coral-reactButton coral-comment-reactButton",
+
+      reactButtonIcon:
+        "coral coral-reactButton-icon coral-comment-reactButton-icon",
       /**
        * reactedButton is the class added to the reaction button
        * when the viewer has already reacted to the comment.
        */
       reactedButton: "coral-reactedButton coral-comment-reactedButton",
+
       /**
        * replyButton is button that triggers the reply form.
        */
       replyButton: "coral coral-comment-replyButton",
+      replyButtonIcon: "coral coral-comment-replyButton-icon",
       /**
        * shareButton is the button that will show the permalink popover.
        */
       shareButton: "coral coral-comment-shareButton",
+      shareButtonIcon: "coral coral-comment-shareButton-icon",
       /**
        * reportButton is the button that triggers the report feature.
        */
       reportButton: "coral coral-reportButton coral-comment-reportButton",
+      reportButtonIcon:
+        "coral coral-reportButton-icon coral-comment-reportButton-icon",
       /**
        * reportedButton is added to report button when the viewer
        * has already reported the comment.
        */
       reportedButton: "coral-reportedButton coral-comment-reportedButton",
+      reportedButtonIcon:
+        "coral-reportedButtonIcon coral-comment-reportedButtonIcon",
     },
+
+    avatar: "coral coral-comment-avatar",
 
     /**
      * indentation classes for the different levels.
@@ -667,6 +681,10 @@ const CLASSES = {
     signInButton: "coral coral-viewerBox-signInButton",
     registerButton: "coral coral-viewerBox-registerButton",
     username: "coral coral-viewerBox-username",
+    joinText: "coral coral-viewerBox-joinText",
+    actionButtons: "coral coral-viewerBox-actionButtons",
+    usernameLabel: "coral coral-viewerBox-usernameLabel",
+    usernameContainer: "coral coral-viewerBox-usernameContainer",
   },
 
   /**
@@ -686,7 +704,6 @@ const CLASSES = {
      */
     unauthenticated: "coral coral-unauthenticated",
   },
-
   /**
    * allCommentsTabPane is the tab pane that shows all comments.
    */
@@ -1075,6 +1092,20 @@ const CLASSES = {
   },
 
   mobileToolbar: "coral coral-mobileToolbar",
+
+  viewersWatching: {
+    $root: "coral coral-viewersWatching",
+  },
+
+  modMessage: {
+    $root: "coral coral-modMessage",
+  },
+
+  bannedInfo: {
+    $root: "coral coral-bannedInfo",
+  },
+
+  icon: "coral coral-icon",
 };
 
 export default CLASSES;
