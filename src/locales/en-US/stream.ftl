@@ -50,6 +50,8 @@ comment-count-text-ratings =
   }
 
 ## Comments Tab
+addACommentButton =
+  .aria-label = Add a comment. This button will move focus to the bottom of the comments.
 
 comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
