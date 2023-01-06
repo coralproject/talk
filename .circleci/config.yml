@@ -96,6 +96,9 @@ jobs:
       <<: *job_node_environment
       CI: "true"
       JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+    parameters:
+      jest-shard-index:
+        type: integer
     steps:
       - checkout
       - attach_workspace:
@@ -106,8 +109,9 @@ jobs:
       - run:
           name: Perform testing
           # We're running these tests in band to avoid errors where the circleci
-          # test runner runs out of RAM trying to run them all in parallel.
-          command: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
+          # test runner runs out of RAM trying to run them all in parallel. The
+          # shard index is used to help parallelize the test executors.
+          command: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit --shard << parameters.jest-shard-index >>/4
       - store_test_results:
           path: reports/junit
       - store_artifacts:
@@ -216,7 +220,7 @@ jobs:
             gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
             gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
             gcloud auth configure-docker --quiet
-      - run: 
+      - run:
           name: Create and push the image to GCR
           command: bash ./scripts/docker.sh deploy-commit
           no_output_timeout: 30m
@@ -268,6 +272,13 @@ filter_develop: &filter_develop
       ignore:
         - main
 
+# matrix_unit_tests will add the matrix parameters for the shard index for the
+# jest tests.
+matrix_unit_tests: &matrix_unit_tests
+  matrix:
+    parameters:
+      jest-shard-index: [1, 2, 3, 4]
+
 workflows:
   build-test:
     jobs:
@@ -279,6 +290,7 @@ workflows:
             - npm_dependencies
       - unit_tests:
           <<: *filter_develop
+          <<: *matrix_unit_tests
           requires:
             - npm_dependencies
       - build:
@@ -316,6 +328,7 @@ workflows:
             - npm_dependencies
       - unit_tests:
           <<: *filter_release
+          <<: *matrix_unit_tests
           requires:
             - npm_dependencies
       - build:
