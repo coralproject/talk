@@ -871,16 +871,32 @@ export async function retrieveUserWithEmail(
  * @param tenantID Tenant ID where the User resides
  * @param id ID of the User that we are updating
  * @param role new role to set to the User
+ * @param siteIDs siteIDs are the sites to add to the roles scope
  */
 export async function updateUserRole(
   mongo: MongoContext,
   tenantID: string,
   id: string,
-  role: GQLUSER_ROLE
+  role: GQLUSER_ROLE,
+  siteIDs?: string[]
 ) {
+  const update: Partial<User> = { role };
+  if (siteIDs?.length) {
+    const scopes = {
+      siteIDs,
+    };
+    if (role === GQLUSER_ROLE.MODERATOR) {
+      update.moderationScopes = scopes;
+    } else if (role === GQLUSER_ROLE.MEMBER) {
+      update.membershipScopes = scopes;
+    } else {
+      throw new Error(`Site scopes may not be applied to role ${role}`);
+    }
+  }
+
   const result = await mongo.users().findOneAndUpdate(
     { id, tenantID },
-    { $set: { role } },
+    { $set: update },
     {
       // False to return the updated document instead of the original
       // document.

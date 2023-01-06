@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import UserRole from "coral-admin/components/UserRole";
+import { UserRoleChangeContainer } from "coral-admin/components/UserRole";
 import UserStatus from "coral-admin/components/UserStatus";
 import { PropTypesOf } from "coral-framework/types";
 import { Button, TableCell, TableRow, TextLink } from "coral-ui/components/v2";
@@ -14,12 +14,12 @@ interface Props {
   username: string | null;
   email: string | null;
   memberSince: string;
-  user: PropTypesOf<typeof UserRole>["user"] &
+  user: PropTypesOf<typeof UserRoleChangeContainer>["user"] &
     PropTypesOf<typeof UserStatus>["user"];
-  viewer: PropTypesOf<typeof UserRole>["viewer"] &
+  viewer: PropTypesOf<typeof UserRoleChangeContainer>["viewer"] &
     PropTypesOf<typeof UserStatus>["viewer"];
   settings: PropTypesOf<typeof UserStatus>["settings"] &
-    PropTypesOf<typeof UserRole>["settings"];
+    PropTypesOf<typeof UserRoleChangeContainer>["settings"];
   onUsernameClicked?: (userID: string) => void;
   deletedAt?: string | null;
 }
@@ -87,7 +87,11 @@ const UserRow: FunctionComponent<Props> = ({
       </TableCell>
       <TableCell className={styles.memberSinceColumn}>{memberSince}</TableCell>
       <TableCell className={styles.roleColumn}>
-        <UserRole user={user} viewer={viewer} settings={settings} />
+        <UserRoleChangeContainer
+          user={user}
+          viewer={viewer}
+          settings={settings}
+        />
       </TableCell>
       <TableCell className={styles.statusColumn}>
         <UserStatus user={user} settings={settings} viewer={viewer} fullWidth />

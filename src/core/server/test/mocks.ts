@@ -4,9 +4,9 @@ import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 
 const createMockCollection = () => ({
   findOneAndUpdate: jest.fn(),
+  findOne: jest.fn(),
 });
 
-/* eslint-disable */
 export const createMockMongoContex = () => {
   const users = createMockCollection();
 
@@ -16,14 +16,14 @@ export const createMockMongoContex = () => {
     } as unknown as MongoContext,
     users,
   };
-}
+};
 
 export const createMockMailer = () =>
   ({
-    add: jest.fn().mockResolvedValue({})
-  }) as unknown as MailerQueue;
+    add: jest.fn().mockResolvedValue({}),
+  } as unknown as MailerQueue);
 
 export const createMockRejector = () =>
   ({
-    add: jest.fn().mockResolvedValue({})
-  }) as unknown as RejectorQueue;
+    add: jest.fn().mockResolvedValue({}),
+  } as unknown as RejectorQueue);

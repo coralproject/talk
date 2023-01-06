@@ -193,6 +193,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
       const editorSetup = new SimpleMDE({
         ...config,
         element: textarea,
+        autofocus: true,
       });
       // Don't trap the key, to stay accessible.
       editorSetup.codemirror.options.extraKeys.Tab = false;
@@ -206,6 +207,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
   }, [textarea]);
 
   useEffect(() => {
+    // Remove mde on dismount
     return () => {
       if (editor) {
         editor.toTextArea();

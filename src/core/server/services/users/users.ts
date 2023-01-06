@@ -9,6 +9,10 @@ import {
   SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
 import { formatDate } from "coral-common/date";
+import {
+  isSiteModerationScoped,
+  validatePermissionsAction,
+} from "coral-common/permissions";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
@@ -101,7 +105,6 @@ import {
   getLocalProfile,
   hasLocalProfile,
   hasStaffRole,
-  isSiteModerationScoped,
 } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
@@ -124,6 +127,7 @@ import {
   validatePassword,
   validateUsername,
 } from "./helpers";
+import { resolveSideEffects } from "./permissions";
 
 function validateFindOrCreateUserInput(
   input: FindOrCreateUser,
@@ -772,19 +776,47 @@ export async function updateUsernameByID(
  * @param user the user making the request
  * @param userID the User's ID that we are updating
  * @param role the role that we are setting on the User
+ * @param siteIDs the ids of the sites on which the role is active
  */
 export async function updateRole(
   mongo: MongoContext,
   tenant: Tenant,
   viewer: Pick<User, "id">,
   userID: string,
-  role: GQLUSER_ROLE
+  role: GQLUSER_ROLE,
+  siteIDs?: string[]
 ) {
-  if (viewer.id === userID) {
-    throw new Error("cannot update your own user role");
+  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (fullViewer === null) {
+    throw new UserNotFoundError(viewer.id);
+  }
+  if (user === null) {
+    throw new UserNotFoundError(userID);
   }
 
-  return updateUserRole(mongo, tenant.id, userID, role);
+  const action = {
+    viewer: fullViewer,
+    user,
+    newUserRole: role,
+    scopeAdditions: siteIDs,
+  };
+
+  const validUpdate = validatePermissionsAction(action);
+
+  if (!validUpdate) {
+    throw new UserForbiddenError(
+      "Invalid role change operation",
+      "user",
+      "updateRole"
+    );
+  }
+
+  const sideEffects = resolveSideEffects(action);
+
+  await Promise.all(sideEffects.map((se) => se(mongo, tenant.id)));
+
+  return updateUserRole(mongo, tenant.id, userID, role, siteIDs);
 }
 
 export async function promoteModerator(
@@ -1016,6 +1048,14 @@ export async function updateModerationScopes(
   userID: string,
   moderationScopes: UserModerationScopes
 ) {
+  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
+  if (isSiteModerationScoped(fullViewer?.moderationScopes)) {
+    throw new UserForbiddenError(
+      "Site moderators may not update moderation scopes",
+      "user",
+      "updateModerationScopes"
+    );
+  }
   if (viewer.id === userID) {
     throw new Error("cannot update your own moderation scopes");
   }

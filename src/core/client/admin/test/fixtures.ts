@@ -468,6 +468,7 @@ export const users = {
         moderationScopes: {
           scoped: true,
           sites: [sites[0]],
+          siteIDs: [sites[0].id],
         },
       },
       {
@@ -479,6 +480,7 @@ export const users = {
         moderationScopes: {
           scoped: true,
           sites: [sites[0], sites[1]],
+          siteIDs: [sites[0].id, sites[1].id],
         },
       },
     ],
