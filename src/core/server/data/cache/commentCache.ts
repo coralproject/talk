@@ -279,6 +279,7 @@ export class CommentCache {
     const keys = ids.map((id) => this.computeDataKey(tenantID, storyID, id));
 
     // try and load all the comments from the local cache
+    const loadStart = Date.now();
     let someNotFound = false;
     for (const key of keys) {
       const localComment = this.commentsByKey.get(key);
@@ -288,6 +289,11 @@ export class CommentCache {
         someNotFound = true;
         break;
       }
+    }
+    const loadEnd = Date.now();
+    const loadElapsed = loadEnd - loadStart;
+    if (loadElapsed > 1) {
+      this.logger.info({ elapsedMs: loadElapsed }, "findMany - localLoad");
     }
 
     // we're missing some comments, just load em from redis
@@ -299,6 +305,7 @@ export class CommentCache {
       const end = Date.now();
       this.logger.info({ elapsedMs: end - start }, "findMany - mget");
 
+      const deserStart = Date.now();
       for (const record of records) {
         if (!record) {
           continue;
@@ -312,6 +319,11 @@ export class CommentCache {
         );
         results.push(comment);
       }
+      const deserEnd = Date.now();
+      this.logger.info(
+        { elapsedMs: deserEnd - deserStart },
+        "findMany - deserialize"
+      );
     }
 
     return results;
