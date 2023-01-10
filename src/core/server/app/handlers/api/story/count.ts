@@ -117,6 +117,8 @@ export const countJSONPHandler =
         id: story?.id || null,
       };
 
+      res.setHeader("Content-Type", "text/javascript");
+
       // Respond using jsonp.
       res.jsonp(data);
     } catch (err) {

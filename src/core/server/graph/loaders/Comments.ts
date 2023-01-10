@@ -271,6 +271,12 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
+    await ctx.cache.comments.primeCommentsForStory(
+      ctx.tenant.id,
+      storyID,
+      !!(story.isArchived || story.isArchiving)
+    );
+
     const conn = await ctx.cache.comments.rootComments(
       ctx.tenant.id,
       storyID,

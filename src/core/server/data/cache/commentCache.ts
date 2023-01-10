@@ -53,13 +53,101 @@ export class CommentCache {
     return key;
   }
 
-  private async createCommentKeysInRedis(
+  private computeStoryAllCommentsKey(tenantID: string, storyID: string) {
+    const key = `${tenantID}:${storyID}:members`;
+    return key;
+  }
+
+  private async retrieveCommentsFromMongoForStory(
+    tenantID: string,
+    storyID: string,
+    isArchived: boolean
+  ): Promise<Readonly<Comment>[]> {
+    const collection =
+      isArchived && this.mongo.archive
+        ? this.mongo.archivedComments()
+        : this.mongo.comments();
+
+    const comments = await collection.find({ tenantID, storyID }).toArray();
+    if (!comments || comments.length === 0) {
+      return [];
+    }
+
+    return comments;
+  }
+
+  private async retrieveCommentsFromRedisForStory(
+    tenantID: string,
+    storyID: string
+  ): Promise<Readonly<Comment>[]> {
+    const key = this.computeStoryAllCommentsKey(tenantID, storyID);
+    const allCommentsIDs = await this.redis.smembers(key);
+    const commentIDs = allCommentsIDs.map((id) => id.split(":")[1]);
+
+    const comments = await this.findMany(tenantID, storyID, commentIDs);
+    return comments;
+  }
+
+  public async primeCommentsForStory(
+    tenantID: string,
+    storyID: string,
+    isArchived: boolean
+  ) {
+    const allKey = this.computeStoryAllCommentsKey(tenantID, storyID);
+    const hasCommentsInRedis = await this.redis.exists(allKey);
+
+    const comments = hasCommentsInRedis
+      ? await this.retrieveCommentsFromRedisForStory(tenantID, storyID)
+      : await this.retrieveCommentsFromMongoForStory(
+          tenantID,
+          storyID,
+          isArchived
+        );
+
+    await this.createRelationalCommentKeysLocally(tenantID, storyID, comments);
+
+    if (!hasCommentsInRedis) {
+      await this.createRelationalCommentKeysInRedis(
+        tenantID,
+        storyID,
+        comments
+      );
+    }
+  }
+
+  private async createRelationalCommentKeysLocally(
+    tenantID: string,
+    storyID: string,
+    comments: Readonly<Comment>[]
+  ) {
+    for (const comment of comments) {
+      const dataKey = this.computeDataKey(tenantID, storyID, comment.id);
+      this.commentsByKey.set(dataKey, comment);
+
+      const parentKey = this.computeMembersKey(
+        tenantID,
+        storyID,
+        comment.parentID
+      );
+
+      if (!this.membersLookup.has(parentKey)) {
+        this.membersLookup.set(parentKey, []);
+      }
+      this.membersLookup.get(parentKey)!.push(comment.id);
+    }
+  }
+
+  private async createRelationalCommentKeysInRedis(
     tenantID: string,
     storyID: string,
     comments: Readonly<Comment>[]
   ) {
     const cmd = this.redis.multi();
 
+    const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
+    cmd.sadd(allCommentsKey, ...comments.map((c) => `${c.parentID}:${c.id}`));
+
+    // Create the comment data key-value look ups
     const commentIDs = new Map<string, string[]>();
     for (const comment of comments) {
       const parentID = comment.parentID ? comment.parentID : "root";
@@ -77,6 +165,7 @@ export class CommentCache {
       cmd.expire(key, COMMENT_CACHE_DATA_EXPIRY);
     }
 
+    // Create the parent to child key-value look ups
     for (const parentID of commentIDs.keys()) {
       const childIDs = commentIDs.get(parentID);
       if (!childIDs) {
@@ -106,7 +195,7 @@ export class CommentCache {
       return [];
     }
 
-    await this.createCommentKeysInRedis(tenantID, storyID, comments);
+    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments);
 
     return comments.map((c) => c.id);
   }
@@ -129,7 +218,7 @@ export class CommentCache {
       return [];
     }
 
-    await this.createCommentKeysInRedis(tenantID, storyID, comments);
+    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments);
 
     return comments.map((c) => c.id);
   }
@@ -491,6 +580,12 @@ export class CommentCache {
     );
     cmd.sadd(parentKey, comment.id);
     cmd.expire(parentKey, COMMENT_CACHE_DATA_EXPIRY);
+
+    const allKey = this.computeStoryAllCommentsKey(
+      comment.tenantID,
+      comment.storyID
+    );
+    cmd.sadd(allKey, `${comment.parentID}:${comment.id}`);
 
     await cmd.exec();
 
