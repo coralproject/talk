@@ -29,7 +29,7 @@ export class UserCache {
     return key;
   }
 
-  private async populateUsers(tenantID: string, userIDs: string[]) {
+  public async populateUsers(tenantID: string, userIDs: string[]) {
     const users = await this.mongo
       .users()
       .find({ tenantID, id: { $in: userIDs } })
@@ -38,14 +38,11 @@ export class UserCache {
     const cmd = this.redis.multi();
 
     for (const user of users) {
-      cmd.set(
-        this.computeDataKey(tenantID, user.id),
-        this.serializeObject(user)
-      );
-      cmd.expire(
-        this.computeDataKey(tenantID, user.id),
-        USER_CACHE_DATA_EXPIRY
-      );
+      const dataKey = this.computeDataKey(tenantID, user.id);
+      cmd.set(dataKey, this.serializeObject(user));
+      cmd.expire(dataKey, USER_CACHE_DATA_EXPIRY);
+
+      this.usersByKey.set(dataKey, user);
     }
 
     await cmd.exec();

@@ -271,22 +271,18 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    await ctx.cache.comments.primeCommentsForStory(
+    const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
       storyID,
       !!(story.isArchived || story.isArchiving)
     );
+    await ctx.cache.users.loadUsers(ctx.tenant.id, userIDs);
 
     const conn = await ctx.cache.comments.rootComments(
       ctx.tenant.id,
       storyID,
       !!(story.isArchived || story.isArchiving),
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
-    );
-
-    await ctx.cache.users.loadUsers(
-      ctx.tenant.id,
-      conn.nodes.map((n) => n.authorID)
     );
 
     return conn;
