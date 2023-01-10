@@ -108,10 +108,10 @@ export class CommentCache {
     const comments = hasCommentsInRedis
       ? await this.retrieveCommentsFromRedisForStory(tenantID, storyID)
       : await this.retrieveCommentsFromMongoForStory(
-        tenantID,
-        storyID,
-        isArchived
-      );
+          tenantID,
+          storyID,
+          isArchived
+        );
 
     await this.createRelationalCommentKeysLocally(tenantID, storyID, comments);
 
@@ -275,22 +275,27 @@ export class CommentCache {
       return [];
     }
 
-    const results: Readonly<Comment>[] = [];
+    let results: Readonly<Comment>[] = [];
     const keys = ids.map((id) => this.computeDataKey(tenantID, storyID, id));
 
-    const notFound: string[] = [];
+    // try and load all the comments from the local cache
+    let someNotFound = false;
     for (const key of keys) {
       const localComment = this.commentsByKey.get(key);
       if (localComment) {
         results.push(localComment);
       } else {
-        notFound.push(key);
+        someNotFound = true;
+        break;
       }
     }
 
-    if (notFound.length > 0) {
+    // we're missing some comments, just load em from redis
+    if (someNotFound) {
+      results = [];
+
       const start = Date.now();
-      const records = await this.redis.mget(...notFound);
+      const records = await this.redis.mget(...keys);
       const end = Date.now();
       this.logger.info({ elapsedMs: end - start }, "findMany - mget");
 
@@ -309,22 +314,7 @@ export class CommentCache {
       }
     }
 
-    const sortStart = Date.now();
-    const ordered: Readonly<Comment>[] = [];
-    for (const id of ids) {
-      const comment = results.find((c) => c.id === id);
-      if (comment) {
-        ordered.push(comment);
-      }
-    }
-    const sortEnd = Date.now();
-    const sortElapsed = sortEnd - sortStart;
-
-    if (sortElapsed > 1) {
-      this.logger.info({ elapsedMs: sortElapsed }, "findMany - sort");
-    }
-
-    return ordered;
+    return results;
   }
 
   public async findAncestors(tenantID: string, storyID: string, id: string) {
