@@ -1052,7 +1052,7 @@ const CLASSES = {
     description: "coral coral-login-description",
     field: "coral coral-login-field",
     errorContainer: "coral coral-login-errorContainer",
-    error: "c/nooral coral-login-error",
+    error: "coral coral-login-error",
     facebookButton: "coral coral-login-facebookButton",
     googleButton: "coral coral-login-googleButton",
     oidcButton: "coral coral-login-oidcButton",

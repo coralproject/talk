@@ -272,7 +272,7 @@ exports[`shows server error 1`] = `
     className="coral coral-login-errorContainer CreateUsername-error"
   >
     <div
-      className="CallOut-root CallOut-error CallOut-leftBorder c/nooral coral-login-error"
+      className="CallOut-root CallOut-error CallOut-leftBorder coral coral-login-error"
     >
       <div
         className="CallOut-container"

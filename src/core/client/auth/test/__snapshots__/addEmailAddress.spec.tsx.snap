@@ -836,7 +836,7 @@ Your email address will be used to:
     className="coral coral-login-errorContainer AddEmailAddress-error"
   >
     <div
-      className="CallOut-root CallOut-error CallOut-leftBorder c/nooral coral-login-error"
+      className="CallOut-root CallOut-error CallOut-leftBorder coral coral-login-error"
     >
       <div
         className="CallOut-container"
