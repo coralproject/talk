@@ -61,9 +61,6 @@ exports[`auth configuration renders all auth enabled 1`] = `
               className="PasswordField-wrapper"
             >
               <input
-                autoCapitalize="off"
-                autoComplete="off"
-                autoCorrect="off"
                 className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
                 data-testid="password-field"
                 disabled={false}
@@ -73,7 +70,6 @@ exports[`auth configuration renders all auth enabled 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Password"
-                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -444,9 +440,6 @@ exports[`renders sign in view 1`] = `
                     className="PasswordField-wrapper"
                   >
                     <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
                       className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
                       data-testid="password-field"
                       disabled={false}
@@ -456,7 +449,6 @@ exports[`renders sign in view 1`] = `
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Password"
-                      spellCheck={false}
                       type="password"
                       value=""
                     />

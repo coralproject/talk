@@ -739,9 +739,6 @@ scrape request.
                       className="PasswordField-wrapper"
                     >
                       <input
-                        autoCapitalize="off"
-                        autoComplete="new-password"
-                        autoCorrect="off"
                         className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                         data-testid="password-field"
                         disabled={true}
@@ -751,7 +748,6 @@ scrape request.
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder=""
-                        spellCheck={false}
                         type="password"
                         value=""
                       />
