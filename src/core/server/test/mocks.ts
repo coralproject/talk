@@ -1,5 +1,4 @@
 import { MongoContext } from "coral-server/data/context";
-// import { Tenant } from "coral-server/models/tenant";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { TenantCache } from "coral-server/services/tenant/cache";
@@ -23,10 +22,9 @@ export const createMockMongoContex = () => {
 
 export const createMockRedis = () => ({} as Redis);
 
-// TODO: this can be moved to tenant service dir
 export const createMockTenantCache = (): TenantCache =>
   ({
-    // ADD METHODS
+    // add methods as nessecary
   } as unknown as TenantCache);
 
 export const createMockMailer = () =>
