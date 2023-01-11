@@ -126,7 +126,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
       readOnly={readOnly}
       isQA={isQA}
       author={comment.author?.username}
-      iconClassName={CLASSES.comment.actionBar.reactButtonIcon}
+      iconClassName={CLASSES.comment.actionBar.reactButton}
     />
   );
 };
