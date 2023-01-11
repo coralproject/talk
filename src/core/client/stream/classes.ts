@@ -400,38 +400,28 @@ const CLASSES = {
        * reactButton is the reaction button.
        */
       reactButton: "coral coral-reactButton coral-comment-reactButton",
-
-      reactButtonIcon:
-        "coral coral-reactButton-icon coral-comment-reactButton-icon",
       /**
        * reactedButton is the class added to the reaction button
        * when the viewer has already reacted to the comment.
        */
       reactedButton: "coral-reactedButton coral-comment-reactedButton",
-
       /**
        * replyButton is button that triggers the reply form.
        */
       replyButton: "coral coral-comment-replyButton",
-      replyButtonIcon: "coral coral-comment-replyButton-icon",
       /**
        * shareButton is the button that will show the permalink popover.
        */
       shareButton: "coral coral-comment-shareButton",
-      shareButtonIcon: "coral coral-comment-shareButton-icon",
       /**
        * reportButton is the button that triggers the report feature.
        */
       reportButton: "coral coral-reportButton coral-comment-reportButton",
-      reportButtonIcon:
-        "coral coral-reportButton-icon coral-comment-reportButton-icon",
       /**
        * reportedButton is added to report button when the viewer
        * has already reported the comment.
        */
       reportedButton: "coral-reportedButton coral-comment-reportedButton",
-      reportedButtonIcon:
-        "coral-reportedButtonIcon coral-comment-reportedButtonIcon",
     },
 
     avatar: "coral coral-comment-avatar",
@@ -892,10 +882,16 @@ const CLASSES = {
    */
   ignoredCommenters: {
     $root: "coral coral-ignoredCommenters",
+    heading: "coral coral-ignoredCommenters-heading",
     list: "coral coral-ignoredCommenters-list",
     manageButton: "coral coral-ignoredComments-manageButton",
     username: "coral coral-ignoredCommenters-username",
     stopIgnoreButton: "coral coral-ignoredCommenters-stopIgnoreButton",
+  },
+
+  myBio: {
+    $root: "coral coral-myBio",
+    heading: "coral coral-myBio-heading",
   },
 
   /**
@@ -1017,10 +1013,14 @@ const CLASSES = {
 
   emailNotifications: {
     $root: "coral coral-emailNotifications",
+    heading: "coral coral-emailNotifications-heading",
+    label: "coral coral-emailNotifications-label",
     updateButton: "coral coral-emailNotifications-updateButton",
   },
 
   mediaPreferences: {
+    $root: "coral coral-mediaPreferences",
+    heading: "coral coral-mediaPreferences-heading",
     updateButton: "coral coral-mediaPreferences-updateButton",
   },
 
@@ -1052,7 +1052,7 @@ const CLASSES = {
     description: "coral coral-login-description",
     field: "coral coral-login-field",
     errorContainer: "coral coral-login-errorContainer",
-    error: "coral coral-login-error",
+    error: "c/nooral coral-login-error",
     facebookButton: "coral coral-login-facebookButton",
     googleButton: "coral coral-login-googleButton",
     oidcButton: "coral coral-login-oidcButton",
@@ -1103,6 +1103,10 @@ const CLASSES = {
 
   bannedInfo: {
     $root: "coral coral-bannedInfo",
+  },
+
+  accountSettings: {
+    $root: "coral coral-accountSettings",
   },
 
   icon: "coral coral-icon",

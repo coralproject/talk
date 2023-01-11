@@ -56,7 +56,7 @@ class ReportCommentForm extends React.Component<Props> {
     const { onCancel, onSubmit, id } = this.props;
     return (
       <div
-        className={styles.root}
+        className={cn(styles.root, CLASSES.reportPopover.$root)}
         data-testid="report-comment-form"
         role="none"
       >
