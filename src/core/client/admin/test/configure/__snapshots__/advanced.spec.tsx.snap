@@ -761,7 +761,7 @@ scrape request.
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm"
+                          className="Icon-root Icon-sm coral coral-icon"
                         >
                           visibility
                         </i>
@@ -809,7 +809,7 @@ scrape request.
                       AMP
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
+                        className="Icon-root Icon-xs coral coral-icon TextLink-icon"
                       >
                         open_in_new
                       </i>
@@ -825,7 +825,7 @@ template. See our
                       documentation
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
+                        className="Icon-root Icon-xs coral coral-icon TextLink-icon"
                       >
                         open_in_new
                       </i>

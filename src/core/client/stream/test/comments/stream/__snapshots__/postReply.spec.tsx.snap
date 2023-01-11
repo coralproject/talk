@@ -51,7 +51,7 @@ exports[`post a reply: open reply form 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
             >
               remove
             </i>
@@ -165,7 +165,7 @@ exports[`post a reply: open reply form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -192,7 +192,7 @@ exports[`post a reply: open reply form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReplyButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                       >
                         reply
                       </i>
@@ -221,7 +221,7 @@ exports[`post a reply: open reply form 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm PermalinkButton-icon"
+                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                         >
                           share
                         </i>
@@ -258,7 +258,7 @@ exports[`post a reply: open reply form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReportButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                       >
                         flag
                       </i>
@@ -295,7 +295,7 @@ exports[`post a reply: open reply form 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm coral coral-icon"
                 >
                   reply
                 </i>
@@ -357,7 +357,7 @@ exports[`post a reply: open reply form 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_bold
                         </i>
@@ -377,7 +377,7 @@ exports[`post a reply: open reply form 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_italic
                         </i>
@@ -397,7 +397,7 @@ exports[`post a reply: open reply form 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_quote
                         </i>
@@ -417,7 +417,7 @@ exports[`post a reply: open reply form 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_list_bulleted
                         </i>
@@ -531,7 +531,7 @@ exports[`post a reply: optimistic response 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                 >
                   remove
                 </i>
@@ -623,7 +623,7 @@ exports[`post a reply: optimistic response 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm CommentContainer-editIcon"
+                            className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
                           >
                             edit
                           </i>
@@ -651,7 +651,7 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm InReplyTo-icon"
+                        className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                       >
                         reply
                       </i>
@@ -708,7 +708,7 @@ exports[`post a reply: optimistic response 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReactionButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                           >
                             thumb_up
                           </i>
@@ -735,7 +735,7 @@ exports[`post a reply: optimistic response 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReplyButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                           >
                             reply
                           </i>
@@ -764,7 +764,7 @@ exports[`post a reply: optimistic response 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-sm PermalinkButton-icon"
+                              className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                             >
                               share
                             </i>
@@ -801,7 +801,7 @@ exports[`post a reply: optimistic response 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReportButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                           >
                             flag
                           </i>

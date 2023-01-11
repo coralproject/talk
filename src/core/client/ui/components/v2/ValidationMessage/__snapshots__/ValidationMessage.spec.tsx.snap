@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
 >
   <i
     aria-hidden="true"
-    className="Icon-root Icon-sm MessageIcon-root"
+    className="Icon-root Icon-sm coral coral-icon MessageIcon-root"
   >
     warning
   </i>

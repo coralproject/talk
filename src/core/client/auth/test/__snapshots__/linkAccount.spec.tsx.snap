@@ -82,7 +82,7 @@ link these enter your password.
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       visibility
                     </i>

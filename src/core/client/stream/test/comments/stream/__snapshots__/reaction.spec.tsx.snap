@@ -21,7 +21,7 @@ exports[`create and remove reaction: Respected 1`] = `
   >
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm ReactionButton-icon"
+      className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
     >
       thumb_up
     </i>
@@ -55,7 +55,7 @@ exports[`create and remove reaction: Unrespected 1`] = `
   >
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm ReactionButton-icon"
+      className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
     >
       thumb_up
     </i>

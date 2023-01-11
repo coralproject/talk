@@ -16,7 +16,7 @@ exports[`displays a list of webhook endpoints that have been configured 1`] = `
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-md ExperimentalCallOut-icon"
+          className="Icon-root Icon-md coral coral-icon ExperimentalCallOut-icon"
         >
           new_releases
         </i>
@@ -94,7 +94,7 @@ about webhook signing, visit our
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md"
+            className="Icon-root Icon-md coral coral-icon"
           >
             add
           </i>
@@ -171,7 +171,7 @@ about webhook signing, visit our
                     Details 
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       keyboard_arrow_right
                     </i>
@@ -218,7 +218,7 @@ about webhook signing, visit our
                     Details 
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       keyboard_arrow_right
                     </i>
@@ -250,7 +250,7 @@ exports[`goes to add new webhook endpoint when clicking add 1`] = `
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-md ExperimentalCallOut-icon"
+          className="Icon-root Icon-md coral coral-icon ExperimentalCallOut-icon"
         >
           new_releases
         </i>
@@ -328,7 +328,7 @@ about webhook signing, visit our
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md"
+            className="Icon-root Icon-md coral coral-icon"
           >
             add
           </i>
@@ -370,7 +370,7 @@ exports[`goes to the webhook endpoint configuration page when selected 1`] = `
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-md ExperimentalCallOut-icon"
+          className="Icon-root Icon-md coral coral-icon ExperimentalCallOut-icon"
         >
           new_releases
         </i>
@@ -448,7 +448,7 @@ about webhook signing, visit our
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md"
+            className="Icon-root Icon-md coral coral-icon"
           >
             add
           </i>
@@ -525,7 +525,7 @@ about webhook signing, visit our
                     Details 
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       keyboard_arrow_right
                     </i>
@@ -557,7 +557,7 @@ exports[`renders webhooks 1`] = `
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-md ExperimentalCallOut-icon"
+          className="Icon-root Icon-md coral coral-icon ExperimentalCallOut-icon"
         >
           new_releases
         </i>
@@ -635,7 +635,7 @@ about webhook signing, visit our
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md"
+            className="Icon-root Icon-md coral coral-icon"
           >
             add
           </i>
