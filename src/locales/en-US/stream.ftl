@@ -518,6 +518,7 @@ profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
 profile-account-ignoredCommenters-youAreNoLonger =
   You are no longer ignoring
 profile-account-ignoredCommenters-manage = Manage
+  .aria-label = Manage ignored commenters
 profile-account-ignoredCommenters-cancel = Cancel
 profile-account-ignoredCommenters-close = Close
 
