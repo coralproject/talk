@@ -1,5 +1,5 @@
 export const extractDomain = (email: string): string => {
-  const domain = email.split("@")[1];
+  const parts = email.split("@");
 
-  return domain;
+  return parts.length > 1 ? parts[1] : "";
 };
