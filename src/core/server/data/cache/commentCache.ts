@@ -304,7 +304,7 @@ export class CommentCache {
       results = [];
 
       const start = Date.now();
-      const records = await this.redis.mget(...keys);
+      const records = await this.redis.mget(keys);
       const end = Date.now();
       this.logger.info({ elapsedMs: end - start }, "findMany - mget");
 
