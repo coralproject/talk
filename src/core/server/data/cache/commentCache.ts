@@ -277,6 +277,9 @@ export class CommentCache {
 
     let results: Readonly<Comment>[] = [];
     const keys = ids.map((id) => this.computeDataKey(tenantID, storyID, id));
+    if (keys.length === 0) {
+      return [];
+    }
 
     // try and load all the comments from the local cache
     const loadStart = Date.now();
@@ -297,7 +300,7 @@ export class CommentCache {
     }
 
     // we're missing some comments, just load em from redis
-    if (someNotFound) {
+    if (someNotFound && keys && keys.length > 0) {
       results = [];
 
       const start = Date.now();
