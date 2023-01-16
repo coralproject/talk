@@ -5,6 +5,8 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { CommentCache } from "./commentCache";
 import { UserCache } from "./userCache";
 
+export const DATA_EXPIRY_SECONDS = 24 * 60 * 60;
+
 export class DataCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
@@ -20,7 +22,17 @@ export class DataCache {
     this.redis = redis;
     this.logger = logger.child({ traceID: this.traceID });
 
-    this.comments = new CommentCache(this.mongo, this.redis, this.logger);
-    this.users = new UserCache(this.mongo, this.redis, this.logger);
+    this.comments = new CommentCache(
+      this.mongo,
+      this.redis,
+      this.logger,
+      DATA_EXPIRY_SECONDS
+    );
+    this.users = new UserCache(
+      this.mongo,
+      this.redis,
+      this.logger,
+      DATA_EXPIRY_SECONDS
+    );
   }
 }

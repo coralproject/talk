@@ -7,19 +7,26 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { MongoContext } from "../context";
 
-export const USER_CACHE_DATA_EXPIRY = 24 * 60 * 60;
-
 export class UserCache {
+  private expirySeconds: number;
+
   private mongo: MongoContext;
   private redis: AugmentedRedis;
   private logger: Logger;
 
   private usersByKey: Map<string, Readonly<User>>;
 
-  constructor(mongo: MongoContext, redis: AugmentedRedis, logger: Logger) {
+  constructor(
+    mongo: MongoContext,
+    redis: AugmentedRedis,
+    logger: Logger,
+    expirySeconds: number
+  ) {
     this.mongo = mongo;
     this.redis = redis;
     this.logger = logger.child({ dataCache: "UserCache" });
+
+    this.expirySeconds = expirySeconds;
 
     this.usersByKey = new Map<string, Readonly<User>>();
   }
@@ -40,7 +47,7 @@ export class UserCache {
     for (const user of users) {
       const dataKey = this.computeDataKey(tenantID, user.id);
       cmd.set(dataKey, this.serializeObject(user));
-      cmd.expire(dataKey, USER_CACHE_DATA_EXPIRY);
+      cmd.expire(dataKey, this.expirySeconds);
 
       this.usersByKey.set(dataKey, user);
     }

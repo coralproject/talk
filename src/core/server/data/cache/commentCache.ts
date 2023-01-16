@@ -12,8 +12,6 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const COMMENT_CACHE_DATA_EXPIRY = 24 * 60 * 60;
-
 export interface Filter {
   tag?: GQLTAG;
   rating?: number;
@@ -21,6 +19,8 @@ export interface Filter {
 }
 
 export class CommentCache {
+  private expirySeconds: number;
+
   private mongo: MongoContext;
   private redis: AugmentedRedis;
   private logger: Logger;
@@ -28,10 +28,17 @@ export class CommentCache {
   private commentsByKey: Map<string, Readonly<Comment>>;
   private membersLookup: Map<string, string[]>;
 
-  constructor(mongo: MongoContext, redis: AugmentedRedis, logger: Logger) {
+  constructor(
+    mongo: MongoContext,
+    redis: AugmentedRedis,
+    logger: Logger,
+    expirySeconds: number
+  ) {
     this.mongo = mongo;
     this.redis = redis;
     this.logger = logger.child({ dataCache: "CommentCache" });
+
+    this.expirySeconds = expirySeconds;
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
     this.membersLookup = new Map<string, string[]>();
@@ -182,7 +189,7 @@ export class CommentCache {
       const value = this.serializeObject(comment);
 
       cmd.set(key, value);
-      cmd.expire(key, COMMENT_CACHE_DATA_EXPIRY);
+      cmd.expire(key, this.expirySeconds);
     }
 
     // Create the parent to child key-value look ups
@@ -194,7 +201,7 @@ export class CommentCache {
 
       const key = this.computeMembersKey(tenantID, storyID, parentID);
       cmd.sadd(key, ...childIDs);
-      cmd.expire(key, COMMENT_CACHE_DATA_EXPIRY);
+      cmd.expire(key, this.expirySeconds);
     }
 
     await cmd.exec();
@@ -498,7 +505,7 @@ export class CommentCache {
       comment.id
     );
     cmd.set(dataKey, this.serializeObject(comment));
-    cmd.expire(dataKey, COMMENT_CACHE_DATA_EXPIRY);
+    cmd.expire(dataKey, this.expirySeconds);
 
     const parentKey = this.computeMembersKey(
       comment.tenantID,
@@ -506,7 +513,7 @@ export class CommentCache {
       comment.parentID
     );
     cmd.sadd(parentKey, comment.id);
-    cmd.expire(parentKey, COMMENT_CACHE_DATA_EXPIRY);
+    cmd.expire(parentKey, this.expirySeconds);
 
     const allKey = this.computeStoryAllCommentsKey(
       comment.tenantID,
