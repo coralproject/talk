@@ -20,6 +20,7 @@ interface ReactionButtonProps {
   className?: string;
   isQA?: boolean;
   author?: string | null;
+  iconClassName?: string | null;
 }
 
 function render(props: ReactionButtonProps) {
@@ -33,6 +34,7 @@ function render(props: ReactionButtonProps) {
     label,
     icon,
     iconActive,
+    iconClassName,
   } = props;
 
   return (
@@ -56,7 +58,7 @@ function render(props: ReactionButtonProps) {
         {props.isQA ? (
           <Icon className={styles.icon}>arrow_upward</Icon>
         ) : (
-          <Icon className={styles.icon}>
+          <Icon className={cn(styles.icon, iconClassName)}>
             {reacted ? (iconActive ? iconActive : icon) : icon}
           </Icon>
         )}

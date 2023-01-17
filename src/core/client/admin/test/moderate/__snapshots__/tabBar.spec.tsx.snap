@@ -24,7 +24,7 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm"
+              className="Icon-root Icon-sm coral coral-icon"
             >
               flag
             </i>
@@ -53,7 +53,7 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm"
+              className="Icon-root Icon-sm coral coral-icon"
             >
               access_time
             </i>
@@ -82,7 +82,7 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm"
+              className="Icon-root Icon-sm coral coral-icon"
             >
               forum
             </i>
@@ -111,7 +111,7 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm"
+              className="Icon-root Icon-sm coral coral-icon"
             >
               check_circle
             </i>
@@ -130,7 +130,7 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm"
+              className="Icon-root Icon-sm coral coral-icon"
             >
               cancel
             </i>
@@ -171,7 +171,7 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm"
+            className="Icon-root Icon-sm coral coral-icon"
           >
             expand_more
           </i>

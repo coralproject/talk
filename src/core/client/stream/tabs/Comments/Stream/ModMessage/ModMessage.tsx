@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import CLASSES from "coral-stream/classes";
 import React, { FunctionComponent } from "react";
 
 import { HorizontalGutter, Icon } from "coral-ui/components/v2";
@@ -16,6 +17,7 @@ const ModMessage: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
     <CallOut
       color="primary"
       iconColor="none"
+      className={CLASSES.modMessage.$root}
       icon={
         <Icon size="sm" color="stream">
           message

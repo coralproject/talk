@@ -518,7 +518,7 @@ address from the site and the database.
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm"
+                          className="Icon-root Icon-sm coral coral-icon"
                         >
                           expand_more
                         </i>
@@ -769,7 +769,7 @@ integration to register for a new account.
                       https://openid.net/connect/
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
+                        className="Icon-root Icon-xs coral coral-icon TextLink-icon"
                       >
                         open_in_new
                       </i>
@@ -934,7 +934,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm"
+                            className="Icon-root Icon-sm coral coral-icon"
                           >
                             visibility
                           </i>
@@ -1379,7 +1379,7 @@ more about creating a JWT Token with
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm"
+                                    className="Icon-root Icon-sm coral coral-icon"
                                   >
                                     visibility
                                   </i>
@@ -1400,7 +1400,7 @@ more about creating a JWT Token with
                               <i
                                 aria-hidden="true"
                                 aria-label="Copy Secret"
-                                className="Icon-root Icon-md"
+                                className="Icon-root Icon-md coral coral-icon"
                               >
                                 content_copy
                               </i>
@@ -1472,7 +1472,7 @@ more about creating a JWT Token with
                             </span>
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-sm"
+                              className="Icon-root Icon-sm coral coral-icon"
                             >
                               arrow_drop_down
                             </i>
@@ -1673,7 +1673,7 @@ to create and set up a web application. For more information visit:
                       https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
+                        className="Icon-root Icon-xs coral coral-icon TextLink-icon"
                       >
                         open_in_new
                       </i>
@@ -1795,7 +1795,7 @@ to create and set up a web application. For more information visit:
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm"
+                            className="Icon-root Icon-sm coral coral-icon"
                           >
                             visibility
                           </i>
@@ -1989,7 +1989,7 @@ For more information visit:
                       https://developers.facebook.com/docs/facebook-login/web
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
+                        className="Icon-root Icon-xs coral coral-icon TextLink-icon"
                       >
                         open_in_new
                       </i>
@@ -2111,7 +2111,7 @@ For more information visit:
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm"
+                            className="Icon-root Icon-sm coral coral-icon"
                           >
                             visibility
                           </i>

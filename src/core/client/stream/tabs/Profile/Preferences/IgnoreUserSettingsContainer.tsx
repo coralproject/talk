@@ -56,12 +56,12 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
       aria-labelledby="profile-account-ignoredCommenters-title"
     >
       <Localized id="profile-account-ignoredCommenters">
-        <h1
-          className={styles.title}
+        <h2
+          className={cn(styles.title, CLASSES.ignoredCommenters.heading)}
           id="profile-account-ignoredCommenters-title"
         >
           Ignored Commenters
-        </h1>
+        </h2>
       </Localized>
       <Localized id="profile-account-ignoredCommenters-description">
         <div className={styles.description}>
