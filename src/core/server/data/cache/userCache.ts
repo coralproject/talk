@@ -61,7 +61,7 @@ export class UserCache {
     const keys = ids.map((id) => this.computeDataKey(tenantID, id));
 
     const start = Date.now();
-    const records = await this.redis.mget(keys);
+    const records = keys && keys.length > 0 ? await this.redis.mget(keys) : [];
     const end = Date.now();
     this.logger.info({ elapsedMs: end - start }, "loadUsers - mget");
 

@@ -271,17 +271,18 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
+    const isArchived = !!(story.isArchived || story.isArchiving);
     const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
       storyID,
-      !!(story.isArchived || story.isArchiving)
+      isArchived
     );
     await ctx.cache.users.loadUsers(ctx.tenant.id, userIDs);
 
     const conn = await ctx.cache.comments.rootComments(
       ctx.tenant.id,
       storyID,
-      !!(story.isArchived || story.isArchiving),
+      isArchived,
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
 

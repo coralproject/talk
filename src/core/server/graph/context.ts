@@ -13,6 +13,7 @@ import { PersistedQuery } from "coral-server/models/queries";
 import { Site } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
@@ -49,6 +50,7 @@ export interface GraphContextOptions {
   scraperQueue: ScraperQueue;
   webhookQueue: WebhookQueue;
   notifierQueue: NotifierQueue;
+  loadCacheQueue: LoadCacheQueue;
   mongo: MongoContext;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
@@ -73,6 +75,7 @@ export default class GraphContext {
   public readonly scraperQueue: ScraperQueue;
   public readonly webhookQueue: WebhookQueue;
   public readonly notifierQueue: NotifierQueue;
+  public readonly loadCacheQueue: LoadCacheQueue;
   public readonly mongo: MongoContext;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
@@ -119,6 +122,7 @@ export default class GraphContext {
     this.rejectorQueue = options.rejectorQueue;
     this.notifierQueue = options.notifierQueue;
     this.webhookQueue = options.webhookQueue;
+    this.loadCacheQueue = options.loadCacheQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
     this.reporter = options.reporter;
@@ -129,6 +133,11 @@ export default class GraphContext {
 
     this.seenComments = new SeenCommentsCollection();
 
-    this.cache = new DataCache(this.mongo, this.redis, this.logger);
+    this.cache = new DataCache(
+      this.mongo,
+      this.redis,
+      this.loadCacheQueue,
+      this.logger
+    );
   }
 }

@@ -373,6 +373,7 @@ class Server {
       signingConfig: this.signingConfig,
       tenantCache: this.tenantCache,
       webhookQueue: this.tasks.webhook,
+      loadCacheQueue: this.tasks.loadCache,
     };
 
     // Create the Coral App, branching off from the parent app.

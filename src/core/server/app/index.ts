@@ -31,6 +31,7 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import CoralEventListenerBroker from "coral-server/events/publisher";
 import logger from "coral-server/logger";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
@@ -73,6 +74,7 @@ export interface AppOptions {
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
   webhookQueue: WebhookQueue;
+  loadCacheQueue: LoadCacheQueue;
 }
 
 /**

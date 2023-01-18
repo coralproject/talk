@@ -34,7 +34,13 @@ const createFixtures = async () => {
   const redis = createRedis();
   const mongo = await createMongo();
 
-  const commentCache = new CommentCache(mongo, redis, logger, 24 * 60 * 60);
+  const commentCache = new CommentCache(
+    mongo,
+    redis,
+    null,
+    logger,
+    24 * 60 * 60
+  );
 
   return {
     redis,
@@ -62,6 +68,7 @@ it("can load root comments from commentCache", async () => {
   await mongo.stories().insertOne(story);
   await mongo.comments().insertMany(storyComments);
 
+  await comments.populateCommentsInCache(story.tenantID, story.id, false);
   await comments.primeCommentsForStory(story.tenantID, story.id, false);
   const results = await comments.rootComments(
     story.tenantID,
@@ -114,6 +121,7 @@ it("can load replies from commentCache", async () => {
   await mongo.comments().insertOne(rootComment);
   await mongo.comments().insertMany(replies);
 
+  await comments.populateCommentsInCache(story.tenantID, story.id, false);
   await comments.primeCommentsForStory(story.tenantID, story.id, false);
   const rootResults = await comments.rootComments(
     story.tenantID,

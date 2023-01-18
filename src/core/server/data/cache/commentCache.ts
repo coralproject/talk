@@ -11,6 +11,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 
 export interface Filter {
   tag?: GQLTAG;
@@ -23,6 +24,7 @@ export class CommentCache {
 
   private mongo: MongoContext;
   private redis: AugmentedRedis;
+  private queue: LoadCacheQueue | null;
   private logger: Logger;
 
   private commentsByKey: Map<string, Readonly<Comment>>;
@@ -31,11 +33,14 @@ export class CommentCache {
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
+    queue: LoadCacheQueue | null,
     logger: Logger,
     expirySeconds: number
   ) {
     this.mongo = mongo;
     this.redis = redis;
+    this.queue = queue;
+
     this.logger = logger.child({ dataCache: "CommentCache" });
 
     this.expirySeconds = expirySeconds;
@@ -104,6 +109,31 @@ export class CommentCache {
     return comments;
   }
 
+  public async populateCommentsInCache(
+    tenantID: string,
+    storyID: string,
+    isArchived: boolean
+  ) {
+    const comments = await this.retrieveCommentsFromMongoForStory(
+      tenantID,
+      storyID,
+      isArchived
+    );
+
+    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments);
+
+    const userIDs = new Set<string>();
+    for (const comment of comments) {
+      if (comment.authorID) {
+        userIDs.add(comment.authorID);
+      }
+    }
+
+    return {
+      userIDs: Array.from(userIDs),
+    };
+  }
+
   public async primeCommentsForStory(
     tenantID: string,
     storyID: string,
@@ -120,15 +150,11 @@ export class CommentCache {
           isArchived
         );
 
-    await this.createRelationalCommentKeysLocally(tenantID, storyID, comments);
-
-    if (!hasCommentsInRedis) {
-      await this.createRelationalCommentKeysInRedis(
-        tenantID,
-        storyID,
-        comments
-      );
+    if (!hasCommentsInRedis && this.queue) {
+      await this.queue.add({ tenantID, storyID });
     }
+
+    await this.createRelationalCommentKeysLocally(tenantID, storyID, comments);
 
     const userIDs = new Set<string>();
     for (const comment of comments) {
@@ -205,49 +231,6 @@ export class CommentCache {
     }
 
     await cmd.exec();
-  }
-
-  private async populateRootComments(
-    tenantID: string,
-    storyID: string,
-    isArchived: boolean
-  ): Promise<string[]> {
-    const collection =
-      isArchived && this.mongo.archive
-        ? this.mongo.archivedComments()
-        : this.mongo.comments();
-
-    const comments = await collection.find({ tenantID, storyID }).toArray();
-    if (!comments || comments.length === 0) {
-      return [];
-    }
-
-    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments);
-
-    return comments.map((c) => c.id);
-  }
-
-  private async populateReplies(
-    tenantID: string,
-    storyID: string,
-    parentID: string,
-    isArchived: boolean
-  ) {
-    const collection =
-      isArchived && this.mongo.archive
-        ? this.mongo.archivedComments()
-        : this.mongo.comments();
-
-    const comments = await collection
-      .find({ tenantID, storyID, parentID })
-      .toArray();
-    if (!comments || comments.length === 0) {
-      return [];
-    }
-
-    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments);
-
-    return comments.map((c) => c.id);
   }
 
   public async find(
@@ -358,20 +341,15 @@ export class CommentCache {
 
     let rootCommentIDs = this.membersLookup.get(membersKey);
     if (!rootCommentIDs) {
-      const start = Date.now();
-      rootCommentIDs = await this.redis.smembers(membersKey);
-      const end = Date.now();
-      this.logger.info({ elapsedMs: end - start }, "rootComments - smembers");
-
-      if (!rootCommentIDs || rootCommentIDs.length === 0) {
-        rootCommentIDs = await this.populateRootComments(
-          tenantID,
-          storyID,
-          isArchived
-        );
+      const redisHasMembers = await this.redis.exists(membersKey);
+      if (redisHasMembers) {
+        const start = Date.now();
+        rootCommentIDs = await this.redis.smembers(membersKey);
+        const end = Date.now();
+        this.logger.info({ elapsedMs: end - start }, "rootComments - smembers");
+      } else {
+        rootCommentIDs = [];
       }
-
-      this.membersLookup.set(membersKey, rootCommentIDs);
     }
 
     if (rootCommentIDs.length === 0) {
@@ -467,20 +445,15 @@ export class CommentCache {
     const membersKey = this.computeMembersKey(tenantID, storyID, parentID);
     let commentIDs = this.membersLookup.get(membersKey);
     if (!commentIDs) {
-      const start = Date.now();
-      commentIDs = await this.redis.smembers(membersKey);
-      const end = Date.now();
-      this.logger.info({ elapsedMs: end - start }, "replies - smembers");
-      if (!commentIDs || commentIDs.length === 0) {
-        commentIDs = await this.populateReplies(
-          tenantID,
-          storyID,
-          parentID,
-          isArchived
-        );
+      const redisHasMembers = await this.redis.exists(membersKey);
+      if (redisHasMembers) {
+        const start = Date.now();
+        commentIDs = await this.redis.smembers(membersKey);
+        const end = Date.now();
+        this.logger.info({ elapsedMs: end - start }, "replies - smembers");
+      } else {
+        commentIDs = [];
       }
-
-      this.membersLookup.set(membersKey, commentIDs);
     }
 
     if (commentIDs.length === 0) {

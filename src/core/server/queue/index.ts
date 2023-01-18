@@ -2,6 +2,10 @@ import Queue from "bull";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
+import {
+  createLoadCacheTask,
+  LoadCacheQueue,
+} from "coral-server/queue/tasks/loadCache";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import {
@@ -62,6 +66,7 @@ export interface TaskQueue {
   webhook: WebhookQueue;
   rejector: RejectorQueue;
   archiver: ArchiverQueue;
+  loadCache: LoadCacheQueue;
 }
 
 export function createQueue(options: QueueOptions): TaskQueue {
@@ -82,6 +87,7 @@ export function createQueue(options: QueueOptions): TaskQueue {
   const webhook = createWebhookTask(queueOptions, options);
   const rejector = createRejectorTask(queueOptions, options);
   const archiver = createArchiverTask(queueOptions, options);
+  const loadCache = createLoadCacheTask(queueOptions, options);
 
   // Return the tasks + client.
   return {
@@ -91,5 +97,6 @@ export function createQueue(options: QueueOptions): TaskQueue {
     webhook,
     rejector,
     archiver,
+    loadCache,
   };
 }
