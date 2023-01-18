@@ -25,7 +25,7 @@ export type Moderator = User & {
   role: "MODERATOR";
 };
 
-export type SiteModerator = User & {
+export type SiteModerator = Moderator & {
   role: "MODERATOR";
   moderationScopes: {
     scoped: true;
