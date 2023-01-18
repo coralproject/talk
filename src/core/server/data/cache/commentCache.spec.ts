@@ -54,6 +54,7 @@ const createFixtures = async () => {
 it("can load root comments from commentCache", async () => {
   const {
     cache: { comments },
+    redis,
     mongo,
   } = await createFixtures();
 
@@ -83,6 +84,7 @@ it("can load root comments from commentCache", async () => {
   });
 
   // clean up
+  await redis.flushall();
   await mongo.stories().deleteOne({ tenantID: story.tenantID, id: story.id });
   await mongo
     .comments()
@@ -92,6 +94,7 @@ it("can load root comments from commentCache", async () => {
 it("can load replies from commentCache", async () => {
   const {
     cache: { comments },
+    redis,
     mongo,
   } = await createFixtures();
 
@@ -149,6 +152,7 @@ it("can load replies from commentCache", async () => {
   });
 
   // clean up
+  await redis.flushall();
   await mongo.stories().deleteOne({ tenantID: story.tenantID, id: story.id });
   await mongo
     .comments()

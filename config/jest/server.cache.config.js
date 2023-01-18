@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  displayName: "server",
+  displayName: "cache",
   rootDir: "../../",
   roots: ["<rootDir>/src/core/server/data/cache"],
   collectCoverageFrom: ["**/*.{js,jsx,mjs,ts,tsx}"],
@@ -26,4 +26,5 @@ module.exports = {
     },
   },
   preset: "ts-jest",
+  runInBand: true,
 };
