@@ -67,6 +67,7 @@ import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
 } from "coral-server/graph/schema/__generated__/types";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 
 export type FindStory = FindStoryInput;
 
@@ -83,6 +84,7 @@ export type FindOrCreateStory = FindOrCreateStoryInput;
 export async function findOrCreate(
   mongo: MongoContext,
   tenant: Tenant,
+  queue: LoadCacheQueue,
   broker: CoralEventPublisherBroker,
   input: FindOrCreateStory,
   scraper: ScraperQueue,
@@ -133,6 +135,8 @@ export async function findOrCreate(
       },
       "story upserted"
     );
+
+    await queue.add({ tenantID: tenant.id, storyID: story.id });
 
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
