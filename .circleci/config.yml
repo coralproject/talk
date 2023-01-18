@@ -129,7 +129,7 @@ jobs:
           no_output_timeout: 30m
       - run:
           name: Verify Bundle Size
-          command: npx bundlesize2 --enable-github-checks
+          command: ./node_modules/.bin/bundlesize --enable-github-checks
       - save_cache:
           key: v1-build-cache-{{ .Branch }}
           paths:
@@ -216,7 +216,7 @@ jobs:
             gcloud --quiet config set project "${GOOGLE_PROJECT_ID}"
             gcloud --quiet config set compute/zone "${GOOGLE_COMPUTE_ZONE}"
             gcloud auth configure-docker --quiet
-      - run: 
+      - run:
           name: Create and push the image to GCR
           command: bash ./scripts/docker.sh deploy-commit
           no_output_timeout: 30m
