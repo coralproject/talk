@@ -3,16 +3,12 @@ const path = require("path");
 module.exports = {
   displayName: "server",
   rootDir: "../../",
-  roots: ["<rootDir>/src"],
+  roots: ["<rootDir>/src/core/server/data/cache"],
   collectCoverageFrom: ["**/*.{js,jsx,mjs,ts,tsx}"],
   coveragePathIgnorePatterns: ["/node_modules/"],
   setupFilesAfterEnv: ["<rootDir>/src/core/server/test/setupTestFramework.ts"],
   testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
-  testPathIgnorePatterns: [
-    "/node_modules/",
-    "/client/",
-    "/src/core/server/data/cache/",
-  ],
+  testPathIgnorePatterns: ["/node_modules/", "/client/"],
   testEnvironment: "node",
   testURL: "http://localhost",
   transform: {
