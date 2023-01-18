@@ -13,12 +13,12 @@ exports[`renders configure 1`] = `
       class="coral coral-viewerBox"
     >
       <div
-        class="UserBoxAuthenticated-text"
+        class="UserBoxAuthenticated-text coral coral-viewerBox-usernameLabel"
       >
         Signed in as
       </div>
       <div
-        class="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
+        class="Box-root Flex-root coral coral-viewerBox-usernameContainer Flex-flex Flex-wrap Flex-alignFlexEnd"
       >
         <div
           class="coral coral-viewerBox-username UserBoxAuthenticated-username"

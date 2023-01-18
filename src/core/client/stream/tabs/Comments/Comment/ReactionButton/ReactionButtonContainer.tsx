@@ -16,6 +16,7 @@ import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__g
 import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
 import { ReactionButtonContainer_viewer as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 
+import CLASSES from "coral-stream/classes";
 import { shouldTriggerViewerRefresh } from "../../helpers";
 import RefreshViewerFetch from "../../RefreshViewerFetch";
 import CreateCommentReactionMutation from "./CreateCommentReactionMutation";
@@ -125,6 +126,7 @@ const ReactionButtonContainer: FunctionComponent<Props> = ({
       readOnly={readOnly}
       isQA={isQA}
       author={comment.author?.username}
+      iconClassName={CLASSES.comment.actionBar.reactButton}
     />
   );
 };

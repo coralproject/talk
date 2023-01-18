@@ -6,7 +6,7 @@ exports[`renders the empty settings pane 1`] = `
   data-testid="profile-manageAccount"
 >
   <div
-    class="Box-root HorizontalGutter-root AccountSettingsContainer-root HorizontalGutter-full"
+    class="Box-root HorizontalGutter-root AccountSettingsContainer-root coral coral-accountSettings HorizontalGutter-full"
   >
     <section
       aria-labelledby="profile-changeUsername-title"
@@ -90,7 +90,7 @@ exports[`renders the empty settings pane 1`] = `
                   <div>
                     <i
                       aria-hidden="true"
-                      class="Icon-root Icon-lg"
+                      class="Icon-root Icon-lg coral coral-icon"
                     >
                       email
                     </i>

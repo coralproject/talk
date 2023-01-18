@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <i
   aria-hidden="true"
-  className="Icon-root Icon-sm"
+  className="Icon-root Icon-sm coral coral-icon"
 >
   face
 </i>
@@ -12,7 +12,7 @@ exports[`renders correctly 1`] = `
 exports[`renders correctly with specified size 1`] = `
 <i
   aria-hidden="true"
-  className="Icon-root Icon-lg"
+  className="Icon-root Icon-lg coral coral-icon"
 >
   bookmark
 </i>

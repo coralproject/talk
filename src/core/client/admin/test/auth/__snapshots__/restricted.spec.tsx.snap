@@ -41,7 +41,7 @@ exports[`show restricted screen for commenters and staff 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-lg Restricted-lockIcon"
+              className="Icon-root Icon-lg coral coral-icon Restricted-lockIcon"
             >
               lock
             </i>
@@ -133,7 +133,7 @@ exports[`show restricted screen for commenters and staff 2`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-lg Restricted-lockIcon"
+              className="Icon-root Icon-lg coral coral-icon Restricted-lockIcon"
             >
               lock
             </i>

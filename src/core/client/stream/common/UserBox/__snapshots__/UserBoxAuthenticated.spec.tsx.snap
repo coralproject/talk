@@ -17,13 +17,14 @@ exports[`renders correctly with logout button 1`] = `
       id="general-userBoxAuthenticated-signedIn"
     >
       <div
-        className="UserBoxAuthenticated-text"
+        className="UserBoxAuthenticated-text coral coral-viewerBox-usernameLabel"
       >
         Signed in as
       </div>
     </Localized>
     <ForwardRef(forwardRef)
       alignItems="flex-end"
+      className="coral coral-viewerBox-usernameContainer"
       wrap={true}
     >
       <Username />
@@ -72,13 +73,14 @@ exports[`renders correctly without logout button 1`] = `
       id="general-userBoxAuthenticated-signedIn"
     >
       <div
-        className="UserBoxAuthenticated-text"
+        className="UserBoxAuthenticated-text coral coral-viewerBox-usernameLabel"
       >
         Signed in as
       </div>
     </Localized>
     <ForwardRef(forwardRef)
       alignItems="flex-end"
+      className="coral coral-viewerBox-usernameContainer"
       wrap={true}
     >
       <Username />

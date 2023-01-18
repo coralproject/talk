@@ -1,4 +1,6 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
+import CLASSES from "coral-stream/classes";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
@@ -61,10 +63,17 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
     return null;
   }
   return (
-    <HorizontalGutter container="section" aria-labelledby="profile-bio-title">
+    <HorizontalGutter
+      container="section"
+      aria-labelledby="profile-bio-title"
+      className={CLASSES.myBio.$root}
+    >
       <HorizontalGutter spacing={1}>
         <Localized id="profile-bio-title">
-          <h2 className={styles.title} id="profile-bio-title">
+          <h2
+            className={cn(styles.title, CLASSES.myBio.heading)}
+            id="profile-bio-title"
+          >
             Bio
           </h2>
         </Localized>

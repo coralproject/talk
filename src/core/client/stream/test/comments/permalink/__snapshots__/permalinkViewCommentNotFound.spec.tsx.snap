@@ -15,12 +15,12 @@ exports[`renders permalink view with unknown comment 1`] = `
       className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
     >
       <span
-        className="UserBoxUnauthenticated-joinText"
+        className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
       >
         Join the conversation
       </span>
       <div
-        className="UserBoxUnauthenticated-actions"
+        className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
       >
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"

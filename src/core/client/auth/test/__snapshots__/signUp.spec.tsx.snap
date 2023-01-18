@@ -120,7 +120,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 visibility
               </i>
@@ -148,7 +148,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md SignUpWithEmail-icon"
+            className="Icon-root Icon-md coral coral-icon SignUpWithEmail-icon"
           >
             email
           </i>
@@ -513,7 +513,7 @@ exports[`renders sign up form 1`] = `
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       visibility
                     </i>
@@ -541,7 +541,7 @@ exports[`renders sign up form 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-md SignUpWithEmail-icon"
+                  className="Icon-root Icon-md coral coral-icon SignUpWithEmail-icon"
                 >
                   email
                 </i>

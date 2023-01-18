@@ -85,18 +85,24 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
             <HorizontalGutter>
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-emailNotifications">
-                  <h1
-                    className={styles.title}
+                  <h2
+                    className={cn(
+                      styles.title,
+                      CLASSES.emailNotifications.heading
+                    )}
                     id="profile-account-notifications-emailNotifications-title"
                   >
                     Email Notifications
-                  </h1>
+                  </h2>
                 </Localized>
               </HorizontalGutter>
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-receiveWhen">
                   <div
-                    className={styles.header}
+                    className={cn(
+                      styles.header,
+                      CLASSES.emailNotifications.label
+                    )}
                     id="profile-account-notifications-receiveWhen"
                   >
                     Receive notifications when:
@@ -170,7 +176,11 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                   <FormField>
                     <Localized id="profile-account-notifications-sendNotifications">
                       <label
-                        className={cn(styles.header, styles.sendNotifications)}
+                        className={cn(
+                          styles.header,
+                          styles.sendNotifications,
+                          CLASSES.emailNotifications.label
+                        )}
                         htmlFor="digestFrequency"
                       >
                         Send Notifications:
