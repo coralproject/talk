@@ -83,8 +83,7 @@ export function createLoadCacheTask(
     jobName: JOB_NAME,
     jobProcessor: createJobProcessor(options),
     queue,
-    jobIdGenerator: ({ tenantID, storyID }) =>
-      `${tenantID}:${storyID}:loadCache`,
+    jobIdGenerator: ({ tenantID, storyID }) => `${tenantID}:${storyID}`,
     attempts: 1,
   });
 }
