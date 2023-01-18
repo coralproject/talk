@@ -269,6 +269,7 @@
     "babel-plugin-use-lodash-es": "^0.2.0",
     "bowser": "^2.9.0",
     "browserslist-useragent-regexp": "^2.1.1",
+    "bundlesize2": "^0.0.31",
     "case-sensitive-paths-webpack-plugin": "^2.3.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",

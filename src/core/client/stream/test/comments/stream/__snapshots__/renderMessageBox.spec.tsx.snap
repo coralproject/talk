@@ -18,12 +18,12 @@ exports[`renders message box when commenting disabled 1`] = `
         className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
       >
         <span
-          className="UserBoxUnauthenticated-joinText"
+          className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
         >
           Join the conversation
         </span>
         <div
-          className="UserBoxUnauthenticated-actions"
+          className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
         >
           <button
             className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
@@ -76,7 +76,7 @@ exports[`renders message box when commenting disabled 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 feedback
               </i>
@@ -111,7 +111,7 @@ exports[`renders message box when commenting disabled 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-md MessageBoxIcon-root"
+              className="Icon-root Icon-md coral coral-icon MessageBoxIcon-root"
             >
               chat
             </i>
@@ -133,7 +133,7 @@ exports[`renders message box when commenting disabled 1`] = `
     >
       <nav
         aria-label="Secondary Tablist"
-        className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
+        className="Box-root Flex-root StreamContainer-tabBarRow coral coral-tabBarSecondary-row Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
           className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
@@ -241,7 +241,7 @@ exports[`renders message box when commenting disabled 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 expand_more
               </i>
@@ -322,7 +322,7 @@ exports[`renders message box when commenting disabled 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 forum
               </i>
@@ -344,7 +344,7 @@ exports[`renders message box when commenting disabled 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 description
               </i>
@@ -378,12 +378,12 @@ exports[`renders message box when logged in 1`] = `
         className="coral coral-viewerBox"
       >
         <div
-          className="UserBoxAuthenticated-text"
+          className="UserBoxAuthenticated-text coral coral-viewerBox-usernameLabel"
         >
           Signed in as
         </div>
         <div
-          className="Box-root Flex-root Flex-flex Flex-wrap Flex-alignFlexEnd"
+          className="Box-root Flex-root coral coral-viewerBox-usernameContainer Flex-flex Flex-wrap Flex-alignFlexEnd"
         >
           <div
             className="coral coral-viewerBox-username UserBoxAuthenticated-username"
@@ -430,7 +430,7 @@ exports[`renders message box when logged in 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-md MessageBoxIcon-root"
+              className="Icon-root Icon-md coral coral-icon MessageBoxIcon-root"
             >
               chat
             </i>
@@ -506,7 +506,7 @@ exports[`renders message box when logged in 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-md"
+                              className="Icon-root Icon-md coral coral-icon"
                             >
                               format_bold
                             </i>
@@ -526,7 +526,7 @@ exports[`renders message box when logged in 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-md"
+                              className="Icon-root Icon-md coral coral-icon"
                             >
                               format_italic
                             </i>
@@ -546,7 +546,7 @@ exports[`renders message box when logged in 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-md"
+                              className="Icon-root Icon-md coral coral-icon"
                             >
                               format_quote
                             </i>
@@ -566,7 +566,7 @@ exports[`renders message box when logged in 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-md"
+                              className="Icon-root Icon-md coral coral-icon"
                             >
                               format_list_bulleted
                             </i>
@@ -604,7 +604,7 @@ exports[`renders message box when logged in 1`] = `
     >
       <nav
         aria-label="Secondary Tablist"
-        className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
+        className="Box-root Flex-root StreamContainer-tabBarRow coral coral-tabBarSecondary-row Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
           className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
@@ -712,7 +712,7 @@ exports[`renders message box when logged in 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 expand_more
               </i>
@@ -793,7 +793,7 @@ exports[`renders message box when logged in 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 account_box
               </i>
@@ -815,7 +815,7 @@ exports[`renders message box when logged in 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 forum
               </i>
@@ -837,7 +837,7 @@ exports[`renders message box when logged in 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 description
               </i>
@@ -871,12 +871,12 @@ exports[`renders message box when not logged in 1`] = `
         className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
       >
         <span
-          className="UserBoxUnauthenticated-joinText"
+          className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
         >
           Join the conversation
         </span>
         <div
-          className="UserBoxUnauthenticated-actions"
+          className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
         >
           <button
             className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
@@ -924,7 +924,7 @@ exports[`renders message box when not logged in 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md MessageBoxIcon-root"
+            className="Icon-root Icon-md coral coral-icon MessageBoxIcon-root"
           >
             chat
           </i>
@@ -942,7 +942,7 @@ exports[`renders message box when not logged in 1`] = `
           className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
         >
           <div
-            className="PostCommentFormFake-rteContainer"
+            className="PostCommentFormFake-rteContainer coral coral-rte-fake-container"
           >
             <div
               role="none"
@@ -984,7 +984,7 @@ exports[`renders message box when not logged in 1`] = `
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-md"
+                      className="Icon-root Icon-md coral coral-icon"
                     >
                       format_bold
                     </i>
@@ -1004,7 +1004,7 @@ exports[`renders message box when not logged in 1`] = `
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-md"
+                      className="Icon-root Icon-md coral coral-icon"
                     >
                       format_italic
                     </i>
@@ -1024,7 +1024,7 @@ exports[`renders message box when not logged in 1`] = `
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-md"
+                      className="Icon-root Icon-md coral coral-icon"
                     >
                       format_quote
                     </i>
@@ -1044,7 +1044,7 @@ exports[`renders message box when not logged in 1`] = `
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-md"
+                      className="Icon-root Icon-md coral coral-icon"
                     >
                       format_list_bulleted
                     </i>
@@ -1075,7 +1075,7 @@ exports[`renders message box when not logged in 1`] = `
     >
       <nav
         aria-label="Secondary Tablist"
-        className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
+        className="Box-root Flex-root StreamContainer-tabBarRow coral coral-tabBarSecondary-row Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
           className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
@@ -1183,7 +1183,7 @@ exports[`renders message box when not logged in 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 expand_more
               </i>
@@ -1264,7 +1264,7 @@ exports[`renders message box when not logged in 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 forum
               </i>
@@ -1286,7 +1286,7 @@ exports[`renders message box when not logged in 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 description
               </i>
@@ -1320,12 +1320,12 @@ exports[`renders message box when story isClosed 1`] = `
         className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
       >
         <span
-          className="UserBoxUnauthenticated-joinText"
+          className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
         >
           Join the conversation
         </span>
         <div
-          className="UserBoxUnauthenticated-actions"
+          className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
         >
           <button
             className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
@@ -1391,7 +1391,7 @@ exports[`renders message box when story isClosed 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 feedback
               </i>
@@ -1425,7 +1425,7 @@ exports[`renders message box when story isClosed 1`] = `
     >
       <nav
         aria-label="Secondary Tablist"
-        className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
+        className="Box-root Flex-root StreamContainer-tabBarRow coral coral-tabBarSecondary-row Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
       >
         <ul
           className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
@@ -1533,7 +1533,7 @@ exports[`renders message box when story isClosed 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 expand_more
               </i>
@@ -1614,7 +1614,7 @@ exports[`renders message box when story isClosed 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 forum
               </i>
@@ -1636,7 +1636,7 @@ exports[`renders message box when story isClosed 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root CommentsLinks-icon"
+                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
               >
                 description
               </i>

@@ -1,4 +1,6 @@
 import { Localized } from "@fluent/react/compat";
+
+import CLASSES from "coral-stream/classes";
 import React, { FunctionComponent } from "react";
 
 import { Icon } from "coral-ui/components/v2";
@@ -10,6 +12,7 @@ const BannedInfo: FunctionComponent = (props) => {
   return (
     <CallOut
       color="error"
+      className={CLASSES.bannedInfo.$root}
       icon={
         <Icon size="sm" className={styles.icon}>
           block

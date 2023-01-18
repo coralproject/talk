@@ -14,7 +14,7 @@ exports[`renders icon 1`] = `
 >
   <i
     aria-hidden="true"
-    className="Icon-root Icon-sm MessageIcon-root"
+    className="Icon-root Icon-sm coral coral-icon MessageIcon-root"
   >
     alert
   </i>

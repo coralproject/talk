@@ -83,7 +83,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm coral coral-icon"
                 >
                   visibility
                 </i>
@@ -133,7 +133,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-md SignInWithEmail-icon"
+              className="Icon-root Icon-md coral coral-icon SignInWithEmail-icon"
             >
               email
             </i>
@@ -462,7 +462,7 @@ exports[`renders sign in view 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm"
+                        className="Icon-root Icon-sm coral coral-icon"
                       >
                         visibility
                       </i>
@@ -512,7 +512,7 @@ exports[`renders sign in view 1`] = `
                 >
                   <i
                     aria-hidden="true"
-                    className="Icon-root Icon-md SignInWithEmail-icon"
+                    className="Icon-root Icon-md coral coral-icon SignInWithEmail-icon"
                   >
                     email
                   </i>

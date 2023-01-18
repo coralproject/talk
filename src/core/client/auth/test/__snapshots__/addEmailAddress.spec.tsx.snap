@@ -22,7 +22,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -44,7 +44,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -65,7 +65,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -146,7 +146,7 @@ Your email address will be used to:
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm ValidationMessage-icon"
+            className="Icon-root Icon-sm coral coral-icon ValidationMessage-icon"
           >
             error
           </i>
@@ -199,7 +199,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -221,7 +221,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -242,7 +242,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -293,7 +293,7 @@ Your email address will be used to:
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm ValidationMessage-icon"
+            className="Icon-root Icon-sm coral coral-icon ValidationMessage-icon"
           >
             error
           </i>
@@ -341,7 +341,7 @@ Your email address will be used to:
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm ValidationMessage-icon"
+            className="Icon-root Icon-sm coral coral-icon ValidationMessage-icon"
           >
             error
           </i>
@@ -417,7 +417,7 @@ Your email address will be used to:
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm coral coral-icon"
                 >
                   done
                 </i>
@@ -439,7 +439,7 @@ Your email address will be used to:
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm coral coral-icon"
                 >
                   done
                 </i>
@@ -460,7 +460,7 @@ Your email address will be used to:
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm coral coral-icon"
                 >
                   done
                 </i>
@@ -580,7 +580,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -602,7 +602,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -623,7 +623,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -674,7 +674,7 @@ Your email address will be used to:
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm ValidationMessage-icon"
+            className="Icon-root Icon-sm coral coral-icon ValidationMessage-icon"
           >
             error
           </i>
@@ -722,7 +722,7 @@ Your email address will be used to:
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm ValidationMessage-icon"
+            className="Icon-root Icon-sm coral coral-icon ValidationMessage-icon"
           >
             error
           </i>
@@ -775,7 +775,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -797,7 +797,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -818,7 +818,7 @@ Your email address will be used to:
       >
         <i
           aria-hidden="true"
-          className="Icon-root Icon-sm"
+          className="Icon-root Icon-sm coral coral-icon"
         >
           done
         </i>
@@ -846,7 +846,7 @@ Your email address will be used to:
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm"
+            className="Icon-root Icon-sm coral coral-icon"
           >
             error
           </i>
