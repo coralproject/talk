@@ -65,6 +65,10 @@ export class UserCache {
     const end = Date.now();
     this.logger.info({ elapsedMs: end - start }, "loadUsers - mget");
 
+    if (records.length !== ids.length) {
+      await this.populateUsers(tenantID, ids);
+    }
+
     for (const record of records) {
       if (!record) {
         continue;
