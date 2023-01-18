@@ -9323,7 +9323,7 @@ type Mutation {
   createEmailDomain creates an email domain configuration.
   """
   createEmailDomain(input: CreateEmailDomainInput!): CreateEmailDomainPayload!
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   updateEmailDomain updates an email domain configuration.

@@ -9,7 +9,9 @@ import React, {
 import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { extractDomain } from "coral-common/email";
 import { useGetMessage } from "coral-framework/lib/i18n";
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
@@ -22,13 +24,18 @@ import {
 } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
+import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 
-import ModalHeader from "../ModalHeader";
-import ModalHeaderUsername from "../ModalHeaderUsername";
-import ChangeStatusModal from "./ChangeStatusModal";
-import { getTextForUpdateType } from "./helpers";
-import UserStatusSitesList, { Scopes } from "./UserStatusSitesList";
+import BanDomainMutation from "./BanDomainMutation";
+import BanUserMutation from "./BanUserMutation";
+import ModalHeader from "./ModalHeader";
+import ModalHeaderUsername from "./ModalHeaderUsername";
+import RemoveUserBanMutation from "./RemoveUserBanMutation";
+import UpdateUserBanMutation from "./UpdateUserBanMutation";
+import ChangeStatusModal from "./UserStatus/ChangeStatusModal";
+import { getTextForUpdateType } from "./UserStatus/helpers";
+import UserStatusSitesList, { Scopes } from "./UserStatus/UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
@@ -39,18 +46,15 @@ export enum UpdateType {
 }
 
 interface Props {
+  userID: string;
   username: string | null;
+  userEmail: string | null;
   userBanStatus?: UserStatusChangeContainer_user["status"]["ban"];
   open: boolean;
   onClose: () => void;
-  onConfirm: (
-    updateType: UpdateType,
-    rejectExistingComments: boolean,
-    banSiteIDs?: string[] | null | undefined,
-    unbanSiteIDs?: string[] | null | undefined,
-    message?: string
-  ) => void;
+  onConfirm: () => void;
   viewerScopes: Scopes;
+  emailDomainModeration: UserStatusChangeContainer_settings["emailDomainModeration"];
   userRole: string;
   isMultisite: boolean;
 }
@@ -109,12 +113,20 @@ const BanModal: FunctionComponent<Props> = ({
   open,
   onClose,
   onConfirm,
+  userID,
   username,
+  userEmail,
   viewerScopes,
+  emailDomainModeration,
   userBanStatus,
   userRole,
   isMultisite,
 }) => {
+  const createDomainBan = useMutation(BanDomainMutation);
+  const banUser = useMutation(BanUserMutation);
+  const updateUserBan = useMutation(UpdateUserBanMutation);
+  const removeUserBan = useMutation(RemoveUserBanMutation);
+
   const getMessage = useGetMessage();
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
@@ -163,10 +175,16 @@ const BanModal: FunctionComponent<Props> = ({
 
   const [customizeMessage, setCustomizeMessage] = useState(false);
   const [emailMessage, setEmailMessage] = useState<string>(getDefaultMessage);
-  const [rejectComments, setRejectComments] = useState(false);
+  const [rejectExistingComments, setRejectExistingComments] = useState(false);
+  const [banDomain, setBanDomain] = useState(false);
 
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
+
+  const [emailDomain] = useState(userEmail ? extractDomain(userEmail) : null);
+  const domainIsConfigured = emailDomainModeration.find(
+    ({ domain }) => domain === emailDomain
+  );
 
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
@@ -174,23 +192,55 @@ const BanModal: FunctionComponent<Props> = ({
     }
   }, [viewerIsSingleSiteMod, viewerScopes.sites]);
 
-  const onFormSubmit = useCallback(() => {
-    return onConfirm(
-      updateType,
-      rejectComments,
-      banSiteIDs,
-      unbanSiteIDs,
-      customizeMessage ? emailMessage : getDefaultMessage
-    );
+  const onFormSubmit = useCallback(async () => {
+    switch (updateType) {
+      case UpdateType.ALL_SITES:
+        await banUser({
+          userID, // Should be defined because the modal shouldn't open if author is null
+          message: customizeMessage ? emailMessage : getDefaultMessage,
+          rejectExistingComments,
+          siteIDs: viewerIsScoped
+            ? viewerScopes.sites!.map(({ id }) => id)
+            : [],
+        });
+        break;
+      case UpdateType.SPECIFIC_SITES:
+        await updateUserBan({
+          userID,
+          message: customizeMessage ? emailMessage : getDefaultMessage,
+          banSiteIDs,
+          unbanSiteIDs,
+        });
+        break;
+      case UpdateType.NO_SITES:
+        await removeUserBan({
+          userID,
+        });
+    }
+    if (banDomain) {
+      void createDomainBan({
+        domain: emailDomain!, // banDomain == true -> emailDomin != null
+      });
+    }
+    return onConfirm();
   }, [
-    onConfirm,
     updateType,
+    banDomain,
+    onConfirm,
+    banUser,
+    userID,
+    customizeMessage,
+    emailMessage,
+    getDefaultMessage,
+    rejectExistingComments,
+    viewerIsScoped,
+    viewerScopes.sites,
+    updateUserBan,
     banSiteIDs,
     unbanSiteIDs,
-    emailMessage,
-    customizeMessage,
-    getDefaultMessage,
-    rejectComments,
+    removeUserBan,
+    createDomainBan,
+    emailDomain,
   ]);
 
   const {
@@ -227,7 +277,7 @@ const BanModal: FunctionComponent<Props> = ({
               }}
             >
               <ModalHeader id="banModal-title">
-                {title + " "}
+                {`${title} `}
                 <ModalHeaderUsername>
                   {username || <NotAvailable />}
                 </ModalHeaderUsername>
@@ -252,9 +302,9 @@ const BanModal: FunctionComponent<Props> = ({
                     >
                       <CheckBox
                         id="banModal-rejectExisting"
-                        checked={rejectComments}
+                        checked={rejectExistingComments}
                         onChange={(event) =>
-                          setRejectComments(event.target.checked)
+                          setRejectExistingComments(event.target.checked)
                         }
                       >
                         {viewerIsSingleSiteMod
@@ -263,6 +313,22 @@ const BanModal: FunctionComponent<Props> = ({
                       </CheckBox>
                     </Localized>
                   )}
+                  {updateType !== UpdateType.NO_SITES &&
+                    emailDomain &&
+                    !domainIsConfigured && (
+                      <Localized
+                        id="community-banModal-banEmailDomain"
+                        vars={{ domain: emailDomain }}
+                      >
+                        <CheckBox
+                          onChange={({ target }) => {
+                            setBanDomain(target.checked);
+                          }}
+                        >
+                          Ban all new accounts on <strong>{emailDomain}</strong>
+                        </CheckBox>
+                      </Localized>
+                    )}
                   {updateType !== UpdateType.NO_SITES && (
                     <Localized id="community-banModal-customize">
                       <CheckBox
