@@ -56,3 +56,11 @@
 .storyLink {
   font-weight: var(--font-weight-primary-regular);
 }
+
+.rescrapeStory {
+  margin-bottom: var(--spacing-2);
+}
+
+.recacheStory {
+  margin-bottom: var(--spacing-2);
+}

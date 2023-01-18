@@ -494,4 +494,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     story: await ctx.mutators.Stories.refreshStoryCounts(input),
     clientMutationId: input.clientMutationId,
   }),
+  cacheStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.cacheStory(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

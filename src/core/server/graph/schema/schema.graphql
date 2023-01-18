@@ -8759,6 +8759,35 @@ type RefreshStoryCountsPayload {
 }
 
 ##################
+## cacheStory
+##################
+
+input CacheStoryInput {
+  """
+  id is the identifier of the Story used either when the Story was created via
+  the API or from Coral when it was lazily created.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CacheStoryPayload {
+  """
+  story is the Story that was scheduled for caching.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -9448,6 +9477,13 @@ type Mutation {
   """
   refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
     @auth(roles: [ADMIN])
+
+  """
+  cacheStory will cache the given Story and its comments into redis for fast
+  retrieval avoiding Mongo resources to load the story data.
+  """
+  cacheStory(input: CacheStoryInput!): CacheStoryPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################
