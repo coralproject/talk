@@ -504,6 +504,33 @@ export class CommentCache {
     this.membersLookup.get(parentKey)!.push(comment.id);
   }
 
+  public async remove(comment: Readonly<Comment>) {
+    const cmd = this.redis.multi();
+
+    const dataKey = this.computeDataKey(
+      comment.tenantID,
+      comment.storyID,
+      comment.id
+    );
+
+    const parentKey = this.computeMembersKey(
+      comment.tenantID,
+      comment.storyID,
+      comment.parentID
+    );
+
+    const allKey = this.computeStoryAllCommentsKey(
+      comment.tenantID,
+      comment.storyID
+    );
+
+    cmd.del(dataKey);
+    cmd.srem(parentKey, comment.id);
+    cmd.srem(allKey, `${comment.parentID}:${comment.id}`);
+
+    await cmd.exec();
+  }
+
   private createConnection(comments: Readonly<Comment>[]) {
     const edges: any[] = [];
     const nodes: any[] = [];

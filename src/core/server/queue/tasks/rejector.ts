@@ -1,5 +1,6 @@
 import Queue from "bull";
 
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -14,12 +15,12 @@ import {
 } from "coral-server/services/comments";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
+import { rejectComment } from "coral-server/stacks";
 
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
-import { rejectComment } from "coral-server/stacks";
 
 const JOB_NAME = "rejector";
 
@@ -142,6 +143,7 @@ const rejectArchivedComments = async (
 const rejectLiveComments = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
@@ -159,6 +161,7 @@ const rejectLiveComments = async (
       await rejectComment(
         mongo,
         redis,
+        cache,
         null,
         tenant,
         comment.id,
@@ -214,9 +217,12 @@ const createJobProcessor =
       return;
     }
 
+    const cache = new DataCache(mongo, redis, null, log);
+
     await rejectLiveComments(
       mongo,
       redis,
+      cache,
       tenant,
       authorID,
       moderatorID,

@@ -35,6 +35,7 @@ export const Actions = (ctx: GraphContext) => ({
     return rejectComment(
       ctx.mongo,
       ctx.redis,
+      ctx.cache,
       ctx.broker,
       ctx.tenant,
       input.commentID,
