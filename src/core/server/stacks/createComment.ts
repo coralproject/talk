@@ -443,8 +443,16 @@ export default async function create(
   });
 
   await cache.comments.update(comment);
+  if (comment.authorID) {
+    await cache.users.populateUsers(tenant.id, [comment.authorID]);
+  }
+
   if (parent) {
     await cache.comments.update(parent);
+
+    if (parent.authorID) {
+      await cache.users.populateUsers(tenant.id, [parent.authorID]);
+    }
   }
 
   // Publish changes to the event publisher.

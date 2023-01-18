@@ -274,6 +274,9 @@ export default async function edit(
   });
 
   await cache.comments.update(result.after);
+  if (result.after.authorID) {
+    await cache.users.populateUsers(tenant.id, [result.after.authorID]);
+  }
 
   // Publish changes to the event publisher.
   await publishChanges(broker, {

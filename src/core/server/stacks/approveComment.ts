@@ -68,6 +68,9 @@ const approveComment = async (
   }
 
   await cache.comments.update(result.after);
+  if (result.after.authorID) {
+    await cache.users.populateUsers(tenant.id, [result.after.authorID]);
+  }
 
   // Return the resulting comment.
   return result.after;
