@@ -22,7 +22,7 @@ export function logAndReportError(
 
   // If there's no reporter active, then just log what we got and return now.
   if (!ctx.reporter || !ctx.reporter.shouldReport(err)) {
-    ctx.logger.error({ err, report: null }, "graphql query error");
+    logger.error({ err, report: null }, "graphql query error");
     return;
   }
 
@@ -45,7 +45,7 @@ export function logAndReportError(
   const report = ctx.reporter.report(getOriginalError(err) || err, scope);
 
   // Log that we reported an error.
-  ctx.logger.error({ err, report }, "graphql query error");
+  logger.error({ err, report }, "graphql query error");
 }
 
 export function logQuery(

@@ -60,9 +60,6 @@ link these enter your password.
                   className="PasswordField-wrapper"
                 >
                   <input
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
                     className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
                     data-testid="password-field"
                     disabled={false}
@@ -72,7 +69,6 @@ link these enter your password.
                     onChange={[Function]}
                     onFocus={[Function]}
                     placeholder="Password"
-                    spellCheck={false}
                     type="password"
                     value=""
                   />
@@ -86,7 +82,7 @@ link these enter your password.
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       visibility
                     </i>

@@ -619,7 +619,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         </Button>
                       )}
                       {showAvatar && comment.author?.avatar && (
-                        <div className={styles.avatarContainer}>
+                        <div
+                          className={cn(
+                            styles.avatarContainer,
+                            CLASSES.comment.avatar
+                          )}
+                        >
                           <Localized
                             id="comments-commentContainer-avatar"
                             attrs={{ alt: true }}

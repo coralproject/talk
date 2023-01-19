@@ -115,7 +115,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
             >
               question_answer
             </i>
@@ -260,7 +260,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 </span>
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
                 >
                   arrow_drop_down
                 </i>
@@ -295,7 +295,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-lg RejectButton-icon"
+            className="Icon-root Icon-lg coral coral-icon RejectButton-icon"
           >
             close
           </i>
@@ -314,7 +314,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-lg ApproveButton-icon"
+            className="Icon-root Icon-lg coral coral-icon ApproveButton-icon"
           >
             done
           </i>
@@ -437,7 +437,7 @@ exports[`renders rejected queue with comments 1`] = `
                 >
                   <i
                     aria-hidden="true"
-                    className="Icon-root Icon-sm ButtonIcon-root"
+                    className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
                   >
                     question_answer
                   </i>
@@ -582,7 +582,7 @@ exports[`renders rejected queue with comments 1`] = `
                       </span>
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ButtonIcon-root"
+                        className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
                       >
                         arrow_drop_down
                       </i>
@@ -617,7 +617,7 @@ exports[`renders rejected queue with comments 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-lg RejectButton-icon"
+                  className="Icon-root Icon-lg coral coral-icon RejectButton-icon"
                 >
                   close
                 </i>
@@ -636,7 +636,7 @@ exports[`renders rejected queue with comments 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-lg ApproveButton-icon"
+                  className="Icon-root Icon-lg coral coral-icon ApproveButton-icon"
                 >
                   done
                 </i>
@@ -729,7 +729,7 @@ exports[`renders rejected queue with comments 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm InReplyTo-icon"
+                  className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                 >
                   reply
                 </i>
@@ -791,7 +791,7 @@ exports[`renders rejected queue with comments 1`] = `
                 >
                   <i
                     aria-hidden="true"
-                    className="Icon-root Icon-sm ButtonIcon-root"
+                    className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
                   >
                     question_answer
                   </i>
@@ -888,7 +888,7 @@ exports[`renders rejected queue with comments 1`] = `
                       </span>
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ButtonIcon-root"
+                        className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
                       >
                         arrow_drop_down
                       </i>
@@ -923,7 +923,7 @@ exports[`renders rejected queue with comments 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-lg RejectButton-icon"
+                  className="Icon-root Icon-lg coral coral-icon RejectButton-icon"
                 >
                   close
                 </i>
@@ -942,7 +942,7 @@ exports[`renders rejected queue with comments 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-lg ApproveButton-icon"
+                  className="Icon-root Icon-lg coral coral-icon ApproveButton-icon"
                 >
                   done
                 </i>
@@ -1068,7 +1068,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
             >
               question_answer
             </i>
@@ -1178,7 +1178,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 </span>
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
                 >
                   arrow_drop_down
                 </i>
@@ -1213,7 +1213,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-lg RejectButton-icon"
+            className="Icon-root Icon-lg coral coral-icon RejectButton-icon"
           >
             close
           </i>
@@ -1232,7 +1232,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-lg ApproveButton-icon"
+            className="Icon-root Icon-lg coral coral-icon ApproveButton-icon"
           >
             done
           </i>

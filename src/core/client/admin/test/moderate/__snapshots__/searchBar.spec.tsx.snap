@@ -35,7 +35,7 @@ exports[`all stories active search with no results 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-md Field-searchIcon"
+                className="Icon-root Icon-md coral coral-icon Field-searchIcon"
               >
                 search
               </i>
@@ -173,7 +173,7 @@ exports[`all stories active search with too many results 1`] = `
     </span>
     <i
       aria-hidden="true"
-      className="Icon-root Icon-md SeeAllOption-icon"
+      className="Icon-root Icon-md coral coral-icon SeeAllOption-icon"
     >
       keyboard_arrow_right
     </i>
@@ -216,7 +216,7 @@ exports[`all stories renders search bar 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-md Field-searchIcon"
+                className="Icon-root Icon-md coral coral-icon Field-searchIcon"
               >
                 search
               </i>

@@ -68,7 +68,10 @@ const SiteRoleModal: FunctionComponent<Props> = ({
       data-testid="site-role-modal"
     >
       {({ firstFocusableRef, lastFocusableRef }) => (
-        <Card className={styles.root}>
+        <Card
+          className={styles.root}
+          aria-label="A modal for managing the scope of a site scoped role"
+        >
           <Flex justifyContent="flex-end">
             <CardCloseButton onClick={onCancel} ref={firstFocusableRef} />
           </Flex>
@@ -78,7 +81,7 @@ const SiteRoleModal: FunctionComponent<Props> = ({
           >
             {({ handleSubmit, submitError, submitting, values }) => {
               return (
-                <form onSubmit={handleSubmit}>
+                <form aria-label="form" onSubmit={handleSubmit}>
                   <HorizontalGutter spacing={3}>
                     <Localized
                       id="community-siteRoleModal-assignSites"
@@ -122,14 +125,14 @@ const SiteRoleModal: FunctionComponent<Props> = ({
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="community-siteRoleModal-assign">
+                      <Localized id="community-siteRoleModal-update">
                         <Button
                           type="submit"
                           disabled={submitting || values.siteIDs.length === 0}
                           ref={lastFocusableRef}
                           data-testid="site-role-modal-submitButton"
                         >
-                          Assign
+                          Update
                         </Button>
                       </Localized>
                     </Flex>

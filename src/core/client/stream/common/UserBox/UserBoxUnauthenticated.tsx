@@ -30,9 +30,11 @@ const UserBoxUnauthenticated: FunctionComponent<UserBoxUnauthenticatedProps> = (
         aria-label="Authentication"
       >
         <Localized id="general-userBoxUnauthenticated-joinTheConversation">
-          <span className={styles.joinText}>Join the conversation</span>
+          <span className={cn(styles.joinText, CLASSES.viewerBox.joinText)}>
+            Join the conversation
+          </span>
         </Localized>
-        <div className={styles.actions}>
+        <div className={cn(styles.actions, CLASSES.viewerBox.actionButtons)}>
           {props.showRegisterButton && (
             <Localized id="general-userBoxUnauthenticated-register">
               <Button

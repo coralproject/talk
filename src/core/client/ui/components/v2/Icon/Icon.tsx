@@ -1,6 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
+import CLASSES from "coral-stream/classes";
+
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -35,6 +37,7 @@ const Icon: FunctionComponent<Props> = (props) => {
   const rootClassName = cn(
     classes.root,
     classes[size !== undefined ? size : "sm"],
+    CLASSES.icon,
     {
       [classes.colorPrimary]: color === "primary",
       [classes.colorError]: color === "error",
