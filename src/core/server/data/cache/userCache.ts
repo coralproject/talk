@@ -1,5 +1,3 @@
-import zlib from "zlib";
-
 import { UserNotFoundError } from "coral-server/errors";
 import { Logger } from "coral-server/logger";
 import { User } from "coral-server/models/user";
@@ -112,16 +110,11 @@ export class UserCache {
 
   private serializeObject(comment: Readonly<User>) {
     const json = JSON.stringify(comment);
-    const data = zlib.brotliCompressSync(json).toString("base64");
-
-    return data;
+    return json;
   }
 
   private deserializeObject(data: string): Readonly<User> {
-    const buffer = Buffer.from(data, "base64");
-    const json = zlib.brotliDecompressSync(buffer).toString();
-    const parsed = JSON.parse(json);
-
+    const parsed = JSON.parse(data);
     return {
       ...parsed,
       createdAt: new Date(parsed.createdAt),

@@ -1,5 +1,3 @@
-import zlib from "zlib";
-
 import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
@@ -582,16 +580,11 @@ export class CommentCache {
 
   private serializeObject(comment: Readonly<Comment>) {
     const json = JSON.stringify(comment);
-    const data = zlib.brotliCompressSync(json).toString("base64");
-
-    return data;
+    return json;
   }
 
   private deserializeObject(data: string): Readonly<Comment> {
-    const buffer = Buffer.from(data, "base64");
-    const json = zlib.brotliDecompressSync(buffer).toString();
-    const parsed = JSON.parse(json);
-
+    const parsed = JSON.parse(data);
     return {
       ...parsed,
       createdAt: new Date(parsed.createdAt),

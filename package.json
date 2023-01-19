@@ -157,8 +157,7 @@
     "url-regex-safe": "^2.0.2",
     "uuid": "^7.0.3",
     "verror": "^1.10.0",
-    "xregexp": "^4.3.0",
-    "zlib": "^1.0.5"
+    "xregexp": "^4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
