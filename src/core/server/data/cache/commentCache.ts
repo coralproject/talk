@@ -68,6 +68,17 @@ export class CommentCache {
     return key;
   }
 
+  private computeSortKey(
+    tenantID: string,
+    storyID: string,
+    parentID: string | null
+  ) {
+    const sortKey = parentID
+      ? `${tenantID}:${storyID}:${parentID}:sort`
+      : `${tenantID}:${storyID}:root:sort`;
+    return sortKey;
+  }
+
   private async retrieveCommentsFromMongoForStory(
     tenantID: string,
     storyID: string,
@@ -197,6 +208,15 @@ export class CommentCache {
 
     const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
     cmd.sadd(allCommentsKey, ...comments.map((c) => `${c.parentID}:${c.id}`));
+
+    const sortKey = this.computeSortKey(tenantID, storyID, null);
+    for (const comment of comments) {
+      if (comment.parentID) {
+        continue;
+      }
+
+      cmd.zadd(sortKey, comment.createdAt.getTime(), comment.id);
+    }
 
     // Create the comment data key-value look ups
     const commentIDs = new Map<string, string[]>();
@@ -355,9 +375,48 @@ export class CommentCache {
     }
 
     const comments = await this.findMany(tenantID, storyID, rootCommentIDs);
-    const sortedComments = this.sortComments(comments, orderBy);
 
-    return this.createConnection(sortedComments);
+    const sortKey = this.computeSortKey(tenantID, storyID, null);
+    const redisHasSort = await this.redis.exists(sortKey);
+    if (
+      redisHasSort &&
+      [
+        GQLCOMMENT_SORT.CREATED_AT_ASC,
+        GQLCOMMENT_SORT.CREATED_AT_DESC,
+      ].includes(orderBy)
+    ) {
+      const start = Date.now();
+      const sortedComments: Readonly<Comment>[] = [];
+      const orderedIDs = await this.redis.zrange(
+        sortKey,
+        0,
+        comments.length * 2
+      );
+
+      let index =
+        orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 0 : orderedIDs.length - 1;
+      const incr = orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 1 : -1;
+
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      for (let i = 0; i < orderedIDs.length; i++) {
+        const id = orderedIDs[index];
+        index += incr;
+
+        const dataKey = this.computeDataKey(tenantID, storyID, id);
+        const comment = this.commentsByKey.get(dataKey);
+        if (comment) {
+          sortedComments.push(comment);
+        }
+      }
+
+      const end = Date.now();
+      this.logger.info({ elapsedMs: end - start, orderBy }, "redis - sort");
+
+      return this.createConnection(sortedComments);
+    } else {
+      const sortedComments = this.sortComments(comments, orderBy);
+      return this.createConnection(sortedComments);
+    }
   }
 
   public async flattenedReplies(
