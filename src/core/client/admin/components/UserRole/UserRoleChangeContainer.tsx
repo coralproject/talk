@@ -38,11 +38,6 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
   );
   const handleOnChangeRole = useCallback(
     async (role: GQLUSER_ROLE_RL, siteIDs?: string[]) => {
-      if (role === user.role) {
-        // No role change is needed! User already has the selected role.
-        return;
-      }
-
       await updateUserRole({ userID: user.id, role, siteIDs });
     },
     [user, updateUserRole]
