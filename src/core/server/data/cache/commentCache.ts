@@ -71,7 +71,7 @@ export class CommentCache {
   private computeSortKey(
     tenantID: string,
     storyID: string,
-    parentID: string | null
+    parentID: string | null | undefined
   ) {
     const sortKey = parentID
       ? `${tenantID}:${storyID}:${parentID}:sort`
@@ -154,10 +154,10 @@ export class CommentCache {
     const comments = hasCommentsInRedis
       ? await this.retrieveCommentsFromRedisForStory(tenantID, storyID)
       : await this.retrieveCommentsFromMongoForStory(
-          tenantID,
-          storyID,
-          isArchived
-        );
+        tenantID,
+        storyID,
+        isArchived
+      );
 
     if (!hasCommentsInRedis && this.queue) {
       await this.queue.add({ tenantID, storyID });
@@ -208,6 +208,7 @@ export class CommentCache {
 
     const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
     cmd.sadd(allCommentsKey, ...comments.map((c) => `${c.parentID}:${c.id}`));
+    cmd.expire(allCommentsKey, this.expirySeconds);
 
     const sortKey = this.computeSortKey(tenantID, storyID, null);
     for (const comment of comments) {
@@ -217,6 +218,7 @@ export class CommentCache {
 
       cmd.zadd(sortKey, comment.createdAt.getTime(), comment.id);
     }
+    cmd.expire(sortKey, this.expirySeconds);
 
     // Create the comment data key-value look ups
     const commentIDs = new Map<string, string[]>();
@@ -551,6 +553,9 @@ export class CommentCache {
     );
     cmd.sadd(allKey, `${comment.parentID}:${comment.id}`);
 
+    const sortKey = this.computeSortKey(comment.tenantID, comment.storyID, comment.parentID);
+    cmd.zadd(sortKey, comment.createdAt.getTime(), comment.id);
+
     await cmd.exec();
 
     this.commentsByKey.set(dataKey, comment);
@@ -581,9 +586,16 @@ export class CommentCache {
       comment.storyID
     );
 
+    const sortKey = this.computeSortKey(
+      comment.tenantID,
+      comment.storyID,
+      comment.parentID
+    )
+
     cmd.del(dataKey);
     cmd.srem(parentKey, comment.id);
     cmd.srem(allKey, `${comment.parentID}:${comment.id}`);
+    cmd.zrem(sortKey, comment.createdAt.getTime(), comment.id);
 
     await cmd.exec();
   }
