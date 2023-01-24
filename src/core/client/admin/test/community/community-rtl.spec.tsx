@@ -550,6 +550,54 @@ it("remove moderation scopes as a site moderator", async () => {
   );
 });
 
+it("allows admins to promote site mods to org mod", async () => {
+  const viewer = users.admins[0];
+  const siteModeratorUser = users.moderators[2];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => viewer,
+      settings: () => settingsWithMultisite,
+    },
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables.siteIDs).toEqual([]);
+        const userRecord = pureMerge<typeof siteModeratorUser>(
+          siteModeratorUser,
+          {
+            role: GQLUSER_ROLE.MODERATOR,
+            moderationScopes: { scoped: false, sites: [] },
+          }
+        );
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(
+    `community-row-${siteModeratorUser.id}`
+  );
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+  userEvent.click(changeRoleButton);
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  const orgModButton = within(popup).getByRole("button", {
+    name: "Organization Moderator",
+  });
+  fireEvent.click(orgModButton);
+
+  await waitFor(() =>
+    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
+  );
+});
+
 it("load more", async () => {
   await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
