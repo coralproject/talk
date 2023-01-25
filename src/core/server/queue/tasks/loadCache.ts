@@ -63,7 +63,8 @@ const createJobProcessor =
     const { userIDs } = await comments.populateCommentsInCache(
       tenantID,
       storyID,
-      isArchived
+      isArchived,
+      new Date,
     );
 
     if (userIDs.length > 0) {

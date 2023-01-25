@@ -47,12 +47,17 @@ export class CommentCache {
     this.membersLookup = new Map<string, string[]>();
   }
 
-  private computeDataKey(tenantID: string, storyID: string, commentID: string) {
+  public computeLockKey(tenantID: string, storyID: string) {
+    const key = `${tenantID}:${storyID}:lock`;
+    return key;
+  }
+
+  public computeDataKey(tenantID: string, storyID: string, commentID: string) {
     const key = `${tenantID}:${storyID}:${commentID}:data`;
     return key;
   }
 
-  private computeMembersKey(
+  public computeMembersKey(
     tenantID: string,
     storyID: string,
     parentID?: string | null
@@ -63,12 +68,12 @@ export class CommentCache {
     return key;
   }
 
-  private computeStoryAllCommentsKey(tenantID: string, storyID: string) {
+  public computeStoryAllCommentsKey(tenantID: string, storyID: string) {
     const key = `${tenantID}:${storyID}:members`;
     return key;
   }
 
-  private computeSortKey(
+  public computeSortKey(
     tenantID: string,
     storyID: string,
     parentID: string | null | undefined
@@ -121,7 +126,8 @@ export class CommentCache {
   public async populateCommentsInCache(
     tenantID: string,
     storyID: string,
-    isArchived: boolean
+    isArchived: boolean,
+    now: Date,
   ) {
     const comments = await this.retrieveCommentsFromMongoForStory(
       tenantID,
@@ -129,7 +135,7 @@ export class CommentCache {
       isArchived
     );
 
-    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments);
+    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments, now);
 
     const userIDs = new Set<string>();
     for (const comment of comments) {
@@ -148,8 +154,8 @@ export class CommentCache {
     storyID: string,
     isArchived: boolean
   ) {
-    const allKey = this.computeStoryAllCommentsKey(tenantID, storyID);
-    const hasCommentsInRedis = await this.redis.exists(allKey);
+    const lockKey = this.computeLockKey(tenantID, storyID);
+    const hasCommentsInRedis = await this.redis.exists(lockKey);
 
     const comments = hasCommentsInRedis
       ? await this.retrieveCommentsFromRedisForStory(tenantID, storyID)
@@ -174,6 +180,7 @@ export class CommentCache {
 
     return {
       userIDs: Array.from(userIDs),
+      retrievedFrom: hasCommentsInRedis ? "redis" : "mongo",
     };
   }
 
@@ -202,12 +209,16 @@ export class CommentCache {
   private async createRelationalCommentKeysInRedis(
     tenantID: string,
     storyID: string,
-    comments: Readonly<Comment>[]
+    comments: Readonly<Comment>[],
+    now: Date,
   ) {
     const cmd = this.redis.multi();
 
+    const lockKey = this.computeLockKey(tenantID, storyID);
+    cmd.set(lockKey, now.getTime(), "ex", this.expirySeconds);
+
     const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
-    cmd.sadd(allCommentsKey, ...comments.map((c) => `${c.parentID}:${c.id}`));
+    cmd.sadd(allCommentsKey, comments.map((c) => `${c.parentID}:${c.id}`));
     cmd.expire(allCommentsKey, this.expirySeconds);
 
     const sortKey = this.computeSortKey(tenantID, storyID, null);
@@ -234,8 +245,7 @@ export class CommentCache {
       const key = this.computeDataKey(tenantID, storyID, comment.id);
       const value = this.serializeObject(comment);
 
-      cmd.set(key, value);
-      cmd.expire(key, this.expirySeconds);
+      cmd.set(key, value, "ex", this.expirySeconds);
     }
 
     // Create the parent to child key-value look ups
@@ -246,7 +256,7 @@ export class CommentCache {
       }
 
       const key = this.computeMembersKey(tenantID, storyID, parentID);
-      cmd.sadd(key, ...childIDs);
+      cmd.sadd(key, childIDs);
       cmd.expire(key, this.expirySeconds);
     }
 
@@ -552,9 +562,11 @@ export class CommentCache {
       comment.storyID
     );
     cmd.sadd(allKey, `${comment.parentID}:${comment.id}`);
+    cmd.expire(allKey, this.expirySeconds);
 
     const sortKey = this.computeSortKey(comment.tenantID, comment.storyID, comment.parentID);
     cmd.zadd(sortKey, comment.createdAt.getTime(), comment.id);
+    cmd.expire(sortKey, this.expirySeconds);
 
     await cmd.exec();
 

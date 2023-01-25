@@ -12,6 +12,7 @@ import {
 } from "coral-server/test/fixtures";
 
 import { GQLCOMMENT_SORT } from "coral-server/graph/schema/__generated__/types";
+import { waitFor } from "coral-common/helpers";
 
 const createRedis = (): AugmentedRedis => {
   const uri = "redis://127.0.0.1:6379";
@@ -30,16 +31,22 @@ const createMongo = async (): Promise<MongoContext> => {
   return context;
 };
 
-const createFixtures = async () => {
+interface FixtureOptions {
+  expirySeconds?: number;
+}
+
+const createFixtures = async ( options: FixtureOptions = { expirySeconds: 5 * 60 }) => {
   const redis = createRedis();
   const mongo = await createMongo();
+
+  console.log(options);
 
   const commentCache = new CommentCache(
     mongo,
     redis,
     null,
     logger,
-    24 * 60 * 60
+    options?.expirySeconds ? options.expirySeconds : 5 * 60,
   );
 
   return {
@@ -69,8 +76,9 @@ it("can load root comments from commentCache", async () => {
   await mongo.stories().insertOne(story);
   await mongo.comments().insertMany(storyComments);
 
-  await comments.populateCommentsInCache(story.tenantID, story.id, false);
-  await comments.primeCommentsForStory(story.tenantID, story.id, false);
+  const now = new Date();
+  await comments.populateCommentsInCache(story.tenantID, story.id, false, now);
+  const primeResult = await comments.primeCommentsForStory(story.tenantID, story.id, false);
   const results = await comments.rootComments(
     story.tenantID,
     story.id,
@@ -78,6 +86,7 @@ it("can load root comments from commentCache", async () => {
     GQLCOMMENT_SORT.CREATED_AT_DESC
   );
 
+  expect(primeResult.retrievedFrom).toEqual("redis");
   storyComments.forEach((c) => {
     const found = results.nodes.find((r) => r.id === c.id);
     expect(found.id).toBeDefined();
@@ -124,8 +133,9 @@ it("can load replies from commentCache", async () => {
   await mongo.comments().insertOne(rootComment);
   await mongo.comments().insertMany(replies);
 
-  await comments.populateCommentsInCache(story.tenantID, story.id, false);
-  await comments.primeCommentsForStory(story.tenantID, story.id, false);
+  const now = new Date();
+  await comments.populateCommentsInCache(story.tenantID, story.id, false, now);
+  const primeResult = await comments.primeCommentsForStory(story.tenantID, story.id, false);
   const rootResults = await comments.rootComments(
     story.tenantID,
     story.id,
@@ -141,6 +151,7 @@ it("can load replies from commentCache", async () => {
     GQLCOMMENT_SORT.CREATED_AT_DESC
   );
 
+  expect(primeResult.retrievedFrom).toEqual("redis");
   expect(rootResults.nodes.length).toEqual(1);
   expect(rootResults.nodes[0].id).toEqual(rootComment.id);
 
@@ -161,3 +172,42 @@ it("can load replies from commentCache", async () => {
     .comments()
     .deleteMany({ tenantID: story.tenantID, storyID: story.id });
 });
+
+it("cache expires appropriately", async () => {
+  const {
+    cache: { comments },
+    redis,
+    mongo,
+  } = await createFixtures({ expirySeconds: 5 });
+
+  const story = createStoryFixture();
+  const storyComments: Comment[] = [];
+  for (let i = 0; i < 3; i++) {
+    storyComments.push(
+      createCommentFixture({ storyID: story.id, tenantID: story.tenantID })
+    );
+  }
+
+  await mongo.stories().insertOne(story);
+  await mongo.comments().insertMany(storyComments);
+
+  const lockKey = comments.computeLockKey(story.tenantID, story.id);
+  expect(await redis.exists(lockKey)).toEqual(0);
+
+  const now = new Date();
+  await comments.populateCommentsInCache(story.tenantID, story.id, false, now);
+  expect(await redis.exists(lockKey)).toEqual(1);
+
+  const primeResult = await comments.primeCommentsForStory(story.tenantID, story.id, false);
+  expect(primeResult.retrievedFrom).toEqual("redis");
+
+  let lockExists = await redis.exists(lockKey);
+  while (lockExists) {
+    await waitFor(100);
+    lockExists = await redis.exists(lockKey);
+  }
+
+  const allKey = comments.computeStoryAllCommentsKey(story.tenantID, story.id);
+  expect(await redis.exists(lockKey)).toEqual(0);
+  expect(await redis.exists(allKey)).toEqual(0);
+}, 30000);
