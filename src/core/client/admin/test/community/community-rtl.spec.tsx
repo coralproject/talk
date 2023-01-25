@@ -12,10 +12,12 @@ import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   GQLUSER_ROLE,
+  GQLUsersConnection,
   QueryToSettingsResolver,
   QueryToUsersResolver,
 } from "coral-framework/schema";
 import {
+  createFixture,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -256,6 +258,31 @@ it("change user role", async () => {
   fireEvent.click(staffButton);
 
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+});
+
+it("no one may change an admins role", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      users: createQueryResolverStub<QueryToUsersResolver>(() =>
+        createFixture<GQLUsersConnection>({
+          edges: users.admins,
+          nodes: users.admins,
+        })
+      ),
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const container = await screen.findByTestId("community-container");
+  expect(container).toBeDefined();
+  expect(within(container).getAllByRole("row").length).toEqual(
+    users.admins.length
+  );
+  expect(
+    within(container).queryByLabelText("Change role")
+  ).not.toBeInTheDocument();
 });
 
 it("org mods may allocate site mods", async () => {
