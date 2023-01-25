@@ -153,6 +153,8 @@ const MessageBoxConfig: FunctionComponent = () => (
                 <Suspense fallback={<Spinner />}>
                   <MarkdownEditor
                     id="configure-messageBox-content"
+                    /* eslint-disable-next-line jsx-a11y/no-autofocus*/
+                    autoFocus={true}
                     data-testid="configure-messageBox-content"
                     name={contentInput.name}
                     onChange={contentInput.onChange}
