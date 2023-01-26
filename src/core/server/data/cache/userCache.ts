@@ -30,7 +30,7 @@ export class UserCache {
   }
 
   private computeDataKey(tenantID: string, id: string) {
-    const key = `${tenantID}:${id}:data`;
+    const key = `${tenantID}:${id}:userData`;
     return key;
   }
 
