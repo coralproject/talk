@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
     className="PostCommentFormFake-root"
   >
     <div
-      className="PostCommentFormFake-rteContainer"
+      className="PostCommentFormFake-rteContainer coral coral-rte-fake-container"
     >
       <Localized
         attrs={

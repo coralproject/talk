@@ -20,6 +20,7 @@ import { createMailerTask, MailerQueue } from "./tasks/mailer";
 import { createNotifierTask, NotifierQueue } from "./tasks/notifier";
 import { createRejectorTask, RejectorQueue } from "./tasks/rejector";
 import { createScraperTask, ScraperQueue } from "./tasks/scraper";
+import { createUnarchiverTask, UnarchiverQueue } from "./tasks/unarchiver";
 import { createWebhookTask, WebhookQueue } from "./tasks/webhook";
 
 const createQueueOptions = (config: Config): Queue.QueueOptions => {
@@ -67,6 +68,7 @@ export interface TaskQueue {
   rejector: RejectorQueue;
   archiver: ArchiverQueue;
   loadCache: LoadCacheQueue;
+  unarchiver: UnarchiverQueue;
 }
 
 export function createQueue(options: QueueOptions): TaskQueue {
@@ -88,6 +90,7 @@ export function createQueue(options: QueueOptions): TaskQueue {
   const rejector = createRejectorTask(queueOptions, options);
   const archiver = createArchiverTask(queueOptions, options);
   const loadCache = createLoadCacheTask(queueOptions, options);
+  const unarchiver = createUnarchiverTask(queueOptions, options);
 
   // Return the tasks + client.
   return {
@@ -98,5 +101,6 @@ export function createQueue(options: QueueOptions): TaskQueue {
     rejector,
     archiver,
     loadCache,
+    unarchiver,
   };
 }

@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
   useCallback,
@@ -18,6 +19,16 @@ import { AddACommentButtonLocal } from "coral-stream/__generated__/AddACommentBu
 
 import styles from "./AddACommentButton.css";
 
+const getCommentField = (commentForm: HTMLElement) => {
+  const iFrame = commentForm.querySelector("iframe");
+  if (iFrame === null) {
+    return null;
+  }
+  return (iFrame as any).contentWindow.document.body.querySelector(
+    "#comments-postCommentForm-field"
+  ) as HTMLInputElement;
+};
+
 interface Props {
   currentScrollRef: any;
   isQA?: boolean;
@@ -26,6 +37,30 @@ const AddACommentButton: FunctionComponent<Props> = ({
   isQA = false,
   currentScrollRef,
 }) => {
+  const pollForCommentFormElement = useCallback(
+    async () =>
+      new Promise<HTMLElement>((resolve, reject) => {
+        let count = 0;
+        const commentFormPolling = setInterval(async () => {
+          count += 1;
+          const postCommentFormElement =
+            root.getElementById(POST_COMMENT_FORM_ID);
+          if (
+            postCommentFormElement !== undefined &&
+            postCommentFormElement !== null
+          ) {
+            clearInterval(commentFormPolling);
+            resolve(postCommentFormElement);
+          }
+          if (count > 10) {
+            clearInterval(commentFormPolling);
+            reject("Unable to locate comment form");
+          }
+        }, 100);
+      }),
+    []
+  );
+
   const { renderWindow, eventEmitter } = useCoralContext();
   const [{ commentsFullyLoaded, commentsTab }, setLocal] =
     useLocal<AddACommentButtonLocal>(
@@ -47,23 +82,9 @@ const AddACommentButton: FunctionComponent<Props> = ({
         align: "center",
         index: "LAST",
         behavior: "auto",
-        done: () => {
-          let count = 0;
-          const stopExists = setInterval(async () => {
-            count += 1;
-            const postCommentFormElement =
-              root.getElementById(POST_COMMENT_FORM_ID);
-            if (
-              postCommentFormElement !== undefined &&
-              postCommentFormElement !== null
-            ) {
-              clearInterval(stopExists);
-              postCommentFormElement.scrollIntoView();
-            }
-            if (count > 10) {
-              clearInterval(stopExists);
-            }
-          }, 100);
+        done: async () => {
+          const postCommentFormElement = await pollForCommentFormElement();
+          postCommentFormElement.scrollIntoView();
         },
       });
     }
@@ -81,7 +102,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
     scrollToLastCommentAndPostCommentForm,
   ]);
 
-  const onClick = useCallback(() => {
+  const onClick = useCallback(async () => {
     AddACommentButtonEvent.emit(eventEmitter);
 
     if (!renderWindow) {
@@ -112,6 +133,12 @@ const AddACommentButton: FunctionComponent<Props> = ({
         scrollToLastCommentAndPostCommentForm();
       }
     }
+
+    const commentForm = await pollForCommentFormElement();
+    const field = getCommentField(commentForm);
+    if (field !== null) {
+      field.focus();
+    }
   }, [
     renderWindow,
     root,
@@ -121,23 +148,27 @@ const AddACommentButton: FunctionComponent<Props> = ({
     setScrollIntoViewAfterLoad,
     eventEmitter,
     commentsTab,
+    pollForCommentFormElement,
   ]);
 
   return (
     <div className={styles.root}>
-      <Button
-        variant="outlined"
-        color="primary"
-        paddingSize="small"
-        upperCase
-        className={styles.button}
-        onClick={onClick}
-      >
-        <Flex alignItems="center">
-          <Icon className={styles.icon}>create</Icon>
-          {isQA ? <span>Ask a Question</span> : <span>Add a Comment</span>}
-        </Flex>
-      </Button>
+      <Localized id="addACommentButton" attrs={{ "aria-label": true }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          paddingSize="small"
+          upperCase
+          className={styles.button}
+          onClick={onClick}
+          aria-label="Add a comment. This button will move focus to the bottom of the comments."
+        >
+          <Flex alignItems="center">
+            <Icon className={styles.icon}>create</Icon>
+            {isQA ? <span>Ask a Question</span> : <span>Add a Comment</span>}
+          </Flex>
+        </Button>
+      </Localized>
     </div>
   );
 };

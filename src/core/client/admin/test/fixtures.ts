@@ -468,6 +468,7 @@ export const users = {
         moderationScopes: {
           scoped: true,
           sites: [sites[0]],
+          siteIDs: [sites[0].id],
         },
       },
       {
@@ -479,6 +480,7 @@ export const users = {
         moderationScopes: {
           scoped: true,
           sites: [sites[0], sites[1]],
+          siteIDs: [sites[0].id, sites[1].id],
         },
       },
     ],
@@ -602,6 +604,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     isArchived: false,
     isArchiving: false,
+    isUnarchiving: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
     url: "",
@@ -635,6 +638,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     isArchived: false,
     isArchiving: false,
+    isUnarchiving: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
     url: "",
@@ -672,6 +676,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: true,
     isArchived: false,
     isArchiving: false,
+    isUnarchiving: false,
     status: GQLSTORY_STATUS.CLOSED,
     url: "",
     commentCounts: {

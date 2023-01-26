@@ -125,7 +125,7 @@ export const Settings = ({
       now
     ),
   createEmailDomain: (input: WithoutMutationID<GQLCreateEmailDomainInput>) =>
-    createEmailDomain(mongo, redis, tenantCache, tenant, input),
+    createEmailDomain(mongo, redis, tenantCache, tenant, user, input),
   updateEmailDomain: (input: WithoutMutationID<GQLUpdateEmailDomainInput>) =>
     updateEmailDomain(mongo, redis, tenantCache, tenant, input),
   deleteEmailDomain: (input: WithoutMutationID<GQLDeleteEmailDomainInput>) =>

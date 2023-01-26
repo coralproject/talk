@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { Ability, can } from "coral-admin/permissions";
+import { Ability, can } from "coral-admin/permissions/tenant";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { InviteUsersContainer_settings } from "coral-admin/__generated__/InviteUsersContainer_settings.graphql";

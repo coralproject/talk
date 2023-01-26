@@ -75,6 +75,8 @@ The URL will be used by Coral to build user facing links, and should reference t
 
 To more tightly couple Coral with your CMS you can provide your CMS's unique identifier to Coral by including a `storyID` parameter in the render function. Doing so will allow you to target the `Story` for later updates via Coral's Graphql API, such as updating the URL if it changes.
 
+Instructions for integrating the API are at https://docs.coralproject.net/api/schema and the mutation to call for URL updates is https://docs.coralproject.net/api/mutations/update-story
+
 ## Integration via API
 
 Story creation can also be controlled by direct calls to Coral's API. When Lazy Story Creation is disabled embed streams can only be created by data migration or API POST request.

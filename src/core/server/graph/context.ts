@@ -18,6 +18,7 @@ import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { UnarchiverQueue } from "coral-server/queue/tasks/unarchiver";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
@@ -51,6 +52,7 @@ export interface GraphContextOptions {
   webhookQueue: WebhookQueue;
   notifierQueue: NotifierQueue;
   loadCacheQueue: LoadCacheQueue;
+  unarchiverQueue: UnarchiverQueue;
   mongo: MongoContext;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
@@ -76,6 +78,7 @@ export default class GraphContext {
   public readonly webhookQueue: WebhookQueue;
   public readonly notifierQueue: NotifierQueue;
   public readonly loadCacheQueue: LoadCacheQueue;
+  public readonly unarchiverQueue: UnarchiverQueue;
   public readonly mongo: MongoContext;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
@@ -123,6 +126,7 @@ export default class GraphContext {
     this.notifierQueue = options.notifierQueue;
     this.webhookQueue = options.webhookQueue;
     this.loadCacheQueue = options.loadCacheQueue;
+    this.unarchiverQueue = options.unarchiverQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
     this.reporter = options.reporter;

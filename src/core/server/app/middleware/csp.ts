@@ -135,10 +135,26 @@ type Options = Pick<AppOptions, "mongo" | "config"> & {
 export const cspSiteMiddleware =
   ({ mongo, config, frameAncestorsDeny }: Options): RequestHandler =>
   async (req, res, next) => {
-    // If the frame ancestors is being set to deny, then use an empty list,
-    // otherwise look it up from the request.
+    const {
+      coral: { tenant },
+    } = req;
+
+    // if we have a tenant (should come through on all admin pages)
+    // then we can pull our domain for admin handlers and set it in
+    // our CSP headers.
+    const domains: string[] = [];
+    if (tenant) {
+      const domain =
+        config.get("env") === "development"
+          ? `http://${tenant.domain}:${config.get("port")}`
+          : tenant.domain;
+      domains.push(domain);
+    }
+
+    // If the frame ancestors is being set to deny (admin pages), then
+    // use our domains, otherwise look it up from the request (stream).
     const origins = frameAncestorsDeny
-      ? []
+      ? domains
       : await retrieveOriginsFromRequest(mongo, config, req);
 
     const frameOptions = generateFrameOptions(req, origins);

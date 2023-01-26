@@ -30,9 +30,15 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
     >
       <section className={CLASSES.viewerBox.$root} aria-label="Authentication">
         <Localized id="general-userBoxAuthenticated-signedIn">
-          <div className={styles.text}>Signed in as</div>
+          <div className={cn(styles.text, CLASSES.viewerBox.usernameLabel)}>
+            Signed in as
+          </div>
         </Localized>
-        <Flex alignItems="flex-end" wrap>
+        <Flex
+          alignItems="flex-end"
+          wrap
+          className={CLASSES.viewerBox.usernameContainer}
+        >
           <Username />
           {props.showLogoutButton && (
             <Localized

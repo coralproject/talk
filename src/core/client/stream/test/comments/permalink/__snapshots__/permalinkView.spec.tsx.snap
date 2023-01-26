@@ -15,12 +15,12 @@ exports[`renders permalink view 1`] = `
       className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
     >
       <span
-        className="UserBoxUnauthenticated-joinText"
+        className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
       >
         Join the conversation
       </span>
       <div
-        className="UserBoxUnauthenticated-actions"
+        className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
       >
         <button
           className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
@@ -276,7 +276,7 @@ exports[`renders permalink view 1`] = `
                                         >
                                           <i
                                             aria-hidden="true"
-                                            className="Icon-root Icon-sm ReactionButton-icon"
+                                            className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
                                           >
                                             thumb_up
                                           </i>
@@ -303,7 +303,7 @@ exports[`renders permalink view 1`] = `
                                         >
                                           <i
                                             aria-hidden="true"
-                                            className="Icon-root Icon-sm ReplyButton-icon"
+                                            className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                           >
                                             reply
                                           </i>
@@ -332,7 +332,7 @@ exports[`renders permalink view 1`] = `
                                           >
                                             <i
                                               aria-hidden="true"
-                                              className="Icon-root Icon-sm PermalinkButton-icon"
+                                              className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                             >
                                               share
                                             </i>
@@ -369,7 +369,7 @@ exports[`renders permalink view 1`] = `
                                         >
                                           <i
                                             aria-hidden="true"
-                                            className="Icon-root Icon-sm ReportButton-icon"
+                                            className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                           >
                                             flag
                                           </i>
@@ -561,7 +561,7 @@ exports[`renders permalink view 1`] = `
                                         >
                                           <i
                                             aria-hidden="true"
-                                            className="Icon-root Icon-sm ReactionButton-icon"
+                                            className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
                                           >
                                             thumb_up
                                           </i>
@@ -588,7 +588,7 @@ exports[`renders permalink view 1`] = `
                                         >
                                           <i
                                             aria-hidden="true"
-                                            className="Icon-root Icon-sm ReplyButton-icon"
+                                            className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                           >
                                             reply
                                           </i>
@@ -617,7 +617,7 @@ exports[`renders permalink view 1`] = `
                                           >
                                             <i
                                               aria-hidden="true"
-                                              className="Icon-root Icon-sm PermalinkButton-icon"
+                                              className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                             >
                                               share
                                             </i>
@@ -654,7 +654,7 @@ exports[`renders permalink view 1`] = `
                                         >
                                           <i
                                             aria-hidden="true"
-                                            className="Icon-root Icon-sm ReportButton-icon"
+                                            className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                           >
                                             flag
                                           </i>
@@ -844,7 +844,7 @@ exports[`renders permalink view 1`] = `
                                     >
                                       <i
                                         aria-hidden="true"
-                                        className="Icon-root Icon-sm ReactionButton-icon"
+                                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
                                       >
                                         thumb_up
                                       </i>
@@ -871,7 +871,7 @@ exports[`renders permalink view 1`] = `
                                     >
                                       <i
                                         aria-hidden="true"
-                                        className="Icon-root Icon-sm ReplyButton-icon"
+                                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                       >
                                         reply
                                       </i>
@@ -900,7 +900,7 @@ exports[`renders permalink view 1`] = `
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="Icon-root Icon-sm PermalinkButton-icon"
+                                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                         >
                                           share
                                         </i>
@@ -937,7 +937,7 @@ exports[`renders permalink view 1`] = `
                                     >
                                       <i
                                         aria-hidden="true"
-                                        className="Icon-root Icon-sm ReportButton-icon"
+                                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                       >
                                         flag
                                       </i>
@@ -1023,7 +1023,7 @@ exports[`renders permalink view 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                            className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                           >
                             remove
                           </i>
@@ -1118,7 +1118,7 @@ exports[`renders permalink view 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm InReplyTo-icon"
+                                  className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                                 >
                                   reply
                                 </i>
@@ -1175,7 +1175,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <i
                                       aria-hidden="true"
-                                      className="Icon-root Icon-sm ReactionButton-icon"
+                                      className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
                                     >
                                       thumb_up
                                     </i>
@@ -1202,7 +1202,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <i
                                       aria-hidden="true"
-                                      className="Icon-root Icon-sm ReplyButton-icon"
+                                      className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                     >
                                       reply
                                     </i>
@@ -1231,7 +1231,7 @@ exports[`renders permalink view 1`] = `
                                     >
                                       <i
                                         aria-hidden="true"
-                                        className="Icon-root Icon-sm PermalinkButton-icon"
+                                        className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                       >
                                         share
                                       </i>
@@ -1268,7 +1268,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <i
                                       aria-hidden="true"
-                                      className="Icon-root Icon-sm ReportButton-icon"
+                                      className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                     >
                                       flag
                                     </i>
@@ -1344,7 +1344,7 @@ exports[`renders permalink view 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                            className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                           >
                             remove
                           </i>
@@ -1439,7 +1439,7 @@ exports[`renders permalink view 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm InReplyTo-icon"
+                                  className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                                 >
                                   reply
                                 </i>
@@ -1496,7 +1496,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <i
                                       aria-hidden="true"
-                                      className="Icon-root Icon-sm ReactionButton-icon"
+                                      className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
                                     >
                                       thumb_up
                                     </i>
@@ -1523,7 +1523,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <i
                                       aria-hidden="true"
-                                      className="Icon-root Icon-sm ReplyButton-icon"
+                                      className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                     >
                                       reply
                                     </i>
@@ -1552,7 +1552,7 @@ exports[`renders permalink view 1`] = `
                                     >
                                       <i
                                         aria-hidden="true"
-                                        className="Icon-root Icon-sm PermalinkButton-icon"
+                                        className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                       >
                                         share
                                       </i>
@@ -1589,7 +1589,7 @@ exports[`renders permalink view 1`] = `
                                   >
                                     <i
                                       aria-hidden="true"
-                                      className="Icon-root Icon-sm ReportButton-icon"
+                                      className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                     >
                                       flag
                                     </i>

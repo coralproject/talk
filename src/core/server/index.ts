@@ -313,6 +313,7 @@ class Server {
       this.tasks.rejector.process();
       this.tasks.archiver.process();
       this.tasks.loadCache.process();
+      this.tasks.unarchiver.process();
 
       // Start up the cron job processors.
       this.scheduledTasks = startScheduledTasks({
@@ -375,6 +376,7 @@ class Server {
       tenantCache: this.tenantCache,
       webhookQueue: this.tasks.webhook,
       loadCacheQueue: this.tasks.loadCache,
+      unarchiverQueue: this.tasks.unarchiver,
     };
 
     // Create the Coral App, branching off from the parent app.

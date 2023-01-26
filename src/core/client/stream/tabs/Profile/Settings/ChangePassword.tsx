@@ -1,12 +1,18 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FORM_ERROR, FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { colorFromMeta } from "coral-framework/lib/form";
+import { hasError } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -40,6 +46,7 @@ interface FormProps {
 }
 
 const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
+  const oldPasswordRef = useRef<HTMLInputElement>(null);
   const emitShowEvent = useViewerEvent(ShowEditPasswordDialogEvent);
   const updatePassword = useMutation(UpdatePasswordMutation);
   const [showForm, setShowForm] = useState(false);
@@ -77,6 +84,12 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
   const onCloseSuccess = useCallback(() => {
     setShowSuccess(false);
   }, [setShowSuccess]);
+
+  useEffect(() => {
+    if (oldPasswordRef.current) {
+      oldPasswordRef.current.focus();
+    }
+  }, [oldPasswordRef.current, showForm]);
 
   return (
     <section
@@ -159,8 +172,9 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                             fullWidth
                             id={input.name}
                             disabled={submitting}
-                            color={colorFromMeta(meta)}
+                            color={hasError(meta) ? "error" : "streamBlue"}
                             autoComplete="current-password"
+                            ref={oldPasswordRef}
                           />
                           <ValidationMessage
                             meta={meta}
@@ -200,7 +214,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                             fullWidth
                             id={input.name}
                             disabled={submitting}
-                            color={colorFromMeta(meta)}
+                            color={hasError(meta) ? "error" : "streamBlue"}
                             autoComplete="new-password"
                           />
                           <ValidationMessage
