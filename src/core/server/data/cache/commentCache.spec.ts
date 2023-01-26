@@ -1,5 +1,6 @@
 import RedisClient from "ioredis";
 
+import { waitFor } from "coral-common/helpers";
 import { CommentCache } from "coral-server/data/cache/commentCache";
 import { MongoContext, MongoContextImpl } from "coral-server/data/context";
 import logger from "coral-server/logger";
@@ -12,7 +13,6 @@ import {
 } from "coral-server/test/fixtures";
 
 import { GQLCOMMENT_SORT } from "coral-server/graph/schema/__generated__/types";
-import { waitFor } from "coral-common/helpers";
 
 const createRedis = (): AugmentedRedis => {
   const uri = "redis://127.0.0.1:6379";
@@ -35,7 +35,9 @@ interface FixtureOptions {
   expirySeconds?: number;
 }
 
-const createFixtures = async ( options: FixtureOptions = { expirySeconds: 5 * 60 }) => {
+const createFixtures = async (
+  options: FixtureOptions = { expirySeconds: 5 * 60 }
+) => {
   const redis = createRedis();
   const mongo = await createMongo();
 
@@ -44,7 +46,7 @@ const createFixtures = async ( options: FixtureOptions = { expirySeconds: 5 * 60
     redis,
     null,
     logger,
-    options?.expirySeconds ? options.expirySeconds : 5 * 60,
+    options?.expirySeconds ? options.expirySeconds : 5 * 60
   );
 
   return {
@@ -76,7 +78,11 @@ it("can load root comments from commentCache", async () => {
 
   const now = new Date();
   await comments.populateCommentsInCache(story.tenantID, story.id, false, now);
-  const primeResult = await comments.primeCommentsForStory(story.tenantID, story.id, false);
+  const primeResult = await comments.primeCommentsForStory(
+    story.tenantID,
+    story.id,
+    false
+  );
   const results = await comments.rootComments(
     story.tenantID,
     story.id,
@@ -133,7 +139,11 @@ it("can load replies from commentCache", async () => {
 
   const now = new Date();
   await comments.populateCommentsInCache(story.tenantID, story.id, false, now);
-  const primeResult = await comments.primeCommentsForStory(story.tenantID, story.id, false);
+  const primeResult = await comments.primeCommentsForStory(
+    story.tenantID,
+    story.id,
+    false
+  );
   const rootResults = await comments.rootComments(
     story.tenantID,
     story.id,
@@ -196,7 +206,11 @@ it("cache expires appropriately", async () => {
   await comments.populateCommentsInCache(story.tenantID, story.id, false, now);
   expect(await redis.exists(lockKey)).toEqual(1);
 
-  const primeResult = await comments.primeCommentsForStory(story.tenantID, story.id, false);
+  const primeResult = await comments.primeCommentsForStory(
+    story.tenantID,
+    story.id,
+    false
+  );
   expect(primeResult.retrievedFrom).toEqual("redis");
 
   let lockExists = await redis.exists(lockKey);

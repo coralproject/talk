@@ -64,7 +64,7 @@ const createJobProcessor =
       tenantID,
       storyID,
       isArchived,
-      new Date,
+      new Date()
     );
 
     if (userIDs.length > 0) {

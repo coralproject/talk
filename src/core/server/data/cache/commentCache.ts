@@ -127,7 +127,7 @@ export class CommentCache {
     tenantID: string,
     storyID: string,
     isArchived: boolean,
-    now: Date,
+    now: Date
   ) {
     const comments = await this.retrieveCommentsFromMongoForStory(
       tenantID,
@@ -135,7 +135,12 @@ export class CommentCache {
       isArchived
     );
 
-    await this.createRelationalCommentKeysInRedis(tenantID, storyID, comments, now);
+    await this.createRelationalCommentKeysInRedis(
+      tenantID,
+      storyID,
+      comments,
+      now
+    );
 
     const userIDs = new Set<string>();
     for (const comment of comments) {
@@ -160,10 +165,10 @@ export class CommentCache {
     const comments = hasCommentsInRedis
       ? await this.retrieveCommentsFromRedisForStory(tenantID, storyID)
       : await this.retrieveCommentsFromMongoForStory(
-        tenantID,
-        storyID,
-        isArchived
-      );
+          tenantID,
+          storyID,
+          isArchived
+        );
 
     if (!hasCommentsInRedis && this.queue) {
       await this.queue.add({ tenantID, storyID });
@@ -210,7 +215,7 @@ export class CommentCache {
     tenantID: string,
     storyID: string,
     comments: Readonly<Comment>[],
-    now: Date,
+    now: Date
   ) {
     const cmd = this.redis.multi();
 
@@ -218,7 +223,10 @@ export class CommentCache {
     cmd.set(lockKey, now.getTime(), "ex", this.expirySeconds);
 
     const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
-    cmd.sadd(allCommentsKey, comments.map((c) => `${c.parentID}:${c.id}`));
+    cmd.sadd(
+      allCommentsKey,
+      comments.map((c) => `${c.parentID}:${c.id}`)
+    );
     cmd.expire(allCommentsKey, this.expirySeconds);
 
     const sortKey = this.computeSortKey(tenantID, storyID, null);
@@ -564,7 +572,11 @@ export class CommentCache {
     cmd.sadd(allKey, `${comment.parentID}:${comment.id}`);
     cmd.expire(allKey, this.expirySeconds);
 
-    const sortKey = this.computeSortKey(comment.tenantID, comment.storyID, comment.parentID);
+    const sortKey = this.computeSortKey(
+      comment.tenantID,
+      comment.storyID,
+      comment.parentID
+    );
     cmd.zadd(sortKey, comment.createdAt.getTime(), comment.id);
     cmd.expire(sortKey, this.expirySeconds);
 
@@ -602,7 +614,7 @@ export class CommentCache {
       comment.tenantID,
       comment.storyID,
       comment.parentID
-    )
+    );
 
     cmd.del(dataKey);
     cmd.srem(parentKey, comment.id);
