@@ -39,8 +39,6 @@ const createFixtures = async ( options: FixtureOptions = { expirySeconds: 5 * 60
   const redis = createRedis();
   const mongo = await createMongo();
 
-  console.log(options);
-
   const commentCache = new CommentCache(
     mongo,
     redis,

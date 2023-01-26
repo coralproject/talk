@@ -63,13 +63,13 @@ export class CommentCache {
     parentID?: string | null
   ) {
     const key = parentID
-      ? `${tenantID}:${storyID}:${parentID}`
-      : `${tenantID}:${storyID}:root`;
+      ? `${tenantID}:${storyID}:${parentID}:members`
+      : `${tenantID}:${storyID}:root:members`;
     return key;
   }
 
   public computeStoryAllCommentsKey(tenantID: string, storyID: string) {
-    const key = `${tenantID}:${storyID}:members`;
+    const key = `${tenantID}:${storyID}:allComments`;
     return key;
   }
 
@@ -79,8 +79,8 @@ export class CommentCache {
     parentID: string | null | undefined
   ) {
     const sortKey = parentID
-      ? `${tenantID}:${storyID}:${parentID}:sort`
-      : `${tenantID}:${storyID}:root:sort`;
+      ? `${tenantID}:${storyID}:${parentID}:dateSort`
+      : `${tenantID}:${storyID}:root:dateSort`;
     return sortKey;
   }
 
