@@ -207,4 +207,14 @@ export const Stories = (ctx: GraphContext) => ({
 
     return story;
   },
+  invalidateCachedStory: async (input: GQLCacheStoryInput) => {
+    const story = await ctx.loaders.Stories.find.load({ id: input.id });
+    if (!story) {
+      throw new StoryNotFoundError(input.id);
+    }
+
+    await ctx.cache.comments.invalidateCache(story.tenantID, story.id);
+
+    return story;
+  },
 });

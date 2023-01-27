@@ -84,6 +84,20 @@ export class CommentCache {
     return sortKey;
   }
 
+  public async isCached(tenantID: string, storyID: string) {
+    const lockKey = this.computeLockKey(tenantID, storyID);
+    const hasCommentsInRedis = await this.redis.exists(lockKey);
+
+    return hasCommentsInRedis;
+  }
+
+  public async invalidateCache(tenantID: string, storyID: string) {
+    const lockKey = this.computeLockKey(tenantID, storyID);
+    const success = await this.redis.del(lockKey) > 0;
+
+    return success;
+  }
+
   private async retrieveCommentsFromMongoForStory(
     tenantID: string,
     storyID: string,

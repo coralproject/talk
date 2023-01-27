@@ -1489,6 +1489,8 @@ storyInfoDrawer-storyStatus-archiving = Archiving
 storyInfoDrawer-storyStatus-archived = Archived
 storyInfoDrawer-cacheStory-recache = Recache story
 storyInfoDrawer-cacheStory-recaching = Recaching
+storyInfoDrawer-cacheStory-uncacheStory = Uncache story
+storyInfoDrawer-cacheStory-uncaching = Uncaching
 
 ## Invite
 

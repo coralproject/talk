@@ -13,6 +13,7 @@ import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryI
 import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
 import ArchiveStoryActionsContainer from "./ArchiveStoryActionsContainer";
+import InvalidateCachedStoryAction from "./InvalidateCachedStoryAction";
 import ModerateStoryButton from "./ModerateStoryButton";
 import RescrapeStory from "./RescrapeStory";
 import StorySettingsContainer from "./StorySettingsContainer";
@@ -86,6 +87,11 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
               <div className={styles.recacheStory}>
                 <RecacheStoryAction storyID={story.id} />
               </div>
+              {story.cached && (
+                <div className={styles.uncacheStory}>
+                  <InvalidateCachedStoryAction storyID={story.id} />
+                </div>
+              )}
               {viewer && (
                 <div className={styles.flexSizeToContentWidth}>
                   <ArchiveStoryActionsContainer story={story} viewer={viewer} />
@@ -117,6 +123,7 @@ const enhanced = withFragmentContainer<Props>({
         author
         publishedAt
       }
+      cached
       ...ModerateStoryButton_story
       settings {
         ...StorySettingsContainer_storySettings
