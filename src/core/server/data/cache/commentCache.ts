@@ -93,7 +93,7 @@ export class CommentCache {
 
   public async invalidateCache(tenantID: string, storyID: string) {
     const lockKey = this.computeLockKey(tenantID, storyID);
-    const success = await this.redis.del(lockKey) > 0;
+    const success = (await this.redis.del(lockKey)) > 0;
 
     return success;
   }
@@ -312,6 +312,31 @@ export class CommentCache {
     return comment;
   }
 
+  public async findCommentsInMongo(
+    tenantID: string,
+    storyID: string,
+    parentID?: string | null,
+    isArchived?: boolean
+  ): Promise<Readonly<Comment>[]> {
+    const filter = parentID
+      ? {
+          tenantID,
+          storyID,
+          parentID,
+        }
+      : {
+          tenantID,
+          storyID,
+        };
+
+    const collection = isArchived
+      ? this.mongo.archivedComments()
+      : this.mongo.comments();
+    const comments = await collection.find(filter).toArray();
+
+    return comments;
+  }
+
   public async findMany(tenantID: string, storyID: string, ids: string[]) {
     if (ids.length === 0) {
       return [];
@@ -393,6 +418,14 @@ export class CommentCache {
 
     let rootCommentIDs = this.membersLookup.get(membersKey);
     if (!rootCommentIDs) {
+      const lockKey = this.computeLockKey(tenantID, storyID);
+      const redisHasLock = await this.redis.exists(lockKey);
+      if (!redisHasLock) {
+        return this.createConnection(
+          await this.findCommentsInMongo(tenantID, storyID, null, isArchived)
+        );
+      }
+
       const redisHasMembers = await this.redis.exists(membersKey);
       if (redisHasMembers) {
         const start = Date.now();
@@ -536,6 +569,12 @@ export class CommentCache {
     const membersKey = this.computeMembersKey(tenantID, storyID, parentID);
     let commentIDs = this.membersLookup.get(membersKey);
     if (!commentIDs) {
+      const lockKey = this.computeLockKey(tenantID, storyID);
+      const redisHasLock = await this.redis.exists(lockKey);
+      if (!redisHasLock) {
+        return await this.findCommentsInMongo(tenantID, storyID, parentID, isArchived);
+      }
+
       const redisHasMembers = await this.redis.exists(membersKey);
       if (redisHasMembers) {
         const start = Date.now();
