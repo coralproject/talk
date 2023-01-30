@@ -11,6 +11,11 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 
+const REDIS_SUPPORTED_SORTS = [
+  GQLCOMMENT_SORT.CREATED_AT_ASC,
+  GQLCOMMENT_SORT.CREATED_AT_DESC,
+];
+
 export interface Filter {
   tag?: GQLTAG;
   rating?: number;
@@ -243,15 +248,17 @@ export class CommentCache {
     );
     cmd.expire(allCommentsKey, this.expirySeconds);
 
-    const sortKey = this.computeSortKey(tenantID, storyID, null);
+    const sortKeys = new Set<string>();
     for (const comment of comments) {
-      if (comment.parentID) {
-        continue;
-      }
-
+      const sortKey = this.computeSortKey(tenantID, storyID, comment.parentID);
       cmd.zadd(sortKey, comment.createdAt.getTime(), comment.id);
+
+      sortKeys.add(sortKey);
     }
-    cmd.expire(sortKey, this.expirySeconds);
+
+    for (const key of sortKeys) {
+      cmd.expire(key, this.expirySeconds);
+    }
 
     // Create the comment data key-value look ups
     const commentIDs = new Map<string, string[]>();
@@ -327,6 +334,7 @@ export class CommentCache {
       : {
           tenantID,
           storyID,
+          parentID: null
         };
 
     const collection = isArchived
@@ -408,6 +416,60 @@ export class CommentCache {
     return this.findMany(tenantID, storyID, comment.ancestorIDs);
   }
 
+  public async hasSortKey(
+    tenantID: string,
+    storyID: string,
+    parentID: string | null | undefined
+  ) {
+    const sortKey = this.computeSortKey(tenantID, storyID, parentID);
+    const redisHasSort = await this.redis.exists(sortKey);
+    return redisHasSort;
+  }
+
+  public async canSortWithRedis(
+    tenantID: string,
+    storyID: string,
+    parentID: string | null | undefined,
+    orderBy: GQLCOMMENT_SORT
+  ) {
+    const hasSort = await this.hasSortKey(tenantID, storyID, parentID);
+    return REDIS_SUPPORTED_SORTS.includes(orderBy) && hasSort;
+  }
+
+  public async sortWithRedis(
+    tenantID: string,
+    storyID: string,
+    parentID: string | null | undefined,
+    comments: Readonly<Comment>[],
+    orderBy: GQLCOMMENT_SORT
+  ) {
+    const sortKey = this.computeSortKey(tenantID, storyID, parentID);
+    const start = Date.now();
+    const sortedComments: Readonly<Comment>[] = [];
+    const orderedIDs = await this.redis.zrange(sortKey, 0, comments.length * 2);
+
+    let index =
+      orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 0 : orderedIDs.length - 1;
+    const incr = orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 1 : -1;
+
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < orderedIDs.length; i++) {
+      const id = orderedIDs[index];
+      index += incr;
+
+      const dataKey = this.computeDataKey(tenantID, storyID, id);
+      const comment = this.commentsByKey.get(dataKey);
+      if (comment) {
+        sortedComments.push(comment);
+      }
+    }
+
+    const end = Date.now();
+    this.logger.info({ elapsedMs: end - start, orderBy }, "redis - sort");
+
+    return this.createConnection(sortedComments);
+  }
+
   public async rootComments(
     tenantID: string,
     storyID: string,
@@ -443,43 +505,8 @@ export class CommentCache {
 
     const comments = await this.findMany(tenantID, storyID, rootCommentIDs);
 
-    const sortKey = this.computeSortKey(tenantID, storyID, null);
-    const redisHasSort = await this.redis.exists(sortKey);
-    if (
-      redisHasSort &&
-      [
-        GQLCOMMENT_SORT.CREATED_AT_ASC,
-        GQLCOMMENT_SORT.CREATED_AT_DESC,
-      ].includes(orderBy)
-    ) {
-      const start = Date.now();
-      const sortedComments: Readonly<Comment>[] = [];
-      const orderedIDs = await this.redis.zrange(
-        sortKey,
-        0,
-        comments.length * 2
-      );
-
-      let index =
-        orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 0 : orderedIDs.length - 1;
-      const incr = orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 1 : -1;
-
-      // eslint-disable-next-line @typescript-eslint/prefer-for-of
-      for (let i = 0; i < orderedIDs.length; i++) {
-        const id = orderedIDs[index];
-        index += incr;
-
-        const dataKey = this.computeDataKey(tenantID, storyID, id);
-        const comment = this.commentsByKey.get(dataKey);
-        if (comment) {
-          sortedComments.push(comment);
-        }
-      }
-
-      const end = Date.now();
-      this.logger.info({ elapsedMs: end - start, orderBy }, "redis - sort");
-
-      return this.createConnection(sortedComments);
+    if (await this.canSortWithRedis(tenantID, storyID, null, orderBy)) {
+      return await this.sortWithRedis(tenantID, storyID, null, comments, orderBy);
     } else {
       const sortedComments = this.sortComments(comments, orderBy);
       return this.createConnection(sortedComments);
@@ -550,9 +577,13 @@ export class CommentCache {
       parentID,
       isArchived
     );
-    const sortedComments = this.sortComments(comments, orderBy);
 
-    return this.createConnection(sortedComments);
+    if (await this.canSortWithRedis(tenantID, storyID, parentID, orderBy)) {
+      return await this.sortWithRedis(tenantID, storyID, parentID, comments, orderBy);
+    } else {
+      const sortedComments = this.sortComments(comments, orderBy);
+      return this.createConnection(sortedComments);
+    }
   }
 
   private async retrieveReplies(
@@ -572,7 +603,12 @@ export class CommentCache {
       const lockKey = this.computeLockKey(tenantID, storyID);
       const redisHasLock = await this.redis.exists(lockKey);
       if (!redisHasLock) {
-        return await this.findCommentsInMongo(tenantID, storyID, parentID, isArchived);
+        return await this.findCommentsInMongo(
+          tenantID,
+          storyID,
+          parentID,
+          isArchived
+        );
       }
 
       const redisHasMembers = await this.redis.exists(membersKey);

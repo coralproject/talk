@@ -120,14 +120,13 @@ it("can load replies from commentCache", async () => {
 
   const replies: Comment[] = [];
   for (let i = 0; i < 3; i++) {
-    replies.push(
-      createCommentFixture({
-        storyID: story.id,
-        tenantID: story.tenantID,
-        parentID: rootComment.id,
-        ancestorIDs: [rootComment.id],
-      })
-    );
+    const reply = createCommentFixture({
+      storyID: story.id,
+      tenantID: story.tenantID,
+      parentID: rootComment.id,
+      ancestorIDs: [rootComment.id],
+    });
+    replies.push(reply);
   }
 
   rootComment.childCount = replies.length;
