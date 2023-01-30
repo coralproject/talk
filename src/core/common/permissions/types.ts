@@ -93,6 +93,7 @@ export const isLTESiteModerator = (
 export interface PermissionsAction {
   viewer: Readonly<User>;
   user: Readonly<User>;
+  scoped: boolean;
   newUserRole?: UserRole;
   scopeAdditions?: string[];
   scopeDeletions?: string[];
