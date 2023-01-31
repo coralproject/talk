@@ -113,7 +113,9 @@ export class CommentCache {
         ? this.mongo.archivedComments()
         : this.mongo.comments();
 
-    const comments = await collection.find({ tenantID, storyID }).toArray();
+    const comments = await collection
+      .find({ tenantID, storyID, status: { $in: ["APPROVED", "NONE"] } })
+      .toArray();
     if (!comments || comments.length === 0) {
       return [];
     }
@@ -330,11 +332,13 @@ export class CommentCache {
           tenantID,
           storyID,
           parentID,
+          status: { $in: ["APPROVED", "NONE"] },
         }
       : {
           tenantID,
           storyID,
-          parentID: null
+          parentID: null,
+          status: { $in: ["APPROVED", "NONE"] },
         };
 
     const collection = isArchived
@@ -506,7 +510,13 @@ export class CommentCache {
     const comments = await this.findMany(tenantID, storyID, rootCommentIDs);
 
     if (await this.canSortWithRedis(tenantID, storyID, null, orderBy)) {
-      return await this.sortWithRedis(tenantID, storyID, null, comments, orderBy);
+      return await this.sortWithRedis(
+        tenantID,
+        storyID,
+        null,
+        comments,
+        orderBy
+      );
     } else {
       const sortedComments = this.sortComments(comments, orderBy);
       return this.createConnection(sortedComments);
@@ -579,7 +589,13 @@ export class CommentCache {
     );
 
     if (await this.canSortWithRedis(tenantID, storyID, parentID, orderBy)) {
-      return await this.sortWithRedis(tenantID, storyID, parentID, comments, orderBy);
+      return await this.sortWithRedis(
+        tenantID,
+        storyID,
+        parentID,
+        comments,
+        orderBy
+      );
     } else {
       const sortedComments = this.sortComments(comments, orderBy);
       return this.createConnection(sortedComments);
