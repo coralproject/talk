@@ -1,5 +1,5 @@
 import DataLoader from "dataloader";
-import { defaultTo } from "lodash";
+import { defaultTo, isNumber } from "lodash";
 import { DateTime } from "luxon";
 
 import { StoryNotFoundError } from "coral-server/errors";
@@ -15,11 +15,13 @@ import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/c
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection, createEmptyConnection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   retrieveAllCommentsUserConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
+  retrieveCommentRepliesConnection,
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
@@ -31,6 +33,8 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
@@ -53,21 +57,72 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   return {};
 };
 
-// const isRatingsAndReviews = (
-//   tenant: Pick<Tenant, "featureFlags">,
-//   story: Story
-// ) => {
-//   return (
-//     hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS) &&
-//     story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS
-//   );
-// };
+const isRatingsAndReviews = (
+  tenant: Pick<Tenant, "featureFlags">,
+  story: Story
+) => {
+  return (
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS) &&
+    story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS
+  );
+};
+
+const isQA = (
+  tenant: Pick<Tenant, "featureFlags">,
+  story: Story
+) => {
+  return (
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA) &&
+    story.settings.mode === GQLSTORY_MODE.QA
+  );
+};
+
+const ratingFilter = (
+  tenant: Pick<Tenant, "featureFlags">,
+  story: Story,
+  rating?: number
+): CommentConnectionInput["filter"] => {
+  // If rating wasn't provided or was falsy (zero or negative), then do nothing.
+  if (!isNumber(rating)) {
+    return {};
+  }
+
+  // If the Tenant does not have the feature flag enabled, or the story does not
+  // have this mode enabled, do nothing.
+  if (
+    !hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS) ||
+    story.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS
+  ) {
+    return {};
+  }
+
+  // If the rating value is not a number or does not fall within bounds, then do
+  // nothing.
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return {};
+  }
+
+  return { rating };
+};
 
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: JSON.stringify(query) } };
   }
 
+  return {};
+};
+
+const flattenFilter = (
+  parentID: string,
+  options: { enabled: boolean } = { enabled: true }
+): CommentConnectionInput["filter"] => {
+  if (options.enabled) {
+    return {
+      ancestorIDs: parentID,
+      parentID: undefined,
+    };
+  }
   return {};
 };
 
@@ -271,6 +326,29 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
+    if (isRatingsAndReviews(ctx.tenant, story) || isQA(ctx.tenant, story)) {
+      const connection = await retrieveCommentStoryConnection(
+        ctx.mongo,
+        ctx.tenant.id,
+        storyID,
+        {
+          first: defaultTo(first, 10),
+          orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+          after,
+          filter: {
+            ...tagFilter(tag),
+            ...ratingFilter(ctx.tenant, story, rating),
+            // Only get Comments that are top level. If the client wants to load
+            // another layer, they can request another nested connection.
+            parentID: null,
+          },
+        },
+        story.isArchived
+      ).then(primeCommentsFromConnection(ctx));
+
+      return connection;
+    }
+
     const isArchived = !!(story.isArchived || story.isArchiving);
     const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
@@ -296,6 +374,26 @@ export default (ctx: GraphContext) => ({
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
       throw new StoryNotFoundError(storyID);
+    }
+
+    if (isRatingsAndReviews(ctx.tenant, story) || isQA(ctx.tenant, story)) {
+      const connection = await retrieveCommentRepliesConnection(
+        ctx.mongo,
+        ctx.tenant.id,
+        storyID,
+        parentID,
+        {
+          first: defaultTo(first, 10),
+          orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
+          after,
+          filter: {
+            ...flattenFilter(parentID, { enabled: Boolean(flatten) }),
+          },
+        },
+        story.isArchived
+      ).then(primeCommentsFromConnection(ctx));
+
+      return connection;
     }
 
     const conn = flatten
