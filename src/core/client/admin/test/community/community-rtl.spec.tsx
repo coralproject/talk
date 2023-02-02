@@ -297,7 +297,7 @@ it("org mods may allocate site mods", async () => {
     },
     Mutation: {
       updateUserRole: ({ variables }) => {
-        expectAndFail(variables.siteIDs).toContain(sites[0].id);
+        expectAndFail(variables.scoped).toBeTruthy();
         return {
           user: {
             ...commenter,
@@ -588,7 +588,7 @@ it("allows admins to promote site mods to org mod", async () => {
     },
     Mutation: {
       updateUserRole: ({ variables }) => {
-        expectAndFail(variables.siteIDs).toEqual([]);
+        expectAndFail(variables.scoped).toEqual(false);
         const userRecord = pureMerge<typeof siteModeratorUser>(
           siteModeratorUser,
           {
@@ -625,6 +625,7 @@ it("allows admins to promote site mods to org mod", async () => {
   );
 });
 
+// BOOKMARK: marcus, i think we just need to add a new field to these fixtures, maybe scopes.sites.id?
 it("load more", async () => {
   await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({

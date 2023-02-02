@@ -1082,6 +1082,11 @@ export async function updateModerationScopes(
     throw new Error("no sites specified in the moderation scopes");
   }
 
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user?.moderationScopes?.scoped) {
+    throw new Error("User is not moderation scoped");
+  }
+
   const sites = await retrieveManySites(
     mongo,
     tenant.id,

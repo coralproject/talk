@@ -887,8 +887,8 @@ export async function updateUserRole(
   scoped: boolean
 ) {
   const update: Partial<User> = { role };
+  const scopes = { scoped };
   if (scoped) {
-    const scopes = { scoped: true };
     if (role === GQLUSER_ROLE.MODERATOR) {
       update.moderationScopes = scopes;
     } else if (role === GQLUSER_ROLE.MEMBER) {
@@ -896,6 +896,12 @@ export async function updateUserRole(
     } else {
       throw new Error(`Site scopes may not be applied to role ${role}`);
     }
+  } else {
+    // This may seem odd, but is a result of us
+    // storing scopes for multiple roles when a user
+    // can only have a single role at a time
+    update.moderationScopes = scopes;
+    update.membershipScopes = scopes;
   }
 
   const result = await mongo.users().findOneAndUpdate(
@@ -959,6 +965,7 @@ export async function pullUserSiteModerationScopes(
       returnOriginal: false,
     }
   );
+
   if (!result.value) {
     throw new UserNotFoundError(id);
   }

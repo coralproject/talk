@@ -51,7 +51,8 @@ const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest =
     const allScopesDeleted = !!user.moderationScopes?.siteIDs?.every((id) =>
       scopeDeletions?.includes(id)
     );
-    if (isSiteMod && (newRole || allScopesDeleted)) {
+    const userHadScopes = !!user.moderationScopes?.siteIDs;
+    if (isSiteMod && (newRole || allScopesDeleted) && userHadScopes) {
       const removeModerationScopes = (mongo: MongoContext, tenantID: string) =>
         pullUserSiteModerationScopes(
           mongo,
@@ -68,13 +69,17 @@ const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest =
 
 const userShouldHaveMembershipScopesRemoved: PermissionsActionSideEffectTest =
   ({ user, newUserRole }) => {
-    if (isSiteMember(user) && newUserRole !== GQLUSER_ROLE.MEMBER) {
+    if (
+      isSiteMember(user) &&
+      newUserRole !== GQLUSER_ROLE.MEMBER &&
+      !!user.membershipScopes.siteIDs
+    ) {
       const removeMembershipScopes = (mongo: MongoContext, tenantID: string) =>
         pullUserMembershipScopes(
           mongo,
           tenantID,
           user.id,
-          user.membershipScopes.siteIDs
+          user.membershipScopes.siteIDs!
         );
 
       return removeMembershipScopes;

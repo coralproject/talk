@@ -29,7 +29,7 @@ export type SiteModerator = Moderator & {
   role: "MODERATOR";
   moderationScopes: {
     scoped: true;
-    siteIDs: string[];
+    siteIDs?: string[];
   };
 };
 
@@ -37,7 +37,7 @@ export type SiteMember = User & {
   role: "MEMBER";
   membershipScopes: {
     scoped: true;
-    siteIDs: string[];
+    siteIDs?: string[];
   };
 };
 
