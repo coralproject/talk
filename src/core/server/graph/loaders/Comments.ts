@@ -67,10 +67,7 @@ const isRatingsAndReviews = (
   );
 };
 
-const isQA = (
-  tenant: Pick<Tenant, "featureFlags">,
-  story: Story
-) => {
+const isQA = (tenant: Pick<Tenant, "featureFlags">, story: Story) => {
   return (
     hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA) &&
     story.settings.mode === GQLSTORY_MODE.QA
@@ -350,12 +347,16 @@ export default (ctx: GraphContext) => ({
     }
 
     const isArchived = !!(story.isArchived || story.isArchiving);
-    const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
+    const { userIDs, commentIDs } = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
       storyID,
       isArchived
     );
     await ctx.cache.users.loadUsers(ctx.tenant.id, userIDs);
+    await ctx.cache.commentActions.loadCommentActions(
+      ctx.tenant.id,
+      commentIDs,
+    );
 
     const conn = await ctx.cache.comments.rootComments(
       ctx.tenant.id,

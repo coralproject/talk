@@ -40,7 +40,7 @@ const createJobProcessor =
     );
 
     const timer = createTimer();
-    const { comments, users } = new DataCache(mongo, redis, null, log);
+    const { comments, commentActions, users } = new DataCache(mongo, redis, null, log);
 
     log.info("attempting to load story into redis cache");
 
@@ -66,6 +66,8 @@ const createJobProcessor =
       isArchived,
       new Date()
     );
+
+    await commentActions.populateByStoryID(tenantID, storyID, isArchived);
 
     if (userIDs.length > 0) {
       await users.populateUsers(tenantID, userIDs);

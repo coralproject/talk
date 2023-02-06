@@ -2,6 +2,7 @@ import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { CommentActionsCache } from "./commentActionsCache";
 
 import { CommentCache } from "./commentCache";
 import { UserCache } from "./userCache";
@@ -16,6 +17,7 @@ export class DataCache {
 
   public readonly comments: CommentCache;
   public readonly users: UserCache;
+  public readonly commentActions: CommentActionsCache;
 
   private traceID = "c2603e5c-1de3-46f1-80fb-9dcc3b4e2c22";
 
@@ -34,6 +36,12 @@ export class DataCache {
       this.mongo,
       this.redis,
       this.queue,
+      this.logger,
+      DATA_EXPIRY_SECONDS
+    );
+    this.commentActions = new CommentActionsCache(
+      this.mongo,
+      this.redis,
       this.logger,
       DATA_EXPIRY_SECONDS
     );
