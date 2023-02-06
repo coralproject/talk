@@ -164,14 +164,17 @@ export class CommentCache {
     );
 
     const userIDs = new Set<string>();
+    const commentIDs = new Set<string>();
     for (const comment of comments) {
       if (comment.authorID) {
         userIDs.add(comment.authorID);
       }
+      commentIDs.add(comment.id);
     }
 
     return {
       userIDs: Array.from(userIDs),
+      commentIDs: Array.from(commentIDs),
     };
   }
 

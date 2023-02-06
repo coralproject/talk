@@ -24,6 +24,7 @@ import {
   GQLFlagActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/schema/__generated__/types";
+import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
 
 export enum ACTION_TYPE {
   /**
@@ -353,26 +354,19 @@ export async function retrieveUserAction(
  */
 export async function retrieveManyUserActionPresence(
   mongo: MongoContext,
+  commentActionsCache: CommentActionsCache,
   tenantID: string,
   userID: string | null,
   commentIDs: string[]
 ): Promise<GQLActionPresence[]> {
-  const cursor = mongo.commentActions().find(
-    {
-      tenantID,
-      userID,
-      commentID: { $in: commentIDs },
-    },
-    {
-      // We only need the commentID and actionType from the database.
-      projection: {
-        commentID: 1,
-        actionType: 1,
-      },
-    }
-  );
+  const actionsFromCache = await commentActionsCache.findMany(tenantID, commentIDs);
 
-  const actions = await cursor.toArray();
+  const actions: Readonly<CommentAction>[] = [];
+  for (const action of actionsFromCache) {
+    if (action.userID === userID) {
+      actions.push(action);
+    }
+  }
 
   // For each of the actions returned by the query, group the actions by the
   // item id. Then compute the action presence for each of the actions.

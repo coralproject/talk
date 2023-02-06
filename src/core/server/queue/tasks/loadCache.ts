@@ -69,17 +69,20 @@ const createJobProcessor =
     log.info("found story, proceeding with cache loading");
 
     const isArchived = !!(story.isArchived || story.isArchiving);
-    const { userIDs } = await comments.populateCommentsInCache(
+    const { userIDs, commentIDs } = await comments.populateCommentsInCache(
       tenantID,
       storyID,
       isArchived,
       new Date()
     );
+    log.info({ count: commentIDs.length, storyID }, "cached comments for story");
 
-    await commentActions.populateByStoryID(tenantID, storyID, isArchived);
+    const commentActionIDs = await commentActions.populateByStoryID(tenantID, storyID, isArchived);
+    log.info({ count: commentActionIDs.length, storyID }, "cached comment actions for story");
 
     if (userIDs.length > 0) {
-      await users.populateUsers(tenantID, userIDs);
+      const cachedUsers = await users.populateUsers(tenantID, userIDs);
+      log.info({ count: cachedUsers.length, storyID }, "cached users for story");
     }
 
     log.info({ took: timer() }, "cache load operation ended");

@@ -33,6 +33,14 @@ export class CommentActionsCache {
     return key;
   }
 
+  public computeStoryMembersKey(tenantID: string, storyID: string) {
+    return `${tenantID}:${storyID}:commentActions:members`;
+  }
+
+  public computeCommentMembersKey(tenantID: string, commentID: string) {
+    return `${tenantID}:${commentID}:commentActions:members`;
+  }
+
   public async populateByStoryID(
     tenantID: string,
     storyID: string,
@@ -45,6 +53,9 @@ export class CommentActionsCache {
 
     const cmd = this.redis.multi();
 
+    const storyMembersKey = this.computeStoryMembersKey(tenantID, storyID);
+    cmd.expire(storyMembersKey, this.expirySeconds);
+
     const commentActions: Readonly<CommentAction>[] = [];
     while (await cursor.hasNext()) {
       const commentAction = await cursor.next();
@@ -56,6 +67,15 @@ export class CommentActionsCache {
       cmd.set(dataKey, this.serializeObject(commentAction));
       cmd.expire(dataKey, this.expirySeconds);
 
+      const commentMembersKey = this.computeCommentMembersKey(
+        tenantID,
+        commentAction.commentID
+      );
+      cmd.sadd(commentMembersKey, commentAction.id);
+      cmd.expire(commentMembersKey, this.expirySeconds);
+
+      cmd.sadd(storyMembersKey, commentAction.id);
+
       this.commentActionsByKey.set(dataKey, commentAction);
       commentActions.push(commentAction);
     }
@@ -65,7 +85,7 @@ export class CommentActionsCache {
     return commentActions;
   }
 
-  public async populateByIDs(
+  public async populateByCommentIDs(
     tenantID: string,
     ids: string[],
     isArchived: boolean = false
@@ -73,11 +93,12 @@ export class CommentActionsCache {
     const collection = isArchived
       ? this.mongo.archivedCommentActions()
       : this.mongo.commentActions();
-    const cursor = await collection.find({ tenantID, id: { $in: ids } });
+    const cursor = await collection.find({ tenantID, commentID: { $in: ids } });
 
     const cmd = this.redis.multi();
 
     const commentActions: Readonly<CommentAction>[] = [];
+    const storyMemberKeys: string[] = [];
     while (await cursor.hasNext()) {
       const commentAction = await cursor.next();
       if (!commentAction) {
@@ -88,8 +109,26 @@ export class CommentActionsCache {
       cmd.set(dataKey, this.serializeObject(commentAction));
       cmd.expire(dataKey, this.expirySeconds);
 
+      const storyMembersKey = this.computeStoryMembersKey(
+        tenantID,
+        commentAction.storyID
+      );
+      cmd.sadd(storyMembersKey, commentAction.id);
+      storyMemberKeys.push(storyMembersKey);
+
+      const commentMembersKey = this.computeCommentMembersKey(
+        tenantID,
+        commentAction.commentID
+      );
+      cmd.sadd(commentMembersKey, commentAction.id);
+      cmd.expire(commentMembersKey, this.expirySeconds);
+
       this.commentActionsByKey.set(dataKey, commentAction);
       commentActions.push(commentAction);
+    }
+
+    for (const key of storyMemberKeys) {
+      cmd.expire(key, this.expirySeconds);
     }
 
     await cmd.exec();
@@ -97,20 +136,21 @@ export class CommentActionsCache {
     return commentActions;
   }
 
-  public async loadCommentActions(
-    tenantID: string,
-    ids: string[]
-  ) {
-    const keys = ids.map((id) => this.computeDataKey(tenantID, id));
+  public async primeCommentActions(tenantID: string, storyID: string) {
+    const membersKey = this.computeStoryMembersKey(tenantID, storyID);
+    const hasMembers = await this.redis.exists(membersKey);
+    if (!hasMembers) {
+      return;
+    }
+
+    const members = await this.redis.smembers(membersKey);
+
+    const keys = members.map((m) => this.computeDataKey(tenantID, m));
 
     const start = Date.now();
     const records = keys && keys.length > 0 ? await this.redis.mget(keys) : [];
     const end = Date.now();
-    this.logger.info({ elapsedMs: end - start }, "loadCommentActions - mget");
-
-    if (records.length !== ids.length) {
-      await this.populateByIDs(tenantID, ids);
-    }
+    this.logger.info({ elapsedMs: end - start }, "primeCommentActions - mget");
 
     for (const record of records) {
       if (!record) {
@@ -125,35 +165,67 @@ export class CommentActionsCache {
     }
   }
 
-  public async findUser(tenantID: string, id: string) {
-    const key = this.computeDataKey(tenantID, id);
-    let commentAction = this.commentActionsByKey.get(key);
-    if (!commentAction) {
-      const start = Date.now();
-      let record = await this.redis.get(key);
-      const end = Date.now();
-      this.logger.info({ elapsedMs: end - start }, "findCommentAction - get");
+  public async findMany(tenantID: string, commentIDs: string[]) {
+    const cmd = this.redis.multi();
 
-      if (!record) {
-        await this.populateByIDs(tenantID, [id]);
-        record = await this.redis.get(key);
-      }
-
-      // check that we have a record after trying to ensure
-      // it exists via populate comment actions
-      if (!record) {
-        throw new Error("comment action not found");
-      }
-
-      commentAction = this.deserializeObject(record);
-      this.commentActionsByKey.set(key, commentAction);
+    const idSet = new Set<string>();
+    for (const commentID of commentIDs) {
+      const key = this.computeCommentMembersKey(tenantID, commentID);
+      cmd.smembers(key);
+      idSet.add(commentID);
     }
 
-    if (!commentAction) {
-      throw new Error("comment action not found");
+    const results = await cmd.exec();
+
+    const commentActionIDs: string[] = [];
+    for (const [err, result] of results) {
+      if (err) {
+        continue;
+      }
+
+      if (!result) {
+        continue;
+      }
+
+      const memberIDs = result as string[];
+      if (!memberIDs) {
+        continue;
+      }
+
+      commentActionIDs.push(...memberIDs);
     }
 
-    return commentAction;
+    const keys = commentActionIDs.map((id) => {
+      return { id, key: this.computeDataKey(tenantID, id) };
+    });
+
+    const commentActions: Readonly<CommentAction>[] = [];
+    const notFoundLocallyKeys: string[] = [];
+    for (const entry of keys) {
+      const commentAction = this.commentActionsByKey.get(entry.key);
+      if (commentAction) {
+        commentActions.push(commentAction);
+      } else {
+        notFoundLocallyKeys.push(entry.id);
+      }
+    }
+
+    if (notFoundLocallyKeys.length > 0) {
+      const notFoundIDs = keys.map((k) => k.id);
+      await this.populateByCommentIDs(tenantID, notFoundIDs);
+
+      const records = await this.redis.mget(notFoundLocallyKeys);
+      for (const record of records) {
+        if (!record) {
+          continue;
+        }
+
+        const commentAction = this.deserializeObject(record);
+        commentActions.push(commentAction);
+      }
+    }
+
+    return commentActions;
   }
 
   private serializeObject(comment: Readonly<CommentAction>) {

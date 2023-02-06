@@ -260,6 +260,7 @@ export default (ctx: GraphContext) => ({
 
       return retrieveManyUserActionPresence(
         ctx.mongo,
+        ctx.cache.commentActions,
         ctx.tenant.id,
         ctx.user.id,
         commentIDs
@@ -347,15 +348,15 @@ export default (ctx: GraphContext) => ({
     }
 
     const isArchived = !!(story.isArchived || story.isArchiving);
-    const { userIDs, commentIDs } = await ctx.cache.comments.primeCommentsForStory(
+    const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
       storyID,
       isArchived
     );
     await ctx.cache.users.loadUsers(ctx.tenant.id, userIDs);
-    await ctx.cache.commentActions.loadCommentActions(
+    await ctx.cache.commentActions.primeCommentActions(
       ctx.tenant.id,
-      commentIDs,
+      story.id,
     );
 
     const conn = await ctx.cache.comments.rootComments(
