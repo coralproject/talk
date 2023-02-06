@@ -141,7 +141,8 @@ export default class GraphContext {
       this.mongo,
       this.redis,
       this.loadCacheQueue,
-      this.logger
+      this.logger,
+      this.config.get("redis_cache_expiry") / 1000,
     );
   }
 }

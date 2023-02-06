@@ -21,6 +21,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
+import { Config } from "coral-server/config";
 
 const JOB_NAME = "rejector";
 
@@ -28,6 +29,7 @@ export interface RejectorProcessorOptions {
   mongo: MongoContext;
   redis: AugmentedRedis;
   tenantCache: TenantCache;
+  config: Config;
 }
 
 export interface RejectorData {
@@ -190,6 +192,7 @@ const createJobProcessor =
     mongo,
     redis,
     tenantCache,
+    config,
   }: RejectorProcessorOptions): JobProcessor<RejectorData> =>
   async (job) => {
     // Pull out the job data.
@@ -217,7 +220,13 @@ const createJobProcessor =
       return;
     }
 
-    const cache = new DataCache(mongo, redis, null, log);
+    const cache = new DataCache(
+      mongo,
+      redis,
+      null,
+      log,
+      config.get("redis_cache_expiry") / 1000
+    );
 
     await rejectLiveComments(
       mongo,

@@ -1,5 +1,6 @@
 import { QueueOptions } from "bull";
 
+import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
@@ -14,6 +15,7 @@ export interface LoadCacheProcessorOptions {
   mongo: MongoContext;
   redis: AugmentedRedis;
   tenantCache: TenantCache;
+  config: Config;
 }
 
 export interface LoadCacheData {
@@ -26,6 +28,7 @@ const createJobProcessor =
     mongo,
     redis,
     tenantCache,
+    config,
   }: LoadCacheProcessorOptions): JobProcessor<LoadCacheData> =>
   async (job) => {
     const { storyID, tenantID } = job.data;
@@ -40,7 +43,13 @@ const createJobProcessor =
     );
 
     const timer = createTimer();
-    const { comments, commentActions, users } = new DataCache(mongo, redis, null, log);
+    const { comments, commentActions, users } = new DataCache(
+      mongo,
+      redis,
+      null,
+      log,
+      config.get("redis_cache_expiry") / 1000
+    );
 
     log.info("attempting to load story into redis cache");
 

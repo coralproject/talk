@@ -487,6 +487,12 @@ const config = convict({
     default: "Sign in",
     env: "SIGNIN_WINDOW_TITLE",
   },
+  redis_cache_expiry: {
+    doc: "Maximum time that an object can live in the redis comment cache.",
+    format: "ms",
+    default: ms("86400s"),
+    env: "REDIS_CACHE_EXPIRY",
+  },
 });
 
 export type Config = typeof config;
