@@ -108,6 +108,7 @@ export const Comments = (ctx: GraphContext) => ({
     createReaction(
       ctx.mongo,
       ctx.redis,
+      ctx.cache.commentActions,
       ctx.broker,
       ctx.tenant,
       ctx.user!,
@@ -121,10 +122,18 @@ export const Comments = (ctx: GraphContext) => ({
     commentID,
     commentRevisionID,
   }: GQLRemoveCommentReactionInput) =>
-    removeReaction(ctx.mongo, ctx.redis, ctx.broker, ctx.tenant, ctx.user!, {
-      commentID,
-      commentRevisionID,
-    }),
+    removeReaction(
+      ctx.mongo,
+      ctx.redis,
+      ctx.cache.commentActions,
+      ctx.broker,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+        commentRevisionID,
+      }
+    ),
   createDontAgree: ({
     commentID,
     commentRevisionID,
@@ -133,6 +142,7 @@ export const Comments = (ctx: GraphContext) => ({
     createDontAgree(
       ctx.mongo,
       ctx.redis,
+      ctx.cache.commentActions,
       ctx.broker,
       ctx.tenant,
       ctx.user!,
@@ -151,10 +161,18 @@ export const Comments = (ctx: GraphContext) => ({
     commentID,
     commentRevisionID,
   }: GQLRemoveCommentDontAgreeInput) =>
-    removeDontAgree(ctx.mongo, ctx.redis, ctx.broker, ctx.tenant, ctx.user!, {
-      commentID,
-      commentRevisionID,
-    }),
+    removeDontAgree(
+      ctx.mongo,
+      ctx.redis,
+      ctx.cache.commentActions,
+      ctx.broker,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+        commentRevisionID,
+      }
+    ),
   createFlag: ({
     commentID,
     commentRevisionID,
@@ -164,6 +182,7 @@ export const Comments = (ctx: GraphContext) => ({
     createFlag(
       ctx.mongo,
       ctx.redis,
+      ctx.cache.commentActions,
       ctx.broker,
       ctx.tenant,
       ctx.user!,

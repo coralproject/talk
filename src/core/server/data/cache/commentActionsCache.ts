@@ -228,6 +228,59 @@ export class CommentActionsCache {
     return commentActions;
   }
 
+  public async add(commentAction: Readonly<CommentAction>) {
+    const dataKey = this.computeDataKey(
+      commentAction.tenantID,
+      commentAction.id
+    );
+    const storyMemberKey = this.computeStoryMembersKey(
+      commentAction.tenantID,
+      commentAction.storyID
+    );
+    const commentMemberKey = this.computeCommentMembersKey(
+      commentAction.tenantID,
+      commentAction.commentID
+    );
+
+    const cmd = this.redis.multi();
+
+    cmd.set(dataKey, this.serializeObject(commentAction));
+    cmd.expire(dataKey, this.expirySeconds);
+
+    cmd.sadd(storyMemberKey, commentAction.id);
+    cmd.sadd(commentMemberKey, commentAction.id);
+
+    await cmd.exec();
+
+    this.commentActionsByKey.set(dataKey, commentAction);
+  }
+
+  public async remove(commentAction: Readonly<CommentAction>) {
+    const dataKey = this.computeDataKey(
+      commentAction.tenantID,
+      commentAction.id
+    );
+    const storyMemberKey = this.computeStoryMembersKey(
+      commentAction.tenantID,
+      commentAction.storyID
+    );
+    const commentMemberKey = this.computeCommentMembersKey(
+      commentAction.tenantID,
+      commentAction.commentID
+    );
+
+    const cmd = this.redis.multi();
+
+    cmd.del(dataKey);
+
+    cmd.srem(storyMemberKey, commentAction.id);
+    cmd.srem(commentMemberKey, commentAction.id);
+
+    await cmd.exec();
+
+    this.commentActionsByKey.delete(dataKey);
+  }
+
   private serializeObject(comment: Readonly<CommentAction>) {
     const json = JSON.stringify(comment);
     return json;
