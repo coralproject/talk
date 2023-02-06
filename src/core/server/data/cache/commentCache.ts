@@ -453,11 +453,15 @@ export class CommentCache {
     comments: Readonly<Comment>[],
     orderBy: GQLCOMMENT_SORT
   ) {
+    let start = Date.now();
     const sortKey = this.computeSortKey(tenantID, storyID, parentID);
-    const start = Date.now();
-    const sortedComments: Readonly<Comment>[] = [];
     const orderedIDs = await this.redis.zrange(sortKey, 0, comments.length * 2);
+    let end = Date.now();
 
+    this.logger.info({ elapsedMs: end - start, orderBy }, "redis - sort - zrange");
+
+    start = Date.now();
+    const sortedComments: Readonly<Comment>[] = [];
     let index =
       orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 0 : orderedIDs.length - 1;
     const incr = orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 1 : -1;
@@ -473,9 +477,8 @@ export class CommentCache {
         sortedComments.push(comment);
       }
     }
-
-    const end = Date.now();
-    this.logger.info({ elapsedMs: end - start, orderBy }, "redis - sort");
+    end = Date.now();
+    this.logger.info({ elapsedMs: end - start, orderBy }, "redis - sort - organize");
 
     return this.createConnection(sortedComments);
   }
