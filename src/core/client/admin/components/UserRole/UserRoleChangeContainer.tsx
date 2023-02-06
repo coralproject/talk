@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
@@ -57,7 +56,7 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
         isSiteModerator(currentUser) || isSiteMember(currentUser);
       const updateRole =
         newRole !== currentUser.role || scoped !== userIsScoped;
-      console.log("need to update role");
+
       if (updateRole) {
         const {
           user: { id, role, moderationScopes, membershipScopes },
