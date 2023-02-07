@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
@@ -71,7 +70,6 @@ const UserRoleChange: FunctionComponent<Props> = ({
    */
   const handleChangeRole = useCallback(
     async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
-      console.log("changing role, scoped?", !!siteIDs.length);
       await onChangeRole(r, !!siteIDs.length, siteIDs);
     },
     [onChangeRole]

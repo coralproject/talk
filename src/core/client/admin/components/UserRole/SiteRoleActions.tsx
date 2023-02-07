@@ -177,13 +177,12 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     .filter((s) => userMembershipSites.find(({ id }) => id === s.id))
     .map(({ id }) => id);
 
-  // (BOOKMAR) might need to split this into canPromoteToMember + canPromoteToSiteMember
   const canPromoteToMember = validatePermissionsAction({
     viewer,
     user,
     newUserRole: GQLUSER_ROLE.MEMBER,
     scopeAdditions: membershipSitesToGive,
-    scoped: true, // TODO: marcus check this
+    scoped: true,
   });
 
   const canPromoteToModerator = validatePermissionsAction({
