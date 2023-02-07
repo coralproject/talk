@@ -253,6 +253,11 @@ const enhanced = withFragmentContainer<Props>({
           username
         }
       }
+      tags {
+        createdBy {
+          username
+        }
+      }
       rating
       body
       createdAt
