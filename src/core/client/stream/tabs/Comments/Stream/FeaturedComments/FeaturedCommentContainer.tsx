@@ -34,6 +34,8 @@ import ReactionButtonContainer from "../../Comment/ReactionButton";
 import { UsernameWithPopoverContainer } from "../../Comment/Username";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 
+import FeaturedBy from "./FeaturedBy";
+
 import styles from "./FeaturedCommentContainer.css";
 
 interface Props {
@@ -72,6 +74,10 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
     [emitViewConversationEvent, comment.id, setCommentID]
   );
 
+  const featuringUser = comment.tags.find(
+    (tag) => tag.code === "FEATURED"
+  )?.createdBy;
+
   const gotoConvAriaLabelId = comment.author?.username
     ? "comments-featured-gotoConversation-label-with-username"
     : "comments-featured-gotoConversation-label-without-username";
@@ -94,6 +100,9 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
           </Hidden>
         </Localized>
         <HorizontalGutter>
+          {featuringUser?.username && (
+            <FeaturedBy username={featuringUser.username} />
+          )}
           {isRatingsAndReviews && comment.rating && (
             <StarRating rating={comment.rating} />
           )}
@@ -254,6 +263,7 @@ const enhanced = withFragmentContainer<Props>({
         }
       }
       tags {
+        code
         createdBy {
           username
         }
