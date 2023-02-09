@@ -28,10 +28,12 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 
-export const maybeLoadOnlyID = (
+export const maybeLoadOnlyID = async (
   ctx: GraphContext,
   info: GraphQLResolveInfo,
+  storyID: string,
   id: string
 ) => {
   // Get the field names of the fields being requested, if it's only the ID,
@@ -41,6 +43,13 @@ export const maybeLoadOnlyID = (
     return {
       id,
     };
+  }
+
+  const cachedComment = await ctx.cache.comments.find(ctx.tenant.id, storyID, id);
+  if (cachedComment !== null && PUBLISHED_STATUSES.includes(cachedComment.status)) {
+    return cachedComment;
+  } else if (cachedComment !== null) {
+    return null;
   }
 
   // We want more than the ID! Get the comment!
@@ -157,7 +166,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   depth: (c) => getDepth(c),
   rootParent: (c, input, ctx, info) =>
     hasAncestors(c)
-      ? maybeLoadOnlyID(ctx, info, c.ancestorIDs[c.ancestorIDs.length - 1])
+      ? maybeLoadOnlyID(ctx, info, c.storyID, c.ancestorIDs[c.ancestorIDs.length - 1])
       : null,
   parent: async (c, input, ctx, info) => {
     const parent = c.parentID
