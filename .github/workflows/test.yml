@@ -1,0 +1,9 @@
+name: Lint and Test
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  install-npm-dependencies:
+    uses: ./.github/workflows/install-npm-dependencies.yml

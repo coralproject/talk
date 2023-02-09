@@ -1,0 +1,33 @@
+name: Install npm Dependencies
+
+on:
+  workflow_call:
+
+jobs:
+  npm_dependencies:
+    name: install npm dependencies
+    runs-on: ubuntu-22.04
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Setup Node14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+      - name: npm Lockfile Version
+        uses: mansona/npm-lockfile-version@v1
+        with:
+          version: 2
+      -
+        name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+            path: ./node_modules
+            key: modules-${{ hashFiles('package-lock.json') }}
+            restore-keys: npm-
+      -
+        name: npm ci
+        run: npm ci
