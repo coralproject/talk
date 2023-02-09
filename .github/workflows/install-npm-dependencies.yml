@@ -12,6 +12,10 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
+      -
         name: Setup Node14.x
         uses: actions/setup-node@v3
         with:
@@ -25,9 +29,9 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-            path: ./node_modules
-            key: modules-${{ hashFiles('package-lock.json') }}
-            restore-keys: npm-
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
       -
         name: npm ci
         run: npm ci
