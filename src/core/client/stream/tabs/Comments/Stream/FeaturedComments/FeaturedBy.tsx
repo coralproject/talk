@@ -6,6 +6,7 @@ interface Props {
   username: string;
 }
 
+// TODO (marcushaddon): localize!
 const FeaturedBy: FunctionComponent<Props> = ({ username }) => {
   return (
     <span className={styles.root}>
