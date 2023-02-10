@@ -9,7 +9,7 @@ interface Props {
 const FeaturedBy: FunctionComponent<Props> = ({ username }) => {
   return (
     <span className={styles.root}>
-      FEATURED BY <strong className={styles.name}>{username}</strong>
+      featured by <strong className={styles.name}>{username}</strong>
     </span>
   );
 };
