@@ -7477,10 +7477,17 @@ could be assigned.
 """
 input ModerationScopesInput {
   """
+  scoped is whether or not the user's moderation
+  priveledges are limited to specified sites
+  """
+
+  scoped: Boolean!
+
+  """
   siteIDs is an array of ID's that should be the list of sites that a moderator
   is limited to. If none are passed, it will remove the scoping for this User.
   """
-  siteIDs: [ID!]
+  siteIDs: [ID!]!
 }
 
 input UpdateUserModerationScopesInput {
@@ -7517,6 +7524,11 @@ type UpdateUserModerationScopesPayload {
 # updateUserMembershipScopes
 ############################
 input MembershipScopesInput {
+  """
+  scoped is whether or not a user's membership is limited to specific sites.
+  """
+  scoped: Boolean!
+
   """
   siteIDs are the ids of the sites on which to scope a user's membership to.
   """
@@ -7568,10 +7580,9 @@ input UpdateUserRoleInput {
   role: USER_ROLE!
 
   """
-  siteIDs is a list of sites on which the user has this role. if empty,
-  the user has this role on all sites in the organization.
+  scoped is whether or not the role will be limited to specific sites or not.
   """
-  siteIDs: [ID!]
+  scoped: Boolean!
 
   """
   clientMutationId is required for Relay support.

@@ -25,12 +25,14 @@ const UpdateUserRoleMutation = createMutation(
                 scoped
                 sites {
                   id
+                  name
                 }
               }
               membershipScopes {
                 scoped
                 sites {
                   id
+                  name
                 }
               }
             }
@@ -44,12 +46,12 @@ const UpdateUserRoleMutation = createMutation(
             id: input.userID,
             role: input.role,
             moderationScopes: {
-              scoped: !!input.siteIDs?.length,
-              sites: input.siteIDs?.map((id) => ({ id })) || [],
+              scoped: !!input.scoped,
+              sites: [],
             },
             membershipScopes: {
-              scoped: !!input.siteIDs?.length,
-              sites: input.siteIDs?.map((id) => ({ id })) || [],
+              scoped: input.scoped,
+              sites: [],
             },
           },
           clientMutationId: clientMutationId.toString(),

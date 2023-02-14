@@ -28,7 +28,11 @@ import styles from "./UserRoleChange.css";
 
 interface Props {
   user: UserRoleChangeContainer_user;
-  onChangeRole: (role: GQLUSER_ROLE_RL, siteIDs?: string[]) => Promise<void>;
+  onChangeRole: (
+    role: GQLUSER_ROLE_RL,
+    scoped: boolean,
+    siteIDs?: string[]
+  ) => Promise<void>;
   onChangeModerationScopes: (siteIDs: string[]) => Promise<void>;
   onChangeMembershipScopes: (siteIDs: string[]) => Promise<void>;
   moderationScopesEnabled?: boolean;
@@ -66,7 +70,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
    */
   const handleChangeRole = useCallback(
     async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
-      await onChangeRole(r, siteIDs);
+      await onChangeRole(r, !!siteIDs.length, siteIDs);
     },
     [onChangeRole]
   );
