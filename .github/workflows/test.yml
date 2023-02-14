@@ -5,9 +5,48 @@ on:
   push:
 
 jobs:
-  install-npm-dependencies:
-    uses: ./.github/workflows/install-npm-dependencies.yml
-    secrets: inherit
-  lint:
-    needs: install-npm-dependencies
-    uses: ./.github/workflows/lint.yml
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-22.04
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
+      -
+        name: Setup Node14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+      - name: npm Lockfile Version
+        uses: mansona/npm-lockfile-version@v1
+        with:
+          version: 2
+      -
+        name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+      -
+        name: npm ci
+        run: npm ci
+      -
+        name: Generate schemas and types
+        run: npm run generate
+      -
+        name: Lint Source Code
+        run: npm run lint
+      -
+        name: Lint Markdown
+        run: |
+          npm run doctoc
+          git diff --exit-code
+      -
+        name: Lint Versions
+        run: npx @coralproject/package-version-lint
