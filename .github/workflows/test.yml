@@ -50,3 +50,6 @@ jobs:
       -
         name: Lint Versions
         run: npx @coralproject/package-version-lint
+      -
+        name: Run Unit Tetss
+        run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
