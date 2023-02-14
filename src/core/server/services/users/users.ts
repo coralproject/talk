@@ -1083,7 +1083,7 @@ export async function updateModerationScopes(
   }
 
   const user = await retrieveUser(mongo, tenant.id, userID);
-  if (!user?.moderationScopes?.scoped) {
+  if (!isSiteModerationScoped(user?.moderationScopes)) {
     throw new Error("User is not moderation scoped");
   }
 
