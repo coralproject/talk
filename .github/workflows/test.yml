@@ -8,3 +8,6 @@ jobs:
   install-npm-dependencies:
     uses: ./.github/workflows/install-npm-dependencies.yml
     secrets: inherit
+  lint:
+    needs: install-npm-dependencies
+    uses: ./.github/workflows/lint.yml
