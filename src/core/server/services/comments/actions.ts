@@ -220,7 +220,7 @@ export async function removeCommentAction(
     commentRevisionID,
   });
   if (wasRemoved) {
-    commentActionsCache.remove(action);
+    await commentActionsCache.remove(action);
 
     // Compute the action counts, and invert them (because we're deleting an
     // action).

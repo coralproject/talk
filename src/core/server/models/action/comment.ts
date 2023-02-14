@@ -3,6 +3,7 @@ import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
+import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
 import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import {
@@ -24,7 +25,6 @@ import {
   GQLFlagActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/schema/__generated__/types";
-import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
 
 export enum ACTION_TYPE {
   /**
@@ -359,7 +359,10 @@ export async function retrieveManyUserActionPresence(
   userID: string | null,
   commentIDs: string[]
 ): Promise<GQLActionPresence[]> {
-  const actionsFromCache = await commentActionsCache.findMany(tenantID, commentIDs);
+  const actionsFromCache = await commentActionsCache.findMany(
+    tenantID,
+    commentIDs
+  );
 
   const actions: Readonly<CommentAction>[] = [];
   for (const action of actionsFromCache) {

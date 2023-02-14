@@ -354,10 +354,7 @@ export default (ctx: GraphContext) => ({
       isArchived
     );
     await ctx.cache.users.loadUsers(ctx.tenant.id, userIDs);
-    await ctx.cache.commentActions.primeCommentActions(
-      ctx.tenant.id,
-      story.id,
-    );
+    await ctx.cache.commentActions.primeCommentActions(ctx.tenant.id, story.id);
 
     const conn = await ctx.cache.comments.rootComments(
       ctx.tenant.id,

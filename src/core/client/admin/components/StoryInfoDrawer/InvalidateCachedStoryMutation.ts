@@ -16,7 +16,9 @@ const InvalidateCachedStoryMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation InvalidateCachedStoryMutation($input: InvalidateCachedStoryInput!) {
+        mutation InvalidateCachedStoryMutation(
+          $input: InvalidateCachedStoryInput!
+        ) {
           invalidateCachedStory(input: $input) {
             story {
               cached

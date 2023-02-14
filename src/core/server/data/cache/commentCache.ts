@@ -458,7 +458,10 @@ export class CommentCache {
     const orderedIDs = await this.redis.zrange(sortKey, 0, comments.length * 2);
     let end = Date.now();
 
-    this.logger.info({ elapsedMs: end - start, orderBy, count: comments.length }, "redis - sort - zrange");
+    this.logger.info(
+      { elapsedMs: end - start, orderBy, count: comments.length },
+      "redis - sort - zrange"
+    );
 
     start = Date.now();
     const sortedComments: Readonly<Comment>[] = [];
@@ -478,7 +481,10 @@ export class CommentCache {
       }
     }
     end = Date.now();
-    this.logger.info({ elapsedMs: end - start, orderBy, count: orderedIDs.length }, "redis - sort - organize");
+    this.logger.info(
+      { elapsedMs: end - start, orderBy, count: orderedIDs.length },
+      "redis - sort - organize"
+    );
 
     return this.createConnection(sortedComments);
   }

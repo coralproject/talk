@@ -44,12 +44,12 @@ export class CommentActionsCache {
   public async populateByStoryID(
     tenantID: string,
     storyID: string,
-    isArchived: boolean = false
+    isArchived = false
   ) {
     const collection = isArchived
       ? this.mongo.archivedCommentActions()
       : this.mongo.commentActions();
-    const cursor = await collection.find({ tenantID, storyID });
+    const cursor = collection.find({ tenantID, storyID });
 
     const cmd = this.redis.multi();
 
@@ -88,12 +88,12 @@ export class CommentActionsCache {
   public async populateByCommentIDs(
     tenantID: string,
     ids: string[],
-    isArchived: boolean = false
+    isArchived = false
   ) {
     const collection = isArchived
       ? this.mongo.archivedCommentActions()
       : this.mongo.commentActions();
-    const cursor = await collection.find({ tenantID, commentID: { $in: ids } });
+    const cursor = collection.find({ tenantID, commentID: { $in: ids } });
 
     const cmd = this.redis.multi();
 
