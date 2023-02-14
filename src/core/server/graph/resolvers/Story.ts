@@ -94,5 +94,5 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   },
   cached: async (s, input, ctx) => {
     return ctx.cache.comments.isCached(s.tenantID, s.id);
-  }
+  },
 };

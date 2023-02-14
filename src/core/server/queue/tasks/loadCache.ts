@@ -75,14 +75,27 @@ const createJobProcessor =
       isArchived,
       new Date()
     );
-    log.info({ count: commentIDs.length, storyID }, "cached comments for story");
+    log.info(
+      { count: commentIDs.length, storyID },
+      "cached comments for story"
+    );
 
-    const commentActionIDs = await commentActions.populateByStoryID(tenantID, storyID, isArchived);
-    log.info({ count: commentActionIDs.length, storyID }, "cached comment actions for story");
+    const commentActionIDs = await commentActions.populateByStoryID(
+      tenantID,
+      storyID,
+      isArchived
+    );
+    log.info(
+      { count: commentActionIDs.length, storyID },
+      "cached comment actions for story"
+    );
 
     if (userIDs.length > 0) {
       const cachedUsers = await users.populateUsers(tenantID, userIDs);
-      log.info({ count: cachedUsers.length, storyID }, "cached users for story");
+      log.info(
+        { count: cachedUsers.length, storyID },
+        "cached users for story"
+      );
     }
 
     log.info({ took: timer() }, "cache load operation ended");

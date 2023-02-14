@@ -1,3 +1,4 @@
+import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
 import { MongoContext } from "coral-server/data/context";
 import { CommentNotFoundError, UserSiteBanned } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -38,7 +39,6 @@ import {
   publishCommentReactionCreated,
 } from "../events";
 import { submitCommentAsSpam } from "../spam";
-import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
 
 export type CreateAction = CreateActionInput;
 
@@ -322,12 +322,19 @@ export async function removeReaction(
   author: User,
   input: RemoveCommentReaction
 ) {
-  return removeCommentAction(mongo, redis, commentActionsCache, broker, tenant, {
-    actionType: ACTION_TYPE.REACTION,
-    commentID: input.commentID,
-    commentRevisionID: input.commentRevisionID,
-    userID: author.id,
-  });
+  return removeCommentAction(
+    mongo,
+    redis,
+    commentActionsCache,
+    broker,
+    tenant,
+    {
+      actionType: ACTION_TYPE.REACTION,
+      commentID: input.commentID,
+      commentRevisionID: input.commentRevisionID,
+      userID: author.id,
+    }
+  );
 }
 
 export type CreateCommentDontAgree = Pick<
@@ -381,12 +388,19 @@ export async function removeDontAgree(
   author: User,
   input: RemoveCommentDontAgree
 ) {
-  return removeCommentAction(mongo, redis, commentActionsCache, broker, tenant, {
-    actionType: ACTION_TYPE.DONT_AGREE,
-    commentID: input.commentID,
-    commentRevisionID: input.commentRevisionID,
-    userID: author.id,
-  });
+  return removeCommentAction(
+    mongo,
+    redis,
+    commentActionsCache,
+    broker,
+    tenant,
+    {
+      actionType: ACTION_TYPE.DONT_AGREE,
+      commentID: input.commentID,
+      commentRevisionID: input.commentRevisionID,
+      userID: author.id,
+    }
+  );
 }
 
 export type CreateCommentFlag = Pick<

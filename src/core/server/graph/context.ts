@@ -142,7 +142,7 @@ export default class GraphContext {
       this.redis,
       this.loadCacheQueue,
       this.logger,
-      this.config.get("redis_cache_expiry") / 1000,
+      this.config.get("redis_cache_expiry") / 1000
     );
   }
 }

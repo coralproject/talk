@@ -1,5 +1,6 @@
 import Queue from "bull";
 
+import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
@@ -21,7 +22,6 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
-import { Config } from "coral-server/config";
 
 const JOB_NAME = "rejector";
 
