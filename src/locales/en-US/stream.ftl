@@ -286,6 +286,7 @@ comments-moderationRejectedTombstone-moderateLink =
   Go to moderate to review this decision
 
 comments-featuredTag = Featured
+comments-featuredBy = Featured by {$username}
 
 # $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
