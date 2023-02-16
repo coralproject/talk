@@ -63,6 +63,7 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
                       fullWidth
                       variant="seamlessAdornment"
                       color="streamBlue"
+                      ref={ref}
                     />
                     <Localized id="comments-postComment-insertImage">
                       <Button

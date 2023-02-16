@@ -65,11 +65,11 @@ orgModUser.role = GQLUSER_ROLE.MODERATOR;
 
 const siteAModUser = createUserFixture({ tenantID });
 siteAModUser.role = GQLUSER_ROLE.MODERATOR;
-siteAModUser.moderationScopes = { siteIDs: [siteA.id] };
+siteAModUser.moderationScopes = { siteIDs: [siteA.id], scoped: true };
 
 const siteBModUser = createUserFixture({ tenantID });
 siteBModUser.role = GQLUSER_ROLE.MODERATOR;
-siteBModUser.moderationScopes = { siteIDs: [siteB.id] };
+siteBModUser.moderationScopes = { siteIDs: [siteB.id], scoped: true };
 
 const commenter = createUserFixture({ tenantID, role: GQLUSER_ROLE.COMMENTER });
 

@@ -5,7 +5,7 @@ import { GQLUSER_ROLE } from "coral-framework/schema";
 import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
 
 import MainRoute from "./App/MainRoute";
-import { Ability } from "./permissions";
+import { Ability } from "./permissions/tenant";
 import { createAuthCheckRoute } from "./routes/AuthCheck";
 import CommunityRoute from "./routes/Community";
 import ConfigureRoute from "./routes/Configure";

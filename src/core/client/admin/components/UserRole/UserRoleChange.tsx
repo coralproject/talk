@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 
+import { validateRoleChange } from "coral-common/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
@@ -17,6 +18,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
+import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 
 import SiteRoleModal from "./SiteRoleModal";
 import UserRoleChangeButton from "./UserRoleChangeButton";
@@ -25,30 +27,39 @@ import UserRoleText from "./UserRoleText";
 import styles from "./UserRoleChange.css";
 
 interface Props {
-  username: string | null;
-  onChangeRole: (role: GQLUSER_ROLE_RL) => Promise<void>;
+  user: UserRoleChangeContainer_user;
+  onChangeRole: (
+    role: GQLUSER_ROLE_RL,
+    scoped: boolean,
+    siteIDs?: string[]
+  ) => Promise<void>;
   onChangeModerationScopes: (siteIDs: string[]) => Promise<void>;
   onChangeMembershipScopes: (siteIDs: string[]) => Promise<void>;
-  role: GQLUSER_ROLE_RL;
-  moderationScoped?: boolean;
-  membershipScoped?: boolean;
-  moderationScopes: UserRoleChangeContainer_user["moderationScopes"];
-  membershipScopes: UserRoleChangeContainer_user["membershipScopes"];
   moderationScopesEnabled?: boolean;
+  viewer: UserRoleChangeContainer_viewer;
 }
 
 const UserRoleChange: FunctionComponent<Props> = ({
-  username,
-  role,
-  membershipScoped,
-  moderationScoped,
+  user,
   onChangeRole,
   onChangeModerationScopes,
-  moderationScopes,
   onChangeMembershipScopes,
-  membershipScopes,
   moderationScopesEnabled = false,
+  viewer,
 }) => {
+  const isAllowed = useCallback(
+    (newRole: GQLUSER_ROLE_RL, siteScoped = false) => {
+      const viewerUser = {
+        ...viewer,
+        moderationScopes: {
+          siteIDs: viewer.moderationScopes?.sites?.map(({ id }) => id) || [],
+        },
+      };
+
+      return validateRoleChange(viewerUser, user, newRole, siteScoped);
+    },
+    [viewer, user]
+  );
   // Setup state and callbacks for the popover.
   const [isPopoverVisible, setPopoverVisibility, togglePopoverVisibility] =
     useToggleState();
@@ -59,20 +70,9 @@ const UserRoleChange: FunctionComponent<Props> = ({
    */
   const handleChangeRole = useCallback(
     async (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) => {
-      await onChangeRole(r);
-
-      if (r === GQLUSER_ROLE.MEMBER) {
-        await onChangeMembershipScopes(siteIDs);
-      } else if (r === GQLUSER_ROLE.MODERATOR && moderationScopesEnabled) {
-        await onChangeModerationScopes(siteIDs);
-      }
+      await onChangeRole(r, !!siteIDs.length, siteIDs);
     },
-    [
-      onChangeMembershipScopes,
-      onChangeRole,
-      onChangeModerationScopes,
-      moderationScopesEnabled,
-    ]
+    [onChangeRole]
   );
   const onClick = useCallback(
     (r: GQLUSER_ROLE_RL, siteIDs: string[] = []) =>
@@ -85,24 +85,40 @@ const UserRoleChange: FunctionComponent<Props> = ({
 
   const [siteRole, setSiteRole] = useState<GQLUSER_ROLE | null>(null);
 
+  const moderationScoped = !!user.moderationScopes?.scoped;
+  const membershipScoped = !!user.moderationScopes?.scoped;
+
   const onFinishModal = useCallback(
     async (siteIDs: string[]) => {
-      // Set the user as new role and then update the siteIDs.
-      await handleChangeRole(siteRole!, siteIDs);
+      if (siteRole !== user.role) {
+        await handleChangeRole(siteRole!, siteIDs);
+      } else {
+        if (siteRole === GQLUSER_ROLE.MODERATOR) {
+          await onChangeModerationScopes(siteIDs);
+        } else {
+          await onChangeMembershipScopes(siteIDs);
+        }
+      }
 
       setSiteRole(null);
     },
-    [siteRole, handleChangeRole]
+    [
+      siteRole,
+      handleChangeRole,
+      onChangeMembershipScopes,
+      onChangeModerationScopes,
+      user.role,
+    ]
   );
 
   const selectedModerationSiteIDs = useMemo(
-    () => moderationScopes?.sites?.map((site) => site.id),
-    [moderationScopes]
+    () => user.moderationScopes?.sites?.map((site) => site.id),
+    [user.moderationScopes]
   );
 
   const selectedMembershipSiteIDs = useMemo(
-    () => membershipScopes?.sites?.map((site) => site.id),
-    [membershipScopes]
+    () => user.membershipScopes?.sites?.map((site) => site.id),
+    [user.membershipScopes]
   );
 
   const showSiteRoleModal = !!siteRole;
@@ -117,7 +133,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
     <>
       <SiteRoleModal
         roleToBeSet={siteRole}
-        username={username}
+        username={user.username}
         open={showSiteRoleModal}
         selectedSiteIDs={siteRoleSiteIDs}
         onCancel={() => setSiteRole(null)}
@@ -132,56 +148,71 @@ const UserRoleChange: FunctionComponent<Props> = ({
           body={
             <ClickOutside onClickOutside={togglePopoverVisibility}>
               <Dropdown>
-                <UserRoleChangeButton
-                  active={role === GQLUSER_ROLE.COMMENTER}
-                  role={GQLUSER_ROLE.COMMENTER}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.COMMENTER)}
-                />
-                <UserRoleChangeButton
-                  active={membershipScoped && role === GQLUSER_ROLE.MEMBER}
-                  role={GQLUSER_ROLE.MEMBER}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  scoped
-                  onClick={() => {
-                    setSiteRole(GQLUSER_ROLE.MEMBER);
-                    setPopoverVisibility(false);
-                  }}
-                />
-                <UserRoleChangeButton
-                  active={role === GQLUSER_ROLE.STAFF}
-                  role={GQLUSER_ROLE.STAFF}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.STAFF)}
-                />
-                {moderationScopesEnabled && (
+                {isAllowed(GQLUSER_ROLE.COMMENTER) && (
                   <UserRoleChangeButton
-                    active={moderationScoped && role === GQLUSER_ROLE.MODERATOR}
-                    role={GQLUSER_ROLE.MODERATOR}
+                    active={user.role === GQLUSER_ROLE.COMMENTER}
+                    role={GQLUSER_ROLE.COMMENTER}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.COMMENTER)}
+                  />
+                )}
+                {isAllowed(GQLUSER_ROLE.MEMBER) && (
+                  <UserRoleChangeButton
+                    active={
+                      membershipScoped && user.role === GQLUSER_ROLE.MEMBER
+                    }
+                    role={GQLUSER_ROLE.MEMBER}
+                    moderationScopesEnabled={moderationScopesEnabled}
                     scoped
-                    moderationScopesEnabled
                     onClick={() => {
-                      setSiteRole(GQLUSER_ROLE.MODERATOR);
+                      setSiteRole(GQLUSER_ROLE.MEMBER);
                       setPopoverVisibility(false);
                     }}
                   />
                 )}
-                <UserRoleChangeButton
-                  active={
-                    (!moderationScopesEnabled ||
-                      (moderationScopesEnabled && !moderationScoped)) &&
-                    role === GQLUSER_ROLE.MODERATOR
-                  }
-                  role={GQLUSER_ROLE.MODERATOR}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.MODERATOR)}
-                />
-                <UserRoleChangeButton
-                  active={role === GQLUSER_ROLE.ADMIN}
-                  role={GQLUSER_ROLE.ADMIN}
-                  moderationScopesEnabled={moderationScopesEnabled}
-                  onClick={onClick(GQLUSER_ROLE.ADMIN)}
-                />
+                {isAllowed(GQLUSER_ROLE.STAFF) && (
+                  <UserRoleChangeButton
+                    active={user.role === GQLUSER_ROLE.STAFF}
+                    role={GQLUSER_ROLE.STAFF}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.STAFF)}
+                  />
+                )}
+                {moderationScopesEnabled &&
+                  isAllowed(GQLUSER_ROLE.MODERATOR, true) && (
+                    <UserRoleChangeButton
+                      active={
+                        moderationScoped && user.role === GQLUSER_ROLE.MODERATOR
+                      }
+                      role={GQLUSER_ROLE.MODERATOR}
+                      scoped
+                      moderationScopesEnabled
+                      onClick={() => {
+                        setSiteRole(GQLUSER_ROLE.MODERATOR);
+                        setPopoverVisibility(false);
+                      }}
+                    />
+                  )}
+                {isAllowed(GQLUSER_ROLE.MODERATOR) && (
+                  <UserRoleChangeButton
+                    active={
+                      (!moderationScopesEnabled ||
+                        (moderationScopesEnabled && !moderationScoped)) &&
+                      user.role === GQLUSER_ROLE.MODERATOR
+                    }
+                    role={GQLUSER_ROLE.MODERATOR}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.MODERATOR)}
+                  />
+                )}
+                {isAllowed(GQLUSER_ROLE.ADMIN) && (
+                  <UserRoleChangeButton
+                    active={user.role === GQLUSER_ROLE.ADMIN}
+                    role={GQLUSER_ROLE.ADMIN}
+                    moderationScopesEnabled={moderationScopesEnabled}
+                    onClick={onClick(GQLUSER_ROLE.ADMIN)}
+                  />
+                )}
               </Dropdown>
             </ClickOutside>
           }
@@ -204,7 +235,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 <UserRoleText
                   moderationScopesEnabled={moderationScopesEnabled}
                   scoped={moderationScoped || membershipScoped}
-                  role={role}
+                  role={user.role}
                 />
                 <ButtonIcon size="lg">
                   {isPopoverVisible ? "arrow_drop_up" : "arrow_drop_down"}

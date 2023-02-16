@@ -52,7 +52,7 @@ exports[`checks for invalid username 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm ValidationMessage-icon"
+            className="Icon-root Icon-sm coral coral-icon ValidationMessage-icon"
           >
             error
           </i>
@@ -227,7 +227,7 @@ exports[`shows error when submitting empty form 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm ValidationMessage-icon"
+            className="Icon-root Icon-sm coral coral-icon ValidationMessage-icon"
           >
             error
           </i>
@@ -282,7 +282,7 @@ exports[`shows server error 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm"
+            className="Icon-root Icon-sm coral coral-icon"
           >
             error
           </i>

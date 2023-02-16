@@ -1,8 +1,11 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
+
+import CLASSES from "coral-stream/classes";
 
 import { AccountSettingsContainer_settings } from "coral-stream/__generated__/AccountSettingsContainer_settings.graphql";
 import { AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
@@ -25,7 +28,9 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
   settings,
 }) => (
   <HorizontalGutter size="oneAndAHalf" data-testid="profile-manageAccount">
-    <HorizontalGutter className={styles.root}>
+    <HorizontalGutter
+      className={cn(styles.root, CLASSES.accountSettings.$root)}
+    >
       <ChangeUsernameContainer settings={settings} viewer={viewer} />
       <ChangeEmailContainer settings={settings} viewer={viewer} />
       <ChangePasswordContainer settings={settings} />

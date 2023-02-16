@@ -83,6 +83,7 @@ describe("updateUserBan", () => {
       tenantID: tenant.id,
       moderationScopes: {
         siteIDs: [siteA.id],
+        scoped: true,
       },
     });
 
@@ -272,7 +273,8 @@ describe("updateRole", () => {
         tenant,
         commenterA,
         commenterA.id,
-        GQLUSER_ROLE.MODERATOR
+        GQLUSER_ROLE.MODERATOR,
+        false
       );
     }).rejects.toThrow(Error);
   });
@@ -292,6 +294,7 @@ describe("promote/demoteMember", () => {
     role: GQLUSER_ROLE.MODERATOR,
     moderationScopes: {
       siteIDs: [siteA.id, siteB.id],
+      scoped: true,
     },
   });
   const siteCMod = createUserFixture({
@@ -299,6 +302,7 @@ describe("promote/demoteMember", () => {
     role: GQLUSER_ROLE.MODERATOR,
     moderationScopes: {
       siteIDs: [siteC.id],
+      scoped: true,
     },
   });
   const member = createUserFixture({
@@ -308,12 +312,12 @@ describe("promote/demoteMember", () => {
   const promotedMember = createUserFixture({
     tenantID,
     role: GQLUSER_ROLE.MEMBER,
-    membershipScopes: { siteIDs: [siteA.id, siteB.id] },
+    membershipScopes: { siteIDs: [siteA.id, siteB.id], scoped: true },
   });
   const siteAMember = createUserFixture({
     tenantID,
     role: GQLUSER_ROLE.MEMBER,
-    membershipScopes: { siteIDs: [siteA.id] },
+    membershipScopes: { siteIDs: [siteA.id], scoped: true },
   });
 
   const users = [siteABMod, siteCMod, member, promotedMember, siteAMember];

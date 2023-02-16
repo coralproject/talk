@@ -345,7 +345,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
               direction="row"
               alignItems="flex-end"
               justifyContent="space-between"
-              className={styles.tabBarRow}
+              className={cn(styles.tabBarRow, CLASSES.tabBarComments.row)}
               container="nav"
               aria-label="Secondary Tablist"
             >

@@ -5,6 +5,7 @@ import { Form } from "react-final-form";
 import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
+import { isOrgModerator } from "coral-common/permissions/types";
 import {
   Button,
   CallOut,
@@ -32,7 +33,6 @@ export interface Props {
   open?: boolean;
   onCancel: () => void;
   onSubmit: (values: any) => void;
-  mode: "promote" | "demote" | null;
   username: string | null;
   siteRoleScopes: User["membershipScopes"] | User["moderationScopes"];
   viewer: Viewer;
@@ -42,7 +42,6 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
   open,
   onCancel,
   onSubmit,
-  mode,
   username,
   siteRoleScopes,
   viewer,
@@ -52,7 +51,10 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
   );
 
   const userSites = siteRoleScopes?.sites || [];
-  const viewerSites = viewer.moderationScopes?.sites || [];
+  const viewerSites = isOrgModerator(viewer)
+    ? userSites
+    : viewer.moderationScopes?.sites || [];
+  const viewerIsOrgMod = isOrgModerator(viewer);
 
   // These are sites that only the user has and the viewer does not.
   const uniqueUserSites = userSites.filter(
@@ -70,68 +72,53 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
           <Flex justifyContent="flex-end">
             <CardCloseButton onClick={onCancel} ref={firstFocusableRef} />
           </Flex>
-          <Form onSubmit={onSubmit}>
+          <Form
+            onSubmit={onSubmit}
+            initialValues={{
+              scopeAdditions: [],
+              scopeDeletions: [],
+            }}
+          >
             {({ handleSubmit, submitError, submitting, values }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
-                  {mode === "promote" ? (
-                    <Localized
-                      id="community-assignYourSitesTo"
-                      elems={{ strong: <ModalHeaderUsername /> }}
-                      vars={{ username: username || notAvailableTranslation }}
-                    >
-                      <ModalHeader>
-                        Assign your sites to{" "}
-                        <ModalHeaderUsername>{username}</ModalHeaderUsername>
-                      </ModalHeader>
-                    </Localized>
-                  ) : (
-                    <Localized id="community-removeSiteModeratorPermissions">
-                      <ModalHeader>
-                        Remove Site Moderator permissions
-                      </ModalHeader>
-                    </Localized>
-                  )}
+                  <Localized
+                    id="community-assignYourSitesTo"
+                    elems={{ strong: <ModalHeaderUsername /> }}
+                    vars={{ username: username || notAvailableTranslation }}
+                  >
+                    <ModalHeader>
+                      Manage site permissions for{" "}
+                      <ModalHeaderUsername>{username}</ModalHeaderUsername>
+                    </ModalHeader>
+                  </Localized>
                   {submitError && (
                     <CallOut color="error" fullWidth>
                       {submitError}
                     </CallOut>
                   )}
-                  {mode === "promote" ? (
-                    <>
-                      <Localized id="community-siteModeratorsArePermitted">
-                        <ModalBodyText>
-                          Site moderators are permitted to make moderation
-                          decisions and issue suspensions on the sites they are
-                          assigned.
-                        </ModalBodyText>
-                      </Localized>
-                      <ModalBodyText>
-                        <Localized id="community-assignThisUser">
-                          <Typography variant="bodyCopyBold">
-                            Assign this user to
-                          </Typography>
-                        </Localized>
-                      </ModalBodyText>
-                    </>
-                  ) : (
-                    <Localized id="community-userNoLongerPermitted">
-                      <ModalBodyText>
-                        User will no longer be permitted to make moderation
-                        decisions or assign suspensions on:
-                      </ModalBodyText>
+                  <Localized id="community-siteModeratorsArePermitted">
+                    <ModalBodyText>
+                      Site moderators are permitted to make moderation decisions
+                      and issue suspensions on the sites they are assigned.
+                    </ModalBodyText>
+                  </Localized>
+                  <ModalBodyText>
+                    <Localized id="community-assignThisUser">
+                      <Typography variant="bodyCopyBold">
+                        Assign this user to
+                      </Typography>
                     </Localized>
-                  )}
+                  </ModalBodyText>
                   <SiteRoleActionsSites
                     viewerSites={viewerSites}
                     userSites={userSites}
-                    mode={mode}
                   />
-                  {mode === "demote" && uniqueUserSites.length > 0 && (
+                  {!viewerIsOrgMod && uniqueUserSites.length > 0 && (
                     <>
                       <Localized id="community-stillHaveSiteModeratorPrivileges">
                         <ModalBodyText>
-                          They will still have Site Moderator privileges for:
+                          They will still have privileges for:
                         </ModalBodyText>
                       </Localized>
                       <ListGroup>
@@ -149,34 +136,19 @@ const SiteModeratorActionsModal: FunctionComponent<Props> = ({
                         Cancel
                       </Button>
                     </Localized>
-                    {mode === "promote" ? (
-                      <Localized id="community-siteRoleModal-assign">
-                        <Button
-                          type="submit"
-                          disabled={
-                            submitting ||
-                            (values.siteIDs && values.siteIDs.length === 0)
-                          }
-                          ref={lastFocusableRef}
-                        >
-                          Assign
-                        </Button>
-                      </Localized>
-                    ) : (
-                      <Localized id="community-siteRoleModal-remove">
-                        <Button
-                          type="submit"
-                          color="alert"
-                          disabled={
-                            submitting ||
-                            (values.siteIDs && values.siteIDs.length === 0)
-                          }
-                          ref={lastFocusableRef}
-                        >
-                          Remove
-                        </Button>
-                      </Localized>
-                    )}
+                    <Localized id="community-siteRoleModal-update">
+                      <Button
+                        type="submit"
+                        disabled={
+                          submitting ||
+                          (!values.scopeAdditions?.length &&
+                            !values.scopeDeletions?.length)
+                        }
+                        ref={lastFocusableRef}
+                      >
+                        Update
+                      </Button>
+                    </Localized>
                   </Flex>
                 </HorizontalGutter>
               </form>

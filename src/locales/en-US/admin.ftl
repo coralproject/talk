@@ -1322,6 +1322,7 @@ community-userStatus-premodUser = Always pre-moderate
 community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-allSites-title = Are you sure you want to ban <username></username>?
+community-banModal-banEmailDomain = Ban all new accounts on { $domain }
 community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
 community-banModal-noSites-title = Are you sure you want to unban <username></username>?
 community-banModal-allSites-consequence =
@@ -1380,8 +1381,7 @@ community-siteRoleModal-assignSites =
 community-siteRoleModal-assignSitesDescription-siteModerator =
   Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
 community-siteRoleModal-cancel = Cancel
-community-siteRoleModal-assign = Assign
-community-siteRoleModal-remove = Remove
+community-siteRoleModal-update = Update
 community-siteRoleModal-selectSites-siteModerator = Select sites to moderate
 community-siteRoleModal-selectSites-member = Select sites for this user to be a member of
 community-siteRoleModal-noSites = No sites

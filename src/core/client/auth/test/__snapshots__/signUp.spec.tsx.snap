@@ -98,9 +98,6 @@ exports[`auth configuration renders all auth enabled 1`] = `
             className="PasswordField-wrapper"
           >
             <input
-              autoCapitalize="off"
-              autoComplete="off"
-              autoCorrect="off"
               className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
               data-testid="password-field"
               disabled={false}
@@ -110,7 +107,6 @@ exports[`auth configuration renders all auth enabled 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               placeholder="Password"
-              spellCheck={false}
               type="password"
               value=""
             />
@@ -124,7 +120,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm"
+                className="Icon-root Icon-sm coral coral-icon"
               >
                 visibility
               </i>
@@ -152,7 +148,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md SignUpWithEmail-icon"
+            className="Icon-root Icon-md coral coral-icon SignUpWithEmail-icon"
           >
             email
           </i>
@@ -495,9 +491,6 @@ exports[`renders sign up form 1`] = `
                   className="PasswordField-wrapper"
                 >
                   <input
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
                     className="PasswordField-colorStreamBlue PasswordField-fullWidth PasswordField-input"
                     data-testid="password-field"
                     disabled={false}
@@ -507,7 +500,6 @@ exports[`renders sign up form 1`] = `
                     onChange={[Function]}
                     onFocus={[Function]}
                     placeholder="Password"
-                    spellCheck={false}
                     type="password"
                     value=""
                   />
@@ -521,7 +513,7 @@ exports[`renders sign up form 1`] = `
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       visibility
                     </i>
@@ -549,7 +541,7 @@ exports[`renders sign up form 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-md SignUpWithEmail-icon"
+                  className="Icon-root Icon-md coral coral-icon SignUpWithEmail-icon"
                 >
                   email
                 </i>
