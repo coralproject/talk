@@ -7,7 +7,7 @@ email-subject-accountNotificationForgotPassword = Password Reset Request
 email-template-accountNotificationForgotPassword =
   Hello { $username },<br/><br/>
   We received a request to reset your password on <a data-l10n-name="organizationName">{ $organizationName }</a>.<br/><br/>
-  Please follow this link reset your password: <a data-l10n-name="resetYourPassword">Click here to reset your password</a><br/><br/>
+  Please follow this link to reset your password: <a data-l10n-name="resetYourPassword">Click here to reset your password</a><br/><br/>
   <i>If you did not request this, you can ignore this email.</i><br/>
 
 email-subject-accountNotificationBan = Your account has been banned
