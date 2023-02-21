@@ -113,11 +113,6 @@ const Queue: FunctionComponent<Props> = ({
     key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
     key(HOTKEYS.PREV, QUEUE_HOTKEY_ID, selectPrev);
 
-    // key(HOTKEYS.BAN, QUEUE_HOTKEY_ID, onBan);
-
-    // key(HOTKEYS.APPROVE, QUEUE_HOTKEY_ID, onApprove);
-    // key(HOTKEYS.REJECT, QUEUE_HOTKEY_ID, onReject);
-
     // The the scope such that only events attached to the ${id} scope will
     // be honored.
     key.setScope(QUEUE_HOTKEY_ID);
@@ -126,7 +121,6 @@ const Queue: FunctionComponent<Props> = ({
       // Remove all events that are set in the ${id} scope.
       key.deleteScope(QUEUE_HOTKEY_ID);
     };
-    // key.deleteScope(id);
 
     return noop;
   }, [selectNext, selectPrev]);
