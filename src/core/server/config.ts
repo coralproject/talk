@@ -345,7 +345,7 @@ const config = convict({
   },
   analytics_frontend_sdk_url: {
     doc: "Analytics URL to the RudderStack Frontend JS SDK. Defaults to the ",
-    format: "optional-trailing-url",
+    format: "url",
     default: "https://cdn.rudderlabs.com/v1/rudder-analytics.min.js",
     env: "ANALYTICS_FRONTEND_SDK_URL",
   },
