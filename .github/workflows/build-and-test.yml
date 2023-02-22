@@ -68,6 +68,13 @@ jobs:
         name: Run Unit Tests
         run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
+        name: Build
+        run: npm run build
+      -
+        name: Verify Bundle Size
+        run: ./node_modules/.bin/bundlesize --enable-github-checks
+# Build tag push the image after a merge to develop
+      -
         name: Build, Tag, Push
         uses: docker/build-push-action@v3
         if: github.ref == 'refs/heads/develop'
@@ -76,6 +83,7 @@ jobs:
           tags: ${{ env.GCR_REPOSITORY }}:develop-latest
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
+# Build tag push the release candidate image when the branch name begins with release-
       -
         name: Build, Tag, Push RC
         uses: docker/build-push-action@v3
