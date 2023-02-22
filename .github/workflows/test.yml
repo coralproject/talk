@@ -82,6 +82,6 @@ jobs:
         if: github.ref == 'refs/heads/gha'
         with:
           push: true
-          tags: ${{ env.GCR_REPOSITORY }}:${GITHUB_REF_NAME}-${SHORT_SHA}
+          tags: ${{ env.GCR_REPOSITORY }}:${{ env.GITHUB_REF_NAME }}-${{ env.SHORT_SHA }}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
