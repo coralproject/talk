@@ -53,20 +53,20 @@ jobs:
       -
         name: Generate schemas and types
         run: npm run generate
-      # -
-      #   name: Lint Source Code
-      #   run: npm run lint
-      # -
-      #   name: Lint Markdown
-      #   run: |
-      #     npm run doctoc
-      #     git diff --exit-code
-      # -
-      #   name: Lint Versions
-      #   run: npx @coralproject/package-version-lint
-      # -
-      #   name: Run Unit Tests
-      #   run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Lint Source Code
+        run: npm run lint
+      -
+        name: Lint Markdown
+        run: |
+          npm run doctoc
+          git diff --exit-code
+      -
+        name: Lint Versions
+        run: npx @coralproject/package-version-lint
+      -
+        name: Run Unit Tests
+        run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build, Tag, Push
         uses: docker/build-push-action@v3
@@ -79,7 +79,7 @@ jobs:
       -
         name: Build, Tag, Push RC
         uses: docker/build-push-action@v3
-        if: github.ref == 'refs/heads/gha'
+        if: startsWith( github.ref, 'refs/heads/release-')
         with:
           push: true
           tags: ${{ env.GCR_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
