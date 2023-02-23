@@ -39,6 +39,7 @@ import {
   publishCommentReactionCreated,
 } from "../events";
 import { submitCommentAsSpam } from "../spam";
+import { DataCache } from "coral-server/data/cache/dataCache";
 
 export type CreateAction = CreateActionInput;
 
@@ -178,7 +179,7 @@ async function addCommentAction(
 export async function removeCommentAction(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  commentActionsCache: CommentActionsCache,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<RemoveActionInput, "reason">
@@ -220,8 +221,6 @@ export async function removeCommentAction(
     commentRevisionID,
   });
   if (wasRemoved) {
-    await commentActionsCache.remove(action);
-
     // Compute the action counts, and invert them (because we're deleting an
     // action).
     const actionCounts = invertEncodedActionCounts(encodeActionCounts(action));
@@ -240,6 +239,9 @@ export async function removeCommentAction(
       // TODO: (wyattjoh) return a better error.
       throw new Error("could not update comment action counts");
     }
+
+    await cache.commentActions.remove(action);
+    await cache.comments.update(updatedComment);
 
     // Update the comment counts onto other documents.
     const counts = await updateAllCommentCounts(mongo, redis, {
@@ -271,7 +273,7 @@ export type CreateCommentReaction = Pick<
 export async function createReaction(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  commentActionsCache: CommentActionsCache,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -292,7 +294,8 @@ export async function createReaction(
     now
   );
   if (action) {
-    await commentActionsCache.add(action);
+    await cache.commentActions.add(action);
+    await cache.comments.update(comment);
 
     // A comment reaction was created! Publish it.
     publishCommentReactionCreated(
@@ -316,7 +319,7 @@ export type RemoveCommentReaction = Pick<
 export async function removeReaction(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  commentActionsCache: CommentActionsCache,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -325,7 +328,7 @@ export async function removeReaction(
   return removeCommentAction(
     mongo,
     redis,
-    commentActionsCache,
+    cache,
     broker,
     tenant,
     {
@@ -382,7 +385,7 @@ export type RemoveCommentDontAgree = Pick<
 export async function removeDontAgree(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  commentActionsCache: CommentActionsCache,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -391,7 +394,7 @@ export async function removeDontAgree(
   return removeCommentAction(
     mongo,
     redis,
-    commentActionsCache,
+    cache,
     broker,
     tenant,
     {

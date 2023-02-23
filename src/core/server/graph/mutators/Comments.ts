@@ -108,7 +108,7 @@ export const Comments = (ctx: GraphContext) => ({
     createReaction(
       ctx.mongo,
       ctx.redis,
-      ctx.cache.commentActions,
+      ctx.cache,
       ctx.broker,
       ctx.tenant,
       ctx.user!,
@@ -125,7 +125,7 @@ export const Comments = (ctx: GraphContext) => ({
     removeReaction(
       ctx.mongo,
       ctx.redis,
-      ctx.cache.commentActions,
+      ctx.cache,
       ctx.broker,
       ctx.tenant,
       ctx.user!,
@@ -164,7 +164,7 @@ export const Comments = (ctx: GraphContext) => ({
     removeDontAgree(
       ctx.mongo,
       ctx.redis,
-      ctx.cache.commentActions,
+      ctx.cache,
       ctx.broker,
       ctx.tenant,
       ctx.user!,
