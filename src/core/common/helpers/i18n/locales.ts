@@ -24,7 +24,8 @@ export type LanguageCode =
   | "pl"
   | "ru"
   | "nb-NO"
-  | "zh-CN";
+  | "zh-CN"
+  | "hr-HR";
 
 /**
  * LOCALES_MAP contains a map of language codes associated with their
@@ -53,6 +54,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   ru: "Русский",
   "nb-NO": "Norsk Bokmål",
   "zh-CN": "中国人",
+  "hr-HR": "Hrvatski",
 };
 
 /**
