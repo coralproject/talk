@@ -5,7 +5,7 @@ on:
   push:
 
 env:
-  GCR_REPOSITORY: 'gcr.io/the-coral-project/coral'
+  IMAGE_REPOSITORY: 'gcr.io/the-coral-project/coral'
 
 
 jobs:
@@ -80,7 +80,7 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         with:
           push: true
-          tags: ${{ env.GCR_REPOSITORY }}:develop-latest
+          tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
 # Build tag push the release candidate image when the branch name begins with release-
@@ -90,6 +90,6 @@ jobs:
         if: startsWith( github.ref, 'refs/heads/release-')
         with:
           push: true
-          tags: ${{ env.GCR_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
