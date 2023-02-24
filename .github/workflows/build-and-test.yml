@@ -35,6 +35,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '14.x'
+      -
+        name: Print npm version
+        run: npm version
+      -
+        name: Install npm 8
+        run: sudo npm install -g npm@8.0.0
       - name: npm Lockfile Version
         uses: mansona/npm-lockfile-version@v1
         with:
