@@ -36,15 +36,10 @@ jobs:
         with:
           node-version: '14.x'
       -
-        name: Print npm version
-        run: npm version
-      -
         name: Install npm 8
         run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
       -
-        name: Print npm version2
-        run: npm version
-      - name: npm Lockfile Version
+        name: npm Lockfile Version
         uses: mansona/npm-lockfile-version@v1
         with:
           version: 2
