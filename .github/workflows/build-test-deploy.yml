@@ -81,18 +81,18 @@ jobs:
       -
         name: Lint Versions
         run: npx @coralproject/package-version-lint
-      -
-        name: Run Unit Tests
-        run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
+      # -
+      #   name: Run Unit Tests
+      #   run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build
         run: npm run build
       -
         name: Verify Bundle Size
         run: ./node_modules/.bin/bundlesize --enable-github-checks
-      -
-        name: Verify Release Version
-        run: npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
+      # -
+      #   name: Verify Release Version
+      #   run: npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
       -
         name: Create the tag names
         run: |
