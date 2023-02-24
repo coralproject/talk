@@ -3,8 +3,8 @@ name: Build, Test, and Deploy
 on:
   workflow_dispatch:
   push:
-    tags:
-      - v[0-9]+.[0-9]+.[0-9]+
+    # tags:
+    #   - v[0-9]+.[0-9]+.[0-9]+
 
 env:
   IMAGE_REPOSITORY: 'coralproject/talk'
@@ -42,7 +42,8 @@ jobs:
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       -
         name: Define RC_TAG
-        run: echo "RC_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        # run: echo "RC_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo "RC_TAG=v9.9.9" >> $GITHUB_ENV
       -
         name: Setup Node14.x
         uses: actions/setup-node@v3
@@ -103,7 +104,7 @@ jobs:
         name: Build, Tag, Push Major Tag
         uses: docker/build-push-action@v3
         with:
-          push: true
+          push: false
           tags: ${{ env.IMAGE_REPOSITORY }}:${MAJOR_TAG}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
@@ -111,7 +112,7 @@ jobs:
         name: Build, Tag, Push Minor Tag
         uses: docker/build-push-action@v3
         with:
-          push: true
+          push: false
           tags: ${{ env.IMAGE_REPOSITORY }}:${MINOR_TAG}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
@@ -123,3 +124,11 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:${PATCH_TAG}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
+      -
+        name: Deploy Static Assets to GCS Bucket
+        run: |
+            CONTAINER_ID=$(docker create "coralproject/talk:${RC_TAG/#v}")
+            docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
+            docker rm "${CONTAINER_ID}"
+            find ./static -type f -name "*.gz" -print -delete
+            gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/9.9.9/"
