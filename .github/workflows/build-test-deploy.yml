@@ -44,94 +44,103 @@ jobs:
         name: Define RC_TAG
         # run: echo "RC_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         run: echo "RC_TAG=v9.9.9" >> $GITHUB_ENV
-      -
-        name: Setup Node14.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14.x'
-      -
-        name: Install npm 8
-        run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
-      - name: npm Lockfile Version
-        uses: mansona/npm-lockfile-version@v1
-        with:
-          version: 2
-      -
-        name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
-      -
-        name: npm ci
-        run: npm ci
-      -
-        name: Generate schemas and types
-        run: npm run generate
-      -
-        name: Lint Source Code
-        run: npm run lint
-      -
-        name: Lint Markdown
-        run: |
-          npm run doctoc
-          git diff --exit-code
-      -
-        name: Lint Versions
-        run: npx @coralproject/package-version-lint
+      # -
+      #   name: Setup Node14.x
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '14.x'
+      # -
+      #   name: Install npm 8
+      #   run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+      # - name: npm Lockfile Version
+      #   uses: mansona/npm-lockfile-version@v1
+      #   with:
+      #     version: 2
+      # -
+      #   name: Cache dependencies
+      #   id: cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ./node_modules
+      #     key: modules-${{ hashFiles('package-lock.json') }}
+      #     restore-keys: npm-
+      # -
+      #   name: npm ci
+      #   run: npm ci
+      # -
+      #   name: Generate schemas and types
+      #   run: npm run generate
+      # -
+      #   name: Lint Source Code
+      #   run: npm run lint
+      # -
+      #   name: Lint Markdown
+      #   run: |
+      #     npm run doctoc
+      #     git diff --exit-code
+      # -
+      #   name: Lint Versions
+      #   run: npx @coralproject/package-version-lint
       # -
       #   name: Run Unit Tests
       #   run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
-      -
-        name: Build
-        run: npm run build
-      -
-        name: Verify Bundle Size
-        run: ./node_modules/.bin/bundlesize --enable-github-checks
+      # -
+      #   name: Build
+      #   run: npm run build
+      # -
+      #   name: Verify Bundle Size
+      #   run: ./node_modules/.bin/bundlesize --enable-github-checks
       # -
       #   name: Verify Release Version
       #   run: npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
       -
         name: Create the tag names
         run: |
-            echo "MAJOR=`echo ${RC_TAG} | cut -d. -f1`" >> $GITHUB_ENV
-            echo "MINOR=`echo ${RC_TAG} | cut -d. -f2`" >> $GITHUB_ENV
-            echo "PATCH=`echo ${RC_TAG} | cut -d. -f3`" >> $GITHUB_ENV
-
+            echo "MAJOR=`echo ${RC_TAG/#v} | cut -d. -f1`" >> $GITHUB_ENV
+            echo "MINOR=`echo ${RC_TAG/#v} | cut -d. -f2`" >> $GITHUB_ENV
+            echo "PATCH=`echo ${RC_TAG/#v} | cut -d. -f3`" >> $GITHUB_ENV
+      -
+        name: Create test tag names
+        run: |
             echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
             echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
             echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
       -
-        name: Build, Tag, Push Major Tag
-        uses: docker/build-push-action@v3
-        with:
-          push: false
-          tags: ${{ env.IMAGE_REPOSITORY }}:${MAJOR_TAG}
-          build-args: |
-              REVISION_HASH=${GITHUB_SHA}
-      -
-        name: Build, Tag, Push Minor Tag
-        uses: docker/build-push-action@v3
-        with:
-          push: false
-          tags: ${{ env.IMAGE_REPOSITORY }}:${MINOR_TAG}
-          build-args: |
-              REVISION_HASH=${GITHUB_SHA}
-      -
-        name: Build, Tag, Push Patch Tag
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: ${{ env.IMAGE_REPOSITORY }}:${PATCH_TAG}
-          build-args: |
-              REVISION_HASH=${GITHUB_SHA}
-      -
-        name: Deploy Static Assets to GCS Bucket
+        name: Print version tags
         run: |
-            CONTAINER_ID=$(docker create "coralproject/talk:${RC_TAG/#v}")
-            docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
-            docker rm "${CONTAINER_ID}"
-            find ./static -type f -name "*.gz" -print -delete
-            gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/9.9.9/"
+            echo ${MAJOR_TAG}
+            echo ${MINOR_TAG}
+            echo ${PATCH_TAG}
+
+      # -
+      #   name: Build, Tag, Push Major Tag
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: false
+      #     tags: ${{ env.IMAGE_REPOSITORY }}:${MAJOR_TAG}
+      #     build-args: |
+      #         REVISION_HASH=${GITHUB_SHA}
+      # -
+      #   name: Build, Tag, Push Minor Tag
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: false
+      #     tags: ${{ env.IMAGE_REPOSITORY }}:${MINOR_TAG}
+      #     build-args: |
+      #         REVISION_HASH=${GITHUB_SHA}
+      # -
+      #   name: Build, Tag, Push Patch Tag
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     tags: ${{ env.IMAGE_REPOSITORY }}:${PATCH_TAG}
+      #     build-args: |
+      #         REVISION_HASH=${GITHUB_SHA}
+      # -
+      #   name: Deploy Static Assets to GCS Bucket
+      #   run: |
+      #       CONTAINER_ID=$(docker create "coralproject/talk:${RC_TAG/#v}")
+      #       docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
+      #       docker rm "${CONTAINER_ID}"
+      #       find ./static -type f -name "*.gz" -print -delete
+      #       gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/9.9.9/"
