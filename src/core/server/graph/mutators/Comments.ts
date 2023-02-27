@@ -291,6 +291,7 @@ export const Comments = (ctx: GraphContext) => ({
     if (ctx.user) {
       await markSeen(
         ctx.mongo,
+        ctx.cache,
         ctx.tenant.id,
         storyID,
         ctx.user?.id,

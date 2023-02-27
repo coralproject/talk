@@ -389,6 +389,7 @@ export default async function create(
     ),
     markSeenComments(
       mongo,
+      cache,
       tenant.id,
       comment.storyID,
       author.id,

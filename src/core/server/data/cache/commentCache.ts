@@ -2,6 +2,7 @@ import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -9,7 +10,6 @@ import {
   GQLCOMMENT_STATUS,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
-import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 
 const REDIS_SUPPORTED_SORTS = [
   GQLCOMMENT_SORT.CREATED_AT_ASC,
@@ -415,6 +415,25 @@ export class CommentCache {
     }
 
     return results;
+  }
+
+  public async findAllCommentsForStory(
+    tenantID: string,
+    storyID: string,
+    isArchived: boolean
+  ): Promise<Readonly<Comment>[]> {
+    const lockKey = this.computeLockKey(tenantID, storyID);
+    const hasCommentsInRedis = await this.redis.exists(lockKey);
+
+    const comments = hasCommentsInRedis
+      ? await this.retrieveCommentsFromRedisForStory(tenantID, storyID)
+      : await this.retrieveCommentsFromMongoForStory(
+          tenantID,
+          storyID,
+          isArchived
+        );
+
+    return comments;
   }
 
   public async findAncestors(tenantID: string, storyID: string, id: string) {
