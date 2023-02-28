@@ -12,7 +12,7 @@ import { RecacheStoryMutation as MutationTypes } from "coral-admin/__generated__
 let clientMutationId = 0;
 
 const RecacheStoryMutation = createMutation(
-  "scrapeStory",
+  "recacheStory",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
