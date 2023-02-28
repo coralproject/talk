@@ -48,12 +48,22 @@ const getReplies = (commentProxy: RecordProxy<{}>) => {
     return [];
   }
 
+  const allEdges: RecordProxy<{}>[] = [];
+
   const edges = repliesConnection.getLinkedRecords("edges");
-  if (!edges || edges.length === 0) {
+  if (edges && edges.length > 0) {
+    allEdges.push(...edges);
+  }
+  const viewNewEdges = repliesConnection.getLinkedRecords("viewNewEdges");
+  if (viewNewEdges && viewNewEdges.length > 0) {
+    allEdges.push(...viewNewEdges);
+  }
+
+  if (!allEdges || allEdges.length === 0) {
     return [];
   }
 
-  const childComments = edges.map((e) => e.getLinkedRecord("node")) || [];
+  const childComments = allEdges.map((e) => e.getLinkedRecord("node")) || [];
   if (!childComments || childComments.length === 0) {
     return [];
   }
@@ -67,12 +77,23 @@ const getKeyboardShorcutReplies = (commentProxy: RecordProxy<{}>) => {
     return [];
   }
 
+  const allEdges: RecordProxy<{}>[] = [];
+
   const edges = allChildComments.getLinkedRecords("edges") || [];
-  if (!edges || edges.length === 0) {
+  if (edges && edges.length > 0) {
+    allEdges.push(...edges);
+  }
+
+  const viewNewEdges = allChildComments.getLinkedRecords("viewNewEdges") || [];
+  if (viewNewEdges && viewNewEdges.length > 0) {
+    allEdges.push(...viewNewEdges);
+  }
+
+  if (!allEdges || allEdges.length === 0) {
     return [];
   }
 
-  const childComments = edges.map((e) => e.getLinkedRecord("node")) || [];
+  const childComments = allEdges.map((e) => e.getLinkedRecord("node")) || [];
   if (!childComments || childComments.length === 0) {
     return [];
   }
@@ -109,7 +130,11 @@ const markAllAsSeenRecursive = (
     const replies = getReplies(c);
     const keyboardShortcutReplies = getKeyboardShorcutReplies(c);
 
-    markAllAsSeenRecursive(store, [...replies, ...keyboardShortcutReplies], seen);
+    markAllAsSeenRecursive(
+      store,
+      [...replies, ...keyboardShortcutReplies],
+      seen
+    );
   }
 };
 
@@ -131,12 +156,22 @@ const markAllAsSeen = (
     return;
   }
 
+  const allEdges: RecordProxy<{}>[] = [];
+
   const edges = connection.getLinkedRecords("edges");
-  if (!edges || edges.length === 0) {
+  if (edges && edges.length > 0) {
+    allEdges.push(...edges);
+  }
+  const viewNewEdges = connection.getLinkedRecords("viewNewEdges");
+  if (viewNewEdges && viewNewEdges.length > 0) {
+    allEdges.push(...viewNewEdges);
+  }
+
+  if (!allEdges || allEdges.length === 0) {
     return;
   }
 
-  const comments = edges.map((e) => e.getLinkedRecord("node"));
+  const comments = allEdges.map((e) => e.getLinkedRecord("node"));
   if (!comments) {
     return;
   }
