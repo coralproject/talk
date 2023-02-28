@@ -41,7 +41,7 @@ async function createTestRenderer(
   return { container, context };
 }
 
-it("NEW renders username and body", async () => {
+it("renders username and body", async () => {
   const { container } = await createTestRenderer();
 
   const firstComment = stories[0].comments.edges[0].node;
@@ -53,4 +53,44 @@ it("NEW renders username and body", async () => {
     within(commentElement).getByText(firstComment.author!.username!)
   ).toBeDefined();
   expect(within(commentElement).getByText(firstComment.body!)).toBeDefined();
+});
+
+it("NEW renders body only", async () => {
+  const commentsWithNoUsernames: typeof stories[0] = {
+    ...stories[0],
+    comments: {
+      ...stories[0].comments,
+      edges: stories[0].comments.edges.map((edge) => ({
+        ...edge,
+        node: {
+          ...edge.node,
+          author: {
+            ...edge.node.author,
+            username: undefined,
+          } as typeof edge.node.author,
+        },
+      })),
+    },
+  };
+  const { container } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        story: () => commentsWithNoUsernames,
+        stream: () => commentsWithNoUsernames,
+      },
+    },
+  });
+
+  const firstComment = commentsWithNoUsernames.comments.edges[0].node;
+  const firstCommentAuthor = stories[0].comments.edges[0].node.author;
+  const firstCommentElement = await within(container).findByTestId(
+    `comment-${firstComment.id}`
+  );
+  expect(
+    within(firstCommentElement).queryByText(firstCommentAuthor!.username!)
+  ).toBeNull();
+
+  expect(
+    within(firstCommentElement).getByText(firstComment.body!)
+  ).toBeDefined();
 });
