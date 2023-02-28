@@ -37,6 +37,49 @@ type Input = Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
   updateSeen: boolean;
 };
 
+const getReplies = (commentProxy: RecordProxy<{}>) => {
+  const repliesConnection = ConnectionHandler.getConnection(
+    commentProxy,
+    "ReplyList_replies",
+    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
+  )!;
+
+  if (!repliesConnection) {
+    return [];
+  }
+
+  const edges = repliesConnection.getLinkedRecords("edges");
+  if (!edges || edges.length === 0) {
+    return [];
+  }
+
+  const childComments = edges.map((e) => e.getLinkedRecord("node")) || [];
+  if (!childComments || childComments.length === 0) {
+    return [];
+  }
+
+  return childComments;
+};
+
+const getKeyboardShorcutReplies = (commentProxy: RecordProxy<{}>) => {
+  const allChildComments = commentProxy.getLinkedRecord("allChildComments");
+  if (!allChildComments) {
+    return [];
+  }
+
+  const edges = allChildComments.getLinkedRecords("edges") || [];
+  if (!edges || edges.length === 0) {
+    return [];
+  }
+
+  const childComments = edges.map((e) => e.getLinkedRecord("node")) || [];
+  if (!childComments || childComments.length === 0) {
+    return [];
+  }
+
+  return childComments;
+};
+
 const markAllAsSeenRecursive = (
   store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
   comments: (RecordProxy<{}> | null)[],
@@ -63,27 +106,10 @@ const markAllAsSeenRecursive = (
 
     c.setValue(seen, "seen");
 
-    const repliesConnection = ConnectionHandler.getConnection(
-      c,
-      "ReplyList_replies",
-      { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
-    )!;
+    const replies = getReplies(c);
+    const keyboardShortcutReplies = getKeyboardShorcutReplies(c);
 
-    if (!repliesConnection) {
-      continue;
-    }
-
-    const edges = repliesConnection.getLinkedRecords("edges");
-    if (!edges || edges.length === 0) {
-      continue;
-    }
-
-    const childComments = edges.map((e) => e.getLinkedRecord("node")) || [];
-    if (!childComments || childComments.length === 0) {
-      continue;
-    }
-
-    markAllAsSeenRecursive(store, childComments, seen);
+    markAllAsSeenRecursive(store, [...replies, ...keyboardShortcutReplies], seen);
   }
 };
 
