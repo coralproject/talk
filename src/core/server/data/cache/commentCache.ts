@@ -675,7 +675,7 @@ export class CommentCache {
     storyID: string,
     parentID: string,
     isArchived: boolean,
-    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
   ) {
     const comments = await this.retrieveReplies(
       tenantID,
