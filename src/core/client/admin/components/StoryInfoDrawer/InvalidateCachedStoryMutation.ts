@@ -12,7 +12,7 @@ import { InvalidateCachedStoryMutation as MutationTypes } from "coral-admin/__ge
 let clientMutationId = 0;
 
 const InvalidateCachedStoryMutation = createMutation(
-  "scrapeStory",
+  "invalidateCachedStory",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
