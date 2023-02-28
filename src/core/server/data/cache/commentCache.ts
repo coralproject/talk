@@ -608,12 +608,74 @@ export class CommentCache {
     return result;
   }
 
-  public async replies(
+  public async allChildCommentsRecursive(
+    parent: Readonly<Comment>,
+    isArchived: boolean,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
+  ): Promise<Readonly<Comment>[]> {
+    const repliesConnection = await this.replies(
+      parent.tenantID,
+      parent.storyID,
+      parent.id,
+      isArchived,
+      orderBy
+    );
+    const replies = repliesConnection.nodes as Readonly<Comment>[];
+
+    const results: Readonly<Comment>[] = [];
+    for (const reply of replies) {
+      results.push(reply);
+      const children = await this.allChildCommentsRecursive(
+        reply,
+        isArchived,
+        orderBy
+      );
+      for (const child of children) {
+        results.push(child);
+      }
+    }
+
+    return results;
+  }
+
+  public async allChildComments(
     tenantID: string,
     storyID: string,
     parentID: string,
     isArchived: boolean,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
+  ) {
+    const repliesConnection = await this.replies(
+      tenantID,
+      storyID,
+      parentID,
+      isArchived,
+      orderBy
+    );
+    const replies = repliesConnection.nodes as Readonly<Comment>[];
+
+    const results: Readonly<Comment>[] = [];
+    for (const reply of replies) {
+      results.push(reply);
+      const children = await this.allChildCommentsRecursive(
+        reply,
+        isArchived,
+        orderBy
+      );
+      for (const child of children) {
+        results.push(child);
+      }
+    }
+
+    return this.createConnection(results);
+  }
+
+  public async replies(
+    tenantID: string,
+    storyID: string,
+    parentID: string,
+    isArchived: boolean,
+    orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC,
   ) {
     const comments = await this.retrieveReplies(
       tenantID,

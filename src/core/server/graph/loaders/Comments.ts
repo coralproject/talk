@@ -440,7 +440,7 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(comment.storyID);
     }
 
-    const conn = await ctx.cache.comments.replies(
+    const conn = await ctx.cache.comments.allChildComments(
       ctx.tenant.id,
       story.id,
       comment.id,
