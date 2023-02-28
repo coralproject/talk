@@ -91,7 +91,6 @@ const markAllAsSeen = (
   orderBy: COMMENT_SORT | null | undefined,
   seen: boolean
 ) => {
-  console.log("markAllAsSeen");
   const story = store.get(storyID);
   if (!story) {
     return;
