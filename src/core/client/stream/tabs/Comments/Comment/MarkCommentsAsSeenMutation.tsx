@@ -73,10 +73,12 @@ const markAllAsSeenRecursive = (
       continue;
     }
 
-    const childComments =
-      repliesConnection
-        .getLinkedRecords("edges")
-        ?.map((e) => e.getLinkedRecord("node")) || [];
+    const edges = repliesConnection.getLinkedRecords("edges");
+    if (!edges || edges.length === 0) {
+      continue;
+    }
+
+    const childComments = edges.map((e) => e.getLinkedRecord("node")) || [];
     if (!childComments || childComments.length === 0) {
       continue;
     }
@@ -103,9 +105,12 @@ const markAllAsSeen = (
     return;
   }
 
-  const comments = connection
-    .getLinkedRecords("edges")
-    ?.map((e) => e.getLinkedRecord("node"));
+  const edges = connection.getLinkedRecords("edges");
+  if (!edges || edges.length === 0) {
+    return;
+  }
+
+  const comments = edges.map((e) => e.getLinkedRecord("node"));
   if (!comments) {
     return;
   }
