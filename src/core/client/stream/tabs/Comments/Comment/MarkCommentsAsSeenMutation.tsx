@@ -150,7 +150,7 @@ const markAllAsSeen = (
   }
 
   const connection = ConnectionHandler.getConnection(story, "Stream_comments", {
-    orderBy: orderBy,
+    orderBy,
   });
   if (!connection) {
     return;
