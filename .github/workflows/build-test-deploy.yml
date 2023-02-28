@@ -8,7 +8,7 @@ on:
 
 env:
   IMAGE_REPOSITORY: 'coralproject/talk'
-  DOCKERHUB_USERNAME: 'coraladmin'
+  DOCKERHUB_USERNAME: 'coralproject'
 
 
 jobs:
@@ -44,18 +44,18 @@ jobs:
         name: Define RC_TAG
         # run: echo "RC_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         run: echo "RC_TAG=v9.9.9" >> $GITHUB_ENV
-      # -
-      #   name: Setup Node14.x
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '14.x'
-      # -
-      #   name: Install npm 8
-      #   run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
-      # - name: npm Lockfile Version
-      #   uses: mansona/npm-lockfile-version@v1
-      #   with:
-      #     version: 2
+      -
+        name: Setup Node14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+      -
+        name: Install npm 8
+        run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+      - name: npm Lockfile Version
+        uses: mansona/npm-lockfile-version@v1
+        with:
+          version: 2
       # -
       #   name: Cache dependencies
       #   id: cache
@@ -64,9 +64,9 @@ jobs:
       #     path: ./node_modules
       #     key: modules-${{ hashFiles('package-lock.json') }}
       #     restore-keys: npm-
-      # -
-      #   name: npm ci
-      #   run: npm ci
+      -
+        name: npm ci
+        run: npm ci
       # -
       #   name: Generate schemas and types
       #   run: npm run generate
@@ -84,9 +84,9 @@ jobs:
       # -
       #   name: Run Unit Tests
       #   run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
-      # -
-      #   name: Build
-      #   run: npm run build
+      -
+        name: Build
+        run: npm run build
       # -
       #   name: Verify Bundle Size
       #   run: ./node_modules/.bin/bundlesize --enable-github-checks
