@@ -11,8 +11,10 @@ import {
   commitMutationPromiseNormalized,
   createMutation,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_SORT } from "coral-framework/schema";
 
 import {
+  COMMENT_SORT,
   MarkCommentsAsSeenInput,
   MarkCommentsAsSeenMutation,
   MarkCommentsAsSeenMutationResponse,
@@ -35,33 +37,81 @@ type Input = Omit<MarkCommentsAsSeenInput, "clientMutationId"> & {
   updateSeen: boolean;
 };
 
-const updateCommentsAndRepliesToSeen = (
-  comments: RecordProxy[],
+const markAllAsSeenRecursive = (
   store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
-  input: Input
+  comments: (RecordProxy<{}> | null)[],
+  seen: boolean
 ) => {
-  for (const comment of comments) {
-    const commentID = comment.getLinkedRecord("node")?.getValue("id");
-    if (commentID) {
-      const proxy = store.get(commentID.toString());
-      if (proxy) {
-        proxy.setValue(!!input.updateSeen, "seen");
-        const allChildCommentsEdges =
-          proxy
-            .getLinkedRecord("allChildComments")
-            ?.getLinkedRecords("edges") || [];
-        for (const reply of allChildCommentsEdges) {
-          const replyID = reply.getLinkedRecord("node")?.getValue("id");
-          if (replyID) {
-            const replyProxy = store.get(replyID.toString());
-            if (replyProxy) {
-              replyProxy.setValue(!!input.updateSeen, "seen");
-            }
-          }
-        }
-      }
-    }
+  if (!comments || comments.length === 0) {
+    return;
   }
+
+  for (const comment of comments) {
+    if (!comment) {
+      continue;
+    }
+
+    const commentID = comment.getValue("id");
+    if (!commentID) {
+      continue;
+    }
+
+    const c = store.get(commentID.toString());
+    if (!c) {
+      continue;
+    }
+
+    c.setValue(seen, "seen");
+
+    const repliesConnection = ConnectionHandler.getConnection(
+      c,
+      "ReplyList_replies",
+      { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
+    )!;
+
+    if (!repliesConnection) {
+      continue;
+    }
+
+    const childComments =
+      repliesConnection
+        .getLinkedRecords("edges")
+        ?.map((e) => e.getLinkedRecord("node")) || [];
+    if (!childComments || childComments.length === 0) {
+      continue;
+    }
+
+    markAllAsSeenRecursive(store, childComments, seen);
+  }
+};
+
+const markAllAsSeen = (
+  store: RecordSourceSelectorProxy<MarkCommentsAsSeenMutationResponse>,
+  storyID: string,
+  orderBy: COMMENT_SORT | null | undefined,
+  seen: boolean
+) => {
+  console.log("markAllAsSeen");
+  const story = store.get(storyID);
+  if (!story) {
+    return;
+  }
+
+  const connection = ConnectionHandler.getConnection(story, "Stream_comments", {
+    orderBy: orderBy,
+  });
+  if (!connection) {
+    return;
+  }
+
+  const comments = connection
+    .getLinkedRecords("edges")
+    ?.map((e) => e.getLinkedRecord("node"));
+  if (!comments) {
+    return;
+  }
+
+  markAllAsSeenRecursive(store, comments, seen);
 };
 
 const enhanced = createMutation(
@@ -97,21 +147,12 @@ const enhanced = createMutation(
           },
           updater: (store, data) => {
             if (input.markAllAsSeen) {
-              const story = store.get(input.storyID)!;
-              const connection = ConnectionHandler.getConnection(
-                story,
-                "Stream_comments",
-                {
-                  orderBy: input.orderBy,
-                }
-              )!;
-              const comments = connection?.getLinkedRecords("edges");
-              const newComments =
-                connection?.getLinkedRecords("viewNewEdges") || [];
-              const combinedComments = comments?.concat(newComments);
-              if (combinedComments) {
-                updateCommentsAndRepliesToSeen(combinedComments, store, input);
-              }
+              markAllAsSeen(
+                store,
+                input.storyID,
+                input.orderBy,
+                input.updateSeen
+              );
             }
 
             if (
