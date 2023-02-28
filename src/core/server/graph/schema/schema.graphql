@@ -8809,8 +8809,8 @@ type RefreshStoryCountsPayload {
 
 input CacheStoryInput {
   """
-  id is the identifier of the Story used either when the Story was created via
-  the API or from Coral when it was lazily created.
+  id is the identifier of the Story whose comment and user data
+  will be scheduled for caching in Redis.
   """
   id: ID!
 
@@ -8822,7 +8822,7 @@ input CacheStoryInput {
 
 type CacheStoryPayload {
   """
-  story is the Story that was scheduled for caching.
+  story is the Story that was scheduled for caching in Redis.
   """
   story: Story
 
@@ -8838,8 +8838,7 @@ type CacheStoryPayload {
 
 input InvalidateCachedStoryInput {
   """
-  id is the identifier of the Story used either when the Story was created via
-  the API or from Coral when it was lazily created.
+  id is the identifier of the Story whose data cache will be invalidated in Redis.
   """
   id: ID!
 
@@ -8851,7 +8850,7 @@ input InvalidateCachedStoryInput {
 
 type InvalidateCachedStoryPayload {
   """
-  story is the Story that was scheduled for caching.
+  story is the Story whose data cache was invalidated in Redis.
   """
   story: Story
 
