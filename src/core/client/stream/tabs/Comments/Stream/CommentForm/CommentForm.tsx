@@ -267,6 +267,7 @@ const CommentForm: FunctionComponent<Props> = ({
             autoComplete="off"
             onSubmit={handleSubmit}
             id="comments-postCommentForm-form"
+            data-testid="comments-postCommentForm-form"
           >
             {mode === "rating" && (
               <RatingInput disabled={submitting || disabled} />

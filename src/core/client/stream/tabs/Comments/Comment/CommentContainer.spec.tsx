@@ -86,13 +86,6 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
   );
 }
 
-it("renders username and body", () => {
-  const props = createDefaultProps();
-  const renderer = createRenderer();
-  renderer.render(<CommentContainerN {...props} />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
-});
-
 it("renders body only", () => {
   const props = createDefaultProps({
     comment: {

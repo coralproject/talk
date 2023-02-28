@@ -337,41 +337,6 @@ it("handle story closed", async () => {
 });
 
 // TODO: (wyattjoh) convert to integration test
-// it("renders correctly", async () => {
-//   const props = createDefaultProps();
-//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-
-//   act(() => {
-//     wrapper.update();
-//   });
-
-//   await act(async () => {
-//     await wait(() => {
-//       expect(wrapper).toMatchSnapshot();
-//     });
-//   });
-// });
-
-// TODO: (wyattjoh) convert to integration test
-// it("renders with initialValues", async () => {
-//   const props = createDefaultProps();
-//   await act(async () => {
-//     await props.sessionStorage.setItem(contextKey, "Hello World!");
-//   });
-//   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-
-//   act(() => {
-//     wrapper.update();
-//   });
-
-//   await act(async () => {
-//     await wait(() => {
-//       expect(wrapper).toMatchSnapshot();
-//     });
-//   });
-// });
-
-// TODO: (wyattjoh) convert to integration test
 // it("save values", async () => {
 //   const props = createDefaultProps();
 
