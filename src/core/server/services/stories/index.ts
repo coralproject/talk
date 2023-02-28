@@ -59,6 +59,7 @@ import {
   Tenant,
 } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
@@ -67,7 +68,6 @@ import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
 } from "coral-server/graph/schema/__generated__/types";
-import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 
 export type FindStory = FindStoryInput;
 
