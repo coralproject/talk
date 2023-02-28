@@ -128,14 +128,14 @@ jobs:
       #     tags: ${{ env.IMAGE_REPOSITORY }}:${MINOR_TAG}
       #     build-args: |
       #         REVISION_HASH=${GITHUB_SHA}
-      # -
-      #   name: Build, Tag, Push Patch Tag
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     push: true
-      #     tags: ${{ env.IMAGE_REPOSITORY }}:${PATCH_TAG}
-      #     build-args: |
-      #         REVISION_HASH=${GITHUB_SHA}
+      -
+        name: Build, Tag, Push Patch Tag
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
+          build-args: |
+              REVISION_HASH=${GITHUB_SHA}
       # -
       #   name: Deploy Static Assets to GCS Bucket
       #   run: |
@@ -143,4 +143,4 @@ jobs:
       #       docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
       #       docker rm "${CONTAINER_ID}"
       #       find ./static -type f -name "*.gz" -print -delete
-      #       gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/9.9.9/"
+      #       gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${RC_TAG/#v}/"
