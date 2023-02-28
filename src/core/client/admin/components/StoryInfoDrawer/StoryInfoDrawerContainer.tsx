@@ -81,14 +81,14 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
                   />
                 )}
               </Flex>
-              <div className={styles.rescrapeStory}>
+              <div className={styles.storyDrawerAction}>
                 <RescrapeStory storyID={story.id} />
               </div>
-              <div className={styles.recacheStory}>
+              <div className={styles.storyDrawerAction}>
                 <RecacheStoryAction storyID={story.id} />
               </div>
               {story.cached && (
-                <div className={styles.uncacheStory}>
+                <div className={styles.storyDrawerAction}>
                   <InvalidateCachedStoryAction storyID={story.id} />
                 </div>
               )}
