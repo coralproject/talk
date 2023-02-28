@@ -52,18 +52,18 @@ const getReplies = (commentProxy: RecordProxy<{}>) => {
 
   const edges = repliesConnection.getLinkedRecords("edges");
   if (edges && edges.length > 0) {
-    allEdges.push(...edges);
+    edges.forEach((e) => allEdges.push(e));
   }
   const viewNewEdges = repliesConnection.getLinkedRecords("viewNewEdges");
   if (viewNewEdges && viewNewEdges.length > 0) {
-    allEdges.push(...viewNewEdges);
+    viewNewEdges.forEach((e) => allEdges.push(e));
   }
 
   if (!allEdges || allEdges.length === 0) {
     return [];
   }
 
-  const childComments = allEdges.map((e) => e.getLinkedRecord("node")) || [];
+  const childComments = allEdges.map((e) => e.getLinkedRecord("node"));
   if (!childComments || childComments.length === 0) {
     return [];
   }
@@ -79,21 +79,21 @@ const getKeyboardShorcutReplies = (commentProxy: RecordProxy<{}>) => {
 
   const allEdges: RecordProxy<{}>[] = [];
 
-  const edges = allChildComments.getLinkedRecords("edges") || [];
+  const edges = allChildComments.getLinkedRecords("edges");
   if (edges && edges.length > 0) {
-    allEdges.push(...edges);
+    edges.forEach((e) => allEdges.push(e));
   }
 
-  const viewNewEdges = allChildComments.getLinkedRecords("viewNewEdges") || [];
+  const viewNewEdges = allChildComments.getLinkedRecords("viewNewEdges");
   if (viewNewEdges && viewNewEdges.length > 0) {
-    allEdges.push(...viewNewEdges);
+    viewNewEdges.forEach((e) => allEdges.push(e));
   }
 
   if (!allEdges || allEdges.length === 0) {
     return [];
   }
 
-  const childComments = allEdges.map((e) => e.getLinkedRecord("node")) || [];
+  const childComments = allEdges.map((e) => e.getLinkedRecord("node"));
   if (!childComments || childComments.length === 0) {
     return [];
   }
@@ -160,11 +160,11 @@ const markAllAsSeen = (
 
   const edges = connection.getLinkedRecords("edges");
   if (edges && edges.length > 0) {
-    allEdges.push(...edges);
+    edges.forEach((e) => allEdges.push(e));
   }
   const viewNewEdges = connection.getLinkedRecords("viewNewEdges");
   if (viewNewEdges && viewNewEdges.length > 0) {
-    allEdges.push(...viewNewEdges);
+    viewNewEdges.forEach((e) => allEdges.push(e));
   }
 
   if (!allEdges || allEdges.length === 0) {
