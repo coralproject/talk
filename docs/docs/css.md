@@ -57,6 +57,10 @@ This will allow your styles to include variations:
 
 To style the outermost container of the Coral embed, target the `#coral` selector.
 
+### Comment styling
+
+To add custom spacing within comments, such as to the `.coral-comment` selector, use padding. Do not use margins to add spacing within comments, as this will interfere with the spacing of all comments within the embed.
+
 ### Reaction styling
 
 As of Coral 6.3.0, Coral has support for styling based on the number of
