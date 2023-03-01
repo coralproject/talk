@@ -9,7 +9,6 @@ import FetchStoryCached from "./FetchStoryCached";
 
 export interface Props {
   storyID: string;
-  cached: boolean;
 }
 
 const resetTimeMS = 3000;
