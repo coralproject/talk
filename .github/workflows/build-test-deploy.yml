@@ -7,10 +7,11 @@ on:
     #   - v[0-9]+.[0-9]+.[0-9]+
 
 env:
-  IMAGE_REPOSITORY: 'coralproject/talk'
   DOCKERHUB_USERNAME: 'coralproject'
   GOOGLE_CLOUD_BUCKET: 'coral-cdn'
-
+  IMAGE_REPOSITORY: 'coralproject/talk'
+  SENTRY_ORGANIZATION: 'voxmedia'
+  SENTRY_PROJECT: 'coral'
 
 jobs:
   build-and-test:
@@ -145,3 +146,11 @@ jobs:
             docker rm "${CONTAINER_ID}"
             find ./static -type f -name "*.gz" -print -delete
             gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
+      -
+        name: Upload to sentry
+        run: |
+            CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
+            docker cp "${CONTAINER_ID}:/usr/src/app/dist" dist/
+            docker rm "${CONTAINER_ID}"
+            npx @sentry/cli -V
+            npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist
