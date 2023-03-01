@@ -86,46 +86,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
   );
 }
 
-it("renders body only", () => {
-  const props = createDefaultProps({
-    comment: {
-      author: {
-        username: null,
-      },
-    },
-  });
-  const renderer = createRenderer();
-  renderer.render(<CommentContainerN {...props} />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
-});
-
 it("hide reply button", () => {
   const props = createDefaultProps({
     disableReplies: true,
-  });
-  const renderer = createRenderer();
-  renderer.render(<CommentContainerN {...props} />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
-});
-
-it("shows conversation link", () => {
-  const props = createDefaultProps({
-    showConversationLink: true,
-  });
-  const renderer = createRenderer();
-  renderer.render(<CommentContainerN {...props} />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
-});
-
-it("renders in reply to", () => {
-  const props = createDefaultProps({
-    comment: {
-      parent: {
-        author: {
-          username: "ParentAuthor",
-        },
-      },
-    },
   });
   const renderer = createRenderer();
   renderer.render(<CommentContainerN {...props} />);

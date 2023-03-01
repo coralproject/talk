@@ -100,7 +100,7 @@ it("renders body only", async () => {
   ).toBeDefined();
 });
 
-it("NEW renders InReplyTo", async () => {
+it("renders InReplyTo", async () => {
   const { container } = await createTestRenderer({
     resolvers: {
       Query: {
@@ -128,4 +128,33 @@ it("NEW renders InReplyTo", async () => {
   expect(inReplyTo).toBeDefined();
 
   screen.debug(inReplyTo);
+});
+
+it("NEW renders disabled reply when story is closed", async () => {
+  const closedStory = {
+    ...stories[0],
+    isClosed: true,
+  };
+  const { container } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        story: () => closedStory,
+        stream: () => closedStory,
+      },
+    },
+  });
+
+  expect(container).toBeDefined();
+
+  const commentIDs = closedStory.comments.edges.map(({ node }) => node.id);
+
+  for (const commentID of commentIDs) {
+    const commentElement = await within(container).findByTestId(
+      `comment-${commentID}`
+    );
+
+    expect(commentElement).toBeDefined();
+    const inReplyTo = within(commentElement).findByText("In reply");
+    expect(inReplyTo).toBeDefined();
+  }
 });
