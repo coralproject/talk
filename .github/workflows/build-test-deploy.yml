@@ -9,6 +9,7 @@ on:
 env:
   IMAGE_REPOSITORY: 'coralproject/talk'
   DOCKERHUB_USERNAME: 'coralproject'
+  GOOGLE_CLOUD_BUCKET: 'coral-cdn'
 
 
 jobs:
@@ -143,4 +144,4 @@ jobs:
             docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
             docker rm "${CONTAINER_ID}"
             find ./static -type f -name "*.gz" -print -delete
-            # gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
+            gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
