@@ -12,6 +12,7 @@ env:
   IMAGE_REPOSITORY: 'coralproject/talk'
   SENTRY_ORG: 'voxmedia'
   SENTRY_PROJECT: 'coral'
+  SENTRY_LOG_LEVEL: 'debug'
 
 jobs:
   build-and-test:
@@ -69,9 +70,9 @@ jobs:
       -
         name: npm ci
         run: npm ci
-      # -
-      #   name: Generate schemas and types
-      #   run: npm run generate
+      -
+        name: Generate schemas and types
+        run: npm run generate
       # -
       #   name: Lint Source Code
       #   run: npm run lint
