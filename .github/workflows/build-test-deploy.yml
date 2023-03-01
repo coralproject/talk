@@ -136,11 +136,11 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
-      # -
-      #   name: Deploy Static Assets to GCS Bucket
-      #   run: |
-      #       CONTAINER_ID=$(docker create "coralproject/talk:${RC_TAG/#v}")
-      #       docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
-      #       docker rm "${CONTAINER_ID}"
-      #       find ./static -type f -name "*.gz" -print -delete
-      #       gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${RC_TAG/#v}/"
+      -
+        name: Deploy Static Assets to GCS Bucket
+        run: |
+            CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
+            docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
+            docker rm "${CONTAINER_ID}"
+            find ./static -type f -name "*.gz" -print -delete
+            # gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
