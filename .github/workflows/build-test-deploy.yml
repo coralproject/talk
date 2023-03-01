@@ -10,7 +10,7 @@ env:
   DOCKERHUB_USERNAME: 'coralproject'
   GOOGLE_CLOUD_BUCKET: 'coral-cdn'
   IMAGE_REPOSITORY: 'coralproject/talk'
-  SENTRY_ORGANIZATION: 'voxmedia'
+  SENTRY_ORG: 'voxmedia'
   SENTRY_PROJECT: 'coral'
 
 jobs:
