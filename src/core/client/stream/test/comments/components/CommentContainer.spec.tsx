@@ -5,7 +5,12 @@ import {
   createResolversStub,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
-import { commenters, settings, stories } from "coral-stream/test/fixtures";
+import {
+  commenters,
+  settings,
+  stories,
+  storyWithReplies,
+} from "coral-stream/test/fixtures";
 
 import create from "../create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
@@ -55,7 +60,7 @@ it("renders username and body", async () => {
   expect(within(commentElement).getByText(firstComment.body!)).toBeDefined();
 });
 
-it("NEW renders body only", async () => {
+it("renders body only", async () => {
   const commentsWithNoUsernames: typeof stories[0] = {
     ...stories[0],
     comments: {
@@ -93,4 +98,34 @@ it("NEW renders body only", async () => {
   expect(
     within(firstCommentElement).getByText(firstComment.body!)
   ).toBeDefined();
+});
+
+it("NEW renders InReplyTo", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        story: () => storyWithReplies,
+        stream: () => storyWithReplies,
+      },
+    },
+  });
+
+  const firstComment = storyWithReplies.comments.edges[1].node;
+  const firstReply = firstComment.replies.edges[0].node;
+
+  const firstReplyElement = await within(container).findByTestId(
+    `comment-${firstReply.id}`
+  );
+
+  const inReplyTo = within(firstReplyElement).getByText((content, element) => {
+    const match =
+      content.startsWith("In reply") &&
+      !!element &&
+      element.innerHTML.includes(firstComment.author!.username!);
+    return match;
+  });
+
+  expect(inReplyTo).toBeDefined();
+
+  screen.debug(inReplyTo);
 });
