@@ -583,7 +583,7 @@ exports[`renders comment stream 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -732,7 +732,7 @@ exports[`renders comment stream 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
