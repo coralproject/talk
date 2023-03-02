@@ -154,4 +154,4 @@ jobs:
             docker cp "${CONTAINER_ID}:/usr/src/app/dist" dist/
             docker rm "${CONTAINER_ID}"
             npx @sentry/cli -V
-            npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist
+            npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
