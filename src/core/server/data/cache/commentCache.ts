@@ -250,11 +250,13 @@ export class CommentCache {
     cmd.set(lockKey, now.getTime(), "ex", this.expirySeconds);
 
     const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
-    cmd.sadd(
-      allCommentsKey,
-      comments.map((c) => `${c.parentID}:${c.id}`)
-    );
-    cmd.expire(allCommentsKey, this.expirySeconds);
+    if (comments.length > 0) {
+      cmd.sadd(
+        allCommentsKey,
+        comments.map((c) => `${c.parentID}:${c.id}`)
+      );
+      cmd.expire(allCommentsKey, this.expirySeconds);
+    }
 
     const sortKeys = new Set<string>();
     for (const comment of comments) {
