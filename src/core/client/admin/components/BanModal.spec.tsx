@@ -17,6 +17,7 @@ import {
 import { createContext } from "../test/create";
 import customRenderAppWithContext from "../test/customRenderAppWithContext";
 
+import { isSiteModerator } from "coral-common/permissions/types";
 import {
   communityUsers,
   settings,
@@ -118,6 +119,44 @@ it("creates domain ban for unmoderated domain while updating user ban status", a
   expect(within(userRow).getByText("Banned")).toBeVisible();
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
   expect(resolvers.Mutation!.createEmailDomain!.called).toBeTruthy();
+});
+
+it("only shows ban domain option for admins and org mods", async () => {
+  const orgMods = users.moderators.filter((u) => !isSiteModerator(u));
+  for (const user of [...users.admins, ...orgMods]) {
+    const moderatedResolvers = createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () => user,
+      },
+    });
+
+    const { container } = await createTestRenderer({
+      resolvers: moderatedResolvers,
+    });
+
+    const userRow = within(container).getByRole("row", {
+      name: "Isabelle isabelle@test.com 07/06/18, 06:24 PM Commenter Active",
+    });
+    userEvent.click(
+      within(userRow).getByRole("button", { name: "Change user status" })
+    );
+
+    const dropdown = within(userRow).getByLabelText(
+      "A dropdown to change the user status"
+    );
+    fireEvent.click(
+      within(dropdown).getByRole("button", { name: "Manage Ban" })
+    );
+    const modal = screen.getByLabelText(
+      "Are you sure you want to ban Isabelle?"
+    );
+
+    const banDomainButton = within(modal).queryByText(
+      `Ban all new accounts on test.com`
+    );
+
+    expect(banDomainButton).not.toBeInTheDocument();
+  }
 });
 
 it("does not display ban domain option for moderated domain", async () => {
