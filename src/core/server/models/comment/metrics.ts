@@ -61,7 +61,7 @@ export async function retrieveTodayCommentMetrics(
   const start = DateTime.fromJSDate(now).setZone(timezone).startOf("day");
   const end = DateTime.fromJSDate(now);
 
-  const allCommentsInRange = await mongo
+  const allCommentsInRange = mongo
     .comments()
     .find({ tenantID, siteID, createdAt: { $gte: start, $lte: end } });
 
@@ -133,7 +133,7 @@ export async function retrieveAllTimeStaffCommentMetrics(
   siteID: string
 ) {
   // Get the referenced tenant, site, and staff comments.
-  const comments = await mongo.comments().find<Readonly<Comment>>({
+  const comments = mongo.comments().find<Readonly<Comment>>({
     tenantID,
     siteID,
     "tags.type": { $in: [GQLTAG.STAFF, GQLTAG.ADMIN, GQLTAG.MODERATOR] },
