@@ -15,6 +15,8 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
+import { hasTag } from "./helpers";
+import { isSiteModerator } from "coral-common/permissions/types";
 
 export async function retrieveHourlyCommentMetrics(
   mongo: MongoContext,
@@ -59,47 +61,69 @@ export async function retrieveTodayCommentMetrics(
   const start = DateTime.fromJSDate(now).setZone(timezone).startOf("day");
   const end = DateTime.fromJSDate(now);
 
-  const status = await mongo
+  const allCommentsInRange = await mongo
     .comments()
-    .aggregate<{ _id: GQLCOMMENT_STATUS; count: number }>([
-      {
-        $match: {
-          tenantID,
-          siteID,
-          createdAt: { $gte: start, $lte: end },
-        },
-      },
-      {
-        $group: {
-          _id: "$status",
-          count: { $sum: 1 },
-        },
-      },
-    ])
-    .toArray();
+    .find({ tenantID, siteID, createdAt: { $gte: start, $lte: end } });
 
-  const rejected = status.find((doc) => doc._id === GQLCOMMENT_STATUS.REJECTED);
-  const total = status.reduce((acc, doc) => acc + doc.count, 0);
+  const visibleComments = new Set<string>();
+  const rejectedComments = new Set<string>();
+  const totalComments = new Set<string>();
+  const staffComments = new Set<string>();
 
-  const staff = await mongo
-    .comments()
-    .aggregate<{ count: number }>([
-      {
-        $match: {
-          tenantID,
-          siteID,
-          createdAt: { $gte: start, $lte: end },
-          "tags.type": GQLTAG.STAFF,
-        },
-      },
-      { $count: "count" },
-    ])
-    .toArray();
+  const moderatorComments = new Map<string, Set<string>>();
+
+  for await (const comment of allCommentsInRange) {
+    if (!comment) {
+      continue;
+    }
+
+    totalComments.add(comment.id);
+    if (PUBLISHED_STATUSES.includes(comment.status)) {
+      visibleComments.add(comment.id);
+    }
+    if (comment.status === GQLCOMMENT_STATUS.REJECTED) {
+      rejectedComments.add(comment.id);
+    }
+
+    if (
+      hasTag(comment, GQLTAG.STAFF) ||
+      hasTag(comment, GQLTAG.ADMIN) ||
+      hasTag(comment, GQLTAG.MODERATOR) ||
+      hasTag(comment, GQLTAG.EXPERT)
+    ) {
+      staffComments.add(comment.id);
+    }
+
+    if (hasTag(comment, GQLTAG.MODERATOR) && comment.authorID) {
+      if (!moderatorComments.has(comment.authorID)) {
+        moderatorComments.set(comment.authorID, new Set<string>());
+      }
+
+      moderatorComments.get(comment.authorID)!.add(comment.id);
+    }
+  }
+
+  const moderators = mongo
+    .users()
+    .find({ tenantID, id: { $in: Array.from(moderatorComments.keys()) } });
+
+  let siteModsNotResponsibleForSiteCommentCount = 0;
+  for await (const moderator of moderators) {
+    if (!moderator) {
+      continue;
+    }
+
+    const isSiteMod = isSiteModerator(moderator);
+    if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
+      const count = moderatorComments.get(moderator.id)?.size ?? 0;
+      siteModsNotResponsibleForSiteCommentCount += count;
+    }
+  }
 
   return {
-    total,
-    rejected: rejected ? rejected.count : 0,
-    staff: getCount(staff),
+    total: totalComments.size,
+    rejected: rejectedComments.size,
+    staff: staffComments.size - siteModsNotResponsibleForSiteCommentCount,
   };
 }
 
@@ -109,21 +133,52 @@ export async function retrieveAllTimeStaffCommentMetrics(
   siteID: string
 ) {
   // Get the referenced tenant, site, and staff comments.
-  const staff = await mongo
-    .comments()
-    .aggregate<{ count: number }>([
-      {
-        $match: {
-          tenantID,
-          siteID,
-          "tags.type": GQLTAG.STAFF,
-        },
-      },
-      { $count: "count" },
-    ])
-    .toArray();
+  const comments = await mongo.comments().find<Readonly<Comment>>({
+    tenantID,
+    siteID,
+    "tags.type": { $in: [GQLTAG.STAFF, GQLTAG.ADMIN, GQLTAG.MODERATOR] },
+  });
 
-  return getCount(staff);
+  const staffComments = new Set<string>();
+  const moderatorComments = new Map<string, Set<string>>();
+
+  for await (const comment of comments) {
+    if (
+      hasTag(comment, GQLTAG.STAFF) ||
+      hasTag(comment, GQLTAG.ADMIN) ||
+      hasTag(comment, GQLTAG.MODERATOR) ||
+      hasTag(comment, GQLTAG.EXPERT)
+    ) {
+      staffComments.add(comment.id);
+    }
+
+    if (hasTag(comment, GQLTAG.MODERATOR) && comment.authorID) {
+      if (!moderatorComments.has(comment.authorID)) {
+        moderatorComments.set(comment.authorID, new Set<string>());
+      }
+
+      moderatorComments.get(comment.authorID)!.add(comment.id);
+    }
+  }
+
+  const moderators = mongo
+    .users()
+    .find({ tenantID, id: { $in: Array.from(moderatorComments.keys()) } });
+
+  let siteModsNotResponsibleForSiteCommentCount = 0;
+  for await (const moderator of moderators) {
+    if (!moderator) {
+      continue;
+    }
+
+    const isSiteMod = isSiteModerator(moderator);
+    if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
+      const count = moderatorComments.get(moderator.id)?.size ?? 0;
+      siteModsNotResponsibleForSiteCommentCount += count;
+    }
+  }
+
+  return staffComments.size - siteModsNotResponsibleForSiteCommentCount;
 }
 
 export async function retrieveAverageCommentsMetric(
