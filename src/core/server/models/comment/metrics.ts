@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 
+import { isSiteModerator } from "coral-common/permissions/types";
 import { MongoContext } from "coral-server/data/context";
 import {
   formatTimeRangeSeries,
@@ -16,7 +17,6 @@ import {
 
 import { PUBLISHED_STATUSES } from "./constants";
 import { hasTag } from "./helpers";
-import { isSiteModerator } from "coral-common/permissions/types";
 
 export async function retrieveHourlyCommentMetrics(
   mongo: MongoContext,
