@@ -326,6 +326,11 @@ export default (ctx: GraphContext) => ({
       story.isArchived
     ).then(primeCommentsFromConnection(ctx));
 
+    ctx.logger.info(
+      { orderBy, traceID: "SORT_ORDER_LOGGING" },
+      "stream sort order"
+    );
+
     return connection;
   },
   forParent: async (
