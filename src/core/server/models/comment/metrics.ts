@@ -61,9 +61,11 @@ export async function retrieveTodayCommentMetrics(
   const start = DateTime.fromJSDate(now).setZone(timezone).startOf("day");
   const end = DateTime.fromJSDate(now);
 
-  const allCommentsInRange = mongo
-    .comments()
-    .find({ tenantID, siteID, createdAt: { $gte: start, $lte: end } });
+  const allCommentsInRange = mongo.comments().find({
+    tenantID,
+    siteID,
+    createdAt: { $gte: start, $lte: end },
+  });
 
   const visibleComments = new Set<string>();
   const rejectedComments = new Set<string>();
@@ -72,7 +74,8 @@ export async function retrieveTodayCommentMetrics(
 
   const moderatorComments = new Map<string, Set<string>>();
 
-  for await (const comment of allCommentsInRange) {
+  while (await allCommentsInRange.hasNext()) {
+    const comment = await allCommentsInRange.next();
     if (!comment) {
       continue;
     }
@@ -133,7 +136,7 @@ export async function retrieveAllTimeStaffCommentMetrics(
   siteID: string
 ) {
   // Get the referenced tenant, site, and staff comments.
-  const comments = mongo.comments().find<Readonly<Comment>>({
+  const comments = mongo.comments().find({
     tenantID,
     siteID,
     "tags.type": { $in: [GQLTAG.STAFF, GQLTAG.ADMIN, GQLTAG.MODERATOR] },
@@ -142,7 +145,12 @@ export async function retrieveAllTimeStaffCommentMetrics(
   const staffComments = new Set<string>();
   const moderatorComments = new Map<string, Set<string>>();
 
-  for await (const comment of comments) {
+  while (await comments.hasNext()) {
+    const comment = await comments.next();
+    if (!comment) {
+      continue;
+    }
+
     if (
       hasTag(comment, GQLTAG.STAFF) ||
       hasTag(comment, GQLTAG.ADMIN) ||
