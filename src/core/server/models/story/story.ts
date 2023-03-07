@@ -8,6 +8,7 @@ import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
   StoryNotFoundError,
+  UnableToUpdateStoryURL,
 } from "coral-server/errors";
 import {
   Connection,
@@ -125,13 +126,46 @@ export interface UpsertStoryResult {
 export async function upsertStory(
   mongo: MongoContext,
   tenantID: string,
-  { id = uuid(), url, mode, siteID }: UpsertStoryInput,
+  { id, url, mode, siteID }: UpsertStoryInput,
   now = new Date()
 ): Promise<UpsertStoryResult> {
+  if (id) {
+    const existingStory = await mongo
+      .stories()
+      .findOne({ tenantID, siteID, id });
+    if (existingStory && url && existingStory.url !== url) {
+      const result = await mongo.stories().findOneAndUpdate(
+        { tenantID, siteID, id },
+        {
+          $set: {
+            url,
+          },
+        },
+        { returnOriginal: false }
+      );
+
+      if (!result.ok || !result.value) {
+        throw new UnableToUpdateStoryURL(
+          result.lastErrorObject,
+          id,
+          existingStory.url,
+          url
+        );
+      }
+
+      return {
+        story: result.value,
+        wasUpserted: true,
+      };
+    }
+  }
+
+  const newID = id ? id : uuid();
+
   // Create the story, optionally sourcing the id from the input, additionally
   // porting in the tenantID.
   const story: Story = {
-    id,
+    id: newID,
     url,
     tenantID,
     siteID,
@@ -176,7 +210,7 @@ export async function upsertStory(
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
     if (err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateStoryIDError(err, id, url);
+      throw new DuplicateStoryIDError(err, newID, url);
     }
 
     throw err;

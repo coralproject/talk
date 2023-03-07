@@ -7,6 +7,7 @@ import { MongoContext } from "coral-server/data/context";
 import {
   CannotMergeAnArchivedStory,
   CannotOpenAnArchivedStory,
+  StoryNotFoundError,
   StoryURLInvalidError,
   UserNotFoundError,
 } from "coral-server/errors";
@@ -94,7 +95,14 @@ export async function findOrCreate(
   }
 
   let siteID = null;
-  if (input.url) {
+  if (input.id) {
+    const story = await findStory(mongo, tenant.id, { id: input.id });
+    if (story) {
+      siteID = story.siteID;
+    }
+  }
+
+  if (input.url && siteID === null) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
     // If the URL is provided, and the url is not associated with a site, then refuse
     // to create the Asset.
