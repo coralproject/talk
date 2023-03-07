@@ -7,7 +7,6 @@ import { MongoContext } from "coral-server/data/context";
 import {
   CannotMergeAnArchivedStory,
   CannotOpenAnArchivedStory,
-  StoryNotFoundError,
   StoryURLInvalidError,
   UserNotFoundError,
 } from "coral-server/errors";
