@@ -199,7 +199,7 @@ const BanModal: FunctionComponent<Props> = ({
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
       setBanSiteIDs(
-        viewer.moderationScopes?.sites!.map((scopeSite) => scopeSite.id)
+        viewer.moderationScopes!.sites!.map((scopeSite) => scopeSite.id)
       );
     }
   }, [viewerIsSingleSiteMod, viewer.moderationScopes?.sites]);

@@ -8,8 +8,6 @@ export function isSiteModerationScoped(
   moderationScopes?: Readonly<UserModerationScopes> | null
 ): moderationScopes is Required<UserModerationScopes> {
   const scopeSites = moderationScopes?.siteIDs || moderationScopes?.sites;
-  /* eslint-disable */
-  console.log("isSiteModerationScoped", { scopeSites, moderationScopes });
 
   return moderationScopes?.scoped || (!!scopeSites && scopeSites.length > 0);
 }
