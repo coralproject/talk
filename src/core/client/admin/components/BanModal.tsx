@@ -183,7 +183,7 @@ const BanModal: FunctionComponent<Props> = ({
   const [customizeMessage, setCustomizeMessage] = useState(false);
   const [emailMessage, setEmailMessage] = useState<string>(getDefaultMessage);
   const [rejectExistingComments, setRejectExistingComments] = useState(false);
-  const [banDomain, setBanDomain] = useState(false); // BOOKMARK (marcus): need to additionally conditionally hide/show
+  const [banDomain, setBanDomain] = useState(false);
   const canBanDomain =
     viewer.role === GQLUSER_ROLE.ADMIN ||
     (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer));
