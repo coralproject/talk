@@ -6,6 +6,7 @@ import { isModerator, isOrgModerator } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
+  OperationForbiddenError,
   TenantInstalledAlreadyError,
   UserForbiddenError,
   UserNotFoundError,
@@ -41,6 +42,8 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
+import { ERROR_CODES } from "coral-common/errors";
 import TenantCache from "./cache/cache";
 
 export type UpdateTenant = GQLSettingsInput;
@@ -315,6 +318,15 @@ export async function createEmailDomain(
       "Must be authenticated to create email domain ban",
       "emailDomain",
       "create"
+    );
+  }
+
+  if (PROTECTED_EMAIL_DOMAINS.has(input.domain)) {
+    throw new OperationForbiddenError(
+      ERROR_CODES.EMAIL_DOMAIN_PROTECTED,
+      "This email domain may not be moderated",
+      input.domain,
+      input.newUserModeration
     );
   }
 
