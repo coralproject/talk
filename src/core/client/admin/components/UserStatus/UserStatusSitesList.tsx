@@ -60,7 +60,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
 
     if (viewerIsScoped) {
       all = all.concat(
-        viewer.moderationScopes.sites!.map((scopeSite) => scopeSite.id)
+        viewer.moderationScopes!.sites!.map((scopeSite) => scopeSite.id)
       );
     }
 
