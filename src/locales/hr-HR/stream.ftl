@@ -148,32 +148,32 @@ comments-permalinkView-viewFullDiscussion = Vidi cijelu raspravu
 comments-permalinkView-commentRemovedOrDoesNotExist = Ovaj komentar je uklonjen ili ne postoji.
 
 comments-rte-bold =
-  .title = Bold
+  .title = Podebljano
 
 comments-rte-italic =
-  .title = Italic
+  .title = Kurziv
 
 comments-rte-blockquote =
-  .title = Blockquote
+  .title = Citat
 
 comments-rte-bulletedList =
-  .title = Bulleted List
+  .title = Lista
 
 comments-rte-strikethrough =
-  .title = Strikethrough
+  .title = Precrtano
 
-comments-rte-spoiler = Spoiler
+comments-rte-spoiler = Skriveni tekst
 
-comments-rte-sarcasm = Sarcasm
+comments-rte-sarcasm = Sarkazam
 
 comments-rte-externalImage =
-  .title = External Image
+  .title = Vanjska slika
 
-comments-remainingCharacters = { $remaining } characters remaining
+comments-remainingCharacters = { $remaining } preostalih znakova
 
-comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
+comments-postCommentFormFake-signInAndJoin = Prijavite se i pridružite se raspravi
 
-comments-postCommentForm-rteLabel = Post a comment
+comments-postCommentForm-rteLabel = Objavite komentar
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
@@ -181,85 +181,85 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
-comments-replyButton-reply = Reply
+comments-replyButton-reply = Odgovorite
 comments-replyButton =
-  .aria-label = Reply to comment by {$username}
+  .aria-label = Odgovorite na komentar od {$username}
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
-comments-replyCommentForm-submit = Submit
-comments-replyCommentForm-cancel = Cancel
-comments-replyCommentForm-rteLabel = Write a reply
+comments-replyCommentForm-submit = Pošaljite
+comments-replyCommentForm-cancel = Otkaži
+comments-replyCommentForm-rteLabel = Napišite odgovor
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
-comments-commentContainer-threadLevelLabel = Thread Level { $level }:
-comments-commentContainer-highlightedLabel = Highlighted:
-comments-commentContainer-ancestorLabel = Ancestor:
+comments-commentContainer-threadLevelLabel = Razine rasprave { $level }:
+comments-commentContainer-highlightedLabel = Naglašeno:
+comments-commentContainer-ancestorLabel = Prethodni komentar:
 comments-commentContainer-replyLabel =
-  Reply from { $username } <RelativeTime></RelativeTime>
+  Odgovor od { $username } <RelativeTime></RelativeTime>
 comments-commentContainer-questionLabel =
-  Question from { $username } <RelativeTime></RelativeTime>
+  Pitanje od { $username } <RelativeTime></RelativeTime>
 comments-commentContainer-commentLabel =
-  Comment from { $username } <RelativeTime></RelativeTime>
-comments-commentContainer-editButton = Edit
+  Komentar od { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-editButton = Uredite
 
 comments-commentContainer-avatar =
-  .alt = Avatar for { $username }
+  .alt = Avatar za { $username }
 
-comments-editCommentForm-saveChanges = Save Changes
-comments-editCommentForm-cancel = Cancel
-comments-editCommentForm-close = Close
-comments-editCommentForm-rteLabel = Edit comment
+comments-editCommentForm-saveChanges = Spremite promjene
+comments-editCommentForm-cancel = Otkažite
+comments-editCommentForm-close = Zatvorite
+comments-editCommentForm-rteLabel = Uredite komentar
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
-comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
-comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
-comments-editedMarker-edited = Edited
-comments-showConversationLink-readMore = Read More of this Conversation >
+comments-editCommentForm-editRemainingTime = Uredite: preostalo vrijeme <time></time>
+comments-editCommentForm-editTimeExpired = Vrijeme za uređivanje je isteklo. Više ne možete uređivati ovaj komentar. Zašto ne biste objavili još jedan?
+comments-editedMarker-edited = Uređeno
+comments-showConversationLink-readMore = Pročitajte više o ovoj raspravi >
 comments-conversationThread-showMoreOfThisConversation =
-  Show More of This Conversation
+  Prikaži više ove rasprave
 
 comments-permalinkView-currentViewing =
 comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
-  You are currently viewing a single conversation
-comments-inReplyTo = In reply to <Username></Username>
-comments-replyingTo = Replying to <Username></Username>
+  Trenutno pregledavate jednu raspravu
+comments-inReplyTo = U odgovoru <Username></Username>
+comments-replyingTo = Odgovarate <Username></Username>
 
-comments-reportButton-report = Report
-comments-reportButton-reported = Reported
+comments-reportButton-report = Prijavite
+comments-reportButton-reported = Prijavljeno
 comments-reportButton-aria-report =
-  .aria-label = Report comment by {$username}
+  .aria-label = Prijavite komentar od {$username}
 comments-reportButton-aria-reported =
-  .aria-label = Reported
+  .aria-label = Prijavljeno
 
-comments-sortMenu-sortBy = Sort by
-comments-sortMenu-newest = Newest
-comments-sortMenu-oldest = Oldest
-comments-sortMenu-mostReplies = Most replies
+comments-sortMenu-sortBy = Sortirajte po
+comments-sortMenu-newest = Najnovije
+comments-sortMenu-oldest = Najstarije
+comments-sortMenu-mostReplies = Najviše odgovora
 
 comments-userPopover =
-  .description = A popover with more user information
-comments-userPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
-comments-userPopover-ignore = Ignore
+  .description = Skočni prozor s više informacija o korisniku
+comments-userPopover-memberSince = Član od: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-ignore = Ignorirajte
 
-comments-userIgnorePopover-ignoreUser = Ignore {$username}?
+comments-userIgnorePopover-ignoreUser = Ignorirajte {$username}?
 comments-userIgnorePopover-description =
-  When you ignore a commenter, all comments they
-  wrote on the site will be hidden from you. You can
-  undo this later from My Profile.
-comments-userIgnorePopover-ignore = Ignore
-comments-userIgnorePopover-cancel = Cancel
+  Kad ignorirate komentatora, svi komentari
+  koje je napisao na stranici bit će skriveni
+  od vas. To možete poništiti kasnije iz Mojeg profila.
+comments-userIgnorePopover-ignore = Ignorirajte
+comments-userIgnorePopover-cancel = Otkažite
 
-comments-userBanPopover-title = Ban {$username}?
-comments-userSiteBanPopover-title = Ban {$username} from this site?
+comments-userBanPopover-title = Blokirajte {$username}?
+comments-userSiteBanPopover-title = Blokirajte {$username} s ove stranice?
 comments-userBanPopover-description =
-  Once banned, this user will no longer be able
-  to comment, use reactions, or report comments.
-  This comment will also be rejected.
-comments-userBanPopover-cancel = Cancel
-comments-userBanPopover-ban = Ban
+  Jednom blokiranim, ovaj korisnik više neće moći
+  komentirati, koristiti reakcije ili prijavljivati komentare.
+  Ovaj komentar će također biti odbijen.
+comments-userBanPopover-cancel = Otkažite
+comments-userBanPopover-ban = Blokirajte
 
 comments-moderationDropdown-popover =
   .description = A popover menu to moderate the comment
@@ -278,186 +278,187 @@ comments-moderationDropdown-moderateStory = Moderate story
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate
 
-comments-moderationRejectedTombstone-title = You have rejected this comment.
+comments-moderationRejectedTombstone-title = Odbili ste ovaj komentar.
 comments-moderationRejectedTombstone-moderateLink =
-  Go to moderate to review this decision
+  Idite na moderiranje da biste pregledali odluku
 
-comments-featuredTag = Featured
+comments-featuredTag = Izdvojeno
 
 # $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
   .aria-label = {$count ->
-    [0] {$reaction} comment by {$username}
-    *[other] {$reaction} comment by {$username} (Total: {$count})
+    [0] {$reaction} komentar od {$username}
+    *[other] {$reaction} komentara od {$username} (Ukupno: {$count})
   }
 
 # $reaction could be "Respected" as an example. Be careful when translating to other languages with different grammar cases.
 comments-reacted =
   .aria-label = {$count ->
-    [0] {$reaction} comment by {$username}
-    [one] {$reaction} comment by {$username}
-    *[other] {$reaction} comment by {$username} (Total: {$count})
+    [0] {$reaction} komentar od {$username}
+    [one] {$reaction} kometar od {$username}
+    *[other] {$reaction} kometara od {$username} (Ukupno: {$count})
   }
 
-comments-jumpToComment-title = Your reply has posted below
-comments-jumpToComment-GoToReply = Go to reply
+comments-jumpToComment-title = Vaš odgovor je objavljen ispod
+comments-jumpToComment-GoToReply = Idi na odgovor
 
 comments-mobileToolbar-closeButton =
-  .aria-label = Close
-comments-mobileToolbar-unmarkAll = Mark all as read
-comments-mobileToolbar-nextUnread = Next unread
+  .aria-label = Zatvorite
+comments-mobileToolbar-unmarkAll = Označite sve kao pročitano
+comments-mobileToolbar-nextUnread = Sljedeće nepročitano
 
 comments-replyChangedWarning-theCommentHasJust =
-  This comment has just been edited. The latest version is displayed above.
+  Ovaj komentar je upravo uređen. Najnovija verzija je prikazana iznad.
 
 ### Q&A
 
-general-tabBar-qaTab = Q&A
+general-tabBar-qaTab = PiO
 
 qa-postCommentForm-section =
-  .aria-label = Post a Question
+  .aria-label = Postavite pitanje
 
-qa-answeredTab = Answered
-qa-unansweredTab = Unanswered
-qa-allCommentsTab = All
+qa-answeredTab = Odgovoreno
+qa-unansweredTab = Neodgovoreno
+qa-allCommentsTab = Sve
 
 qa-answered-answerLabel =
-  Answer from {$username} <RelativeTime></RelativeTime>
-qa-answered-gotoConversation = Go to conversation
-qa-answered-replies = Replies
+  Odgovor od {$username} <RelativeTime></RelativeTime>
+qa-answered-gotoConversation = Idi na raspravu
+qa-answered-replies = Odgovori
 
 qa-noQuestionsAtAll =
-  There are no questions on this story.
+  Nema pitanja na ovoj priči.
 qa-noQuestionsYet =
-  There are no questions yet. Why don't you ask one?
-qa-viewNew-loading = Loading...
+  Nema pitanja još. Zašto ne postavite jedno?
+qa-viewNew-loading = Učitavamo...
 qa-viewNew =
   { $count ->
-    [1] View {$count} New Question
-    *[other] View {$count} New Questions
+    [1] Pogledajte {$count} Novo Pitanje
+    [few] Pogledajte {$count} Nova Pitanja
+    *[other] Pogledatje {$count} Novih pitanja
   }
 
-qa-postQuestionForm-rteLabel = Post a question
+qa-postQuestionForm-rteLabel = Postavite pitanje
 qa-postQuestionForm-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 qa-postQuestionFormFake-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 
-qa-sortMenu-mostVoted = Most voted
+qa-sortMenu-mostVoted = Najviše glasova
 
-qa-answered-tag = answered
-qa-expert-tag = expert
+qa-answered-tag = odgovoreno
+qa-expert-tag = stručnjak
 
-qa-reaction-vote = Vote
-qa-reaction-voted = Voted
+qa-reaction-vote = Glasajte
+qa-reaction-voted = Glasali ste
 
 qa-reaction-aria-vote =
   .aria-label = {$count ->
-    [0] Vote for comment by {$username}
-    *[other] Vote ({$count}) for comment by {$username}
+    [0] Glasajte za komentar od {$username}
+    *[other] Glasajte ({$count}) za komentar za {$username}
   }
 qa-reaction-aria-voted =
   .aria-label = {$count ->
-    [0] Voted for comment by {$username}
-    [one] Voted for comment by {$username}
+    [0] Glasali ste za komentar od {$username}
+    [one] Glasali ste za komentar od {$username}
     *[other] Voted ({$count}) for comment by {$username}
   }
 
-qa-unansweredTab-doneAnswering = Done
+qa-unansweredTab-doneAnswering = Završeno
 
 qa-expert-email = ({ $email })
 
-qa-answeredTooltip-how = How is a question answered?
+qa-answeredTooltip-how = Kako je odgovoreno?
 qa-answeredTooltip-answeredComments =
-  Questions are answered by a Q&A expert.
+  Na pitanja odgovaraju stručnjaci za PiO.
 qa-answeredTooltip-toggleButton =
-  .aria-label = Toggle answered questions tooltip
-  .title = Toggle answered questions tooltip
+  .aria-label = Prikažite odgovore
+  .title = Prikažite odgovore
 
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
-  Account deletion requested
+  Zahtjev za brisanje računa
 comments-stream-deleteAccount-callOut-receivedDesc =
-  A request to delete your account was received on { $date }.
+  Zahtjev za brisanje računa je primljen { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  If you would like to continue leaving comments, replies or reactions,
-  you may cancel your request to delete your account before { $date }.
+  Ako želite nastaviti ostavljati komentare, odgovore ili reakcije,
+  možete poništiti zahtjev za brisanje računa prije { $date }.
 comments-stream-deleteAccount-callOut-cancel =
-  Cancel account deletion request
+  Otkazivanje zahtjeva za brisanje računa
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
-  Cancel account deletion
+  Otkazivanje zahtjeva za brisanje računa
 
-comments-permalink-copyLink = Copy link
-comments-permalink-linkCopied = Link copied
+comments-permalink-copyLink = Kopirajte poveznicu
+comments-permalink-linkCopied = Poveznica je kopirana
 
 ### Embed Links
 
-comments-embedLinks-showEmbeds = Show embeds
-comments-embedLinks-hideEmbeds = Hide embeds
+comments-embedLinks-showEmbeds = Prikažite ugrađene objave
+comments-embedLinks-hideEmbeds = Sakrijte ugrađene objave
 
-comments-embedLinks-show-giphy = Show GIF
-comments-embedLinks-hide-giphy = Hide GIF
+comments-embedLinks-show-giphy = Prikaži GIF
+comments-embedLinks-hide-giphy = Sakrij GIF
 
-comments-embedLinks-show-youtube = Show video
-comments-embedLinks-hide-youtube = Hide video
+comments-embedLinks-show-youtube = Prikaži video
+comments-embedLinks-hide-youtube = Sakrij video
 
-comments-embedLinks-show-twitter = Show Tweet
-comments-embedLinks-hide-twitter = Hide Tweet
+comments-embedLinks-show-twitter = Prikaži Tweet
+comments-embedLinks-hide-twitter = Sakrij Tweet
 
-comments-embedLinks-show-external = Show image
-comments-embedLinks-hide-external = Hide image
+comments-embedLinks-show-external = Prikaži sliku
+comments-embedLinks-hide-external = Sakrij sliku
 
-comments-embedLinks-expand = Expand
+comments-embedLinks-expand = Proširite
 
 ### Featured Comments
 comments-featured-label =
-  Featured Comment from {$username} <RelativeTime></RelativeTime>
-comments-featured-gotoConversation = Go to conversation
-comments-featured-replies = Replies
+  Izdvojeni komentar od {$username} <RelativeTime></RelativeTime>
+comments-featured-gotoConversation = Idi na raspravu
+comments-featured-replies = Odgovori
 
 ## Profile Tab
 
-profile-myCommentsTab = My Comments
-profile-myCommentsTab-comments = My comments
-profile-accountTab = Account
-profile-preferencesTab = Preferences
+profile-myCommentsTab = Moji komentari
+profile-myCommentsTab-comments = Moji komentari
+profile-accountTab = Račun
+profile-preferencesTab = Postavke
 
 ### Bio
 profile-bio-title = Bio
 profile-bio-description =
-  Write a bio to display publicly on your commenting profile. Must be
-  less than 100 characters.
-profile-bio-remove = Remove
-profile-bio-update = Update
-profile-bio-success = Your bio has been successfully updated.
-profile-bio-removed = Your bio has been removed.
+  Napravite bio za prikaz javno na vašem profilu za komentiranje.
+  Mora biti manje od 100 znakova.
+profile-bio-remove = Uklonite bio
+profile-bio-update = Ažurirajte bio
+profile-bio-success = Vaša biografija je ažurirana.
+profile-bio-removed = Vaša biografija je uklonjena.
 
 
 ### Account Deletion
 
 profile-accountDeletion-deletionDesc =
-  Your account is scheduled to be deleted on { $date }.
+  Vaš račun će biti trajno izbrisan { $date }.
 profile-accountDeletion-cancelDeletion =
-  Cancel account deletion request
+  Otkažite brisanje računa
 profile-accountDeletion-cancelAccountDeletion =
-  Cancel account deletion
+  Otkažite brisanje računa
 
 ### Comment History
 profile-commentHistory-section =
-  .aria-label = Comment History
+  .aria-label = Povijest komentara
 profile-historyComment-commentLabel =
-  Comment <RelativeTime></RelativeTime> on { $storyTitle }
-profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies {$replyCount}
-profile-historyComment-commentHistory = Comment History
-profile-historyComment-story = Story: {$title}
-profile-historyComment-comment-on = Comment on:
-profile-profileQuery-errorLoadingProfile = Error loading profile
-profile-profileQuery-storyNotFound = Story not found
-profile-commentHistory-loadMore = Load More
-profile-commentHistory-empty = You have not written any comments
-profile-commentHistory-empty-subheading = A history of your comments will appear here
+  Komentar <RelativeTime></RelativeTime> na { $storyTitle }
+profile-historyComment-viewConversation = Pregledaj raspravu
+profile-historyComment-replies = Odgovora {$replyCount}
+profile-historyComment-commentHistory = Povijest komentara
+profile-historyComment-story = Objava: {$title}
+profile-historyComment-comment-on = Komentar na:
+profile-profileQuery-errorLoadingProfile = Greška pri učitavanju profila
+profile-profileQuery-storyNotFound = Objava nije pronađena
+profile-commentHistory-loadMore = Učitajte više
+profile-commentHistory-empty = Niste ostavili komentare.
+profile-commentHistory-empty-subheading = Poviješću komentara možete pratiti svoje komentare.
 
 profile-commentHistory-archived-thisIsAllYourComments =
   This is all of your comments from the previous { $value } { $unit ->
