@@ -1,3 +1,5 @@
+edit
+
 <p align="center">
   <a href="https://coralproject.net" target="_blank"><img width="250" src="https://docs.coralproject.net/img/coralproject_by_voxmedia.svg" alt="Coral by Vox Media" /></a>
 </p>
