@@ -890,12 +890,15 @@ export async function retrieveStoriesToBeArchived(
     .sort({ createdAt: -1 });
 
   const results: Readonly<Story>[] = [];
+  let scanned = 0;
 
   while ((await cursor.hasNext()) || results.length === count) {
     const story = (await cursor.next()) as ArchiveCheckStory;
     if (!story) {
       continue;
     }
+
+    scanned += 1;
 
     const lastCommentedAt = story.lastCommentedAt
       ? new Date(story.lastCommentedAt)
@@ -930,7 +933,7 @@ export async function retrieveStoriesToBeArchived(
 
   const end = Date.now();
   logger.info(
-    { count: results.length, elapsedMs: end - start },
+    { count: results.length, scanned, elapsedMs: end - start },
     "retrieveStoriesToBeArchived"
   );
 
