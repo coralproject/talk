@@ -461,93 +461,96 @@ profile-commentHistory-empty = Niste ostavili komentare.
 profile-commentHistory-empty-subheading = Poviješću komentara možete pratiti svoje komentare.
 
 profile-commentHistory-archived-thisIsAllYourComments =
-  This is all of your comments from the previous { $value } { $unit ->
+  Ovo su svi vaši komentari of prije { $value } { $unit ->
     [second] { $value ->
-      [1] second
-      *[other] seconds
+      [1] sekunde
+      *[other] sekundi
     }
     [minute] { $value ->
       [1] minute
-      *[other] minutes
+      [few] minute
+      *[other] minuta
     }
     [hour] { $value ->
-      [1] hour
-      *[other] hours
+      [1] sata
+      [few] sata
+      *[other] sati
     }
     [day] { $value ->
-      [1] day
-      *[other] days
+      [1] dana
+      [few] dana
+      *[other] dana
     }
     [week] { $value ->
-      [1] week
-      *[other] weeks
+      [1] tjedna
+      *[other] tjedana
     }
     [month] { $value ->
-      [1] month
-      *[other] months
+      [1] mjeseca
+      *[other] mjeseci
     }
     [year] { $value ->
-      [1] year
-      *[other] years
+      [1] godine
+      *[other] godina
     }
-    *[other] unknown unit
-  }. To view the rest of your comments, please contact us.
+    *[other] nepoznata jedinica
+  }. Kako bi vidjeli sve vaše komentare, obratite nam se.
 
 ### Preferences
 
-profile-preferences-mediaPreferences = Media Preferences
-profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, Tweets, YouTube, etc.
-profile-preferences-mediaPreferences-thisMayMake = This may make the comments slower to load
-profile-preferences-mediaPreferences-update = Update
+profile-preferences-mediaPreferences = Postavke medija
+profile-preferences-mediaPreferences-alwaysShow = Uvijek prikažite GIF-ove, Tweet-ove, YouTube itd.
+profile-preferences-mediaPreferences-thisMayMake = Ovo može učiniti da se komentari sporo učitavaju
+profile-preferences-mediaPreferences-update = Ažurirajte
 profile-preferences-mediaPreferences-preferencesUpdated =
-  Your media preferences have been updated
+  Postavke medija su ažurirane.
 
 ### Account
-profile-account-ignoredCommenters = Ignored Commenters
+profile-account-ignoredCommenters = Ignorirani komentatori
 profile-account-ignoredCommenters-description =
-  You can Ignore other commenters by clicking on their username
-  and selecting Ignore. When you ignore someone, all of their
-  comments are hidden from you. Commenters you Ignore will still
-  be able to see your comments.
-profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
-profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
+  Možeš ignorirati druge komentatore klikom na njihovo korisničko ime
+  i odabirom Ignoriraj. Kada ignorirate nekoga, svi njegovi
+  komentari su skriveni od vas. Komentatori koje ignorirate i dalje će
+  moći vidjeti vaše komentare.
+profile-account-ignoredCommenters-empty = Trenutno ne ignorirate nikoga.
+profile-account-ignoredCommenters-stopIgnoring = Prestanite ignorirati
 profile-account-ignoredCommenters-youAreNoLonger =
-  You are no longer ignoring
-profile-account-ignoredCommenters-manage = Manage
-profile-account-ignoredCommenters-cancel = Cancel
-profile-account-ignoredCommenters-close = Close
+  Više ne ignorirate nikoga.
+profile-account-ignoredCommenters-manage = Uredite
+profile-account-ignoredCommenters-cancel = Otkažite
+profile-account-ignoredCommenters-close = Zatvorite
 
-profile-account-changePassword-cancel = Cancel
-profile-account-changePassword = Change Password
-profile-account-changePassword-oldPassword = Old Password
-profile-account-changePassword-forgotPassword = Forgot your password?
-profile-account-changePassword-newPassword = New Password
-profile-account-changePassword-button = Change Password
+profile-account-changePassword-cancel = Otkažite
+profile-account-changePassword = Promijenite lozinku
+profile-account-changePassword-oldPassword = Stara lozinka
+profile-account-changePassword-forgotPassword = Zaboravili ste lozinku?
+profile-account-changePassword-newPassword = Nova lozinka
+profile-account-changePassword-button = Promijenite lozinku
 profile-account-changePassword-updated =
-  Your password has been updated
-profile-account-changePassword-password = Password
+  Vaša lozinka je ažurirana
+profile-account-changePassword-password = Lozinka
 
-profile-account-download-comments-title = Download my comment history
+profile-account-download-comments-title = Preuzmite povijest komentara
 profile-account-download-comments-description =
-  You will receive an email with a link to download your comment history.
-  You can make <strong>one download request every 14 days.</strong>
+  Primit ćete e-poštu s vezom za preuzimanje povijesti komentara.
+  Možete napraviti <strong>jedan zahtjev za preuzimanje svakih 14 dana.</strong>
 profile-account-download-comments-request =
-  Request comment history
+  Zahtjev za povijest komentara
 profile-account-download-comments-request-icon =
-  .title = Request comment history
+  .title = Zahtjev za povijest komentara
 profile-account-download-comments-recentRequest =
-  Your most recent request: { $timeStamp }
+  Vaš najnoviji zahtjev: { $timeStamp }
 profile-account-download-comments-yourMostRecentRequest =
-  Your most recent request was within the last 14 days. You may
-  request to download your comments again on: { $timeStamp }
+  Vaš najnoviji zahtjev je bio prije 14 dana. Možete napraviti
+  zahtjev za preuzimanje komentara ponovno: { $timeStamp }
 profile-account-download-comments-requested =
-  Request submitted. You can submit another request in { framework-timeago-time }.
+  Zahtjev je poslan. Možete napraviti novi zahtjev za preuzimanje za { framework-timeago-time }.
 profile-account-download-comments-requestSubmitted =
-  Your request has been successfully submitted. You may request to
-  download your comment history again in { framework-timeago-time }.
+  Vaš zahtjev je uspješno poslan. Možete napraviti novi zahtjev
+  za preuzimanje za { framework-timeago-time }.
 profile-account-download-comments-error =
-  We were unable to complete your download request.
-profile-account-download-comments-request-button = Request
+  Nismo mogli dovršiti vaš zahtjev za preuzimanje.
+profile-account-download-comments-request-button = Zatražite
 
 ## Delete Account
 
@@ -638,60 +641,60 @@ profile-account-changePassword-change = Change
 
 
 ## Notifications
-profile-notificationsTab = Notifications
-profile-account-notifications-emailNotifications = E-Mail Notifications
-profile-account-notifications-emailNotifications = Email Notifications
-profile-account-notifications-receiveWhen = Receive notifications when:
-profile-account-notifications-onReply = My comment receives a reply
-profile-account-notifications-onFeatured = My comment is featured
-profile-account-notifications-onStaffReplies = A staff member replies to my comment
-profile-account-notifications-onModeration = My pending comment has been reviewed
-profile-account-notifications-sendNotifications = Send Notifications:
-profile-account-notifications-sendNotifications-immediately = Immediately
-profile-account-notifications-sendNotifications-daily = Daily
-profile-account-notifications-sendNotifications-hourly = Hourly
-profile-account-notifications-updated = Your notification settings have been updated
-profile-account-notifications-button = Update Notification Settings
-profile-account-notifications-button-update = Update
+profile-notificationsTab = Obavijesti
+profile-account-notifications-emailNotifications = Email obavijesti
+profile-account-notifications-emailNotifications = Email obavijesti
+profile-account-notifications-receiveWhen = Primite obavijesti kada:
+profile-account-notifications-onReply = Moj komentar dobije odgovor
+profile-account-notifications-onFeatured = Moj komentar bude izdvojen
+profile-account-notifications-onStaffReplies = Moj komentar dobije odgovor od osoblja
+profile-account-notifications-onModeration = Moj komentar bude moderiran
+profile-account-notifications-sendNotifications = Šalji obavijesti:
+profile-account-notifications-sendNotifications-immediately = Odmah
+profile-account-notifications-sendNotifications-daily = Dnevno
+profile-account-notifications-sendNotifications-hourly = Svaki sat
+profile-account-notifications-updated = Vaše postavke obavijesti su ažurirane.
+profile-account-notifications-button = Ažuriraj postavke obavijesti
+profile-account-notifications-button-update = Ažuriraj
 
 ## Report Comment Popover
 comments-reportPopover =
   .description = A dialog for reporting comments
-comments-reportPopover-reportThisComment = Report This Comment
-comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
+comments-reportPopover-reportThisComment = Prijavi ovaj komentar
+comments-reportPopover-whyAreYouReporting = Zašto prijavljujete ovaj komentar?
 
-comments-reportPopover-reasonOffensive = This comment is offensive
-comments-reportPopover-reasonAbusive = This commenter is being abusive
-comments-reportPopover-reasonIDisagree = I disagree with this comment
-comments-reportPopover-reasonSpam = This looks like an ad or marketing
-comments-reportPopover-reasonOther = Other
+comments-reportPopover-reasonOffensive = Ovaj komentar je uvredljiv
+comments-reportPopover-reasonAbusive = Ovaj komentator je uvredljiv
+comments-reportPopover-reasonIDisagree = Ne slažem se s ovim komentarom
+comments-reportPopover-reasonSpam = Ovo izgleada kao spam
+comments-reportPopover-reasonOther = Drugo
 
 comments-reportPopover-additionalInformation =
-  Additional information <optional>Optional</optional>
+  Dodatne informacije <optional>Neobavezno</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Please leave any additional information that may be helpful to our moderators.
+  Moli vas da ostavite dodatne informacije koje bi mogle biti korisne našim moderatorima.
 
-comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
-comments-reportPopover-restrictToMaxCharacters = Please restrict your report to { $maxCharacters } characters
-comments-reportPopover-cancel = Cancel
-comments-reportPopover-submit = Submit
+comments-reportPopover-maxCharacters = Maks. { $maxCharacters } Znakova
+comments-reportPopover-restrictToMaxCharacters = Molimo ograničite svoj izvještaj na { $maxCharacters } znakova
+comments-reportPopover-cancel = Otkaži
+comments-reportPopover-submit = Pošalji
 
-comments-reportPopover-thankYou = Thank you!
+comments-reportPopover-thankYou = Hvala Vam!
 comments-reportPopover-receivedMessage =
-  We’ve received your message. Reports from members like you keep the community safe.
+  Primili smo vašu poruku. Prijave od članova kao što ste vi čuvaju zajednicu sigurnom.
 
-comments-reportPopover-dismiss = Dismiss
+comments-reportPopover-dismiss = Otpusti
 
 ## Archived Report Comment Popover
 
-comments-archivedReportPopover-reportThisComment = Report This Comment
+comments-archivedReportPopover-reportThisComment = Prijavi ovaj komentar
 comments-archivedReportPopover-doesThisComment =
-  Does this comment violate our community guidelines? Is this offensive or spam?
-  Send  an email to our moderation team at <a>{ $orgName }</a> with a link to
-  this comment and a brief explanation.
+  Krši li ovaj komentar naše smjernice zajednice? Je li uvredljiv ili spam?
+  Pošaljite email našem timu za moderaciju na <a>{ $orgName }</a> s vezom za
+  ovaj komentar i kratak opis.
 comments-archivedReportPopover-needALink =
-  Need a link to this comment?
-comments-archivedReportPopover-copyLink = Copy link
+  Trebate poveznicu na ovaj komentar?
+comments-archivedReportPopover-copyLink = Kopirajte vezu
 
 comments-archivedReportPopover-emailSubject = Report comment
 comments-archivedReportPopover-emailBody =
@@ -951,13 +954,13 @@ comments-addAReviewForm-rte =
 comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
-stream-footer-links-top-of-article = Top of article
-  .title = Go to top of article
-stream-footer-links-top-of-comments = Top of comments
-  .title = Go to top of comments
-stream-footer-links-profile = Profile & Replies
-  .title = Go to profile and replies
-stream-footer-links-discussions = More discussions
-  .title = Go to more discussions
+stream-footer-links-top-of-article = Vrh članka
+  .title = Idi na vrh članka
+stream-footer-links-top-of-comments = Vrh komentara
+  .title = Idi na vrh komentara
+stream-footer-links-profile = Profil i odgovori
+  .title = Idi na profil i odgovore
+stream-footer-links-discussions = Više rasprava
+  .title = Idi na više rasprava
 stream-footer-navigation =
-  .aria-label = Comments Footer
+  .aria-label = Podnožje komentara
