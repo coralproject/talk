@@ -942,8 +942,9 @@ ratingsAndReviews-basedOnRatings = { $count ->
 
 ratingsAndReviews-allReviewsFilter = All reviews
 ratingsAndReviews-starReviewsFilter = { $rating ->
-  [1] 1 Star
-  *[other] { $rating } Stars
+  [1] 1 Zvijezda
+  [few] { $rating } Zvijezde
+  *[other] { $rating } Zvijezdi
 }
 
 comments-addAReviewForm-rteLabel = Add a review (optional)
