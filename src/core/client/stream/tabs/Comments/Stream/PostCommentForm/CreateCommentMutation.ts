@@ -78,6 +78,7 @@ function addCommentToStory(
   const local = store.get(LOCAL_ID)!;
   const story = store.get(input.storyID)!;
   const commentsTab = store.get(LOCAL_ID)!.getValue("commentsTab")!;
+  const refreshStream = store.get(LOCAL_ID)!.getValue("refreshStream")!;
 
   if (!input.rating && commentsTab === "REVIEWS") {
     // Frontend automatically switches to Questions tab.
@@ -112,6 +113,7 @@ function addCommentToStory(
       orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
       tag,
       rating,
+      refreshStream,
     });
     if (con) {
       ConnectionHandler.insertEdgeAfter(con, commentEdge);
@@ -121,6 +123,7 @@ function addCommentToStory(
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       tag,
       rating,
+      refreshStream,
     });
     if (con) {
       ConnectionHandler.insertEdgeBefore(con, commentEdge);

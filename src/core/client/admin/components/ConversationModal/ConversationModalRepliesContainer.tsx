@@ -104,10 +104,15 @@ const enhanced = withPaginationContainer<
         count: { type: "Int", defaultValue: 5 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
+        refreshStream: { type: "Boolean" }
       ) {
         id
-        replies(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "ConversationModalReplies_replies") {
+        replies(
+          first: $count
+          after: $cursor
+          orderBy: $orderBy
+          refreshStream: $refreshStream
+        ) @connection(key: "ConversationModalReplies_replies") {
           edges {
             node {
               id
@@ -129,6 +134,7 @@ const enhanced = withPaginationContainer<
         cursor,
         orderBy: fragmentVariables.orderBy,
         commentID: props.comment.id,
+        refreshStream: true,
       };
     },
     query: graphql`
@@ -139,10 +145,16 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $commentID: ID!
+        $refreshStream: Boolean
       ) {
         comment(id: $commentID) {
           ...ConversationModalRepliesContainer_comment
-            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+            @arguments(
+              count: $count
+              cursor: $cursor
+              orderBy: $orderBy
+              refreshStream: $refreshStream
+            )
         }
       }
     `,

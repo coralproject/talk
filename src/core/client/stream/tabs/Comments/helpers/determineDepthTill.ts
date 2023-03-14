@@ -74,6 +74,7 @@ export function determineDepthTillStory(
   storyID: string,
   orderBy: string,
   storyConnectionKey: string,
+  refreshStream: boolean | null,
   tag?: string
 ) {
   const story = store.get(storyID)!;
@@ -83,6 +84,7 @@ export function determineDepthTillStory(
     {
       orderBy,
       tag,
+      refreshStream,
     }
   )!;
 

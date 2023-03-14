@@ -42,6 +42,7 @@ interface Props {
   story: StoryData;
   settings: SettingsData;
   viewer: ViewerData | null;
+  refreshStream: boolean | null;
 }
 
 const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
@@ -167,6 +168,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
                   settings={settings}
                   liveDirectRepliesInsertion
                   allowIgnoredTombstoneReveal
+                  refreshStream={props.refreshStream}
                 />
               </div>
             </HorizontalGutter>

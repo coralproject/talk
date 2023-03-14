@@ -62,6 +62,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
   if (rootParent) {
     remaining -= 1;
   }
+  const refreshStream = true;
 
   const dataTestID = "comments-permalinkView-conversationThread";
   if (comment.parentCount === 0) {
@@ -122,6 +123,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                       comment={rootParent}
                       indentLevel={1}
                       allowIgnoredTombstoneReveal
+                      refreshStream={refreshStream}
                     />
                   )}
                 </IgnoredTombstoneOrHideContainer>
@@ -187,6 +189,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                         comment={parent}
                         indentLevel={1}
                         allowIgnoredTombstoneReveal
+                        refreshStream={false}
                       />
                     )}
                   </IgnoredTombstoneOrHideContainer>

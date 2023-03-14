@@ -7,6 +7,8 @@ import {
 
 import {
   createSubscription,
+  LOCAL_ID,
+  lookup,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -26,6 +28,7 @@ function updateForNewestFirst(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
   storyConnectionKey: string,
+  refreshStream: boolean | null,
   tag?: string
 ) {
   const rootField = store.getRootField("commentEntered");
@@ -46,6 +49,7 @@ function updateForNewestFirst(
     {
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       tag,
+      refreshStream,
     }
   )!;
   const linked = connection.getLinkedRecords("viewNewEdges") || [];
@@ -58,6 +62,7 @@ function updateForOldestFirst(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
   storyConnectionKey: string,
+  refreshStream: boolean | null,
   tag?: string
 ) {
   const story = store.get(storyID)!;
@@ -67,6 +72,7 @@ function updateForOldestFirst(
     {
       orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC,
       tag,
+      refreshStream,
     }
   )!;
   const pageInfo = connection.getLinkedRecord("pageInfo")!;
@@ -85,6 +91,7 @@ function insertReply(
   flattenReplies: boolean,
   storyID: string,
   storyConnectionKey: string,
+  refreshStream: boolean,
   orderBy?: GQLCOMMENT_SORT_RL,
   tag?: string,
   ancestorID?: string | null
@@ -105,6 +112,7 @@ function insertReply(
         storyID,
         orderBy!,
         storyConnectionKey,
+        refreshStream,
         tag
       );
 
@@ -133,7 +141,7 @@ function insertReply(
   const connection = ConnectionHandler.getConnection(
     parentProxy,
     "ReplyList_replies",
-    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
+    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC, refreshStream }
   );
   if (!connection) {
     // If it has no connection, it could not have been
@@ -228,6 +236,7 @@ const CommentEnteredSubscription = createSubscription(
       }
 
       const flattenReplies = lookupFlattenReplies(environment);
+      const refreshStream = !!lookup(environment, LOCAL_ID).refreshStream;
       const comment = rootField.getLinkedRecord("comment")!;
       const commentID = comment.getValue("id")! as string;
 
@@ -270,6 +279,7 @@ const CommentEnteredSubscription = createSubscription(
           flattenReplies,
           variables.storyID,
           variables.storyConnectionKey,
+          refreshStream,
           variables.orderBy,
           variables.tag,
           variables.ancestorID
@@ -280,6 +290,7 @@ const CommentEnteredSubscription = createSubscription(
           store,
           variables.storyID,
           variables.storyConnectionKey,
+          refreshStream,
           variables.tag
         );
         return;
@@ -288,6 +299,7 @@ const CommentEnteredSubscription = createSubscription(
           store,
           variables.storyID,
           variables.storyConnectionKey,
+          refreshStream,
           variables.tag
         );
         return;

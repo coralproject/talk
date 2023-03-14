@@ -8,9 +8,12 @@ import React, {
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { useLive } from "coral-framework/hooks";
+import { useLive, useVisibilityState } from "coral-framework/hooks";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
+import {
+  IntersectionProvider,
+  useInView,
+} from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useLocal,
@@ -37,7 +40,12 @@ import {
   CommentEditedSubscription,
   CommentEnteredSubscription,
 } from "coral-stream/tabs/Comments/Stream/Subscriptions";
-import { Box, HorizontalGutter } from "coral-ui/components/v2";
+import {
+  Box,
+  ButtonIcon,
+  Flex,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
@@ -65,6 +73,7 @@ interface Props {
   relay: RelayPaginationProp;
   flattenReplies: boolean;
   currentScrollRef: any;
+  refreshStream: boolean | null;
   tag?: GQLTAG;
 }
 
@@ -75,6 +84,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   relay,
   tag,
   currentScrollRef,
+  refreshStream,
 }) => {
   const [
     {
@@ -87,6 +97,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
+        refreshStream
         ratingFilter
         commentsOrderBy
         commentsFullyLoaded
@@ -100,8 +111,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     `
   );
 
+  const [subscriptionReconnections, setSubscriptionReconnections] = useState(0);
+  const [showCommentRefreshButton, setShowCommentRefreshButton] =
+    useState(false);
+  const [commentRefreshButtonDismissed, setCommentRefreshButtonDismissed] =
+    useState(false);
+
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
+
+  const incrementReconnections = useCallback(() => {
+    setSubscriptionReconnections(subscriptionReconnections + 1);
+  }, [subscriptionReconnections, setSubscriptionReconnections]);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
@@ -136,6 +157,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       storyConnectionKey: "Stream_comments",
       tag,
     });
+    incrementReconnections();
 
     const commentEditedDisposable = subscribeToCommentEdited({
       storyID: story.id,
@@ -147,13 +169,43 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     };
   }, [
     commentsOrderBy,
-    hasMore,
     live,
     story.id,
     subscribeToCommentEntered,
     subscribeToCommentEdited,
     tag,
   ]);
+
+  const { inView, intersectionRef } = useInView();
+
+  const visible = useVisibilityState();
+
+  const [refreshButtonStyles, setRefreshButtonStyles] = useState(
+    visible ? styles.refreshContainer : styles.refreshContainerFixed
+  );
+
+  useEffect(() => {
+    if (inView) {
+      setRefreshButtonStyles(styles.refreshContainer);
+    } else {
+      setRefreshButtonStyles(styles.refreshContainerFixed);
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (subscriptionReconnections > 1 && !commentRefreshButtonDismissed) {
+      setShowCommentRefreshButton(true);
+    }
+  }, [subscriptionReconnections, commentRefreshButtonDismissed]);
+
+  const handleClickCloseRefreshButton = useCallback(() => {
+    setCommentRefreshButtonDismissed(true);
+    setShowCommentRefreshButton(false);
+  }, [setCommentRefreshButtonDismissed, setShowCommentRefreshButton]);
+
+  const handleClickRefreshButton = useCallback(async () => {
+    setLocal({ refreshStream: !refreshStream });
+  }, [refreshStream]);
 
   const onChangeRating = useCallback(
     (rating: number | null) => {
@@ -200,33 +252,39 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const [viewMoreLoading, setViewMoreLoading] = useState(false);
-  const onViewMore = useCallback(async () => {
-    setViewMoreLoading(true);
-    const viewNewCommentsEvent = beginViewNewCommentsEvent({
-      storyID: story.id,
-      keyboardShortcutsConfig,
-    });
-    try {
-      await viewMore({
+  const onViewMore = useCallback(
+    async (markSeenOverride?: boolean) => {
+      setViewMoreLoading(true);
+      const viewNewCommentsEvent = beginViewNewCommentsEvent({
         storyID: story.id,
-        markSeen: !!viewer,
-        viewerID: viewer?.id,
-        markAsSeen,
+        keyboardShortcutsConfig,
       });
-      viewNewCommentsEvent.success();
-      setViewMoreLoading(false);
-    } catch (error) {
-      viewNewCommentsEvent.error({ message: error.message, code: error.code });
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-  }, [
-    beginViewNewCommentsEvent,
-    story.id,
-    keyboardShortcutsConfig,
-    viewMore,
-    setViewMoreLoading,
-  ]);
+      try {
+        await viewMore({
+          storyID: story.id,
+          markSeen: markSeenOverride ?? !!viewer,
+          viewerID: viewer?.id,
+          markAsSeen,
+        });
+        viewNewCommentsEvent.success();
+        setViewMoreLoading(false);
+      } catch (error) {
+        viewNewCommentsEvent.error({
+          message: error.message,
+          code: error.code,
+        });
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+    },
+    [
+      beginViewNewCommentsEvent,
+      story.id,
+      keyboardShortcutsConfig,
+      viewMore,
+      setViewMoreLoading,
+    ]
+  );
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
   // TODO: extract to separate function
@@ -363,13 +421,14 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           onChangeRating={onChangeRating}
         />
       )}
+      {live && <div ref={intersectionRef}></div>}
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
             id="comments-allComments-viewNewButton"
             variant="outlined"
             color="primary"
-            onClick={onViewMore}
+            onClick={() => onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
             disabled={viewMoreLoading}
             aria-controls="comments-allComments-log"
@@ -408,6 +467,37 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         aria-live="off"
         spacing={commentSeenEnabled ? 0 : undefined}
       >
+        {!!viewer && showCommentRefreshButton && (
+          <div className={refreshButtonStyles}>
+            <Flex className={styles.flexContainer} alignItems="center">
+              <div className={styles.refreshButtonContainer}>
+                <Button
+                  variant="filled"
+                  color="primary"
+                  className={styles.refreshButton}
+                  onClick={handleClickRefreshButton}
+                >
+                  <ButtonIcon>refresh</ButtonIcon>
+                  Refresh comments
+                </Button>
+              </div>
+              <div className={styles.closeContainer}>
+                <Localized
+                  id="comments-mobileToolbar-closeButton"
+                  attrs={{ "aria-label": true }}
+                >
+                  <Button
+                    onClick={handleClickCloseRefreshButton}
+                    aria-label="Close"
+                    className={styles.closeButton}
+                  >
+                    <ButtonIcon>close</ButtonIcon>
+                  </Button>
+                </Localized>
+              </div>
+            </Flex>
+          </div>
+        )}
         {story.comments.edges.length <= 0 && (
           <NoComments
             mode={story.settings.mode}
@@ -479,6 +569,7 @@ const enhanced = withPaginationContainer<
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         tag: { type: "TAG" }
         ratingFilter: { type: "Int" }
+        refreshStream: { type: "Boolean" }
       ) {
         id
         isClosed
@@ -502,6 +593,7 @@ const enhanced = withPaginationContainer<
           orderBy: $orderBy
           tag: $tag
           rating: $ratingFilter
+          refreshStream: $refreshStream
         ) @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
@@ -526,6 +618,7 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
+                @arguments(refreshStream: $refreshStream)
             }
           }
           edges {
@@ -550,6 +643,7 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
+                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -595,7 +689,7 @@ const enhanced = withPaginationContainer<
       return story && story.comments;
     },
     getVariables(
-      { story, flattenReplies },
+      { story, flattenReplies, refreshStream },
       { count, cursor },
       fragmentVariables
     ) {
@@ -609,6 +703,7 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: story.id,
         flattenReplies,
+        refreshStream,
       };
     },
     query: graphql`
@@ -622,6 +717,7 @@ const enhanced = withPaginationContainer<
         $tag: TAG
         $flattenReplies: Boolean!
         $ratingFilter: Int
+        $refreshStream: Boolean
       ) {
         story(id: $storyID) {
           ...AllCommentsTabContainer_story
@@ -631,6 +727,7 @@ const enhanced = withPaginationContainer<
               orderBy: $orderBy
               tag: $tag
               ratingFilter: $ratingFilter
+              refreshStream: $refreshStream
             )
         }
       }

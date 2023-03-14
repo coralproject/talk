@@ -808,7 +808,8 @@ const enhanced = withShowAuthPopupMutation(
       }
     `,
     story: graphql`
-      fragment CommentContainer_story on Story {
+      fragment CommentContainer_story on Story
+      @argumentDefinitions(refreshStream: { type: "Boolean" }) {
         id
         url
         isClosed
@@ -826,7 +827,8 @@ const enhanced = withShowAuthPopupMutation(
       }
     `,
     comment: graphql`
-      fragment CommentContainer_comment on Comment {
+      fragment CommentContainer_comment on Comment
+      @argumentDefinitions(refreshStream: { type: "Boolean" }) {
         id
         author {
           id

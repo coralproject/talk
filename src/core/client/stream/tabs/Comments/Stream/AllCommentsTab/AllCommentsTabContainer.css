@@ -1,3 +1,41 @@
 .borderedFooter {
   border-top: 1px solid var(--palette-grey-300);
 }
+
+.refreshContainer {
+  position: absolute;
+  z-index: 999999;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.refreshContainerFixed {
+  position: fixed;
+  z-index: 999999;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.refreshButtonContainer {
+  border-right: none;
+}
+
+.refreshButton {
+  border-radius: 8px 0 0 8px;
+  border-width: 0;
+}
+
+.closeContainer {
+  flex-shrink: 0;
+}
+
+.closeButton {
+  border-radius: 0 8px 8px 0;
+  border-width: 0;
+}
+
+.flexContainer {
+  height: 100%;
+}

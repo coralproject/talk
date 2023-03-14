@@ -35,6 +35,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
         settings={props.settings}
         comment={props.comment}
         story={props.story}
+        refreshStream={true}
       />
     );
   }
@@ -54,6 +55,7 @@ const PermalinkViewQuery: FunctionComponent = () => {
         storyID
         storyURL
         commentID
+        refreshStream
       }
     `);
   return (
