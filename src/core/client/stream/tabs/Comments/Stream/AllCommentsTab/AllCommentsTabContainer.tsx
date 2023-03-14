@@ -15,6 +15,10 @@ import {
   useInView,
 } from "coral-framework/lib/intersection";
 import {
+  CONNECTION_STATUS,
+  useSubscriptionConnectionStatus,
+} from "coral-framework/lib/network";
+import {
   useLoadMore,
   useLocal,
   useMutation,
@@ -114,15 +118,21 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const [subscriptionReconnections, setSubscriptionReconnections] = useState(0);
   const [showCommentRefreshButton, setShowCommentRefreshButton] =
     useState(false);
-  const [commentRefreshButtonDismissed, setCommentRefreshButtonDismissed] =
-    useState(false);
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
+  const reconnecting = useSubscriptionConnectionStatus();
+
   const incrementReconnections = useCallback(() => {
     setSubscriptionReconnections(subscriptionReconnections + 1);
   }, [subscriptionReconnections, setSubscriptionReconnections]);
+
+  useEffect(() => {
+    if (reconnecting === CONNECTION_STATUS.CONNECTED) {
+      incrementReconnections();
+    }
+  }, [reconnecting]);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
@@ -157,7 +167,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       storyConnectionKey: "Stream_comments",
       tag,
     });
-    incrementReconnections();
 
     const commentEditedDisposable = subscribeToCommentEdited({
       storyID: story.id,
@@ -174,6 +183,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     subscribeToCommentEntered,
     subscribeToCommentEdited,
     tag,
+    hasMore,
   ]);
 
   const { inView, intersectionRef } = useInView();
@@ -193,19 +203,19 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   }, [inView]);
 
   useEffect(() => {
-    if (subscriptionReconnections > 1 && !commentRefreshButtonDismissed) {
+    if (subscriptionReconnections > 1) {
       setShowCommentRefreshButton(true);
     }
-  }, [subscriptionReconnections, commentRefreshButtonDismissed]);
+  }, [subscriptionReconnections]);
 
   const handleClickCloseRefreshButton = useCallback(() => {
-    setCommentRefreshButtonDismissed(true);
     setShowCommentRefreshButton(false);
-  }, [setCommentRefreshButtonDismissed, setShowCommentRefreshButton]);
+  }, [setShowCommentRefreshButton]);
 
   const handleClickRefreshButton = useCallback(async () => {
+    setShowCommentRefreshButton(false);
     setLocal({ refreshStream: !refreshStream });
-  }, [refreshStream]);
+  }, [refreshStream, setShowCommentRefreshButton]);
 
   const onChangeRating = useCallback(
     (rating: number | null) => {
@@ -252,39 +262,36 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const markAsSeen = useMutation(MarkCommentsAsSeenMutation);
   const [viewMoreLoading, setViewMoreLoading] = useState(false);
-  const onViewMore = useCallback(
-    async (markSeenOverride?: boolean) => {
-      setViewMoreLoading(true);
-      const viewNewCommentsEvent = beginViewNewCommentsEvent({
-        storyID: story.id,
-        keyboardShortcutsConfig,
-      });
-      try {
-        await viewMore({
-          storyID: story.id,
-          markSeen: markSeenOverride ?? !!viewer,
-          viewerID: viewer?.id,
-          markAsSeen,
-        });
-        viewNewCommentsEvent.success();
-        setViewMoreLoading(false);
-      } catch (error) {
-        viewNewCommentsEvent.error({
-          message: error.message,
-          code: error.code,
-        });
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    },
-    [
-      beginViewNewCommentsEvent,
-      story.id,
+  const onViewMore = useCallback(async () => {
+    setViewMoreLoading(true);
+    const viewNewCommentsEvent = beginViewNewCommentsEvent({
+      storyID: story.id,
       keyboardShortcutsConfig,
-      viewMore,
-      setViewMoreLoading,
-    ]
-  );
+    });
+    try {
+      await viewMore({
+        storyID: story.id,
+        markSeen: !!viewer,
+        viewerID: viewer?.id,
+        markAsSeen,
+      });
+      viewNewCommentsEvent.success();
+      setViewMoreLoading(false);
+    } catch (error) {
+      viewNewCommentsEvent.error({
+        message: error.message,
+        code: error.code,
+      });
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, [
+    beginViewNewCommentsEvent,
+    story.id,
+    keyboardShortcutsConfig,
+    viewMore,
+    setViewMoreLoading,
+  ]);
   const viewNewCount = story.comments.viewNewEdges?.length || 0;
 
   // TODO: extract to separate function
@@ -428,7 +435,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             id="comments-allComments-viewNewButton"
             variant="outlined"
             color="primary"
-            onClick={() => onViewMore}
+            onClick={onViewMore}
             className={CLASSES.allCommentsTabPane.viewNewButton}
             disabled={viewMoreLoading}
             aria-controls="comments-allComments-log"
