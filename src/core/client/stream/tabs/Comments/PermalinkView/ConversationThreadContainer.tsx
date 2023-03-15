@@ -6,6 +6,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
+  useLocal,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -20,6 +21,7 @@ import { ConversationThreadContainer_comment } from "coral-stream/__generated__/
 import { ConversationThreadContainer_settings } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
 import { ConversationThreadContainer_story } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
 import { ConversationThreadContainer_viewer } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
+import { ConversationThreadContainerLocal } from "coral-stream/__generated__/ConversationThreadContainerLocal.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
@@ -43,6 +45,12 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
   settings,
   relay,
 }) => {
+  const [{ refreshStream }] =
+    useLocal<ConversationThreadContainerLocal>(graphql`
+      fragment ConversationThreadContainerLocal on Local {
+        refreshStream
+      }
+    `);
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
   const beginLoadMoreEvent = useViewerNetworkEvent(ShowMoreOfConversationEvent);
   const loadMoreAndEmit = useCallback(async () => {
@@ -62,7 +70,6 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
   if (rootParent) {
     remaining -= 1;
   }
-  const refreshStream = true;
 
   const dataTestID = "comments-permalinkView-conversationThread";
   if (comment.parentCount === 0) {

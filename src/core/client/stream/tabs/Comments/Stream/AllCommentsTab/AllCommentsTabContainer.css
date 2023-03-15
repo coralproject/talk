@@ -8,6 +8,8 @@
   top: 3rem;
   left: 50%;
   transform: translateX(-50%);
+  background-color: var(--palette-primary-500);
+  border-radius: 16px;
 }
 
 .refreshContainerFixed {
@@ -16,23 +18,21 @@
   top: 3rem;
   left: 50%;
   transform: translateX(-50%);
-}
-
-.refreshButtonContainer {
-  border-right: none;
+  background-color: var(--palette-primary-500);
+  border-radius: 16px;
 }
 
 .refreshButton {
-  border-radius: 8px 0 0 8px;
+  border-radius: 16px 0 0 16px;
   border-width: 0;
 }
 
-.closeContainer {
-  flex-shrink: 0;
+.refreshButtonIcon {
+  padding-right: 0.2rem;
 }
 
 .closeButton {
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 16px 16px 0;
   border-width: 0;
 }
 

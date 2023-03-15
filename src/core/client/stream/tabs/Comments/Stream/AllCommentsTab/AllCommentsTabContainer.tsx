@@ -115,7 +115,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     `
   );
 
-  const [subscriptionReconnections, setSubscriptionReconnections] = useState(0);
   const [showCommentRefreshButton, setShowCommentRefreshButton] =
     useState(false);
 
@@ -124,15 +123,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const reconnecting = useSubscriptionConnectionStatus();
 
-  const incrementReconnections = useCallback(() => {
-    setSubscriptionReconnections(subscriptionReconnections + 1);
-  }, [subscriptionReconnections, setSubscriptionReconnections]);
-
   useEffect(() => {
-    if (reconnecting === CONNECTION_STATUS.CONNECTED) {
-      incrementReconnections();
+    if (reconnecting === CONNECTION_STATUS.RECONNECTING) {
+      setShowCommentRefreshButton(true);
     }
-  }, [reconnecting]);
+  }, [reconnecting, setShowCommentRefreshButton]);
 
   const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
@@ -202,20 +197,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     }
   }, [inView]);
 
-  useEffect(() => {
-    if (subscriptionReconnections > 1) {
-      setShowCommentRefreshButton(true);
-    }
-  }, [subscriptionReconnections]);
-
   const handleClickCloseRefreshButton = useCallback(() => {
     setShowCommentRefreshButton(false);
   }, [setShowCommentRefreshButton]);
 
   const handleClickRefreshButton = useCallback(async () => {
-    setShowCommentRefreshButton(false);
     setLocal({ refreshStream: !refreshStream });
-  }, [refreshStream, setShowCommentRefreshButton]);
+  }, [refreshStream]);
 
   const onChangeRating = useCallback(
     (rating: number | null) => {
@@ -477,31 +465,31 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         {!!viewer && showCommentRefreshButton && (
           <div className={refreshButtonStyles}>
             <Flex className={styles.flexContainer} alignItems="center">
-              <div className={styles.refreshButtonContainer}>
+              <Button
+                variant="filled"
+                color="primary"
+                paddingSize="extraSmall"
+                className={styles.refreshButton}
+                onClick={handleClickRefreshButton}
+              >
+                <ButtonIcon className={styles.refreshButtonIcon}>
+                  refresh
+                </ButtonIcon>
+                Refresh comments
+              </Button>
+              <Localized
+                id="comments-mobileToolbar-closeButton"
+                attrs={{ "aria-label": true }}
+              >
                 <Button
-                  variant="filled"
-                  color="primary"
-                  className={styles.refreshButton}
-                  onClick={handleClickRefreshButton}
+                  onClick={handleClickCloseRefreshButton}
+                  aria-label="Close"
+                  className={styles.closeButton}
+                  paddingSize="extraSmall"
                 >
-                  <ButtonIcon>refresh</ButtonIcon>
-                  Refresh comments
+                  <ButtonIcon>close</ButtonIcon>
                 </Button>
-              </div>
-              <div className={styles.closeContainer}>
-                <Localized
-                  id="comments-mobileToolbar-closeButton"
-                  attrs={{ "aria-label": true }}
-                >
-                  <Button
-                    onClick={handleClickCloseRefreshButton}
-                    aria-label="Close"
-                    className={styles.closeButton}
-                  >
-                    <ButtonIcon>close</ButtonIcon>
-                  </Button>
-                </Localized>
-              </div>
+              </Localized>
             </Flex>
           </div>
         )}

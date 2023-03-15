@@ -17,7 +17,10 @@ import { PermalinkViewQueryLocal } from "coral-stream/__generated__/PermalinkVie
 import { useStaticFlattenReplies } from "../helpers";
 import PermalinkViewContainer from "./PermalinkViewContainer";
 
-export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
+export const render = (
+  { error, props }: QueryRenderData<QueryTypes>,
+  refreshStream: boolean | null
+) => {
   if (error) {
     return <QueryError error={error} />;
   }
@@ -35,7 +38,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
         settings={props.settings}
         comment={props.comment}
         story={props.story}
-        refreshStream={true}
+        refreshStream={refreshStream}
       />
     );
   }
@@ -49,7 +52,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 const PermalinkViewQuery: FunctionComponent = () => {
   const handleIncompleteAccount = useHandleIncompleteAccount();
   const flattenReplies = useStaticFlattenReplies();
-  const [{ storyID, storyURL, commentID }] =
+  const [{ storyID, storyURL, commentID, refreshStream }] =
     useLocal<PermalinkViewQueryLocal>(graphql`
       fragment PermalinkViewQueryLocal on Local {
         storyID
@@ -91,7 +94,7 @@ const PermalinkViewQuery: FunctionComponent = () => {
         if (handleIncompleteAccount(data)) {
           return null;
         }
-        return render(data);
+        return render(data, refreshStream);
       }}
     />
   );
