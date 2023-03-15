@@ -40,7 +40,10 @@ const BadgeTagContainer: FunctionComponent<Props> = ({
       )}
       {tags.includes("MEMBER") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.badges.memberLabel}
+          <img
+            src="https://www.telegram.hr/css/badge-check.svg"
+            alt="Pretplatnik"
+          />
         </Tag>
       )}
     </>

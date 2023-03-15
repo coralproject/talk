@@ -88,28 +88,28 @@ comments-bannedInfo-violatedCommunityGuidelines =
   koristiti reakcije ili prijavljivati komentare. Ako mislite da je
   to učinjeno pogrešno, obratite se našem timu zajednice.
 
-comments-noCommentsAtAll = Nema komentara na ovoj vijesti.
-comments-noCommentsYet = Nema komentara na ovoj vijesti. Zašto ne napišete jedan?
+comments-noCommentsAtAll = Još nema komentara na ovoj vijesti.
+comments-noCommentsYet = Još nema komentara na ovoj vijesti. Zašto ne biste napisali jedan?
 
 comments-streamQuery-storyNotFound = Vijest nije pronađena
 
 comments-communityGuidelines-section =
-  .aria-label = Pravidla zajednice
+  .aria-label = Pravila zajednice
 
-comments-commentForm-cancel = Otkaži
-comments-commentForm-saveChanges = Spremi promjene
-comments-commentForm-submit = Pošalji
+comments-commentForm-cancel = Otkažite
+comments-commentForm-saveChanges = Spremite promjene
+comments-commentForm-submit = Objavite
 
 comments-postCommentForm-section =
   .aria-label = Objavi komentar
-comments-postCommentForm-submit = Pošalji
-comments-replyList-showAll = Prikaži sve
-comments-replyList-showMoreReplies = Prikaži više komentara
+comments-postCommentForm-submit = Objavite
+comments-replyList-showAll = Prikažite sve
+comments-replyList-showMoreReplies = Prikažite više komentara
 
 comments-postComment-gifSearch = Potraži GIF
 comments-postComment-gifSearch-search =
   .aria-label = Traži
-comments-postComment-gifSearch-loading = Ućitavanje...
+comments-postComment-gifSearch-loading = Učitavanje...
 comments-postComment-gifSearch-no-results = Nema rezultata za {$query}
 comments-postComment-gifSearch-powered-by-giphy =
   .alt = Powered by giphy
@@ -187,7 +187,7 @@ comments-replyButton =
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
-comments-replyCommentForm-submit = Pošaljite
+comments-replyCommentForm-submit = Objavite
 comments-replyCommentForm-cancel = Otkaži
 comments-replyCommentForm-rteLabel = Napišite odgovor
 comments-replyCommentForm-rte =
@@ -224,7 +224,7 @@ comments-permalinkView-currentViewing =
 comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
   Trenutno pregledavate jednu raspravu
-comments-inReplyTo = U odgovoru <Username></Username>
+comments-inReplyTo = Rasprava <Username></Username>
 comments-replyingTo = Odgovarate <Username></Username>
 
 comments-reportButton-report = Prijavite
