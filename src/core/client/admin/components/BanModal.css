@@ -15,3 +15,19 @@ $ban-modal-text: var(--palette-text-500);
 .sitesToggle {
   margin-bottom: var(--spacing-3);
 }
+
+.banFrom {
+  margin-bottom: var(--spacing-1);
+
+}
+
+.customizeMessage {
+  color: -var(--palette-grey-800);
+}
+.toggleButton {
+
+}
+
+.toggleIcon {
+
+}

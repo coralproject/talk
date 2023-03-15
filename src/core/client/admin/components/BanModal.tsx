@@ -15,6 +15,7 @@ import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
+  ButtonIcon,
   CheckBox,
   Flex,
   FormField,
@@ -37,6 +38,7 @@ import ChangeStatusModal from "./UserStatus/ChangeStatusModal";
 import { getTextForUpdateType } from "./UserStatus/helpers";
 import UserStatusSitesList, { Scopes } from "./UserStatus/UserStatusSitesList";
 
+import { header4 } from "coral-ui/components/v2/Typography/Typography.css";
 import styles from "./BanModal.css";
 
 export enum UpdateType {
@@ -291,70 +293,13 @@ const BanModal: FunctionComponent<Props> = ({
           <Form onSubmit={onFormSubmit}>
             {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
-                <HorizontalGutter spacing={3}>
-                  {updateType !== UpdateType.NO_SITES && (
-                    <Localized
-                      id={
-                        viewerIsSingleSiteMod
-                          ? "community-banModal-reject-existing-singleSite"
-                          : rejectExistingCommentsLocalizationId!
-                      }
-                    >
-                      <CheckBox
-                        id="banModal-rejectExisting"
-                        checked={rejectExistingComments}
-                        onChange={(event) =>
-                          setRejectExistingComments(event.target.checked)
-                        }
-                      >
-                        {viewerIsSingleSiteMod
-                          ? "Reject all comments on this site"
-                          : rejectExistingCommentsMessage}
-                      </CheckBox>
-                    </Localized>
-                  )}
-                  {updateType !== UpdateType.NO_SITES &&
-                    emailDomain &&
-                    !domainIsConfigured && (
-                      <Localized
-                        id="community-banModal-banEmailDomain"
-                        vars={{ domain: emailDomain }}
-                      >
-                        <CheckBox
-                          onChange={({ target }) => {
-                            setBanDomain(target.checked);
-                          }}
-                        >
-                          Ban all new accounts on <strong>{emailDomain}</strong>
-                        </CheckBox>
-                      </Localized>
-                    )}
-                  {updateType !== UpdateType.NO_SITES && (
-                    <Localized id="community-banModal-customize">
-                      <CheckBox
-                        checked={customizeMessage}
-                        onChange={(event) =>
-                          setCustomizeMessage(event.target.checked)
-                        }
-                      >
-                        Customize ban email message
-                      </CheckBox>
-                    </Localized>
-                  )}
-                  {updateType !== UpdateType.NO_SITES && customizeMessage && (
-                    <Textarea
-                      id="banModal-message"
-                      className={styles.textArea}
-                      fullwidth
-                      value={emailMessage}
-                      onChange={(event) => setEmailMessage(event.target.value)}
-                    />
-                  )}
-                  {(viewerIsAdmin ||
-                    viewerIsOrgAdmin ||
-                    (viewerIsScoped && !viewerIsSingleSiteMod)) &&
-                    isMultisite && (
-                      <Flex className={styles.sitesToggle} spacing={5}>
+                <h4 className={header4}>Ban From</h4>
+                {(viewerIsAdmin ||
+                  viewerIsOrgAdmin ||
+                  (viewerIsScoped && !viewerIsSingleSiteMod)) &&
+                  isMultisite && (
+                    <Flex direction="column" className={styles.sitesToggle}>
+                      <Flex spacing={5}>
                         {!(userRole === GQLUSER_ROLE.MODERATOR) && (
                           <FormField>
                             <Localized id="community-banModal-allSites">
@@ -397,8 +342,79 @@ const BanModal: FunctionComponent<Props> = ({
                           </FormField>
                         )}
                       </Flex>
-                    )}
+                      <Flex>
+                        {updateType !== UpdateType.NO_SITES && (
+                          <Localized
+                            id={
+                              viewerIsSingleSiteMod
+                                ? "community-banModal-reject-existing-singleSite"
+                                : rejectExistingCommentsLocalizationId!
+                            }
+                          >
+                            <CheckBox
+                              id="banModal-rejectExisting"
+                              checked={rejectExistingComments}
+                              onChange={(event) =>
+                                setRejectExistingComments(event.target.checked)
+                              }
+                            >
+                              {viewerIsSingleSiteMod
+                                ? "Reject all comments on this site"
+                                : rejectExistingCommentsMessage}
+                            </CheckBox>
+                          </Localized>
+                        )}
+                      </Flex>
+                    </Flex>
+                  )}
 
+                <HorizontalGutter spacing={1}>
+                  {updateType !== UpdateType.NO_SITES &&
+                    emailDomain &&
+                    !domainIsConfigured && (
+                      <HorizontalGutter spacing={3}>
+                        <h4 className={styles.banFrom}>Email domain ban</h4>
+                        <Localized
+                          id="community-banModal-banEmailDomain"
+                          vars={{ domain: emailDomain }}
+                        >
+                          <CheckBox
+                            onChange={({ target }) => {
+                              setBanDomain(target.checked);
+                            }}
+                          >
+                            Ban all new accounts on{" "}
+                            <strong>{emailDomain}</strong>
+                          </CheckBox>
+                        </Localized>
+                      </HorizontalGutter>
+                    )}
+                  {updateType !== UpdateType.NO_SITES && (
+                    <Button
+                      className={styles.customizeMessage}
+                      variant="text"
+                      color="mono"
+                      onClick={(event) =>
+                        setCustomizeMessage(!customizeMessage)
+                      }
+                    >
+                      <Localized id="community-banModal-customize">
+                        Customize ban email message{" "}
+                      </Localized>
+                      <ButtonIcon size="lg" className={styles.toggleIcon}>
+                        {customizeMessage ? "arrow_drop_up" : "arrow_drop_down"}
+                      </ButtonIcon>
+                    </Button>
+                  )}
+                  {updateType !== UpdateType.NO_SITES && customizeMessage && (
+                    <Textarea
+                      id="banModal-message"
+                      className={styles.textArea}
+                      fullwidth
+                      value={emailMessage}
+                      onChange={(event) => setEmailMessage(event.target.value)}
+                    />
+                  )}
                   {(viewerIsSingleSiteMod ||
                     (isMultisite &&
                       updateType === UpdateType.SPECIFIC_SITES)) && (
