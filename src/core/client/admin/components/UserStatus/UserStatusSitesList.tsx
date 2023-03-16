@@ -10,8 +10,6 @@ import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
 
-import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
-
 import { dedupe } from "./helpers";
 import UserStatusSitesListSelectedSiteQuery from "./UserStatusSitesListSelectedSiteQuery";
 
@@ -23,8 +21,7 @@ interface ScopeSite {
 }
 
 export interface Scopes {
-  role: USER_ROLE;
-  sites?: ScopeSite[] | null;
+  sites?: Readonly<Readonly<ScopeSite>[]> | null;
 }
 
 export interface UserBanStatus {
@@ -36,7 +33,7 @@ interface Props {
   readonly userBanStatus?: UserBanStatus;
   banState: [string[], (siteIDs: string[]) => void];
   unbanState: [string[], (siteIDs: string[]) => void];
-  viewerScopes: Scopes;
+  viewerScopes: Scopes | null;
 }
 
 const UserStatusSitesList: FunctionComponent<Props> = ({
@@ -45,10 +42,10 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
   banState: [banSiteIDs, setBanSiteIDs],
   unbanState: [unbanSiteIDs, setUnbanSiteIDs],
 }) => {
-  const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
+  const viewerIsScoped = !!viewerScopes?.sites && viewerScopes.sites.length > 0;
   const viewerScopesSiteIDs = useMemo(() => {
-    return viewerScopes.sites?.map((site) => site.id);
-  }, [viewerScopes.sites]);
+    return viewerScopes?.sites?.map((site) => site.id);
+  }, [viewerScopes?.sites]);
 
   const initiallyBanned = useCallback(
     (siteID: string) => !!userBanStatus?.sites?.some(({ id }) => id === siteID),
@@ -62,7 +59,7 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
       .concat(unbanSiteIDs);
 
     if (viewerIsScoped) {
-      all = all.concat(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
+      all = all.concat(viewerScopes!.sites!.map((scopeSite) => scopeSite.id));
     }
 
     return dedupe(all);
