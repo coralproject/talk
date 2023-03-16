@@ -465,20 +465,29 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         {!!viewer && showCommentRefreshButton && (
           <div className={refreshButtonStyles}>
             <Flex className={styles.flexContainer} alignItems="center">
-              <Button
-                variant="filled"
-                color="primary"
-                paddingSize="extraSmall"
-                className={styles.refreshButton}
-                onClick={handleClickRefreshButton}
-              >
-                <ButtonIcon className={styles.refreshButtonIcon}>
-                  refresh
-                </ButtonIcon>
-                Refresh comments
-              </Button>
+              <Flex alignItems="baseline">
+                <Localized
+                  id="comments-refreshComments-refreshButton"
+                  attrs={{ "aria-label": true }}
+                >
+                  <Button
+                    aria-label="Refresh comments"
+                    variant="filled"
+                    color="primary"
+                    paddingSize="extraSmall"
+                    className={styles.refreshButton}
+                    onClick={handleClickRefreshButton}
+                  >
+                    <ButtonIcon className={styles.refreshButtonIcon}>
+                      refresh
+                    </ButtonIcon>
+                    Refresh comments
+                  </Button>
+                </Localized>
+                <div className={styles.divider}>|</div>
+              </Flex>
               <Localized
-                id="comments-mobileToolbar-closeButton"
+                id="comments-refreshComments-closeButton"
                 attrs={{ "aria-label": true }}
               >
                 <Button
