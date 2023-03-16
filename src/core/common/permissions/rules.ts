@@ -6,7 +6,7 @@ import {
 } from "./types";
 // admins can do whatever they want to anyone except other admins
 const adminsArePowerful: PermissionsActionRuleTest = ({ viewer, user }) => ({
-  applies: viewer.role === "ADMIN" && user.role !== "ADMIN",
+  applies: viewer.role === "ADMIN",
   reason: "Admins may change any non admin's role or scopes",
 });
 
