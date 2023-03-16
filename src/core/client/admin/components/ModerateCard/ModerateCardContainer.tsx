@@ -359,10 +359,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           open={showBanModal}
           onClose={handleBanModalClose}
           onConfirm={handleBanConfirm}
-          viewerScopes={{
-            role: viewer.role,
-            sites: viewer.moderationScopes?.sites?.map((s) => s),
-          }}
+          viewer={viewer}
           emailDomainModeration={settings.emailDomainModeration}
           userBanStatus={comment.author.status.ban}
           userEmail={comment.author.email}
@@ -480,6 +477,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment ModerateCardContainer_viewer on User {
+      id
       role
       moderationScopes {
         scoped
