@@ -458,7 +458,7 @@ profile-profileQuery-errorLoadingProfile = Greška pri učitavanju profila
 profile-profileQuery-storyNotFound = Objava nije pronađena
 profile-commentHistory-loadMore = Učitajte više
 profile-commentHistory-empty = Niste ostavili komentare.
-profile-commentHistory-empty-subheading = Poviješću komentara možete pratiti svoje komentare.
+profile-commentHistory-empty-subheading = Ovdje možete pratiti sve svoje komentare
 
 profile-commentHistory-archived-thisIsAllYourComments =
   Ovo su svi vaši komentari of prije { $value } { $unit ->
@@ -747,14 +747,14 @@ profile-changeUsername-close = Close
 
 ## Discussions tab
 
-discussions-mostActiveDiscussions = Most active discussions
-discussions-mostActiveDiscussions-subhead = Ranked by the most comments received over the last 24 hours on { $siteName }
-discussions-mostActiveDiscussions-empty = You haven’t participated in any discussions
-discussions-myOngoingDiscussions = My ongoing discussions
-discussions-myOngoingDiscussions-subhead = Where you’ve commented across { $orgName }
-discussions-viewFullHistory = View full comment history
-discussions-discussionsQuery-errorLoadingProfile = Error loading profile
-discussions-discussionsQuery-storyNotFound = Story not found
+discussions-mostActiveDiscussions = Najaktivnije rasprave
+discussions-mostActiveDiscussions-subhead = Sortirano po najviše komentara primljenih u posljednjih 24 sata na { $siteName }
+discussions-mostActiveDiscussions-empty = Niste sudjelovali u nijednoj raspravi
+discussions-myOngoingDiscussions = Moje aktivne rasprave
+discussions-myOngoingDiscussions-subhead = Gdje ste komentirali na { $orgName }
+discussions-viewFullHistory = Vidi cijelu povijest komentara
+discussions-discussionsQuery-errorLoadingProfile = Greška pri učitavanju profila
+discussions-discussionsQuery-storyNotFound = Objava nije pronađena
 
 ## Comment Stream
 configure-stream-title =
@@ -871,26 +871,26 @@ comments-tombstone-rejected =
 
 suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
-  Your account has been temporarily suspended from commenting
+  Vaš račun je privremeno suspendiran od komentiranja
 suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
-  In accordance with { $organization }'s community guidelines your
-  account has been temporarily suspended. While suspended you will not
-  be able to comment, use reactions or report comments.
+  Sukladno pravilima { $organization } zajednice vaš račun je privremeno suspendiran.
+  Dok je suspendiran nećete moći komentirati, koristiti reakcije
+  ili prijavljivati komentare.
 suspendInfo-until-pleaseRejoinThe =
-  Please rejoin the conversation on { $until }
+  Molimo da se ponovo uključite u raspravu { $until }
 
-warning-heading = Your account has been issued a warning
+warning-heading = Vašem računu je izdano upozorenje
 warning-explanation =
-  In accordance with our community guidelines your account has been issued a warning.
+  Sukladno našim pravilima zajednice vaš račun je izdano upozorenje.
 warning-instructions =
-  To continue participating in discussions, please press the "Acknowledge" button below.
-warning-acknowledge = Acknowledge
+  Kako biste nastavili sudjelovati u raspravama, molimo pritisnite gumb "Potvrdi" ispod.
+warning-acknowledge = Potvrdi
 
-warning-notice = Your account has been issued a warning. To continue participating please <a>review the warning message</a>.
+warning-notice = Vašem računu je izdano upozorenje. Kako biste nastavili sudjelovati u raspravama, molimo <a>pregledajte upozorenje</a>.
 
-modMessage-heading = Your account has been sent a message by a moderator
-modMessage-acknowledge = Acknowledge
+modMessage-heading = Dobili ste poruku od moderatora
+modMessage-acknowledge = Potvrdi
 
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)
