@@ -1,4 +1,5 @@
 import {
+  isOrgModerator,
   isSiteMember,
   isSiteModerator,
   PermissionsActionPredicate,
@@ -35,15 +36,18 @@ const onlyAdminsCanDemoteStaffDirectly: PermissionsActionPredicate = ({
  * remove scopes the viewer does not posses.
  */
 const scopedUsersCantIndirectlyRemoveScopesTheyDontPosses: PermissionsActionPredicate =
-  ({ viewer, user, newUserRole }) => {
+  ({ viewer, user, newUserRole, scoped }) => {
     const reason =
       "This role change would remove scopes outside of the viewers authorization";
 
     const changingAwayFromCurrentScopedRole =
-      (isSiteModerator(user) && !!newUserRole && newUserRole !== "MODERATOR") ||
-      (isSiteMember(user) && !!newUserRole && newUserRole !== "MEMBER");
+      (isSiteModerator(user) || isSiteMember(user)) && !scoped;
 
-    if (!isSiteModerator(viewer) || !changingAwayFromCurrentScopedRole) {
+    if (
+      viewer.role === "ADMIN" ||
+      isOrgModerator(viewer) ||
+      !changingAwayFromCurrentScopedRole
+    ) {
       return {
         pass: true,
         reason,

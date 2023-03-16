@@ -13,6 +13,7 @@ import {
   isSiteModerationScoped,
   validatePermissionsAction,
 } from "coral-common/permissions";
+import { PermissionsAction } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
@@ -784,7 +785,7 @@ export async function updateRole(
   viewer: Pick<User, "id">,
   userID: string,
   role: GQLUSER_ROLE,
-  siteIDs?: string[]
+  scoped: boolean
 ) {
   const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
   const user = await retrieveUser(mongo, tenant.id, userID);
@@ -795,11 +796,19 @@ export async function updateRole(
     throw new UserNotFoundError(userID);
   }
 
-  const action = {
+  if (
+    role !== GQLUSER_ROLE.MODERATOR &&
+    role !== GQLUSER_ROLE.MEMBER &&
+    scoped
+  ) {
+    throw new Error(`${role} cannot be scoped`);
+  }
+
+  const action: PermissionsAction = {
     viewer: fullViewer,
     user,
     newUserRole: role,
-    scopeAdditions: siteIDs,
+    scoped,
   };
 
   const validUpdate = validatePermissionsAction(action);
@@ -816,7 +825,7 @@ export async function updateRole(
 
   await Promise.all(sideEffects.map((se) => se(mongo, tenant.id)));
 
-  return updateUserRole(mongo, tenant.id, userID, role, siteIDs);
+  return updateUserRole(mongo, tenant.id, userID, role, scoped);
 }
 
 export async function promoteModerator(
@@ -826,6 +835,11 @@ export async function promoteModerator(
   userID: string,
   siteIDs: string[]
 ) {
+  // TODO: make sure this logic is represented
+  // scopeAdditions: siteIDs,
+  //   scopeDeletions: relevantScopes?.siteIDs?.filter(
+  //     (id) => !siteIDs?.includes(id)
+  //   ),
   if (viewer.id === userID) {
     throw new Error("cannot promote yourself");
   }
@@ -858,7 +872,7 @@ export async function promoteModerator(
     user.role === GQLUSER_ROLE.MODERATOR &&
     !isSiteModerationScoped(user.moderationScopes)
   ) {
-    throw new Error("user can't be an organization moderator");
+    throw new Error("User is already an organization moderator");
   }
 
   // Merge the site moderation scopes.
@@ -875,7 +889,8 @@ export async function promoteModerator(
       mongo,
       tenant.id,
       user.id,
-      GQLUSER_ROLE.MODERATOR
+      GQLUSER_ROLE.MODERATOR,
+      true
     );
   }
 
@@ -939,7 +954,8 @@ export async function demoteModerator(
       mongo,
       tenant.id,
       user.id,
-      GQLUSER_ROLE.COMMENTER
+      GQLUSER_ROLE.COMMENTER,
+      false
     );
   }
 
@@ -1001,7 +1017,8 @@ export async function promoteMember(
       mongo,
       tenant.id,
       updated.id,
-      GQLUSER_ROLE.MEMBER
+      GQLUSER_ROLE.MEMBER,
+      true
     );
   }
 
@@ -1034,7 +1051,8 @@ export async function demoteMember(
       mongo,
       tenant.id,
       updated.id,
-      GQLUSER_ROLE.COMMENTER
+      GQLUSER_ROLE.COMMENTER,
+      false
     );
   }
 
@@ -1062,6 +1080,11 @@ export async function updateModerationScopes(
 
   if (!moderationScopes.siteIDs) {
     throw new Error("no sites specified in the moderation scopes");
+  }
+
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!isSiteModerationScoped(user?.moderationScopes)) {
+    throw new Error("User is not moderation scoped");
   }
 
   const sites = await retrieveManySites(

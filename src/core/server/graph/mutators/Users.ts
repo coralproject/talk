@@ -254,7 +254,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!,
       input.userID,
       input.role,
-      input.siteIDs
+      input.scoped
     ),
   promoteModerator: async (input: GQLPromoteModeratorInput) =>
     promoteModerator(

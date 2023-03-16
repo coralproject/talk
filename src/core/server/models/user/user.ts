@@ -447,6 +447,7 @@ export interface UserCommentCounts {
 }
 
 export interface UserModerationScopes {
+  scoped: boolean;
   /**
    * siteIDs is the array of site ID's that this User can moderate. If not
    * provided the user can moderate all sites.
@@ -455,6 +456,11 @@ export interface UserModerationScopes {
 }
 
 export interface UserMembershipScopes {
+  /**
+   * scoped is whether or not the user's membership is limited to specific sites.
+   */
+  scoped: boolean;
+
   /**
    * siteIDs is the array of ID's for sites on which this user is a member.
    * If not present (and user has role of MEMBER), user is a member on all sites.
@@ -878,13 +884,11 @@ export async function updateUserRole(
   tenantID: string,
   id: string,
   role: GQLUSER_ROLE,
-  siteIDs?: string[]
+  scoped: boolean
 ) {
   const update: Partial<User> = { role };
-  if (siteIDs?.length) {
-    const scopes = {
-      siteIDs,
-    };
+  const scopes = { scoped };
+  if (scoped) {
     if (role === GQLUSER_ROLE.MODERATOR) {
       update.moderationScopes = scopes;
     } else if (role === GQLUSER_ROLE.MEMBER) {
@@ -892,6 +896,12 @@ export async function updateUserRole(
     } else {
       throw new Error(`Site scopes may not be applied to role ${role}`);
     }
+  } else {
+    // This may seem odd, but is a result of us
+    // storing scopes for multiple roles when a user
+    // can only have a single role at a time
+    update.moderationScopes = scopes;
+    update.membershipScopes = scopes;
   }
 
   const result = await mongo.users().findOneAndUpdate(
@@ -955,6 +965,7 @@ export async function pullUserSiteModerationScopes(
       returnOriginal: false,
     }
   );
+
   if (!result.value) {
     throw new UserNotFoundError(id);
   }

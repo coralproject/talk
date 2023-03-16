@@ -32,6 +32,7 @@ const site1Mod = createUserFixture({
   tenantID,
   role: GQLUSER_ROLE.MODERATOR,
   moderationScopes: {
+    scoped: true,
     siteIDs: [site1.id],
   },
 });
@@ -43,6 +44,7 @@ const site1Staff = createUserFixture({
   tenantID,
   role: GQLUSER_ROLE.STAFF,
   moderationScopes: {
+    scoped: true,
     siteIDs: [site1.id],
   },
 });
@@ -54,6 +56,7 @@ const site1Member = createUserFixture({
   tenantID,
   role: GQLUSER_ROLE.MEMBER,
   membershipScopes: {
+    scoped: true,
     siteIDs: [site1.id],
   },
 });
@@ -97,18 +100,14 @@ describe("updateRole", () => {
       _tenantID: any,
       userID: string,
       role: GQLUSER_ROLE,
-      siteIDs?: string[]
+      scoped: boolean
     ) => ({
       ...users.find(({ id }) => id === userID),
       role,
       moderationScopes:
-        role === GQLUSER_ROLE.MODERATOR && siteIDs
-          ? { scoped: !!siteIDs.length, siteIDs }
-          : undefined,
+        role === GQLUSER_ROLE.MODERATOR && scoped ? { scoped } : undefined,
       membershipScopes:
-        role === GQLUSER_ROLE.MEMBER && siteIDs
-          ? { scoped: !!siteIDs.length, siteIDs }
-          : undefined,
+        role === GQLUSER_ROLE.MEMBER && scoped ? { scoped } : undefined,
     })
   );
 
@@ -118,7 +117,7 @@ describe("updateRole", () => {
     viewer: User,
     user: User,
     role: GQLUSER_ROLE,
-    siteIDs?: string[]
+    scoped?: boolean
   ) => ReturnType<typeof updateRole>;
 
   const exhaustiveInputs = new Map<string, boolean>();
@@ -126,11 +125,11 @@ describe("updateRole", () => {
     ({ ctx: mongo } = createMockMongoContex());
 
     // Wrapping our function to track what inputs have been tested
-    uut = (mongoCtx, tenant, viewer, user, role, siteIDs) => {
+    uut = (mongoCtx, tenant, viewer, user, role, scoped = false) => {
       const inputHash = inputStr(viewer.role, user.role, role);
       exhaustiveInputs.set(inputHash, true);
 
-      return updateRole(mongo, tenant, viewer, user.id, role, siteIDs);
+      return updateRole(mongo, tenant, viewer, user.id, role, scoped);
     };
 
     for (const viewer of users) {
@@ -166,7 +165,7 @@ describe("updateRole", () => {
         orgMod,
         user,
         GQLUSER_ROLE.MODERATOR,
-        [site1.id]
+        true
       );
 
       expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
@@ -197,10 +196,12 @@ describe("updateRole", () => {
         site1Mod,
         user,
         GQLUSER_ROLE.MODERATOR,
-        [site1.id]
+        true
       );
+      /* eslint-disable */
+      console.log("TEST RES", res);
       expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
-      expect(res.moderationScopes?.siteIDs).toContain(site1.id);
+      expect(res.moderationScopes?.scoped).toBeTruthy();
     }
   });
 
@@ -211,10 +212,10 @@ describe("updateRole", () => {
       site1Mod,
       site1Commenter,
       GQLUSER_ROLE.MEMBER,
-      [site1.id]
+      true
     );
     expect(res.role).toEqual(GQLUSER_ROLE.MEMBER);
-    expect(res.membershipScopes?.siteIDs).toContain(site1.id);
+    expect(res.membershipScopes?.scoped).toBeTruthy();
   });
 
   it("allows org mods to demote members to commenters", async () => {
