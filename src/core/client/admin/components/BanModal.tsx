@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import React, {
   FunctionComponent,
@@ -293,56 +294,220 @@ const BanModal: FunctionComponent<Props> = ({
           <Form onSubmit={onFormSubmit}>
             {({ handleSubmit, submitError }) => (
               <form onSubmit={handleSubmit}>
-                <h4 className={header4}>Ban From</h4>
-                {(viewerIsAdmin ||
-                  viewerIsOrgAdmin ||
-                  (viewerIsScoped && !viewerIsSingleSiteMod)) &&
-                  isMultisite && (
-                    <Flex direction="column" className={styles.sitesToggle}>
-                      <Flex spacing={5}>
-                        {!(userRole === GQLUSER_ROLE.MODERATOR) && (
+                {/* MAIN */}
+                <Flex direction="column" className={styles.form} justifyContent="flex-start">
+                  {/* BAN FROM/REJECT COMMENTS */}
+                  <Flex direction="column">
+                    {/* ban from header */}
+                    <h4 className={styles.banFromHeader}>Ban From</h4>
+                    <Flex direction="row" className={styles.sitesOptions} justifyContent="flex-start">
+                      {/* sites options */}
+                      {!(userRole === GQLUSER_ROLE.MODERATOR) && (
+                            <FormField>
+                              <Localized id="community-banModal-allSites">
+                                <RadioButton
+                                  checked={updateType === UpdateType.ALL_SITES}
+                                  onChange={() =>
+                                    setUpdateType(UpdateType.ALL_SITES)
+                                  }
+                                  disabled={userBanStatus?.active}
+                                >
+                                  All sites
+                                </RadioButton>
+                              </Localized>
+                            </FormField>
+                          )}
                           <FormField>
-                            <Localized id="community-banModal-allSites">
+                            <Localized id="community-banModal-specificSites">
                               <RadioButton
-                                checked={updateType === UpdateType.ALL_SITES}
-                                onChange={() =>
-                                  setUpdateType(UpdateType.ALL_SITES)
+                                checked={
+                                  updateType === UpdateType.SPECIFIC_SITES
                                 }
-                                disabled={userBanStatus?.active}
+                                onChange={() =>
+                                  setUpdateType(UpdateType.SPECIFIC_SITES)
+                                }
                               >
-                                All sites
+                                Specific Sites
                               </RadioButton>
                             </Localized>
                           </FormField>
-                        )}
-                        <FormField>
-                          <Localized id="community-banModal-specificSites">
-                            <RadioButton
-                              checked={updateType === UpdateType.SPECIFIC_SITES}
-                              onChange={() =>
-                                setUpdateType(UpdateType.SPECIFIC_SITES)
+                          {!viewerIsScoped && userHasAnyBan && (
+                            <FormField>
+                              <Localized id="community-banModal-noSites">
+                                <RadioButton
+                                  checked={updateType === UpdateType.NO_SITES}
+                                  onChange={() =>
+                                    setUpdateType(UpdateType.NO_SITES)
+                                  }
+                                >
+                                  No Sites
+                                </RadioButton>
+                              </Localized>
+                            </FormField>
+                          )}
+                    </Flex>
+                    {/* reject comments option */}
+                    {updateType !== UpdateType.NO_SITES && (
+                          <Localized
+                            id={
+                              viewerIsSingleSiteMod
+                                ? "community-banModal-reject-existing-singleSite"
+                                : rejectExistingCommentsLocalizationId!
+                            }
+                          >
+                            <CheckBox
+                              id="banModal-rejectExisting"
+                              checked={rejectExistingComments}
+                              onChange={(event) =>
+                                setRejectExistingComments(event.target.checked)
                               }
                             >
-                              Specific Sites
-                            </RadioButton>
+                              {viewerIsSingleSiteMod
+                                ? "Reject all comments on this site"
+                                : rejectExistingCommentsMessage}
+                            </CheckBox>
                           </Localized>
-                        </FormField>
-                        {!viewerIsScoped && userHasAnyBan && (
+                        )}
+                  </Flex>
+                  {/* EMAIL BAN */}
+                  <Flex direction="column" className={styles.banDomainOption}>
+                  {updateType !== UpdateType.NO_SITES &&
+                    emailDomain &&
+                    !domainIsConfigured && (
+                      <HorizontalGutter spacing={1}>
+                        {/* doman ban header */}
+                        <h4 className={styles.banFrom}>Email domain ban</h4>
+                        {/* domain ban checkbox */}
+                        <Localized
+                          id="community-banModal-banEmailDomain"
+                          vars={{ domain: emailDomain }}
+                        >
+                          <CheckBox
+                            onChange={({ target }) => {
+                              setBanDomain(target.checked);
+                            }}
+                          >
+                            Ban all new accounts on{" "}
+                            <strong>{emailDomain}</strong>
+                          </CheckBox>
+                        </Localized>
+                      </HorizontalGutter>
+                    )}
+                  </Flex>
+                  {/* customize message button*/}
+                  {updateType !== UpdateType.NO_SITES && (
+                    <Button
+                      className={styles.customizeMessage}
+                      variant="text"
+                      color="mono"
+                      onClick={(event) =>
+                        setCustomizeMessage(!customizeMessage)
+                      }
+                    >
+                      <Localized id="community-banModal-customize">
+                        <>Customize ban email message </>
+                      </Localized>
+                      <ButtonIcon size="lg">
+                        {customizeMessage ? "arrow_drop_up" : "arrow_drop_down"}
+                      </ButtonIcon>
+                    </Button>
+                  )}
+                  {/* optional custom message field */}
+                  {updateType !== UpdateType.NO_SITES && customizeMessage && (
+                    <Textarea
+                      id="banModal-message"
+                      className={styles.textArea}
+                      fullwidth
+                      value={emailMessage}
+                      onChange={(event) => setEmailMessage(event.target.value)}
+                    />
+                  )}
+                  {/* option sites list */}
+                  {(viewerIsSingleSiteMod ||
+                    (isMultisite &&
+                      updateType === UpdateType.SPECIFIC_SITES)) && (
+                    <UserStatusSitesList
+                      userBanStatus={userBanStatus}
+                      viewerScopes={viewerScopes}
+                      banState={[banSiteIDs, setBanSiteIDs]}
+                      unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
+                    />
+                  )}
+                </Flex>
+                {submitError && (
+                    <CallOut
+                      color="error"
+                      title={submitError}
+                      titleWeight="semiBold"
+                    />
+                  )}
+
+                  <Flex justifyContent="flex-end" itemGutter="half">
+                    <Localized id="community-banModal-cancel">
+                      <Button variant="flat" onClick={onClose}>
+                        Cancel
+                      </Button>
+                    </Localized>
+                    <BanButton
+                      isMultisite={isMultisite}
+                      isBanned={!!(userBanStatus && userBanStatus?.active)}
+                      lastFocusableRef={lastFocusableRef}
+                      disabled={disableForm}
+                    />
+                  </Flex>
+                {/* <HorizontalGutter spacing={3}>
+                  <h4 className={header4}>Ban From</h4>
+                  {(viewerIsAdmin ||
+                    viewerIsOrgAdmin ||
+                    (viewerIsScoped && !viewerIsSingleSiteMod)) &&
+                    isMultisite && (
+                      <HorizontalGutter spacing={2}>
+                        <Flex direction="row">
+                          {!(userRole === GQLUSER_ROLE.MODERATOR) && (
+                            <FormField>
+                              <Localized id="community-banModal-allSites">
+                                <RadioButton
+                                  checked={updateType === UpdateType.ALL_SITES}
+                                  onChange={() =>
+                                    setUpdateType(UpdateType.ALL_SITES)
+                                  }
+                                  disabled={userBanStatus?.active}
+                                >
+                                  All sites
+                                </RadioButton>
+                              </Localized>
+                            </FormField>
+                          )}
                           <FormField>
-                            <Localized id="community-banModal-noSites">
+                            <Localized id="community-banModal-specificSites">
                               <RadioButton
-                                checked={updateType === UpdateType.NO_SITES}
+                                checked={
+                                  updateType === UpdateType.SPECIFIC_SITES
+                                }
                                 onChange={() =>
-                                  setUpdateType(UpdateType.NO_SITES)
+                                  setUpdateType(UpdateType.SPECIFIC_SITES)
                                 }
                               >
-                                No Sites
+                                Specific Sites
                               </RadioButton>
                             </Localized>
                           </FormField>
-                        )}
-                      </Flex>
-                      <Flex>
+                          {!viewerIsScoped && userHasAnyBan && (
+                            <FormField>
+                              <Localized id="community-banModal-noSites">
+                                <RadioButton
+                                  checked={updateType === UpdateType.NO_SITES}
+                                  onChange={() =>
+                                    setUpdateType(UpdateType.NO_SITES)
+                                  }
+                                >
+                                  No Sites
+                                </RadioButton>
+                              </Localized>
+                            </FormField>
+                          )}
+                        </Flex>
+
                         {updateType !== UpdateType.NO_SITES && (
                           <Localized
                             id={
@@ -364,15 +529,15 @@ const BanModal: FunctionComponent<Props> = ({
                             </CheckBox>
                           </Localized>
                         )}
-                      </Flex>
-                    </Flex>
-                  )}
+                      </HorizontalGutter>
+                    )}
+                </HorizontalGutter>
 
-                <HorizontalGutter spacing={1}>
+                <HorizontalGutter spacing={3}>
                   {updateType !== UpdateType.NO_SITES &&
                     emailDomain &&
                     !domainIsConfigured && (
-                      <HorizontalGutter spacing={3}>
+                      <HorizontalGutter spacing={1}>
                         <h4 className={styles.banFrom}>Email domain ban</h4>
                         <Localized
                           id="community-banModal-banEmailDomain"
@@ -399,7 +564,7 @@ const BanModal: FunctionComponent<Props> = ({
                       }
                     >
                       <Localized id="community-banModal-customize">
-                        Customize ban email message{" "}
+                        <>Customize ban email message </>
                       </Localized>
                       <ButtonIcon size="lg" className={styles.toggleIcon}>
                         {customizeMessage ? "arrow_drop_up" : "arrow_drop_down"}
@@ -447,7 +612,7 @@ const BanModal: FunctionComponent<Props> = ({
                       disabled={disableForm}
                     />
                   </Flex>
-                </HorizontalGutter>
+                </HorizontalGutter> */}
               </form>
             )}
           </Form>

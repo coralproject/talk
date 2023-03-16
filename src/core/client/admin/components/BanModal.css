@@ -21,13 +21,27 @@ $ban-modal-text: var(--palette-text-500);
 
 }
 
+
+.form {
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.banFromHeader {
+  margin-bottom: var(--spacing-1);
+  margin-top: 0;
+}
+
+.sitesOptions {
+  margin-bottom: var(--spacing-1);
+  gap: var(--spacing-2);
+}
+
+.banDomainOption {
+  margin: var(--spacing-1) 0;
+}
+
 .customizeMessage {
+  align-self: flex-start;
   color: -var(--palette-grey-800);
-}
-.toggleButton {
-
-}
-
-.toggleIcon {
-
 }
