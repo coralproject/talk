@@ -12,12 +12,10 @@ import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   GQLUSER_ROLE,
-  GQLUsersConnection,
   QueryToSettingsResolver,
   QueryToUsersResolver,
 } from "coral-framework/schema";
 import {
-  createFixture,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -258,31 +256,6 @@ it("change user role", async () => {
   fireEvent.click(staffButton);
 
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
-});
-
-it("no one may change an admins role", async () => {
-  const resolvers = createResolversStub<GQLResolver>({
-    Query: {
-      users: createQueryResolverStub<QueryToUsersResolver>(() =>
-        createFixture<GQLUsersConnection>({
-          edges: users.admins,
-          nodes: users.admins,
-        })
-      ),
-    },
-  });
-  await createTestRenderer({
-    resolvers,
-  });
-
-  const container = await screen.findByTestId("community-container");
-  expect(container).toBeDefined();
-  expect(within(container).getAllByRole("row").length).toEqual(
-    users.admins.length
-  );
-  expect(
-    within(container).queryByLabelText("Change role")
-  ).not.toBeInTheDocument();
 });
 
 it("org mods may allocate site mods", async () => {
@@ -608,6 +581,112 @@ it("allows admins to promote site mods to org mod", async () => {
 
   const userRow = await screen.findByTestId(
     `community-row-${siteModeratorUser.id}`
+  );
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+  userEvent.click(changeRoleButton);
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  const orgModButton = within(popup).getByRole("button", {
+    name: "Organization Moderator",
+  });
+  fireEvent.click(orgModButton);
+
+  await waitFor(() =>
+    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
+  );
+});
+
+it("change user role", async () => {
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          role: GQLUSER_ROLE.STAFF,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          role: variables.role,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(`community-row-${user.id}`);
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+  userEvent.click(changeRoleButton);
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  const staffButton = await within(popup).findByRole("button", {
+    name: "Staff",
+  });
+  fireEvent.click(staffButton);
+
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+});
+
+it("only admins can demote other admins", async () => {
+  const viewer = users.moderators[0];
+  const adminUser = users.admins[1];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => viewer,
+      settings: () => settingsWithMultisite,
+    }
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(
+    `community-row-${adminUser.id}`
+  );
+
+  const changeRoleButton = within(userRow).queryByLabelText("Change role");
+  expect(changeRoleButton).toBeNull();
+});
+
+it("allow admins to demote other admins", async () => {
+  const viewer = users.admins[0];
+  const adminUser = users.admins[1];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => viewer,
+      settings: () => settingsWithMultisite,
+    },
+    Mutation: {
+      updateUserRole: () => {
+        const userRecord = pureMerge<typeof adminUser>(
+          adminUser,
+          {
+            role: GQLUSER_ROLE.MODERATOR,
+            moderationScopes: undefined,
+          }
+        );
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(
+    `community-row-${adminUser.id}`
   );
   const changeRoleButton = within(userRow).getByLabelText("Change role");
   userEvent.click(changeRoleButton);
