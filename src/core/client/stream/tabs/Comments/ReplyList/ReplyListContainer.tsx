@@ -997,7 +997,6 @@ const ReplyListContainer1 = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        # TODO: Can always make this required again to see where errors come from
         refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction

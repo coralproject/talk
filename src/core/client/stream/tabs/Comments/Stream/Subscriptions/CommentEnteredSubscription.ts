@@ -7,8 +7,6 @@ import {
 
 import {
   createSubscription,
-  LOCAL_ID,
-  lookup,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
@@ -28,7 +26,7 @@ function updateForNewestFirst(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
   storyConnectionKey: string,
-  refreshStream: boolean | null,
+  refreshStream?: boolean | null,
   tag?: string
 ) {
   const rootField = store.getRootField("commentEntered");
@@ -62,7 +60,7 @@ function updateForOldestFirst(
   store: RecordSourceSelectorProxy<unknown>,
   storyID: string,
   storyConnectionKey: string,
-  refreshStream: boolean | null,
+  refreshStream?: boolean | null,
   tag?: string
 ) {
   const story = store.get(storyID)!;
@@ -91,7 +89,7 @@ function insertReply(
   flattenReplies: boolean,
   storyID: string,
   storyConnectionKey: string,
-  refreshStream: boolean,
+  refreshStream?: boolean | null,
   orderBy?: GQLCOMMENT_SORT_RL,
   tag?: string,
   ancestorID?: string | null
@@ -192,6 +190,7 @@ type CommentEnteredVariables = Omit<
 > & {
   /** orderBy that was supplied to the `comments` connection on Story */
   orderBy?: GQLCOMMENT_SORT_RL;
+  refreshStream?: boolean | null;
   /** Tag that was supplied to the `comments` connection on Story */
   tag?: string;
   /** If set together with ancestorID, direct replies to the ancestor will immediately displayed */
@@ -208,6 +207,7 @@ const CommentEnteredSubscription = createSubscription(
         $storyID: ID!
         $ancestorID: ID
         $flattenReplies: Boolean!
+        $refreshStream: Boolean
       ) {
         commentEntered(storyID: $storyID, ancestorID: $ancestorID) {
           comment {
@@ -220,6 +220,7 @@ const CommentEnteredSubscription = createSubscription(
               code
             }
             ...AllCommentsTabCommentContainer_comment
+              @arguments(refreshStream: $refreshStream)
           }
         }
       }
@@ -228,6 +229,7 @@ const CommentEnteredSubscription = createSubscription(
       storyID: variables.storyID,
       ancestorID: variables.ancestorID,
       flattenReplies: lookupFlattenReplies(environment),
+      refreshStream: variables.refreshStream,
     },
     updater: (store) => {
       const rootField = store.getRootField("commentEntered");
@@ -236,7 +238,6 @@ const CommentEnteredSubscription = createSubscription(
       }
 
       const flattenReplies = lookupFlattenReplies(environment);
-      const refreshStream = !!lookup(environment, LOCAL_ID).refreshStream;
       const comment = rootField.getLinkedRecord("comment")!;
       const commentID = comment.getValue("id")! as string;
 
@@ -279,7 +280,7 @@ const CommentEnteredSubscription = createSubscription(
           flattenReplies,
           variables.storyID,
           variables.storyConnectionKey,
-          refreshStream,
+          variables.refreshStream,
           variables.orderBy,
           variables.tag,
           variables.ancestorID
@@ -290,7 +291,7 @@ const CommentEnteredSubscription = createSubscription(
           store,
           variables.storyID,
           variables.storyConnectionKey,
-          refreshStream,
+          variables.refreshStream,
           variables.tag
         );
         return;
@@ -299,7 +300,7 @@ const CommentEnteredSubscription = createSubscription(
           store,
           variables.storyID,
           variables.storyConnectionKey,
-          refreshStream,
+          variables.refreshStream,
           variables.tag
         );
         return;

@@ -159,6 +159,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     const commenteEnteredDisposable = subscribeToCommentEntered({
       storyID: story.id,
       orderBy: commentsOrderBy,
+      refreshStream,
       storyConnectionKey: "Stream_comments",
       tag,
     });
@@ -179,6 +180,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     subscribeToCommentEdited,
     tag,
     hasMore,
+    refreshStream,
   ]);
 
   const { inView, intersectionRef } = useInView();
@@ -622,6 +624,7 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
+                @arguments(refreshStream: $refreshStream)
             }
           }
           edges {

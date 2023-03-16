@@ -28,7 +28,7 @@ function isNodeIDInRepliesConnection(
 
 function isCommentInsideParentRepliesConnection(
   comment: RecordProxy,
-  refreshStream: boolean | null
+  refreshStream?: boolean | null
 ) {
   const parent = comment.getLinkedRecord("parent");
   if (!parent) {
@@ -77,7 +77,7 @@ export function determineDepthTillStory(
   storyID: string,
   orderBy: string,
   storyConnectionKey: string,
-  refreshStream: boolean | null,
+  refreshStream?: boolean | null,
   tag?: string
 ) {
   const story = store.get(storyID)!;
@@ -137,7 +137,7 @@ export function determineDepthTillStory(
 export function determineDepthTillAncestor(
   store: RecordSourceSelectorProxy<unknown>,
   comment: RecordProxy,
-  refreshStream: boolean | null,
+  refreshStream?: boolean | null,
   ancestorID?: string | null
 ) {
   // Already ancestor, return 0;
