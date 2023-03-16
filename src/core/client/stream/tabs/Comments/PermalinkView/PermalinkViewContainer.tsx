@@ -63,11 +63,12 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
       ancestorID: comment.id,
       liveDirectRepliesInsertion: true,
       storyConnectionKey: "Stream_comments",
+      refreshStream: props.refreshStream,
     });
     return () => {
       disposable.dispose();
     };
-  }, [comment?.id, story.id, subscribeToCommentEntered]);
+  }, [comment?.id, story.id, subscribeToCommentEntered, props.refreshStream]);
 
   useEffect(() => {
     if (!renderWindow) {

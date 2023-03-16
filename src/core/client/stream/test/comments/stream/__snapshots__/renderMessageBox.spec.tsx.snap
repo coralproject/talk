@@ -725,6 +725,7 @@ exports[`renders message box when logged in 1`] = `
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
       >
+        <div />
         <div
           aria-live="off"
           className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -1196,6 +1197,7 @@ exports[`renders message box when not logged in 1`] = `
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
       >
+        <div />
         <div
           aria-live="off"
           className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
