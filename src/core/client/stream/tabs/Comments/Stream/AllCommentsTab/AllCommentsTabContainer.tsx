@@ -564,7 +564,7 @@ const enhanced = withPaginationContainer<
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         tag: { type: "TAG" }
         ratingFilter: { type: "Int" }
-        refreshStream: { type: "Boolean" }
+        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         id
         isClosed
@@ -613,7 +613,6 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
           edges {

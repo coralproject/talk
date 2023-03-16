@@ -112,7 +112,9 @@ const enhanced = withFragmentContainer<Props>({
   `,
   comment: graphql`
     fragment AllCommentsTabCommentContainer_comment on Comment
-    @argumentDefinitions(refreshStream: { type: "Boolean" }) {
+    @argumentDefinitions(
+      refreshStream: { type: "Boolean", defaultValue: false }
+    ) {
       id
       enteredLive
       seen

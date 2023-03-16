@@ -162,7 +162,7 @@ function addCommentReplyToStory(
   const refreshStream = lookup(environment, LOCAL_ID).refreshStream;
   const comment = commentEdge.getLinkedRecord("node")!;
   const depth = singleCommentID
-    ? determineDepthTillAncestor(store, comment, singleCommentID)
+    ? determineDepthTillAncestor(store, comment, refreshStream, singleCommentID)
     : determineDepthTillStory(
         store,
         comment,
@@ -264,7 +264,7 @@ const mutation = graphql`
   mutation CreateCommentReplyMutation(
     $input: CreateCommentReplyInput!
     $flattenReplies: Boolean!
-    $refreshStream: Boolean
+    $refreshStream: Boolean!
   ) {
     createCommentReply(input: $input) {
       edge {
@@ -339,6 +339,7 @@ async function commit(
             media: input.media,
           },
           flattenReplies: lookupFlattenReplies(environment),
+          refreshStream: !!lookup(environment, LOCAL_ID).refreshStream,
         },
         optimisticResponse: {
           createCommentReply: {

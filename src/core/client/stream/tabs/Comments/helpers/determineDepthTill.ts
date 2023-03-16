@@ -26,7 +26,10 @@ function isNodeIDInRepliesConnection(
     .some((edge) => edge.getLinkedRecord("node")?.getDataID() === id);
 }
 
-function isCommentInsideParentRepliesConnection(comment: RecordProxy) {
+function isCommentInsideParentRepliesConnection(
+  comment: RecordProxy,
+  refreshStream: boolean | null
+) {
   const parent = comment.getLinkedRecord("parent");
   if (!parent) {
     return false;
@@ -36,7 +39,7 @@ function isCommentInsideParentRepliesConnection(comment: RecordProxy) {
   const repliesConnection = ConnectionHandler.getConnection(
     parent,
     "ReplyList_replies",
-    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC }
+    { orderBy: GQLCOMMENT_SORT.CREATED_AT_ASC, refreshStream }
   )!;
   if (!repliesConnection) {
     return false;
@@ -116,7 +119,7 @@ export function determineDepthTillStory(
       }
       // Return depth otherwise.
       return depth;
-    } else if (isCommentInsideParentRepliesConnection(cur)) {
+    } else if (isCommentInsideParentRepliesConnection(cur, refreshStream)) {
       // Current comment is inside the replies connection of the parent.
       depth++;
     } else {
@@ -134,6 +137,7 @@ export function determineDepthTillStory(
 export function determineDepthTillAncestor(
   store: RecordSourceSelectorProxy<unknown>,
   comment: RecordProxy,
+  refreshStream: boolean | null,
   ancestorID?: string | null
 ) {
   // Already ancestor, return 0;
@@ -162,7 +166,7 @@ export function determineDepthTillAncestor(
   while (cur) {
     const parent: RecordProxy | null = cur.getLinkedRecord("parent");
     if (parent !== null) {
-      if (!isCommentInsideParentRepliesConnection(cur)) {
+      if (!isCommentInsideParentRepliesConnection(cur, refreshStream)) {
         // Comment is not inside parents replies connection.
         return null;
       }

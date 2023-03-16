@@ -185,6 +185,7 @@ const mutation = graphql`
   mutation CreateCommentMutation(
     $input: CreateCommentInput!
     $flattenReplies: Boolean!
+    $refreshStream: Boolean!
   ) {
     createComment(input: $input) {
       edge {
@@ -196,6 +197,7 @@ const mutation = graphql`
             code
           }
           ...AllCommentsTabCommentContainer_comment
+            @arguments(refreshStream: $refreshStream)
           story {
             id
             ratings {
@@ -287,6 +289,7 @@ export const CreateCommentMutation = createMutation(
               clientMutationId: clientMutationId.toString(),
             },
             flattenReplies: lookupFlattenReplies(environment),
+            refreshStream: !!lookup(environment, LOCAL_ID).refreshStream,
           },
           optimisticResponse: {
             createComment: {
