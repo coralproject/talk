@@ -9,6 +9,7 @@ import React, {
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useLive, useVisibilityState } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   IntersectionProvider,
@@ -37,7 +38,9 @@ import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
+  CloseRefreshCommentsButtonEvent,
   LoadMoreAllCommentsEvent,
+  RefreshCommentsButtonEvent,
   ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import {
@@ -118,18 +121,28 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const [showCommentRefreshButton, setShowCommentRefreshButton] =
     useState(false);
 
+  const { eventEmitter } = useCoralContext();
+
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
   const reconnecting = useSubscriptionConnectionStatus();
 
+  const live = useLive({ story, settings });
+
+  const { inView, intersectionRef } = useInView();
+
+  const visible = useVisibilityState();
+
   useEffect(() => {
+    if (!live) {
+      return;
+    }
     if (reconnecting === CONNECTION_STATUS.RECONNECTING) {
       setShowCommentRefreshButton(true);
     }
-  }, [reconnecting, setShowCommentRefreshButton]);
+  }, [reconnecting, setShowCommentRefreshButton, live]);
 
-  const live = useLive({ story, settings });
   const hasMore = relay.hasMore();
   useEffect(() => {
     // If live updates are disabled, don't subscribe to new comments!!
@@ -183,10 +196,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     refreshStream,
   ]);
 
-  const { inView, intersectionRef } = useInView();
-
-  const visible = useVisibilityState();
-
   const [refreshButtonStyles, setRefreshButtonStyles] = useState(
     visible ? styles.refreshContainer : styles.refreshContainerFixed
   );
@@ -201,10 +210,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const handleClickCloseRefreshButton = useCallback(() => {
     setShowCommentRefreshButton(false);
+    CloseRefreshCommentsButtonEvent.emit(eventEmitter);
   }, [setShowCommentRefreshButton]);
 
   const handleClickRefreshButton = useCallback(async () => {
     setLocal({ refreshStream: !refreshStream });
+    RefreshCommentsButtonEvent.emit(eventEmitter);
   }, [refreshStream]);
 
   const onChangeRating = useCallback(
