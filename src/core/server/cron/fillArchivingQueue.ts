@@ -59,6 +59,7 @@ const fillArchiveQueue: ScheduledJobCommand<Options> = async ({
 
     const stories = await retrieveStoriesToBeArchived(
       mongo,
+      log,
       tenant.id,
       dateFilter,
       now,
