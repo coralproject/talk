@@ -363,6 +363,11 @@ export default (ctx: GraphContext) => ({
       defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC)
     );
 
+    ctx.logger.info(
+      { orderBy, traceID: "SORT_ORDER_LOGGING" },
+      "stream sort order"
+    );
+
     return conn;
   },
   forParent: async (
