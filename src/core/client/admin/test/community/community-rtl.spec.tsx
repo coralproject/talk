@@ -643,15 +643,13 @@ it("only admins can demote other admins", async () => {
     Query: {
       viewer: () => viewer,
       settings: () => settingsWithMultisite,
-    }
+    },
   });
   await createTestRenderer({
     resolvers,
   });
 
-  const userRow = await screen.findByTestId(
-    `community-row-${adminUser.id}`
-  );
+  const userRow = await screen.findByTestId(`community-row-${adminUser.id}`);
 
   const changeRoleButton = within(userRow).queryByLabelText("Change role");
   expect(changeRoleButton).toBeNull();
@@ -668,13 +666,10 @@ it("allow admins to demote other admins", async () => {
     },
     Mutation: {
       updateUserRole: () => {
-        const userRecord = pureMerge<typeof adminUser>(
-          adminUser,
-          {
-            role: GQLUSER_ROLE.MODERATOR,
-            moderationScopes: undefined,
-          }
-        );
+        const userRecord = pureMerge<typeof adminUser>(adminUser, {
+          role: GQLUSER_ROLE.MODERATOR,
+          moderationScopes: undefined,
+        });
         return {
           user: userRecord,
         };
@@ -685,9 +680,7 @@ it("allow admins to demote other admins", async () => {
     resolvers,
   });
 
-  const userRow = await screen.findByTestId(
-    `community-row-${adminUser.id}`
-  );
+  const userRow = await screen.findByTestId(`community-row-${adminUser.id}`);
   const changeRoleButton = within(userRow).getByLabelText("Change role");
   userEvent.click(changeRoleButton);
 
