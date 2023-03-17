@@ -1,5 +1,13 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useRef, useState } from "react";
+import key from "keymaster";
+import { noop } from "lodash";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import ConversationModal from "coral-admin/components/ConversationModal";
@@ -32,6 +40,8 @@ interface Props {
   viewNewCount?: number;
 }
 
+const QUEUE_HOTKEY_ID = "moderation-queue";
+
 const Queue: FunctionComponent<Props> = ({
   settings,
   comments,
@@ -48,7 +58,7 @@ const Queue: FunctionComponent<Props> = ({
   const { window } = useCoralContext();
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
-  const [selectedComment, setSelectedComment] = useState<number | null>(0);
+  const [selectedComment, setSelectedComment] = useState<number | null>(-1);
   const [singleView, setSingleView] = useState(false);
   const [conversationModalVisible, setConversationModalVisible] =
     useState(false);
@@ -98,6 +108,22 @@ const Queue: FunctionComponent<Props> = ({
       }
     }
   }, [window.document]);
+
+  useEffect(() => {
+    key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
+    key(HOTKEYS.PREV, QUEUE_HOTKEY_ID, selectPrev);
+
+    // The the scope such that only events attached to the ${id} scope will
+    // be honored.
+    key.setScope(QUEUE_HOTKEY_ID);
+
+    return () => {
+      // Remove all events that are set in the ${id} scope.
+      key.deleteScope(QUEUE_HOTKEY_ID);
+    };
+
+    return noop;
+  }, [selectNext, selectPrev]);
 
   const onSetUserDrawerUserID = useCallback((userID: string) => {
     setUserDrawerID(userID);
