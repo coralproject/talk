@@ -11,12 +11,18 @@ import {
   GQLNEW_USER_MODERATION,
   GQLResolver,
   GQLSettings,
+  GQLUser,
+  GQLUSER_ROLE,
   GQLUSER_STATUS,
 } from "coral-framework/schema";
 
 import { createContext } from "../test/create";
 import customRenderAppWithContext from "../test/customRenderAppWithContext";
 
+import {
+  isOrgModerator,
+  isSiteModerator,
+} from "coral-common/permissions/types";
 import {
   communityUsers,
   settings,
@@ -119,6 +125,83 @@ it("creates domain ban for unmoderated domain while updating user ban status", a
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
   expect(resolvers.Mutation!.createEmailDomain!.called).toBeTruthy();
 });
+
+const getUserRow = (container: HTMLElement, user: GQLUser): HTMLElement =>
+  within(container).getByRole("row", {
+    name: new RegExp(`^${user.username}`),
+  });
+
+const getBanModal = (container: HTMLElement, user: GQLUser) => {
+  const userRow = getUserRow(container, user);
+  userEvent.click(
+    within(userRow).getByRole("button", { name: "Change user status" })
+  );
+
+  const dropdown = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
+
+  const modal = screen.getByLabelText(
+    `Are you sure you want to ban ${user.username}?`
+  );
+
+  return modal;
+};
+
+const orgMods = users.moderators.filter((user) => isOrgModerator(user));
+const gteOrgMods = [...orgMods, ...users.admins];
+
+test.each(gteOrgMods)(
+  "shows ban domain option for admins and org mods",
+  async (gteOrgMod) => {
+    const { container } = await createTestRenderer({
+      resolvers: {
+        Query: {
+          viewer: () => gteOrgMod,
+        },
+      },
+    });
+
+    const commenterUser = communityUsers.edges.find(
+      ({ node }) => node.role === GQLUSER_ROLE.COMMENTER
+    )!.node;
+
+    const modal = getBanModal(container, commenterUser);
+
+    const banDomainButton = within(modal).getByLabelText(
+      `Ban all new accounts on test.com`
+    );
+
+    expect(banDomainButton).toBeInTheDocument();
+  }
+);
+
+const siteMods = users.moderators.filter((user) => isSiteModerator(user));
+test.each(siteMods)(
+  "does not show ban domain option to site mods",
+  async (siteMod) => {
+    const { container } = await createTestRenderer({
+      resolvers: {
+        Query: {
+          viewer: () => siteMod,
+        },
+      },
+    });
+
+    const commenterUser = communityUsers.edges.find(
+      ({ node }) => node.role === GQLUSER_ROLE.COMMENTER
+    )!.node;
+
+    const modal = getBanModal(container, commenterUser);
+
+    const banDomainButton = within(modal).queryByText(
+      `Ban all new accounts on test.com`
+    );
+
+    expect(banDomainButton).toBeNull();
+  }
+);
 
 it("does not display ban domain option for moderated domain", async () => {
   const moderatedSettings: GQLSettings = {
