@@ -479,7 +479,11 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
           orderBy: $orderBy
           flatten: $flattenReplies
           refreshStream: $refreshStream
-        ) @connection(key: "ReplyList_replies", filters: ["orderBy"]) {
+        )
+          @connection(
+            key: "ReplyList_replies"
+            filters: ["orderBy", "refreshStream"]
+          ) {
           # We use the same key and exclude 'flatten' to essentially
           # have the same connection key as the regular ReplyListContainers.
           ...ReplyListContainer_repliesConnection @relay(mask: false)
