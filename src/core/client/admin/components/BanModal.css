@@ -16,8 +16,8 @@ $ban-modal-text: var(--palette-text-500);
   margin-bottom: var(--spacing-3);
 }
 
-.banFrom {
-  margin-bottom: var(--spacing-1);
+.domainBanHeader {
+  margin-bottom: var(--spacing-2);
 
 }
 
@@ -28,8 +28,9 @@ $ban-modal-text: var(--palette-text-500);
 }
 
 .banFromHeader {
-  margin-bottom: var(--spacing-1);
+  margin-bottom: var(--spacing-2);
   margin-top: 0;
+  font-family: var(--font-family-primary);
 }
 
 .sitesOptions {

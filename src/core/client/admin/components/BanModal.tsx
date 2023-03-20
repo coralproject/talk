@@ -20,13 +20,17 @@ import {
   Flex,
   FormField,
   HorizontalGutter,
+  Label,
   RadioButton,
   Textarea,
 } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
-import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import {
+  USER_ROLE,
+  UserStatusChangeContainer_user,
+} from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import BanDomainMutation from "./BanDomainMutation";
@@ -51,6 +55,20 @@ export enum UpdateType {
   NO_SITES = "NO_SITES",
 }
 
+interface BanModalViewer {
+  readonly id: string;
+  readonly role: USER_ROLE; // marcus: This feels...
+  readonly moderationScopes: {
+    readonly scoped: boolean;
+    readonly sites: ReadonlyArray<{
+      readonly id: string;
+      readonly name: string;
+    }> | null;
+  } | null;
+}
+
+type BanModalViewerAlt = Omit<UserStatusChangeContainer_viewer, " $refType">;
+
 interface Props {
   userID: string;
   username: string | null;
@@ -59,7 +77,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  viewer: UserStatusChangeContainer_viewer;
+  readonly viewer: BanModalViewerAlt;
   emailDomainModeration: UserStatusChangeContainer_settings["emailDomainModeration"];
   userRole: string;
   isMultisite: boolean;
@@ -311,7 +329,7 @@ const BanModal: FunctionComponent<Props> = ({
                   {/* BAN FROM/REJECT COMMENTS */}
                   <Flex direction="column">
                     {/* ban from header */}
-                    <h4 className={styles.banFromHeader}>Ban From</h4>
+                    <Label className={styles.banFromHeader}>Ban From</Label>
                     <Flex
                       direction="row"
                       className={styles.sitesOptions}
@@ -391,9 +409,11 @@ const BanModal: FunctionComponent<Props> = ({
                         direction="column"
                         className={styles.banDomainOption}
                       >
-                        <HorizontalGutter spacing={1}>
+                        <HorizontalGutter spacing={2}>
                           {/* doman ban header */}
-                          <h4 className={styles.banFrom}>Email domain ban</h4>
+                          <Label className={styles.domainBanHeader}>
+                            Email domain ban
+                          </Label>
                           {/* domain ban checkbox */}
                           <Localized
                             id="community-banModal-banEmailDomain"
