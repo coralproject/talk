@@ -190,6 +190,7 @@ type CommentEnteredVariables = Omit<
 > & {
   /** orderBy that was supplied to the `comments` connection on Story */
   orderBy?: GQLCOMMENT_SORT_RL;
+  /** refreshStream that was supplied to the `comments` connection on Story */
   refreshStream?: boolean | null;
   /** Tag that was supplied to the `comments` connection on Story */
   tag?: string;

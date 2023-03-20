@@ -114,10 +114,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     `
   );
 
-  const [showCommentRefreshButton, setShowCommentRefreshButton] =
-    useState(false);
-  const [isNotFirstLoad, setIsNotFirstLoad] = useState(false);
-
   const { eventEmitter } = useCoralContext();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
@@ -125,7 +121,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const live = useLive({ story, settings });
 
-  const { inView, intersectionRef } = useInView();
+  const { inView: topOfCommentsInView, intersectionRef } = useInView();
   const {
     inView: allCommentsInView,
     intersectionRef: allCommentsIntersectionRef,
@@ -133,20 +129,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const visible = useVisibilityState();
 
-  useEffect(() => {
-    if (visible && !isNotFirstLoad) {
-      setIsNotFirstLoad(true);
-    }
-  }, [visible, isNotFirstLoad]);
-
-  useEffect(() => {
-    if (!live) {
-      return;
-    }
-    if (visible && isNotFirstLoad) {
-      setShowCommentRefreshButton(true);
-    }
-  }, [visible, setShowCommentRefreshButton, live]);
+  const [showCommentRefreshButton, setShowCommentRefreshButton] =
+    useState(false);
+  const [isNotFirstLoad, setIsNotFirstLoad] = useState(false);
+  const [refreshButtonStyles, setRefreshButtonStyles] = useState(
+    styles.refreshContainer
+  );
 
   const hasMore = relay.hasMore();
   useEffect(() => {
@@ -201,17 +189,28 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     refreshStream,
   ]);
 
-  const [refreshButtonStyles, setRefreshButtonStyles] = useState(
-    styles.refreshContainer
-  );
+  useEffect(() => {
+    if (visible && !isNotFirstLoad) {
+      setIsNotFirstLoad(true);
+    }
+  }, [visible, isNotFirstLoad]);
 
   useEffect(() => {
-    if (!inView && allCommentsInView) {
+    if (!live) {
+      return;
+    }
+    if (visible && isNotFirstLoad) {
+      setShowCommentRefreshButton(true);
+    }
+  }, [visible, setShowCommentRefreshButton, live]);
+
+  useEffect(() => {
+    if (!topOfCommentsInView && allCommentsInView) {
       setRefreshButtonStyles(styles.refreshContainerFixed);
     } else {
       setRefreshButtonStyles(styles.refreshContainer);
     }
-  }, [inView, allCommentsInView, setRefreshButtonStyles]);
+  }, [topOfCommentsInView, allCommentsInView, setRefreshButtonStyles]);
 
   const handleClickCloseRefreshButton = useCallback(() => {
     setShowCommentRefreshButton(false);

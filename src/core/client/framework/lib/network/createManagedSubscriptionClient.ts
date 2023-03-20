@@ -28,7 +28,6 @@ export const enum CONNECTION_STATUS {
   CONNECTED = "CONNECTED",
   CONNECTING = "CONNECTING",
   DISCONNECTED = "DISCONNECTED",
-  RECONNECTING = "RECONNECTING",
 }
 
 /**
@@ -141,7 +140,6 @@ export default function createManagedSubscriptionClient(
     [CONNECTION_STATUS.CONNECTED]: [],
     [CONNECTION_STATUS.CONNECTING]: [],
     [CONNECTION_STATUS.DISCONNECTED]: [],
-    [CONNECTION_STATUS.RECONNECTING]: [],
   };
   let connectionStatus: CONNECTION_STATUS = CONNECTION_STATUS.DISCONNECTED;
   let subscriptionClient: SubscriptionClient | null = null;
@@ -227,8 +225,7 @@ export default function createManagedSubscriptionClient(
     hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTED) ||
     hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTING) ||
     hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTED) ||
-    hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTING) ||
-    hasConnectionStatusListeners(CONNECTION_STATUS.RECONNECTING);
+    hasConnectionStatusListeners(CONNECTION_STATUS.CONNECTING);
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -275,7 +272,7 @@ export default function createManagedSubscriptionClient(
       setConnectionStatus(CONNECTION_STATUS.CONNECTING);
     });
     subscriptionClient.onReconnecting((payload) => {
-      setConnectionStatus(CONNECTION_STATUS.RECONNECTING);
+      setConnectionStatus(CONNECTION_STATUS.CONNECTING);
     });
     subscriptionClient.onReconnected((payload) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTED);

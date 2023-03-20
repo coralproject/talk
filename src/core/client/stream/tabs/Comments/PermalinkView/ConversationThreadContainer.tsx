@@ -196,7 +196,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
                         comment={parent}
                         indentLevel={1}
                         allowIgnoredTombstoneReveal
-                        refreshStream={false}
+                        refreshStream={refreshStream}
                       />
                     )}
                   </IgnoredTombstoneOrHideContainer>

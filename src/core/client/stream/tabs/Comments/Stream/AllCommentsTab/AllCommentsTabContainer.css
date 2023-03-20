@@ -9,7 +9,7 @@
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--palette-primary-500);
-  border-radius: 16px;
+  border-radius: var(--spacing-4);
 }
 
 .refreshContainerFixed {
@@ -19,7 +19,7 @@
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--palette-primary-500);
-  border-radius: 16px;
+  border-radius: var(--spacing-4);
 }
 
 .refreshButton {
@@ -36,7 +36,7 @@
 }
 
 .closeButton {
-  border-radius: 0 16px 16px 0;
+  border-radius: 0 var(--spacing-4) var(--spacing-4) 0;
   border-width: 0;
 }
 
