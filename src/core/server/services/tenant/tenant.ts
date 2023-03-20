@@ -3,6 +3,7 @@ import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
 import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
+import { ERROR_CODES } from "coral-common/errors";
 import { isModerator, isOrgModerator } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -43,7 +44,6 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { ERROR_CODES } from "coral-common/errors";
 import TenantCache from "./cache/cache";
 
 export type UpdateTenant = GQLSettingsInput;
