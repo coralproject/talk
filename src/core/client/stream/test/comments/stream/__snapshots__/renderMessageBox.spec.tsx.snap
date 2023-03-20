@@ -254,105 +254,108 @@ exports[`renders message box when commenting disabled 1`] = `
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
       >
-        <div
-          aria-live="off"
-          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-          data-testid="comments-allComments-log"
-          id="comments-allComments-log"
-          role="log"
-        >
+        <div>
+          <div />
           <div
-            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+            aria-live="off"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            data-testid="comments-allComments-log"
+            id="comments-allComments-log"
+            role="log"
           >
             <div
-              className="CallOut-inner"
+              className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
             >
-              There are no comments yet. Why don't you write one?
+              <div
+                className="CallOut-inner"
+              >
+                There are no comments yet. Why don't you write one?
+              </div>
             </div>
-          </div>
-          <div
-            data-virtuoso-scroller={true}
-            style={
-              Object {
-                "height": 0,
-                "position": "relative",
-              }
-            }
-          >
             <div
-              data-viewport-type="window"
+              data-virtuoso-scroller={true}
               style={
                 Object {
-                  "height": "100%",
-                  "position": "absolute",
-                  "top": 0,
-                  "width": "100%",
+                  "height": 0,
+                  "position": "relative",
                 }
               }
             >
               <div
-                data-test-id="virtuoso-item-list"
+                data-viewport-type="window"
                 style={
                   Object {
-                    "boxSizing": "border-box",
-                    "marginTop": 0,
-                    "paddingBottom": 0,
-                    "paddingTop": 0,
+                    "height": "100%",
+                    "position": "absolute",
+                    "top": 0,
+                    "width": "100%",
                   }
                 }
-              />
-              <div />
+              >
+                <div
+                  data-test-id="virtuoso-item-list"
+                  style={
+                    Object {
+                      "boxSizing": "border-box",
+                      "marginTop": 0,
+                      "paddingBottom": 0,
+                      "paddingTop": 0,
+                    }
+                  }
+                />
+                <div />
+              </div>
             </div>
+            <nav
+              aria-label="Comments Footer"
+              className="CommentsLinks-container coral coral-streamFooter"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of comments"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  forum
+                </i>
+                <span>
+                  Top of comments
+                </span>
+              </button>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of article"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  description
+                </i>
+                <span>
+                  Top of article
+                </span>
+              </button>
+            </nav>
           </div>
-          <nav
-            aria-label="Comments Footer"
-            className="CommentsLinks-container coral coral-streamFooter"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of comments"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                forum
-              </i>
-              <span>
-                Top of comments
-              </span>
-            </button>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of article"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                description
-              </i>
-              <span>
-                Top of article
-              </span>
-            </button>
-          </nav>
         </div>
       </section>
     </div>
@@ -725,128 +728,130 @@ exports[`renders message box when logged in 1`] = `
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
       >
-        <div />
-        <div
-          aria-live="off"
-          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-          data-testid="comments-allComments-log"
-          id="comments-allComments-log"
-          role="log"
-        >
+        <div>
+          <div />
           <div
-            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+            aria-live="off"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            data-testid="comments-allComments-log"
+            id="comments-allComments-log"
+            role="log"
           >
             <div
-              className="CallOut-inner"
+              className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
             >
-              There are no comments yet. Why don't you write one?
+              <div
+                className="CallOut-inner"
+              >
+                There are no comments yet. Why don't you write one?
+              </div>
             </div>
-          </div>
-          <div
-            data-virtuoso-scroller={true}
-            style={
-              Object {
-                "height": 0,
-                "position": "relative",
-              }
-            }
-          >
             <div
-              data-viewport-type="window"
+              data-virtuoso-scroller={true}
               style={
                 Object {
-                  "height": "100%",
-                  "position": "absolute",
-                  "top": 0,
-                  "width": "100%",
+                  "height": 0,
+                  "position": "relative",
                 }
               }
             >
               <div
-                data-test-id="virtuoso-item-list"
+                data-viewport-type="window"
                 style={
                   Object {
-                    "boxSizing": "border-box",
-                    "marginTop": 0,
-                    "paddingBottom": 0,
-                    "paddingTop": 0,
+                    "height": "100%",
+                    "position": "absolute",
+                    "top": 0,
+                    "width": "100%",
                   }
                 }
-              />
-              <div />
+              >
+                <div
+                  data-test-id="virtuoso-item-list"
+                  style={
+                    Object {
+                      "boxSizing": "border-box",
+                      "marginTop": 0,
+                      "paddingBottom": 0,
+                      "paddingTop": 0,
+                    }
+                  }
+                />
+                <div />
+              </div>
             </div>
+            <nav
+              aria-label="Comments Footer"
+              className="CommentsLinks-container coral coral-streamFooter"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-profileLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to profile and replies"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  account_box
+                </i>
+                <span>
+                  Profile & Replies
+                </span>
+              </button>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of comments"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  forum
+                </i>
+                <span>
+                  Top of comments
+                </span>
+              </button>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of article"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  description
+                </i>
+                <span>
+                  Top of article
+                </span>
+              </button>
+            </nav>
           </div>
-          <nav
-            aria-label="Comments Footer"
-            className="CommentsLinks-container coral coral-streamFooter"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-profileLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to profile and replies"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                account_box
-              </i>
-              <span>
-                Profile & Replies
-              </span>
-            </button>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of comments"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                forum
-              </i>
-              <span>
-                Top of comments
-              </span>
-            </button>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of article"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                description
-              </i>
-              <span>
-                Top of article
-              </span>
-            </button>
-          </nav>
         </div>
       </section>
     </div>
@@ -1197,106 +1202,108 @@ exports[`renders message box when not logged in 1`] = `
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
       >
-        <div />
-        <div
-          aria-live="off"
-          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-          data-testid="comments-allComments-log"
-          id="comments-allComments-log"
-          role="log"
-        >
+        <div>
+          <div />
           <div
-            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+            aria-live="off"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            data-testid="comments-allComments-log"
+            id="comments-allComments-log"
+            role="log"
           >
             <div
-              className="CallOut-inner"
+              className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
             >
-              There are no comments yet. Why don't you write one?
+              <div
+                className="CallOut-inner"
+              >
+                There are no comments yet. Why don't you write one?
+              </div>
             </div>
-          </div>
-          <div
-            data-virtuoso-scroller={true}
-            style={
-              Object {
-                "height": 0,
-                "position": "relative",
-              }
-            }
-          >
             <div
-              data-viewport-type="window"
+              data-virtuoso-scroller={true}
               style={
                 Object {
-                  "height": "100%",
-                  "position": "absolute",
-                  "top": 0,
-                  "width": "100%",
+                  "height": 0,
+                  "position": "relative",
                 }
               }
             >
               <div
-                data-test-id="virtuoso-item-list"
+                data-viewport-type="window"
                 style={
                   Object {
-                    "boxSizing": "border-box",
-                    "marginTop": 0,
-                    "paddingBottom": 0,
-                    "paddingTop": 0,
+                    "height": "100%",
+                    "position": "absolute",
+                    "top": 0,
+                    "width": "100%",
                   }
                 }
-              />
-              <div />
+              >
+                <div
+                  data-test-id="virtuoso-item-list"
+                  style={
+                    Object {
+                      "boxSizing": "border-box",
+                      "marginTop": 0,
+                      "paddingBottom": 0,
+                      "paddingTop": 0,
+                    }
+                  }
+                />
+                <div />
+              </div>
             </div>
+            <nav
+              aria-label="Comments Footer"
+              className="CommentsLinks-container coral coral-streamFooter"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of comments"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  forum
+                </i>
+                <span>
+                  Top of comments
+                </span>
+              </button>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of article"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  description
+                </i>
+                <span>
+                  Top of article
+                </span>
+              </button>
+            </nav>
           </div>
-          <nav
-            aria-label="Comments Footer"
-            className="CommentsLinks-container coral coral-streamFooter"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of comments"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                forum
-              </i>
-              <span>
-                Top of comments
-              </span>
-            </button>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of article"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                description
-              </i>
-              <span>
-                Top of article
-              </span>
-            </button>
-          </nav>
         </div>
       </section>
     </div>
@@ -1548,105 +1555,108 @@ exports[`renders message box when story isClosed 1`] = `
         className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
       >
-        <div
-          aria-live="off"
-          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-          data-testid="comments-allComments-log"
-          id="comments-allComments-log"
-          role="log"
-        >
+        <div>
+          <div />
           <div
-            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+            aria-live="off"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            data-testid="comments-allComments-log"
+            id="comments-allComments-log"
+            role="log"
           >
             <div
-              className="CallOut-inner"
+              className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
             >
-              There are no comments on this story.
+              <div
+                className="CallOut-inner"
+              >
+                There are no comments on this story.
+              </div>
             </div>
-          </div>
-          <div
-            data-virtuoso-scroller={true}
-            style={
-              Object {
-                "height": 0,
-                "position": "relative",
-              }
-            }
-          >
             <div
-              data-viewport-type="window"
+              data-virtuoso-scroller={true}
               style={
                 Object {
-                  "height": "100%",
-                  "position": "absolute",
-                  "top": 0,
-                  "width": "100%",
+                  "height": 0,
+                  "position": "relative",
                 }
               }
             >
               <div
-                data-test-id="virtuoso-item-list"
+                data-viewport-type="window"
                 style={
                   Object {
-                    "boxSizing": "border-box",
-                    "marginTop": 0,
-                    "paddingBottom": 0,
-                    "paddingTop": 0,
+                    "height": "100%",
+                    "position": "absolute",
+                    "top": 0,
+                    "width": "100%",
                   }
                 }
-              />
-              <div />
+              >
+                <div
+                  data-test-id="virtuoso-item-list"
+                  style={
+                    Object {
+                      "boxSizing": "border-box",
+                      "marginTop": 0,
+                      "paddingBottom": 0,
+                      "paddingTop": 0,
+                    }
+                  }
+                />
+                <div />
+              </div>
             </div>
+            <nav
+              aria-label="Comments Footer"
+              className="CommentsLinks-container coral coral-streamFooter"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of comments"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  forum
+                </i>
+                <span>
+                  Top of comments
+                </span>
+              </button>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
+                data-variant="textUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                title="Go to top of article"
+                type="button"
+              >
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+                >
+                  description
+                </i>
+                <span>
+                  Top of article
+                </span>
+              </button>
+            </nav>
           </div>
-          <nav
-            aria-label="Comments Footer"
-            className="CommentsLinks-container coral coral-streamFooter"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-commentsTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of comments"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                forum
-              </i>
-              <span>
-                Top of comments
-              </span>
-            </button>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular CommentsLinks-sizeRegular Button-colorRegular CommentsLinks-colorRegular Button-variantTextUnderlined Button-iconLeft CommentsLinks-link coral coral-streamFooter-link coral-streamFooter-articleTopLink"
-              data-variant="textUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              title="Go to top of article"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
-              >
-                description
-              </i>
-              <span>
-                Top of article
-              </span>
-            </button>
-          </nav>
         </div>
       </section>
     </div>

@@ -50,7 +50,7 @@ export const render = (
 
     return (
       <SpinnerWhileRendering>
-        <IntersectionProvider threshold={0}>
+        <IntersectionProvider threshold={[0, 1]}>
           <AllCommentsTabContainer
             settings={data.props.settings}
             viewer={data.props.viewer}

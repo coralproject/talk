@@ -121,11 +121,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const live = useLive({ story, settings });
 
-  const { inView: topOfCommentsInView, intersectionRef } = useInView();
   const {
-    inView: allCommentsInView,
-    intersectionRef: allCommentsIntersectionRef,
+    inView: topOfCommentsInView,
+    intersectionRef: topOfCommentsInViewRef,
   } = useInView();
+  const { inView: allCommentsInView, intersectionRef: allCommentsInViewRef } =
+    useInView();
 
   const visible = useVisibilityState();
 
@@ -210,7 +211,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     } else {
       setRefreshButtonStyles(styles.refreshContainer);
     }
-  }, [topOfCommentsInView, allCommentsInView, setRefreshButtonStyles]);
+  }, [topOfCommentsInView, setRefreshButtonStyles, allCommentsInView]);
 
   const handleClickCloseRefreshButton = useCallback(() => {
     setShowCommentRefreshButton(false);
@@ -417,7 +418,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <>
+    <div ref={allCommentsInViewRef}>
       {!!viewer && (
         <KeyboardShortcuts
           storyID={story.id}
@@ -433,7 +434,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           onChangeRating={onChangeRating}
         />
       )}
-      {live && <div ref={intersectionRef}></div>}
+      <IntersectionProvider threshold={[0, 1]}>
+        <div ref={topOfCommentsInViewRef}></div>
+      </IntersectionProvider>
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
@@ -478,7 +481,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         role="log"
         aria-live="off"
         spacing={commentSeenEnabled ? 0 : undefined}
-        ref={allCommentsIntersectionRef}
       >
         {!!viewer && showCommentRefreshButton && (
           <div className={refreshButtonStyles}>
@@ -567,7 +569,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           </div>
         </HorizontalGutter>
       )}
-    </>
+    </div>
   );
 };
 
