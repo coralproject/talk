@@ -16,10 +16,6 @@ import {
   useInView,
 } from "coral-framework/lib/intersection";
 import {
-  CONNECTION_STATUS,
-  useSubscriptionConnectionStatus,
-} from "coral-framework/lib/network";
-import {
   useLoadMore,
   useLocal,
   useMutation,
@@ -120,13 +116,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   const [showCommentRefreshButton, setShowCommentRefreshButton] =
     useState(false);
+  const [isNotFirstLoad, setIsNotFirstLoad] = useState(false);
 
   const { eventEmitter } = useCoralContext();
 
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
-
-  const reconnecting = useSubscriptionConnectionStatus();
 
   const live = useLive({ story, settings });
 
@@ -139,13 +134,19 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const visible = useVisibilityState();
 
   useEffect(() => {
+    if (visible && !isNotFirstLoad) {
+      setIsNotFirstLoad(true);
+    }
+  }, [visible, isNotFirstLoad]);
+
+  useEffect(() => {
     if (!live) {
       return;
     }
-    if (reconnecting === CONNECTION_STATUS.RECONNECTING) {
+    if (visible && isNotFirstLoad) {
       setShowCommentRefreshButton(true);
     }
-  }, [reconnecting, setShowCommentRefreshButton, live]);
+  }, [visible, setShowCommentRefreshButton, live]);
 
   const hasMore = relay.hasMore();
   useEffect(() => {
@@ -201,7 +202,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   ]);
 
   const [refreshButtonStyles, setRefreshButtonStyles] = useState(
-    visible ? styles.refreshContainer : styles.refreshContainerFixed
+    styles.refreshContainer
   );
 
   useEffect(() => {
