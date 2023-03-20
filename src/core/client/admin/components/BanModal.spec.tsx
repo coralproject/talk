@@ -6,6 +6,7 @@ import {
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
 
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
 import { pureMerge } from "coral-common/utils";
 import {
   GQLNEW_USER_MODERATION,
@@ -93,39 +94,6 @@ beforeEach(async () => {
 });
 afterEach(jest.clearAllMocks);
 
-it("creates domain ban for unmoderated domain while updating user ban status", async () => {
-  const { container, resolvers } = await createTestRenderer();
-
-  const userRow = within(container).getByRole("row", {
-    name: "Isabelle isabelle@test.com 07/06/18, 06:24 PM Commenter Active",
-  });
-  userEvent.click(
-    within(userRow).getByRole("button", { name: "Change user status" })
-  );
-
-  const dropdown = within(userRow).getByLabelText(
-    "A dropdown to change the user status"
-  );
-  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
-
-  const modal = screen.getByLabelText("Are you sure you want to ban Isabelle?");
-
-  const banDomainButton = within(modal).getByLabelText(
-    `Ban all new accounts on test.com`
-  );
-  userEvent.click(banDomainButton);
-  screen.debug(banDomainButton);
-  userEvent.click(within(modal).getByRole("button", { name: "Ban" }));
-
-  await waitFor(() =>
-    expect(resolvers.Mutation!.createEmailDomain!.called).toBeTruthy()
-  );
-
-  expect(within(userRow).getByText("Banned")).toBeVisible();
-  expect(resolvers.Mutation!.banUser!.called).toBe(true);
-  expect(resolvers.Mutation!.createEmailDomain!.called).toBeTruthy();
-});
-
 const getUserRow = (container: HTMLElement, user: GQLUser): HTMLElement =>
   within(container).getByRole("row", {
     name: new RegExp(`^${user.username}`),
@@ -148,6 +116,41 @@ const getBanModal = (container: HTMLElement, user: GQLUser) => {
 
   return modal;
 };
+
+it("creates domain ban for unmoderated domain while updating user ban status", async () => {
+  const { container, resolvers } = await createTestRenderer();
+
+  const user = communityUsers.edges.find(
+    (edge) => edge.node.role === GQLUSER_ROLE.COMMENTER
+  )!.node;
+
+  const userRow = getUserRow(container, user);
+  userEvent.click(
+    within(userRow).getByRole("button", { name: "Change user status" })
+  );
+
+  const dropdown = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
+
+  const modal = getBanModal(container, user);
+
+  const banDomainButton = within(modal).getByLabelText(
+    `Ban all new accounts on test.com`
+  );
+  userEvent.click(banDomainButton);
+  screen.debug(banDomainButton);
+  userEvent.click(within(modal).getByRole("button", { name: "Ban" }));
+
+  await waitFor(() =>
+    expect(resolvers.Mutation!.createEmailDomain!.called).toBeTruthy()
+  );
+
+  expect(within(userRow).getByText("Banned")).toBeVisible();
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
+  expect(resolvers.Mutation!.createEmailDomain!.called).toBeTruthy();
+});
 
 const orgMods = users.moderators.filter((user) => isOrgModerator(user));
 const gteOrgMods = [...orgMods, ...users.admins];
@@ -204,6 +207,9 @@ test.each(siteMods)(
 );
 
 it("does not display ban domain option for moderated domain", async () => {
+  const user = communityUsers.edges.find(
+    (edge) => edge.node.role === GQLUSER_ROLE.COMMENTER
+  )!.node;
   const moderatedSettings: GQLSettings = {
     ...settings,
     emailDomainModeration: [
@@ -225,18 +231,7 @@ it("does not display ban domain option for moderated domain", async () => {
     resolvers: moderatedResolvers,
   });
 
-  const userRow = within(container).getByRole("row", {
-    name: "Isabelle isabelle@test.com 07/06/18, 06:24 PM Commenter Active",
-  });
-  userEvent.click(
-    within(userRow).getByRole("button", { name: "Change user status" })
-  );
-
-  const dropdown = within(userRow).getByLabelText(
-    "A dropdown to change the user status"
-  );
-  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
-  const modal = screen.getByLabelText("Are you sure you want to ban Isabelle?");
+  const modal = getBanModal(container, user);
 
   const banDomainButton = within(modal).queryByText(
     `Ban all new accounts on test.com`
@@ -244,3 +239,50 @@ it("does not display ban domain option for moderated domain", async () => {
 
   expect(banDomainButton).not.toBeInTheDocument();
 });
+
+test.each([...PROTECTED_EMAIL_DOMAINS.values()])(
+  "does not display ban domain option for protected domains",
+  async (domain) => {
+    const protectedEmailResolvers = createResolversStub<GQLResolver>({
+      Query: {
+        users: () => ({
+          ...communityUsers,
+          edges: communityUsers.edges
+            .filter((edge) => edge.node.role !== GQLUSER_ROLE.ADMIN)
+            .map((edge) => ({
+              ...edge,
+              node: { ...edge.node, email: `${edge.node.username}@${domain}` },
+            })),
+        }),
+      },
+    });
+
+    const { container } = await createTestRenderer({
+      resolvers: protectedEmailResolvers,
+    });
+
+    const user = communityUsers.edges.find(
+      ({ node }) => node.role === GQLUSER_ROLE.COMMENTER
+    )!.node;
+
+    const userRow = getUserRow(container, user);
+
+    userEvent.click(
+      within(userRow).getByRole("button", { name: "Change user status" })
+    );
+
+    const dropdown = within(userRow).getByLabelText(
+      "A dropdown to change the user status"
+    );
+    fireEvent.click(
+      within(dropdown).getByRole("button", { name: "Manage Ban" })
+    );
+    const modal = getBanModal(container, user);
+
+    const banDomainButton = within(modal).queryByText(
+      `Ban all new accounts on test.com`
+    );
+
+    expect(banDomainButton).not.toBeInTheDocument();
+  }
+);

@@ -15,6 +15,7 @@ error-tokenInvalid = Invalid API Token provided.
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
 error-emailNotSet = Email address has not been set yet.
+error-emailDomainProtected = Email domain cannot be moderated.
 error-duplicateUser =
   Specified user already exists with a different login method.
 error-duplicateEmail = Specified email address is already in use.

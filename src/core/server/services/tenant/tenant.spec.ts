@@ -2,6 +2,7 @@ import { createEmailDomain } from "./tenant";
 jest.mock("coral-server/models/user");
 jest.mock("coral-server/models/site");
 
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
 import { UserNotFoundError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import {
@@ -58,4 +59,20 @@ describe("createEmailDomain", () => {
 
     void expect(shouldFail).rejects.toThrow(UserNotFoundError);
   });
+});
+
+it("does not create domain bans for protected domains", async () => {
+  const tenant = createTenantFixture();
+  const viewer = createUserFixture({
+    tenantID: tenant.id,
+    role: GQLUSER_ROLE.ADMIN,
+  });
+  for (const domain of PROTECTED_EMAIL_DOMAINS.values()) {
+    await expect(async () =>
+      createEmailDomain(mockMongo, mockRedis, mockTenantCache, tenant, viewer, {
+        domain,
+        newUserModeration: "BAN",
+      })
+    ).rejects.toThrow("EMAIL_DOMAIN_PROTECTED");
+  }
 });
