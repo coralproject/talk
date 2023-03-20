@@ -131,6 +131,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const live = useLive({ story, settings });
 
   const { inView, intersectionRef } = useInView();
+  const {
+    inView: allCommentsInView,
+    intersectionRef: allCommentsIntersectionRef,
+  } = useInView();
 
   const visible = useVisibilityState();
 
@@ -201,12 +205,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    if (inView) {
-      setRefreshButtonStyles(styles.refreshContainer);
-    } else {
+    if (!inView && allCommentsInView) {
       setRefreshButtonStyles(styles.refreshContainerFixed);
+    } else {
+      setRefreshButtonStyles(styles.refreshContainer);
     }
-  }, [inView]);
+  }, [inView, allCommentsInView, setRefreshButtonStyles]);
 
   const handleClickCloseRefreshButton = useCallback(() => {
     setShowCommentRefreshButton(false);
@@ -474,6 +478,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         role="log"
         aria-live="off"
         spacing={commentSeenEnabled ? 0 : undefined}
+        ref={allCommentsIntersectionRef}
       >
         {!!viewer && showCommentRefreshButton && (
           <div className={refreshButtonStyles}>
