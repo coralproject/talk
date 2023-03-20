@@ -185,9 +185,6 @@ const BanModal: FunctionComponent<Props> = ({
   const [emailMessage, setEmailMessage] = useState<string>(getDefaultMessage);
   const [rejectExistingComments, setRejectExistingComments] = useState(false);
   const [banDomain, setBanDomain] = useState(false);
-  const canBanDomain =
-    viewer.role === GQLUSER_ROLE.ADMIN ||
-    (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer));
 
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
@@ -198,6 +195,8 @@ const BanModal: FunctionComponent<Props> = ({
   );
 
   const canBanDomain =
+    (viewer.role === GQLUSER_ROLE.ADMIN ||
+      (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer))) &&
     updateType !== UpdateType.NO_SITES &&
     emailDomain &&
     !domainIsConfigured &&

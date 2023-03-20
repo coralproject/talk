@@ -152,29 +152,6 @@ it("creates domain ban for unmoderated domain while updating user ban status", a
   expect(resolvers.Mutation!.createEmailDomain!.called).toBeTruthy();
 });
 
-const getUserRow = (container: HTMLElement, user: GQLUser): HTMLElement =>
-  within(container).getByRole("row", {
-    name: new RegExp(`^${user.username}`),
-  });
-
-const getBanModal = (container: HTMLElement, user: GQLUser) => {
-  const userRow = getUserRow(container, user);
-  userEvent.click(
-    within(userRow).getByRole("button", { name: "Change user status" })
-  );
-
-  const dropdown = within(userRow).getByLabelText(
-    "A dropdown to change the user status"
-  );
-  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
-
-  const modal = screen.getByLabelText(
-    `Are you sure you want to ban ${user.username}?`
-  );
-
-  return modal;
-};
-
 const orgMods = users.moderators.filter((user) => isOrgModerator(user));
 const gteOrgMods = [...orgMods, ...users.admins];
 
@@ -266,7 +243,7 @@ it("does not display ban domain option for moderated domain", async () => {
 test.each([...PROTECTED_EMAIL_DOMAINS.values()])(
   "does not display ban domain option for protected domains",
   async (domain) => {
-    const moderatedResolvers = createResolversStub<GQLResolver>({
+    const protectedEmailResolvers = createResolversStub<GQLResolver>({
       Query: {
         users: () => ({
           ...communityUsers,
@@ -281,12 +258,15 @@ test.each([...PROTECTED_EMAIL_DOMAINS.values()])(
     });
 
     const { container } = await createTestRenderer({
-      resolvers: moderatedResolvers,
+      resolvers: protectedEmailResolvers,
     });
 
-    const userRow = within(container).getByRole("row", {
-      name: "Isabelle isabelle@test.com 07/06/18, 06:24 PM Commenter Active",
-    });
+    const user = communityUsers.edges.find(
+      ({ node }) => node.role === GQLUSER_ROLE.COMMENTER
+    )!.node;
+
+    const userRow = getUserRow(container, user);
+
     userEvent.click(
       within(userRow).getByRole("button", { name: "Change user status" })
     );
@@ -297,9 +277,7 @@ test.each([...PROTECTED_EMAIL_DOMAINS.values()])(
     fireEvent.click(
       within(dropdown).getByRole("button", { name: "Manage Ban" })
     );
-    const modal = screen.getByLabelText(
-      "Are you sure you want to ban Isabelle?"
-    );
+    const modal = getBanModal(container, user);
 
     const banDomainButton = within(modal).queryByText(
       `Ban all new accounts on test.com`
