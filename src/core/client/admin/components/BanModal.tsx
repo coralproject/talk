@@ -9,6 +9,7 @@ import React, {
 import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
 import { extractDomain } from "coral-common/email";
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { useMutation } from "coral-framework/lib/relay";
@@ -199,6 +200,14 @@ const BanModal: FunctionComponent<Props> = ({
     ({ domain }) => domain === emailDomain
   );
 
+  const canBanDomain =
+    (viewer.role === GQLUSER_ROLE.ADMIN ||
+      (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer))) &&
+    updateType !== UpdateType.NO_SITES &&
+    emailDomain &&
+    !domainIsConfigured &&
+    !PROTECTED_EMAIL_DOMAINS.has(emailDomain);
+
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
       setBanSiteIDs(
@@ -388,35 +397,30 @@ const BanModal: FunctionComponent<Props> = ({
                     )}
                   </Flex>
                   {/* EMAIL BAN */}
-                  {updateType !== UpdateType.NO_SITES &&
-                    emailDomain &&
-                    !domainIsConfigured && (
-                      <Flex
-                        direction="column"
-                        className={styles.banDomainOption}
-                      >
-                        <HorizontalGutter spacing={2}>
-                          {/* doman ban header */}
-                          <Label className={styles.domainBanHeader}>
-                            Email domain ban
-                          </Label>
-                          {/* domain ban checkbox */}
-                          <Localized
-                            id="community-banModal-banEmailDomain"
-                            vars={{ domain: emailDomain }}
+                  {canBanDomain && (
+                    <Flex direction="column" className={styles.banDomainOption}>
+                      <HorizontalGutter spacing={2}>
+                        {/* doman ban header */}
+                        <Label className={styles.domainBanHeader}>
+                          Email domain ban
+                        </Label>
+                        {/* domain ban checkbox */}
+                        <Localized
+                          id="community-banModal-banEmailDomain"
+                          vars={{ domain: emailDomain }}
+                        >
+                          <CheckBox
+                            onChange={({ target }) => {
+                              setBanDomain(target.checked);
+                            }}
                           >
-                            <CheckBox
-                              onChange={({ target }) => {
-                                setBanDomain(target.checked);
-                              }}
-                            >
-                              Ban all new accounts on{" "}
-                              <strong>{emailDomain}</strong>
-                            </CheckBox>
-                          </Localized>
-                        </HorizontalGutter>
-                      </Flex>
-                    )}
+                            Ban all new accounts on{" "}
+                            <strong>{emailDomain}</strong>
+                          </CheckBox>
+                        </Localized>
+                      </HorizontalGutter>
+                    </Flex>
+                  )}
                   {/* customize message button*/}
                   {updateType !== UpdateType.NO_SITES && (
                     <Button
@@ -451,7 +455,7 @@ const BanModal: FunctionComponent<Props> = ({
                       updateType === UpdateType.SPECIFIC_SITES)) && (
                     <UserStatusSitesList
                       userBanStatus={userBanStatus}
-                      viewerScopes={viewer.moderationScopes}
+                      viewer={viewer} // BIOOKMAKR: type mismatch
                       banState={[banSiteIDs, setBanSiteIDs]}
                       unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
                     />

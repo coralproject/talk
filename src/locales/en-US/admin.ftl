@@ -1698,7 +1698,7 @@ dashboard-alltime-rejections-archiveEnabled = { $value } { $unit ->
     }
     *[other] unknown unit
   } average
-dashboard-today-staff-comments = Staff comments
+dashboard-today-staffPlus-comments = Staff+ comments
 dashboard-alltime-staff-comments = All time total
 dashboard-alltime-staff-comments-archiveEnabled = { $value } { $unit ->
     [second] { $value ->

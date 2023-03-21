@@ -15,7 +15,7 @@ exports[`approves comment in rejected queue: count should be 1 1`] = `
 
 exports[`approves comment in rejected queue: dangling 1`] = `
 <div
-  className="Card-root ModerateCard-root ModerateCard-dangling ModerateCard-selected"
+  className="Card-root ModerateCard-root ModerateCard-dangling"
   data-testid="moderate-comment-card-comment-0"
   id="moderate-comment-comment-0"
   onClick={[Function]}
@@ -337,7 +337,7 @@ exports[`renders rejected queue with comments 1`] = `
       className="Box-root HorizontalGutter-root Queue-root HorizontalGutter-double"
     >
       <div
-        className="Card-root ModerateCard-root ModerateCard-selected"
+        className="Card-root ModerateCard-root"
         data-testid="moderate-comment-card-comment-0"
         id="moderate-comment-comment-0"
         onClick={[Function]}
