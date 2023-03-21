@@ -53,8 +53,6 @@ export enum UpdateType {
   NO_SITES = "NO_SITES",
 }
 
-// type BanModalViewer = Omit<UserStatusChangeContainer_viewer, " $refType">;
-
 interface Props {
   userID: string;
   username: string | null;
@@ -455,7 +453,7 @@ const BanModal: FunctionComponent<Props> = ({
                       updateType === UpdateType.SPECIFIC_SITES)) && (
                     <UserStatusSitesList
                       userBanStatus={userBanStatus}
-                      viewer={viewer} // BIOOKMAKR: type mismatch
+                      viewer={viewer}
                       banState={[banSiteIDs, setBanSiteIDs]}
                       unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
                     />
