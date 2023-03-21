@@ -52,7 +52,7 @@ export enum UpdateType {
   NO_SITES = "NO_SITES",
 }
 
-type BanModalViewerAlt = Omit<UserStatusChangeContainer_viewer, " $refType">;
+type BanModalViewer = Omit<UserStatusChangeContainer_viewer, " $refType">;
 
 interface Props {
   userID: string;
@@ -62,7 +62,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  readonly viewer: BanModalViewerAlt;
+  viewer: BanModalViewer;
   emailDomainModeration: UserStatusChangeContainer_settings["emailDomainModeration"];
   userRole: string;
   isMultisite: boolean;
