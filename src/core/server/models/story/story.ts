@@ -892,7 +892,7 @@ export async function retrieveStoriesToBeArchived(
   const results: Readonly<Story>[] = [];
   let scanned = 0;
 
-  while ((await cursor.hasNext()) || results.length === count) {
+  while (await cursor.hasNext()) {
     const story = (await cursor.next()) as ArchiveCheckStory;
     if (!story) {
       continue;
@@ -928,6 +928,11 @@ export async function retrieveStoriesToBeArchived(
       notRatingsAndReview
     ) {
       results.push(story);
+    }
+
+    // if we have enough to meet our count quota, stop iterating the cursor
+    if (results.length >= count) {
+      break;
     }
   }
 
