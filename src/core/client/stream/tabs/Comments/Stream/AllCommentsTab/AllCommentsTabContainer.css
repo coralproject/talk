@@ -3,7 +3,6 @@
 }
 
 .refreshContainer {
-  position: absolute;
   z-index: 999999;
   top: 3rem;
   left: 50%;
@@ -12,14 +11,12 @@
   border-radius: var(--spacing-4);
 }
 
+.refreshContainerAbsolute {
+  position: absolute;
+}
+
 .refreshContainerFixed {
   position: fixed;
-  z-index: 999999;
-  top: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--palette-primary-500);
-  border-radius: var(--spacing-4);
 }
 
 .refreshButton {

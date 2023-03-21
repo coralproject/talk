@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -133,9 +134,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   const [showCommentRefreshButton, setShowCommentRefreshButton] =
     useState(false);
   const [isNotFirstLoad, setIsNotFirstLoad] = useState(false);
-  const [refreshButtonStyles, setRefreshButtonStyles] = useState(
-    styles.refreshContainer
-  );
+  const [refreshButtonPositionStyles, setRefreshButtonPositionStyles] =
+    useState(styles.refreshContainerAbsolute);
 
   const hasMore = relay.hasMore();
   useEffect(() => {
@@ -204,11 +204,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!topOfCommentsInView && allCommentsInView) {
-      setRefreshButtonStyles(styles.refreshContainerFixed);
+      setRefreshButtonPositionStyles(styles.refreshContainerFixed);
     } else {
-      setRefreshButtonStyles(styles.refreshContainer);
+      setRefreshButtonPositionStyles(styles.refreshContainerAbsolute);
     }
-  }, [topOfCommentsInView, setRefreshButtonStyles, allCommentsInView]);
+  }, [topOfCommentsInView, setRefreshButtonPositionStyles, allCommentsInView]);
 
   const handleClickCloseRefreshButton = useCallback(() => {
     setShowCommentRefreshButton(false);
@@ -491,7 +491,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         spacing={commentSeenEnabled ? 0 : undefined}
       >
         {!!viewer && showCommentRefreshButton && (
-          <div className={refreshButtonStyles}>
+          <div
+            className={cn(styles.refreshContainer, refreshButtonPositionStyles)}
+          >
             <Flex className={styles.flexContainer} alignItems="center">
               <Flex alignItems="baseline">
                 <Localized
