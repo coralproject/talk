@@ -148,7 +148,7 @@ it("ban user with custom message", async () => {
   fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
 
   const modal = screen.getByLabelText("Are you sure you want to ban Isabelle?");
-  const toggleMessage = within(modal).getByRole("checkbox", {
+  const toggleMessage = within(modal).getByRole("button", {
     name: "Customize ban email message",
   });
   userEvent.click(toggleMessage);

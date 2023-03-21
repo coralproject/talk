@@ -181,9 +181,10 @@ const BanModal: FunctionComponent<Props> = ({
   });
 
   const showAllSitesOption =
-    viewerIsAdmin ||
-    viewerIsOrgMod ||
-    (viewerIsScoped && !viewerIsSingleSiteMod && isMultisite);
+    userRole !== GQLUSER_ROLE.MODERATOR &&
+    (viewerIsAdmin ||
+      viewerIsOrgMod ||
+      (viewerIsScoped && !viewerIsSingleSiteMod && isMultisite));
 
   const [customizeMessage, setCustomizeMessage] = useState(false);
   const [emailMessage, setEmailMessage] = useState<string>(getDefaultMessage);
