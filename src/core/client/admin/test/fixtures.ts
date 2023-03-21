@@ -1280,7 +1280,6 @@ export const commentFlagsNoDetails = createFixtures<GQLFlag>([
 export const communityUsers = createFixture<GQLUsersConnection>({
   edges: [
     { node: users.admins[0], cursor: users.admins[0].createdAt },
-    { node: users.admins[1], cursor: users.admins[1].createdAt },
     { node: users.moderators[0], cursor: users.moderators[0].createdAt },
     { node: users.moderators[1], cursor: users.moderators[1].createdAt },
     { node: users.moderators[2], cursor: users.moderators[2].createdAt },

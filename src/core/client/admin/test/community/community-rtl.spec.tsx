@@ -11,6 +11,7 @@ import customRenderAppWithContext from "coral-admin/test/customRenderAppWithCont
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
+  GQLUsersConnection,
   GQLUSER_ROLE,
   QueryToSettingsResolver,
   QueryToUsersResolver,
@@ -24,7 +25,6 @@ import {
 
 import { createContext } from "../create";
 import {
-  communityUsers,
   disabledEmail,
   disabledLocalAuth,
   disabledLocalAuthAdminTargetFilter,
@@ -36,6 +36,20 @@ import {
   sites,
   users,
 } from "../fixtures";
+import { createFixture } from "coral-framework/testHelpers";
+
+export const communityUsers = createFixture<GQLUsersConnection>({
+  edges: [
+    { node: users.admins[0], cursor: users.admins[0].createdAt },
+    { node: users.admins[1], cursor: users.admins[1].createdAt },
+    { node: users.moderators[0], cursor: users.moderators[0].createdAt },
+    { node: users.moderators[1], cursor: users.moderators[1].createdAt },
+    { node: users.moderators[2], cursor: users.moderators[2].createdAt },
+    { node: users.staff[0], cursor: users.staff[0].createdAt },
+    { node: users.commenters[0], cursor: users.commenters[0].createdAt },
+  ],
+  pageInfo: { endCursor: null, hasNextPage: false },
+});
 
 const adminViewer = users.admins[0];
 
