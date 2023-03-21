@@ -35,7 +35,6 @@ interface Props {
   readonly userBanStatus?: UserBanStatus;
   banState: [string[], (siteIDs: string[]) => void];
   unbanState: [string[], (siteIDs: string[]) => void];
-  viewerScopes: Scopes | null;
   viewer: UserStatusChangeContainer_viewer;
 }
 
