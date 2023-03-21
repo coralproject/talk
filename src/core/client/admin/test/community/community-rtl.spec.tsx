@@ -11,12 +11,13 @@ import customRenderAppWithContext from "coral-admin/test/customRenderAppWithCont
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
-  GQLUsersConnection,
   GQLUSER_ROLE,
+  GQLUsersConnection,
   QueryToSettingsResolver,
   QueryToUsersResolver,
 } from "coral-framework/schema";
 import {
+  createFixture,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -36,7 +37,6 @@ import {
   sites,
   users,
 } from "../fixtures";
-import { createFixture } from "coral-framework/testHelpers";
 
 export const communityUsers = createFixture<GQLUsersConnection>({
   edges: [
