@@ -197,13 +197,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   }, [visible, isNotFirstLoad]);
 
   useEffect(() => {
-    if (!live) {
-      return;
-    }
     if (visible && isNotFirstLoad) {
       setShowCommentRefreshButton(true);
     }
-  }, [visible, setShowCommentRefreshButton, live]);
+  }, [visible, setShowCommentRefreshButton]);
 
   useEffect(() => {
     if (!topOfCommentsInView && allCommentsInView) {
@@ -222,6 +219,17 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     setLocal({ refreshStream: !refreshStream });
     RefreshCommentsButtonEvent.emit(eventEmitter);
   }, [refreshStream]);
+
+  const refreshCommentsLocalization =
+    story.settings.mode === GQLSTORY_MODE.COMMENTS
+      ? {
+          id: "comments-refreshComments-refreshButton",
+          text: "Refresh comments",
+        }
+      : {
+          id: "comments-refreshQuestions-refreshButton",
+          text: "Refresh questions",
+        };
 
   const onChangeRating = useCallback(
     (rating: number | null) => {
@@ -487,11 +495,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
             <Flex className={styles.flexContainer} alignItems="center">
               <Flex alignItems="baseline">
                 <Localized
-                  id="comments-refreshComments-refreshButton"
+                  id={refreshCommentsLocalization.id}
                   attrs={{ "aria-label": true }}
                 >
                   <Button
-                    aria-label="Refresh comments"
+                    aria-label={refreshCommentsLocalization.text}
                     variant="filled"
                     color="primary"
                     paddingSize="extraSmall"
@@ -501,7 +509,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                     <ButtonIcon className={styles.refreshButtonIcon}>
                       refresh
                     </ButtonIcon>
-                    Refresh comments
+                    {refreshCommentsLocalization.text}
                   </Button>
                 </Localized>
                 <div className={styles.divider}>|</div>
