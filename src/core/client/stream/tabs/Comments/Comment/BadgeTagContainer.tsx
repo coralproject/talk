@@ -25,17 +25,17 @@ const BadgeTagContainer: FunctionComponent<Props> = ({
     <>
       {tags.includes("ADMIN") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.badges.adminLabel}
+          <img src="https://www.telegram.hr/css/badge-tg.svg" alt="Novinar" />
         </Tag>
       )}
       {tags.includes("MODERATOR") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.badges.moderatorLabel}
+          <img src="https://www.telegram.hr/css/badge-tg.svg" alt="Novinar" />
         </Tag>
       )}
       {tags.includes("STAFF") && (
         <Tag className={cn(className, styles.tag)}>
-          {settings.badges.staffLabel}
+          <img src="https://www.telegram.hr/css/badge-tg.svg" alt="Novinar" />
         </Tag>
       )}
       {tags.includes("MEMBER") && (
