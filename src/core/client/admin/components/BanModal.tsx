@@ -9,6 +9,7 @@ import React, {
 import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
 import { extractDomain } from "coral-common/email";
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { useMutation } from "coral-framework/lib/relay";
@@ -184,9 +185,6 @@ const BanModal: FunctionComponent<Props> = ({
   const [emailMessage, setEmailMessage] = useState<string>(getDefaultMessage);
   const [rejectExistingComments, setRejectExistingComments] = useState(false);
   const [banDomain, setBanDomain] = useState(false);
-  const canBanDomain =
-    viewer.role === GQLUSER_ROLE.ADMIN ||
-    (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer));
 
   const [banSiteIDs, setBanSiteIDs] = useState<string[]>([]);
   const [unbanSiteIDs, setUnbanSiteIDs] = useState<string[]>([]);
@@ -195,6 +193,14 @@ const BanModal: FunctionComponent<Props> = ({
   const domainIsConfigured = emailDomainModeration.find(
     ({ domain }) => domain === emailDomain
   );
+
+  const canBanDomain =
+    (viewer.role === GQLUSER_ROLE.ADMIN ||
+      (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer))) &&
+    updateType !== UpdateType.NO_SITES &&
+    emailDomain &&
+    !domainIsConfigured &&
+    !PROTECTED_EMAIL_DOMAINS.has(emailDomain);
 
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
@@ -325,23 +331,20 @@ const BanModal: FunctionComponent<Props> = ({
                       </CheckBox>
                     </Localized>
                   )}
-                  {updateType !== UpdateType.NO_SITES &&
-                    emailDomain &&
-                    canBanDomain &&
-                    !domainIsConfigured && (
-                      <Localized
-                        id="community-banModal-banEmailDomain"
-                        vars={{ domain: emailDomain }}
+                  {canBanDomain && (
+                    <Localized
+                      id="community-banModal-banEmailDomain"
+                      vars={{ domain: emailDomain }}
+                    >
+                      <CheckBox
+                        onChange={({ target }) => {
+                          setBanDomain(target.checked);
+                        }}
                       >
-                        <CheckBox
-                          onChange={({ target }) => {
-                            setBanDomain(target.checked);
-                          }}
-                        >
-                          Ban all new accounts on <strong>{emailDomain}</strong>
-                        </CheckBox>
-                      </Localized>
-                    )}
+                        Ban all new accounts on <strong>{emailDomain}</strong>
+                      </CheckBox>
+                    </Localized>
+                  )}
                   {updateType !== UpdateType.NO_SITES && (
                     <Localized id="community-banModal-customize">
                       <CheckBox
