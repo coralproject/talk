@@ -341,6 +341,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
     >
       <form
         autoComplete="off"
+        data-testid="comments-postCommentForm-form"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
       >
@@ -562,6 +563,7 @@ exports[`edit a comment: edit form 1`] = `
     >
       <form
         autoComplete="off"
+        data-testid="comments-postCommentForm-form"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
       >
@@ -783,6 +785,7 @@ exports[`edit a comment: optimistic response 1`] = `
     >
       <form
         autoComplete="off"
+        data-testid="comments-postCommentForm-form"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
       >
@@ -1913,6 +1916,7 @@ exports[`shows expiry message: edit time expired 1`] = `
     >
       <form
         autoComplete="off"
+        data-testid="comments-postCommentForm-form"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
       >

@@ -449,6 +449,7 @@ exports[`renders message box when logged in 1`] = `
           >
             <form
               autoComplete="off"
+              data-testid="comments-postCommentForm-form"
               id="comments-postCommentForm-form"
               onSubmit={[Function]}
             >
