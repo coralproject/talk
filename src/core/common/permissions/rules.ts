@@ -7,7 +7,7 @@ import {
 // admins can perform any action, even demoting other admins
 const adminsArePowerful: PermissionsActionRuleTest = ({ viewer, user }) => ({
   applies: viewer.role === "ADMIN",
-  reason: "Admins may change any non admin's role or scopes",
+  reason: "Admins may change any user's role or scopes",
 });
 
 // org mods can promote anyone < site mod to be an unscoped member
