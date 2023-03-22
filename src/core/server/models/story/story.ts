@@ -9,6 +9,7 @@ import {
   DuplicateStoryURLError,
   StoryNotFoundError,
 } from "coral-server/errors";
+import { Logger } from "coral-server/logger";
 import {
   Connection,
   NodeToCursorTransformer,
@@ -866,33 +867,82 @@ export async function retrieveStoryToBeUnarchived(
   return result.value;
 }
 
+interface ArchiveCheckStory extends Story {
+  startedUnarchivingAt?: Date;
+  unarchivedAt?: Date;
+}
+
 export async function retrieveStoriesToBeArchived(
   mongo: MongoContext,
+  logger: Logger,
   tenantID: string,
   olderThan: Date,
   now: Date,
   count: number
 ): Promise<Readonly<Story>[]> {
-  const result = await mongo
+  const start = Date.now();
+
+  const cursor = mongo
     .stories()
     .find({
       tenantID,
-      $or: [
-        { lastCommentedAt: { $lte: olderThan } },
-        {
-          $and: [{ lastCommentedAt: null }, { createdAt: { $lte: olderThan } }],
-        },
-      ],
-      isArchiving: { $in: [null, false] },
-      isArchived: { $in: [null, false] },
-      startedUnarchivingAt: { $in: [null, false] },
-      unarchivedAt: { $in: [null, false] },
-      "settings.mode": { $ne: GQLSTORY_MODE.RATINGS_AND_REVIEWS },
     })
-    .limit(count)
-    .toArray();
+    .sort({ createdAt: -1 });
 
-  return result;
+  const results: Readonly<Story>[] = [];
+  let scanned = 0;
+
+  while (await cursor.hasNext()) {
+    const story = (await cursor.next()) as ArchiveCheckStory;
+    if (!story) {
+      continue;
+    }
+
+    scanned += 1;
+
+    const lastCommentedAt = story.lastCommentedAt
+      ? new Date(story.lastCommentedAt)
+      : null;
+
+    const oldEnough =
+      (story.createdAt <= olderThan && lastCommentedAt === null) ||
+      (lastCommentedAt && lastCommentedAt <= olderThan);
+    const isNotArchived =
+      (story.isArchiving === null ||
+        story.isArchiving === false ||
+        story.isArchiving === undefined) &&
+      (story.isArchived === null ||
+        story.isArchived === false ||
+        story.isArchived === undefined);
+    const wasNotUnarchivedByUser =
+      (story.startedUnarchivingAt === null ||
+        story.startedUnarchivingAt === undefined) &&
+      (story.unarchivedAt === null || story.unarchivedAt === undefined);
+    const notRatingsAndReview =
+      story.settings.mode !== GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+
+    if (
+      oldEnough &&
+      isNotArchived &&
+      wasNotUnarchivedByUser &&
+      notRatingsAndReview
+    ) {
+      results.push(story);
+    }
+
+    // if we have enough to meet our count quota, stop iterating the cursor
+    if (results.length >= count) {
+      break;
+    }
+  }
+
+  const end = Date.now();
+  logger.info(
+    { count: results.length, scanned, elapsedMs: end - start },
+    "retrieveStoriesToBeArchived"
+  );
+
+  return results;
 }
 
 export async function markStoryAsArchived(
