@@ -123,7 +123,9 @@ const Popover: FunctionComponent<PopoverProps> = ({
     window.document.addEventListener("keydown", handleEsc, true);
 
     return () => {
-      window.document.removeEventListener("keydown", handleEsc, true);
+      if (window.document.removeEventListener) {
+        window.document.removeEventListener("keydown", handleEsc, true);
+      }
     };
   }, []);
 
