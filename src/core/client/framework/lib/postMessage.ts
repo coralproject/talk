@@ -68,7 +68,9 @@ export class PostMessageService {
     // Attach the listener to the target.
     this.window.addEventListener("message", listener);
     return () => {
-      this.window.removeEventListener("message", listener);
+      if (this.window.removeEventListener) {
+        this.window.removeEventListener("message", listener);
+      }
     };
   }
 }

@@ -1345,7 +1345,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     root.addEventListener("keypress", handleKeypress as any);
 
     return () => {
-      renderWindow.removeEventListener("keypress", handleWindowKeypress);
+      if (renderWindow.removeEventListener) {
+        renderWindow.removeEventListener("keypress", handleWindowKeypress);
+      }
       root.removeEventListener("keypress", handleKeypress as any);
     };
   }, [handleKeypress, handleWindowKeypress, renderWindow, root]);
