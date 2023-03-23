@@ -580,7 +580,7 @@ profile-account-notifications-sendNotifications-daily = Täglich
 profile-account-notifications-sendNotifications-hourly = Stündlich
 profile-account-notifications-updated = Ihre Benachrichtigungseinstellungen wurden aktualisiert.
 profile-account-notifications-button = Benachrichtigungseinstellungen aktualisieren
-profile-account-notifications-buttonon-update = Aktualisieren
+profile-account-notifications-button-update = Aktualisieren
 
 ## Report Comment Popover
 comments-reportPopover =
