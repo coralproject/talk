@@ -450,6 +450,35 @@ export class TokenInvalidError extends CoralError {
   }
 }
 
+export class OperationForbiddenError extends CoralError {
+  constructor(
+    code: ERROR_CODES,
+    reason: string,
+    resource: string,
+    operation: string,
+    userID?: string,
+    permit?: GQLUSER_AUTH_CONDITIONS[],
+    conditions?: GQLUSER_AUTH_CONDITIONS[],
+    unscoped?: boolean
+  ) {
+    super({
+      code,
+      context: {
+        pvt: {
+          reason,
+          userID,
+          resource,
+          operation,
+          conditions,
+          permit,
+          unscoped,
+        },
+      },
+      status: 403,
+    });
+  }
+}
+
 export class UserForbiddenError extends CoralError {
   constructor(
     reason: string,

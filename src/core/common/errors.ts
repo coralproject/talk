@@ -57,6 +57,12 @@ export enum ERROR_CODES {
   EMAIL_ALREADY_SET = "EMAIL_ALREADY_SET",
 
   /**
+   * EMAIL_DOMAIN_PROTECTED is used when trying to ban an email domain that is
+   * so common that it is most likely being done in error.
+   */
+  EMAIL_DOMAIN_PROTECTED = "EMAIL_DOMAIN_PROTECTED",
+
+  /**
    * EMAIL_NOT_SET is used when performing an operation that requires that the
    * email address be set on the User, and it is not.
    */

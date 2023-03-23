@@ -46,11 +46,13 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
   }
 
   public componentWillUnmount() {
-    this.props.window!.document.removeEventListener(
-      "click",
-      this.handleClick,
-      true
-    );
+    if (this.props.window && this.props.window.document.removeEventListener) {
+      this.props.window.document.removeEventListener(
+        "click",
+        this.handleClick,
+        true
+      );
+    }
   }
 
   public render() {
