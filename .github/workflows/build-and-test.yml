@@ -69,8 +69,11 @@ jobs:
         name: Lint Versions
         run: npx @coralproject/package-version-lint
       -
-        name: Run Unit Tests
-        run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
+        name: Run Server Unit Tests
+        run: npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Unit Tests
+        run: npm run test:client -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build
         run: npm run build

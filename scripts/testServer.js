@@ -21,12 +21,13 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-const paths = require("../config/paths.ts").default;
+
+
+const paths = require("../config/paths.server.ts").default;
 
 const jest = require("jest");
 
-const argv = process.argv.slice(2);
-
+const argv = [];
 argv.push("--env=jsdom");
 argv.push("--config", paths.appJestConfig);
 
