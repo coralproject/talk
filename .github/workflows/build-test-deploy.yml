@@ -87,8 +87,14 @@ jobs:
         name: Run Server Unit Tests
         run: npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
-        name: Run Client Unit Tests
-        run: npm run test:client -- --ci --runInBand --reporters=default --reporters=jest-junit
+        name: Run Client Stream Unit Tests
+        run: npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Admin Unit Tests
+        run: npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Other Unit Tests
+        run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build
         run: npm run build

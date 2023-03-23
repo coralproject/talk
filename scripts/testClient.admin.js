@@ -21,7 +21,7 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-const paths = require("../config/paths.server.ts").default;
+const paths = require("../config/paths.client.admin.ts").default;
 
 const jest = require("jest");
 
