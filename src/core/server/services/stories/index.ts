@@ -59,6 +59,7 @@ import {
   Tenant,
 } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
@@ -83,6 +84,7 @@ export type FindOrCreateStory = FindOrCreateStoryInput;
 export async function findOrCreate(
   mongo: MongoContext,
   tenant: Tenant,
+  queue: LoadCacheQueue,
   broker: CoralEventPublisherBroker,
   input: FindOrCreateStory,
   scraper: ScraperQueue,
@@ -133,6 +135,8 @@ export async function findOrCreate(
       },
       "story upserted"
     );
+
+    await queue.add({ tenantID: tenant.id, storyID: story.id });
 
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
