@@ -1,6 +1,7 @@
 import { isNull, omitBy } from "lodash";
 
 import { ERROR_CODES } from "coral-common/errors";
+import { StoryNotFoundError } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
@@ -28,6 +29,7 @@ import { scrape } from "coral-server/services/stories/scraper";
 import {
   GQLAddStoryExpertInput,
   GQLArchiveStoriesInput,
+  GQLCacheStoryInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
@@ -191,5 +193,28 @@ export const Stories = (ctx: GraphContext) => ({
     } else {
       return await ctx.loaders.Stories.find.load({ id: input.storyID });
     }
+  },
+  cacheStory: async (input: GQLCacheStoryInput) => {
+    const story = await ctx.loaders.Stories.find.load({ id: input.id });
+    if (!story) {
+      throw new StoryNotFoundError(input.id);
+    }
+
+    await ctx.loadCacheQueue.add({
+      tenantID: story.tenantID,
+      storyID: story.id,
+    });
+
+    return story;
+  },
+  invalidateCachedStory: async (input: GQLCacheStoryInput) => {
+    const story = await ctx.loaders.Stories.find.load({ id: input.id });
+    if (!story) {
+      throw new StoryNotFoundError(input.id);
+    }
+
+    await ctx.cache.comments.invalidateCache(story.tenantID, story.id);
+
+    return story;
   },
 });

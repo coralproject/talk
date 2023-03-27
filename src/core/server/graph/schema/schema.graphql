@@ -4224,6 +4224,11 @@ type Story @cacheControl(maxAge: 30) {
   this story.
   """
   viewerRating: Comment
+
+  """
+  cached returns whether a story's stream is currently cached in redis or not.
+  """
+  cached: Boolean
 }
 
 """
@@ -8799,6 +8804,63 @@ type RefreshStoryCountsPayload {
 }
 
 ##################
+## cacheStory
+##################
+
+input CacheStoryInput {
+  """
+  id is the identifier of the Story whose comment and user data
+  will be scheduled for caching in Redis.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CacheStoryPayload {
+  """
+  story is the Story that was scheduled for caching in Redis.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##########################
+## invalidateCachedStory
+##########################
+
+input InvalidateCachedStoryInput {
+  """
+  id is the identifier of the Story whose data cache will be invalidated in Redis.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type InvalidateCachedStoryPayload {
+  """
+  story is the Story whose data cache was invalidated in Redis.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -9488,6 +9550,20 @@ type Mutation {
   """
   refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
     @auth(roles: [ADMIN])
+
+  """
+  cacheStory will cache the given Story and its comments into redis for fast
+  retrieval avoiding Mongo resources to load the story data.
+  """
+  cacheStory(input: CacheStoryInput!): CacheStoryPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  invalidateCachedStory will invalidate any cached data for a story whose stream
+  may be cached in redis.
+  """
+  invalidateCachedStory(input: InvalidateCachedStoryInput!): InvalidateCachedStoryPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################
