@@ -62,6 +62,7 @@
     "test:client:stream": "node --trace-warnings scripts/testClient.stream.js",
     "test:client:admin": "node --trace-warnings scripts/testClient.admin.js",
     "test:client:other": "node --trace-warnings scripts/testClient.other.js",
+    "test:cache": "node --trace-warnings scripts/test.cache.js --env=jsdom",
     "tscheck:client": "tsc --project ./src/core/client/tsconfig.json --noEmit",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",

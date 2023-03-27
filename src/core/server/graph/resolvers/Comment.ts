@@ -10,31 +10,30 @@ import {
   decodeActionCounts,
 } from "coral-server/models/action/comment";
 import * as comment from "coral-server/models/comment";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import {
   getDepth,
   getLatestRevision,
   hasAncestors,
-  hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
 import { canModerate } from "coral-server/models/user/helpers";
-import {
-  getCommentEditableUntilDate,
-  hasRejectedAncestors,
-} from "coral-server/services/comments";
+import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import {
   GQLComment,
   GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
   GQLCommentTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
 
-export const maybeLoadOnlyID = (
+export const maybeLoadOnlyID = async (
   ctx: GraphContext,
   info: GraphQLResolveInfo,
+  storyID: string,
   id: string
 ) => {
   // Get the field names of the fields being requested, if it's only the ID,
@@ -44,6 +43,20 @@ export const maybeLoadOnlyID = (
     return {
       id,
     };
+  }
+
+  const cachedComment = await ctx.cache.comments.find(
+    ctx.tenant.id,
+    storyID,
+    id
+  );
+  if (
+    cachedComment !== null &&
+    PUBLISHED_STATUSES.includes(cachedComment.status)
+  ) {
+    return cachedComment;
+  } else if (cachedComment !== null) {
+    return null;
   }
 
   // We want more than the ID! Get the comment!
@@ -68,19 +81,16 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     return canModerate(ctx.user, { siteID: c.siteID });
   },
   canReply: async (c, input, ctx) => {
-    const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
-    if (!story || story.isArchived || story.isArchiving) {
-      return false;
-    }
-
-    const rejectedAncestors = await hasRejectedAncestors(
-      ctx.mongo,
-      ctx.tenant.id,
-      c.id,
-      story.isArchived || story.isArchiving
+    const ancestors = await ctx.cache.comments.findAncestors(
+      c.tenantID,
+      c.storyID,
+      c.id
+    );
+    const rejected = ancestors.filter(
+      (a) => a.status === GQLCOMMENT_STATUS.REJECTED
     );
 
-    return !rejectedAncestors;
+    return rejected.length === 0;
   },
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
@@ -97,8 +107,13 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         ? getCommentEditableUntilDate(ctx.tenant, createdAt)
         : null,
   }),
-  author: (c, input, ctx) =>
-    c.authorID ? ctx.loaders.Users.user.load(c.authorID) : null,
+  author: (c, input, ctx) => {
+    if (!c.authorID) {
+      return null;
+    }
+
+    return ctx.cache.users.findUser(c.tenantID, c.authorID);
+  },
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
   replies: (c, input, ctx) =>
@@ -107,17 +122,20 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.childCount > 0
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
       : createConnection(),
-  replyCount: async ({ childIDs }, input, ctx) => {
+  replyCount: async ({ storyID, childIDs }, input, ctx) => {
     // TODO: (wyattjoh) the childCount should be used eventually, but it should be managed with the status so it's only a count of published comments
     if (childIDs.length === 0) {
       return 0;
     }
 
-    const children = await ctx.loaders.Comments.visible.loadMany(childIDs);
-    return children.reduce(
-      (sum: number, c: any) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
-      0
+    const children = await ctx.cache.comments.findMany(
+      ctx.tenant.id,
+      storyID,
+      childIDs
     );
+    const count = children.filter((c) => c !== null).length;
+
+    return count;
   },
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: (c) => decodeActionCounts(c.actionCounts),
@@ -155,10 +173,19 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   depth: (c) => getDepth(c),
   rootParent: (c, input, ctx, info) =>
     hasAncestors(c)
-      ? maybeLoadOnlyID(ctx, info, c.ancestorIDs[c.ancestorIDs.length - 1])
+      ? maybeLoadOnlyID(
+          ctx,
+          info,
+          c.storyID,
+          c.ancestorIDs[c.ancestorIDs.length - 1]
+        )
       : null,
-  parent: (c, input, ctx, info) =>
-    hasAncestors(c) ? maybeLoadOnlyID(ctx, info, c.parentID) : null,
+  parent: async (c, input, ctx, info) => {
+    const parent = c.parentID
+      ? await ctx.cache.comments.find(c.tenantID, c.storyID, c.parentID)
+      : null;
+    return parent;
+  },
   parents: (c, input, ctx) =>
     // Some resolver optimization.
     hasAncestors(c)
