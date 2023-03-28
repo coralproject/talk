@@ -225,6 +225,7 @@ const createJobProcessor =
       redis,
       null,
       log,
+      false,
       config.get("redis_cache_expiry") / 1000
     );
 
