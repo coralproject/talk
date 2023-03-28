@@ -29,7 +29,7 @@ export class DataCache {
     queue: LoadCacheQueue | null,
     logger: Logger,
     disableCaching?: boolean,
-    expirySeconds: number = DEFAULT_DATA_EXPIRY_SECONDS,
+    expirySeconds: number = DEFAULT_DATA_EXPIRY_SECONDS
   ) {
     this.mongo = mongo;
     this.redis = redis;
