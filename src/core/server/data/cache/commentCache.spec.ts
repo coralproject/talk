@@ -46,6 +46,7 @@ const createFixtures = async (
     redis,
     null,
     logger,
+    false,
     options?.expirySeconds ? options.expirySeconds : 5 * 60
   );
 
