@@ -28,6 +28,7 @@ export class DataCache {
     redis: AugmentedRedis,
     queue: LoadCacheQueue | null,
     logger: Logger,
+    disableCaching?: boolean,
     expirySeconds: number = DEFAULT_DATA_EXPIRY_SECONDS
   ) {
     this.mongo = mongo;
@@ -41,6 +42,7 @@ export class DataCache {
       this.redis,
       this.queue,
       this.logger,
+      Boolean(disableCaching),
       this.expirySeconds
     );
     this.commentActions = new CommentActionsCache(

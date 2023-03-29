@@ -23,6 +23,7 @@ export interface Filter {
 }
 
 export class CommentCache {
+  private disableLocalCaching: boolean;
   private expirySeconds: number;
 
   private mongo: MongoContext;
@@ -38,6 +39,7 @@ export class CommentCache {
     redis: AugmentedRedis,
     queue: LoadCacheQueue | null,
     logger: Logger,
+    disableLocalCaching: boolean,
     expirySeconds: number
   ) {
     this.mongo = mongo;
@@ -46,6 +48,7 @@ export class CommentCache {
 
     this.logger = logger.child({ dataCache: "CommentCache" });
 
+    this.disableLocalCaching = disableLocalCaching;
     this.expirySeconds = expirySeconds;
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
@@ -310,7 +313,7 @@ export class CommentCache {
     const key = this.computeDataKey(tenantID, storyID, id);
 
     const localComment = this.commentsByKey.get(key);
-    if (localComment) {
+    if (localComment && !this.disableLocalCaching) {
       return localComment;
     }
 
@@ -373,7 +376,7 @@ export class CommentCache {
     let someNotFound = false;
     for (const key of keys) {
       const localComment = this.commentsByKey.get(key);
-      if (localComment) {
+      if (localComment && !this.disableLocalCaching) {
         results.push(localComment);
       } else {
         someNotFound = true;
