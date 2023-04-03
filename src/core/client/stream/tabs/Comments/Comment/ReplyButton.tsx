@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent } from "react";
 import Responsive from "react-responsive";
 
-import { Flex, Icon } from "coral-ui/components/v2";
+import { ReplyIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./ReplyButton.css";
@@ -36,7 +37,7 @@ const ReplyButton: FunctionComponent<Props> = (props) => (
       paddingSize="extraSmall"
     >
       <Flex alignItems="center" container="span">
-        <Icon className={styles.icon}>reply</Icon>
+        <SvgIcon className={styles.icon} Icon={ReplyIcon} />
         <Responsive minWidth={400}>
           <Localized id="comments-replyButton-reply">
             <span>Reply</span>

@@ -3,6 +3,7 @@ import cn from "classnames";
 import React from "react";
 import Responsive from "react-responsive";
 
+import { SvgIcon, ThumbsUpIcon } from "coral-ui/components/icons";
 import { Flex, Icon } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -31,8 +32,8 @@ function render(props: ReactionButtonProps) {
     onClick,
     labelActive,
     label,
-    icon,
-    iconActive,
+    // icon,
+    // iconActive,
   } = props;
 
   return (
@@ -56,9 +57,10 @@ function render(props: ReactionButtonProps) {
         {props.isQA ? (
           <Icon className={styles.icon}>arrow_upward</Icon>
         ) : (
-          <Icon className={styles.icon}>
-            {reacted ? (iconActive ? iconActive : icon) : icon}
-          </Icon>
+          <SvgIcon className={styles.icon} Icon={ThumbsUpIcon} />
+          // <Icon className={styles.icon}>
+          //   {reacted ? (iconActive ? iconActive : icon) : icon}
+          // </Icon>
         )}
         <Responsive minWidth={400}>
           {props.isQA ? (

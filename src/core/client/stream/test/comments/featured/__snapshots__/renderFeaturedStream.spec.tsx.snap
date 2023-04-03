@@ -38,12 +38,22 @@ exports[`renders comment stream 1`] = `
             </span>
           </div>
           <div>
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-lg coral coral-icon"
+            <span
+              className="SvgIcon-root SvgIcon-lg SvgIcon-strokeWidthRegular"
             >
-              forum
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.75,18.75H11.25l-6,4.5v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-15A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v15A1.5,1.5,0,0,1,21.75,18.75Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <div
               className="TabBar-smallText"
             >
@@ -164,12 +174,36 @@ exports[`renders comment stream 1`] = `
                         title="Bold"
                         type="button"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md coral coral-icon"
+                        <span
+                          className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
                         >
-                          format_bold
-                        </i>
+                          <svg
+                            viewBox="-0.25 -0.25 24.5 24.5"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M3.75,23.248H13.5a6.75,6.75,0,0,0,0-13.5h.75a4.5,4.5,0,1,0,0-9H3.75"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M6.75 0.748L6.75 23.248"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M13.5 9.748L6.75 9.748"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
                       </button>
                       <button
                         aria-pressed={false}
@@ -184,12 +218,36 @@ exports[`renders comment stream 1`] = `
                         title="Italic"
                         type="button"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md coral coral-icon"
+                        <span
+                          className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                         >
-                          format_italic
-                        </i>
+                          <svg
+                            viewBox="-0.25 -0.25 24.5 24.5"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M23.25 0.748L12.75 0.748"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M11.25 23.248L0.75 23.248"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M6 23.248L18 0.748"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
                       </button>
                       <button
                         aria-pressed={false}
@@ -204,12 +262,43 @@ exports[`renders comment stream 1`] = `
                         title="Blockquote"
                         type="button"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md coral coral-icon"
+                        <span
+                          className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                         >
-                          format_quote
-                        </i>
+                          <svg
+                            viewBox="-0.25 -0.25 24.5 24.5"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M23.25,9.248a10.5,10.5,0,0,1-10.5,10.5"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M11.25,9.248a10.5,10.5,0,0,1-10.5,10.5"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
                       </button>
                       <button
                         aria-pressed={false}
@@ -224,12 +313,74 @@ exports[`renders comment stream 1`] = `
                         title="Bulleted List"
                         type="button"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-md coral coral-icon"
+                        <span
+                          className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                         >
-                          format_list_bulleted
-                        </i>
+                          <svg
+                            viewBox="-0.25 -0.25 24.5 24.5"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g>
+                              <circle
+                                cx="3"
+                                cy="3"
+                                fill="none"
+                                r="2.25"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <circle
+                                cx="3"
+                                cy="12"
+                                fill="none"
+                                r="2.25"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <circle
+                                cx="3"
+                                cy="21"
+                                fill="none"
+                                r="2.25"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <line
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                x1="8.25"
+                                x2="23.25"
+                                y1="3"
+                                y2="3"
+                              />
+                              <line
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                x1="8.25"
+                                x2="23.25"
+                                y1="12"
+                                y2="12"
+                              />
+                              <line
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                x1="8.25"
+                                x2="23.25"
+                                y1="21"
+                                y2="21"
+                              />
+                            </g>
+                          </svg>
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -581,12 +732,28 @@ exports[`renders comment stream 1`] = `
                     <span
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
                       >
-                        thumb_up
-                      </i>
+                        <svg
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5.33014 8.42566H0.830139V21.9257H5.33014V8.42566Z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M5.33099 20.421C9.88265 20.421 10.2535 22.2335 16.4162 22.6037C18.1465 22.7076 19.3882 22.7972 20.5406 21.3197C23.0714 18.0748 24.287 10.3581 21.8323 10.3581H16.8181C15.7136 10.3581 14.8181 9.46264 14.8181 8.35807V4.46807C14.8181 1.44807 10.4002 -0.136834 10.4002 3.24807C10.4002 5.67566 9.4752 7.34449 7.92993 8.81464C7.17404 9.53378 6.29025 9.91876 5.33099 10.1244"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                     </span>
                   </button>
                   <div
@@ -730,12 +897,28 @@ exports[`renders comment stream 1`] = `
                     <span
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
                       >
-                        thumb_up
-                      </i>
+                        <svg
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5.33014 8.42566H0.830139V21.9257H5.33014V8.42566Z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M5.33099 20.421C9.88265 20.421 10.2535 22.2335 16.4162 22.6037C18.1465 22.7076 19.3882 22.7972 20.5406 21.3197C23.0714 18.0748 24.287 10.3581 21.8323 10.3581H16.8181C15.7136 10.3581 14.8181 9.46264 14.8181 8.35807V4.46807C14.8181 1.44807 10.4002 -0.136834 10.4002 3.24807C10.4002 5.67566 9.4752 7.34449 7.92993 8.81464C7.17404 9.53378 6.29025 9.91876 5.33099 10.1244"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                     </span>
                   </button>
                   <div

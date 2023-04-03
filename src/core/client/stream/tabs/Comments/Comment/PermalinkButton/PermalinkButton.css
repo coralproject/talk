@@ -1,3 +1,7 @@
 .icon {
   margin-right: var(--spacing-1);
 }
+
+.icon svg {
+  display: block;
+}

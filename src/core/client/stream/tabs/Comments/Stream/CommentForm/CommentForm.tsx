@@ -17,6 +17,7 @@ import { findMediaLinks, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { AddIcon, ImageAddIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Flex,
   HorizontalGutter,
@@ -347,7 +348,7 @@ const CommentForm: FunctionComponent<Props> = ({
                                     aria-pressed={showExternalImageInput}
                                     onClick={toggleExternalImageInput}
                                   >
-                                    <Icon size="md">add_photo_alternate</Icon>
+                                    <SvgIcon Icon={ImageAddIcon} size="md" />
                                   </RTEButton>
                                 </RTELocalized>
                               ) : null}
@@ -365,7 +366,11 @@ const CommentForm: FunctionComponent<Props> = ({
                                   onClick={toggleGIFSelector}
                                 >
                                   <Flex alignItems="center" container="span">
-                                    <Icon className={styles.icon}>add</Icon>
+                                    <SvgIcon
+                                      className={styles.icon}
+                                      size="xs"
+                                      Icon={AddIcon}
+                                    />
                                     GIF
                                   </Flex>
                                 </RTEButton>

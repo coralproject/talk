@@ -504,12 +504,36 @@ exports[`renders message box when logged in 1`] = `
                             title="Bold"
                             type="button"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-md coral coral-icon"
+                            <span
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
                             >
-                              format_bold
-                            </i>
+                              <svg
+                                viewBox="-0.25 -0.25 24.5 24.5"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M3.75,23.248H13.5a6.75,6.75,0,0,0,0-13.5h.75a4.5,4.5,0,1,0,0-9H3.75"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M6.75 0.748L6.75 23.248"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M13.5 9.748L6.75 9.748"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </span>
                           </button>
                           <button
                             aria-pressed={false}
@@ -524,12 +548,36 @@ exports[`renders message box when logged in 1`] = `
                             title="Italic"
                             type="button"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-md coral coral-icon"
+                            <span
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                             >
-                              format_italic
-                            </i>
+                              <svg
+                                viewBox="-0.25 -0.25 24.5 24.5"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M23.25 0.748L12.75 0.748"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M11.25 23.248L0.75 23.248"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M6 23.248L18 0.748"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </span>
                           </button>
                           <button
                             aria-pressed={false}
@@ -544,12 +592,43 @@ exports[`renders message box when logged in 1`] = `
                             title="Blockquote"
                             type="button"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-md coral coral-icon"
+                            <span
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                             >
-                              format_quote
-                            </i>
+                              <svg
+                                viewBox="-0.25 -0.25 24.5 24.5"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M23.25,9.248a10.5,10.5,0,0,1-10.5,10.5"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M11.25,9.248a10.5,10.5,0,0,1-10.5,10.5"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </span>
                           </button>
                           <button
                             aria-pressed={false}
@@ -564,12 +643,74 @@ exports[`renders message box when logged in 1`] = `
                             title="Bulleted List"
                             type="button"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="Icon-root Icon-md coral coral-icon"
+                            <span
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                             >
-                              format_list_bulleted
-                            </i>
+                              <svg
+                                viewBox="-0.25 -0.25 24.5 24.5"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <g>
+                                  <circle
+                                    cx="3"
+                                    cy="3"
+                                    fill="none"
+                                    r="2.25"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                  <circle
+                                    cx="3"
+                                    cy="12"
+                                    fill="none"
+                                    r="2.25"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                  <circle
+                                    cx="3"
+                                    cy="21"
+                                    fill="none"
+                                    r="2.25"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                  <line
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    x1="8.25"
+                                    x2="23.25"
+                                    y1="3"
+                                    y2="3"
+                                  />
+                                  <line
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    x1="8.25"
+                                    x2="23.25"
+                                    y1="12"
+                                    y2="12"
+                                  />
+                                  <line
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    x1="8.25"
+                                    x2="23.25"
+                                    y1="21"
+                                    y2="21"
+                                  />
+                                </g>
+                              </svg>
+                            </span>
                           </button>
                         </div>
                       </div>
@@ -982,12 +1123,36 @@ exports[`renders message box when not logged in 1`] = `
                     title="Bold"
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md coral coral-icon"
+                    <span
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
                     >
-                      format_bold
-                    </i>
+                      <svg
+                        viewBox="-0.25 -0.25 24.5 24.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.75,23.248H13.5a6.75,6.75,0,0,0,0-13.5h.75a4.5,4.5,0,1,0,0-9H3.75"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6.75 0.748L6.75 23.248"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M13.5 9.748L6.75 9.748"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </button>
                   <button
                     aria-pressed={false}
@@ -1002,12 +1167,36 @@ exports[`renders message box when not logged in 1`] = `
                     title="Italic"
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md coral coral-icon"
+                    <span
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                     >
-                      format_italic
-                    </i>
+                      <svg
+                        viewBox="-0.25 -0.25 24.5 24.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M23.25 0.748L12.75 0.748"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M11.25 23.248L0.75 23.248"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6 23.248L18 0.748"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </button>
                   <button
                     aria-pressed={false}
@@ -1022,12 +1211,43 @@ exports[`renders message box when not logged in 1`] = `
                     title="Blockquote"
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md coral coral-icon"
+                    <span
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                     >
-                      format_quote
-                    </i>
+                      <svg
+                        viewBox="-0.25 -0.25 24.5 24.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M23.25,9.248a10.5,10.5,0,0,1-10.5,10.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M11.25,9.248a10.5,10.5,0,0,1-10.5,10.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </button>
                   <button
                     aria-pressed={false}
@@ -1042,12 +1262,74 @@ exports[`renders message box when not logged in 1`] = `
                     title="Bulleted List"
                     type="button"
                   >
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-md coral coral-icon"
+                    <span
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
                     >
-                      format_list_bulleted
-                    </i>
+                      <svg
+                        viewBox="-0.25 -0.25 24.5 24.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g>
+                          <circle
+                            cx="3"
+                            cy="3"
+                            fill="none"
+                            r="2.25"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <circle
+                            cx="3"
+                            cy="12"
+                            fill="none"
+                            r="2.25"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <circle
+                            cx="3"
+                            cy="21"
+                            fill="none"
+                            r="2.25"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <line
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            x1="8.25"
+                            x2="23.25"
+                            y1="3"
+                            y2="3"
+                          />
+                          <line
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            x1="8.25"
+                            x2="23.25"
+                            y1="12"
+                            y2="12"
+                          />
+                          <line
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            x1="8.25"
+                            x2="23.25"
+                            y1="21"
+                            y2="21"
+                          />
+                        </g>
+                      </svg>
+                    </span>
                   </button>
                 </div>
               </div>

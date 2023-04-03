@@ -29,11 +29,10 @@ exports[`renders correctly 1`] = `
       alignItems="center"
       container="span"
     >
-      <ForwardRef(forwardRef)
+      <SvgIcon
+        Icon={[Function]}
         className="ReplyButton-icon"
-      >
-        reply
-      </ForwardRef(forwardRef)>
+      />
       <MediaQuery
         minWidth={400}
       >

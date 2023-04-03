@@ -1,4 +1,3 @@
-
 .button {
   background-color: transparent;
   border: none;
@@ -7,7 +6,7 @@
   padding: var(--spacing-1);
   border-radius: var(--round-corners);
   color: var(--palette-grey-500);
-  letter-spacing: .042em;
+  letter-spacing: 0.042em;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-1);
@@ -15,11 +14,11 @@
 
 .button:hover {
   cursor: pointer;
-  background-color: var(--palette-grey-200)
+  background-color: var(--palette-grey-200);
 }
 
-.button[aria-pressed=true] {
-  background-color: var(--palette-grey-300)
+.button[aria-pressed="true"] {
+  background-color: var(--palette-grey-300);
 }
 
 .button:disabled {
@@ -32,7 +31,7 @@
   .button:hover {
     background-color: transparent;
   }
-  .button[aria-pressed=true]:hover {
-    background-color: var(--palette-grey-300)
+  .button[aria-pressed="true"]:hover {
+    background-color: var(--palette-grey-300);
   }
 }

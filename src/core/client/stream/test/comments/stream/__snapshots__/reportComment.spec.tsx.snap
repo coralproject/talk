@@ -495,12 +495,22 @@ exports[`report comment as offensive 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+            <span
+              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular"
             >
-              remove
-            </i>
+              <svg
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.75 12.038L23.25 12.038"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
           </button>
           <div
             className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -609,12 +619,28 @@ exports[`report comment as offensive 1`] = `
                     <span
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
                       >
-                        thumb_up
-                      </i>
+                        <svg
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5.33014 8.42566H0.830139V21.9257H5.33014V8.42566Z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M5.33099 20.421C9.88265 20.421 10.2535 22.2335 16.4162 22.6037C18.1465 22.7076 19.3882 22.7972 20.5406 21.3197C23.0714 18.0748 24.287 10.3581 21.8323 10.3581H16.8181C15.7136 10.3581 14.8181 9.46264 14.8181 8.35807V4.46807C14.8181 1.44807 10.4002 -0.136834 10.4002 3.24807C10.4002 5.67566 9.4752 7.34449 7.92993 8.81464C7.17404 9.53378 6.29025 9.91876 5.33099 10.1244"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                     </span>
                   </button>
                   <button
@@ -636,12 +662,26 @@ exports[`report comment as offensive 1`] = `
                     <span
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular"
                       >
-                        reply
-                      </i>
+                        <svg
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <defs />
+                          <title>
+                            email-action-reply
+                          </title>
+                          <path
+                            d="M9.709,6.837a1.5,1.5,0,0,0-2.6-1.018L1.648,11.733a1.5,1.5,0,0,0,0,2.034l5.458,5.914a1.5,1.5,0,0,0,2.6-1.018V15.75h6a7.5,7.5,0,0,1,7.5,7.5v-6a7.5,7.5,0,0,0-7.5-7.5h-6Z"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                     </span>
                   </button>
                   <div
@@ -665,12 +705,50 @@ exports[`report comment as offensive 1`] = `
                       <span
                         className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
+                        <span
+                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular"
                         >
-                          share
-                        </i>
+                          <svg
+                            viewBox="-0.25 -0.25 24.5 24.5"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1.500 11.250 A3.750 3.750 0 1 0 9.000 11.250 A3.750 3.750 0 1 0 1.500 11.250 Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M15.000 6.000 A3.750 3.750 0 1 0 22.500 6.000 A3.750 3.750 0 1 0 15.000 6.000 Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M15.000 18.000 A3.750 3.750 0 1 0 22.500 18.000 A3.750 3.750 0 1 0 15.000 18.000 Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M8.746 9.891L15.254 7.36"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M8.605 12.928L15.395 16.323"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
                       </span>
                     </button>
                     <div

@@ -6,11 +6,11 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
-  BaseButton,
-  ClickOutside,
-  Icon,
-  Popover,
-} from "coral-ui/components/v2";
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { BaseButton, ClickOutside, Popover } from "coral-ui/components/v2";
 
 import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
 import { CaretContainer_settings } from "coral-stream/__generated__/CaretContainer_settings.graphql";
@@ -68,7 +68,7 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
               ref={ref}
               aria-label="Moderate"
             >
-              <Icon>{visible ? "expand_less" : "expand_more"}</Icon>
+              <SvgIcon Icon={visible ? ArrowsUpIcon : ArrowsDownIcon} />
             </BaseButton>
           </Localized>
         )}
