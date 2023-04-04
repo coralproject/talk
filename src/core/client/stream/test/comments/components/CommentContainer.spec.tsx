@@ -188,7 +188,7 @@ it("renders disabled reply when story is closed", async () => {
   expect(replyButton).toBeDisabled();
 });
 
-it.only("NEW renders with tombstone when comment has been deleted", async () => {
+it.only("renders with tombstone when comment has been deleted", async () => {
   const storyFixture = storyWithDeletedComments;
   const { container } = await createTestRenderer({
     resolvers: {
@@ -203,10 +203,6 @@ it.only("NEW renders with tombstone when comment has been deleted", async () => 
   });
 
   expect(container).toBeInTheDocument();
-
-  // screen.debug(undefined, 100000);
-  // const commentElement = within(container).getByTestId(`comment-0`);
-  // expect(commentElement).toBeInTheDocument();
 
   const tombstone = within(container).getByText(
     "This comment is no longer available. The commenter has deleted their account.",
