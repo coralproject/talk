@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 
 import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
+import { CommentCache } from "coral-server/data/cache/commentCache";
 import { MongoContext } from "coral-server/data/context";
 import {
   CannotMergeAnArchivedStory,
@@ -84,6 +85,7 @@ export type FindOrCreateStory = FindOrCreateStoryInput;
 export async function findOrCreate(
   mongo: MongoContext,
   tenant: Tenant,
+  cache: CommentCache,
   queue: LoadCacheQueue,
   broker: CoralEventPublisherBroker,
   input: FindOrCreateStory,
@@ -136,8 +138,6 @@ export async function findOrCreate(
       "story upserted"
     );
 
-    await queue.add({ tenantID: tenant.id, storyID: story.id });
-
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,
@@ -145,6 +145,14 @@ export async function findOrCreate(
     }).catch((err) => {
       logger.error({ err }, "could not publish story created event");
     });
+  }
+
+  if (
+    !cache.isCached(tenant.id, story.id) &&
+    !story.isArchived &&
+    !story.isArchiving
+  ) {
+    await queue.add({ tenantID: tenant.id, storyID: story.id });
   }
 
   if (tenant.stories.scraping.enabled && !story.metadata && !story.scrapedAt) {
