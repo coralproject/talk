@@ -96,7 +96,7 @@ export class CommentCache {
     const lockKey = this.computeLockKey(tenantID, storyID);
     const hasCommentsInRedis = await this.redis.exists(lockKey);
 
-    return hasCommentsInRedis;
+    return hasCommentsInRedis > 0;
   }
 
   public async invalidateCache(tenantID: string, storyID: string) {
@@ -250,7 +250,8 @@ export class CommentCache {
     const cmd = this.redis.multi();
 
     const lockKey = this.computeLockKey(tenantID, storyID);
-    cmd.set(lockKey, now.getTime(), "ex", this.expirySeconds);
+    cmd.set(lockKey, now.getTime());
+    cmd.expire(lockKey, this.expirySeconds);
 
     const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
     if (comments.length > 0) {
@@ -287,7 +288,8 @@ export class CommentCache {
       const key = this.computeDataKey(tenantID, storyID, comment.id);
       const value = this.serializeObject(comment);
 
-      cmd.set(key, value, "ex", this.expirySeconds);
+      cmd.set(key, value);
+      cmd.expire(key, this.expirySeconds);
     }
 
     // Create the parent to child key-value look ups

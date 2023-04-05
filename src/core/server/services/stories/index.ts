@@ -147,11 +147,9 @@ export async function findOrCreate(
     });
   }
 
-  if (
-    !cache.isCached(tenant.id, story.id) &&
-    !story.isArchived &&
-    !story.isArchiving
-  ) {
+  const storyIsCached = await cache.isCached(tenant.id, story.id);
+
+  if (!storyIsCached && !story.isArchived && !story.isArchiving) {
     await queue.add({ tenantID: tenant.id, storyID: story.id });
   }
 
