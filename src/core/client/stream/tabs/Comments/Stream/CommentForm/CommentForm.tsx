@@ -264,7 +264,6 @@ const CommentForm: FunctionComponent<Props> = ({
           values,
         }) => (
           <form
-            aria-label="form"
             autoComplete="off"
             onSubmit={handleSubmit}
             id="comments-postCommentForm-form"
