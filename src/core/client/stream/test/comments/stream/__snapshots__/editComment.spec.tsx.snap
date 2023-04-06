@@ -340,6 +340,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
       className="coral coral-editComment EditCommentForm-root"
     >
       <form
+        aria-label="form"
         autoComplete="off"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
@@ -561,6 +562,7 @@ exports[`edit a comment: edit form 1`] = `
       className="coral coral-editComment EditCommentForm-root"
     >
       <form
+        aria-label="form"
         autoComplete="off"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
@@ -782,6 +784,7 @@ exports[`edit a comment: optimistic response 1`] = `
       className="coral coral-editComment EditCommentForm-root"
     >
       <form
+        aria-label="form"
         autoComplete="off"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
@@ -1912,6 +1915,7 @@ exports[`shows expiry message: edit time expired 1`] = `
       className="coral coral-editComment EditCommentForm-root"
     >
       <form
+        aria-label="form"
         autoComplete="off"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}

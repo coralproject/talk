@@ -276,6 +276,7 @@ exports[`post a reply: open reply form 1`] = `
         className="coral coral-createReplyComment"
       >
         <form
+          aria-label="form"
           autoComplete="off"
           id="comments-postCommentForm-form"
           onSubmit={[Function]}

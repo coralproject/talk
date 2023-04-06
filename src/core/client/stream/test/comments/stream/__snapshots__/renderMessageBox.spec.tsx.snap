@@ -448,6 +448,7 @@ exports[`renders message box when logged in 1`] = `
             className="coral coral-createComment"
           >
             <form
+              aria-label="form"
               autoComplete="off"
               id="comments-postCommentForm-form"
               onSubmit={[Function]}
