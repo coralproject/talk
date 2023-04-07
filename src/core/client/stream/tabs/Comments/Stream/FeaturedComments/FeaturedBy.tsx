@@ -7,7 +7,6 @@ interface Props {
   username: string;
 }
 
-// TODO (marcushaddon): localize!
 const FeaturedBy: FunctionComponent<Props> = ({ username }) => {
   return (
     <Localized id="comments-featuredBy" vars={{ username }}>
