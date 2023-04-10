@@ -44,7 +44,6 @@ const createFixtures = async (
   const commentCache = new CommentCache(
     mongo,
     redis,
-    null,
     logger,
     false,
     options?.expirySeconds ? options.expirySeconds : 5 * 60

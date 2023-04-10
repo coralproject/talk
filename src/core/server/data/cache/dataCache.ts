@@ -1,6 +1,5 @@
 import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
-import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { CommentActionsCache } from "./commentActionsCache";
 
@@ -12,7 +11,6 @@ export const DEFAULT_DATA_EXPIRY_SECONDS = 24 * 60 * 60;
 export class DataCache {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
-  private queue: LoadCacheQueue | null;
   private logger: Logger;
 
   private expirySeconds: number;
@@ -26,21 +24,18 @@ export class DataCache {
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
-    queue: LoadCacheQueue | null,
     logger: Logger,
     disableCaching?: boolean,
     expirySeconds: number = DEFAULT_DATA_EXPIRY_SECONDS
   ) {
     this.mongo = mongo;
     this.redis = redis;
-    this.queue = queue;
     this.logger = logger.child({ traceID: this.traceID });
     this.expirySeconds = expirySeconds;
 
     this.comments = new CommentCache(
       this.mongo,
       this.redis,
-      this.queue,
       this.logger,
       Boolean(disableCaching),
       this.expirySeconds

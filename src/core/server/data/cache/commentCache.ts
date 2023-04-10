@@ -2,7 +2,6 @@ import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
-import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -28,7 +27,6 @@ export class CommentCache {
 
   private mongo: MongoContext;
   private redis: AugmentedRedis;
-  private queue: LoadCacheQueue | null;
   private logger: Logger;
 
   private commentsByKey: Map<string, Readonly<Comment>>;
@@ -37,14 +35,12 @@ export class CommentCache {
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
-    queue: LoadCacheQueue | null,
     logger: Logger,
     disableLocalCaching: boolean,
     expirySeconds: number
   ) {
     this.mongo = mongo;
     this.redis = redis;
-    this.queue = queue;
 
     this.logger = logger.child({ dataCache: "CommentCache" });
 
@@ -196,10 +192,6 @@ export class CommentCache {
           storyID,
           isArchived
         );
-
-    if (!hasCommentsInRedis && this.queue) {
-      await this.queue.add({ tenantID, storyID });
-    }
 
     await this.createRelationalCommentKeysLocally(tenantID, storyID, comments);
 
