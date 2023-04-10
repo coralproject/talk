@@ -502,4 +502,11 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     story: await ctx.mutators.Stories.invalidateCachedStory(input),
     clientMutationId: input.clientMutationId,
   }),
+  flushRedis: async (source, { input: { clientMutationId } }, ctx) => {
+    await ctx.mutators.Redis.flush();
+
+    return {
+      clientMutationId,
+    };
+  },
 };
