@@ -7,7 +7,8 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { DeleteIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
@@ -107,9 +108,11 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
                 className={CLASSES.deleteMyAccount.cancelRequestButton}
               >
                 <Flex alignItems="center">
-                  <Icon size="sm" className={styles.icon}>
-                    block
-                  </Icon>
+                  <SvgIcon
+                    size="sm"
+                    className={styles.icon}
+                    Icon={DeleteIcon}
+                  />
                   <Localized id="profile-account-deleteAccount-cancelDelete">
                     <span>Cancel account deletion request</span>
                   </Localized>

@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from "react";
 
-import { Icon } from "coral-ui/components/v2";
-
 import { MediaLink } from "coral-common/helpers/findMediaLinks";
+import {
+  ImageFileLandscapeIcon,
+  SvgIcon,
+  TwitterIcon,
+  VideoPlayerIcon,
+} from "coral-ui/components/icons";
 import styles from "./MediaConfirmationIcon.css";
-import twitterImg from "./twitter.png";
 
 interface Props {
   media: MediaLink;
@@ -13,10 +16,10 @@ interface Props {
 const MediaConfirmationIcon: FunctionComponent<Props> = ({ media }) => {
   return (
     <>
-      {media.type === "external" && <Icon>insert_photo</Icon>}
-      {media.type === "youtube" && <Icon>ondemand_video</Icon>}
+      {media.type === "external" && <SvgIcon Icon={ImageFileLandscapeIcon} />}
+      {media.type === "youtube" && <SvgIcon Icon={VideoPlayerIcon} />}
       {media.type === "twitter" && (
-        <img className={styles.twitterIcon} src={twitterImg} alt="twitter" />
+        <SvgIcon className={styles.twitterIcon} filled Icon={TwitterIcon} />
       )}
     </>
   );

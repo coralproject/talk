@@ -9,7 +9,12 @@ import TIME from "coral-common/time";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Flex, Icon } from "coral-ui/components/v2";
+import {
+  AlertTriangleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
@@ -132,7 +137,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           )}
           visible={showSuccessMessage}
           onClose={onCloseSuccess}
-          icon={<Icon size="sm">check_circle</Icon>}
+          icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
           titleWeight="semiBold"
           title={
             <Localized
@@ -157,7 +162,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           )}
           visible={showErrorMessage}
           onClose={onCloseError}
-          icon={<Icon size="sm">warning</Icon>}
+          icon={<SvgIcon size="sm" Icon={AlertTriangleIcon} />}
           titleWeight="semiBold"
           title={
             <Localized

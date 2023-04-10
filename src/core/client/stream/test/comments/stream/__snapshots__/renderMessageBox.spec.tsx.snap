@@ -74,12 +74,35 @@ exports[`renders message box when commenting disabled 1`] = `
             <div
               className="CallOut-icon CallOut-mono CallOut-leftIcon"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                feedback
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.75 18.75H11.25L5.25 23.25V18.75H2.25C1.85218 18.75 1.47064 18.592 1.18934 18.3107C0.908035 18.0294 0.75 17.6478 0.75 17.25V2.25C0.75 1.85218 0.908035 1.47064 1.18934 1.18934C1.47064 0.908035 1.85218 0.75 2.25 0.75H21.75C22.1478 0.75 22.5294 0.908035 22.8107 1.18934C23.092 1.47064 23.25 1.85218 23.25 2.25V17.25C23.25 17.6478 23.092 18.0294 22.8107 18.3107C22.5294 18.592 22.1478 18.75 21.75 18.75Z"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12.75 15C12.5429 15 12.375 14.8321 12.375 14.625C12.375 14.4179 12.5429 14.25 12.75 14.25"
+                    stroke="currentColor"
+                  />
+                  <path
+                    d="M12.75 15C12.9571 15 13.125 14.8321 13.125 14.625C13.125 14.4179 12.9571 14.25 12.75 14.25"
+                    stroke="currentColor"
+                  />
+                  <path
+                    d="M12.75 11.25V5.25"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </div>
             <div
               className="CallOut-content"
@@ -109,12 +132,22 @@ exports[`renders message box when commenting disabled 1`] = `
           <div
             className="MessageBox-root coral coral-createComment-message"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-md coral coral-icon MessageBoxIcon-root"
+            <span
+              className="SvgIcon-root SvgIcon-sm MessageBoxIcon-root SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              chat
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.75,18.75H11.25l-6,4.5v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-15A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v15A1.5,1.5,0,0,1,21.75,18.75Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <div
               className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
               dangerouslySetInnerHTML={
@@ -239,12 +272,21 @@ exports[`renders message box when commenting disabled 1`] = `
               aria-hidden={true}
               className="SelectField-afterWrapper"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon"
+              <span
+                className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                expand_more
-              </i>
+                <svg
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </span>
           </span>
         </div>
@@ -320,12 +362,29 @@ exports[`renders message box when commenting disabled 1`] = `
               title="Go to top of comments"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                forum
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.75,8.25h-12l-4.5,4.5V8.25h-3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v4.5A1.5,1.5,0,0,1,21.75,8.25Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.25,11.25a1.5,1.5,0,0,0-1.5,1.5v4.5a1.5,1.5,0,0,0,1.5,1.5h12l4.5,4.5v-4.5h3a1.5,1.5,0,0,0,1.5-1.5v-4.5a1.5,1.5,0,0,0-1.5-1.5H11.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of comments
               </span>
@@ -342,12 +401,43 @@ exports[`renders message box when commenting disabled 1`] = `
               title="Go to top of article"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                description
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.5,21.75a1.5,1.5,0,0,1-1.5,1.5H3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,3,.75H18.045a1.5,1.5,0,0,1,1.048.426l2.954,2.883A1.5,1.5,0,0,1,22.5,5.133Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 8.25L18.045 8.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 12.75L18.045 12.75"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 17.25L12.045 17.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of article
               </span>
@@ -428,12 +518,22 @@ exports[`renders message box when logged in 1`] = `
           <div
             className="MessageBox-root coral coral-createComment-message PostCommentForm-messageBox"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-md coral coral-icon MessageBoxIcon-root"
+            <span
+              className="SvgIcon-root SvgIcon-sm MessageBoxIcon-root SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              chat
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.75,18.75H11.25l-6,4.5v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-15A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v15A1.5,1.5,0,0,1,21.75,18.75Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <div
               className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
               dangerouslySetInnerHTML={
@@ -505,7 +605,7 @@ exports[`renders message box when logged in 1`] = `
                             type="button"
                           >
                             <span
-                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold SvgIcon-noFill"
                             >
                               <svg
                                 viewBox="-0.25 -0.25 24.5 24.5"
@@ -549,7 +649,7 @@ exports[`renders message box when logged in 1`] = `
                             type="button"
                           >
                             <span
-                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                             >
                               <svg
                                 viewBox="-0.25 -0.25 24.5 24.5"
@@ -593,7 +693,7 @@ exports[`renders message box when logged in 1`] = `
                             type="button"
                           >
                             <span
-                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-filled"
                             >
                               <svg
                                 viewBox="-0.25 -0.25 24.5 24.5"
@@ -601,7 +701,6 @@ exports[`renders message box when logged in 1`] = `
                               >
                                 <path
                                   d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
-                                  fill="none"
                                   stroke="currentColor"
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
@@ -615,7 +714,6 @@ exports[`renders message box when logged in 1`] = `
                                 />
                                 <path
                                   d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
-                                  fill="none"
                                   stroke="currentColor"
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
@@ -644,7 +742,7 @@ exports[`renders message box when logged in 1`] = `
                             type="button"
                           >
                             <span
-                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                              className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                             >
                               <svg
                                 viewBox="-0.25 -0.25 24.5 24.5"
@@ -851,12 +949,21 @@ exports[`renders message box when logged in 1`] = `
               aria-hidden={true}
               className="SelectField-afterWrapper"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon"
+              <span
+                className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                expand_more
-              </i>
+                <svg
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </span>
           </span>
         </div>
@@ -932,12 +1039,36 @@ exports[`renders message box when logged in 1`] = `
               title="Go to profile and replies"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                account_box
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.750 9.750 A5.250 5.250 0 1 0 17.250 9.750 A5.250 5.250 0 1 0 6.750 9.750 Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M18.913,20.876a9.746,9.746,0,0,0-13.826,0"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M0.750 12.000 A11.250 11.250 0 1 0 23.250 12.000 A11.250 11.250 0 1 0 0.750 12.000 Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Profile & Replies
               </span>
@@ -954,12 +1085,29 @@ exports[`renders message box when logged in 1`] = `
               title="Go to top of comments"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                forum
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.75,8.25h-12l-4.5,4.5V8.25h-3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v4.5A1.5,1.5,0,0,1,21.75,8.25Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.25,11.25a1.5,1.5,0,0,0-1.5,1.5v4.5a1.5,1.5,0,0,0,1.5,1.5h12l4.5,4.5v-4.5h3a1.5,1.5,0,0,0,1.5-1.5v-4.5a1.5,1.5,0,0,0-1.5-1.5H11.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of comments
               </span>
@@ -976,12 +1124,43 @@ exports[`renders message box when logged in 1`] = `
               title="Go to top of article"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                description
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.5,21.75a1.5,1.5,0,0,1-1.5,1.5H3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,3,.75H18.045a1.5,1.5,0,0,1,1.048.426l2.954,2.883A1.5,1.5,0,0,1,22.5,5.133Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 8.25L18.045 8.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 12.75L18.045 12.75"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 17.25L12.045 17.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of article
               </span>
@@ -1063,12 +1242,22 @@ exports[`renders message box when not logged in 1`] = `
         <div
           className="MessageBox-root coral coral-createComment-message PostCommentFormFake-messageBox"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-md coral coral-icon MessageBoxIcon-root"
+          <span
+            className="SvgIcon-root SvgIcon-sm MessageBoxIcon-root SvgIcon-strokeWidthRegular SvgIcon-noFill"
           >
-            chat
-          </i>
+            <svg
+              viewBox="-0.25 -0.25 24.5 24.5"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21.75,18.75H11.25l-6,4.5v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-15A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v15A1.5,1.5,0,0,1,21.75,18.75Z"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
           <div
             className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
             dangerouslySetInnerHTML={
@@ -1124,7 +1313,7 @@ exports[`renders message box when not logged in 1`] = `
                     type="button"
                   >
                     <span
-                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold SvgIcon-noFill"
                     >
                       <svg
                         viewBox="-0.25 -0.25 24.5 24.5"
@@ -1168,7 +1357,7 @@ exports[`renders message box when not logged in 1`] = `
                     type="button"
                   >
                     <span
-                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                     >
                       <svg
                         viewBox="-0.25 -0.25 24.5 24.5"
@@ -1212,7 +1401,7 @@ exports[`renders message box when not logged in 1`] = `
                     type="button"
                   >
                     <span
-                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-filled"
                     >
                       <svg
                         viewBox="-0.25 -0.25 24.5 24.5"
@@ -1220,7 +1409,6 @@ exports[`renders message box when not logged in 1`] = `
                       >
                         <path
                           d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
-                          fill="none"
                           stroke="currentColor"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -1234,7 +1422,6 @@ exports[`renders message box when not logged in 1`] = `
                         />
                         <path
                           d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
-                          fill="none"
                           stroke="currentColor"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -1263,7 +1450,7 @@ exports[`renders message box when not logged in 1`] = `
                     type="button"
                   >
                     <span
-                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                      className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                     >
                       <svg
                         viewBox="-0.25 -0.25 24.5 24.5"
@@ -1463,12 +1650,21 @@ exports[`renders message box when not logged in 1`] = `
               aria-hidden={true}
               className="SelectField-afterWrapper"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon"
+              <span
+                className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                expand_more
-              </i>
+                <svg
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </span>
           </span>
         </div>
@@ -1544,12 +1740,29 @@ exports[`renders message box when not logged in 1`] = `
               title="Go to top of comments"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                forum
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.75,8.25h-12l-4.5,4.5V8.25h-3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v4.5A1.5,1.5,0,0,1,21.75,8.25Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.25,11.25a1.5,1.5,0,0,0-1.5,1.5v4.5a1.5,1.5,0,0,0,1.5,1.5h12l4.5,4.5v-4.5h3a1.5,1.5,0,0,0,1.5-1.5v-4.5a1.5,1.5,0,0,0-1.5-1.5H11.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of comments
               </span>
@@ -1566,12 +1779,43 @@ exports[`renders message box when not logged in 1`] = `
               title="Go to top of article"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                description
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.5,21.75a1.5,1.5,0,0,1-1.5,1.5H3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,3,.75H18.045a1.5,1.5,0,0,1,1.048.426l2.954,2.883A1.5,1.5,0,0,1,22.5,5.133Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 8.25L18.045 8.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 12.75L18.045 12.75"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 17.25L12.045 17.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of article
               </span>
@@ -1671,12 +1915,35 @@ exports[`renders message box when story isClosed 1`] = `
             <div
               className="CallOut-icon CallOut-mono CallOut-leftIcon"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                feedback
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.75 18.75H11.25L5.25 23.25V18.75H2.25C1.85218 18.75 1.47064 18.592 1.18934 18.3107C0.908035 18.0294 0.75 17.6478 0.75 17.25V2.25C0.75 1.85218 0.908035 1.47064 1.18934 1.18934C1.47064 0.908035 1.85218 0.75 2.25 0.75H21.75C22.1478 0.75 22.5294 0.908035 22.8107 1.18934C23.092 1.47064 23.25 1.85218 23.25 2.25V17.25C23.25 17.6478 23.092 18.0294 22.8107 18.3107C22.5294 18.592 22.1478 18.75 21.75 18.75Z"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12.75 15C12.5429 15 12.375 14.8321 12.375 14.625C12.375 14.4179 12.5429 14.25 12.75 14.25"
+                    stroke="currentColor"
+                  />
+                  <path
+                    d="M12.75 15C12.9571 15 13.125 14.8321 13.125 14.625C13.125 14.4179 12.9571 14.25 12.75 14.25"
+                    stroke="currentColor"
+                  />
+                  <path
+                    d="M12.75 11.25V5.25"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </div>
             <div
               className="CallOut-content"
@@ -1813,12 +2080,21 @@ exports[`renders message box when story isClosed 1`] = `
               aria-hidden={true}
               className="SelectField-afterWrapper"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon"
+              <span
+                className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                expand_more
-              </i>
+                <svg
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </span>
           </span>
         </div>
@@ -1894,12 +2170,29 @@ exports[`renders message box when story isClosed 1`] = `
               title="Go to top of comments"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                forum
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.75,8.25h-12l-4.5,4.5V8.25h-3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v4.5A1.5,1.5,0,0,1,21.75,8.25Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.25,11.25a1.5,1.5,0,0,0-1.5,1.5v4.5a1.5,1.5,0,0,0,1.5,1.5h12l4.5,4.5v-4.5h3a1.5,1.5,0,0,0,1.5-1.5v-4.5a1.5,1.5,0,0,0-1.5-1.5H11.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of comments
               </span>
@@ -1916,12 +2209,43 @@ exports[`renders message box when story isClosed 1`] = `
               title="Go to top of article"
               type="button"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm coral coral-icon ButtonIcon-root CommentsLinks-icon"
+              <span
+                className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root CommentsLinks-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                description
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.5,21.75a1.5,1.5,0,0,1-1.5,1.5H3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,3,.75H18.045a1.5,1.5,0,0,1,1.048.426l2.954,2.883A1.5,1.5,0,0,1,22.5,5.133Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 8.25L18.045 8.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 12.75L18.045 12.75"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6.045 17.25L12.045 17.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <span>
                 Top of article
               </span>

@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 export interface PostCommentRejectedProps {
@@ -17,7 +17,7 @@ const PostCommentRejected: FunctionComponent<PostCommentRejectedProps> = (
       className={CLASSES.createComment.rejected}
       color="error"
       titleWeight="semiBold"
-      icon={<Icon size="sm">error</Icon>}
+      icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
       title={
         <Localized id="comments-submitStatus-submittedAndRejected">
           <div>This comment has been rejected for violating our guidelines</div>

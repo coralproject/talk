@@ -1,23 +1,28 @@
 .root svg {
 }
 
+.xs,
 .xs svg {
   height: var(--font-size-icon-xs);
   width: var(--font-size-icon-xs);
 }
 
+.sm,
 .sm svg {
   height: var(--font-size-icon-sm);
   width: var(--font-size-icon-sm);
 }
+.md,
 .md svg {
   height: var(--font-size-icon-md);
   width: var(--font-size-icon-md);
 }
+.lg,
 .lg svg {
   height: var(--font-size-icon-lg);
   width: var(--font-size-icon-lg);
 }
+.xl,
 .xl svg {
   height: var(--font-size-icon-xl);
   width: var(--font-size-icon-xl);
@@ -46,6 +51,18 @@
   stroke-width: 2;
 }
 
+.strokeWidthSemiBold svg {
+  stroke-width: 3;
+}
+
 .strokeWidthBold svg {
   stroke-width: 4;
+}
+
+.noFill svg {
+  fill: none;
+}
+
+.filled svg {
+  fill: currentColor;
 }

@@ -516,12 +516,21 @@ address from the site and the database.
                         aria-hidden={true}
                         className="SelectField-afterWrapper"
                       >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-sm coral coral-icon"
+                        <span
+                          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
                         >
-                          expand_more
-                        </i>
+                          <svg
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
                       </span>
                     </span>
                   </div>
@@ -932,12 +941,29 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                           tabIndex={0}
                           title="Hide Client Secret"
                         >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm coral coral-icon"
+                          <span
+                            className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
                           >
-                            visibility
-                          </i>
+                            <svg
+                              viewBox="-0.25 -0.25 24.5 24.5"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12,5.251C7.969,5.183,3.8,8,1.179,10.885a1.663,1.663,0,0,0,0,2.226C3.743,15.935,7.9,18.817,12,18.748c4.1.069,8.258-2.813,10.824-5.637a1.663,1.663,0,0,0,0-2.226C20.2,8,16.031,5.183,12,5.251Z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M15.75,12A3.75,3.75,0,1,1,12,8.249,3.749,3.749,0,0,1,15.75,12Z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -1377,12 +1403,29 @@ more about creating a JWT Token with
                                   tabIndex={0}
                                   title="Hide Secret"
                                 >
-                                  <i
-                                    aria-hidden="true"
-                                    className="Icon-root Icon-sm coral coral-icon"
+                                  <span
+                                    className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
                                   >
-                                    visibility
-                                  </i>
+                                    <svg
+                                      viewBox="-0.25 -0.25 24.5 24.5"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M12,5.251C7.969,5.183,3.8,8,1.179,10.885a1.663,1.663,0,0,0,0,2.226C3.743,15.935,7.9,18.817,12,18.748c4.1.069,8.258-2.813,10.824-5.637a1.663,1.663,0,0,0,0-2.226C20.2,8,16.031,5.183,12,5.251Z"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                      <path
+                                        d="M15.75,12A3.75,3.75,0,1,1,12,8.249,3.749,3.749,0,0,1,15.75,12Z"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -1793,12 +1836,29 @@ to create and set up a web application. For more information visit:
                           tabIndex={0}
                           title="Hide Client Secret"
                         >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm coral coral-icon"
+                          <span
+                            className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
                           >
-                            visibility
-                          </i>
+                            <svg
+                              viewBox="-0.25 -0.25 24.5 24.5"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12,5.251C7.969,5.183,3.8,8,1.179,10.885a1.663,1.663,0,0,0,0,2.226C3.743,15.935,7.9,18.817,12,18.748c4.1.069,8.258-2.813,10.824-5.637a1.663,1.663,0,0,0,0-2.226C20.2,8,16.031,5.183,12,5.251Z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M15.75,12A3.75,3.75,0,1,1,12,8.249,3.749,3.749,0,0,1,15.75,12Z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -2109,12 +2169,29 @@ For more information visit:
                           tabIndex={0}
                           title="Hide Client Secret"
                         >
-                          <i
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm coral coral-icon"
+                          <span
+                            className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
                           >
-                            visibility
-                          </i>
+                            <svg
+                              viewBox="-0.25 -0.25 24.5 24.5"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12,5.251C7.969,5.183,3.8,8,1.179,10.885a1.663,1.663,0,0,0,0,2.226C3.743,15.935,7.9,18.817,12,18.748c4.1.069,8.258-2.813,10.824-5.637a1.663,1.663,0,0,0,0-2.226C20.2,8,16.031,5.183,12,5.251Z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M15.75,12A3.75,3.75,0,1,1,12,8.249,3.749,3.749,0,0,1,15.75,12Z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </span>
                         </div>
                       </div>
                     </div>

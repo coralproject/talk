@@ -17,11 +17,15 @@ import { findMediaLinks, MediaLink } from "coral-common/helpers/findMediaLinks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import { AddIcon, ImageAddIcon, SvgIcon } from "coral-ui/components/icons";
+import {
+  AddIcon,
+  AlertCircleIcon,
+  ImageAddIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import {
   Flex,
   HorizontalGutter,
-  Icon,
   MatchMedia,
   Message,
   MessageIcon,
@@ -413,7 +417,7 @@ const CommentForm: FunctionComponent<Props> = ({
                       color="error"
                       title={disabledMessage}
                       titleWeight="semiBold"
-                      icon={<Icon>error</Icon>}
+                      icon={<SvgIcon Icon={AlertCircleIcon} />}
                       role="alert"
                     />
                   )}
@@ -446,7 +450,7 @@ const CommentForm: FunctionComponent<Props> = ({
                             color="error"
                             title={error || localSubmitError}
                             titleWeight="semiBold"
-                            icon={<Icon>error</Icon>}
+                            icon={<SvgIcon Icon={AlertCircleIcon} />}
                             role="alert"
                           />
                         )}
@@ -463,7 +467,7 @@ const CommentForm: FunctionComponent<Props> = ({
                   color="error"
                   title={submitError}
                   titleWeight="semiBold"
-                  icon={<Icon>error</Icon>}
+                  icon={<SvgIcon Icon={AlertCircleIcon} />}
                   role="alert"
                 />
               )}

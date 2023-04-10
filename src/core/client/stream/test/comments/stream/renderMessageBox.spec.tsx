@@ -56,7 +56,7 @@ it("renders message box when not logged in", async () => {
       settings: {
         messageBox: {
           enabled: true,
-          icon: "chat",
+          icon: "chat_bubble_outline",
           content: "**What do you think**?",
         },
       },
@@ -71,7 +71,7 @@ it("renders message box when logged in", async () => {
       settings: {
         messageBox: {
           enabled: true,
-          icon: "chat",
+          icon: "chat_bubble_outline",
           content: "**What do you think**?",
         },
       },
@@ -87,7 +87,7 @@ it("renders message box when commenting disabled", async () => {
       settings: {
         messageBox: {
           enabled: true,
-          icon: "chat",
+          icon: "chat_bubble_outline",
           content: "**What do you think**?",
         },
       },

@@ -50,7 +50,7 @@ exports[`cancel edit 1`] = `
             type="button"
           >
             <span
-              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular"
+              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -151,12 +151,43 @@ exports[`cancel edit 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm CommentContainer-editIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
-                        edit
-                      </i>
+                        <svg
+                          viewBox="-0.25 -0.25 24.5 24.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M22.19,1.81a3.638,3.638,0,0,0-5.169.035l-14.5,14.5L.75,23.25l6.905-1.771,14.5-14.5A3.638,3.638,0,0,0,22.19,1.81Z"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.606 2.26L21.74 7.394"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.512 4.354L19.646 9.488"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2.521 16.345L7.66 21.474"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                       Edit
                     </div>
                   </button>
@@ -199,10 +230,9 @@ exports[`cancel edit 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
-                          fill="none"
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
@@ -242,7 +272,7 @@ exports[`cancel edit 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -285,7 +315,7 @@ exports[`cancel edit 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
                         <span
-                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular"
+                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                         >
                           <svg
                             viewBox="-0.25 -0.25 24.5 24.5"
@@ -360,7 +390,7 @@ exports[`cancel edit 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -368,14 +398,12 @@ exports[`cancel edit 1`] = `
                         >
                           <path
                             d="M0.75 23.25L0.75 0.75"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M.75,17.708l3.154-.97a9.61,9.61,0,0,1,7.864,1A9.615,9.615,0,0,0,19.447,18.8l2.987-.854a1.125,1.125,0,0,0,.816-1.082V5.137a1.126,1.126,0,0,0-1.434-1.082l-2.369.677a9.615,9.615,0,0,1-7.679-1.056,9.61,9.61,0,0,0-7.864-1L.75,3.645"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -486,7 +514,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -530,7 +558,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -574,7 +602,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-filled"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -582,7 +610,6 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                         >
                           <path
                             d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -596,7 +623,6 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                           />
                           <path
                             d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -625,7 +651,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -848,7 +874,7 @@ exports[`edit a comment: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -892,7 +918,7 @@ exports[`edit a comment: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -936,7 +962,7 @@ exports[`edit a comment: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-filled"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -944,7 +970,6 @@ exports[`edit a comment: edit form 1`] = `
                         >
                           <path
                             d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -958,7 +983,6 @@ exports[`edit a comment: edit form 1`] = `
                           />
                           <path
                             d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -987,7 +1011,7 @@ exports[`edit a comment: edit form 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -1210,7 +1234,7 @@ exports[`edit a comment: optimistic response 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -1254,7 +1278,7 @@ exports[`edit a comment: optimistic response 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -1298,7 +1322,7 @@ exports[`edit a comment: optimistic response 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-filled"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -1306,7 +1330,6 @@ exports[`edit a comment: optimistic response 1`] = `
                         >
                           <path
                             d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -1320,7 +1343,6 @@ exports[`edit a comment: optimistic response 1`] = `
                           />
                           <path
                             d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -1349,7 +1371,7 @@ exports[`edit a comment: optimistic response 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -1531,7 +1553,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
             type="button"
           >
             <span
-              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular"
+              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -1632,12 +1654,43 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm CommentContainer-editIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
-                        edit
-                      </i>
+                        <svg
+                          viewBox="-0.25 -0.25 24.5 24.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M22.19,1.81a3.638,3.638,0,0,0-5.169.035l-14.5,14.5L.75,23.25l6.905-1.771,14.5-14.5A3.638,3.638,0,0,0,22.19,1.81Z"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.606 2.26L21.74 7.394"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.512 4.354L19.646 9.488"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2.521 16.345L7.66 21.474"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                       Edit
                     </div>
                   </button>
@@ -1680,10 +1733,9 @@ exports[`edit a comment: render comment with edit button 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
-                          fill="none"
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
@@ -1723,7 +1775,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -1766,7 +1818,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
                         <span
-                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular"
+                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                         >
                           <svg
                             viewBox="-0.25 -0.25 24.5 24.5"
@@ -1841,7 +1893,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -1849,14 +1901,12 @@ exports[`edit a comment: render comment with edit button 1`] = `
                         >
                           <path
                             d="M0.75 23.25L0.75 0.75"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M.75,17.708l3.154-.97a9.61,9.61,0,0,1,7.864,1A9.615,9.615,0,0,0,19.447,18.8l2.987-.854a1.125,1.125,0,0,0,.816-1.082V5.137a1.126,1.126,0,0,0-1.434-1.082l-2.369.677a9.615,9.615,0,0,1-7.679-1.056,9.61,9.61,0,0,0-7.864-1L.75,3.645"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -1926,7 +1976,7 @@ exports[`edit a comment: server response 1`] = `
             type="button"
           >
             <span
-              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular"
+              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -2036,12 +2086,43 @@ exports[`edit a comment: server response 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm CommentContainer-editIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
-                        edit
-                      </i>
+                        <svg
+                          viewBox="-0.25 -0.25 24.5 24.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M22.19,1.81a3.638,3.638,0,0,0-5.169.035l-14.5,14.5L.75,23.25l6.905-1.771,14.5-14.5A3.638,3.638,0,0,0,22.19,1.81Z"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.606 2.26L21.74 7.394"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.512 4.354L19.646 9.488"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2.521 16.345L7.66 21.474"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                       Edit
                     </div>
                   </button>
@@ -2084,10 +2165,9 @@ exports[`edit a comment: server response 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
-                          fill="none"
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
@@ -2127,7 +2207,7 @@ exports[`edit a comment: server response 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -2170,7 +2250,7 @@ exports[`edit a comment: server response 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
                         <span
-                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular"
+                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                         >
                           <svg
                             viewBox="-0.25 -0.25 24.5 24.5"
@@ -2245,7 +2325,7 @@ exports[`edit a comment: server response 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -2253,14 +2333,12 @@ exports[`edit a comment: server response 1`] = `
                         >
                           <path
                             d="M0.75 23.25L0.75 0.75"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M.75,17.708l3.154-.97a9.61,9.61,0,0,1,7.864,1A9.615,9.615,0,0,0,19.447,18.8l2.987-.854a1.125,1.125,0,0,0,.816-1.082V5.137a1.126,1.126,0,0,0-1.434-1.082l-2.369.677a9.615,9.615,0,0,1-7.679-1.056,9.61,9.61,0,0,0-7.864-1L.75,3.645"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -2330,7 +2408,7 @@ exports[`shows expiry message: edit form closed 1`] = `
             type="button"
           >
             <span
-              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular"
+              className="SvgIcon-root SvgIcon-sm IndentedComment-icon coral coral-comment-collapse-toggle-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -2431,12 +2509,43 @@ exports[`shows expiry message: edit form closed 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
                     >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
+                      <span
+                        className="SvgIcon-root SvgIcon-sm CommentContainer-editIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
-                        edit
-                      </i>
+                        <svg
+                          viewBox="-0.25 -0.25 24.5 24.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M22.19,1.81a3.638,3.638,0,0,0-5.169.035l-14.5,14.5L.75,23.25l6.905-1.771,14.5-14.5A3.638,3.638,0,0,0,22.19,1.81Z"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.606 2.26L21.74 7.394"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.512 4.354L19.646 9.488"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2.521 16.345L7.66 21.474"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                       Edit
                     </div>
                   </button>
@@ -2479,10 +2588,9 @@ exports[`shows expiry message: edit form closed 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
-                          fill="none"
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
@@ -2522,7 +2630,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReplyButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -2565,7 +2673,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-alignCenter"
                       >
                         <span
-                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular"
+                          className="SvgIcon-root SvgIcon-sm PermalinkButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                         >
                           <svg
                             viewBox="-0.25 -0.25 24.5 24.5"
@@ -2640,7 +2748,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-sm ReportButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -2648,14 +2756,12 @@ exports[`shows expiry message: edit form closed 1`] = `
                         >
                           <path
                             d="M0.75 23.25L0.75 0.75"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M.75,17.708l3.154-.97a9.61,9.61,0,0,1,7.864,1A9.615,9.615,0,0,0,19.447,18.8l2.987-.854a1.125,1.125,0,0,0,.816-1.082V5.137a1.126,1.126,0,0,0-1.434-1.082l-2.369.677a9.615,9.615,0,0,1-7.679-1.056,9.61,9.61,0,0,0-7.864-1L.75,3.645"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -2766,7 +2872,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthBold SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -2810,7 +2916,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -2854,7 +2960,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-filled"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -2862,7 +2968,6 @@ exports[`shows expiry message: edit time expired 1`] = `
                         >
                           <path
                             d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -2876,7 +2981,6 @@ exports[`shows expiry message: edit time expired 1`] = `
                           />
                           <path
                             d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
-                            fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -2905,7 +3009,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                       type="button"
                     >
                       <span
-                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular"
+                        className="SvgIcon-root SvgIcon-md SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
                         <svg
                           viewBox="-0.25 -0.25 24.5 24.5"
@@ -2987,12 +3091,34 @@ exports[`shows expiry message: edit time expired 1`] = `
               <div
                 className="CallOut-icon CallOut-error CallOut-leftIcon"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm coral coral-icon"
+                <span
+                  className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
                 >
-                  error
-                </i>
+                  <svg
+                    viewBox="-0.25 -0.25 24.5 24.5"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 17.25C11.7929 17.25 11.625 17.0821 11.625 16.875C11.625 16.6679 11.7929 16.5 12 16.5"
+                      stroke="currentColor"
+                    />
+                    <path
+                      d="M12 17.25C12.2071 17.25 12.375 17.0821 12.375 16.875C12.375 16.6679 12.2071 16.5 12 16.5"
+                      stroke="currentColor"
+                    />
+                    <path
+                      d="M12 13.5V5.25"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeMiterlimit="10"
+                    />
+                    <path
+                      d="M12 23.25C18.2132 23.25 23.25 18.2132 23.25 12C23.25 5.7868 18.2132 0.75 12 0.75C5.7868 0.75 0.75 5.7868 0.75 12C0.75 18.2132 5.7868 23.25 12 23.25Z"
+                      stroke="currentColor"
+                      strokeMiterlimit="10"
+                    />
+                  </svg>
+                </span>
               </div>
               <div
                 className="CallOut-content"

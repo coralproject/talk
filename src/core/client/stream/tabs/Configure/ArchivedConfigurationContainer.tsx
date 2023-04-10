@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { Icon } from "coral-ui/components/v2";
+import { ArchiveIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 import { Button } from "coral-ui/components/v3/Button/Button";
 
@@ -38,11 +38,7 @@ const ArchivedConfigurationContainer: FunctionComponent<Props> = ({
             </div>
           </Localized>
         }
-        icon={
-          <Icon size="sm" className={styles.icon}>
-            archive
-          </Icon>
-        }
+        icon={<SvgIcon size="sm" className={styles.icon} Icon={ArchiveIcon} />}
       >
         <>
           <Localized id="configure-archived-onArchivedStream">

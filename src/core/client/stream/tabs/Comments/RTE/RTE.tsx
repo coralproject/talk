@@ -231,7 +231,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           attrs={{ title: true }}
         >
           <Blockquote>
-            <SvgIcon size="md" Icon={FormatQuoteIcon} />
+            <SvgIcon size="md" filled Icon={FormatQuoteIcon} />
           </Blockquote>
         </RTELocalized>
       );

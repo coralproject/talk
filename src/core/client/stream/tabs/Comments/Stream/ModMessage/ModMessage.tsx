@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import CLASSES from "coral-stream/classes";
 import React, { FunctionComponent } from "react";
 
-import { HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { CommentBoxIcon, SvgIcon } from "coral-ui/components/icons";
+import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import AccountStatusCalloutMessage from "../AccountStatusCalloutMessage";
@@ -18,11 +19,7 @@ const ModMessage: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
       color="primary"
       iconColor="none"
       className={CLASSES.modMessage.$root}
-      icon={
-        <Icon size="sm" color="stream">
-          message
-        </Icon>
-      }
+      icon={<SvgIcon size="sm" color="stream" Icon={CommentBoxIcon} />}
       borderPosition="top"
       title={
         <Localized id="modMessage-heading">

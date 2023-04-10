@@ -26,10 +26,9 @@ exports[`renders anchor button 1`] = `
     className="Button-iconAfter"
   >
     <ForwardRef(forwardRef)
+      Icon={[Function]}
       className="Button-iconOpenInNew"
-    >
-      open_in_new
-    </ForwardRef(forwardRef)>
+    />
   </div>
 </ForwardRef(forwardRef)>
 `;

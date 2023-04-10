@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
 import { isMediaLink, MediaLink } from "coral-common/helpers/findMediaLinks";
-import { Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import {
@@ -173,7 +173,7 @@ const MediaField: FunctionComponent<Props> = ({
           color="error"
           title={error}
           titleWeight="semiBold"
-          icon={<Icon>error</Icon>}
+          icon={<SvgIcon Icon={AlertCircleIcon} />}
           role="alert"
         />
       )}

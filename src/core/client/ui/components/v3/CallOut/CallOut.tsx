@@ -3,7 +3,8 @@ import cn from "classnames";
 
 import React, { FunctionComponent, HTMLAttributes, useCallback } from "react";
 
-import { BaseButton, Icon } from "coral-ui/components/v2";
+import { CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 
 import styles from "./CallOut.css";
@@ -114,7 +115,7 @@ const CallOut: FunctionComponent<Props> = ({
               data-testid="callout-close-button"
               aria-label="Close"
             >
-              <Icon size="sm">close</Icon>
+              <SvgIcon Icon={CloseIcon} />
             </BaseButton>
           </Localized>
         </div>

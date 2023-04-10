@@ -4,7 +4,11 @@ import React, { FunctionComponent } from "react";
 import { Markdown } from "coral-framework/components";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import { HorizontalGutter, Icon } from "coral-ui/components/v2";
+import {
+  MessagesBubbleSquareWarningIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { HorizontalGutter } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
 import MessageBoxContainer from "../MessageBoxContainer";
@@ -18,7 +22,7 @@ const PostCommentFormClosedSitewide: FunctionComponent<Props> = (props) => (
   <HorizontalGutter size="double">
     <CallOut
       color="mono"
-      icon={<Icon size="sm">feedback</Icon>}
+      icon={<SvgIcon size="sm" Icon={MessagesBubbleSquareWarningIcon} />}
       className={cn(CLASSES.createComment.closed)}
       title={<Markdown>{props.message}</Markdown>}
     />

@@ -2,11 +2,7 @@ import React, { FunctionComponent } from "react";
 
 const QAIcon: FunctionComponent = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="-0.25 -0.25 24.5 24.5"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.25 -0.25 24.5 24.5">
       <path
         stroke="currentColor"
         strokeLinecap="round"

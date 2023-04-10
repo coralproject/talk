@@ -12,7 +12,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import WarningError from "coral-stream/common/WarningError";
-import { Icon } from "coral-ui/components/v2";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import { CreateCommentFlagMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentFlagMutation.graphql";
@@ -112,7 +112,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         <Localized id="comments-reportPopover-thankYou">Thank you!</Localized>
       }
       onClose={onClose}
-      icon={<Icon size="sm">check_circle</Icon>}
+      icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
       aria-live="polite"
     >
       <Localized id="comments-reportPopover-receivedMessage">

@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { BaseButton, Flex, Icon, RelativeTime } from "coral-ui/components/v2";
+import { AddIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton, Flex, RelativeTime } from "coral-ui/components/v2";
 
 import EditedMarker from "./EditedMarker";
 
@@ -41,11 +42,11 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
         aria-label={"Expand comment thread"}
       >
         <Flex alignItems="flex-start" spacing={1}>
-          <Icon
+          {/* TODO: Should this be size xs? */}
+          <SvgIcon
             className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}
-          >
-            add
-          </Icon>
+            Icon={AddIcon}
+          />
           <Flex
             direction="row"
             justifyContent="space-between"

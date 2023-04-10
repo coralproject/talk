@@ -11,7 +11,14 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { BaseButton, ButtonIcon, Flex, Icon } from "coral-ui/components/v2";
+import {
+  ButtonSvgIcon,
+  OpenInNewIcon,
+  ReplyIcon,
+  SvgIcon,
+  ThumbsUpIcon,
+} from "coral-ui/components/icons";
+import { BaseButton, ButtonIcon, Flex } from "coral-ui/components/v2";
 
 import { HistoryCommentFooterContainer_comment } from "coral-stream/__generated__/HistoryCommentFooterContainer_comment.graphql";
 import { HistoryCommentFooterContainer_settings } from "coral-stream/__generated__/HistoryCommentFooterContainer_settings.graphql";
@@ -53,7 +60,8 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
               CLASSES.myComment.reactions
             )}
           >
-            <ButtonIcon>{settings.reaction.icon}</ButtonIcon>
+            <ButtonSvgIcon Icon={ThumbsUpIcon} />
+            {/* <ButtonIcon>{settings.reaction.icon}</ButtonIcon> */}
             <span className={cn(styles.reactionsButtonText)}>
               {settings.reaction.label} {comment.actionCounts.reaction.total}
             </span>
@@ -65,7 +73,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
         )}
         {hasReplies && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>
-            <Icon className={styles.repliesIcon}>reply</Icon>
+            <SvgIcon className={styles.repliesIcon} Icon={ReplyIcon} />
             <Localized
               id="profile-historyComment-replies"
               vars={{ replyCount: comment.replyCount }}
@@ -85,9 +93,11 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
             CLASSES.myComment.viewConversationButton
           )}
         >
-          <Icon className={styles.viewConversationIcon} size="sm">
-            open_in_new
-          </Icon>
+          <SvgIcon
+            Icon={OpenInNewIcon}
+            size="sm"
+            className={styles.viewConversationIcon}
+          />
           <Localized id="profile-historyComment-viewConversation">
             <span className={styles.viewConversationText}>
               View Conversation
@@ -97,9 +107,14 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
       </Flex>
       {showDetails && (
         <Flex className={styles.reacterUsernames} alignItems="flex-start">
-          <Icon size="sm" className={styles.reacterUsernamesIcon}>
+          <SvgIcon
+            size="sm"
+            className={styles.reacterUsernamesIcon}
+            Icon={ThumbsUpIcon}
+          />
+          {/* <Icon size="sm" className={styles.reacterUsernamesIcon}>
             {settings.reaction.icon}
-          </Icon>
+          </Icon> */}
           <Flex spacing={1}>
             <span>
               {compact(

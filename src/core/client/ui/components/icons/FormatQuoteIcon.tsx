@@ -5,7 +5,6 @@ const FormatQuoteIcon: FunctionComponent = () => {
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M14.250 9.248 A4.500 4.500 0 1 0 23.250 9.248 A4.500 4.500 0 1 0 14.250 9.248 Z"
-        fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -19,7 +18,6 @@ const FormatQuoteIcon: FunctionComponent = () => {
       ></path>
       <path
         d="M2.250 9.248 A4.500 4.500 0 1 0 11.250 9.248 A4.500 4.500 0 1 0 2.250 9.248 Z"
-        fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"

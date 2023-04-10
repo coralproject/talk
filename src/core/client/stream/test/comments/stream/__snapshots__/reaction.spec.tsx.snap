@@ -20,10 +20,9 @@ exports[`create and remove reaction: Respected 1`] = `
     className="Box-root Flex-root Flex-flex Flex-alignCenter"
   >
     <span
-      className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
+      className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthSemiBold SvgIcon-noFill"
     >
       <svg
-        fill="none"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -70,10 +69,9 @@ exports[`create and remove reaction: Unrespected 1`] = `
     className="Box-root Flex-root Flex-flex Flex-alignCenter"
   >
     <span
-      className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular"
+      className="SvgIcon-root SvgIcon-sm ReactionButton-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
     >
       <svg
-        fill="none"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >

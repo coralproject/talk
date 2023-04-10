@@ -3,7 +3,7 @@ import { Localized } from "@fluent/react/compat";
 import CLASSES from "coral-stream/classes";
 import React, { FunctionComponent } from "react";
 
-import { Icon } from "coral-ui/components/v2";
+import { DeleteIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import styles from "./BannedInfo.css";
@@ -13,11 +13,7 @@ const BannedInfo: FunctionComponent = (props) => {
     <CallOut
       color="error"
       className={CLASSES.bannedInfo.$root}
-      icon={
-        <Icon size="sm" className={styles.icon}>
-          block
-        </Icon>
-      }
+      icon={<SvgIcon size="sm" className={styles.icon} Icon={DeleteIcon} />}
       iconColor="none"
       title={
         <Localized id="comments-bannedInfo-bannedFromCommenting">

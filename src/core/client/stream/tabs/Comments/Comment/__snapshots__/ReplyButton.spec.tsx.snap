@@ -29,7 +29,7 @@ exports[`renders correctly 1`] = `
       alignItems="center"
       container="span"
     >
-      <SvgIcon
+      <ForwardRef(forwardRef)
         Icon={[Function]}
         className="ReplyButton-icon"
       />

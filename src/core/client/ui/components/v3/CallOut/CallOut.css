@@ -23,6 +23,11 @@
   margin-top: 0.5px;
 }
 
+.leftIcon span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .content {
   flex: 1;
 }
@@ -31,7 +36,7 @@
   display: flex;
   flex-basis: calc(var(--spacing-2) + 14px);
   justify-content: center;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .title {

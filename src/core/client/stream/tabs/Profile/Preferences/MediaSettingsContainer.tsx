@@ -13,12 +13,16 @@ import {
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
+  AlertTriangleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   CheckBox,
   FieldSet,
   FormField,
   HorizontalGutter,
   HorizontalRule,
-  Icon,
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
@@ -149,7 +153,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
                     <CallOut
                       color="error"
                       onClose={closeError}
-                      icon={<Icon size="sm">warning</Icon>}
+                      icon={<SvgIcon size="sm" Icon={AlertTriangleIcon} />}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
                       role="alert"
@@ -159,7 +163,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
                     <CallOut
                       color="success"
                       onClose={closeSuccess}
-                      icon={<Icon size="sm">check_circle</Icon>}
+                      icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
                       titleWeight="semiBold"
                       title={
                         <Localized id="profile-preferences-mediaPreferences-preferencesUpdated">

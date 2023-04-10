@@ -35,10 +35,15 @@ import {
   ShowEditEmailDialogEvent,
 } from "coral-stream/events";
 import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  EmailIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   Flex,
   FormField,
   HorizontalGutter,
-  Icon,
   InputLabel,
   TextField,
 } from "coral-ui/components/v2";
@@ -238,7 +243,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
           >
             <Flex itemGutter>
               <div>
-                <Icon size="lg">email</Icon>
+                <SvgIcon Icon={EmailIcon} size="lg" />
               </div>
               <div>
                 <div
@@ -314,7 +319,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
           <CallOut
             color="success"
             onClose={onCloseSuccess}
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="profile-changeEmail-success">
@@ -434,7 +439,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                     <CallOut
                       className={CLASSES.myEmail.form.errorMessage}
                       color="error"
-                      icon={<Icon size="sm">error</Icon>}
+                      icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
                       role="alert"

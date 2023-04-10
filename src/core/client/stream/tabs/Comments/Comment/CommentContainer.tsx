@@ -37,12 +37,12 @@ import {
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import { EditIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
   Hidden,
   HorizontalGutter,
-  Icon,
   RelativeTime,
 } from "coral-ui/components/v2";
 import MatchMedia from "coral-ui/components/v2/MatchMedia";
@@ -611,7 +611,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
                           data-testid="comment-edit-button"
                         >
                           <Flex alignItems="center" justifyContent="center">
-                            <Icon className={styles.editIcon}>edit</Icon>
+                            <SvgIcon
+                              Icon={EditIcon}
+                              className={styles.editIcon}
+                            />
                             <Localized id="comments-commentContainer-editButton">
                               Edit
                             </Localized>

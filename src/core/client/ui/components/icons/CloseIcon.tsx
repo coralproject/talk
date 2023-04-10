@@ -1,18 +1,18 @@
 import React, { FunctionComponent } from "react";
 
 const CloseIcon: FunctionComponent = () => {
+  // NOte: Using Streamline Remove icon here
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <title>Close</title>
+    <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M0.75 23.249L23.25 0.749"
+        d="M4.5 19.5L19.5 4.5"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
       ></path>
       <path
-        d="M23.25 23.249L0.75 0.749"
+        d="M4.5 4.5L19.5 19.5"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"

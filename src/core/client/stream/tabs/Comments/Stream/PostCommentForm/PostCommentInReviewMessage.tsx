@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Icon } from "coral-ui/components/v2";
+import { CheckIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 export interface PostCommentInReviewProps {
@@ -17,7 +17,7 @@ const PostCommentInReview: FunctionComponent<PostCommentInReviewProps> = (
       color="primary"
       className={CLASSES.createComment.inReview}
       onClose={props.onDismiss}
-      icon={<Icon size="sm">check</Icon>}
+      icon={<SvgIcon size="sm" Icon={CheckIcon} />}
       titleWeight="semiBold"
       title={
         <Localized id="comments-submitStatus-submittedAndWillBeReviewed">

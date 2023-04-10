@@ -18,7 +18,8 @@ it("renders correctly", () => {
 it("renders icon", () => {
   const renderer = TestRenderer.create(
     <MessageBox>
-      <MessageBoxIcon>alert</MessageBoxIcon>Alert MessageBox
+      <MessageBoxIcon icon="warning" />
+      Alert MessageBox
     </MessageBox>
   );
   expect(renderer.toJSON()).toMatchSnapshot();

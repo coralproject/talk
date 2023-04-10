@@ -80,7 +80,9 @@ it("render moderation view link", async () => {
     userEvent.click(caretButton);
   });
 
-  const link = within(comment).getByRole("link", { name: "Moderation view" });
+  const link = within(comment).getByRole("link", {
+    name: "Moderation view share-external-link-1",
+  });
   expect(link).toHaveAttribute(
     "href",
     `/admin/moderate/comment/${firstComment.id}`
@@ -96,7 +98,9 @@ it("render moderate story link", async () => {
   await act(async () => {
     userEvent.click(caretButton);
   });
-  const link = within(comment).getByRole("link", { name: "Moderate story" });
+  const link = within(comment).getByRole("link", {
+    name: "Moderate story share-external-link-1",
+  });
   expect(link).toHaveAttribute("href", `/admin/moderate/stories/${story.id}`);
 });
 
@@ -222,7 +226,7 @@ it("reject comment", async () => {
     within(tabPane).getByText("You have rejected this comment.")
   ).toBeVisible();
   const link = within(tabPane).getByRole("link", {
-    name: "Go to moderate to review this decision",
+    name: "Go to moderate to review this decision share-external-link-1",
   });
   expect(link).toHaveAttribute(
     "href",
@@ -401,7 +405,7 @@ it("site moderator can site ban commenter", async () => {
     within(tabPane).getByText("You have rejected this comment.")
   ).toBeVisible();
   const link = within(tabPane).getByRole("link", {
-    name: "Go to moderate to review this decision",
+    name: "Go to moderate to review this decision share-external-link-1",
   });
   expect(link).toHaveAttribute(
     "href",

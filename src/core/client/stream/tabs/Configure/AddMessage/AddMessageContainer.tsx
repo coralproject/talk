@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Icon } from "coral-ui/components/v2";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import { AddMessageContainer_story } from "coral-stream/__generated__/AddMessageContainer_story.graphql";
@@ -60,7 +60,7 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
           {removed && (
             <CallOut
               color="success"
-              icon={<Icon size="sm">check_circle</Icon>}
+              icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
               title={
                 <Localized id="config-addMessage-removed">
                   Message has been removed

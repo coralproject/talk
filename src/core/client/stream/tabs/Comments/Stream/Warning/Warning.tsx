@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { FlagWarningIcon, SvgIcon } from "coral-ui/components/icons";
+import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import AccountStatusCalloutMessage from "../AccountStatusCalloutMessage";
@@ -16,7 +17,7 @@ const Warning: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
     <CallOut
       color="error"
       iconColor="none"
-      icon={<Icon size="sm">report</Icon>}
+      icon={<SvgIcon size="sm" Icon={FlagWarningIcon} />}
       borderPosition="top"
       title={
         <Localized id="warning-heading">

@@ -13,11 +13,11 @@ import {
   validateDeleteConfirmation,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Flex,
   FormField,
   HorizontalGutter,
-  Icon,
   InputLabel,
   PasswordField,
   TextField,
@@ -226,7 +226,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                 {submitError && (
                   <CallOut
                     color="error"
-                    icon={<Icon size="sm">error</Icon>}
+                    icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
                     titleWeight="semiBold"
                     title={submitError}
                     role="alert"

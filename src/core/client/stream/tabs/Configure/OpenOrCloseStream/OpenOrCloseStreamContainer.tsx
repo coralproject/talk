@@ -3,7 +3,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Icon } from "coral-ui/components/v2";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import { OpenOrCloseStreamContainer_story as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
@@ -57,7 +57,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
             title={
               <Localized id="configure-openStream-theStreamIsNowClosed">
                 The stream is now closed
@@ -79,7 +79,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
             title={
               <Localized id="configure-closeStream-theStreamIsNowOpen">
                 The stream is now open

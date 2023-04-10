@@ -7,7 +7,8 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import { HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import { StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
@@ -70,9 +71,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
           borderPosition="top"
           iconColor="inherit"
           icon={
-            <Icon size="sm" className={styles.icon}>
-              error
-            </Icon>
+            <SvgIcon size="sm" className={styles.icon} Icon={AlertCircleIcon} />
           }
           iconPosition="left"
           title={

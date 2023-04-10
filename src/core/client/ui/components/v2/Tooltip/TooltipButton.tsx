@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { ButtonHTMLAttributes, FunctionComponent, Ref } from "react";
 
-import { Icon } from "coral-ui/components/v2";
+import { InfoCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import Button from "coral-ui/components/v3/Button";
 import { withForwardRef } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
@@ -44,7 +44,7 @@ const TooltipButton: FunctionComponent<Props> = ({
     variant="flat"
     paddingSize="none"
   >
-    <Icon>info</Icon>
+    <SvgIcon Icon={InfoCircleIcon} />
   </Button>
 );
 

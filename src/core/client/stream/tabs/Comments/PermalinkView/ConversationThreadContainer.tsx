@@ -13,7 +13,8 @@ import { ShowMoreOfConversationEvent } from "coral-stream/events";
 import { CommentContainer } from "coral-stream/tabs/Comments/Comment";
 import IgnoredTombstoneOrHideContainer from "coral-stream/tabs/Comments/IgnoredTombstoneOrHideContainer";
 import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
-import { Counter, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { NavigationMenuVerticalIcon, SvgIcon } from "coral-ui/components/icons";
+import { Counter, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ConversationThreadContainer_comment } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
@@ -132,9 +133,11 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
 
         {remaining > 0 && (
           <Flex alignItems="center" className={styles.showMoreContainer}>
-            <Icon size="lg" className={styles.showMoreIcon}>
-              more_vert
-            </Icon>
+            <SvgIcon
+              size="lg"
+              className={styles.showMoreIcon}
+              Icon={NavigationMenuVerticalIcon}
+            />
             <Localized
               id="comments-conversationThread-showMoreOfThisConversation"
               vars={{ count: remaining }}

@@ -11,12 +11,8 @@ import { InvalidRequestError } from "coral-framework/lib/errors";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateMaxLength } from "coral-framework/lib/validation";
-import {
-  Flex,
-  HorizontalGutter,
-  HorizontalRule,
-  Icon,
-} from "coral-ui/components/v2";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex, HorizontalGutter, HorizontalRule } from "coral-ui/components/v2";
 import {
   Button,
   CallOut,
@@ -127,7 +123,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
               {removed && (
                 <CallOut
                   color="success"
-                  icon={<Icon size="sm">check_circle</Icon>}
+                  icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
                   title={
                     <Localized id="profile-bio-removed">
                       Your bio has been removed
@@ -139,7 +135,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
               {submitSucceeded && (
                 <CallOut
                   color="success"
-                  icon={<Icon size="sm">check_circle</Icon>}
+                  icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
                   title={
                     <Localized id="profile-bio-success">
                       Your bio has been updated

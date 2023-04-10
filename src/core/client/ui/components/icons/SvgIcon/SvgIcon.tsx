@@ -1,5 +1,6 @@
 import cn from "classnames";
-import React, { ComponentType } from "react";
+import { withForwardRef } from "coral-ui/hocs";
+import React, { ComponentType, Ref } from "react";
 
 import styles from "./SvgIcon.css";
 
@@ -8,7 +9,10 @@ interface SvgIconProps {
   size?: string;
   color?: string;
   strokeWidth?: string;
+  filled?: boolean;
   className?: string;
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLSpanElement>;
 }
 
 const SvgIcon: React.FC<SvgIconProps> = ({
@@ -16,7 +20,9 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   size = "sm",
   color = "inherit",
   strokeWidth = "regular",
+  filled = false,
   className,
+  forwardRef,
 }) => {
   let sizeStyle;
   switch (size) {
@@ -58,6 +64,19 @@ const SvgIcon: React.FC<SvgIconProps> = ({
       break;
     case "bold":
       strokeWidthStyle = styles.strokeWidthBold;
+      break;
+    case "semibold":
+      strokeWidthStyle = styles.strokeWidthSemiBold;
+  }
+
+  let fillStyle;
+  switch (filled) {
+    case false:
+      fillStyle = styles.noFill;
+      break;
+    case true:
+      fillStyle = styles.filled;
+      break;
   }
 
   const spanClassNames = cn(
@@ -65,13 +84,15 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     sizeStyle,
     className,
     colorStyle,
-    strokeWidthStyle
+    strokeWidthStyle,
+    fillStyle
   );
   return (
-    <span className={spanClassNames}>
+    <span className={spanClassNames} ref={forwardRef}>
       <Icon />
     </span>
   );
 };
 
-export default SvgIcon;
+const enhanced = withForwardRef(SvgIcon);
+export default enhanced;

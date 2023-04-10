@@ -14,11 +14,15 @@ import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import {
+  CommentBoxIcon,
+  ConversationChatIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   Box,
   Flex,
   Hidden,
   HorizontalGutter,
-  Icon,
   RelativeTime,
 } from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
@@ -165,7 +169,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                   CLASSES.featuredComment.actionBar.replies
                 )}
               >
-                <Icon size="sm">comment</Icon>
+                <SvgIcon size="sm" Icon={CommentBoxIcon} />
                 <Localized id="comments-featured-replies">
                   <Box mx={1}>Replies</Box>
                 </Localized>
@@ -190,9 +194,11 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                   onClick={onGotoConversation}
                   href={getURLWithCommentID(story.url, comment.id)}
                 >
-                  <Icon size="sm" className={styles.icon}>
-                    forum
-                  </Icon>
+                  <SvgIcon
+                    Icon={ConversationChatIcon}
+                    size="sm"
+                    className={styles.icon}
+                  />
                   <Localized id="comments-featured-gotoConversation">
                     <span>Go to conversation</span>
                   </Localized>
