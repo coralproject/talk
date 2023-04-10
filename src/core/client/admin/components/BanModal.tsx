@@ -318,15 +318,19 @@ const BanModal: FunctionComponent<Props> = ({
                   direction="column"
                   className={styles.form}
                   justifyContent="flex-start"
+                  spacing={3}
                 >
                   {/* BAN FROM/REJECT COMMENTS */}
                   <Flex direction="column">
                     {/* ban from header */}
-                    <Label className={styles.banFromHeader}>Ban From</Label>
+                    <Localized id="community-banModal-banFrom">
+                      <Label className={styles.banFromHeader}>Ban from</Label>
+                    </Localized>
                     <Flex
                       direction="row"
                       className={styles.sitesOptions}
                       justifyContent="flex-start"
+                      spacing={4}
                     >
                       {/* sites options */}
                       {showAllSitesOption && (
@@ -398,10 +402,12 @@ const BanModal: FunctionComponent<Props> = ({
                   {canBanDomain && (
                     <Flex direction="column" className={styles.banDomainOption}>
                       <HorizontalGutter spacing={2}>
-                        {/* doman ban header */}
-                        <Label className={styles.domainBanHeader}>
-                          Email domain ban
-                        </Label>
+                        {/* domain ban header */}
+                        <Localized id="community-banModal-emailDomainBan">
+                          <Label className={styles.domainBanHeader}>
+                            Email domain ban
+                          </Label>
+                        </Localized>
                         {/* domain ban checkbox */}
                         <Localized
                           id="community-banModal-banEmailDomain"
@@ -412,7 +418,7 @@ const BanModal: FunctionComponent<Props> = ({
                               setBanDomain(target.checked);
                             }}
                           >
-                            Ban all new accounts on{" "}
+                            Ban all new commenter accounts from{" "}
                             <strong>{emailDomain}</strong>
                           </CheckBox>
                         </Localized>
