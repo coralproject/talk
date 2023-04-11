@@ -1322,7 +1322,8 @@ community-userStatus-premodUser = Always pre-moderate
 community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-allSites-title = Are you sure you want to ban <username></username>?
-community-banModal-banEmailDomain = Ban all new accounts on { $domain }
+community-banModal-banEmailDomain-title = Email domain ban
+community-banModal-banEmailDomain = Ban all new commenter accounts from { $domain }
 community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
 community-banModal-noSites-title = Are you sure you want to unban <username></username>?
 community-banModal-allSites-consequence =

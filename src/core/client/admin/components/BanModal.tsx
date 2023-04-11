@@ -330,7 +330,7 @@ const BanModal: FunctionComponent<Props> = ({
                       direction="row"
                       className={styles.sitesOptions}
                       justifyContent="flex-start"
-                      spacing={4}
+                      spacing={5}
                     >
                       {/* sites options */}
                       {showAllSitesOption && (
@@ -403,7 +403,7 @@ const BanModal: FunctionComponent<Props> = ({
                     <Flex direction="column" className={styles.banDomainOption}>
                       <HorizontalGutter spacing={2}>
                         {/* domain ban header */}
-                        <Localized id="community-banModal-emailDomainBan">
+                        <Localized id="community-banModal-banEmailDomain-title">
                           <Label className={styles.domainBanHeader}>
                             Email domain ban
                           </Label>

@@ -12,10 +12,6 @@ $ban-modal-text: var(--palette-text-500);
   height: calc(12 * var(--mini-unit));
 }
 
-.sitesToggle {
-  margin-bottom: var(--spacing-3);
-}
-
 .domainBanHeader {
   margin-bottom: var(--spacing-2);
 
@@ -23,7 +19,6 @@ $ban-modal-text: var(--palette-text-500);
 
 
 .form {
-  gap: var(--spacing-3);
   margin-bottom: var(--spacing-3);
 }
 
@@ -35,7 +30,6 @@ $ban-modal-text: var(--palette-text-500);
 
 .sitesOptions {
   margin-bottom: var(--spacing-1);
-  gap: var(--spacing-2);
 }
 
 .banDomainOption {
