@@ -12,7 +12,7 @@ import { FlushRedisMutation as MutationTypes } from "coral-admin/__generated__/F
 let clientMutationId = 0;
 
 const FlushRedisMutation = createMutation(
-  "invalidateCachedStory",
+  "flushRedis",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
