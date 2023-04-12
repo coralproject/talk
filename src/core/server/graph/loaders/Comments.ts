@@ -324,7 +324,13 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    if (isRatingsAndReviews(ctx.tenant, story) || isQA(ctx.tenant, story)) {
+    const isArchived = !!(story.isArchived || story.isArchiving);
+
+    if (
+      isRatingsAndReviews(ctx.tenant, story) ||
+      isQA(ctx.tenant, story) ||
+      isArchived
+    ) {
       const connection = await retrieveCommentStoryConnection(
         ctx.mongo,
         ctx.tenant.id,
@@ -347,7 +353,6 @@ export default (ctx: GraphContext) => ({
       return connection;
     }
 
-    const isArchived = !!(story.isArchived || story.isArchiving);
     const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
       storyID,
@@ -380,7 +385,13 @@ export default (ctx: GraphContext) => ({
       throw new StoryNotFoundError(storyID);
     }
 
-    if (isRatingsAndReviews(ctx.tenant, story) || isQA(ctx.tenant, story)) {
+    const isArchived = !!(story.isArchived || story.isArchiving);
+
+    if (
+      isRatingsAndReviews(ctx.tenant, story) ||
+      isQA(ctx.tenant, story) ||
+      isArchived
+    ) {
       const connection = await retrieveCommentRepliesConnection(
         ctx.mongo,
         ctx.tenant.id,
