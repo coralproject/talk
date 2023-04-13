@@ -9,12 +9,13 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Tab,
-  TabBar,
-} from "coral-ui/components/v2";
+  CheckDoubleIcon,
+  EditIcon,
+  ListBulletsIcon,
+  SvgIcon,
+  ThumbsUpIcon,
+} from "coral-ui/components/icons";
+import { Flex, HorizontalGutter, Tab, TabBar } from "coral-ui/components/v2";
 
 import { ModerateCardDetailsContainer_comment } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 import { ModerateCardDetailsContainer_settings } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
@@ -80,7 +81,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       <TabBar variant="default" activeTab={activeTab} onTabClick={onTabClick}>
         <Tab tabID="INFO" classes={styles}>
           <Flex alignItems="center" itemGutter>
-            <Icon size="md">list</Icon>
+            <SvgIcon Icon={ListBulletsIcon} size="sm" />
             <Localized id="moderateCardDetails-tab-info">
               <span>Info</span>
             </Localized>
@@ -89,7 +90,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasReactions && (
           <Tab tabID="REACTIONS" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <Icon size="md">thumb_up</Icon>
+              <SvgIcon Icon={ThumbsUpIcon} size="sm" />
               <Localized id="moderateCardDetails-tab-reactions">
                 <span>Reactions</span>
               </Localized>
@@ -99,7 +100,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasRevisions && (
           <Tab tabID="HISTORY" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <Icon size="md">edit</Icon>
+              <SvgIcon Icon={EditIcon} size="sm" />
               <Localized id="moderateCardDetails-tab-edits">
                 <span>Edit history</span>
               </Localized>
@@ -109,7 +110,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasAutomatedActions && (
           <Tab tabID="EXTERNAL_MOD" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <Icon size="md">done_all</Icon>
+              <SvgIcon Icon={CheckDoubleIcon} size="sm" />
               <Localized id="moderateCardDetails-tab-automatedActions">
                 <span>Automated actions</span>
               </Localized>

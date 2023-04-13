@@ -11,9 +11,9 @@ import {
   ValidationMessage,
 } from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
+import { ButtonSvgIcon, EmailIcon } from "coral-ui/components/icons";
 import {
   Button,
-  ButtonIcon,
   CallOut,
   Flex,
   FormField,
@@ -93,7 +93,7 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
               disabled={submitting}
               fullWidth
             >
-              <ButtonIcon size="md">email</ButtonIcon>
+              <ButtonSvgIcon size="md" Icon={EmailIcon} />
               <Localized id="login-signIn-signInWithEmail">
                 <span>Sign in with Email</span>
               </Localized>

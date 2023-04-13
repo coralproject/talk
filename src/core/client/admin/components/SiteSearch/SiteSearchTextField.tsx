@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button, Flex, Icon, TextField } from "coral-ui/components/v2";
+import { SearchIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, Flex, TextField } from "coral-ui/components/v2";
 
 import styles from "./SiteSearchTextField.css";
 
@@ -68,7 +69,7 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
                 aria-label="Search"
                 onClick={onSearch}
               >
-                <Icon size="md">search</Icon>
+                <SvgIcon size="sm" Icon={SearchIcon} />
               </Button>
             </Localized>
           }

@@ -7,9 +7,19 @@ import React, { FunctionComponent, useEffect, useMemo } from "react";
 import { HOTKEYS } from "coral-admin/constants";
 import { SectionFilter } from "coral-common/section";
 import { getModerationLink } from "coral-framework/helpers";
+import {
+  CheckCircleIcon,
+  CloseCircleIcon,
+  FlagIcon,
+  MessagesBubbleSquareIcon,
+  SvgIcon,
+  TimeClockIcon,
+} from "coral-ui/components/icons";
 import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 
 import NavigationLink from "./NavigationLink";
+
+import styles from "./Navigation.css";
 
 interface Props {
   unmoderatedCount?: number | null;
@@ -73,7 +83,7 @@ const Navigation: FunctionComponent<Props> = ({
     <SubBarNavigation>
       {(mode === "POST" || (isNumber(reportedCount) && reportedCount > 0)) && (
         <NavigationLink to={moderationLinks[0]}>
-          <Icon>flag</Icon>
+          <SvgIcon className={styles.icon} Icon={FlagIcon} />
           <Localized id="moderate-navigation-reported">
             <span>Reported</span>
           </Localized>
@@ -90,7 +100,7 @@ const Navigation: FunctionComponent<Props> = ({
         </NavigationLink>
       )}
       <NavigationLink to={moderationLinks[1]}>
-        <Icon>access_time</Icon>
+        <SvgIcon className={styles.icon} Icon={TimeClockIcon} />
         <Localized id="moderate-navigation-pending">
           <span>Pending</span>
         </Localized>
@@ -106,7 +116,7 @@ const Navigation: FunctionComponent<Props> = ({
         )}
       </NavigationLink>
       <NavigationLink to={moderationLinks[2]}>
-        <Icon>forum</Icon>
+        <SvgIcon Icon={MessagesBubbleSquareIcon} className={styles.icon} />
         <Localized id="moderate-navigation-unmoderated">
           <span>Unmoderated</span>
         </Localized>
@@ -122,13 +132,13 @@ const Navigation: FunctionComponent<Props> = ({
         )}
       </NavigationLink>
       <NavigationLink to={moderationLinks[3]}>
-        <Icon>check_circle</Icon>
+        <SvgIcon Icon={CheckCircleIcon} className={styles.icon} />
         <Localized id="moderate-navigation-approved">
           <span>Approved</span>
         </Localized>
       </NavigationLink>
       <NavigationLink to={moderationLinks[4]}>
-        <Icon>cancel</Icon>
+        <SvgIcon Icon={CloseCircleIcon} className={styles.icon} />
         <Localized id="moderate-navigation-rejected">
           <span>Rejected</span>
         </Localized>

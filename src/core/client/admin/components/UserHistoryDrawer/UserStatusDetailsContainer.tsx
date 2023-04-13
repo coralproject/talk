@@ -5,13 +5,8 @@ import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  BaseButton,
-  Box,
-  ClickOutside,
-  Icon,
-  Popover,
-} from "coral-ui/components/v2";
+import { InfoCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton, Box, ClickOutside, Popover } from "coral-ui/components/v2";
 
 import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
 
@@ -192,9 +187,11 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
             aria-label="View user status details"
             ref={ref}
           >
-            <Icon size="md" color="inherit">
-              info
-            </Icon>
+            <SvgIcon
+              size="md"
+              className={styles.infoIcon}
+              Icon={InfoCircleIcon}
+            />
           </BaseButton>
         )}
       </Popover>

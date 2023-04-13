@@ -39,12 +39,48 @@ exports[`show restricted screen for commenters and staff 1`] = `
           <div
             className="Box-root Flex-root Flex-flex Flex-justifyCenter"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-lg coral coral-icon Restricted-lockIcon"
+            <span
+              className="SvgIcon-root SvgIcon-lg Restricted-lockIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              lock
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs />
+                <title>
+                  lock-1
+                </title>
+                <rect
+                  fill="none"
+                  height="13.5"
+                  rx="1.5"
+                  ry="1.5"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  width="16.5"
+                  x="3.75"
+                  y="9.75"
+                />
+                <path
+                  d="M6.75,9.75V6a5.25,5.25,0,0,1,10.5,0V9.75"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="12"
+                  x2="12"
+                  y1="15"
+                  y2="18"
+                />
+              </svg>
+            </span>
           </div>
           <div
             className="Restricted-noPermission"
@@ -131,12 +167,48 @@ exports[`show restricted screen for commenters and staff 2`] = `
           <div
             className="Box-root Flex-root Flex-flex Flex-justifyCenter"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-lg coral coral-icon Restricted-lockIcon"
+            <span
+              className="SvgIcon-root SvgIcon-lg Restricted-lockIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              lock
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs />
+                <title>
+                  lock-1
+                </title>
+                <rect
+                  fill="none"
+                  height="13.5"
+                  rx="1.5"
+                  ry="1.5"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  width="16.5"
+                  x="3.75"
+                  y="9.75"
+                />
+                <path
+                  d="M6.75,9.75V6a5.25,5.25,0,0,1,10.5,0V9.75"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="12"
+                  x2="12"
+                  y1="15"
+                  y2="18"
+                />
+              </svg>
+            </span>
           </div>
           <div
             className="Restricted-noPermission"

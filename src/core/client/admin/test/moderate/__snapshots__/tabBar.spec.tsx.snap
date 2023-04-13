@@ -22,12 +22,27 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/reported"
             onClick={[Function]}
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon"
+            <span
+              className="SvgIcon-root SvgIcon-sm Navigation-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              flag
-            </i>
+              <svg
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.75 23.25L0.75 0.75"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M.75,17.708l3.154-.97a9.61,9.61,0,0,1,7.864,1A9.615,9.615,0,0,0,19.447,18.8l2.987-.854a1.125,1.125,0,0,0,.816-1.082V5.137a1.126,1.126,0,0,0-1.434-1.082l-2.369.677a9.615,9.615,0,0,1-7.679-1.056,9.61,9.61,0,0,0-7.864-1L.75,3.645"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <span>
               reported
             </span>
@@ -51,12 +66,36 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/pending"
             onClick={[Function]}
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon"
+            <span
+              className="SvgIcon-root SvgIcon-sm Navigation-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              access_time
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.500 12.000 A10.500 10.500 0 1 0 22.500 12.000 A10.500 10.500 0 1 0 1.500 12.000 Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12 12L12 8.25"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12 12L16.687 16.688"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <span>
               Pending
             </span>
@@ -80,12 +119,22 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/unmoderated"
             onClick={[Function]}
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon"
+            <span
+              className="SvgIcon-root SvgIcon-sm Navigation-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              forum
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.75,18.75H11.25l-6,4.5v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-15A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v15A1.5,1.5,0,0,1,21.75,18.75Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <span>
               unmoderated
             </span>
@@ -109,12 +158,29 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/approved"
             onClick={[Function]}
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon"
+            <span
+              className="SvgIcon-root SvgIcon-sm Navigation-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              check_circle
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6,13.223,8.45,16.7a1.049,1.049,0,0,0,1.707.051L18,6.828"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M0.750 11.999 A11.250 11.250 0 1 0 23.250 11.999 A11.250 11.250 0 1 0 0.750 11.999 Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <span>
               approved
             </span>
@@ -128,12 +194,36 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/rejected"
             onClick={[Function]}
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon"
+            <span
+              className="SvgIcon-root SvgIcon-sm Navigation-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              cancel
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.182 8.818L8.818 15.181"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8.818 8.818L15.182 15.181"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M0.750 12.000 A11.250 11.250 0 1 0 23.250 12.000 A11.250 11.250 0 1 0 0.750 12.000 Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
             <span>
               rejected
             </span>

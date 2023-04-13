@@ -24,11 +24,10 @@ exports[`renders correctly 1`] = `
         justifyContent="center"
       >
         <ForwardRef(forwardRef)
+          Icon={[Function]}
           className="Restricted-lockIcon"
           size="lg"
-        >
-          lock
-        </ForwardRef(forwardRef)>
+        />
       </ForwardRef(forwardRef)>
       <Localized
         id="restricted-noPermissionInfo"

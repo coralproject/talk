@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { BaseButton, Icon } from "coral-ui/components/v2";
+import { CheckIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton } from "coral-ui/components/v2";
 
 import styles from "./ApproveButton.css";
 
@@ -27,9 +28,7 @@ const ApproveButton: FunctionComponent<Props> = ({
       })}
       aria-label="Approve"
     >
-      <Icon size="lg" className={styles.icon}>
-        done
-      </Icon>
+      <SvgIcon size="lg" className={styles.icon} Icon={CheckIcon} />
     </BaseButton>
   </Localized>
 );

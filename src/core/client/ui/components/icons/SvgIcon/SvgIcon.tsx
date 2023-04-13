@@ -23,6 +23,7 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   filled = false,
   className,
   forwardRef,
+  ...rest
 }) => {
   let sizeStyle;
   switch (size) {
@@ -88,7 +89,7 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     fillStyle
   );
   return (
-    <span className={spanClassNames} ref={forwardRef}>
+    <span className={spanClassNames} {...rest} ref={forwardRef}>
       <Icon />
     </span>
   );

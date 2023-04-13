@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { BaseButton, Icon } from "coral-ui/components/v2";
+import { CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton } from "coral-ui/components/v2";
 
 import styles from "./RejectButton.css";
 
@@ -27,9 +28,7 @@ const RejectButton: FunctionComponent<Props> = ({
       })}
       aria-label="Reject"
     >
-      <Icon size="lg" className={styles.icon}>
-        close
-      </Icon>
+      <SvgIcon size="lg" className={styles.icon} Icon={CloseIcon} />
     </BaseButton>
   </Localized>
 );

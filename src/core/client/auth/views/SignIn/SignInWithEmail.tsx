@@ -11,11 +11,11 @@ import {
 } from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
+import { EmailIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Flex,
   FormField,
   HorizontalGutter,
-  Icon,
   InputLabel,
   PasswordField,
 } from "coral-ui/components/v2";
@@ -112,9 +112,10 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
                 upperCase
               >
                 <Flex alignItems="center" justifyContent="center">
-                  <Icon size="md" className={styles.icon}>
+                  <SvgIcon size="md" className={styles.icon} Icon={EmailIcon} />
+                  {/* <Icon size="md" className={styles.icon}>
                     email
-                  </Icon>
+                  </Icon> */}
                   <Localized id="signIn-signInWithEmail">
                     <span>Sign in with Email</span>
                   </Localized>

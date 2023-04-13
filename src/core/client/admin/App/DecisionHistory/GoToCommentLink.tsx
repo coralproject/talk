@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
-import { Icon, TextLink } from "coral-ui/components/v2";
+import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
+import { TextLink } from "coral-ui/components/v2";
 
 import styles from "./GoToCommentLink.css";
 
@@ -22,7 +23,7 @@ const GoToCommentLink: FunctionComponent<Props> = (props) => {
       <Localized id="decisionHistory-goToComment">
         <span>Go to comment</span>
       </Localized>{" "}
-      <Icon>chevron_right</Icon>
+      <SvgIcon className={styles.arrow} size="xs" Icon={ArrowRightIcon} />
     </Link>
   );
 };

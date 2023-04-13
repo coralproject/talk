@@ -21,12 +21,8 @@ import {
 } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import {
-  FormField,
-  Icon,
-  InputLabel,
-  PasswordField,
-} from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { FormField, InputLabel, PasswordField } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import { LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
@@ -110,7 +106,7 @@ const LinkAccountContainer: FunctionComponent<Props> = (props) => {
                   <CallOut
                     className={CLASSES.login.error}
                     color="error"
-                    icon={<Icon size="sm">error</Icon>}
+                    icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
                     title={submitError}
                   />
                 </div>

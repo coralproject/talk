@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import { ButtonSvgIcon, ProfileCircleIcon } from "coral-ui/components/icons";
 import {
   Button,
   ButtonIcon,
@@ -63,9 +64,11 @@ const UserMenu: FunctionComponent<Props> = (props) => (
           variant="text"
           uppercase={false}
         >
-          <ButtonIcon className={styles.icon} size="lg">
-            account_circle
-          </ButtonIcon>
+          <ButtonSvgIcon
+            className={styles.icon}
+            size="lg"
+            Icon={ProfileCircleIcon}
+          />
           <span className={styles.buttonText}>{props.username}</span>
           {
             <ButtonIcon className={styles.icon} size="lg">

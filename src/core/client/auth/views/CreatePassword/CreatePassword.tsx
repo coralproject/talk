@@ -10,7 +10,7 @@ import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import SetPasswordMutation from "./SetPasswordMutation";
@@ -62,7 +62,7 @@ const CreatePasswordContainer: FunctionComponent = () => {
                   <CallOut
                     className={CLASSES.login.error}
                     color="error"
-                    icon={<Icon size="sm">error</Icon>}
+                    icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
                     title={submitError}
                   />
                 </div>
