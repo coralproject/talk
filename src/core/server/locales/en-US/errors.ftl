@@ -77,3 +77,4 @@ error-cannotCreateCommentOnArchivedStory = Cannot create a comment on an archive
 error-cannotOpenAnArchivedStory = Cannot open an archived story. The story must be unarchived first.
 error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story must be unarchived first.
 error-usernameAlreadyExists = This username already exists. Please choose another.
+error-unableToUpdateStoryURL = Unable to update the story URL.

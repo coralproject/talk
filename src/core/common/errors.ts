@@ -425,4 +425,10 @@ export enum ERROR_CODES {
    * their username and the provided username has already been taken.
    */
   USERNAME_ALREADY_EXISTS = "USERNAME_ALREADY_EXISTS",
+
+  /**
+   * UNABLE_TO_UPDATE_STORY_URL is thrown when a story already exists for
+   * a storyID and we were unable to update the url for that story ID.
+   */
+  UNABLE_TO_UPDATE_STORY_URL = "UNABLE_TO_UPDATE_STORY_URL",
 }
