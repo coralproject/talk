@@ -7480,7 +7480,6 @@ input ModerationScopesInput {
   scoped is whether or not the user's moderation
   priveledges are limited to specified sites
   """
-
   scoped: Boolean!
 
   """
@@ -8861,6 +8860,21 @@ type InvalidateCachedStoryPayload {
 }
 
 ##################
+## Redis
+##################
+
+input FlushRedisInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type FlushRedisPayload {
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -9548,8 +9562,9 @@ type Mutation {
   refreshStoryCounts will recompute the cached counts for a story based on
   which flags are set to recompute in the operation input.
   """
-  refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
-    @auth(roles: [ADMIN])
+  refreshStoryCounts(
+    input: RefreshStoryCountsInput!
+  ): RefreshStoryCountsPayload! @auth(roles: [ADMIN])
 
   """
   cacheStory will cache the given Story and its comments into redis for fast
@@ -9562,8 +9577,14 @@ type Mutation {
   invalidateCachedStory will invalidate any cached data for a story whose stream
   may be cached in redis.
   """
-  invalidateCachedStory(input: InvalidateCachedStoryInput!): InvalidateCachedStoryPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+  invalidateCachedStory(
+    input: InvalidateCachedStoryInput!
+  ): InvalidateCachedStoryPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  flushRedis flushes the redis instance.
+  """
+  flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
 }
 
 ##################

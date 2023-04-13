@@ -4,6 +4,6 @@ const baseConfig = createConfig();
 
 module.exports = {
   ...baseConfig,
-  displayName: "client",
-  roots: ["<rootDir>/src/core/client"],
+  displayName: "client:admin",
+  roots: ["<rootDir>/src/core/client/admin"],
 }

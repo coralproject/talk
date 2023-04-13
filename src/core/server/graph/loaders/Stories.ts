@@ -180,6 +180,7 @@ export default (ctx: GraphContext) => ({
       findOrCreate(
         ctx.mongo,
         ctx.tenant,
+        ctx.cache.comments,
         ctx.loadCacheQueue,
         ctx.broker,
         input,
