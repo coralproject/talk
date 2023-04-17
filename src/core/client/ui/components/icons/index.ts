@@ -53,6 +53,7 @@ export { default as SearchIcon } from "./SearchIcon";
 export { default as SettingsIcon } from "./SettingsIcon";
 export { default as ShareIcon } from "./ShareIcon";
 export { default as SingleNeutralActionsBlockIcon } from "./SingleNeutralActionsBlockIcon";
+export { default as SingleNeutralProfilePictureIcon } from "./SingleNeutralProfilePictureIcon";
 export { default as StarIcon } from "./StarIcon";
 export { default as StopwatchIcon } from "./StopwatchIcon";
 export { default as StrikethroughIcon } from "./StrikethroughIcon";

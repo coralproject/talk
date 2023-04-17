@@ -7,20 +7,24 @@ import React, {
 } from "react";
 
 import { SvgIcon } from "coral-ui/components/icons";
-import { IconProps } from "coral-ui/components/v2/Icon";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./ButtonSvgIcon.css";
+import { SvgIconProps } from "../SvgIcon/SvgIcon";
 
 interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
    */
-  classes: typeof styles & IconProps["classes"];
+  classes: typeof styles;
 
-  size?: IconProps["size"];
+  size?: SvgIconProps["size"];
+
+  filled?: SvgIconProps["filled"];
+
+  strokeWidth?: SvgIconProps["strokeWidth"];
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLSpanElement>;

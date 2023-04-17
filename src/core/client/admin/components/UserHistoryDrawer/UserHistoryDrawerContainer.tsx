@@ -12,6 +12,7 @@ import {
   CloseIcon,
   EmailIcon,
   MultiplePeopleNeutralIcon,
+  SingleNeutralProfilePictureIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import {
@@ -201,7 +202,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                     <SvgIcon
                       size="sm"
                       className={styles.icon}
-                      Icon={MultiplePeopleNeutralIcon}
+                      Icon={SingleNeutralProfilePictureIcon}
                     />
                   </Localized>
                   <span className={styles.userDetailValue}>

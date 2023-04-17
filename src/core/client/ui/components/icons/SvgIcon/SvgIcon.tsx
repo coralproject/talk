@@ -4,7 +4,7 @@ import React, { ComponentType, Ref } from "react";
 
 import styles from "./SvgIcon.css";
 
-interface SvgIconProps {
+export interface SvgIconProps {
   Icon: ComponentType;
   size?: string;
   color?: string;
