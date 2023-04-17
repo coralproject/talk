@@ -109,9 +109,12 @@ const Queue: FunctionComponent<Props> = ({
     }
   }, [window.document]);
 
+  const ban = useCallback(() => {});
+
   useEffect(() => {
     key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
     key(HOTKEYS.PREV, QUEUE_HOTKEY_ID, selectPrev);
+    key(HOTKEYS.BAN, QUEUE_HOTKEY_ID, ban);
 
     // The the scope such that only events attached to the ${id} scope will
     // be honored.
