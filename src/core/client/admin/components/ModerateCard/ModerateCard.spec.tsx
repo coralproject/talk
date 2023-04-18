@@ -25,7 +25,6 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   onApprove: noop,
   onReject: noop,
   onFeature: noop,
-  onBan: noop,
   onUsernameClick: noop,
   onFocusOrClick: noop,
   onConversationClick: noop,
