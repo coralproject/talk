@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useRouter } from "found";
 import React, {
   FunctionComponent,
@@ -349,25 +350,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           isArchiving={comment.story.isArchiving}
         />
       </FadeInTransition>
-      {comment.author && (
-        <BanModal
-          userID={comment.author.id}
-          username={
-            comment.author && comment.author.username
-              ? comment.author.username
-              : ""
-          }
-          open={showBanModal}
-          onClose={handleBanModalClose}
-          onConfirm={handleBanConfirm}
-          viewer={viewer as unknown as UserStatusChangeContainer_viewer}
-          emailDomainModeration={settings.emailDomainModeration}
-          userBanStatus={comment.author.status.ban}
-          userEmail={comment.author.email}
-          userRole={comment.author.role}
-          isMultisite={settings.multisite}
-        />
-      )}
     </>
   );
 };
