@@ -273,9 +273,12 @@ export default async function edit(
     ...result,
   });
 
-  await cache.comments.update(result.after);
-  if (result.after.authorID) {
-    await cache.users.populateUsers(tenant.id, [result.after.authorID]);
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.update(result.after);
+    if (result.after.authorID) {
+      await cache.users.populateUsers(tenant.id, [result.after.authorID]);
+    }
   }
 
   // Publish changes to the event publisher.
