@@ -4,21 +4,21 @@
 general-orSeparator = Of
 
 general-usernameLabel = Gebruikersnaam
-general-usernameDescription = Je mag �??_�?� en �??.�?� gebruiken. Spaties zijn niet toegestaan.
+general-usernameDescription = Je kunt “_” en “.” gebruiken, maar geen spaties.
 general-usernameTextField =
   .placeholder = Gebruikersnaam
-general-emailAddressLabel = E-mail Adres
+general-emailAddressLabel = E-mailadres
 general-emailAddressTextField =
-  .placeholder = E-mail Adres
+  .placeholder = E-mailadres
 general-passwordLabel = Wachtwoord
-general-passwordDescription = Moet minstens {$minLength} karakters bevatten
+general-passwordDescription = Moet ten minste {$minLength} tekens bevatten.
 general-passwordTextField =
   .placeholder = Wachtwoord
 general-confirmPasswordTextField =
-  .placeholder = Bevestig Wachtwoord
-general-confirmEmailAddressLabel = Bevestig E-mail Adres
+  .placeholder = Bevestig wachtwoord
+general-confirmEmailAddressLabel = Bevestig E-mailadres
 general-confirmEmailAddressTextField =
-  .placeholder = Bevestig E-mail Adres
+  .placeholder = Bevestig E-mailadres
 
 ## Sign In
 
@@ -43,30 +43,32 @@ signIn-noAccountSignUp = Heb je geen account? <textlink>Registreer je</textlink>
 signUp-signUpToJoinHeader =
   <title>Registreren</title><subtitle>om deel te nemen aan de discussie</subtitle>
 
-signUp-signUpWithEmail = Registrerenmet e-mail
+signUp-signUpWithEmail = Registreren met e-mail
 signUp-signUpWithFacebook = Registreer je via Facebook
 signUp-signUpWithGoogle = Registreer je via Google
-signUp-signUpWithOIDC = Registreer je als{ $name }
+signUp-signUpWithOIDC = Registreer je als { $name }
 
 signUp-accountAvailableSignIn = Heb je al een account? <textlink>Meld je aan</textlink>
+
+signUp-usernameAlreadyExists = Deze gebruikersnaam bestaat al. Kies een andere.
 
 ## Forgot Password
 
 forgotPassword-forgotPasswordHeader = Wachtwoord vergeten?
 forgotPassword-enterEmailAndGetALink =
-  Vul hieronder uw e-mailadres in en wij sturen u een link om
-  uw wachtwoord opnieuw in te stellen.
+  Vul hieronder je e-mailadres in en wij sturen je een link om
+  je wachtwoord opnieuw in te stellen.
 
-forgotPassword-sendEmailButton = Zend E-mail
+forgotPassword-sendEmailButton = Verstuur E-mail
 
-forgotPassword-emailAddressLabel = E-mail Adres
+forgotPassword-emailAddressLabel = E-mailadres
 forgotPassword-emailAddressTextField =
-  .placeholder = E-mail Adres
+  .placeholder = E-mailadres
 forgotPassword-gotBackToSignIn = Ga terug naar de aanmeld-pagina
 
 forgotPassword-enterEmailAndGetALink =
-  Vul hieronder uw e-mailadres in en wij sturen u een link om
-  uw wachtwoord opnieuw in te stellen.
+  Vul hieronder je e-mailadres in en wij sturen je een link om
+  je wachtwoord opnieuw in te stellen.
 
 ### Check Email
 
@@ -76,6 +78,18 @@ forgotPassword-checkEmail-receiveEmail =
   dan ontvang je een e-mail met een link om een nieuw wachtwoord aan te maken.
 forgotPassword-checkEmail-closeButton = Sluiten
 
+## Link Account
+
+linkAccount-linkAccountHeader = Account koppelen
+linkAccount-alreadyAssociated =
+  Het e-mailadres <strong>{ $email }</strong> is al
+  gekoppeld aan een account. Als je deze accounts wil koppelen, vul dan je wachtwoord in.
+linkAccount-passwordLabel = Wachtwoord
+linkAccount-passwordTextField =
+  .label = Wachtwoord
+linkAccount-linkAccountButton = Account koppelen
+linkAccount-useDifferentEmail = Een ander e-mailadres gebruiken
+
 ## Reset Password
 
 resetPassword-resetPasswordHeader = Wachtwoord opnieuw instellen
@@ -83,35 +97,37 @@ resetPassword-resetPasswordButton = Wachtwoord opnieuw instellen
 
 ## Create Username
 
-createUsername-createUsernameHeader = Aanmaken gebruikersnaam
+createUsername-createUsernameHeader =
+createUsername-createAUsername = Create a username
 createUsername-whatItIs =
-  Uw gebruikersnaam is een identificatiecode die bij al uw reacties zal verschijnen.
+  Je gebruikersnaam is een identificatiecode die bij al je reacties zal verschijnen.
 createUsername-createUsernameButton = Aanmaken gebruikersnaam
 
 ## Add Email Address
-addEmailAddress-addEmailAddressHeader = Voeg een E-mail Adres toe
+addEmailAddress-addEmailAddressHeader = Voeg een E-mailadres toe
 
 addEmailAddress-whatItIs =
-  Voor uw veiligheid vereisen wij dat gebruikers een e-mailadres toevoegen aan hun account.
-  Je e-mail adres zal gebruikt worden om:
+  Voor je veiligheid vereisen wij dat gebruikers een e-mailadres toevoegen aan hun account.
+  Je e-mailadres zal gebruikt worden om:
 
 addEmailAddress-receiveUpdates =
-  Ontvang updates met betrekking tot eventuele wijzigingen in uw account
-  (e-mail adres, gebruikersnaam, wachtwoord, etc.)
+  Ontvang updates met betrekking tot eventuele wijzigingen in je account
+  (e-mailadres, gebruikersnaam, wachtwoord, etc.)
 
 addEmailAddress-allowDownload =
-  Laat u toe uw reacties te downloaden.
+  Sta toe je reacties te downloaden.
 
 addEmailAddress-sendNotifications =
-  Stuur meldingen die u hebt gekozen om te ontvangen.
+  Stuur meldingen die je hebt gekozen om te ontvangen.
 
 addEmailAddress-addEmailAddressButton =
-  Voeg een E-mail Adres toe
+  Voeg een E-mailadres toe
 
 ## Create Password
-createPassword-createPasswordHeader = Maak een wachtwoord aan
+createPassword-createPasswordHeader =
+createPassword-createAPassword = Aanmaken wachtwoord
 createPassword-whatItIs =
-  Ter bescherming tegen ongeoorloofde wijzigingen in uw account,
+  Ter bescherming tegen ongeoorloofde wijzigingen in je account,
   eisen we dat gebruikers een wachtwoord aanmaken.
 createPassword-createPasswordButton =
   Maak een wachtwoord aan
