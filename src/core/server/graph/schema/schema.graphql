@@ -561,6 +561,12 @@ enum FEATURE_FLAG {
   an external profile for a user.
   """
   CONFIGURE_PUBLIC_PROFILE_URL
+
+  """
+  DATA_CACHE will allow the use of the data cache to store and load comments,
+  users, and commentActions more quickly. It is disabled by default.
+  """
+  DATA_CACHE
 }
 
 # The moderation mode of the site.
