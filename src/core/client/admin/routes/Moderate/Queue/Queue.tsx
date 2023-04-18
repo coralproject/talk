@@ -117,12 +117,12 @@ const Queue: FunctionComponent<Props> = ({
 
   const ban = useCallback(() => {
     if (selectedComment === -1) {
-      console.log("do not show modal", selectedComment)
       return;
     }
-    console.log("show modal!");
     setShowBanModal(true);
   }, [showBanModal, selectedComment]);
+
+  useEffect(() => setShowBanModal(false), [selectedComment]);
 
   useEffect(() => {
     key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
@@ -139,7 +139,7 @@ const Queue: FunctionComponent<Props> = ({
     };
 
     return noop;
-  }, [selectNext, selectPrev]);
+  }, [selectNext, selectPrev, ban]);
 
   const onSetUserDrawerUserID = useCallback((userID: string) => {
     setUserDrawerID(userID);
@@ -232,13 +232,11 @@ const Queue: FunctionComponent<Props> = ({
         onClose={onHideConversationModal}
         commentID={conversationCommentID}
       />
-      {selectedComment && selectedComment > -1 && showBanModal && !!comments[selectedComment].author?.id && (
+      {showBanModal && (
         <BanModalQuery
-          userID={comments[selectedComment].author!.id}
+          userID={comments[selectedComment!].author!.id}
           onClose={() => setShowBanModal(false)}
-          onConfirm={() => {
-            alert("TODO: HOOKUP CONFIRM");
-          }}
+          onConfirm={() => setShowBanModal(false)}
         />
       )}
     </HorizontalGutter>

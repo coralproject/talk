@@ -1,14 +1,7 @@
-/* eslint-disable */
 import { useRouter } from "found";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import BanModal from "coral-admin/components/BanModal";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import {
   ApproveCommentMutation,
@@ -22,7 +15,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
@@ -32,7 +25,6 @@ import { ModerateCardContainer_settings } from "coral-admin/__generated__/Modera
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 
-import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -107,7 +99,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [scoped, comment]
   );
 
-  const [showBanModal, setShowBanModal] = useState(false);
   const handleApprove = useCallback(async () => {
     if (!comment.revision) {
       return;
@@ -250,23 +241,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
   }, [setSelected]);
 
-  const handleBanModalClose = useCallback(() => {
-    setShowBanModal(false);
-  }, [setShowBanModal]);
-
-  const openBanModal = useCallback(() => {
-    if (
-      !comment.author ||
-      comment.author.status.current.includes(GQLUSER_STATUS.BANNED)
-    ) {
-      return;
-    }
-
-    setShowBanModal(true);
-  }, [comment, setShowBanModal]);
-
-  const handleBanConfirm = useCallback(() => setShowBanModal(false), []);
-
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
   const highlight = useMemo(() => {
@@ -320,7 +294,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           selectPrev={selectPrev}
           selectNext={selectNext}
           siteName={settings.multisite ? comment.site.name : null}
-          onBan={openBanModal}
           moderatedBy={
             <ModeratedByContainer
               onUsernameClicked={onUsernameClicked}
