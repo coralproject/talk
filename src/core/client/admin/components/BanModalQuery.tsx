@@ -1,25 +1,22 @@
-/* eslint-disable */
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 import BanModal from "./BanModal";
-import { withFragmentContainer } from "coral-framework/lib/relay";
-import { QueryRenderer, graphql } from "react-relay";
 
-import { QueryTypes } from "coral-admin/__generated__/BanModalQuery"
+import { BanModalQuery as QueryTypes } from "coral-admin/__generated__/BanModalQuery.graphql";
+import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
+import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 export interface Props {
-  user: BanModalContainer_user;
-  viewer: BanModalContainer_viewer;
-  settings: BanModalContainer_settings;
+  userID: string;
   onClose: () => void;
   onConfirm: () => void;
 }
 
-const BanModalContainer: FunctionComponent<Props> = ({
-  viewer,
-  user,
-  settings,
+const BanModalQuery: FunctionComponent<Props> = ({
+  userID,
   onClose,
-  onConfirm
+  onConfirm,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -61,23 +58,38 @@ const BanModalContainer: FunctionComponent<Props> = ({
           }
         }
       `}
+      variables={{
+        userID,
+      }}
+      render={({ error, props }) => {
+        if (error) {
+          return <QueryError error={error} />;
+        }
+        if (!props || !props.settings || !props.user || !props.viewer) {
+          return null;
+        }
+        return (
+          <>
+            <BanModal
+              userID={props.user.id}
+              username={props.user.username}
+              open={true}
+              onClose={onClose}
+              onConfirm={onConfirm}
+              viewer={
+                props.viewer as unknown as UserStatusChangeContainer_viewer
+              }
+              emailDomainModeration={props.settings.emailDomainModeration}
+              userBanStatus={props.user.status.ban}
+              userEmail={props.user.email}
+              userRole={props.user.role}
+              isMultisite={props.settings.multisite}
+            />
+          </>
+        );
+      }}
     />
   );
-  return (
-    <>
-      <BanModal
-        userID={user.id}
-        username={user.username}
-        open={true}
-        onClose={onClose}
-        onConfirm={onConfirm}
-        viewer={viewer as unknown as UserStatusChangeContainer_viewer}
-        emailDomainModeration={settings.emailDomainModeration}
-        userBanStatus={user.status.ban}
-        userEmail={user.email}
-        userRole={user.role}
-        isMultisite={settings.multisite}
-      />
-    </>
-  );
-}
+};
+
+export default BanModalQuery;

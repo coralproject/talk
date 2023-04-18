@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import key from "keymaster";
 import { noop } from "lodash";
@@ -10,6 +11,7 @@ import React, {
 } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
+import BanModalQuery from "coral-admin/components/BanModalQuery";
 import ConversationModal from "coral-admin/components/ConversationModal";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
@@ -24,10 +26,12 @@ import QueueWrapper from "./QueueWrapper";
 
 import styles from "./Queue.css";
 
+type CommentType = { id: string; author: { id: string } } & PropTypesOf<
+  typeof ModerateCardContainer
+>["comment"];
+
 interface Props {
-  comments: Array<
-    { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"]
-  >;
+  comments: CommentType[];
   settings: PropTypesOf<typeof ModerateCardContainer>["settings"];
   viewer: PropTypesOf<typeof ModerateCardContainer>["viewer"];
   onLoadMore: () => void;
@@ -57,6 +61,7 @@ const Queue: FunctionComponent<Props> = ({
 }) => {
   const { window } = useCoralContext();
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
+  const [showBanModal, setShowBanModal] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(-1);
   const [singleView, setSingleView] = useState(false);
@@ -109,7 +114,10 @@ const Queue: FunctionComponent<Props> = ({
     }
   }, [window.document]);
 
-  const ban = useCallback(() => {});
+  const ban = useCallback(() => {
+    console.log("SHJOW BAND");
+    setShowBanModal(!showBanModal);
+  }, [showBanModal]);
 
   useEffect(() => {
     key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
@@ -158,6 +166,8 @@ const Queue: FunctionComponent<Props> = ({
     setConversationModalVisible(false);
     setConversationCommentID("");
   }, []);
+
+  console.log(selectedComment, comments[selectedComment!]);
 
   return (
     <HorizontalGutter className={styles.root} size="double">
@@ -217,6 +227,15 @@ const Queue: FunctionComponent<Props> = ({
         onClose={onHideConversationModal}
         commentID={conversationCommentID}
       />
+      {selectedComment && selectedComment > -1 && showBanModal && (
+        <BanModalQuery
+          userID={comments[selectedComment].author.id}
+          onClose={() => alert("TODO: HOOKU CLODSE")}
+          onConfirm={() => {
+            alert("TODO: HOOKUP CONFIRM");
+          }}
+        />
+      )}
     </HorizontalGutter>
   );
 };
