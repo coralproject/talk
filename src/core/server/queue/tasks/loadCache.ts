@@ -46,6 +46,7 @@ const createJobProcessor =
     const { comments, commentActions, users } = new DataCache(
       mongo,
       redis,
+      tenantCache,
       log,
       false,
       config.get("redis_cache_expiry") / 1000
