@@ -80,7 +80,6 @@ interface Props {
   edited: boolean;
   selectPrev?: () => void;
   selectNext?: () => void;
-  onBan: () => void;
   isQA?: boolean;
   rating?: number | null;
 
@@ -124,7 +123,6 @@ const ModerateCard: FunctionComponent<Props> = ({
   edited,
   selectNext,
   selectPrev,
-  onBan,
   isQA,
   bannedWords,
   suspectWords,
