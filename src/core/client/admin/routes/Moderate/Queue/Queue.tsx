@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import key from "keymaster";
 import { noop } from "lodash";
@@ -69,7 +68,6 @@ const Queue: FunctionComponent<Props> = ({
     useState(false);
   const [conversationCommentID, setConversationCommentID] = useState("");
   const memoize = useMemoizer();
-  console.log("Main: selected comment = ", selectedComment);
 
   const toggleView = useCallback(() => {
     if (!singleView) {
@@ -171,8 +169,6 @@ const Queue: FunctionComponent<Props> = ({
     setConversationModalVisible(false);
     setConversationCommentID("");
   }, []);
-
-  console.log(selectedComment, comments[selectedComment!]?.author?.id);
 
   return (
     <HorizontalGutter className={styles.root} size="double">
