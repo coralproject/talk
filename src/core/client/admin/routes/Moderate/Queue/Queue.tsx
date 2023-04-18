@@ -26,7 +26,7 @@ import QueueWrapper from "./QueueWrapper";
 
 import styles from "./Queue.css";
 
-type CommentType = { id: string; author: { id: string } } & PropTypesOf<
+type CommentType = { id: string; author: { id: string } | null } & PropTypesOf<
   typeof ModerateCardContainer
 >["comment"];
 
@@ -69,6 +69,7 @@ const Queue: FunctionComponent<Props> = ({
     useState(false);
   const [conversationCommentID, setConversationCommentID] = useState("");
   const memoize = useMemoizer();
+  console.log("Main: selected comment = ", selectedComment);
 
   const toggleView = useCallback(() => {
     if (!singleView) {
@@ -115,9 +116,13 @@ const Queue: FunctionComponent<Props> = ({
   }, [window.document]);
 
   const ban = useCallback(() => {
-    console.log("SHJOW BAND");
-    setShowBanModal(!showBanModal);
-  }, [showBanModal]);
+    if (selectedComment === -1) {
+      console.log("do not show modal", selectedComment)
+      return;
+    }
+    console.log("show modal!");
+    setShowBanModal(true);
+  }, [showBanModal, selectedComment]);
 
   useEffect(() => {
     key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
@@ -167,7 +172,7 @@ const Queue: FunctionComponent<Props> = ({
     setConversationCommentID("");
   }, []);
 
-  console.log(selectedComment, comments[selectedComment!]);
+  console.log(selectedComment, comments[selectedComment!]?.author?.id);
 
   return (
     <HorizontalGutter className={styles.root} size="double">
@@ -227,10 +232,10 @@ const Queue: FunctionComponent<Props> = ({
         onClose={onHideConversationModal}
         commentID={conversationCommentID}
       />
-      {selectedComment && selectedComment > -1 && showBanModal && (
+      {selectedComment && selectedComment > -1 && showBanModal && !!comments[selectedComment].author?.id && (
         <BanModalQuery
-          userID={comments[selectedComment].author.id}
-          onClose={() => alert("TODO: HOOKU CLODSE")}
+          userID={comments[selectedComment].author!.id}
+          onClose={() => setShowBanModal(false)}
           onConfirm={() => {
             alert("TODO: HOOKUP CONFIRM");
           }}
