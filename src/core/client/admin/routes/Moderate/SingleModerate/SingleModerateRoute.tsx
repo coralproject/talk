@@ -59,6 +59,9 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
     query SingleModerateRouteQuery($commentID: ID!) {
       comment(id: $commentID) {
         id
+        author {
+          id
+        }
         ...ModerateCardContainer_comment
       }
       settings {
