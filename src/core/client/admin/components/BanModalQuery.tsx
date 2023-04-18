@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 import BanModal from "./BanModal";
@@ -62,10 +63,12 @@ const BanModalQuery: FunctionComponent<Props> = ({
         userID,
       }}
       render={({ error, props }) => {
+        console.log("gonna render this", { error, props });
         if (error) {
           return <QueryError error={error} />;
         }
         if (!props || !props.settings || !props.user || !props.viewer) {
+          console.log("missing one of these", { props })
           return null;
         }
         return (

@@ -287,6 +287,9 @@ const createQueueRoute = (
               edges {
                 node {
                   id
+                  author {
+                    id
+                  }
                   ...ModerateCardContainer_comment
                 }
               }
