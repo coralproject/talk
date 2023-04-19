@@ -44,8 +44,8 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { WordListCategory } from "../comments/pipeline/wordlistWorker/message";
-import { WordListService } from "../comments/pipeline/wordlistWorker/service";
+import { WordListCategory } from "../comments/pipeline/phases/wordList/message";
+import { WordListService } from "../comments/pipeline/phases/wordList/service";
 import TenantCache from "./cache/cache";
 
 export type UpdateTenant = GQLSettingsInput;

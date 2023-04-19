@@ -56,7 +56,7 @@ import {
   PhaseResult,
   processForModeration,
 } from "coral-server/services/comments/pipeline";
-import { WordListService } from "coral-server/services/comments/pipeline/wordlistWorker/service";
+import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";

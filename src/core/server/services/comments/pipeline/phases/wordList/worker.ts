@@ -4,7 +4,7 @@ import { isMainThread, parentPort } from "worker_threads";
 import { LanguageCode } from "coral-common/helpers";
 import { WordlistMatch } from "coral-server/models/comment";
 
-import createServerWordListRegEx from "../createServerWordListRegEx";
+import createServerWordListRegEx from "../../createServerWordListRegEx";
 import {
   InitializationPayload,
   MessageType,

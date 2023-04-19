@@ -8,7 +8,7 @@ import {
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "../pipeline";
+} from "../../pipeline";
 import { WordListCategory } from "./message";
 
 export const wordListPhase: IntermediateModerationPhase = async ({

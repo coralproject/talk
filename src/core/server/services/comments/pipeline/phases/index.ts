@@ -1,6 +1,5 @@
 import { IntermediateModerationPhase } from "coral-server/services/comments/pipeline";
 
-import { wordListPhase } from "../wordlistWorker/phase";
 import { approveExpertAnswers } from "./approveExpertAnswers";
 import { approveRatings } from "./approveRatings";
 import { approveStaff } from "./approveStaff";
@@ -24,6 +23,7 @@ import { tagReview } from "./tagReview";
 import { tagStaff } from "./tagStaff";
 import { tagUnansweredQuestions } from "./tagUnansweredQuestions";
 import { toxic } from "./toxic";
+import { wordListPhase } from "./wordList/phase";
 
 /**
  * The moderation phases to apply for each comment being processed.

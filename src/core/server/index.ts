@@ -46,8 +46,8 @@ import {
 } from "./events/listeners";
 import CoralEventListenerBroker from "./events/publisher";
 import { retrieveAllTenants } from "./models/tenant";
-import { WordListCategory } from "./services/comments/pipeline/wordlistWorker/message";
-import { WordListService } from "./services/comments/pipeline/wordlistWorker/service";
+import { WordListCategory } from "./services/comments/pipeline/phases/wordList/message";
+import { WordListService } from "./services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter, SentryErrorReporter } from "./services/errors";
 import { isInstalled } from "./services/tenant";
 

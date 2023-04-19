@@ -24,7 +24,7 @@ import {
 
 import { mergePhaseResult } from "./helpers";
 import { moderationPhases } from "./phases";
-import { WordListService } from "./wordlistWorker/service";
+import { WordListService } from "./phases/wordList/service";
 
 export type ModerationAction = Omit<
   CreateActionInput,
