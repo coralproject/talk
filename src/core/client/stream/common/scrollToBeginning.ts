@@ -6,11 +6,12 @@ function scrollToBeginning(
   customScrollContainer?: HTMLElement
 ) {
   const tab = root.getElementById("tab-COMMENTS");
-  const scrollContainer = customScrollContainer ?? window;
   if (tab) {
-    scrollContainer.scrollTo({
-      top: getElementWindowTopOffset(scrollContainer, tab),
-    });
+    if (customScrollContainer) {
+      tab.scrollIntoView();
+    } else {
+      window.scrollTo({ top: getElementWindowTopOffset(window, tab) });
+    }
   }
 }
 
