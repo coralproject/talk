@@ -999,3 +999,12 @@ export class UsernameAlreadyExists extends CoralError {
     });
   }
 }
+
+export class DataCachingNotAvailableError extends CoralError {
+  constructor(tenantID: string) {
+    super({
+      code: ERROR_CODES.DATA_CACHING_NOT_AVAILABLE,
+      context: { pub: { tenantID } },
+    });
+  }
+}
