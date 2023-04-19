@@ -1,11 +1,7 @@
 /**
  * Get elements top offset relative to the window.
  */
-function getElementWindowTopOffset(
-  window: Window | React.RefObject<any>["current"],
-  element: Element
-) {
-  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+function getElementWindowTopOffset(window: Window, element: Element) {
   return element.getBoundingClientRect().top + window.scrollY;
 }
 
