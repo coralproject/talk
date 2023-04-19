@@ -20,6 +20,7 @@ import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { UnarchiverQueue } from "coral-server/queue/tasks/unarchiver";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
+import { WordListService } from "coral-server/services/comments/pipeline/wordlistWorker/service";
 import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -60,6 +61,8 @@ export interface GraphContextOptions {
   site?: Site;
   tenantCache: TenantCache;
   broker: CoralEventListenerBroker;
+
+  wordList: WordListService;
 }
 
 export default class GraphContext {
@@ -98,6 +101,8 @@ export default class GraphContext {
 
   public readonly cache: DataCache;
 
+  public readonly wordList: WordListService;
+
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
     this.now = options.now || new Date();
@@ -130,6 +135,7 @@ export default class GraphContext {
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
     this.reporter = options.reporter;
+    this.wordList = options.wordList;
 
     this.broker = options.broker.instance(this);
     this.loaders = loaders(this);

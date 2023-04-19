@@ -38,6 +38,7 @@ import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { UnarchiverQueue } from "coral-server/queue/tasks/unarchiver";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
+import { WordListService } from "coral-server/services/comments/pipeline/wordlistWorker/service";
 import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -77,6 +78,7 @@ export interface AppOptions {
   webhookQueue: WebhookQueue;
   loadCacheQueue: LoadCacheQueue;
   unarchiverQueue: UnarchiverQueue;
+  wordList: WordListService;
 }
 
 /**

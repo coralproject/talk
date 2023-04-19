@@ -42,6 +42,7 @@ import {
   CreateCommentMediaInput,
 } from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
+import { WordListService } from "coral-server/services/comments/pipeline/wordlistWorker/service";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
@@ -78,6 +79,7 @@ export type EditComment = Omit<
 export default async function edit(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  wordList: WordListService,
   cache: DataCache,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -182,6 +184,7 @@ export default async function edit(
     mongo,
     redis,
     config,
+    wordList,
     tenant,
     story,
     storyMode,
