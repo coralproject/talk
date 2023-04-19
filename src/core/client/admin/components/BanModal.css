@@ -14,7 +14,6 @@ $ban-modal-text: var(--palette-text-500);
 
 .domainBanHeader {
   margin-bottom: var(--spacing-2);
-
 }
 
 
@@ -25,7 +24,6 @@ $ban-modal-text: var(--palette-text-500);
 .banFromHeader {
   margin-bottom: var(--spacing-2);
   margin-top: 0;
-  font-family: var(--font-family-primary);
 }
 
 .sitesOptions {
