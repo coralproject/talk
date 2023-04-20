@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import {
   CannotCreateCommentOnArchivedStory,
@@ -77,6 +78,7 @@ export type EditComment = Omit<
 export default async function edit(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -270,6 +272,14 @@ export default async function edit(
     actionCounts,
     ...result,
   });
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.update(result.after);
+    if (result.after.authorID) {
+      await cache.users.populateUsers(tenant.id, [result.after.authorID]);
+    }
+  }
 
   // Publish changes to the event publisher.
   await publishChanges(broker, {

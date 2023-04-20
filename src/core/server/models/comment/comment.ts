@@ -238,6 +238,9 @@ export async function pushChildCommentIDOntoParent(
     {
       $push: { childIDs: childID },
       $inc: { childCount: 1 },
+    },
+    {
+      returnOriginal: false,
     }
   );
 

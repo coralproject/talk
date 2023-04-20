@@ -312,6 +312,7 @@ class Server {
       this.tasks.webhook.process();
       this.tasks.rejector.process();
       this.tasks.archiver.process();
+      this.tasks.loadCache.process();
       this.tasks.unarchiver.process();
 
       // Start up the cron job processors.
@@ -374,6 +375,7 @@ class Server {
       signingConfig: this.signingConfig,
       tenantCache: this.tenantCache,
       webhookQueue: this.tasks.webhook,
+      loadCacheQueue: this.tasks.loadCache,
       unarchiverQueue: this.tasks.unarchiver,
     };
 
