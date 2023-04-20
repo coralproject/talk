@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://circleci.com/gh/coralproject/talk" target="_blank"><img src="https://img.shields.io/circleci/build/gh/coralproject/talk?style=flat-square" alt="CircleCI" /></a>
+  <a href="https://github.com/coralproject/talk/actions/workflows/build-and-test.yml" target="_blank"><img src="https://github.com/coralproject/talk/actions/workflows/build-and-test.yml/badge.svg" alt="GithubActions" /></a>
   <a href="https://hub.docker.com/r/coralproject/talk" target="_blank"><img src="https://img.shields.io/docker/v/coralproject/talk?label=docker%20hub&sort=semver&style=flat-square" alt="Docker Image Version" /></a>
   <a href="https://hub.docker.com/r/coralproject/talk" target="_blank"><img src="https://img.shields.io/docker/image-size/coralproject/talk?label=docker%20image%20size&sort=semver&style=flat-square" alt="Docker Image Size" /></a>
   <a href="https://twitter.com/coralproject" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/coralproject?style=flat-square"></a>

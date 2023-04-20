@@ -15,6 +15,7 @@ error-tokenInvalid = Invalid API Token provided.
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
 error-emailNotSet = Email address has not been set yet.
+error-emailDomainProtected = Email domain cannot be moderated.
 error-duplicateUser =
   Specified user already exists with a different login method.
 error-duplicateEmail = Specified email address is already in use.
@@ -77,3 +78,4 @@ error-cannotOpenAnArchivedStory = Cannot open an archived story. The story must 
 error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story must be unarchived first.
 error-usernameAlreadyExists = This username already exists. Please choose another.
 error-unableToUpdateStoryURL = Unable to update the story URL.
+error-dataCachingNotAvailable = Data caching is not available at this time.

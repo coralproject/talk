@@ -2,6 +2,7 @@ import GraphContext from "coral-server/graph/context";
 
 import { Actions } from "./Actions";
 import { Comments } from "./Comments";
+import { Redis } from "./Redis";
 import { Settings } from "./Settings";
 import { Sites } from "./Sites";
 import { Stories } from "./Stories";
@@ -14,4 +15,5 @@ export default (ctx: GraphContext) => ({
   Stories: Stories(ctx),
   Users: Users(ctx),
   Sites: Sites(ctx),
+  Redis: Redis(ctx),
 });
