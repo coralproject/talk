@@ -240,8 +240,11 @@ export async function removeCommentAction(
       throw new Error("could not update comment action counts");
     }
 
-    await cache.commentActions.remove(action);
-    await cache.comments.update(updatedComment);
+    const cacheAvailable = await cache.available(tenant.id);
+    if (cacheAvailable) {
+      await cache.commentActions.remove(action);
+      await cache.comments.update(updatedComment);
+    }
 
     // Update the comment counts onto other documents.
     const counts = await updateAllCommentCounts(mongo, redis, {
@@ -294,8 +297,11 @@ export async function createReaction(
     now
   );
   if (action) {
-    await cache.commentActions.add(action);
-    await cache.comments.update(comment);
+    const cacheAvailable = await cache.available(tenant.id);
+    if (cacheAvailable) {
+      await cache.commentActions.add(action);
+      await cache.comments.update(comment);
+    }
 
     // A comment reaction was created! Publish it.
     publishCommentReactionCreated(
@@ -363,7 +369,8 @@ export async function createDontAgree(
     now
   );
 
-  if (action) {
+  const cacheAvailable = await commentActionsCache.available(tenant.id);
+  if (action && cacheAvailable) {
     await commentActionsCache.add(action);
   }
 
@@ -426,7 +433,8 @@ export async function createFlag(
     now
   );
   if (action) {
-    if (action) {
+    const cacheAvailable = await commentActionsCache.available(tenant.id);
+    if (cacheAvailable) {
       await commentActionsCache.add(action);
     }
 

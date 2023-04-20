@@ -15,11 +15,15 @@ import {
   getDepth,
   getLatestRevision,
   hasAncestors,
+  hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
 import { canModerate } from "coral-server/models/user/helpers";
-import { getCommentEditableUntilDate } from "coral-server/services/comments";
+import {
+  getCommentEditableUntilDate,
+  hasRejectedAncestors,
+} from "coral-server/services/comments";
 
 import {
   GQLComment,
@@ -45,18 +49,21 @@ export const maybeLoadOnlyID = async (
     };
   }
 
-  const cachedComment = await ctx.cache.comments.find(
-    ctx.tenant.id,
-    storyID,
-    id
-  );
-  if (
-    cachedComment !== null &&
-    PUBLISHED_STATUSES.includes(cachedComment.status)
-  ) {
-    return cachedComment;
-  } else if (cachedComment !== null) {
-    return null;
+  const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+  if (cacheAvailable) {
+    const cachedComment = await ctx.cache.comments.find(
+      ctx.tenant.id,
+      storyID,
+      id
+    );
+    if (
+      cachedComment !== null &&
+      PUBLISHED_STATUSES.includes(cachedComment.status)
+    ) {
+      return cachedComment;
+    } else if (cachedComment !== null) {
+      return null;
+    }
   }
 
   // We want more than the ID! Get the comment!
@@ -81,16 +88,33 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     return canModerate(ctx.user, { siteID: c.siteID });
   },
   canReply: async (c, input, ctx) => {
-    const ancestors = await ctx.cache.comments.findAncestors(
-      c.tenantID,
-      c.storyID,
-      c.id
-    );
-    const rejected = ancestors.filter(
-      (a) => a.status === GQLCOMMENT_STATUS.REJECTED
-    );
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (cacheAvailable) {
+      const ancestors = await ctx.cache.comments.findAncestors(
+        c.tenantID,
+        c.storyID,
+        c.id
+      );
+      const rejected = ancestors.filter(
+        (a) => a.status === GQLCOMMENT_STATUS.REJECTED
+      );
 
-    return rejected.length === 0;
+      return rejected.length === 0;
+    } else {
+      const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
+      if (!story || story.isArchived || story.isArchiving) {
+        return false;
+      }
+
+      const rejectedAncestors = await hasRejectedAncestors(
+        ctx.mongo,
+        ctx.tenant.id,
+        c.id,
+        story.isArchived || story.isArchiving
+      );
+
+      return !rejectedAncestors;
+    }
   },
   deleted: ({ deletedAt }) => !!deletedAt,
   revisionHistory: (c) =>
@@ -107,12 +131,17 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         ? getCommentEditableUntilDate(ctx.tenant, createdAt)
         : null,
   }),
-  author: (c, input, ctx) => {
+  author: async (c, input, ctx) => {
     if (!c.authorID) {
       return null;
     }
 
-    return ctx.cache.users.findUser(c.tenantID, c.authorID);
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (cacheAvailable) {
+      return ctx.cache.users.findUser(c.tenantID, c.authorID);
+    } else {
+      return ctx.loaders.Users.user.load(c.authorID);
+    }
   },
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
@@ -128,14 +157,24 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       return 0;
     }
 
-    const children = await ctx.cache.comments.findMany(
-      ctx.tenant.id,
-      storyID,
-      childIDs
-    );
-    const count = children.filter((c) => c !== null).length;
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
 
-    return count;
+    if (cacheAvailable) {
+      const children = await ctx.cache.comments.findMany(
+        ctx.tenant.id,
+        storyID,
+        childIDs
+      );
+      const count = children.filter((c) => c !== null).length;
+
+      return count;
+    } else {
+      const children = await ctx.loaders.Comments.visible.loadMany(childIDs);
+      return children.reduce(
+        (sum: number, c: any) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
+        0
+      );
+    }
   },
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: (c) => decodeActionCounts(c.actionCounts),
@@ -181,10 +220,17 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         )
       : null,
   parent: async (c, input, ctx, info) => {
-    const parent = c.parentID
-      ? await ctx.cache.comments.find(c.tenantID, c.storyID, c.parentID)
-      : null;
-    return parent;
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (cacheAvailable) {
+      const parent = c.parentID
+        ? await ctx.cache.comments.find(c.tenantID, c.storyID, c.parentID)
+        : null;
+      return parent;
+    } else {
+      return hasAncestors(c)
+        ? maybeLoadOnlyID(ctx, info, c.storyID, c.parentID)
+        : null;
+    }
   },
   parents: (c, input, ctx) =>
     // Some resolver optimization.

@@ -147,10 +147,12 @@ export async function findOrCreate(
     });
   }
 
-  const storyIsCached = await cache.isCached(tenant.id, story.id);
-
-  if (!storyIsCached && !story.isArchived && !story.isArchiving) {
-    await queue.add({ tenantID: tenant.id, storyID: story.id });
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    const storyIsCached = await cache.isCached(tenant.id, story.id);
+    if (!storyIsCached && !story.isArchived && !story.isArchiving) {
+      await queue.add({ tenantID: tenant.id, storyID: story.id });
+    }
   }
 
   if (tenant.stories.scraping.enabled && !story.metadata && !story.scrapedAt) {

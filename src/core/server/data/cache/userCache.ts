@@ -2,14 +2,17 @@ import { UserNotFoundError } from "coral-server/errors";
 import { Logger } from "coral-server/logger";
 import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { MongoContext } from "../context";
+import { dataCacheAvailable, IDataCache } from "./dataCache";
 
-export class UserCache {
+export class UserCache implements IDataCache {
   private expirySeconds: number;
 
   private mongo: MongoContext;
   private redis: AugmentedRedis;
+  private tenantCache: TenantCache | null;
   private logger: Logger;
 
   private usersByKey: Map<string, Readonly<User>>;
@@ -17,16 +20,22 @@ export class UserCache {
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
+    tenantCache: TenantCache | null,
     logger: Logger,
     expirySeconds: number
   ) {
     this.mongo = mongo;
     this.redis = redis;
+    this.tenantCache = tenantCache;
     this.logger = logger.child({ dataCache: "UserCache" });
 
     this.expirySeconds = expirySeconds;
 
     this.usersByKey = new Map<string, Readonly<User>>();
+  }
+
+  public async available(tenantID: string): Promise<boolean> {
+    return dataCacheAvailable(this.tenantCache, tenantID);
   }
 
   private computeDataKey(tenantID: string, id: string) {
