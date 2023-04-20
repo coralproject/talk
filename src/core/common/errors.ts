@@ -425,4 +425,10 @@ export enum ERROR_CODES {
    * their username and the provided username has already been taken.
    */
   USERNAME_ALREADY_EXISTS = "USERNAME_ALREADY_EXISTS",
+
+  /**
+   * DATA_CACHING_NOT_AVAILABLE is thrown when someone tries to enact a data
+   * caching action when it is not available for that tenant.
+   */
+  DATA_CACHING_NOT_AVAILABLE = "DATA_CACHING_NOT_AVAILABLE",
 }

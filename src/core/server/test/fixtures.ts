@@ -2,16 +2,18 @@ import { merge } from "lodash";
 import { v4 as uuid } from "uuid";
 
 import TIME from "coral-common/time";
+import { Comment } from "coral-server/models/comment";
+import { Site } from "coral-server/models/site";
+import { Story } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { Token, User } from "coral-server/models/user";
+
 import {
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
   GQLMODERATION_MODE,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
-import { Site } from "coral-server/models/site";
-import { Story } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
-import { Token, User } from "coral-server/models/user";
 
 type Defaults<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
@@ -331,4 +333,35 @@ export const createStoryFixture = (defaults: Defaults<Story> = {}): Story => {
   };
 
   return merge(fixture, defaults) as Story;
+};
+
+export const createCommentFixture = (
+  defaults: Defaults<Comment> = {}
+): Comment => {
+  const comment: Comment = {
+    tenantID: uuid(),
+    id: uuid(),
+    authorID: uuid(),
+    storyID: uuid(),
+    siteID: uuid(),
+    ancestorIDs: [],
+    parentID: undefined,
+    status: GQLCOMMENT_STATUS.NONE,
+    revisions: [
+      {
+        id: uuid(),
+        body: `body ${uuid()}`,
+        actionCounts: {},
+        metadata: {},
+        createdAt: new Date(),
+      },
+    ],
+    actionCounts: {},
+    childCount: 0,
+    childIDs: [],
+    tags: [],
+    createdAt: new Date(),
+  };
+
+  return merge(comment, defaults) as Comment;
 };
