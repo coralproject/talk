@@ -17,7 +17,7 @@ interface PermissionContext {
 
 const permissionMap: PermissionMap<AbilityType, PermissionContext> = {
   CHANGE_ROLE: {
-    [GQLUSER_ROLE.ADMIN]: (ctx) => ctx?.user.role !== GQLUSER_ROLE.ADMIN,
+    [GQLUSER_ROLE.ADMIN]: () => true,
     [GQLUSER_ROLE.MODERATOR]: (ctx) => {
       if (!ctx) {
         return true;
