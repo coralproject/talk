@@ -23,7 +23,6 @@ $ban-modal-text: var(--palette-text-500);
 
 .banFromHeader {
   margin-bottom: var(--spacing-2);
-  margin-top: 0;
 }
 
 .sitesOptions {
