@@ -427,6 +427,12 @@ export enum ERROR_CODES {
   USERNAME_ALREADY_EXISTS = "USERNAME_ALREADY_EXISTS",
 
   /**
+   * UNABLE_TO_UPDATE_STORY_URL is thrown when a story already exists for
+   * a storyID and we were unable to update the url for that story ID.
+   */
+  UNABLE_TO_UPDATE_STORY_URL = "UNABLE_TO_UPDATE_STORY_URL",
+
+  /**
    * DATA_CACHING_NOT_AVAILABLE is thrown when someone tries to enact a data
    * caching action when it is not available for that tenant.
    */

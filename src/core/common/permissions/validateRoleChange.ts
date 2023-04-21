@@ -48,11 +48,6 @@ export const validateRoleChange = (
    */
   scoped = false
 ): boolean => {
-  // User is admin
-  if (user.role === "ADMIN") {
-    return false;
-  }
-
   // Viewer is changing their own role
   if (user.id === viewer.id) {
     return false;
