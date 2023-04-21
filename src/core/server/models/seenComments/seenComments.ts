@@ -90,10 +90,20 @@ export async function markSeenComments(
   now: Date,
   markAllAsSeen?: boolean
 ) {
+  const cacheAvailable = await cache.available(tenantID);
+
   let comments;
-  if (markAllAsSeen) {
+  if (markAllAsSeen && cacheAvailable) {
     const markAllCommentIDs = (
       await cache.comments.findAllCommentsForStory(tenantID, storyID, false)
+    ).map((comment) => comment.id);
+    comments = reduceCommentIDs(markAllCommentIDs, now);
+  } else if (markAllAsSeen) {
+    const markAllCommentIDs = (
+      await mongo
+        .comments()
+        .find({ tenantID, storyID }, { projection: { id: 1 } })
+        .toArray()
     ).map((comment) => comment.id);
     comments = reduceCommentIDs(markAllCommentIDs, now);
   } else {
