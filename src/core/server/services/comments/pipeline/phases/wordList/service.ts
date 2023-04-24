@@ -22,7 +22,7 @@ import {
 } from "./message";
 
 const WORKER_SCRIPT =
-  "./dist/core/server/services/comments/pipeline/wordlistWorker/worker.js";
+  "./dist/core/server/services/comments/pipeline/phases/wordList/worker.js";
 
 export class WordListService {
   private pool: Worker[];
