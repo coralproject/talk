@@ -20,8 +20,8 @@ export const CommentModerationAction: GQLCommentModerationActionTypeResolver<act
 
       return { comment, revision };
     },
-    comment: ({ commentID }, args, ctx, info) =>
-      maybeLoadOnlyID(ctx, info, commentID),
+    comment: ({ commentID, storyID }, args, ctx, info) =>
+      maybeLoadOnlyID(ctx, info, storyID, commentID),
     moderator: (action, input, ctx) =>
       action.moderatorID
         ? ctx.loaders.Users.user.load(action.moderatorID)

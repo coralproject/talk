@@ -4,10 +4,10 @@ import {
   isSiteModerator,
   PermissionsActionRuleTest,
 } from "./types";
-// admins can do whatever they want to anyone except other admins
+// admins can perform any action, even demoting other admins
 const adminsArePowerful: PermissionsActionRuleTest = ({ viewer, user }) => ({
-  applies: viewer.role === "ADMIN" && user.role !== "ADMIN",
-  reason: "Admins may change any non admin's role or scopes",
+  applies: viewer.role === "ADMIN",
+  reason: "Admins may change any user's role or scopes",
 });
 
 // org mods can promote anyone < site mod to be an unscoped member

@@ -1,0 +1,5 @@
+.root {
+  max-width: 950px;
+  margin-top: calc(3 * var(--mini-unit));
+  margin-bottom: calc(3 * var(--mini-unit));
+}
