@@ -310,6 +310,13 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
+comments-refreshComments-closeButton =
+  .aria-label = Close
+comments-refreshComments-refreshButton =
+  .aria-label = Refresh comments
+comments-refreshQuestions-refreshButton =
+  .aria-label = Refresh questions
+
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
 
