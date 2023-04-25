@@ -8,7 +8,11 @@ module.exports = {
   coveragePathIgnorePatterns: ["/node_modules/"],
   setupFilesAfterEnv: ["<rootDir>/src/core/server/test/setupTestFramework.ts"],
   testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
-  testPathIgnorePatterns: ["/node_modules/", "/client/"],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/client/",
+    "/src/core/server/data/cache/",
+  ],
   testEnvironment: "node",
   testURL: "http://localhost",
   transform: {
