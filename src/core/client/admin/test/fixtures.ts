@@ -447,6 +447,13 @@ export const users = {
         role: GQLUSER_ROLE.ADMIN,
         ignoreable: false,
       },
+      {
+        id: "user-admin-1",
+        username: "Not Markus",
+        email: "not-markus@test.com",
+        role: GQLUSER_ROLE.ADMIN,
+        ignoreable: false,
+      },
     ],
     baseUser
   ),

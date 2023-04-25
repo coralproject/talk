@@ -1,14 +1,17 @@
 import { Logger } from "coral-server/logger";
 import { CommentAction } from "coral-server/models/action/comment";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { MongoContext } from "../context";
+import { dataCacheAvailable, IDataCache } from "./dataCache";
 
-export class CommentActionsCache {
+export class CommentActionsCache implements IDataCache {
   private expirySeconds: number;
 
   private mongo: MongoContext;
   private redis: AugmentedRedis;
+  private tenantCache: TenantCache | null;
   private logger: Logger;
 
   private commentActionsByKey: Map<string, Readonly<CommentAction>>;
@@ -16,16 +19,22 @@ export class CommentActionsCache {
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
+    tenantCache: TenantCache | null,
     logger: Logger,
     expirySeconds: number
   ) {
     this.mongo = mongo;
     this.redis = redis;
+    this.tenantCache = tenantCache;
     this.logger = logger.child({ dataCache: "CommentActionsCache" });
 
     this.expirySeconds = expirySeconds;
 
     this.commentActionsByKey = new Map<string, Readonly<CommentAction>>();
+  }
+
+  public async available(tenantID: string): Promise<boolean> {
+    return dataCacheAvailable(this.tenantCache, tenantID);
   }
 
   private computeDataKey(tenantID: string, id: string) {
