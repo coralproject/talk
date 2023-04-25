@@ -33,7 +33,8 @@ exports[`init local state 1`] = `
     \\"customCSSURL\\": \\"customCSSURL\\",
     \\"archivingEnabled\\": false,
     \\"autoArchiveOlderThanMs\\": 10368000000,
-    \\"showCommentIDs\\": false
+    \\"showCommentIDs\\": false,
+    \\"refreshStream\\": false
   },
   \\"client:root.local.authPopup\\": {
     \\"__id\\": \\"client:root.local.authPopup\\",

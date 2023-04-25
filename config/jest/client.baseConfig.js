@@ -45,7 +45,9 @@ const createConfig = () => {
       "<rootDir>/src/core/client/test/polyfills.ts",
       "<rootDir>/src/core/client/test/setup.ts",
     ],
-    setupFilesAfterEnv: ["<rootDir>/src/core/client/test/setupTestFramework.ts"],
+    setupFilesAfterEnv: [
+      "<rootDir>/src/core/client/test/setupTestFramework.ts",
+    ],
     testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
     testEnvironment: "node",
     testURL: "http://localhost",
@@ -77,11 +79,14 @@ const createConfig = () => {
     globals: {
       "ts-jest": {
         babelConfig: true,
-        tsConfig: path.resolve(__dirname, "../../src/core/client/tsconfig.json"),
+        tsConfig: path.resolve(
+          __dirname,
+          "../../src/core/client/tsconfig.json"
+        ),
       },
     },
     preset: "ts-jest/presets/js-with-babel",
   };
-}
+};
 
 module.exports = createConfig;
