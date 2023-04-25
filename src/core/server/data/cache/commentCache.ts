@@ -2,14 +2,16 @@ import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
-import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
+
+import { dataCacheAvailable, IDataCache } from "./dataCache";
 
 const REDIS_SUPPORTED_SORTS = [
   GQLCOMMENT_SORT.CREATED_AT_ASC,
@@ -22,29 +24,29 @@ export interface Filter {
   statuses?: GQLCOMMENT_STATUS[];
 }
 
-export class CommentCache {
+export class CommentCache implements IDataCache {
   private disableLocalCaching: boolean;
   private expirySeconds: number;
 
   private mongo: MongoContext;
   private redis: AugmentedRedis;
-  private queue: LoadCacheQueue | null;
   private logger: Logger;
 
   private commentsByKey: Map<string, Readonly<Comment>>;
   private membersLookup: Map<string, string[]>;
+  private tenantCache: TenantCache | null;
 
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
-    queue: LoadCacheQueue | null,
+    tenantCache: TenantCache | null,
     logger: Logger,
     disableLocalCaching: boolean,
     expirySeconds: number
   ) {
     this.mongo = mongo;
     this.redis = redis;
-    this.queue = queue;
+    this.tenantCache = tenantCache;
 
     this.logger = logger.child({ dataCache: "CommentCache" });
 
@@ -53,6 +55,10 @@ export class CommentCache {
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
     this.membersLookup = new Map<string, string[]>();
+  }
+
+  public async available(tenantID: string): Promise<boolean> {
+    return dataCacheAvailable(this.tenantCache, tenantID);
   }
 
   public computeLockKey(tenantID: string, storyID: string) {
@@ -96,7 +102,7 @@ export class CommentCache {
     const lockKey = this.computeLockKey(tenantID, storyID);
     const hasCommentsInRedis = await this.redis.exists(lockKey);
 
-    return hasCommentsInRedis;
+    return hasCommentsInRedis > 0;
   }
 
   public async invalidateCache(tenantID: string, storyID: string) {
@@ -197,10 +203,6 @@ export class CommentCache {
           isArchived
         );
 
-    if (!hasCommentsInRedis && this.queue) {
-      await this.queue.add({ tenantID, storyID });
-    }
-
     await this.createRelationalCommentKeysLocally(tenantID, storyID, comments);
 
     const userIDs = new Set<string>();
@@ -250,7 +252,8 @@ export class CommentCache {
     const cmd = this.redis.multi();
 
     const lockKey = this.computeLockKey(tenantID, storyID);
-    cmd.set(lockKey, now.getTime(), "ex", this.expirySeconds);
+    cmd.set(lockKey, now.getTime());
+    cmd.expire(lockKey, this.expirySeconds);
 
     const allCommentsKey = this.computeStoryAllCommentsKey(tenantID, storyID);
     if (comments.length > 0) {
@@ -287,7 +290,8 @@ export class CommentCache {
       const key = this.computeDataKey(tenantID, storyID, comment.id);
       const value = this.serializeObject(comment);
 
-      cmd.set(key, value, "ex", this.expirySeconds);
+      cmd.set(key, value);
+      cmd.expire(key, this.expirySeconds);
     }
 
     // Create the parent to child key-value look ups

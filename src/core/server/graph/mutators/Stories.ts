@@ -1,7 +1,10 @@
 import { isNull, omitBy } from "lodash";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { StoryNotFoundError } from "coral-server/errors";
+import {
+  DataCachingNotAvailableError,
+  StoryNotFoundError,
+} from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
@@ -195,6 +198,11 @@ export const Stories = (ctx: GraphContext) => ({
     }
   },
   cacheStory: async (input: GQLCacheStoryInput) => {
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (!cacheAvailable) {
+      throw new DataCachingNotAvailableError(ctx.tenant.id);
+    }
+
     const story = await ctx.loaders.Stories.find.load({ id: input.id });
     if (!story) {
       throw new StoryNotFoundError(input.id);
@@ -208,6 +216,11 @@ export const Stories = (ctx: GraphContext) => ({
     return story;
   },
   invalidateCachedStory: async (input: GQLCacheStoryInput) => {
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (!cacheAvailable) {
+      throw new DataCachingNotAvailableError(ctx.tenant.id);
+    }
+
     const story = await ctx.loaders.Stories.find.load({ id: input.id });
     if (!story) {
       throw new StoryNotFoundError(input.id);

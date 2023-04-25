@@ -23,5 +23,5 @@ const baseConfig = createConfig();
 module.exports = {
   ...baseConfig,
   displayName: "client:other",
-  roots
-}
+  roots,
+};

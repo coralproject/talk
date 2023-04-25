@@ -223,7 +223,7 @@ const createJobProcessor =
     const cache = new DataCache(
       mongo,
       redis,
-      null,
+      tenantCache,
       log,
       false,
       config.get("redis_cache_expiry") / 1000
