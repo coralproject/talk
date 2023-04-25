@@ -35,5 +35,4 @@ $ban-modal-text: var(--palette-text-500);
 
 .customizeMessage {
   align-self: flex-start;
-  color: -var(--palette-grey-800);
 }
