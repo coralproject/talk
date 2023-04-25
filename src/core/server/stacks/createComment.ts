@@ -3,6 +3,7 @@ import { isNumber } from "lodash";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import {
   AncestorRejectedError,
@@ -91,6 +92,7 @@ export type CreateComment = Omit<
 const markCommentAsAnswered = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
@@ -138,6 +140,7 @@ const markCommentAsAnswered = async (
     approveComment(
       mongo,
       redis,
+      cache,
       broker,
       tenant,
       comment.parentID,
@@ -192,6 +195,7 @@ const validateRating = async (
 export default async function create(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -259,7 +263,7 @@ export default async function create(
   }
 
   const ancestorIDs: string[] = [];
-  const parent = await retrieveParent(mongo, tenant.id, input);
+  let parent = await retrieveParent(mongo, tenant.id, input);
   if (parent) {
     ancestorIDs.push(parent.id);
     if (hasAncestors(parent)) {
@@ -375,6 +379,7 @@ export default async function create(
     markCommentAsAnswered(
       mongo,
       redis,
+      cache,
       broker,
       tenant,
       comment,
@@ -384,6 +389,7 @@ export default async function create(
     ),
     markSeenComments(
       mongo,
+      cache,
       tenant.id,
       comment.storyID,
       author.id,
@@ -396,12 +402,13 @@ export default async function create(
 
   if (input.parentID) {
     // Push the child's ID onto the parent.
-    await pushChildCommentIDOntoParent(
-      mongo,
-      tenant.id,
-      input.parentID,
-      comment.id
-    );
+    parent =
+      (await pushChildCommentIDOntoParent(
+        mongo,
+        tenant.id,
+        input.parentID,
+        comment.id
+      )) ?? null;
 
     log.trace("pushed child comment id onto parent");
   }
@@ -435,6 +442,22 @@ export default async function create(
     actionCounts,
     after: comment,
   });
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.update(comment);
+    if (comment.authorID) {
+      await cache.users.populateUsers(tenant.id, [comment.authorID]);
+    }
+
+    if (parent) {
+      await cache.comments.update(parent);
+
+      if (parent.authorID) {
+        await cache.users.populateUsers(tenant.id, [parent.authorID]);
+      }
+    }
+  }
 
   // Publish changes to the event publisher.
   await publishChanges(broker, {

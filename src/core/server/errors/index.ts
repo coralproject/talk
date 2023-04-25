@@ -450,6 +450,35 @@ export class TokenInvalidError extends CoralError {
   }
 }
 
+export class OperationForbiddenError extends CoralError {
+  constructor(
+    code: ERROR_CODES,
+    reason: string,
+    resource: string,
+    operation: string,
+    userID?: string,
+    permit?: GQLUSER_AUTH_CONDITIONS[],
+    conditions?: GQLUSER_AUTH_CONDITIONS[],
+    unscoped?: boolean
+  ) {
+    super({
+      code,
+      context: {
+        pvt: {
+          reason,
+          userID,
+          resource,
+          operation,
+          conditions,
+          permit,
+          unscoped,
+        },
+      },
+      status: 403,
+    });
+  }
+}
+
 export class UserForbiddenError extends CoralError {
   constructor(
     reason: string,
@@ -967,6 +996,26 @@ export class UsernameAlreadyExists extends CoralError {
       code: ERROR_CODES.USERNAME_ALREADY_EXISTS,
       status: 400,
       context: { tenantID, pvt: { tenantID, username } },
+    });
+  }
+}
+
+export class UnableToUpdateStoryURL extends CoralError {
+  constructor(cause: MongoError, id: string, oldUrl: string, url: string) {
+    super({
+      cause,
+      reportable: true,
+      code: ERROR_CODES.UNABLE_TO_UPDATE_STORY_URL,
+      context: { pvt: { id, oldUrl, url } },
+    });
+  }
+}
+
+export class DataCachingNotAvailableError extends CoralError {
+  constructor(tenantID: string) {
+    super({
+      code: ERROR_CODES.DATA_CACHING_NOT_AVAILABLE,
+      context: { pub: { tenantID } },
     });
   }
 }
