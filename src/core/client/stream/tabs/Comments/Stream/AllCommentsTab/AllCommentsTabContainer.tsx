@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -8,9 +9,13 @@ import React, {
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { useLive } from "coral-framework/hooks";
+import { useLive, useVisibilityState } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerNetworkEvent } from "coral-framework/lib/events";
-import { IntersectionProvider } from "coral-framework/lib/intersection";
+import {
+  IntersectionProvider,
+  useInView,
+} from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useLocal,
@@ -30,14 +35,21 @@ import CLASSES from "coral-stream/classes";
 import { KeyboardShortcuts } from "coral-stream/common/KeyboardShortcuts";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
+  CloseRefreshCommentsButtonEvent,
   LoadMoreAllCommentsEvent,
+  RefreshCommentsButtonEvent,
   ViewNewCommentsNetworkEvent,
 } from "coral-stream/events";
 import {
   CommentEditedSubscription,
   CommentEnteredSubscription,
 } from "coral-stream/tabs/Comments/Stream/Subscriptions";
-import { Box, HorizontalGutter } from "coral-ui/components/v2";
+import {
+  Box,
+  ButtonIcon,
+  Flex,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
@@ -65,6 +77,7 @@ interface Props {
   relay: RelayPaginationProp;
   flattenReplies: boolean;
   currentScrollRef: any;
+  refreshStream: boolean | null;
   tag?: GQLTAG;
 }
 
@@ -75,6 +88,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   relay,
   tag,
   currentScrollRef,
+  refreshStream,
 }) => {
   const [
     {
@@ -87,6 +101,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   ] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
+        refreshStream
         ratingFilter
         commentsOrderBy
         commentsFullyLoaded
@@ -100,10 +115,28 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     `
   );
 
+  const { eventEmitter } = useCoralContext();
+
   const subscribeToCommentEntered = useSubscription(CommentEnteredSubscription);
   const subscribeToCommentEdited = useSubscription(CommentEditedSubscription);
 
   const live = useLive({ story, settings });
+
+  const {
+    inView: topOfCommentsInView,
+    intersectionRef: topOfCommentsInViewRef,
+  } = useInView();
+  const { inView: allCommentsInView, intersectionRef: allCommentsInViewRef } =
+    useInView();
+
+  const visible = useVisibilityState();
+
+  const [showCommentRefreshButton, setShowCommentRefreshButton] =
+    useState(false);
+  const [isNotFirstLoad, setIsNotFirstLoad] = useState(false);
+  const [refreshButtonPositionStyles, setRefreshButtonPositionStyles] =
+    useState(styles.refreshContainerAbsolute);
+
   const hasMore = relay.hasMore();
   useEffect(() => {
     // If live updates are disabled, don't subscribe to new comments!!
@@ -133,6 +166,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     const commenteEnteredDisposable = subscribeToCommentEntered({
       storyID: story.id,
       orderBy: commentsOrderBy,
+      refreshStream,
       storyConnectionKey: "Stream_comments",
       tag,
     });
@@ -147,13 +181,55 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     };
   }, [
     commentsOrderBy,
-    hasMore,
     live,
     story.id,
     subscribeToCommentEntered,
     subscribeToCommentEdited,
     tag,
+    hasMore,
+    refreshStream,
   ]);
+
+  useEffect(() => {
+    if (visible && !isNotFirstLoad) {
+      setIsNotFirstLoad(true);
+    }
+  }, [visible, isNotFirstLoad]);
+
+  useEffect(() => {
+    if (visible && isNotFirstLoad) {
+      setShowCommentRefreshButton(true);
+    }
+  }, [visible, setShowCommentRefreshButton]);
+
+  useEffect(() => {
+    if (!topOfCommentsInView && allCommentsInView) {
+      setRefreshButtonPositionStyles(styles.refreshContainerFixed);
+    } else {
+      setRefreshButtonPositionStyles(styles.refreshContainerAbsolute);
+    }
+  }, [topOfCommentsInView, setRefreshButtonPositionStyles, allCommentsInView]);
+
+  const handleClickCloseRefreshButton = useCallback(() => {
+    setShowCommentRefreshButton(false);
+    CloseRefreshCommentsButtonEvent.emit(eventEmitter);
+  }, [setShowCommentRefreshButton]);
+
+  const handleClickRefreshButton = useCallback(async () => {
+    setLocal({ refreshStream: !refreshStream });
+    RefreshCommentsButtonEvent.emit(eventEmitter);
+  }, [refreshStream]);
+
+  const refreshCommentsLocalization =
+    story.settings.mode === GQLSTORY_MODE.COMMENTS
+      ? {
+          id: "comments-refreshComments-refreshButton",
+          text: "Refresh comments",
+        }
+      : {
+          id: "comments-refreshQuestions-refreshButton",
+          text: "Refresh questions",
+        };
 
   const onChangeRating = useCallback(
     (rating: number | null) => {
@@ -216,7 +292,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       viewNewCommentsEvent.success();
       setViewMoreLoading(false);
     } catch (error) {
-      viewNewCommentsEvent.error({ message: error.message, code: error.code });
+      viewNewCommentsEvent.error({
+        message: error.message,
+        code: error.code,
+      });
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -347,7 +426,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <>
+    <div ref={allCommentsInViewRef}>
       {!!viewer && (
         <KeyboardShortcuts
           storyID={story.id}
@@ -363,6 +442,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           onChangeRating={onChangeRating}
         />
       )}
+      <IntersectionProvider threshold={[0, 1]}>
+        <div ref={topOfCommentsInViewRef}></div>
+      </IntersectionProvider>
       {viewNewCount > 0 && (
         <Box mb={4} clone>
           <Button
@@ -408,6 +490,48 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
         aria-live="off"
         spacing={commentSeenEnabled ? 0 : undefined}
       >
+        {!!viewer && showCommentRefreshButton && (
+          <div
+            className={cn(styles.refreshContainer, refreshButtonPositionStyles)}
+          >
+            <Flex className={styles.flexContainer} alignItems="center">
+              <Flex alignItems="baseline">
+                <Localized
+                  id={refreshCommentsLocalization.id}
+                  attrs={{ "aria-label": true }}
+                >
+                  <Button
+                    aria-label={refreshCommentsLocalization.text}
+                    variant="filled"
+                    color="primary"
+                    paddingSize="extraSmall"
+                    className={styles.refreshButton}
+                    onClick={handleClickRefreshButton}
+                  >
+                    <ButtonIcon className={styles.refreshButtonIcon}>
+                      refresh
+                    </ButtonIcon>
+                    {refreshCommentsLocalization.text}
+                  </Button>
+                </Localized>
+                <div className={styles.divider}>|</div>
+              </Flex>
+              <Localized
+                id="comments-refreshComments-closeButton"
+                attrs={{ "aria-label": true }}
+              >
+                <Button
+                  onClick={handleClickCloseRefreshButton}
+                  aria-label="Close"
+                  className={styles.closeButton}
+                  paddingSize="extraSmall"
+                >
+                  <ButtonIcon>close</ButtonIcon>
+                </Button>
+              </Localized>
+            </Flex>
+          </div>
+        )}
         {story.comments.edges.length <= 0 && (
           <NoComments
             mode={story.settings.mode}
@@ -455,7 +579,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           </div>
         </HorizontalGutter>
       )}
-    </>
+    </div>
   );
 };
 
@@ -479,6 +603,7 @@ const enhanced = withPaginationContainer<
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         tag: { type: "TAG" }
         ratingFilter: { type: "Int" }
+        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         id
         isClosed
@@ -502,6 +627,7 @@ const enhanced = withPaginationContainer<
           orderBy: $orderBy
           tag: $tag
           rating: $ratingFilter
+          refreshStream: $refreshStream
         ) @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
@@ -526,6 +652,7 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
+                @arguments(refreshStream: $refreshStream)
             }
           }
           edges {
@@ -550,6 +677,7 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
+                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -595,7 +723,7 @@ const enhanced = withPaginationContainer<
       return story && story.comments;
     },
     getVariables(
-      { story, flattenReplies },
+      { story, flattenReplies, refreshStream },
       { count, cursor },
       fragmentVariables
     ) {
@@ -609,6 +737,7 @@ const enhanced = withPaginationContainer<
         // variable available for the fragment under the query root.
         storyID: story.id,
         flattenReplies,
+        refreshStream,
       };
     },
     query: graphql`
@@ -622,6 +751,7 @@ const enhanced = withPaginationContainer<
         $tag: TAG
         $flattenReplies: Boolean!
         $ratingFilter: Int
+        $refreshStream: Boolean
       ) {
         story(id: $storyID) {
           ...AllCommentsTabContainer_story
@@ -631,6 +761,7 @@ const enhanced = withPaginationContainer<
               orderBy: $orderBy
               tag: $tag
               ratingFilter: $ratingFilter
+              refreshStream: $refreshStream
             )
         }
       }

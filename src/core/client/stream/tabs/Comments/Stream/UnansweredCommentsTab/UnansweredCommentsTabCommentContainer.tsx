@@ -24,6 +24,7 @@ interface Props {
   settings: UnansweredCommentsTabCommentContainer_settings;
   story: UnansweredCommentsTabCommentContainer_story;
   isLast: boolean;
+  refreshStream: boolean | null;
 }
 
 const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
@@ -32,6 +33,7 @@ const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
   settings,
   story,
   isLast,
+  refreshStream,
 }) => {
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
@@ -62,6 +64,7 @@ const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
                   comment={comment}
                   story={story}
                   showRemoveAnswered
+                  refreshStream={refreshStream}
                 />
               </div>
             </HorizontalGutter>

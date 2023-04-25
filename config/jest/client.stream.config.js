@@ -6,4 +6,4 @@ module.exports = {
   ...baseConfig,
   displayName: "client:stream",
   roots: ["<rootDir>/src/core/client/stream"],
-}
+};

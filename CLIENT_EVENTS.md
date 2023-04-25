@@ -86,6 +86,7 @@ createComment.error
 - <a href="#changePassword">changePassword</a>
 - <a href="#changeUsername">changeUsername</a>
 - <a href="#closeMobileToolbar">closeMobileToolbar</a>
+- <a href="#closeRefreshCommentsButton">closeRefreshCommentsButton</a>
 - <a href="#closeStory">closeStory</a>
 - <a href="#copyPermalink">copyPermalink</a>
 - <a href="#createComment">createComment</a>
@@ -106,6 +107,7 @@ createComment.error
 - <a href="#loginPrompt">loginPrompt</a>
 - <a href="#openSortMenu">openSortMenu</a>
 - <a href="#openStory">openStory</a>
+- <a href="#refreshCommentsButton">refreshCommentsButton</a>
 - <a href="#rejectComment">rejectComment</a>
 - <a href="#removeCommentReaction">removeCommentReaction</a>
 - <a href="#removeUserIgnore">removeUserIgnore</a>
@@ -217,6 +219,7 @@ createComment.error
   }
   ```
 - <a id="closeMobileToolbar">**closeMobileToolbar**</a>: This event is emitted when the viewer closes to mobile toolbar.
+- <a id="closeRefreshCommentsButton">**closeRefreshCommentsButton**</a>: This event is emitted when the viewer clicks to close the refresh comments button on the stream.
 - <a id="closeStory">**closeStory.success**, **closeStory.error**</a>: This event is emitted when the viewer closes the story.
   ```ts
   {
@@ -392,6 +395,7 @@ createComment.error
       };
   }
   ```
+- <a id="refreshCommentsButton">**refreshCommentsButton**</a>: This event is emitted when the viewer clicks the refresh comments button on the stream.
 - <a id="rejectComment">**rejectComment.success**, **rejectComment.error**</a>: This event is emitted when the viewer rejects a comment.
   ```ts
   {
