@@ -1,7 +1,10 @@
 import { QueueOptions } from "bull";
 
 import { Config } from "coral-server/config";
-import { DataCache } from "coral-server/data/cache/dataCache";
+import {
+  DataCache,
+  dataCacheAvailable,
+} from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
@@ -42,10 +45,20 @@ const createJobProcessor =
       true
     );
 
+    const cacheAvailable = await dataCacheAvailable(tenantCache, tenantID);
+    if (!cacheAvailable) {
+      log.info(
+        { tenantID },
+        "skipping load cache as caching is not enabled on tenant"
+      );
+      return;
+    }
+
     const timer = createTimer();
     const { comments, commentActions, users } = new DataCache(
       mongo,
       redis,
+      tenantCache,
       log,
       false,
       config.get("redis_cache_expiry") / 1000
