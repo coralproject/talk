@@ -36,10 +36,12 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> =
         }
 
         public componentWillUnmount() {
-          this.props.window.document.removeEventListener(
-            "mousedown",
-            this.handleMouseDown
-          );
+          if (this.props.window.document.removeEventListener) {
+            this.props.window.document.removeEventListener(
+              "mousedown",
+              this.handleMouseDown
+            );
+          }
         }
 
         private handleFocus: React.EventHandler<FocusEvent<any>> = (event) => {

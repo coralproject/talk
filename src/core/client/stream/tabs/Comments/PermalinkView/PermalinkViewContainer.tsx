@@ -42,6 +42,7 @@ interface Props {
   story: StoryData;
   settings: SettingsData;
   viewer: ViewerData | null;
+  refreshStream: boolean | null;
 }
 
 const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
@@ -62,11 +63,12 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
       ancestorID: comment.id,
       liveDirectRepliesInsertion: true,
       storyConnectionKey: "Stream_comments",
+      refreshStream: props.refreshStream,
     });
     return () => {
       disposable.dispose();
     };
-  }, [comment?.id, story.id, subscribeToCommentEntered]);
+  }, [comment?.id, story.id, subscribeToCommentEntered, props.refreshStream]);
 
   useEffect(() => {
     if (!renderWindow) {
@@ -167,6 +169,7 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
                   settings={settings}
                   liveDirectRepliesInsertion
                   allowIgnoredTombstoneReveal
+                  refreshStream={props.refreshStream}
                 />
               </div>
             </HorizontalGutter>

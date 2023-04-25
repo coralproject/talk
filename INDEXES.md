@@ -6,6 +6,15 @@ The goal of this document is to date-mark the indexes you add to support the cha
 
 If you are releasing, you can use this readme to check all the indexes prior to the release you are deploying and have a good idea of what indexes you might need to deploy to Mongo along with your release of a new Coral Docker image to kubernetes.
 
+## 2023-03-28
+
+```
+db.archivedCommentActions.createIndex({ tenantID: 1, storyID: 1 });
+```
+
+- This is used to speed up when the redis cache asks for the `archivedCommentActions` associated with a specific story.
+  - This is common when an archived story is loaded into the redis cache.
+
 ## 2022-03-07
 
 ```
@@ -47,7 +56,7 @@ db.sites.createIndex({ tenantID: 1, "$**": "text", createdAt: -1 });
 #### uniqueness constraint indexes:
 
 ```
-db.commentActions.createIndex({ _id: 1 }); 
+db.commentActions.createIndex({ _id: 1 });
 db.commentActions.createIndex({ tenantID: 1, id: 1 });
 ```
 

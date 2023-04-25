@@ -24,6 +24,7 @@ interface Props {
   storySettings: any;
   onCancel: () => void;
   onRemove: () => void;
+  autoFocus?: boolean;
 }
 
 const AddMessageOpen: FunctionComponent<Props> = ({
@@ -31,6 +32,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
   storySettings,
   onCancel,
   onRemove,
+  autoFocus,
 }) => {
   const updateMutation = useMutation(UpdateMessageBoxMutation);
 
@@ -118,7 +120,8 @@ const AddMessageOpen: FunctionComponent<Props> = ({
             id="message-box-form"
             data-testid="configure-addMessage-form"
           >
-            <MessageBoxConfig />
+            {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
+            <MessageBoxConfig autoFocus={autoFocus} />
             {storySettings.messageBox.content ? (
               <div className={styles.actions}>
                 <Button

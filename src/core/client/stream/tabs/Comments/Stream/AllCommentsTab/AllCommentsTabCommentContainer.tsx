@@ -3,13 +3,14 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { AllCommentsTabCommentContainer_comment } from "coral-stream/__generated__/AllCommentsTabCommentContainer_comment.graphql";
 import { AllCommentsTabCommentContainer_settings } from "coral-stream/__generated__/AllCommentsTabCommentContainer_settings.graphql";
 import { AllCommentsTabCommentContainer_story } from "coral-stream/__generated__/AllCommentsTabCommentContainer_story.graphql";
 import { AllCommentsTabCommentContainer_viewer } from "coral-stream/__generated__/AllCommentsTabCommentContainer_viewer.graphql";
+import { AllCommentsTabCommentContainerLocal } from "coral-stream/__generated__/AllCommentsTabCommentContainerLocal.graphql";
 
 import CollapsableComment from "../../Comment/CollapsableComment";
 import CommentContainer from "../../Comment/CommentContainer";
@@ -35,6 +36,13 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   story,
   isLast,
 }) => {
+  const [{ refreshStream }] = useLocal<AllCommentsTabCommentContainerLocal>(
+    graphql`
+      fragment AllCommentsTabCommentContainerLocal on Local {
+        refreshStream
+      }
+    `
+  );
   const commentSeenEnabled = useCommentSeenEnabled();
   const canCommitCommentSeen = !!(viewer && viewer.id) && commentSeenEnabled;
   const commentSeen = canCommitCommentSeen && comment.seen;
@@ -69,6 +77,7 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
                     viewer={viewer}
                     comment={comment}
                     story={story}
+                    refreshStream={refreshStream}
                   />
                 </div>
               )}
@@ -102,12 +111,15 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   comment: graphql`
-    fragment AllCommentsTabCommentContainer_comment on Comment {
+    fragment AllCommentsTabCommentContainer_comment on Comment
+    @argumentDefinitions(
+      refreshStream: { type: "Boolean", defaultValue: false }
+    ) {
       id
       enteredLive
       seen
       ...CommentContainer_comment
-      ...ReplyListContainer1_comment
+      ...ReplyListContainer1_comment @arguments(refreshStream: $refreshStream)
       ...IgnoredTombstoneOrHideContainer_comment
       ...DeletedTombstoneContainer_comment
     }

@@ -20,8 +20,10 @@ interface Props {
 const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
   const [open, setOpen] = useState(story.settings.messageBox.enabled);
   const [removed, setRemoved] = useState(false);
+  const [focusOnEditor, setFocusOnEditor] = useState(false);
 
   const onOpen = useCallback(() => {
+    setFocusOnEditor(true);
     setOpen(true);
   }, [setOpen]);
   const onClose = useCallback(() => {
@@ -43,6 +45,8 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
           storySettings={story.settings}
           onCancel={onClose}
           onRemove={onRemove}
+          /* eslint-disable-next-line jsx-a11y/no-autofocus*/
+          autoFocus={focusOnEditor}
         />
       </section>
     );

@@ -17,6 +17,7 @@ const initLocalState = (
   localRecord.setValue("ALL_COMMENTS", "commentsTab");
   localRecord.setValue("jti", "accessTokenJTI");
   localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
+  localRecord.setValue(false, "refreshStream");
   if (params.initLocalState) {
     params.initLocalState(localRecord, source, environment);
   }

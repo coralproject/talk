@@ -9,6 +9,7 @@ import React, {
 import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
 import { extractDomain } from "coral-common/email";
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { useMutation } from "coral-framework/lib/relay";
@@ -26,6 +27,7 @@ import { CallOut } from "coral-ui/components/v3";
 
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import BanDomainMutation from "./BanDomainMutation";
 import BanUserMutation from "./BanUserMutation";
@@ -35,8 +37,9 @@ import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import UpdateUserBanMutation from "./UpdateUserBanMutation";
 import ChangeStatusModal from "./UserStatus/ChangeStatusModal";
 import { getTextForUpdateType } from "./UserStatus/helpers";
-import UserStatusSitesList, { Scopes } from "./UserStatus/UserStatusSitesList";
+import UserStatusSitesList from "./UserStatus/UserStatusSitesList";
 
+import { isSiteModerator } from "coral-common/permissions/types";
 import styles from "./BanModal.css";
 
 export enum UpdateType {
@@ -53,7 +56,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  viewerScopes: Scopes;
+  viewer: UserStatusChangeContainer_viewer;
   emailDomainModeration: UserStatusChangeContainer_settings["emailDomainModeration"];
   userRole: string;
   isMultisite: boolean;
@@ -116,7 +119,7 @@ const BanModal: FunctionComponent<Props> = ({
   userID,
   username,
   userEmail,
-  viewerScopes,
+  viewer,
   emailDomainModeration,
   userBanStatus,
   userRole,
@@ -138,24 +141,29 @@ const BanModal: FunctionComponent<Props> = ({
     );
   }, [getMessage, username]);
 
-  const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
+  const viewerIsScoped =
+    !!viewer.moderationScopes?.sites &&
+    viewer.moderationScopes?.sites.length > 0;
 
   const viewerIsSiteMod =
     !!isMultisite &&
-    viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
-    !!viewerScopes.sites &&
-    viewerScopes.sites?.length > 0;
+    viewer.role === GQLUSER_ROLE.MODERATOR &&
+    !!viewer.moderationScopes?.sites &&
+    viewer.moderationScopes?.sites?.length > 0;
 
   const viewerIsSingleSiteMod = !!(
     viewerIsSiteMod &&
-    viewerScopes.sites &&
-    viewerScopes.sites.length === 1
+    viewer.moderationScopes?.sites &&
+    viewer.moderationScopes?.sites.length === 1
   );
 
-  const viewerIsAdmin = viewerScopes.role === GQLUSER_ROLE.ADMIN;
+  const viewerIsAdmin = viewer.role === GQLUSER_ROLE.ADMIN;
   const viewerIsOrgAdmin =
-    viewerScopes.role === GQLUSER_ROLE.MODERATOR &&
-    !!(!viewerScopes.sites || viewerScopes.sites?.length === 0);
+    viewer.role === GQLUSER_ROLE.MODERATOR &&
+    !!(
+      !viewer.moderationScopes?.sites ||
+      viewer.moderationScopes?.sites?.length === 0
+    );
 
   const userIsBlanketBanned = !!userBanStatus?.active;
   const userIsSingleSiteBanned = !!userBanStatus?.sites?.length;
@@ -186,11 +194,21 @@ const BanModal: FunctionComponent<Props> = ({
     ({ domain }) => domain === emailDomain
   );
 
+  const canBanDomain =
+    (viewer.role === GQLUSER_ROLE.ADMIN ||
+      (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer))) &&
+    updateType !== UpdateType.NO_SITES &&
+    emailDomain &&
+    !domainIsConfigured &&
+    !PROTECTED_EMAIL_DOMAINS.has(emailDomain);
+
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
-      setBanSiteIDs(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
+      setBanSiteIDs(
+        viewer.moderationScopes!.sites!.map((scopeSite) => scopeSite.id)
+      );
     }
-  }, [viewerIsSingleSiteMod, viewerScopes.sites]);
+  }, [viewerIsSingleSiteMod, viewer.moderationScopes?.sites]);
 
   const onFormSubmit = useCallback(async () => {
     switch (updateType) {
@@ -200,7 +218,7 @@ const BanModal: FunctionComponent<Props> = ({
           message: customizeMessage ? emailMessage : getDefaultMessage,
           rejectExistingComments,
           siteIDs: viewerIsScoped
-            ? viewerScopes.sites!.map(({ id }) => id)
+            ? viewer.moderationScopes?.sites!.map(({ id }) => id)
             : [],
         });
         break;
@@ -234,7 +252,7 @@ const BanModal: FunctionComponent<Props> = ({
     getDefaultMessage,
     rejectExistingComments,
     viewerIsScoped,
-    viewerScopes.sites,
+    viewer.moderationScopes?.sites,
     updateUserBan,
     banSiteIDs,
     unbanSiteIDs,
@@ -313,22 +331,20 @@ const BanModal: FunctionComponent<Props> = ({
                       </CheckBox>
                     </Localized>
                   )}
-                  {updateType !== UpdateType.NO_SITES &&
-                    emailDomain &&
-                    !domainIsConfigured && (
-                      <Localized
-                        id="community-banModal-banEmailDomain"
-                        vars={{ domain: emailDomain }}
+                  {canBanDomain && (
+                    <Localized
+                      id="community-banModal-banEmailDomain"
+                      vars={{ domain: emailDomain }}
+                    >
+                      <CheckBox
+                        onChange={({ target }) => {
+                          setBanDomain(target.checked);
+                        }}
                       >
-                        <CheckBox
-                          onChange={({ target }) => {
-                            setBanDomain(target.checked);
-                          }}
-                        >
-                          Ban all new accounts on <strong>{emailDomain}</strong>
-                        </CheckBox>
-                      </Localized>
-                    )}
+                        Ban all new accounts on <strong>{emailDomain}</strong>
+                      </CheckBox>
+                    </Localized>
+                  )}
                   {updateType !== UpdateType.NO_SITES && (
                     <Localized id="community-banModal-customize">
                       <CheckBox
@@ -404,7 +420,7 @@ const BanModal: FunctionComponent<Props> = ({
                       updateType === UpdateType.SPECIFIC_SITES)) && (
                     <UserStatusSitesList
                       userBanStatus={userBanStatus}
-                      viewerScopes={viewerScopes}
+                      viewer={viewer}
                       banState={[banSiteIDs, setBanSiteIDs]}
                       unbanState={[unbanSiteIDs, setUnbanSiteIDs]}
                     />
