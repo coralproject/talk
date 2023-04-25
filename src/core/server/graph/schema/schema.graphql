@@ -3737,6 +3737,7 @@ type Comment @cacheControl(maxAge: 5) {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
     flatten: Boolean
+    refreshStream: Boolean
   ): CommentsConnection!
 
   """
@@ -4119,6 +4120,7 @@ type Story @cacheControl(maxAge: 30) {
     first: Int = 20 @constraint(max: 99999)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    refreshStream: Boolean
 
     """
     rating allows filtering for comments with a specific rating. If this feature

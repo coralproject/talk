@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { coerceStoryMode } from "coral-framework/helpers";
 import { useEffectAtUnmount } from "coral-framework/hooks";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   QueryRenderData,
   QueryRenderer,
@@ -29,6 +30,7 @@ export const render = (
   data: QueryRenderData<QueryTypes>,
   flattenReplies: boolean,
   currentScrollRef: any,
+  refreshStream: boolean | null,
   tag?: GQLTAG
 ) => {
   if (!data) {
@@ -48,14 +50,17 @@ export const render = (
 
     return (
       <SpinnerWhileRendering>
-        <AllCommentsTabContainer
-          settings={data.props.settings}
-          viewer={data.props.viewer}
-          story={data.props.story}
-          tag={tag}
-          flattenReplies={flattenReplies}
-          currentScrollRef={currentScrollRef}
-        />
+        <IntersectionProvider threshold={[0, 1]}>
+          <AllCommentsTabContainer
+            settings={data.props.settings}
+            viewer={data.props.viewer}
+            story={data.props.story}
+            tag={tag}
+            flattenReplies={flattenReplies}
+            currentScrollRef={currentScrollRef}
+            refreshStream={refreshStream}
+          />
+        </IntersectionProvider>
       </SpinnerWhileRendering>
     );
   }
@@ -71,7 +76,14 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
   currentScrollRef,
 }) => {
   const [
-    { storyID, storyURL, storyMode, ratingFilter, commentsOrderBy },
+    {
+      storyID,
+      storyURL,
+      storyMode,
+      ratingFilter,
+      commentsOrderBy,
+      refreshStream,
+    },
     setLocal,
   ] = useLocal<Local>(graphql`
     fragment AllCommentsTabQueryLocal on Local {
@@ -80,6 +92,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
       storyMode
       ratingFilter
       commentsOrderBy
+      refreshStream
     }
   `);
   const flattenReplies = useStaticFlattenReplies();
@@ -100,6 +113,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
           $storyMode: STORY_MODE
           $flattenReplies: Boolean!
           $ratingFilter: Int
+          $refreshStream: Boolean
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
@@ -110,6 +124,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
                 orderBy: $commentsOrderBy
                 tag: $tag
                 ratingFilter: $ratingFilter
+                refreshStream: $refreshStream
               )
           }
           settings {
@@ -125,8 +140,11 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         ratingFilter,
         storyMode: coerceStoryMode(storyMode),
         flattenReplies,
+        refreshStream,
       }}
-      render={(data) => render(data, flattenReplies, currentScrollRef, tag)}
+      render={(data) =>
+        render(data, flattenReplies, currentScrollRef, refreshStream, tag)
+      }
     />
   );
 };

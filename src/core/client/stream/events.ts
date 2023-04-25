@@ -361,6 +361,24 @@ export const ShowAllRepliesEvent = createViewerNetworkEvent<{
 export const AddACommentButtonEvent = createViewerEvent("addACommentButton");
 
 /**
+ *
+ * This event is emitted when the viewer clicks the refresh comments button
+ * on the stream.
+ */
+export const RefreshCommentsButtonEvent = createViewerEvent(
+  "refreshCommentsButton"
+);
+
+/**
+ *
+ * This event is emitted when the viewer clicks to close the refresh comments button
+ * on the stream.
+ */
+export const CloseRefreshCommentsButtonEvent = createViewerEvent(
+  "closeRefreshCommentsButton"
+);
+
+/**
  * This event is emitted when the viewer does an
  * action that will prompt a login dialog.
  */

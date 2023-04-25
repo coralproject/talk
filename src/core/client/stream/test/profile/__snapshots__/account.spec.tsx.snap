@@ -30,6 +30,7 @@ exports[`renders the empty settings pane 1`] = `
         class="ChangeUsernameContainer-changeButton"
       >
         <button
+          aria-label="Change username"
           class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myUsername-editButton coral coral-myUsername-change"
           data-variant="flat"
           type="button"
@@ -132,6 +133,7 @@ to sign in to your account or to receive notifications.
         class="ChangeEmailContainer-changeButton"
       >
         <button
+          aria-label="Change email"
           class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary coral coral-myEmail-editButton"
           data-variant="flat"
           type="button"
@@ -152,6 +154,7 @@ to sign in to your account or to receive notifications.
         Password
       </div>
       <button
+        aria-label="Change password"
         class="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-colorPrimary ChangePassword-changeButton coral coral-myPassword-editButton"
         data-variant="flat"
         type="button"

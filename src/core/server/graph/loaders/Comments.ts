@@ -318,7 +318,7 @@ export default (ctx: GraphContext) => ({
   },
   forStory: async (
     storyID: string,
-    { first, orderBy, after, tag, rating }: StoryToCommentsArgs
+    { first, orderBy, after, tag, rating, refreshStream }: StoryToCommentsArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
@@ -381,7 +381,7 @@ export default (ctx: GraphContext) => ({
   forParent: async (
     storyID: string,
     parentID: string,
-    { first, orderBy, after, flatten }: CommentToRepliesArgs
+    { first, orderBy, after, flatten, refreshStream }: CommentToRepliesArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {

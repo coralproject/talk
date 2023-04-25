@@ -310,6 +310,13 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
+comments-refreshComments-closeButton =
+  .aria-label = Close
+comments-refreshComments-refreshButton =
+  .aria-label = Refresh comments
+comments-refreshQuestions-refreshButton =
+  .aria-label = Refresh questions
+
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
 
@@ -642,6 +649,7 @@ profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   our comment system by emailing { $email }.
 profile-account-changePassword-edit = Edit
 profile-account-changePassword-change = Change
+  .aria-label = Change password
 
 
 ## Notifications
@@ -734,6 +742,7 @@ profile-changeUsername-username = Username
 profile-changeUsername-success = Your username has been successfully updated
 profile-changeUsername-edit = Edit
 profile-changeUsername-change = Change
+  .aria-label = Change username
 profile-changeUsername-heading = Edit your username
 profile-changeUsername-heading-changeYourUsername = Change your username
 profile-changeUsername-desc = Change the username that will appear on all of your past and future comments. <strong>Usernames can be changed once every { framework-timeago-time }.</strong>
@@ -900,6 +909,7 @@ profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)
 profile-changeEmail-edit = Edit
 profile-changeEmail-change = Change
+  .aria-label = Change email
 profile-changeEmail-please-verify = Verify your email address
 profile-changeEmail-please-verify-details =
   An email has been sent to { $email } to verify your account.

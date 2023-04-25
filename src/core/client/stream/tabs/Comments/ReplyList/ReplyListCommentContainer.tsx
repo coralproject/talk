@@ -25,6 +25,7 @@ interface Props {
   comment: ReplyListCommentContainer_comment;
   settings: ReplyListCommentContainer_settings;
   story: ReplyListCommentContainer_story;
+  refreshStream: boolean | null;
   allowIgnoredTombstoneReveal?: boolean;
   localReply?: boolean;
   indentLevel?: number;
