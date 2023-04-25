@@ -40,7 +40,7 @@ interface Props {
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
   props
 ) => {
-  const [{ commentsOrderBy, keyboardShortcutsConfig }] =
+  const [{ commentsOrderBy, keyboardShortcutsConfig, refreshStream }] =
     useLocal<UnansweredCommentsTabContainerLocal>(
       graphql`
         fragment UnansweredCommentsTabContainerLocal on Local {
@@ -50,6 +50,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
             source
             reverse
           }
+          refreshStream
         }
       `
     );
@@ -164,6 +165,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
               story={props.story}
               settings={props.settings}
               isLast={index === comments.length - 1}
+              refreshStream={refreshStream}
             />
           ))}
         {props.relay.hasMore() && (

@@ -18,6 +18,7 @@ interface Props {
   comment: LocalReplyListContainer_comment;
   settings: LocalReplyListContainer_settings;
   allowIgnoredTombstoneReveal?: boolean;
+  refreshStream: boolean | null;
 }
 
 /**
@@ -41,6 +42,7 @@ export class LocalReplyListContainer extends Component<Props> {
         indentLevel={this.props.indentLevel}
         disableReplies
         allowIgnoredTombstoneReveal={this.props.allowIgnoredTombstoneReveal}
+        refreshStream={this.props.refreshStream}
       />
     );
   }
