@@ -98,7 +98,14 @@ export async function findOrCreate(
   }
 
   let siteID = null;
-  if (input.url) {
+  if (input.id) {
+    const story = await findStory(mongo, tenant.id, { id: input.id });
+    if (story) {
+      siteID = story.siteID;
+    }
+  }
+
+  if (input.url && siteID === null) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
     // If the URL is provided, and the url is not associated with a site, then refuse
     // to create the Asset.
@@ -147,10 +154,12 @@ export async function findOrCreate(
     });
   }
 
-  const storyIsCached = await cache.isCached(tenant.id, story.id);
-
-  if (!storyIsCached && !story.isArchived && !story.isArchiving) {
-    await queue.add({ tenantID: tenant.id, storyID: story.id });
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    const storyIsCached = await cache.isCached(tenant.id, story.id);
+    if (!storyIsCached && !story.isArchived && !story.isArchiving) {
+      await queue.add({ tenantID: tenant.id, storyID: story.id });
+    }
   }
 
   if (tenant.stories.scraping.enabled && !story.metadata && !story.scrapedAt) {

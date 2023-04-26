@@ -3,10 +3,14 @@
 account-tokenNotFound =
   De gespecifieerde link is ongeldig, controleer of ze correct gekopieerd is.
 
+## Not Found
+
+notFound = Niet Gevonden
+
 ## Password Reset
 
-resetPassword-resetPassword = Wachtwoord opnieuw instellen 
-resetPassword-resetYourPassword = Stel uw wachtwoord opnieuw in
+resetPassword-resetPassword = Wachtwoord opnieuw instellen
+resetPassword-resetYourPassword = Stel je wachtwoord opnieuw in
 resetPassword-pleaseEnterNewPassword =
   Geef een nieuw wachtwoord in om je aan te melden.
   Zorg ervoor dat het uniek is en bewaar het veilig.
@@ -22,7 +26,8 @@ resetPassword-missingResetToken = De markering voor herstel lijkt te ontbreken.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation = E-mail Bevestiging
+confirmEmail-confirmYourEmailAddress =
+  Bevestig je e-mailadres
 confirmEmail-confirmEmail = Bevestig e-mail
 confirmEmail-pleaseClickToConfirm = Klik onderaan om je e-mail adres te bevestigen.
 confirmEmail-oopsSorry = Oeps Sorry!
@@ -36,10 +41,10 @@ confirmEmail-youMayClose =
 download-landingPage-title = Download je voorbije reacties
 download-landingPage-description =
   Je voorbije reacties zullen gedownload worden in een .zip-bestand. Na het
-  uitpakken heb je een bestand met door komma's gescheiden waarden (of .csv)
+  uitpakken heb je een bestand met door kommas gescheiden waarden (of .csv)
   dat je gemakkelijk kunt importeren in je favoriete rekenblad toepassing.
 download-landingPage-contentsDescription =
-  Voor elk van uw reacties is de volgende informatie opgenomen:
+  Voor elk van je reacties is de volgende informatie opgenomen:
 download-landingPage-contentsDate =
   Wanneer je de reactie schreef
 download-landingPage-contentsUrl =
@@ -48,13 +53,17 @@ download-landingPage-contentsText =
   De tekst van de reactie
 download-landingPage-contentsStoryUrl =
   De URL van het artikel waar de reactie verschijnt
-download-landingPage-downloadComments =
-  Download mijn voorbije reacties
+download-landingPage-download = Download
 download-landingPage-sorry = Je download link is ongeldig.
 
 ## Unsubscribe
 
+unsubscribe-unsubscribeFromEmails = Uitschrijven voor e-mailmeldingen
 unsubscribe-oopsSorry = Oeps Sorry!
-unsubscribe-successfullyUnsubscribed = Je bent nu uitgeschreven van alle meldingen
-unsubscribe-clickToConfirm = Klik hieronder om te bevestigen dat u zich wilt uitschrijven voor alle meldingen.
-unsubscribe-confirm = Bevestig
+unsubscribe-clickToConfirm =
+  Klik hieronder om te bevestigen dat je je wil uitschrijven voor alle meldingen.
+unsubscribe-submit-unsubscribe = Uitschrijven
+unsubscribe-unsubscribedSuccessfully =
+  Succesvol afgemeld voor e-mailmeldingen
+unsubscribe-youMayNowClose =
+  Je mag dit venster nu sluiten.

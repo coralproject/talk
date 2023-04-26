@@ -561,6 +561,12 @@ enum FEATURE_FLAG {
   an external profile for a user.
   """
   CONFIGURE_PUBLIC_PROFILE_URL
+
+  """
+  DATA_CACHE will allow the use of the data cache to store and load comments,
+  users, and commentActions more quickly. It is disabled by default.
+  """
+  DATA_CACHE
 }
 
 # The moderation mode of the site.
@@ -3731,6 +3737,7 @@ type Comment @cacheControl(maxAge: 5) {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
     flatten: Boolean
+    refreshStream: Boolean
   ): CommentsConnection!
 
   """
@@ -4113,6 +4120,7 @@ type Story @cacheControl(maxAge: 30) {
     first: Int = 20 @constraint(max: 99999)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    refreshStream: Boolean
 
     """
     rating allows filtering for comments with a specific rating. If this feature

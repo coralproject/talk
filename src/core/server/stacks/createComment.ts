@@ -446,16 +446,19 @@ export default async function create(
     after: comment,
   });
 
-  await cache.comments.update(comment);
-  if (comment.authorID) {
-    await cache.users.populateUsers(tenant.id, [comment.authorID]);
-  }
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.update(comment);
+    if (comment.authorID) {
+      await cache.users.populateUsers(tenant.id, [comment.authorID]);
+    }
 
-  if (parent) {
-    await cache.comments.update(parent);
+    if (parent) {
+      await cache.comments.update(parent);
 
-    if (parent.authorID) {
-      await cache.users.populateUsers(tenant.id, [parent.authorID]);
+      if (parent.authorID) {
+        await cache.users.populateUsers(tenant.id, [parent.authorID]);
+      }
     }
   }
 

@@ -67,9 +67,12 @@ const approveComment = async (
     });
   }
 
-  await cache.comments.update(result.after);
-  if (result.after.authorID) {
-    await cache.users.populateUsers(tenant.id, [result.after.authorID]);
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.update(result.after);
+    if (result.after.authorID) {
+      await cache.users.populateUsers(tenant.id, [result.after.authorID]);
+    }
   }
 
   // Return the resulting comment.
