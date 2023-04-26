@@ -84,8 +84,17 @@ jobs:
         name: Lint Versions
         run: npx @coralproject/package-version-lint
       -
-        name: Run Unit Tests
-        run: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
+        name: Run Server Unit Tests
+        run: npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Stream Unit Tests
+        run: npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Admin Unit Tests
+        run: npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Other Unit Tests
+        run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build
         run: npm run build
@@ -112,17 +121,17 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.IMAGE_REPOSITORY }}:${MAJOR_TAG}
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}
           build-args: |
-              REVISION_HASH=${GITHUB_SHA}
+              REVISION_HASH=${{ env.GITHUB_SHA }}
       -
         name: Build, Tag, Push Minor Tag
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.IMAGE_REPOSITORY }}:${MINOR_TAG}
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}
           build-args: |
-              REVISION_HASH=${GITHUB_SHA}
+              REVISION_HASH=${{ env.GITHUB_SHA }}
       -
         name: Build, Tag, Push Patch Tag
         uses: docker/build-push-action@v3
@@ -130,7 +139,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
           build-args: |
-              REVISION_HASH=${GITHUB_SHA}
+              REVISION_HASH=${{ env.GITHUB_SHA }}
       -
         name: Deploy Static Assets to GCS Bucket
         run: |

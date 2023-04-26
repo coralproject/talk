@@ -45,6 +45,9 @@ import {
   WebhookCoralEventListener,
 } from "./events/listeners";
 import CoralEventListenerBroker from "./events/publisher";
+import { retrieveAllTenants } from "./models/tenant";
+import { WordListCategory } from "./services/comments/pipeline/phases/wordList/message";
+import { WordListService } from "./services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter, SentryErrorReporter } from "./services/errors";
 import { isInstalled } from "./services/tenant";
 
@@ -118,6 +121,8 @@ class Server {
   private migrationManager: MigrationManager;
 
   private readonly reporter?: ErrorReporter;
+
+  private wordList: WordListService;
 
   /**
    * broker stores a reference to all of the listeners that can be used in
@@ -276,6 +281,23 @@ class Server {
 
     // Setup the metrics collectors.
     collectDefaultMetrics();
+
+    this.wordList = new WordListService(logger);
+    const tenants = await retrieveAllTenants(this.mongo);
+    for (const tenant of tenants) {
+      await this.wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Banned,
+        tenant.wordList.banned
+      );
+      await this.wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Suspect,
+        tenant.wordList.suspect
+      );
+    }
   }
 
   /**
@@ -312,6 +334,7 @@ class Server {
       this.tasks.webhook.process();
       this.tasks.rejector.process();
       this.tasks.archiver.process();
+      this.tasks.loadCache.process();
       this.tasks.unarchiver.process();
 
       // Start up the cron job processors.
@@ -374,7 +397,9 @@ class Server {
       signingConfig: this.signingConfig,
       tenantCache: this.tenantCache,
       webhookQueue: this.tasks.webhook,
+      loadCacheQueue: this.tasks.loadCache,
       unarchiverQueue: this.tasks.unarchiver,
+      wordList: this.wordList,
     };
 
     // Create the Coral App, branching off from the parent app.

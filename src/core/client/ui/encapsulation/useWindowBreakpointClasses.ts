@@ -26,7 +26,9 @@ export default function useWindowBreakpointClasses() {
     };
     window.addEventListener("resize", callback);
     return () => {
-      window.removeEventListener("resize", callback);
+      if (window.removeEventListener) {
+        window.removeEventListener("resize", callback);
+      }
     };
   }, [className, window]);
   return className;

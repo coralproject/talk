@@ -4,6 +4,8 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutation,
+  LOCAL_ID,
+  lookup,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
@@ -45,6 +47,7 @@ const AllCommentsTabViewNewMutation = createMutation(
   ) => {
     let commentIDs: string[] = [];
     const commentIDsAlreadySeen: string[] = [];
+    const refreshStream = !!lookup(environment, LOCAL_ID).refreshStream;
 
     await commitLocalUpdatePromisified(environment, async (store) => {
       const story = store.get(storyID)!;
@@ -54,6 +57,7 @@ const AllCommentsTabViewNewMutation = createMutation(
         {
           orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
           tag,
+          refreshStream,
         }
       )!;
       const viewNewEdges = connection.getLinkedRecords(

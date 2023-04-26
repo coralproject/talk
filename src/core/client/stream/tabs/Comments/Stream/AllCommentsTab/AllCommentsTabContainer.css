@@ -1,3 +1,42 @@
 .borderedFooter {
   border-top: 1px solid var(--palette-grey-300);
 }
+
+.refreshContainer {
+  z-index: 999999;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--palette-primary-500);
+  border-radius: var(--spacing-4);
+}
+
+.refreshContainerAbsolute {
+  position: absolute;
+}
+
+.refreshContainerFixed {
+  position: fixed;
+}
+
+.refreshButton {
+  border-radius: 16px 0 0 16px;
+  border-width: 0;
+}
+
+.refreshButtonIcon {
+  padding-right: 0.2rem;
+}
+
+.divider {
+  color: var(--palette-text-000);
+}
+
+.closeButton {
+  border-radius: 0 var(--spacing-4) var(--spacing-4) 0;
+  border-width: 0;
+}
+
+.flexContainer {
+  height: 100%;
+}
